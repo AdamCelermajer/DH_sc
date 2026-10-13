@@ -17,10 +17,13 @@
 #include "dh2/CharAI.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/MenuFX.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/MultiMenuManager.hpp"
 #include "dh2/PlayerSavegame.hpp"
 #include "dh2/global/charai_ai.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "gameswf/gameswf_value.h"
 #include "pydata-accessors/w7_pydata12.hpp"
 
 namespace {
@@ -81,7 +84,7 @@ bool Character::IsSkillUsable(int skill) {
 // CharAI::UpdateAllSkills and RecalcProperties(true) run, ItemInventory::m_maxPotions (+0x2c) takes the low byte of
 // max(PROPS_GetInt(194), 0), and the probe runs. The result is true when a level was added (or when a is set and the skill
 // could be raised).
-// PARTIAL: without a savegame the original dereferences it after the assertion (undefined); this port returns false there.
+// Without a savegame the original dereferences it after the assertion (undefined); this port returns false there.
 // Property 194 has no recovered name.
 bool Character::IncSkill(int skill, bool a) {
     PlayerSavegame* savegame = m_savegame;
@@ -131,17 +134,17 @@ bool Character::IncSkill(int skill, bool a) {
 }
 
 // 0x3bd000 Character::VerifySpecialization()
-// PARTIAL: the original passes the flag to the character menu as the IsSpecTime callback, on the movie at
-// MultiMenuManager::m_menuFX[1], with a gameswf boolean argument. The flag and the movie are read here. The call is not
-// made: RenderFX::InvokeASCallback has no declaration in dh2/RenderFX.hpp yet, and the gameswf::as_value argument is not
-// built. The return value of the original (gameswf::as_value::drop_refs) is not reproduced.
+// Tells the character menu whether it is time to choose a specialisation: the callback IsSpecTime on "_root.menu_CharacterMenu" of the movie at
+// MultiMenuManager::m_menuFX[1], with one boolean argument that is true for a player above level 11 of class 263, 325 or 290. The original returns the
+// argument's drop_refs result; the header is void.
 void Character::VerifySpecialization() {
     MenuManager* menu = MenuManager::GetInstance();
     const bool isSpecTime = SG_GetPlayerLevel() > 11 &&
                             (SG_GetPlayerClass() == 263 || SG_GetPlayerClass() == 325 || SG_GetPlayerClass() == 290);
     MenuFX* movie = menu->m_multiMenuManager->m_menuFX[1];
-    (void)isSpecTime;
-    (void)movie;
+    gameswf::as_value argument;
+    argument.set_bool(isSpecTime);
+    movie->InvokeASCallback("_root.menu_CharacterMenu", "IsSpecTime", &argument, 1);
 }
 
 // 0x3bd0c0 Character::SetMP(int)
@@ -166,10 +169,8 @@ int Character::GetHP() const { return PROPS_GetInt(kPropHP, false); }
 int Character::GetLevel() const { return PROPS_GetInt(kPropLevel, false); }
 
 // 0x3bd140 Character::ValidateHPMP()
-// PARTIAL: the original ends with `return CharProperties::PROPS_Set(...)`, which returns the r0 left by PROPS_Set (the
-// type word when neither the 0x20 nor the 0x08 bit is set, otherwise the leftover of RecalcProperty or _SetProperty).
-// The reconstructed PROPS_Set is void, so this returns 0. The callers that return this value (the equipment wrappers and
-// INV_CheckItemsRequirements) inherit the gap.
+// HP is clamped to the total HP and MP to the total MP (PROPS_Set on the raw values). The original ends with
+// `return CharProperties::PROPS_Set(...)`, the register that call leaves (not a result); PROPS_Set is void here, so this returns 0.
 int Character::ValidateHPMP() {
     const int hp = PROPS_Get(kPropHP, false);
     const int totalHp = PROPS_Get(kPropTotalHP, false);
@@ -246,14 +247,16 @@ float Character::GetEffectiveThreatPerDamageToFriendly() const {
 }
 
 // 0x3bd40c Character::HasMana(int) const
-// PARTIAL: the original first reads GetOnline()'s online-game flag (COnline +0x05). When that flag is set and
-// IsRemotelyUpdated() holds, it returns true. COnline::isOnlineGame_ is private with no accessor, so that branch is not
-// reproduced and the amount is always tested against the MP value. For amount < 0 and gAssertLevel 2 the original writes
-// 0 to address 0 (not reproduced, as in CreatePlayer of batch -6). gAssertLevel 1 prints the assert line.
+// In an online game a remotely updated character always has the mana (true). Otherwise a negative amount fails
+// ASSERT(amount >= 0) (Character_Stats.cpp line 145) and the amount is tested against the MP value. At gAssertLevel 2 the
+// original stores to address 0; this port aborts, as the other asserts of the batch do.
 bool Character::HasMana(int amount) const {
+    if (GetOnlineGameFlag() && IsRemotelyUpdated()) {
+        return true;
+    }
     if (amount < 0) {
         if (gAssertLevel == 2) {
-            // PARTIAL: the original writes 0 to address 0 here. Not reproduced.
+            std::abort();
         } else if (gAssertLevel == 1) {
             std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "amount >= 0",
                          "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Stats.cpp", 145);

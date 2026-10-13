@@ -2,6 +2,9 @@
 
 #include <cstdio>
 
+#include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/global/ctrl_camera.hpp"
 #include "net-session-online/deps/matching.hpp"
 
 static int failures = 0;
@@ -17,6 +20,12 @@ public:
     std::uint32_t GetRoomMask() const override { return 0x7; }
 };
 
+// The level query Create reads (Level +0x3c, m_levelListIndex): a fake level in zeroed storage, index 11.
+alignas(Level) static unsigned char g_levelStorage[sizeof(Level)];
+alignas(Application) static unsigned char g_appStorage[sizeof(Application)];
+Application& ApplicationGetInstance() { return *reinterpret_cast<Application*>(g_appStorage); }
+Level* Application::GetCurrentLevel() const { return reinterpret_cast<Level*>(g_levelStorage); }
+
 static CMessage* MakeAttackResult(bool withSerial) { return new CMsgAttackResult(withSerial); }
 
 int main() {
@@ -25,19 +34,27 @@ int main() {
     CMessage::InitializeMessageRegistration();
     CMessage::RegisterMessageType("CMsgAttackResult", &MakeAttackResult);
 
-    Character::AttackResult result;
-    for (std::uint32_t i = 0; i < 10; ++i) result.words[i] = 100 + i;
+    reinterpret_cast<Level*>(g_levelStorage)->m_levelListIndex = 11;
+
+    Character::AttackResult result{};
+    result.m_damage = 100;
+    result.unk_24 = 109;
+    result.m_resultFlags = 0x18;
 
     CMessage* created = CMsgAttackResult::Create(7, -3, result, true);
     CHECK(created != nullptr);
     CMsgAttackResult* message = dynamic_cast<CMsgAttackResult*>(created);
     CHECK(message != nullptr);
     if (message != nullptr) {
-        CHECK(message->FirstForTest() == 7);
-        CHECK(message->SecondForTest() == -3);
-        CHECK(message->FlagForTest());
-        CHECK(message->ResultForTest().words[0] == 100);
-        CHECK(message->ResultForTest().words[9] == 109);
+        CHECK(message->first_ == 7);
+        CHECK(message->second_ == -3);
+        CHECK(message->flag_);
+        CHECK(message->result_.m_damage == 100);
+        CHECK(message->result_.unk_24 == 109);
+        CHECK(message->result_.m_resultFlags == 0x18);
+        CHECK(message->levelTag_ == 11);
+        CHECK(message->GetDataSize() == 0x34);
+        CHECK(message->GetDataPtr() == static_cast<void*>(&message->levelTag_));
     }
     delete created;
 

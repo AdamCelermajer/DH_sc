@@ -9,6 +9,7 @@
 #include <cstdint>
 
 #include "dh2/Character.hpp"
+#include "dh2/IFileStream.hpp"
 #include "dh2/PlayerSavegame.hpp"
 
 namespace {
@@ -85,13 +86,10 @@ bool Character::SG_GetFastTravelIdUnlocked(int id, int difficulty) {
 }
 
 // 0x3bbb40 Character::__SaveQuests(IFileStream*, void*)
-// PARTIAL. Thunk: the binary is one branch to PlayerSavegame::__SaveQuests(IStreamBase*, void*) with r0 and r1 left
-// unchanged (asm checked). The C++ types do not reconcile. IFileStream (core-platform/deps/io_stream.hpp, a stand-in
-// with no base class) is not an IStreamBase, so the stream pointer is reinterpret_cast. The pointer value is the one
-// the original forwards. Layout/type request: confirm the stream type the Savegame caller passes to
-// Character::__SaveQuests, and whether IFileStream derives from IStreamBase; then drop the cast.
+// Thunk: the binary is one branch to PlayerSavegame::__SaveQuests(IStreamBase*, void*) with r0 and r1 unchanged (asm checked). IFileStream is an IStreamBase (dh2/IFileStream.hpp), so
+// the argument converts to the base without changing the pointer.
 void Character::__SaveQuests(IFileStream* stream, void* user) {
-    PlayerSavegame::__SaveQuests(reinterpret_cast<IStreamBase*>(stream), user);
+    PlayerSavegame::__SaveQuests(stream, user);
 }
 
 // 0x3bbb44 Character::__LoadQuests(IStreamBase*, void*)

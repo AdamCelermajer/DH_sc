@@ -108,6 +108,20 @@ class SViewFrustum;
 // ---------------------------------------------------------------------------------------------------------
 using E_CULLING_TYPE = std::uint32_t;
 using E_SCENE_NODE_RENDER_PASS = std::uint32_t;
+
+// The values registerNodeForRendering (0x58f348) switches on; renderLists (0x590660) draws them in the order 0, 1, 2, then the default
+// list (passes 3, 4 and 8 with the batch flag), 5, 6, the transparent list (3 and 8). The names say who registers with the value, as
+// the original names are not in the binary. 9 is the idle value the manager holds between frames.
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_CAMERA = 0;          // CCameraSceneNode::onRegisterSceneNode: unsorted, duplicates refused
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_LIGHT = 1;           // CLightSceneNode: sorted by distance, trimmed to the driver's light count
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_PRE_SOLID = 2;       // unsorted, drawn after the lights and before the default list
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_AUTOMATIC = 3;       // material decides: transparent technique -> transparent list, else default
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_SOLID = 4;           // default list, sorted by sort order and material
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_SHADOW_VOLUME = 5;   // render-data sorted; followed by the full-screen shadow quad
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_SHADOW_MESH = 6;     // render-data sorted (ShadowSkinnedMeshSceneNode)
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_SHADOW_RECEIVER = 7; // unsorted; drawn by drawShadowReceivers into each target
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_TRANSPARENT = 8;     // transparent list, farthest first (default list while compiling)
+constexpr E_SCENE_NODE_RENDER_PASS ESNRP_NONE = 9;            // the value outside a frame
 using EMESH_WRITER_TYPE = std::uint32_t;
 
 // Four-character type tag, packed the way the original compares it (first character in the low byte).
@@ -142,6 +156,10 @@ enum E_SCENE_NODE_TYPE : std::uint32_t {
     ESNT_TERRAIN = fourcc("terr"),              // CTerrainSceneNode
     ESNT_SHADOW_VOLUME = fourcc("shdw"),        // CShadowVolumeSceneNode
     ESNT_PARTICLE_SYSTEM = fourcc("ptcl"),      // particle system nodes
+    ESNT_CUBE = fourcc("cube"),                 // 0x65627563 the factory's cube mesh node
+    ESNT_SPHERE = fourcc("sphr"),               // 0x72687073 the factory's sphere mesh node
+    ESNT_CAMERA_MAYA = fourcc("camM"),          // 0x4d6d6163 factory name "cameraMaya": a camera with the Maya animator
+    ESNT_CAMERA_FPS = fourcc("camF"),           // 0x466d6163 factory name "cameraFPS": a camera with the FPS animator
 };
 
 // Animator type ids (ISceneNodeAnimator::getType): the nine entries of the CDefaultSceneNodeAnimatorFactory name table, in table

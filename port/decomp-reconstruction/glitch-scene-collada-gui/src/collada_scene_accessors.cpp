@@ -29,16 +29,6 @@ const core::aabbox3d<float>* CGlitchNewParticleSystemSceneNode::getTransformedBo
 
 namespace animation_track {
 
-// 0x6e3118 _ZNK6glitch7collada15animation_track8CFloatEx16getIdentityValueEPv
-void CFloatEx::getIdentityValue(void* out) const {
-    *static_cast<float*>(out) = 0.0f;
-}
-
-// 0x6e4dbc _ZNK6glitch7collada15animation_track9CWeightEx16getIdentityValueEPv
-void CWeightEx::getIdentityValue(void* out) const {
-    *static_cast<float*>(out) = 0.0f;
-}
-
 }  // namespace animation_track
 
 

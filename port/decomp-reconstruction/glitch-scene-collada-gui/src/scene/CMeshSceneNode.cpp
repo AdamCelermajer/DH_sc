@@ -3,7 +3,12 @@
 // and recon/slice_05.cpp (stand-in free functions).
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"
 
+#include "glitch-core-io/io/iattributes.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/IMeshCache.hpp"
+#include "glitch-video/material_renderer.hpp"
+#include "glitch-video/material_vertex_attribute_map.hpp"
+#include "glitch-video/video_driver.hpp"
 
 namespace glitch::scene {
 
@@ -34,9 +39,17 @@ CMeshSceneNode::CMeshSceneNode(const boost::intrusive_ptr<IMesh>& meshValue, int
 CMeshSceneNode::~CMeshSceneNode() = default;
 
 // 0x584b90 _ZNK6glitch5scene14CMeshSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// PARTIAL: the ISceneNode attributes only (the mesh file name attribute is not reconstructed).
+// The ISceneNode attributes, then "Mesh": the file name the scene manager's mesh cache has for the node's mesh (getMeshFilename(IMesh),
+// vptr+0x34, called with a counted copy of the handle). The original passes the cache's answer on unchecked; a node without a scene manager
+// or cache, or a mesh the cache does not know, writes an empty name here.
 void CMeshSceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const {
     ISceneNode::serializeAttributes(attributes, options);
+    const char* meshName = nullptr;
+    if (sceneManager != nullptr && sceneManager->meshCache != nullptr) {
+        const boost::intrusive_ptr<const IMesh> meshHandle(mesh.get(), true);
+        meshName = sceneManager->meshCache->getMeshFilename(meshHandle);
+    }
+    attributes->addString("Mesh", meshName != nullptr ? meshName : "", false);  // vptr+0x7c
 }
 
 // 0x584ed0 _ZN6glitch5scene14CMeshSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
@@ -46,36 +59,76 @@ void CMeshSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAtt
 }
 
 // 0x584d2c _ZN6glitch5scene14CMeshSceneNode19onRegisterSceneNodeEv
-// With a mesh: clears the render counter, then walks the mesh buffers and counts how many materials have the transparent
-// technique bit (0x10000 of the technique word) and how many do not. Registers the node with the scene manager (vptr+0x24,
-// registerNodeForRendering, no material, sort order 0x7FFFFFFF) for the solid pass 4 when any solid material exists, for the
-// transparent pass 8 when any transparent one does, and for the shadow pass 7 when the shadow-caster bit is set. Always
-// returns 1. PARTIAL: the technique word comes from CMaterial::getTechnique and the renderer's technique table, which are
-// glitch-video's, so every material is counted as solid here.
+// With a mesh: clears the render counter, then walks the mesh buffers and counts how many materials have the transparent bit
+// (0x10000 of the second state word of the first render pass of the material's technique) and how many do not; the walk stops
+// as soon as both kinds exist. Registers the node with the scene manager (vptr+0x24, registerNodeForRendering, no material, sort
+// order 0x7FFFFFFF) for the solid pass 4 when any solid material was counted, for the transparent pass 8 when any transparent one
+// was, and for the shadow pass 7 when the shadow-caster bit is set. Always returns 1. The original dereferences the scene
+// manager without a test; a node that is not attached to a manager skips the registration here.
 int CMeshSceneNode::onRegisterSceneNode() {
-    if (mesh && sceneManager != nullptr) {
+    if (mesh) {
         renderCount = 0;
-        const boost::intrusive_ptr<video::CMaterial> noMaterial;
-        if (mesh->getMeshBufferCount() != 0) {
-            sceneManager->registerNodeForRendering(this, noMaterial, nullptr, 4, nullptr, 0x7FFFFFFF);
+        std::uint32_t solid = 0;
+        std::uint32_t transparent = 0;
+        bool bothFound = false;
+        for (std::uint32_t index = 0; index < mesh->getMeshBufferCount(); ++index) {
+            const boost::intrusive_ptr<video::CMaterial> material = mesh->getMaterial(index);
+            const video::STechnique& technique = material->m_renderer->m_techniques[material->getTechnique()];
+            if ((technique.passes[0].stateWords[1] & 0x10000u) != 0) {
+                ++transparent;
+            } else {
+                ++solid;
+            }
+            if (transparent != 0 && solid != 0) {
+                bothFound = true;
+                break;
+            }
         }
-        if ((flags & ESNF_SHADOW_CASTER) != 0) {
-            sceneManager->registerNodeForRendering(this, noMaterial, nullptr, 7, nullptr, 0x7FFFFFFF);
+        if (sceneManager != nullptr) {
+            const boost::intrusive_ptr<video::CMaterial> noMaterial;
+            if (bothFound || solid != 0) {
+                sceneManager->registerNodeForRendering(this, noMaterial, nullptr, 4, nullptr, 0x7FFFFFFF);
+            }
+            if (transparent != 0) {
+                sceneManager->registerNodeForRendering(this, noMaterial, nullptr, 8, nullptr, 0x7FFFFFFF);
+            }
+            if ((flags & ESNF_SHADOW_CASTER) != 0) {
+                sceneManager->registerNodeForRendering(this, noMaterial, nullptr, 7, nullptr, 0x7FFFFFFF);
+            }
         }
     }
     return 1;
 }
 
 // 0x585370 _ZN6glitch5scene14CMeshSceneNode6renderEPv
-// PARTIAL. The original: returns when the mesh or the scene manager's driver is null; increments the render counter; sets the
-// driver's world transform to the absolute matrix (driver vtable +108); then for every mesh buffer whose material passes the
-// technique test, sets the material and draws the buffer. The driver is glitch-video's and is not called, so only the counter
-// step is done (the original skips it when the driver is null).
+// Returns when the mesh or the scene manager's driver is null. Otherwise: counts the render, sets the driver's world transform
+// (vptr+0x6c, state 1) to the absolute matrix, and draws every mesh buffer that has a buffer and whose material passes the pass
+// test: unless the scene manager is compiling a batch (the byte at +0x28a, batchCompiling), a material is drawn only in the pass that matches its transparent
+// bit (pass 8 for the transparent ones). The material and the buffer's vertex attribute map are given to the driver, then the
+// buffer is drawn.
 void CMeshSceneNode::render(void* /*renderContext*/) {
-    if (!mesh) {
+    video::IVideoDriver* driver = sceneManager != nullptr ? sceneManager->driver : nullptr;
+    if (!mesh || driver == nullptr) {
         return;
     }
+    const std::int32_t currentPass = sceneManager->renderPass;
     ++renderCount;
+    driver->setTransform(1, absoluteTransform);
+    const bool transparentPass = currentPass == 8;
+    for (std::uint32_t index = 0; index < mesh->getMeshBufferCount(); ++index) {
+        const boost::intrusive_ptr<CMeshBuffer> buffer = mesh->getMeshBuffer(index);
+        if (!buffer) {
+            continue;
+        }
+        const boost::intrusive_ptr<video::CMaterial> material = mesh->getMaterial(index);
+        const video::STechnique& technique = material->m_renderer->m_techniques[material->getTechnique()];
+        if (!sceneManager->batchCompiling && transparentPass != (((technique.passes[0].stateWords[1] >> 16) & 1u) != 0)) {
+            continue;
+        }
+        const boost::intrusive_ptr<const video::CMaterialVertexAttributeMap> attributeMap = mesh->getMaterialVertexAttributeMap(index);
+        driver->setMaterial(material, attributeMap);
+        driver->drawMeshBuffer(boost::intrusive_ptr<const CMeshBuffer>(buffer));
+    }
 }
 
 // 0x584ac0 _ZNK6glitch5scene14CMeshSceneNode14getBoundingBoxEv (skipped: a thunk to the mesh's getBoundingBox)

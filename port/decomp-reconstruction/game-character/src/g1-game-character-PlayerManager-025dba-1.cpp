@@ -3,21 +3,9 @@
 // and joining code, the inventory pack, the loading-info reset, the light refresh and the destructor
 // (PlayerManager.cpp in the original).
 //
-// Tree conflicts that limit this file (see the ledger notes and the layout requests):
-//   - dh2/Character.hpp cannot share a translation unit with dh2/PlayerManager.hpp. Character pulls in the pydata
-//     IStreamBase (pydata-accessors/deps/stream_reader.hpp), PlayerManager.hpp pulls in the net-transport one
-//     (net-transport/deps/i_stream_base.hpp) through StreamBuffer. Likewise pydata-accessors/w7_pydata12.hpp
-//     (PyDataConstants) and Level.hpp (StreamBuffer) cannot be included with Character.hpp.
-//   - dh2/Gamepad.hpp (dh2/Point3D.hpp) and dh2/LightBase.hpp / dh2/Level.hpp (core-platform/deps/game_types.hpp)
-//     define Point3D twice. This file keeps Gamepad.hpp.
-//   The bodies that need those types are partial stubs: they keep the reachable part of the binary's logic and say
-//   what is missing at the stub.
-//
 // Online gates. The online bodies test, in order: COnline +0x05 (the online-game flag), the OnlineGameState byte at
 // +0x24 and the state word at +0x34, CMatching::UnknownGate() (vtable +0x64) and CNetPlayerManager::IsInitialized().
-// The COnline flag and the two OnlineGameState fields are not reachable from the declared headers (layout requests in
-// the ledger notes), so the gates below return the offline value. Each gate still makes the singleton call the binary
-// makes first.
+// The gates read the real fields (GetOnlineGameFlag, OnlineGameState::flag24_ and mode_).
 //
 // Layout facts used here (dh2/PlayerInfo.hpp, dh2/Gamepad.hpp):
 //   PlayerInfo +0x660 (unk_660) is the Character the player controls. It is declared void* in PlayerInfo.hpp; the
@@ -32,9 +20,27 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <list>
 #include <vector>
 
 #include "core-platform/memory.hpp"  // gAssertLevel
+#include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/EvGamepad.hpp"
+#include "dh2/EventManager.hpp"
+#include "dh2/ItemInstance.hpp"
+#include "dh2/ItemInventory.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/LightBase.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/v2EmuController.hpp"
+#include "dh2/v2GamepadController.hpp"
+#include "dh2/v2HudController.hpp"
+#include "dh2/v2MixedController.hpp"
+#include "dh2/v2NetController.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/ctrl_camera.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 #include "dh2/Gamepad.hpp"           // Gamepad::Channel, and dh2/Point3D.hpp (the Point3D used here)
 #include "dh2/InputManager.hpp"
 #include "dh2/PlayerInfo.hpp"
@@ -111,18 +117,18 @@ Character* CharacterOf(PlayerInfo& player) {
     return static_cast<Character*>(player.unk_660);
 }
 
-// EvGamepad (vtable _ZTV9EvGamepad, event id 7) carries the button id, the state (1 pressed, 0 released), the
-// controller index and 1.0f. dh2/EvGamepad.hpp is not in the tree yet, so the event is not raised.
+// The EvGamepad the joining code raises for a button: id 7, the button code, the state (1 pressed, 0 released), the controller index
+// and 1.0f. It goes to the application's event manager (dword_99F740, Application +0x14).
 void RaiseGamepadButtonEvent(int buttonId, int state, int controllerId) {
-    (void)buttonId;
-    (void)state;
-    (void)controllerId;
+    const EvGamepad event(buttonId, state, controllerId);
+    ApplicationGetInstance().m_eventManager->Raise(event);
 }
 
 }  // namespace
 
 // 0x36e8bc PlayerManager::AllClientsReadyToRoll(void)
-// Partial: the online gates (file comment). Offline the function returns 1.
+// Online gate closed: 1. Otherwise every active record must have finished loading, and a client record (not the host) must also be
+// ready to roll.
 int PlayerManager::AllClientsReadyToRoll() {
     if (!OnlineMatchingReady()) {
         return 1;
@@ -164,18 +170,24 @@ int PlayerManager::AllLoadingDone() {
 }
 
 // 0x36ea50 PlayerManager::GetNumPlayerCharactersOfClass(int)
-// Partial (stub): the count reads Character::m_charPropsId, which needs Character.hpp (file comment). Returns 0
-// once the count is past the empty check.
+// The number of owned characters (m_numCharacters, +0x6c4) whose Character::m_charPropsId (+0x13c8, a 16-bit row of Arrays::CharacterTable)
+// is classId; the count is read again every pass.
 int PlayerManager::GetNumPlayerCharactersOfClass(int classId) {
-    (void)classId;
     if (m_numCharacters <= 0) {
         return 0;
     }
-    return 0;
+    int count = 0;
+    for (int i = 0; i < m_numCharacters; ++i) {
+        Character* character = GetPlayer(i, true)->unk_660;
+        if (character != nullptr && classId == character->m_charPropsId) {
+            ++count;
+        }
+    }
+    return count;
 }
 
 // 0x36eab8 PlayerManager::GetNumPlayerCharacterWarrior(void)
-// Calls GetNumPlayerCharactersOfClass, so its value waits on the stub above.
+// GetNumPlayerCharactersOfClass(263).
 int PlayerManager::GetNumPlayerCharacterWarrior() {
     return GetNumPlayerCharactersOfClass(kWarriorCharPropsId);
 }
@@ -191,8 +203,8 @@ int PlayerManager::GetNumPlayerCharacterMage() {
 }
 
 // 0x36ead0 PlayerManager::GetNumLocalPlayers(bool)
-// Partial: the online branch needs the gates (file comment). Offline it counts the local records of m_players in order:
-// with flag set, only those whose Character is set.
+// Online gate open: the local id list size, or with flag the number of local players that have a Character. Offline it counts the
+// local records of m_players in order: with flag set, only those whose Character is set.
 int PlayerManager::GetNumLocalPlayers(bool flag) {
     if (!OnlineMatchingReady()) {
         int count = 0;
@@ -222,9 +234,9 @@ int PlayerManager::GetNumLocalPlayers(bool flag) {
 }
 
 // 0x36ec54 PlayerManager::InitialSetup(Point3D<float>)
-// Partial: the binary moves each local player's character to the position (GameObject::SetPosition on
-// Character +0x0, with setDestination set). That call needs Character.hpp (file comment), so the loop is kept without it.
-// The position store and the global PlayerManager (dword_99F76C, not this object) are as in the binary.
+// Once (or again while unk_71a is set), the position is stored in the PlayerManager (+0x6d4..+0x6dc) and every local player's character with a
+// Character is moved there (GameObject::SetPosition(position, true)). The loop count is read again from the global PlayerManager
+// (dword_99F76C, not this object) each pass.
 void PlayerManager::InitialSetup(Point3D<float> position) {
     if (m_initialSetupDone && !unk_71a) {
         return;
@@ -236,13 +248,13 @@ void PlayerManager::InitialSetup(Point3D<float> position) {
     int count = dword_99F76C->GetNumLocalPlayers(true);
     for (int i = 0; i < count; ++i) {
         PlayerInfo* local = dword_99F76C->GetLocalPlayer(i, true);
-        (void)local;
+        local->unk_660->SetPosition(position, true);
         count = dword_99F76C->GetNumLocalPlayers(true);
     }
 }
 
 // 0x36ed0c PlayerManager::_UpdatePlayerNumbers(void)
-// Partial: the online branch needs the gates (file comment) and its return value is a leftover register in the binary
+// The online branch (gate open) numbers the id-list players; its return value is a leftover register in the binary
 // (the id-list end pointer, or 1 for an empty list), which the port does not reproduce, so it returns 0 there. The
 // offline branch numbers the players of m_players in order and returns the count of the non-local players.
 int PlayerManager::_UpdatePlayerNumbers() {
@@ -282,8 +294,8 @@ int PlayerManager::_UpdatePlayerNumbers() {
 }
 
 // 0x36eea8 PlayerManager::GetPlayerByCharacter(Character const*,bool)
-// Partial: the online branch needs the gates (file comment). Offline it returns the first record of m_players whose
-// Character is the argument, or the null record (m_nullPlayer) when none matches.
+// Online gate open: the first id-list player whose Character is the argument (through _GetNetPlayerInfo). Offline it returns the first record of
+// m_players whose Character is the argument, or the null record (m_nullPlayer) when none matches.
 PlayerInfo* PlayerManager::GetPlayerByCharacter(const Character* character, bool flag) {
     if (OnlineMatchingReady()) {
         for (std::size_t idx = 0; idx < m_playerIdList.size(); ++idx) {
@@ -313,8 +325,8 @@ int PlayerManager::IsLocalPlayer(const Character* character) {
 }
 
 // 0x36f074 PlayerManager::IsLocalPlayerHosting(void)
-// Partial: the two online tests read COnline +0x05 and OnlineGameState +0x34 (file comment). Offline the function
-// returns 1.
+// Online in OnlineGameState mode 3 or 4 (GL live): CMatchingGLLive::IsHost(); other online modes: the local player record's IsHost;
+// offline: 1.
 int PlayerManager::IsLocalPlayerHosting() {
     if (OnlineSessionFlag() && static_cast<unsigned>(OnlineGameStateWord() - 3) <= 1u) {
         CMatchingGLLive* matching = static_cast<CMatchingGLLive*>(CMatching::Get());
@@ -328,19 +340,41 @@ int PlayerManager::IsLocalPlayerHosting() {
 }
 
 // 0x36f0dc PlayerManager::_AttachControllerToPlayerCharacter(int)
-// Partial (stub): the binary attaches the controllers to the character's v2Controllable base (Character +0x374, the
-// controller slot +0x378) and sets the controller's character. Those need Character.hpp (file comment), so only the
-// player record is looked up here.
+// A local player's character gets a v2MixedController (on its v2Controllable base at +0x374) holding a v2GamepadController (the record's pad
+// index, +0x668), a v2EmuController and a v2HudController, all on the mixed controller's own v2Controllable. Online the controller byte +0x0a
+// is set. A remote player's character gets a v2NetController. In both cases the controller's character (+0x0c) is the character.
+// The original passes a null controllable to the constructors when the record has no character and then dereferences it; that path
+// returns here.
 void PlayerManager::_AttachControllerToPlayerCharacter(int internalId) {
-    (void)GetPlayerByInternalID(internalId, false);
+    PlayerInfo* player = GetPlayerByInternalID(internalId, false);
+    Character* character = player->unk_660;
+    if (character == nullptr) {
+        return;
+    }
+    v2Controllable* controllable = static_cast<v2Controllable*>(character);
+    if (player->unk_66c) {
+        v2MixedController* mixed = new v2MixedController(controllable);
+        controllable->SetController(mixed);
+        controllable->m_controller->m_character = character;
+        if (GetOnlineGameFlag()) {
+            controllable->m_controller->unk_00a = true;
+        }
+        v2Controllable* mixedControllable = static_cast<v2Controllable*>(mixed);
+        mixed->AddController(new v2GamepadController(mixedControllable, player->unk_668));
+        mixed->AddController(new v2EmuController(mixedControllable));
+        mixed->AddController(new v2HudController(mixedControllable));
+    } else {
+        v2NetController* net = new v2NetController(controllable);
+        controllable->SetController(net);
+        controllable->m_controller->m_character = character;
+    }
 }
 
 // 0x36f2bc PlayerManager::PostInitCharacters(void)
-// Partial: (1) the binary calls Character::VerifySpecialization on each local active player's character. That needs
-// Character.hpp (file comment), so the call is left out. (2) The offline branch with no character reports the assert
-// and the binary then calls VerifySpecialization on the null pointer; the port reports and skips it. (3) The online
-// branch with no character calls the matching room's vtable +0x3c, which is LeaveRoom in CMatchingGLLive; the dynamic
-// type is not proven here, so the port casts to CMatchingGLLive. (4) The online gate (file comment).
+// For each local active player: offline with no character the assert "c" (PlayerManager.cpp line 1091) is reported; online with no character the
+// matching room is left (the virtual at CMatching vtable +0x3c, LeaveRoom) and every connection is dropped (CConnectionManager::DisconnectAll).
+// A player that has a Character gets Character::VerifySpecialization(). The original calls VerifySpecialization on the null pointer after the
+// offline assert; that call is skipped here.
 void PlayerManager::PostInitCharacters() {
     const int numPlayers = GetNumPlayers();
     for (int i = 0; i < numPlayers; ++i) {
@@ -348,14 +382,17 @@ void PlayerManager::PostInitCharacters() {
         if (!player->IsLocal() || !player->IsActive()) {
             continue;
         }
-        const Character* character = CharacterOf(*player);
-        if (!OnlineSessionFlag()) {
+        Character* character = player->unk_660;
+        if (!GetOnlineGameFlag()) {
             if (!character) {
                 AssertFailed("c", kPlayerManagerCpp, 1091);
+                continue;
             }
+            character->VerifySpecialization();
             continue;
         }
         if (character) {
+            character->VerifySpecialization();
             continue;
         }
         static_cast<CMatchingGLLive*>(CMatching::Get())->LeaveRoom();
@@ -364,8 +401,9 @@ void PlayerManager::PostInitCharacters() {
 }
 
 // 0x36f4b4 PlayerManager::_UpdateJoiningController(int,int)
-// Partial: EvGamepad (dh2/EvGamepad.hpp) is not in the tree, so the button events are not raised (see
-// RaiseGamepadButtonEvent). The threshold tests and the SetState call after the last button are reconstructed.
+// For each of the ten button channels of the controller's gamepad, in the binary's order (37, 38, 39, 40, 10, 11, 12, 13, 0, 1): when the value is
+// above the threshold (previous_maximum + previous_minimum + 1.0) * 0.5 differently from the latched state, an EvGamepad (button, state, controller
+// index) is raised. After the last channel (1) raised an event, CNetPlayerInfo::SetState(player, 0) is called.
 void PlayerManager::_UpdateJoiningController(int controllerId, int internalId) {
     Gamepad* pad = InputManager::GetInstance()->GetGamepad(controllerId);
     PlayerInfo* player = GetPlayerByInternalID(internalId, false);
@@ -392,21 +430,65 @@ void PlayerManager::_UpdateJoiningController(int controllerId, int internalId) {
 }
 
 // 0x370020 PlayerManager::_PackInventory(PlayerInfo &)
-// Partial (stub): the binary packs the equipment of the player's character (an XOR hash of the equipped item ids into
-// unk_4a0, one id per slot into unk_3b0). That needs the Character's ItemInventory base and Level::m_isLoaded, and
-// Level.hpp cannot share a translation unit with Gamepad.hpp (file comment). Only the local-player gate is kept.
+// A local record with a Character, while a level is loaded: the equipment ids are folded into a hash by slot (slots 0 and 1 fold the sum of the ids of
+// slots 1 and 2, slot 2 is skipped, any other slot folds its item id; an empty slot, or a zero sum, complements the hash). When the hash differs from
+// the replicated counter (unk_4a0) the counter is updated and the item id of every equipment slot (-1 when empty) is written to the replicated
+// array (unk_3b0, one int per slot).
 void PlayerManager::_PackInventory(PlayerInfo& info) {
     if (!info.unk_66c) {
         return;
     }
+    Character* character = info.unk_660;
+    if (character == nullptr) {
+        return;
+    }
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr || !level->m_isLoaded) {
+        return;
+    }
+    ItemInventory* inventory = static_cast<ItemInventory*>(character);
+    const int numSlots = inventory->GetNumEquipmentSlots();
+    std::int32_t hash = 0;
+    for (int slot = 0; slot < numSlots; ++slot) {
+        if (slot - 1 > 1) {
+            ItemInstance* item = inventory->GetEquippedItem(static_cast<unsigned int>(slot));
+            if (item == nullptr) {
+                hash = ~hash;
+            } else {
+                hash ^= item->GetItemId();
+            }
+            continue;
+        }
+        if (slot == 2) {
+            continue;
+        }
+        ItemInstance* first = inventory->GetEquippedItem(1u);
+        ItemInstance* second = inventory->GetEquippedItem(2u);
+        const std::int32_t firstId = first != nullptr ? first->GetItemId() : 0;
+        const std::int32_t secondId = second != nullptr ? second->GetItemId() : 0;
+        const std::int32_t sum = firstId + secondId;
+        if (sum != 0) {
+            hash ^= sum;
+        } else {
+            hash = ~hash;
+        }
+    }
+    if (hash != info.unk_4a0.GetValue()) {
+        info.unk_4a0.SetValue(hash);
+        std::vector<std::int32_t> ids(static_cast<std::size_t>(numSlots > 0 ? numSlots : 0), 0);
+        for (int slot = 0; slot < numSlots; ++slot) {
+            ItemInstance* item = inventory->GetEquippedItem(static_cast<unsigned int>(slot));
+            ids[static_cast<std::size_t>(slot)] = item != nullptr ? item->GetItemId() : -1;
+        }
+        info.unk_3b0.SetBuffer(ids.data(), static_cast<std::size_t>(numSlots) * 4);
+    }
 }
 
 // 0x370c9c PlayerManager::ResetCharacterDeathTimer(void)
-// Partial (stub): the binary sets the local player's death timer to PyDataConstants "CharacterDesign" /
-// "MultiplayerDeathTimer". The pydata header cannot share a translation unit with PlayerManager.hpp (file comment),
-// so the value is not read and the timer is not set.
+// The local player's death timer is set to PyDataConstants "CharacterDesign" / "MultiplayerDeathTimer".
 void PlayerManager::ResetCharacterDeathTimer() {
-    (void)GetLocalPlayer(0, false);
+    PlayerInfo* local = GetLocalPlayer(0, false);
+    local->SetCharacterDeathTimer(ApplicationGetInstance().m_pyDataConstants->getConstant("CharacterDesign", "MultiplayerDeathTimer"));
 }
 
 // 0x370e00 PlayerManager::ClearLoadingInfo(void)
@@ -424,10 +506,15 @@ void PlayerManager::ClearLoadingInfo() {
 }
 
 // 0x371050 PlayerManager::_AttachLightToPlayerCharacter(int)
-// Partial (stub): the binary refreshes the attachment of every light base of the object manager (dword_99F764,
-// LightBase +0x58). LightBase.hpp defines Point3D differently from Gamepad.hpp, which this file keeps (file comment).
-// The argument is not read by the binary.
-void PlayerManager::_AttachLightToPlayerCharacter(int /*internalId*/) {}
+// Every light base of the object manager (dword_99F764) refreshes its attachment (LightBase::RefreshAttachment, vtable +0x58). The argument
+// is not read by the binary.
+void PlayerManager::_AttachLightToPlayerCharacter(int /*internalId*/) {
+    std::list<LightBase*> lights;
+    dword_99F764->GetLightBaseList(lights);
+    for (LightBase* light : lights) {
+        light->RefreshAttachment();
+    }
+}
 
 // 0x3714ac PlayerManager::~PlayerManager() (D1, complete object)
 // Not defined here. A class has one destructor body, and g1-game-character-PlayerManager-025dba-2.cpp already defines

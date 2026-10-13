@@ -383,7 +383,7 @@ int main() {
         object.m_path.push_back(&edge);
         const float dx = world._CalcWaypointVec(object);
         EXPECT(Near(dx, 10.0f));
-        EXPECT(object.unk_88 == 0);
+        EXPECT(object.m_waypointDir.Z == 0.0f);
         object.m_pos = Point3D<float>{5.0f, 0.0f, 0.0f};
         EXPECT(world._IsPastWaypoint(object));
         object.m_pos = Point3D<float>{-5.0f, 0.0f, 0.0f};

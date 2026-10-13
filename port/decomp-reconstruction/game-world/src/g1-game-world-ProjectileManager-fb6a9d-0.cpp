@@ -2,7 +2,7 @@
 // despawn, the flush and the pre-cache pass). Reconstructed from the Hex-Rays pseudocode of libDungeonHunter2.so and
 // checked against the assembly of _Create (0x3e693c), where the laser-slot search reads the main pool's in-use bytes.
 // Offsets in comments are the original 32-bit ones. The pool entries are host-width, so nothing is indexed by byte
-// offset. Partial functions name the gap in their comment; the ledger notes repeat the reason.
+// offset.
 
 #include <cstddef>
 #include <cstdint>
@@ -87,10 +87,8 @@ ProjectileManager::ProjectileManager() {
 }
 
 // 0x3e68b0 ProjectileManager::~ProjectileManager() (D1) and 0x3e715c (D2): the same body.
-// PARTIAL: the raw block at +0x04 is released with CustomFree at every size. The original releases it with the node
-// allocator (__node_alloc::_M_deallocate) when (+0x0c - +0x04) & ~3 is 0x80 bytes or less; that allocator is not
-// recovered, the same gap as DataReloaderManager. The two pools are released by their member destructors after this
-// body, where the original releases them before the raw block. Nothing in this batch stores into the raw block.
+// The raw block at +0x04 .. +0x0f is a vector-like buffer that is never filled: the constructor zeroes its three words and no function stores into them, so the free below does not run. The original
+// releases it with the node allocator when (+0x0c - +0x04) & ~3 is 0x80 bytes or less and with CustomFree above that. The two pools are released by their member destructors after this body.
 ProjectileManager::~ProjectileManager() {
     if (unk_04 != nullptr) {
         CustomFree(unk_04);
@@ -155,12 +153,11 @@ void ProjectileManager::Flush() {
 }
 
 // 0x3e693c ProjectileManager::_Create(bool, bool)
-// PARTIAL: the laser search reads the main pool's in-use byte at the same index as the laser slot (the forward scan and
-// the start check; asm 0x3e6aa8 and 0x3e6acc load the main pool begin from this+0x10). The wrap-around scan reads the
-// laser pool's own bytes, as the pseudocode does. The main pool can be shorter than the laser pool, and the original then
-// reads heap memory past its end; the port treats such a slot as not free, a choice the original does not make.
-// A laser entry is handed out when the main pool's byte at the same index is clear, even if the laser entry's own
-// in-use byte is set. That is the original's behaviour and is reproduced as is.
+// The laser search reads the main pool's in-use byte at the same index as the laser slot (the forward scan and the start check; asm 0x3e6aa8 and 0x3e6acc load the main pool begin from this+0x10). The
+// wrap-around scan reads the laser pool's own bytes, as the pseudocode does. A laser entry is handed out when the main pool's byte at the same index is clear, even if the laser entry's own in-use byte
+// is set; that is the original's behaviour and is reproduced as is. When the main pool is shorter than the laser pool the original reads heap memory past the end of the main pool (undefined); the
+// port treats such a slot as not free. A new projectile is named from the pool's counter ("Projectile_%03u" / "LTProjectile_%03u"), spawned through ObjectManager::Spawn and accepted only with the
+// expected GO id (9, 10).
 Projectile* ProjectileManager::_Create(bool inUse, bool laser) {
     if (!laser) {
         // Main pool. The search starts at the cursor (or at 0 when the cursor is past the end and the cursor is reset),
@@ -205,7 +202,7 @@ Projectile* ProjectileManager::_Create(bool inUse, bool laser) {
         return projectile;
     }
 
-    // Laser pool, the same shape. The start check and the forward scan read the main pool's in-use bytes (see PARTIAL).
+    // Laser pool, the same shape. The start check and the forward scan read the main pool's in-use bytes (see the function comment).
     const std::size_t count = m_laserProjectiles.size();
     std::size_t start = 0;
     if (static_cast<std::size_t>(m_laserCursor) < count) {

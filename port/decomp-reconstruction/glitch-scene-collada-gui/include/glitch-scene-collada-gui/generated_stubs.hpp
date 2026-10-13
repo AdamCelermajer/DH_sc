@@ -92,14 +92,6 @@ template <class... A> std::uint32_t stub_66f6b8(A&&...) { return 1u; }
 // glitch::collada::detail::CColladaSoftwareSkinTechnique::checkAvailability(glitch::video::STechnique const&) const
 template <class... A> std::uint32_t stub_66f6c0(A&&...) { return 1u; }
 
-// 0x6e3110 _ZNK6glitch7collada15animation_track8CFloatEx12getValueSizeEv
-// glitch::collada::animation_track::CFloatEx::getValueSize() const
-template <class... A> std::uint32_t stub_6e3110(A&&...) { return 4u; }
-
-// 0x6e4db4 _ZNK6glitch7collada15animation_track9CWeightEx12getValueSizeEv
-// glitch::collada::animation_track::CWeightEx::getValueSize() const
-template <class... A> std::uint32_t stub_6e4db4(A&&...) { return 4u; }
-
 // 0x6e5168 _ZNK6glitch7collada16CCameraSceneNode7getTypeEv
 // glitch::collada::CCameraSceneNode::getType() const
 template <class... A> std::uint32_t stub_6e5168(A&&...) { return 0x63656164u; }

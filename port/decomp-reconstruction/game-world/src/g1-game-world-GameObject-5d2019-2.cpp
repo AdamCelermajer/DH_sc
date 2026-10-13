@@ -19,6 +19,10 @@
 #include "dh2/PhysicalObject.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/Random.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
 #include "dh2/RoomZone.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
@@ -52,19 +56,8 @@ float FloatFromBits(std::uint32_t bits) {
     return value;
 }
 
-// GetOnline()->+0x05 is COnline::isOnlineGame_. That member is private in
-// net-session-online/include/net-session-online/c_online.hpp and GetOnline() is not declared in any
-// header in the tree (layout requests). Until an accessor exists the flag reads as offline, so the
-// online branches are not taken.
+// GetOnline()->+0x05 is COnline::isOnlineGame_ (the online game flag).
 bool OnlineGameFlagUnavailable() { return GetOnlineGameFlag(); }
-
-// Random::GetRandom as called from CheckSpawnProbability is the GCC clone .clone.2. Its first register
-// carries the synced flag, and the range is not in the call. The range constant of the clone is not
-// recovered, so this roll returns 0 (the lowest value, which keeps the object).
-int SpawnRollUnrecovered(bool synced) {
-    (void)synced;
-    return 0;
-}
 
 // Tail shared by ZoneEntered, ZoneExited, EnableZoning and DisableZoning: vtable +0xc4 IsZonable(),
 // then vtable +0x3c setUpdating(bool) with the zone state (or true when the object is not zonable).
@@ -155,12 +148,14 @@ bool GameObject::IsNearby(const GameObject* other, float margin) const {
 }
 
 // 0x38b48c GameObject::IsPlayerNearby(float) const
-// Partial: the loop walks PlayerManager::GetPlayer(index, true) for index < m_numCharacters (+0x6c4, +1732)
-// and tests each player's Character (+0x660, +1632) with IsNearby. The PlayerManager pointer is
-// Application +0x40 (dword_99F76C). dh2/PlayerManager.hpp is present, but PlayerInfo is incomplete there, so
-// the +0x660 read waits on dh2/PlayerInfo.hpp. Returns false until then.
+// True when the Character of any player (PlayerManager::GetPlayer(index, true) for index below m_numCharacters, +0x6c4; PlayerInfo +0x660) is within the margin of this object (IsNearby).
 bool GameObject::IsPlayerNearby(float margin) const {
-    (void)margin;
+    for (int index = 0; index < dword_99F76C->m_numCharacters; ++index) {
+        const Character* character = dword_99F76C->GetPlayer(index, true)->unk_660;
+        if (character != nullptr && IsNearby(character, margin)) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -175,11 +170,8 @@ bool GameObject::IsTouching(const GameObject* other) const {
 }
 
 // 0x38b630 GameObject::IsHostTouching(void) const
-// Partial: the online flag (COnline +0x05, isOnlineGame_) is protected in COnline with no getter, so
-// OnlineGameFlagUnavailable() reads it as offline and the online scan below is not reached yet (layout
-// request: a public COnline accessor). The offline branch returns true, as the original does. The scan is
-// reconstructed: it walks the PlayerManager players (count m_numCharacters, +0x6c4) and takes the host by
-// CNetPlayerInfo::IsHost. The host's Character (PlayerInfo +0x660) must touch this object.
+// GetOnline() is called first. Offline the answer is true. Online it is true when the Character of the host player (CNetPlayerInfo::IsHost, over the PlayerManager players,
+// count m_numCharacters, +0x6c4; PlayerInfo +0x660) touches this object.
 bool GameObject::IsHostTouching() const {
     GetOnline();  // the original calls GetOnline() first; the call creates the COnline singleton on first use
     if (!OnlineGameFlagUnavailable()) {
@@ -222,10 +214,7 @@ int GameObject::GetNumPlayerTouching() const {
 }
 
 // 0x38b8b8 GameObject::RequireOnlineUpdate(void)
-// Partial: the online flag (COnline +0x05) is not readable yet (see IsHostTouching), so the online branch is
-// not taken. The branch is reconstructed: when the game is online and the object has a net struct, the update
-// is requested (m_netUpdateRequested, +0x119) if the local COnline is the server or the object is not remotely
-// updated.
+// Online, an object with a net struct requests an update (m_netUpdateRequested, +0x119) when this device is the server or the object is not remotely updated. GetOnline() is called first.
 void GameObject::RequireOnlineUpdate() {
     COnline* online = GetOnline();  // the original calls GetOnline() first
     if (!OnlineGameFlagUnavailable()) {
@@ -284,26 +273,24 @@ void GameObject::FlushTargetList() {
 }
 
 // 0x38bd64 GameObject::CheckSpawnProbability(void)
-// Partial: (1) the player test is not reconstructed. The original converts the handle to Character* and
-// returns -2 when IsPlayer() (vtable +0x28) is set. Character.hpp cannot share a translation unit with
-// dh2/IStreamBase.hpp yet (pydata stand-in and Structs:: conflicts), so the conversion is made for its
-// side effect only; (2) the online flag is OnlineGameFlagUnavailable() (layout request on COnline);
-// (3) the roll is SpawnRollUnrecovered(), because the Random::GetRandom clone's range is not recovered;
-// (4) ObjectManager::MarkForDeletion(g_ObjectManagerInstance, this) is not called (waits on
-// dh2/ObjectManager.hpp), so a rejected object is deleted but not queued for removal.
+// A player Character (handle converted to Character*, IsPlayer) always spawns: the roll becomes -2. An object that has rolled keeps its roll. Otherwise the roll is
+// Random::GetRandom(99, synced), the GCC clone .clone.2 with the range 0x63; the synchronized stream is used only online, when the network id (+0x108) is set and the recorded seed (+0xfc) is non-zero.
+// A roll below the spawn probability (+0x274) becomes -2 (spawns); otherwise the object is hidden, deleted (delete mode cleared) and queued with ObjectManager::MarkForDeletion, and the roll is returned.
 int GameObject::CheckSpawnProbability() {
     ObjectHandle handle = GetHandle();
     Character* character = handle.operator Character*();
-    (void)character;  // the IsPlayer() test is not reconstructed (see the note above)
+    if (character != nullptr && character->IsPlayer()) {
+        m_spawnProbRolled = -2;
+        return -2;
+    }
     if (m_spawnProbRolled != -1) {
         return m_spawnProbRolled;
     }
-    // The synced stream is used only online, when unk_108 is set and unk_fc is non-zero.
     bool synced = false;
     if (OnlineGameFlagUnavailable() && unk_108 != -1) {
         synced = unk_fc != 0;
     }
-    m_spawnProbRolled = SpawnRollUnrecovered(synced);
+    m_spawnProbRolled = static_cast<std::int32_t>(Random::GetRandom(99, synced));
     if (m_spawnProbRolled < m_spawnProb) {
         m_spawnProbRolled = -2;
         return -2;
@@ -311,14 +298,14 @@ int GameObject::CheckSpawnProbability() {
     SetVisible(false);
     Delete();
     m_deleteMode = 0;
-    // Not reconstructed: ObjectManager::MarkForDeletion(g_ObjectManagerInstance, this).
+    dword_99F764->MarkForDeletion(this);
     return m_spawnProbRolled;
 }
 
 // 0x38be5c GameObject::InitPost(void)
-// Partial: the idle-sound index lookup in Arrays::Sounds is not reproduced: the pydata Arrays headers
-// define IStreamBase and Structs:: types that conflict with dh2/IStreamBase.hpp in one translation unit.
-// m_idleSoundId is left as it is.
+// ObjectBase::InitPost, then the spawn probability test. For an object that spawns: scale components below 1e-4 become 1.0, the rotation goes to radians (pi/180 constant 0x3C8EFA35) with
+// the yaw target copied from Z, the position is set again, the local box follows the scale, and the visual is synced or loaded (not on a low-end device for a facultative object that has unk_10c).
+// skip_checkpoint clears ObjectBase +0x28. A non-empty idle_sound sets the idle sound id to its index in Arrays::Sounds, or -1 when the name is not listed.
 void GameObject::InitPost() {
     ObjectBase::InitPost();
     if (CheckSpawnProbability() >= m_spawnProb) {
@@ -376,8 +363,10 @@ void GameObject::InitPost() {
         unk_28 = 0;
     }
 
-    // Not reconstructed: if m_idleSound is not empty, m_idleSoundId = index of m_idleSound in
-    // Arrays::Sounds, or -1 when it is not listed (see the note above).
+    if (!m_idleSound.empty()) {
+        m_idleSoundId = static_cast<std::int16_t>(
+            pydata::FindMemberName(Arrays::Sounds::m_memberNames, static_cast<int>(Arrays::Sounds::size), m_idleSound.c_str()));
+    }
 }
 
 // 0x38c600 GameObject::DisableZoning(void)

@@ -7,6 +7,7 @@
 #include "dh2/global/runtime_support.hpp"
 
 #include "core-platform/memory.hpp"
+#include "net-session-online/c_msg_attack_result.hpp"
 #include "net-session-online/c_msg_drop_loot.hpp"
 #include "net-session-online/c_msg_fixed.hpp"
 #include "net-session-online/c_msg_quests_sync.hpp"
@@ -74,18 +75,11 @@ CMessage* GetNewInstance<CMsgMenuReady>(bool withSerial) {
 }
 
 // 0x328b6c CMessage* GetNewInstance<CMsgAttackResult>(bool)
-// PARTIAL: same shape as CMsgMenuReady. The original stores sendMode_ = 1 (+0x2c) and includeLocalMember_
-// = 0 (+0x33) inline, and allocates 0x84 bytes. c_msg_fixed.hpp's CMsgAttackResult has that size (80 + 52)
-// and SetProperties() makes the same stores. Missing: the bool, and CMsgAttackResult(bool) is not declared
-// by this class. c_msg_attack_result.hpp declares a second CMsgAttackResult with that constructor, and the
-// two cannot be in one translation unit. The duplicate must be merged before this is complete.
-// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
-// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
+// Asm: operator new(0x84, hint 2), then CMessage(name, bool), vptr, typeName_, sendMode_ = 1 (+0x2c) and includeLocalMember_ = 0 (+0x33). The
+// CMsgAttackResult(bool) constructor (c_msg_attack_result.hpp) makes the same stores.
 template <>
-CMessage* GetNewInstance<CMsgAttackResult>([[maybe_unused]] bool withSerial) {
-    auto* msg = new CMsgAttackResult();
-    msg->SetProperties();
-    return msg;
+CMessage* GetNewInstance<CMsgAttackResult>(bool withSerial) {
+    return new CMsgAttackResult(withSerial);
 }
 
 // 0x328c5c CMessage* GetNewInstance<CMsgInitialSetup>(bool)

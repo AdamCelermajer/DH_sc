@@ -13,15 +13,6 @@
 // Name clash: TriggerObject::m_script (std::string, +0x734) hides GameObject::m_script (LuaScript*, +0x300). The Lua call in
 // Interact reads GameObject::m_script.
 //
-// Include constraints (the binding limit of this batch). dh2/Trigger.hpp includes net-transport/net_struct.hpp, which defines
-// an inline CustomFree (net-transport/deps/byte_array.hpp). The pydata record headers (pydata-accessors/w7_structs_5.hpp,
-// w7_structs_2.hpp, w7_arrays27.hpp, w7_arrays_02.hpp) and dh2/Character.hpp (through CharProperties and structs_records.hpp)
-// define a second inline CustomFree in pydata-accessors/deps/stream_reader.hpp, and the two cannot share a translation unit.
-// core-platform/memory.hpp also clashes (glitch_core types). So the record types (Structs::TriggerObject, ColladaFile,
-// v2CondAnd) and the complete Character are not included here, and the functions that need them are partial. The Arrays
-// name lookups are declared by hand, as the DestructibleContainer and OpenableContainer batches do. The explicit
-// instantiations for TriggerObjects and v2Conditions are in pydata-accessors/src/member_ids.cpp. dh2/IStreamBase.hpp is not
-// included.
 
 #include "dh2/TriggerObject.hpp"
 
@@ -29,7 +20,19 @@
 #include <cstdlib>
 #include <string>
 
+#include "dh2/Character.hpp"
 #include "dh2/AnimController.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/QE_TriggerOn.hpp"
+#include "dh2/global/charai_ai.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "pydata-accessors/w7_structs_2.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/ConditionList.hpp"
 #include "dh2/LuaScript.hpp"
@@ -45,13 +48,14 @@
 // Engine-wide assert level (core-platform/memory.hpp is not included: see the note above).
 extern int gAssertLevel;
 
-namespace Arrays {
-struct TriggerObjects;  // element table in pydata-accessors/w7_arrays27.hpp (not included here)
-struct v2Conditions;    // element table in pydata-accessors/w7_arrays_02.hpp (not included here)
-// The explicit instantiations are in pydata-accessors/src/member_ids.cpp.
-template <class T>
-int GetMemberIDByString(const char* name);
-}  // namespace Arrays
+namespace {
+
+// Row `index` of Arrays::TriggerObjects as the host element (Structs::TriggerObject): m_w1 +0x04 interaction type, m_w3 +0x0c script name, m_w4 +0x10 sound, m_w5 +0x14 GameObjectDict model.
+const Structs::TriggerObject& DataRow(int index) {
+    return reinterpret_cast<const Structs::TriggerObject*>(Arrays::TriggerObjects::members)[index];
+}
+
+}  // namespace
 
 namespace {
 
@@ -86,13 +90,13 @@ bool TriggerObject::IsAnimated() const {
 }
 
 // 0x399330 TriggerObject::GetInteractionType(GameObject*) const
-// PARTIAL. The original returns m_dataIndex (+0x730) when it is -1, and otherwise the interaction type of the data row
-// (+0x4 of Arrays::TriggerObjects, stride 24). The row is Structs::TriggerObject (pydata w7_structs_5.hpp), which cannot
-// share a translation unit with dh2/Trigger.hpp (see the note at the top), so the row is not read. -1 is returned in its
-// place for every m_dataIndex, which is exact for the -1 case only.
+// -1 without a data row (m_dataIndex, +0x730, is -1); otherwise the interaction type of the data row (+0x4 of Arrays::TriggerObjects, stride 24).
 int TriggerObject::GetInteractionType(GameObject* other) const {
     (void)other;
-    return -1;  // +0x730 is -1 here. A data row's interaction type (row +0x4) is not bound.
+    if (m_dataIndex == -1) {
+        return -1;
+    }
+    return DataRow(m_dataIndex).m_w1;
 }
 
 // 0x39939c TriggerObject::InterpretIncomingNetStruct(bool)
@@ -105,27 +109,24 @@ void TriggerObject::InterpretIncomingNetStruct(bool force) {
 }
 
 // 0x3993bc TriggerObject::TestInteractiveCond()
-// PARTIAL. The original takes the local player's Character (PlayerInfo +0x660, unk_660 of dword_99F76C->GetLocalPlayer(0,
-// true)) and tests its PlayerSavegame: the object is locked when the savegame is missing or its byte +0x14 (m_questSynced)
-// is clear. That test needs the complete Character (its m_savegame at +0x14e8), which cannot share a translation unit with
-// dh2/Trigger.hpp (see the note at the top), so it is not bound. The branch with no character is bound: the gate passes, the
-// unlock ConditionList decides m_unlocked, and an unlocked object plays "unlock" once on its animation and clears the
-// idle-sound mute (+0x373). When a character exists, m_unlocked is left as it was.
+// The object is locked (m_unlocked, +0x784, cleared) when the local player's Character (PlayerInfo +0x660 of GetLocalPlayer(0, true)) exists and its PlayerSavegame (Character +0x14e8) is missing or has
+// its quest sync byte (+0x14, m_questSynced) clear. Otherwise the unlock ConditionList (+0x788) decides: true or absent unlocks the object, plays "unlock" once on its animation and clears the
+// idle-sound mute (+0x373); false locks it.
 void TriggerObject::TestInteractiveCond() {
     Character* character = dword_99F76C->GetLocalPlayer(0, true)->unk_660;  // PlayerInfo +0x660
-    if (character != nullptr) {
-        // PARTIAL, not bound: the savegame gate (Character +0x14e8 PlayerSavegame, byte +0x14). See the function note.
-        return;
+    if (character == nullptr || (character->m_savegame != nullptr && character->m_savegame->m_questSynced)) {
+        if (m_unlockConditions == nullptr || m_unlockConditions->Eval()) {  // +0x788
+            m_unlocked = true;  // +0x784
+            if (m_visualObject != nullptr) {  // +0x2d8
+                m_visualObject->m_animController->PlayClip("unlock", false, 0, 0);  // VisualObject +0x38, vtable slot +0x20
+            }
+            m_idleSoundMuted = 0;  // +0x373
+        } else {
+            m_unlocked = false;
+        }
+    } else {
+        m_unlocked = false;
     }
-    if (m_unlockConditions != nullptr && !m_unlockConditions->Eval()) {  // +0x788
-        m_unlocked = false;  // +0x784
-        return;
-    }
-    m_unlocked = true;  // +0x784
-    if (m_visualObject != nullptr) {  // +0x2d8
-        m_visualObject->m_animController->PlayClip("unlock", false, 0, 0);  // VisualObject +0x38, vtable slot +0x20
-    }
-    m_idleSoundMuted = 0;  // +0x373
 }
 
 // 0x399490 TriggerObject::IsInteractive(GameObject*) const
@@ -139,8 +140,7 @@ bool TriggerObject::IsInteractive(GameObject* other) const {
 }
 
 // 0x3994a8 TriggerObject::Update()
-// PARTIAL, inherited: the locked branch calls TestInteractiveCond (0x3993bc), which is partial (its savegame gate is not bound).
-// The rest is written. The delay timer (+0x3b8) is read before Trigger::Update counts it down. An unlocked object that was
+// The delay timer (+0x3b8) is read before Trigger::Update counts it down. An unlocked object that was
 // delayed and can now activate plays "idle" (loop, no unused argument) and clears the idle-sound mute. The visual is then
 // synced, and a pending interactor (+0x2e4) is passed to Interact (virtual) and cleared.
 void TriggerObject::Update() {
@@ -166,8 +166,7 @@ void TriggerObject::Update() {
 }
 
 // 0x399580 TriggerObject::Deserialize(IStreamBase*)
-// PARTIAL, inherited: Trigger::Deserialize (0x39890c) is partial (its level test and the two timer reads are missing), and
-// the condition test it runs is TestInteractiveCond (partial, see its note). The animation the state selects is written.
+// Trigger::Deserialize, TestInteractiveCond, then the animation the state selects: "idle" (an unlocked, activatable object), "idlelocked", or "idleactive" (else "activate").
 void TriggerObject::Deserialize(IStreamBase* stream) {
     Trigger::Deserialize(stream);
     TestInteractiveCond();
@@ -207,16 +206,9 @@ TriggerObject::~TriggerObject() {
 }
 
 // 0x399af0 TriggerObject::Interact(GameObject*)
-// PARTIAL, two pieces are missing:
-//   1. VoxSoundManager::Play3D for the data row's sound (row +0x10) at m_position, when m_dataIndex != -1. VoxSoundManager::
-//      s_instance and Play3D are not declared in vox-audio, and the row is not readable here (see the note at the top).
-//   2. The TriggerOn quest event raise on the level. The original builds a stack QE_TriggerOn (vtable _ZTV12QE_TriggerOn)
-//      with eventId_ = PyDataConstants::getConstant("v2QuestObjectiveType", "TriggerOn") (+0x04), m_character null (+0x08),
-//      m_targetId = unk_64 (+0x0c), m_flag0 = m_flag1 = 0 (+0x10, +0x11), m_value = -1 (+0x14) and m_matchId = m_dataIndex
-//      (+0x18), then calls EventManager::RaiseAsync. The id cannot be set from here: net-session-online/i_event.hpp keeps
-//      eventId_ protected (the same blocker as OpenableContainer::Interact). Layout request: QuestEvent.hpp should take
-//      dh2/IEvent.hpp, which declares eventId_ public.
-// Written here: the Lua OnTrigger call, Trigger::Activate, the activate animation, the script choice and the level assert.
+// With an external script (GameObject +0x300) and Trigger::CanActivate, the script's OnTrigger function is called with the interacting object. Then Trigger::Activate, the "activate" clip and, with a data row,
+// the row's sound (+0x10) in 3D at the object. Without an off-script (m_scriptOffId, +0x768) or on an even activation count (+0x3b4) the on-script runs (m_scriptId, +0x74c, with the object id unk_64), the
+// level asserts (line 286), the TriggerOn quest event (v2QuestObjectiveType "TriggerOn", unk_64, the data index as match id) is raised on it and the idle sound is muted; otherwise the off-script runs.
 void TriggerObject::Interact(GameObject* other) {
     if (GameObject::m_script != nullptr && Trigger::CanActivate()) {  // GameObject +0x300
         sfc::script::lua::Arguments args;
@@ -228,16 +220,29 @@ void TriggerObject::Interact(GameObject* other) {
         m_visualObject->m_animController->PlayClip("activate", false, 0, 0);
     }
     if (m_dataIndex != -1) {
-        // PARTIAL: VoxSoundManager::Play3D (see the function note).
+        const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
+        VoxSoundManager::s_instance->Play3D(DataRow(m_dataIndex).m_w4, at, false, 1, -1.0f, -1.0f);
     }
     if (m_scriptOffId == -1 || (m_numActivations & 1) == 0) {  // +0x768, +0x3b4
         if (m_scriptId != -1) {  // +0x74c
             ScriptManager::s_inst.StartScript(m_scriptId, unk_64, false);
         }
-        if (ApplicationGetInstance().GetCurrentLevel() == nullptr) {
+        Level* level = ApplicationGetInstance().GetCurrentLevel();
+        if (level == nullptr) {
             ReportAssert("level", 286);
         }
-        // PARTIAL: the TriggerOn quest event raise (see the function note).
+        {
+            QE_TriggerOn event;
+            event.eventId_ = static_cast<std::uint32_t>(
+                ApplicationGetPyDataConstants()->getConstant("v2QuestObjectiveType", "TriggerOn"));
+            event.m_character = nullptr;
+            event.m_targetId = unk_64;
+            event.m_flag0 = 0;
+            event.m_flag1 = 0;
+            event.m_value = -1;
+            event.m_matchId = m_dataIndex;
+            level->RaiseAsync(event);
+        }
         m_idleSoundMuted = 1;  // +0x373
     } else {
         ScriptManager::s_inst.StartScript(m_scriptOffId, unk_64, false);
@@ -257,9 +262,7 @@ void TriggerObject::DeclareProperties() {
 
 // 0x399df0 TriggerObject::TriggerObject()   (complete object constructor, C1)
 // 0x399ef4 TriggerObject::TriggerObject()   (base object constructor, C2): the same body.
-// PARTIAL, inherited: the Trigger base constructor (0x398f44) is partial (its NetStructTrigger members build with a stale
-// value word, see g1-game-world-Trigger-d3f06a-0.cpp). The TriggerObject stores are complete. The original does not store
-// m_scriptOffId (+0x768) here, so Interact reads it only after InitPost has set it, as in the original.
+// Trigger(20, false, true), then the stores below. The original does not store m_scriptOffId (+0x768) here, so Interact reads it only after InitPost has set it, as in the original.
 TriggerObject::TriggerObject()
     : Trigger(static_cast<ObjectBase::GO_IDS>(20), false, true) {
     m_dataIndex = -1;              // +0x730
@@ -272,32 +275,37 @@ TriggerObject::TriggerObject()
 }
 
 // 0x399ff8 TriggerObject::InitPost()
-// PARTIAL. Written: the spawn check, the data row lookup (Arrays::TriggerObjects, first name match), the script ids, the
-// Trigger base InitPost, the SetVisible(false) branch, the idle or idlelocked animation and the PODecor body (a static box,
-// see dh2/PODecor.hpp). Not bound, each for the reason in the note at the top:
-//   1. The GameObjectDict name copied into m_dae (+0x290) from the data row's dict index (row +0x14): the GameObjectDict record
-//      (Structs::ColladaFile) and the data row (Structs::TriggerObject) are not includable here.
-//   2. The unlock ConditionList for a named unlock_cond (Arrays::v2Conditions, row +0x4 count and +0x8 stubs): the v2CondAnd
-//      record is not includable here, so no ConditionList is built and m_unlockConditions stays null.
-//   3. VoxSoundManager::LoadSound for the data row's sound id (row +0x10): VoxSoundManager::s_instance and LoadSound are not
-//      declared in vox-audio.
-//   4. The external script load of the visible branch, LoadExternalScript(row +0xc name, "data/scripts/objects/"): the row
-//      is not readable here.
+// After the spawn check: the data row is found by name in Arrays::TriggerObjects (m_dataIndex, -1 when none matches) and its GameObjectDict model name (row +0x14, when not -1) becomes m_dae (+0x290).
+// The script ids of m_script and m_scriptOff, then Trigger::InitPost. An unlock_cond that is empty or "Invalid" leaves the object unlocked; a named one is found in Arrays::v2Conditions and builds
+// the unlock ConditionList from the row's stubs (a name that is not listed builds none). Without a data row, or when MeetCondition fails, the object is hidden. Otherwise the "idle" clip (unlocked) or
+// "idlelocked" plays, a static PODecor body is created (group 0, category 2, mask 0xffff), the row's sound (+0x10) is loaded and the row's script (+0x0c) is loaded from data/scripts/objects/.
 void TriggerObject::InitPost() {
     const int spawn = CheckSpawnProbability();  // GameObject::CheckSpawnProbability
     if (!(spawn < m_spawnProb)) {               // +0x274
         return;
     }
 
-    m_dataIndex = Arrays::GetMemberIDByString<Arrays::TriggerObjects>(m_data.c_str());  // +0x730, -1 when no row name matches
+    m_dataIndex = pydata::FindMemberName(Arrays::TriggerObjects::m_memberNames, static_cast<int>(Arrays::TriggerObjects::size), m_data.c_str());  // +0x730
+    if (m_dataIndex != -1) {
+        const int model = DataRow(m_dataIndex).m_w5;
+        if (model != -1) {
+            m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[model].m_w2;
+        }
+    }
 
     m_scriptId = ScriptManager::s_inst.GetIDFromName(m_script.c_str(), false);        // +0x74c
     m_scriptOffId = ScriptManager::s_inst.GetIDFromName(m_scriptOff.c_str(), false);  // +0x768
     Trigger::InitPost();
 
-    // PARTIAL: an unlock_cond that is neither empty nor "Invalid" builds the unlock ConditionList (item 2 above).
     if (m_unlockCond.empty() || m_unlockCond == "Invalid") {  // +0x76c
         m_unlocked = true;  // +0x784
+    } else {
+        const int condition = pydata::FindMemberName(Arrays::v2Conditions::m_memberNames, static_cast<int>(Arrays::v2Conditions::size), m_unlockCond.c_str());
+        if (condition != -1) {
+            m_unlockConditions = new ConditionList();   // +0x788
+            const Structs::v2CondAnd& row = reinterpret_cast<const Structs::v2CondAnd*>(Arrays::v2Conditions::members)[condition];
+            m_unlockConditions->AssignPyData(static_cast<Structs::v2ConditionStub*>(row.m_w2), static_cast<int>(row.m_w1));
+        }
     }
 
     if (m_dataIndex == -1 || !MeetCondition()) {
@@ -317,5 +325,8 @@ void TriggerObject::InitPost() {
     // The physics body is the static box of PODecor (group 0, category 2, mask 0xffff), owned by the object.
     PODecor* body = new PODecor(ApplicationGetInstance().m_physicalWorld, this, false);
     SetPhysicalObject(body, false);
-    // PARTIAL: the sound load (item 3) and the external script load (item 4) are not bound.
+    if (VoxSoundManager::s_instance != nullptr) {
+        VoxSoundManager::s_instance->LoadSound(DataRow(m_dataIndex).m_w4);
+    }
+    LoadExternalScript(DataRow(m_dataIndex).m_w3, "data/scripts/objects/");
 }

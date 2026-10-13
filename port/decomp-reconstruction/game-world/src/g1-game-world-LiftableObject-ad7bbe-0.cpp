@@ -4,15 +4,20 @@
 // Layout: the members are those of dh2/LiftableObject.hpp. m_dataId is at +0x374, which GameObject.hpp also declares as
 // m_entryPointId; the bodies use the named member, so only the offset comment is in doubt (see the layout request).
 //
-// Three functions are partial: Release (the node re-attach to the scene root), PickUp (the QE_PickedUpLiftable event)
-// and InitPost (the data-row lookup). Drop is partial because it calls Release. The rest are reconstructed.
 // The destructor is defined once in the tree, here (0x3eebcc, see the note there), because this file emits the vtable.
 
 #include <cstdio>
 #include <cstdlib>
 
 #include "dh2/AnimController.hpp"
+#include <cstdint>
+
 #include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/QE_PickedUpLiftable.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/charai_ai.hpp"
 #include "dh2/LiftableObject.hpp"
 #include "dh2/PFWorld.hpp"
 #include "dh2/PhysicalObject.hpp"
@@ -21,6 +26,12 @@
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 
 extern int gAssertLevel;  // engine assert level (core-platform/memory.hpp, not included here, as in DestructibleContainer)
 
@@ -38,12 +49,9 @@ void ReportAssert(const char* expression, int line) {
     }
 }
 
-// VisualObject::m_node (a RootSceneNode*) as the glitch::scene::ISceneNode* the original passes to ISceneNode methods
-// with no adjustment (Release 0x3ee468 calls getAbsolutePosition and addChild on it). RootSceneNode does not derive from
-// glitch::scene::ISceneNode in this tree, so this is a reinterpret_cast, correct while the ISceneNode base is at offset 0
-// (the same view as GameObject::IsBatchVisible). Waits on a RootSceneNode declaration that derives from ISceneNode.
+// VisualObject::m_node (a RootSceneNode*) as the glitch::scene::ISceneNode* the original passes to ISceneNode methods (Release 0x3ee468 calls getAbsolutePosition and addChild on it).
 glitch::scene::ISceneNode* AsSceneNode(RootSceneNode* node) {
-    return reinterpret_cast<glitch::scene::ISceneNode*>(node);
+    return static_cast<glitch::scene::ISceneNode*>(node);
 }
 
 }  // namespace
@@ -134,11 +142,9 @@ bool LiftableObject::IsZonable() const {
 }
 
 // 0x3ee468 _ZN14LiftableObject7ReleaseEv
-// PARTIAL. The original ends by attaching the visual's node to the scene root: root->addChild(m_visualObject->m_node),
-// vtable +0x5c (ISceneNode::addChild). The root is read from the device's scene manager, Singleton<Application>::s_inst
-// .m_device (+0x10) at +0x1c, then +0x04 of that object. IDevice +0x1c is not declared in
-// glitch-core-io/os/device.hpp, the same blocker as Billboard::InitPost, so that call is not made here. Everything else
-// is reconstructed in the original order.
+// Asserts that an owner holds the object (line 233). The object takes the absolute position of its visual node (SetPosition) and its base scale (+0x398), the position is validated in the PF world, the visual is
+// synchronised and its node is attached to the scene root again (the root is the device's scene manager +0x04, addChild is ISceneNode vtable +0x5c). The physics filter is enabled, the owner is cleared and a
+// re-pin is requested (+0x3a4).
 void LiftableObject::Release() {
     if (m_owner == nullptr) {
         ReportAssert("m_owner", 233);
@@ -149,17 +155,15 @@ void LiftableObject::Release() {
     GameObject::SetScale(m_baseScale);
     Singleton<PFWorld>::s_inst.ValidatePosition(m_position, &m_pfObject);
     visual->Sync();
-    // PARTIAL: root->addChild(visual->m_node) is not made (see above).
+    DeviceSceneManager()->rootNode->addChild(AsSceneNode(visual->m_node));
     m_physicalObject->enableFilter();
     m_owner = nullptr;
     m_pinPending = true;
 }
 
 // 0x3ee5a8 _ZN14LiftableObject4DropEv
-// PARTIAL, through Release. Releases the object, then plays the "drop" clip with PlayClip(name, loop = false, 0, 0). The
-// original passes r3 = 0 and the stack slot 0 for the last two parameters (checked in the assembly). m_dropping is set
-// when the clip starts, and the timeline callback clears it. The node re-attach missing from Release means the drop does
-// not re-attach the node to the scene root.
+// Releases the object, then plays the "drop" clip with PlayClip(name, loop = false, 0, 0). The original passes r3 = 0 and the stack slot 0 for the last two parameters (checked in the assembly). m_dropping (+0x394)
+// is set when the clip starts, and the timeline callback clears it. The original returns the PlayClip result.
 bool LiftableObject::Drop() {
     Release();
     const bool playing = m_visualObject->m_animController->PlayClip("drop", false, 0, 0);
@@ -170,11 +174,10 @@ bool LiftableObject::Drop() {
 }
 
 // 0x3ee5fc _ZN14LiftableObject6PickUpEP10GameObject
-// PARTIAL, in two places. (1) The holder and the attached node are m_node viewed as ISceneNode by reinterpret_cast
-// (see AsSceneNode). (2) The QE_PickedUpLiftable event is not raised (see the note before the return). The original
-// builds it on the stack (vtable 0x967530, the QE_InteractWith layout, no members of its own) and calls
-// EventManager::RaiseAsync on the current level: event id = PyDataConstants "v2QuestObjectiveType" /
-// "PickedUpLiftable", +0x08 character 0, +0x0c this->unk_64, +0x10 0, +0x11 0, +0x14 -1, +0x18 GetDataId(). Returns true.
+// Asserts that nobody holds the object (line 186) and that an owner is given (187); either failing returns false. Both visuals are asserted (lines 199 and 200) and either missing returns false. The holder is the
+// owner visual's "projectile_node", or its root node. The object's visual takes the origin position and the unit scale and its node is added to the holder; the physics filter is disabled and the body unpinned.
+// The owner is stored (+0x390), the level is asserted (line 223) and the PickedUpLiftable quest event (v2QuestObjectiveType, no character, unk_64 as the target id, GetDataId() as the match id) is raised on it.
+// Returns true.
 bool LiftableObject::PickUp(GameObject* owner) {
     if (m_owner != nullptr) {
         ReportAssert("m_owner == 0", 186);
@@ -209,12 +212,22 @@ bool LiftableObject::PickUp(GameObject* owner) {
     m_physicalObject->unpin();
     m_owner = owner;
 
-    if (Singleton<Application>::s_inst.GetCurrentLevel() == nullptr) {
+    Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
+    if (level == nullptr) {
         ReportAssert("level", 223);
     }
-    // PARTIAL: the QE_PickedUpLiftable event is not raised. Its id (IEvent +0x04) is eventId_, which
-    // net-session-online/i_event.hpp (included through QuestEvent.hpp) declares protected, so game code cannot set it
-    // (waits on the IEvent unification: dh2/IEvent.hpp has it public). Raising it with id 0 would be wrong.
+    {
+        QE_PickedUpLiftable event;
+        event.eventId_ = static_cast<std::uint32_t>(
+            ApplicationGetPyDataConstants()->getConstant("v2QuestObjectiveType", "PickedUpLiftable"));
+        event.m_character = nullptr;
+        event.m_targetId = unk_64;
+        event.m_flag0 = 0;
+        event.m_flag1 = 0;
+        event.m_value = -1;
+        event.m_matchId = GetDataId();
+        level->RaiseAsync(event);
+    }
     return true;
 }
 
@@ -234,17 +247,19 @@ void LiftableObject::Update() {
 }
 
 // 0x3eea10 _ZN14LiftableObject8InitPostEv
-// PARTIAL. The data row is not looked up. The original searches Arrays::LiftableObjects::m_memberNames for m_dataDesc
-// (strcmp, the first match) and sets m_dataId to the index, or -1 when there is no match or the table is empty. When the
-// element's GameObjectDict index (+0x04 of its 8-byte record) is not -1, it copies that dict name (+0x08 of a 12-byte
-// record) into m_dae (+0x290). The lookup needs pydata-accessors/member_names.hpp, which cannot share a translation unit
-// with dh2/GameObject.hpp (CustomFree clash, as in Door::InitPost), and the element records are not typed. So m_dataId
-// and m_dae are left as they are. The spawn probability, the GameObject::InitPost call, the MeetCondition branch, the
-// visual callback and idle clip, and the SetVisible(false) branch are reconstructed in the original order.
+// For an object that passes the spawn probability test: a non-empty data_desc is searched in Arrays::LiftableObjects::m_memberNames (strcmp, the first match) and m_dataId (+0x374) becomes the index, or -1 when
+// no name matches or the table is empty; with a row whose GameObjectDict index (record +0x04) is not -1, that dict model name (record +0x08) becomes m_dae (+0x290). An empty data_desc leaves m_dataId alone.
+// Then GameObject::InitPost; when MeetCondition holds, the visual gets the drop-finished callback and plays "idle" in a loop and its mesh box is applied; otherwise the object is hidden.
 void LiftableObject::InitPost() {
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {
         if (!m_dataDesc.empty()) {
-            // PARTIAL: the row lookup described above.
+            m_dataId = pydata::FindMemberName(Arrays::LiftableObjects::m_memberNames, static_cast<int>(Arrays::LiftableObjects::size), m_dataDesc.c_str());
+            if (m_dataId != -1) {
+                const int model = reinterpret_cast<const Structs::LiftableObject*>(Arrays::LiftableObjects::members)[m_dataId].m_w1;
+                if (model != -1) {
+                    m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[model].m_w2;
+                }
+            }
         }
         GameObject::InitPost();
         if (GameObject::MeetCondition()) {

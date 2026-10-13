@@ -532,10 +532,9 @@ void Application::Update() {
 // 0x32d79c Application::Application()
 // 0x32d980 Application::Application()
 // The two addresses are the complete-object and base-object variants of one constructor; one definition serves both.
-// PARTIAL: the pseudocode also stores this+0xbc into the words at +0xcc and +0xd0, and this+0xd4 into the words at
-// +0xe4 and +0xe8. In this layout those words lie inside the two std::string members (+0xbc m_uncompiledData,
-// +0xd4 unk_d4), so they are not stored: writing them would overwrite the string objects. Their container is not
-// identified (layout requests). Every other store is written, in the original's order: the vptr is the compiler's,
+// The pseudocode also stores this+0xbc into the words at +0xcc and +0xd0, and this+0xd4 into the words at +0xe4 and +0xe8: those are
+// the finish and start words of the two empty STLport strings (+0xbc m_uncompiledData, +0xd4 unk_d4), made by their default
+// construction. Every other store is written, in the original's order: the vptr is the compiler's,
 // FirstTime is the bool of dh2/global/Globals.hpp (STRB), and the job threads are created in the original's order:
 // CustomAlloc(sizeof(updateJob_thread)), then updateJob_thread(n), then the pointer store. The original allocates 0x10
 // bytes because its object is 0x10 bytes. The host object is larger (vptr, std::thread, bool, int: 24 bytes, see

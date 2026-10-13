@@ -29,8 +29,15 @@
 #include <vector>
 
 #include "core-platform/deps/application.hpp"
+#include "dh2/AnimController.hpp"
+#include "dh2/AnimatedFX.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/IFileStream.hpp"
+#include "dh2/StreamBuffer.hpp"
+#include "dh2/global/savefile_fs.hpp"
 #include "dh2/VisualFXManager.hpp"
+#include "pydata-accessors/name_table.hpp"
 #include "pydata-accessors/w7_arrays27.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 #include "pydata-accessors/w7_structs_3.hpp"
@@ -108,19 +115,19 @@ CharProperties::BuffDecl::BuffDecl(const BuffDecl& other)
 CharProperties::BuffDecl::BuffDecl() : m_id(-1), m_fx(nullptr) {}
 
 // 0x3e1374 CharProperties::LoadPropNames(char const*)
-// PARTIAL: the original (1) calls DebugSwitches::load() and GetSwitch("isTracingCharProperties") on DebugSwitches::s_inst,
-// whose result is unused, and (2) opens the table at `path` through the application file system slot +0x90, closes it
-// with ApplicationCloseStream and reads it through a StreamBuffer. Neither is reproduced: dh2/DebugSwitches.hpp keeps
-// s_inst private, and no header declares the +0x90 open (ApplicationOpenStream is +0x88). Until the open is wired the
-// stream is null and the name table stays empty, so GetNameFromPropID and GetPropIDFromName find nothing.
+// Reads the debug switch "isTracingCharProperties" (result unused), opens the table at `path` through the application file system's
+// openResource (device +0x34, vtable +0x90), copies it into a StreamBuffer, closes the file (closeFile, +0x78) and reads the names from the
+// buffer. A missing file leaves the table empty.
 void CharProperties::LoadPropNames(const char* path) {
-    (void)path;  // the original opens kPropNamesPath through the file system (see above)
-    IStreamBase* const stream = nullptr;  // PARTIAL: the open of the table file is not wired
-    if (stream == nullptr) {
+    (void)DebugSwitches::GetInstance()->GetSwitch(std::string("isTracingCharProperties"));
+    FileSystemWin32::_FileHandle* handle = SavefileFileSystem().openResource(path);
+    if (handle == nullptr) {
         return;
     }
-    ReadPropNames(stream);
-    ApplicationCloseStream(stream);  // the original closes the file before it reads the StreamBuffer
+    IFileStream* stream = handle;
+    StreamBuffer buffer(stream);
+    SavefileFileSystem().closeFile(stream);
+    ReadPropNames(&buffer);
 }
 
 // 0x3e16e0 CharProperties::GetNameFromPropID(int)
@@ -162,10 +169,8 @@ int CharProperties::GetPropIDFromName(const char* name) {
 //
 // The FX grab is made: a new class declaration with fxId != -1 and no FX yet takes one from
 // VisualFXManager::s_inst.GrabAnimFX(fxId, m_character).
-// PARTIAL: (1) The FX animation advance (AnimController slot +0x1c, AnimController::PlayClip) is not made. The original
-// passes (size - 1, loop = true) and leaves the other two arguments of PlayClip (unused, animIndex) unset at the call
-// site, so the call cannot be reproduced. (2) TMR_TimeLeft leaves its out values untouched when the timer is not
-// active. The original then compares stack values, and here both values are zeroed first.
+// With an FX and more than one instance the FX animation advances to its last clip (PlayClip(count - 1, true)). TMR_TimeLeft leaves its
+// out values untouched when the timer is not active; the original then compares stack values, here both values are zeroed first.
 Structs::CharacterProperties* CharProperties::PROPS_AddBuff(int classId, unsigned int durationMs, int maxStacks,
                                                              unsigned int level, int fxId, const char* name) {
     if (maxStacks <= 0) {
@@ -243,7 +248,12 @@ Structs::CharacterProperties* CharProperties::PROPS_AddBuff(int classId, unsigne
         }
     }
 
-    // PARTIAL: with an FX and more than one instance, the original advances the FX animation (see the note above).
+    // With an FX and more than one instance of the class, the FX animation advances to its last clip (looping): AnimController::PlayClip
+    // (clip count - 1, loop true, unused 0, animator 0), the virtual at +0x1c.
+    if (chosen->m_decl->m_fx != nullptr && chosen->m_decl->m_insts.size() > 1) {
+        AnimController* controller = chosen->m_decl->m_fx->GetAnimController();
+        controller->PlayClip(static_cast<unsigned int>(chosen->m_decl->m_insts.size() - 1), true, 0, 0u);
+    }
 
     PROPS_ResetSheet(chosen);
     _SetProperty(*chosen, kBuffLevelProperty, ShiftLeft8(static_cast<int>(level)));
@@ -252,17 +262,12 @@ Structs::CharacterProperties* CharProperties::PROPS_AddBuff(int classId, unsigne
 }
 
 // 0x3e2720 CharProperties::PROPS_AddDot(int,int,int)
-// Checks durationMs > 0 and damage >= 0 (ASSERT lines 1077 and 1078), and an element in -1..4 (ASSERT line 1093, with the
-// element name "dot_unknown"). The element names are dot_normal (-1), dot_fire, dot_water, dot_lightning, dot_earth and
-// dot_air (4). The original then adds the buff with level = damage, maxStacks = 1 and sets property 127 + element + 1 to
-// damage on the new instance before it recalculates that property.
-//
-// PARTIAL: the class id and the FX id come from the index of "AUTO_DOT_01_FIRE" in Arrays::ClassTable and
-// Arrays::AnimatedEffectTable (class id = index + element, FX id = index + element). Those names are in
-// pydata-accessors/member_names.hpp, which declares the same structs as w7_arrays27.hpp (the header of the table
-// members), so the two cannot be included together and the name search is not written. No buff is added and nullptr
-// is returned. Also, the original returns RecalcProperty's int value (the m_props word) on success. The header
-// declares a sheet pointer, so that return value cannot be reproduced.
+// Checks durationMs > 0 and damage >= 0 (ASSERT lines 1077 and 1078), then finds the class and the FX by name: the class id is the index of
+// "AUTO_DOT_01_FIRE" in the names of Arrays::ClassTable plus the element, the FX id the index of the same name in
+// Arrays::AnimatedEffectTable plus the element. The element names are dot_normal (-1), dot_fire, dot_water, dot_lightning, dot_earth and dot_air
+// (4); anything else asserts (line 1093, name "dot_unknown"). The buff is added with level = damage and one stack
+// (PROPS_AddBuff(class, durationMs, 1, damage, fx, name)); on success property 127 + element is set to damage on the new sheet and recalculated.
+// The original returns the int of RecalcProperty on success; the sheet pointer is returned here, and null when no buff was added.
 Structs::CharacterProperties* CharProperties::PROPS_AddDot(int durationMs, int damage, int element) {
     if (durationMs <= 0) {
         if (gAssertLevel == 2) {
@@ -278,14 +283,16 @@ Structs::CharacterProperties* CharProperties::PROPS_AddDot(int durationMs, int d
             ReportAssert("damage >= 0", kCharPropsCpp, 1078);
         }
     }
+    const int classId = pydata::FindMemberName(Arrays::ClassTable::m_memberNames, static_cast<int>(Arrays::ClassTable::size), "AUTO_DOT_01_FIRE") + element;
+    const int fxId = pydata::FindMemberName(Arrays::AnimatedEffectTable::m_memberNames, static_cast<int>(Arrays::AnimatedEffectTable::size), "AUTO_DOT_01_FIRE") + element;
+    const char* name = "dot_unknown";
     switch (element) {
-        case -1:  // dot_normal
-        case 0:   // dot_fire
-        case 1:   // dot_water
-        case 2:   // dot_lightning
-        case 3:   // dot_earth
-        case 4:   // dot_air
-            break;
+        case -1: name = "dot_normal"; break;
+        case 0: name = "dot_fire"; break;
+        case 1: name = "dot_water"; break;
+        case 2: name = "dot_lightning"; break;
+        case 3: name = "dot_earth"; break;
+        case 4: name = "dot_air"; break;
         default:
             if (gAssertLevel == 2) {
                 CrashOnAssert();
@@ -294,14 +301,19 @@ Structs::CharacterProperties* CharProperties::PROPS_AddDot(int durationMs, int d
             }
             break;
     }
-    return nullptr;  // PARTIAL: the class and FX lookups by name are not reachable (see above)
+    Structs::CharacterProperties* sheet = PROPS_AddBuff(classId, static_cast<unsigned int>(durationMs), 1, static_cast<unsigned int>(damage), fxId, name);
+    if (sheet) {
+        const int propId = element + 127;
+        _SetProperty(*sheet, propId, damage);
+        RecalcProperty(propId);
+    }
+    return sheet;
 }
 
 // 0x3e2a5c CharProperties::PROPS_DebuffSlow(uint)
-// A boss is not affected, and a zero duration does nothing. Otherwise the original adds the "debuff_slow" buff of class
-// "Debuff_Slow" (found by name in Arrays::ClassTable) with the FX "AUTO_DEBUFF_SLOW" (found in Arrays::AnimatedEffectTable),
-// applies the class to the new sheet, and recalculates properties 48, 47 and 46.
-// PARTIAL: the two name lookups are not reachable from this unit (see PROPS_AddDot), so nothing is added after the checks.
+// A boss is not affected, and a zero duration does nothing. Otherwise the class "Debuff_Slow" (found by name in Arrays::ClassTable; nothing
+// happens if it is missing) is added as the buff "debuff_slow" with the FX "AUTO_DEBUFF_SLOW" (index in Arrays::AnimatedEffectTable, -1 if
+// missing), one stack and level 0; the class is applied to the new sheet, and properties 48, 47 and 46 are recalculated.
 void CharProperties::PROPS_DebuffSlow(unsigned int durationMs) {
     if (m_character->IsBoss()) {
         return;
@@ -309,7 +321,18 @@ void CharProperties::PROPS_DebuffSlow(unsigned int durationMs) {
     if (durationMs == 0) {
         return;
     }
-    // PARTIAL: the class id of "Debuff_Slow" and the FX id of "AUTO_DEBUFF_SLOW" are not found, so no buff is added.
+    const int classId = pydata::FindMemberName(Arrays::ClassTable::m_memberNames, static_cast<int>(Arrays::ClassTable::size), "Debuff_Slow");
+    if (classId == -1) {
+        return;
+    }
+    const int fxId = pydata::FindMemberName(Arrays::AnimatedEffectTable::m_memberNames, static_cast<int>(Arrays::AnimatedEffectTable::size), "AUTO_DEBUFF_SLOW");
+    Structs::CharacterProperties* sheet = PROPS_AddBuff(classId, durationMs, 1, 0, fxId, "debuff_slow");
+    if (sheet) {
+        PROPS_ApplyClassToSheet(classId, sheet);
+        RecalcProperty(48);
+        RecalcProperty(47);
+        RecalcProperty(46);
+    }
 }
 
 // 0x3e2bcc CharProperties::_ApplyGroupOnlyIf(Structs::CharacterProperties &,Structs::ClassFunc *)

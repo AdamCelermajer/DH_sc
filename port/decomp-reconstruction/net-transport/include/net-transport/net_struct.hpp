@@ -230,7 +230,7 @@ public:
 
 // Float in [Min, Max] sent as Bits-bit fixed point.
 template <unsigned Bits, int Min, int Max>
-class NetStructRangedFloat final : public NetStructMemberType<float> {
+class NetStructRangedFloat : public NetStructMemberType<float> {   // not final: NetStructInterpolatedRangedFloat derives from it (its vtable holds these Read, Write and TestValue)
 public:
     NetStructRangedFloat() : NetStructMemberType<float>(static_cast<int>(Bits)) {}    // sizeBits = Bits (see 0x3a681c)
     void Read(NetBitStream& stream) override;                         // NetStructRangedFloat<...>::Read

@@ -6,9 +6,11 @@
 #include <list>
 #include <string>
 #include "core-platform/deps/game_types.hpp"
+#include "dh2/PFGInnerDirectEdge.hpp"
 
 class PFFloor;
 class PFGInnerEdge;
+class PFRoom;
 
 class PFObject {
 public:
@@ -30,7 +32,7 @@ public:
     void* m_owner;                          // +0x00 owning GameObject (PFWorld::InitObject stores it)
     std::uint32_t m_flags;                  // +0x04 bit0 static, bit1 moving, bit2 registered obstacle, bit3 collisions enabled; 8 initially
     float m_radius;                         // +0x08 1.0f initially, set from the object extents
-    float m_floorHeight;                    // +0x0c output of PFWorld::GetFloorHeightAt. Projectile::OnExpire 0x3e5078 reads GameObject +0x1d4 (this word) as a PFRoom*; the type is not settled, so it stays float (the ctor writes 0.0f)
+    PFRoom* m_room;                         // +0x0c the room found by the last PFWorld::GetFloorHeightAt (its 5th argument writes here), null when none; the ctor writes 0
     PFFloor* m_floor;                       // +0x10
     std::uint32_t m_moveFlags;              // +0x14 bit0 flying, bit1 swimming; 2 initially
     Point3D<float> m_pos;                   // +0x18
@@ -39,16 +41,9 @@ public:
     float m_obstacleStrength;               // +0x34 (PFWorld::InitObstacle arg)
     std::list<const PFGInnerEdge*> m_path;  // +0x38 waypoint list (sentinel node at +0x38)
     Point3D<float> m_pathEnd;               // +0x40 final path target
-    void* unk_4c;                           // +0x4c vptr of an embedded PFGInnerDirectEdge (off_96C810; dtor resets it to off_96C6F0)
-    std::uint8_t unk_50[28];                // +0x50..+0x6b rest of that edge: ints 0 at +0x50/+0x54, float 1.0f at +0x58, zeros to +0x68
-    std::int32_t unk_6c;                    // +0x6c 0
-    std::int32_t unk_70;                    // +0x70 0
-    std::int32_t unk_74;                    // +0x74 0
-    std::int32_t unk_78;                    // +0x78 0
+    PFGInnerDirectEdge m_edge;              // +0x4c .. +0x7b an embedded PFGInnerDirectEdge (vptr off_96C810; the dtor resets it to off_96C6F0): from +0x50 and to +0x54 null, weight +0x58 1.0f, distance +0x5c, clearance +0x60, source +0x64, destination +0x70. PFWorld::_SearchGraph fills the points and links it into a path
     std::uint32_t m_pathSmoothIdx;          // +0x7c ("pfo.path_smoothIdx" assert in PFWorld::DropPath)
-    std::int32_t unk_80;                    // +0x80 0
-    std::int32_t unk_84;                    // +0x84 0
-    std::int32_t unk_88;                    // +0x88 0
+    Point3D<float> m_waypointDir;           // +0x80 .. +0x8b direction of the first waypoint edge (PFWorld::_CalcWaypointVec stores it, _IsPastWaypoint reads it)
     std::string m_debugName;                // +0x8c (GameObject::InitFinal assigns the object name)
     std::uint8_t pad_90[12];                // +0x90 .. +0x9b not touched by the functions recovered so far
     void* unk_9c;                           // +0x9c pointer to m_debugName, set by the constructor (the destructor's buffer test reads it)

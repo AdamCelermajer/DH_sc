@@ -12,25 +12,33 @@
 //   m_w15 (+0x3c) int32  visual index     GetVisual
 // A row is reached through the typed element pointer, never by byte offset (Track B decision 3).
 //
-// Include constraints: pydata-accessors/member_names.hpp is not included here. It redefines CustomFree, which
+// Include constraint: pydata-accessors/member_names.hpp is not included here. It redefines CustomFree, which
 // net-transport's deps/byte_array.hpp also defines (dh2/Container.hpp pulls net-transport in). The Arrays lookups are
-// declared by hand instead, as game-app and game-world do. dh2/Level.hpp is not included either: the level is only
-// tested against null here, so the Application declaration is enough.
+// declared by hand instead, as game-app and game-world do.
 
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <string>
 
 #include "dh2/AnimController.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DestructibleContainer.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/global/charai_ai.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/QE_DestroyGameObject.hpp"
 #include "dh2/TrophyManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "glitch-scene-collada-gui/collada/CEventsManager.hpp"
+#include "pydata-accessors/name_table.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 // Engine-wide assert level (core-platform/memory.hpp, not included: see the note above).
 extern int gAssertLevel;
@@ -95,20 +103,11 @@ int DestructibleContainer::GetInteractionType(GameObject* other) const {
 void DestructibleContainer::DoEffects() {}
 
 // 0x3a0da0 _ZN21DestructibleContainer8InteractEP10GameObject
-// PARTIAL. Bound: the hit path (the hit counter at +0x6f4 is decremented first, then the visual plays the clip
-// total - hits left, with loop false, unused 0 and animation index 0, when the visual is set), the destroy path's
-// level assert, the call to Container::Interact, and the trophy: when the interacting GameObject is a Character that
-// IsPlayer(), its property 217 is incremented, and when the value passes 199 for the local player, the trophy
-// "destroy_200_breakables" is unlocked (UnlockTrophy with -1 when the name is not found).
-// Not bound, because the declarations are missing:
-//   (1) the 3D sound of a hit, VoxSoundManager::s_instance->Play3D(GetSound(), m_position, false, 1, -1.0f, -1.0f).
-//       vox-audio/vox/sound_manager.hpp declares neither s_instance nor Play3D.
-//   (2) the DestroyGameObject quest event that the destroy path raises through EventManager::RaiseAsync on the level:
-//       a stack QE_DestroyGameObject with eventId_ = PyDataConstants::getConstant("v2QuestObjectiveType",
-//       "DestroyGameObject") (+0x04), m_character = other (+0x08), m_targetId = unk_64 (+0x0c), m_flag0 = 0 (+0x10),
-//       m_flag1 = 0 (+0x11), m_value = -1 (+0x14) and m_matchId = GetDataId() (+0x18). eventId_ is IEvent's field, and
-//       net-session-online/i_event.hpp declares it protected; dh2/QuestEvent.hpp takes IEvent from there.
-//       dh2/IEvent.hpp declares it public. The event is destroyed before Container::Interact runs.
+// A hit (hits left, +0x6f4, not zero): the counter drops first, then the visual plays the clip total - hits left (loop false, unused 0, animation index 0) when it is set, and the container's
+// sound plays in 3D at its position (no check on the sound manager). With no hits left: the level assert (line 231), the DestroyGameObject quest event (v2QuestObjectiveType, the interacting
+// object as the character, unk_64 as the target id, GetDataId() as the match id) on the current level, then Container::Interact. When the interacting GameObject is a Character that IsPlayer(), its
+// property 217 is incremented, and when the value passes 199 for a local player, the trophy "destroy_200_breakables" is unlocked (UnlockTrophy with -1 when the name is not found).
+// The original's int return is not part of the void declaration.
 void DestructibleContainer::Interact(GameObject* other) {
     if (unk_6f4 != 0) {  // +0x6f4 hits left
         const int hitsLeft = unk_6f4 - 1;
@@ -118,15 +117,28 @@ void DestructibleContainer::Interact(GameObject* other) {
             // VisualObject +0x38 m_animController, vtable +0x1c PlayClip(clip, loop = false, unused = 0, animIndex = 0).
             m_visualObject->m_animController->PlayClip(clip, false, 0, 0);
         }
-        // PARTIAL: the Play3D sound (see the function note). The hit path returns here.
+        const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
+        VoxSoundManager::s_instance->Play3D(GetSound(), at, false, 1, -1.0f, -1.0f);
         return;
     }
 
-    // Destroy path: the level is needed for the DestroyGameObject event.
-    if (ApplicationGetInstance().GetCurrentLevel() == nullptr) {
+    // Destroy path.
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
         ReportAssert("level", 231);
     }
-    // PARTIAL: the DestroyGameObject event raise (see the function note).
+    {
+        QE_DestroyGameObject event;
+        event.eventId_ = static_cast<std::uint32_t>(
+            ApplicationGetPyDataConstants()->getConstant("v2QuestObjectiveType", "DestroyGameObject"));
+        event.m_character = other;
+        event.m_targetId = unk_64;
+        event.m_flag0 = 0;
+        event.m_flag1 = 0;
+        event.m_value = -1;
+        event.m_matchId = GetDataId();
+        level->RaiseAsync(event);
+    }
 
     Container::Interact(other);
 
@@ -220,15 +232,36 @@ void DestructibleContainer::DeclareProperties() {
 }
 
 // 0x3a1274 _ZN21DestructibleContainer15__EventCallbackERKN6glitch7collada15STriggeredEventEPv
-// PARTIAL, body not bound. The original reads the event name (a const char* at +0x04 of the STriggeredEvent) and
-// compares it with "fx", then with "opened". "fx" calls DoEffects on the user pointer. Any other name is forwarded to
-// Container::__EventCallback. "opened" asserts that a level exists (line 69), raises the DestroyGameObject quest event
-// with a null character and value -1 (the same event as in Interact, see there), and then forwards to
-// Container::__EventCallback. glitch::collada::STriggeredEvent has no definition in the tree, so the name cannot be read.
-// The quest event part also waits on the IEvent::eventId_ declaration (see Interact). The body is empty until then.
+// The animation event callback (user is the container). "fx" runs DoEffects(). "opened" asserts that a level exists (line 69), raises the DestroyGameObject quest event (no character, value -1, the
+// container's unk_64 as the target id and GetDataId() as the match id) and then forwards to Container::__EventCallback, which runs DoOpen. Any other name is forwarded to Container::__EventCallback.
 void DestructibleContainer::__EventCallback(const glitch::collada::STriggeredEvent& event, void* user) {
-    (void)event;
-    (void)user;
+    DestructibleContainer* container = static_cast<DestructibleContainer*>(user);
+    const char* name = event.eventName;
+    if (std::strcmp(name, "fx") == 0) {
+        container->DoEffects();
+        return;
+    }
+    if (std::strcmp(name, "opened") != 0) {
+        Container::__EventCallback(event, user);
+        return;
+    }
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
+        ReportAssert("level", 69);
+    }
+    {
+        QE_DestroyGameObject event2;
+        event2.eventId_ = static_cast<std::uint32_t>(
+            ApplicationGetPyDataConstants()->getConstant("v2QuestObjectiveType", "DestroyGameObject"));
+        event2.m_character = nullptr;
+        event2.m_targetId = container->unk_64;
+        event2.m_flag0 = 0;
+        event2.m_flag1 = 0;
+        event2.m_value = -1;
+        event2.m_matchId = container->GetDataId();
+        level->RaiseAsync(event2);
+    }
+    Container::__EventCallback(event, user);
 }
 
 // 0x3a1418 _ZN21DestructibleContainerD1Ev (complete-object destructor)
@@ -239,9 +272,7 @@ DestructibleContainer::~DestructibleContainer() {}
 
 // 0x3a14bc _ZN21DestructibleContainerC1EN10ObjectBase6GO_IDSE
 // 0x3a1508 _ZN21DestructibleContainerC2EN10ObjectBase6GO_IDSE
-// PARTIAL, inherited. The two stores are bound: the hit counters +0x6f4 and +0x6f0 start at zero. The Container base
-// constructor (0x3a06dc) is partial: its NetStructContainer members do a conditional SetChanged on value words the
-// constructor never writes (see g1-game-world-Container-e6443a-1.cpp), and this constructor inherits that gap.
+// Container(id), then the hit counters +0x6f4 and +0x6f0 start at zero.
 DestructibleContainer::DestructibleContainer(ObjectBase::GO_IDS id) : Container(id) {
     unk_6f4 = 0;  // +0x6f4 hits left
     unk_6f0 = 0;  // +0x6f0 total hits

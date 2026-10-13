@@ -113,14 +113,9 @@ public:
     bool unk_3c;                                                // +0x3c cleared in the ctor
     uint8_t pad_3d[3];                                          // +0x3d
     std::int32_t unk_40;                                        // +0x40 light set id (InitLightSetAndMaterial stores LightSetManager::GetLightSetIdFromName, an int). Name candidate: m_lightSetId. Cleared in the ctor
-    // +0x44 starts the light filter, a std::vector<bool> (ApplyLightSet passes &this+0x44 to SceneManager::UpdateLightSet).
-    // The dtor (0x473884) frees unk_44 with size (unk_54 - unk_44), so +0x54 is the end of storage. The 20-byte block
-    // is not retyped here because that would collapse unk_44..unk_54 into one member, which is a rename or delete.
-    void* unk_44;                                               // +0x44 heap block freed in the dtor (vector<bool> begin word)
-    uint32_t unk_48;                                            // +0x48
-    uint32_t unk_4c;                                            // +0x4c
-    uint32_t unk_50;                                            // +0x50
-    void* unk_54;                                               // +0x54 end of the +0x44 block (dtor size computation)
+    // +0x44 .. +0x57: the light filter, a std::vector<bool> (20 bytes in the original: the start and finish bit iterators and the end of storage;
+    // ApplyLightSet passes it to SceneManager::UpdateLightSet). The destructor frees its block.
+    std::vector<bool> m_lightFilter;
     float m_effectColor[3];                                     // +0x58 ApplyMaterialEffect colour, -1 = unset
     float m_effectParamB;                                       // +0x64 -1 = unset
     float m_effectParamA;                                       // +0x68 -1 = unset

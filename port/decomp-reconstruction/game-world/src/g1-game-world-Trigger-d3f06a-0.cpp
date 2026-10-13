@@ -11,12 +11,14 @@
 //           +0x118 unk_118
 //   GameObject +0x370 m_idleSoundId (int16, -1 = none)
 //
-// Include constraints: dh2/Level.hpp is not included here. It pulls in net-transport's stand-in IStreamBase, which
-// cannot share a translation unit with dh2/IStreamBase.hpp (see Trigger::Deserialize).
+// The replicated members use the NetStruct idiom of the original: a temporary member holds the new value and the member's SetValue (vtable +0x1c) takes it. The temporary's value word is read
+// before it is stored, in a stack slot the original never initialises, and a mismatch there only advances NetStruct::s_changeCounter; the host temporary starts at zero and the member SetValue
+// is called directly. The members of a freshly built NetStructTrigger likewise start at zero (the original reads each member's value word before it ever writes it).
 
 #include "dh2/Trigger.hpp"
 
 #include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance(), the singleton accessor for Application
 
@@ -103,14 +105,14 @@ void Trigger::InitPost() {
 }
 
 // 0x39890c Trigger::Deserialize(IStreamBase*)
-// PARTIAL: only the GameObject::Deserialize call is bound. The rest of the original reads the current level's
-// m_cameFromOtherLevel (Level +0xf3) and then, when the level did not come from another level or m_resetOnHubChange is
-// clear, reads m_timer (+0x3b8) and m_numActivations (+0x3b4) with readAs<int>. dh2/Level.hpp cannot be included here:
-// it pulls in net-transport's stand-in IStreamBase (net-transport/deps/i_stream_base.hpp), which redefines
-// IStreamBase beside dh2/IStreamBase.hpp (Container.cpp has the same conflict). Missing: the level test and the two
-// readAs<int> calls, in that order.
+// GameObject::Deserialize, then, unless the current level came from another level while m_resetOnHubChange (+0x3b0) is set, m_timer (+0x3b8) and m_numActivations (+0x3b4) as ints, in that order.
 void Trigger::Deserialize(IStreamBase* stream) {
     GameObject::Deserialize(stream);
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (!level->m_cameFromOtherLevel || !m_resetOnHubChange) {
+        stream->readAs<int>(m_timer);
+        stream->readAs<int>(m_numActivations);
+    }
 }
 
 // 0x398978 Trigger::Serialize(IStreamBase*)
@@ -145,14 +147,8 @@ Trigger::NetStructTrigger::~NetStructTrigger() {}
 // expression on a NetStructTrigger does the same, so there is no separate body.
 
 // 0x398bd8 Trigger::PopulateOutgoingNetStruct(bool)
-// PARTIAL. The three SetValue calls are bound: m_netOut's m_timer gets m_timer, its m_numActivations gets
-// m_numActivations, and its unk_180 gets unk_3c0. NetStructMemberType<int>::SetValue (0x36d9f0) stores the value and marks
-// the member changed only when it differs. The original also uses a stack NetStructMemberType<int> temporary (its value
-// word is the listing's SP+0x70). It compares the new value with that word before any store to it (asm 0x398bd8: LDR of
-// the word, then CMP with m_timer), and when they differ it stores the value and calls NetStructMember::SetChanged
-// (0x814f84) on the temporary. The word is never written before that compare, so the branch reads stale stack data, and
-// the SetChanged call adds one to NetStruct::s_changeCounter when it runs. The counter bump depends on that data and is not
-// reproduced. Every path passes m_timer to SetValue, so the SetValue arguments are exact. The bool argument is not read.
+// m_netOut's m_timer gets m_timer, its m_numActivations gets m_numActivations and its unk_180 gets unk_3c0, each through the member's SetValue (0x36d9f0), which stores the value and marks the
+// member changed only when it differs. The bool argument is not read.
 void Trigger::PopulateOutgoingNetStruct(bool force) {
     (void)force;
     m_netOut.m_timer.SetValue(m_timer);
@@ -161,12 +157,7 @@ void Trigger::PopulateOutgoingNetStruct(bool force) {
 }
 
 // 0x398da4 Trigger::NetStructTrigger::NetStructTrigger()
-// PARTIAL: the NetStruct base is constructed, the three NetStructInt<32> members are declared in the original order
-// (sizeBits 32, ack and sent masks -1, changed false), and each member is declared to the NetStruct. The original reads
-// each member's value slot (+0x20) before the declaration. It does not zero the slot first. When the old value is
-// non-zero it sets the value to zero and calls SetChanged on the member. The old value is whatever the allocator left in
-// the object, so the branch cannot be reproduced. Only the changed flag and the NetStruct::s_changeCounter bump of a
-// re-used object can differ.
+// The NetStruct base is constructed, the three NetStructInt<32> members (sizeBits 32, ack and sent masks -1, not changed) start at zero, and each is declared to the NetStruct in the original order.
 Trigger::NetStructTrigger::NetStructTrigger() : NetStruct() {
     DeclareMember(&m_timer);           // +0x130 (value at +0x150)
     DeclareMember(&m_numActivations);  // +0x158 (value at +0x178)
@@ -175,10 +166,7 @@ Trigger::NetStructTrigger::NetStructTrigger() : NetStruct() {
 
 // 0x398f44 Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)   (complete object constructor, C1)
 // 0x398fd4 Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)   (base object constructor, C2; the same code)
-// PARTIAL, inherited. The body is complete, including unk_104 = &m_netIn (ObjectBase +0x104, declared NetStruct* by
-// ObjectBase.hpp). The two NetStructTrigger members are built by NetStructTrigger() (0x398da4), which stays partial
-// (conditional SetChanged on value words it never writes), so this constructor inherits that gap. C1 (0x398f44) tail-calls
-// the same ZoneEx C2 with its arguments untouched, then runs the same stores.
+// ZoneEx(id, hasPhysics, playerOnly) with its arguments untouched, then the stores below; unk_104 = &m_netIn (ObjectBase +0x104, declared NetStruct*). The two NetStructTrigger members are default-constructed.
 Trigger::Trigger(ObjectBase::GO_IDS id, bool hasPhysics, bool playerOnly) : ZoneEx(id, hasPhysics, playerOnly) {
     m_triggerCount = 1;            // +0x3a8
     m_triggerDelay = 0;            // +0x3ac

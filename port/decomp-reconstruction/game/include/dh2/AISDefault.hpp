@@ -16,6 +16,10 @@ class GameObject;
 
 class AISDefault : public CharAIScript {
 public:
+    // The constructor is inlined into CharAI::SetScript<AISDefault> (and into the AIS* subclasses' constructors): CharAIScript(skipBindings), then
+    // the mask words unk_b8, unk_bc and unk_c0 are cleared.
+    explicit AISDefault(bool skipBindings);
+
     // Virtual hooks, in vtable slot order (slots 0/1 are the destructors). Slots 2..50 override the
     // CharAIScript hooks, which mirror the CharAI hook list. Slot 51 (InitVCB) is new in AISDefault.
     ~AISDefault() override;                                             // slot 0/1: 0x3dbf6c (base object), 0x3dc968 (deleting)

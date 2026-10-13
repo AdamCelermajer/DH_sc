@@ -14,10 +14,8 @@
 #include "glitch-scene-collada-gui/layouts/scene.hpp"
 #include "glitch-shared/glitch_core.hpp"
 #include "core-platform/deps/game_types.hpp"
+#include "dh2/LightSetManager.hpp"
 
-// LightSetManager (dh2/LightSetManager.hpp, 0x1a4 bytes) is not included here: that header pulls in
-// glitch-core-io's boost::intrusive_ptr, which redefines glitch::scene::CMeshBuffer against the
-// layouts/scene.hpp base. The member is carried as a byte array until the engine unification wave.
 // boost::intrusive_ptr is only named by value in declarations, so a forward declaration is enough.
 namespace boost {
 template <typename T>
@@ -50,14 +48,11 @@ public:
     // CSceneManager occupies +0x000 .. +0x28b (not restated here).
     glitch::scene::CEmptySceneNode* m_nodeMapRoot;                  // +0x28c created by AddNodeToMap on first use, dropped and emptied by clear()
     bool m_screenshotRequested;                                     // +0x290 drawAll clears it and, when the ToggleGamepadScreenShot switch is on, writes screenshot_<time>.tga
-    uint8_t m_lightSetManager[0x430 - 0x294];                       // +0x294 LightSetManager (dh2/LightSetManager.hpp, 420 bytes), updated by drawAll and reset by clear(); this part is +0x294 .. +0x42f
-    bool m_lightingEnabled;                                         // +0x430 lit techniques: ChangeCustomTechnique picks the Diffuse_VC / L0_ / Decal names when set, the Unlit_ names when clear
-    bool m_specularEnabled;                                         // +0x431 specular suffix: ChangeCustomTechnique and the decal names add _Spec / Sp when set
-    bool m_fogEnabled;                                             // +0x432 fog on: EnableFog sets it, DisableFog clears it, UpdateFog reads it. The byte lies inside the LightSetManager span
-    uint8_t m_lightSetManagerTail[0x438 - 0x433];                   // +0x433 the rest of the LightSetManager span (+0x433 .. +0x437)
-    // The LightBase* vector at SceneManager +0x424 (begin +0x424, end +0x428, cap +0x42c; appended to by
-    // LightBase::InitPost 0x40b0c0 for automatic lights) is LightSetManager::unk_190 (LightSetManager +0x190), inside
-    // this span. No SceneManager member is added for it. Suggested name for unk_190: m_automaticLights.
+    LightSetManager m_lightSetManager;                              // +0x294 .. +0x437 (0x1a4 bytes in the original): updated by drawAll and reset by clear(). Its last flags are the scene manager's own:
+                                                                    //   m_lightSetManager.m_lightingEnabled (+0x430: lit techniques, ChangeCustomTechnique picks the Diffuse_VC / L0_ / Decal names when set, the Unlit_ names when clear),
+                                                                    //   m_specularEnabled (+0x431: specular suffix) and m_fogEnabled (+0x432: fog on, EnableFog sets it, DisableFog clears it, UpdateFog reads it).
+                                                                    // The LightBase* vector at SceneManager +0x424 (begin +0x424, end +0x428, cap +0x42c; appended to by LightBase::InitPost 0x40b0c0 for
+                                                                    // automatic lights) is m_lightSetManager.unk_190.
     glitch::IReferenceCounted* unk_438;                             // +0x438 reference-counted object, dropped and cleared by clear()
     bool unk_43c;                                                   // +0x43c cleared by the ctor
     int m_registerCounter;                                          // +0x440 incremented by _registerSceneNodes, reset when the nodes are registered
@@ -169,7 +164,7 @@ public:
     void AutoLoadNormalMap(glitch::scene::ISceneNode* node);        // 0x354b2c
     void UpdateLightSet(int lightSetId, std::vector<bool>& filter, glitch::scene::ISceneNode* node);   // 0x3549a0
     boost::intrusive_ptr<glitch::video::CMaterial> GetMaterial(glitch::scene::ISceneNode* node, const std::string& name, bool flag);   // 0x355000: the first material whose name matches, null when none
-    void GetMaterial(glitch::scene::ISceneNode* node, const char* name, bool flag);   // 0x359c60
+    boost::intrusive_ptr<glitch::video::CMaterial> GetMaterial(glitch::scene::ISceneNode* node, const char* name, bool flag);   // 0x359c60: null when the node or the name is null, else the string overload
 
     // Loading. LoadScene returns the loaded root (null when it fails).
     void LoadFXLib(const char* fileA, const char* fileB);           // 0x3594a4

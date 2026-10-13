@@ -232,6 +232,15 @@ namespace detail {
 // element size in bytes of each vertex attribute value type: 1 1 2 2 4 4 4.
 struct SVertexAttributeTypeInspection {
     static const uint8_t ValueTypeSize[7];
+    // .rodata table at 0x8e4cac (read from the ELF): the default value type (index into ValueTypeSize) and component count of
+    // each of the 30 vertex attributes, four bytes each: 0 position 6 x 3, 1..16 texture coordinates 6 x 2, 17 normal 6 x 3,
+    // 18 and 19 colours 1 x 4, 20..27 6 x 3, 28 6 x 4, 29 1 x 4. createMeshCopy (0x59b2a4) reads it for the attributes a copy
+    // adds; CVertexStreams::setupStreams (0x5a15c0) is the other reader.
+    struct SDefault {
+        uint16_t valueType;
+        uint16_t componentCount;
+    };
+    static const SDefault Defaults[30];
 };
 
 }  // namespace detail

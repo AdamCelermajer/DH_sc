@@ -111,6 +111,6 @@ public:
     int m_skillId;                                // +0x54
     bool m_skillFlag;                             // +0x58
     uint8_t pad_59[3];                            // +0x59
-    uint32_t unk_5c;                              // +0x5c ctor 0
+    Character* m_reviveTarget = nullptr;          // +0x5c the character a reviver is reviving (CSReviving::OnFocus stores it, OnBlur ends its revived state); ctor 0
     int m_stateTime;                              // +0x60 ms in current state (reset on state change)
 };

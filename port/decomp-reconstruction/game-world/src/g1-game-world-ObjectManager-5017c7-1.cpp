@@ -24,7 +24,9 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstdio>
+#include <cmath>
 #include <cstdlib>
+#include <cstring>
 #include <list>
 #include <map>
 #include <set>
@@ -38,9 +40,18 @@
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/LightBase.hpp"
+#include "dh2/Module.hpp"
+#include "dh2/ObjectListItem.hpp"
+#include "dh2/RoomZone.hpp"
+#include "dh2/SortModuleByDistance.hpp"
+#include "dh2/Random.hpp"
+#include "vendor-lua/dh2_rand48.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"        // dword_99F76C, the PlayerManager instance
 #include "dh2/global/ObjectManagerInstance.hpp"    // dword_99F764, the ObjectManager instance
+#include "dh2/global/net_singletons.hpp"           // GetOnlineGameFlag
+#include "core-platform/lc_api.hpp"
 #include "net-session-online/c_matching_base.hpp"  // CMatching::Get, LocalMemberId
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/net_struct.hpp"
@@ -99,16 +110,35 @@ void ObjectManager::AddOrphanRenderObjectToDelete(ObjectBase* object) {
 }
 
 // 0x3431c0 ObjectManager::AssignObjectNetworkId(ObjectBase*)
-// PARTIAL: body not written. The original runs only while GetOnline() +0x05 is set, and then tests the object's
-// name with a prefix check ("PlayerCharacter_" and atoi of the rest) through a char* at ObjectBase +0x44. The header's
-// ObjectBase::m_name is a std::string covering +0x30..+0x48, so the field read at +0x44 is not declared. The
-// character test also reads Character +0x14e4 (declared as m_isNetSpawned, not confirmed as the same byte). The
-// counters unk_138, unk_13c, unk_140 (the three id ranges), ObjectBase::unk_108 (the id), ObjectBase::unk_fc
-// (Random::s_syncedSeed when the id is above 4) and the push onto unk_100 are not written either. The return value
-// of the original is the last allocated node and nothing reads it.
-int ObjectManager::AssignObjectNetworkId(ObjectBase* object) {
-    (void)object;
-    return 0;
+// Only in an online game (COnline +0x05). The id comes from the object's name (ObjectBase +0x30, whose data pointer is the char* at +0x44): a name starting with "PlayerCharacter_" takes
+// atoi of the rest + 1 and counts one more player (unk_138); a Character that is net spawned or summoned takes the next id of the 10001 range (unk_140); every other object takes
+// the next id of the range from 5 (unk_13c). The id is stored in ObjectBase +0x108. An id above 4 records the synchronized seed (ObjectBase +0xfc) and advances the synchronized
+// stream once (Random::GetRandom(id, true)). The object is appended to the online list (+0x100), and an object with a net struct (+0x100) raises unk_54. The original returns the list
+// node it allocated; nothing reads it, so the function is void.
+void ObjectManager::AssignObjectNetworkId(ObjectBase* object) {
+    if (!GetOnlineGameFlag()) {
+        return;
+    }
+    const char* name = object->m_name.c_str();
+    int id;
+    if (std::strstr(name, "PlayerCharacter_") == name) {
+        id = std::atoi(name + 16) + 1;
+        ++unk_138;
+    } else if (object->IsCharacter() &&
+               (static_cast<Character*>(object)->m_isNetSpawned != 0 || static_cast<Character*>(object)->IsSummoned())) {
+        id = unk_140++ + 10001;
+    } else {
+        id = unk_13c++ + 5;
+    }
+    object->unk_108 = id;
+    if (id > 4) {
+        object->unk_fc = static_cast<std::int32_t>(Random::s_syncedSeed);
+        Random::GetRandom(id, true);
+    }
+    unk_100.push_back(object);
+    if (object->m_netStruct != nullptr) {
+        ++unk_54;
+    }
 }
 
 // 0x3432f8 ObjectManager::MarkForDeletion(ObjectBase*)
@@ -120,11 +150,14 @@ void ObjectManager::MarkForDeletion(ObjectBase* object) {
 }
 
 // 0x34336c ObjectManager::GetLightBaseList(std::list<LightBase*>&) const
-// PARTIAL: body not written. The original walks the object map m_objectMap (+0x0c, in key order) and, for each
-// object whose PropertyMap class name is "LightPoint", appends the object to out. The map value is ObjectListItem,
-// whose object pointer is at ObjectListItem +0x18 (node +0x2c). dh2/ObjectListItem.hpp is not written yet.
+// Walks the object map (m_objectMap, in key order) and appends every object whose PropertyMap class name is "LightPoint" to out.
 void ObjectManager::GetLightBaseList(std::list<LightBase*>& out) const {
-    (void)out;
+    for (const auto& entry : m_objectMap) {
+        ObjectBase* object = entry.second.m_object;
+        if (object != nullptr && std::strcmp(static_cast<PropertyMap*>(object)->GetThisClassName(), "LightPoint") == 0) {
+            out.push_back(static_cast<LightBase*>(object));
+        }
+    }
 }
 
 // 0x344184 ObjectManager::AddNoRoomObject(GameObject*)
@@ -148,22 +181,87 @@ void ObjectManager::FlushAllOrphanRenderObjects() {
 }
 
 // 0x34552c ObjectManager::InitPost(void)
-// PARTIAL: body not written. The original is a four-phase state machine over this object (phase counter unk_7c, +0x7c)
-// that returns 1 while phases remain and 0 when done (the header declares void; see the layout requests). Phase 1
-// calls Module::LoadModule for each module in the list at +0x68 (declared as std::list<int>, not module pointers).
-// Phase 3 walks m_objectMap (+0x0c, ObjectListItem not written), resolves each object with ObjectHandle::GetObject(false),
-// calls its vtable +0x1c (InitPost) and then ObjectBase::TestEnableCondition(false). Phase 4 sorts the RoomZone objects
-// into the lists at +0x24, +0x2c and +0x44 (RoomZone::InitObjectList and the RoomZone flags). The lists at +0x2c,
-// +0x34 and +0x44 are cleared at the end.
-void ObjectManager::InitPost() {
+// A resumable four-step pass over the level, one object or module per call, driven by the phase counter unk_7c and two function-local iterators (the original's statics): `it`, the
+// position in the object map, and `mit`, the position in the module list (+0x68). Phase 0 starts both. In phase 1 each call loads one module (Module::LoadModule) and steps the
+// map iterator; when the modules are done the counter jumps to 3. Phase 3 calls InitPost and TestEnableCondition(false) on the object at the iterator. When the iterator reaches the end
+// the counter is raised; a result of 4 restarts the map and clears the update, condition and spawn lists (the lists at +0x2c, +0x44 and +0x34) and returns 0, any other value returns 1.
+// Phase 4 sorts the object at the iterator: a "RoomZone" game type goes to the room list (+0x24) and builds its object list; any other updatable object goes to the update list (+0x2c); an object
+// with an untested activate condition, or an untested deactivate condition, also goes to the condition list (+0x44). The iterator then advances and 0 is returned.
+int ObjectManager::InitPost() {
+    static std::map<int, ObjectListItem>::iterator it;  // ObjectManager::InitPost(void)::it
+    static std::list<Module*>::iterator mit;            // ObjectManager::InitPost(void)::mit
+
+    int phase = unk_7c;
+    if (phase == 0) {
+        mit = unk_68.begin();
+        it = m_objectMap.begin();
+        phase = ++unk_7c;
+    }
+    if (mit == unk_68.end()) {
+        if (phase == 1) {
+            unk_7c = 2;
+            it = m_objectMap.begin();
+            phase = ++unk_7c;
+        }
+    } else if (phase == 1) {
+        (*mit)->LoadModule();
+        ++mit;
+        phase = unk_7c;
+    }
+    if (it == m_objectMap.end()) {
+        phase = phase + 1;
+        unk_7c = phase;
+        if (phase != 4) {
+            return 1;
+        }
+        it = m_objectMap.begin();
+        m_updateList.clear();
+        m_conditionList.clear();
+        m_spawnList.clear();
+        return 0;
+    }
+    if (phase == 3) {
+        ObjectHandle handle(it->second.m_object);
+        if (handle.GetObject(false)) {
+            handle.GetObject(true)->InitPost();
+            handle.GetObject(true)->TestEnableCondition(false);
+        }
+    } else if (phase == 4) {
+        ObjectBase* object = it->second.m_object;
+        if (object != nullptr) {
+            if (LC_API_STRCASECMP("RoomZone", object->m_gameType.c_str()) != 0) {
+                if (object->IsUpdatable()) {
+                    m_updateList.push_back(object);
+                }
+            } else {
+                unk_24.push_back(static_cast<RoomZone*>(object));
+                static_cast<RoomZone*>(object)->InitObjectList();
+            }
+            if ((!object->m_enableCond.m_tested && object->m_enableCond.m_list != nullptr) ||
+                (!object->m_disableCond.m_tested && object->m_disableCond.m_list != nullptr)) {
+                m_conditionList.push_back(object);
+            }
+        }
+    }
+    ++it;
+    return 0;
 }
 
 // 0x345954 ObjectManager::HandleNoRoomObjects(void)
-// PARTIAL: only the first step is written. The original clears the no-room list (+0x88) and then walks m_objectMap
-// (ObjectListItem not written). For each GameObject that is a game object, has its flag at +0x2f4 clear, and is not
-// in the no-room list yet, it calls AddNoRoomObject.
+// Clears the no-room list (+0x88), then walks the object map: every GameObject that has no room (m_roomZone, +0x2f4) and is not on the list yet is added with AddNoRoomObject.
 void ObjectManager::HandleNoRoomObjects() {
     m_noRoomObjects.clear();
+    for (const auto& entry : m_objectMap) {
+        ObjectBase* object = entry.second.m_object;
+        if (object == nullptr || !object->IsGameObject()) {
+            continue;
+        }
+        GameObject* gameObject = static_cast<GameObject*>(object);
+        if (gameObject->m_roomZone == nullptr &&
+            std::find(m_noRoomObjects.begin(), m_noRoomObjects.end(), gameObject) == m_noRoomObjects.end()) {
+            AddNoRoomObject(gameObject);
+        }
+    }
 }
 
 // 0x345bcc ObjectManager::GetNumObjectsByType(char const*) const
@@ -413,25 +511,45 @@ void ObjectManager::SerializeGameObjectNetData(int memberId, int packetId, NetBi
 // Static entry point for the packet manager. When the current level has loaded past step 35 and the ObjectManager
 // instance exists, writes a 1 bit and the member's records. Otherwise writes a 0 bit. Returns 1 when records were
 // written, else 0.
-int ObjectManager::sWritePacketData(int memberId, int packetId, NetBitStream& stream) {
+bool ObjectManager::sWritePacketData(int memberId, int packetId, NetBitStream& stream) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level != nullptr && level->m_loadStep > 35 && dword_99F764 != nullptr) {
         stream.WriteBit(1);
         dword_99F764->SerializeGameObjectNetData(memberId, packetId, stream);
-        return 1;
+        return true;
     }
     stream.WriteBit(0);
-    return 0;
+    return false;
 }
 
 // 0x347100 ObjectManager::InitModulesFogColor(std::vector<Point3D<float>> const&, int)
-// PARTIAL: body not written. The original shuffles the colour list (std::random_shuffle), then sorts the modules in the
-// list at +0x68 by distance from the first module (SortModuleByDistance, the module positions at +0x160), and gives each
-// module whose m_fogColor (+0x3f0) still equals Module::UNINIT_FOG_COLOR the colour at index
-// (int)distance / (100 * step) % count. Waits on two things: the list at +0x68 is declared std::list<int>, not a
-// list of Module*, and Module::UNINIT_FOG_COLOR is declared as a 32-bit value, while the original compares the
-// 12-byte Point3D at its address.
+// Nothing without colours. Otherwise a copy of the colours is shuffled (the STLport random_shuffle loop with lrand48), the modules of the list (+0x68) are sorted by distance from the first
+// module (SortModuleByDistance), and every module in that order whose fog colour is still Module::UNINIT_FOG_COLOR takes the colour at index (int) distance / (100 * step) % count, the
+// distance being measured from the first module.
 void ObjectManager::InitModulesFogColor(std::vector<Point3D<float>> const& colors, int step) {
-    (void)colors;
-    (void)step;
+    if (colors.empty()) {
+        return;
+    }
+    const int divisor = 100 * step;
+    std::vector<Point3D<float>> shuffled(colors);
+    for (std::size_t i = 1; i < shuffled.size(); ++i) {   // std::random_shuffle (0x3411c4)
+        std::swap(shuffled[i], shuffled[static_cast<std::size_t>(dh2::rand48_next() % static_cast<long>(i + 1))]);
+    }
+    std::vector<Module*> modules(unk_68.begin(), unk_68.end());
+    if (modules.empty()) {
+        return;
+    }
+    Module* origin = unk_68.front();
+    std::sort(modules.begin(), modules.end(), SortModuleByDistance{origin});
+    const int count = static_cast<int>(shuffled.size());
+    for (Module* module : modules) {
+        const float dx = origin->m_position.X - module->m_position.X;
+        const float dy = origin->m_position.Y - module->m_position.Y;
+        const float dz = origin->m_position.Z - module->m_position.Z;
+        const float distance = std::sqrt((dx * dx + dy * dy) + dz * dz);
+        if (module->m_fogColor == Module::UNINIT_FOG_COLOR) {
+            const int bucket = divisor != 0 ? static_cast<int>(distance) / divisor : 0;   // __aeabi_idiv by zero is undefined in the original
+            module->m_fogColor = shuffled[static_cast<std::size_t>(bucket % count)];
+        }
+    }
 }

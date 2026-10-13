@@ -13,8 +13,8 @@
 //   - Parameter values. The typed IMaterialParameters setParameter<T> and getParameter<T> templates are declared in
 //     glitch-video/material_parameters_typed.hpp but are not defined: the mixin integration is not done.
 //   - AddNodeToMap calls OptimizeStatic(node), a free function with no declaration in this tree.
-//   - The complete constructor does not call LightSetManager::LightSetManager, because m_lightSetManager is a byte array
-//     here. The base call is reproduced from the constructor's disassembly: the mesh cache argument is null.
+//   - The constructor builds m_lightSetManager (LightSetManager::LightSetManager, +0x294) as a member. The base call is reproduced from the
+//     constructor's disassembly: the mesh cache argument is null.
 
 #include "dh2/SceneManager.hpp"
 
@@ -41,7 +41,7 @@ void SceneManager::SearchByType(glitch::scene::ISceneNode* root, std::vector<gli
 // Clears the fog flag at +0x432. The node argument is not read.
 void SceneManager::DisableFog(glitch::scene::ISceneNode* node) {
     (void)node;
-    m_fogEnabled = false;
+    m_lightSetManager.m_fogEnabled = false;
 }
 
 // 0x350e8c _ZN12SceneManager13DBG_PrintNodeEPN6glitch5scene10ISceneNodeEbj
@@ -116,7 +116,7 @@ void SceneManager::DBG_DrawCircle(const Point2D<float>& center, float z, float r
 // is not read.
 void SceneManager::UpdateFog(float start, float end, const Point3D<float>& position) {
     (void)position;
-    if (!m_fogEnabled) {
+    if (!m_lightSetManager.m_fogEnabled) {
         return;
     }
     (void)start;
@@ -131,7 +131,7 @@ void SceneManager::UpdateFog(float start, float end, const Point3D<float>& posit
 void SceneManager::EnableFog(float start, float end, const Point3D<float>& color,
                              glitch::scene::ISceneNode* node) {
     (void)node;
-    m_fogEnabled = true;
+    m_lightSetManager.m_fogEnabled = true;
     const std::uint8_t r = static_cast<std::uint8_t>(static_cast<std::uint32_t>(color.X));
     const std::uint8_t g = static_cast<std::uint8_t>(static_cast<std::uint32_t>(color.Y));
     const std::uint8_t b = static_cast<std::uint8_t>(static_cast<std::uint32_t>(color.Z));
@@ -271,8 +271,7 @@ glitch::scene::ISceneNode* SceneManager::SearchByName(glitch::scene::ISceneNode*
 // 0x352c3c _ZN12SceneManagerC1EPN6glitch5video12IVideoDriverEN5boost13intrusive_ptrINS0_2io11IFileSystemEEEPNS0_3gui14ICursorControlEPNS9_15IGUIEnvironmentE
 // partial. The base call is reproduced from the disassembly: driver, the file system by reference, the cursor control, a
 // null IMeshCache (the constant 0 is stored as the fourth argument) and the GUI environment. The base class is partial (see
-// CSceneManager.hpp). Missing: LightSetManager::LightSetManager (+0x294) is not called, so the bytes of m_lightSetManager
-// keep their values. The vptr stores are emitted by the compiler.
+// CSceneManager.hpp). LightSetManager::LightSetManager (+0x294) builds m_lightSetManager. The vptr stores are emitted by the compiler.
 SceneManager::SceneManager(glitch::video::IVideoDriver* driver, boost::intrusive_ptr<glitch::io::IFileSystem> fileSystem,
                            glitch::gui::ICursorControl* cursor, glitch::gui::IGUIEnvironment* gui)
     : glitch::scene::CSceneManager(driver, fileSystem, cursor, nullptr, gui) {

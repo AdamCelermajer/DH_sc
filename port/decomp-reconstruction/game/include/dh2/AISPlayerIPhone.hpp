@@ -9,6 +9,8 @@
 
 class AISPlayerIPhone : public AISPlayer {
 public:
+    explicit AISPlayerIPhone(bool skipBindings) : AISPlayer(skipBindings) {}  // inlined into CharAI::SetScript<AISPlayerIPhone>
+
     // Virtual hooks, in vtable slot order. Only the overrides are listed here. The rest are inherited from AISPlayer.
     ~AISPlayerIPhone() override;                                        // slot 0/1: 0x3de174 (base object), 0x3de294 (deleting)
     void OnTargetOutOfRange() override;                                 // slot 20: 0x3de1b4

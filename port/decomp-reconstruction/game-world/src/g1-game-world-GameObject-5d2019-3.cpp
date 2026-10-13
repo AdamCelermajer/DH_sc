@@ -22,10 +22,15 @@
 #include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/sfc/script/lua/Binder.hpp"
 #include "dh2/sfc/script/lua/ReturnValues.hpp"
+#include "dh2/PFWorld.hpp"
 #include "dh2/PhysicalObject.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/SceneManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 // The profiling markers are declared in dh2/global/runtime_support.hpp (0x3136b4, 0x3136b8). That header is not
 // included here: it pulls in core-platform/memory.hpp, whose deps/glitch_core.hpp conflicts with the
@@ -60,35 +65,24 @@ void GameObject::Update() {
 }
 
 // 0x38cd48 GameObject::InitFinal()
-// PARTIAL. Reconstructed: the spawn gate, the always-visible switch, the radius, the debug name copy, the visual
-// Sync and the final UpdatePFObject call. Not reconstructed:
-//  (1) PFWorld::InitObject(Singleton<PFWorld>::s_inst, m_pfObject, m_static, m_position, radius, this). The PFWorld
-//      instance has no accessor in the tree, so the object is not registered with the world.
-//  (2) The light set id: LightSetManager::GetLightSetIdFromName(lightSetManager, m_lightSet). The manager is the
-//      SceneManager's m_lightSetManager (SceneManager +0x294), reached through the device at Application +0x10 and
-//      the device pointer at +0x1c. Neither the device nor the SceneManager accessor is declared. The id is stored
-//      in the visual at +0x40 (VisualObject::unk_40, no name yet).
-//  (3) m_targetNode = the "target_node" child of the visual's root node: ISceneNode::getSceneNodeFromName is not
-//      declared, and VisualObject::m_node (RootSceneNode) is only forward-declared.
+// Runs when the spawn probability test passes (CheckSpawnProbability() < m_spawnProb) and the object is not marked for deletion (+0x81). An always-visible object is shown. The
+// object is registered with the path-finding world (PFWorld::InitObject: its PFObject, the static flag, the position and a radius that is the larger of the X and Y extents of the
+// local box, and this object as owner); the debug name of the PFObject takes the object's name; the visual is synced, takes the light set id of m_lightSet (the device
+// scene manager's LightSetManager::GetLightSetIdFromName, stored at VisualObject +0x40) and the object's m_targetNode becomes the "target_node" child of the visual's root node.
+// Last UpdatePFObject runs.
 void GameObject::InitFinal() {
-    // Original gate: CheckSpawnProbability() < m_spawnProb, and the object is not marked for deletion (+0x81).
     if (!(CheckSpawnProbability() < m_spawnProb && m_markedForDeletion == 0)) {
         return;
     }
     if (m_alwaysVisible) {
         SetVisible(true);
     }
-
-    // The radius is the larger of the X and Y extents of the local box: relAabb max minus min (+0x150 - +0x144,
-    // +0x154 - +0x148).
     float radius = m_relAabb[3] - m_relAabb[0];
     const float extentY = m_relAabb[4] - m_relAabb[1];
     if (radius < extentY) {
         radius = extentY;
     }
-    (void)radius;  // the PFWorld::InitObject argument, see note (1)
-
-    // Not reconstructed: PFWorld::InitObject(...), see note (1).
+    PFWorld::s_inst.InitObject(m_pfObject, m_static, m_position, radius, this);
 
     // The original reads the character pointer of the object name (+0x44, inside m_name at +0x30) and assigns it to
     // PFObject::m_debugName (+0x8c). That is m_name.c_str().
@@ -96,7 +90,12 @@ void GameObject::InitFinal() {
 
     if (m_visualObject != nullptr) {                         // +0x2d8
         m_visualObject->Sync();
-        // Not reconstructed: the light set id (2) and the target node (3).
+        if (SceneManager* sceneManager = DeviceSceneManager()) {  // the original has no device test; a device always exists in the game
+            m_visualObject->unk_40 = sceneManager->m_lightSetManager.GetLightSetIdFromName(m_lightSet);
+        }
+        if (m_visualObject->m_node != nullptr) {
+            m_targetNode = m_visualObject->m_node->getSceneNodeFromName("target_node");
+        }
     }
     UpdatePFObject();
 }
@@ -125,8 +124,7 @@ void GameObject::DeclareProperties() {
 // 0x38d378 GameObject::~GameObject()   (D2, base object destructor; the same body as D1)
 // The vtable pointers are written by the compiler. The members (m_idleSound, m_targetList, m_xrefMax, m_xrefObject,
 // m_dae, m_lightSet, m_pfObject) and then ObjectBase are destroyed after this body, in the original's order.
-// PARTIAL: the sound stop is not reconstructed: VoxSoundManager::Stop(VoxSoundManager::s_instance, m_idleSoundId, 0).
-// vox-audio/include/vox-audio/vox/sound_manager.hpp declares neither VoxSoundManager::s_instance nor Stop.
+// The visual object, physical object, camera anchor and script are deleted and cleared, and the idle sound is stopped (VoxSoundManager::Stop(m_idleSoundId, 0)).
 GameObject::~GameObject() {
     if (m_visualObject != nullptr) {                         // +0x2d8, deleted through its virtual destructor
         delete m_visualObject;
@@ -144,7 +142,9 @@ GameObject::~GameObject() {
         delete m_script;
         m_script = nullptr;
     }
-    // Not reconstructed: VoxSoundManager::Stop(VoxSoundManager::s_instance, m_idleSoundId, 0), see above.
+    if (VoxSoundManager::s_instance != nullptr) {            // the original calls Stop unconditionally on the global manager
+        VoxSoundManager::s_instance->Stop(m_idleSoundId, 0);
+    }
 }
 
 // 0x38d35c GameObject::~GameObject()   (D0, deleting destructor)

@@ -79,7 +79,7 @@ void testSizesAndIdentity() {
     track<QuatFloat>()->getIdentityValue(value);
     CHECK(value[0] == 0.0f && value[1] == 0.0f && value[2] == 0.0f && value[3] == 1.0f);
     track<PositionFloat>()->getIdentityValue(value);  // all zero (also for the scale tracks)
-    CHECK(value[0] == 0.0f && value[1] == 0.0f && value[2] == 0.0f && value[3] == 9.0f);
+    CHECK(value[0] == 0.0f && value[1] == 0.0f && value[2] == 0.0f && value[3] == 1.0f);
     std::uint8_t bytes[4] = {7, 7, 7, 7};
     track<Byte4Material>()->getIdentityValue(bytes);
     CHECK(bytes[0] == 0 && bytes[3] == 0);

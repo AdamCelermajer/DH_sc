@@ -1,9 +1,10 @@
 // Batch g1-game-world-Level-7c7f5d-2: 20 Level entries (part 3 of 4). Declarations come from dh2/Level.hpp.
-// The two Level constructor addresses share one body. A PARTIAL body names the owner header it waits on or the seam it leaves.
+// The two Level constructor addresses share one body.
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <string>
 
 #include "core-platform/device.hpp"  // Device::IsHighPerformance (static)
@@ -21,7 +22,11 @@
 #include "dh2/ObjectManager.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/ObjectListItem.hpp"
 #include "dh2/ScriptManager.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/net_singletons.hpp"
 #include "dh2/batch/BatchNodeCompiler.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"      // dword_99F76C (PlayerManager*)
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764 (ObjectManager*)
@@ -31,9 +36,8 @@
 #include "pydata-accessors/member_names.hpp"              // Arrays::GetMemberIDByString (SetLevelConfig)
 
 // 0x3f07b0 _ZN5Level18SG_SaveLocalPlayerEb
-// PARTIAL: the local player's character is read as the original does, PlayerManager::GetLocalPlayer(dword_99F76C, 0, 1)
-// ->character_660 (PlayerInfo +0x660, declared as unk_660), and passed to SG_SavePlayer(Character*, levelChange). That
-// overload (0x3efa54) is an empty body in another batch, so nothing is saved yet.
+// The local player's character is read as the original does, PlayerManager::GetLocalPlayer(dword_99F76C, 0, 1)->character_660 (PlayerInfo +0x660, declared as unk_660), and
+// passed to SG_SavePlayer(Character*, levelChange).
 void Level::SG_SaveLocalPlayer(bool levelChange) {
     Character* player = dword_99F76C->GetLocalPlayer(0, true)->unk_660;  // PlayerInfo +0x660
     SG_SavePlayer(player, levelChange);
@@ -58,20 +62,59 @@ int Level::GenerateRandomLevel(StreamBuffer& out, uint32_t seed) {
 }
 
 // 0x3f0898 _ZN5Level22PlaceFaeryAndFollowersEP9Character
-// PARTIAL: waits on the Character API. The filter that the original applies to each ObjectManager::m_characters entry
-// (IsFaerie and IsFollower) needs dh2/Character.hpp, but including it in this translation unit pulls in a second
-// IStreamBase definition (pydata-accessors deps/stream_reader.hpp against net-transport deps/i_stream_base.hpp). That
-// conflict is not this batch's to fix, so the filter is a seam and no entry is touched. Also not rebuilt: (1) a null player
-// argument. The original then takes the hosting or local player's character (PlayerInfo +0x660, dh2/PlayerInfo.hpp absent)
-// and tests COnline::isOnlineGame_ (+0x05, private with no getter). (2) The GameObject::SetPosition call. The pseudocode
-// shows only the object, so its arguments are not recovered. (3) The faery bookkeeping: each local player's character gets
-// the faery at Character +0x420, the AI master is swapped (CharAI subobject at Character +0x3c8), the faery id is changed,
-// and the saved master (Character +0x418) is restored. Character.hpp types +0x418 as a float range, not a pointer.
+// Every faerie and follower of ObjectManager::m_characters (+0x60) is placed in front of an anchor character: the given player, else the hosting player's character in an online game (and when
+// this device does not host, the follower takes the host's player id as its owner id, +0x670, and restarts its owner timer), else the first local player's character; without an anchor the
+// entry is skipped. The position is the anchor's target position plus its look-at vector (SetPosition(position, true), ForceUpdatePosition). A follower then has its zoning disabled. For a
+// faerie, every player character (GetPlayer(i, false)) gets it as its faerie object (CharAI +0x58, Character +0x420); the faerie's AI master (+0x418) is set to the first local player's
+// character (or to the anchor), the anchor changes to the faerie of its savegame (Character::ChangeFaery(SG_GetCurrentFaerieId(-1))), and the faerie's previous master is restored.
 void Level::PlaceFaeryAndFollowers(Character* player) {
     for (Character* character : dword_99F764->m_characters) {
-        // SEAM: the faerie/follower test on character and the placement described above are not reconstructed.
-        (void)character;
-        (void)player;
+        if (character == nullptr) {
+            continue;
+        }
+        if (!character->IsFaerie() && !character->IsFollower()) {
+            continue;
+        }
+        Character* anchor = player;
+        if (anchor == nullptr) {
+            if (GetOnlineGameFlag()) {
+                anchor = dword_99F76C->GetHostingPlayer()->unk_660;
+                if (!dword_99F76C->IsLocalPlayerHosting()) {
+                    const std::int32_t hostId = dword_99F76C->GetHostingPlayer()->unk_670;
+                    character->unk_114 = 0.0f;
+                    character->m_netOwnerId = hostId;
+                }
+            } else {
+                anchor = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+            }
+            if (anchor == nullptr) {
+                continue;
+            }
+        }
+        Point3D<float> position{0.0f, 0.0f, 0.0f};
+        anchor->GetLookAtVec(position);
+        const Point3D<float>& target = anchor->GetTargetPosition();
+        position.X += target.X;
+        position.Y += target.Y;
+        position.Z += target.Z;
+        character->SetPosition(position, true);
+        character->ForceUpdatePosition();
+        if (!character->IsFaerie()) {
+            character->DisableZoning();
+            continue;
+        }
+        for (int i = 0; i < dword_99F76C->m_numCharacters; ++i) {
+            Character* owner = dword_99F76C->GetPlayer(i, false)->unk_660;
+            if (owner != nullptr) {
+                owner->CharAI::unk_58 = character;
+            }
+        }
+        Character* previousMaster = character->CharAI::m_master;
+        Character* local = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+        Character* faerieOwner = local != nullptr ? local : anchor;
+        character->CharAI::AI_SetMaster(faerieOwner);
+        anchor->ChangeFaery(static_cast<unsigned int>(faerieOwner->SG_GetCurrentFaerieId(-1)));
+        character->CharAI::AI_SetMaster(previousMaster);
     }
 }
 
@@ -100,23 +143,19 @@ void Level::_LoadCamera() {
 }
 
 // 0x3f1394 _ZNK5Level15GetMPGameScriptEv
-// PARTIAL: the original returns the int at LevelConfig +0x314 (788). In LevelConfig.hpp, +0x314 lies inside m_mpScript (a
-// std::string at +0x300), so the field is not identified, and 0 is returned until the LevelConfig layout is reconciled. The
-// m_levelConfig assert is reproduced by GetLevelConfig(), which the original repeats inline with the same message and abort.
-int Level::GetMPGameScript() const {
+// The multiplayer game script name of the level config (LevelConfig +0x314, the data pointer of the m_mpScript string at +0x300). A missing config fails the m_levelConfig assert, as GetLevelConfig does.
+const char* Level::GetMPGameScript() const {
     LevelConfig* config = GetLevelConfig();
-    (void)config;
-    return 0;
+    return config->m_mpScript.c_str();
 }
 
 // 0x3f1430 _ZN5Level9EnableFogEPN6glitch5scene10ISceneNodeE
-// PARTIAL: the fog start (LevelConfig +0x1d8, m_fogStart), end (+0x1dc, m_fogEnd) and colour (+0x1e0, m_fogColor) are declared.
-// The original then calls SceneManager::EnableFog(start, end, &colour, node) on the scene manager, which it reads from the
-// device's +0x1c field (glitch::IDevice does not declare it). That call is left out, so nothing is changed here.
+// SceneManager::EnableFog(start, end, colour, node) on the device's scene manager, with the config's fog start (LevelConfig +0x1d8) and end (+0x1dc) as floats and its fog colour (+0x1e0).
+// A missing config fails the m_levelConfig assert, as GetLevelConfig does.
 void Level::EnableFog(glitch::scene::ISceneNode* node) {
-    LevelConfig* config = GetLevelConfig();  // the same m_levelConfig assert as the original
-    (void)config;
-    (void)node;
+    SceneManager* sceneManager = DeviceSceneManager();
+    LevelConfig* config = GetLevelConfig();
+    sceneManager->EnableFog(static_cast<float>(config->m_fogStart), static_cast<float>(config->m_fogEnd), config->m_fogColor, node);
 }
 
 // 0x3f150c _ZN5Level14SetLevelConfigEP11LevelConfig
@@ -156,9 +195,7 @@ void Level::UpdateDynamicFog() {
 }
 
 // 0x3f2304 _ZN5Level9UpdateFogEPN6glitch5scene10ISceneNodeE
-// PARTIAL: the choice reads LevelConfig +0x1dc (m_fogEnd): non-zero calls EnableFog(node), zero calls DisableFog(node). Both
-// original branches first read the "isTracingLevel" debug switch, and that read is kept. Its result is unused, as in the
-// original. The choice is complete; EnableFog and DisableFog are partial (the scene manager is not declared).
+// The choice reads LevelConfig +0x1dc (m_fogEnd): non-zero calls EnableFog(node), zero calls DisableFog(node). Both original branches first read the "isTracingLevel" debug switch; its result is unused.
 void Level::UpdateFog(glitch::scene::ISceneNode* node) {
     if (!m_levelConfig) {
         return;
@@ -233,17 +270,42 @@ void Level::_LoadBatching() {
 }
 
 // 0x3f2d38 _ZN5Level14_LoadBatchListEv
-// PARTIAL. The original walks ObjectManager::m_objectMap (+0x0c, a std::map<int, ObjectListItem>) in tree order and pushes
-// each object that passes the filters onto the batch compiler list (BatchNodeCompiler::m_gameObjects). The filters: a null
-// object or one whose ObjectBase::m_isUnderlay (+0x83) is set is skipped; "Module" and "Decor" are always pushed; "Player"
-// types, and any object whose name contains "Player", are never pushed; "Character" is pushed when MeetCondition holds and
-// it is not a faerie; the container, door, trap and AnimatedDecor types are pushed when MeetCondition holds. The walk needs
-// the map node's object handle and flag, which are in ObjectListItem. dh2/ObjectListItem.hpp is absent (ObjectManager.hpp
-// forward-declares it only), so the walk is not written. Only the IsDisablingCompiledBatching gate is reconstructed.
+// Unless IsDisablingCompiledBatching is set, ObjectManager's object map is walked in key order and the batch compiler's object list (BatchNodeCompiler::m_gameObjects) receives the GameObjects
+// that qualify: an object that is not a GameObject or is an underlay (ObjectBase +0x83) is skipped. By its game type: "Module" and "Decor" are always added; "Player" (and any object whose name
+// contains "Player") never; "Character" when MeetCondition holds and it is not a faerie; DestructibleContainer, OpenableContainer, Door, TimerTrap, TriggerTrap and AnimatedDecor when
+// MeetCondition holds; any other type is left out. Each decision reads the isTracingBatchingCompiler switch first.
 void Level::_LoadBatchList() {
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch(std::string("IsDisablingCompiledBatching"))) {
         return;
+    }
+    auto trace = []() {
+        DebugSwitches::GetInstance()->load();
+        DebugSwitches::GetInstance()->GetSwitch(std::string("isTracingBatchingCompiler"));
+    };
+    for (const auto& entry : dword_99F764->m_objectMap) {
+        ObjectHandle handle(entry.second.m_object);
+        GameObject* object = handle;
+        if (object == nullptr || object->m_isUnderlay) {
+            continue;
+        }
+        const char* type = object->m_gameType.c_str();
+        bool add = false;
+        if (std::strcmp(type, "Module") == 0 || std::strcmp(type, "Decor") == 0) {
+            add = true;
+        } else if (std::strcmp(type, "Player") == 0 || std::strstr(object->m_name.c_str(), "Player") != nullptr) {
+            add = false;
+        } else if (std::strcmp(type, "Character") == 0) {
+            add = object->MeetCondition() && !static_cast<Character*>(object)->IsFaerie();
+        } else if (std::strcmp(type, "DestructibleContainer") == 0 || std::strcmp(type, "OpenableContainer") == 0 ||
+                   std::strcmp(type, "Door") == 0 || std::strcmp(type, "TimerTrap") == 0 ||
+                   std::strcmp(type, "TriggerTrap") == 0 || std::strcmp(type, "AnimatedDecor") == 0) {
+            add = object->MeetCondition();
+        }
+        trace();
+        if (add) {
+            m_batchNodeCompiler->m_gameObjects.push_back(object);
+        }
     }
 }
 

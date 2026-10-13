@@ -17,6 +17,7 @@
 // sibling batches do, and the explicit instantiations are in pydata-accessors/src/member_ids.cpp (OpenableContainers)
 // and pydata-accessors/src/tb_accessors-Arrays-0.cpp (ItemTable, TrophyTable).
 
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
@@ -25,11 +26,16 @@
 #include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/global/charai_ai.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/OpenableContainer.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/QE_OpenGameObject.hpp"
 #include "dh2/TrophyManager.hpp"
+#include "pydata-accessors/name_table.hpp"
 #include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
 
 // Engine-wide assert level (core-platform/memory.hpp, not included: see the note above).
@@ -178,28 +184,30 @@ int OpenableContainer::TryUnlocking(GameObject* other) {
 }
 
 // 0x3a1904 _ZN17OpenableContainer8InteractEP10GameObject
-// PARTIAL. Bound: the lock gate (TryUnlocking; when it returns 0 the function returns), the level assert (line 249), the
-// IsLocalPlayerHosting test, the call to Container::Interact, and the trophy: when the interacting object is a Character
-// that IsPlayer(), its property 218 is incremented, and when the value passes 99 for the local player, the trophy
-// "open_100_chests" is unlocked (UnlockTrophy with -1 when the name is not found).
-// Not bound: the OpenGameObject quest event that a hosting peer raises through EventManager::RaiseAsync on the level. It is
-// a stack QE_OpenGameObject with eventId_ = PyDataConstants::getConstant("v2QuestObjectiveType", "OpenGameObject") (+0x04),
-// m_character = other (+0x08), m_targetId = this->unk_64 (+0x0c), m_flag0 = m_flag1 = 0 (+0x10, +0x11), m_value = -1
-// (+0x14) and m_matchId = GetDataId() (+0x18). The layout is QE_InteractWith's. Blocked on the declarations: dh2/QuestEvent.hpp
-// takes IEvent from net-session-online/i_event.hpp, where eventId_ is protected, so the id cannot be set from this class.
-// dh2/IEvent.hpp declares it public. Layout request: QuestEvent.hpp should take dh2/IEvent.hpp (the unification wave's
-// definition). Container::Interact (0x3a0b38) is itself partial in its own batch (its Play3D sound call).
+// Returns at once when the lock stays shut (TryUnlocking returns 0). Otherwise: the level assert (line 249); a peer that hosts the local player (IsLocalPlayerHosting) raises the OpenGameObject
+// quest event on the level (v2QuestObjectiveType, the interacting object as the character, unk_64 as the target id, GetDataId() as the match id); Container::Interact. When the interacting
+// object is a Character that IsPlayer(), its property 218 is incremented, and when the value passes 99 for a local player, the trophy "open_100_chests" is unlocked (UnlockTrophy with -1 when
+// the name is not found). The original's int return is not part of the void declaration.
 void OpenableContainer::Interact(GameObject* other) {
     if (TryUnlocking(other) == 0) {
         return;
     }
 
-    // The level is only tested against null here. The event raise that uses it is partial (see the function note).
-    if (ApplicationGetInstance().GetCurrentLevel() == nullptr) {
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
         ReportAssert("level", 249);
     }
     if (ApplicationGetInstance().m_playerManager->IsLocalPlayerHosting()) {  // Application +0x40
-        // PARTIAL: the OpenGameObject quest event (see the function note).
+            QE_OpenGameObject event;
+            event.eventId_ = static_cast<std::uint32_t>(
+                ApplicationGetPyDataConstants()->getConstant("v2QuestObjectiveType", "OpenGameObject"));
+            event.m_character = other;
+            event.m_targetId = unk_64;
+            event.m_flag0 = 0;
+            event.m_flag1 = 0;
+            event.m_value = -1;
+            event.m_matchId = GetDataId();
+            level->RaiseAsync(event);
     }
 
     Container::Interact(other);
@@ -243,10 +251,7 @@ OpenableContainer::~OpenableContainer() {}
 
 // 0x3a1cb0 _ZN17OpenableContainerC1EN10ObjectBase6GO_IDSE
 // 0x3a1d2c _ZN17OpenableContainerC2EN10ObjectBase6GO_IDSE
-// PARTIAL, inherited. The two bodies are identical in the binary. The non-container stores are bound: key_consume (+0x70c)
-// is 1, the key item index (+0x710) is -1 and key_qty (+0x708) is 1. The Container base constructor (0x3a0788 / 0x3a06dc) is
-// partial: its NetStructContainer members do a conditional SetChanged on value words the constructor never writes (see
-// g1-game-world-Container-e6443a-1.cpp), and this constructor inherits that gap.
+// The two bodies are identical in the binary: Container(id), then key_consume (+0x70c) is 1, the key item index (+0x710) is -1 and key_qty (+0x708) is 1.
 OpenableContainer::OpenableContainer(ObjectBase::GO_IDS id) : Container(id) {
     m_keyQty = 1;             // +0x708
     m_keyConsume = true;      // +0x70c

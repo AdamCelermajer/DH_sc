@@ -84,9 +84,9 @@ public:
     int m_countActiveLight;                                         // +0x18c number of active lights in use
     // Vector of LightBase pointers. The original allocator is glitch::core::SAllocator, which is not in the tree yet.
     std::vector<LightBase*> unk_190;                                // +0x190 .. +0x19b (12 bytes in the original)
-    bool unk_19c;                                                   // +0x19c the ctor sets 1
-    bool unk_19d;                                                   // +0x19d the ctor sets 1
-    bool unk_19e;                                                   // +0x19e the ctor sets 0
+    bool m_lightingEnabled;                                         // +0x19c the ctor sets 1 (SceneManager +0x430: lit techniques)
+    bool m_specularEnabled;                                         // +0x19d the ctor sets 1 (SceneManager +0x431: specular suffix)
+    bool m_fogEnabled;                                              // +0x19e the ctor sets 0 (SceneManager +0x432: fog on)
     uint8_t pad_19f[1];                                             // +0x19f
     int unk_1a0;                                                    // +0x1a0 the ctor zeroes it
 };

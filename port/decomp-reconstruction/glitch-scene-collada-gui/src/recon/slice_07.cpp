@@ -9,21 +9,6 @@ namespace glitch::collada::recon_07 {
 
 namespace {
 
-// Element read/write helpers for the index buffers. The original indexes these
-// by element (not by byte) after scaling by the index size; memcpy keeps the
-// access valid for any alignment.
-template <typename T>
-T loadElement(const void* base, std::uint32_t index) {
-    T value{};
-    std::memcpy(&value, static_cast<const std::uint8_t*>(base) + index * sizeof(T), sizeof(T));
-    return value;
-}
-
-template <typename T>
-void storeElement(void* base, std::uint32_t index, T value) {
-    std::memcpy(static_cast<std::uint8_t*>(base) + index * sizeof(T), &value, sizeof(T));
-}
-
 float squaredDistance(const core::vector3d<float>& a, const core::vector3d<float>& b) {
     const float dx = a.X - b.X;
     const float dy = a.Y - b.Y;
@@ -52,80 +37,6 @@ float axisComponent(const core::vector3d<float>& v, char axis) {
 
 }  // namespace
 
-// 0x59a0a4 _ZN6glitch5scene12_GLOBAL__N_116getTriangleIndicesENS_5video12E_INDEX_TYPEEPKvjRjS5_S5_
-// Partial: the original's return value (pointer, index+1, or null) is not modelled.
-void getTriangleIndices(IndexType type, const void* indices, std::uint32_t triangle,
-                        std::uint32_t& i0, std::uint32_t& i1, std::uint32_t& i2) {
-    switch (type) {
-        case kIndex16:
-            i0 = loadElement<std::uint16_t>(indices, triangle);
-            i1 = loadElement<std::uint16_t>(indices, triangle + 1);
-            i2 = loadElement<std::uint16_t>(indices, triangle + 2);
-            break;
-        case kIndex32:
-            i0 = loadElement<std::uint32_t>(indices, triangle);
-            i1 = loadElement<std::uint32_t>(indices, triangle + 1);
-            i2 = loadElement<std::uint32_t>(indices, triangle + 2);
-            break;
-        case kIndex8:
-            i0 = loadElement<std::uint8_t>(indices, triangle);
-            i1 = loadElement<std::uint8_t>(indices, triangle + 1);
-            i2 = loadElement<std::uint8_t>(indices, triangle + 2);
-            break;
-        default:
-            break;
-    }
-}
-
-// 0x59a130 _ZN6glitch5scene12_GLOBAL__N_110swapIndicesENS_5video12E_INDEX_TYPEEPvjj
-// Returns the element that was at index a before the swap; unknown types return the type.
-std::uint32_t swapIndices(IndexType type, void* indices, std::uint32_t a, std::uint32_t b) {
-    switch (type) {
-        case kIndex16: {
-            const auto old = loadElement<std::uint16_t>(indices, a);
-            storeElement<std::uint16_t>(indices, a, loadElement<std::uint16_t>(indices, b));
-            storeElement<std::uint16_t>(indices, b, old);
-            return old;
-        }
-        case kIndex32: {
-            const auto old = loadElement<std::uint32_t>(indices, a);
-            storeElement<std::uint32_t>(indices, a, loadElement<std::uint32_t>(indices, b));
-            storeElement<std::uint32_t>(indices, b, old);
-            return old;
-        }
-        case kIndex8: {
-            const auto old = loadElement<std::uint8_t>(indices, a);
-            storeElement<std::uint8_t>(indices, a, loadElement<std::uint8_t>(indices, b));
-            storeElement<std::uint8_t>(indices, b, old);
-            return old;
-        }
-        default:
-            return type;
-    }
-}
-
-// 0x59aa28 _ZN6glitch5scene12_GLOBAL__N_114getAngleWeightERKNS_4core8vector3dIfEES5_S5_
-// out[0] is the angle at p0, out[1] at p1, out[2] at p2 (law of cosines on the
-// squared edge lengths; p0 is the original a2, p1 a3 and p2 a4).
-void getAngleWeight(core::vector3d<float>& out, const core::vector3d<float>& p0,
-                    const core::vector3d<float>& p1, const core::vector3d<float>& p2) {
-    const float q1r2 = squaredDistance(p1, p2);  // |QR|^2
-    const float p0r2 = squaredDistance(p0, p2);  // |PR|^2
-    const float p0q1 = squaredDistance(p0, p1);  // |PQ|^2
-    const float lenQR = std::sqrt(q1r2);
-    const float lenPR = std::sqrt(p0r2);
-    const float lenPQ = std::sqrt(p0q1);
-
-    const float angleP = std::acos((p0r2 + p0q1 - q1r2) / (lenPQ * (lenPR + lenPR)));
-    const float angleQ = std::acos((p0q1 - p0r2 + q1r2) / (lenPQ * (lenQR + lenQR)));
-    const float angleR = std::acos((p0r2 - p0q1 + q1r2) / (lenQR * (lenPR + lenPR)));
-
-    // The original stores the three angles at +0x00, +0x04 and +0x08 of the output.
-    out.X = angleP;  // +0x00
-    out.Y = angleQ;  // +0x04
-    out.Z = angleR;  // +0x08
-}
-
 // 0x5a20d4 _ZN6glitch13lessThanPlaneERKSt4pairIjNS_4core8aabbox3dIfEEEfc
 bool lessThanPlane(const KdEntry& entry, float plane, char axis) {
     return axisComponent(kdCentre(entry), axis) < plane;
@@ -150,94 +61,7 @@ float distanceKdTree(const KdEntry& entry, float plane, char axis) {
     return d * d;
 }
 
-// 0x59a188 _ZN6glitch5scene22createMeshUniquePrimitivesERKN5boost13intrusive_ptrINS0_5IMeshEEE
-// Copy of the handle (the original adds a reference; the deps stand-in does not count).
-boost::intrusive_ptr<scene::IMesh> createMeshUniquePrimitives(
-    const boost::intrusive_ptr<scene::IMesh>& mesh) {
-    return mesh;
-}
-
-// 0x59a1a4 _ZN6glitch5scene15createMeshWeldedERKN5boost13intrusive_ptrINS0_5IMeshEEEf
-// Same body as createMeshUniquePrimitives (linker-folded); the float argument is unused.
-boost::intrusive_ptr<scene::IMesh> createMeshWelded(const boost::intrusive_ptr<scene::IMesh>& mesh,
-                                                    float /*tolerance*/) {
-    return mesh;
-}
-
 // SAnimatedMesh (0x59a000 .. 0x59ae64) and createAnimatedMesh (0x59ae1c): canonical in src/scene/SAnimatedMesh.cpp.
-
-// 0x59b084 _ZN6glitch5scene12flipSurfacesERKN5boost13intrusive_ptrINS0_5IMeshEEE
-// Partial stub: 3.9 KB of pseudocode, not reconstructed in this pass.
-boost::intrusive_ptr<scene::IMesh> flipSurfaces(const boost::intrusive_ptr<scene::IMesh>& mesh) {
-    return mesh;
-}
-
-// 0x59b2a4 _ZN6glitch5scene14createMeshCopyERKN5boost13intrusive_ptrINS0_5IMeshEEEPN6glitch5video12IVideoDriverEj
-// Partial stub: 12 KB of pseudocode, not reconstructed in this pass.
-boost::intrusive_ptr<scene::IMesh> createMeshCopy(const boost::intrusive_ptr<scene::IMesh>& mesh,
-                                                  video::IVideoDriver* /*driver*/,
-                                                  std::uint32_t /*flags*/) {
-    return mesh;
-}
-
-// 0x59ba3c _ZN6glitch5scene20createMeshWith2TCoordsERKN5boost13intrusive_ptrINS0_5IMeshEEEPN6glitch5video12IVideoDriverE
-// Partial: forwards to createMeshCopy with flags 0xFFFFFFFF and 6, as the pseudocode does.
-boost::intrusive_ptr<scene::IMesh> createMeshWith2TCoords(const boost::intrusive_ptr<scene::IMesh>& mesh,
-                                                          video::IVideoDriver* driver) {
-    return createMeshCopy(mesh, driver, 0xFFFFFFFFu);
-}
-
-// 0x59ba90 _ZN6glitch5scene15setVertexColorsERKN5boost13intrusive_ptrINS0_5IMeshEEENS_5video6SColorE
-// Partial stub: 3.2 KB of pseudocode, not reconstructed in this pass.
-void setVertexColors(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, video::SColor /*color*/) {}
-
-// 0x59bc60 _ZN6glitch5scene18setVertexColorAlphaERKN5boost13intrusive_ptrINS0_5IMeshEEEi
-// Partial stub: 7.5 KB of pseudocode, not reconstructed in this pass.
-void setVertexColorAlpha(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, int /*alpha*/) {}
-
-// 0x59c198 _ZN6glitch5scene24makePlanarTextureMappingERKN5boost13intrusive_ptrINS0_5IMeshEEEf
-// Partial stub: 9.5 KB of pseudocode, not reconstructed in this pass.
-void makePlanarTextureMapping(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, float /*scale*/) {}
-
-// 0x59c970 _ZN6glitch5scene22createMeshWithTangentsERKN5boost13intrusive_ptrINS0_5IMeshEEEPN6glitch5video12IVideoDriverE
-// Partial stub: 25 KB of pseudocode, not reconstructed in this pass.
-boost::intrusive_ptr<scene::IMesh> createMeshWithTangents(const boost::intrusive_ptr<scene::IMesh>& mesh,
-                                                          video::IVideoDriver* /*driver*/) {
-    return mesh;
-}
-
-// 0x59dc1c _ZN6glitch5scene5scaleERKN5boost13intrusive_ptrINS0_11CMeshBufferEEERKNS_4core8vector3dIfEE
-// Partial stub: 3.9 KB of pseudocode, not reconstructed in this pass.
-void scale(const boost::intrusive_ptr<scene::CMeshBuffer>& /*buffer*/,
-           const core::vector3d<float>& /*s*/) {}
-
-// 0x59dea4 _ZN6glitch5scene5scaleERKN5boost13intrusive_ptrINS0_5IMeshEEERKNS_4core8vector3dIfEE
-// Partial stub: 1.7 KB of pseudocode, not reconstructed in this pass.
-void scale(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, const core::vector3d<float>& /*s*/) {}
-
-// 0x59dfe4 _ZN6glitch5scene18recalculateNormalsERKN5boost13intrusive_ptrINS0_11CMeshBufferEEEbb
-// Partial stub: 11.7 KB of pseudocode, not reconstructed in this pass.
-void recalculateNormals(const boost::intrusive_ptr<scene::CMeshBuffer>& /*buffer*/, bool /*a*/,
-                        bool /*b*/) {}
-
-// 0x59e698 _ZN6glitch5scene18recalculateNormalsERKN5boost13intrusive_ptrINS0_5IMeshEEEbb
-// Partial stub: 1.4 KB of pseudocode, not reconstructed in this pass.
-void recalculateNormals(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, bool /*a*/, bool /*b*/) {}
-
-// 0x59e728 _ZN6glitch5scene12_GLOBAL__N_19transformERKN5boost13intrusive_ptrINS0_11CMeshBufferEEERKNS_4core7CMatrix4IfEEPNS_...
-// Partial stub: 7.2 KB of pseudocode (anonymous-namespace transform), not reconstructed in this pass.
-void transform(const boost::intrusive_ptr<scene::CMeshBuffer>& /*buffer*/,
-               const core::CMatrix4<float>& /*matrix*/) {}
-
-// 0x59ee64 _ZN6glitch5scene9transformERKN5boost13intrusive_ptrINS0_5IMeshEEERKNS_4core7CMatrix4IfEE
-// Partial stub: 2.4 KB of pseudocode, not reconstructed in this pass.
-void transform(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, const core::CMatrix4<float>& /*matrix*/) {}
-
-// 0x59a620 _ZN6glitch5scene12_GLOBAL__N_116calculateTangentsERNS_4core8vector3dIfEES5_RKS4_S7_S7_
-// Partial stub: 3.6 KB of pseudocode, not reconstructed in this pass.
-void calculateTangents(core::vector3d<float>& /*tangent*/, core::vector3d<float>& /*bitangent*/,
-                       const core::vector3d<float>& /*p0*/, const core::vector3d<float>& /*p1*/,
-                       const core::vector3d<float>& /*p2*/) {}
 
 // 0x60b2b4 _ZN6glitch7collada14COnDemandReaderD2Ev
 // Empty non-deleting destructor: nothing to tear down in the stand-in.

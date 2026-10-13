@@ -10,17 +10,16 @@
 //   Container +0x390 m_deathReset, +0x394 m_state
 //   ObjectBase +0x81 m_markedForDeletion   set by ObjectBase::Delete
 //
-// Include constraints: this translation unit does not include dh2/Level.hpp or glitch-scene-collada-gui/scene_nodes.hpp.
-// Level.hpp pulls in net-transport's stand-in IStreamBase, which redefines the class beside dh2/IStreamBase.hpp.
-// scene_nodes.hpp redefines glitch::IEventReceiver and boost::intrusive_ptr beside the glitch-core-io headers that
-// dh2/AnimController.hpp includes. Both pairs are engine-header conflicts outside this batch.
 
 #include "dh2/Container.hpp"
 
 #include "dh2/AnimController.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/RootSceneNode.hpp"
 #include "dh2/VisualObject.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
 // 0x39f324 _ZNK9Container11IsUpdatableEv
 bool Container::IsUpdatable() const {
@@ -122,14 +121,9 @@ void Container::Spawn() {
 }
 
 // 0x39f44c _ZN9Container10__CallbackEPN6glitch5scene19ITimelineControllerEPv
-// PARTIAL. SPAWN becomes IDLE and plays "idle"; ACTIVATE becomes OPENED and plays "idleactive". Those two branches
-// are bound. The third branch is not: in any other state the original calls controller->getLoop() (vtable slot
-// +0x44, glitch::scene::ITimelineController::getLoop in glitch-scene-collada-gui/scene_nodes.hpp) and, when it
-// returns false, clears bit 0x200 of the visual's node flags (RootSceneNode +0x11c). scene_nodes.hpp cannot be
-// included beside dh2/AnimController.hpp (see the header note above), so that branch does nothing here.
-// The original's int return is not part of the void declaration.
+// The timeline callback (user is the Container). SPAWN becomes IDLE and plays "idle"; ACTIVATE becomes OPENED and plays "idleactive". In any other state the controller's getLoop()
+// (vtable +0x44) decides: a controller that does not loop clears bit 0x200 of the visual node's flags (RootSceneNode +0x11c). The original's int return is not part of the void declaration.
 void Container::__Callback(glitch::scene::ITimelineController* controller, void* user) {
-    (void)controller;
     Container* container = static_cast<Container*>(user);
     if (container->m_state == STATE_SPAWN) {
         container->SetState(STATE_IDLE);
@@ -137,6 +131,8 @@ void Container::__Callback(glitch::scene::ITimelineController* controller, void*
     } else if (container->m_state == STATE_ACTIVATE) {
         container->SetState(STATE_OPENED);
         container->m_visualObject->m_animController->PlayClip("idleactive", false, 0, 0);
+    } else if (!controller->getLoop()) {
+        container->m_visualObject->m_node->flags &= ~0x200u;
     }
 }
 
@@ -147,14 +143,31 @@ bool Container::IsZonable() const {
 }
 
 // 0x39f6f0 _ZN9Container11DeserializeEP11IStreamBase
-// PARTIAL, not bound. The original calls GameObject::Deserialize, reads the state byte and applies it (SetState,
-// then KeepPhysics() and SetPhysicalObject(nullptr, false) for OPENED, PlayClip "idleactive" or "idle"), but only
-// when m_deathReset is set or the current level has neither Level +0xf3 (m_cameFromOtherLevel) nor +0xf4
-// (m_loadingCheckpoint) set. That gate needs dh2/Level.hpp, which cannot share this translation unit with
-// dh2/IStreamBase.hpp (readAs<unsigned char>) because of the net-transport IStreamBase stand-in. Until the two are
-// unified the body is not written, so the stream is not read here.
+// Runs only when m_deathReset is set or the current level has neither Level +0xf3 (m_cameFromOtherLevel) nor +0xf4 (m_loadingCheckpoint) set. GameObject::Deserialize, then the state byte.
+// With a visual the state is applied (SetState): OPENED releases the physics body unless KeepPhysics() (vtable +0xdc) and plays "idleactive"; IDLE plays "idle". Other states only set the state.
 void Container::Deserialize(IStreamBase* stream) {
-    (void)stream;
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (m_deathReset || (!level->m_cameFromOtherLevel && !level->m_loadingCheckpoint)) {
+        GameObject::Deserialize(stream);
+        unsigned char stateByte;
+        stream->readAs<unsigned char>(stateByte);
+        if (m_visualObject != nullptr) {
+            SetState(static_cast<State>(stateByte));
+            VisualObject* visual = m_visualObject;
+            if (m_state == STATE_OPENED) {
+                if (!KeepPhysics()) {
+                    SetPhysicalObject(nullptr, false);
+                }
+                if (visual != nullptr) {
+                    visual->m_animController->PlayClip("idleactive", false, 0, 0);
+                }
+            } else if (m_state == STATE_IDLE) {
+                if (visual != nullptr) {
+                    visual->m_animController->PlayClip("idle", false, 0, 0);
+                }
+            }
+        }
+    }
 }
 
 // 0x39f8e0 _ZN9Container9SerializeEP11IStreamBase

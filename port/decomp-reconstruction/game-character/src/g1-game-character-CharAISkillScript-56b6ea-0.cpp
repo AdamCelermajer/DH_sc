@@ -1,20 +1,8 @@
 // Batch g1-game-character-CharAISkillScript-56b6ea-0 (CharAISkillScript, 16 functions). Declarations are in dh2/CharAISkillScript.hpp.
 // Offsets in comments are the original 32-bit offsets inside CharAISkillScript (this) unless a line says Character or CharAI.
 //
-// Status by function (the ledger rows in game-character/ledger.d/g1-game-character-CharAISkillScript-56b6ea-0.csv repeat them):
-//   reconstructed: GetCooldown.
-//   partial:       the constructor, the D1 destructor, both SpawnProjectile overloads, every Lua-driven hook, both projectile
-//                  callbacks and the GetInfo result read.
-//   skipped:       the D0 deleting destructor (compiler-generated from delete).
-//
-// Why most bodies are partial: every hook builds sfc::script::lua::Arguments and sfc::script::lua::ReturnValues (a local,
-// or the embedded Arguments at +0x0c), calls LuaScript::Call with them and reads the returned Value vector. The Value
-// stride is 112 bytes in the original, so the count of returned values is (end - begin) / 112. Those three classes have no
-// header in the tree (dh2/sfc/script/lua/ holds only UserData.hpp), so none of those lines can be written. The header keeps
-// the Arguments as pad_0c[8].
-//
-// What is written exactly: the no-script path of each hook. When CharAI::m_script is null the original constructs and
-// destroys the ReturnValues and returns the value given below, so those paths are reconstructed.
+// Every Lua-driven hook builds sfc::script::lua::Arguments and ReturnValues, calls LuaScript::Call on the owner's AI script (CharAIScript is a
+// LuaScript) and reads the returned Value list (112 bytes each in the original).
 
 #include <cstdint>
 #include <cstdio>
@@ -22,9 +10,17 @@
 
 #include "core-platform/memory.hpp"            // gAssertLevel
 #include "dh2/CharAI.hpp"
+#include "dh2/CharAIScript.hpp"
 #include "dh2/CharAISkillScript.hpp"
 #include "dh2/CharTimers.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/LuaScript.hpp"
+#include "dh2/Projectile.hpp"
+#include "dh2/ProjectileManager.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/sfc/script/lua/ReturnValues.hpp"
+#include "dh2/sfc/script/lua/Value.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"   // Arrays::ProjectileTable::size
 
 namespace {
@@ -45,7 +41,7 @@ void AssertFailed(const char* expr, int line) {
 
 // The live Lua script of the owning character: CharAI::m_script (CharAI +0x1c, Character +0x3e4 in the original). Null until
 // the script process has loaded. The CharAI qualification is required: GameObject also has an m_script (+0x300).
-CharAIScript* LiveScript(const CharAISkillScript* skill) {
+LuaScript* LiveScript(const CharAISkillScript* skill) {
     return skill->m_character->CharAI::m_script;
 }
 
@@ -95,139 +91,222 @@ float CharAISkillScript::GetCooldown() {
 }
 
 // 0x3da494 CharAISkillScript::SpawnProjectile(unsigned int,float)
-// PARTIAL: the table test is written (a projectile id below Arrays::ProjectileTable::size; otherwise null, which is exact).
-// The spawn is not. The original calls ProjectileManager::Spawn(id, m_character, nullptr, _ProjectileCheck, _ProjectileHit,
-// this, angle) on Singleton<ProjectileManager>::s_inst (game-world 0x3e6edc, the float overload). That singleton is not
-// declared in the tree (SEAM), so a valid id also returns null here.
-Projectile* CharAISkillScript::SpawnProjectile(unsigned int projectileId, [[maybe_unused]] float angle) {
+// A projectile id below Arrays::ProjectileTable::size spawns that projectile for the owning character with no target, this script's callbacks
+// (_ProjectileCheck, _ProjectileHit) and this script as their user data: ProjectileManager::Spawn(id, m_character, nullptr, check, hit, this,
+// angle) on Singleton<ProjectileManager>::s_inst. Any other id gives null.
+Projectile* CharAISkillScript::SpawnProjectile(unsigned int projectileId, float angle) {
     if (projectileId < Arrays::ProjectileTable::size) {
-        // SEAM: ProjectileManager::Spawn on Singleton<ProjectileManager>::s_inst, see above.
+        return Singleton<ProjectileManager>::s_inst.Spawn(static_cast<int>(projectileId), m_character, nullptr, &_ProjectileCheck,
+                                                          &_ProjectileHit, this, angle);
     }
     return nullptr;
 }
 
 // 0x3da510 CharAISkillScript::SpawnProjectile(unsigned int,bool)
-// PARTIAL: same as the float overload above, with the flag passed to the bool overload of Spawn (game-world 0x3e701c).
-// The spawn waits on the ProjectileManager singleton (SEAM).
-Projectile* CharAISkillScript::SpawnProjectile(unsigned int projectileId, [[maybe_unused]] bool flag) {
+// The same with the bool overload of ProjectileManager::Spawn.
+Projectile* CharAISkillScript::SpawnProjectile(unsigned int projectileId, bool flag) {
     if (projectileId < Arrays::ProjectileTable::size) {
-        // SEAM: ProjectileManager::Spawn on Singleton<ProjectileManager>::s_inst, see above.
+        return Singleton<ProjectileManager>::s_inst.Spawn(static_cast<int>(projectileId), m_character, nullptr, &_ProjectileCheck,
+                                                          &_ProjectileHit, this, flag);
     }
     return nullptr;
 }
 
 // 0x3da6c0 CharAISkillScript::OnPostSkill()
-// With no script the original does nothing. PARTIAL with a script: it calls the script's SetSkill with the Arguments at +0x0c,
-// and when that succeeds empties the returned values and calls OnPostSkill. Waits on the Arguments and ReturnValues headers.
+// With a live script: SetSkill with the Arguments at +0x0c, and when that succeeds the returned values are emptied and "OnPostSkill" is
+// called. Without a script nothing happens.
 void CharAISkillScript::OnPostSkill() {
-    if (!LiveScript(this)) {
-        return;
+    sfc::script::lua::ReturnValues returned;
+    if (LuaScript* script = LiveScript(this)) {
+        script->Call("SetSkill", m_arguments, returned);
+        if (!returned.m_error.m_status) {
+            returned.m_valueList->clear();
+            LiveScript(this)->Call("OnPostSkill", returned);
+        }
     }
-    // PARTIAL: the SetSkill and OnPostSkill calls, see above.
 }
 
 // 0x3da794 CharAISkillScript::OnSkill()
-// With no script the result is 0. PARTIAL with a script: SetSkill, then the values are emptied and OnSkill runs. A failed call
-// gives 0, no returned value gives 1, otherwise the boolean value of the first returned value. Waits on the Arguments and
-// ReturnValues headers, so 0 is returned here (the failed-call result).
+// SetSkill, then the values are emptied and "OnSkill" runs. No script, a failed SetSkill or a failed call give 0; no returned value gives 1;
+// otherwise the boolean value of the first returned value.
 int CharAISkillScript::OnSkill() {
-    if (!LiveScript(this)) {
+    sfc::script::lua::ReturnValues returned;
+    LuaScript* script = LiveScript(this);
+    if (!script) {
         return 0;
     }
-    // PARTIAL: the SetSkill and OnSkill calls and the result read, see above.
-    return 0;
+    script->Call("SetSkill", m_arguments, returned);
+    if (returned.m_error.m_status) {
+        return 0;
+    }
+    returned.m_valueList->clear();
+    LiveScript(this)->Call("OnSkill", returned);
+    if (returned.m_error.m_status) {
+        return 0;
+    }
+    if (!returned.m_valueList->empty()) {
+        return returned[0].getBool() ? 1 : 0;
+    }
+    return 1;
 }
 
 // 0x3da8b8 CharAISkillScript::OnPreSkill()
-// With no script the result is false. PARTIAL with a script: SetSkill, then OnPreSkill. A failed call gives false, no returned
-// value gives true, otherwise the boolean value of the first returned value. Waits on the Lua value headers; false is returned.
+// As OnSkill with "OnPreSkill": false without a script or on a failed call, true when nothing is returned, otherwise the first value.
 bool CharAISkillScript::OnPreSkill() {
-    if (!LiveScript(this)) {
+    sfc::script::lua::ReturnValues returned;
+    LuaScript* script = LiveScript(this);
+    if (!script) {
         return false;
     }
-    // PARTIAL: the SetSkill and OnPreSkill calls and the result read, see above.
-    return false;
+    script->Call("SetSkill", m_arguments, returned);
+    if (returned.m_error.m_status) {
+        return false;
+    }
+    returned.m_valueList->clear();
+    LiveScript(this)->Call("OnPreSkill", returned);
+    if (returned.m_error.m_status) {
+        return false;
+    }
+    if (!returned.m_valueList->empty()) {
+        return returned[0].getBool();
+    }
+    return true;
 }
 
 // 0x3da9dc CharAISkillScript::OnSkillCheck_Usable()
-// With no script the result is false. PARTIAL with a script: SetSkill, then the function named "OnSkillCheck" (not
-// "OnSkillCheck_Usable"). A failed call or no returned value gives false, otherwise the boolean value of the first returned
-// value. Waits on the Lua value headers; false is returned.
+// SetSkill, then the function named "OnSkillCheck" (not "OnSkillCheck_Usable"). No script, a failed call or no returned value give false,
+// otherwise the boolean value of the first returned value.
 bool CharAISkillScript::OnSkillCheck_Usable() {
-    if (!LiveScript(this)) {
+    sfc::script::lua::ReturnValues returned;
+    LuaScript* script = LiveScript(this);
+    if (!script) {
         return false;
     }
-    // PARTIAL: the SetSkill and OnSkillCheck calls and the result read, see above.
-    return false;
+    script->Call("SetSkill", m_arguments, returned);
+    if (returned.m_error.m_status) {
+        return false;
+    }
+    returned.m_valueList->clear();
+    LiveScript(this)->Call("OnSkillCheck", returned);
+    if (returned.m_error.m_status || returned.m_valueList->empty()) {
+        return false;
+    }
+    return returned[0].getBool();
 }
 
 // 0x3daafc CharAISkillScript::OnSkillCleanUp()
-// With no script the original does nothing. PARTIAL with a script: SetSkill, empty the returned values, then OnSkillCleanUp.
+// With a live script: SetSkill, then (when it succeeded) the values are emptied and "OnSkillCleanUp" is called.
 void CharAISkillScript::OnSkillCleanUp() {
-    if (!LiveScript(this)) {
-        return;
+    sfc::script::lua::ReturnValues returned;
+    if (LuaScript* script = LiveScript(this)) {
+        script->Call("SetSkill", m_arguments, returned);
+        if (!returned.m_error.m_status) {
+            returned.m_valueList->clear();
+            LiveScript(this)->Call("OnSkillCleanUp", returned);
+        }
     }
-    // PARTIAL: the SetSkill and OnSkillCleanUp calls, see above.
 }
 
 // 0x3dabd0 CharAISkillScript::OnSkillUpdate()
-// With no script the original does nothing. PARTIAL with a script: SetSkill, empty the returned values, then OnSkillUpdate.
+// As OnSkillCleanUp with "OnSkillUpdate".
 void CharAISkillScript::OnSkillUpdate() {
-    if (!LiveScript(this)) {
-        return;
+    sfc::script::lua::ReturnValues returned;
+    if (LuaScript* script = LiveScript(this)) {
+        script->Call("SetSkill", m_arguments, returned);
+        if (!returned.m_error.m_status) {
+            returned.m_valueList->clear();
+            LiveScript(this)->Call("OnSkillUpdate", returned);
+        }
     }
-    // PARTIAL: the SetSkill and OnSkillUpdate calls, see above.
 }
 
 // 0x3daca8 CharAISkillScript::GetInfo(unsigned int,float*)
-// With no script the original writes 0 to *out (when out is not null) and does nothing else. PARTIAL with a script: SetSkill,
-// then OnSkillInfo with the info id pushed as an integer. When both calls succeed *out is set to 0, and when the first
-// returned value is a number n, *out = 1 - elapsed / interval of the CharTimers slot n (TMR_TimeLeft, the same formula as
-// GetCooldown). Waits on the Arguments and ReturnValues headers, so *out is left as it is on the script path.
-void CharAISkillScript::GetInfo([[maybe_unused]] unsigned int infoId, float* out) {
-    if (!LiveScript(this)) {
-        if (out) {
-            *out = 0.0f;
+// Without a script *out is set to 0 (when out is not null). With one: SetSkill, then "OnSkillInfo" with the info id pushed as an integer.
+// When both calls succeed *out is 0, or, when the first returned value is a number n (type 3), 1 - elapsed / interval of the owner's CharTimers
+// slot n (TMR_TimeLeft, the same formula as GetCooldown). A failed call leaves *out as it was.
+void CharAISkillScript::GetInfo(unsigned int infoId, float* out) {
+    sfc::script::lua::Arguments arguments;
+    sfc::script::lua::ReturnValues returned;
+    if (LuaScript* script = LiveScript(this)) {
+        script->Call("SetSkill", m_arguments, returned);
+        if (!returned.m_error.m_status) {
+            arguments.pushInteger(static_cast<int>(infoId));
+            returned.m_valueList->clear();
+            LiveScript(this)->Call("OnSkillInfo", arguments, returned);
+            if (!returned.m_error.m_status && out) {
+                *out = 0.0f;
+                if (!returned.m_valueList->empty() && returned[0].m_type == 3) {
+                    unsigned int elapsed = 0;
+                    unsigned int interval = 0;
+                    const int slot = static_cast<int>(returned[0].getNumber());
+                    if (m_character->CharTimers::TMR_TimeLeft(static_cast<unsigned int>(slot), elapsed, interval)) {
+                        *out = 1.0f - (static_cast<float>(elapsed) / static_cast<float>(interval));
+                    }
+                }
+            }
         }
-        return;
+    } else if (out) {
+        *out = 0.0f;
     }
-    // PARTIAL: the SetSkill and OnSkillInfo calls and the result read, see above.
 }
 
-// 0x3dae7c CharAISkillScript::_ProjectileHit(Projectile*,void*)
-// The callback's user data is the CharAISkillScript. With no script the result is 1 (the hit is ignored). PARTIAL with a
-// script: SetSkill, then OnDelayedSkill with the projectile's hit object (Projectile +0x3cc, pushed as userdata) and the
-// projectile pointer. The result is 1 only when the first returned value is the boolean false. A failed call gives 0.
-// Waits on the Lua argument and value headers; 0 is returned on the script path.
-int CharAISkillScript::_ProjectileHit([[maybe_unused]] Projectile* projectile, void* user) {
-    auto* skill = static_cast<CharAISkillScript*>(user);
-    if (!LiveScript(skill)) {
+namespace {
+
+// The shared body of _ProjectileHit and _ProjectileCheck (they differ only in the script function name): SetSkill, then the function with the
+// projectile's hit object (pushed as userdata) and the projectile itself (pointer). Without a script the result is 1. Otherwise 1 only when the
+// calls succeed and the first returned value is the boolean false; every other outcome gives 0.
+int ProjectileCallback(Projectile* projectile, CharAISkillScript* skill, const char* function) {
+    sfc::script::lua::Arguments arguments;
+    sfc::script::lua::ReturnValues returned;
+    LuaScript* script = LiveScript(skill);
+    if (!script) {
         return 1;
     }
-    // PARTIAL: the SetSkill and OnDelayedSkill calls and the result read, see above.
-    return 0;
+    script->Call("SetSkill", skill->m_arguments, returned);
+    if (returned.m_error.m_status) {
+        return 0;
+    }
+    arguments.pushUserData(projectile->m_hitObject);
+    arguments.pushPointer(projectile);
+    returned.m_valueList->clear();
+    LiveScript(skill)->Call(function, arguments, returned);
+    if (returned.m_error.m_status || returned.m_valueList->empty() || returned[0].m_type != 1 || returned[0].getBool()) {
+        return 0;
+    }
+    return 1;
+}
+
+}  // namespace
+
+// 0x3dae7c CharAISkillScript::_ProjectileHit(Projectile*,void*)
+// The callback's user data is the CharAISkillScript; the script function is "OnDelayedSkill" (see ProjectileCallback).
+int CharAISkillScript::_ProjectileHit(Projectile* projectile, void* user) {
+    return ProjectileCallback(projectile, static_cast<CharAISkillScript*>(user), "OnDelayedSkill");
 }
 
 // 0x3daff4 CharAISkillScript::_ProjectileCheck(Projectile*,void*)
-// Same shape as _ProjectileHit, with the function named "OnDelayedSkillCheck". With no script the result is 1. PARTIAL with a
-// script: the result is 1 only when the first returned value is the boolean false, and a failed call gives 0.
-int CharAISkillScript::_ProjectileCheck([[maybe_unused]] Projectile* projectile, void* user) {
-    auto* skill = static_cast<CharAISkillScript*>(user);
-    if (!LiveScript(skill)) {
-        return 1;
-    }
-    // PARTIAL: the SetSkill and OnDelayedSkillCheck calls and the result read, see above.
-    return 0;
+// The same with the script function "OnDelayedSkillCheck".
+int CharAISkillScript::_ProjectileCheck(Projectile* projectile, void* user) {
+    return ProjectileCallback(projectile, static_cast<CharAISkillScript*>(user), "OnDelayedSkillCheck");
 }
 
 // 0x3db16c CharAISkillScript::OnSkillCheck_Active()
-// With no script the result is false. PARTIAL with a script: SetSkill, then "OnSkillCheck". A failed call, or fewer than two
-// returned values, gives false; otherwise the result is the boolean value of the second returned value (byte offset 112 of
-// the Value vector). Waits on the Lua value headers; false is returned.
+// SetSkill, then "OnSkillCheck". No script, a failed call, or fewer than two returned values give false; otherwise the boolean value of the
+// second returned value.
 bool CharAISkillScript::OnSkillCheck_Active() {
-    if (!LiveScript(this)) {
+    sfc::script::lua::ReturnValues returned;
+    LuaScript* script = LiveScript(this);
+    if (!script) {
         return false;
     }
-    // PARTIAL: the SetSkill and OnSkillCheck calls and the second-value read, see above.
-    return false;
+    script->Call("SetSkill", m_arguments, returned);
+    if (returned.m_error.m_status) {
+        return false;
+    }
+    returned.m_valueList->clear();
+    LiveScript(this)->Call("OnSkillCheck", returned);
+    if (returned.m_error.m_status || returned.m_valueList->size() <= 1) {
+        return false;
+    }
+    return returned[1].getBool();
 }

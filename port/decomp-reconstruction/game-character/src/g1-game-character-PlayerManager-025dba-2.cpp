@@ -2,17 +2,15 @@
 // character and player removal, _AddCharacter, the online-transition check, _ManageCharacters, the death handling,
 // the host-change notification, the remote and local controller checks.
 // Declarations and layout come from dh2/PlayerManager.hpp. Offsets in comments are the original 32-bit offsets.
-// Where a branch depends on a value the tree does not declare, the function is partial and a PARTIAL comment names
-// the missing piece; the ledger rows in game-character/ledger.d/g1-game-character-PlayerManager-025dba-2.csv repeat it.
 //
-// Online gate: Application::IsOnlineGame() is *(GetOnline() + 5) (0x320668), so the first test of every online gate
-// is readable. Most gates continue with OnlineGameState's byte at +0x24, which online_game_state.hpp does not model,
-// so the online branch of those functions is partial. The offline branch is exact wherever the gate starts with the
-// online test: every later term of the && chain is then false and the else path runs.
+// Online gates: the first test is GetOnlineGameFlag() (*(GetOnline() + 5)); the full gate of the && chain is NetGateOpen()
+// (game-app/src/net_gate.cpp: online flag, OnlineGameState +0x24, CMatching IsInRoom, CNetPlayerManager::IsInitialized).
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
+#include <list>
 #include <map>
 #include <string>
 #include <vector>
@@ -29,6 +27,19 @@
 #include "dh2/InfoHUDManager.hpp"
 #include "dh2/ItemInventory.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "dh2/OnlineStatusMsg.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/CRoomAttributes.hpp"
+#include "dh2/RoomZone.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/global/Vec3f_Origin.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/ObjectBase.hpp"
@@ -36,8 +47,13 @@
 #include "dh2/ObjectManager.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
 #include "dh2/CharProperties.hpp"
 #include "dh2/InputManager.hpp"
+#include "dh2/Gamepad.hpp"
+#include "dh2/SavegameManager.hpp"
+#include "vendor-gameswf/as_value.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"  // PyDataConstants::getConstant
 #include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C, the PlayerManager instance
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
@@ -140,13 +156,10 @@ int PlayerManager::RemoveAllPlayers() {
 }
 
 // 0x3726bc _ZN13PlayerManager12RemovePlayerEi PlayerManager::RemovePlayer(int)
-// The original tests the online gate first and runs the removal when the gate is false. The offline branch is exact:
-// IsPlayerInLocalMap (0 returns at once), the character of the record with that key is removed, the record is erased.
-// PARTIAL: the online branch. Its gate needs OnlineGameState's byte at +0x24 (not modelled in online_game_state.hpp),
-// CMatching::Get()->UnknownGate() and CNetPlayerManager::IsInitialized(). When the gate is true the original skips the
-// removal; that path is not selected here.
+// The removal runs when the network gate (NetGateOpen) is closed: IsPlayerInLocalMap (0 returns at once), the character of the record with
+// that key is removed, the record is erased. The player numbers are then updated (also when the gate is open).
 int PlayerManager::RemovePlayer(int internalId) {
-    if (!ApplicationGetInstance().IsOnlineGame()) {
+    if (!NetGateOpen()) {
         const bool present = IsPlayerInLocalMap(internalId);
         if (!present) {
             return present;
@@ -161,19 +174,13 @@ int PlayerManager::RemovePlayer(int internalId) {
 }
 
 // 0x371d80 _ZN13PlayerManager15RemoveCharacterEP9Character PlayerManager::RemoveCharacter(Character*)
-// PARTIAL. The body runs only when the character is not already marked for deletion (ObjectBase byte +0x81).
-// Written: the owned-character count (asserted above zero), the zero position, the Character and CharAI teardown
-// (InitCam, RemoveMultiplayerHighlight, AI target and aggro resets), the delete, the reset of the record's character
-// pointer and its unk_684, the replicated-field resets for a local record (the class, name, level, byte array, XP,
-// gold and the in-game flag), and the local camera retarget on the first record.
-// Not written:
-//   - Character virtual slots +0x48 and +0x40 (named nowhere in the tree): the calls on the character before the AI
-//     reset and the call with 0 after the position.
-//   - The zero stored at Character +0x14a4 (not declared on Character; m_selfFX is +0x1484, a different word).
-//   - The rename "<name>_Deleted_<n>": the original reads the name as a char pointer at Character +0x44, which
-//     ObjectBase.hpp does not declare (its name is std::string m_name at +0x30). The static counter is written.
-//   - CameraLevel's virtual slot +0x10 after the retarget, and the RenderFX::InvokeASCallback "completeRefresh" on
-//     the HUD root (InvokeASCallback is not declared in dh2/RenderFX.hpp).
+// The body runs only when the character is not already marked for deletion (ObjectBase byte +0x81). The owned-character count (asserted above
+// zero) drops; the character moves to the origin, is disabled and hidden (the virtuals +0x48 Disabled and +0x40 SetVisible(false)), loses its
+// camera and multiplayer highlight and its object of interest (+0x14a4), clears its AI target and aggro, and is deleted and renamed
+// "<name>_Deleted_<n>" (the static counter is incremented). With a level and a record that has an internal id the local camera retargets to the
+// first local (else first) character and the light set refreshes. The record is then reset (+0x660 cleared when unk_6c9 is clear, unk_684
+// zeroed, the packed-inventory counter unk_4a0 set to 0; a local record also loses class, name, level, equipment bytes, XP, gold and the in-game
+// flag) and the HUD refreshes (menu_HUD_0 "completeRefresh").
 void PlayerManager::RemoveCharacter(Character* a2) {
     if (!a2 || a2->m_markedForDeletion) {
         return;
@@ -182,23 +189,26 @@ void PlayerManager::RemoveCharacter(Character* a2) {
     const bool noInternalId = info->unk_670 == -1;  // v8: the record has no internal id (+0x670)
 
     if (m_numCharacters <= 0) {
-        ReportAssertFailure("m_numCharacters > 0", 1247);
+        ReportAssertFailure("m_numCreatedCharacters > 0", 1247);
     }
     m_numCharacters = m_numCharacters - 1;
 
     const Point3D<float> origin{0.0f, 0.0f, 0.0f};
     a2->SetPosition(origin, true);
-    // PARTIAL: virtual slots +0x48 and +0x40 of Character (see the comment above) are not called.
+    a2->Disabled();
+    a2->SetVisible(false);
     a2->InitCam();
     a2->RemoveMultiplayerHighlight();
-    // PARTIAL: the original stores 0 at Character +0x14a4 (index 1321). Character.hpp does not declare that word.
+    a2->m_objectOfInterest = nullptr;
     a2->CharAI::AI_SetTarget(nullptr, false);
     a2->CharAI::AI_SyncLastTarget();
     a2->CharAI::AI_ClearAllAggro();
     a2->CharAI::AI_ClearAllAggroTowardMe(false);
     a2->ObjectBase::Delete();
-    // PARTIAL: the "<name>_Deleted_<n>" rename is not written (see the comment above).
+    char deletedName[256];
+    std::snprintf(deletedName, sizeof deletedName, "%s_Deleted_%d", a2->m_name.c_str(), s_deletedPlayerCharacterCounter);
     ++s_deletedPlayerCharacterCounter;
+    a2->SetName(deletedName);
 
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (!noInternalId) {
@@ -209,8 +219,10 @@ void PlayerManager::RemoveCharacter(Character* a2) {
                     target = static_cast<GameObject*>(GetPlayer(0, false)->unk_660);
                 }
                 if (target) {
-                    // PARTIAL: CameraLevel's virtual slot +0x10 (the camera update after the retarget) is not called.
-                    level->m_camera->SetTarget(target, 0);
+                    if (level->m_camera) {
+                        level->m_camera->SetTarget(target, 0);
+                        level->m_camera->Update();  // CameraLevel virtual +0x10
+                    }
                     if (m_numCharacters == 1) {
                         static_cast<Character*>(target)->InitCam();
                     }
@@ -221,14 +233,11 @@ void PlayerManager::RemoveCharacter(Character* a2) {
     }
 
     if (!noInternalId) {
-        // LABEL_14: reset the record. The original reaches this block whenever the character has an internal id, with or
-        // without a level (the level only chooses the camera branch above).
         if (!unk_6c9) {
             info->unk_660 = nullptr;           // the original stores the byte value (0) into the character pointer
         }
         info->unk_684 = 0;
-        // PARTIAL: the original writes unk_4a0 (+0x4a0) through its vtable setter with the address of an uninitialised
-        // stack word (v22), so the value is not known and no write is made here.
+        info->unk_4a0.SetValue(0);
         if (info->IsLocal()) {
             info->SetCharacterClass(-1);
             info->SetCharacterName(std::string());
@@ -239,19 +248,22 @@ void PlayerManager::RemoveCharacter(Character* a2) {
             info->SetIngame(false);
         }
     }
-    // PARTIAL: the HUD refresh ("menu_HUD_0", "completeRefresh") on MenuManager::GetInstance()->GetHUDRoot() is not
-    // written; RenderFX::InvokeASCallback is not declared in dh2/RenderFX.hpp.
+    MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+    if (hud != nullptr) {
+        MenuManager::GetInstance()->GetHUDRoot()->InvokeASCallback("menu_HUD_0", "completeRefresh", nullptr, 0);
+    }
 }
 
 // 0x372220 _ZN13PlayerManager13_AddCharacterEi PlayerManager::_AddCharacter(int)
 // Spawns the player's character when the record has a class and no character yet. The return value of the original is
 // the record pointer's bits on the no-spawn path and the r0 residue of the last callee on the other paths; callers
 // (_ManageCharacters) ignore it, so this port returns 0.
-// PARTIAL: the online branch (the host-position copy through GetHostingPlayer, +0x1450 initial position and the room
-// zone insert), the virtual slot +0x40 (named nowhere) called with the in-level flag, and the skill-level loop, whose
-// bound is the savegame's skill count (not declared on PlayerSavegame). Also not written: the two words the original
-// stores on the new character at +0x1f88 (the record's +0x674) and +0x1f8c (the record's +0x670). Character's declared
-// layout ends at +0x1f88 (the original allocation is 0x1f90), so no member exists for them (layout request).
+// The new character takes the record's two numbers (+0x1f88 the record's +0x674, +0x1f8c the record's +0x670). Online, a client character is
+// placed at the host character's position and rotation, takes its initial position and rotation, joins the host's room zone (else the object
+// manager's no-room list, with the zone-entered notification). Then InitAll, InitCam (local and in room), the idle state, the three replicated
+// skill slots and the replicated skill levels (30 bytes, each applied when not negative and within the savegame's skill count), visibility
+// (shown for a local record, else the record's in-game flag), QuickSave of the level, the owned count + 1 and the controllers: offline or
+// for the record's own character the controller (and, for a local record, the light) is attached, otherwise the character is removed again.
 int PlayerManager::_AddCharacter(int internalId) {
     PlayerInfo* info = GetPlayerByInternalID(internalId, false);
     if (info->m_characterClass.GetValue() != -1 && info->unk_660 == nullptr) {
@@ -269,9 +281,24 @@ int PlayerManager::_AddCharacter(int internalId) {
         } else {
             character->SG_SetPlayerClass(info->m_characterClass.GetValue());
         }
+        character->m_netLocalNumber = info->unk_674;  // +0x1f88
+        character->m_netInternalId = info->unk_670;   // +0x1f8c
 
-        if (ApplicationGetInstance().IsOnlineGame()) {
-            // PARTIAL: the online branch (see above) is not written.
+        if (GetOnlineGameFlag()) {
+            if (!info->IsHost()) {
+                Character* host = GetHostingPlayer()->unk_660;
+                if (host) {
+                    character->SetPosition(host->m_position, true);
+                    character->SetRotation(host->m_rotation);
+                    character->SetInitialPosition(host->m_initialPosition);
+                    character->m_initialRotation = host->m_initialRotation;
+                    if (!host->m_roomZone || !host->m_roomZone->AddInitialObject(character)) {
+                        dword_99F764->AddNoRoomObject(character);
+                        character->unk_2ef = 1;
+                        character->ZoneEntered();
+                    }
+                }
+            }
         }
 
         character->InitAll();
@@ -291,15 +318,29 @@ int PlayerManager::_AddCharacter(int internalId) {
             }
             character->SG_SetSkillInSlot(i, static_cast<unsigned int>(value));
         }
-        // PARTIAL: the skill-level loop (unk_400, 30 bytes) is not written; its bound is the savegame skill count.
-        // PARTIAL: virtual slot +0x40 of Character (named nowhere) is called with the in-level flag here.
+        if (character->m_savegame && character->m_savegame->m_skillsSize > 30) {
+            ReportAssertFailure("PlayerInfo::NETWORK_SKILL_LIST_SIZE >= c->SG_GetSkillSize()", 1188);
+        }
+        std::int8_t levels[30];
+        std::memset(levels, 0, sizeof levels);
+        info->unk_400.GetBuffer(levels, 0);
+        for (int j = 0; j != 30; ++j) {
+            PlayerSavegame* savegame = character->m_savegame;
+            if (savegame && savegame->m_skillsSize > j) {
+                const int level = levels[j];
+                if (level >= 0) {
+                    character->SG_SetSkillLevel(static_cast<unsigned int>(j), level);
+                }
+            }
+        }
+        character->SetVisible(info->IsLocal() ? true : info->m_ingame.GetValue());
 
         if (Level* level = ApplicationGetInstance().GetCurrentLevel()) {
             level->QuickSave(false);
         }
         ++m_numCharacters;
 
-        if (!ApplicationGetInstance().IsOnlineGame() || character == GetPlayerByInternalID(internalId, true)->unk_660) {
+        if (!GetOnlineGameFlag() || character == GetPlayerByInternalID(internalId, true)->unk_660) {
             _AttachControllerToPlayerCharacter(internalId);
             if (info->IsLocal()) {
                 _AttachLightToPlayerCharacter(internalId);
@@ -313,80 +354,133 @@ int PlayerManager::_AddCharacter(int internalId) {
 }
 
 // 0x37193c _ZN13PlayerManager22_CheckOnlineTransitionEv PlayerManager::_CheckOnlineTransition()
-// The offline branch is exact. With the online flag clear, every gate of the original is false (each is an && chain
-// that starts with the flag), so the else path runs: the host-change flag and the transition flag are cleared, the
-// loading info is cleared, and the quest-sync buffer is cleared (its result is the return value).
-// PARTIAL: the online branch. The map is cleared when the transition gate holds, the connection check reads the
-// OnlineGameState int at +0x34 (not modelled) and calls Application::GoToMainMenu(3) when no connection remains, and the
-// transition is entered with the net player manager's id lists copied into m_playerIdList and m_localPlayerIdList.
-// Each of those gates needs OnlineGameState's byte at +0x24, which online_game_state.hpp does not model.
+// Outside a transition with the network gate open and records in the map, the local map is cleared. Online in OnlineGameState mode 3 or 4 with a
+// level and no live connection (CConnectionManager::GetConnectionCount(1) == 0) the application goes to the main menu (event 3). With the
+// gate open the transition flag is set and the net player manager's player-id and local-player-id lists are copied into
+// m_playerIdList and m_localPlayerIdList; with it closed the host-change flag and the transition flag are cleared, the loading info is
+// cleared and the quest-sync buffer is cleared (its result is the return value; the open path returns a stale register).
 int PlayerManager::_CheckOnlineTransition() {
-    if (!ApplicationGetInstance().IsOnlineGame()) {
-        m_hostChanged = false;
-        m_inOnlineTransition = false;
-        ClearLoadingInfo();
-        return ClearQuestSyncBuffer();
+    if (!m_inOnlineTransition && NetGateOpen() && !m_players.empty()) {
+        m_players.clear();
     }
-    // PARTIAL: online branch (see above) is not written. The return value is 0 here.
-    return 0;
+    if (GetOnlineGameFlag()) {
+        if (static_cast<unsigned>(OnlineSingleton<OnlineGameState>::GetInstance()->mode_ - 3) <= 1u) {
+            if (ApplicationGetInstance().GetCurrentLevel()) {
+                if (!GetConnectionMgr()->GetConnectionCount(1)) {
+                    ApplicationGetInstance().GoToMainMenu(static_cast<GoToMainMenuEvent>(3));
+                }
+            }
+        }
+    }
+    if (NetGateOpen()) {
+        m_inOnlineTransition = true;
+        m_playerIdList = GetNetPlayerMgr()->GetPlayerIdList();
+        m_localPlayerIdList = GetNetPlayerMgr()->GetLocalPlayerIdList();
+        return 0;
+    }
+    m_hostChanged = false;
+    m_inOnlineTransition = false;
+    ClearLoadingInfo();
+    return ClearQuestSyncBuffer();
 }
 
 // 0x37565c _ZN13PlayerManager18ReviveLocalPlayersEb PlayerManager::ReviveLocalPlayers(bool)
-// PARTIAL. Written: the death state reset (m_localDeathPending, m_globalDeathState), the checkpoint reload when offline,
-// the buff removal and the per-local-player revive (Character::Revive with no reviver, the idle state, and the potion
-// minimum from the CharacterDesign constant).
-// Not written:
-//   - VoxSoundManager: the VolumeFX setting is read (Application::GetSavedOption) but SetSoundVolume, StopAllMusic and
-//     PlayMusic are not declared in dh2 (the sound manager has no game-side header).
-//   - The position copy for each local character: from the local record's saved position when the local player is the
-//     host, or from the hosting player's position otherwise. The flag argument only selects this branch.
-//   - The object scan that collects the local player's followers (a walk of ObjectManager's list at +0x0c..+0x20 with
-//     the Faerie and owner tests), which moves them to the revived position. The list fields are not declared.
-//   - The Character word at +0x14a4 cleared before the revive (not declared on Character).
+// The death state is reset (m_localDeathPending, m_globalDeathState), the checkpoint reloads when offline and the effects volume returns to the
+// saved "VolumeFX". Each local player's character loses its buffs, collects the characters that follow it (faeries and characters whose master
+// it is), and is placed: offline (or hosting with the flag) at its saved revive position (when not the origin, with the followers placed at
+// the position it looks at), as a client at the hosting player's character position. Its object of interest is cleared, it revives (no reviver,
+// true), enters the idle state and gets at least the minimum number of potions (CharacterDesign MinimumPotionsOnDeath). The music restarts
+// (StopAllMusic(2), then the level's music, loop, 1000 ms fade).
 void PlayerManager::ReviveLocalPlayers(bool flag) {
     m_localDeathPending = false;      // +0x711
     m_globalDeathState = 0;           // +0x714
-    if (!ApplicationGetInstance().IsOnlineGame()) {
+    if (!GetOnlineGameFlag()) {
         Level* level = ApplicationGetInstance().GetCurrentLevel();
         level->LoadCheckpoint();
     }
-    // PARTIAL: VoxSoundManager::SetSoundVolume(s_instance, 1, GetSavedOption("VolumeFX")) is not written.
-    (void)flag;  // the flag only gates the position copy in the original, which is partial (see the ledger)
+    VoxSoundManager* sound = VoxSoundManager::s_instance;
+    sound->SetSoundVolume(1, static_cast<float>(ApplicationGetInstance().GetSavedOption("VolumeFX")));
 
-    const int count = GetNumLocalPlayers(false);
-    for (int index = 0; index < count; ++index) {
-        Character* character = static_cast<Character*>(GetLocalPlayer(index, false)->unk_660);
+    for (int index = 0; index < dword_99F76C->GetNumLocalPlayers(false); ++index) {
+        Character* character = dword_99F76C->GetLocalPlayer(index, false)->unk_660;
         if (!character) {
             continue;
         }
         character->CharProperties::PROPS_RemoveAllBuffs();
-        // PARTIAL: the follower scan and the position copy (see above) are not written. The character is revived at
-        // its current place when the position copy is skipped.
+        std::list<Character*> followers;
+        for (auto& entry : dword_99F764->m_objectMap) {
+            if (entry.second.m_object == nullptr) {
+                continue;
+            }
+            ObjectHandle handle = entry.second.m_object->GetHandle();
+            Character* other = handle;
+            if (!other) {
+                continue;
+            }
+            if (other->IsFaerie() || character == other->m_master) {
+                followers.push_back(other);
+            }
+        }
+        if (!GetOnlineGameFlag() || (IsLocalPlayerHosting() && flag)) {
+            Point3D<float> position = character->m_revivePosition;
+            if (!(position == Vec3f_Origin)) {
+                character->SetPosition(position, true);
+                character->GetLookAtVec(position);
+                const Point3D<float>& target = character->GetTargetPosition();
+                position.X = position.X + target.X;
+                position.Y = position.Y + target.Y;
+                position.Z = position.Z + target.Z;
+                for (Character* follower : followers) {
+                    follower->SetPosition(position, true);
+                }
+            }
+        } else {
+            PlayerInfo* hosting = GetHostingPlayer();
+            if (hosting->IsActive()) {
+                Character* hostCharacter = hosting->unk_660;
+                if (hostCharacter) {
+                    Point3D<float> position = hostCharacter->m_position;
+                    if (!(position == Vec3f_Origin)) {
+                        character->SetPosition(position, true);
+                        character->GetLookAtVec(position);
+                    }
+                }
+            }
+        }
+        character->m_objectOfInterest = nullptr;  // +0x14a4
         character->Revive(nullptr, true);
         character->CharStateMachine::SM_SetIdleState(false);
-        const int minimumPotions = ApplicationGetInstance().m_pyDataConstants->getConstant("CharacterDesign", "MinimumPotionsOnDeath");
-        if (character->ItemInventory::GetNumPotions() < minimumPotions) {
-            character->ItemInventory::SetPotionQty(minimumPotions);
+        PyDataConstants* constants = ApplicationGetInstance().m_pyDataConstants;
+        if (character->ItemInventory::GetNumPotions() < constants->getConstant("CharacterDesign", "MinimumPotionsOnDeath")) {
+            character->ItemInventory::SetPotionQty(constants->getConstant("CharacterDesign", "MinimumPotionsOnDeath"));
         }
     }
-    // PARTIAL: the music restart (StopAllMusic, PlayMusic on the current level's music id) is not written.
+    sound->StopAllMusic(2);
+    sound->PlayMusic(ApplicationGetInstance().GetCurrentLevel()->m_musicSoundId, true, false, 1000);
 }
 
 // 0x375af0 _ZN13PlayerManager19_HandleGlobalDeathsEv PlayerManager::_HandleGlobalDeaths()
-// The death sequence, one step per call, keyed by m_globalDeathState. States 0, 3 (the hosting branch), 4 and 5 are
-// written. State 2 is partial: the revive placement and the object reinit are written, the spawn-point move and the
-// objects' +0x160 position are not (no field named there). The message timer is a function-local static (.bss, zero).
+// The death sequence, one step per call, keyed by m_globalDeathState:
+//   0: state 1; the fade-to-black menu is pushed (the multi-menu manager pops first, the effects volume goes to 0) when not visible; the local
+//      pending flag and the local death timer widget are cleared.
+//   2: the local record's timer is reset to -1 when it was set and, for a non-host, the local character moves to the level's spawn point, redoes the
+//      quest sync, the object manager's byte +0x160 is cleared and the game events and objects are re-initialised. When every owned character
+//      has a negative timer the state becomes 3 and the hosting player reloads the checkpoint, places its character at its revive position and
+//      forces a full update.
+//   3: hosting: state 4; otherwise state 4 once the local savegame is quest-synced and the object manager's byte +0x160 is set.
+//   4: state 5 with a 2000 ms message timer (function-local static).
+//   5: the timer runs down by the frame time; below 0 the fade screens swap, the local players revive (with the flag) and unk_718 is cleared.
 void PlayerManager::_HandleGlobalDeaths() {
     static int messageDisplayTimer = 0;  // PlayerManager::_HandleGlobalDeaths()::messageDisplayTimer (.bss)
     switch (m_globalDeathState) {
         case 0: {
             m_globalDeathState = 1;
-            MenuManager* menus = MenuManager::GetInstance();
-            MenuBase* fade = menus->GetMenuByName("menu_FadeToBlackScreen");
+            MenuManager* manager = ApplicationGetInstance().m_menuManager;
+            MenuBase* fade = manager->GetMenuByName("menu_FadeToBlackScreen");
             if (!fade->IsVisible()) {
-                // PARTIAL: the original calls virtual slot +0x38 on the menu manager's object at +0xf4 with 1 (the fade
-                // screen's setup), and sets the sound volume to 0. Neither is declared in dh2.
-                menus->PushMenu("menu_FadeToBlackScreen");
+                MenuManager::GetInstance()->m_multiMenuManager->PopMenu(true);
+                manager->PushMenu("menu_FadeToBlackScreen");
+                VoxSoundManager::s_instance->SetSoundVolume(1, 0.0f);
             }
             m_localDeathPending = false;
             InfoHUDManager::GetInstance()->HideLocalDeathTimer();
@@ -397,12 +491,15 @@ void PlayerManager::_HandleGlobalDeaths() {
             if (local->m_characterDeathTimer.GetValue() >= 0) {
                 local->SetCharacterDeathTimer(-1);
                 if (!local->IsHost()) {
-                    // PARTIAL: the spawn-point move (GameObject +0x160 position) is not written.
-                    Character* character = static_cast<Character*>(GetLocalPlayer(0, true)->unk_660);
-                    if (character) {
-                        character->SG_RedoQuestSync();
+                    Character* localCharacter = GetLocalPlayer(0, true)->unk_660;
+                    if (localCharacter) {
+                        GameObject* spawnPoint = ApplicationGetInstance().GetCurrentLevel()->GetSpawnPoint();
+                        if (spawnPoint) {
+                            localCharacter->SetPosition(spawnPoint->m_position, true);
+                        }
+                        localCharacter->SG_RedoQuestSync();
                     }
-                    // PARTIAL: ObjectManager word +0x160 is cleared by the original; not declared on ObjectManager.
+                    dword_99F764->unk_160 = 0;
                     Level* level = ApplicationGetInstance().GetCurrentLevel();
                     if (level) {
                         level->m_gameEventManager->ReInit();
@@ -411,9 +508,8 @@ void PlayerManager::_HandleGlobalDeaths() {
                 }
             }
             bool allDead = true;
-            const int count = GetNumPlayers();
-            for (int index = 0; index < count; ++index) {
-                Character* character = static_cast<Character*>(GetPlayer(index, false)->unk_660);
+            for (int index = 0; index < GetNumPlayers(); ++index) {
+                Character* character = GetPlayer(index, false)->unk_660;
                 if (!character) {
                     continue;
                 }
@@ -423,7 +519,7 @@ void PlayerManager::_HandleGlobalDeaths() {
             }
             if (allDead) {
                 m_globalDeathState = 3;
-                Character* host = static_cast<Character*>(GetLocalPlayer(0, true)->unk_660);
+                Character* host = GetLocalPlayer(0, true)->unk_660;
                 if (IsLocalPlayerHosting() && host) {
                     host->SG_RedoQuestSync();
                 }
@@ -441,9 +537,22 @@ void PlayerManager::_HandleGlobalDeaths() {
         case 3: {
             if (IsLocalPlayerHosting()) {
                 m_globalDeathState = 4;
+                return;
             }
-            // PARTIAL: the non-hosting test reads PlayerSavegame's flag (+0x14 of the savegame) and ObjectManager's word
-            // +0x160, neither declared. The state stays 3 in that case.
+            Character* localCharacter = GetLocalPlayer(0, true)->unk_660;
+            bool ready;
+            if (localCharacter) {
+                PlayerSavegame* savegame = localCharacter->m_savegame;
+                if (!savegame) {
+                    return;
+                }
+                ready = savegame->m_questSynced && (dword_99F764->unk_160 & 1);
+            } else {
+                ready = (dword_99F764->unk_160 & 1) != 0;
+            }
+            if (ready) {
+                m_globalDeathState = 4;
+            }
             return;
         }
         case 4: {
@@ -454,7 +563,7 @@ void PlayerManager::_HandleGlobalDeaths() {
         case 5: {
             messageDisplayTimer = messageDisplayTimer - ApplicationGetInstance().GetDt();
             if (messageDisplayTimer < 0) {
-                MenuManager* menus = MenuManager::GetInstance();
+                MenuManager* menus = ApplicationGetInstance().m_menuManager;
                 menus->PopMenu("menu_FadeToBlackScreen");
                 menus->PushMenu("menu_FadeFromBlackScreen");
                 ReviveLocalPlayers(true);
@@ -468,20 +577,16 @@ void PlayerManager::_HandleGlobalDeaths() {
 }
 
 // 0x375eb4 _ZN13PlayerManager18_CheckGlobalDeathsEv PlayerManager::_CheckGlobalDeaths()
-// The check runs only in an online game on level step 38. Offline the function returns at once (exact). Online, the
-// all-dead test is written; when every character is dead (or unset with a negative timer) the original sends the
-// CMsgGlobalDeath message once and runs _HandleGlobalDeaths.
-// PARTIAL: the message send. CMessage::CreateMessage's last two arguments are not recovered from the pseudocode.
+// The check runs only in an online game on level step 38. When every character is dead (or has a negative death timer) the CMsgGlobalDeath
+// message is sent once (while the death state is 0) and _HandleGlobalDeaths runs; otherwise it runs only while a death state is active.
 void PlayerManager::_CheckGlobalDeaths() {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
-    if (!level || level->m_loadStep != 38 || !ApplicationGetInstance().IsOnlineGame()) {
+    if (!level || level->m_loadStep != 38 || !GetOnlineGameFlag()) {
         return;
     }
     bool allDead = GetNumPlayers() != 0;
-    const int count = GetNumPlayers();
-    for (int index = 0; index < count; ++index) {
-        PlayerInfo* player = GetPlayer(index, false);
-        Character* character = static_cast<Character*>(player->unk_660);
+    for (int index = 0; index < GetNumPlayers(); ++index) {
+        Character* character = GetPlayer(index, false)->unk_660;
         if (!character) {
             allDead = false;
             continue;
@@ -489,13 +594,13 @@ void PlayerManager::_CheckGlobalDeaths() {
         if (character->IsDead()) {
             continue;
         }
-        if (player->m_characterDeathTimer.GetValue() < 0) {
+        if (GetPlayer(index, false)->m_characterDeathTimer.GetValue() < 0) {
             allDead = false;
         }
     }
     if (allDead) {
         if (m_globalDeathState == 0) {
-            // PARTIAL: GetMessaging()->SendMsg(CMessage::CreateMessage("CMsgGlobalDeath", ...)) is not written.
+            GetMessaging()->SendMsg(CMessage::CreateMessage("CMsgGlobalDeath", true));
         }
         _HandleGlobalDeaths();
     } else if (m_globalDeathState != 0) {
@@ -507,9 +612,9 @@ void PlayerManager::_CheckGlobalDeaths() {
 // Online: when the death state is idle, a pending local death counts the local record's timer down by the frame time,
 // and at zero clears the pending flag, hides the timer and revives. Otherwise it starts the pending death and shows the
 // timer. Offline: the fade screen is pushed when it is not already visible.
-// PARTIAL: the offline sound volume (VoxSoundManager::SetSoundVolume to 0) is not written.
+// Offline the effects volume also goes to 0 (VoxSoundManager::SetSoundVolume(1, 0.0)).
 void PlayerManager::_HandleLocalDeaths() {
-    if (ApplicationGetInstance().IsOnlineGame()) {
+    if (GetOnlineGameFlag()) {
         if (m_globalDeathState == 0) {
             if (m_localDeathPending) {
                 PlayerInfo* local = GetLocalPlayer(0, false);
@@ -533,15 +638,14 @@ void PlayerManager::_HandleLocalDeaths() {
         MenuBase* fade = menus->GetMenuByName("menu_FadeToBlackScreen");
         if (!fade->IsVisible()) {
             menus->PushMenu("menu_FadeToBlackScreen");
-            // PARTIAL: VoxSoundManager::SetSoundVolume(s_instance, 1, 0.0) is not written.
+            VoxSoundManager::s_instance->SetSoundVolume(1, 0.0f);
         }
     }
 }
 
 // 0x376100 _ZN13PlayerManager17_CheckLocalDeathsEv PlayerManager::_CheckLocalDeaths()
 // On level step 38, when the local character is dead and at least one character is owned, the local death handling
-// runs. The return value is the dead flag (the original leaves the callee's r0 in place on the handling path, which is
-// not reproduced).
+// runs. The return value is the dead flag (the original leaves a stale register on some paths; callers ignore it).
 int PlayerManager::_CheckLocalDeaths() {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (!level || level->m_loadStep != 38) {
@@ -559,11 +663,11 @@ int PlayerManager::_CheckLocalDeaths() {
 }
 
 // 0x376380 _ZN13PlayerManager25OnHostChangedNotificationEi PlayerManager::OnHostChangedNotification(int)
-// PARTIAL. Written: the host assertion on the record, the host-change flag when a level is loaded, the ready-to-roll
-// reset for a local record that is not in the game, and the final death-state step (3 becomes 2).
-// Not written: the chat line for a record with a character (OnlineStatusMsg queue, StringManager text, the debug
-// cached-character refresh) and the lobby notification (RenderFX::InvokeASCallback is not declared), and the
-// CRoomAttributes update that writes the player name into the room (its SetAttributeBin signature is not in the tree).
+// The record must be the host (assert "pInfo.IsHost()", line 2095). With a level loaded the host-change flag is set; a local record that is not
+// in the game gets its ready-to-roll flag reset and the timers cleared. A record with a character queues the status line
+// "<name> is now host" (StrID MENU_IS_NOW_HOST with the player name as the %s argument) on the OnlineStatusMsg queue; a record without one tells the
+// lobby (menu_MultiplayerLobby "PlayerBecameHost") when this client is hosting. In both cases the room's attribute 3 (binary) becomes the
+// record's character name. A death state of 3 steps back to 2.
 void PlayerManager::OnHostChangedNotification(int internalId) {
     PlayerInfo* info = GetPlayerByInternalID(internalId, false);
     if (!info->IsHost()) {
@@ -577,22 +681,50 @@ void PlayerManager::OnHostChangedNotification(int internalId) {
         m_readyToRollTimer = -1;
         m_readyToRollWaiting = false;
     }
-    // PARTIAL: the character branch (chat line and room-name update) and the lobby branch are not written.
+    if (Character* character = info->unk_660) {
+        std::string text;
+        Application& app = ApplicationGetInstance();
+        const char* format = app.m_stringManager->getString(app.m_pyDataConstants->getConstant("StrID", "MENU_IS_NOW_HOST"));
+        const std::string playerName = StringManager::formatForMulti(std::string(character->SG_GetPlayerName()), false);
+        app.m_stringManager->parse(text, format, playerName.c_str());
+        MenuMessageManager<OnlineStatusMsg, 1>& statusMessages = MenuMessageManager<OnlineStatusMsg, 1>::s_inst;
+        statusMessages.m_queues[0].push_back(OnlineStatusMsg(text));
+        if (statusMessages.m_queues[0].size() == 1) {
+            statusMessages.Invoke(OnlineStatusMsg::s_StartFuncName[0], 0);
+        }
+    } else if (IsLocalPlayerHosting()) {
+        if (MenuManager::GetInstance()->GetRoot() != nullptr) {
+            MenuManager::GetInstance()->GetRoot()->InvokeASCallback("menu_MultiplayerLobby", "PlayerBecameHost", nullptr, 0);
+        }
+    }
+    CRoomAttributes attributes(*CMatching::Get()->GetRoomAttributes());
+    const std::string roomName = info->m_characterName.GetValue();
+    attributes.SetAttributeBin(ROOM_BIN_ATTRIBUTE_3, roomName.data(), static_cast<unsigned int>(roomName.size()));
+    *CMatching::Get()->GetRoomAttributes() = attributes;
     if (m_globalDeathState == 3) {
         m_globalDeathState = 2;
     }
 }
 
 // 0x378a40 _ZN13PlayerManager10_AddPlayerEiiib PlayerManager::_AddPlayer(int, int, int, bool)
-// The offline branch is exact: the record is built in a temporary PlayerInfo (unk_670 the internal id, unk_66c the flag,
-// unk_668 the third argument, unk_674 the second) and stored in the map at that key, then the player numbers are updated.
-// The original does this only when the internal id is not already in the local map; otherwise it returns that result.
-// PARTIAL: the online branch, which updates an existing record in place when the online matching gate holds. The gate
-// needs OnlineGameState's byte at +0x24, which online_game_state.hpp does not model.
+// Gate open: the record of the internal id, when active, takes the flag (+0x66c), the pad index (a4, +0x668), the member id (a3, +0x674) and
+// the internal id (+0x670), its NetStruct is enabled, and the player numbers are updated (the result of the active test is returned otherwise).
+// Gate closed: when the internal id is not already in the local map the record is built in a temporary PlayerInfo (unk_670 the internal id,
+// unk_66c the flag, unk_668 the third argument, unk_674 the second) and stored in the map at that key, then the player numbers are updated;
+// otherwise the already-present result is returned.
 int PlayerManager::_AddPlayer(int internalId, int a3, int a4, bool flag) {
-    if (ApplicationGetInstance().IsOnlineGame()) {
-        // PARTIAL: online branch (see above) is not written.
-        return 0;
+    if (NetGateOpen()) {
+        PlayerInfo* record = GetPlayerByInternalID(internalId, false);
+        const bool active = record->IsActive();
+        if (active) {
+            record->unk_66c = flag ? 1 : 0;
+            record->unk_668 = a4;
+            record->unk_674 = a3;
+            record->unk_670 = internalId;
+            record->SetEnabled(true);
+            return _UpdatePlayerNumbers();
+        }
+        return active;
     }
     const bool present = IsPlayerInLocalMap(internalId);
     if (present) {
@@ -610,27 +742,98 @@ int PlayerManager::_AddPlayer(int internalId, int a3, int a4, bool flag) {
 }
 
 // 0x378b94 _ZN13PlayerManager23_CheckRemoteControllersEv PlayerManager::_CheckRemoteControllers()
-// Offline: exact no-op (the first gate is the online flag). Online: PARTIAL. The original walks the player-id list and
-// re-adds each remote record whose controller id differs, through _AddPlayer. Its gate needs the OnlineGameState byte
-// at +0x24, which online_game_state.hpp does not model.
+// With the network gate open, every player in the id list whose matching member id differs from this client's (CMatching::LocalMemberId,
+// vtable +0x6c) and whose record does not carry that internal id yet is added: _AddPlayer(id, member id, -1, false). Gate closed: nothing.
 void PlayerManager::_CheckRemoteControllers() {
-    if (!ApplicationGetInstance().IsOnlineGame()) {
+    if (!NetGateOpen()) {
         return;
     }
-    // PARTIAL: the remote-controller walk is not written (see above).
+    const int localMember = CMatching::Get()->LocalMemberId();
+    for (std::size_t i = 0; i != m_playerIdList.size(); ++i) {
+        const int id = m_playerIdList[i];
+        const int member = static_cast<PlayerInfo*>(GetNetPlayerMgr()->GetPlayer(id, false))->matching_member_id_.GetValue();
+        if (localMember != member) {
+            if (id != GetPlayerByInternalID(id, false)->unk_670) {
+                _AddPlayer(id, member, -1, false);
+            }
+        }
+    }
 }
 
 // 0x378c80 _ZN13PlayerManager22_CheckLocalControllersEv PlayerManager::_CheckLocalControllers()
-// The return value is the number of gamepads, at least 1 (the original keeps that count in its loop bound and returns
-// it on every path). PARTIAL: the per-controller loop is not written. It reads each controller through InputManager's
-// virtual slot +0x08 (not declared), and adds, updates or removes local records from the controller state.
+// Walks the gamepads (at least one). A pad counts as in use when it is connected (pad 0 always). With the network gate closed the record id is
+// the pad index and it needs adding when absent from the local map; with it open the net player manager's local player of that index is used
+// (its record id, member id; a record whose number differs needs adding, and when it is the first local player's the record's save slot is
+// taken from the savegame manager's last slot if unset). A pad in use either adds the player (_AddPlayer(id, member, pad, true)) or, for a record
+// without a save slot, runs the joining check (_UpdateJoiningController while the net state is 2, otherwise after the join button
+// channel 14 changes state the HUD gets "onNewPlayerLocal" with the player's local number and the net state becomes 2). Returns the pad count.
 unsigned int PlayerManager::_CheckLocalControllers() {
-    int gamepads = InputManager::GetInstance()->GetNumGamepads();
-    if (gamepads < 1) {
-        gamepads = 1;
+    InputManager* input = InputManager::GetInstance();
+    int numPads = input->GetNumGamepads();
+    if (numPads < 1) {
+        numPads = 1;
     }
-    // PARTIAL: the controller loop is not written (see above).
-    return static_cast<unsigned int>(gamepads);
+    for (int i = 0; i < numPads; ++i) {
+        Gamepad* pad = input->GetGamepad(i);
+        bool padInUse = pad->m_connected;
+        if (i == 0) {
+            padInUse = true;
+        }
+        int internalId;
+        int memberId = -1;
+        bool needsAdding;
+        if (!NetGateOpen()) {
+            needsAdding = !IsPlayerInLocalMap(i);
+            internalId = i;
+        } else {
+            PlayerInfo* netLocal = static_cast<PlayerInfo*>(GetNetPlayerMgr()->GetLocalPlayer(i));
+            if (netLocal->IsActive()) {
+                internalId = netLocal->member_id_.GetValue();
+                memberId = netLocal->matching_member_id_.GetValue();
+            } else {
+                internalId = -1;
+            }
+            needsAdding = internalId != netLocal->unk_670;
+            if (needsAdding) {
+                if (netLocal->unk_670 == GetLocalPlayer(0, false)->unk_670) {
+                    if (netLocal->unk_664 == -1) {
+                        const int lastSlot = ApplicationGetInstance().m_savegameManager->m_lastSlot;
+                        if (lastSlot != -1) {
+                            netLocal->unk_664 = lastSlot;
+                        }
+                    }
+                }
+            }
+            if (internalId == -1) {
+                continue;
+            }
+        }
+        if (padInUse) {
+            if (needsAdding) {
+                _AddPlayer(internalId, memberId, i, true);
+            } else {
+                PlayerInfo* record = GetPlayerByInternalID(internalId, false);
+                if (record->unk_664 == -1) {
+                    if (record->unk_240.GetValue() == 2) {
+                        _UpdateJoiningController(i, internalId);
+                    } else {
+                        const Gamepad::Channel& joinButton = pad->m_buttons[14];
+                        const float threshold = ((joinButton.previous_maximum + joinButton.previous_minimum) + 1.0f) * 0.5f;
+                        const bool above = joinButton.previous >= threshold;
+                        if (above != joinButton.previous_above_threshold) {
+                            if (Level* level = ApplicationGetInstance().GetCurrentLevel()) {
+                                gameswf::as_value number;
+                                number.set_double(static_cast<double>(record->unk_67c));
+                                MenuManager::GetInstance()->GetHUDRoot()->InvokeASCallback("menu_HUD_0", "onNewPlayerLocal", &number, 1);
+                                record->SetState(2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return static_cast<unsigned int>(numPads);
 }
 
 // 0x37280c _ZN13PlayerManager17_ManageCharactersEv PlayerManager::_ManageCharacters()

@@ -12,7 +12,7 @@
 //   0x3596f8 LoadScene                     partial
 //   0x359a38 AddSkyBoxSceneNode            partial
 //   0x359b68 PreloadScene                  reconstructed
-//   0x359c60 GetMaterial(node, char*)      partial
+//   0x359c60 GetMaterial(node, char*)      reconstructed
 //   0x359d08 SetMaterialRimLightEffects(material) partial
 //   0x359fac SearchByName(vector&, char*)  reconstructed
 //   0x35a044 SearchByName(visit, char*)    reconstructed
@@ -234,15 +234,12 @@ void SceneManager::PreloadScene(const char* file, const char* nodeName) {
 }
 
 // 0x359c60 SceneManager::GetMaterial(glitch::scene::ISceneNode*, char const*, bool)
-// PARTIAL. Rebuilt: the null check on the node and the name, and the call to the std::string overload (0x355000, not in
-// this batch). Not rebuilt: the return value. The original writes a result through its hidden result slot: 0 when the
-// node or the name is null, otherwise the result of the string overload. The header declares void and the string
-// overload's result type is not recovered, so the value is dropped.
-void SceneManager::GetMaterial(glitch::scene::ISceneNode* node, const char* name, bool flag) {
+// A null node or a null name gives a null material (the original writes 0 through its hidden result slot); otherwise the result of the std::string overload (0x355000).
+boost::intrusive_ptr<glitch::video::CMaterial> SceneManager::GetMaterial(glitch::scene::ISceneNode* node, const char* name, bool flag) {
     if (!node || !name) {
-        return;
+        return boost::intrusive_ptr<glitch::video::CMaterial>();
     }
-    GetMaterial(node, std::string(name), flag);
+    return GetMaterial(node, std::string(name), flag);
 }
 
 // 0x359d08 SceneManager::SetMaterialRimLightEffects(boost::intrusive_ptr<glitch::video::CMaterial>, float, std::string)

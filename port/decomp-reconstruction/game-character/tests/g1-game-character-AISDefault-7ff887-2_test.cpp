@@ -10,6 +10,7 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <list>
 #include <new>
@@ -22,10 +23,15 @@
 #include "dh2/Character.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/LuaScript.hpp"
+#include "dh2/PFFloor.hpp"
 #include "dh2/PFObject.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/sfc/script/lua/UserData.hpp"
 #include "dh2/v2Controller.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 
 namespace {
 
@@ -234,6 +240,13 @@ Point3D<float> Character::GetLeftFootPosition() const {
 Point3D<float> Character::GetRightFootPosition() const {
     g_log.push_back("RightFoot");
     return Point3D<float>{};
+}
+int Character::GetFXFootprint() const {
+    g_log.push_back("FXFootprint");
+    return 5;
+}
+void VisualFXManager::PlayAnimFXSet(int effectTableId, const Point3D<float>&, const GameObject*, VisualFXManager::AnimFXSetData*) {
+    g_log.push_back("PlayFX " + std::to_string(effectTableId));
 }
 
 // The Lua argument list (dh2/sfc/script/lua/Arguments.hpp) is only built on the stack here. Each push is logged, and
@@ -511,6 +524,32 @@ void CheckCombatResults() {
     Expect(g_log == Calls({"push user self", "push user target"}), "combat: miss without its bit calls nothing");
 }
 
+// The tables and the floor the footstep part reads: one CharEffect row (footsteps allowed unless g_footstepsAllowed is cleared), one
+// FootstepEffect row for the material "stone" (effect 9) and a floor whose floortypes string is "stone".
+Structs::CharEffect g_charEffectRow[1];
+Structs::FootstepEffect g_footstepRow[1];
+alignas(PFFloor) unsigned char g_floorStorage[sizeof(PFFloor)];
+
+void SetFootstepWorld(bool allowed, const char* material) {
+    g_charEffectRow[0].m_w5 = allowed;
+    g_footstepRow[0].m_w1 = 9;
+    if (g_footstepRow[0].m_w3 == nullptr) {
+        g_footstepRow[0].m_w3 = static_cast<char*>(std::malloc(6));  // the record frees its string buffer in its destructor
+        std::strcpy(g_footstepRow[0].m_w3, "stone");
+    }
+    Arrays::CharEffectTable::members = reinterpret_cast<std::uint8_t*>(g_charEffectRow);
+    Arrays::CharEffectTable::size = 1;
+    Arrays::FootstepEffectTable::members = reinterpret_cast<std::uint8_t*>(g_footstepRow);
+    Arrays::FootstepEffectTable::size = 1;
+    if (material == nullptr) {
+        SelfCharacter()->m_pfObject.m_floor = nullptr;  // no floor under the character
+        return;
+    }
+    PFFloor* floor = reinterpret_cast<PFFloor*>(g_floorStorage);
+    new (&floor->m_floorTypes) std::string(material);  // the floor storage is raw: build the string in place (short names, nothing to free)
+    SelfCharacter()->m_pfObject.m_floor = floor;
+}
+
 void CheckAnimEvent() {
     // Every event reaches the script with its name and the character's last event data (CharAnimator m_lastEventData).
     Setup();
@@ -518,19 +557,41 @@ void CheckAnimEvent() {
     AI()->AISDefault::OnAnimEvent("jump");
     Expect(g_log == Calls({"push string jump", "push int 7", "Call OnAnimEvent"}), "anim: event goes to OnAnimEvent");
 
-    // A left step reads the left foot position after the call.
+    // A left step reads the left foot position after the call (no floor under the character: no footstep material).
     Setup();
+    SetFootstepWorld(true, nullptr);
     SelfCharacter()->m_lastEventData = 7;
     AI()->AISDefault::OnAnimEvent("step_left");
-    Expect(g_log == Calls({"push string step_left", "push int 7", "Call OnAnimEvent", "LeftFoot"}),
-           "anim: step_left reads the left foot");
+    Expect(g_log == Calls({"push string step_left", "push int 7", "Call OnAnimEvent", "LeftFoot", "FXFootprint", "PlayFX 5"}),
+           "anim: step_left plays the footprint at the left foot");
 
     // A right step reads the right foot position.
     Setup();
+    SetFootstepWorld(true, nullptr);
     SelfCharacter()->m_lastEventData = 7;
     AI()->AISDefault::OnAnimEvent("step_right");
-    Expect(g_log == Calls({"push string step_right", "push int 7", "Call OnAnimEvent", "RightFoot"}),
-           "anim: step_right reads the right foot");
+    Expect(g_log == Calls({"push string step_right", "push int 7", "Call OnAnimEvent", "RightFoot", "FXFootprint", "PlayFX 5"}),
+           "anim: step_right plays the footprint at the right foot");
+
+    // With footsteps allowed and a floor material that has a FootstepEffect row, that effect plays as well.
+    Setup();
+    SetFootstepWorld(true, "stone");
+    AI()->AISDefault::OnAnimEvent("step_right");
+    Expect(g_log == Calls({"push string step_right", "push int 7", "Call OnAnimEvent", "RightFoot", "FXFootprint", "PlayFX 5", "PlayFX 9"}),
+           "anim: a known floor material plays its footstep effect");
+
+    // Footsteps not allowed by the CharEffect row, or an unknown material: only the footprint.
+    Setup();
+    SetFootstepWorld(false, "stone");
+    AI()->AISDefault::OnAnimEvent("step_left");
+    Expect(g_log == Calls({"push string step_left", "push int 7", "Call OnAnimEvent", "LeftFoot", "FXFootprint", "PlayFX 5"}),
+           "anim: footsteps not allowed");
+    Setup();
+    SetFootstepWorld(true, "grass");
+    AI()->AISDefault::OnAnimEvent("step_left");
+    Expect(g_log == Calls({"push string step_left", "push int 7", "Call OnAnimEvent", "LeftFoot", "FXFootprint", "PlayFX 5"}),
+           "anim: unknown material");
+    SelfCharacter()->m_pfObject.m_floor = nullptr;
 }
 
 void CheckScriptTimer() {

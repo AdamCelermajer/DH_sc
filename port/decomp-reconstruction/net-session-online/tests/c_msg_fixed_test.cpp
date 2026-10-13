@@ -16,9 +16,6 @@ int main() {
     raised.SetProperties();
     CHECK(raised.IsReliable());
 
-    CMsgAttackResult attack;
-    CHECK(attack.GetDataSize() == 0x34);
-
     CMsgGlobalDeath death(true);  // explicit bool constructor (GetNewInstance<CMsgGlobalDeath>(bool))
     CHECK(death.GetDataSize() == 0);
     death.SetProperties();

@@ -2,8 +2,7 @@
 // two bone nodes of its visual). Reconstructed from the Hex-Rays pseudocode of libDungeonHunter2.so. Where the pseudocode
 // types a word differently from the code the original uses (Update's countdown and lifetime, the "NAN" stores), the
 // assembly decides and the function comment says so. Offsets in comments are the original 32-bit ones. The Projectile
-// base is in g1-game-world-Projectile-6685f5-0.cpp. Partial functions name the blocked part in their comment; the
-// ledger notes repeat the reason.
+// base is in g1-game-world-Projectile-6685f5-0.cpp.
 
 #include <cmath>
 #include <cstdint>
@@ -20,6 +19,8 @@
 #include "dh2/PFObject.hpp"
 #include "dh2/PFRoom.hpp"
 #include "dh2/PFWorld.hpp"
+#include "dh2/POProjectile.hpp"
+#include "dh2/Point3D.hpp"
 #include "dh2/Projectile.hpp"
 #include "dh2/ProjectileManager.hpp"
 #include "dh2/RootSceneNode.hpp"
@@ -60,16 +61,6 @@ const char* ProjectileDaeName(int dictIndex) {
     return reinterpret_cast<const Structs::ColladaFile*>(Arrays::ProjectileDict::members)[dictIndex].m_w2;
 }
 
-// Point3D<float>::normalize (0x34d0b0) is declared in dh2/Point3D.hpp but has no definition in the tree. The original
-// takes sqrtf(((x*x) + (y*y)) + (z*z)) and then operator/= (0x34d04c) divides each component by it, with no zero test.
-// A zero vector gives NaN in the original too. Reproduced here as ItemObject does.
-void NormalizeDirection(Point3D<float>& v) {
-    const float length = std::sqrt((v.X * v.X + v.Y * v.Y) + v.Z * v.Z);
-    v.X = v.X / length;
-    v.Y = v.Y / length;
-    v.Z = v.Z / length;
-}
-
 // Integer subtraction as the ARM code does it (RSB / SUB, wrapping). Used for the countdown (+0x3e0) and the lifetime
 // (+0x3b4), which both count down by the frame time.
 int WrapSub(int a, int b) {
@@ -86,10 +77,9 @@ float LaserTypeProjectile::GetSpeed() const {
 }
 
 // 0x3e3e2c LaserTypeProjectile::OnCollision(GameObject*, Point2D<float> const&)
-// PARTIAL: the enemy test on the owner. The original calls ObjectBase::GetHandle with the receiver m_owner (+0x380), the
-// assembly's R1 (LDR R1, [R4,#0x380]). SetInfo always leaves m_owner null, and GetHandle reads this+0x2c, so the original
-// dereferences null and crashes when a character without the +0x10 flag is hit. This port does not crash: with no owner
-// character the hit is taken, which is the path the original takes when the owner has no character.
+// The enemy test on the owner calls ObjectBase::GetHandle with the receiver m_owner (+0x380), the assembly's R1 (LDR R1, [R4,#0x380]). SetInfo always leaves m_owner null, and GetHandle reads
+// this+0x2c, so the original dereferences null and crashes when a character without the table +0x10 flag is hit (the laser rows set that flag). This port does not crash: with no owner character
+// the hit is taken, which is the path the original takes when the owner has no character.
 // The hit object is stored in m_target (+0x384), not in m_hitObject as in Projectile::OnCollision.
 bool LaserTypeProjectile::OnCollision(GameObject* other, const Point2D<float>& position) {
     if (m_dead || m_expiring) {  // +0x3d0, +0x3d1
@@ -180,7 +170,7 @@ void LaserTypeProjectile::Update() {
         const Point3D<float> position = GetTargetPosition();
         Point3D<float> direction{m_destination.X - position.X, m_destination.Y - position.Y,
                                  m_destination.Z - position.Z};  // +0x1a8..+0x1b0
-        NormalizeDirection(direction);
+        direction.normalize();
         SetDestination(Point3D<float>{direction.X * 1000.0f + position.X, direction.Y * 1000.0f + position.Y,
                                       direction.Z * 1000.0f + position.Z});
     }
@@ -262,11 +252,11 @@ void LaserTypeProjectile::SetInfo(int projectileId, GameObject* owner, GameObjec
 }
 
 // 0x3e4570 LaserTypeProjectile::SetInfo(int, GameObject*, GameObject*, Callback, Callback, void*, bool)
-// PARTIAL: the PhysicalObject body is not created. The original builds it as
-//   new PhysicalObject(Singleton<Application>::s_inst.m_physicalWorld (+0x44), this, false, true, true, true, 0, 0x20, 0x51f, 0),
-// gives it the POProjectile vtable (0x968fe8 + 8), and calls SetPhysicalObject(body, false). POProjectile.hpp declares no
-// constructor, so an object with that vtable cannot be built here (layout request). Every other step is reconstructed.
-// The onHit argument is not stored: the laser never writes +0x3b8, and its OnCollision never calls a hit callback.
+// Asserts the table index (line 63) and the owner (line 64); the owner is kept in m_laserOwner (+0x3dc) and m_owner (+0x380) is cleared. The start is the owner's target position or the absolute position
+// of the owner visual's "projectile_node"; the squared range, speed, deceleration, countdown (-1) and lifetime come from the table row. The visual is the ProjectileDict model of table +0x28 (none when
+// negative) with its "_bone_origin" and "_bone_target" nodes. A laser without a physics body gets a PhysicalObject on the application's physical world with the POProjectile vtable (not static, circle, sensor and
+// bullet, group 0, category 0x20, mask 0x51f). The bone nodes are placed at the start, the visual is shown, unparented and plays clip 0 in a loop, and the destination is the target's position or 1000 units
+// along the aim vector. The onHit argument is not stored: the laser never writes +0x3b8, and its OnCollision never calls a hit callback. The original's int return is not part of the void declaration.
 void LaserTypeProjectile::SetInfo(int projectileId, GameObject* owner, GameObject* target, Callback onHit,
                                   Callback onFinish, void* userData, bool useProjectileNode) {
     (void)onHit;
@@ -326,8 +316,10 @@ void LaserTypeProjectile::SetInfo(int projectileId, GameObject* owner, GameObjec
         }
     }
 
-    // NOT MADE (PARTIAL): the PhysicalObject body with the POProjectile vtable and SetPhysicalObject(body, false). See the
-    // function comment above.
+    if (m_physicalObject == nullptr) {  // +0x2dc
+        POProjectile* body = new POProjectile(ApplicationGetInstance().m_physicalWorld, this, false, true, true, true, 0, 0x20, 0x51f, 0);
+        SetPhysicalObject(body, false);
+    }
 
     SetPosition(Point3D<float>{0.0f, 0.0f, 0.0f}, true);
     m_boneOrigin->setPosition(m_startPosition.X, m_startPosition.Y, m_launchHeight);  // +0x3d4
@@ -358,7 +350,7 @@ void LaserTypeProjectile::SetInfo(int projectileId, GameObject* owner, GameObjec
             const glitch::core::vector3d<float> nodePosition = m_projectileNode->getAbsolutePosition();
             direction = Point3D<float>{nodePosition.X - m_startPosition.X, nodePosition.Y - m_startPosition.Y,
                                        nodePosition.Z - m_startPosition.Z};
-            NormalizeDirection(direction);
+            direction.normalize();
         }
         SetDestination(Point3D<float>{direction.X * 1000.0f + m_startPosition.X,
                                       direction.Y * 1000.0f + m_startPosition.Y,

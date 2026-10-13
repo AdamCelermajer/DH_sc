@@ -10,13 +10,31 @@
 //   - SG_NeedToResendQuestSyncMsg returns void. No path sets a return value, and the only caller (chunk_005.c) passes
 //     the leftover register on to an unrelated call.
 //
-// Status: nineteen wrappers are reconstructed. SG_NeedToResendQuestSyncMsg is partial and does nothing yet (see it).
+// Status: all twenty wrappers are reconstructed.
 
+#include <cstdio>
+#include <cstdlib>
+
+#include "core-platform/memory.hpp"  // gAssertLevel
 #include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/PlayerSavegame.hpp"
 #include "dh2/QuestSavegame.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/net_singletons.hpp"
 
 namespace {
+
+// The original ASSERT of Character_SGProxy.cpp: level 2 stops the process, level 1 prints the message.
+void ReportAssert(const char* expression, int line) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expression,
+                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_SGProxy.cpp", line);
+    }
+}
 
 // The original's "-1 means the current difficulty" rule.
 int ResolveDifficulty(int difficulty) {
@@ -166,23 +184,19 @@ void Character::SG_SetCurrentQuest(int index, int difficulty) {
 }
 
 // 0x3bc07c _ZN9Character27SG_NeedToResendQuestSyncMsgEv
-// PARTIAL, and it does nothing yet. The original (Character_SGProxy.cpp, lines 279 and 280) does four things:
-//   1. ASSERT that Application::GetInstance()->GetPlayerManager()->IsLocalPlayerHosting() holds (line 279).
-//   2. ASSERT that GetOnline().IsOnlineGame() holds (line 280).
-//   3. When the game is online and the local player hosts it, and m_initFinalDone (Character +0x1395) is set, clear
-//      PlayerSavegame::m_questSynced (+0x14) on m_savegame.
-//   4. Return nothing useful. Hex-Rays shows the leftover r0, and the caller in chunk_005.c ignores it.
-// Blocked, in order of the chain:
-//   - Hosting (steps 1 and 3): PlayerManager::IsLocalPlayerHosting needs dh2/PlayerManager.hpp. That header includes
-//     net-transport/stream_buffer.hpp, which defines IStreamBase in net-transport/deps/i_stream_base.hpp. dh2/Character.hpp
-//     already defines IStreamBase in pydata-accessors/deps/stream_reader.hpp (through CharProperties.hpp), so a translation
-//     unit with both headers does not compile. Owner: the engine unification wave (one IStreamBase).
-//   - Online (steps 2 and 3): the flag is the byte at COnline +0x05. COnline is only forward-declared in
-//     dh2/global/net_singletons.hpp, so there is no layout to read. Layout request: "COnline +0x05 bool IsOnlineGame
-//     (Hex-Rays *(_BYTE*)(GetOnline()+5); assert text GetOnline().IsOnlineGame() at Character_SGProxy.cpp:280)".
-// Until both are available the body keeps the online branch closed, so m_questSynced is never cleared here.
-// Return type: void (see the header note at the top of this file).
+// Two asserts (Character_SGProxy.cpp lines 279 and 280): the local player hosts (PlayerManager::IsLocalPlayerHosting on dword_99F76C), and the game is
+// online (the COnline flag). When the game is online, the local player hosts and m_initFinalDone (Character +0x1395) is set, the savegame's
+// m_questSynced (+0x14) is cleared so the quest sync is sent again. The original returns the leftover register; the header is void.
 void Character::SG_NeedToResendQuestSyncMsg() {
+    if (!dword_99F76C->IsLocalPlayerHosting()) {
+        ReportAssert("Application::GetInstance()->GetPlayerManager()->IsLocalPlayerHosting()", 279);
+    }
+    if (!GetOnlineGameFlag()) {
+        ReportAssert("GetOnline().IsOnlineGame()", 280);
+    }
+    if (GetOnlineGameFlag() && dword_99F76C->IsLocalPlayerHosting() && m_initFinalDone != 0 && m_savegame != nullptr) {
+        m_savegame->m_questSynced = false;
+    }
 }
 
 // 0x3bc1dc _ZN9Character36SG_DBG_TraceDetailedQuestInformationEP7__sFILEii

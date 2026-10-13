@@ -11,6 +11,8 @@ class Character;
 
 class AISFaery : public AISDefault {
 public:
+    explicit AISFaery(bool skipBindings);                               // inlined into CharAI::SetScript<AISFaery>: AISDefault(skipBindings), faery id -1 (+0xc4)
+
     // Virtual hooks, in vtable slot order. Only the overrides are listed here. The rest are inherited from AISDefault.
     ~AISFaery() override;                                               // slot 0/1: 0x3de2e4 (base object), 0x3de688 (deleting)
     void OnUpdate() override;                                           // slot 6:  0x3de544

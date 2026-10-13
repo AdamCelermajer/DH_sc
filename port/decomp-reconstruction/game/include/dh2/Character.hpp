@@ -24,7 +24,9 @@
 #include <string>
 
 #include "core-platform/deps/game_types.hpp"
+#include "dh2/Point2D.hpp"
 #include "net-transport/net_struct.hpp"
+#include "net-transport/net_struct_interpolation.hpp"
 #include "net-transport/tb/net_struct_int.hpp"
 
 #include "dh2/GameObject.hpp"
@@ -83,16 +85,14 @@ public:
         ~NetStructCharacter() override;                                 // 0x3a7a50, 0x3a7b08
 
         // NetStruct occupies +0x00 .. +0x12f.
-        // The three position members are NetStructInterpolatedRangedFloat<18,-200000,200000> (x, y) and
-        // <16,-50000,50000> (z), 0xf8 bytes each. That class is abstract in the current net-transport header
-        // (TestValue is not overridden), so the storage is kept opaque until the engine header is completed.
-        alignas(8) std::uint8_t m_posX_opaque[0xf8];                    // +0x130
-        std::uint8_t m_posY_opaque[0xf8];                               // +0x228
-        std::uint8_t m_posZ_opaque[0xf8];                               // +0x320
+        // The three position members are NetStructInterpolatedRangedFloat<18,-200000,200000> (x, y) and <16,-50000,50000> (z).
+        NetStructInterpolatedRangedFloat<18u, -200000, 200000> m_posX;  // +0x130
+        NetStructInterpolatedRangedFloat<18u, -200000, 200000> m_posY;  // +0x228
+        NetStructInterpolatedRangedFloat<16u, -50000, 50000> m_posZ;    // +0x320
         NetStructRangedFloat<16u, -1, 1> m_dirX;                        // +0x418 from GameObject +0x1b8
         NetStructRangedFloat<16u, -1, 1> m_dirY;                        // +0x440 from GameObject +0x1bc
         NetStructInt<32u>  m_hp;                                        // +0x468 HP + 1, 0 = dead 
-        NetStructInt<32u>  m_killerNetId;                               // +0x490 network id of the killer 
+        NetStructInt<32u>  m_mpOrKillerId;                              // +0x490 MP + 1 of a living character; the killer's network id (ObjectBase +0x108) when dead
         NetStructInt<16u>  m_state;                                     // +0x4b8 CharStateMachine state, -1 = none 
         NetStructBool m_enabled;                                        // +0x4e0 from ObjectBase +0x8a
         NetStructBool m_killerIsPlayer;                                 // +0x500
@@ -306,8 +306,8 @@ public:
     // StringManager::parse, styleId and colorId to FlashAnimManager::PlayScrollingCombatText, and never reads unusedArg.
     // Parameter type and name of the first argument are therefore wrong here (rename candidate: amount, type int). Not
     // retyped: the definitions in game-character/src/g1-game-character-Character-ee9946-8.cpp use Character* target.
-    void F_ApplyScrollingCombatTextGold(Character* target, int gold);   // 0x3aef68 (target: the gold amount, see above)
-    void F_ApplyScrollingCombatTextXP(Character* target, int styleId, int colorId, int unusedArg);  // 0x3af0c8 (target: the xp amount, see above)
+    void F_ApplyScrollingCombatTextGold(int gold, int unusedArg);       // 0x3aef68 (the first explicit argument is the gold amount; the second is not read)
+    void F_ApplyScrollingCombatTextXP(int xp, int styleId, int colorId, int unusedArg);  // 0x3af0c8 (the first explicit argument is the xp amount; the last is not read)
     static void F_ApplyScrollingCombatText(const AttackResult& result, GameObject* attacker, Character* target);  // 0x3af1fc
     static void F_ApplyScrollingCombatText(const AttackResult& result, Character* attacker, Character* target);   // 0x3af77c
     static void F_ApplyCombatSound(const AttackResult& result, GameObject* attacker, Character* target);          // 0x3afd38
@@ -361,7 +361,7 @@ public:
     bool UseMana(int cost);                                             // 0x3bdef4
     void LevelUp(int levels);                                           // 0x3beb88
     bool _GiveXP(int xp, bool a);                                       // 0x3bf498 (returns 1 when the XP was granted; DistributeXP uses it)
-    void DistributeXP(Character* victim, Character* killer);            // 0x3bf828
+    static void DistributeXP(Character* killer, Character* victim);     // 0x3bf828 (the original passes the killer as this; it may be null)
 
     // ---- savegame access (SG_*: thin wrappers over m_savegame, the PlayerSavegame at +0x14e8) ----
     int SG_GetSlot();  // 0x3bb728
@@ -543,8 +543,7 @@ public:
     std::string m_charGroupRole;            // +0x1418 property "char_group_role"
     bool m_autoSpawn;                       // +0x1430 property "auto_spawn", default 1; returned by CSM_Spawn; AddProperty<bool> (DeclareProperties 0x3a9fe4)
     std::uint8_t pad_1431[3];
-    std::int32_t m_spawnDelay;              // +0x1434 property "spawn_delay" (type not confirmed)
-    std::int32_t unk_1438;                  // +0x1438 0
+    Point2D<int> m_spawnDelay;              // +0x1434 property "spawn_delay" (SimpleTypeProperty<Point2D<int>>, default 0,0): X the minimum spawn delay, Y (+0x1438) the maximum
     float m_spawnViewRadius;                // +0x143c property "spawn_view_radius" (not set by the ctor; type not confirmed)
     float unk_1440;                         // +0x1440 InitPost: (float) CharProperties value 210
     float unk_1444;                         // +0x1444 InitPost: (float) CharProperties value 211
@@ -584,8 +583,7 @@ public:
     std::uint16_t unk_14d0;                 // +0x14d0 0; read as an unsigned 16-bit word by GetHitCount (0x3b6cc8). Retyped from int16 (every
                                             //   current use is a cast or an assignment). rename candidate: m_hitCount (rename not applied)
     std::uint8_t pad_14d2[2];
-    std::int32_t unk_14d4;                  // +0x14d4 0; Kill (0x3a5b18) reads it as a Character* redirect of an aggro target (*(Character**)(target+0x14d4)).
-                                            //   Kept int32: a pointer here changes host layout. rename candidate: m_aggroRedirect (type decision open)
+    Character* m_aggroRedirect;             // +0x14d4 0; Kill (0x3a5b18) sends the death event to this character instead of the aggro entry when it is set (*(Character**)(target+0x14d4))
     std::int32_t unk_14d8;                  // +0x14d8 0
     std::uint8_t unk_14dc;                  // +0x14dc 0
     std::uint8_t pad_14dd[3];
@@ -605,5 +603,7 @@ public:
     std::int32_t m_pendingXPText;           // +0x1504 xp << 8 shown by Update, -1 = none
     NetStructCharacter m_netOut;            // +0x1508 filled by PopulateOutgoingNetStruct
     NetStructCharacter m_netIn;             // +0x1a48 read by InterpretIncomingNetStruct
-    // End +0x1f88; the original allocation is 0x1f90 (8-byte alignment of NetStructCharacter).
+    std::int32_t m_netLocalNumber;          // +0x1f88 the player record's +0x674 (the matching member id), stored by PlayerManager::_AddCharacter
+    std::int32_t m_netInternalId;           // +0x1f8c the player record's +0x670 (internal id), stored by PlayerManager::_AddCharacter
+    // End +0x1f90, the original allocation size. The constructor does not write these two words.
 };

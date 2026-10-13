@@ -11,8 +11,31 @@
 
 #include "core-platform/memory.hpp"            // gAssertLevel
 #include "dh2/global/runtime_support.hpp"      // PushProfilingContext, PopProfilingContext
+#include "dh2/Application.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/FlashAnimManager.hpp"
+#include "dh2/ItemInventory.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerStatManager.hpp"
+#include "dh2/SavegameManager.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/TrophyManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"   // dword_99F778 (SavegameManager)
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/ctrl_camera.hpp"          // ApplicationGetInstance
+#include "dh2/global/item_instance.hpp"        // ApplicationGetStringManager
+#include "dh2/global/net_singletons.hpp"       // GetOnlineGameFlag
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_attack_result.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"       // Arrays::DesignSettingsTable, Arrays::CamAnimSetTable
+#include "pydata-accessors/w7_structs_2.hpp"       // Structs::CharSounds
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/Random.hpp"
 #include "dh2/global/CombatFormulas.hpp"       // s_attacker, s_defender, s_element, s_offHanded, s_isSkill, CF_SetCombatants
 #include "dh2/global/cf_calc.hpp"              // CF__Calc* rolls, CombatDamage, MissOrDodgeResult
@@ -94,6 +117,35 @@ std::int32_t DamagerRowWord(int index, int offset) {
     return value;
 }
 
+// The id of a trophy by name (the first match in Arrays::TrophyTable's names, -1 when absent).
+int TrophyId(const char* name) {
+    return pydata::FindMemberName(Arrays::TrophyTable::m_memberNames, static_cast<int>(Arrays::TrophyTable::size), name);
+}
+
+// A ScrollingCombatText constant of the PyData constants (colours).
+int ScrollingTextConstant(const char* name) {
+    return ApplicationGetPyDataConstants()->getConstant("ScrollingCombatText", name);
+}
+
+// The point above a character where the scrolling text starts: its target position raised by the height of its local box
+// (m_relAabb[5] - m_relAabb[2]).
+glitch::core::vector3d<float> TextAnchor(const Character* character) {
+    const Point3D<float>& position = character->GetTargetPosition();
+    return glitch::core::vector3d<float>{position.X, position.Y, position.Z + (character->m_relAabb[5] - character->m_relAabb[2])};
+}
+
+// Plays sound `sound` at the target position of `where` (VoxSoundManager::Play3D(sound, position, false, 1, -1, -1)).
+void PlaySoundAt(int sound, const Character* where) {
+    const Point3D<float>& position = where->GetTargetPosition();
+    const glitch::core::vector3d<float> at{position.X, position.Y, position.Z};
+    VoxSoundManager::s_instance->Play3D(sound, at, false, 1, -1.0f, -1.0f);
+}
+
+// One random entry of a CharSounds list (count words at `ids`), drawn from the ordinary random stream.
+int RandomSound(std::uint32_t count, const void* ids) {
+    return static_cast<const std::int32_t*>(ids)[Random::GetRandom(static_cast<int>(count), false)];
+}
+
 }  // namespace
 
 // 0x3ae60c Character::GetFaeryCharacter(void)
@@ -109,10 +161,8 @@ const Character* Character::GetFaeryCharacter() const {
 }
 
 // 0x3ae61c Character::IncFaeryLevel(unsigned int)
-// PARTIAL: the faery_charged trophy is not awarded. The original unlocks it through TrophyManager::s_instance when
-// PlayerManager::IsLocalPlayer(dword_99F76C, this) is true and the name is found in Arrays::TrophyTable. dh2/PlayerManager.hpp
-// does not compile beside dh2/Character.hpp (its net-transport StreamBuffer clashes with the pydata IStreamBase), so the
-// local-player test is not written. The level change, the skill update and the every-faery-leveled check are reproduced.
+// The faery's level goes up by one (savegame) and the AI skills are updated. When every faery has a level above 0, the local player
+// unlocks the "faery_charged" trophy.
 void Character::IncFaeryLevel(unsigned int faery) {
     const int difficulty = SG_GetGameDifficulty();
     if (static_cast<unsigned int>(SG_GetFaerieCount(difficulty)) <= faery) {
@@ -129,19 +179,27 @@ void Character::IncFaeryLevel(unsigned int faery) {
         }
     }
 
-    // PARTIAL: the faery_charged trophy unlock (see the comment above) belongs here, after the loop.
+    TrophyManager* trophies = TrophyManager::s_instance;
+    if (dword_99F76C->IsLocalPlayer(this)) {
+        trophies->UnlockTrophy(TrophyId("faery_charged"));
+    }
 }
 
 // 0x3ae7d4 Character::SetFaeryState(unsigned int, int)
-// PARTIAL: the first-faery tutorial branch is not reproduced. It runs when state is 1, faery is not 0, COnline::isOnlineGame_
-// (+0x05) is clear, the difficulty is 0 and the SavegameManager tutorial byte m_tutorials[2] (+0x2b) is set. It then starts
-// cinematic_Tuto_faery (ScriptManager::s_inst, GetIDFromName and StartScript are declared), clears the byte and calls
-// saveSettings. The blocker is isOnlineGame_: it is a protected member of COnline (net-session-online/c_online.hpp) with no
-// getter. The state change below is complete.
+// The first faery to be switched on (state 1, faery index not 0), offline and on difficulty 0, while the SavegameManager tutorial byte
+// m_tutorials[2] (+0x2b) is set, starts the cinematic_Tuto_faery script, clears the byte and saves the settings. The state is then stored.
 void Character::SetFaeryState(unsigned int faery, int state) {
     const int difficulty = SG_GetGameDifficulty();
     if (static_cast<unsigned int>(SG_GetFaerieCount(difficulty)) <= faery) {
         ReportAssertFailure("faeryIdx < SG_GetFaerieCount(diff)", kCharacterFaeryFile, 135);
+    }
+    if (state == 1 && faery != 0 && !GetOnlineGameFlag() && SG_GetGameDifficulty() == 0 && dword_99F778->m_tutorials[2] != 0) {
+        const int script = ScriptManager::s_inst.GetIDFromName("cinematic_Tuto_faery", true);
+        if (script != -1) {
+            ScriptManager::s_inst.StartScript(script, -1, false);
+        }
+        dword_99F778->m_tutorials[2] = 0;
+        dword_99F778->saveSettings();
     }
     SG_SetFaerieState(faery, state, difficulty);
 }
@@ -206,44 +264,46 @@ const void* Character::GetCharFaery(int faeryId) const {
     return faery;
 }
 
-// 0x3af0c8 Character::F_ApplyScrollingCombatTextXP(Character*, int, int, int)
-// PARTIAL: nothing is drawn. The original formats the GAMEPLAYMENUS_REWARD_XP string (StringManager, dword_99F760) with
-// the xp amount and places it above the target (the z extent of the local AABB, m_relAabb[5] - m_relAabb[2], is added to the
-// target position). The amount is the first explicit argument, which dh2/Character.hpp declares as Character* target (rename
-// candidate: int amount), so it cannot be passed to StringManager::parse until that is retyped. The text call
-// (FlashAnimManager::PlayScrollingCombatText) takes a glitch::core::vector3d<float>, and dh2/FlashAnimManager.hpp cannot be
-// included beside this file's Character chain (see F_ApplyScrollingCombatText below). styleId and colorId are the styleId
-// and color of that call; the fifth argument is never read.
-void Character::F_ApplyScrollingCombatTextXP(Character* target, int styleId, int colorId, int unusedArg) {
-    (void)target;
-    (void)styleId;
-    (void)colorId;
-    (void)unusedArg;
+// 0x3aef68 Character::F_ApplyScrollingCombatTextGold(int, int)
+// Floats the gold text above this character: the ITEMS_GOLD string formatted with the amount, in the anim_reward_gold style and the QR_Gold colour,
+// starting at the text anchor (target position raised by the height of the local box). The second argument is not read.
+void Character::F_ApplyScrollingCombatTextGold(int gold, int /*unusedArg*/) {
+    FlashAnimManager* manager = FlashAnimManager::GetInstance();
+    const glitch::core::vector3d<float> anchor = TextAnchor(this);
+    StringManager* strings = ApplicationGetStringManager();
+    const char* format = strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "ITEMS_GOLD"));
+    std::string text;
+    strings->parse(text, format, gold);
+    const int style = manager->GetStyleIdFromName("anim_reward_gold");
+    manager->PlayScrollingCombatText(style, anchor, text.c_str(), ScrollingTextConstant("QR_Gold"));
 }
 
-// 0x3aef68 Character::F_ApplyScrollingCombatTextGold(Character*, int)
-// PARTIAL: nothing is drawn. The original formats the ITEMS_GOLD string (StringManager, dword_99F760) with the gold amount,
-// which is the first explicit argument (declared Character* target in dh2/Character.hpp; rename candidate: int amount), and
-// places it above the target with the anim_reward_gold style and the QR_Gold colour. The amount cannot be passed to
-// StringManager::parse until that declaration is retyped, and the text call needs glitch::core::vector3d (see
-// F_ApplyScrollingCombatText below). The second argument is never read.
-void Character::F_ApplyScrollingCombatTextGold(Character* target, int gold) {
-    (void)target;
-    (void)gold;
+// 0x3af0c8 Character::F_ApplyScrollingCombatTextXP(int, int, int, int)
+// Floats the xp text above this character: the GAMEPLAYMENUS_REWARD_XP string formatted with the amount, in the given style and colour, at the
+// text anchor. The last argument is not read.
+void Character::F_ApplyScrollingCombatTextXP(int xp, int styleId, int colorId, int /*unusedArg*/) {
+    FlashAnimManager* manager = FlashAnimManager::GetInstance();
+    const glitch::core::vector3d<float> anchor = TextAnchor(this);
+    StringManager* strings = ApplicationGetStringManager();
+    const char* format = strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "GAMEPLAYMENUS_REWARD_XP"));
+    std::string text;
+    strings->parse(text, format, xp);
+    manager->PlayScrollingCombatText(styleId, anchor, text.c_str(), colorId);
 }
 
 // 0x3af1fc Character::F_ApplyScrollingCombatText(Character::AttackResult const&, GameObject*, Character*)
-// PARTIAL: a follower shows nothing and returns here. A positive damage would show its value (damage >> 8) with the
-// anim_sct_normaldamage style at the target's text anchor (GetTargetPosition, z raised by m_relAabb[5] - m_relAabb[2],
-// GameObject +0x158 and +0x14c), in PlayerDamageColor for a player and DamageColor otherwise. Nothing is drawn:
-// FlashAnimManager::PlayScrollingCombatValue takes a glitch::core::vector3d<float>, and dh2/FlashAnimManager.hpp
-// (glitch-shared/glitch_core.hpp) cannot be included in this translation unit, because the Character chain already defines
-// glitch::core::vector3d from core-platform/deps/glitch_core.hpp (through Billboard.hpp and SimpleTypeProperty.hpp).
-void Character::F_ApplyScrollingCombatText(const AttackResult& result, GameObject* attacker, Character* target) {
-    (void)result;
-    (void)attacker;
+// A follower shows nothing. A positive damage floats its value (damage >> 8) at the target's text anchor in the anim_sct_normaldamage style,
+// in the PlayerDamageColor for a player and the DamageColor otherwise.
+void Character::F_ApplyScrollingCombatText(const AttackResult& result, GameObject* /*attacker*/, Character* target) {
     if (target->IsFollower()) {
         return;
+    }
+    FlashAnimManager* manager = FlashAnimManager::GetInstance();
+    const glitch::core::vector3d<float> anchor = TextAnchor(target);
+    if (result.m_damage > 0) {
+        const int style = manager->GetStyleIdFromName("anim_sct_normaldamage");
+        const int color = ScrollingTextConstant(target->IsPlayer() ? "PlayerDamageColor" : "DamageColor");
+        manager->PlayScrollingCombatValue(style, anchor, result.m_damage >> 8, color);
     }
 }
 
@@ -263,68 +323,155 @@ void Character::_F_ResetResult(AttackResult& result) {
 }
 
 // 0x3af77c Character::F_ApplyScrollingCombatText(Character::AttackResult const&, Character*, Character*)
-// PARTIAL: followers return at once. Nothing is drawn. The original chooses one text from the result flags: miss (bit 0 of
-// +0x18) and dodge (bit 1) show their text and return; block (bit 2) shows its text and goes on; fear (bit 5) or else slow
-// (bit 8 of +0x19) show their text when the attacker's sheet value (PROPS 187 or 143 for fear, 189 or 146 for slow, chosen
-// by bit 16 of m_attackFlags) is non-zero after >> 8. Then a positive damage shows its value (damage >> 8) with the style of
-// the attack flags (dot, off-hand, critical) and the colour for the target (player or not, critical or not). The drawing
-// calls take a glitch::core::vector3d<float>, which clashes with the one in the Character chain (see the GameObject overload
-// above), so the text is not drawn.
+// Followers show nothing. The text anchor is the target's. A miss (result flag 0x01) or a dodge (0x02) floats its word (INGAME_ATTACK_MISS in the
+// MissColor, INGAME_ATTACK_DODGE in the DodgeColor, both in the anim_sct_block style) and ends the function; a block (0x04) floats INGAME_ATTACK_BLOCK in
+// the BlockColor and goes on. A fear result (0x20) floats INGAME_ATTACK_FEAR (anim_sct_stun style, FearColor) when the attacker's fear property is non-zero
+// after >> 8 (property 187 for an attack flagged 0x10000... bit 16 of the attack flags, else 143); otherwise a slow result (bit 0 of the second flag byte)
+// floats INGAME_ATTACK_SLOW (SlowColor) under the same test with properties 189 or 146. Then a positive damage floats its value (damage >> 8), in the style of the
+// attack (dot 0x20000000: anim_sct_dot; dual wielding: the left (attack flag 0x4000000) or right critical/normal variants; otherwise anim_sct_crit or
+// anim_sct_normaldamage) and the colour for the target (player or not, critical (0x08) or not).
 void Character::F_ApplyScrollingCombatText(const AttackResult& result, Character* attacker, Character* target) {
-    (void)result;
-    (void)attacker;
     if (target->IsFollower()) {
         return;
+    }
+    FlashAnimManager* manager = FlashAnimManager::GetInstance();
+    const glitch::core::vector3d<float> anchor = TextAnchor(target);
+    StringManager* strings = ApplicationGetStringManager();
+    const std::uint32_t flags = result.m_resultFlags;
+    const std::uint32_t attackFlags = result.m_attackFlags;
+    auto strid = [](const char* name) { return ApplicationGetPyDataConstants()->getConstant("StrID", name); };
+
+    if ((flags & kResultMissed) != 0) {
+        manager->PlayScrollingCombatText(manager->GetStyleIdFromName("anim_sct_block"), anchor, strings->getString(strid("INGAME_ATTACK_MISS")),
+                                         ScrollingTextConstant("MissColor"));
+        return;
+    }
+    if ((flags & kResultDodged) != 0) {
+        manager->PlayScrollingCombatText(manager->GetStyleIdFromName("anim_sct_block"), anchor, strings->getString(strid("INGAME_ATTACK_DODGE")),
+                                         ScrollingTextConstant("DodgeColor"));
+        return;
+    }
+    if ((flags & kResultBlocked) != 0) {
+        manager->PlayScrollingCombatText(manager->GetStyleIdFromName("anim_sct_block"), anchor, strings->getString(strid("INGAME_ATTACK_BLOCK")),
+                                         ScrollingTextConstant("BlockColor"));
+    }
+    const bool offHandFlag = ((attackFlags >> 16) & 1) != 0;
+    if ((flags & kResultScare) != 0) {
+        if ((static_cast<unsigned int>(attacker->PROPS_Get(offHandFlag ? 187 : 143, false)) >> 8) != 0) {
+            manager->PlayScrollingCombatText(manager->GetStyleIdFromName("anim_sct_stun"), anchor, strings->getString(strid("INGAME_ATTACK_FEAR")),
+                                             ScrollingTextConstant("FearColor"));
+        }
+    } else if ((flags & kResultSlow) != 0) {
+        if ((static_cast<unsigned int>(attacker->PROPS_Get(offHandFlag ? 189 : 146, false)) >> 8) != 0) {
+            manager->PlayScrollingCombatText(manager->GetStyleIdFromName("anim_sct_stun"), anchor, strings->getString(strid("INGAME_ATTACK_SLOW")),
+                                             ScrollingTextConstant("SlowColor"));
+        }
+    }
+    if (result.m_damage > 0) {
+        const bool critical = (flags & kResultCritical) != 0;
+        int style;
+        if ((attackFlags & kAttackDot) != 0) {
+            style = manager->GetStyleIdFromName("anim_sct_dot");
+        } else if (attacker->ItemInventory::IsDualWielding()) {
+            if ((attackFlags & kAttackOffHand) != 0) {
+                style = manager->GetStyleIdFromName(critical ? "anim_sct_critleft" : "anim_sct_normaldamageleft");
+            } else {
+                style = manager->GetStyleIdFromName(critical ? "anim_sct_critright" : "anim_sct_normaldamageright");
+            }
+        } else {
+            style = manager->GetStyleIdFromName(critical ? "anim_sct_crit" : "anim_sct_normaldamage");
+        }
+        const char* colorName;
+        if (target->IsPlayer()) {
+            colorName = critical ? "PlayerCritDamageColor" : "PlayerDamageColor";
+        } else {
+            colorName = critical ? "CritDamageColor" : "DamageColor";
+        }
+        manager->PlayScrollingCombatValue(style, anchor, result.m_damage >> 8, ScrollingTextConstant(colorName));
     }
 }
 
 // 0x3afd38 Character::F_ApplyCombatSound(Character::AttackResult const&, GameObject*, Character*)
-// PARTIAL: the MP_MinimalRandoms switch is read and gates the sound choice, which is reproduced here. The sound itself
-// needs VoxSoundManager::Play3D and VoxSoundManager::s_instance (not declared in vox-audio) and the CharSounds rows
-// (GetCharSounds returns an untyped pointer; the row layout is not declared). Nothing is played yet.
-void Character::F_ApplyCombatSound(const AttackResult& result, GameObject* attacker, Character* target) {
-    (void)result;
-    (void)attacker;
-    (void)target;
-    DebugSwitches::GetInstance()->load();
-    if (DebugSwitches::GetInstance()->GetSwitch("MP_MinimalRandoms")) {
+// Unless the MP_MinimalRandoms switch is set: a dead target plays a random sound of its CharSounds death list (m_w1/m_w2) when it has one; a living target
+// plays one of its injured list (m_w3/m_w4) when the damage is positive. The sound is played at the target position.
+void Character::F_ApplyCombatSound(const AttackResult& result, GameObject* /*attacker*/, Character* target) {
+    const Structs::CharSounds* sounds = target->GetCharSounds();
+    if (ReadSwitch("MP_MinimalRandoms")) {
         return;
     }
-    // PARTIAL: the death, injured and hit sound choice (IsDead on target selects the death rows; the damage rows are
-    // gated on result damage > 0) and VoxSoundManager::Play3D are not reproduced.
+    if (target->IsDead()) {
+        if (sounds->m_w1 == 0) {
+            return;
+        }
+        PlaySoundAt(RandomSound(sounds->m_w1, sounds->m_w2), target);
+    } else {
+        if (result.m_damage <= 0 || sounds->m_w3 == 0) {
+            return;
+        }
+        PlaySoundAt(RandomSound(sounds->m_w3, sounds->m_w4), target);
+    }
 }
 
 // 0x3afee0 Character::F_ApplyCombatSound(Character::AttackResult const&, Character*, Character*)
-// PARTIAL: as the GameObject overload. The Character overload plays through the attacker's CharSounds rows (the same
-// untyped layout) and VoxSoundManager::Play3D, neither declared.
+// Unless the MP_MinimalRandoms switch is set: a dead target plays a random sound of its own death list (m_w1/m_w2) when it has one; a living target with a
+// positive damage plays one of its injured list (m_w3/m_w4) when it has one. Then, for a positive damage, the attacker's hit sound is chosen by the target's
+// flags: the attacker's CharSounds list m_w5/m_w6 when the target's flag byte m_w9 (+0x24) is set, else the list m_w7/m_w8 when the target's byte +0x25 is
+// set. Every sound is played at the target position.
 void Character::F_ApplyCombatSound(const AttackResult& result, Character* attacker, Character* target) {
-    (void)result;
-    (void)attacker;
-    (void)target;
-    DebugSwitches::GetInstance()->load();
-    if (DebugSwitches::GetInstance()->GetSwitch("MP_MinimalRandoms")) {
+    const Structs::CharSounds* attackerSounds = attacker->GetCharSounds();
+    const Structs::CharSounds* targetSounds = target->GetCharSounds();
+    if (ReadSwitch("MP_MinimalRandoms")) {
         return;
     }
-    // PARTIAL: the attacker/target sound choice and VoxSoundManager::Play3D are not reproduced.
+    if (target->IsDead()) {
+        if (targetSounds->m_w1 != 0) {
+            PlaySoundAt(RandomSound(targetSounds->m_w1, targetSounds->m_w2), target);
+        }
+    } else {
+        if (result.m_damage <= 0) {
+            return;
+        }
+        if (targetSounds->m_w3 != 0) {
+            PlaySoundAt(RandomSound(targetSounds->m_w3, targetSounds->m_w4), target);
+        }
+    }
+    if (result.m_damage <= 0) {
+        return;
+    }
+    if (targetSounds->m_w9) {
+        if (attackerSounds->m_w5 == 0) {
+            return;
+        }
+        PlaySoundAt(RandomSound(attackerSounds->m_w5, attackerSounds->m_w6), target);
+        return;
+    }
+    if (!targetSounds->m_off37 || attackerSounds->m_w7 == 0) {
+        return;
+    }
+    PlaySoundAt(RandomSound(attackerSounds->m_w7, attackerSounds->m_w8), target);
 }
 
 // 0x3b01b8 Character::F_ApplyResult(Character::AttackResult const&, GameObject*, Character*, bool)
-// PARTIAL, in order of the original: (1) the network notification is not written. It runs when COnline::isOnlineGame_
-// (+0x05) is set, suppressNetMessage is false and the attacker's m_netOwnerId (+0x110) is -1: CMsgAttackResult of the
-// attacker and defender unk_108 ids through GetMessaging. isOnlineGame_ is protected in net-session-online/c_online.hpp
-// with no getter, and CMsgAttackResult's header (net-session-online/deps/character_attack_result.hpp) declares a
-// namespace Character stand-in that clashes with dh2/Character.hpp. The NoDamages and GOD gates, the blood effect
-// (attack flag 0x200000, VisualFXManager::PlayAnimFXSet on the target position), the store of false to
-// CharStateMachine::m_deadAltAnim, HitFor when the target's m_netOwnerId is -1, the dead-state clears, the injure state,
-// CancelSneaking, the scrolling text, the sound and the CharAI OnCombatResults hook are reproduced. The Hex-Rays return
-// value is a leftover of the hook; declared void.
+// Online, unless suppressed, an attacker that is locally owned (m_netOwnerId -1) sends a CMsgAttackResult (attacker and defender network ids, flag false:
+// the attacker is not a Character). Then the NoDamages and GOD gates, the blood effect (attack flag 0x200000), the store of false to
+// CharStateMachine::m_deadAltAnim, HitFor when the target's m_netOwnerId is -1, the dead-state clears, the injure state, CancelSneaking, the scrolling
+// text, the sound and the target's CharAI OnCombatResults hook. The Hex-Rays return value is the hook's leftover; declared void.
 void Character::F_ApplyResult(const AttackResult& result, GameObject* attacker, Character* target, bool suppressNetMessage) {
-    (void)suppressNetMessage;
     // The original writes the dead-state clears back into the caller's result. The header takes the result const, so that
     // the overload does not become ambiguous with the Character overload for existing callers; the caller's object is
     // not const, so the write lands in the caller's result as in the original.
     AttackResult& writable = const_cast<AttackResult&>(result);
-    // PARTIAL: the network notification (see above) is not written.
+    if (GetOnlineGameFlag() && !suppressNetMessage && attacker->m_netOwnerId == -1) {
+        if (target == nullptr) {
+            ReportAssertFailure("attacker && defender", kCharacterFormulasFile, 1035);
+        }
+        const std::int32_t defenderId = target != nullptr ? target->unk_108 : -1;
+        const std::int32_t attackerId = attacker->unk_108;
+        if (target == nullptr || defenderId < 0 || attackerId < 0) {
+            ReportAssertFailure("attackerNetworkId >= 0 && defenderNetworkId >= 0", kCharacterFormulasFile, 1045);
+        }
+        CMessaging::GetInstance()->SendMsg(CMsgAttackResult::Create(attackerId, defenderId, result, false));
+    }
 
     // The NoDamages switch and the GOD switch (with the player test and the target's m_freeMana) skip the damage part.
     bool skipDamage = ReadSwitch("NoDamages");
@@ -362,12 +509,10 @@ void Character::F_ApplyResult(const AttackResult& result, GameObject* attacker, 
     static_cast<CharAI*>(target)->OnCombatResults(attacker, const_cast<AttackResult*>(&result));
 }
 // 0x3b061c Character::F_GOAttack(Character::AttackResult&, GameObject*, Character*, int, int)
-// PARTIAL. The asserts and the trace read, the roll and the immunity gate, the injure flag and the result words are
-// reproduced. The damage row is Arrays::GameObjectDamager row a, read at its 32-bit file layout (24-byte rows: +4 damage
+// The asserts and the trace read, the roll and the immunity gate, the injure flag and the result words. The damage row is Arrays::GameObjectDamager row a, read at its 32-bit file layout (24-byte rows: +4 damage
 // type, +8 immunity time, +12 and +16 the damage range maximum and minimum, +20 the attack flags; DamagerRowWord).
-// The roll is minimum + Random(maximum + 1 - minimum) in fixed point; the original passes the damage type as the second
-// argument of that three-argument call, and the stream the clone draws from is not verified (this body draws from the
-// ordinary stream, as RollPercent does). While the target's immunity timer for the damage type runs the damage is zero,
+// The roll is minimum + Random(maximum + 1 - minimum) in fixed point. The call is the clone _ZN6Random9GetRandomEib.clone.1_1 (the same one RollPercent
+// calls): it ignores the register that holds the damage type and draws from the ordinary stream (counter [0]). While the target's immunity timer for the damage type runs the damage is zero,
 // otherwise the timer is started with the row's immunity time. The injure flag (0x10) is set when the damage is positive
 // and the target's property 134 is below b << 8. The result's unk_24 word is the row's +20 word. The Hex-Rays return
 // value is a leftover; declared void.
@@ -413,48 +558,211 @@ void Character::F_GOAttack(AttackResult& result, GameObject* attacker, Character
     result.unk_24 = attackWord;
 }
 // 0x3b10b4 Character::F_ApplyResult(Character::AttackResult const&, Character*, Character*, bool)
-// PARTIAL, in order of the original: (1) the network notification (CMsgAttackResult and the GetOnline()+0x05 test, see
-// F_ApplyResult above) is not reproduced. (2) The hit counter (unk_14d0 of the attacker, a 16-bit word, cleared on a
-// hit) is reproduced. (3) The GOD option read through Singleton<Application>::s_inst.IsSavedOptionOn("GOD") is not
-// written here, so it counts as off; the NoDamages and GOD switches and the target's m_freeMana gate are reproduced.
-// (4) The gold steal (attack flag 0x400000, ItemInventory::AddGold on the attacker, declared), the difficulty scaling of
-// the damage (PlayerManager word +1732 read through dword_99F76C = Application +0x40, needs dh2/PlayerManager.hpp, which
-// does not compile beside Character.hpp), the threat (CharAI::AI_AddAggro now returns the float the original tests for
-// the isTracingThreatChange switch; not yet read here), the blood effect, the camera shake (Application::GetCurrentLevel
-// is declared; the CameraLevel fields are not) and the PlayerStatManager counters are not reproduced. The store to
-// CharStateMachine::m_deadAltAnim (public now) and HitFor on the target's m_netOwnerId are not yet written in this overload.
+// Online, a remotely updated attacker does nothing unless the net message is suppressed; a locally owned attacker sends a CMsgAttackResult (flag true: the
+// attacker is a Character) unless suppressed. The attacker's hit counter (16-bit word +0x14d0) restarts on a hit and counts up on a miss or dodge. The
+// NoDamages and GOD (switch or saved option) gates, and the target's m_freeMana, skip the damage part. Damage part: an attack flagged 0x400000 steals gold
+// (the attacker's gold, capped at the damage, moves from the attacker); with more than one local character a monster attacker multiplies the damage by
+// 1 + (n - 1) * DesignSettings m_w13 and a player attacker divides it by 1 + (n - 1) * DesignSettings m_w14; the attacker's threat is added to the target's AI
+// aggro; the target's m_deadAltAnim is set from the result flags (0x80 and attack flag 0x100000); HitFor runs when the target is locally owned; the blood effect
+// (attack flag 0x200000) plays at the target; a dead target loses its scare, stun and slow flags; a critical hit by a player may shake the camera. The
+// attacker then regenerates the result's HP and MP (words +0x10, +0x14). A living target gets the damage-over-time buff (words +0x08, +0x0c, +0x04), a
+// player that is idle is forced into dodge (no damage) or injure, and the dodge, block, injure, knock-back, stun, scare and slow states are entered in
+// that order from the result flags (with the epic_invisible, epic_invincible and knocked_down_50_times counters of a player). Last: CancelSneaking, the
+// scrolling text, the sound, the OnCombatResults hooks of both CharAIs (not for a damage-over-time result) and the player statistics (defender, controller,
+// killer and striker counters).
 void Character::F_ApplyResult(const AttackResult& result, Character* attacker, Character* target, bool suppressNetMessage) {
-    (void)suppressNetMessage;
+    AttackResult& writable = const_cast<AttackResult&>(result);
 
-    // The attacker's hit counter (a 16-bit word at +0x14d0) restarts on a hit and counts up on a miss.
+    if (GetOnlineGameFlag()) {
+        if (attacker->IsRemotelyUpdated()) {
+            if (!suppressNetMessage) {
+                return;
+            }
+        } else if (!suppressNetMessage) {
+            if (target == nullptr) {
+                ReportAssertFailure("attacker && defender", kCharacterFormulasFile, 712);
+            }
+            const std::int32_t defenderId = target != nullptr ? target->unk_108 : -1;
+            const std::int32_t attackerId = attacker->unk_108;
+            if (target == nullptr || defenderId < 0 || attackerId < 0) {
+                ReportAssertFailure("attackerNetworkId >= 0 && defenderNetworkId >= 0", kCharacterFormulasFile, 722);
+            }
+            CMessaging::GetInstance()->SendMsg(CMsgAttackResult::Create(attackerId, defenderId, result, true));
+        }
+    }
+
     attacker->unk_14d0 = (result.m_resultFlags & 3) != 0 ? 0 : static_cast<std::int16_t>(attacker->unk_14d0 + 1);
 
-    // The NoDamages switch and the GOD switch (with the player test and the target's m_freeMana) skip the damage part.
     bool skipDamage = ReadSwitch("NoDamages");
     if (!skipDamage) {
-        const bool godSwitch = ReadSwitch("GOD");
-        // PARTIAL: || Application::IsSavedOptionOn("GOD") is not reproduced (no Application singleton accessor).
-        skipDamage = (godSwitch && target->IsPlayer()) || target->m_freeMana != 0;
+        const bool god = ReadSwitch("GOD") || ApplicationGetInstance().IsSavedOptionOn("GOD");
+        skipDamage = (god && target->IsPlayer()) || target->m_freeMana != 0;
+    }
+    const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
+
+    if (!skipDamage) {
+        if ((result.m_attackFlags & 0x400000u) != 0) {
+            std::int32_t stolen = attacker->ItemInventory::m_gold * 256;
+            if (stolen >= result.m_damage) {
+                stolen = result.m_damage;
+            }
+            writable.m_damage = stolen;
+            attacker->ItemInventory::AddGold(-(stolen >> 8));
+        }
+        std::int32_t damage = result.m_damage;
+        if (damage > 0) {
+            const int localCharacters = dword_99F76C->m_numCharacters;
+            if (localCharacters > 1) {
+                if (attacker->IsMonster()) {
+                    damage = result.m_damage * static_cast<int>(static_cast<float>(localCharacters - 1) * design->m_w13 + 1.0f);
+                    writable.m_damage = damage;
+                } else if (attacker->IsPlayer()) {
+                    damage /= static_cast<int>(static_cast<float>(localCharacters - 1) * design->m_w14 + 1.0f);
+                }
+            }
+            const float threat = attacker->GetEffectiveThreatPerDamage();
+            if (target->CharAI::AI_AddAggro(attacker, threat * (static_cast<float>(result.m_damage) * 0.00390625f)) > 0.0f) {
+                ReadTraceSwitch("isTracingThreatChange");
+            }
+            std::uint8_t deadAltAnim = static_cast<std::uint8_t>(result.m_resultFlags & 0x80u);
+            if (deadAltAnim != 0) {
+                deadAltAnim = static_cast<std::uint8_t>((result.m_attackFlags >> 20) & 1u);
+            }
+            target->CharStateMachine::m_deadAltAnim = deadAltAnim != 0;
+            if (target->m_netOwnerId == -1) {
+                ReadTraceSwitch("isTracingChar_Attack");
+                target->HitFor(static_cast<unsigned int>(damage), attacker);
+            }
+            if ((result.m_attackFlags & 0x200000u) != 0) {
+                int fxBlood;
+                if (result.unk_24 == -1) {
+                    fxBlood = target->IsDead() ? target->GetFXBloodDeath() : target->GetFXBlood();
+                } else {
+                    fxBlood = result.unk_24 + 124;
+                }
+                Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(fxBlood, target->GetTargetPosition(), target->GameObject::m_rotation,
+                                                                nullptr, nullptr);
+            }
+            if (target->IsDead()) {
+                writable.m_resultFlags &= ~static_cast<std::uint32_t>(0x60);  // scare and stun (byte 0x9F mask)
+                writable.m_resultFlags &= ~kResultSlow;                        // bit 0 of +0x19
+            }
+            if ((result.m_resultFlags & kResultCritical) != 0 && attacker->IsPlayer()) {
+                if (Level* level = ApplicationGetInstance().GetCurrentLevel()) {
+                    if (CameraLevel* camera = level->m_camera) {
+                        if (camera->CanPlayShakeAnim(attacker)) {
+                            Point3D<float> look{0.0f, 0.0f, 0.0f};
+                            attacker->GameObject::GetLookAtVec(look);
+                            const auto* sets = reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members);
+                            camera->PlayAnim(sets[camera->m_camTableIndex].m_w3, 0, true);
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    if (!skipDamage && result.m_damage > 0) {
-        // PARTIAL: the store to CharStateMachine::m_deadAltAnim (public now, not yet written in this overload), the gold steal
-        // (attack flag 0x400000), the damage scaling, the threat, the blood effect, HitFor (when the target's +0x110
-        // word is -1), the camera shake and the state machine branches are not reproduced (see above).
-        ReadTraceSwitch("isTracingChar_Attack");
-    }
-
-    // The attacker's hit counts drain into its own life and mana (attack words +0x10 and +0x14).
     attacker->RegenHP(result.unk_10);
     attacker->RegenMP(result.unk_14);
+
+    if (!target->IsDead()) {
+        if (result.unk_08 > 0 && result.unk_0c > 0) {
+            target->CharProperties::PROPS_AddDot(result.unk_08 >> 8, result.unk_0c, result.unk_04);
+        }
+        const bool immediate = (result.m_attackFlags & 0x18000000u) != 0;
+        std::uint32_t flags = writable.m_resultFlags;
+        if (target->IsPlayer() && target->CharStateMachine::SM_IsIdle(false)) {
+            if ((flags & 0x16u) == 0) {
+                flags |= result.m_damage > 0 ? 0x10u : 0x02u;
+                writable.m_resultFlags = flags;
+            }
+        }
+        flags = writable.m_resultFlags;
+        if ((flags & kResultDodged) != 0) {
+            target->CharStateMachine::SM_SetDodgingState(attacker, false);
+            if (target->IsPlayer()) {
+                target->PROPS_AddInt(215, 1);
+                TrophyManager* trophies = TrophyManager::s_instance;
+                if (target->PROPS_GetInt(215, false) >= 500 && dword_99F76C->IsLocalPlayer(target)) {
+                    trophies->UnlockTrophy(TrophyId("epic_invisible"));
+                }
+            }
+            ReadTraceSwitch("isTracingChar_Attack");
+            flags = writable.m_resultFlags;
+        }
+        if ((flags & kResultBlocked) != 0) {
+            target->CharStateMachine::SM_SetBlockingState(attacker, false);
+            if (target->IsPlayer()) {
+                target->PROPS_AddInt(214, 1);
+                TrophyManager* trophies = TrophyManager::s_instance;
+                if (target->PROPS_GetInt(214, false) >= 500 && dword_99F76C->IsLocalPlayer(target)) {
+                    trophies->UnlockTrophy(TrophyId("epic_invincible"));
+                }
+            }
+            ReadTraceSwitch("isTracingChar_Attack");
+            flags = writable.m_resultFlags;
+        }
+        if ((flags & kResultInjure) != 0) {
+            target->CharStateMachine::SM_SetInjureState(attacker, immediate);
+            ReadTraceSwitch("isTracingChar_Attack");
+            flags = writable.m_resultFlags;
+        }
+        if ((flags & kResultPush) != 0) {
+            target->CharStateMachine::SM_SetKnockBackState((result.m_attackFlags & 0x100000u) != 0, attacker, immediate);
+            if (target->IsPlayer()) {
+                target->PROPS_AddInt(222, 1);
+                TrophyManager* trophies = TrophyManager::s_instance;
+                if (target->PROPS_GetInt(222, false) > 49 && dword_99F76C->IsLocalPlayer(target)) {
+                    trophies->UnlockTrophy(TrophyId("knocked_down_50_times"));
+                }
+            }
+            ReadTraceSwitch("isTracingChar_Attack");
+            flags = writable.m_resultFlags;
+        }
+        if ((flags & kResultStun) != 0) {
+            const int duration = attacker->CharProperties::_GetProperty(attacker->CharProperties::m_props, (result.m_attackFlags & 0x1000u) != 0 ? 185 : 140);
+            target->CharStateMachine::SM_SetStunState(static_cast<unsigned int>(duration >> 8), true, attacker, false);
+            ReadTraceSwitch("isTracingChar_Attack");
+            flags = writable.m_resultFlags;
+        }
+        if ((flags & kResultScare) != 0) {
+            const int duration =
+                attacker->CharProperties::_GetProperty(attacker->CharProperties::m_props, (result.m_attackFlags & 0x4000u) != 0 ? 187 : 143) >> 8;
+            if (duration != 0) {
+                target->CharStateMachine::SM_SetScareState(static_cast<unsigned int>(duration), true, attacker, immediate);
+            }
+            ReadTraceSwitch("isTracingChar_Attack");
+        }
+        if ((writable.m_resultFlags & kResultSlow) != 0) {
+            const int duration =
+                attacker->CharProperties::_GetProperty(attacker->CharProperties::m_props, (result.m_attackFlags & 0x10000u) != 0 ? 189 : 146);
+            target->CharProperties::PROPS_DebuffSlow(static_cast<unsigned int>(duration >> 8));
+            ReadTraceSwitch("isTracingChar_Attack");
+        }
+    }
+
     target->CancelSneaking();
     F_ApplyScrollingCombatText(result, attacker, target);
     F_ApplyCombatSound(result, attacker, target);
     if ((result.m_attackFlags & kAttackDot) == 0) {
-        // The const_cast only passes the result to the CharAI hook, which takes void*; the hook does not write it.
+        // The const_cast only passes the result to the CharAI hooks, which take void*; the hooks do not write it.
         AttackResult* const hookResult = const_cast<AttackResult*>(&result);
         static_cast<CharAI*>(attacker)->OnCombatResults(attacker, target, hookResult);
         static_cast<CharAI*>(target)->OnCombatResults(attacker, target, hookResult);
+    }
+
+    if (target->IsPlayer()) {
+        PlayerStatManager::s_inst.IncrementStat(STAT_DEFENDER, dword_99F76C->GetPlayerByCharacter(target, false)->unk_670);
+    }
+    if (attacker->IsPlayer()) {
+        const int playerId = dword_99F76C->GetPlayerByCharacter(attacker, false)->unk_670;
+        if ((result.m_resultFlags & 0x160u) != 0) {
+            PlayerStatManager::s_inst.IncrementStat(STAT_CONTROLLER, playerId);
+        }
+        if (target->IsDead()) {
+            PlayerStatManager::s_inst.IncrementStat(STAT_KILLER, playerId);
+        }
+        PlayerStatManager::s_inst.IncreaseStat(STAT_STRIKER, result.m_damage >> 8, playerId);
     }
 }
 

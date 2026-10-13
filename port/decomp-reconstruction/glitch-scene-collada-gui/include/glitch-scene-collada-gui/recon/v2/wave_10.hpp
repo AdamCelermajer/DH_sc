@@ -1,9 +1,9 @@
 // Wave 10 reconstruction (namespace glitch::collada::recon_v2_10).
 //
-// Covers glitch::collada::animation_track applicator and interpolator bodies, and
-// glitch::collada::CColladaDatabase bodies, from the Hex-Rays pseudocode.
+// Covers glitch::collada::CColladaDatabase bodies, from the Hex-Rays pseudocode. The animation_track applicator and
+// interpolator bodies that used to be here are the canonical templates of collada/animation_track.hpp.
 //
-// Layouts used: animation_track.hpp and collada_db.hpp only.
+// Layouts used: collada_db.hpp only.
 //
 // Pointer-valued results that the pseudocode types as `int` or `_DWORD *` are
 // returned as host pointers (void *). Unmapped pieces are declared below as
@@ -13,7 +13,6 @@
 
 #include <cstdint>
 
-#include "glitch-scene-collada-gui/layouts/animation_track.hpp"
 #include "glitch-scene-collada-gui/layouts/collada_db.hpp"
 
 namespace glitch::collada::recon_v2_10 {
@@ -22,36 +21,6 @@ using glitch::collada::CColladaDatabase;
 using glitch::collada::CColladaFactory;
 using glitch::collada::CResFile;
 using glitch::collada::CResFileManager;
-using glitch::collada::SAnimationAccessor;
-using glitch::collada::animation_track::CApplicatorInfo;
-
-// Value kinds passed to setParameterCvt<T>. The T names come from the pseudocode.
-enum class ParamType : std::uint8_t { F1, F2, F3, F4, SColor };
-
-// ---------------------------------------------------------------------------
-// Stand-ins for unmapped functions (not reconstructed in this wave).
-// ---------------------------------------------------------------------------
-
-// SAnimationAccessor::getOutput(a, 0): the record pointer, and the data base read
-// from its +4 word (every pseudocode body reads the data base this way).
-std::intptr_t acc_output_record(SAnimationAccessor* a);
-std::uint8_t* acc_output_data(SAnimationAccessor* a);
-// SAnimationAccessor::hasDefaultValue / getDefaultValue.
-bool acc_has_default(SAnimationAccessor* a);
-const std::uint8_t* acc_default_value(SAnimationAccessor* a);
-
-// IMaterialParameters::setParameterCvt<T> sink.
-int set_param_cvt(void* target, std::uint32_t id, int flag, ParamType t, const void* value);
-
-// glitch::core::quaternion::operator* and slerp.
-void quat_mul(float out[4], const float lhs[4], const float rhs[4]);
-void quat_slerp(float out[4], const float a[4], const float b[4], float t);
-
-// CInterpreter<CMixin<float,1,..>,float,1,SUseDefaultLerp<float>>::getKeyBasedValueEx.
-void interp_f1_lerp_ex(SAnimationAccessor* a1, int a2, int a3, float a4, float* out);
-
-// Vtable slot +152 of the scene node that retrieveValue reads.
-const std::uint32_t* node_quat_slot152(void* node);
 
 // CImage (not mapped in collada_db.hpp): resource slot at +0x14, embedded
 // CColladaDatabase at +0x0c, and the two vtable writes of the destructor.
@@ -105,59 +74,6 @@ void* db_construct_scene_basic(const CColladaDatabase* db, void* driver);
 void* db_construct_scene_named(const CColladaDatabase* db, void* driver, const char* name, void* factory);
 const void* db_find_animation(const CColladaDatabase* db, const char* name, int channelType, const char* target);
 void* db_get_default(const CColladaDatabase* db, const void* blendable, void** out);
-
-// ---------------------------------------------------------------------------
-// CVirtualEx / CApplyValueEx applicator bodies.
-// ---------------------------------------------------------------------------
-int w10_6190bc(int a1, const float* a2, void* a3);
-int w10_6190d4(int a1, const float* a2, void* a3);
-int w10_6190ec(SAnimationAccessor* a1, int a2, void* a3, CApplicatorInfo* a4);
-int w10_619150(int a1, const float* a2, void* a3);
-int w10_619168(int a1, const float* a2, void* a3);
-int w10_619180(SAnimationAccessor* a1, int a2, void* a3, CApplicatorInfo* a4);
-int w10_6191f4(int a1, const void* a2, const float* a3, int a4, void* a5, CApplicatorInfo* a6);
-int w10_61c9b8(int a1, const float* a2, void* a3);
-int w10_61c9d0(int a1, const float* a2, void* a3);
-int w10_61c9e8(int a1, const float* a2, void* a3);
-int w10_61ca00(int a1, const float* a2, void* a3);
-int w10_61ca18(int a1, const float* a2, void* a3);
-int w10_61ca30(SAnimationAccessor* a1, int a2, void* a3, CApplicatorInfo* a4);
-int w10_61caa8(int a1, const std::uint8_t* a2, void* a3);
-int w10_61caf0(SAnimationAccessor* a1, int a2, void* a3, CApplicatorInfo* a4);
-int w10_61d3d0(SAnimationAccessor* a1, int a2, void* a3, CApplicatorInfo* a4);
-int w10_6202a0(SAnimationAccessor* a1, int a2, int a3, float a4, void* a5, CApplicatorInfo* a6);
-
-// Quaternion retrieveValue (vtable slot +152) bodies.
-const std::uint32_t* w10_61cb7c(int a1, void* a2, std::uint32_t* a3);
-const std::uint32_t* w10_61cbb8(int a1, void* a2, std::uint32_t* a3);
-const std::uint32_t* w10_61cc30(int a1, void* a2, std::uint32_t* a3);
-const std::uint32_t* w10_61cc6c(int a1, void* a2, std::uint32_t* a3);
-
-// getKeyBasedValue (quaternion and float) bodies.
-std::intptr_t w10_61cf8c(int a1, SAnimationAccessor* a2, int a3, float* a4);
-float w10_61cfd8(SAnimationAccessor* a1, int a2, int a3, float* a4);
-float w10_61d100(SAnimationAccessor* a1, int a2, int a3, int a4, float a5, float* a6);
-float w10_61d2cc(SAnimationAccessor* a1, int a2, int a3, int a4, float a5, void* a6);
-float w10_61d428(SAnimationAccessor* a1, int a2, int a3, int a4, float a5, void* a6);
-
-// ---------------------------------------------------------------------------
-// CInterpreter<CMixin<unsigned char,4,...>> getKeyBasedValueEx, mixin index 0..3.
-// ---------------------------------------------------------------------------
-std::uint32_t w10_619978(SAnimationAccessor* a1, int a2, int a3, int a4, float a5, std::uint8_t* a6);
-const std::uint8_t* w10_619a88(SAnimationAccessor* a1, int a2, std::uint8_t* a3);
-std::uint32_t w10_619b10(SAnimationAccessor* a1, int a2, int a3, float a4, std::uint8_t* a5);
-const std::uint8_t* w10_619c00(SAnimationAccessor* a1, int a2, int a3, std::uint8_t* a4);
-std::uint32_t w10_619c88(SAnimationAccessor* a1, int a2, int a3, int a4, float a5, std::uint8_t* a6);
-const std::uint8_t* w10_619d98(SAnimationAccessor* a1, int a2, std::uint8_t* a3);
-std::uint32_t w10_619e20(SAnimationAccessor* a1, int a2, int a3, float a4, std::uint8_t* a5);
-const std::uint8_t* w10_619f38(SAnimationAccessor* a1, int a2, int a3, std::uint8_t* a4);
-std::uint32_t w10_619fc0(SAnimationAccessor* a1, int a2, int a3, int a4, float a5, std::uint8_t* a6);
-const std::uint8_t* w10_61a0d0(SAnimationAccessor* a1, int a2, std::uint8_t* a3);
-std::uint32_t w10_61a158(SAnimationAccessor* a1, int a2, int a3, float a4, std::uint8_t* a5);
-const std::uint8_t* w10_61a260(SAnimationAccessor* a1, int a2, int a3, std::uint8_t* a4);
-std::uint32_t w10_61a2e8(SAnimationAccessor* a1, int a2, int a3, int a4, float a5, std::uint8_t* a6);
-const std::uint8_t* w10_61a3fc(SAnimationAccessor* a1, int a2, std::uint8_t* a3);
-std::uint32_t w10_61a484(SAnimationAccessor* a1, int a2, int a3, float a4, std::uint8_t* a5);
 
 // ---------------------------------------------------------------------------
 // CColladaDatabase bodies.

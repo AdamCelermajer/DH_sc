@@ -10,6 +10,9 @@
 #include "core-platform/deps/game_types.hpp"
 #include "dh2/AISDefault.hpp"
 #include "dh2/AISFaery.hpp"
+
+// AISFaery::AISFaery(bool)  (inlined into CharAI::SetScript<AISFaery> at 0x3cccf8): AISDefault(skipBindings), the faery id (+0xc4) is -1.
+AISFaery::AISFaery(bool skipBindings) : AISDefault(skipBindings), m_currentFaerieId(-1) {}
 #include "dh2/CharAI.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"

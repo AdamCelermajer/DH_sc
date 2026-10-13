@@ -1,11 +1,9 @@
 // Batch g1-game-character-Character-ee9946-6: Character::Update, the two CreatePlayer and the two CreateNPC overloads,
 // the CSM_* state-machine callbacks, CTRLIsAllowed, the Ctrl_* controller entry points, and ForceUseOOI and UseOOI.
-// Declarations come from dh2/Character.hpp, which this batch does not change. Several bodies are PARTIAL because the
-// members they read are private in dh2/CharAI.hpp and dh2/CharStateMachine.hpp (owned by other batches), or because a
-// header cannot be included in the same translation unit as Character.hpp. Each comment names what is missing; the
-// ledger rows in game-character/ledger.d/g1-game-character-Character-ee9946-6.csv repeat it.
+// Declarations come from dh2/Character.hpp.
 
 #include <cstddef>
+#include <cstdlib>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
@@ -16,6 +14,12 @@
 #include "dh2/global/runtime_support.hpp"  // before Character.hpp: its MemoryHintState use needs the unrenamed type
 #include "dh2/AnimatedFX.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/FlashAnimManager.hpp"
+#include "dh2/ItemObject.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/MenuBase.hpp"
@@ -26,48 +30,58 @@
 #include "dh2/v2Controller.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/AnimationSet_GetAnimation.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/charai_ai.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "glitch-core-io/os/logging.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+#include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 
 // 0x3abe98 _ZN9Character6UpdateEv
 // Character::Update(void)
-// PARTIAL. Reproduced: the profiling scopes, the Give50Potions switch, the CanUpdate gate, the object-manager counter,
-// the controller update, the per-frame base updates (CharTimers, CharAI, CharStateMachine, CharAnimator, GameObject),
-// the combat-text cooldown, the player's object-of-interest and spot-target updates, and the multiplayer highlight.
-// Not reproduced:
-//  - KillPlayerOne: PlayerManager::GetPlayer(0, false) and the Character +0x1088 branch. PlayerManager.hpp cannot be
-//    included with Character.hpp (its StreamBuffer member needs net-transport's IStreamBase, which pydata's
-//    stream_reader.hpp also defines).
-//  - Script-load gate and load: CharAI::m_script (+0x1c) is private in dh2/CharAI.hpp, so the gate cannot be evaluated
-//    and LoadNInitScriptProcess is not called. The queue trim (Level::m_levelListIndex; Level.hpp has the same include
-//    conflict) and the monster staged insert into s_concurrentAI (needs the offline flag of COnline, which has no getter
-//    in net-session-online/include/net-session-online/c_online.hpp) belong to the load and are not run. The insert
-//    itself is s_concurrentAI[real time] = this, with glitch::os::Timer::getRealTime() (static).
-//  - isABot bot path: needs the online flag, PlayerInfo +0x66c, +0x678 and +0x660 (unnamed; +0x660 is void*), the potion
-//    and equip timers, and object-of-interest navigation. The switch is read and nothing else runs.
-//  - m_timerUtil->Update(): TimerUtil has no class declaration under game/include (forward declaration only).
-//  - Faerie copy when (LG_DEVICES || P1000TF) and IsFaerie(): P1000TF is not declared, and the globals m_fairyPos_new,
-//    dword_9F69B8, dword_9F69BC and dword_9F69C0 are not declared. The branch that follows the copy is the normal one,
-//    which is what runs here.
-//  - UpdateStateFX on frames where (frame counter & 7) == 0: dword_99F7A0 is not declared, so UpdateStateFX is not called.
-//  - Merchant marker FX and the online branches of the non-player path: the VisualFXManager instance has no accessor
-//    (Singleton<VisualFXManager>::s_inst), the test of GameObject unk_2fa (+0x2fa, meaning unknown) is not confirmed,
-//    and the online flag is as above.
-//  - Visual branch on PlayerManager::IsLocalPlayer: the non-local hide (m_targetCircleFX[m_targetCircleIndex], then
-//    m_cursorFX) and the local-player target circles, object-of-interest FX and cursor. AnimatedFX +0x28 (owner) is int in
-//    dh2/AnimatedFX.hpp, and v2Controller +0x09 is unnamed.
-//  - Pending gold and XP scrolling text: the argument layout of F_ApplyScrollingCombatTextGold and
-//    F_ApplyScrollingCombatTextXP in the listing does not match the header's parameter list.
+// One frame of a character, inside the profiling scope "Character::Update".
+//  - Debug switches. KillPlayerOne: for the first player's character, an HP above 0 drops by 200 each frame; at or below 0 the HP is set to 0 and a living character is killed through
+//    its controller (Cmd_Kill(nullptr, false)). Give50Potions: a player's potion quantity is set to 50.
+//  - The CanUpdate gate ends the update here when it is false.
+//  - Script load, inside the scope "Character::LoadNInitScript". It is skipped in the states 0, 12 and 2, for a dummy and for a character that already has its AI script. Otherwise, when
+//    s_concurrentAI holds more than 8 entries (24 in level 29), the oldest entry is killed through its controller (silent) and its script process unloaded. Then the script
+//    process is loaded (LoadNInitScriptProcess(true)); a script loaded in stages by a plain monster (not mini boss or boss) in an offline game is entered in s_concurrentAI under the current real time.
+//  - The object manager's frame counter (+0x5c) is raised and the controller updated. With the isABot switch, in an online game, a player whose PlayerInfo (+0x66c) is set and which follows a
+//    leader (PlayerInfo +0x678, 1 based) acts as a bot: below 70 HP with a potion, every 100 calls it drinks one; it goes for its object of interest when that is an enemy (type 8, priority), or an
+//    item reserved for it with room in the inventory while the leader is within 500; it uses the object within 300 and walks to it beyond; otherwise it follows the leader beyond 300 and
+//    (every 1000 calls) auto-equips when it is close; the potion and equip counters are function-local statics.
+//  - The timer array, then the per-frame updates of CharTimers, CharAI, CharStateMachine, CharAnimator and GameObject. The combat text cooldown counts down by the frame time.
+//  - With LG_DEVICES or P1000TF a faerie copies its position to m_fairyPos_new (x, y, z, 0). A player updates its object of interest and spot target. A non-player: an enabled merchant
+//    shows (unk_2fa clear: grabs effect 139, looped) or drops (unk_2fa set) its marker FX; otherwise, online, a net spawned character that has not acknowledged yet does so (and
+//    clears unk_118), and a flagged one (unk_118 set, state flag 0x100, no owner id) has the flag cleared.
+//  - Every 8th frame UpdateStateFX runs. A dummy or non-local character hides the current target circle (and the cursor). The local player shows the circle of its
+//    target (m_lastTarget, else the object of interest) by interaction type (an item of type 1 first runs OnCollisionBegins), hides the circle with no target, and hides the cursor when the controller is
+//    blocked, there is no heading, or the d-pad is used. A multiplayer game shows the highlight.
+//  - Outside a cutscene the pending gold text and (for the local player) the pending xp text (xp >> 8, style "anim_reward_xp", colour ScrollingCombatText.QR_XP) are shown and reset to -1.
 void Character::Update() {
+    static int potionTimer = 0;  // Character::Update(void)::potionTimer
+    static int equipTimer = 0;   // Character::Update(void)::equipTimer
+
     PushProfilingContext("Character::Update");
 
-    // KillPlayerOne (PARTIAL, see above).
     DebugSwitches* switches = DebugSwitches::GetInstance();
     switches->load();
-    if (switches->GetSwitch("KillPlayerOne")) {
-        // PARTIAL: PlayerManager::GetPlayer(0, false) and the Character +0x1088 branch are not reproduced.
+    if (switches->GetSwitch("KillPlayerOne") && this == dword_99F76C->GetPlayer(0, false)->unk_660) {
+        const int hp = m_props.m_w37;
+        if (hp <= 0) {
+            PROPS_Set(36, 0);
+            if (!IsDead()) {
+                m_controller->Cmd_Kill(nullptr, false);
+            }
+        } else {
+            PROPS_Set(36, hp - 200);
+        }
     }
 
-    // Give50Potions: the potion quantity is set to 50 for a player character.
     switches->load();
     if (switches->GetSwitch("Give50Potions") && IsPlayer()) {
         ItemInventory::SetPotionQty(50);
@@ -78,18 +92,73 @@ void Character::Update() {
         return;
     }
 
-    // Script-load scope. PARTIAL: the gate reads CharAI::m_script (private), so the load is not reproduced (see above).
     PushProfilingContext("Character::LoadNInitScript");
+    const int machineState = CharStateMachine::SM_GetState();
+    if (machineState != 0 && machineState != 12 && machineState != 2 && m_isDummy == 0 && CharAI::m_script == nullptr) {
+        const std::size_t limit = ApplicationGetInstance().GetCurrentLevel()->m_levelListIndex == 29 ? 0x18 : 8;
+        if (s_concurrentAI.size() > limit) {
+            std::map<int, Character*>::iterator oldest = s_concurrentAI.begin();
+            if (oldest != s_concurrentAI.end()) {
+                oldest->second->m_controller->Cmd_Kill(nullptr, true);
+                oldest->second->UnLoadScriptProcess(oldest, true);
+            }
+        }
+        if (CharAI::LoadNInitScriptProcess(true)) {
+            if (IsMonster() && !IsMiniBoss() && !IsBoss() && !GetOnlineGameFlag() && CharAI::m_stagedLoad) {
+                s_concurrentAI[static_cast<int>(glitch::os::Timer::getRealTime())] = this;
+            }
+        }
+    }
     PopProfilingContext("Character::LoadNInitScript");
 
     ++dword_99F764->unk_5c;  // ObjectManager +0x5c; the counter's name is not recovered
     m_controller->Update();
 
-    // isABot debug bot path (PARTIAL, see above): the switch is read and the body is not reproduced.
     switches->load();
-    (void)switches->GetSwitch("isABot");
+    if (switches->GetSwitch("isABot") && GetOnlineGameFlag() && IsPlayer() &&
+        dword_99F76C->GetPlayerByCharacter(this, false)->unk_66c != 0) {
+        const int leaderNumber = dword_99F76C->GetPlayerByCharacter(this, false)->unk_678;
+        Character* leader = leaderNumber > 0 ? dword_99F76C->GetPlayer(leaderNumber - 1, false)->unk_660 : nullptr;
+        if (leader != nullptr) {
+            ++potionTimer;
+            ++equipTimer;
+            if (GetHP() <= 69 && HasPotion() && potionTimer > 100) {
+                m_controller->Cmd_UsePotion();
+                potionTimer = 0;
+            } else {
+                bool goToObject = false;
+                if (m_objectOfInterest != nullptr) {
+                    if (m_ooiPriority != 0) {
+                        goToObject = (m_ooiInteractionType == 8);
+                    } else if (m_ooiInteractionType != 1 && m_ooiInteractionType != -2) {
+                        goToObject = true;
+                    } else if (this == static_cast<ItemObject*>(m_objectOfInterest)->m_receiver && !ItemInventory::IsInventoryFull() &&
+                               leader->m_position.distance(m_position) < 500.0f) {
+                        goToObject = true;
+                    }
+                }
+                if (goToObject) {
+                    if (m_objectOfInterest->m_position.distance(m_position) <= 300.0f) {
+                        m_controller->Cmd_UseOOI(nullptr);
+                    } else {
+                        m_controller->Cmd_HeadTowards(m_objectOfInterest);
+                    }
+                } else if (leader->m_position.distance(m_position) > 300.0f) {
+                    m_controller->Cmd_HeadTowards(leader);
+                } else {
+                    if (equipTimer > 1000) {
+                        equipTimer = 0;
+                        EquipAllSlotsAuto();
+                    }
+                    m_controller->Cmd_HeadTowards(static_cast<GameObject*>(nullptr));
+                }
+            }
+        }
+    }
 
-    // m_timerUtil->Update() is not reproduced (PARTIAL, see above).
+    if (m_timerUtil != nullptr) {
+        m_timerUtil->Update();
+    }
     CharTimers::Update();
     CharAI::Update();
     CharStateMachine::Update();
@@ -101,36 +170,117 @@ void Character::Update() {
             m_combatTextCooldown - static_cast<float>(static_cast<unsigned int>(ApplicationGetInstance().GetDt()));
     }
 
-    // Faerie position copy (PARTIAL, see above). The branch below is the one both paths take.
+    if ((LG_DEVICES || P1000TF) && IsFaerie()) {
+        m_fairyPos_new[0] = m_position.X;
+        m_fairyPos_new[1] = m_position.Y;
+        m_fairyPos_new[3] = 0.0f;
+        m_fairyPos_new[2] = m_position.Z;
+    }
     if (IsPlayer()) {
         UpdateObjectOfInterest();
         UpdateSpotTarget();
-    } else {
-        // PARTIAL: merchant marker FX and the online branches (see above). Not reproduced.
+    } else if (IsMerchant() && m_enabled) {
+        if (unk_2fa != 0) {
+            if (m_selfFX != nullptr) {
+                VisualFXManager::s_inst.DropAnimatedFX(m_selfFX);
+            }
+        } else if (m_selfFX == nullptr) {
+            m_selfFX = VisualFXManager::s_inst.GrabAnimFX(139, this);
+            if (m_selfFX != nullptr) {
+                m_selfFX->GetAnimator()->getTimelineCtrl()->setLoop(true);
+            }
+        }
+    } else if (m_isNetSpawned != 0 && GetOnlineGameFlag() && m_netSpawnAcked == 0) {
+        m_netSpawnAcked = 1;
+        unk_118 = 0;
+    } else if (GetOnlineGameFlag() && unk_118 != 0 && (CharStateMachine::m_stateFlags & 0x100) != 0 && m_netOwnerId == -1) {
+        unk_118 = 0;
     }
 
-    // UpdateStateFX on the frame-counter gate and the visual branch (PARTIAL, see above). Not reproduced.
+    if ((ApplicationGetInstance().m_frameCount & 7) == 0) {
+        UpdateStateFX();
+    }
 
-    if (IsMultiplayerGame() && m_multiplayerHighlightFX) {
+    if (m_isDummy != 0 || !dword_99F76C->IsLocalPlayer(this)) {
+        if (m_targetCircleFX != nullptr && m_targetCircleIndex >= 0) {
+            m_targetCircleFX[m_targetCircleIndex]->SetVisible(false);
+        }
+        if (m_cursorFX != nullptr) {
+            m_cursorFX->SetVisible(false);
+        }
+    } else {
+        if (m_targetCircleFX != nullptr) {
+            GameObject* target = CharAI::m_lastTarget;
+            if (target == nullptr || target == this) {
+                target = m_objectOfInterest;
+            }
+            if (target == nullptr || target == this) {
+                if (m_targetCircleIndex >= 0 && m_targetCircleFX[m_targetCircleIndex] != nullptr) {
+                    m_targetCircleFX[m_targetCircleIndex]->SetVisible(false);
+                    m_targetCircleIndex = -1;
+                }
+            } else {
+                if (m_cursorFX != nullptr) {
+                    m_cursorFX->SetVisible(false);
+                }
+                const int type = target->GetInteractionType(this);
+                if (type >= 0) {
+                    if (type == 1) {
+                        static_cast<ItemObject*>(target)->OnCollisionBegins(this);
+                    }
+                    AnimatedFX* circle = m_targetCircleFX[type];
+                    if (circle != nullptr) {
+                        circle->unk_28 = target;
+                        circle->SyncIrrData(true);
+                        if (type != m_targetCircleIndex) {
+                            if (m_targetCircleIndex >= 0 && m_targetCircleFX[m_targetCircleIndex] != nullptr) {
+                                m_targetCircleFX[m_targetCircleIndex]->SetVisible(false);
+                            }
+                            m_targetCircleFX[type]->SetVisible(true);
+                            m_targetCircleIndex = type;
+                        }
+                    }
+                }
+            }
+        }
+        if (m_cursorFX != nullptr) {
+            if ((m_controller->unk_009 == 0 && (v2Controller::s_blocked || m_controller->m_blocked)) || m_hasHeading == 0 ||
+                ApplicationGetInstance().IsUsingDPad()) {
+                m_cursorFX->SetVisible(false);
+            }
+        }
+    }
+
+    if (IsMultiplayerGame() && m_multiplayerHighlightFX != nullptr) {
         m_multiplayerHighlightFX->SetVisible(true);
     }
 
-    // PARTIAL: the pending gold and XP scrolling text, when the cutscene check passes (see above). Not reproduced.
+    if (!ScriptManager::s_inst.IsCutSceneRunning()) {
+        if (m_pendingGoldText != -1) {
+            F_ApplyScrollingCombatTextGold(m_pendingGoldText, 0);
+            m_pendingGoldText = -1;
+        }
+        if (m_pendingXPText != -1 && dword_99F76C->IsLocalPlayer(this)) {
+            const int styleId = FlashAnimManager::GetInstance()->GetStyleIdFromName("anim_reward_xp");
+            const int colorId = ApplicationGetPyDataConstants()->getConstant("ScrollingCombatText", "QR_XP");
+            F_ApplyScrollingCombatTextXP(m_pendingXPText >> 8, styleId, colorId, 0);
+            m_pendingXPText = -1;
+        }
+    }
 
     PopProfilingContext("Character::Update");
 }
 
 // 0x3acd58 _ZN9Character12CreatePlayerEPS_jjPKc
 // Character::CreatePlayer(Character*, unsigned int, unsigned int, char const*)
-// PARTIAL: when source is null and gAssertLevel is 2, the original stores 0 to address 0 (a deliberate crash) before it
-// returns nullptr. That store is not reproduced. gAssertLevel 1 prints the assert message to stderr (the third _iob
-// entry). The slot and a parameters are not read by the body (Hex-Rays types the slot as Character*).
+// With a null source and gAssertLevel 2 the original stores 0 to address 0 (a deliberate crash), which is std::abort() here; gAssertLevel 1 prints the assert message to stderr and returns
+// nullptr. The slot and a parameters are not read by the body (Hex-Rays types the slot as Character*).
 Character* Character::CreatePlayer(Character* source, unsigned int slot, unsigned int a, const char* name) {
     (void)slot;
     (void)a;
     if (!source) {
         if (gAssertLevel == 2) {
-            // PARTIAL: the original writes 0 to address 0 here. Not reproduced.
+            std::abort();
         } else if (gAssertLevel == 1) {
             std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "tpl",
                          "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Creators.cpp",
@@ -209,15 +359,9 @@ Character* Character::CreateNPC(const char* name, const char* a, bool b, bool c)
 
 // 0x3ad1f8 _ZN9Character9CreateNPCEiPKcb
 // Character::CreateNPC(int, char const*, bool)
-// PARTIAL: the original takes the template name from Arrays::CharacterTable::m_memberNames[a] and calls the four-argument
-// CreateNPC with false and b. That name table is declared in pydata-accessors/member_names.hpp, which cannot be included
-// in the same translation unit as the w7 pydata headers that Character.hpp pulls in (Structs::SoundAutoGen is defined in
-// both). The name is not read here, so this stub returns nullptr instead of spawning the NPC.
+// The template name is the name of row a of Arrays::CharacterTable (m_memberNames[a], not range checked); the four-argument CreateNPC then runs with that name, the given name, false and b.
 Character* Character::CreateNPC(int a, const char* name, bool b) {
-    (void)a;
-    (void)name;
-    (void)b;
-    return nullptr;
+    return CreateNPC(Arrays::CharacterTable::m_memberNames.names[a], name, false, b);
 }
 
 // 0x3ad22c _ZN9Character10CSM_AttackEiPviRi

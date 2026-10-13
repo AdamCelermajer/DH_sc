@@ -89,11 +89,11 @@ void CBlender<core::quaternion, 1, core::quaternion>::getAddedValueEx(void* valu
     identity.W = 1.0f;
     for (int index = 0; index < count; ++index) {
         const float weight = weights[index];
-        if (weight > 0.0f) {
+        if (!(weight <= 0.0f)) {
             const core::quaternion key = keys[index];
             const core::quaternion step = core::quaternion::slerp(identity, key, weight);
             accumulated = accumulated * step;
-        } else if (weight < 0.0f) {
+        } else if (!(weight >= 0.0f)) {
             core::quaternion key = keys[index];
             key.X = -key.X;
             key.Y = -key.Y;

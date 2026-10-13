@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "dh2/CharAI.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/CharAIScript.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
@@ -160,13 +161,14 @@ void CharAI::OnFriendSpotted(Character* c) {
 }
 
 // 0x3d22e4 _ZN6CharAI15OnTargetInSightEv
+// The "isTracingCharAIEvents" probe, then a 3D sound plays at the owner's target position: the owner's AITable row (m_w9, +0x24) names the
+// sound (VoxSoundManager::Play3D(sound, position, false, 1, -1.0f, -1.0f)); finally the script hook (slot 19, +0x4c).
 void CharAI::OnTargetInSight() {
     ProbeTracingCharAIEvents();
-    // PARTIAL: the original plays a 3D sound at the owner's target position:
-    // VoxSoundManager::Play3D(VoxSoundManager::s_instance, soundId, pos, 0, 1.0f, -1.0f, -1.0f). soundId is the
-    // Arrays::AITable row field at +0x24 (Structs::AIProps::m_w9) for Character::GetCharAIId(), and pos is the
-    // owner's GameObject::GetTargetPosition(). Neither VoxSoundManager::Play3D nor VoxSoundManager::s_instance is
-    // declared in vox-audio/include, so that call is omitted. The script hook below still runs.
+    const int soundId = m_character->GetCharAI()->m_w9;
+    const Point3D<float>& target = m_character->GetTargetPosition();
+    const glitch::core::vector3d<float> position{target.X, target.Y, target.Z};
+    VoxSoundManager::s_instance->Play3D(soundId, position, false, 1, -1.0f, -1.0f);
     if (m_script) {
         m_script->OnTargetInSight();
     }

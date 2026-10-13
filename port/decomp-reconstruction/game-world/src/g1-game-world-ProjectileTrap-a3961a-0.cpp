@@ -4,17 +4,13 @@
 // drops an argument (Activate, SpecificUpdate, _HandleProjectile, Create). Offsets in comments are the original 32-bit
 // ones. Partial functions name the blocked part in their comment; the ledger notes repeat the reason.
 //
-// Blocked in this batch:
-//  - VoxSoundManager::s_instance and VoxSoundManager::Play3D are not declared anywhere in the tree (vox-audio's
-//    sound_manager.hpp declares other members only). Activate and SpecificUpdate do not play the 3D sound (layout request).
-//  - Arrays::ProjectileTraps::m_memberNames is declared in pydata-accessors/member_names.hpp, and members and size in
-//    w7_arrays27.hpp. Both headers define struct Arrays::ProjectileTraps, so one translation unit cannot include both.
-//    GetDataId and Create do not read or write the name table (layout request).
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 
+#include "pydata-accessors/name_table.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/AnimController.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
@@ -145,9 +141,8 @@ int ProjectileTrap::_HandleProjectile(Projectile* p, void* /*user*/) {
 }
 
 // 0x39cdc4 ProjectileTrap::SpecificUpdate()
-// PARTIAL: the 3D sound that plays when the trap fires is not made (VoxSoundManager::Play3D is not declared).
-// Every other path is written: the timer counts down by the frame time, and at zero an active trap that is not
-// already activated fires its projectile and reloads the timer, while an activated trap transfers its victims.
+// The timer counts down by the frame time, and at zero an active trap that is not already activated plays its 3D sound (with a data row), reloads the timer and fires its projectile, while an
+// activated trap transfers its victims.
 void ProjectileTrap::SpecificUpdate() {
     if (!m_active) {  // +0x40c
         return;
@@ -160,7 +155,10 @@ void ProjectileTrap::SpecificUpdate() {
                 TransferVictims();
                 return;
             }
-            // NOT MADE: VoxSoundManager::s_instance->Play3D(GetSound(), position (+0x160..+0x168), false, 1, -1.0f, -1.0f).
+            if (m_dataIndex >= 0) {
+                const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
+                VoxSoundManager::s_instance->Play3D(GetSound(), at, false, 1, -1.0f, -1.0f);
+            }
             m_timer = GetDelay();  // vtable +0xf8
             Singleton<ProjectileManager>::s_inst.Spawn(m_projectileId, this, nullptr, nullptr,
                                                        &ProjectileTrap::_HandleProjectile, nullptr, true);
@@ -174,8 +172,7 @@ void ProjectileTrap::SpecificUpdate() {
 
 // 0x39cf18 ProjectileTrap::Create(GameObject*, int, int)
 // Spawns a ProjectileTrap object, owned by owner, with trapIndex into Arrays::ProjectileTraps and damagerIndex.
-// PARTIAL: the data name is not copied into m_data, because Arrays::ProjectileTraps::m_memberNames is not reachable
-// from this translation unit. GetDataId, which compares names, is partial for the same reason.
+// The data name (Arrays::ProjectileTraps::m_memberNames[trapIndex]) is copied into m_data (+0x3a8).
 GameObject* ProjectileTrap::Create(GameObject* owner, int trapIndex, int damagerIndex) {
     if (owner == nullptr) {
         ReportAssert("owner", 130);
@@ -192,7 +189,7 @@ GameObject* ProjectileTrap::Create(GameObject* owner, int trapIndex, int damager
     ProjectileTrap* trap = static_cast<ProjectileTrap*>(object);
     trap->m_owner = owner;          // +0x3f8
     trap->m_dataIndex = trapIndex;  // +0x3c0
-    // NOT MADE: trap->m_data = Arrays::ProjectileTraps::m_memberNames[trapIndex] (+0x3a8, a 24-byte std::string here).
+    trap->m_data = Arrays::ProjectileTraps::m_memberNames.names[trapIndex];   // +0x3a8, a 24-byte std::string
     trap->m_damagerIndex = damagerIndex;   // +0x3fc
     trap->m_position = owner->m_position;  // +0x160..+0x168, copied word by word in the original
     trap->InitPost();                      // vtable +0x1c
@@ -204,11 +201,9 @@ GameObject* ProjectileTrap::Create(GameObject* owner, int trapIndex, int damager
 }
 
 // 0x39d0f8 ProjectileTrap::GetDataId() const
-// PARTIAL: the original returns the first index in Arrays::ProjectileTraps::m_memberNames (scanned up to
-// Arrays::ProjectileTraps::size) whose name equals m_data, or -1. That search is not written here (see the notes).
-// -1 is returned, which is the result for an empty table.
+// The first index in Arrays::ProjectileTraps::m_memberNames (scanned up to Arrays::ProjectileTraps::size) whose name equals m_data, or -1.
 int ProjectileTrap::GetDataId() const {
-    return -1;
+    return pydata::FindMemberName(Arrays::ProjectileTraps::m_memberNames, static_cast<int>(Arrays::ProjectileTraps::size), m_data.c_str());
 }
 
 // 0x39d16c ProjectileTrap::InitPost()
@@ -237,9 +232,7 @@ ProjectileTrap::ProjectileTrap(ObjectBase::GO_IDS id) : TimerTrap(id) {
 }
 
 // 0x39d430 ProjectileTrap::Activate()
-// PARTIAL: the 3D sound that plays after the activation is not made (VoxSoundManager::Play3D is not declared).
-// The visual branch and the victim reset are written. With a visual, the trap is marked activated and its animation
-// plays. Without one, the victims are cleared.
+// With a visual, the trap is marked activated and its animation plays. Without one, the victims are cleared. With a data row (m_dataIndex >= 0) the trap's sound plays in 3D at its position.
 void ProjectileTrap::Activate() {
     if (m_visualObject != nullptr) {  // +0x2d8
         m_activated = true;           // +0x3c4
@@ -250,6 +243,7 @@ void ProjectileTrap::Activate() {
         m_victims.clear();            // the tree at +0x3e0 is erased and its header reset
     }
     if (m_dataIndex >= 0) {
-        // NOT MADE: VoxSoundManager::s_instance->Play3D(GetSound(), position (+0x160..+0x168), false, 1, -1.0f, -1.0f).
+        const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
+        VoxSoundManager::s_instance->Play3D(GetSound(), at, false, 1, -1.0f, -1.0f);
     }
 }

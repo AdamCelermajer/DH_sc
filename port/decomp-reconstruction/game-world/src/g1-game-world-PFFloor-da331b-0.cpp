@@ -1,6 +1,6 @@
 // Batch g1-game-world-PFFloor-da331b-0: the PFFloor ray and height queries, the node lookup, the debug draw, the two
 // destructors and the constructor, the edge and node builders, the link between two floors, and the nav-mesh loader.
-// Declarations come from dh2/PFFloor.hpp. A PARTIAL body names the callee or layout it waits on.
+// Declarations come from dh2/PFFloor.hpp.
 //
 // Layout facts used here (original 32-bit offsets, named in dh2/PFFloor.hpp, dh2/PFGInnerNode.hpp, dh2/PFGInnerEdge.hpp):
 //   PFFloor      +0x20 m_objectFlags  +0x24 m_typeMask  +0x40 m_navMesh  +0x68 m_triangles  +0x6c m_triangleCount
@@ -8,12 +8,6 @@
 //   PFGInnerNode +0x08 m_position  +0x14 m_direction  +0x20 m_width  +0x24 m_length  +0x28 m_floor
 //   PFGInnerEdge +0x10 m_distance  +0x14 m_clearance
 //
-// Layout requests that keep some functions PARTIAL (the integrator applies them to the owner headers):
-//   PFGInnerGraph +0x1c  uint32 node counter. _CreateNode takes the next node id from it (m_iGraph +0x1c, incremented
-//                        before GraphSparse::addNode). PFWorld::_Init allocates the graph with operator new(0x20).
-//   glitch::IDevice +0x10  IVideoDriver* (dword_99F73C +0x10). _DBG_Draw draws through it.
-//   glitch::IDevice +0x1c  scene manager (dword_99F73C +0x1c). GetCollisionAt reads the collision manager at
-//                        scene manager +0x2c and calls its getCollisionPoint, which is vtable K 0x0c.
 
 #include "dh2/PFFloor.hpp"
 
@@ -29,11 +23,14 @@
 #include "dh2/PFGInnerEdge.hpp"
 #include "dh2/PFGInnerGraph.hpp"
 #include "dh2/PFGInnerNode.hpp"
+#include "dh2/SceneManager.hpp"
 #include "dh2/UserProperties.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/global/scene_nodes.hpp"                           // CopyMeshSceneNode (0x50f89c)
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"    // IMeshSceneNode, CMeshSceneNode
 #include "glitch-scene-collada-gui/scene/COctTreeTriangleSelector.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 #include "glitch-shared/glitch_core.hpp"                        // triangle3d, aabbox3d, vector3d
 
@@ -118,22 +115,24 @@ std::uint32_t FloorDebugColour(std::uint32_t typeMask, std::uint32_t objectFlags
 }  // namespace
 
 // 0x51b874 _ZN7PFFloor14GetCollisionAtERK7Point3DIfES3_RS1_
-// PARTIAL: the original takes the nav mesh's triangle selector (m_navMesh->getTriangleSelector(), declared) and casts the
-// line start..end against it through the scene collision manager (IDevice +0x1c, then the manager at its +0x2c). The
-// manager's getCollisionPoint is virtual at K 0x0c. That query is not made: the manager and the virtual are not declared
-// (layout requests in the header comment above). Without it the function reports no hit.
+// The line start..end is cast against the triangle selector of the nav mesh (m_navMesh->getTriangleSelector(), vtable +0xb0) through the scene collision manager (the device's scene manager +0x2c,
+// getCollisionPoint at vtable +0x0c). On a hit the point is written to hit and true is returned.
 bool PFFloor::GetCollisionAt(const Point3D<float>& start, const Point3D<float>& end, Point3D<float>& hit) {
-    (void)start;
-    (void)end;
-    (void)hit;
+    glitch::core::line3d<float> line;
+    line.start = glitch::core::vector3d<float>{start.X, start.Y, start.Z};
+    line.end = glitch::core::vector3d<float>{end.X, end.Y, end.Z};
+    glitch::core::vector3d<float> point{0.0f, 0.0f, 0.0f};
+    glitch::core::triangle3d<float> triangle{};
+    if (DeviceSceneManager()->collisionManager->getCollisionPoint(line, m_navMesh->getTriangleSelector(), point, triangle)) {
+        hit = Point3D<float>{point.X, point.Y, point.Z};
+        return true;
+    }
     return false;
 }
 
 // 0x51b96c _ZN7PFFloor14GetCollisionAtERK7Point3DIfERS1_RN6glitch4core10triangle3dIfEE
-// The bounding box of the floor is tested first. A point outside it, or past any of its faces, gives false. Inside,
-// the original casts the vertical line (x, y, z + 1000) .. (x, y, z - 1000) against the nav mesh's triangle selector
-// through the scene collision manager, and returns the hit point and triangle it reports. PARTIAL: that query is not
-// made (layout request, see the header comment at the top of the file).
+// The bounding box of the floor is tested first. A point outside it, or past any of its faces, gives false. Inside, the vertical line (x, y, z + 1000) .. (x, y, z - 1000) is cast against the nav mesh's triangle
+// selector through the scene collision manager (the device's scene manager +0x2c); the hit point and the triangle are returned.
 bool PFFloor::GetCollisionAt(const Point3D<float>& start, Point3D<float>& hit,
                              glitch::core::triangle3d<float>& triangle) {
     if (m_boundsMin.X > start.X) {
@@ -154,15 +153,19 @@ bool PFFloor::GetCollisionAt(const Point3D<float>& start, Point3D<float>& hit,
     if (start.Z > m_boundsMax.Z) {
         return false;
     }
-    (void)hit;
-    (void)triangle;
-    return false;
+    glitch::core::line3d<float> line;
+    line.start = glitch::core::vector3d<float>{start.X, start.Y, start.Z + 1000.0f};
+    line.end = glitch::core::vector3d<float>{start.X, start.Y, start.Z - 1000.0f};
+    glitch::core::vector3d<float> point{0.0f, 0.0f, 0.0f};
+    if (!DeviceSceneManager()->collisionManager->getCollisionPoint(line, m_navMesh->getTriangleSelector(), point, triangle)) {
+        return false;
+    }
+    hit = Point3D<float>{point.X, point.Y, point.Z};
+    return true;
 }
 
 // 0x51badc _ZN7PFFloor16GetFloorHeightAtERK7Point3DIfEPfPS1_
-// The ray query above gives the hit point and its triangle. height receives the hit Z and normal the triangle's normal
-// (TriangleNormal). Either pointer may be null. The result is the query's result, so this body is PARTIAL through
-// GetCollisionAt (3-argument form), which does not make the scene query yet.
+// The ray query above gives the hit point and its triangle. height receives the hit Z and normal the triangle's normal (TriangleNormal). Either pointer may be null. The result is the query's result.
 bool PFFloor::GetFloorHeightAt(const Point3D<float>& point, float* height, Point3D<float>* normal) {
     Point3D<float> hit{};
     glitch::core::triangle3d<float> triangle{};
@@ -291,12 +294,9 @@ PFGInnerEdge* PFFloor::_CreateEdge(PFGInnerNode* from, PFGInnerNode* to) {
 }
 
 // 0x51fa64 _ZN7PFFloor11_CreateNodeERK7Point3DIfES3_S3_b
-// PARTIAL: the lookup, the floor test and the normal are complete. Creating the node is not: the original takes the next
-// id from the graph's counter (PFGInnerGraph +0x1c, layout request), calls GraphSparse::addNode, fills in the node
-// (midpoint, normalised direction, length, width and floor) and enters it in m_nodeByPos. Without the counter no id
-// exists, so no node is made and the function returns null where the original returns the new node.
-// The midpoint of a and b is the key. The side test runs unless force is set: the two points one unit from the midpoint,
-// along the unit vector perpendicular to the edge in the plane of the normal, must both lie on this floor.
+// Nothing is made on a void floor (object flag 0x01000000). The midpoint of a and b is the key: an existing node at that midpoint is returned. Otherwise the side test runs unless force is set: the two points one
+// unit from the midpoint, along the unit vector perpendicular to the edge in the plane of the normal, must both lie on this floor. The node takes the next id from the inner graph's counter (m_iGraph +0x1c,
+// incremented before GraphSparse::addNode) and gets the midpoint, the normalised direction (b - a), the length of the edge as its width and length, and this floor; it is entered in m_nodeByPos.
 PFGInnerNode* PFFloor::_CreateNode(const Point3D<float>& a, const Point3D<float>& b, const Point3D<float>& normal,
                                    bool force) {
     if ((m_objectFlags & 0x1000000u) != 0) {
@@ -327,13 +327,22 @@ PFGInnerNode* PFFloor::_CreateNode(const Point3D<float>& a, const Point3D<float>
     if (!accepted) {
         return nullptr;
     }
-    // PARTIAL: node creation waits on the node counter (layout request). See the function comment.
-    return nullptr;
+
+    m_iGraph->m_nodeCounter += 1;  // PFGInnerGraph +0x1c
+    PFGInnerNode* node = m_iGraph->addNode(m_iGraph->m_nodeCounter);
+    node->m_position = mid;        // +0x08
+    Point3D<float> direction{dx, dy, dz};
+    direction.normalize();
+    node->m_direction = direction;  // +0x14
+    const float length = std::sqrt((dx * dx + dy * dy) + dz * dz);
+    node->m_width = length;         // +0x20
+    node->m_length = length;        // +0x24
+    node->m_floor = this;           // +0x28
+    m_nodeByPos[mid] = node;
+    return node;
 }
 
 // 0x51fd78 _ZN7PFFloor5_LinkEPS_
-// PARTIAL: the body is complete, but both loops create their nodes with _CreateNode, which is partial (node counter).
-// Until that is applied, the nodes are null and the edges through them are null entries of m_edges.
 // The two floors are linked when they touch. Records of this floor inside the other floor's box (grown by 1 unit) make a
 // node on this floor, and records of the other floor inside this box make one on the other floor. For each pair of
 // records, the other floor's edges are made once (on the first record of this floor), then cross-floor edges are made
@@ -381,8 +390,8 @@ void PFFloor::_Link(PFFloor* other) {
                 other->m_edges.push_back(other->_CreateEdge(otherRecord->m_neighbours[1], otherNode));
             }
 
-            // A node that is missing (the partial _CreateNode returns null) leaves the cross test out, so no null node is
-            // dereferenced. The original always has both nodes here, so the test below is unchanged for it.
+            // _CreateNode with force set always makes the node here: a void floor (the only case that returns null) has the object flag
+            // 0x04000000 and never reaches this point. The null test only guards the dereference.
             if (ownNode != nullptr && otherNode != nullptr) {
                 const float dx = ownNode->m_position.X - otherNode->m_position.X;
                 const float dy = ownNode->m_position.Y - otherNode->m_position.Y;
@@ -408,8 +417,6 @@ void PFFloor::_Link(PFFloor* other) {
 }
 
 // 0x520588 _ZN7PFFloor12_CreateNodesEPN6glitch4core10triangle3dIfEEj
-// PARTIAL: the body is complete, but each triangle's nodes come from _CreateNode, which is partial (node counter). Until
-// that is applied, the triangle's nodes are null and the edges and records take the null path.
 // Per triangle (A, B, C), the edges AB, AC and BC get nodes and six directed edges (AB-AC, AB-BC, AC-BC, each way). An edge
 // with no node is kept as an InvalidNode record: its midpoint, its end points and the triangle normal, and the other two
 // edges as neighbours. Nothing is built on a void floor (object flag 0x01000000).
@@ -448,7 +455,6 @@ void PFFloor::_CreateNodes(glitch::core::triangle3d<float>* triangles, unsigned 
 }
 
 // 0x520b40 _ZN7PFFloor12_LoadNavMeshEPN6glitch5scene14IMeshSceneNodeE
-// PARTIAL: the body is complete, but the triangle nodes it builds come from _CreateNodes, which is partial (node counter).
 // The floor reads its type from the "floortypes" user property of the node's parent: "void", "wall", "hole" and "water"
 // set bits 0x01000000, 0x02000000, 1 and 2 of m_typeMask. A void or wall floor also gets 0x07000000 in its object flags.
 // The node is copied (CopyMeshSceneNode), hidden and removed from the scene. The copy's position and its transformed box

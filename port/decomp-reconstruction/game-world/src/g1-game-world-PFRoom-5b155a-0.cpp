@@ -20,6 +20,8 @@
 #include "dh2/DebugSwitches.hpp"          // DebugSwitches::s_inst, the trace switches
 #include "dh2/PFFloor.hpp"
 #include "dh2/PFWorld.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "glitch-core-io/os/logging.hpp"  // glitch::os::Timer::getRealTime
 
 // The engine's assert level, declared in core-platform/memory.hpp. That header is not included here: it pulls in a
@@ -272,12 +274,9 @@ void PFRoom::_Link(PFRoom* other) {
 }
 
 // 0x521eb8 _ZN6PFRoom10_LoadFloorEPN6glitch5scene14IMeshSceneNodeEPKc
-// PARTIAL. Appends a PFFloor for the mesh node, loads its navigation mesh and merges the floor's box into the room box.
-// The six merges use MinKeep and MaxKeep, the positive fcmplt form of the asm (see above).
-// Missing: the last statement of the original, SceneManager::AddNodeToMap(sceneManager, floor->m_navMesh). The scene
-// manager is the word at +0x1c of the glitch device (dword_99F73C + 28, where dword_99F73C is Application::m_device at
-// +0x10 of Singleton<Application>::s_inst). glitch::IDevice declares nothing at +0x1c, so the pointer cannot be read
-// yet. The original tail-calls a void function, so there is no return value to forward.
+// Asserts the node (line 53), appends a PFFloor for the mesh node (object flags 1), loads its navigation mesh (timed with glitch::os::Timer when isTracingNavMeshLoadTime is set) and merges the floor's box into the
+// room box: the first floor sets it outright, the others grow it with the positive fcmplt form of the asm (MinKeep and MaxKeep). The floor's nav mesh is then added to the scene manager's node map
+// (SceneManager::AddNodeToMap on the device's scene manager).
 void PFRoom::_LoadFloor(glitch::scene::IMeshSceneNode* node, const char* name) {
     if (node == nullptr) {
         AssertFailed("node", 53);
@@ -308,4 +307,6 @@ void PFRoom::_LoadFloor(glitch::scene::IMeshSceneNode* node, const char* name) {
         m_boundsMax.Y = MaxKeep(m_boundsMax.Y, floor->m_boundsMax.Y);  // +0x4c
         m_boundsMax.Z = MaxKeep(m_boundsMax.Z, floor->m_boundsMax.Z);  // +0x50
     }
+    DeviceSceneManager()->AddNodeToMap(floor->m_navMesh);
 }
+

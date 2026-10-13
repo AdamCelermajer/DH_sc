@@ -3,16 +3,9 @@
 // deleting destructors (compiler-generated, skipped). Declarations come from dh2/CSLimbus.hpp and
 // dh2/CSPreSpawn.hpp; the Character layout comes from dh2/Character.hpp.
 //
-// Redo pass (r2a-game-character-pack0-a32a82-0): CharAI::m_group, m_groupRole, GroupInfo::m_members and
-// m_allMembersDead, CharStateMachine::m_stateFlags and m_limbusFlag, and the CharAnimTable row accessor
-// (Character::GetCharAnimTable) are public now. The group block, the flag writes and the animation choice
-// are written from the pseudocode. The one gap left is COnline::isOnlineGame_ (net-session-online,
-// private, no getter), which gates the respawn timer in CSLimbus::OnFocus.
-//
-// Partial functions say at the point of the gap what is missing. The gap is in the notes of the ledger rows
-// (game-character/ledger.d/r2a-game-character-pack0-a32a82-0.csv).
+// The group block, the flag writes and the animation choice follow the pseudocode. The respawn timer of CSLimbus::OnFocus is gated by the
+// online-game flag (GetOnlineGameFlag) and PlayerManager::IsLocalPlayerHosting.
 //   - GroupInfo +0x24 (m_allMembersDead) is written 0 or 2 by the limbus group block.
-//   - COnline +0x05 is isOnlineGame_ (private, no getter). CSLimbus::OnFocus needs it for its respawn timer.
 
 #include <cstdio>
 #include <cstdlib>
@@ -26,6 +19,9 @@
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/net_singletons.hpp"
 #include "dh2/global/charai_ai.hpp"   // ApplicationGetPyDataConstants
 #include "dh2/v2Controller.hpp"
 #include "pydata-accessors/structs_records.hpp"  // Structs::CharAnim
@@ -111,20 +107,19 @@ void CSLimbus::OnBlur(int /*stateId*/, Character* character, CharStateMachine* /
 }
 
 // 0x3c2e58 CSLimbus::OnFocus(int, Character*, CharStateMachine*, int, int, void*)
-// partial. Written: the trace switch, CharStateMachine::m_stateFlags (+0x24, the original's Character +0x520) set to 0,
-// SetVisible(false) through slot +0x40 (asm: the argument is 0), and the final CharAI::AI_ClearAllAggro.
-// Missing: the respawn timer branch. The original takes it when the limbus flag (CharStateMachine::m_limbusFlag,
-// +0x34, the original's Character +0x530) is set, GetRespawnDelay() > 0, and either COnline +0x05 (isOnlineGame_,
-// private with no getter in net-session-online c_online.hpp) is clear or dword_99F76C->IsLocalPlayerHosting(). The
-// branch then calls CharTimers::TMR_Start(delay, 0, 47, nullptr) on the CharTimers subobject (Character +0x3b4).
-// The branch is omitted: the online flag has no reachable getter, and PlayerManager.hpp cannot be included with
-// Character.hpp (see the Character ledger rows).
+// Trace switch, CharStateMachine::m_stateFlags (+0x24, the original's Character +0x520) = 0, SetVisible(false) through slot +0x40. When the
+// limbus flag (CharStateMachine::m_limbusFlag, +0x34, Character +0x530) is set and GetRespawnDelay() > 0 and either the online flag is clear
+// or this client is hosting, the respawn timer starts: CharTimers::TMR_Start(delay, 0, 47, nullptr) on the CharTimers subobject (Character
+// +0x3b4). Finally CharAI::AI_ClearAllAggro.
 void CSLimbus::OnFocus(int /*stateId*/, Character* character, CharStateMachine* /*machine*/, int /*fromState*/,
                        int /*toState*/, void* /*data*/) {
     ReadTraceSwitch();
     character->CharStateMachine::m_stateFlags = 0;
     character->SetVisible(false);
-    // partial: respawn timer branch omitted (see above).
+    if (character->CharStateMachine::m_limbusFlag && character->GetRespawnDelay() > 0 &&
+        (!GetOnlineGameFlag() || dword_99F76C->IsLocalPlayerHosting())) {
+        character->CharTimers::TMR_Start(static_cast<unsigned int>(character->GetRespawnDelay()), 0, 47, nullptr);
+    }
     character->CharAI::AI_ClearAllAggro();
 }
 

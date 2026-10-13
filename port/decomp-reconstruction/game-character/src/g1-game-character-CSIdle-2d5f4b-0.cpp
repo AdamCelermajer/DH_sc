@@ -1,7 +1,6 @@
 // CSIdle bodies (batch g1-game-character-CSIdle-2d5f4b-0): the idle state. Focus sets the idle animation, blur clears the
 // idle flag, init registers the state's events, and the update runs IdleCommonUpdate, which pushes apart overlapping idle
-// player characters. Declarations come from dh2/CSIdle.hpp. Each PARTIAL comment names what is missing, and the ledger rows
-// in game-character/ledger.d/g1-game-character-CSIdle-2d5f4b-0.csv repeat it.
+// player characters. Declarations come from dh2/CSIdle.hpp.
 
 #include "dh2/CSIdle.hpp"
 
@@ -13,6 +12,9 @@
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/v2Controller.hpp"
 #include "dh2/global/charai_ai.hpp"
 #include "dh2/global/net_singletons.hpp"
@@ -36,20 +38,6 @@ void ProbeTracingSwitch() {
     DebugSwitches::GetInstance()->GetSwitch("isTracingCharState");
 }
 
-// PARTIAL. COnline::isOnlineGame_ (+0x05) is private in net-session-online/c_online.hpp and has no getter, so this reads
-// false until the field is public. With false, the push-apart also runs in an online game, which the original skips.
-// Layout request filed.
-bool OnlineGameFlag(const COnline* online) { return online->IsOnlineGame(); }
-
-// PARTIAL. dh2/PlayerManager.hpp cannot be included together with dh2/Character.hpp: its net-transport StreamBuffer needs
-// IStreamBase, which pydata-accessors' stream_reader.hpp defines too (the same blocker as Character-ee9946-10). These two
-// stand-ins report no players until that is fixed. The replacements are, in order:
-//   PlayerCount()          -> dword_99F76C->GetNumPlayers()
-//   PlayerCharacterAt(i)   -> static_cast<Character*>(dword_99F76C->GetPlayer(i, false)->unk_660)
-// (PlayerInfo +0x660 is declared unk_660, void*. The layout request for it is filed.)
-int PlayerCount() { return 0; }
-Character* PlayerCharacterAt(int) { return nullptr; }
-
 }  // namespace
 
 // 0x3c0000 CSIdle::~CSIdle()
@@ -66,10 +54,10 @@ CSIdle::~CSIdle() {}
 void CSIdle::OnEvent(int, Character*, CharStateMachine*, int, void*) {}
 
 // 0x3c0b78 CSIdle::IdleCommonUpdate(int,Character*,CharStateMachine*)
-// PARTIAL. The original returns an int (r0 on exit: RaiseEvent's result on the first exit, leftover register values on
-// the others). The declaration is static void, and the result is dropped. Three inputs are not reachable from here: the
-// COnline gate (OnlineGameFlag), the PlayerManager player count and the player's character (PlayerCount and
-// PlayerCharacterAt, which report no players). Layout requests filed for COnline +0x05 and PlayerInfo +0x660.
+// A character with a heading raises event 0 and returns. Otherwise only a player character acts, and only offline (the online-game flag
+// clear): when its time in state reaches PlayerInterPenetration_Delay, every other player character that is idle (state 3) for as long
+// is pushed apart when closer than PlayerInterPenetration_Dist: both are sent (Cmd_MoveTo) away from each other by 0.75 of the overlap.
+// The original returns an int (RaiseEvent's result on the first exit, leftover registers otherwise); the declaration is static void.
 void CSIdle::IdleCommonUpdate(int, Character* character, CharStateMachine*) {
     if (character->m_hasHeading != 0) {
         character->RaiseEvent(0, nullptr);
@@ -78,7 +66,7 @@ void CSIdle::IdleCommonUpdate(int, Character* character, CharStateMachine*) {
     if (!character->IsPlayer()) {
         return;
     }
-    if (OnlineGameFlag(GetOnline())) {
+    if (GetOnlineGameFlag()) {
         return;
     }
 
@@ -91,9 +79,9 @@ void CSIdle::IdleCommonUpdate(int, Character* character, CharStateMachine*) {
 
     // The loop visits the players from index 0 (the online flag tested above is 0 here). The body reads the other player's
     // character as a Character* (it is compared with this character, and read at Character +0x160, +0x378, +0x4fc, +0x55c).
-    const int playerCount = PlayerCount();
+    const int playerCount = dword_99F76C->GetNumPlayers();
     for (int index = 0; index < playerCount; ++index) {
-        Character* other = PlayerCharacterAt(index);
+        Character* other = dword_99F76C->GetPlayer(index, false)->unk_660;
         if (other == nullptr || other == character) {
             continue;
         }
@@ -133,7 +121,7 @@ void CSIdle::IdleCommonUpdate(int, Character* character, CharStateMachine*) {
 }
 
 // 0x3c0e80 CSIdle::OnUpdate(int,Character*,CharStateMachine*)
-// PARTIAL. The original tail-calls IdleCommonUpdate and returns its int (see that row). This void slot drops the result,
+// The original tail-calls IdleCommonUpdate and returns its int (see that row). This void slot drops the result,
 // as CSMove's slot does; the use of the result by CharStateMachine is unverified.
 void CSIdle::OnUpdate(int eventId, Character* character, CharStateMachine* machine) {
     IdleCommonUpdate(eventId, character, machine);

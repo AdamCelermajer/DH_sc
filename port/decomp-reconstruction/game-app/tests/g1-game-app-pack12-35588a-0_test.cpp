@@ -164,33 +164,38 @@ void Wait::finalize() {}
 void Wait::read(IStreamBase* /*stream*/) {}
 }  // namespace Structs
 
+// A node pointer that is only compared, never dereferenced.
+const PFGInnerNode* FakeNode(std::uintptr_t value) {
+    return reinterpret_cast<const PFGInnerNode*>(value);
+}
+
 int main() {
     // SearchFailCache::add. Ten entries are kept. The 11th add appends, because 10 entries is not more than 10. The
     // 12th add finds 11 entries, so the list starts over and keeps only the new entry.
     {
         SearchFailCache cache;
         for (std::uint32_t i = 0; i < 10; ++i) {
-            SearchFailCache::Entry e{i, i + 100, i + 200};
+            SearchFailCache::Entry e{FakeNode(i), FakeNode(i + 100), i + 200};
             cache.add(e);
         }
         EXPECT(cache.m_entries.size() == 10u);
 
-        SearchFailCache::Entry e10{10, 110, 210};
+        SearchFailCache::Entry e10{FakeNode(10), FakeNode(110), 210};
         cache.add(e10);
         EXPECT(cache.m_entries.size() == 11u);
 
-        SearchFailCache::Entry e11{11, 111, 211};
+        SearchFailCache::Entry e11{FakeNode(11), FakeNode(111), 211};
         cache.add(e11);
         EXPECT(cache.m_entries.size() == 1u);
-        EXPECT(cache.m_entries[0].unk_00 == 11u);
-        EXPECT(cache.m_entries[0].unk_04 == 111u);
-        EXPECT(cache.m_entries[0].unk_08 == 211u);
+        EXPECT(cache.m_entries[0].m_start == FakeNode(11));
+        EXPECT(cache.m_entries[0].m_goal == FakeNode(111));
+        EXPECT(cache.m_entries[0].m_flags == 211u);
 
         // The entry added after the restart is appended normally.
-        SearchFailCache::Entry e12{12, 112, 212};
+        SearchFailCache::Entry e12{FakeNode(12), FakeNode(112), 212};
         cache.add(e12);
         EXPECT(cache.m_entries.size() == 2u);
-        EXPECT(cache.m_entries[1].unk_00 == 12u);
+        EXPECT(cache.m_entries[1].m_start == FakeNode(12));
     }
 
     // TestCharPropId and TestCharTemplate: a null character never matches. Otherwise the id is compared with the

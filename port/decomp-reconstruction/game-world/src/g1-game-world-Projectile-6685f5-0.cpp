@@ -1,8 +1,7 @@
 // Batch g1-game-world-Projectile-6685f5-0: the Projectile class (flight, impacts and spawn setup).
 // Reconstructed from the Hex-Rays pseudocode of libDungeonHunter2.so. Where the pseudocode drops a register
 // argument (Update, OnExpire, OnCollision, HandleImpactFX), the value comes from the assembly. Offsets in
-// comments are the original 32-bit ones. Partial functions name the blocked call in their comment; the ledger
-// notes repeat the reason.
+// comments are the original 32-bit ones.
 
 #include <cstdint>
 #include <cstdio>
@@ -16,6 +15,10 @@
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/PFFloor.hpp"
 #include "dh2/PFObject.hpp"
+#include "dh2/PFRoom.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/POProjectile.hpp"
+#include "dh2/Point3D.hpp"
 #include "dh2/Projectile.hpp"
 #include "dh2/ProjectileManager.hpp"
 #include "dh2/Singleton.hpp"
@@ -26,6 +29,7 @@
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 // Engine-wide assert level (core-platform/memory.hpp).
 extern int gAssertLevel;
@@ -132,10 +136,9 @@ float Projectile::GetSpeed() const {
 }
 
 // 0x3e4db0 Projectile::HandleImpactFX(Projectile::ImpactType, Point3D<float> const&)
-// PARTIAL: the 3D sound is not played. The effect is: VisualFXManager::PlayAnimFXSet(id, position, nullptr, nullptr)
-// on Singleton<VisualFXManager>::s_inst, the same call GameObject's script effects make. The sound call
-// VoxSoundManager::Play3D(id, position, ...) needs VoxSoundManager::s_instance and Play3D, which
-// vox-audio/vox/sound_manager.hpp does not declare (layout request).
+// The columns of the impact (SelectImpactColumns): the effect set plays with VisualFXManager::PlayAnimFXSet(id, position, nullptr, nullptr), then the sound in 3D at the position
+// (VoxSoundManager::s_instance->Play3D(id, position, false, 1, -1, -1)). A column of -1 plays nothing. IMPACT_NONE returns before the table is read. The original's int return is not
+// part of the void declaration.
 void Projectile::HandleImpactFX(ImpactType impact, const Point3D<float>& position) {
     if (impact == IMPACT_NONE) {
         return;  // case 0 returns before the table is read
@@ -145,7 +148,8 @@ void Projectile::HandleImpactFX(ImpactType impact, const Point3D<float>& positio
         Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(columns.fx, position, nullptr, nullptr);
     }
     if (columns.sound != -1) {
-        // NOT MADE: VoxSoundManager::s_instance->Play3D(columns.sound, position, ...)
+        const glitch::core::vector3d<float> at{position.X, position.Y, position.Z};
+        VoxSoundManager::s_instance->Play3D(columns.sound, at, false, 1, -1.0f, -1.0f);
     }
 }
 
@@ -175,20 +179,23 @@ void Projectile::SetManager(ProjectileManager* manager) {
 }
 
 // 0x3e5078 Projectile::OnExpire(Projectile::ImpactType)
-// PARTIAL: the floor snap runs only when the object holds a PFFloor (PFObject +0x10). The original then tests the room
-// pointer at GameObject +0x1d4 (PFObject +0x0c): a room runs PFRoom::GetFloorHeightAt, and with neither a floor nor a
-// room it runs Singleton<PFWorld>::s_inst.GetFloorHeightAt. Either way it then calls SetPosition with the new z. The
-// room word is declared as the float m_floorHeight in PFObject.hpp, so the branch cannot be chosen and the room and
-// world queries are not made (layout request: PFObject +0x0c PFRoom* m_room). Without a floor the z is left as it is.
+// A table row that asks for it (+0x34) snaps the projectile to the floor under its stored position (+0x394): the floor of the PFObject (+0x10) answers when it has one, else the room of the PFObject
+// (+0x0c), else the world (PFWorld::GetFloorHeightAt). The position is set (SetPosition, with the found height; the height starts at 0 and stays 0 when no floor answers) in every case.
+// Then the hit object is cleared (+0x3cc), the projectile is marked expiring (+0x3d1) and the impact effect plays at the target position.
 void Projectile::OnExpire(ImpactType impact) {
     if (ProjectileRow(m_projectileId).m_w13) {  // table +0x34: snap to the floor on expiry
         PFFloor* floor = m_pfObject.m_floor;     // PFObject +0x10 (GameObject +0x1d8)
+        PFRoom* room = m_pfObject.m_room;        // PFObject +0x0c (GameObject +0x1d4)
+        float height = 0.0f;
+        Point3D<float> normal{0.0f, 0.0f, 0.0f};
         if (floor != nullptr) {
-            float height = 0.0f;
-            Point3D<float> normal{0.0f, 0.0f, 0.0f};
             floor->GetFloorHeightAt(m_position, &height, &normal);
-            SetPosition(Point3D<float>{m_position.X, m_position.Y, height}, true);
+        } else if (room != nullptr) {
+            room->GetFloorHeightAt(m_position, &height, &normal, &floor, false);
+        } else {
+            Singleton<PFWorld>::s_inst.GetFloorHeightAt(m_position, &height, &normal, &room, &floor, false);
         }
+        SetPosition(Point3D<float>{m_position.X, m_position.Y, height}, true);
     }
     m_hitObject = nullptr;  // +0x3cc
     m_expiring = true;      // +0x3d1
@@ -196,11 +203,14 @@ void Projectile::OnExpire(ImpactType impact) {
 }
 
 // 0x3e51b0 Projectile::Update()
-// PARTIAL: the floor and room checks that decide whether a projectile still inside its range expires on terrain
-// need the PFWorld instance (Singleton<PFWorld>::s_inst, no accessor in the tree). Until that exists, a
-// projectile inside its range keeps flying here. Point3D::normalize is also not reachable from GameObject.hpp,
-// so the destination direction is not normalized. The finish callback, the target expiry, the lifetime and
-// speed decay, and the range test are reconstructed.
+// An expiring projectile first runs its finish callback (m_onFinish, result 0 without one). With no hit object it goes back to its pool (dead, no longer expiring, ProjectileManager::DeSpawn); with
+// a hit object a result of 0 plays the impact effect (HandleImpactFX(hit, position)) and goes back to the pool, and a result of 1 revives it (not dead, not expiring). A target that died is dropped (+0x384).
+// A dead projectile does nothing more. Otherwise the stored position (+0x394) takes GetTargetPosition(), the destination is the target's position for a homing row (table +0x35), or 1000 units along the
+// normalised XY direction (destination - position) from the position, then GameObject::Update, the speed decays by deceleration * dt / 1000, and the lifetime (+0x3b4) loses dt. The projectile expires
+// (OnExpire(EXPIRE)) when the lifetime or speed is used up or the squared distance from the start (+0x388) reaches the range. Otherwise the floor under the object (PFWorld::GetFloorHeightAt) decides: a floor
+// the object can path on, or a wall floor (type bit 0x02000000), keeps it flying unless a projectile node exists and its launch height (+0x3a0) is above the floor (OnExpire(GROUND)); any other floor expires it
+// on the ground; with no floor the room (PFWorld::GetRoomAt) keeps it flying unless the room's flag word (+0x24) has bit 0, and with no room at all it expires with IMPACT_NONE.
+// The original's int return is not part of the void declaration.
 void Projectile::Update() {
     if (m_expiring) {
         const int finishResult = m_onFinish != nullptr ? m_onFinish(this, m_userData) : 0;
@@ -233,20 +243,22 @@ void Projectile::Update() {
     if (row.m_off53 && m_target != nullptr) {  // table +0x35: home on the target
         SetDestination(m_target->GetTargetPosition());
     } else {
-        // PARTIAL: the original normalizes (destination - position) in the XY plane and places the
-        // destination 1000 units along it. The direction is not normalized here (see the header comment).
-        const Point3D<float> direction{m_destination.X - targetPosition.X, m_destination.Y - targetPosition.Y,
-                                       0.0f};
-        SetDestination(Point3D<float>{direction.X * 1000.0f + targetPosition.X,
-                                      direction.Y * 1000.0f + targetPosition.Y,
-                                      direction.Z * 1000.0f + targetPosition.Z});
+        // The destination is 1000 units along the XY direction (destination - position); a zero direction gives NaN as in the original.
+        const Point3D<float> current = GetTargetPosition();
+        Point3D<float> direction{m_destination.X - current.X, m_destination.Y - current.Y, 0.0f};
+        direction.normalize();
+        direction.X = direction.X * 1000.0f;
+        direction.Y = direction.Y * 1000.0f;
+        direction.Z = direction.Z * 1000.0f;
+        const Point3D<float> base = GetTargetPosition();
+        SetDestination(Point3D<float>{direction.X + base.X, direction.Y + base.Y, direction.Z + base.Z});
     }
 
     GameObject::Update();
 
     const int dt = ApplicationGetInstance().GetDt();
     m_speed = m_speed + (m_deceleration * static_cast<float>(static_cast<unsigned int>(dt))) / -1000.0f;
-    m_lifetimeMs = static_cast<int>(static_cast<unsigned int>(m_lifetimeMs) - static_cast<unsigned int>(dt));
+    m_lifetimeMs = static_cast<int>(static_cast<unsigned int>(m_lifetimeMs) - static_cast<unsigned int>(ApplicationGetInstance().GetDt()));
 
     if (m_lifetimeMs <= 0 || m_speed <= 0.0f) {
         OnExpire(IMPACT_EXPIRE);
@@ -257,15 +269,36 @@ void Projectile::Update() {
         const float dx = position.X - m_startPosition.X;
         const float dy = position.Y - m_startPosition.Y;
         const float dz = position.Z - m_startPosition.Z;
-        const float distanceSquared = dx * dx + dy * dy + dz * dz;
+        const float distanceSquared = (dx * dx + dy * dy) + dz * dz;
         if (m_rangeSquared <= distanceSquared) {
             OnExpire(IMPACT_EXPIRE);
             return;
         }
     }
-    // PARTIAL: the floor query (PFWorld::GetFloorHeightAt on the object position, then PFObject::CanPathOn,
-    // the m_projectileNode and launch height test, or the room query when there is no floor) is not made.
-    // The projectile keeps flying.
+
+    float floorHeight = 0.0f;
+    PFFloor* floor = nullptr;
+    if (Singleton<PFWorld>::s_inst.GetFloorHeightAt(GameObject::m_position, &floorHeight, nullptr, nullptr, &floor, true) && floor != nullptr) {
+        if (m_pfObject.CanPathOn(floor) || (floor->m_typeMask & 0x02000000u) != 0) {
+            if (m_projectileNode == nullptr) {
+                return;
+            }
+            if (!(m_launchHeight <= floorHeight)) {
+                return;
+            }
+        }
+        OnExpire(IMPACT_GROUND);
+    } else {
+        PFRoom* room = Singleton<PFWorld>::s_inst.GetRoomAt(GameObject::m_position);
+        if (room != nullptr) {
+            if ((room->unk_24 & 1u) == 0) {
+                return;
+            }
+            OnExpire(IMPACT_GROUND);
+        } else {
+            OnExpire(IMPACT_NONE);
+        }
+    }
 }
 
 // 0x3e55b4 Projectile::OnCollision(GameObject*, Point2D<float> const&)
@@ -323,19 +356,17 @@ bool Projectile::OnCollision(GameObject* other, const Point2D<float>& position) 
 }
 
 // 0x3e57cc Projectile::SetInfo(int, GameObject*, GameObject*, Callback, Callback, void*, float)
-// PARTIAL: the aim is not rotated by the angle. The original calls Point3D::rotateXY (0x3e5740) on the look vector,
-// and that method is not reachable from GameObject.hpp (see the Point3D layout request). The destination is built
-// from the unrotated look vector.
+// SetInfo(.., false) through the virtual slot +0xc8, then the owner's look vector is rotated by angleDegrees * 0.017453292 (Point3D::rotateXY) and the destination is 1000 units along it from the owner's
+// target position; the visual's rotation is synchronised. The original returns the visual (or its int result); the void declaration drops that.
 void Projectile::SetInfo(int projectileId, GameObject* owner, GameObject* target, Callback onHit,
                          Callback onFinish, void* userData, float angleDegrees) {
     SetInfo(projectileId, owner, target, onHit, onFinish, userData, false);  // virtual slot +0xc8
 
     Point3D<float> aim{0.0f, 0.0f, 0.0f};
-    owner->GetLookAtVec(aim);
-    // NOT MADE: aim.rotateXY(static_cast<float>(angleDegrees * 0.017453)), see the header comment.
-    (void)angleDegrees;
+    m_owner->GetLookAtVec(aim);
+    aim.rotateXY(angleDegrees * 0.017453292f);
 
-    const Point3D<float> base = owner->GetTargetPosition();
+    const Point3D<float> base = m_owner->GetTargetPosition();
     SetDestination(Point3D<float>{aim.X * 1000.0f + base.X, aim.Y * 1000.0f + base.Y, aim.Z * 1000.0f + base.Z});
     if (m_visualObject != nullptr) {  // +0x2d8
         m_visualObject->SyncRotation();
@@ -343,12 +374,13 @@ void Projectile::SetInfo(int projectileId, GameObject* owner, GameObject* target
 }
 
 // 0x3e58cc Projectile::SetInfo(int, GameObject*, GameObject*, Callback, Callback, void*, bool)
-// PARTIAL in two places:
-//   - The physics body is not created. The original builds a PhysicalObject on the PhysicalWorld (the global
-//     dword_99F770, with no accessor in the tree) and gives it the POProjectile vtable (0x968fe8). POProjectile.hpp
-//     declares no constructor for that, so SetPhysicalObject is not called and the projectile has no collision body.
-//   - With a projectile node and useProjectileNode set, the aim direction is not normalized (Point3D::normalize is
-//     not reachable from GameObject.hpp).
+// Asserts the table index (line 78) and the owner (line 79), then copies the row: the id (+0x374), the flag at table +0x1d (+0x37c), the target, the callbacks, the owner and the user data; the projectile is
+// neither dead nor expiring. The start is the owner's target position, or the absolute position of the owner visual's "projectile_node" when it has one (the launch height is that Z); the squared range comes
+// from table +0x20 (-1 when negative); speed, deceleration and lifetime from table +0x40, +0x44 and +0x3c. The visual is the ProjectileDict model of table +0x28 (none when negative). The physics body is a
+// PhysicalObject on the application's physical world with the POProjectile vtable: not static, circle, sensor and bullet, group 0, category 0x20, mask 0x51f, owned by the projectile. Then position,
+// rotation (the owner's), and the destination: the target's position, or 1000 units along the aim vector (the owner's look vector, or with useProjectileNode and a node the normalised XY direction from
+// the owner's target position to the node). With a visual, clip 0 plays in a loop, the visual is synchronised and a lifetime of -666 becomes the clip length; the PFObject flies and swims.
+// The original's int return is not part of the void declaration.
 void Projectile::SetInfo(int projectileId, GameObject* owner, GameObject* target, Callback onHit,
                          Callback onFinish, void* userData, bool useProjectileNode) {
     if (projectileId < 0 || static_cast<std::uint32_t>(projectileId) >= Arrays::ProjectileTable::size) {
@@ -399,8 +431,8 @@ void Projectile::SetInfo(int projectileId, GameObject* owner, GameObject* target
         SetVisualObject(ProjectileDaeName(row.m_w10), nullptr, false);
     }
 
-    // NOT MADE: the PhysicalObject body with the POProjectile vtable and SetPhysicalObject(body, false). See the header
-    // comment above.
+    POProjectile* body = new POProjectile(ApplicationGetInstance().m_physicalWorld, this, false, true, true, true, 0, 0x20, 0x51f, 0);
+    SetPhysicalObject(body, false);
 
     SetPosition(m_startPosition, true);
     SetRotation(owner->m_rotation);  // owner +0x16c
@@ -413,7 +445,7 @@ void Projectile::SetInfo(int projectileId, GameObject* owner, GameObject* target
             const glitch::core::vector3d<float> nodePosition = m_projectileNode->getAbsolutePosition();
             const Point3D<float> ownerTarget = owner->GetTargetPosition();
             direction = Point3D<float>{nodePosition.X - ownerTarget.X, nodePosition.Y - ownerTarget.Y, 0.0f};
-            // NOT MADE: direction.normalize() (see the header comment above).
+            direction.normalize();
         }
         const Point3D<float> base = owner->GetTargetPosition();
         SetDestination(Point3D<float>{direction.X * 1000.0f + base.X, direction.Y * 1000.0f + base.Y,

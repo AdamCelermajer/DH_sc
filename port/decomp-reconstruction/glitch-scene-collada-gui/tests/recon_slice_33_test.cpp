@@ -61,19 +61,6 @@ public:
     void prepareSkinBuffer(SkinBufferStandIn&, MeshBufferStandIn*) override { ++calls; }
 };
 
-void testLoaderConstructor() {
-    IFileSystemStandIn fs;
-    ColladaBinaryFileLoaderStandIn loader;
-    constructColladaBinaryFileLoaderC2(loader, nullptr, &fs);
-    CHECK(loader.refCount == 1);
-    CHECK(loader.fileSystem == &fs);
-    CHECK(fs.refCount == 2);
-
-    ColladaBinaryFileLoaderStandIn loader1;
-    constructColladaBinaryFileLoaderC1(loader1, nullptr, nullptr);
-    CHECK(loader1.fileSystem == nullptr);
-}
-
 void testHardwareSkinPrepare() {
     CountingTechnique tech;
     SkinBufferStandIn skin;
@@ -84,29 +71,6 @@ void testHardwareSkinPrepare() {
     CHECK(tech.calls == 1);
     CHECK(prepareTextureSkinBuffer(tech, kPrepareBufferStepUpload, nullptr, skin, &mesh) == kPrepareBufferReturnHandled);
     CHECK(tech.calls == 2);
-}
-
-void testCollisionManagerConstructor() {
-    IVideoDriverStandIn driver;
-    CollisionManagerStandIn manager;
-    constructCollisionManagerC2(manager, nullptr, &driver);
-    CHECK(manager.refCount == 1);
-    CHECK(manager.driver == &driver);
-    CHECK(driver.refCount == 2);
-    CHECK(manager.reserved10 == 0 && manager.reserved14 == 0 && manager.reserved18 == 0);
-}
-
-void testCollisionResultShortCut() {
-    CollisionManagerStandIn manager;
-    TriangleStandIn tri{};
-    bool hit = true;
-    glitch::core::vector3d<float> position{1.0f, 2.0f, 3.0f};
-    glitch::core::vector3d<float> radius{0.0f, 1.0f, 1.0f};
-    glitch::core::vector3d<float> zero{0.0f, 0.0f, 0.0f};
-    // A zero radius component returns the source position without a collision.
-    glitch::core::vector3d<float> out =
-        getCollisionResultPosition(manager, nullptr, radius, position, zero, tri, hit, 0.0f, zero);
-    CHECK(out.X == 1.0f && out.Y == 2.0f && out.Z == 3.0f);
 }
 
 void testTerrainLodTable() {
@@ -135,10 +99,7 @@ void testEmptyBases() {
 }  // namespace
 
 int main() {
-    testLoaderConstructor();
     testHardwareSkinPrepare();
-    testCollisionManagerConstructor();
-    testCollisionResultShortCut();
     testTerrainLodTable();
     testSizeAffectorIndexedDeserialize();
     testEmptyBases();

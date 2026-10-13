@@ -226,7 +226,7 @@ void Character::CancelSneaking() {
 
 // 0x3bc784 Character::GetCharSkill(int) const
 // Returns the Skill row of list index skill: the list entry m_w2[skill] names the skill id. An index outside the list
-// fails ASSERT(skillId >= 0 && skillId < ListSize) (Character_Skills.cpp line 61). PARTIAL: the original goes on and reads
+// fails ASSERT(skillId >= 0 && skillId < ListSize) (Character_Skills.cpp line 61). the original goes on and reads
 // the list entry past its end (undefined), which this port does not reproduce; it returns nullptr instead. Callers
 // that need a row treat nullptr as the no-skill answer.
 const void* Character::GetCharSkill(int skill) const {
@@ -246,7 +246,7 @@ const void* Character::GetCharSkill(int skill) const {
 // (passed as the end() iterator, as every original caller does), the CharAI script process is unloaded and reloaded,
 // and it is initialised. The result is SG_Save().
 //
-// PARTIAL: without a savegame the original dereferences the null savegame (count at +0x84) and crashes. This port stops
+// without a savegame the original dereferences the null savegame (count at +0x84) and crashes. This port stops
 // with 0 after the assert message. An assert level of 2 aborts, as the original's store to address 0 does.
 int Character::ResetSkills() {
     PlayerSavegame* save = m_savegame;
@@ -281,7 +281,7 @@ int Character::ResetSkills() {
 // 0x3bc9ec Character::CanIncrementSkill(int)
 // False without a savegame or without its skill rows. Otherwise the skill's required level (savegame row +0x04, a 16-bit
 // word) must not exceed GetLevel() minus the skill's level word (Structs::Skill +0x20, m_w8).
-// PARTIAL: an index outside the savegame rows or an index outside the skill list (GetCharSkill) is undefined in the
+// an index outside the savegame rows or an index outside the skill list (GetCharSkill) is undefined in the
 // original, which reads past the array. This port returns false for both.
 bool Character::CanIncrementSkill(int skill) {
     PlayerSavegame* save = m_savegame;
@@ -302,7 +302,7 @@ bool Character::CanIncrementSkill(int skill) {
 
 // 0x3bca50 Character::IsSkillAvailable(int) const
 // True when GetLevel() is at least the skill's level word (Structs::Skill +0x20, m_w8).
-// PARTIAL: an out-of-range skill (GetCharSkill returns nullptr) gives false here; the original reads past the list.
+// an out-of-range skill (GetCharSkill returns nullptr) gives false here; the original reads past the list.
 bool Character::IsSkillAvailable(int skill) const {
     const int level = GetLevel();
     const auto* record = static_cast<const Structs::Skill*>(GetCharSkill(skill));
@@ -314,7 +314,7 @@ bool Character::IsSkillAvailable(int skill) const {
 
 // 0x3bca84 Character::IsSkillEquippable(int) const
 // True when the skill is available, its word +0x48 (Structs::Skill m_w18) is not -1, and its savegame level is above 0.
-// PARTIAL: an out-of-range skill gives false (see IsSkillAvailable); the original reads past the list.
+// an out-of-range skill gives false (see IsSkillAvailable); the original reads past the list.
 bool Character::IsSkillEquippable(int skill) const {
     if (!IsSkillAvailable(skill)) {
         return false;

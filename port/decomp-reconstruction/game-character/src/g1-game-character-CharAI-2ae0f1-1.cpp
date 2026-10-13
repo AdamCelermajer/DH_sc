@@ -12,6 +12,16 @@
 #include "core-platform/deps/application.hpp"  // ApplicationGetDt: Application::GetDt on the singleton
 #include "core-platform/memory.hpp"            // gAssertLevel
 #include "dh2/CharAI.hpp"
+#include "dh2/sfc/script/lua/Value.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/LuaScript.hpp"
+#include "dh2/CharAISkillScript.hpp"
+#include "dh2/AISExternal.hpp"
+#include "dh2/AISMonster.hpp"
+#include "dh2/AISFaery.hpp"
+#include "dh2/AISDefault.hpp"
+#include "dh2/AISPlayerIPhone.hpp"
+#include "dh2/AISPlayer.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
@@ -22,9 +32,15 @@
 #include "dh2/Random.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/charai_ai.hpp"
+#include "dh2/global/runtime_support.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
 #include "pydata-accessors/structs_records.hpp"  // Structs::AIProps: the AITable row (Character::GetCharAI)
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"
 
 // Script classes named here only. Their complete definitions wait on dh2/CharAIScript.hpp (the AIS*.hpp
 // headers derive from it), so the specializations that construct them are PARTIAL.
@@ -69,9 +85,8 @@ void AssertFailed(const char* expr, const char* file, int line) {
 }  // namespace
 
 // 0x3cccf8 CharAI::SetScript<AISFaery>(void)
-// PARTIAL: written are the owner assert and the OnTerminate hook (vtable slot 5, +0x14) of the previous script. Not
-// written: deleting the previous m_scriptLoading (vtable slot 1), and constructing the 200-byte AISFaery in m_scriptLoading
-// with its faery id (+0xc4) set to -1. dh2/AISFaery.hpp and dh2/AISDefault.hpp declare no constructor (layout request).
+// The owner assert, then a previous m_scriptLoading is terminated (OnTerminate, slot 5, +0x14), deleted through its virtual deleting
+// destructor (slot 1) and cleared; the 200-byte AISFaery (faery id -1 at +0xc4) becomes m_scriptLoading.
 template <>
 void CharAI::SetScript<AISFaery>() {
     if (!m_character) {
@@ -80,13 +95,15 @@ void CharAI::SetScript<AISFaery>() {
     }
     if (m_scriptLoading) {
         OnTerminate();  // slot 5 (+0x14)
+        delete m_scriptLoading;
+        m_scriptLoading = nullptr;
     }
+    m_scriptLoading = new AISFaery(true);
 }
 
 // 0x3cce14 void CharAI::SetScript<AISDefault>(void)
-// PARTIAL: written are the owner assert and the OnTerminate hook (slot 5) of the previous script. Not written: deleting the
-// previous m_scriptLoading (slot 1) and constructing the 196-byte AISDefault in m_scriptLoading (its unk_b8, unk_bc and
-// unk_c0 are zeroed by the original). dh2/AISDefault.hpp declares no constructor (layout request).
+// The owner assert, then a previous m_scriptLoading is terminated (OnTerminate, slot 5, +0x14), deleted through its virtual deleting
+// destructor (slot 1) and cleared; the 196-byte AISDefault (CharAIScript(true), the mask words cleared) becomes m_scriptLoading.
 template <>
 void CharAI::SetScript<AISDefault>() {
     if (!m_character) {
@@ -95,14 +112,15 @@ void CharAI::SetScript<AISDefault>() {
     }
     if (m_scriptLoading) {
         OnTerminate();  // slot 5 (+0x14)
+        delete m_scriptLoading;
+        m_scriptLoading = nullptr;
     }
+    m_scriptLoading = new AISDefault(true);
 }
 
 // 0x3ccfe4 int CharAI::SetScript<AISPlayerIPhone>(void)
-// PARTIAL: written are the owner assert and the OnTerminate hook of the previous script. Not written: deleting the previous
-// m_scriptLoading and constructing the 216-byte AISPlayerIPhone (AISPlayer layout: std::vector<Character*> at +0xc4,
-// m_aggroCount +0xd0 and m_aggroForMusic +0xd4 zeroed). dh2/AISPlayerIPhone.hpp and dh2/AISPlayer.hpp declare no constructor
-// (layout request). The original return value is the last constructor's r0 and is not used, so the port returns void.
+// The owner assert, then a previous m_scriptLoading is terminated (OnTerminate, slot 5, +0x14), deleted through its virtual deleting
+// destructor (slot 1) and cleared; the 216-byte AISPlayerIPhone (an AISPlayer: empty vector at +0xc4, counts at +0xd0 and +0xd4 zero) becomes m_scriptLoading.
 template <>
 void CharAI::SetScript<AISPlayerIPhone>() {
     if (!m_character) {
@@ -111,13 +129,15 @@ void CharAI::SetScript<AISPlayerIPhone>() {
     }
     if (m_scriptLoading) {
         OnTerminate();  // slot 5 (+0x14)
+        delete m_scriptLoading;
+        m_scriptLoading = nullptr;
     }
+    m_scriptLoading = new AISPlayerIPhone(true);
 }
 
 // 0x3cd11c CharAI::SetScript<AISPlayer>(void)
-// PARTIAL: written are the owner assert and the OnTerminate hook of the previous script. Not written: deleting the previous
-// m_scriptLoading and constructing the 216-byte AISPlayer (vector at +0xc4, m_aggroCount +0xd0 and m_aggroForMusic +0xd4
-// zeroed). dh2/AISPlayer.hpp declares no constructor (layout request).
+// The owner assert, then a previous m_scriptLoading is terminated (OnTerminate, slot 5, +0x14), deleted through its virtual deleting
+// destructor (slot 1) and cleared; the 216-byte AISPlayer (empty vector at +0xc4, counts at +0xd0 and +0xd4 zero) becomes m_scriptLoading.
 template <>
 void CharAI::SetScript<AISPlayer>() {
     if (!m_character) {
@@ -126,7 +146,10 @@ void CharAI::SetScript<AISPlayer>() {
     }
     if (m_scriptLoading) {
         OnTerminate();  // slot 5 (+0x14)
+        delete m_scriptLoading;
+        m_scriptLoading = nullptr;
     }
+    m_scriptLoading = new AISPlayer(true);
 }
 
 // 0x3cd384 CharAI::ClearAllAggro(void)
@@ -180,30 +203,89 @@ CharAI::~CharAI() {
 // 0x3cdd5c CharAI::~CharAI()  (deleting destructor: the compiler emits it for `delete` of a CharAI; skipped)
 
 // 0x3cdf7c CharAI::StepLoadScript(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp. The original calls LuaScript::Load(m_scriptLoading, m_scriptName) when the
-// script name (+0x30) is set; that call is not written because CharAIScript is not declared yet. Written: the
-// debug-switch lookup that follows it in the original (its result is unused).
+// When the script name (+0x30) is set, the file is loaded into the script being built (m_scriptLoading, a LuaScript) and the "Lua_LoadMemUsage"
+// debug switch is looked up (the result is unused).
 void CharAI::StepLoadScript() {
     if (m_scriptName != nullptr) {
+        m_scriptLoading->Load(m_scriptName);
         DebugSwitches::GetInstance()->load();
         DebugSwitches::GetInstance()->GetSwitch("Lua_LoadMemUsage");
     }
 }
 
 // 0x3ce044 CharAI::SetSkillsAndSpells(void)
-// PARTIAL: the skill and faery records are not typed. Character::GetCharSkillList/GetCharSkill and GetCharFaeryList/
-// GetCharFaery return const void*, so the record fields are not read: the flag at skill +36 and faery +20, and the
-// script name at skill +40 and faery +24. Written: the m_script assert and the debug-switch lookup that the original
-// makes first. Not written: the script-directory switch (LuaScript::m_scriptDirectory +0x68, set to
-// "data/scripts/skills/" and restored at the end), the _commons loads, the DeclareSkill loops that fill the skill and
-// spell script lists (m_skillScripts +0xb4, m_spellScripts +0xc0, CharAISkillScript objects), and the closing InitVCB call
-// on m_script (CharAIScript::InitVCB, slot 51, is now declared).
+// The script directory of the live script (LuaScript +0x68) is saved and set to "data/scripts/skills/". When m_skillScripts is empty it is
+// filled with one entry per row of the character's skill list: a row with no script name (the length word at row +0x24) gives nullptr; any
+// other row loads "_commons", calls DeclareSkill with the script name and the row index, then loads the named script and stores a
+// new CharAISkillScript(character, name, index) when that load succeeds (nullptr when it fails), and calls DeclareSkill once more with no
+// arguments. When m_spellScripts is empty the faery list is walked the same way (name length at row +0x14, name at +0x18, index -1 both
+// in the call and in the CharAISkillScript). Afterwards the script directory is restored, the debug-switch lookup is made again and the script's
+// InitVCB (slot 51, +0xcc) runs.
 void CharAI::SetSkillsAndSpells() {
     if (!m_script) {
         AssertFailed("m_script", kCharAICpp, 660);
     }
     DebugSwitches::GetInstance()->load();
     DebugSwitches::GetInstance()->GetSwitch("Lua_LoadMemUsage");
+    const std::string savedDirectory = m_script->m_scriptDirectory;
+    m_script->m_scriptDirectory = "data/scripts/skills/";
+
+    if (m_skillScripts.empty()) {
+        const Structs::SkillList* skillList = static_cast<const Structs::SkillList*>(m_character->GetCharSkillList());
+        m_skillScripts.reserve(skillList->m_w1);
+        sfc::script::lua::Arguments arguments;
+        arguments.pushString("");
+        arguments.pushInteger(-1);
+        for (int i = 0; static_cast<unsigned int>(i) < skillList->m_w1; ++i) {
+            const Structs::Skill* skill = static_cast<const Structs::Skill*>(m_character->GetCharSkill(i));
+            if (skill->m_w9 == 0) {
+                m_skillScripts.push_back(nullptr);
+                continue;
+            }
+            const char* name = static_cast<const char*>(skill->m_w10);
+            m_script->Load("_commons");
+            arguments.m_values->at(0).setString(name);
+            arguments.m_values->at(1).setNumber(static_cast<float>(i));
+            m_script->Call("DeclareSkill", arguments);
+            if (m_script->Load(name)) {
+                m_skillScripts.push_back(new CharAISkillScript(m_character, name, static_cast<unsigned int>(i)));
+            } else {
+                m_skillScripts.push_back(nullptr);
+            }
+            m_script->Call("DeclareSkill");
+        }
+    }
+
+    if (m_spellScripts.empty()) {
+        const Structs::FaeryList* faeryList = static_cast<const Structs::FaeryList*>(m_character->GetCharFaeryList());
+        m_spellScripts.reserve(faeryList->m_w1);
+        sfc::script::lua::Arguments arguments;
+        arguments.pushString("");
+        arguments.pushInteger(-1);
+        for (int i = 0; static_cast<unsigned int>(i) < faeryList->m_w1; ++i) {
+            const Structs::Faery* faery = static_cast<const Structs::Faery*>(m_character->GetCharFaery(i));
+            if (faery->m_w5 == 0) {
+                m_spellScripts.push_back(nullptr);
+                continue;
+            }
+            const char* name = static_cast<const char*>(faery->m_w6);
+            m_script->Load("_commons");
+            arguments.m_values->at(0).setString(name);
+            arguments.m_values->at(1).setNumber(-1.0f);
+            m_script->Call("DeclareSkill", arguments);
+            if (m_script->Load(name)) {
+                m_spellScripts.push_back(new CharAISkillScript(m_character, name, 0xFFFFFFFFu));
+            } else {
+                m_spellScripts.push_back(nullptr);
+            }
+            m_script->Call("DeclareSkill");
+        }
+    }
+
+    m_script->m_scriptDirectory = savedDirectory;
+    DebugSwitches::GetInstance()->load();
+    DebugSwitches::GetInstance()->GetSwitch("Lua_LoadMemUsage");
+    m_script->InitVCB();
 }
 
 // 0x3ce7c0 CharAI::InitScriptProcess(bool)
@@ -341,14 +423,26 @@ void CharAI::SetScriptByName(const char* name) {
 }
 
 // 0x3cf04c CharAI::StepCreateScript(void)
-// PARTIAL: the branch needs the AITable row of this character (Character::GetCharAI returns Structs::AIProps). A value at
-// row +40 chooses between the script name at row +44 and the default, and the type name at Character +0x5c is compared
-// with "Player". The row's +40 and +44 are only named m_w10 (the length of m_w11) and m_w11 (void*) by pydata, which is not
-// a confirmed reading, and Character +0x5c has no declaration (layout requests). Written: the tracing debug-switch lookup
-// that both branches of the original make.
+// The owner's AITable row (Character::GetCharAI, Structs::AIProps) names the script: when its name length (row +0x28, m_w10) is non-zero the
+// script is created by that name (SetScriptByName(row +0x2c, m_w11)) and m_usesCommons (+0x2c) is set. Otherwise a "Player" type (the
+// owner's gametype string, ObjectBase +0x5c) gets AISPlayer and any other type AISDefault, m_scriptName is cleared and m_usesCommons is
+// cleared. Both paths read the isTracingChar_Init switch (result unused).
 void CharAI::StepCreateScript() {
+    const Structs::AIProps* row = m_character->GetCharAI();
     DebugSwitches::GetInstance()->load();
     DebugSwitches::GetInstance()->GetSwitch("isTracingChar_Init");
+    if (row->m_w10 != 0) {
+        SetScriptByName(static_cast<const char*>(row->m_w11));
+        m_usesCommons = true;
+    } else {
+        if (std::strcmp(m_character->m_gameType.c_str(), "Player") != 0) {
+            SetScript<AISDefault>();
+        } else {
+            SetScript<AISPlayer>();
+        }
+        m_scriptName = nullptr;
+        m_usesCommons = false;
+    }
 }
 
 // 0x3cf1f0 CharAI::LoadScriptProcess(void)
@@ -418,12 +512,17 @@ bool CharAI::LoadNInitScriptProcess(bool flag) {
 }
 
 // 0x3cf3f0 CharAI::_UpdateAggro(void)
-// PARTIAL: the monster branch is not written. For a monster that is not remotely updated and has a current target (+0x40),
-// the original compares the target's aggro with the highest aggro (AI_GetHighestAggro) and adds, clears or retargets
-// aggro (the Arrays::DesignSettingsTable factor at +0x30 is used there). This port returns from that case without the
-// update. The rest follows the original: the player, NPC and faerie exits, the update-delay countdown and its re-arm from
-// the seed stream, and the threat search over the Character list (ObjectManager +0x60) with RaiseEvent 9 (enemy), 7 (friend),
-// 8 (neutral) and 12 (no enemy found, the current target is kept).
+// A player returns at once. A non-faerie that is not its turn (and has waited under 500 ms) only counts the frame time down (+0x08) and up (+0x0c);
+// otherwise the wait is reset and, unless the debug switch "DisableAIDelayTimerOptim" is set, the update delay counts down and re-arms from the seed
+// stream (100..299) when it runs out. An NPC returns. A monster that is not remotely updated and has a target (+0x40) takes the target branch:
+//  - the target's Character (from its handle) and the highest-aggro Character (AI_GetHighestAggro) are compared; when they are the same, or either is
+//    null, a target that is not an enemy is dropped (ClearAggro, SetTarget(null), SyncLastTarget); an enemy target keeps its place but a search of the
+//    player list (ObjectManager +0x70, nearest, range AITable +0x40) is made: an empty result drops the target, otherwise the local player (PlayerInfo
+//    +0x660) is given aggro DesignSettings +0x30 when it is among the hits, is an enemy and has no aggro entry yet;
+//  - when they differ, the highest-aggro Character becomes the target if its aggro exceeds the current target's aggro times DesignSettings +0x08.
+// A faerie with a master returns. The threat search over the Character list (ObjectManager +0x60) then runs: the range is AITable +0x3c, the spawn view
+// radius (Character +0x143c) while the character awaits its spawn and the radius is positive, or AITable +0x40 when there is no aggro. Every hit gets
+// RaiseEvent 9 (enemy), 7 (friend) or 8 (neutral); event 12 re-announces the target when no enemy was found.
 void CharAI::_UpdateAggro() {
     if (m_character->IsPlayer()) {
         return;
@@ -455,7 +554,51 @@ void CharAI::_UpdateAggro() {
         return;
     }
     if (m_character->IsMonster() && !m_character->IsRemotelyUpdated() && m_target != nullptr) {
-        return;  // PARTIAL: the monster branch is not written (see above)
+        Character* highest = AI_GetHighestAggro();
+        ObjectHandle targetHandle = m_target->GetHandle();
+        Character* current = targetHandle;
+        if (current == nullptr || highest == nullptr || highest == current) {
+            if (AI_IsEnemy(current)) {
+                ObjectSearcher::TargetList nearest(m_character, 1, 2, 1);
+                ObjectSearcher::CharacterList players;  // vtable set by the implicit constructor
+                players.m_list = &dword_99F764->unk_70;  // ObjectManager +0x70
+                players.m_current = players.m_list->begin();
+                players.m_end = players.m_list->end();
+                nearest.Search(m_character->GetCharAI()->m_w16, kCharAIFullCircle, players);
+                if (nearest.m_results.empty()) {
+                    AI_ClearAggro(current);
+                    AI_SetTarget(nullptr, false);
+                    AI_SyncLastTarget();
+                } else {
+                    Character* local = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+                    const bool hasAggro = m_aggro.find(local) != m_aggro.end();
+                    bool inResults = false;
+                    while (!nearest.m_results.empty()) {
+                        if (nearest.m_results.top().object == local) {
+                            inResults = true;
+                            break;
+                        }
+                        nearest.m_results.pop();
+                    }
+                    if (!hasAggro && inResults && AI_IsEnemy(local)) {
+                        AI_AddAggro(local, reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w12);
+                    }
+                }
+            } else {
+                AI_ClearAggro(current);
+                AI_SetTarget(nullptr, false);
+                AI_SyncLastTarget();
+            }
+        } else {
+            const float currentAggro = AI_GetAggro(current);
+            const float highestAggro = AI_GetAggro(highest);
+            if (highestAggro >
+                currentAggro * reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w2) {
+                DebugSwitches::GetInstance()->GetSwitch("isTracingThreatChange");  // the result is unused
+                AI_SetTarget(highest, false);
+            }
+        }
+        return;
     }
     if (m_character->IsFaerie() && m_master != nullptr) {
         return;
@@ -503,20 +646,39 @@ void CharAI::_UpdateAggro() {
 }
 
 // 0x3cfbf4 CharAI::Update(void)
-// PARTIAL: the PushProfilingContext/PopProfilingContext scopes are not written (no profiler API exists in the tree).
-// The gate on the Character word at +0x520 (bit 0x100, layout request) is not written, so the zoning part of the gate is
-// not applied either. Written: the paused and controller-blocked exits, the +0x88 flag and the four driver calls in order.
+// The whole update is profiled as "CharacterAI::Update". It returns at once when the AI is paused (+0x18), when the controller is blocked (the
+// controller byte +0x09 clear and either the global block or its own byte set), or when the owner is out of its zone: its state flags
+// (Character +0x520) lack bit 0x100, or it is zonable (virtual +0xc4) with zoning enabled (+0x2ee) and not inside a zone (+0x2f0). Otherwise
+// ObjectBase byte +0x88 is set and the four drivers run, each profiled: _UpdateTarget ("CharacterAI::_Target"), _UpdateMaster
+// ("CharacterAI::_Master"), _UpdateAggro ("CharacterAI::_Aggro") and the OnUpdate virtual (slot 6, +0x18, "CharacterAI::_Generic").
 void CharAI::Update() {
+    PushProfilingContext("CharacterAI::Update");
     if (m_updatePaused) {
+        PopProfilingContext("CharacterAI::Update");
         return;
     }
     v2Controller* ctl = m_character->m_controller;
     if (!ctl->unk_009 && (v2Controller::s_blocked || ctl->m_blocked)) {
+        PopProfilingContext("CharacterAI::Update");
+        return;
+    }
+    if ((m_character->CharStateMachine::m_stateFlags & 0x100u) == 0 ||
+        (m_character->IsZonable() && m_character->m_zoningEnabled && !m_character->m_inZone)) {
+        PopProfilingContext("CharacterAI::Update");
         return;
     }
     m_character->unk_88 = 1;  // Character +0x88 (ObjectBase::unk_88)
+    PushProfilingContext("CharacterAI::_Target");
     _UpdateTarget();
+    PopProfilingContext("CharacterAI::_Target");
+    PushProfilingContext("CharacterAI::_Master");
     _UpdateMaster();
+    PopProfilingContext("CharacterAI::_Master");
+    PushProfilingContext("CharacterAI::_Aggro");
     _UpdateAggro();
+    PopProfilingContext("CharacterAI::_Aggro");
+    PushProfilingContext("CharacterAI::_Generic");
     OnUpdate();  // vtable slot 6 (+0x18)
+    PopProfilingContext("CharacterAI::_Generic");
+    PopProfilingContext("CharacterAI::Update");
 }

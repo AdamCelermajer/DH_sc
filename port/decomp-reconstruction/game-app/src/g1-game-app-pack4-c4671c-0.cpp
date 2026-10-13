@@ -18,6 +18,7 @@
 #include "pydata-accessors/script_cmd.hpp"
 
 #include "dh2/CharAI.hpp"
+#include "dh2/CharAIScript.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/LuaScript.hpp"
 #include "dh2/ObjectBase.hpp"
@@ -121,7 +122,7 @@ bool Script_AISetInt::IsBlocking() const { return false; }
 // on the ObjectManager). When it is a Character (the object virtual IsCharacter, slot +0x24) with a live AI script (Character +0x3e4,
 // CharAI::m_script), the script's Lua variable named by the record (m_w3, +0x0c) is set to the record's value (m_w6, +0x18):
 // LuaScript::SetInt. CharAI declares the script slot as CharAIScript*; the listing calls LuaScript::SetInt on it (the script of an
-// external AI is a LuaScript), so the pointer is converted with reinterpret_cast.
+// external AI is a LuaScript), so the pointer is converted with static_cast.
 void Script_AISetInt::Execute(bool /*skipping*/, int module) {
     const auto* record = static_cast<const Structs::AISetInt*>(m_args);
     TraceScriptCmdSwitch();
@@ -130,7 +131,7 @@ void Script_AISetInt::Execute(bool /*skipping*/, int module) {
     if (object != nullptr && object->IsCharacter()) {
         Character* character = static_cast<Character*>(object);
         if (character->CharAI::m_script != nullptr) {
-            reinterpret_cast<LuaScript*>(character->CharAI::m_script)->SetInt(record->m_w3, record->m_w6);
+            static_cast<LuaScript*>(character->CharAI::m_script)->SetInt(record->m_w3, record->m_w6);
         }
     }
 }

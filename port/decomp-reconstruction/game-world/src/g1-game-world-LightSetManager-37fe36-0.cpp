@@ -91,9 +91,9 @@ LightSetManager& LightSetManager::operator=(const LightSetManager& other) {
     m_countStaticLight = other.m_countStaticLight;                                  // +0x188
     m_countActiveLight = other.m_countActiveLight;                                  // +0x18c
     unk_190 = other.unk_190;                                                        // +0x190 .. +0x19b
-    unk_19c = other.unk_19c;                                                        // +0x19c
-    unk_19d = other.unk_19d;                                                        // +0x19d
-    unk_19e = other.unk_19e;                                                        // +0x19e
+    m_lightingEnabled = other.m_lightingEnabled;                                                        // +0x19c
+    m_specularEnabled = other.m_specularEnabled;                                                        // +0x19d
+    m_fogEnabled = other.m_fogEnabled;                                                        // +0x19e
     unk_1a0 = other.unk_1a0;                                                        // +0x1a0
     return *this;
 }
@@ -296,7 +296,7 @@ void LightSetManager::Update() {
 // 0x40daa8 LightSetManager::LightSetManager()   (C2, base object: same body)
 // The original writes the four names from the binary's tables, clears the light slots, the dummy lights, the static and
 // active nodes (and their object handles), the three floats (bit pattern 0xc9742400, which is -1000000.0f), unk_178, the counts
-// and the vector, and sets unk_19c and unk_19d to 1 and unk_19e and unk_1a0 to 0. unk_00 is not written.
+// and the vector, and sets m_lightingEnabled and m_specularEnabled to 1 and m_fogEnabled and unk_1a0 to 0. unk_00 is not written.
 LightSetManager::LightSetManager() {
     m_lightSetNames[0] = "PlayerLight";  // light_set_names[0], 0x8c24e8
     m_lightSetNames[1] = "SceneLight";   // off_999780[0], 0x8c3e40
@@ -327,8 +327,8 @@ LightSetManager::LightSetManager() {
     }
     m_countStaticLight = 0;
     m_countActiveLight = 0;
-    unk_19c = true;
-    unk_19d = true;
-    unk_19e = false;
+    m_lightingEnabled = true;
+    m_specularEnabled = true;
+    m_fogEnabled = false;
     unk_1a0 = 0;
 }

@@ -1,48 +1,10 @@
-// Slice 27: glitch::scene scene-node animators, sky box, terrain, text and mesh buffer rows.
+// Slice 27: glitch::scene sky box, terrain, text and mesh buffer rows (the scene-node animators are in src/scene/CSceneNodeAnimator*.cpp).
 // Every row is either skipped (D0 deleting destructors) or partial: the members it touches
 // are not declared in the layout headers, so no body is written here. See ledger_parts/slice_27.csv.
 #include "glitch-scene-collada-gui/recon/slice_27.hpp"
 
 namespace glitch::scene::recon_27 {
 
-// 0x6cb504 _ZN6glitch5scene24CSceneNodeAnimatorDeleteD0Ev
-// 0x6cb520 _ZN6glitch5scene24CSceneNodeAnimatorDeleteD2Ev
-// 0x6cb56c _ZN6glitch5scene24CSceneNodeAnimatorDeleteC1EPNS0_13CSceneManagerEj
-// 0x6cb62c _ZN6glitch5scene24CSceneNodeAnimatorDelete11createCloneEv
-// 0x6cb658 _ZN6glitch5scene24CSceneNodeAnimatorDeleteC2EPNS0_13CSceneManagerEj
-// 0x6cb800 _ZN6glitch5scene27CSceneNodeAnimatorFlyCircleD1Ev
-// 0x6cb864 _ZN6glitch5scene27CSceneNodeAnimatorFlyCircle4initEv
-// 0x6cbc50 _ZN6glitch5scene27CSceneNodeAnimatorFlyCircle11animateNodeEPNS0_10ISceneNodeEj
-// 0x6cbd78 _ZN6glitch5scene27CSceneNodeAnimatorFlyCircleC1EjRKNS_4core8vector3dIfEEffS6_
-// 0x6cbe98 _ZN6glitch5scene27CSceneNodeAnimatorFlyCircle11createCloneEv
-// 0x6cbee0 _ZN6glitch5scene27CSceneNodeAnimatorFlyCircleC2EjRKNS_4core8vector3dIfEEffS6_
-// 0x6cc004 _ZN6glitch5scene27CSceneNodeAnimatorFlyCircleD0Ev
-// 0x6cc138 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight11animateNodeEPNS0_10ISceneNodeEj
-// 0x6cc26c _ZN6glitch5scene29CSceneNodeAnimatorFlyStraightD1Ev
-// 0x6cc2c8 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraightD0Ev
-// 0x6cc2e4 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraightD2Ev
-// 0x6cc4b8 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraightC1ERKNS_4core8vector3dIfEES6_jbj
-// 0x6cc5d4 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight11createCloneEv
-// 0x6cc61c _ZN6glitch5scene29CSceneNodeAnimatorFlyStraightC2ERKNS_4core8vector3dIfEES6_jbj
-// 0x6cc784 _ZN6glitch5scene30CSceneNodeAnimatorFollowSplineD1Ev
-// 0x6cc804 _ZN6glitch5scene30CSceneNodeAnimatorFollowSplineD0Ev
-// 0x6cc830 _ZN6glitch5scene30CSceneNodeAnimatorFollowSpline11animateNodeEPNS0_10ISceneNodeEj
-// 0x6cccc0 _ZN6glitch5scene30CSceneNodeAnimatorFollowSplineC1EjRKSt6vectorINS_4core8vector3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEEff
-// 0x6ccd98 _ZN6glitch5scene30CSceneNodeAnimatorFollowSpline11createCloneEv
-// 0x6ccdd8 _ZN6glitch5scene30CSceneNodeAnimatorFollowSplineC2EjRKSt6vectorINS_4core8vector3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEEff
-// 0x6cd594 _ZN6glitch5scene26CSceneNodeAnimatorRotation11animateNodeEPNS0_10ISceneNodeEj
-// 0x6cd740 _ZN6glitch5scene26CSceneNodeAnimatorRotationD1Ev
-// 0x6cd79c _ZN6glitch5scene26CSceneNodeAnimatorRotationD0Ev
-// 0x6cd7b8 _ZN6glitch5scene26CSceneNodeAnimatorRotationD2Ev
-// 0x6cd804 _ZN6glitch5scene26CSceneNodeAnimatorRotationC1EjRKNS_4core10quaternionE
-// 0x6cd8cc _ZN6glitch5scene26CSceneNodeAnimatorRotation11createCloneEv
-// 0x6cd8f8 _ZN6glitch5scene26CSceneNodeAnimatorRotationC2EjRKNS_4core10quaternionE
-// 0x6cd9e0 _ZN6glitch5scene25CSceneNodeAnimatorTexture13clearTexturesEv
-// 0x6cda58 _ZN6glitch5scene25CSceneNodeAnimatorTexture11animateNodeEPNS0_10ISceneNodeEj
-// 0x6cdb20 _ZN6glitch5scene25CSceneNodeAnimatorTextureD1Ev
-// 0x6cdb88 _ZN6glitch5scene25CSceneNodeAnimatorTextureD0Ev
-// 0x6cdba4 _ZN6glitch5scene25CSceneNodeAnimatorTextureD2Ev
-// 0x6cde54 _ZN6glitch5scene25CSceneNodeAnimatorTexture11createCloneEv
 // 0x6ce3d0 _ZNK6glitch5scene16CSkyBoxSceneNode11getMaterialEj
 // 0x6ce418 _ZN6glitch5scene16CSkyBoxSceneNode19onRegisterSceneNodeEv
 // 0x6ce53c _ZN6glitch5scene16CSkyBoxSceneNode6renderEPv

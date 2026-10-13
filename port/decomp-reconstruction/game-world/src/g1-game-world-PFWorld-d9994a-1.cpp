@@ -14,20 +14,16 @@
 //   GameObject +0x2dc m_physicalObject (PhysicalObject*)
 //
 // Conventions:
-//  * ASSERT lines are not printed. The original asserts through gAssertLevel (a print at 1, a write to address 0 at 2).
-//    Where the original goes on after an assert with bad data, the notes below say what this port does instead.
-//  * Point3D<float>::normalize (0x34d0b0), Point3D<float>::angle (0x313058) and Point3D<float>::operator== (0x312b6c)
-//    are reproduced in the helpers at the top of this file: their definitions are not in a source yet, and a call to
-//    an undefined member would not link. The helpers use the original's operation order.
-//  * PARTIAL rows share one cause. PFObject declares +0x0c as a float (m_floorHeight), but the original stores a
-//    PFRoom* there (see the layout request in each PARTIAL note). A PFRoom* is held in a local here and is not stored.
-//    PFObject +0x80..+0x88 are declared int32 (unk_80..unk_88) and hold the waypoint direction as floats.
+//  * ASSERT lines print through gAssertLevel (a print at 1, a write to address 0 at 2, which stops the port).
+//  * Point3D<float>::normalize (0x34d0b0), Point3D<float>::angle (0x313058) and Point3D<float>::operator== (0x312b6c) are reproduced in the helpers at the top of this file with the original's operation order.
 
 #include "dh2/PFWorld.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <deque>
 #include <limits>
@@ -40,7 +36,12 @@
 #include "dh2/PFObject.hpp"
 #include "dh2/PFRoom.hpp"
 #include "dh2/PhysicalObject.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
 #include "dh2/global/Vec3f_K.hpp"  // Vec3f_K (0x99f878), the up vector (0, 0, 1) that AvoidObstacles crosses with
+
+extern int gAssertLevel;  // engine assert level (core-platform/memory.hpp)
 
 namespace {
 
@@ -82,19 +83,17 @@ bool FloorAllows(const PFFloor* floor, std::uint32_t moveFlags) {
     return mask == 0u || mask == (moveFlags & mask);
 }
 
-// PFObject +0x80, +0x84 and +0x88 are declared int32 (unk_80..unk_88) but hold float waypoint components in the original.
-// These copy the bit pattern, which is the same bytes the original reads and writes. See the PARTIAL notes.
-float LoadWord(std::int32_t word) {
-    float value;
-    std::memcpy(&value, &word, sizeof value);
-    return value;
+// The original ASSERT(expression) of PFWorld_Objects.cpp / PFWorld_PathFinding.cpp. Level 2 stops the process (the original writes to address 0); level 1 prints the message.
+void ReportAssertIn(const char* file, const char* expression, int line) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expression, file, line);
+    }
 }
 
-std::int32_t StoreWord(float value) {
-    std::int32_t word;
-    std::memcpy(&word, &value, sizeof word);
-    return word;
-}
+const char kPFObjectsSource[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Modules\\PathFinding\\PFWorld_Objects.cpp";
+const char kPFPathFindingSource[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Modules\\PathFinding\\PFWorld_PathFinding.cpp";
 
 // The physics test of _CalcObstaclesForce: an obstacle whose owner has no body, or an object or obstacle with no body
 // on its side, always counts. When both bodies exist, they must be able to collide (PhysicalObject::canCollide).
@@ -261,17 +260,16 @@ bool PFWorld::GetCollisionAt(const Point3D<float>& from, const Point3D<float>& t
 }
 
 // 0x525884 PFWorld::TranslateScreenToWorld(Point2D<float> const&, Point3D<float>&)
-// PARTIAL. The original builds the screen ray (line3d<float>, start and end) with a virtual call on the scene manager:
-// Singleton<Application>::s_inst, then Application +0x1c (SceneManager*), then SceneManager +0x2c, whose vtable slot 5
-// (+0x14) is called with the output ray, the object, the position as position2d<int> (truncated from the floats) and a
-// null camera. Neither SceneManager +0x2c nor that interface is declared, so the ray is not built and no world point is
-// found here. Layout request: "SceneManager +0x2c <scene collision manager pointer>, vtable slot 5 is
-// getRayFromScreenCoordinates(position2d<int> const&, ICameraSceneNode* = 0)". The original then calls
-// GetCollisionAt(ray start, ray end, world, false), which this port does not reach.
+// The screen ray comes from the scene collision manager of the device's scene manager (+0x2c, vtable slot 5 getRayFromScreenCoordinates) for the screen position truncated to integers and the active camera;
+// the world point is then the first floor hit of the ray (GetCollisionAt(ray start, ray end, world, false)).
 bool PFWorld::TranslateScreenToWorld(const Point2D<float>& screen, Point3D<float>& world) {
-    (void)screen;
-    (void)world;
-    return false;
+    glitch::core::position2d<std::int32_t> position;
+    position.X = static_cast<std::int32_t>(screen.X);
+    position.Y = static_cast<std::int32_t>(screen.Y);
+    const glitch::core::line3d<float> ray = DeviceSceneManager()->collisionManager->getRayFromScreenCoordinates(position, nullptr);
+    const Point3D<float> start{ray.start.X, ray.start.Y, ray.start.Z};
+    const Point3D<float> end{ray.end.X, ray.end.Y, ray.end.Z};
+    return GetCollisionAt(start, end, world, false);
 }
 
 // 0x525944 PFWorld::ValidateDirection(Point3D<float>&, Point3D<float> const&, float, unsigned int)
@@ -355,15 +353,9 @@ bool PFWorld::ValidateDirection(Point3D<float>& direction, const PFObject& objec
 }
 
 // 0x525d84 PFWorld::ValidatePosition(Point3D<float>&, PFObject*)
-// The position is accepted as is when it equals the object's position. Otherwise it is looked up on the object's floor,
-// then the room, then the world. A floor found is accepted when the object may path on it and the height is within the
-// vertical tolerance (or the tolerance flag is set). On acceptance the object takes the new position, its floor normal
-// and its floor, and its obstacle parent list moves to the new floor. Otherwise the position is replaced by the object's
-// position, and the result is true only when the floor was found but is not allowed.
-// PARTIAL. The object's room (+0x0c) is read as the first room to query and written on acceptance. PFObject declares
-// +0x0c as float (m_floorHeight), so here the room is null and it is not stored. Layout request: "PFObject +0x0c
-// PFRoom* m_room (PFObject::m_floorHeight is a float; the ctor writes 0.0f, which is a null room)". Without it the
-// room query is skipped and the world query is used, which can differ where the room answers first.
+// The position is accepted as is when it equals the object's position. Otherwise it is looked up on the object's floor, then the object's room (PFObject +0x0c), then the world. A floor found is accepted when
+// the object may path on it and the height is within the vertical tolerance (or the tolerance flag is set). On acceptance the object takes the new position, its floor normal, its room and its floor, and its
+// obstacle parent list moves to the new floor. Otherwise the position is replaced by the object's position, and the result is true only when the floor was found but is not allowed.
 bool PFWorld::ValidatePosition(Point3D<float>& position, PFObject* object) {
     if (object != nullptr && PointsNear(object->m_pos, position)) {
         return true;
@@ -378,7 +370,7 @@ bool PFWorld::ValidatePosition(Point3D<float>& position, PFObject* object) {
         return found;
     }
 
-    PFRoom* room = nullptr;  // PARTIAL: the object's room, see above
+    PFRoom* room = object->m_room;  // +0x0c
     PFFloor* floor = object->m_floor;
     bool found = false;
     if (floor != nullptr && floor->GetFloorHeightAt(position, &height, &normal)) {
@@ -398,6 +390,7 @@ bool PFWorld::ValidatePosition(Point3D<float>& position, PFObject* object) {
         position.Z = height;
         object->m_pos = position;
         object->m_floorNormal = normal;
+        object->m_room = room;
         object->m_floor = floor;
         return true;
     }
@@ -406,19 +399,15 @@ bool PFWorld::ValidatePosition(Point3D<float>& position, PFObject* object) {
 }
 
 // 0x526b18 PFWorld::InitObject(PFObject&, bool, Point3D<float> const&, float, void*)
-// Sets the owner, the static bit (bit 0 of m_flags), the radius (at least 1), and the position. A non-static object
-// gets its height written into m_pos.Z, and the floor query also sets the floor normal and the floor. The result is the
-// floor query's.
-// PARTIAL. The floor query's room output goes to PFObject +0x0c, which PFObject declares as a float (m_floorHeight).
-// The room is kept in a local here. Layout request: "PFObject +0x0c PFRoom* m_room" (see ValidatePosition).
+// Sets the owner, the static bit (bit 0 of m_flags), the radius (at least 1), and the position. A non-static object gets its height written into m_pos.Z, and the floor query also sets the floor normal, the
+// room (PFObject +0x0c) and the floor. The result is the floor query's.
 bool PFWorld::InitObject(PFObject& object, bool isStatic, const Point3D<float>& position, float radius, void* owner) {
     object.m_owner = owner;
     object.m_flags = isStatic ? (object.m_flags | 1u) : (object.m_flags & ~1u);
     object.m_radius = radius < 1.0f ? 1.0f : radius;
     object.m_pos = position;
     float* height = isStatic ? nullptr : &object.m_pos.Z;
-    PFRoom* room = nullptr;  // PARTIAL: see above
-    return GetFloorHeightAt(object.m_pos, height, &object.m_floorNormal, &room, &object.m_floor, false);
+    return GetFloorHeightAt(object.m_pos, height, &object.m_floorNormal, &object.m_room, &object.m_floor, false);
 }
 
 // 0x527660 PFWorld::_CalcObstaclesForce(PFObject const&, Point3D<float>&, std::vector<PFWorld::ObstacleForce>*)
@@ -545,13 +534,13 @@ void PFWorld::AvoidObstacles(const PFObject& object, Point3D<float>& direction) 
 }
 
 // 0x528234 PFWorld::InitObstacle(PFObject&, bool, float, float)
-// Removal (add false, or strength 0): an object registered as an obstacle leaves its floor's list, loses bit 2, and its
-// radius and strength are zeroed. Addition: an object not yet registered joins its floor's list (its floor is found first
-// when it has none, and it is not registered if that fails). It then gets bit 2, the radius and the strength.
-// PARTIAL. When the object has no floor, the floor query writes the room to PFObject +0x0c, which PFObject declares as a
-// float (m_floorHeight). The room is kept in a local here. Layout request: "PFObject +0x0c PFRoom* m_room".
+// Asserts radius >= 0 (PFWorld_Objects.cpp line 156). Removal (add false, or strength 0): an object registered as an obstacle leaves its floor's list, loses bit 2, and its radius and strength are zeroed.
+// Addition: an object not yet registered joins its floor's list (its floor and room are found first when it has no floor, and it is not registered if that fails). It then gets bit 2, the radius and the
+// strength.
 void PFWorld::InitObstacle(PFObject& object, bool add, float radius, float strength) {
-    // The original asserts radius >= 0 here (gAssertLevel); this port does not print it.
+    if (radius < 0.0f) {
+        ReportAssertIn(kPFObjectsSource, "radius >= 0.0f", 156);
+    }
     if (!add || strength == 0.0f) {
         if ((object.m_flags & 4u) != 0) {
             std::deque<PFObject*>& bucket = m_obstacleParentLists[object.m_floor];
@@ -572,8 +561,7 @@ void PFWorld::InitObstacle(PFObject& object, bool add, float radius, float stren
         } else {
             const bool isStatic = (object.m_flags & 1u) != 0;
             float* height = isStatic ? nullptr : &object.m_pos.Z;
-            PFRoom* room = nullptr;  // PARTIAL: see above
-            GetFloorHeightAt(object.m_pos, height, &object.m_floorNormal, &room, &object.m_floor, false);
+            GetFloorHeightAt(object.m_pos, height, &object.m_floorNormal, &object.m_room, &object.m_floor, false);
             if (object.m_floor == nullptr) {
                 return;
             }
@@ -603,29 +591,23 @@ void PFWorld::_ChangeObstacleParentList(const PFObject& object, PFFloor* floor) 
 }
 
 // 0x528868 PFWorld::_IsPastWaypoint(PFObject&)
-// The object is past its waypoint when its offset from the first edge's source, dotted with the waypoint direction
-// (PFObject +0x80, +0x84; the z word +0x88 contributes nothing, its term is multiplied by 0), is not negative.
-// PARTIAL. An empty path asserts in the original and reads the list sentinel, so it is reported as not past. The
-// direction words are typed int32 in PFObject (unk_80..unk_88). Layout request: "PFObject +0x80 float waypointDir[3]"
-// (_CalcWaypointVec writes x, y and 0).
+// The object is past its waypoint when its offset from the first edge's source, dotted with the waypoint direction (PFObject +0x80, +0x84; the z component +0x88 contributes nothing, its term is multiplied
+// by 0), is not negative. An empty path asserts (PFWorld_PathFinding.cpp line 325) and the original then reads the list sentinel; this port reports not past.
 bool PFWorld::_IsPastWaypoint(PFObject& object) {
     if (object.m_path.empty()) {
+        ReportAssertIn(kPFPathFindingSource, "pfo.path.size() > 0", 325);
         return false;
     }
     const Point3D<float>* source = object.m_path.front()->GetSource();
-    const float dirX = LoadWord(object.unk_80);
-    const float dirY = LoadWord(object.unk_84);
-    const float dirZ = LoadWord(object.unk_88);
-    return ((((object.m_pos.X - source->X) * dirX) + ((object.m_pos.Y - source->Y) * dirY)) + (dirZ * 0.0f)) >= 0.0f;
+    return ((((object.m_pos.X - source->X) * object.m_waypointDir.X) + ((object.m_pos.Y - source->Y) * object.m_waypointDir.Y)) + (object.m_waypointDir.Z * 0.0f)) >= 0.0f;
 }
 
 // 0x52899c PFWorld::_CalcWaypointVec(PFObject&)
-// The waypoint direction of the first edge in the path: its destination minus its source, in x and y. The result is
-// the x component, and the vector is stored at PFObject +0x80, +0x84, and +0x88 is zeroed.
-// PARTIAL. An empty path asserts in the original and reads the list sentinel; this port stores nothing and returns 0.
-// The vector words are typed int32 in PFObject (unk_80..unk_88); see _IsPastWaypoint for the layout request.
+// The waypoint direction of the first edge in the path: its destination minus its source, in x and y. The result is the x component, and the vector is stored at PFObject +0x80, +0x84, and +0x88 is zeroed.
+// An empty path asserts (PFWorld_PathFinding.cpp line 313) and the original then reads the list sentinel; this port stores nothing and returns 0.
 float PFWorld::_CalcWaypointVec(PFObject& object) {
     if (object.m_path.empty()) {
+        ReportAssertIn(kPFPathFindingSource, "pfo.path.size() > 0", 313);
         return 0.0f;
     }
     const PFGInnerEdge* first = object.m_path.front();
@@ -633,9 +615,9 @@ float PFWorld::_CalcWaypointVec(PFObject& object) {
     const Point3D<float>* source = first->GetSource();
     const float x = destination->X - source->X;
     const float y = destination->Y - source->Y;
-    object.unk_80 = StoreWord(x);
-    object.unk_84 = StoreWord(y);
-    object.unk_88 = 0;
+    object.m_waypointDir.X = x;
+    object.m_waypointDir.Y = y;
+    object.m_waypointDir.Z = 0.0f;
     return x;
 }
 
@@ -653,17 +635,13 @@ PFGInnerNode* PFWorld::_GetClosestNode(const Point3D<float>& position) {
 }
 
 // 0x528ea0 PFWorld::_GetClosestNode(PFObject const&)
-// The triangle under the object's position, the same search as the Point3D overload. The object is const in the
-// signature, but the original's GetCollisionAt writes the floor (and the room) into it, so the floor is written through a
-// const_cast here, as the original does.
-// PARTIAL. The room output goes to PFObject +0x0c, which PFObject declares as a float (m_floorHeight). The room is kept
-// in a local here. Layout request: "PFObject +0x0c PFRoom* m_room".
+// The triangle under the object's position, the same search as the Point3D overload. The object is const in the signature, but the original's GetCollisionAt writes the room (PFObject +0x0c) and the floor
+// into it, so they are written through a const_cast here, as the original does.
 PFGInnerNode* PFWorld::_GetClosestNode(const PFObject& object) {
     PFObject& writable = const_cast<PFObject&>(object);
     glitch::core::triangle3d<float> tri{};
     Point3D<float> hit{};
-    PFRoom* room = nullptr;  // PARTIAL: see above
-    if (!GetCollisionAt(object.m_pos, hit, tri, &room, &writable.m_floor, false)) {
+    if (!GetCollisionAt(object.m_pos, hit, tri, &writable.m_room, &writable.m_floor, false)) {
         return nullptr;
     }
     if (writable.m_floor == nullptr) {

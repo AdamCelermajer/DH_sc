@@ -1,15 +1,6 @@
 // Batch g1-game-world-PFWorld-d9994a-2 (part 3 of 3 of PFWorld): path search, path smoothing and path following.
-// Declarations come from dh2/PFWorld.hpp. Functions in this batch:
-//   0x52aae4 DropPath                       reconstructed
-//   0x52b560 _SearchGraph (Point3D goal)    partial: fail cache and the embedded-edge link are missing
-//   0x52c354 HasValidPath (Point3D)         partial: forwards to the partial _SearchGraph
-//   0x52c388 HasValidPath (PFObject)        partial: forwards to the partial _SearchGraph
-//   0x52cb90 _SearchGraph (ITest)           partial: the search is the shared AlgoAStar findNode body
-//   0x52d4f0 TestPath (Point3D)             partial: forwards to the partial ITest _SearchGraph
-//   0x52d518 TestPath (PFObject)            partial: forwards to the partial ITest _SearchGraph
-//   0x52d538 _SmoothPath                    reconstructed
-//   0x52d838 MovePath                       reconstructed (calls _IsPastWaypoint and _CalcWaypointVec, other batches)
-//   0x52db48 FindPath                       partial: the body is complete, the search it runs is partial
+// Declarations come from dh2/PFWorld.hpp. Functions in this batch: DropPath 0x52aae4, _SearchGraph (Point3D goal) 0x52b560, HasValidPath 0x52c354 and 0x52c388, _SearchGraph (ITest) 0x52cb90,
+// TestPath 0x52d4f0 and 0x52d518, _SmoothPath 0x52d538, MovePath 0x52d838 and FindPath 0x52db48.
 //
 // Layout facts used here (32-bit offsets, named in dh2/PFObject.hpp, dh2/PFGInnerNode.hpp and dh2/PFGInnerEdge.hpp):
 //   PFObject +0x08 m_radius          +0x18 m_pos           +0x38 m_path (std::list of PFGInnerEdge const*)
@@ -127,18 +118,12 @@ void PFWorld::DropPath(PFObject& object) {
 
 // 0x52b560 PFWorld::_SearchGraph(PFObject const*, Point3D<float> const&, Point3D<float> const&, uint,
 //                                std::list<PFGInnerEdge const*>*)
-// PARTIAL. Rebuilt: the module check, the collision lookups at both ends, the triangle edge midpoints, the choice of the
-// start and goal inner nodes (including the binary's quirk that the second candidate on each side does not update the
-// stored distance), the same-triangle and same-node early results, the A* call with the object or path goal test, and
-// the cleanup of the output path.
-// Missing:
-//   (1) The fail cache. The binary looks up {start node, goal node, flags} in m_searchFails before the search and adds
-//       the entry when the search fails. SearchFailCache::Entry holds three 32-bit fields, and the entry must hold host
-//       pointers (layout request). A repeated failing search therefore runs again; the result is the same.
-//   (2) The link of the object's embedded direct edge (LABEL_68). When a path and an object are both given and the
-//       search has a result without a search (same triangle or same node), the binary stores from and to in the
-//       object's embedded PFGInnerDirectEdge (PFObject +0x4c, m_source +0x64, m_destination +0x70) and pushes that edge
-//       onto the path. PFObject.hpp has no member for it (layout request). This port returns 1 and leaves the path as is.
+// Returns 0 unless the PathFinding_Search module is enabled. Both end points are looked up on the floors (GetCollisionAt); a missing triangle or floor at either end gives 0. When both lie on one triangle (all
+// nine coordinates equal) the result is 1 and, when an object and a path are both given, the object's embedded direct edge (PFObject +0x4c, source and destination set to the two points) is pushed onto the path.
+// Otherwise the inner nodes at the midpoints of the triangle edges are the candidates: the nearest to the start for the start side, to the goal for the goal side (the second candidate on each side updates the stored
+// distance, the third does not). No node on a side gives 0, the same node on both sides gives 1 (with the same embedded edge link), and a search that failed with the same {start, goal, flags} before gives 0 from the
+// cache. Else the A* search runs (the object's or the plain path validity test) and a failure is added to the cache. With a path: a failed search clears it, a found path of more than one edge loses its last edge when
+// that edge starts at a goal-side candidate.
 int PFWorld::_SearchGraph(const PFObject* object, const Point3D<float>& from, const Point3D<float>& to,
                           unsigned int flags, std::list<const PFGInnerEdge*>* path) {
     DebugSwitches::s_inst.load();
@@ -161,8 +146,13 @@ int PFWorld::_SearchGraph(const PFObject* object, const Point3D<float>& from, co
     const auto& fa = fromTriangle;
     const auto& ta = toTriangle;
     if (SameVertex(ta.A, fa.A) && SameVertex(ta.B, fa.B) && SameVertex(ta.C, fa.C)) {
-        // Both points lie on one triangle. The binary links the object's embedded edge here when path and object are
-        // given (see the note above) and returns 1 either way.
+        // Both points lie on one triangle. With an object and a path the object's embedded direct edge is linked into the path.
+        if (path != nullptr && object != nullptr) {
+            PFObject* writable = const_cast<PFObject*>(object);
+            writable->m_edge.m_source = from;
+            writable->m_edge.m_destination = to;
+            path->push_back(&writable->m_edge);
+        }
         return 1;
     }
 
@@ -222,11 +212,22 @@ int PFWorld::_SearchGraph(const PFObject* object, const Point3D<float>& from, co
         return 0;
     }
     if (start == goal) {
-        // Same inner node. As above, the binary links the embedded edge when path and object are given.
+        // Same inner node on both sides. With an object and a path the object's embedded direct edge is linked into the path.
+        if (path != nullptr && object != nullptr) {
+            PFObject* writable = const_cast<PFObject*>(object);
+            writable->m_edge.m_source = from;
+            writable->m_edge.m_destination = to;
+            path->push_back(&writable->m_edge);
+        }
         return 1;
     }
 
-    // The fail cache lookup (see note (1)) is not reproduced.
+    // The fail cache: a search that failed with the same start node, goal node and flags fails again.
+    for (auto it = m_searchFails.m_entries.rbegin(); it != m_searchFails.m_entries.rend(); ++it) {
+        if (it->m_start == start && it->m_goal == goal && it->m_flags == flags) {
+            return 0;
+        }
+    }
 
     // The search object: AlgoAStar<PFGInnerGraph, DiabloIPhoneHeuristic> with m_graph set to the inner graph and
     // m_outPath pointing at its own m_path (the binary's v59/v60 setup).
@@ -246,7 +247,10 @@ int PFWorld::_SearchGraph(const PFObject* object, const Point3D<float>& from, co
         result = search.findNode(start->getID(), test, flags, path) ? 1 : 0;
     }
 
-    // The fail cache add (see note (1)) is not reproduced.
+    if (result == 0) {
+        SearchFailCache::Entry entry{start, goal, flags};
+        m_searchFails.add(entry);
+    }
 
     if (path != nullptr) {
         if (result != 0) {
@@ -265,23 +269,21 @@ int PFWorld::_SearchGraph(const PFObject* object, const Point3D<float>& from, co
 }
 
 // 0x52c354 PFWorld::HasValidPath(Point3D<float> const&, Point3D<float> const&, uint)
-// PARTIAL: forwards to the Point3D _SearchGraph, whose fail cache and embedded-edge link are missing (see that note).
+// Forwards to the Point3D _SearchGraph with no object and no path.
 bool PFWorld::HasValidPath(const Point3D<float>& from, const Point3D<float>& to, unsigned int flags) {
     return _SearchGraph(nullptr, from, to, flags, nullptr) != 0;
 }
 
 // 0x52c388 PFWorld::HasValidPath(PFObject const&, Point3D<float> const&, uint)
-// PARTIAL: forwards to the Point3D _SearchGraph, as above. The start is the object's position (PFObject +0x18).
+// Forwards to the Point3D _SearchGraph with the object and no path. The start is the object's position (PFObject +0x18).
 bool PFWorld::HasValidPath(const PFObject& object, const Point3D<float>& to, unsigned int flags) {
     return _SearchGraph(&object, object.m_pos, to, flags, nullptr) != 0;
 }
 
 // 0x52cb90 PFWorld::_SearchGraph(PFObject const*, Point3D<float> const&, ITest<PFGInnerEdge,PFGInnerNode> const&, uint)
-// PARTIAL. Rebuilt: the module check and the start node (the closest inner node to the object, or to the point).
-// The binary then runs AlgoAStar<PFGInnerGraph, DijkstraHeuristic>::findNode inline, with its path kept in the search
-// object's m_path, and returns whether the goal was reached. The port calls the shared findNode body that AlgoAStar.hpp
-// declares; the header records that both heuristic instances share one body, and that has not been checked against the
-// inlined Dijkstra copy here.
+// Returns 0 unless the PathFinding_Search module is enabled. The start node is the closest inner node to the object, or to the point. The binary then runs AlgoAStar<PFGInnerGraph, DijkstraHeuristic>::findNode
+// inline (same loop as the DiabloIPhoneHeuristic findNode 0x52ad4c: the test on the current node, the expansion limit, getEdges, the edge tests, _markNode, the open-list push), with its path kept in the search
+// object's m_path and discarded, and returns whether the goal test accepted the last node. The instance shares findNode's body.
 int PFWorld::_SearchGraph(const PFObject* object, const Point3D<float>& from,
                           const sfc::math::graph::ITest<PFGInnerEdge, PFGInnerNode>& test, unsigned int flags) {
     DebugSwitches::s_inst.load();
@@ -299,14 +301,14 @@ int PFWorld::_SearchGraph(const PFObject* object, const Point3D<float>& from,
 }
 
 // 0x52d4f0 PFWorld::TestPath(Point3D<float> const&, ITest<PFGInnerEdge,PFGInnerNode> const&, uint)
-// PARTIAL: forwards to the ITest _SearchGraph (partial).
+// Forwards to the ITest _SearchGraph with no object.
 bool PFWorld::TestPath(const Point3D<float>& from, const sfc::math::graph::ITest<PFGInnerEdge, PFGInnerNode>& test,
                        unsigned int flags) {
     return _SearchGraph(nullptr, from, test, flags) != 0;
 }
 
 // 0x52d518 PFWorld::TestPath(PFObject const&, ITest<PFGInnerEdge,PFGInnerNode> const&, uint)
-// PARTIAL: forwards to the ITest _SearchGraph (partial). The start point is the object's position (PFObject +0x18).
+// Forwards to the ITest _SearchGraph with the object. The start point is the object's position (PFObject +0x18).
 bool PFWorld::TestPath(const PFObject& object, const sfc::math::graph::ITest<PFGInnerEdge, PFGInnerNode>& test,
                        unsigned int flags) {
     return _SearchGraph(&object, object.m_pos, test, flags) != 0;
@@ -403,8 +405,8 @@ bool PFWorld::MovePath(PFObject& object, Point3D<float>& position) {
 }
 
 // 0x52db48 PFWorld::FindPath(PFObject&, Point3D<float> const&, uint)
-// PARTIAL: the body (drop the old path, record the goal, time the search when PF_ProfileSearches is on, then smooth and
-// build the waypoints) is complete, but the search it runs is the partial Point3D _SearchGraph.
+// Drops the old path, records the goal (PFObject +0x40), runs the Point3D _SearchGraph from the object's position into the object's own path (timed into the window of the last ten durations when
+// PF_ProfileSearches is on: each duration is added to the total and the oldest leaves when more than ten are held), and on success smooths the path and builds the waypoint vector.
 bool PFWorld::FindPath(PFObject& object, const Point3D<float>& goal, unsigned int flags) {
     PushProfilingContext("PFWorld::FindPath");
     DropPath(object);

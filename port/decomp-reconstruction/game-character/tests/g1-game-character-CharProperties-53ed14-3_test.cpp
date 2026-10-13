@@ -1,7 +1,7 @@
 // Checks the CharProperties units of batch g1-game-character-CharProperties-53ed14-3 that run without the engine: the
 // ClassFunc operations, the class walk (_LoadClass, _Group), the gear loaders, the property-name lookups and the BuffDecl
-// constructors, and the FX grab of PROPS_AddBuff (duration 0, so no timer is started). PROPS_AddDot and PROPS_DebuffSlow
-// need the name tables, so they are not run here.
+// constructors, the FX grab of PROPS_AddBuff (duration 0, so no timer is started), and the name lookups of PROPS_AddDot and
+// PROPS_DebuffSlow (small name tables set up by the test).
 // Link: this test is built with the batch 3 source (g1-game-character-CharProperties-53ed14-3.cpp) and the batch 0 and
 // batch 1 sources. The definitions below are test doubles for the other classes' functions those sources call.
 // Table rows are built with `new` for the classes that have default constructors. Item rows are raw test memory, and
@@ -21,6 +21,8 @@
 #include "pydata-accessors/w7_structs_3.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
 
+#include "dh2/AnimController.hpp"
+#include "dh2/AnimatedFX.hpp"
 #include "dh2/ItemInstance.hpp"
 
 #define private public
@@ -105,6 +107,19 @@ AnimatedFX* VisualFXManager::GrabAnimFX(int effectDictId, GameObject* object) {
     g_grabs.emplace_back(effectDictId, object);
     static int standIn = 0;
     return reinterpret_cast<AnimatedFX*>(&standIn);
+}
+// The FX animation: AnimatedFX::GetAnimController returns a fake controller (a vptr and the node word) whose virtual PlayClip(unsigned, ...) is
+// slot 7 (two destructor slots, GetAnimationSet, GetNumAnim, GetNumClip, HasClip, GetClipDuration come first) and records the clip and loop flag.
+static std::vector<std::pair<unsigned int, bool>> g_playClips;
+static bool FakePlayClip(AnimController*, unsigned int clip, bool loop, int, unsigned int) {
+    g_playClips.emplace_back(clip, loop);
+    return true;
+}
+static void* g_fakeVtable[16];
+static void* g_fakeController[2] = {g_fakeVtable, nullptr};
+AnimController* AnimatedFX::GetAnimController() {
+    g_fakeVtable[7] = reinterpret_cast<void*>(&FakePlayClip);
+    return reinterpret_cast<AnimController*>(g_fakeController);
 }
 void Character::F_DotAttack(AttackResult&, Character*, Character*, int, int) {}
 void Character::F_ApplyResult(const AttackResult&, Character*, Character*, bool) {}
@@ -396,13 +411,45 @@ static void TestBuffDeclConstructors() {
     CHECK(src.m_name == "fire");  // the source is unchanged
 }
 
-static void TestDotIsNotAdded() {
-    // PROPS_AddDot needs the name tables (partial in this unit): it adds nothing and returns nullptr. Only its
-    // argument checks run, and they are silent at assert level 0. PROPS_DebuffSlow is not run: it reads m_character,
-    // which this test has no Character for.
+// PROPS_AddDot and PROPS_DebuffSlow find their class and FX ids by name in the PyData name tables. The tables here hold a few names; the
+// stub TMR_Start fails, so each buff is removed again (nothing is returned), but the ids and the buff name can be read from the FX grab and the
+// class declaration the call leaves behind.
+static char g_className0[] = "None";
+static char g_className1[] = "AUTO_DOT_01_FIRE";
+static char g_className2[] = "AUTO_DOT_02_WATER";
+static char g_className3[] = "Debuff_Slow";
+static char* g_classNames[] = {g_className0, g_className1, g_className2, g_className3};
+static char g_fxName0[] = "fx0";
+static char g_fxName1[] = "fx1";
+static char g_fxName2[] = "AUTO_DOT_01_FIRE";
+static char g_fxName3[] = "AUTO_DOT_02_WATER";
+static char g_fxName4[] = "AUTO_DEBUFF_SLOW";
+static char* g_fxNames[] = {g_fxName0, g_fxName1, g_fxName2, g_fxName3, g_fxName4};
+
+static void TestDotAndSlow() {
+    Arrays::ClassTable::m_memberNames.names = g_classNames;
+    Arrays::ClassTable::m_memberNames.size = 4;
+    Arrays::ClassTable::size = 4;
+    Arrays::AnimatedEffectTable::m_memberNames.names = g_fxNames;
+    Arrays::AnimatedEffectTable::m_memberNames.size = 5;
+    Arrays::AnimatedEffectTable::size = 5;
+
+    static char characterStorage[64];
     CharProperties cp;
-    CHECK(cp.PROPS_AddDot(1000, 5, 0) == nullptr);
-    CHECK(cp.m_buffs.empty());
+    cp.m_character = reinterpret_cast<Character*>(characterStorage);
+    g_grabs.clear();
+
+    // Water dot: class AUTO_DOT_01_FIRE (1) + element 1 = 2, FX AUTO_DOT_01_FIRE (2) + 1 = 3, named dot_water.
+    CHECK(cp.PROPS_AddDot(1000, 5, 1) == nullptr);
+    CHECK(g_grabs.size() == 1 && g_grabs[0].first == 3);
+    CHECK(cp.m_buffs.find(2) != cp.m_buffs.end() && cp.m_buffs.find(2)->second.m_name == "dot_water");
+
+    // The slow debuff: class Debuff_Slow (3), FX AUTO_DEBUFF_SLOW (4), named debuff_slow. A zero duration does nothing.
+    cp.PROPS_DebuffSlow(0);
+    CHECK(g_grabs.size() == 1 && cp.m_buffs.find(3) == cp.m_buffs.end());
+    cp.PROPS_DebuffSlow(500);
+    CHECK(g_grabs.size() == 2 && g_grabs[1].first == 4);
+    CHECK(cp.m_buffs.find(3) != cp.m_buffs.end() && cp.m_buffs.find(3)->second.m_name == "debuff_slow");
 }
 
 // PROPS_AddBuff takes the class's FX once: a new class declaration with an FX id grabs it, a later instance of the
@@ -412,12 +459,15 @@ static void TestBuffFxGrab() {
     CharProperties cp;
     cp.m_character = reinterpret_cast<Character*>(characterStorage);
     g_grabs.clear();
+    g_playClips.clear();
 
     CHECK(cp.PROPS_AddBuff(20, 0, 2, 1, 42, "fire") != nullptr);
     CHECK(g_grabs.size() == 1 && g_grabs[0].first == 42 && g_grabs[0].second == characterStorage);
     CHECK(cp.m_buffs.find(20)->second.m_fx != nullptr);
     CHECK(cp.PROPS_AddBuff(20, 0, 2, 1, 42, "fire") != nullptr);
     CHECK(g_grabs.size() == 1);
+    // The second instance of a class with an FX advances the FX animation to its last clip (instances - 1), looping.
+    CHECK(g_playClips.size() == 1 && g_playClips[0].first == 1 && g_playClips[0].second);
     CHECK(cp.PROPS_AddBuff(21, 0, 2, 1, -1, "slow") != nullptr);
     CHECK(g_grabs.size() == 1 && cp.m_buffs.find(21)->second.m_fx == nullptr);
 }
@@ -428,7 +478,7 @@ int main() {
     TestGearStatsAndPowers();
     TestPropertyNames();
     TestBuffDeclConstructors();
-    TestDotIsNotAdded();
+    TestDotAndSlow();
     TestBuffFxGrab();
     if (failures != 0) {
         std::printf("%d check(s) failed\n", failures);

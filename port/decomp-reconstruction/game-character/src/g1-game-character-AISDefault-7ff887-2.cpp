@@ -22,6 +22,13 @@
 #include "dh2/Character.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/LuaScript.hpp"
+#include "dh2/PFFloor.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/VisualFXManager.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 #include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
@@ -234,19 +241,11 @@ void AISDefault::OnCombatResults(Character* a2, Character* a3, void* a4) {
 }
 
 // 0x3dca50 AISDefault::OnAnimEvent(char const*)
-// The script hears every event: OnAnimEvent gets the event name and the character's last event data (CharAnimator
-// m_lastEventData, Character +0x4f4). Then the footstep events pick the foot position.
-// PARTIAL: the footstep effects are not played. Not made:
-//   - the footprint effect VisualFXManager::PlayAnimFXSet(Singleton<VisualFXManager>::s_inst, GetFXFootprint(),
-//     position, 0, 0). Both names are declared (dh2/Singleton.hpp, dh2/VisualFXManager.hpp, dh2/Character.hpp), but the
-//     singleton storage is defined in game-app/src/Globals.cpp, and this file's test links only itself, so the call
-//     would need the singleton and the VisualFXManager vtable stubbed. It is left out until the test can link it.
-//   - the footstep row: the original reads the character's CharEffect row index (Character +0x1014) and the floor
-//     material (Character +0x1d8). Neither is declared in dh2/Character.hpp. Arrays::CharEffectTable and
-//     Arrays::FootstepEffectTable are raw byte arrays in pydata-accessors (std::uint8_t* members, strides 24 and 32, no
-//     row type), and the original reads their fields at byte offsets. The floor material is a char* at PFFloor +0x3c,
-//     inside dh2/PFFloor.hpp's m_floorTypes (+0x28).
-// Reproduced: the event call, the step_right and step_left test, and the foot position chosen for each foot.
+// The script hears every event: OnAnimEvent gets the event name and the character's last event data (CharAnimator m_lastEventData,
+// Character +0x4f4). The step_right and step_left events then play the footprint effect (GetFXFootprint) at the position of the matching foot
+// (right foot for step_right, left foot for step_left) and, when the character's CharEffect row (m_props.m_w8, row 0 when out
+// of range) allows footsteps (Structs::CharEffect m_w5, +0x14) and the floor under it (m_pfObject.m_floor, whose floortypes string is the
+// material) has a FootstepEffect row of that material name, that row's effect (Structs::FootstepEffect m_w1, +0x04) at the same place.
 void AISDefault::OnAnimEvent(const char* name) {
     sfc::script::lua::Arguments args;
     args.pushString(name);
@@ -257,10 +256,28 @@ void AISDefault::OnAnimEvent(const char* name) {
     if (!rightFoot && std::strcmp(name, "step_left") != 0) {
         return;
     }
-    // The position the footstep effect plays at. The effect call itself is not made (see above).
     const Point3D<float> footPosition =
         rightFoot ? m_character->GetRightFootPosition() : m_character->GetLeftFootPosition();
-    (void)footPosition;
+    Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(m_character->GetFXFootprint(), footPosition, nullptr, nullptr);
+
+    const std::int32_t effectIndex = m_character->m_props.m_w8;
+    const auto* effects = reinterpret_cast<const Structs::CharEffect*>(Arrays::CharEffectTable::members);
+    const bool footstepsAllowed = (effectIndex < 0 || effectIndex >= static_cast<std::int32_t>(Arrays::CharEffectTable::size))
+                                      ? effects[0].m_w5
+                                      : effects[effectIndex].m_w5;
+    const char* material = nullptr;
+    if (PFFloor* floor = m_character->m_pfObject.m_floor) {
+        material = floor->m_floorTypes.c_str();
+    }
+    if (footstepsAllowed && material != nullptr) {
+        const auto* footsteps = reinterpret_cast<const Structs::FootstepEffect*>(Arrays::FootstepEffectTable::members);
+        for (std::uint32_t i = 0; i < Arrays::FootstepEffectTable::size; ++i) {
+            if (std::strcmp(footsteps[i].m_w3, material) == 0) {
+                Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(footsteps[i].m_w1, footPosition, nullptr, nullptr);
+                break;
+            }
+        }
+    }
 }
 
 // 0x3dcc80 AISDefault::OnScriptTimer(uint)

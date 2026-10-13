@@ -23,11 +23,16 @@
 #include <string>
 
 #include "dh2/PlayerInfo.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/net_singletons.hpp"
 #include "net-transport/tb/c_net_player_manager.hpp"
 #include "net-transport/tb/net_struct_string.hpp"
 
 // 0x37418c PlayerInfo::PlayerInfo(void)   (C1)
-// PARTIAL (see the file note). The base constructor runs first, then each member is built in the header's order with its
+// (see the file note). The base constructor runs first, then each member is built in the header's order with its
 // default: value zero, change bookkeeping clear. The stale-word branches of the original member constructors are not
 // reproduced. The body then does what the original does after the members:
 //   1. registers the factory once (the function-local static s_register stands for the original's guard variable);
@@ -100,12 +105,16 @@ PlayerInfo::PlayerInfo()
 
 // 0x371294 PlayerInfo::~PlayerInfo(void)   (complete object destructor, D1; the base object destructor D2 at 0x37168c is the
 // same code)
-// PARTIAL. The original first deletes the loading-info object at +0x680 (unk_680) through its virtual deleting destructor
-// (vtable slot 1), then clears the pointer. The class of that object is not recovered (the header keeps it as void*), so
-// the deletion is not written and the object is not freed here. Everything else is the compiler's work, in the order the
-// original's inline steps follow: the members are destroyed in reverse declaration order, the ByteArray members free their
-// buffers, the name string is destroyed, and CNetPlayerInfo's destructor runs last.
-PlayerInfo::~PlayerInfo() {}
+// The loading-info object at +0x680 (unk_680, a polymorphic object whose class is not recovered) is deleted through its virtual deleting
+// destructor (vtable slot 1) and the pointer cleared. Everything else is the compiler's work, in the order the original's inline steps
+// follow: the members are destroyed in reverse declaration order, the ByteArray members free their buffers, the name string is destroyed,
+// and CNetPlayerInfo's destructor runs last.
+PlayerInfo::~PlayerInfo() {
+    if (unk_680 != nullptr) {
+        delete unk_680;
+        unk_680 = nullptr;
+    }
+}
 
 // 0x36d258 PlayerInfo::Delete(CNetPlayerInfo*)
 // A null pointer does nothing. Otherwise the original calls the object's virtual deleting destructor through vtable slot 1
@@ -119,13 +128,16 @@ void PlayerInfo::Delete(CNetPlayerInfo* info) {
 }
 
 // 0x36d48c PlayerInfo::IsActive(void)
-// PARTIAL. The original returns true at once while the online-game flag is clear: byte +0x05 of GetOnline(), which is
-// COnline::isOnlineGame_. That flag is private in net-session-online/c_online.hpp and has no getter, so it cannot be read
-// here. The port takes it as clear, the convention Character uses for the same flag, and returns true.
-// Not written: the online answer. It is false when member_id_, conn_index_ or unk_1c8 is negative, and otherwise
-// state_ == 3 (state value 3 is the active state). Layout request: a public getter for COnline +0x05.
+// True at once while the online-game flag (byte +0x05 of GetOnline()) is clear. Online: false when the member id, the matching member id
+// or the gamepad id is negative, otherwise the replicated state (state_) is 3, the active state.
 bool PlayerInfo::IsActive() const {
-    return true;
+    if (!GetOnlineGameFlag()) {
+        return true;
+    }
+    if (member_id_.GetValue() < 0 || matching_member_id_.GetValue() < 0 || gamepad_id_.GetValue() < 0) {
+        return false;
+    }
+    return state_.GetValue() == 3;
 }
 
 // 0x36fcb0 PlayerInfo::SetCharacterNumPotions(int)
@@ -135,54 +147,63 @@ void PlayerInfo::SetCharacterNumPotions(int count) {
 }
 
 // 0x36fd58 PlayerInfo::SetCharacterXP(int)
-// PARTIAL (see the file note). Writes m_characterXP (+0x428).
+// (see the file note). Writes m_characterXP (+0x428).
 void PlayerInfo::SetCharacterXP(int xp) {
     m_characterXP.SetValue(xp);
 }
 
 // 0x36fe04 PlayerInfo::SetCharacterGold(int)
-// PARTIAL (see the file note). Writes m_characterGold (+0x478).
+// (see the file note). Writes m_characterGold (+0x478).
 void PlayerInfo::SetCharacterGold(int gold) {
     m_characterGold.SetValue(gold);
 }
 
 // 0x370908 PlayerInfo::SetReadyToRoll(bool)
-// PARTIAL (see the file note). Writes m_readyToRoll (+0x528).
+// (see the file note). Writes m_readyToRoll (+0x528).
 void PlayerInfo::SetReadyToRoll(bool readyToRoll) {
     m_readyToRoll.SetValue(readyToRoll);
 }
 
 // 0x3709b4 PlayerInfo::UpdateReadyToRoll(void)
-// PARTIAL. The body is not written, so this function changes nothing. The original begins with two online gates: the
-// online-game flag (COnline::isOnlineGame_, byte +0x05 of GetOnline()) and a byte at +0x24 of
-// OnlineSingleton<OnlineGameState>::GetInstance(). Neither can be read: the first is private in c_online.hpp with no getter,
-// and the second is not declared. Following the convention for an unreadable online gate, the port takes both as closed.
-// Missing, in the original's order, once the gates can be read: CMatching::Get() must report a room (its vtable slot +0x64);
-// CNetPlayerManager must be initialised; the player must be local (IsLocal, vtable +0x50) and not the host. If m_doneLoading
-// is clear, the original calls SetReadyToRoll(false). Otherwise, when PlayerManager m_questSyncBuffered (+0x710),
-// PlayerManager m_initialSetupDone (+0x6d0) and ObjectManager unk_160 (+0x160) are all set, it calls SetReadyToRoll(true).
-void PlayerInfo::UpdateReadyToRoll() {}
+// Only for a local, non-host record while the network gate is open (NetGateOpen). If m_doneLoading is clear the ready-to-roll flag is cleared
+// (SetReadyToRoll(false)); otherwise, when PlayerManager m_questSyncBuffered (+0x710), m_initialSetupDone (+0x6d0) and ObjectManager unk_160 (+0x160)
+// are all set, it becomes set (SetReadyToRoll(true)).
+void PlayerInfo::UpdateReadyToRoll() {
+    if (!NetGateOpen()) {
+        return;
+    }
+    if (!IsLocal() || IsHost()) {
+        return;
+    }
+    if (!m_doneLoading.GetValue()) {
+        SetReadyToRoll(false);
+        return;
+    }
+    if (dword_99F76C->m_questSyncBuffered && dword_99F76C->m_initialSetupDone && dword_99F764->unk_160) {
+        SetReadyToRoll(true);
+    }
+}
 
 // 0x370a9c PlayerInfo::SetIngame(bool)
-// PARTIAL (see the file note). Writes m_ingame (+0x4c8).
+// (see the file note). Writes m_ingame (+0x4c8).
 void PlayerInfo::SetIngame(bool ingame) {
     m_ingame.SetValue(ingame);
 }
 
 // 0x370b48 PlayerInfo::SetDoneLoading(bool)
-// PARTIAL (see the file note). Writes m_doneLoading (+0x508).
+// (see the file note). Writes m_doneLoading (+0x508).
 void PlayerInfo::SetDoneLoading(bool doneLoading) {
     m_doneLoading.SetValue(doneLoading);
 }
 
 // 0x370bf4 PlayerInfo::SetCharacterDeathTimer(int)
-// PARTIAL (see the file note). Writes m_characterDeathTimer (+0x388).
+// (see the file note). Writes m_characterDeathTimer (+0x388).
 void PlayerInfo::SetCharacterDeathTimer(int timer) {
     m_characterDeathTimer.SetValue(timer);
 }
 
 // 0x370cf8 PlayerInfo::ClearLoadingInfo(void)
-// PARTIAL (see the file note). Acts only on the local player (IsLocal, vtable +0x50). It clears m_ingame, m_inCutscene,
+// (see the file note). Acts only on the local player (IsLocal, vtable +0x50). It clears m_ingame, m_inCutscene,
 // m_doneLoading and m_readyToRoll, and sets the death timer to -1. The value written to m_inCutscene is false on every path;
 // the stale-temporary SetChanged in front of that write is not reproduced.
 void PlayerInfo::ClearLoadingInfo() {
@@ -197,13 +218,13 @@ void PlayerInfo::ClearLoadingInfo() {
 }
 
 // 0x370e48 PlayerInfo::SetCharacterLevel(int)
-// PARTIAL (see the file note). Writes m_characterLevel (+0x310).
+// (see the file note). Writes m_characterLevel (+0x310).
 void PlayerInfo::SetCharacterLevel(int level) {
     m_characterLevel.SetValue(level);
 }
 
 // 0x370ef0 PlayerInfo::SetCharacterClass(int)
-// PARTIAL (see the file note). Writes m_characterClass (+0x360).
+// (see the file note). Writes m_characterClass (+0x360).
 void PlayerInfo::SetCharacterClass(int characterClass) {
     m_characterClass.SetValue(characterClass);
 }
@@ -231,7 +252,7 @@ void PlayerInfo::SetCharacterName(std::string name) {
 }
 
 // 0x373bdc PlayerInfo::Reset(void)
-// PARTIAL (see the file note). Every SetValue below stores the value the original stores, in the original's order. The
+// (see the file note). Every SetValue below stores the value the original stores, in the original's order. The
 // stale-temporary SetChanged calls are not reproduced, and the setters called here carry the same note.
 void PlayerInfo::Reset() {
     CNetPlayerInfo::Reset();

@@ -7,8 +7,7 @@
 //   Character +0x520 (CharStateMachine::m_stateFlags, +0x24)         -> the state flags word (9025 in both states)
 //   Character +0x378 (v2Controllable::m_controller), byte +0x08       -> v2Controller::m_blocked
 //   Character +0x3c8 (CharAI, +0x40 m_target at Character +0x408)    -> the target, read through its handle by CSReviving::OnFocus
-//   Character +0x558 (inside CharStateMachine, +0x5c, declared unk_5c) -> the revivee pointer. It is not declared as a pointer
-//                                                                    (layout request), so CSReviving::OnFocus and OnBlur are PARTIAL.
+//   Character +0x558 (inside CharStateMachine, +0x5c, m_reviveTarget) -> the revivee pointer.
 //   CharAnim row +0x68 (m_w26) for CSRevived, +0x6c (m_w27) for CSReviving -> the anim id base, added to the stance offset.
 //
 // Deleting destructors (vtable slot 0x04) are compiler-generated, so they have no body here (see the ledger).
@@ -122,14 +121,11 @@ void CSReviving::OnEvent(int, Character*, CharStateMachine*, int, void*) {}
 // The original sets the vptr to off_9663A8 and calls CustomFree(this). See the ledger row.
 
 // 0x3c5294 CSReviving::OnFocus(int,Character*,CharStateMachine*,int,int,void*)
-// PARTIAL. Runs the "isTracingCharState" probe, sets the state flags word (+0x520) to 9025, cancels sneaking, and sets the
-// controller's block flag. Then the original resolves the target (CharAI m_target at Character +0x408, read as an ObjectBase
-// through GetHandle) into an ObjectHandle and stores that handle's Character* at Character +0x558. The store is missing:
-// that slot is declared unk_5c (uint32_t) in dh2/CharStateMachine.hpp and cannot hold a host pointer. Layout request filed.
-// The handle is still resolved here, so its side effects are kept, and the resolved pointer is dropped. Then AI_SetTarget
-// clears the target, AI_SyncLastTarget copies it, and the anim is set to the stance offset plus the CharAnim row's +0x6c
-// field (m_w27). The stance offset applies when the AnimStancedAnim constant has bit 0x80000 set. The original reads the
-// target without a null test, and so does this body.
+// Runs the "isTracingCharState" probe, sets the state flags word (+0x520) to 9025, cancels sneaking, and sets the controller's block flag.
+// Then the target (CharAI m_target at Character +0x408, read without a null test as the original does) is resolved through its handle and
+// stored as the character being revived (CharStateMachine +0x5c, Character +0x558). AI_SetTarget clears the target, AI_SyncLastTarget copies
+// it, and the anim is set to the stance offset plus the CharAnim row's +0x6c field (m_w27). The stance offset applies when the AnimStancedAnim
+// constant has bit 0x80000 set.
 void CSReviving::OnFocus(int, Character* character, CharStateMachine*, int, int, void*) {
     ProbeTracingSwitch();
     character->CharStateMachine::m_stateFlags = 9025u;
@@ -137,7 +133,7 @@ void CSReviving::OnFocus(int, Character* character, CharStateMachine*, int, int,
     character->m_controller->m_blocked = true;
 
     ObjectHandle handle = character->CharAI::m_target->GetHandle();
-    [[maybe_unused]] Character* revivee = handle;  // PARTIAL: the original stores this at Character +0x558 (layout request).
+    character->CharStateMachine::m_reviveTarget = handle;
 
     character->CharAI::AI_SetTarget(nullptr, false);
     character->CharAI::AI_SyncLastTarget();
@@ -147,11 +143,12 @@ void CSReviving::OnFocus(int, Character* character, CharStateMachine*, int, int,
 }
 
 // 0x3c6724 CSReviving::OnBlur(int,Character*,CharStateMachine*,int)
-// PARTIAL. Runs the "isTracingCharState" probe. The original then calls SM_SetRevivedState(nullptr, false) on the revivee's
-// CharStateMachine (the pointer at Character +0x558, plus 0x4fc) and returns its int. The revivee is not reachable until the
-// layout request for +0x558 is applied, so that call is skipped. Last, the controller's block flag is cleared, as in the original.
+// Runs the "isTracingCharState" probe, then ends the revived character's revived state (SM_SetRevivedState(nullptr, false) on the
+// CharStateMachine of the character stored at Character +0x558) and clears the controller's block flag. The original returns the int of
+// SM_SetRevivedState; the void slot drops it.
 void CSReviving::OnBlur(int, Character* character, CharStateMachine*, int) {
     ProbeTracingSwitch();
+    character->CharStateMachine::m_reviveTarget->CharStateMachine::SM_SetRevivedState(nullptr, false);
     character->m_controller->m_blocked = false;
 }
 

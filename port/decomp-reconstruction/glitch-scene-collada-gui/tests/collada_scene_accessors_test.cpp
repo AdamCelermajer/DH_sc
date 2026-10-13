@@ -95,18 +95,6 @@ int main() {
         CHECK(timeline.getClipName(0) == clips[0].name);
     }
 
-    // Float and weight tracks: identity is 0.0 in the output word.
-    {
-        glitch::collada::animation_track::CFloatEx f;
-        glitch::collada::animation_track::CWeightEx w;
-        float out = 3.0f;
-        f.getIdentityValue(&out);
-        CHECK(out == 0.0f);
-        out = 3.0f;
-        w.getIdentityValue(&out);
-        CHECK(out == 0.0f);
-    }
-
     // Mesh bounding box setter.
     CMesh colladaMesh;
     glitch::core::aabbox3d<float> colladaBox{{0.0f, 0.0f, 0.0f}, {2.0f, 2.0f, 2.0f}};

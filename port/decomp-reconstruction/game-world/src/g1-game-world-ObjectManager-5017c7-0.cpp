@@ -17,12 +17,6 @@
 //   +0x118 unk_118, +0x119 m_netUpdateRequested, +0x8c m_enableCond, +0xb0 m_disableCond
 //   Character +0x11c (ObjectBase unk_11c, resend counter), +0x1480 m_isDummy
 //
-// Status: 15 bodies are reconstructed. 5 are PARTIAL and each names what it waits on:
-//   IsRemotePlayerOfMember (the player record's +0x198 pointer has no declared member),
-//   IsObjectSerializable (its last branch calls IsRemotePlayerOfMember),
-//   NetworkInitLevel (COnline +0x05 is protected and the packet callbacks are non-static members),
-//   GetDynamicFogColorAtPos (Module::UNINIT_FOG_COLOR is declared as one word, the test reads three floats),
-//   GetObjectsByType (ObjectListItem has no layout).
 // No standalone test: every body calls the engine (virtual calls, list walks over engine objects, RNG, packets),
 // and linking this translation unit needs the whole engine.
 
@@ -30,7 +24,9 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <list>
+#include <vector>
 
 // Character.hpp comes first: it includes net-transport's net_struct.hpp with the two clashing deps names renamed (see
 // its own note), so the net headers below can follow without redefining CustomFree.
@@ -43,6 +39,8 @@
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/ObjectListItem.hpp"
+#include "dh2/LightBase.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/Point3D.hpp"
@@ -52,6 +50,7 @@
 #include "dh2/global/net_singletons.hpp"             // GetOnline
 #include "net-session-online/c_matching_base.hpp"    // CMatching::Get, CMatching::IsServer
 #include "net-session-online/c_online.hpp"           // COnline::IsServer
+#include "net-transport/tb/c_net_player_manager.hpp"   // GetPlayerIdListByMemberId
 #include "net-transport/net_struct.hpp"              // NetStruct::Resend (already included via Character.hpp)
 #include "net-transport/packet_manager.hpp"          // CPacketManager::UnregisterPacketSlot
 
@@ -208,22 +207,28 @@ bool ObjectManager::CanSendUpdate(ObjectBase* object) {
 }
 
 // 0x340948 ObjectManager::IsRemotePlayerOfMember(int,Character*)
-// PARTIAL: the original walks the member's player ids (CNetPlayerManager::GetPlayerIdListByMemberId on GetNetPlayerMgr()).
-// For each id it takes PlayerManager::GetPlayerByInternalID(dword_99F76C, id, false) and reads the pointer at the player
-// record's +0x198 (PlayerInfo +408), then returns true when that object's network id (+0x108) equals the character's.
-// PlayerInfo has no declared member at +0x198 (layout request in the ledger), so the walk is not written and every
-// call returns false.
+// False for a null character. Otherwise the member's player ids (CNetPlayerManager::GetPlayerIdListByMemberId on GetNetPlayerMgr()) are walked in order; for each, the Character of the
+// PlayerInfo (PlayerManager::GetPlayerByInternalID(dword_99F76C, id, false), PlayerInfo +0x660) is compared by network id (ObjectBase +0x108) with the given character, and the first
+// match gives true. (The pseudocode reads the record as a dword array: its +408 is byte offset 0x660.)
 bool ObjectManager::IsRemotePlayerOfMember(int member, Character* character) {
-    (void)member;
     if (!character) {
         return false;
+    }
+    const std::vector<int>& ids = GetNetPlayerMgr()->GetPlayerIdListByMemberId(member);
+    for (std::size_t i = 0; i < ids.size(); ++i) {
+        const Character* player = dword_99F76C->GetPlayerByInternalID(ids[i], false)->unk_660;
+        if (player != nullptr && character->unk_108 == player->unk_108) {
+            return true;
+        }
     }
     return false;
 }
 
 // 0x3409f4 ObjectManager::IsObjectSerializable(ObjectBase*,int)
-// PARTIAL: every branch matches the pseudocode except the last one, which returns !IsRemotePlayerOfMember(mode, character).
-// That call is a partial stub (see IsRemotePlayerOfMember), so the result of this function is only as good as that one.
+// The server answer for an object owned by another member (m_netOwnerId not -1 and not the mode) is true. An object with no update request, no net struct, remotely
+// updated, flagged unk_118, or owned by the mode itself is not serializable. A non-Character is. A Character with a resend counter (unk_11c) asks its net struct to resend and
+// counts down. A character that cannot update, a dummy, a merchant, or a dead one waiting to respawn is not serializable; a non-player is; a player is when this device is the server
+// or its PlayerInfo flag (+0x66c) is 1, and the mode's member does not own the player (!IsRemotePlayerOfMember(mode, character)).
 bool ObjectManager::IsObjectSerializable(ObjectBase* object, int mode) {
     if (!object) {
         return false;
@@ -271,12 +276,14 @@ void ObjectManager::NetworkUnInitLevel() {
 }
 
 // 0x340be0 ObjectManager::NetworkInitLevel(void)
-// PARTIAL: the original registers packet slot 3 when the online-game flag of GetOnline() (COnline +0x05, protected, with
-// no public getter) is set: CPacketManager::RegisterPacketSlot(3, sWritePacketData, sReadPacketData,
-// sProcessAcknowledgedPacket, sProcessLostPacket). That registration is not written. The four callbacks are declared as
-// non-static members of ObjectManager, and RegisterPacketSlot takes plain function pointers, so they need static
-// declarations first (layout request in the ledger).
+// Online (COnline +0x05), packet slot 3 is registered with the four static packet callbacks (write, read, acknowledged, lost). Then m_initialized (+0x1ac) is set.
+// The original returns the register the registration leaves; the header is void.
 void ObjectManager::NetworkInitLevel() {
+    if (GetOnlineGameFlag()) {
+        CPacketManager::RegisterPacketSlot(3, &ObjectManager::sWritePacketData,
+                                           &ObjectManager::sReadPacketData, &ObjectManager::sProcessAcknowledgedPacket,
+                                           &ObjectManager::sProcessLostPacket);
+    }
     m_initialized = 1;  // +0x1ac
 }
 
@@ -308,11 +315,8 @@ void ObjectManager::ForceEverythingVisible() {
 }
 
 // 0x3419a8 ObjectManager::GetDynamicFogColorAtPos(Point3D<float> const&,float)
-// Blends the fog colours of the modules on the list (+0x68) by distance. Each module within radius * 100 contributes its
+// Blends the fog colours of the modules on the list (+0x68) by distance. A module within radius * 100 whose fog colour is not Module::UNINIT_FOG_COLOR contributes its
 // fog colour scaled by (range - distance) / range. Each component is then capped at 255.0. Lower values are not clamped.
-// PARTIAL: the original skips a module whose fog colour equals Module::UNINIT_FOG_COLOR, a Point3D comparison against the
-// three floats at that symbol. Module declares the symbol as one std::int32_t, so the test is not written and every module
-// in range contributes (layout request in the ledger).
 Point3D<float> ObjectManager::GetDynamicFogColorAtPos(Point3D<float> const& pos, float radius) {
     Point3D<float> color{};
     const float scaledRadius = radius * 100.0f;
@@ -321,7 +325,7 @@ Point3D<float> ObjectManager::GetDynamicFogColorAtPos(Point3D<float> const& pos,
         const float dy = module->m_position.Y - pos.Y;
         const float dz = module->m_position.Z - pos.Z;
         const float distance = std::sqrt((dx * dx + dy * dy) + dz * dz);
-        if (scaledRadius < distance) {
+        if (scaledRadius < distance || module->m_fogColor == Module::UNINIT_FOG_COLOR) {
             continue;
         }
         const float weight = (scaledRadius - distance) / scaledRadius;
@@ -342,13 +346,21 @@ Point3D<float> ObjectManager::GetDynamicFogColorAtPos(Point3D<float> const& pos,
 }
 
 // 0x3426b0 ObjectManager::GetObjectsByType(char const*,std::list<Character*>&) const
-// PARTIAL, body not written: the original walks the object map (m_objectMap, std::map<int, ObjectListItem>) in order.
-// It compares PropertyMap::GetThisClassName of each object with the type and appends each match, as a Character*
-// resolved from the map key, to the list. ObjectListItem has no declared layout (layout request in the ledger), so the
-// walk is not written and the list is left unchanged.
+// Walks the object map (m_objectMap) in key order; every entry that has an object whose PropertyMap class name equals the type is converted from a handle holding its key
+// (ObjectHandle::operator Character*, null when the object is not a Character) and appended to the list.
 void ObjectManager::GetObjectsByType(char const* type, std::list<Character*>& out) const {
-    (void)type;
-    (void)out;
+    ObjectHandle handle;
+    for (const auto& entry : m_objectMap) {
+        ObjectBase* object = entry.second.m_object;
+        if (object == nullptr) {
+            continue;
+        }
+        if (std::strcmp(static_cast<PropertyMap*>(object)->GetThisClassName(), type) == 0) {
+            handle.m_id = static_cast<std::uint32_t>(entry.first);
+            Character* character = handle;
+            out.push_back(character);
+        }
+    }
 }
 
 // 0x3427a0 ObjectManager::AddRoomObjects(std::list<GameObject*>*)

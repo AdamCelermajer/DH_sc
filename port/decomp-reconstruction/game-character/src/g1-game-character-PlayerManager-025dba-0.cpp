@@ -7,15 +7,10 @@
 // and that walk is written here as std::map::find and in-order iteration.
 //
 // THE NETWORK GATE. Most lookups branch on one test, the original's (online game) && (comm lib initialised) && (in room)
-// && (net player manager initialised). NetGateOpen() below stands for that test. Two of its terms read fields that the tree
-// does not expose yet: COnline's online-game byte (+0x05, private isOnlineGame_, no getter) and OnlineGameState's comm-lib
-// byte (+0x24, not modelled). NetGateOpen() therefore reports the closed (single-player) state. The online branches are
-// written out in full and are reached as soon as NetGateOpen() returns the real gate. Every function that tests the gate
-// is partial in the ledger for this reason.
+// && (net player manager initialised). NetGateOpen() (game-app/src/net_gate.cpp) is that test, with the real fields: COnline's online-game
+// byte (+0x05), OnlineGameState's comm-lib byte (+0x24), CMatching's IsInRoom and CNetPlayerManager::IsInitialized.
 //
-// Layout requests (applied by the integrator, see the ledger notes): PlayerInfo +0x660 is a Character* (the header
-// declares void* unk_660; the code casts it), PlayerInfo +0x670 is the internal id, COnline +0x05 needs a getter,
-// OnlineGameState +0x24 needs a getter, CNetPlayerManager +0x170 (host member id) needs an accessor.
+// Layout facts: PlayerInfo +0x660 is the Character* (unk_660), +0x670 the internal id (unk_670).
 
 #include <cstddef>
 #include <cstdint>
@@ -54,10 +49,6 @@ void AssertFailed(const char* expr, const char* file, int line) {
     }
 }
 
-// PARTIAL. The host member id is CNetPlayerManager +0x170 (net_struct_.host_member_id_, private, no accessor). An open
-// gate needs that value; until it is readable the lookup uses -1, which resolves to the null record.
-constexpr int kUnreadHostMemberId = -1;
-
 }  // namespace
 
 // 0x330794 _ZN13PlayerManager23GetLocalPlayerCharacterEv
@@ -73,8 +64,8 @@ bool PlayerManager::IsPlayerInLocalMap(int internalId) {
 }
 
 // 0x36d7a8 _ZN13PlayerManager13GetNumPlayersEv
-// PARTIAL: the online branch counts the player id list (+0x6a8); the offline branch counts the local records (node count
-// +0x6a0). The branch follows NetGateOpen(), which is a stub.
+// the online branch counts the player id list (+0x6a8); the offline branch counts the local records (node count
+// +0x6a0). The branch follows NetGateOpen().
 int PlayerManager::GetNumPlayers() {
     if (NetGateOpen()) {
         return static_cast<int>(m_playerIdList.size());
@@ -83,7 +74,7 @@ int PlayerManager::GetNumPlayers() {
 }
 
 // 0x36d814 _ZN13PlayerManager16ReceiveQuestSyncEP14PlayerSavegame
-// PARTIAL: the original returns the r0 left by the void PlayerSavegame::SG_UnpackQuestSync. The one caller ignores the
+// the original returns the r0 left by the void PlayerSavegame::SG_UnpackQuestSync. The one caller ignores the
 // result, so this returns 0.
 int PlayerManager::ReceiveQuestSync(PlayerSavegame* savegame) {
     savegame->SG_UnpackQuestSync(m_questSyncBuffer);
@@ -92,7 +83,7 @@ int PlayerManager::ReceiveQuestSync(PlayerSavegame* savegame) {
 }
 
 // 0x36d834 _ZN13PlayerManager20ClearQuestSyncBufferEv
-// PARTIAL: the original returns the r0 left by the void StreamBuffer::clear. The caller returns that value up, and its
+// the original returns the r0 left by the void StreamBuffer::clear. The caller returns that value up, and its
 // value is not modelled here, so this returns 0.
 int PlayerManager::ClearQuestSyncBuffer() {
     m_questSyncBuffer.clear();
@@ -161,7 +152,7 @@ int PlayerManager::IsPlayerInRemoteMap(int internalId) {
 }
 
 // 0x36de50 _ZN13PlayerManager15DoesPlayerExistEi
-// PARTIAL: the remote test applies when NetGateOpen() (stub) is true, otherwise the local map is searched.
+// the remote test applies when NetGateOpen()  is true, otherwise the local map is searched.
 int PlayerManager::DoesPlayerExist(int internalId) {
     if (NetGateOpen()) {
         return IsPlayerInRemoteMap(internalId);
@@ -170,7 +161,7 @@ int PlayerManager::DoesPlayerExist(int internalId) {
 }
 
 // 0x36dec4 _ZN13PlayerManager17_GetNetPlayerInfoEib
-// PARTIAL: the gate is a stub (NetGateOpen). The original's ASSERT is reproduced. It fires when the gate is closed, and the
+// the gate is NetGateOpen(). The original's ASSERT is reproduced. It fires when the gate is closed, and the
 // lookup still runs after it, as in the original.
 PlayerInfo* PlayerManager::_GetNetPlayerInfo(int internalId, bool flag) {
     if (!NetGateOpen()) {
@@ -180,7 +171,7 @@ PlayerInfo* PlayerManager::_GetNetPlayerInfo(int internalId, bool flag) {
 }
 
 // 0x36dfb0 _ZN13PlayerManager21GetPlayerByInternalIDEib
-// PARTIAL: follows NetGateOpen() (stub) for the network lookup. The local lookup is std::map::find; a miss, or internal
+// follows NetGateOpen()  for the network lookup. The local lookup is std::map::find; a miss, or internal
 // id -1, returns the null record m_nullPlayer (the original's this+8).
 PlayerInfo* PlayerManager::GetPlayerByInternalID(int internalId, bool flag) {
     if (internalId == -1) {
@@ -197,18 +188,18 @@ PlayerInfo* PlayerManager::GetPlayerByInternalID(int internalId, bool flag) {
 }
 
 // 0x36e09c _ZN13PlayerManager16GetHostingPlayerEv
-// PARTIAL: the host's internal id is the host member id of the network player manager, read only when NetGateOpen() is
-// true (stub, see kUnreadHostMemberId). With the gate closed the original looks up internal id 0, which is reproduced.
+// The host's internal id is the host member id of the network player manager (CNetPlayerManager +0x170, net_struct_.host_member_id_), read
+// when the network gate is open; with the gate closed the original looks up internal id 0.
 PlayerInfo* PlayerManager::GetHostingPlayer() {
     int hostInternalId = 0;
     if (NetGateOpen()) {
-        hostInternalId = kUnreadHostMemberId;
+        hostInternalId = GetNetPlayerMgr()->net_struct_.host_member_id_.GetValue();
     }
     return GetPlayerByInternalID(hostInternalId, false);
 }
 
 // 0x36e10c _ZN13PlayerManager24_GetInternalIDByRemoteIDEib
-// PARTIAL: the online branch follows NetGateOpen() (stub). The original compares remoteId as unsigned, so that is kept. Both
+// the online branch follows NetGateOpen() . The original compares remoteId as unsigned, so that is kept. Both
 // branches count the records that are not flagged (+0x66c != 1) and, when flag is set, have a character (+0x660). The
 // internal id (+0x670) of the remoteId-th such record is returned, in key order for the local map and in player-id-list
 // order for the network branch.
@@ -252,7 +243,7 @@ PlayerInfo* PlayerManager::GetRemotePlayer(int remoteId, bool flag) {
 }
 
 // 0x36e2cc _ZN13PlayerManager23_GetInternalIDByLocalIDEib
-// PARTIAL: the online branch follows NetGateOpen() (stub). Online: the localId-th entry of the local id list (with flag, the
+// the online branch follows NetGateOpen() . Online: the localId-th entry of the local id list (with flag, the
 // localId-th entry whose record has a character). Offline: the internal id (+0x670) of the localId-th record that is not
 // zero in +0x66c and, with flag, has a character.
 int PlayerManager::_GetInternalIDByLocalID(int localId, bool flag) {
@@ -298,7 +289,7 @@ PlayerInfo* PlayerManager::GetLocalPlayer(int localId, bool flag) {
 
 // 0x36e498 _ZN13PlayerManager18HandleQuestSyncMsgEPKci
 // Copies a quest sync packet into m_questSyncBuffer when nothing is buffered yet and the local player's savegame is not
-// quest-synced (or when unk_71a is set). PARTIAL: when the packet is not copied, the original returns the local record
+// quest-synced (or when unk_71a is set). when the packet is not copied, the original returns the local record
 // pointer left in r0; this returns 0 there. The one caller ignores the result.
 int PlayerManager::HandleQuestSyncMsg(const char* data, int size) {
     if (size <= 0) {
@@ -317,7 +308,7 @@ int PlayerManager::HandleQuestSyncMsg(const char* data, int size) {
 }
 
 // 0x36e5b4 _ZN13PlayerManager26_GetInternalIDByFriendlyIDEib
-// PARTIAL: the online branch follows NetGateOpen() (stub). Online: when more than friendlyId players exist, the friendlyId-th
+// the online branch follows NetGateOpen() . Online: when more than friendlyId players exist, the friendlyId-th
 // entry of the player id list (with flag, counting only records that have a character). Offline: the internal id (+0x670)
 // of the friendlyId-th record (with flag, one that has a character), in key order.
 int PlayerManager::_GetInternalIDByFriendlyID(int friendlyId, bool flag) {
@@ -361,7 +352,7 @@ PlayerInfo* PlayerManager::GetPlayer(int friendlyId, bool flag) {
 
 // 0x36e764 _ZN13PlayerManager14AllPlayersDeadEv
 // True when every player record has a character that is dead, or has a death timer other than -1. A record without a
-// character makes the answer false. Follows GetNumPlayers and GetPlayer, which depend on NetGateOpen() (stub).
+// character makes the answer false. Follows GetNumPlayers and GetPlayer, which depend on NetGateOpen() .
 int PlayerManager::AllPlayersDead() {
     if (!(GetNumPlayers() > 0)) {
         return 1;
@@ -380,8 +371,7 @@ int PlayerManager::AllPlayersDead() {
 }
 
 // 0x36e7f8 _ZN13PlayerManager14AllReadyToRollEv
-// PARTIAL: the original returns 1 (ready) when the network gate is closed, which is the value here while NetGateOpen() is a
-// stub. When the gate is open, every active record must have finished loading (m_doneLoading) and be ready to roll
+// the original returns 1 (ready) when the network gate is closed, which is the value here . When the gate is open, every active record must have finished loading (m_doneLoading) and be ready to roll
 // (m_readyToRoll).
 int PlayerManager::AllReadyToRoll() {
     if (!NetGateOpen()) {

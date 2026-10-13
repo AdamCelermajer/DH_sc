@@ -17,6 +17,9 @@
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ObjectBase.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/net_singletons.hpp"
 #include "dh2/v2Controller.hpp"
 
@@ -118,6 +121,11 @@ void Character::UnLoadScriptProcess(std::map<int, Character*>::iterator it, bool
     g_unloadIsEnd = (it == Character::s_concurrentAI.end());
     g_unloadForce = force;
 }
+
+// The local player record: OnBlur reads its character (PlayerInfo +0x660, unk_660) to clear the object of interest. The record is zeroed
+// storage; a check points unk_660 at a second character.
+alignas(PlayerInfo) unsigned char g_localInfoStorage[sizeof(PlayerInfo)];
+PlayerInfo* PlayerManager::GetLocalPlayer(int, bool) { return reinterpret_cast<PlayerInfo*>(g_localInfoStorage); }
 
 void CharAnimator::DecAnimSetUsers() { ++g_decAnimCalls; }
 
@@ -235,6 +243,36 @@ void TestDespawnBlurSummonedDeletes() {
     CHECK(g_deleteCalls == 1);
 }
 
+void TestDespawnBlurClearsObjectOfInterest() {
+    // A character that cannot respawn and is the local player's object of interest is dropped from it; any other object of interest stays.
+    alignas(Character) static unsigned char localStorage[sizeof(Character)];
+    std::memset(localStorage, 0, sizeof localStorage);
+    Character* local = reinterpret_cast<Character*>(localStorage);
+    reinterpret_cast<PlayerInfo*>(g_localInfoStorage)->unk_660 = local;
+
+    Character* character = ResetCharacter();
+    g_canRespawn = false;
+    local->m_objectOfInterest = character;
+    CSDespawn state;
+    state.OnBlur(5, character, character, 0);
+    CHECK(local->m_objectOfInterest == nullptr);
+
+    character = ResetCharacter();
+    g_canRespawn = false;
+    local->m_objectOfInterest = reinterpret_cast<GameObject*>(&g_targetMarker);
+    state.OnBlur(5, character, character, 0);
+    CHECK(local->m_objectOfInterest == reinterpret_cast<GameObject*>(&g_targetMarker));
+
+    // A character that can respawn leaves the local player alone.
+    character = ResetCharacter();
+    g_canRespawn = true;
+    local->m_objectOfInterest = character;
+    state.OnBlur(5, character, character, 0);
+    CHECK(local->m_objectOfInterest == static_cast<GameObject*>(character));
+
+    reinterpret_cast<PlayerInfo*>(g_localInfoStorage)->unk_660 = nullptr;
+}
+
 void TestInjuredInit() {
     Character* character = ResetCharacter();
     CSInjured state;
@@ -282,6 +320,7 @@ int main() {
     TestDespawnBlurNotSpawnedNoDelete();
     TestDespawnBlurNetSpawnedDeletes();
     TestDespawnBlurSummonedDeletes();
+    TestDespawnBlurClearsObjectOfInterest();
     TestInjuredInit();
     TestInjuredFocus();
     TestInjuredBlur();

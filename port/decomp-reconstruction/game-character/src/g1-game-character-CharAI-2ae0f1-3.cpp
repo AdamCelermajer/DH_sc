@@ -9,6 +9,7 @@
 #include <cstdint>
 
 #include "dh2/CharAI.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/CharAIScript.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/CharTimers.hpp"
@@ -147,11 +148,10 @@ void CharAI::OnDied(GameObject* killer) {
 }
 
 // 0x3d1050 _ZN6CharAI8OnUpdateEv
-// PARTIAL: the final call is missing. When the character is zonable and visible (the position and visual gates pass) the
-// original calls the virtual slot +0xa4 of visual->m_node (a RootSceneNode) with (m_node, &copy of m_initialPosition read
-// after SetPosition). That slot has no named method yet: glitch ISceneNode lists +0xa4 as getRotation, and the glitch
-// CApplyValueEx position mixin calls the same slot with a vec3. Everything else in the function is rebuilt: the script
-// update (slot 6, +0x18), the decision whether zoning stops (LABEL_5 path in the original), and the re-enable path.
+// The script's update hook (slot 6) runs first. Zoning is switched off, and the visual's visibility synchronised, when the owner is not idle (and
+// not awaiting its spawn) or has a target, or has a master. Otherwise a zonable owner whose zoning is off gets it back; when it is alive and unflagged
+// (unk_85 clear) it is moved to its initial position (SetPosition(m_initialPosition, true)) and its visual's scene node is moved there too:
+// the virtual at +0xa4 of the node (ISceneNode::setPosition) with a copy of m_initialPosition.
 void CharAI::OnUpdate() {
     if (m_script) {
         m_script->OnUpdate();
@@ -195,11 +195,14 @@ void CharAI::OnUpdate() {
     }
     self->GameObject::SetPosition(self->m_initialPosition, true);
 
-    // PARTIAL: the visual's node (VisualObject +0x08) is tested here; the call on it is missing (see the header comment).
+    // The visual's node (VisualObject +0x08) is moved to the initial position: ISceneNode::setPosition (virtual +0xa4) with a copy of
+    // m_initialPosition.
     VisualObject* visual = self->m_visualObject;
     if (visual == nullptr || visual->m_node == nullptr) {
         return;
     }
+    const glitch::core::vector3d<float> position{self->m_initialPosition.X, self->m_initialPosition.Y, self->m_initialPosition.Z};
+    visual->m_node->setPosition(position);
 }
 
 // 0x3d11bc _ZN6CharAI11OnTerminateEv

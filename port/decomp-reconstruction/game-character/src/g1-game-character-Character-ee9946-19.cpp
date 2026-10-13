@@ -1,17 +1,6 @@
 // Batch g1-game-character-Character-ee9946-19: stat, regeneration, mana, level and experience code of Character
 // (0x3bd600 .. 0x3bf828). Declarations come from dh2/Character.hpp.
 //
-// Status by function (the ledger rows of the batches that own these functions repeat it; the redo batch
-// r2a-game-character-Character-ee9946-9 holds ModifyCharProps, RegenMP, RegenHP, RegenTick and UseMana):
-//   reconstructed: IncStatEnd, IncStatDex, IncStatStr, ModifyCharProps
-//   partial:       RegenMP, RegenHP, RegenTick, UseMana, LevelUp, _GiveXP, DistributeXP
-//
-// Header conflict: dh2/PlayerManager.hpp, dh2/PlayerInfo.hpp and dh2/Level.hpp include net-transport's stream_buffer.hpp,
-// which redefines IStreamBase (pydata-accessors' deps/stream_reader.hpp is included by Character.hpp through CharProperties).
-// The same conflict keeps dh2/global/IsMultiplayerGame.hpp's PlayerManager, Level +0x118 / +0x150, and the
-// pydata-accessors member_names.hpp template Arrays::GetMemberIDByString out of this translation unit. The functions that
-// need them are PARTIAL and say so.
-//
 // Property access follows dh2/CharProperties.hpp: PROPS_Get(id, false) reads the final sheet raw (8 fractional bits),
 // PROPS_GetInt is that raw value >> 8, PROPS_Add and PROPS_Set take raw values, PROPS_AddInt and PROPS_SetInt shift their
 // value left by 8. The original's CharProperties::_GetProperty(m_props, id) is PROPS_Get(id, false).
@@ -24,13 +13,41 @@
 #include <cstdlib>
 
 #include "core-platform/memory.hpp"          // gAssertLevel
+#include <cmath>
+#include <string>
+#include <vector>
+
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/FlashAnimManager.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerStatManager.hpp"
+#include "dh2/SavegameManager.hpp"
 #include "dh2/ScriptManager.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/TrophyManager.hpp"
+#include "dh2/VisualFXManager.hpp"
+#include "dh2/global/Globals.hpp"             // m_updateJobThread4
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"  // dword_99F778 (SavegameManager)
+#include "dh2/global/cf_calc.hpp"             // GetLevelScaledXP
 #include "dh2/global/charai_ai.hpp"          // ApplicationGetPyDataConstants
 #include "dh2/global/ctrl_camera.hpp"        // ApplicationGetInstance
+#include "dh2/global/item_instance.hpp"      // ApplicationGetStringManager
+#include "dh2/global/net_singletons.hpp"     // GetOnlineGameFlag
+#include "gameswf/gameswf_value.h"
+#include "net-transport/update_job_thread.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp" // Arrays::DesignSettingsTable
 #include "pydata-accessors/w7_pydata12.hpp"  // PyDataConstants::getConstant
+#include "pydata-accessors/structs_records.hpp"
 
 namespace {
 
@@ -69,6 +86,11 @@ void ReportAssert(const char* expression, int line) {
     } else if (gAssertLevel == 1) {
         std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expression, kStatsSourceFile, line);
     }
+}
+
+// The id of a trophy by name (the first match in Arrays::TrophyTable's names, -1 when absent).
+int TrophyId(const char* name) {
+    return pydata::FindMemberName(Arrays::TrophyTable::m_memberNames, static_cast<int>(Arrays::TrophyTable::size), name);
 }
 
 // The MaxLevel row of the character design for a difficulty (CharacterDesign constants, as the original picks them).
@@ -138,10 +160,8 @@ void Character::ModifyCharProps(int propId, int amount) {
 }
 
 // 0x3bdbb8 Character::RegenMP(int)
-// PARTIAL: the original returns int. It returns the total MP (raw, prop 43) when nothing is regenerated, and the int of
-// CharProperties::PROPS_Add otherwise (0x3e0708 returns int: a RecalcProperty or _SetProperty result, or the type word).
-// dh2/CharProperties.hpp declares PROPS_Add void, so that value is not made. The regeneration itself is reproduced.
-// CharAI::_UpdateRegen (0x3cb77c) returns RegenTick's value on its tail-call path, through this value.
+// MP regeneration: an amount below 0 means fill; the amount is limited to the room left below the total MP (prop 43). A positive amount is added to prop 41
+// after the isTracingChar_Stats probe. The original returns the total MP or the register PROPS_Add leaves; the header is void.
 void Character::RegenMP(int amount) {
     const int current = PROPS_Get(kPropMP, false);
     const int total = PROPS_Get(kPropTotalMP, false);
@@ -158,7 +178,7 @@ void Character::RegenMP(int amount) {
 }
 
 // 0x3bdca4 Character::RegenHP(int)
-// PARTIAL: the return value, see RegenMP (the total HP, raw, prop 38, or the int of PROPS_Add).
+// HP regeneration, as RegenMP with props 36 and 38.
 void Character::RegenHP(int amount) {
     const int current = PROPS_Get(kPropHP, false);
     const int total = PROPS_Get(kPropTotalHP, false);
@@ -175,8 +195,8 @@ void Character::RegenHP(int amount) {
 }
 
 // 0x3bdd90 Character::RegenTick(bool)
-// PARTIAL: the original returns the int of RegenMP (see RegenMP), not reproduced. The argument is the in-combat flag:
-// CharAI calls RegenTick(AI_IsInCombat()).
+// One regeneration tick after the isTracingChar_Stats probe: HP then MP regenerate by the in-combat (props 40, 45) or out-of-combat (props 39, 44) amounts.
+// CharAI calls RegenTick(AI_IsInCombat()). The original returns the register RegenMP leaves; the header is void.
 void Character::RegenTick(bool inCombat) {
     if (inCombat) {
         ProbeSwitch("isTracingChar_Stats");
@@ -190,14 +210,12 @@ void Character::RegenTick(bool inCombat) {
 }
 
 // 0x3bdef4 Character::UseMana(int)
-// PARTIAL: the online branch calls Application::IsOnlineGame, which is a game-app stub that returns false. The original
-// reads COnline's flag at +0x05 (*(GetOnline() + 5)), and that flag has no getter in net-session-online (layout request).
-// Until the stub is replaced, the online branch is never taken. The rest is reproduced, including the ASSERT
-// amount >= 0 (line 159).
+// In an online game a remotely updated character spends nothing (true). A negative cost fails ASSERT(amount >= 0) (Character_Stats.cpp:159). The GOD_MANA saved option, the
+// GOD_MANA debug switch and the free-mana flag (+0x14f0) make the cost free. Otherwise the cost is taken from MP (prop 41) when HasMana, after the probe.
 bool Character::UseMana(int cost) {
     // The original's online test comes first: in an online game a remotely updated character spends nothing, and the
     // ASSERT is skipped on that path.
-    if (ApplicationGetInstance().IsOnlineGame() && IsRemotelyUpdated()) {
+    if (GetOnlineGameFlag() && IsRemotelyUpdated()) {
         return true;
     }
     if (cost < 0) {
@@ -220,17 +238,11 @@ bool Character::UseMana(int cost) {
 }
 
 // 0x3beb88 Character::LevelUp(int)
-// PARTIAL: the player presentation of the level-up is only partly made (the original does it when IsPlayer()):
-//   - not made: the HUD status message (StatusMsg deque, StringManager "MENU_LEVEL_UP") and the HUD callback
-//     (MenuManager HUD root, DebugCachedCharacter cache, RenderFX::InvokeASCallback);
-//   - not made: VisualFXManager::PlayAnimFXSet(135, this, 0), since Singleton<VisualFXManager>::s_inst has no accessor;
-//   - not made: the tutorial cinematics at level 2 (COnline flag, ScriptManager tutorial flags) and the spec-time movie
-//     callback at level 12 (RenderFX gameswf argument);
-//   - not made: the epic trophy of a local player (PlayerManager::IsLocalPlayer and TrophyManager::UnlockTrophy with
-//     Arrays::GetMemberIDByString<Arrays::TrophyTable>; PlayerManager cannot be included here, see the header note).
-// Made: the level step, the XP reset, the regeneration, the savegame update, the PlayerLevelUp script start, and the
-// leftover XP of the new level. The original's return value (PROPS_GetInt of the level, or the int of PROPS_AddInt) is
-// void here.
+// Below the maximum level of the unlocked difficulty (CharacterDesign MaxLevel*): after the probe the level goes up by one, XP resets, the base properties are
+// rebuilt, HP and MP fill, the savegame stores the level and saves. A player then gets the level-up presentation: the MENU_LEVEL_UP status line is queued for the HUD,
+// the PlayerLevelUp script starts, effect 135 plays on it, level 2 starts the tutorial cinematics (level-up, character sheet, skill sheet; offline, difficulty 0, tutorial
+// flags set), level 12 tells the character menu it is spec time, and the local player unlocks the epic_lvl10..epic_lvl100 trophy of a round level. Last, the surplus
+// levels become XP of the new level, limited to the next threshold minus one. The original returns PROPS_GetInt of the level or PROPS_AddInt's register; the header is void.
 void Character::LevelUp(int levels) {
     const int maxLevel = MaxLevelForDifficulty(SG_GetGameDifficultyUnlocked());
     if (maxLevel <= PROPS_GetInt(kPropLevel, false)) {
@@ -246,10 +258,65 @@ void Character::LevelUp(int levels) {
     SG_Save();
 
     if (IsPlayer()) {
-        // PARTIAL (see the function note): only the script start is made here.
-        const int playerLevelUp = ScriptManager::s_inst.GetIDFromName("PlayerLevelUp", true);
-        if (playerLevelUp != -1) {
-            ScriptManager::s_inst.StartScript(playerLevelUp, -1, false);
+        StringManager* strings = ApplicationGetStringManager();
+        const std::string text = strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "MENU_LEVEL_UP"));
+        MenuMessageManager<StatusMsg, 4>::s_inst.EnqueueMessage(StatusMsg(text), 0, true);
+
+        const int levelUpScript = ScriptManager::s_inst.GetIDFromName("PlayerLevelUp", true);
+        if (levelUpScript != -1) {
+            ScriptManager::s_inst.StartScript(levelUpScript, -1, false);
+        }
+        VisualFXManager::s_inst.PlayAnimFXSet(135, this, nullptr);
+        const int level = PROPS_GetInt(kPropLevel, false);
+        if (level == 2) {
+            SavegameManager* settings = dword_99F778;
+            if (!GetOnlineGameFlag() && SG_GetGameDifficulty() == 0 && settings->m_tutorials[5] != 0) {
+                const int id = ScriptManager::s_inst.GetIDFromName("cinematic_Tuto_levelUp", true);
+                if (id != -1) {
+                    ScriptManager::s_inst.StartScript(id, -1, false);
+                }
+                dword_99F778->m_tutorials[5] = 0;
+                m_updateJobThread4->Start2();
+            }
+            if (!GetOnlineGameFlag() && SG_GetGameDifficulty() == 0) {
+                if (settings->m_tutorials[0] != 0) {
+                    const int id = ScriptManager::s_inst.GetIDFromName("cinematic_Tuto_menuCharacterSheet", true);
+                    if (id != -1) {
+                        ScriptManager::s_inst.StartScript(id, -1, false);
+                    }
+                }
+            }
+            if (!GetOnlineGameFlag() && SG_GetGameDifficulty() == 0) {
+                if (settings->m_tutorials[3] != 0) {
+                    const int id = ScriptManager::s_inst.GetIDFromName("cinematic_Tuto_menuSkillSheet", true);
+                    if (id != -1 && GetOnlineGameFlag()) {
+                        ScriptManager::s_inst.StartScript(id, -1, false);
+                    }
+                }
+            }
+        } else if (level == 12) {
+            gameswf::as_value argument;
+            argument.set_bool(true);
+            MenuManager::GetInstance()->m_multiMenuManager->m_menuFX[1]->InvokeASCallback("_root.menu_CharacterMenu", "IsSpecTime", &argument, 1);
+        }
+        if (dword_99F76C->IsLocalPlayer(this)) {
+            const char* trophy = nullptr;
+            switch (level) {
+                case 10: trophy = "epic_lvl10"; break;
+                case 20: trophy = "epic_lvl20"; break;
+                case 30: trophy = "epic_lvl30"; break;
+                case 40: trophy = "epic_lvl40"; break;
+                case 50: trophy = "epic_lvl50"; break;
+                case 60: trophy = "epic_lvl60"; break;
+                case 70: trophy = "epic_lvl70"; break;
+                case 80: trophy = "epic_lvl80"; break;
+                case 90: trophy = "epic_lvl90"; break;
+                case 100: trophy = "epic_lvl100"; break;
+                default: break;
+            }
+            if (trophy != nullptr) {
+                TrophyManager::s_instance->UnlockTrophy(TrophyId(trophy));
+            }
         }
     }
 
@@ -263,15 +330,15 @@ void Character::LevelUp(int levels) {
 }
 
 // 0x3bf498 Character::_GiveXP(int,bool)
-// PARTIAL: (1) the original returns 0 when the current Level's unk_150 (+0x150) is non-null, and it compares the unlocked
-// difficulty with the Level's m_difficulty (+0x118) to force the amount to 256 when it is lower. Both read dh2/Level.hpp,
-// which conflicts with the pydata IStreamBase (see the header note). Neither check is made here. (2) The ASSERT
-// amount >= 0 (Character_Stats.cpp:350) is made by ReportAssert (abort at gAssertLevel 2). (3) The a3 branch,
-// PlayerStatManager::IncreaseStat(6, xp >> 8, player's PlayerInfo +0x670), is not made: Singleton<PlayerStatManager>::s_inst
-// has no accessor. The declaration returns bool now (was void): the body returns 1 or 0 and DistributeXP reads the result.
+// Returns false (no XP) at the maximum level of the unlocked difficulty, for a character that is not a player, is remotely updated, or in a level whose
+// unk_150 (+0x150) is set. Otherwise: a negative amount fails ASSERT(amount >= 0) (Character_Stats.cpp:350); the OneKillLevelUp switch makes the amount the XP still
+// needed; a level whose difficulty (+0x118) is above the character's unlocked difficulty gives only 1 XP (256); the amount goes through PROPS_GetModifiedXP into prop
+// 33 after the probe. XP at or above the threshold levels up (the surplus as levels) and is capped at the threshold. With the flag set the XP counts for the
+// player's XP statistic (PlayerStatManager::IncreaseStat(XP, amount >> 8)). The result is true.
 bool Character::_GiveXP(int xp, bool a3) {
     const int maxLevel = MaxLevelForDifficulty(SG_GetGameDifficultyUnlocked());
-    if (maxLevel <= PROPS_GetInt(kPropLevel, false) || !IsPlayer() || IsRemotelyUpdated()) {
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (maxLevel <= PROPS_GetInt(kPropLevel, false) || !IsPlayer() || IsRemotelyUpdated() || level->unk_150 != nullptr) {
         return false;
     }
     if (xp < 0) {
@@ -282,6 +349,9 @@ bool Character::_GiveXP(int xp, bool a3) {
     if (oneKillLevelUp) {
         xp = PROPS_Get(kPropXPNext, false) - PROPS_Get(kPropXP, false);
     }
+    if (SG_GetGameDifficultyUnlocked() < ApplicationGetInstance().GetCurrentLevel()->m_difficulty) {
+        xp = 256;
+    }
     const int modifiedXP = PROPS_GetModifiedXP(xp);
     PROPS_Add(kPropXP, modifiedXP);
     ProbeSwitch("isTracingChar_Stats");
@@ -291,30 +361,106 @@ bool Character::_GiveXP(int xp, bool a3) {
             PROPS_Set(kPropXP, PROPS_Get(kPropXPNext, false));
         }
     }
-    (void)a3;  // PARTIAL: the PlayerStatManager counter of the a3 branch (see the note above) is not made.
+    if (a3) {
+        PlayerStatManager::s_inst.IncreaseStat(STAT_XP, xp >> 8, dword_99F76C->GetPlayerByCharacter(this, false)->unk_670);
+    }
     return true;
 }
 
 // 0x3bf828 Character::DistributeXP(Character*,Character*)
-// The original's signature is (Character* this, Character* a2, Character* a3). this is the killer: Character::Kill
-// (recovered/native/hexrays-all/chunk_008.c:2018) calls DistributeXP(killer, this, <unset>), so the killed character is a2,
-// the header's first parameter. a3 is never read by the body, so the header's second parameter is unused here.
-// PARTIAL: only the entry, the victim check and the debug-switch probes are made. The experience share over the local
-// players is not made: the loop over PlayerManager::GetPlayer(i, true), the share radius and penalty (DesignSettingsTable
-// rows 40 and 41, read as floats from the table's raw buffer), GetLevelScaledXP, _GiveXP on each rewarded player and the
-// scrolling combat text. PlayerManager (dword_99F76C, m_numCharacters +0x6c4) and PlayerInfo (unk_660 +0x660, the
-// player's Character*) cannot be included with Character.hpp (see the header note). The scrolling text would also need
-// F_ApplyScrollingCombatTextXP, whose declared first parameter (Character* target) differs from the XP amount the original passes.
-void Character::DistributeXP(Character* victim, Character* killer) {
-    (void)killer;  // a3 of the original: unused
+// The original's signature is (Character* this, Character* a2, Character* a3): this is the killer (it may be null, so the port takes it as the first, explicit parameter of a
+// static function), a2 is the killed character and a3 is never read. A null killed character fails ASSERT(killed != 0) (Character_Stats.cpp:219). The XP value of the killed character (prop 35 >> 8, at least 0)
+// is shared over the local players (PlayerManager's m_numCharacters, at most 4; a larger count fails the assert at line 247): each player's share is the level-scaled XP
+// (GetLevelScaledXP); a negative share is skipped, and a player further than DesignSettings +0xa0 from the killer (or from the killed character without a killer) gets nothing
+// (the killer itself always shares). With n sharing players each gets (100 - (n - 1) * DesignSettings +0xa4) percent of the share, plus one, in fixed point; _GiveXP
+// grants it, and for a local player the XP text floats above the killed character (the xp style, XPColor). A missing player character fails ASSERT(player != 0)
+// (line 259). The isTracingXPDistribution probes run at the points of the original.
+void Character::DistributeXP(Character* killer, Character* victim) {
     if (victim == nullptr) {
         ReportAssert("killed != 0", 219);
         return;
     }
+    const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
+    float killedXP = static_cast<float>(victim->CharProperties::_GetProperty(victim->CharProperties::m_props, 35) >> 8);
+    if (killedXP <= 0.0f) {
+        killedXP = 0.0f;
+    }
     ProbeSwitch("isTracingXPDistributionCst");
     ProbeSwitch("isTracingXPDistribution");
     ProbeSwitch("isTracingXPDistribution");
-    // PARTIAL: the player loop of the original is not made (see the function note).
-    ProbeSwitch("isTracingXPDistribution");  // LABEL_31
-    ProbeSwitch("isTracingXPDistribution");  // LABEL_31
+    PlayerManager* players = dword_99F76C;
+    const int count = players->m_numCharacters;
+    const float radius = design->m_w40;
+    if (count > 4) {
+        ReportAssert("numLocalCharacterPlayer <= PlayerManager::MAX_PLAYERS", 247);
+    }
+    if (count > 0) {
+        std::vector<float> share(static_cast<std::size_t>(count), 0.0f);
+        int sharing = 0;
+        for (int i = 0; i < count; ++i) {
+            Character* player = players->GetPlayer(i, true)->unk_660;
+            if (player != nullptr) {
+                share[static_cast<std::size_t>(i)] = GetLevelScaledXP(killedXP, player, victim);
+                if (share[static_cast<std::size_t>(i)] < 0.0f) {
+                    continue;
+                }
+                float distance;
+                if (killer != nullptr) {
+                    const float dx = player->m_position.X - killer->m_position.X;
+                    const float dy = player->m_position.Y - killer->m_position.Y;
+                    distance = std::sqrt(dx * dx + dy * dy);
+                    if (killer == player) {
+                        ++sharing;
+                        ProbeSwitch("isTracingXPDistribution");
+                        continue;
+                    }
+                } else {
+                    const float dx = player->m_position.X - victim->m_position.X;
+                    const float dy = player->m_position.Y - victim->m_position.Y;
+                    distance = std::sqrt(dx * dx + dy * dy);
+                }
+                if (radius >= distance) {
+                    ++sharing;
+                    ProbeSwitch("isTracingXPDistribution");
+                } else {
+                    share[static_cast<std::size_t>(i)] = 0.0f;
+                    ProbeSwitch("isTracingXPDistribution");
+                }
+            } else {
+                ReportAssert("player != 0", 259);
+            }
+        }
+        if (sharing != 0) {
+            const float penalty = static_cast<float>(sharing - 1) * design->m_w41;
+            ProbeSwitch("isTracingXPDistribution");
+            for (int i = 0; i < count; ++i) {
+                Character* player = players->GetPlayer(i, true)->unk_660;
+                if (player != nullptr) {
+                    const float percentShare = ((100.0f - penalty) * share[static_cast<std::size_t>(i)]) / 100.0f;
+                    if (percentShare >= 0.0f) {
+                        int amount = static_cast<int>(percentShare + 1.0f) << 8;
+                        if (player->_GiveXP(amount, true)) {
+                            if (dword_99F76C->IsLocalPlayer(player)) {
+                                if (player->SG_GetGameDifficultyUnlocked() < ApplicationGetInstance().GetCurrentLevel()->m_difficulty) {
+                                    amount = 256;
+                                }
+                                FlashAnimManager* manager = FlashAnimManager::GetInstance();
+                                const int modified = player->PROPS_GetModifiedXP(amount);
+                                const int style = manager->GetStyleIdFromName("anim_sct_xp");
+                                const int color = ApplicationGetPyDataConstants()->getConstant("ScrollingCombatText", "XPColor");
+                                victim->F_ApplyScrollingCombatTextXP(modified >> 8, style, color, 0);
+                            }
+                        }
+                    }
+                    ProbeSwitch("isTracingXPDistribution");
+                }
+            }
+        } else {
+            ProbeSwitch("isTracingXPDistribution");
+        }
+    } else {
+        ProbeSwitch("isTracingXPDistribution");
+    }
+    ProbeSwitch("isTracingXPDistribution");
+    ProbeSwitch("isTracingXPDistribution");
 }

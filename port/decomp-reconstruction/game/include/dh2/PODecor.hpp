@@ -20,6 +20,12 @@ public:
     // pointer and nothing else. The bool argument is never read (Hex-Rays a4 is unused, and the assembly does not load it).
     PODecor(PhysicalWorld* world, GameObject* owner, bool unused);      // 0x388a2c, clone 0x39fc2c
 
+    // A PODecor body built with explicit PhysicalObject arguments: LiftableObject::InitFinal constructs a PhysicalObject (isStatic false) and stores
+    // the PODecor vtable pointer over it, which is what this constructor does.
+    PODecor(PhysicalWorld* world, GameObject* owner, bool isStatic, bool isCircle, bool isSensor, bool isBullet, short group,
+            unsigned short category, unsigned short mask, int unused)
+        : PhysicalObject(world, owner, isStatic, isCircle, isSensor, isBullet, group, category, mask, unused) {}
+
     // Overrides of PhysicalObject slots, in vtable order.
     ~PODecor() override;                                                // slot 0/1: 0x470078 (D1), 0x470188 (D0, also calls CustomFree)
     void onCollisionBegins(PhysicalBaseObject* other, const Point2D<float>& point, bool flag) override;    // slot 3: 0x470074 (empty)

@@ -4,19 +4,13 @@
 // (the constructor, GetDataId and Create). Offsets in comments are the original 32-bit ones. Partial functions name the
 // blocked part in their comment; the ledger notes repeat the reason.
 //
-// Blocked in this batch:
-//  - pydata-accessors/member_names.hpp and w7_arrays27.hpp both define struct Arrays::TimerTraps, so one translation unit
-//    cannot include both. The row accessors need Arrays::TimerTraps::members (w7_arrays27.hpp) and Structs::TimerTrap
-//    (w7_structs_5.hpp). GetDataId and Create also need Arrays::TimerTraps::m_memberNames (member_names.hpp), so both are
-//    partial (layout request: one header for the table).
-//  - GetDataId loads a name pointer from +0x3bc (ldr r6, [r0, #0x3bc]). That offset is inside TriggerTrap's m_data
-//    std::string (+0x3a8, 24 bytes), which Create assigns. The layout of +0x3bc is not established, so the name compare is
-//    not written (layout request on TriggerTrap).
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 
+#include "pydata-accessors/name_table.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/ObjectBase.hpp"
@@ -137,8 +131,7 @@ void TimerTrap::SpecificUpdate() {
 
 // 0x39d724 TimerTrap::Create(GameObject*, int, int)
 // Spawns a TimerTrap object, owned by owner, with trapIndex into Arrays::TimerTraps and damagerIndex.
-// PARTIAL: the data name is not copied into m_data, because Arrays::TimerTraps::m_memberNames is not reachable from this
-// translation unit. GetDataId, which compares names, is partial for the same reason.
+// The data name (Arrays::TimerTraps::m_memberNames[trapIndex]) is copied into m_data (+0x3a8).
 GameObject* TimerTrap::Create(GameObject* owner, int trapIndex, int damagerIndex) {
     if (owner == nullptr) {
         ReportAssert("owner", 116);
@@ -155,7 +148,7 @@ GameObject* TimerTrap::Create(GameObject* owner, int trapIndex, int damagerIndex
     TimerTrap* trap = static_cast<TimerTrap*>(object);
     trap->m_owner = owner;          // +0x3f8
     trap->m_dataIndex = trapIndex;  // +0x3c0
-    // NOT MADE: trap->m_data.assign(Arrays::TimerTraps::m_memberNames[trapIndex]) (+0x3a8, the 24-byte std::string here).
+    trap->m_data = Arrays::TimerTraps::m_memberNames.names[trapIndex];    // +0x3a8, the 24-byte std::string
     trap->m_damagerIndex = damagerIndex;   // +0x3fc
     trap->m_position = owner->m_position;  // +0x160..+0x168, copied word by word in the original
     trap->InitPost();                      // vtable +0x1c
@@ -167,11 +160,9 @@ GameObject* TimerTrap::Create(GameObject* owner, int trapIndex, int damagerIndex
 }
 
 // 0x39d904 TimerTrap::GetDataId() const
-// PARTIAL: the original reads a name pointer at +0x3bc and returns the first index in Arrays::TimerTraps::m_memberNames
-// (scanned up to Arrays::TimerTraps::size) whose name matches it, or -1. Neither the name table nor the +0x3bc field is
-// reachable here (see the note above), so -1 is returned, which is the result for an empty table.
+// The first index in Arrays::TimerTraps::m_memberNames (scanned up to Arrays::TimerTraps::size) whose name equals m_data (the word the listing reads at +0x3bc is its data pointer), or -1.
 int TimerTrap::GetDataId() const {
-    return -1;
+    return pydata::FindMemberName(Arrays::TimerTraps::m_memberNames, static_cast<int>(Arrays::TimerTraps::size), m_data.c_str());
 }
 
 // 0x39d978 TimerTrap::InitPost()

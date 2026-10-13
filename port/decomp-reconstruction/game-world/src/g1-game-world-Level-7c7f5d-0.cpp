@@ -1,6 +1,6 @@
 // Batch g1-game-world-Level-7c7f5d-0: 20 Level methods (loading entry points and load-step flags, the
 // object module id, the config and referee queries, the savegame flag, and the scene-manager forwarders).
-// Declarations come from dh2/Level.hpp. A PARTIAL body names the owner header it waits on.
+// Declarations come from dh2/Level.hpp.
 
 #include <cstdio>
 #include <cstdlib>
@@ -12,7 +12,12 @@
 #include "dh2/Level.hpp"
 #include "dh2/LevelSavegame.hpp"
 #include "dh2/MenuMessageManager.hpp"
+#include "dh2/GameObject.hpp"
+#include "dh2/ObjectBase.hpp"
+#include "dh2/ObjectListItem.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764 (ObjectManager*)
 
 // 0x3ef200 Level::_SpawnLoadingThread()
@@ -81,14 +86,11 @@ void Level::UpdateLightSet(bool, int) {
 }
 
 // 0x3ef3fc Level::CleanUpAllSkills()
-// PARTIAL: the walk is in place: ObjectManager m_characters (+0x60, std::list<Character*>) in list order. For each element
-// the original calls Character::UnLoadScriptProcess(element, it, true), where the iterator it is the value &Character::s_concurrentAI
-// (the map object's own address, stored in v5). A std::map iterator cannot be made from that address on the host, so the call is
-// left out (SEAM below). Its result is unused.
+// Walks ObjectManager m_characters (+0x60) in list order and calls Character::UnLoadScriptProcess(element, it, true) for each, where the iterator is the value &Character::s_concurrentAI,
+// which is the map's end() sentinel. The call's result is unused.
 void Level::CleanUpAllSkills() {
     for (Character* character : dword_99F764->m_characters) {
-        // SEAM: Character::UnLoadScriptProcess(character, <iterator at &Character::s_concurrentAI>, true) is not called.
-        (void)character;
+        character->UnLoadScriptProcess(Character::s_concurrentAI.end(), true);
     }
 }
 
@@ -136,28 +138,34 @@ GameObject* Level::GetMPReferee() const {
 }
 
 // 0x3ef5cc Level::DisableFog(glitch::scene::ISceneNode*)
-// PARTIAL: waits on dh2/SceneManager.hpp. The original tail-calls SceneManager::DisableFog(sm, node), where sm is
-// read from the Application singleton (the object at 0x99f72c): Application::m_device (+0x10), then its +0x1c word.
-// glitch::IDevice does not declare that +0x1c field yet, so the call is not made.
+// Tail call of SceneManager::DisableFog on the device's scene manager (Application::m_device +0x10, then its +0x1c word).
 void Level::DisableFog(glitch::scene::ISceneNode* node) {
-    (void)node;
+    DeviceSceneManager()->DisableFog(node);
 }
 
 // 0x3ef5f0 Level::UpdateLightSet(int, std::vector<bool>&, glitch::scene::ISceneNode*)
-// PARTIAL: the same forwarder as DisableFog. The original tail-calls SceneManager::UpdateLightSet(sm, index,
-// visited, node) with the scene manager found as above. Waits on dh2/SceneManager.hpp and the IDevice +0x1c field.
+// Tail call of SceneManager::UpdateLightSet(index, visited, node) on the device's scene manager.
 void Level::UpdateLightSet(int index, std::vector<bool>& visited, glitch::scene::ISceneNode* node) {
-    (void)index;
-    (void)visited;
-    (void)node;
+    DeviceSceneManager()->UpdateLightSet(index, visited, node);
 }
 
 // 0x3ef614 Level::GetSpawnPoint()
-// PARTIAL: waits on dh2/ObjectListItem.hpp (absent). The original walks ObjectManager's object map (m_objectMap, the
-// tree header at +0x0c, in-order from the leftmost node at +0x14) and returns the first object whose node flag (+0x2c)
-// is set, whose object handle resolves to a GameObject with m_goId (ObjectBase +0xf4) 13, m_enabled (+0x8a) set, and
-// m_entryPointId (GameObject +0x374) equal to Level::m_entryPointId (+0x110). ObjectManager::m_objectMap is typed with
-// ObjectListItem, which is not declared, so the node flag and handle cannot be read. Null until it is declared.
+// Walks ObjectManager's object map (m_objectMap) in key order and returns the first object that exists, is of GO_IDS 13 (a SpawnPoint), is enabled (ObjectBase +0x8a) and whose
+// entry point id (GameObject +0x374) equals Level::m_entryPointId (+0x110). Null when there is none.
 GameObject* Level::GetSpawnPoint() {
+    for (const auto& entry : dword_99F764->m_objectMap) {
+        ObjectBase* object = entry.second.m_object;
+        if (object == nullptr) {
+            continue;
+        }
+        ObjectHandle handle = object->GetHandle();
+        ObjectBase* resolved = handle.GetObject(false);
+        if (resolved == nullptr || resolved->m_goId != 13) {
+            continue;
+        }
+        if (resolved->m_enabled && m_entryPointId == static_cast<GameObject*>(resolved)->m_entryPointId) {
+            return static_cast<GameObject*>(resolved);
+        }
+    }
     return nullptr;
 }

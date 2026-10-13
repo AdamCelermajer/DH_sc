@@ -16,6 +16,10 @@
 #include <cstdint>
 
 #include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include "dh2/sfc/script/lua/Binder.hpp"
 #include "dh2/sfc/script/lua/ReturnValues.hpp"
 #include "dh2/v2Controller.hpp"
@@ -275,12 +279,12 @@ void Character::_GetHitCount([[maybe_unused]] const sfc::script::lua::Arguments&
     ret.pushInteger(static_cast<int>(character->unk_14d0));
 }
 // 0x3b6cd8 Character::_GetPropHP(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL only in the zero-divisor case explained below. Lua GetPropHP / GetHP: the current and maximum HP are the raw
+// Lua GetPropHP / GetHP: the current and maximum HP are the raw
 // words of the final property sheet, property ids 36
 // (sheet word m_w37, Character +0x1088) and 38 (sheet word m_w39, Character +0x1090), read through PROPS_Get. Both are
 // fixed point (>> 8 for display). Pushes current >> 8, maximum >> 8 and (100 * current / (maximum >> 8)) >> 8, or three
 // zeros when the raw maximum is 0. A maximum below 256 (whole part 0) has no divisor here; the percentage is then 0,
-// which is the value the ARM SDIV of the original gives for a zero divisor (not verified on the binary).
+// which is the port's defined result for the original's __aeabi_idiv by zero (a runtime trap or an arbitrary value there; no game data reaches it).
 void Character::_GetPropHP([[maybe_unused]] const sfc::script::lua::Arguments& args,
                            sfc::script::lua::ReturnValues& ret, void* self) {
     constexpr int kPropHP = 36;       // current HP, sheet word m_w37
@@ -338,16 +342,13 @@ void Character::_GetCurrentEquippedFaeryId([[maybe_unused]] const sfc::script::l
 }
 
 // 0x3b6dc4 Character::_GetEquippedFaeryElement(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. The original takes the current faery id (SG_GetCurrentFaerieId(-1)), looks up its row with GetCharFaery and
-// pushes the word at row +0x8 (Structs::Faery m_w2). Character::GetCharFaery is still partial (ee9946-8) and returns
-// nullptr, so the row word is not read here (that would be a null dereference). Missing: the GetCharFaery rows (layout
-// request: a typed faery row for GetCharFaery, with the element word at +0x8) and the ReturnValues::pushInteger of the
-// element. The lookup itself is made, as in the original.
+// The current faery id (SG_GetCurrentFaerieId(-1)) selects its Faery row (GetCharFaery); the word at row +0x8 (Structs::Faery m_w2, the element)
+// is pushed as an integer.
 void Character::_GetEquippedFaeryElement([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                                         [[maybe_unused]] sfc::script::lua::ReturnValues& ret, void* self) {
+                                         sfc::script::lua::ReturnValues& ret, void* self) {
     Character* character = static_cast<Character*>(self);
     const int faeryId = character->SG_GetCurrentFaerieId(-1);
-    static_cast<void>(character->GetCharFaery(faeryId));
+    ret.pushInteger(static_cast<const Structs::Faery*>(character->GetCharFaery(faeryId))->m_w2);
 }
 
 // 0x3b6df8 Character::_GetCurrentEquippedFaeryLevel(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
@@ -383,14 +384,13 @@ void Character::_GetCharAIFlags([[maybe_unused]] const sfc::script::lua::Argumen
 }
 
 // 0x3b6ec4 Character::_IsConnected(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. The original gets the PlayerInfo of this character with
-// PlayerManager::GetPlayerByCharacter(this, false) on dword_99F76C, calls its vtable slot +0x5c, which is
-// PlayerInfo::IsActive (slot 23 in dh2/PlayerInfo.hpp), and pushes the bool with ReturnValues::pushBoolean.
-// PlayerManager.hpp cannot be included together with Character.hpp (its StreamBuffer member needs net-transport's
-// IStreamBase, which pydata's stream_reader.hpp also defines), so the call is not written. Missing: that include,
-// and ReturnValues::pushBoolean.
+// The PlayerInfo of this character (PlayerManager::GetPlayerByCharacter(this, false) on dword_99F76C) is asked IsActive (vtable slot 23, +0x5c) and the
+// bool is pushed.
 void Character::_IsConnected([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                             [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+                             sfc::script::lua::ReturnValues& ret, void* self) {
+    Character* character = static_cast<Character*>(self);
+    ret.pushBoolean(dword_99F76C->GetPlayerByCharacter(character, false)->IsActive());
+}
 
 // 0x3b6f10 Character::_CanAttackFromRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
 // Calls the virtual CanRangeAttack() through the primary vtable (+0x124) and pushes the bool.

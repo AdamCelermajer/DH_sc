@@ -176,7 +176,7 @@ public:
     bool unk_b4;                                       // +0xb4 1
     uint8_t pad_b5[3];
     UnderlaySceneNode* m_underlayNode;                 // +0xb8 dropped in Quit
-    std::string m_uncompiledData;                      // +0xbc non-empty when running from uncompiled data; IsUsingUncompiledData (0x320678) reads begin/end words at +0xcc/+0xd0 of this container, not yet identified
+    std::string m_uncompiledData;                      // +0xbc non-empty when running from uncompiled data; IsUsingUncompiledData (0x320678) compares the finish/start words at +0xcc/+0xd0 of this STLport string, equal when it is empty
     std::string unk_d4;                                // +0xd4 constructed empty, only freed in the destructor
     bool unk_ec;                                       // +0xec byte_99F818: set by MenuBase::Show, cleared by MenuBase::Hide for menu_VerificationLoading
     bool unk_ed;                                       // +0xed 0

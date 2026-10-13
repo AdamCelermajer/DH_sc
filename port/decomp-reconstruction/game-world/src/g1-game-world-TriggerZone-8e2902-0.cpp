@@ -25,7 +25,11 @@
 #include <cstdlib>
 #include <string>
 
+#include "dh2/Character.hpp"
 #include "dh2/AnimatedFX.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/Door.hpp"
@@ -130,21 +134,18 @@ void TriggerZone::ShowMarker() {
 }
 
 // 0x39b458 TriggerZone::Update()
-// PARTIAL, in three places that need Character's complete type or the online flag:
-//   - the dummy-character skip (the local player's Character +0x1480, m_isDummy) is not taken;
-//   - in touch mode (unk_3bc, +0x3bc, set by InitPost) the local Character must be tested with GameObject::IsTouching, so
-//     neither enter nor leave is decided here (allowEnter and leave stay false);
-//   - the online test *(GetOnline() + 5) is Application::IsOnlineGame(), which game-app stubs to false (COnline::isOnlineGame_
-//     is private with no getter), so the remotely updated branches are not taken.
-// Character.hpp cannot share this translation unit with TriggerZone.hpp: both bring in a CustomFree (pydata-accessors/deps/
-// stream_reader.hpp and net-transport/deps/byte_array.hpp). The offline, non-touch path is bound.
-//
-// Bound body: the door, Trigger::CanActivate and MeetCondition gate the update, then Trigger::Update runs. The player count
-// is the number of owned characters (PlayerManager +0x6c4). The enter and leave decisions and their scripts follow, then
-// the marker.
+// Nothing happens while the local player's Character is a dummy, the door named by is_door_closed is closed and activated, the zone cannot activate, its condition fails, or (online) it is remotely updated.
+// Then Trigger::Update runs. The activating player count is the replicated one (unk_3c0) for a remotely updated zone online, otherwise GetNumPlayerActivating(), stored in unk_3c0. The player count is
+// the number of owned characters (PlayerManager +0x6c4).
 //   enter  = all-player enter id is -1 ? (activating > 0) : (activating == characters)
 //   leave  = activating == 0
+// In touch mode (unk_3bc) the local Character decides as well: an enter needs a local character that touches the zone (without one nothing happens; if it does not touch, there is no enter and a leave),
+// and when no enter is due a leave holds exactly when the local character exists and does not touch the zone. The enter and move-out scripts follow, then the marker.
 void TriggerZone::Update() {
+    Character* local = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    if (local != nullptr && local->m_isDummy) {
+        return;
+    }
     if (IsDoorClosedActivated()) {
         return;
     }
@@ -154,14 +155,14 @@ void TriggerZone::Update() {
     if (!MeetCondition()) {
         return;
     }
-    if (ApplicationGetInstance().IsOnlineGame() && IsRemotelyUpdated()) {  // PARTIAL: stub (see above)
+    if (GetOnlineGameFlag() && IsRemotelyUpdated()) {
         return;
     }
     Trigger::Update();
     const int numCharacters = dword_99F76C->m_numCharacters;  // PlayerManager +0x6c4
 
     int numActivating;
-    if (ApplicationGetInstance().IsOnlineGame() && IsRemotelyUpdated()) {  // PARTIAL: stub (see above)
+    if (GetOnlineGameFlag() && IsRemotelyUpdated()) {
         numActivating = unk_3c0;
     } else {
         numActivating = GetNumPlayerActivating();
@@ -176,9 +177,18 @@ void TriggerZone::Update() {
     bool leave = (numActivating == 0);
     bool allowEnter = enter;
 
-    if (unk_3bc) {  // +0x3bc, touch mode. PARTIAL: the local Character test is not available (see above).
-        allowEnter = false;
-        leave = false;
+    if (unk_3bc) {  // +0x3bc, touch mode
+        if (enter) {
+            if (local == nullptr) {
+                allowEnter = false;
+                leave = false;
+            } else if (!IsTouching(local)) {
+                allowEnter = false;
+                leave = true;
+            }
+        } else {
+            leave = (local != nullptr && !IsTouching(local));
+        }
     }
 
     if (allowEnter && !m_entered) {                                      // +0x7b4
@@ -278,13 +288,9 @@ void TriggerZone::DeclareProperties() {
 }
 
 // 0x39c0a8 TriggerZone::InitPost()
-// PARTIAL. Trigger::InitPost, then each name is resolved once to its id: the script names through ScriptManager (-1 when the
-// name is empty or unknown), and the door name through ObjectManager. m_timer takes the delay. unk_3bc (touch mode) is set
-// when the zone has no all-player scripts and its ScriptManager command block has the unk_04 flag.
-// Missing: the effect name lookup. The original searches Arrays::AnimatedEffectTable's names (pydata::FindMemberName over
-// m_memberNames and size, in pydata-accessors/member_names.hpp). That header cannot share this translation unit with
-// TriggerZone.hpp (duplicate CustomFree between pydata-accessors/deps/stream_reader.hpp and net-transport/deps/byte_array.hpp),
-// so m_effectOnePlayerIndex stays -1 and ShowMarker never grabs the marker effect.
+// Trigger::InitPost, then each name is resolved once to its id: the script names through ScriptManager (-1 when the name is empty or unknown), the effect_one_player name through
+// Arrays::AnimatedEffectTable (-1 when empty or not listed), and the door name through ObjectManager. m_timer takes the delay. unk_3bc (touch mode) is set when the zone has no all-player scripts and
+// its ScriptManager command block has the unk_04 flag.
 void TriggerZone::InitPost() {
     Trigger::InitPost();
 
@@ -308,7 +314,11 @@ void TriggerZone::InitPost() {
         m_scriptAllPlayerMoveOutId = ScriptManager::s_inst.GetIDFromName(m_scriptAllPlayerMoveOut.c_str(), false);
     }
 
-    m_effectOnePlayerIndex = -1;  // +0x7ac; PARTIAL: the name lookup is not bound (see above)
+    m_effectOnePlayerIndex = -1;  // +0x7ac
+    if (!m_effectOnePlayer.empty()) {
+        m_effectOnePlayerIndex = pydata::FindMemberName(Arrays::AnimatedEffectTable::m_memberNames, static_cast<int>(Arrays::AnimatedEffectTable::size),
+                                                         m_effectOnePlayer.c_str());
+    }
 
     m_timer = m_triggerDelay;  // +0x3ac -> +0x3b8
 

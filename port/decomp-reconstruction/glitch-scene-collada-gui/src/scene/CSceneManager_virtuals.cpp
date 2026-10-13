@@ -1,40 +1,95 @@
-// The CSceneManager virtuals that are not reconstructed in full, plus the constructor, destructor and nested node entries.
-// This file defines the key function (serializeAttributes), so it carries the vtable; see src/scene/CSceneManager.cpp for the
-// accessors and the faithful bodies. Every function here is PARTIAL unless its comment says otherwise: the note names what
-// the original does that this body does not (the driver, GUI and batch-driver types are not ported).
+// The CSceneManager virtuals that are not part of the frame path (src/scene/CSceneManager_render.cpp), the scene file I/O
+// (src/scene/CSceneManager_scene_io.cpp) or the plain accessors (src/scene/CSceneManager.cpp): the constructor, the destructor, the
+// attribute exchange, update, clear, createNewSceneManager and the compile entry points. This file defines the key function
+// (serializeAttributes), so it carries the vtable; see src/scene/CSceneManager.cpp for the accessors and the faithful bodies.
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 
+#include <cstddef>
+#include <exception>
+
 #include "glitch-core-io/io/iattributes.hpp"
+#include "glitch-core-io/os/device.hpp"
 #include "glitch-core-io/os/logging.hpp"
+#include "glitch-scene-collada-gui/gui/ICursorControl.hpp"
+#include "glitch-scene-collada-gui/gui/IGUIEnvironment.hpp"
+#include "glitch-scene-collada-gui/scene/CColladaBinaryFileLoader.hpp"
+#include "glitch-scene-collada-gui/scene/CDefaultSceneNodeAnimatorFactory.hpp"
+#include "glitch-scene-collada-gui/scene/CDefaultSceneNodeFactory.hpp"
 #include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshCache.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
 #include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
-#include "glitch-scene-collada-gui/scene/SceneFactories.hpp"
+#include "glitch-video/video_driver.hpp"
 
 namespace glitch::scene {
 
 namespace {
+
 // Sentinel passed to update() to reset the clock from the timer.
 constexpr float kUpdateResetTime = -123460.0f;
+
+// Adds / drops a use of a reference-counted object (the original: ++*(object + 4); IReferenceCounted::drop).
+template <typename T>
+void grab(T* object) {
+    if (object != nullptr) ++object->referenceCounter;
+}
+template <typename T>
+void release(T* object) {
+    if (object != nullptr) object->drop();
+}
+
+// The batch driver (glitch::video::CBatchDriver, 0x264 bytes) belongs to glitch-video, which has not reconstructed it: its rows are
+// still partial there and the class is only declared. These helpers build and drop it as soon as the class is complete, and do
+// nothing while it is not (the overload with the `long` argument is the fallback). This is the one place that has to change when
+// glitch-video lands the class.
+template <typename T, std::size_t = sizeof(T)>
+T* makeBatchDriver(video::IVideoDriver* driver, int) {
+    const auto* device = driver->m_device;
+    std::uint32_t width = 0;
+    std::uint32_t height = 0;
+    std::memcpy(&width, device->creationParameters.bytes + 0x40, sizeof(width));
+    std::memcpy(&height, device->creationParameters.bytes + 0x44, sizeof(height));
+    return new T(width, height, driver);
+}
+template <typename T>
+T* makeBatchDriver(video::IVideoDriver*, long) {
+    return nullptr;
+}
+template <typename T, std::size_t = sizeof(T)>
+void dropBatchDriver(T* batchDriver, int) {
+    if (batchDriver != nullptr) batchDriver->drop();
+}
+template <typename T>
+void dropBatchDriver(T*, long) {}
+
 }  // namespace
 
 // 0x58d908 _ZN6glitch5scene13CSceneManagerC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNS7_15IGUIEnvironmentE (complete object)
 // 0x58ddd0 _ZN6glitch5scene13CSceneManagerC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNS7_15IGUIEnvironmentE (base object)
-// PARTIAL. Stores the driver, file system, GUI environment, cursor control and mesh cache arguments, creates the root node
-// (CSceneManagerRootNode linked into the +0x08 child list), and sets the shadow colour -1778384896 (0x96000000, the word the
-// constructor passes) and the render pass 9. Missing: the references the original adds to the driver, GUI environment, cursor control
-// and mesh cache (their classes are not ported), the CBatchDriver (new 0x264 bytes), the default mesh cache, the
-// CSceneCollisionManager, the CColladaBinaryFileLoader and the two default factories it registers, and the "i", "n", "t" strings.
+// PARTIAL. The order of the original: the driver (also kept at +0x18) and the batch driver built from the device's screen size,
+// the file system, the stencil clear value 127 set on the driver, the root node (CSceneManagerRootNode, linked into the +0x08
+// child list), then a use of the driver, the cursor control and the GUI environment, a use of the mesh cache or a new
+// CMeshCache over the driver, the CSceneCollisionManager, the CColladaBinaryFileLoader (the first external mesh loader, its creation
+// use is the list's), the CDefaultSceneNodeFactory and CDefaultSceneNodeAnimatorFactory (registered, then the creator's use is
+// dropped) and the shadow colour 0x96000000. Not done: the CBatchDriver itself while glitch-video does not provide the class (see
+// makeBatchDriver above). Unlike the original the driver may be null (nothing of it is then touched), which the scene tests use.
 CSceneManager::CSceneManager(video::IVideoDriver* videoDriver, const boost::intrusive_ptr<io::IFileSystem>& fileSystemArg,
                              gui::ICursorControl* cursorControlArg, IMeshCache* meshCacheArg,
                              gui::IGUIEnvironment* guiEnvironmentArg)
     : fileSystem(fileSystemArg) {
     driver = videoDriver;
     driverCopy = videoDriver;
-    guiEnvironment = guiEnvironmentArg;
+    if (videoDriver != nullptr) {
+        batchDriver = makeBatchDriver<video::CBatchDriver>(videoDriver, 0);
+    }
     cursorControl = cursorControlArg;
     meshCache = meshCacheArg;
+    guiEnvironment = guiEnvironmentArg;
+    if (videoDriver != nullptr) {
+        videoDriver->setClearStencil(127);
+    }
     auto* root = new CSceneManagerRootNode(this);
     rootNode = root;
     SListLink* rootLink = static_cast<SListLink*>(static_cast<ISceneNode*>(root));
@@ -44,33 +99,54 @@ CSceneManager::CSceneManager(video::IVideoDriver* videoDriver, const boost::intr
     rootChildren.sentinel.prev = rootLink;
     rootLink->next = &rootChildren.sentinel;
     ++rootChildren.count;
+    grab(videoDriver);
+    grab(cursorControlArg);
+    grab(guiEnvironmentArg);
+    if (meshCacheArg != nullptr) {
+        grab(meshCacheArg);
+    } else {
+        meshCache = new CMeshCache(videoDriver);
+    }
+    collisionManager = new CSceneCollisionManager(this, driver);
+    externalMeshLoaders.push_back(new CColladaBinaryFileLoader(this, fileSystem));
+    auto* nodeFactory = new CDefaultSceneNodeFactory(this, cursorControl, fileSystem);
+    registerSceneNodeFactory(nodeFactory);
+    nodeFactory->drop();
+    auto* animatorFactory = new CDefaultSceneNodeAnimatorFactory(this, cursorControl);
+    registerSceneNodeAnimatorFactory(animatorFactory);
+    animatorFactory->drop();
     setShadowColor(video::SColor{0x96000000u});
 }
 
 // 0x58eb70 _ZN6glitch5scene13CSceneManagerD1Ev
 // 0x58ef1c _ZN6glitch5scene13CSceneManagerD2Ev
 // 0x58ef00 _ZN6glitch5scene13CSceneManagerD0Ev (skipped)
-// PARTIAL. Clears the deletion list, drops the held factories, loaders and the active camera, unlinks the root child list.
-// Missing: the drops of the driver, batch driver, GUI environment, cursor control, collision manager and mesh cache (their
-// classes are not ported), the attribute set and the wide strings, and the render-node lists of the derived managers.
+// PARTIAL. The order of the original: the deletion queue, the uses of the cursor control, the collision manager and the GUI
+// environment, the external mesh loaders, the active camera, the mesh cache, the node and animator factories, the root node
+// (after unlinking the root child list), the render node list, the batch driver and the driver; the vectors, the strings, the
+// attribute set and the file system follow as members. Not done: the two static particle buffers the original releases here
+// (CParticleSystemSceneNode::deleteSharedBuffer and CGlitchNewParticleSystemSceneNode::deleteSharedBuffer), which wait for the
+// particle node classes.
 CSceneManager::~CSceneManager() {
     clearDeletionList();
+    release(cursorControl);
+    release(collisionManager);
+    release(guiEnvironment);
     for (IMeshLoader* loader : externalMeshLoaders) {
-        if (loader != nullptr) loader->drop();
+        release(loader);
     }
-    externalMeshLoaders.clear();
     if (activeCamera != nullptr) {
-        activeCamera->drop();
+        ICameraSceneNode* camera = activeCamera;
         activeCamera = nullptr;
+        camera->drop();
     }
+    release(meshCache);
     for (ISceneNodeFactory* factory : sceneNodeFactories) {
-        if (factory != nullptr) factory->drop();
+        release(factory);
     }
-    sceneNodeFactories.clear();
     for (ISceneNodeAnimatorFactory* factory : sceneNodeAnimatorFactories) {
-        if (factory != nullptr) factory->drop();
+        release(factory);
     }
-    sceneNodeAnimatorFactories.clear();
     SListLink* link = rootChildren.sentinel.next;
     while (link != &rootChildren.sentinel) {
         SListLink* following = link->next;
@@ -81,23 +157,27 @@ CSceneManager::~CSceneManager() {
     rootChildren.sentinel.next = &rootChildren.sentinel;
     rootChildren.sentinel.prev = &rootChildren.sentinel;
     rootChildren.count = 0;
+    release(rootNode);
+    renderNodes.clear();
+    dropBatchDriver(batchDriver, 0);
+    release(driverCopy);
 }
 
 // 0x588fe8 _ZNK6glitch5scene13CSceneManager19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // Writes the root node's name ("Name"), its id ("Id") and the ambient light ("AmbientLight", four floats).
-void CSceneManager::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* /*options*/) const {
-    attributes->addString("Name", rootNode->getName(), false);
-    attributes->addInt("Id", rootNode->getID(), false);
-    attributes->addColorf("AmbientLight", ambientLight, false);
+void CSceneManager::serializeAttributes(io::IAttributes* attributesOut, io::SAttributeReadWriteOptions* /*options*/) const {
+    attributesOut->addString("Name", rootNode->getName(), false);
+    attributesOut->addInt("Id", rootNode->getID(), false);
+    attributesOut->addColorf("AmbientLight", ambientLight, false);
 }
 
 // 0x58bbc4 _ZN6glitch5scene13CSceneManager21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // Reads "Name", "Id" and "AmbientLight" into the root node and the ambient light, then resets the root's transform (zero
 // position, identity rotation, unit scale), makes it visible, clears culling and the debug flag, and updates its matrix.
-void CSceneManager::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* /*options*/) {
-    rootNode->setName(attributes->getString("Name"));
-    rootNode->setID(attributes->getInt("Id"));
-    ambientLight = attributes->getColorf("AmbientLight");
+void CSceneManager::deserializeAttributes(io::IAttributes* attributesIn, io::SAttributeReadWriteOptions* /*options*/) {
+    rootNode->setName(attributesIn->getString("Name"));
+    rootNode->setID(attributesIn->getInt("Id"));
+    ambientLight = attributesIn->getColorf("AmbientLight");
     rootNode->setPosition(core::vector3d<float>{0.0f, 0.0f, 0.0f});
     core::quaternion identity;
     identity.X = 0.0f;
@@ -112,97 +192,14 @@ void CSceneManager::deserializeAttributes(io::IAttributes* attributes, io::SAttr
     rootNode->updateAbsolutePosition(false);
 }
 
-// 0x58f348 _ZN6glitch5scene13CSceneManager24registerNodeForRenderingEPNS0_10ISceneNodeERKN5boost13intrusive_ptrINS_5video9CMaterialEEEPvNS0_24E_SCENE_NODE_RENDER_PASSEPKNS_4core8vector3dIfEEi
-// PARTIAL. The original is a switch on the render pass that appends SDefaultNodeEntry, SDistanceNodeEntry and
-// STransparentNodeEntry records to the vectors at +0x30 .. +0x84. Missing: those vectors (still a pad), the material sort
-// fallback through CMaterial vtable +0xd8 and the Stats counters. This body registers nothing and returns false.
-bool CSceneManager::registerNodeForRendering(ISceneNode* /*node*/, const boost::intrusive_ptr<video::CMaterial>& /*material*/,
-                                             void* /*userData*/, E_SCENE_NODE_RENDER_PASS /*pass*/,
-                                             const core::vector3d<float>* /*position*/, int /*sortOrder*/) {
-    return false;
-}
-
-// 0x58b88c _ZN6glitch5scene13CSceneManager18registerSceneNodesEPNS0_10ISceneNodeE (skipped in the ledger: 356 bytes of render-list code)
-// 0x589128 _ZN6glitch5scene13CSceneManager18registerSceneNodesERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
-// PARTIAL: registers nothing (needs the render lists and onRegisterSceneNode through the visibility and culling tests).
-void CSceneManager::registerSceneNodes(ISceneNode* /*node*/) {}
-
-// 0x589128: registers each node of the vector through the virtual single-node overload (vptr+0x28).
-void CSceneManager::registerSceneNodes(const std::vector<ISceneNode*>& nodes) {
-    for (ISceneNode* node : nodes) {
-        registerSceneNodes(node);
-    }
-}
-
-namespace {
-
-// The walk of 0x589fa4: the children of a node are compiled when the node reports itself registered. The original walks
-// the tree with parent links and explicit state; this recursion visits the same nodes in the same order.
-void registerCompileChildren(ISceneNode* owner) {
-    for (ISceneNode* child : owner->getChildren()) {
-        if ((child->flags & ESNF_VISIBLE) != 0 && child->onRegisterSceneNode() != 0) {
-            registerCompileChildren(child);
-        }
-    }
-}
-
-}  // namespace
-
-// 0x589fa4 _ZN6glitch5scene13CSceneManager24registerSceneNodesCompileEPNS0_10ISceneNodeE
-// A null node means the root. The node itself is registered when it is visible and onRegisterSceneNode returns non-zero;
-// then its visible children are walked the same way.
-void CSceneManager::registerSceneNodesCompile(ISceneNode* node) {
-    ISceneNode* start = node != nullptr ? node : rootNode;
-    if ((start->flags & ESNF_VISIBLE) != 0 && start->onRegisterSceneNode() != 0) {
-        registerCompileChildren(start);
-    }
-}
-
-// 0x589168 _ZN6glitch5scene13CSceneManager24registerSceneNodesCompileERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
-void CSceneManager::registerSceneNodesCompile(const std::vector<ISceneNode*>& nodes) {
-    for (ISceneNode* node : nodes) {
-        registerSceneNodesCompile(node);
-    }
-}
-
-// 0x58b728 _ZN6glitch5scene13CSceneManager7drawAllERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
-// 0x58b7f4 _ZN6glitch5scene13CSceneManager7drawAllEPNS0_10ISceneNodeE
-// PARTIAL. The original calls, in order: drawInit(driver), collectAllNodes, setupCamera, registerSceneNodes, drawShadowReceivers,
-// renderLists(driver), then sets the render pass to 9 and resets the frame statistics. This body runs the calls it can (the
-// virtual hooks) and sets the render pass; the driver and the statistics are not ported.
-void CSceneManager::drawAll(const std::vector<ISceneNode*>& nodes) {
-    drawInit(driver);
-    collectAllNodes(nodes);
-    setupCamera();
-    registerSceneNodes(nodes);
-    drawShadowReceivers();
-    renderLists(driver);
-    renderPass = 9;
-}
-void CSceneManager::drawAll(ISceneNode* node) {
-    drawInit(driver);
-    if (node == nullptr && hierarchyChanged) {
-        collectAllNodes();
-    }
-    setupCamera();
-    registerSceneNodes(node);
-    drawShadowReceivers();
-    renderLists(driver);
-    renderPass = 9;
-}
-
-// 0x589e7c _ZN6glitch5scene13CSceneManager8drawInitEPNS_5video12IVideoDriverE
-// PARTIAL: resets the per-frame render state on the driver (not ported); empty here.
-void CSceneManager::drawInit(video::IVideoDriver* /*videoDriver*/) {}
-
-// 0x590660 _ZN6glitch5scene13CSceneManager11renderListsEPNS_5video12IVideoDriverE (skipped: 2128 bytes)
-void CSceneManager::renderLists(video::IVideoDriver* /*videoDriver*/) {}
-
-// 0x58b0a8 _ZN6glitch5scene13CSceneManager19drawShadowReceiversEv (skipped: 472 bytes)
-void CSceneManager::drawShadowReceivers() {}
-
 // 0x58ff10, 0x58fee0, 0x58fccc and 0x58fc9c: the four compile overloads; 0x58fd10 and 0x58facc the internal ones.
-// PARTIAL: building a CBatchSceneNode needs CBatchMesh construction and the segment callbacks; every overload returns null.
+// PARTIAL. The original stores the segment size (a vector3d, switching the batch driver to size mode) or the maximal index count
+// in the batch driver (CBatchDriver +0x250 .. +0x260, offsets 592 .. 608) and calls compileInternal, which creates the
+// CBatchSceneNode (operator new(0x168), id -1) when none is given, installs the compile callbacks in the batch driver, makes the
+// driver the manager's (drawInit with it), collects and registers the nodes with the batch flag raised (transparent passes use the
+// default list), renders the lists into the batch driver, flushes it (vptr+0x1fc), finalizes the end-of-batch callback, calls the
+// batch node's vptr+0xfc with the segment callback and the original driver, and restores the driver. CBatchDriver is not
+// reconstructed in glitch-video, so none of that can run; every overload returns null.
 CBatchSceneNode* CSceneManager::compile(const std::vector<ISceneNode*>& /*nodes*/, CBatchSceneNode* /*batch*/, bool /*flag*/,
                                         ISegmentCompileCallback* /*compileCallback*/,
                                         ISplitSegmentChoiceCallback* /*choiceCallback*/,
@@ -265,183 +262,32 @@ void CSceneManager::clear() {
     if (rootNode != nullptr) {
         rootNode->removeAll();
     }
-    for (IShadowReceiverTarget* target : shadowReceiverTargets) {
-        if (target != nullptr) target->drop();
-    }
     shadowReceiverTargets.clear();
 }
 
 // 0x58dd50 _ZN6glitch5scene13CSceneManager21createNewSceneManagerEb
-// PARTIAL: the original constructs a derived manager of the same kind; the manager class is abstract here, so null.
-CSceneManager* CSceneManager::createNewSceneManager(bool /*copyRoot*/) {
-    return nullptr;
-}
-
-// 0x589364 _ZN6glitch5scene13CSceneManager8saveSceneEPKcPNS0_24ISceneUserDataSerializerE
-// Creates the file through the file system (not appending), saves into it, and drops the file.
-bool CSceneManager::saveScene(const char* fileName, ISceneUserDataSerializer* userData) {
-    io::IWriteFile* file = fileSystem->createAndWriteFile(fileName, false);
-    if (file == nullptr) {
-        return false;
+// A new manager over the same driver, file system, cursor control, mesh cache and GUI environment (operator new(0x294): a plain
+// CSceneManager); with `copyRoot` its own root node is dropped and replaced by a clone of this manager's root (vptr+0xc0). The
+// original leaves the dropped root's link in the child list at +0x08 (a dangling entry the destructor then walks); the port unlinks
+// it first, and the clone is not linked, as in the original.
+CSceneManager* CSceneManager::createNewSceneManager(bool copyRoot) {
+    auto* created = new CSceneManager(driver, fileSystem, cursorControl, meshCache, guiEnvironment);
+    if (copyRoot) {
+        SListLink* link = static_cast<SListLink*>(created->rootNode);
+        link->prev->next = link->next;
+        link->next->prev = link->prev;
+        link->next = nullptr;
+        link->prev = nullptr;
+        --created->rootChildren.count;
+        created->rootNode->drop();
+        created->rootNode = rootNode->clone();
     }
-    const bool result = saveScene(file, userData);
-    file->drop();
-    return result;
+    return created;
 }
 
-// 0x58d36c _ZN6glitch5scene13CSceneManager8saveSceneEPNS_2io10IWriteFileEPNS0_24ISceneUserDataSerializerE
-// Creates the XML writer over the file, writes the header and the root node tree, and drops the writer.
-bool CSceneManager::saveScene(io::IWriteFile* file, ISceneUserDataSerializer* userData) {
-    if (file == nullptr) {
-        return false;
-    }
-    io::IXMLWriter* writer = fileSystem->createXMLWriter(file);
-    if (writer == nullptr) {
-        return false;
-    }
-    writer->writeXMLHeader();
-    writeSceneNode(writer, rootNode, userData);
-    writer->drop();
-    return true;
-}
-
-// 0x589b84 _ZN6glitch5scene13CSceneManager8loadSceneEPKcPNS0_24ISceneUserDataSerializerE
-// Opens the file through the file system; on failure logs "Unable to open scene file" with the name and returns false.
-bool CSceneManager::loadScene(const char* fileName, ISceneUserDataSerializer* userData) {
-    io::IReadFile* file = fileSystem->createAndOpenFile(fileName);
-    if (file == nullptr) {
-        os::Printer::log("Unable to open scene file", fileName, ELL_ERROR);
-        return false;
-    }
-    const bool result = loadScene(file, userData);
-    file->drop();
-    return result;
-}
-
-// 0x58e768 _ZN6glitch5scene13CSceneManager8loadSceneEPNS_2io9IReadFileEPNS0_24ISceneUserDataSerializerE
-// PARTIAL: the scene reader (readSceneNode) is not reconstructed; reports failure.
-bool CSceneManager::loadScene(io::IReadFile* /*file*/, ISceneUserDataSerializer* /*userData*/) {
-    return false;
-}
-
-// 0x58bdb0 and 0x58e824: getMesh by file and by name. PARTIAL: the mesh cache and loader path is not reconstructed; null.
-boost::intrusive_ptr<IMesh> CSceneManager::getMesh(io::IReadFile* /*file*/) {
-    return boost::intrusive_ptr<IMesh>();
-}
-boost::intrusive_ptr<IMesh> CSceneManager::getMesh(const char* /*fileName*/) {
-    return boost::intrusive_ptr<IMesh>();
-}
-
-// 0x58c4a4, 0x58c644, 0x58c8dc, 0x58e1e0 (the XML readers) and 0x58cdd4 (the XML writer). PARTIAL: empty / null.
-void CSceneManager::readUserData(io::IXMLReader* /*reader*/, ISceneNode* /*node*/, ISceneUserDataSerializer* /*userData*/) {}
-void CSceneManager::readAnimators(io::IXMLReader* /*reader*/, ISceneNode* /*node*/) {}
-void CSceneManager::readMaterials(io::IXMLReader* /*reader*/, ISceneNode* /*node*/) {}
-ISceneNode* CSceneManager::readSceneNode(io::IXMLReader* /*reader*/, ISceneNode* /*parent*/,
-                                         ISceneUserDataSerializer* /*userData*/) {
-    return nullptr;
-}
-void CSceneManager::writeSceneNode(io::IXMLWriter* /*writer*/, const ISceneNode* /*node*/, ISceneUserDataSerializer* /*userData*/) {}
-
-// 0x589754 _ZN6glitch5scene13CSceneManager26removeShadowReceiverTargetEN5boost13intrusive_ptrINS_5video8ITextureEEE
-// Removes the first registered target whose texture (IShadowReceiverTarget +0x0c) is the given texture, null included, and
-// drops the list's use of it.
-void CSceneManager::removeShadowReceiverTarget(boost::intrusive_ptr<video::ITexture> texture) {
-    video::ITexture* raw = texture.get();
-    for (auto it = shadowReceiverTargets.begin(); it != shadowReceiverTargets.end(); ++it) {
-        if ((*it)->texture == raw) {
-            IShadowReceiverTarget* removed = *it;
-            shadowReceiverTargets.erase(it);
-            removed->drop();
-            return;
-        }
-    }
-}
-
-// 0x58ca64 _ZNK6glitch5scene13CSceneManager8isCulledERKNS_4core8aabbox3dIfEENS0_14E_CULLING_TYPEE (skipped, 280 bytes)
-// PARTIAL: the box-only form of the test (no node). Returns false (not culled).
-bool CSceneManager::isCulled(const core::aabbox3d<float>& /*box*/, E_CULLING_TYPE /*culling*/) const {
-    return false;
-}
-
-// Nested node entries ------------------------------------------------------------------------------------------------
-
-// 0x350c98 _ZN6glitch5scene13CSceneManager17SDefaultNodeEntryC1EPNS0_10ISceneNodeEN5boost13intrusive_ptrINS_5video9CMaterialEEEPvi
-// The sort order 0x7fffffff means "ask the node": it is replaced by the node's rendering layer (vptr+0xd8).
-CSceneManager::SDefaultNodeEntry::SDefaultNodeEntry(ISceneNode* n, boost::intrusive_ptr<video::CMaterial> m, void* data,
-                                                    int order)
-    : node(n), userData(data), material(m), sortOrder(order == 0x7fffffff ? n->getRenderingLayer() : order) {}
-
-// 0x3539e8 _ZNK6glitch5scene13CSceneManager17SDefaultNodeEntryltERKS1_
-// PARTIAL. Larger sort order first. With equal sort orders and both materials set, the original compares the material hash
-// codes, then (equal) the nodes' vertex counts (getRenderVertexCount at vptr+0x20), else CMaterial::operator<; the CMaterial
-// calls are not ported, so materials are compared by pointer and the vertex count is used on a tie.
-bool CSceneManager::SDefaultNodeEntry::operator<(const SDefaultNodeEntry& other) const {
-    if (sortOrder > other.sortOrder) return true;
-    if (sortOrder != other.sortOrder) return false;
-    const video::CMaterial* a = material.get();
-    const video::CMaterial* b = other.material.get();
-    if (a == nullptr && b == nullptr) return node < other.node;
-    if (a == nullptr || b == nullptr || a != b) return a < b;
-    return node->getRenderVertexCount(userData) < other.node->getRenderVertexCount(other.userData);
-}
-
-// 0x350cf4 _ZN6glitch5scene13CSceneManager18SDistanceNodeEntryC1EPNS0_10ISceneNodeERKNS_4core8vector3dIfEEPv
-// distance = |node translation - position|^2 + (squared extent of the node's box) * -0.5 (the box is vptr+0x30).
-CSceneManager::SDistanceNodeEntry::SDistanceNodeEntry(ISceneNode* n, const core::vector3d<float>& position, void* data)
-    : node(n), userData(data) {
-    const core::CMatrix4<float>& m = n->getAbsoluteTransformation();
-    const float dx = m.M[12] - position.X;
-    const float dy = m.M[13] - position.Y;
-    const float dz = m.M[14] - position.Z;
-    const float distanceSquared = (dx * dx + dy * dy) + dz * dz;
-    const core::aabbox3d<float>& box = n->getBoundingBox();
-    const float ex = box.MaxEdge.X - box.MinEdge.X;
-    const float ey = box.MaxEdge.Y - box.MinEdge.Y;
-    const float ez = box.MaxEdge.Z - box.MinEdge.Z;
-    const float extentSquared = (ex * ex + ey * ey) + ez * ez;
-    distance = static_cast<double>(distanceSquared) + static_cast<double>(extentSquared) * -0.5;
-}
-
-// 0x354e8c _ZN6glitch5scene13CSceneManager21STransparentNodeEntryC1EPNS0_10ISceneNodeERKNS_4core8vector3dIfEEN5boost13intrusive_ptrINS_5video9CMaterialEEEPvPS8_i
-// sort order as in SDefaultNodeEntry; distance = |point - position|^2 + the node's camera offset (vptr+0xd0), where the point
-// is `transformed` when given and the node's translation otherwise.
-CSceneManager::STransparentNodeEntry::STransparentNodeEntry(ISceneNode* n, const core::vector3d<float>& position,
-                                                            boost::intrusive_ptr<video::CMaterial> m, void* data,
-                                                            const core::vector3d<float>* transformed, int order)
-    : node(n), userData(data), material(m), sortOrder(order == 0x7fffffff ? n->getRenderingLayer() : order) {
-    float px, py, pz;
-    if (transformed != nullptr) {
-        px = transformed->X;
-        py = transformed->Y;
-        pz = transformed->Z;
-    } else {
-        const core::CMatrix4<float>& matrix = n->getAbsoluteTransformation();
-        px = matrix.M[12];
-        py = matrix.M[13];
-        pz = matrix.M[14];
-    }
-    const float dx = px - position.X;
-    const float dy = py - position.Y;
-    const float dz = pz - position.Z;
-    distance = ((dx * dx) + (dy * dy)) + (dz * dz) + n->getCameraOffset();
-}
-
-// 0x58d710 _ZN6glitch5scene13CSceneManager21STransparentNodeEntryD1Ev
-CSceneManager::STransparentNodeEntry::~STransparentNodeEntry() = default;
-
-// 0x3538ac _ZNK6glitch5scene13CSceneManager21STransparentNodeEntryltERKS1_
-// PARTIAL. Larger sort order first, then the larger distance first; the material tie-break (CMaterial::operator== and <) is
-// replaced by a pointer comparison, then the nodes' vertex counts decide.
-bool CSceneManager::STransparentNodeEntry::operator<(const STransparentNodeEntry& other) const {
-    if (sortOrder > other.sortOrder) return true;
-    if (sortOrder != other.sortOrder) return false;
-    if (distance > other.distance) return true;
-    if (distance != other.distance) return false;
-    const video::CMaterial* a = material.get();
-    const video::CMaterial* b = other.material.get();
-    if (a == nullptr && b == nullptr) return node < other.node;
-    if (a == nullptr || b == nullptr || a != b) return a < b;
-    return node->getRenderVertexCount(userData) < other.node->getRenderVertexCount(other.userData);
+// K 0x88: see the declaration. Ends the program like a call through the imported __cxa_pure_virtual does.
+void CSceneManager::registerSkinnedMesh(void* /*skinnedMeshNode*/) {
+    std::terminate();
 }
 
 }  // namespace glitch::scene

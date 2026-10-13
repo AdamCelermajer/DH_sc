@@ -8,14 +8,21 @@
 //   +0x110 m_netOwnerId, +0x118 unk_118.
 
 #include <cstdint>
+#include <cstring>
 
 #include "dh2/ObjectBase.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/CameraBase.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/ConditionData.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"            // ApplicationGetInstance (the Application singleton)
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
+#include "dh2/global/net_singletons.hpp"          // GetOnlineGameFlag
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/SViewFrustum.hpp"
 
 // 0x33dcc8 _ZNK10ObjectBase12IsGameObjectEv
 bool ObjectBase::IsGameObject() const {
@@ -116,22 +123,17 @@ void ObjectBase::Disabled() {
     SetVisible(false);   // vtable +0x40
 }
 
-// 0x33de90 _ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE
-// PARTIAL: waits on the aabb<float> definition (forward-declared only, no header defines its six floats) and on the
-// COnline flag at +0x05 (GetOnline() returns COnline*, global/net_singletons.hpp, and no header declares that flag).
-// The frustum slot is known now: ICameraSceneNode::getViewFrustum (scene/ICameraSceneNode.hpp, +0x144). Reproduced:
-// the +0x86 steps (0 becomes 1 on the first call; any value other than 1 returns true at once) and the
-// no-level exit, which sets +0x86 to 2. Missing, in the original order:
-//   1. The online gate. When the online flag of GetOnline() is set (COnline +0x05, private, no accessor), the
-//      original calls the virtual IsRemotelyUpdated() (vtable +0x54) and discards the result.
-//   2. The frustum test. The box is six floats (min x, y, z, then max x, y, z; aabb<float> is forward-declared
-//      only). The camera is Level +0x128 (CameraLevel*), then CameraBase +0x08 (the glitch camera node, m_camera).
-//      The node's getViewFrustum returns a SViewFrustum*, whose planes start at +0x0c, 16 bytes each (normal, then
-//      D). Each plane takes the box corner by the sign of its normal, and a corner with a positive plane distance
-//      rejects the object (returns 0).
-// Until the frustum test is written the function never culls: it returns true and leaves +0x86 at 1.
+// 0x33de90 _ZN10ObjectBase21TestCullingBeforeUpdateERK4aabbIfE
+// In an online game the virtual IsRemotelyUpdated() (+0x54) is called first and its result is dropped. The cull state (+0x86) steps 0 -> 1 on the first
+// call (true); any other value than 1 returns true. Without a level the state becomes 2 (true). Otherwise the six planes of the level camera's view frustum
+// (Level +0x128 CameraLevel, CameraBase +0x08 the glitch camera, ICameraSceneNode::getViewFrustum) are tested in order against the box (six floats: min x, y, z,
+// then max x, y, z; aabb<float> has no definition in the tree, so the floats are read from the reference): each plane takes the corner of the box that lies
+// furthest on its inside (the minimum of an axis when the normal component is not negative, else the maximum), and a plane distance above zero for that
+// corner culls the object (false). When no plane culls it the state becomes 2 and the result is true.
 bool ObjectBase::TestCullingBeforeUpdate(const aabb<float>& box) {
-    (void)box;
+    if (GetOnlineGameFlag()) {
+        IsRemotelyUpdated();
+    }
     if (m_cullState == 0) {  // +0x86
         m_cullState = 1;
         return true;
@@ -139,11 +141,24 @@ bool ObjectBase::TestCullingBeforeUpdate(const aabb<float>& box) {
     if (m_cullState != 1) {
         return true;
     }
-    if (ApplicationGetInstance().GetCurrentLevel() == nullptr) {
+    float corners[6];
+    std::memcpy(corners, &box, sizeof corners);
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
         m_cullState = 2;
         return true;
     }
-    // PARTIAL: the online gate and the frustum test are missing (see above).
+    const glitch::scene::SViewFrustum* frustum = level->m_camera->m_camera->getViewFrustum();
+    for (int plane = 0; plane < 6; ++plane) {
+        const glitch::core::plane3d<float>& p = frustum->planes[plane];
+        const float x = p.Normal.X >= 0.0f ? corners[0] : corners[3];
+        const float y = p.Normal.Y >= 0.0f ? corners[1] : corners[4];
+        const float z = p.Normal.Z >= 0.0f ? corners[2] : corners[5];
+        if (p.Normal.X * x + p.Normal.Y * y + p.Normal.Z * z + p.D > 0.0f) {
+            return false;
+        }
+    }
+    m_cullState = 2;
     return true;
 }
 

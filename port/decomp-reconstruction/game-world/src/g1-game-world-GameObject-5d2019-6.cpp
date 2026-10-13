@@ -12,7 +12,7 @@
 // Fully reconstructed: GetLookAtVec, LookTowards, SetHeadingDirection, LookAt (both), UpdateTargetPosition, SetPosition,
 // ForceUpdatePosition, SetVisualObject (both), SetCameraAnchorObject, SetPhysicalObject, Stop, PathTo, UpdatePFObject,
 // UpdatePath, DisableCollisions, EnableCollisions.
-// Partial: GetCameraAnchorPosition, UpdateSubObjects.
+// GetCameraAnchorPosition and UpdateSubObjects are reconstructed as well.
 
 #include <cmath>
 #include <cstdint>
@@ -23,6 +23,9 @@
 #include <Box2D.h>
 
 #include "dh2/AnchorBase.hpp"
+#include "dh2/AnchorForward.hpp"
+#include "dh2/CameraLevel.hpp"
+#include "dh2/CameraTarget.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
@@ -294,10 +297,8 @@ void GameObject::SetCameraAnchorObject(AnchorBase* anchor) {
 }
 
 // 0x3943b8 GameObject::GetCameraAnchorPosition() const
-// PARTIAL (type). The listing returns the address of the anchor's m_position (AnchorBase +0x0c) when an anchor is set,
-// and of this object's m_position (+0x160) otherwise. AnchorBase::m_position is a glitch::core::vector3d<float>, while the
-// header returns const Point3D<float>&. Both are three floats X, Y, Z at +0, +4 and +8, so the anchor branch reinterprets
-// the anchor's member. Layout request in the report: AnchorBase::m_position as Point3D<float>, or a conversion.
+// The address of the camera anchor's position (AnchorBase +0x0c) when an anchor is set, and of this object's own position (+0x160) otherwise. The anchor keeps its position as
+// the three floats of a glitch vector (X, Y, Z at +0, +4, +8), the same layout as Point3D<float>, so the reference is taken over that member.
 const Point3D<float>& GameObject::GetCameraAnchorPosition() const {
     if (m_cameraAnchor != nullptr) {
         return reinterpret_cast<const Point3D<float>&>(m_cameraAnchor->m_position);
@@ -306,16 +307,15 @@ const Point3D<float>& GameObject::GetCameraAnchorPosition() const {
 }
 
 // 0x3943cc GameObject::UpdateSubObjects()
-// PARTIAL. SEAMs, all PFWorld singleton calls or a type the tree does not prove:
-//   1. When IsValidatingFloorPosition() == 1 and the body moved, the listing takes positionHeld from
-//      PFWorld::ValidatePosition(Singleton<PFWorld>::s_inst, m_position, m_pfObject) and re-sets the body when it is false.
-//      Not emitted. positionHeld keeps its placeholder value (true) in that case, so ApplyPosition is skipped.
-//   2. When IsValidatingFloorPosition() == 0 and the position was not restored, the listing calls
-//      PFWorld::ValidatePosition on m_position. A false result re-sets the body (the listing's LABEL_54). Not emitted.
-//   3. The anchor branch (AnchorBase type 2 reads the anchor's +0x3c and the camera's damping). AnchorType enumerators are
-//      not recovered, and AnchorBase has no member at +0x3c (AnchorForward::unk_3c is the candidate). Not emitted.
-//   4. The fast-move velocity (squared distance above 400): Point3D::normalize() is not reachable from GameObject.hpp
-//      (the minimal Point3D of game_types.hpp). Not emitted; the rest of the velocity logic is complete.
+// Updates the visual object (vtable +0x08) and the physical object (+0x20), then the positions. A physical body that is awake and more than 1.0 from the stored position on either axis moves
+// the object to the body's position; with floor validation 1 the position goes through PFWorld::ValidatePosition and a failure puts the body back, otherwise the position is held. With
+// a physical object that updates the position (vtable +0x64) the body is driven towards the destination: nothing when it is already there, a stop and a snap within 20 units, else a velocity of
+// speed (GetSpeed) along the normalised direction; without it the body is stopped. A position that is not held is applied to the visual (ApplyPosition, waking the body); the visual position
+// is synchronised and the body position set. The rotation comes from the visual (ApplyRotation) or from the awake body's angle, and the visual rotation and scaling are synchronised.
+// Without floor validation (vtable +0x74 is 0) the position is restored from the path-finding object when the camera limits forbid the move (Level::CanMoveTowards), or checked by
+// PFWorld::ValidatePosition (a failure sets the body position again), and the visual position is synchronised. Arriving at the destination copies the position to it. The absolute box is
+// updated and the camera anchor updated (AnchorBase vtable +0x0c); a type 2 anchor in state 3 turns the level camera's damping on, and in state 1 or 4, while the damping is on and the camera
+// node is within sqrt(3) of the anchor position, turns it off.
 void GameObject::UpdateSubObjects() {
     if (m_visualObject != nullptr) {
         m_visualObject->Update();               // vtable +0x08
@@ -340,28 +340,28 @@ void GameObject::UpdateSubObjects() {
         if (moved) {
             m_position.X = bodyPos.X;
             m_position.Y = bodyPos.Y;
-            positionHeld = true;
             if (IsValidatingFloorPosition() == 1) {
-                // SEAM 1: positionHeld = PFWorld::ValidatePosition(Singleton<PFWorld>::s_inst, m_position, m_pfObject);
-                //         if (!positionHeld) physical->setPosition(m_position.X, m_position.Y). Not emitted (see above).
+                positionHeld = Singleton<PFWorld>::s_inst.ValidatePosition(m_position, &m_pfObject);
+                if (!positionHeld) {
+                    physical->setPosition(m_position.X, m_position.Y);
+                }
+            } else {
+                positionHeld = true;
             }
         }
 
         if (updatePositionFromPhysics) {
-            const float dx = m_destination.X - m_position.X;    // +0x1a8 - +0x160
-            const float dy = m_destination.Y - m_position.Y;
-            const float dz = m_destination.Z - m_position.Z;
-            const float distanceSq = (dx * dx + dy * dy) + dz * dz;
+            Point3D<float> direction{m_destination.X - m_position.X, m_destination.Y - m_position.Y,
+                                     m_destination.Z - m_position.Z};   // +0x1a8 - +0x160
+            const float distanceSq = (direction.X * direction.X + direction.Y * direction.Y) + direction.Z * direction.Z;
             if (distanceSq > 0.0f) {
                 const float speed = GetSpeed();                 // vtable +0xa8
                 if (distanceSq <= 400.0f) {
                     physical->setLinearVelocity(0.0f, 0.0f);
                     physical->setPosition(m_position.X, m_position.Y);
                 } else {
-                    // SEAM: Point3D::normalize() on (dx, dy, dz), then setLinearVelocity(speed * X, speed * Y). Not
-                    // emitted: GameObject.hpp brings the minimal Point3D of core-platform/deps/game_types.hpp, which has
-                    // no normalize(). dh2/Point3D.hpp has it, but the two definitions cannot share a translation unit.
-                    (void)speed;
+                    direction.normalize();
+                    physical->setLinearVelocity(speed * direction.X, speed * direction.Y);
                 }
             }
         } else {
@@ -399,21 +399,19 @@ void GameObject::UpdateSubObjects() {
     }
 
     if (IsValidatingFloorPosition() == 0) {     // vtable +0x74
-        bool restored = false;                  // the listing's LABEL_54 path
+        bool restore = false;                   // the listing's LABEL_54 path
         if (IsValidatingCameraLimits()) {       // vtable +0x78
             Level* level = ApplicationGetInstance().GetCurrentLevel();
             if (level != nullptr && !level->CanMoveTowards(m_position, m_heading)) {
                 m_position = m_pfObject.m_pos;  // PFObject +0x18 (the position at the start of UpdatePath)
-                restored = true;
+                restore = true;
             }
         }
-        if (restored) {
-            if (m_physicalObject != nullptr) {
-                m_physicalObject->setPosition(m_position.X, m_position.Y);
-            }
-        } else {
-            // SEAM 2: if (!PFWorld::ValidatePosition(Singleton<PFWorld>::s_inst, m_position, m_pfObject)) then
-            //         m_physicalObject->setPosition(m_position.X, m_position.Y). Not emitted (see above).
+        if (!restore && !Singleton<PFWorld>::s_inst.ValidatePosition(m_position, &m_pfObject)) {
+            restore = true;
+        }
+        if (restore && m_physicalObject != nullptr) {
+            m_physicalObject->setPosition(m_position.X, m_position.Y);
         }
         if (m_visualObject != nullptr) {
             m_visualObject->SyncPosition();
@@ -426,7 +424,21 @@ void GameObject::UpdateSubObjects() {
     UpdateAbsoluteAABB();
     if (m_cameraAnchor != nullptr) {
         m_cameraAnchor->Update();               // AnchorBase vtable +0x0c
-        // SEAM 3: the type-2 anchor branch of the listing (camera damping on the anchor state at +0x3c). Not emitted.
+        if (static_cast<int>(m_cameraAnchor->m_type) == 2) {
+            const std::int32_t state = static_cast<AnchorForward*>(m_cameraAnchor)->unk_3c;
+            CameraTarget* camera = ApplicationGetInstance().GetCurrentLevel()->m_camera;   // CameraLevel is a CameraTarget
+            if (state == 3) {
+                camera->EnableDamping(true);
+            } else if ((state == 4 || state == 1) && camera->m_dampingEnabled) {
+                const glitch::core::vector3d<float> nodePosition = camera->m_node->getAbsolutePosition();
+                const float dx = m_cameraAnchor->m_position.X - nodePosition.X;
+                const float dy = m_cameraAnchor->m_position.Y - nodePosition.Y;
+                const float dz = m_cameraAnchor->m_position.Z - nodePosition.Z;
+                if ((dx * dx + dy * dy) + dz * dz <= 3.0f) {
+                    camera->EnableDamping(false);
+                }
+            }
+        }
     }
 }
 

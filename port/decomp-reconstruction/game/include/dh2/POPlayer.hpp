@@ -11,5 +11,8 @@ public:
     // Vtable slots in order: 0/1 this class's destructors. Slots 2..6 are POCharacter's
     // collision overrides, 7..9 PhysicalObject's, and 10 POCharacter::onCollisionResults(PhysicalBaseObject*,
     // Point2D<float> const&, bool). All of them are inherited unchanged.
+    // The original builds these with the POCharacter constructor clone (0x3b4010) and then stores the derived vtable pointer.
+    POPlayer(PhysicalWorld* world, GameObject* owner, short group, unsigned short category, unsigned short mask, bool isBullet, bool unused)
+        : POCharacter(world, owner, group, category, mask, isBullet, unused) {}
     ~POPlayer() override;                                                     // slot 0/1: 0x3b3858, 0x3b441c
 };

@@ -1,21 +1,45 @@
 // Batch g1-game-character-Character-ee9946-3: part 4 of the Character functions (state FX, spot target, interaction
 // queries, inventory transmute and requirements, equipment, ranged attack, respawn, update gating, animation stance).
-// Declarations come from dh2/Character.hpp. Partial bodies name the missing field, singleton or callee in a PARTIAL
-// comment; the ledger rows in game-character/ledger.d/g1-game-character-Character-ee9946-3.csv repeat it, with the
-// layout requests for the owner classes.
+// Declarations come from dh2/Character.hpp.
 
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <new>
 
+#include "core-platform/memory.hpp"  // gAssertLevel
+#include "dh2/AnimatedFX.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/QE_TalkToNPC.hpp"
+#include "dh2/RenderFX.hpp"
 #include "dh2/RootSceneNode.hpp"
+#include "dh2/TrophyManager.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/Vec3f_Origin.hpp"
 #include "dh2/global/charai_ai.hpp"
+#include "dh2/global/ctrl_camera.hpp"          // ApplicationGetInstance
 #include "dh2/global/net_singletons.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+#include "gameswf/gameswf_value.h"
+#include "pydata-accessors/w7_arrays_02.hpp"   // Arrays::DesignSettingsTable
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
+#include "pydata-accessors/structs_records.hpp"
 
 namespace {
 
@@ -41,85 +65,115 @@ std::int32_t WrapAdd(std::int32_t a, std::int32_t b) {
     return static_cast<std::int32_t>(static_cast<std::uint32_t>(a) + static_cast<std::uint32_t>(b));
 }
 
-// PARTIAL placeholders. Each stands for state the tree does not expose yet; the value returned is the one the
-// reconstructed branch sees when the bit or word is taken as clear or unset. See the ledger notes for each.
-
-// CharStateMachine::m_stateFlags (+0x24, private to CharStateMachine, Character +0x520). UpdateStateFX tests bits
-// 0x400 (scare) and 0x800 (stun); IsInteractive tests bit 0x2000. Not reachable from Character: taken as 0.
-std::uint32_t CharStateMachineFlags() {
-    return 0;
-}
-
-// COnline::isOnlineGame_ (+0x05, private, no getter). Taken as offline.
+// COnline::isOnlineGame_ (+0x05).
 bool OnlineGameFlag() {
     return GetOnlineGameFlag();
 }
 
-// Arrays::DesignSettingsTable FX ids, read at byte offsets 116, 124 and 128 of the table members. The pydata Arrays
-// element ABI is not ported, so no id is read. -1 means no FX.
-int DesignSettingsFxId(unsigned int byteOffset) {
-    (void)byteOffset;
-    return -1;
+// The id of a trophy by name (the first match in Arrays::TrophyTable's names, -1 when absent).
+int TrophyId(const char* name) {
+    return pydata::FindMemberName(Arrays::TrophyTable::m_memberNames, static_cast<int>(Arrays::TrophyTable::size), name);
+}
+
+// Copies a position into the offset words of an AnimatedFX (+0x34, +0x38, +0x3c hold the floats' bit patterns).
+void SetFxOffset(AnimatedFX* fx, const Point3D<float>& position) {
+    std::memcpy(&fx->unk_34, &position.X, sizeof(float));
+    std::memcpy(&fx->unk_38, &position.Y, sizeof(float));
+    std::memcpy(&fx->unk_3c, &position.Z, sizeof(float));
+}
+
+// The original ends several FX set-ups with two virtual calls on the FX's animator: getTimelineCtrl, then setLoop(true) on it.
+void StartFxLooping(AnimatedFX* fx) {
+    glitch::collada::ISceneNodeAnimator* animator = fx->GetAnimator();
+    if (animator != nullptr && animator->getTimelineCtrl() != nullptr) {
+        fx->GetAnimator()->getTimelineCtrl()->setLoop(true);
+    }
 }
 
 }  // namespace
 
 // 0x3a4470 _ZN9Character13UpdateStateFXEv
+// A dead character keeps its state. The state category (m_stateFXId, +0x1490: 0 none, 1 slowed, 3 scared, 4 stunned) is chosen in that priority: stunned with
+// state flag 0x800 gives 4 (FX DesignSettings +0x80), scared with flag 0x400 gives 3 (FX +0x74), a walk speed below 1.0 gives 1 (FX +0x7c); a category already above
+// the candidate keeps none, and a candidate without an FX (-1) is category 0. When the category changes the old state FX is dropped and, for an FX, the new one is
+// grabbed, owned by this character, placed at the origin offset, shown and set looping.
 void Character::UpdateStateFX() {
-    // PARTIAL: the state FX object m_stateFX (+0x148c) is not swapped. The original drops it and grabs the new AnimatedFX
-    // through Singleton<VisualFXManager>::s_inst, sets its owner (+0x28), copies the position, makes it visible and
-    // drives its animator with two virtual calls (+0x44, +0x40). None of that can be made: there is no VisualFXManager
-    // instance accessor and no ISceneNodeAnimator declaration. The state category is still stored.
+    const int previous = m_stateFXId;
     if (IsDead()) {
         return;
     }
-    // +0x1490 holds the state category (0 none, 1 slowed, 3 scared, 4 stunned), not an FX id as the header comment says.
-    // Layout request: rename m_stateFXId to m_stateFXState (see the ledger).
-    const int previous = m_stateFXId;
-    struct Choice {
-        int category;
-        int fxId;
-    };
-    Choice choice{0, -1};
+    const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
+    int category = 0;
+    int fxId = -1;
     if (previous > 4) {
-        choice = {0, -1};
-    } else if (CharStateMachine::SM_IsStunned(true) && (CharStateMachineFlags() & 0x800u) != 0) {
-        choice = {4, DesignSettingsFxId(128)};
+        category = 0;
+        fxId = -1;
+    } else if (CharStateMachine::SM_IsStunned(true) && (CharStateMachine::m_stateFlags & 0x800u) != 0) {
+        category = 4;
+        fxId = design->m_w32;
     } else if (previous > 3) {
-        choice = {0, -1};
-    } else if (CharStateMachine::SM_IsScared(true) && (CharStateMachineFlags() & 0x400u) != 0) {
-        choice = {3, DesignSettingsFxId(116)};
+        category = 0;
+        fxId = -1;
+    } else if (CharStateMachine::SM_IsScared(true) && (CharStateMachine::m_stateFlags & 0x400u) != 0) {
+        category = 3;
+        fxId = design->m_w29;
     } else if (previous > 1 || !(FloatFromBits(CharProperties::PROPS_GetWalkSpeed()) < 1.0f)) {
-        choice = {0, -1};
+        category = 0;
+        fxId = -1;
     } else {
-        choice = {1, DesignSettingsFxId(124)};
+        category = 1;
+        fxId = design->m_w31;
     }
-    // The original takes the none path (category 0) whenever the FX id is -1.
-    if (choice.fxId == -1) {
-        choice.category = 0;
+    if (fxId == -1) {
+        category = 0;
     }
-    if (m_stateFXId != choice.category) {
-        m_stateFXId = choice.category;
+    if (m_stateFXId != category) {
+        m_stateFXId = category;
+        if (fxId == -1) {
+            VisualFXManager::s_inst.DropAnimatedFX(m_stateFX);
+        } else {
+            if (m_stateFX != nullptr) {
+                VisualFXManager::s_inst.DropAnimatedFX(m_stateFX);
+            }
+            m_stateFX = VisualFXManager::s_inst.GrabAnimFX(fxId, nullptr);
+            if (m_stateFX != nullptr) {
+                m_stateFX->unk_28 = this;
+                m_stateFX->SyncIrrData(true);
+                SetFxOffset(m_stateFX, Vec3f_Origin);
+                m_stateFX->SyncIrrData(false);
+                m_stateFX->SetVisible(true);
+                StartFxLooping(m_stateFX);
+            }
+        }
     }
 }
 
 // 0x3a469c _ZN9Character16UpdateSpotTargetEv
+// The spot FX (m_spotTargetFX, +0x14cc) marks the queued click position while casting. With an FX and no pending click it is dropped. Without an FX a pending click
+// grabs the FX m_spotTargetFXId (int16). With an FX, the queued position (+0x14b0) is validated against the path-finding world: a failing position falls back to the
+// last valid one (+0x14bc); a passing one becomes the valid one, moves the FX there (its offset words) and syncs it.
 void Character::UpdateSpotTarget() {
-    // PARTIAL: the spot FX m_spotTargetFX (+0x14cc) is grabbed and dropped through Singleton<VisualFXManager>::s_inst,
-    // and the queued position is checked with PFWorld::ValidatePosition on Singleton<PFWorld>::s_inst. Neither singleton
-    // has an instance accessor in the tree. The AnimatedFX position words (unk_34..unk_3c) are unnamed. Only the
-    // branches that need no call are reproduced, and no call is made in the others.
-    if (m_spotTargetFX == nullptr) {
-        // Original: when m_spotTargetPending is set, grab the FX (m_spotTargetFXId) and validate the position. Not made.
+    if (m_spotTargetFX != nullptr) {
+        if (!m_spotTargetPending) {
+            VisualFXManager::s_inst.DropAnimatedFX(m_spotTargetFX);
+            return;
+        }
+    } else {
+        if (!m_spotTargetPending) {
+            return;
+        }
+        m_spotTargetFX = VisualFXManager::s_inst.GrabAnimFX(m_spotTargetFXId, nullptr);
+        if (m_spotTargetFX == nullptr) {
+            return;
+        }
+    }
+    if (!PFWorld::s_inst.ValidatePosition(m_spotTargetPos, nullptr)) {
+        m_spotTargetPos = m_spotTargetValidPos;
         return;
     }
-    if (!m_spotTargetPending) {
-        // Original: DropAnimatedFX(&Singleton<VisualFXManager>::s_inst, &m_spotTargetFX), then return. Not made.
-        return;
-    }
-    // Original: ValidatePosition(m_spotTargetPos). When it fails, m_spotTargetPos becomes m_spotTargetValidPos. When it
-    // passes, the valid position takes m_spotTargetPos, the FX position takes it too and AnimatedFX::SyncIrrData(false)
-    // runs. Not made.
+    m_spotTargetValidPos = m_spotTargetPos;
+    SetFxOffset(m_spotTargetFX, m_spotTargetPos);
+    m_spotTargetFX->SyncIrrData(false);
 }
 
 // 0x3a47e8 _ZNK9Character18GetInteractionTypeEP10GameObject
@@ -149,10 +203,9 @@ bool Character::IsInteractive(GameObject* other) const {
 }
 
 // 0x3a4930 _ZN9Character24INV_DoesMeetRequirementsEP12ItemInstance
-// PARTIAL: the original returns true for a remotely updated character of an online game (COnline::isOnlineGame_ at +0x05,
-// private with no getter; OnlineGameFlag() is taken offline here). Otherwise it compares the five requirement words of the
-// item record (Structs::Item m_w29..m_w33, +0x74..+0x84) with five words of this character's final sheet, each shifted
-// right by 8: m_props.m_w20 (+0x1044) and m_props.m_w150..m_w153 (+0x124c..+0x1258).
+// True for a remotely updated character of an online game, and for a null item. Otherwise the five requirement words of the item record (Structs::Item
+// m_w29..m_w33, +0x74..+0x84) are compared with five words of this character's final sheet, each shifted right by 8: m_props.m_w20 (+0x1044) and
+// m_props.m_w150..m_w153 (+0x124c..+0x1258).
 bool Character::INV_DoesMeetRequirements(ItemInstance* item) {
     if ((OnlineGameFlag() && IsRemotelyUpdated()) || item == nullptr) {
         return true;
@@ -169,8 +222,8 @@ bool Character::IsPlayer() const {
     if (charType != 0) {
         return charType == 1;
     }
-    // PARTIAL: the original reads a char* at +0x44 and tests strstr(name, "PlayerCharacter") == name. That pointer is
-    // not a declared member (ObjectBase::m_name is a std::string at +0x30), so the object's name is read from m_name.
+    // The original reads the char* at +0x44, which is the data pointer of the std::string m_name (+0x30) in the STLport layout, and tests
+    // strstr(name, "PlayerCharacter") == name.
     const char* name = m_name.c_str();
     return std::strstr(name, "PlayerCharacter") == name;
 }
@@ -200,11 +253,13 @@ int Character::INV_TransmuteItem(ItemInstance* item, bool a) {
         }
         ItemInventory::AddGold(gold);
         CharProperties::PROPS_AddInt(213, 1);
-        // PARTIAL: the original runs the gear_transmute trophy test here: when PlayerManager::IsLocalPlayer(dword_99F76C,
-        // this) holds, PROPS_GetInt(213) >= 300 and IsPlayer(), it calls TrophyManager::s_instance->UnlockTrophy with
-        // Arrays::GetMemberIDByString<Arrays::TrophyTable>("gear_transmute"). dh2/PlayerManager.hpp cannot be included in
-        // this translation unit (its StreamBuffer member is abstract next to pydata's IStreamBase), so the local-player
-        // test is not made and the trophy is not unlocked.
+        // The local player unlocks the "gear_transmute" trophy at 300 transmuted items.
+        if (dword_99F76C->IsLocalPlayer(this)) {
+            TrophyManager* trophies = TrophyManager::s_instance;
+            if (CharProperties::PROPS_GetInt(213, false) >= 300 && IsPlayer()) {
+                trophies->UnlockTrophy(TrophyId("gear_transmute"));
+            }
+        }
     }
     return gold;
 }
@@ -278,10 +333,8 @@ bool Character::CanRangeAttack() const {
 }
 
 // 0x3a4d5c _ZN9Character10RaiseEventEiPv
-// PARTIAL: event 54 returns what CharProperties::BuffExpired returns. In the binary BuffExpired (0x3e123c) is an int function
-// that ends with "return PROPS_DelBuff(...)", but dh2/CharProperties.hpp declares BuffExpired (line 81) and PROPS_DelBuff
-// (line 79) void, so that value is not defined in this tree. Layout request: CharProperties::BuffExpired and PROPS_DelBuff
-// return int. 0 is returned here.
+// Event 54 (a buff timer ran out) goes to CharProperties::BuffExpired; every other event goes to CharAI::RaiseAIEvent. The original returns what those
+// calls return; BuffExpired ends with a tail call to PROPS_DelBuff, so its result is the stale register of a void call (0 here).
 int Character::RaiseEvent(int eventId, void* data) {
     if (eventId == 54) {
         CharProperties::BuffExpired(static_cast<CharTimers::Timer*>(data));
@@ -291,42 +344,89 @@ int Character::RaiseEvent(int eventId, void* data) {
 }
 
 // 0x3a4d78 _ZN9Character8InteractEP10GameObject
+// A character that is not already interacting first raises the TalkToNPC quest event on the current level (a missing level asserts, Character.cpp:1851): the PyData
+// "v2QuestObjectiveType"/"TalkToNPC" id, the interacting object, this character's unk_64 as the target id, value -1 and its character row id (m_charPropsId) as the
+// match id. The interact state is then entered. Unless unk_2fa is set, event 5 is raised on this character and then: a merchant with loot, interacted with by a
+// Character, fills its inventory from the Arrays::MerchantTable row when it is empty and tells the HUD to open the merchant menu (the interacting player's number) and
+// to show the merchant's name and id; a cleaner tells the HUD to open the cleaner menu for the interacting player.
 void Character::Interact(GameObject* other) {
     if (!CharStateMachine::SM_IsInteracting()) {
-        // PARTIAL: the original raises the TalkToNPC quest event on the current level before it sets the interact state.
-        // The level comes from Application::GetCurrentLevel on Singleton<Application>::s_inst, which has no instance
-        // accessor in the tree, and the event object (IEvent vtable off_965E98, 0x14 bytes) is not declared. Also the
-        // original reports a missing level through gAssertLevel (2 writes address 0 to crash, 1 prints). No event is
-        // raised here.
+        Level* level = ApplicationGetInstance().GetCurrentLevel();
+        if (level == nullptr) {
+            if (gAssertLevel == 2) {
+                std::abort();
+            } else if (gAssertLevel == 1) {
+                std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "level",
+                             "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character.cpp", 1851);
+            }
+        }
+        QE_TalkToNPC event;
+        event.eventId_ = static_cast<std::uint32_t>(ApplicationGetPyDataConstants()->getConstant("v2QuestObjectiveType", "TalkToNPC"));
+        event.m_character = other;
+        event.m_targetId = unk_64;
+        event.m_flag0 = 0;
+        event.m_flag1 = 0;
+        event.m_value = -1;
+        event.m_matchId = m_charPropsId;
+        level->RaiseAsync(event);
     }
     CharStateMachine::SM_SetInteractState(3, true, other, false);
-    // GameObject unk_2fa (+0x2fa) is the byte the original tests with the Character at +0x2fa.
-    if (unk_2fa == 0) {
-        RaiseEvent(5, other);
-        if (IsMerchant()) {
-            if (HasLoot() && other != nullptr) {
-                // PARTIAL: the original resolves the other object to its Character through its ObjectHandle. When the
-                // merchant list is empty it adds the Arrays::MerchantTable loot rows (rows not decoded yet), then calls
-                // RenderFX::InvokeASCallback with "openMerchantMenu" and "AdditionnalInfosForMerchant" on the HUD root,
-                // with the owner's player number (PlayerInfo +0x678, PlayerInfo not declared). Not made.
+    if (unk_2fa != 0) {
+        return;
+    }
+    RaiseEvent(5, other);
+    if (IsMerchant()) {
+        if (HasLoot() && other != nullptr) {
+            ObjectHandle handle = other->GetHandle();
+            Character* player = handle;
+            if (player != nullptr) {
+                const auto* row = reinterpret_cast<const Structs::Merchant*>(Arrays::MerchantTable::members) + GetLoot();
+                if (ItemInventory::GetNumItems() == 0) {
+                    const auto* entries = static_cast<const Structs::MerchandiseListEntry*>(row->m_w4);
+                    for (std::uint32_t i = 0; i < row->m_w3; ++i) {
+                        ItemInventory::AddLoot(entries[i].m_w2, 0, 0, -1, false);
+                    }
+                }
+                gameswf::as_value openArgument;
+                openArgument.set_double(static_cast<double>(dword_99F76C->GetPlayerByCharacter(player, false)->unk_678));
+                MenuManager::GetInstance()->GetHUDRoot()->InvokeASCallback("_root", "openMerchantMenu", &openArgument, 1);
+                gameswf::as_value infoArguments[2];
+                infoArguments[0].set_string(m_name.c_str());
+                infoArguments[1].set_double(static_cast<double>(unk_64));
+                MenuManager::GetInstance()->m_multiMenuManager->m_menuFX[1]->InvokeASCallback("_root", "AdditionnalInfosForMerchant", infoArguments, 2);
             }
-        } else if (IsCleaner()) {
-            if (other != nullptr) {
-                // PARTIAL: the original calls RenderFX::InvokeASCallback "openCleanerMenu" on the HUD root with the
-                // owner's player number (PlayerInfo +0x678). Not made: no RenderFX callback and no PlayerInfo.
+        }
+    } else if (IsCleaner()) {
+        if (other != nullptr) {
+            ObjectHandle handle = other->GetHandle();
+            Character* player = handle;
+            if (player != nullptr) {
+                gameswf::as_value argument;
+                argument.set_double(static_cast<double>(dword_99F76C->GetPlayerByCharacter(player, false)->unk_678));
+                MenuManager::GetInstance()->GetHUDRoot()->InvokeASCallback("_root", "openCleanerMenu", &argument, 1);
             }
         }
     }
 }
 
 // 0x3a5184 _ZN9Character16GetImmunityTimerEi
+// The immunity timers are a table of TimerUtil pointers indexed by damage type, starting at +0x14e0 (m_timerUtil is its first entry). The original reports the
+// assertion "damageType > 0 && damageType < Constants::DamageType::count" unconditionally (the compiler folded the condition: the damage type count is 1, so the
+// test can never hold). The entry is created on first use. Only damage type 0 has a table entry; any other index would run into the members that follow the table, so
+// the port uses the first entry for it.
 TimerUtil* Character::GetImmunityTimer(int damageType) {
-    // PARTIAL: the original indexes a TimerUtil* table with 4-byte stride from +0x14e0 (word damageType + 1336), creates
-    // the TimerUtil when the entry is null and stores it there. That table overlaps the members from +0x14e4 on
-    // (m_isNetSpawned, m_savegame, ...), so it cannot be typed on this layout, and the lazily created timer is not
-    // stored. The pseudocode also shows the assert block without its condition, so that block is not reproduced.
     (void)damageType;
-    return nullptr;
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "damageType > 0 && damageType < Constants::DamageType::count",
+                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character.cpp", 1430);
+    }
+    if (m_timerUtil == nullptr) {
+        // operator new(8, hint) in the original (Clean releases it with CustomFree).
+        m_timerUtil = new (CustomAlloc(static_cast<unsigned int>(sizeof(TimerUtil)))) TimerUtil();
+    }
+    return m_timerUtil;
 }
 
 // 0x3a5248 _ZNK9Character10CanRespawnEv
@@ -341,27 +441,33 @@ bool Character::CanRespawn() const {
 }
 
 // 0x3a52a4 _ZN9Character9CanUpdateEv
+// The root node of the visual object (VisualObject m_node, +0x08) carries the cull-before-update flag (node +0x200); it is cleared first and set again at the end when
+// the character is visible. Unless the game is online and this character remotely updated: a character with a visual that is not the master of the local player (CharAI
+// m_master against the local player's PlayerInfo +0x660), whose node has its automatic culling mode (+0x118) set or whose unk_2fc is set, and that fails the cull test
+// (ObjectBase::TestCullingBeforeUpdate on the world box +0x12c) and is not a dummy, does not update (0). A dead character that is hidden and cannot respawn does not
+// update either.
 int Character::CanUpdate() {
-    // The root node of the visual object (VisualObject m_node, +0x08) carries the cull-before-update flag (node +0x200,
-    // RootSceneNode m_cullBeforeUpdate). The original clears it first and sets it at the end when the character is visible.
     RootSceneNode* root = (m_visualObject != nullptr) ? m_visualObject->m_node : nullptr;
     if (root != nullptr) {
         root->m_cullBeforeUpdate = false;
     }
-    // PARTIAL: on the path where the character is not online-updated the original also returns 0 when the master and
-    // local-player test (CharAI m_master at +0x50 against the local player's PlayerInfo +0x660; PlayerManager.hpp does not
-    // compile in this unit) and the culling test (ObjectBase::TestCullingBeforeUpdate needs an aabb<float>, forward-declared
-    // only here) both fail, and when the root node word +0x118 (glitch CRootSceneNode base, not restated) or unk_2fc is
-    // zero. Those are not made. The online flag (COnline isOnlineGame_, private) is taken offline. The dead-and-hidden test
-    // and the return values are reproduced.
     if (!OnlineGameFlag() || !IsRemotelyUpdated()) {
+        if (m_visualObject != nullptr) {
+            Character* localCharacter = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+            if (CharAI::m_master != localCharacter &&
+                (m_visualObject->m_node->automaticCulling != 0 || unk_2fc != 0) &&
+                !TestCullingBeforeUpdate(reinterpret_cast<const aabb<float>&>(m_absAabb)) && m_isDummy == 0) {
+                return 0;
+            }
+        }
         if (IsDead() && !m_visible && !CanRespawn()) {
             return 0;
         }
     }
-    if (root != nullptr && m_visible) {
-        root->m_cullBeforeUpdate = true;
+    if (root == nullptr || !m_visible) {
+        return 1;
     }
+    root->m_cullBeforeUpdate = true;
     return 1;
 }
 

@@ -1,69 +1,112 @@
 // Batch g1-game-character-Character-ee9946-4: the model and class name queries, the foot positions, the initial position,
 // the enable and disable hooks, the potion query, the revive, the loot drop, the kill, the serialization pair, the cleanup,
 // the replicated-state constructor and its destructors, the concurrent-AI map clear and the net-struct population.
-// Declarations come from dh2/Character.hpp. PARTIAL comments name what is missing; the ledger rows in
-// game-character/ledger.d/g1-game-character-Character-ee9946-4.csv repeat them.
+// Declarations come from dh2/Character.hpp.
 
 #include <cstdint>
+#include <cstdlib>
+#include <cstdio>
 #include <map>
 #include <string>
 
 #include "core-platform/device.hpp"
+#include "core-platform/memory.hpp"  // gAssertLevel
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/IStreamBase.hpp"
 #include "dh2/ItemObject.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/ObjectHandle.hpp"
 #include "dh2/PFWorld.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/PlayerSavegame.hpp"
+#include "dh2/QE_ClearEnemies.hpp"
+#include "dh2/QE_ClearEnemyTemplate.hpp"
+#include "dh2/QE_KillEnemies.hpp"
+#include "dh2/QE_KillEnemyTemplate.hpp"
+#include "dh2/TrophyManager.hpp"
 #include "dh2/VisualFXManager.hpp"
 #include "dh2/Singleton.hpp"
 #include "dh2/StringManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/charai_ai.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/item_instance.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "dh2/AnchorBase.hpp"
+#include "dh2/v2Controller.hpp"
 #include "glitch-scene-collada-gui/scene_node.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 
 namespace {
 
-// PARTIAL placeholder for the name pointer (+8) of Arrays::ModelDict row `row` (12-byte records). The pydata row type is
-// not in this translation unit (w7_arrays_00.hpp cannot be included next to the other pydata headers), so the name is nullptr.
+// The name pointer (+8) of Arrays::ModelDict row `row` (Structs::ColladaFile, 12-byte records in the original).
 const char* ModelDictName(int row) {
-    (void)row;
-    return nullptr;
+    return reinterpret_cast<const Structs::ColladaFile*>(Arrays::ModelDict::members)[row].m_w2;
+}
+
+// The id of a trophy by name (the first match in Arrays::TrophyTable's names, -1 when absent).
+int TrophyId(const char* name) {
+    return pydata::FindMemberName(Arrays::TrophyTable::m_memberNames, static_cast<int>(Arrays::TrophyTable::size), name);
+}
+
+// The original's ASSERT at Character.cpp:line: level 2 stops the process, level 1 prints the message.
+void ReportAssert(const char* expression, int line) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expression,
+                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character.cpp", line);
+    }
 }
 
 }  // namespace
 
 // 0x3a54d4 Character::GetCharModelName() const
-// PARTIAL: the branch structure is reproduced. Every row read goes through ModelDictName, which is a placeholder. The
-// faerie branch needs CharAI::m_master (private, CharAI +0x50) and the faery record (+12, no typed Structs::Faery); the master
-// is taken as absent, which keeps the model id. PlayerManager::IsLocalPlayer(this) (dword_99F76C) is taken false because
-// PlayerManager.hpp cannot be included here. The bound check against Arrays::ModelDict::size is not made.
+// The model id (GetCharModelId; -1 gives no name). A faerie takes the model of its master's current faery (the Faery row's +0xc word) when it has a master. A model id inside
+// Arrays::ModelDict gives that row's name, otherwise none. A non-player, a character on a high-performance device and the local player use their own model id. Any other
+// player (a remote one on a low-performance device) uses a fixed model row chosen by m_charPropsId: 290..292 row 75, 325..327 row 76, 263..265 row 77; any other
+// class fails ASSERT(false) (Character.cpp:1191) and uses the model id.
 const char* Character::GetCharModelName() const {
-    const int charModelId = GetCharModelId();
+    int charModelId = GetCharModelId();
     if (charModelId == -1) {
         return nullptr;
     }
+    auto byId = [](int row) -> const char* {
+        if (row >= 0 && row < static_cast<int>(Arrays::ModelDict::size)) {
+            return ModelDictName(row);
+        }
+        return nullptr;
+    };
     if (IsFaerie()) {
-        // PARTIAL: the master's current faery model id (via CharAI::m_master) is not read; the model id is used.
-        return ModelDictName(charModelId);
+        if (Character* master = CharAI::m_master) {
+            const int faeryId = master->SG_GetCurrentFaerieId(-1);
+            charModelId = static_cast<const Structs::Faery*>(master->GetCharFaery(faeryId))->m_w3;
+        }
+        return byId(charModelId);
     }
     // The vtable call at +0x28 is IsPlayer(). Hex-Rays typed its result as Device*, which is a misreading of a bool.
-    if (!IsPlayer() || Device::IsHighPerformance() || /* PARTIAL: PlayerManager::IsLocalPlayer(this) */ false) {
-        return ModelDictName(charModelId);
+    if (!IsPlayer() || Device::IsHighPerformance() || dword_99F76C->IsLocalPlayer(this)) {
+        return byId(charModelId);
     }
-    // A player on a low-performance device, not the local one, uses a fixed model row chosen by m_charPropsId (+0x13c8).
     const int propsId = m_charPropsId;
-    if (propsId >= 290 && propsId <= 292) {
+    if (static_cast<unsigned int>(propsId - 290) <= 2u) {
         return ModelDictName(75);
     }
-    if (propsId >= 325 && propsId <= 327) {
+    if (static_cast<unsigned int>(propsId - 325) <= 2u) {
         return ModelDictName(76);
     }
-    if (propsId >= 263 && propsId <= 265) {
+    if (static_cast<unsigned int>(propsId - 263) <= 2u) {
         return ModelDictName(77);
     }
-    // The original asserts here (Character.cpp:1191) and uses the model id row.
-    return ModelDictName(charModelId);
+    ReportAssert("false", 1191);
+    return byId(charModelId);
 }
 
 // 0x3a56a4 Character::GetClassName() const
@@ -81,9 +124,8 @@ const char* Character::GetClassName() const {
 }
 
 // 0x3a5784 Character::GetPreSetAIState() const
-// PARTIAL: the original's first test compares the two words at +0x13dc and +0x13e0, which are the last 8 bytes of the 24-byte
-// m_aiState string under the 32-bit layout. It is read here as "the string is empty", which the host std::string does not
-// reproduce word for word. The Limbus and PreSpawn comparisons match the original.
+// The original's first test compares the finish and start-of-storage words of the m_aiState string (+0x13dc and +0x13e0), which is the empty test. An empty state gives 3
+// (idle); "Limbus" gives 0, "PreSpawn" 17, anything else 3.
 int Character::GetPreSetAIState() const {
     if (m_aiState.empty()) {
         return 3;
@@ -155,16 +197,9 @@ bool Character::HasPotion() const {
 }
 
 // 0x3a59ac Character::Revive(GameObject*, bool)
-// PARTIAL: reproduced: the death event (event 3) when dead, the low-HP sound re-arm, the dead flag, the HP/MP reset, the
-// unk_118 clear, the physics reset when requested, and the AI skill update. Not made:
-//  - the online block (m_netOwnerId = -1 and unk_114 = 0 when COnline::isOnlineGame_ is set): the flag at COnline +0x05
-//    is private with no getter;
-//  - the offline player's re-placement: the three words at Character +0x143c, +0x1440 and +0x1444 are read by the original as
-//    x, y and z and floor-corrected by PFWorld::GetFloorHeightAt (Singleton<PFWorld>::s_inst is declared now), then
-//    GameObject::SetPosition(pos, true) is called. The header names those words m_spawnViewRadius and unk_1440/unk_1444,
-//    but their meaning as a position is not confirmed, so the placement is not made.
-//    Layout request: name the words at Character +0x143c..+0x1444 (x, y, z of the revive placement).
-// The reviver argument is not read by the original body.
+// A dead character raises event 3 first. The low-HP sound is re-armed, the dead flag cleared, HP and MP filled and unk_118 cleared; online, the net owner becomes -1 (and
+// +0x114 is cleared). With resetPhysics the physics object is rebuilt. An offline player is put at its revive position (+0x1474), with the floor height found there by
+// the path-finding world. The AI skills are updated. The reviver argument is not read by the original body.
 void Character::Revive(GameObject* reviver, bool resetPhysics) {
     (void)reviver;
     if (m_dead != 0) {
@@ -174,11 +209,19 @@ void Character::Revive(GameObject* reviver, bool resetPhysics) {
     m_dead = 0;
     _InitHpMp();
     unk_118 = 0;
+    if (GetOnlineGameFlag()) {
+        m_netOwnerId = -1;
+        unk_114 = 0;
+    }
     if (resetPhysics) {
         InitPhysicalObject();
     }
-    if (IsPlayer()) {
-        // PARTIAL: the offline player's position restore (see the note above) is not made.
+    if (IsPlayer() && !GetOnlineGameFlag()) {
+        Point3D<float> position = m_revivePosition;
+        float floorHeight = position.Z;
+        Singleton<PFWorld>::s_inst.GetFloorHeightAt(position, &floorHeight, nullptr, nullptr, nullptr, false);
+        position.Z = floorHeight;
+        SetPosition(position, true);
     }
     CharAI::UpdateAllSkills();
 }
@@ -192,21 +235,13 @@ void Character::DropLoot(GameObject* killer) const {
 }
 
 // 0x3a5b18 Character::Kill(GameObject*, bool)
-// PARTIAL. Reproduced: the already-dead guard, the dead flag, the death counter for a player that dies unsilenced, the loot
-// drop, the killer assignment, the aggro loop (object-of-interest clearing, the two kill counters and event 4 to each aggro
-// character), and the guard for the quest events (IsRemotelyUpdated and m_isNetSpawned). Not made:
-//  - the loot drop is made unconditionally: the original makes it only when the level's unk_150 (Level +0x150) is null, and
-//    Level.hpp cannot be included in this translation unit (it conflicts with the pydata IStreamBase); null is assumed;
-//  - the local player's death and kill trophies (PlayerManager::IsLocalPlayer and PlayerManager::GetLocalPlayer are not
-//    reachable; TrophyManager::UnlockTrophy with the quest_died / killed_N trophy ids);
-//  - the online branch of a player's death (COnline::isOnlineGame_ is private);
-//  - the aggro redirect through Character +0x14d4 (an unnamed int32 read as a Character*): it is treated as absent;
-//  - the experience share, Character::DistributeXP, which the pseudocode calls with an unset third argument and the killer's
-//    object handle;
-//  - the quest objective events (EventManager::RaiseAsync of KillXEnemies, ClearEnemies, KillEnemyTemplate and
-//    ClearEnemyTemplate, with PyDataConstants "v2QuestObjectiveType" names and the IEvent vtables off_969A18, off_95B458,
-//    off_969A00, off_9699E8 and off_9699D0). Their objective data reads ObjectBase unk_64 (+0x64).
-//  - the level-null assert.
+// Does nothing when already dead. Sets the dead flag and HP to 0. A player that dies unsilenced counts the death (property 25); the local player unlocks quest_died_10_times /
+// _50_times / _100_times at those counts; online, the local player record is fetched (as the original does); then it returns. Otherwise the loot drops (unless the level's unk_150 is
+// set). Without a killer a silent kill ends here; with a killer a silent kill ends here and an unsilenced one records the killer (+0x144c) and walks the aggro list: each entry (or
+// the character in its redirect field +0x14d4) is sent event 4 with this character; a player entry has its object of interest cleared when it is this character, counts a kill and a
+// kill streak (properties 23 and 24) and, for the local player, unlocks killed_100 / _500 / _1000 / _2000 at those counts. When the killer is this character's aggro entry (or itself), the
+// XP is distributed to the killer's Character (DistributeXP; null when the killer is not a Character). Then, unless remotely updated or net spawned, the level (asserting it exists,
+// Character.cpp:723) is told the quest events KillXEnemies (killer, this unk_64, character row id), ClearEnemies, and, with a template, KillEnemyTemplate and ClearEnemyTemplate.
 void Character::Kill(GameObject* killer, bool silent) {
     if (IsDead()) {
         return;
@@ -215,16 +250,34 @@ void Character::Kill(GameObject* killer, bool silent) {
     PROPS_Set(36, 0);
     if (IsPlayer() && !silent) {
         PROPS_AddInt(25, 1);
-        // PARTIAL: the local player's death trophies are not made (see the note above).
+        if (dword_99F76C->IsLocalPlayer(this)) {
+            TrophyManager* trophies = TrophyManager::s_instance;
+            if (PROPS_GetInt(25, false) == 10) {
+                trophies->UnlockTrophy(TrophyId("quest_died_10_times"));
+            } else if (PROPS_GetInt(25, false) == 50) {
+                trophies->UnlockTrophy(TrophyId("quest_died_50_times"));
+            } else if (PROPS_GetInt(25, false) == 100) {
+                trophies->UnlockTrophy(TrophyId("quest_died_100_times"));
+            }
+        }
+        if (GetOnlineGameFlag()) {
+            dword_99F76C->GetLocalPlayer(0, true);
+        }
         return;
     }
-    DropLoot(killer);
-    bool killerIsSelf = killer == this;
-    if (killer != nullptr) {
+    if (ApplicationGetInstance().GetCurrentLevel()->unk_150 == nullptr) {
+        DropLoot(killer);
+    }
+    if (killer == nullptr) {
+        if (silent) {
+            return;
+        }
+    } else {
         if (silent) {
             return;
         }
         m_killer = killer;
+        bool killerCounts = killer == this;
         for (int i = 0; i < AI_GetAggroCount(); ++i) {
             Character* entry = nullptr;
             float aggro = 0.0f;
@@ -232,9 +285,15 @@ void Character::Kill(GameObject* killer, bool silent) {
             if (entry == nullptr) {
                 continue;
             }
-            // PARTIAL: the redirect through Character +0x14d4 is treated as absent (see the note above).
-            entry->RaiseEvent(4, this);
-            if (!entry->IsPlayer()) {
+            Character* const original = entry;
+            Character* recipient = entry->m_aggroRedirect;
+            if (recipient != nullptr) {
+                entry = recipient;
+            } else {
+                recipient = entry;
+            }
+            recipient->RaiseEvent(4, this);
+            if (entry == nullptr || !entry->IsPlayer()) {
                 continue;
             }
             if (entry->m_objectOfInterest == this) {
@@ -242,57 +301,201 @@ void Character::Kill(GameObject* killer, bool silent) {
             }
             entry->PROPS_AddInt(23, 1);
             entry->PROPS_AddInt(24, 1);
-            if (killer == entry) {
-                killerIsSelf = true;
+            if (killer == original) {
+                killerCounts = true;
             }
-            // PARTIAL: the trophy block for the entry when it is the local player is not made.
+            if (dword_99F76C->IsLocalPlayer(entry)) {
+                TrophyManager* trophies = TrophyManager::s_instance;
+                const int kills = entry->PROPS_GetInt(23, false);
+                if (kills == 100) {
+                    trophies->UnlockTrophy(TrophyId("killed_100"));
+                } else if (kills == 500) {
+                    trophies->UnlockTrophy(TrophyId("killed_500"));
+                } else if (kills == 1000) {
+                    trophies->UnlockTrophy(TrophyId("killed_1000"));
+                } else if (kills == 2000) {
+                    trophies->UnlockTrophy(TrophyId("killed_2000"));
+                }
+            }
         }
-        if (killerIsSelf) {
-            // PARTIAL: Character::DistributeXP is not called (see the note above).
+        if (killerCounts) {
+            Character* killerCharacter = nullptr;
+            if (m_killer->IsCharacter()) {
+                ObjectHandle handle = m_killer->GetHandle();
+                killerCharacter = handle;
+            }
+            DistributeXP(killerCharacter, this);
         }
-    } else if (silent) {
-        return;
     }
     if (IsRemotelyUpdated() || m_isNetSpawned != 0) {
         return;
     }
-    // PARTIAL: the quest objective events are not raised (see the note above).
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
+        ReportAssert("level", 723);
+    }
+    PyDataConstants* constants = ApplicationGetPyDataConstants();
+    {
+        QE_KillEnemies event;
+        event.eventId_ = static_cast<std::uint32_t>(constants->getConstant("v2QuestObjectiveType", "KillXEnemies"));
+        event.m_character = killer;
+        event.m_targetId = unk_64;
+        event.m_flag0 = 0;
+        event.m_flag1 = 0;
+        event.m_value = -1;
+        event.m_matchId = m_charPropsId;
+        level->RaiseAsync(event);
+    }
+    {
+        QE_ClearEnemies event;
+        event.eventId_ = static_cast<std::uint32_t>(constants->getConstant("v2QuestObjectiveType", "ClearEnemies"));
+        event.m_character = killer;
+        event.m_targetId = unk_64;
+        event.m_flag0 = 0;
+        event.m_flag1 = 0;
+        event.m_value = -1;
+        event.m_matchId = m_charPropsId;
+        level->RaiseAsync(event);
+    }
+    if (m_charPropsTemplateId != -1) {
+        {
+            QE_KillEnemyTemplate event;
+            event.eventId_ = static_cast<std::uint32_t>(constants->getConstant("v2QuestObjectiveType", "KillEnemyTemplate"));
+            event.m_character = killer;
+            event.m_targetId = unk_64;
+            event.m_flag0 = 0;
+            event.m_flag1 = 0;
+            event.m_value = -1;
+            event.m_matchId = m_charPropsTemplateId;
+            level->RaiseAsync(event);
+        }
+        {
+            QE_ClearEnemyTemplate event;
+            event.eventId_ = static_cast<std::uint32_t>(constants->getConstant("v2QuestObjectiveType", "ClearEnemyTemplate"));
+            event.m_character = killer;
+            event.m_targetId = unk_64;
+            event.m_flag0 = 0;
+            event.m_flag1 = 0;
+            event.m_value = -1;
+            event.m_matchId = m_charPropsTemplateId;
+            level->RaiseAsync(event);
+        }
+    }
 }
 
 // 0x3a6210 Character::Deserialize(IStreamBase*)
-// PARTIAL: only the buff reset and the base GameObject::Deserialize are reproduced. Not made, in stream order:
-//  - the monster skip for a level entered from another level (Level +0xf3, m_cameFromOtherLevel; Level.hpp cannot be included);
-//  - the state int, the position, the rotation, the dead flag, the saved point and the revive position. The Point3D and bool
-//    reads are the dh2 IStreamBase::readAs members, and the dh2 IStreamBase.hpp conflicts with the pydata IStreamBase that this
-//    translation unit sees (it has only ReadBytes);
-//  - the two CharacterProperties sheets for a non-player (m_savedProps and m_props are private to CharProperties);
-//  - the CharAI group record (CharAI m_group is private) when the group is set;
-//  - after the reads: the dead-flag transition (Revive, SM_SetIdleState, the controller byte at v2Controllable +0x378 +8),
-//    AI_ScriptCleanUp and AI_ScriptInit, the state-driven limbus and pre-spawn branches, AI_SetTarget and AI_SyncLastTarget,
-//    the SetPosition and SetRotation placement (the pseudocode drops the SetPosition arguments), VisualObject::Sync and the
-//    cameraAnchor Reset (AnchorBase vtable slot +0x08).
-// Do not use this body to load a save until the rest is written. Every later read is needed to keep the stream aligned.
+// A monster in a level entered from another level is not restored. Otherwise: buffs removed, the GameObject part, the state int, then (non-players) the saved and final property
+// sheets (a player is made visible instead), the position, rotation, dead flag, saved point and revive position, and (with a group) the group's member state and its two flags.
+// The dead flag then moves the character: dead -> alive revives it (Revive(nullptr, true), idle state, controller unblocked); alive -> dead sets HP 0. The AI script is
+// cleaned and re-initialised, and the saved state steers the state machine: states 0, 2 and 12 enter limbus (as dead), 1 and 17 pre-spawn; any other (including a state above
+// 17) either marks a dead character (HP 0, AI dead, limbus) or builds the physics object if missing and goes idle. The target is cleared. A monster, or a player in a level using
+// the spawn point (Level +0xf2), goes to its initial position and rotation; everything else is set to its own target position and current rotation. Last the visual is synced and the
+// camera anchor reset.
 void Character::Deserialize(IStreamBase* stream) {
+    if (IsMonster() && ApplicationGetInstance().GetCurrentLevel()->m_cameFromOtherLevel) {
+        return;
+    }
     PROPS_RemoveAllBuffs();
     GameObject::Deserialize(stream);
+    int state = 0;
+    stream->readAs(state);
+    if (IsPlayer()) {
+        SetVisible(true);
+    } else {
+        stream->readAs(CharProperties::m_savedProps);
+        stream->readAs(CharProperties::m_props);
+    }
+    stream->readAs(m_position);
+    stream->readAs(m_rotation);
+    bool dead = false;
+    stream->readAs(dead);
+    stream->readAs(m_savedPoint);
+    stream->readAs(m_revivePosition);
+    if (CharAI::m_group != nullptr) {
+        int memberState = 0;
+        stream->readAs(memberState);
+        CharAI::m_group->m_allMembersDead = memberState;
+        stream->readAs(CharAI::m_group->m_leadersDead);
+        stream->readAs(CharAI::m_group->m_triggered);
+    }
+    if (m_dead != 0) {
+        if (!dead) {
+            Revive(nullptr, true);
+            CharStateMachine::SM_SetIdleState(false);
+            m_controller->m_blocked = false;
+        }
+    } else if (dead) {
+        PROPS_Set(36, m_dead);
+    }
+    m_dead = dead ? 1 : 0;
+    CharAI::AI_ScriptCleanUp();
+    CharAI::AI_ScriptInit();
+    const unsigned int unsignedState = static_cast<unsigned int>(state);
+    if (unsignedState <= 17 && ((1u << unsignedState) & 0x1005u) != 0) {
+        if (!CharStateMachine::SM_IsInLimbus()) {
+            CharStateMachine::SM_SetLimbusState(CanRespawn());
+        }
+        m_dead = 1;
+    } else if (unsignedState <= 17 && ((1u << unsignedState) & 0x20002u) != 0) {
+        if (!CharStateMachine::SM_IsInPreSpawn()) {
+            CharStateMachine::SM_SetPreSpawnState();
+        }
+    } else if (m_dead != 0) {
+        m_dead = 1;
+        PROPS_Set(36, 0);
+        CharAI::AI_SetDead();
+        CharStateMachine::SM_SetLimbusState(CanRespawn());
+    } else {
+        if (m_physicalObject == nullptr) {
+            InitPhysicalObject();
+        }
+        CharStateMachine::SM_SetIdleState(false);
+    }
+    CharAI::AI_SetTarget(nullptr, false);
+    CharAI::AI_SyncLastTarget();
+    if (IsMonster() || (IsPlayer() && ApplicationGetInstance().GetCurrentLevel()->m_useSpawnPoint)) {
+        GameObject::SetPosition(m_initialPosition, true);
+        GameObject::SetRotation(m_initialRotation);
+    } else {
+        GameObject::SetPosition(GameObject::GetTargetPosition(), true);
+        GameObject::SetRotation(m_rotation);
+    }
+    if (m_visualObject != nullptr) {
+        m_visualObject->Sync();
+    }
+    if (m_cameraAnchor != nullptr) {
+        m_cameraAnchor->Reset();
+    }
 }
 
 // 0x3a65c4 Character::Serialize(IStreamBase*)
-// PARTIAL: only GameObject::Serialize is reproduced. The rest of the record (the state int, the two sheets for a non-player,
-// the position, rotation, dead flag, saved point, revive position and the CharAI group record) needs the dh2 IStreamBase
-// readAs and writeAs members, which cannot be included in this translation unit (see Deserialize). Do not use this body to
-// save a character until the rest is written.
+// The GameObject part, the state machine's state (int), the saved and final property sheets for a non-player, the position, rotation, dead flag, saved point and revive position,
+// and, with a group, the group's member state (int) and its two flags.
 void Character::Serialize(IStreamBase* stream) {
     GameObject::Serialize(stream);
+    const int state = CharStateMachine::SM_GetState();
+    stream->writeAs(state);
+    if (!IsPlayer()) {
+        stream->writeAs(CharProperties::m_savedProps);
+        stream->writeAs(CharProperties::m_props);
+    }
+    stream->writeAs(m_position);
+    stream->writeAs(m_rotation);
+    stream->writeAs(static_cast<bool>(m_dead != 0));
+    stream->writeAs(m_savedPoint);
+    stream->writeAs(m_revivePosition);
+    if (CharAI::m_group != nullptr) {
+        stream->writeAs(CharAI::m_group->m_allMembersDead);
+        stream->writeAs(CharAI::m_group->m_leadersDead);
+        stream->writeAs(CharAI::m_group->m_triggered);
+    }
 }
 
 // 0x3a66f8 Character::Clean()
-// PARTIAL. Reproduced in the original order: the DropAnimatedFX calls for m_selfFX and m_stateFX, the nine m_targetCircleFX
-// entries (then the array is freed and cleared), DropAnimatedFX for m_cursorFX, RemoveMultiplayerHighlight, the free of the
-// timer array (m_timerUtil, not cleared, as in the original), CharAnimator::DecAnimSetUsers when CharAnimator m_usersAdded
-// (+0x5c, the byte at Character +0x4f8) is set, and the delete of m_savegame (PlayerSavegame has a virtual destructor).
-// VisualFXManager::s_inst is declared in dh2/VisualFXManager.hpp and is defined by the integrator.
-// Not made: the release of unk_14ec through its vtable slot +0x1c. The field is void* and its owner type is not declared.
+// In the original order: the DropAnimatedFX calls for m_selfFX and m_stateFX, the nine m_targetCircleFX entries (then the array is freed and cleared), DropAnimatedFX for
+// m_cursorFX, RemoveMultiplayerHighlight, the free of the timer array (m_timerUtil, not cleared, as in the original), CharAnimator::DecAnimSetUsers when CharAnimator m_usersAdded
+// (+0x5c, the byte at Character +0x4f8) is set, and the delete of m_savegame (PlayerSavegame has a virtual destructor). The original then calls a release slot (+0x1c) of the
+// object at +0x14ec; that word is only ever written as 0 (by the constructors), so the call can never run and is not written.
 void Character::Clean() {
     VisualFXManager& fx = VisualFXManager::s_inst;
     fx.DropAnimatedFX(m_selfFX);
@@ -316,23 +519,31 @@ void Character::Clean() {
         delete m_savegame;
         m_savegame = nullptr;
     }
-    // PARTIAL: the release of unk_14ec through its vtable slot +0x1c is not reproduced (see the note above).
 }
 
 // 0x3a6a24 Character::NetStructCharacter::NetStructCharacter()
-// PARTIAL: the constructor of the replicated state. The original declares eleven members in this order (ids 0 to 10): three
-// NetStructInterpolatedRangedFloat position members (+0x130, +0x228, +0x320), dirX, dirY, hp, killer id, state, enabled,
-// killer-is-player and visible. The position members are opaque in the header (not NetStructMember types), so DeclareMember
-// cannot be called in the original order, and the member ids would be wrong. The per-member change-flag setup (SetChanged on
-// the non-zero starting values) is not reproduced. Layout request: type the three position members as
-// NetStructInterpolatedRangedFloat so that the eleven DeclareMember calls can follow the original order.
-Character::NetStructCharacter::NetStructCharacter() {
+// The replicated state of a character: the NetStruct base, then eleven members, each built with its own constructor (the three position members with the value 0) and declared to
+// the NetStruct in this order (ids 0 to 10): x, y and z position, direction x and y, HP + 1, MP + 1 or killer id, state, enabled, killer-is-player and visible.
+Character::NetStructCharacter::NetStructCharacter() : m_posX(0.0f), m_posY(0.0f), m_posZ(0.0f) {
+    DeclareMember(&m_posX);
+    DeclareMember(&m_posY);
+    DeclareMember(&m_posZ);
+    DeclareMember(&m_dirX);
+    DeclareMember(&m_dirY);
+    DeclareMember(&m_hp);
+    DeclareMember(&m_mpOrKillerId);
+    DeclareMember(&m_state);
+    DeclareMember(&m_enabled);
+    DeclareMember(&m_killerIsPlayer);
+    DeclareMember(&m_visible);
 }
 
 // 0x3a799c Character::ClearConcurrentAI()
-// The original erases the whole s_concurrentAI tree and resets its header; std::map::clear does the same.
+// A non-empty s_concurrentAI is erased and reset to empty (size, root, and the two ends). The original returns the register the erase leaves; the header is void.
 void Character::ClearConcurrentAI() {
-    s_concurrentAI.clear();
+    if (!s_concurrentAI.empty()) {
+        s_concurrentAI.clear();
+    }
 }
 
 // 0x3a7a50 Character::NetStructCharacter::~NetStructCharacter()
@@ -343,15 +554,43 @@ Character::NetStructCharacter::~NetStructCharacter() {
 }
 
 // 0x3a6f0c Character::PopulateOutgoingNetStruct(bool)
-// PARTIAL: a stub. The original writes each replicated member of m_netOut (+0x1508) from the live character: the three
-// positions from m_position (+0x160), the direction members from m_heading (+0x1b8, +0x1bc) when m_hasHeading (+0x1b5) is
-// set and the local player is not paused (zero otherwise), hp (zero when the m_props word 37 is <= 0 or the character is
-// dead; the HP word is unnamed otherwise), the killer net id (m_props word 42, zero when <= 0; the killer's net id at +0x108 is unnamed), the state
-// (SM_GetState when force is set, else -1), the enabled and visible flags (ObjectBase +0x8a and +0x80, written when force is
-// set) and killer-is-player (m_killer->IsCharacter() && IsPlayer()). Each write is a temporary member compare followed by a
-// vtable SetValue on the real member, and the temporary's change flag does not reach the real member through the header's
-// NetStructMemberType API. None of the writes is made here. Also blocked: IsLocalPlayer (PlayerManager.hpp) and the unnamed
-// words above. Layout requests: name the ObjectBase flags at +0x80 and +0x8a in the header; name the killer net id source.
+// Writes the live character into the outgoing replicated state (m_netOut, +0x1508); the original builds a temporary member of the same type for each value and hands it to the
+// member's SetValue (vtable +0x1c), which is a SetValue on the member. Positions come from m_position. The direction is the heading (+0x1b8, +0x1bc), or zero when there is
+// no heading or the level is paused for the local player. A character with no HP left, or dead, sends HP 0 and (with a killer) the killer's network id and whether the
+// killer is a player; a living one sends HP + 1 (from the saved sheet) and MP + 1 (property 41 (word 42) of the sheets, 0 when not above zero). The state is the state machine's state when
+// force is set, else -1; with force the enabled (+0x8a) and visible (+0x80) flags go out too.
 void Character::PopulateOutgoingNetStruct(bool force) {
-    (void)force;
+    m_netOut.m_posX.SetValue(m_position.X);
+    m_netOut.m_posY.SetValue(m_position.Y);
+    m_netOut.m_posZ.SetValue(m_position.Z);
+    const float headingX = m_heading.X;
+    const float headingY = m_heading.Y;
+    if (!m_hasHeading || (ApplicationGetInstance().IsLevelPaused(false) && dword_99F76C->IsLocalPlayer(this))) {
+        m_netOut.m_dirX.SetValue(0.0f);
+        m_netOut.m_dirY.SetValue(0.0f);
+    } else {
+        m_netOut.m_dirX.SetValue(headingX);
+        m_netOut.m_dirY.SetValue(headingY);
+    }
+    bool statePending = true;
+    if (CharProperties::m_props.m_w37 <= 0 || IsDead()) {
+        m_netOut.m_hp.SetValue(0);
+        if (m_killer != nullptr) {
+            m_netOut.m_mpOrKillerId.SetValue(m_killer->unk_108);
+            m_netOut.m_killerIsPlayer.SetValue(m_killer->IsCharacter() && m_killer->IsPlayer());
+        }
+    } else {
+        m_netOut.m_hp.SetValue(CharProperties::m_savedProps.m_w37 + 1);
+        if (CharProperties::m_props.m_w42 <= 0) {
+            m_netOut.m_mpOrKillerId.SetValue(0);
+        } else {
+            m_netOut.m_mpOrKillerId.SetValue(CharProperties::m_savedProps.m_w42 + 1);
+        }
+    }
+    (void)statePending;
+    m_netOut.m_state.SetValue(force ? CharStateMachine::SM_GetState() : -1);
+    if (force) {
+        m_netOut.m_enabled.SetValue(m_enabled != 0);
+        m_netOut.m_visible.SetValue(m_visible != 0);
+    }
 }

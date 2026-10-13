@@ -2,35 +2,29 @@
 // destructors, the life-cycle functions InitPost and InitFinal, the net struct functions PopulateOutgoingNetStruct and
 // InterpretIncomingNetStruct, DeclareProperties, DoOpen, Interact and the animation event callback. Part 1 (the getters,
 // SetState, Spawn, __Callback, Serialize) is in g1-game-world-Container-e6443a-0.cpp. Declarations come from
-// dh2/Container.hpp, which needs no change for this batch.
+// dh2/Container.hpp.
 //
-// Redo pass (batch r2a-game-world-Container-e6443a-0): PODecor, ItemObject, LuaScript and sfc::script::lua::Arguments
-// now have headers, and ObjectBase declares +0x104 as unk_104 (NetStruct*). The Container constructors and the OnOpen
-// Lua call in DoOpen are bound from them.
-//
-// Gaps, each named again where it occurs:
-//   PhysicalWorld global dword_99F770 has no declared name in any header: InitFinal and InterpretIncomingNetStruct
-//   (the PODecor body; dh2/PODecor.hpp exists). Layout request, not added here.
-//   ItemObject::DropLootTable has an unsettled signature (see the note on DoOpen): DoOpen.
-//   pydata Structs::ColladaFile (the GameObjectDict record) cannot be included with net-transport (duplicate inline
-//   CustomFree): InitPost (m_dae).
-//   VoxSoundManager declares neither s_instance, LoadSound(int) nor Play3D: InitPost and Interact.
-//   glitch::collada::STriggeredEvent has no definition (only a forward declaration): __EventCallback.
-//   The stack NetStruct temporaries of the original read uninitialised storage: PopulateOutgoingNetStruct and the
-//   NetStructContainer constructor. The Container constructors inherit that gap through their member constructors.
 
 #include <cstdint>
 #include <cstring>
 
 #include "dh2/AnimController.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/Container.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/LuaScript.hpp"
 #include "dh2/ObjectHandle.hpp"
+#include "dh2/ItemObject.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/PODecor.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/sfc/script/lua/Arguments.hpp"
+#include "glitch-scene-collada-gui/collada/CEventsManager.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 namespace {
 
@@ -44,19 +38,16 @@ bool IsActivatedOrOpened(const Container& container) {
 }  // namespace
 
 // 0x39f910 _ZN9Container8InitPostEv
-// PARTIAL. Bound: the spawn-probability gate, the data id (+0x374), the spawn animation chain, the timeline callbacks,
-// the mesh box, the script load and the closed state when the condition fails. Not bound: (1) the m_dae name (GameObject
-// +0x290) from the GameObjectDict record `visual` (the name is the record's string buffer at +0x08, the same field that
-// Projectile's dae name reads as Structs::ColladaFile::m_w2, pydata w7_structs_5.hpp). That header cannot be included in
-// this unit: it and net-transport's deps/byte_array.hpp both define inline CustomFree(void*), and Container.hpp pulls in
-// net-transport (layout/dep request). (2) The sound load, VoxSoundManager::s_instance->LoadSound(GetSound()), which runs
-// when s_instance is set. vox-audio/vox/sound_manager.hpp declares neither the static nor LoadSound(int).
+// For a container that passes the spawn probability test: the data id (GetDataId(), +0x374) and, when both the visual (GetVisual(), a GameObjectDict index) and the data id are set, the
+// model name of that GameObjectDict row (row +0x08) as m_dae (+0x290). GameObject::InitPost, then, if MeetCondition holds, the animation callbacks (__Callback, __EventCallback, both with
+// this) and the first of the "prespawn", "spawn" and "idle" clips that exists sets the matching state; the mesh box is applied. The sound (GetSound()) is loaded when the sound manager
+// exists and the script (GetScript()) from data/scripts/objects/. A container whose condition fails is hidden and put in the OPENED state.
 void Container::InitPost() {
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {  // +0x274
         m_dataId = GetDataId();                                // +0x374
         const int visual = GetVisual();
         if (visual != -1 && m_dataId != -1) {
-            // PARTIAL: m_dae (GameObject +0x290) = the GameObjectDict record `visual`, name at record +0x08 (see the note).
+            m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[visual].m_w2;
         }
         GameObject::InitPost();
         if (GameObject::MeetCondition()) {
@@ -75,7 +66,9 @@ void Container::InitPost() {
                 }
                 visualObject->ApplyMeshBox();
             }
-            // PARTIAL: the sound load (see the function note).
+            if (VoxSoundManager::s_instance != nullptr) {
+                VoxSoundManager::s_instance->LoadSound(GetSound());
+            }
             LoadExternalScript(GetScript(), "data/scripts/objects/");
         } else {
             // vtable +0x40. The original's r1 is the MeetCondition() result (SUBS R1, R0, #0 before the branch), which
@@ -87,12 +80,8 @@ void Container::InitPost() {
 }
 
 // 0x39fc98 _ZN9Container9InitFinalEv
-// PARTIAL. Bound: the spawn-probability gate, GameObject::InitFinal(), the Update() call on a container that is not
-// ACTIVATE or OPENED, and the MeetCondition() test. Not bound: the PODecor body. The original allocates 40 bytes,
-// constructs PODecor on dword_99F770 (the PhysicalWorld*) with this as the owner, then calls SetPhysicalObject(body, false).
-// dh2/PODecor.hpp now declares PODecor(PhysicalWorld*, GameObject*, bool), and its bool is never read. What is missing is
-// a declared name for dword_99F770: no header declares that global (layout request). Once it is declared the body is
-// `new PODecor(dword_99F770, this, false)` followed by SetPhysicalObject(body, false).
+// For a container that passes the spawn probability test: GameObject::InitFinal, an Update() (vtable +0x2c) unless the container is ACTIVATE or OPENED and, when MeetCondition holds,
+// the physics body: a static PODecor (40 bytes) on the application's physical world (the original's dword_99F770, Application +0x44), owned by the container (SetPhysicalObject(body, false)).
 void Container::InitFinal() {
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {
         GameObject::InitFinal();
@@ -100,16 +89,17 @@ void Container::InitFinal() {
             Update();  // vtable +0x2c
         }
         if (GameObject::MeetCondition()) {
-            // PARTIAL: the PODecor body and SetPhysicalObject(body, false) (see the function note).
+            PODecor* body = new PODecor(ApplicationGetInstance().m_physicalWorld, this, false);
+            SetPhysicalObject(body, false);
         }
     }
 }
 
 // 0x39fd38 _ZN9Container26InterpretIncomingNetStructEb
-// PARTIAL. Bound: the incoming opened flag (m_netIn +0x150), the state gates, the opener lookup, the call to Interact, the
-// release of the physics body, the activate, idleactive and idle animation calls, and the copy of m_netIn.unk_180 into
-// unk_fc (ObjectBase +0xfc) when forced. Not bound: the PODecor body on the dead-and-closed path, which waits on the same
-// dword_99F770 declaration as InitFinal.
+// The incoming opened flag (m_netIn.m_opened, +0x150 of the container) and the incoming opener id (m_netIn.m_openerId) drive the state. Without a new "opened" (flag not 1, or already ACTIVATE or OPENED):
+// only a forced update goes on, and when it finds an ACTIVATE or OPENED container with the flag clear it resets the container to IDLE with a fresh PODecor body and the "idle" clip; a forced
+// update then copies m_netIn.unk_180 into unk_fc (ObjectBase +0xfc). With a new "opened": the opener is looked up by network id; an unforced update with a known opener calls Interact on it. Otherwise
+// an idle container takes the opener (+0x398), becomes OPENED, drops its physics body unless KeepPhysics() and, with a visual, starts the "activate" clip (unforced) or the "idleactive" clip (forced).
 void Container::InterpretIncomingNetStruct(bool force) {
     const std::uint32_t openedIn = m_netIn.m_opened.GetValue();  // m_netIn +0x130 member, value at +0x150
     if (openedIn != 1 || IsActivatedOrOpened(*this)) {
@@ -118,7 +108,8 @@ void Container::InterpretIncomingNetStruct(bool force) {
         }
         if (IsActivatedOrOpened(*this) && openedIn == 0) {
             SetState(STATE_IDLE);
-            // PARTIAL: the PODecor body and its SetPhysicalObject(body, false) call are missing here.
+            PODecor* body = new PODecor(ApplicationGetInstance().m_physicalWorld, this, false);
+            SetPhysicalObject(body, false);
             SetState(STATE_IDLE);
             // The original calls this with no null check on the visual.
             m_visualObject->m_animController->PlayClip("idle", false, 0, 0);
@@ -154,12 +145,10 @@ void Container::InterpretIncomingNetStruct(bool force) {
 }
 
 // 0x3a0110 _ZN9Container25PopulateOutgoingNetStructEb
-// PARTIAL. Bound: the three values written to m_netOut, in the original order: m_opened (1 when ACTIVATE or OPENED, else 0),
-// m_openerId (the network id of m_opener) and, when forced, unk_180 (= unk_fc). Not bound: each value goes through a stack
-// NetStruct temporary. The original compares the temporary's value word, which the temporary's constructor never writes,
-// with the new value. When they differ it stores the new value and calls NetStructMember::SetChanged on the temporary.
-// SetChanged advances NetStruct::s_changeCounter, so that conditional advance is not reproduced. The value that reaches
-// each SetValue is the new value on every path, so the member values themselves match.
+// Writes the three values of m_netOut in the original order: m_opened (1 when ACTIVATE or OPENED, else 0), m_openerId (the network id of m_opener) and, when forced, unk_180 (= unk_fc).
+// The original sets each value through a stack NetStruct temporary (the NetStruct idiom): it compares the temporary's value word, which the temporary's constructor never writes, with the new
+// value and, when they differ, stores the value and calls NetStructMember::SetChanged on the temporary. The conditional change flag depends on that uninitialised stack word, so the member's own
+// SetValue (the stored value, and the change flag when it differs from the previous value) does the same work.
 void Container::PopulateOutgoingNetStruct(bool force) {
     m_netOut.m_opened.SetValue(IsActivatedOrOpened(*this) ? 1u : 0u);                    // +0x130 of m_netOut
     m_netOut.m_openerId.SetValue(dword_99F764->GetNetworkIdByObjectBase(m_opener));       // +0x158 of m_netOut
@@ -169,11 +158,9 @@ void Container::PopulateOutgoingNetStruct(bool force) {
 }
 
 // 0x39ff58 _ZN9Container18NetStructContainerC1Ev
-// PARTIAL. Bound: the NetStruct base and the three member declarations, m_opened (+0x130, 1 bit), m_openerId (+0x158,
-// 16 bits) and unk_180 (+0x180, 32 bits). The sizes come from the members' own constructors. The original first reads
-// each member's value word (+0x20 of the member), zeroes it, and calls NetStructMember::SetChanged when the old word was
-// non-zero. That read is of storage this constructor never writes, so the conditional SetChanged depends on earlier
-// memory contents and is not reproduced. The members start at zero and unchanged.
+// The NetStruct base and the three member declarations, m_opened (+0x130, 1 bit), m_openerId (+0x158, 16 bits) and unk_180 (+0x180, 32 bits); the sizes come from the members' own constructors.
+// The original then reads each member's value word, zeroes it and calls NetStructMember::SetChanged when the old word was non-zero (the NetStruct idiom: the member constructor has just built
+// the word, so the test depends on the storage the constructor ran on). The members here start at zero and unchanged.
 Container::NetStructContainer::NetStructContainer() : NetStruct() {
     DeclareMember(&m_opened);
     DeclareMember(&m_openerId);
@@ -194,12 +181,9 @@ Container::~Container() {}
 
 // 0x3a06dc _ZN9ContainerC1EN10ObjectBase6GO_IDSE
 // 0x3a0788 _ZN9ContainerC2EN10ObjectBase6GO_IDSE
-// PARTIAL, inherited. Bound: the GameObject base constructor with the same id (the id register is passed through
-// unchanged), the ObjectBase fields that the original sets (+0x28 = 1, +0x84 m_static = 0, +0xf8 = 2), m_netStruct =
-// &m_netOut (+0x100), unk_104 = &m_netIn (+0x104, declared NetStruct* by ObjectBase.hpp), m_deathReset = false,
-// m_state = STATE_IDLE and m_opener = nullptr. The data string and the vtables are built by C++. The two
-// NetStructContainer members are built by NetStructContainer::NetStructContainer (0x39ff58), which stays partial
-// (conditional SetChanged on value words it never writes), so this constructor inherits that gap.
+// The GameObject base constructor with the same id (the id register is passed through unchanged), the ObjectBase fields that the original sets (+0x28 = 1, +0x84 m_static = 0, +0xf8 = 2),
+// m_netStruct = &m_netOut (+0x100), unk_104 = &m_netIn (+0x104, declared NetStruct* by ObjectBase.hpp), m_deathReset = false, m_state = STATE_IDLE and m_opener = nullptr. The data string and
+// the vtables are built by C++; the two NetStructContainer members by NetStructContainer::NetStructContainer (0x39ff58).
 Container::Container(ObjectBase::GO_IDS id) : GameObject(id) {
     unk_28 = 1;
     m_static = 0;
@@ -223,14 +207,10 @@ void Container::DeclareProperties() {
 }
 
 // 0x3a0a98 _ZN9Container6DoOpenEv
-// PARTIAL. Bound: the OnOpen Lua call. When m_script (+0x300) is set, the original builds an sfc::script::lua::Arguments,
-// pushes m_opener (+0x398) when it is set, and calls LuaScript::Call(m_script, "OnOpen", args).
-// Not bound: ItemObject::DropLootTable (0x3ecba0), called with the loot id (GetLoot()), this, m_opener, GetLootFixedNumPowers()
-// and two more arguments (0 and an unassigned bool). ItemObject.hpp declares the five-argument form, but its own note says
-// the second parameter of that overload is an ItemInventory* the declaration omits, and the sixth argument has no source
-// in the pseudocode. The signature is unsettled, so the call waits on the header (integrator decision).
+// Drops the container's loot: ItemObject::DropLootTable(GetLoot(), this as the dropper, m_opener as the killer, GetLootFixedNumPowers(), 0). The original passes a sixth argument word that is an
+// unset stack local; the five-argument callee never reads it. With a script (m_script, +0x300), "OnOpen" is called with the opener (+0x398) as its argument when one is set.
 void Container::DoOpen() {
-    // PARTIAL: the ItemObject::DropLootTable call (see the function note).
+    ItemObject::DropLootTable(GetLoot(), this, m_opener, GetLootFixedNumPowers(), false);
     if (m_script != nullptr) {  // +0x300
         sfc::script::lua::Arguments args;
         if (m_opener != nullptr) {  // +0x398
@@ -241,10 +221,9 @@ void Container::DoOpen() {
 }
 
 // 0x3a0b38 _ZN9Container8InteractEP10GameObject
-// PARTIAL. Bound: the state gate, the opener, SetState(OPENED), the physics release, the activate animation or DoOpen(),
-// and the final Update() call. Not bound: the 3D sound, VoxSoundManager::s_instance->Play3D(GetSound(), m_position, false,
-// 1, -1.0f, -1.0f). vox-audio/vox/sound_manager.hpp declares neither s_instance nor Play3D. The signature read from the
-// call site is Play3D(int, glitch::core::vector3d<float> const&, bool, int, float, float).
+// Does nothing once the container is ACTIVATE or OPENED. Otherwise: the opener is stored (+0x398), the state is set to OPENED, the physics body is released unless KeepPhysics() (vtable +0xdc),
+// and with a visual the state becomes ACTIVATE and the "activate" clip plays (DoOpen then runs from the "opened" animation event), without one DoOpen runs at once. The container's sound
+// (GetSound()) plays in 3D at its position (no check on the sound manager), and Update() (vtable +0x2c) runs. The original's int return is not part of the void declaration.
 void Container::Interact(GameObject* by) {
     if (IsActivatedOrOpened(*this)) {
         return;
@@ -260,16 +239,22 @@ void Container::Interact(GameObject* by) {
     } else {
         DoOpen();
     }
-    // PARTIAL: the Play3D call (see the function note).
+    const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
+    VoxSoundManager::s_instance->Play3D(GetSound(), at, false, 1, -1.0f, -1.0f);
     Update();  // vtable +0x2c
 }
 
 // 0x3a0c64 _ZN9Container15__EventCallbackERKN6glitch7collada15STriggeredEventEPv
-// PARTIAL, body not bound. The original reads the event name (a const char* in the STriggeredEvent at +0x04) and compares
-// it with "opened" through strcmp. On "opened" it calls DoOpen() on the user pointer. Otherwise, when m_script is set, it
-// pushes the name into an sfc::script::lua::Arguments and calls LuaScript::Call(m_script, "OnAnimEvent", args). The
-// STriggeredEvent definition does not exist in the port, and sfc::script::lua::Arguments has no header.
+// The animation event callback (user is the Container). The event "opened" runs DoOpen(); any other event name is passed to the script's "OnAnimEvent" function, when the container has a script.
 void Container::__EventCallback(const glitch::collada::STriggeredEvent& event, void* user) {
-    (void)event;
-    (void)user;
+    Container* container = static_cast<Container*>(user);
+    if (std::strcmp(event.eventName, "opened") != 0) {
+        if (container->m_script != nullptr) {
+            sfc::script::lua::Arguments args;
+            args.pushString(event.eventName);
+            container->m_script->Call("OnAnimEvent", args);
+        }
+    } else {
+        container->DoOpen();
+    }
 }

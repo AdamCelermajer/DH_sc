@@ -73,27 +73,6 @@ struct IReferenceCountedStandIn {
 struct IFileSystemStandIn : IReferenceCountedStandIn {};
 struct ITextureStandIn : IReferenceCountedStandIn {};
 struct IVideoDriverStandIn : IReferenceCountedStandIn {};
-struct CSceneManagerStandIn {};
-
-struct TriangleStandIn {
-    core::vector3d<float> a;
-    core::vector3d<float> b;
-    core::vector3d<float> c;
-};
-
-struct LineStandIn {
-    core::vector3d<float> start;
-    core::vector3d<float> end;
-};
-
-// ---------------------------------------------------------------------------
-// glitch::scene::CColladaBinaryFileLoader
-// ---------------------------------------------------------------------------
-struct ColladaBinaryFileLoaderStandIn {
-    std::int32_t refCount = 1;                  // +0x04 (set by the constructor)
-    CSceneManagerStandIn* sceneManager = nullptr;  // +0x08
-    IFileSystemStandIn* fileSystem = nullptr;   // +0x0c
-};
 
 // ---------------------------------------------------------------------------
 // glitch::collada::detail skin technique prepare hooks
@@ -129,55 +108,6 @@ struct SoftwareSkinTechniqueStandIn {
 };
 
 // glitch::collada::SAnimationAccessor: canonical class in collada/SAnimationAccessor.hpp.
-
-// ---------------------------------------------------------------------------
-// glitch::scene::CSceneCollisionManager
-// ---------------------------------------------------------------------------
-struct CollisionManagerStandIn {
-    std::int32_t refCount = 1;                  // +0x04
-    CSceneManagerStandIn* sceneManager = nullptr;  // +0x08
-    IVideoDriverStandIn* driver = nullptr;      // +0x0c
-    std::int32_t reserved10 = 0;                // +0x10
-    std::int32_t reserved14 = 0;                // +0x14
-    std::int32_t reserved18 = 0;                // +0x18
-};
-
-// ---------------------------------------------------------------------------
-// glitch::scene::CSceneNodeAnimatorCollisionResponse
-// ---------------------------------------------------------------------------
-struct CollisionResponseAnimatorStandIn {
-    std::uint8_t pad_0000[0x18] = {};           // +0x00..+0x17 (not mapped)
-    core::vector3d<float> radius;               // +0x18
-    core::vector3d<float> gravity;              // +0x24
-    core::vector3d<float> translation;          // +0x30
-    std::uint8_t pad_003c[0x1a] = {};           // +0x3c..+0x55 (not mapped)
-    bool animateCameraTarget = false;           // +0x56
-};
-
-// ---------------------------------------------------------------------------
-// glitch::scene::CSceneNodeAnimatorFlyCircle / FlyStraight / Rotation
-// ---------------------------------------------------------------------------
-struct FlyCircleAnimatorStandIn {
-    std::uint8_t pad_0000[0x0c] = {};           // +0x00..+0x0b (not mapped)
-    core::vector3d<float> center;               // +0x0c
-    core::vector3d<float> direction;            // +0x18
-    float radius = 0.0f;                        // +0x3c
-    float speed = 0.0f;                         // +0x40
-    std::int32_t state44 = 0;                   // +0x44 (zeroed by the deserializer; meaning not mapped)
-};
-
-struct FlyStraightAnimatorStandIn {
-    std::uint8_t pad_0000[0x0c] = {};           // +0x00..+0x0b (not mapped)
-    core::vector3d<float> start;                // +0x0c
-    core::vector3d<float> end;                  // +0x18
-    std::int32_t timeForWay = 0;                // +0x3c
-    bool loop = false;                          // +0x40
-};
-
-struct RotationAnimatorStandIn {
-    std::uint8_t pad_0000[0x0c] = {};           // +0x00..+0x0b (not mapped)
-    float rotation[4] = {};                     // +0x0c..+0x18
-};
 
 // ---------------------------------------------------------------------------
 // glitch::scene::CAnimatedMeshSceneNode (the mesh file name is resolved by the caller)
@@ -272,15 +202,6 @@ struct ParticleSpinAffectorStandIn {
 // Declarations of the free functions in src/recon/slice_33.cpp
 // ---------------------------------------------------------------------------
 
-// 0x6b9310 glitch::scene::CColladaBinaryFileLoader::CColladaBinaryFileLoader(C2)
-void constructColladaBinaryFileLoaderC2(ColladaBinaryFileLoaderStandIn& self,
-                                        CSceneManagerStandIn* sceneManager,
-                                        IFileSystemStandIn* fileSystem);
-// 0x6b9360 glitch::scene::CColladaBinaryFileLoader::CColladaBinaryFileLoader(C1)
-void constructColladaBinaryFileLoaderC1(ColladaBinaryFileLoaderStandIn& self,
-                                        CSceneManagerStandIn* sceneManager,
-                                        IFileSystemStandIn* fileSystem);
-
 // Skin technique prepare hooks.
 int prepareMatrixSkinBuffer(HardwareSkinTechniqueStandIn& self, int step,
                             IVideoDriverStandIn* driver, SkinBufferStandIn& skinBuffer,
@@ -296,47 +217,6 @@ int prepareSoftwareSkinBuffer(SoftwareSkinTechniqueStandIn& self, int step,
                               MeshBufferStandIn* meshBuffer, std::uint32_t technique);
 
 
-// glitch::scene::CSceneCollisionManager.
-void constructCollisionManagerC2(CollisionManagerStandIn& self, CSceneManagerStandIn* sceneManager,
-                                 IVideoDriverStandIn* driver);                           // 0x6c3bec
-void constructCollisionManagerC1(CollisionManagerStandIn& self, CSceneManagerStandIn* sceneManager,
-                                 IVideoDriverStandIn* driver);                           // 0x6c3c48
-float testTriangleIntersection(CollisionManagerStandIn& self, void* collisionData,
-                               const TriangleStandIn& triangle);                         // 0x6c42a8
-void* getPickedNodeBB(CollisionManagerStandIn& self, void* selector, const LineStandIn& ray,
-                      std::int32_t bitMask, bool useBoundingBox, float& distance);        // 0x6c5d40
-core::vector3d<float> collideEllipsoidWithWorld(CollisionManagerStandIn& self, void* selector,
-                                               const core::vector3d<float>& radius,
-                                               const core::vector3d<float>& position,
-                                               const core::vector3d<float>& velocity, float slidingSpeed,
-                                               const core::vector3d<float>& gravity,
-                                               TriangleStandIn& triangle, bool& hit);      // 0x6c72f4
-core::vector3d<float> getCollisionResultPosition(CollisionManagerStandIn& self, void* selector,
-                                                 const core::vector3d<float>& radius,
-                                                 const core::vector3d<float>& position,
-                                                 const core::vector3d<float>& velocity,
-                                                 TriangleStandIn& triangle, bool& hit,
-                                                 float slidingSpeed,
-                                                 const core::vector3d<float>& gravity);    // 0x6c7720
-
-// Collision response animator, fly circle, fly straight, rotation.
-void serializeCollisionResponse(const CollisionResponseAnimatorStandIn& self, IAttributesStandIn& attrs);  // 0x6ca764
-void deserializeCollisionResponse(CollisionResponseAnimatorStandIn& self, IAttributesStandIn& attrs);      // 0x6ca804
-void serializeFlyCircle(const FlyCircleAnimatorStandIn& self, IAttributesStandIn& attrs);                  // 0x6cb738
-void deserializeFlyCircle(FlyCircleAnimatorStandIn& self, IAttributesStandIn& attrs);                      // 0x6cba9c
-void serializeFlyStraight(const FlyStraightAnimatorStandIn& self, IAttributesStandIn& attrs);              // 0x6cc078
-void deserializeFlyStraight(FlyStraightAnimatorStandIn& self, IAttributesStandIn& attrs);                  // 0x6cc3ec
-void serializeRotation(const RotationAnimatorStandIn& self, IAttributesStandIn& attrs);                    // 0x6cd678
-void deserializeRotation(RotationAnimatorStandIn& self, IAttributesStandIn& attrs);                        // 0x6cd6c8
-void serializeFollowSpline(void* self, IAttributesStandIn& attrs, const std::uint32_t* options);           // 0x6ccef8
-void deserializeFollowSpline(void* self, IAttributesStandIn& attrs);                                       // 0x6cd0cc
-void serializeTextureAnimator(void* self, IAttributesStandIn& attrs, const std::uint32_t* options);        // 0x6cdee4
-void deserializeTextureAnimator(void* self, IAttributesStandIn& attrs);                                    // 0x6ce1f8
-void* constructTextureAnimatorC1(void* self, const std::vector<ITextureStandIn*>& textures,
-                                 std::int32_t timePerFrame, bool loop, std::uint32_t startTime);           // 0x6cdcd8
-void* constructTextureAnimatorC2(void* self, void* base, const std::vector<ITextureStandIn*>& textures,
-                                 std::int32_t timePerFrame, bool loop, std::uint32_t startTime);           // 0x6ce084
-
 // glitch::scene skybox, terrain, text, shadow volume.
 void constructSkyBoxC2(void* self, void* driver);                                                         // 0x6cebc8
 void constructSkyBoxC1(void* self, void* driver);                                                         // 0x6cf564
@@ -345,8 +225,6 @@ void serializeTerrain(void* self, IAttributesStandIn& attrs, const std::uint32_t
 void deserializeTerrain(void* self, IAttributesStandIn& attrs);                                           // 0x6d5268
 void getCurrentLODOfPatches(void* self, std::vector<std::int32_t>& lods);                                 // 0x6d21ac
 void loadHeightMap(void* self, void* readFile, std::uint32_t colorKey, std::int32_t mode);                // 0x6d4454
-std::uint32_t getBillboardTextColors(const void* self, std::uint32_t& top, std::uint32_t& bottom);        // 0x6d5a14
-void constructTextSceneNode(void* self, void* parent, std::int32_t id, const core::vector3d<float>& pos); // 0x6d5b5c
 void constructShadowVolumeC1(void* self, void* driver, void* mesh, std::int32_t id, int type, float f);   // 0x6ffb1c
 void constructShadowVolumeC2(void* self, void* driver, void* mesh, std::int32_t id, int type, float f);   // 0x6ffc70
 void createSilhouette(void* self, const core::vector3d<float>& light, int lightType, void* mesh);         // 0x701358

@@ -11,7 +11,6 @@ namespace core = glitch::core;
 namespace {
 
 int failures = 0;
-const float kPi = 3.14159265358979f;
 
 void check(bool condition, const char* what) {
     if (!condition) {
@@ -22,44 +21,6 @@ void check(bool condition, const char* what) {
 
 bool near(float a, float b, float eps = 1e-4f) {
     return std::fabs(a - b) <= eps;
-}
-
-void testTriangleIndices() {
-    const std::uint16_t idx16[] = {10, 11, 12, 13};
-    std::uint32_t a = 0, b = 0, c = 0;
-    getTriangleIndices(kIndex16, idx16, 1, a, b, c);
-    check(a == 11 && b == 12 && c == 13, "16-bit triangle indices");
-
-    const std::uint32_t idx32[] = {7, 8, 9, 10};
-    getTriangleIndices(kIndex32, idx32, 0, a, b, c);
-    check(a == 7 && b == 8 && c == 9, "32-bit triangle indices");
-
-    const std::uint8_t idx8[] = {1, 2, 3, 4};
-    getTriangleIndices(kIndex8, idx8, 1, a, b, c);
-    check(a == 2 && b == 3 && c == 4, "8-bit triangle indices");
-}
-
-void testSwapIndices() {
-    std::uint16_t idx16[] = {1, 2, 3};
-    const std::uint32_t old = swapIndices(kIndex16, idx16, 0, 2);
-    check(old == 1 && idx16[0] == 3 && idx16[2] == 1, "16-bit swap");
-
-    std::uint8_t idx8[] = {5, 6};
-    swapIndices(kIndex8, idx8, 0, 1);
-    check(idx8[0] == 6 && idx8[1] == 5, "8-bit swap");
-}
-
-void testAngleWeight() {
-    // Equilateral triangle: every angle is pi/3.
-    core::vector3d<float> out{};
-    getAngleWeight(out, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.5f, std::sqrt(3.0f) / 2.0f, 0.0f});
-    const float third = kPi / 3.0f;
-    check(near(out.X, third) && near(out.Y, third) && near(out.Z, third), "equilateral angles");
-
-    // Right isoceles triangle at the origin: right angle at p0.
-    getAngleWeight(out, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f});
-    check(near(out.X, kPi / 2.0f), "right angle at p0");
-    check(near(out.Y, kPi / 4.0f), "45 degrees at p1");
 }
 
 void testKdTree() {
@@ -87,9 +48,6 @@ void testHandles() {
 }  // namespace
 
 int main() {
-    testTriangleIndices();
-    testSwapIndices();
-    testAngleWeight();
     testKdTree();
     testHandles();
     if (failures != 0) {

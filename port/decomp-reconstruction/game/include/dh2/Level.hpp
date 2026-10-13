@@ -100,7 +100,7 @@ public:
     void SetLevelConfig(LevelConfig* config);          // 0x3f150c also resolves the music/ambience sound ids
     std::string GetRimLightFile();                     // 0x474260 copy of the config's rim-light file name
     GameObject* GetMPReferee() const;                  // 0x3ef540 first object named "referee*", cached in m_mpReferee
-    int GetMPGameScript() const;                       // 0x3f1394 (_ZNK5Level15GetMPGameScriptEv) config field at +0x314
+    const char* GetMPGameScript() const;               // 0x3f1394 (_ZNK5Level15GetMPGameScriptEv) the config's mp_script string (+0x314 is its data pointer)
     GameObject* GetSpawnPoint();                       // 0x3ef614 spawn object (type 13) whose id equals m_entryPointId
     bool hasActiveDialog() const;                      // 0x3ef24c
     bool CanMoveTowards(const Point3D<float>& from, const Point3D<float>& direction);  // 0x3f94f4 co-op camera limits

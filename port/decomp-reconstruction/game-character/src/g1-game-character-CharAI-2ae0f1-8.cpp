@@ -9,6 +9,7 @@
 // (Structs::Skill and Structs::Faery, see pydata-accessors/structs_records.hpp), read by their named members.
 
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 
@@ -19,9 +20,29 @@
 #include "dh2/CharProperties.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/TrophyManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
 #include "pydata-accessors/structs_records.hpp"  // Structs::Skill, Structs::Faery
 
 namespace {
+
+// The CMsgControllerAction every online spell and skill start/end sends: action code at +0x50, the target/faery id at +0x52 and the owner's
+// network id (Character +0x108) at +0x54.
+void SendControllerAction(Character* character, std::uint8_t action, std::uint16_t targetId) {
+    CMessaging* messaging = GetMessaging();
+    CMsgControllerAction* message = static_cast<CMsgControllerAction*>(CMessage::CreateMessage("CMsgControllerAction", true));
+    message->senderId_ = static_cast<std::uint8_t>(character->unk_108);
+    message->action_ = action;
+    message->targetId_ = targetId;
+    messaging->SendMsg(message);
+}
 
 const char* const kCharAISkillsCpp =
     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\AI\\CharAI_Skills.cpp";
@@ -61,17 +82,17 @@ bool CharAI::AI_IsSpellUsable() const {
 }
 
 // 0x3d81c0 CharAI::AI_BeginSpell(bool)
-// PARTIAL: the network half is not written. When the local character is online and the call is not forced (the
-// flag argument is false), the original sends a CMsgControllerAction (action kind 3, the faery id, the character's
-// byte at +0x108). COnline::isOnlineGame_ (+0x05) is private with no getter, so the send is omitted and the
-// return values are unchanged (both branches of the original return the same value). Layout request: a public
-// IsOnlineGame() on COnline, and the CMsgControllerAction payload setters for the three fields.
+// A faery spell of kind 1 (Structs::Faery m_w7) that is already active runs its OnPreSkill (no range check) and, online unless forced (flag
+// true), sends a CMsgControllerAction (action 3, the faery id) before returning true. Otherwise, if the spell is usable, the cast step flags
+// are cleared, the cast state is entered and the same message is sent online; the result is whether the character is casting.
 bool CharAI::AI_BeginSpell(bool flag) {
-    (void)flag;
     const int faeryId = m_character->SG_GetCurrentFaerieId(-1);
     const auto* faery = static_cast<const Structs::Faery*>(m_character->GetCharFaery(faeryId));
     if (faery->m_w7 == 1 && AI_IsSpellActive()) {
         m_spellScripts[static_cast<std::size_t>(faeryId)]->OnPreSkill();  // no range check, as in the original
+        if (GetOnlineGameFlag() && !flag) {
+            SendControllerAction(m_character, 3, static_cast<std::uint16_t>(faeryId));
+        }
         return true;
     }
     if (!AI_IsSpellUsable()) {
@@ -80,6 +101,9 @@ bool CharAI::AI_BeginSpell(bool flag) {
     m_skillStepBegun = false;
     m_skillStepEnded = false;
     m_character->SM_SetCastState(static_cast<unsigned int>(faeryId), nullptr, false);
+    if (GetOnlineGameFlag() && !flag) {
+        SendControllerAction(m_character, 3, static_cast<std::uint16_t>(faeryId));
+    }
     return m_character->SM_IsCasting();
 }
 
@@ -176,11 +200,10 @@ bool CharAI::AI_IsSkillActive(unsigned int skill) const {
 }
 
 // 0x3d86bc CharAI::AI_BeginSkill(uint)
-// PARTIAL: the trophy branch is not written. For a player character whose PROPS counter (+216) passes 199, the original
-// unlocks the "epic_withskills" trophy when PlayerManager::IsLocalPlayer(dword_99F76C, character) is true. The
-// PlayerManager header does not compile in this translation unit (StreamBuffer is abstract and IStreamBase is defined
-// twice), and the TrophyTable name table (pydata member_names.hpp) conflicts with structs_records.hpp. Both are
-// layout requests; the counter update and the threshold test are written.
+// A skill whose record word m_w18 (+0x48) is 1 and that is already active runs its OnPreSkill (no range check) and returns true.
+// Otherwise a usable skill becomes the current skill, the step flags are cleared and the skill state is entered (SM_SetSkillState with
+// the record's m_w2). A player character counts it in property 216; above 199 the local player unlocks the "epic_withskills" trophy.
+// The result is whether the character is using a skill.
 bool CharAI::AI_BeginSkill(unsigned int skill) {
     const auto* record = static_cast<const Structs::Skill*>(m_character->GetCharSkill(static_cast<int>(skill)));
     if (record->m_w18 == 1 && AI_IsSkillActive(skill)) {
@@ -196,9 +219,11 @@ bool CharAI::AI_BeginSkill(unsigned int skill) {
     m_character->SM_SetSkillState(skill, record->m_w2, nullptr, false);
     if (m_character->IsPlayer()) {
         m_character->PROPS_AddInt(216, 1);
+        TrophyManager* trophies = TrophyManager::s_instance;
         if (m_character->PROPS_GetInt(216, false) > 199) {
-            // PARTIAL: PlayerManager::IsLocalPlayer(dword_99F76C, character) and the "epic_withskills" unlock
-            // (TrophyManager::s_instance->UnlockTrophy(index of the name in Arrays::TrophyTable)) are not written.
+            if (dword_99F76C->IsLocalPlayer(m_character)) {
+                trophies->UnlockTrophy(pydata::FindMemberName(Arrays::TrophyTable::m_memberNames, static_cast<int>(Arrays::TrophyTable::size), "epic_withskills"));
+            }
         }
     }
     return m_character->SM_IsUsingSkill();

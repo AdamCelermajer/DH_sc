@@ -11,6 +11,19 @@
 #include <string>
 
 #include "dh2/AISPlayer.hpp"
+
+// AISPlayer::AISPlayer(bool)  (inlined into CharAI::SetScript<AISPlayer> at 0x3cd11c): AISDefault(skipBindings), an empty Character* vector at
+// +0xc4, m_aggroCount (+0xd0) and m_aggroForMusic (+0xd4) zero.
+AISPlayer::AISPlayer(bool skipBindings) : AISDefault(skipBindings), unk_c4(), m_aggroCount(0), m_aggroForMusic(0) {}
+#include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/LevelConfig.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharAI.hpp"
 #include "dh2/CharStateMachine.hpp"
@@ -94,17 +107,11 @@ void AISPlayer::OnKill(Character* victim) {
 }
 
 // 0x3ddb70 _ZN9AISPlayer7OnAggroEP9Character AISPlayer::OnAggro(Character*)
-// PARTIAL: the body below the aggro counter update is not written. The original does the rest only when
-// !GetOnline()->isOnlineGame_ or PlayerManager::IsLocalPlayer(dword_99F76C, owner) is true. Blocked by:
-//   - COnline +0x05 (isOnlineGame_) is private in net-session-online/c_online.hpp and has no getter, so the gate
-//     cannot be evaluated.
-//   - Not written, inside the gate: m_aggroForMusic += the aggressor's Character::GetCharAI()->m_w5 (AIProps +0x14),
-//     the combat music switch (Level::m_levelConfig (+0x38) and LevelConfig::m_combatMusicEnabled (+0x1c8), the
-//     threshold int at Arrays::DesignSettingsTable::members +0x14, VoxSoundManager's bytes +0x31 and +0x32 and its
-//     SetMusicState("combat")), the current level read through Singleton<Application>::s_inst (Application has no
-//     accessor for it), and the post-trace line.
-// Written: the AISDefault hook, the isTracingAggroCount pre-trace and the m_aggroCount increment, which the original
-// does for every owner.
+// The AISDefault hook, the isTracingAggroCount pre-trace and the m_aggroCount increment run for every owner. Offline, or for the local
+// player online (PlayerManager::IsLocalPlayer), the aggressor's aggro weight (Character::GetCharAI()->m_w5, AIProps +0x14) is added to
+// m_aggroForMusic and, with a current level whose config allows combat music (LevelConfig::m_combatMusicEnabled, +0x1c8), the sound
+// manager outside combat music (VoxSoundManager +0x31) and m_aggroForMusic at or above the design threshold (Structs::DesignSettings
+// m_w5, +0x14 of row 0), the music switches to "combat" (+0x31 cleared). The post-trace line follows.
 void AISPlayer::OnAggro(Character* c) {
     AISDefault::OnAggro(c);
     DebugSwitches::s_inst.load();
@@ -113,16 +120,31 @@ void AISPlayer::OnAggro(Character* c) {
         std::fprintf(stderr, "OnAggro-Pre - AggroCount: %d\t AggroForMusic:%d\n", m_aggroCount, m_aggroForMusic);
     }
     m_aggroCount += 1;
+    if (!GetOnlineGameFlag() || dword_99F76C->IsLocalPlayer(m_character)) {
+        VoxSoundManager* sound = VoxSoundManager::s_instance;
+        Level* level = ApplicationGetInstance().GetCurrentLevel();
+        m_aggroForMusic += c->GetCharAI()->m_w5;
+        if (level) {
+            LevelConfig* config = level->GetLevelConfig();
+            const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
+            if (config->m_combatMusicEnabled && sound->music_slot_ && m_aggroForMusic >= design->m_w5) {
+                sound->SetMusicState("combat");
+                sound->music_slot_ = false;
+            }
+        }
+        DebugSwitches::s_inst.load();
+        if (DebugSwitches::s_inst.GetSwitch("isTracingAggroCount")) {
+            std::fprintf(stderr, "OnAggro-Post - AggroCount: %d\t AggroForMusic:%d\n", m_aggroCount, m_aggroForMusic);
+        }
+    }
 }
 
 // 0x3dde48 _ZN9AISPlayer9OnDeAggroEP9Character AISPlayer::OnDeAggro(Character*)
-// PARTIAL: the body below the aggro counter update is not written, for the same two reasons as OnAggro (the
-// !GetOnline()->isOnlineGame_ gate, and the current level and VoxSoundManager state). Not written, inside the gate:
-// m_aggroForMusic -= the aggressor's Character::GetCharAI()->m_w5; when the music value reaches 0 and the music is
-// not in combat mode (VoxSoundManager byte +0x31), SetMusicState("ambient") and, when byte +0x32 is set, PlayMusic
-// of the level's ambient sound id (Level::unk_120, +0x120), with +0x31 set to 1; when m_aggroCount is 0 and byte
-// +0x32 is clear, unk_c4 is cleared (end = begin); and the post-trace line.
-// Written: the AISDefault hook, the isTracingAggroCount pre-trace and the m_aggroCount decrement.
+// The AISDefault hook, the pre-trace and the m_aggroCount decrement run for every owner. Offline, or for the local player online:
+// m_aggroForMusic loses the aggressor's weight; when the sound manager is in combat music (+0x31 clear) and the value is 0, the music
+// switches to "ambient" (+0x31 set) and, if it is in the safe-zone mode (+0x32), the level's ambient sound (Level::unk_120, when not
+// negative) plays looped with a 2000 ms fade. When m_aggroCount is 0 and the safe-zone mode is off, unk_c4 is emptied. The post-trace
+// line follows.
 void AISPlayer::OnDeAggro(Character* c) {
     AISDefault::OnDeAggro(c);
     DebugSwitches::s_inst.load();
@@ -131,6 +153,29 @@ void AISPlayer::OnDeAggro(Character* c) {
         std::fprintf(stderr, "OnDeAggro-Pre - AggroCount: %d\t AggroForMusic:%d\n", m_aggroCount, m_aggroForMusic);
     }
     m_aggroCount -= 1;
+    if (!GetOnlineGameFlag() || dword_99F76C->IsLocalPlayer(m_character)) {
+        VoxSoundManager* sound = VoxSoundManager::s_instance;
+        ApplicationGetInstance().GetCurrentLevel();
+        m_aggroForMusic -= c->GetCharAI()->m_w5;
+        if (!sound->music_slot_ && m_aggroForMusic == 0) {
+            sound->SetMusicState("ambient");
+            const bool inSafeZone = sound->in_safe_zone_;
+            sound->music_slot_ = true;
+            if (inSafeZone) {
+                const int ambient = ApplicationGetInstance().GetCurrentLevel()->unk_120;
+                if (ambient >= 0) {
+                    sound->PlayMusic(ambient, true, false, 2000);
+                }
+            }
+        }
+        if (m_aggroCount == 0 && !sound->in_safe_zone_) {
+            unk_c4.clear();
+        }
+        DebugSwitches::s_inst.load();
+        if (DebugSwitches::s_inst.GetSwitch("isTracingAggroCount")) {
+            std::fprintf(stderr, "OnDeAggro-Post - AggroCount: %d\t AggroForMusic:%d\n", m_aggroCount, m_aggroForMusic);
+        }
+    }
 }
 
 // 0x3de100 _ZN9AISPlayerD2Ev AISPlayer::~AISPlayer() (base-object copy)

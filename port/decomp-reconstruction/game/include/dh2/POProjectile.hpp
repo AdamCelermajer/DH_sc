@@ -13,8 +13,17 @@
 class PhysicalBaseObject;
 template <typename T> struct Point2D;
 
+class PhysicalWorld;
+class GameObject;
+
 class POProjectile : public PhysicalObject {
 public:
+    // The original builds a PhysicalObject (operator new(40)) and stores the POProjectile vtable pointer over it; the C++ constructor is
+    // that PhysicalObject constructor with the same arguments (Projectile::SetInfo passes isStatic false, isCircle, isSensor and isBullet true,
+    // group 0, category 0x20, mask 0x51f, unused 0).
+    POProjectile(PhysicalWorld* world, GameObject* owner, bool isStatic, bool isCircle, bool isSensor, bool isBullet, short group,
+                 unsigned short category, unsigned short mask, int unused)
+        : PhysicalObject(world, owner, isStatic, isCircle, isSensor, isBullet, group, category, mask, unused) {}
     ~POProjectile() override;                                       // +0x00/+0x04 0x470480 (D1), 0x4706ec (D0)
 
     // Vtable slots +0x08 .. +0x10 are POProjectile's own. +0x14 .. +0x24 are PhysicalObject's.

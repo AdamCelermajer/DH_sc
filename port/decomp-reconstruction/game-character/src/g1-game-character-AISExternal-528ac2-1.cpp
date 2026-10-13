@@ -46,11 +46,9 @@ AISExternal::~AISExternal() {}
 
 // 0x3dd0e4 AISExternal::AISExternal(bool)   (C1)
 // 0x3dd128 AISExternal::AISExternal(bool)   (C2)
-// PARTIAL: not written. The original calls CharAIScript C2 (0x3d8fb0) with the flag, reached through the inlined
-// AISDefault base. It then stores the vptr (_ZTV11AISExternal + 8), and clears unk_c0 (+0xc0), unk_b8 (+0xb8) and
-// unk_bc (+0xbc). The intended definition is
-//     AISExternal::AISExternal(bool skipBindings) : AISDefault(skipBindings) { unk_c0 = 0; unk_b8 = 0; unk_bc = 0; }
-// It needs AISDefault(bool) declared in dh2/AISDefault.hpp, which is absent (layout request).
+// CharAIScript C2 (0x3d8fb0) runs with the flag, reached through the AISDefault base, then the vptr is stored (_ZTV11AISExternal + 8) and
+// unk_c0 (+0xc0), unk_b8 (+0xb8) and unk_bc (+0xbc) are cleared (AISDefault(bool) does the clears).
+AISExternal::AISExternal(bool skipBindings) : AISDefault(skipBindings) {}
 
 // 0x3dd250 AISExternal::OnCombatResults(GameObject*, void*)
 // Builds an Arguments with the results pointer, calls the external script's OnCombatResults, and destroys the Arguments.

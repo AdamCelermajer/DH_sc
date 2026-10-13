@@ -14,6 +14,8 @@ class Character;
 
 class AISPlayer : public AISDefault {
 public:
+    explicit AISPlayer(bool skipBindings);                              // inlined into CharAI::SetScript<AISPlayer>: AISDefault(skipBindings), empty vector, counts 0
+
     // Virtual hooks, in vtable slot order. Only the overrides are listed here. The rest are inherited from AISDefault.
     ~AISPlayer() override;                                              // slot 0/1: 0x3dd99c (complete object, D1), 0x3dda18 (deleting, D0); 0x3de100 (D2, base object) is a second copy
     void OnTargetDied() override;                                       // slot 16: 0x3dd84c

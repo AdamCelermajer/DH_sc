@@ -27,7 +27,7 @@
 // With args[2] a userdata (tag 7): the projectile's position is (args[2] m_position.x, args[2] m_position.y, the projectile's
 // own GameObject m_position.z), set with GameObject::SetPosition(projectile, position, true). With args[3] a userdata
 // (tag 7) as well: GameObject::SetDestination(projectile, args[3] m_position). The projectile is then pushed as a pointer.
-// PARTIAL: (1) a null script is reported as the original's assertion (Character_LuaCallbacks.cpp line 916), and the binding
+// (1) a null script is reported as the original's assertion (Character_LuaCallbacks.cpp line 916), and the binding
 // returns; the original goes on and calls SpawnProjectile on the null script (a null this). (2) A slot outside
 // m_skillScripts reads past the vector in the original (undefined); this port returns without a report. (3) A null
 // projectile from SpawnProjectile is not dereferenced for the position step (the original does, and crashes); it is pushed.

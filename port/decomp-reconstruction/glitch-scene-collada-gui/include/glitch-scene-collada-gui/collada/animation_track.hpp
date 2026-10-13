@@ -168,6 +168,12 @@ inline int setMaterialParameterCvt(void* /*material*/, std::uint16_t /*parameter
     return 0;
 }
 
+// The same for a matrix parameter (IMaterialParameters<...>::setParameter(id, index, CMatrix4 const&), the texture transform). PARTIAL as above.
+inline int setMaterialMatrixParameter(void* /*material*/, std::uint16_t /*parameterId*/, std::uint32_t /*index*/,
+                                      const core::CMatrix4<float>* /*matrix*/) {
+    return 0;
+}
+
 }  // namespace detail
 
 // ---------------------------------------------------------------------------------------------------------------------------------

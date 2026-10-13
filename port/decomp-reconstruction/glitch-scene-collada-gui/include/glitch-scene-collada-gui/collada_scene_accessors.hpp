@@ -92,19 +92,11 @@ namespace animation_track {
 // Float-valued track: identity value is 0.0.
 class CFloatEx {
 public:
-    // 0x6e3118 _ZNK6glitch7collada15animation_track8CFloatEx16getIdentityValueEPv
-    void getIdentityValue(void* out) const;
-    // 0x6e31e4 _ZN6glitch7collada15animation_track8CFloatExD1Ev (empty)
-    ~CFloatEx() = default;
 };
 
 // Weight-valued track: identity value is 0.0.
 class CWeightEx {
 public:
-    // 0x6e4dbc _ZNK6glitch7collada15animation_track9CWeightEx16getIdentityValueEPv
-    void getIdentityValue(void* out) const;
-    // 0x6e4f48 _ZN6glitch7collada15animation_track9CWeightExD1Ev (empty)
-    ~CWeightEx() = default;
 };
 
 }  // namespace animation_track

@@ -12,6 +12,12 @@
 
 #include "core-platform/memory.hpp"  // gAssertLevel
 #include "dh2/CharAI.hpp"
+#include "dh2/AISExternal.hpp"
+#include "dh2/AISMonster.hpp"
+#include "dh2/AISFaery.hpp"
+#include "dh2/AISDefault.hpp"
+#include "dh2/AISPlayerIPhone.hpp"
+#include "dh2/AISPlayer.hpp"
 #include "dh2/CharAIScript.hpp"
 #include "dh2/CharAISkillScript.hpp"
 #include "dh2/Character.hpp"
@@ -574,10 +580,8 @@ void CharAI::AIUnLoadScriptProcess(bool force) {
 }
 
 // 0x3ccaf4 void CharAI::SetScript<AISExternal>(void)
-// PARTIAL: written so far are the assert on the owner and the OnTerminate hook of the previous script. Not written:
-// deleting the previous m_scriptLoading and constructing AISExternal(1) (0xc4 bytes) in m_scriptLoading. dh2/AISExternal.hpp
-// declares AISExternal(bool), but the constructor is not defined: its batch file gives the body only as a comment, and the
-// body needs AISDefault(bool), which dh2/AISDefault.hpp does not declare yet (layout request).
+// The owner assert, then a previous m_scriptLoading is terminated (OnTerminate, slot 5, +0x14), deleted through its virtual deleting
+// destructor (slot 1) and cleared; the 196-byte AISExternal (AISExternal(true)) becomes m_scriptLoading.
 template <>
 void CharAI::SetScript<AISExternal>() {
     if (!m_character) {
@@ -586,13 +590,15 @@ void CharAI::SetScript<AISExternal>() {
     }
     if (m_scriptLoading) {
         OnTerminate();  // slot 5 (+0x14)
+        delete m_scriptLoading;
+        m_scriptLoading = nullptr;
     }
+    m_scriptLoading = new AISExternal(true);
 }
 
 // 0x3ccbe4 void CharAI::SetScript<AISMonster>(void)
-// PARTIAL: written so far are the assert on the owner and the OnTerminate hook of the previous script. The AISMonster
-// construction (0xc4 bytes, vtable of AISMonster, unk_b8/unk_bc/unk_c0 zeroed) is not written: dh2/AISMonster.hpp derives
-// from AISDefault and declares no constructor, and dh2/AISDefault.hpp declares none either (layout request).
+// The owner assert, then a previous m_scriptLoading is terminated (OnTerminate, slot 5, +0x14), deleted through its virtual deleting
+// destructor (slot 1) and cleared; the 196-byte AISMonster (CharAIScript(true), the mask words cleared) becomes m_scriptLoading.
 template <>
 void CharAI::SetScript<AISMonster>() {
     if (!m_character) {
@@ -601,5 +607,8 @@ void CharAI::SetScript<AISMonster>() {
     }
     if (m_scriptLoading) {
         OnTerminate();  // slot 5 (+0x14)
+        delete m_scriptLoading;
+        m_scriptLoading = nullptr;
     }
+    m_scriptLoading = new AISMonster(true);
 }

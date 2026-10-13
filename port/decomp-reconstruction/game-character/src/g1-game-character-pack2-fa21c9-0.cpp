@@ -3,16 +3,6 @@
 // hooks. The update and event hooks are empty, and the base destructors are empty. The deleting destructors are
 // compiler-generated and are not written (skipped). Declarations come from dh2/CSDespawn.hpp and dh2/CSInjured.hpp; the
 // Character layout comes from dh2/Character.hpp.
-//
-// PARTIAL functions say at the point of the gap what is missing. The ledger rows in
-// game-character/ledger.d/g1-game-character-pack2-fa21c9-0.csv repeat it. There are two gaps, both outside this unit:
-//   - COnline +0x05 is isOnlineGame_ (private in net-session-online/c_online.hpp, with only a setter). OnlineGameFlag
-//     reads false until the field has a getter, so the online branches of CSDespawn::OnBlur run as offline (the same
-//     stand-in as CSIdle). Layout request filed.
-//   - The local player's object of interest is cleared through PlayerManager::GetLocalPlayer(0, true)->unk_660 (a
-//     Character* at PlayerInfo +0x660). dh2/PlayerManager.hpp cannot be included with dh2/Character.hpp, because
-//     net-transport's i_stream_base.hpp and pydata-accessors' stream_reader.hpp both define IStreamBase. The stub
-//     ClearLocalPlayerObjectOfInterest stands in until that include conflict is resolved.
 
 #include "dh2/CSDespawn.hpp"
 #include "dh2/CSInjured.hpp"
@@ -24,6 +14,9 @@
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ObjectBase.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/net_singletons.hpp"
 #include "net-session-online/c_online.hpp"
 #include "dh2/v2Controller.hpp"
@@ -36,15 +29,6 @@ void ProbeSwitch(const char* name) {
     DebugSwitches::s_inst.load();
     (void)DebugSwitches::s_inst.GetSwitch(name);
 }
-
-// PARTIAL. COnline::isOnlineGame_ (+0x05) is private with no getter. Reads false until it is public, so the online
-// branches of CSDespawn::OnBlur run as if the game were offline.
-bool OnlineGameFlag(const COnline* online) { return online->IsOnlineGame(); }
-
-// PARTIAL. The original's local-player block in CSDespawn::OnBlur reads PlayerInfo +0x660 (the local player's Character)
-// and, when its m_objectOfInterest (Character +0x14a4) is this character, clears that field. The stub does nothing until
-// dh2/PlayerManager.hpp can be included with dh2/Character.hpp.
-void ClearLocalPlayerObjectOfInterest(Character*) {}
 
 }  // namespace
 
@@ -84,25 +68,28 @@ void CSDespawn::OnFocus(int, Character* character, CharStateMachine*, int, int, 
 }
 
 // 0x3c3794 CSDespawn::OnBlur(int,Character*,CharStateMachine*,int)
-// PARTIAL. Two gaps (see the file comment): the online flag reads false (OnlineGameFlag), and the local player's
-// object-of-interest clear is a stub (ClearLocalPlayerObjectOfInterest). The rest is written in the original's order.
-// The assembly (0x3c3794) confirms the block condition, the Delete path and the unconditional tail calls.
+// Trace probe; the controller is unblocked; the limbus flag is set. A character that cannot respawn (and, online, is not a player) clears
+// the local player's object of interest when it is this character, and is deleted when it was net spawned or is summoned. Online, unk_118
+// is cleared. The state flags are cleared, the animator drops its anim set user and requests a purge, and the concurrent-AI script process is
+// unloaded. The assembly (0x3c3794) confirms the block condition, the Delete path and the unconditional tail calls.
 void CSDespawn::OnBlur(int, Character* character, CharStateMachine*, int) {
     CharStateMachine* machine = character;
     ProbeSwitch("isTracingCharState");
     character->m_controller->m_blocked = false;     // v2Controller +0x08, reached through Character +0x378
     machine->m_limbusFlag = true;                   // +0x530 (CSM +0x34)
 
-    if (!character->CanRespawn() && (!OnlineGameFlag(GetOnline()) || !character->IsPlayer())) {
-        ClearLocalPlayerObjectOfInterest(character);  // PARTIAL
+    if (!character->CanRespawn() && (!GetOnlineGameFlag() || !character->IsPlayer())) {
+        Character* localCharacter = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+        if (localCharacter && character == localCharacter->m_objectOfInterest) {
+            localCharacter->m_objectOfInterest = nullptr;
+        }
         if (character->m_isNetSpawned != 0 || character->IsSummoned()) {
             static_cast<ObjectBase*>(character)->Delete();
         }
     }
 
-    // The original clears the byte at +0x118 (ObjectBase::unk_118) when the online flag is set. The flag is the stand-in
-    // above, so this write is not made in an online game.
-    if (OnlineGameFlag(GetOnline())) {
+    // The original clears the byte at +0x118 (ObjectBase::unk_118) when the online flag is set.
+    if (GetOnlineGameFlag()) {
         character->unk_118 = 0;
     }
     machine->m_stateFlags = 0;                      // +0x520 (CSM +0x24)

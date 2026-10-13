@@ -46,7 +46,7 @@ int main() {
         EXPECT(obj.m_owner == nullptr);                         // +0x00
         EXPECT(obj.m_flags == 8u);                              // +0x04
         EXPECT(obj.m_radius == 1.0f);                           // +0x08
-        EXPECT(obj.m_floorHeight == 0.0f);                      // +0x0c
+        EXPECT(obj.m_room == nullptr);                            // +0x0c
         EXPECT(obj.m_floor == nullptr);                         // +0x10
         EXPECT(obj.m_moveFlags == 2u);                          // +0x14
         EXPECT(obj.m_pos.X == 0.0f && obj.m_pos.Y == 0.0f && obj.m_pos.Z == 0.0f);  // +0x18
@@ -56,14 +56,13 @@ int main() {
         EXPECT(obj.m_path.empty());                             // +0x38
         EXPECT(obj.m_pathEnd.X == 0.0f && obj.m_pathEnd.Y == 0.0f && obj.m_pathEnd.Z == 0.0f);  // +0x40
         EXPECT(obj.m_pathSmoothIdx == 0u);                      // +0x7c
-        EXPECT(obj.unk_88 == 0);                                // +0x88
+        EXPECT(obj.m_waypointDir.X == 0.0f && obj.m_waypointDir.Y == 0.0f && obj.m_waypointDir.Z == 0.0f);  // +0x80
         EXPECT(obj.m_debugName.empty());                        // +0x8c
         EXPECT(obj.unk_9c == static_cast<void*>(&obj.m_debugName));  // +0x9c
         EXPECT(obj.unk_a0 == static_cast<void*>(&obj.m_debugName));  // +0xa0
 
-        float weight = 0.0f;
-        std::memcpy(&weight, obj.unk_50 + 8, sizeof weight);    // +0x58 weight of the embedded edge
-        EXPECT(weight == 1.0f);
+        EXPECT(obj.m_edge.m_from == nullptr && obj.m_edge.m_to == nullptr);  // +0x50, +0x54
+        EXPECT(obj.m_edge.m_weight == 1.0f);                    // +0x58 weight of the embedded edge
 
         // Flying and swimming are bits 0 and 1 of m_moveFlags. The default word 2 means swimming.
         EXPECT(!obj.IsFlying());

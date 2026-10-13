@@ -25,6 +25,15 @@
 #include "dh2/ObjectManager.hpp"
 #include "dh2/ObjectSearcher.hpp"
 #include "dh2/PFWorld.hpp"
+#include "dh2/Random.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/PhysicalObject.hpp"
 #include "dh2/RoomZone.hpp"
 #include "dh2/RootSceneNode.hpp"
@@ -243,20 +252,14 @@ void GameObject::_SummonTriggerTrap(const sfc::script::lua::Arguments& args, sfc
 }
 
 // 0x39193c GameObject::_Summon(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. The offline spawn is reconstructed: args[0] a number below Arrays::CharacterTable::size (the NPC type) and
-// args[1] a bool (the spawn-state flag). The point is self's m_position, or the absolute position of the visual's
-// summon_spot node. The rotation is self's m_rotation. Userdata at args[2] gives the point and rotation of that object.
-// Otherwise, with more than four arguments and args[2..4] numbers, the point is those numbers, or with a true bool at
-// args[5] it is OffsetFromSelf(args[2], args[3], args[4]). A time from a lone third number (exactly three arguments) is
-// forwarded to the NPC's visual root with RootSceneNode::ForwardAnim. The point is floor-corrected by
-// PFWorld::GetFloorHeightAt and falls back to self's m_position. Then Character::CreateNPC(type, nullptr, false),
-// SetInitialPosition, SetPosition(pos, true), SetRotation, m_isNetSpawned = 1, and either the room zone's AddInitialObject
-// or ObjectManager::AddNoRoomObject with ZoneEntered. SM_SetSpawnState(false, false) runs when the flag is set. The NPC is
-// pushed as userdata, then the time is forwarded.
-// NOT RECONSTRUCTED: the online tail, which runs when GetOnline()->+0x05 is set (COnline has no declared layout). It
-// assigns a network id (ObjectManager::AssignObjectNetworkId), copies the owner id and time from self, and sends a
-// CMsgSpawnObject message through CMessaging when OnlineGameState's state (+0x34) is 3 or 4. The offline result here
-// does not depend on it, but in online play the tail is missing.
+// args[0] a number below Arrays::CharacterTable::size (the NPC type) and args[1] a bool (the spawn-state flag). The point is self's m_position, or the absolute position of the visual's
+// summon_spot node. The rotation is self's m_rotation. Userdata at args[2] gives the point and rotation of that object. Otherwise, with more than four arguments and args[2..4] numbers,
+// the point is those numbers, or with a true bool at args[5] it is OffsetFromSelf(args[2], args[3], args[4]). A time from a lone third number (exactly three arguments) is
+// forwarded to the NPC's visual root with RootSceneNode::ForwardAnim. The point is floor-corrected by PFWorld::GetFloorHeightAt and falls back to self's m_position. Then
+// Character::CreateNPC(type, nullptr, false), SetInitialPosition, SetPosition(pos, true), SetRotation, m_isNetSpawned = 1, and either the room zone's AddInitialObject or
+// ObjectManager::AddNoRoomObject with ZoneEntered. SM_SetSpawnState(false, false) runs when the flag is set. The NPC is pushed as userdata, then the time is forwarded.
+// Online (COnline +0x05): the NPC gets a network id (ObjectManager::AssignObjectNetworkId), is flagged unk_118, takes self's owner id (+0x110) and a zero owner timer, and, in OnlineGameState
+// mode 3 or 4, a CMsgSpawnObject (the NPC's network id, its type, self's network id, its position, 0) is sent through CMessaging.
 void GameObject::_Summon(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* self) {
     GameObject* const object = static_cast<GameObject*>(self);
     const std::size_t count = ArgCount(args);
@@ -331,16 +334,42 @@ void GameObject::_Summon(const sfc::script::lua::Arguments& args, sfc::script::l
     if (forwardTime > 0 && npc->m_visualObject != nullptr && npc->m_visualObject->m_node != nullptr) {
         npc->m_visualObject->m_node->ForwardAnim(static_cast<std::uint32_t>(forwardTime));
     }
+    if (GetOnlineGameFlag()) {
+        dword_99F764->AssignObjectNetworkId(npc);
+        npc->unk_118 = 1;
+        npc->m_netOwnerId = object->m_netOwnerId;
+        npc->unk_114 = 0.0f;
+        const std::int32_t mode = OnlineSingleton<OnlineGameState>::GetInstance()->mode_;
+        if (mode == 3 || mode == 4) {
+            CMessaging* messaging = CMessaging::GetInstance();
+            CMsgSpawnObject* message = dynamic_cast<CMsgSpawnObject*>(CMessage::CreateMessage("CMsgSpawnObject", true));
+            message->objectId_ = npc->unk_108;
+            message->unk_54 = static_cast<std::int32_t>(args[0].getUInteger());
+            message->unk_58 = object->unk_108;
+            message->unk_5c = npc->m_position.X;
+            message->unk_60 = npc->m_position.Y;
+            message->unk_64 = npc->m_position.Z;
+            message->unk_68 = 0;
+            messaging->SendMsg(message);
+        }
+    }
 }
 
 // 0x39212c GameObject::_PlaySound3D(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Listing: args[0] is read as a string (no tag test). Its index in Arrays::Sounds (strcmp over the member names)
-// is the sound id, or -1 when it is not found. The position is self's m_position, unless there are at least four
-// arguments and args[1..3] are numbers. Then VoxSoundManager::Play3D(s_instance, id, position, 0, COERCE_FLOAT(1), -1.0,
-// -1.0). Missing: VoxSoundManager::Play3D and its s_instance are not declared in vox-audio, and Arrays::Sounds is declared
-// with a pydata::NameTable whose lookup is not in the tree. Nothing is emitted.
-void GameObject::_PlaySound3D(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                              void* /*self*/) {}
+// args[0] is read as a string (no tag test); its index in Arrays::Sounds (the first name equal to it) is the sound id, or -1 when the name is not listed. The position is self's m_position,
+// unless there are at least four arguments and args[1..3] are numbers, which then give x, y and z. Then VoxSoundManager::Play3D(id, position, false, 1, -1, -1).
+void GameObject::_PlaySound3D(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/, void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    const int sound = pydata::FindMemberName(Arrays::Sounds::m_memberNames, static_cast<int>(Arrays::Sounds::size), args[0].getString());
+    Point3D<float> position = object->m_position;
+    if (ArgCount(args) > 3 && args[1].m_type == kTagNumber && args[2].m_type == kTagNumber && args[3].m_type == kTagNumber) {
+        position.X = args[1].getNumber();
+        position.Y = args[2].getNumber();
+        position.Z = args[3].getNumber();
+    }
+    const glitch::core::vector3d<float> at{position.X, position.Y, position.Z};
+    VoxSoundManager::s_instance->Play3D(sound, at, false, 1, -1.0f, -1.0f);
+}
 
 // 0x3923cc GameObject::_PlayFX(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
 // args[0] a number below Arrays::AnimatedEffectTable::size is the effect id. With no more than three arguments:
@@ -520,13 +549,35 @@ void GameObject::_TargetListSearchRect(const sfc::script::lua::Arguments& args,
 }
 
 // 0x393310 GameObject::_Rand(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Listing: no arguments, or three or more, give the range 100 from 0. One number n gives [0, n). Two numbers a,
-// b give [a, b - a). Other shapes push nothing. Outside online play it pushes Random::GetRandom(range, false) + base as
-// an integer. Online, self's unk_fc (+0xfc) word is loaded into Random::s_seed, the synchronized stream is drawn and the
-// seed is stored back to +0xfc. The branch needs COnline's online flag (+0x05), which is not declared (GetOnline()
-// returns an incomplete COnline), and the listing loses the synced argument of the GetRandom calls. Nothing is pushed.
-void GameObject::_Rand(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                       void* /*self*/) {}
+// No arguments, or three or more, give the range 100 from 0. One number n gives [0, n). Two numbers a, b give [a, b - a). Other shapes push nothing. Outside online play it pushes
+// Random::GetRandom(range, false) + base as an integer (the call is the ordinary-stream clone .clone.1_0). Online, self's unk_fc (+0xfc) is loaded into Random::s_seed first, the value
+// is drawn and pushed, and the seed is stored back to +0xfc.
+void GameObject::_Rand(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    const std::size_t count = ArgCount(args);
+    unsigned int range = 100;
+    unsigned int base = 0;
+    if (count == 1) {
+        if (args[0].m_type != kTagNumber) {
+            return;
+        }
+        range = args[0].getUInteger();
+    } else if (count == 2) {
+        if (args[0].m_type != kTagNumber || args[1].m_type != kTagNumber) {
+            return;
+        }
+        base = args[0].getUInteger();
+        range = args[1].getUInteger() - base;
+    }
+    if (GetOnlineGameFlag()) {
+        Random::s_seed = static_cast<std::uint32_t>(object->unk_fc);
+        const unsigned int value = Random::GetRandom(static_cast<int>(range), false);
+        ret.pushInteger(static_cast<int>(value + base));
+        object->unk_fc = static_cast<std::int32_t>(Random::s_seed);
+    } else {
+        ret.pushInteger(static_cast<int>(Random::GetRandom(static_cast<int>(range), false) + base));
+    }
+}
 
 // 0x393444 GameObject::_GetDistanceFrom(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
 // Needs at least one argument. args[0] a string (object by name) or userdata (tag 7); other tags push nothing. Pushes the

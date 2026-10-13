@@ -31,22 +31,6 @@ int main() {
     amsh.setRenderFromIdentity(true);
     CHECK(amsh.loopMode && amsh.renderFromIdentity);
 
-    CTextSceneNode text;
-    CHECK(tagIs(text.getType(), "text"));
-    CHECK(&text.getBoundingBox() == &text.boundingBox);
-
-    CBillboardTextSceneNode bt;
-    CHECK(bt.onRegisterSceneNode() == 1);
-    CHECK(&bt.getSize() == &bt.size);
-    CHECK(&bt.getBoundingBox() == &bt.boundingBox);
-
-    CDummyTransformationSceneNode dummy;
-    CHECK(tagIs(dummy.getType(), "dmmy"));
-
-    CSkyBoxSceneNode sky;
-    CHECK(tagIs(sky.getType(), "sky_"));
-    CHECK(sky.getMaterialCount() == 6);
-
     CTerrainSceneNode terrain;
     CHECK(tagIs(terrain.getType(), "terr"));
     terrain.position.X = 1.0f;
@@ -67,31 +51,6 @@ int main() {
     ps.setParticlesAreGlobal(true);
     CHECK(ps.particlesAreGlobal);
 
-    CSceneNodeAnimatorCameraFPS fps;
-    fps.setMoveSpeed(4.0f);
-    fps.setRotateSpeed(1.5f);
-    CHECK(fps.getMoveSpeed() == 4.0f);
-    CHECK(fps.getRotateSpeed() == 1.5f);
-    CHECK(fps.getType() == 7);
-    CHECK(fps.isEventReceiverEnabled());
-
-    CSceneNodeAnimatorCameraMaya maya;
-    maya.setZoomSpeed(0.75f);
-    CHECK(maya.getZoomSpeed() == 0.75f);
-    CHECK(maya.getType() == 8);
-
-    CSceneNodeAnimatorCollisionResponse cr;
-    cr.setSlidingSpeed(2.0f);
-    CHECK(cr.getSlidingSpeed() == 2.0f);
-    CHECK(!cr.isFalling());
-    CHECK(cr.getWorld() == nullptr);
-    CHECK(cr.getType() == 6);
-
-    CDefaultSceneNodeAnimatorFactory factory;
-    CHECK(factory.getCreatableSceneNodeAnimatorTypeCount() == 9);
-    CHECK(factory.getCreateableSceneNodeAnimatorType(4) == 4);
-    CHECK(factory.getCreateableSceneNodeAnimatorType(9) == 10);
-
     CHECK(IParticleCylinderEmitter().getType() == 3);
     CHECK(IParticleSpinAffector().getType() == 6);
 
@@ -101,29 +60,6 @@ int main() {
     CHECK(mesh.getMeshType() == 7);
 
     // Text, camera and particle accessors.
-    CTextSceneNode textNode;
-    textNode.setTextColor(glitch::video::SColor{0x11u});
-    CHECK(textNode.textColor.color == 0x11u);
-    CBillboardTextSceneNode billboardText;
-    billboardText.setTextColor(glitch::video::SColor{0x22u});
-    CHECK(billboardText.textColor.color == 0x22u);
-
-    CSceneNodeAnimatorCameraFPS fpsAnim;
-    fpsAnim.keyDown[2] = true;
-    fpsAnim.allKeysUp();
-    CHECK(!fpsAnim.keyDown[2]);
-    fpsAnim.setVerticalMovement(true);
-    CHECK(!fpsAnim.noVerticalMovement);
-    fpsAnim.setVerticalMovement(false);
-    CHECK(fpsAnim.noVerticalMovement);
-
-    CSceneNodeAnimatorCameraMaya mayaAnim;
-    mayaAnim.mouseKeyDown[1] = true;
-    CHECK(mayaAnim.isMouseKeyDown(1));
-    CHECK(!mayaAnim.isMouseKeyDown(0));
-    mayaAnim.allKeysUp();
-    CHECK(!mayaAnim.isMouseKeyDown(1));
-
     CParticleSystemSceneNode particleNode;
     particleNode.particles.resize(5);
     CHECK(particleNode.getNumberOfParticles() == 5);
@@ -147,21 +83,14 @@ int main() {
     CHECK(terrainNode.rotationPivotFlag == 0);
     CHECK(terrainNode.rotationPivot.Y == 2.0f);
 
-    // Collision response vectors and particle affector flag.
-    CSceneNodeAnimatorCollisionResponse collision;
-    collision.setEllipsoidRadius(glitch::core::vector3d<float>{4.0f, 5.0f, 6.0f});
-    CHECK(collision.getEllipsoidRadius().Z == 6.0f);
-    collision.setGravity(glitch::core::vector3d<float>{0.0f, -9.0f, 0.0f});
-    CHECK(collision.getGravity().Y == -9.0f);
-    collision.setEllipsoidTranslation(glitch::core::vector3d<float>{7.0f, 8.0f, 9.0f});
-    CHECK(collision.getEllipsoidTranslation().X == 7.0f);
+    // Particle affector flag.
     IParticleAffector affector;
     affector.setEnabled(true);
     CHECK(affector.getEnabled());
     affector.setEnabled(false);
     CHECK(!affector.getEnabled());
 
-    // Animated mesh frames and bounding box; mesh cache lookups by pointer and index.
+    // Animated mesh frames and bounding box.
     SAnimatedMesh animated(boost::intrusive_ptr<IMesh>(), 0);
     animated.meshes.resize(3);
     CHECK(animated.getFrameCount() == 3);
@@ -169,64 +98,7 @@ int main() {
     animated.setBoundingBox(animBox);
     CHECK(animated.getBoundingBox().MaxEdge.Z == 3.0f);
 
-    CMeshCache cache;
-    CHECK(cache.getMeshCount() == 0);
-    CHECK(cache.getMeshFilename(0) == nullptr);
-    SAnimatedMesh meshA(boost::intrusive_ptr<IMesh>(), 0);
-    SAnimatedMesh meshB(boost::intrusive_ptr<IMesh>(), 0);
-    cache.entries.resize(2);
-    cache.entries[0].filename = "a.x";
-    cache.entries[0].mesh = &meshA;
-    cache.entries[1].filename = "b.x";
-    cache.entries[1].mesh = &meshB;
-    CHECK(cache.getMeshCount() == 2);
-    CHECK(std::strcmp(cache.getMeshFilename(1), "b.x") == 0);
-    CHECK(cache.getMeshFilename(2) == nullptr);
-    boost::intrusive_ptr<const IAnimatedMesh> keyB(&meshB);
-    CHECK(std::strcmp(cache.getMeshFilename(keyB), "b.x") == 0);
-    boost::intrusive_ptr<const IAnimatedMesh> keyNone;
-    CHECK(cache.getMeshFilename(keyNone) == nullptr);
-
-    // Animator name table and the creatable scene-node factory records.
-    CDefaultSceneNodeAnimatorFactory animNames;
-    CHECK(std::strcmp(animNames.getCreateableSceneNodeAnimatorTypeName(4), "texture") == 0);
-    CHECK(std::strcmp(animNames.getCreateableSceneNodeAnimatorTypeName(ESNAT_CAMERA_MAYA), "cameraMaya") == 0);
-    CHECK(animNames.getCreateableSceneNodeAnimatorTypeName(9u) == nullptr);
-    CDefaultSceneNodeFactory nodeFactory;
-    CHECK(nodeFactory.getCreatableSceneNodeTypeCount() == 0);
-    CHECK(nodeFactory.getCreateableSceneNodeType(0) == 0x6e6b6e75u);
-    CDefaultSceneNodeFactory::SCreatableType kinds[2];
-    kinds[0].type = 0x6d657368u;
-    kinds[0].name = "mesh";
-    kinds[1].type = 0x74787420u;
-    kinds[1].name = "text";
-    nodeFactory.types.assign(kinds, kinds + 2);
-    CHECK(nodeFactory.getCreatableSceneNodeTypeCount() == 2);
-    CHECK(nodeFactory.getCreateableSceneNodeType(1) == 0x74787420u);
-    CHECK(std::strcmp(nodeFactory.getCreateableSceneNodeTypeName(0), "mesh") == 0);
-    CHECK(nodeFactory.getCreateableSceneNodeTypeName(2) == nullptr);
-    CHECK(nodeFactory.getCreateableSceneNodeType(2) == 0x6e6b6e75u);
-
     {
-        // Mesh cache: index lookup, clear and the driver constructor.
-        int meshTagA = 0, meshTagB = 0;
-        const IAnimatedMesh* meshA = reinterpret_cast<const IAnimatedMesh*>(&meshTagA);
-        const IAnimatedMesh* meshB = reinterpret_cast<const IAnimatedMesh*>(&meshTagB);
-        CMeshCache indexCache;
-        CMeshCache::SMeshEntry entryA;
-        entryA.mesh = meshA;
-        CMeshCache::SMeshEntry entryB;
-        entryB.mesh = meshB;
-        indexCache.entries.push_back(entryA);
-        indexCache.entries.push_back(entryB);
-        CHECK(indexCache.getMeshIndex(boost::intrusive_ptr<const IAnimatedMesh>(meshB)) == 1);
-        CHECK(indexCache.getMeshIndex(boost::intrusive_ptr<const IAnimatedMesh>(meshA)) == 0);
-        CHECK(indexCache.getMeshIndex(boost::intrusive_ptr<const IAnimatedMesh>()) == -1);
-        indexCache.clear();
-        CHECK(indexCache.getMeshCount() == 0);
-        CMeshCache driverCache(nullptr);
-        CHECK(driverCache.referenceCount == 1 && driverCache.getMeshCount() == 0);
-
         // Mesh: clear drops the buffers; the box setter stores the box.
         CMesh clearedMesh;
         clearedMesh.buffers.push_back(CMesh::SBuffer{});
@@ -239,23 +111,6 @@ int main() {
         // Shadow volume load returns zero.
         CShadowVolumeSceneNode shadow;
         CHECK(shadow.load(nullptr) == 0);
-
-        // The binary loader's extension test (the append buffer is checked in scene_append_mesh_buffer_test.cpp).
-        CColladaBinaryFileLoader binaryLoader;
-        CHECK(binaryLoader.isALoadableFileExtension("scene.bdae"));
-        CHECK(!binaryLoader.isALoadableFileExtension("scene.dae"));
-
-        // Camera Maya difference and fly-straight difference.
-        CSceneNodeAnimatorCameraMaya maya;
-        maya.stateA = 10.0f;
-        maya.stateB = 4.0f;
-        CHECK(maya.updateAnimationState() == 6.0f);
-        CSceneNodeAnimatorFlyStraight fly;
-        fly.end.X = 2.0f;
-        fly.start.X = 0.5f;
-        fly.timeForWay = 3000;
-        CHECK(fly.recalculateImidiateValues() == 1.5f / 3000.0f);  // the time factor: way length / time for the way
-        CHECK(fly.wayLength == 1.5f);
     }
 
     std::printf("%s\n", failures ? "scene_simple_accessors: FAILED" : "scene_simple_accessors: ok");

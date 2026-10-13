@@ -199,17 +199,12 @@ LuaScript::LuaScript(bool skipBindings) {
 }
 
 // 0x37c934 LuaScript::_GetGameScript(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. The original takes the current level (Application::GetCurrentLevel on Singleton<Application>::s_inst) and,
-// when there is one, pushes Level::GetMPGameScript() into ret as a string (the pseudocode casts the result to
-// const char*). Missing: dh2/Level.hpp declares GetMPGameScript() as int, but the original returns the const char*
-// config string at Level +0x314. Type request for Level.hpp: GetMPGameScript returns const char*. Nothing is pushed
-// until that is fixed.
+// With a current level (Application::GetCurrentLevel), pushes Level::GetMPGameScript() (the level config's multiplayer game script name) as a string.
 void LuaScript::_GetGameScript(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues& ret, void*) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level != nullptr) {
-        // PARTIAL: ret.pushString(level->GetMPGameScript()) is missing (see above).
+        ret.pushString(level->GetMPGameScript());
     }
-    (void)ret;
 }
 
 // 0x37ca60 LuaScript::_GetHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)

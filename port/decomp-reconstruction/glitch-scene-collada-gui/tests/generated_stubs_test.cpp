@@ -30,8 +30,6 @@ int main() {
     CHECK(stub_66e770(nullptr) == 0u);
     CHECK(stub_66f6b8(nullptr) == 1u);
     CHECK(stub_66f6c0(nullptr) == 1u);
-    CHECK(stub_6e3110(nullptr) == 4u);
-    CHECK(stub_6e4db4(nullptr) == 4u);
     CHECK(stub_6e5168(nullptr) == 1667588452u);
     CHECK(stub_6e5a2c(nullptr) == 1936618083u);
     std::printf("%s\n", failures ? "generated_stubs: FAILED" : "generated_stubs: ok");

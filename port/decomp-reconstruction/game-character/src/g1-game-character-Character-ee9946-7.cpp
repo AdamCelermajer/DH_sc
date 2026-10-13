@@ -1,9 +1,7 @@
 // Batch g1-game-character-Character-ee9946-7 (part 8 of 20 of Character): the Ctrl_* controller entry points (the
 // primary vtable slots +0x34 through +0x11c, and the GameObject-side head, move and warp commands), the click handler
 // Ctrl_Click, and the faery list accessors GetCharFaeryListId and GetCharFaeryList.
-// Declarations come from dh2/Character.hpp, which this batch does not change. Several bodies are PARTIAL because a
-// member or instance they read is not declared (see the comment above each one); the ledger rows in
-// game-character/ledger.d/g1-game-character-Character-ee9946-7.csv repeat what is missing.
+// Declarations come from dh2/Character.hpp, which this batch does not change.
 //
 // Virtual calls: a Ctrl_* body that the original reaches through the vtable (for example "*(this + 0x54)" for
 // IsRemotelyUpdated, or "*(this + 0xec)" for Ctrl_MoveTo) is written as an unqualified call on this, which dispatches
@@ -13,11 +11,19 @@
 // The base slots are void (v2Controllable). Where the original returns a value that the slot discards (the bool from
 // AI_BeginSpell, the IsDead result of Ctrl_UseOOI, the RaiseEvent result of Ctrl_Stop), the body does not return it.
 
+#include <cstring>
+
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/PFWorld.hpp"                       // PFWorld::s_inst, ValidatePosition (Ctrl_WarpTo)
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/Point3D.hpp"                       // Point3D<float>::angle
+#include "dh2/TrophyManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "dh2/global/ctrl_camera.hpp"            // ApplicationGetInstance
@@ -54,12 +60,8 @@ void Character::Ctrl_UseOOI(GameObject* target) {
 
 // 0x3ad6f0 _ZN9Character14Ctrl_UsePotionEv
 // Character::Ctrl_UsePotion()
-// PARTIAL: the trophy check is not run. After the potion is removed and the potion counter (property 219) is raised for
-// a player, the original unlocks "use_100_potions" in TrophyManager::s_instance once the counter passes 99, but only
-// when PlayerManager::IsLocalPlayer(dword_99F76C, this) is true. dh2/PlayerManager.hpp cannot be included beside
-// dh2/Character.hpp (its net-transport StreamBuffer clashes with the pydata IStreamBase), so the local-player gate is
-// not evaluated and the unlock is skipped. The index lookup in Arrays::TrophyTable is not written either.
-// Everything else is reproduced: the dead and HasPotion gates, RemoveOnePotion, the counter, and the two regenerations.
+// Does nothing for a dead character or one without a potion. Otherwise the potion is removed; a player counts it (property 219) and the local player unlocks the
+// "use_100_potions" trophy once the counter passes 99. HP and MP are filled (RegenHP(-1), RegenMP(-1)).
 void Character::Ctrl_UsePotion() {
     if (IsDead()) {
         return;
@@ -70,8 +72,12 @@ void Character::Ctrl_UsePotion() {
     ItemInventory::RemoveOnePotion();
     if (IsPlayer()) {
         PROPS_AddInt(219, 1);
-        // PARTIAL: if (PlayerManager::IsLocalPlayer(dword_99F76C, this) && PROPS_GetInt(219, false) > 99)
-        //              TrophyManager::s_instance->UnlockTrophy(index of "use_100_potions" in Arrays::TrophyTable)
+        if (dword_99F76C->IsLocalPlayer(this)) {
+            TrophyManager* trophies = TrophyManager::s_instance;
+            if (PROPS_GetInt(219, false) > 99) {
+                trophies->UnlockTrophy(pydata::FindMemberName(Arrays::TrophyTable::m_memberNames, static_cast<int>(Arrays::TrophyTable::size), "use_100_potions"));
+            }
+        }
     }
     RegenHP(-1);
     RegenMP(-1);
@@ -198,19 +204,24 @@ void Character::Ctrl_HeadTo(const Point3D<float>& pos) {
 
 // 0x3adb60 _ZN9Character16Ctrl_HeadTowardsERK7Point3DIfE
 // Character::Ctrl_HeadTowards(Point3D<float> const&)
-// PARTIAL: when the direction is longer than sqrt(0.0001) and the character is not using a skill and not casting, the
-// original reads CharAI::m_target (+0x40) and, when it is set and the direction is more than 1.5708 radians from the
-// direction to that target (Point3D::angle, 0x313058), clears the target with CharAI::AI_SetTarget(nullptr, false) and
-// syncs it with CharAI::AI_SyncLastTarget(). m_target is private in dh2/CharAI.hpp and Point3D::angle is declared only in
-// dh2/Point3D.hpp, which cannot be included beside dh2/Character.hpp, so that test is not run. The heading and event
-// 0 are reproduced, as is the near-zero branch.
+// A direction longer than sqrt(0.0001): nothing while using a skill or casting; otherwise, when the AI has a target and the direction is more than 1.5708 radians from the
+// direction to that target, the target is cleared (AI_SetTarget(nullptr, false), AI_SyncLastTarget); then the character turns to the direction (SetHeadingDirection with
+// the heading flag) and event 0 is raised. A shorter direction with the heading flag set turns to it and stops (Ctrl_Stop, vtable slot +0xf4).
 void Character::Ctrl_HeadTowards(const Point3D<float>& pos) {
     const float lengthSquared = (pos.X * pos.X + pos.Y * pos.Y) + pos.Z * pos.Z;
     if (lengthSquared > 0.0001f) {
         if (SM_IsUsingSkill() || SM_IsCasting()) {
             return;
         }
-        // PARTIAL: the m_target and angle test (see above) is not run.
+        if (GameObject* target = CharAI::m_target) {
+            const Point3D<float>& targetPosition = target->GetTargetPosition();
+            const Point3D<float>& ownPosition = GameObject::GetTargetPosition();
+            const Point3D<float> toTarget = Between(ownPosition, targetPosition);
+            if (pos.angle(toTarget) > 1.5708f) {
+                CharAI::AI_SetTarget(nullptr, false);
+                CharAI::AI_SyncLastTarget();
+            }
+        }
         GameObject::SetHeadingDirection(pos, true);
         RaiseEvent(0, nullptr);
     } else if (m_hasHeading) {
@@ -248,17 +259,11 @@ void Character::Ctrl_LookAt(const Point3D<float>& pos) {
 
 // 0x3addc8 _ZN9Character10Ctrl_ClickERK7Point3DIfEb
 // Character::Ctrl_Click(Point3D<float> const&, bool)
-// PARTIAL. Reproduced: the CTRLIsAllowed gate; the casting or skill branch (a held click clears the queued click, a
-// released one queues the point in m_spotTargetPos and m_spotTargetValidPos with pending set); the clear of the queued
-// click; the nearest interactive character within the click radius (DesignSettings m_w11 for an enemy, m_w20 otherwise),
-// which becomes the target through CharAI::AI_SetTarget; and the move or head-to fallback (held: Ctrl_MoveTo, else
-// Ctrl_HeadTo) with the target cleared and last target synced. The nearest-character target also sets CharAI
-// m_stickyTarget (+0x4b).
-// Not reproduced: the second search. For a held click without the DPad, when no character was found, the original walks
-// ObjectManager's object map (m_objectMap, std::map<int, ObjectListItem>) for the nearest interactive non-Character object
-// within DesignSettings m_w21 of the click, and sets the target to it. ObjectListItem has no declared layout, and the
-// object's type-name test (the word at GameObject +0x5c compared with "Character") is not named either. The search is
-// therefore not run, and such a click takes the fallback below. The debug switch reads are kept.
+// Needs CTRLIsAllowed. While casting or using a skill, a held click clears the queued click and a released one queues the point (m_spotTargetPos and m_spotTargetValidPos)
+// for the spot target. Otherwise the queued click is cleared and the interactive Character nearest to the click (ObjectManager's character list, the DPad only counts enemies,
+// neutrals never) within DesignSettings m_w11 (enemies) or m_w20 becomes the target, flagged sticky. Without one, a held click without the DPad looks for the nearest interactive
+// object that is not a Character (ObjectManager's id map) within DesignSettings m_w21 and targets it. If nothing is found, the debug switch UseClickToMove (or not using the
+// DPad) clears the target and, held, paths to the point (Ctrl_MoveTo), else heads to it (Ctrl_HeadTo).
 void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
     if (!CTRLIsAllowed()) {
         return;
@@ -279,6 +284,7 @@ void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
 
     m_spotTargetPending = 0;
     m_spotTargetFXId = -1;
+    const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
 
     // The nearest interactive character to the click (ObjectManager m_characters, in list order).
     GameObject* target = nullptr;
@@ -299,8 +305,6 @@ void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
         const float dz = pos.Z - candidatePos.Z;
         const float distanceSquared = (dx * dx + dy * dy) + dz * dz;
         if (bestDistanceSquared > distanceSquared) {
-            const Structs::DesignSettings* design =
-                reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
             const float radius = AI_IsEnemy(candidate) ? design->m_w11 : design->m_w20;
             if (candidate->IsNearby(pos, radius)) {
                 bestDistanceSquared = distanceSquared;
@@ -317,7 +321,40 @@ void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
         return;
     }
 
-    // PARTIAL: the second search (see above) is not run; the click falls through to the move or head-to branch.
+    if (held && !isUsingDPad) {
+        // The second search: the nearest interactive object that is not a Character, from ObjectManager's id map.
+        GameObject* nearestObject = nullptr;
+        float nearestDistanceSquared = 1000000.0f;
+        for (const auto& entry : dword_99F764->m_objectMap) {
+            ObjectBase* object = entry.second.m_object;
+            if (object == nullptr) {
+                continue;
+            }
+            ObjectHandle handle = object->GetHandle();
+            GameObject* candidate = handle;
+            if (candidate == nullptr || candidate == this || !candidate->IsInteractive(this)) {
+                continue;
+            }
+            if (std::strcmp(candidate->m_gameType.c_str(), "Character") == 0) {
+                continue;
+            }
+            const Point3D<float>& candidatePos = candidate->GetTargetPosition();
+            const float dy = pos.Y - candidatePos.Y;
+            const float distanceSquared = ((pos.X - candidatePos.X) * (pos.X - candidatePos.X) + dy * dy) +
+                                          (pos.Z - candidatePos.Z) * (pos.Z - candidatePos.Z);
+            if (nearestDistanceSquared > distanceSquared && candidate->IsNearby(pos, design->m_w21)) {
+                nearestObject = candidate;
+                nearestDistanceSquared = distanceSquared;
+            }
+        }
+        if (nearestObject != nullptr) {
+            DebugSwitches::GetInstance()->load();
+            DebugSwitches::GetInstance()->GetSwitch("isTracingChar_CTRL");
+            CharAI::AI_SetTarget(nearestObject, false);
+            return;
+        }
+    }
+
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch("UseClickToMove") || !isUsingDPad) {
         DebugSwitches::GetInstance()->load();

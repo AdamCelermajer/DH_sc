@@ -309,6 +309,18 @@ namespace detail {
 // 0x8e4ca4 in the original (see the header).
 const uint8_t SVertexAttributeTypeInspection::ValueTypeSize[7] = {1, 1, 2, 2, 4, 4, 4};
 
+// 0x8e4cac in the original (see the header).
+const SVertexAttributeTypeInspection::SDefault SVertexAttributeTypeInspection::Defaults[30] = {
+    {6, 3},                                                                                                    // 0 position
+    {6, 2}, {6, 2}, {6, 2}, {6, 2}, {6, 2}, {6, 2}, {6, 2}, {6, 2},                                           // 1..8 texture coordinates
+    {6, 2}, {6, 2}, {6, 2}, {6, 2}, {6, 2}, {6, 2}, {6, 2}, {6, 2},                                           // 9..16
+    {6, 3},                                                                                                    // 17 normal
+    {1, 4}, {1, 4},                                                                                            // 18, 19 colours
+    {6, 3}, {6, 3}, {6, 3}, {6, 3}, {6, 3}, {6, 3}, {6, 3}, {6, 3},                                           // 20..27
+    {6, 4},                                                                                                    // 28
+    {1, 4},                                                                                                    // 29
+};
+
 }  // namespace detail
 
 // 0x5a2b18 _ZN6glitch5video10copyVertexEtRKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS2_IS3_EEPKhRPhb

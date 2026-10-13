@@ -33,7 +33,7 @@ public:
 
     // Per-frame and level-wide operations.
     void Update(float dt);                                                  // 0x34a620
-    void InitPost();                                                        // 0x34552c (pseudocode returns 1/0; return type partial)
+    int InitPost();                                                         // 0x34552c one step of the load pass: 1 when the pass has finished, else 0
     void Flush();                                                           // 0x3496b8
     void Draw2D();                                                          // 0x34024c
     void Draw3D();                                                          // 0x348988
@@ -85,7 +85,7 @@ public:
     bool CanSendUpdate(ObjectBase* object);                                                            // 0x340848
     bool IsObjectSerializable(ObjectBase* object, int mode);                                           // 0x3409f4
     bool IsRemotePlayerOfMember(int member, Character* character);                                     // 0x340948
-    int AssignObjectNetworkId(ObjectBase* object);                                                     // 0x3431c0
+    void AssignObjectNetworkId(ObjectBase* object);                                                    // 0x3431c0
     void AskNetResendByObjectId(int objectId);                                                         // 0x345e30
     bool IsPacketValid(int packetId, int member);                                                      // 0x342f30
     void ProcessAcknowledgedPacket(int packetId, int member);                                          // 0x346178
@@ -93,7 +93,7 @@ public:
     void ProcessLostPacket(int packetId, int member);                                                  // 0x348644
     static void sProcessLostPacket(int packetId, int member);                                          // 0x348724 (static: no this, forwards to dword_99F764)
     void SerializeGameObjectNetData(int objectId, int member, NetBitStream& stream);                   // 0x346510
-    static int sWritePacketData(int objectId, int member, NetBitStream& stream);                             // 0x347074
+    static bool sWritePacketData(int objectId, int member, NetBitStream& stream);                           // 0x347074
     void LoadGameObjectNetData(int objectId, int member, NetBitStream& stream);                        // 0x34735c
     static void sReadPacketData(int objectId, int member, NetBitStream& stream);                       // 0x347d90 (static: no this, forwards to dword_99F764)
 
@@ -136,7 +136,7 @@ public:
     std::list<ObjectBase*> unk_100;                                                                    // +0x100
     std::map<std::int16_t, std::list<ObjectBase*>> unk_108;                                            // +0x108
     uint8_t pad_11c[4];                                                                                // +0x11c
-    std::list<std::int32_t> unk_120;                                                                   // +0x120 freed node by node in the dtor
+    std::list<std::int16_t> unk_120;                                                                   // +0x120 freed node by node in the dtor
     std::list<int> unk_128;                                                                            // +0x128
     std::list<int> unk_130;                                                                            // +0x130
     std::int32_t unk_138;                                                                              // +0x138

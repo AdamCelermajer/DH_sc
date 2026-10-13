@@ -8,8 +8,7 @@
 //   - RootSceneNode derives from glitch::collada::CRootSceneNode, which has no base in root_scene_node.hpp, so the
 //     ISceneNode calls the original makes on m_node (getScale, setPosition, setVisible, remove, ...) are not declared
 //     on it. The ISceneNode vtable slots used here follow the original's vptr+N numbering (N is the pseudocode offset).
-//   - DeviceSceneManager() is the one point for the scene manager (IDevice +0x1c). It returns null until the device
-//     layout is declared, so every scene-manager call is skipped.
+//   - DeviceSceneManager() is the one point for the scene manager (IDevice +0x1c); it returns null without a device, so the scene-manager calls are skipped then.
 // The bodies that do not need those reads are written in full: the constructor's field setup, the owner forwarders,
 // the modular module name and the box normalise-and-centre step (CenterMeshBox, called once the box reads are bound).
 
@@ -26,7 +25,9 @@
 #include "dh2/SceneManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "glitch-core-io/os/device.hpp"
 #include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
@@ -40,13 +41,6 @@ const char* const kSlotMapping[3] = {
     "anchor_weapon_right_offset",
     "anchor_weapon_left_offset",
 };
-
-// The device's scene manager, the object at +0x1c of the device pointer that the original reads as dword_99F73C
-// (Application::m_device). No header declares the device layout or an accessor for it yet, so this returns null
-// and each scene-manager call that depends on it is skipped.
-SceneManager* DeviceSceneManager() {
-    return nullptr;
-}
 
 // Orders one axis so that the lower value is in lo: the original's min/max pair per axis, 0x47211c tail.
 void OrderAxis(float& lo, float& hi) {
@@ -88,6 +82,12 @@ void ReleaseSceneNode(glitch::scene::ISceneNode*& node) {
 }
 
 }  // namespace
+
+// The device's scene manager, the object at +0x1c of the device pointer that the original reads as dword_99F73C (Application::m_device). Null without a device.
+SceneManager* DeviceSceneManager() {
+    glitch::IDevice* device = ApplicationGetInstance().m_device;
+    return device != nullptr ? reinterpret_cast<SceneManager*>(device->sceneManager) : nullptr;
+}
 
 // 0x471f1c _ZN12VisualObject14SetMeshVisibleEb
 // partial: the three typed node lists under m_node (getSceneNodesFromType for tags 1835360612, 1936023908 and
@@ -234,11 +234,6 @@ VisualObject::VisualObject(GameObject* owner, const std::string& model, const st
     m_animController = nullptr;
     unk_3c = false;
     unk_40 = 0;
-    unk_44 = nullptr;
-    unk_48 = 0;
-    unk_4c = 0;
-    unk_50 = 0;
-    unk_54 = nullptr;
     m_effectColor[0] = -1.0f;
     m_effectColor[1] = -1.0f;
     m_effectColor[2] = -1.0f;

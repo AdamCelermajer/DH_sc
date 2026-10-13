@@ -6,9 +6,21 @@
 // back in r0 as its bit pattern. That is why some float methods show an integer literal in the
 // pseudocode (GetOpacity returns the bits of 1.0f).
 
+#include <cmath>
 #include <cstring>
 
+#include "dh2/Character.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/Vec3f_Origin.hpp"
+#include "dh2/global/ctrl_camera.hpp"
+#include "dh2/global/charai_ai.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "glitch-scene-collada-gui/scene_node.hpp"
 
@@ -119,11 +131,8 @@ void GameObject::SetScale(const Point3D<float>& scale) {
 }
 
 // 0x38ade4 GameObject::IsBatchVisible() const
-// partial: with a visual object, the original reads the flags word of the visual's root node
-// (VisualObject +0x08, then ISceneNode flags at +0x11c, bit 0). dh2/VisualObject.hpp only
-// forward-declares RootSceneNode, so the node pointer is viewed as glitch::scene::ISceneNode. This
-// is correct only while RootSceneNode derives from ISceneNode at offset 0. Waits on a RootSceneNode
-// declaration. Without a visual object the result is m_inZone (+0x2f0), as in the original.
+// With a visual object, the flags word of the visual's root node (VisualObject +0x08, then the ISceneNode flags at +0x11c) bit 0. The node pointer is a RootSceneNode, which derives from
+// the glitch node at offset 0, so it is viewed as glitch::scene::ISceneNode. Without a visual object the result is m_inZone (+0x2f0).
 bool GameObject::IsBatchVisible() const {
     if (m_visualObject) {
         const auto* node = reinterpret_cast<const glitch::scene::ISceneNode*>(m_visualObject->m_node);
@@ -133,24 +142,48 @@ bool GameObject::IsBatchVisible() const {
 }
 
 // 0x38ae2c GameObject::UpdateIdleSound()
-// partial: not rebuilt yet. The body needs
-//   - VoxSoundManager::s_instance, Stop(id, fade, ...), Stop3D(id, fade, pos, radius) and
-//     Play3D(id, pos, loop, volume, -1, -1); vox-audio/include/vox-audio/vox/sound_manager.hpp
-//     declares none of them,
-//   - PlayerInfo for the character_660 member of PlayerManager::GetLocalPlayer(int, bool) (dh2/PlayerInfo.hpp
-//     is not in the tree; dh2/PlayerManager.hpp is, and declares the method),
-//   - PyDataConstants::getConstant("AudioConstants", "CameraMaxDistance") (the global instance is
-//     not named yet),
-//   - the globals Vec3f_Origin and dword_99F76C / dword_99F758 / dword_99F85C / dword_99F858, names
-//     not recovered yet.
-// Algorithm, for the rebuild: with no VoxSoundManager instance nothing happens. A muted object
-// (+0x373) stops its idle sound (+0x372 cleared, fade 1000) when it is playing. Otherwise, when the
-// current level is loaded (Level::m_loadStep == 38) and the local player has a character, the
-// object compares its position (+0x160) with the character position, using CameraMaxDistance as
-// the range. It stops the sound when playing and the range is positive and not greater than the
-// distance; it starts a looping 3D sound at its position when not playing and the distance is
-// less than a positive range.
+// Needs the sound manager. A muted object (+0x373) stops its idle sound (+0x372 cleared, fade 1000) when it is playing. Otherwise, when the current level is loaded (Level::m_loadStep == 38)
+// and the first local player has a character, the object measures its distance to that character against AudioConstants.CameraMaxDistance. A playing sound whose range is positive and not greater
+// than the distance is stopped (Stop3D, fade 1000, at the character's position and the range). A sound that is not playing, while the distance is below a positive range, starts as a
+// looping 3D sound at the object's position (Play3D(id, position, true, 1, -1, -1)).
 void GameObject::UpdateIdleSound() {
+    VoxSoundManager* sound = VoxSoundManager::s_instance;
+    if (sound == nullptr) {
+        return;
+    }
+    if (m_idleSoundMuted) {
+        if (m_idleSoundPlaying) {
+            m_idleSoundPlaying = 0;
+            sound->Stop(m_idleSoundId, 1000);
+        }
+        return;
+    }
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
+        return;
+    }
+    Character* player = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    if (player == nullptr || level->m_loadStep != 38) {
+        return;
+    }
+    const float range = static_cast<float>(ApplicationGetPyDataConstants()->getConstant("AudioConstants", "CameraMaxDistance"));
+    const Point3D<float> listener = player->m_position;
+    const float dx = m_position.X - listener.X;
+    const float dy = m_position.Y - listener.Y;
+    const float dz = m_position.Z - listener.Z;
+    const float distance = std::sqrt((dx * dx + dy * dy) + dz * dz);
+    bool start = !m_idleSoundPlaying;
+    if (!start && range <= distance && range > 0.0f) {
+        m_idleSoundPlaying = 0;
+        const float stopPosition[3] = {listener.X, listener.Y, listener.Z};
+        sound->Stop3D(m_idleSoundId, 1000, stopPosition, range);
+        start = !m_idleSoundPlaying;
+    }
+    if (start && range > distance && range > 0.0f) {
+        m_idleSoundPlaying = 1;
+        const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
+        sound->Play3D(m_idleSoundId, at, true, 1, -1.0f, -1.0f);
+    }
 }
 
 // 0x38b0f0 GameObject::SetVisible(bool)

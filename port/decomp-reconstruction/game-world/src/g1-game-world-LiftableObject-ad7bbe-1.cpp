@@ -2,10 +2,6 @@
 // DeclareProperties of LiftableObject. The destructor is defined in part 1 only. Declarations come from
 // dh2/LiftableObject.hpp. Original 32-bit size 0x3a8 (936).
 //
-// Partial functions and what is missing:
-//   - InitFinal: the physics body is a PhysicalObject here. The original stores the PODecor vtable over it after the
-//     constructor, which C++ cannot express (see the comment on InitFinal).
-//
 // No test: the constructors and DeclareProperties need GameObject, ObjectBase and PropertyMap, and
 // InitFinal needs the Application singleton and the physics world. None of the logic runs without the engine.
 
@@ -13,6 +9,7 @@
 
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/PODecor.hpp"
 #include "dh2/PhysicalObject.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
@@ -35,13 +32,9 @@ LiftableObject::LiftableObject(GO_IDS id) : GameObject(id) {
 }
 
 // 0x3eeec8 LiftableObject::InitFinal()
-// PARTIAL: the physics body is built as a PhysicalObject, not as a PODecor. The original calls
-// PhysicalObject::PhysicalObject(world, this, isStatic 0, isCircle 0, isSensor 0, isBullet 0, group 0, category 2,
-// mask 0xffff, unused 1) and then stores the PODecor vtable (off_968F88, ELF _ZTV7PODecor + 8) over the PhysicalObject
-// one. C++ cannot retype an object after construction. new PODecor(world, this, false) would not match either:
-// PODecor's constructor passes isStatic true, and the original passes 0. The only visible difference is the dynamic
-// type. PODecor's deleting destructor (0x470188) also calls CustomFree, which this body does not.
-// Layout request for dh2/PODecor.hpp: a constructor that takes isStatic (or a way to build a non-static PODecor body).
+// For an object that passes the spawn probability test: GameObject::InitFinal and, when MeetCondition holds, the base scale (+0x398) is copied from the first local player's Character (SetScale with it), the
+// physics body is a pinned PODecor-typed PhysicalObject on the application's physical world (the original's dword_99F770, Application +0x44): not static, box, no sensor, no bullet, group 0, category 2, mask
+// 0xffff, unused 1, with the PODecor vtable stored over it; then SetPhysicalObject(body, false) and Update() (vtable +0x2c, a tail call).
 void LiftableObject::InitFinal() {
     if (CheckSpawnProbability() < m_spawnProb) {        // +0x274 (GameObject::m_spawnProb)
         GameObject::InitFinal();
@@ -52,9 +45,7 @@ void LiftableObject::InitFinal() {
             m_baseScale = character->m_scale;           // +0x120 .. +0x128 of the character (GameObject::m_scale)
             SetScale(m_baseScale);                      // GameObject::SetScale(this, &m_baseScale)
 
-            // The physics world is Application +0x44 (the original's dword_99F770).
-            PhysicalObject* body = new PhysicalObject(ApplicationGetInstance().m_physicalWorld, this, false, false, false,
-                                                      false, 0, 2, 0xFFFF, 1);
+            PODecor* body = new PODecor(ApplicationGetInstance().m_physicalWorld, this, false, false, false, false, 0, 2, 0xFFFF, 1);
             body->pin();                                // PhysicalObject::pin, zero mass
             SetPhysicalObject(body, false);
             Update();                                   // the original tail-calls vtable slot +0x2c (LiftableObject::Update)

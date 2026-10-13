@@ -45,6 +45,11 @@ public:
     static boost::intrusive_ptr<CMaterialVertexAttributeMap> allocate(
         const boost::intrusive_ptr<CMaterialRenderer>& renderer);
 
+    // 0x5df824: new map with the renderer whose slots are attribute maps over the vertex stream table. Declared by the scene owner
+    // pass (CSkyBoxSceneNode builds its map with it); the body is glitch-video's and is not in this port yet.
+    static boost::intrusive_ptr<CMaterialVertexAttributeMap> allocate(
+        const boost::intrusive_ptr<CMaterialRenderer>& renderer, const boost::intrusive_ptr<const CVertexStreams>& streams);
+
     // 0x5df464: new map with the same renderer and slots (copied or shared, see the second constructor),
     // reference count 1. Reads the source slot array as m_maps.data(); the count comes from the renderer.
     boost::intrusive_ptr<CMaterialVertexAttributeMap> clone(bool copy) const;

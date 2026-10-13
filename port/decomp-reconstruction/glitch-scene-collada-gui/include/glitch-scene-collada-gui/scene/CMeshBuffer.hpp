@@ -36,10 +36,11 @@ class CMeshBuffer : public glitch::IReferenceCounted {
 public:
     // Not part of the original: an empty buffer with count 0 and no vertex streams, for tests and derived stand-ins.
     CMeshBuffer();
-    // 0x6b88a8, 0x6d11d4 and 0x6d5ed4 (three listings of one constructor): a buffer for the vertex attributes in
-    // `attributeMask` (CVertexStreams::allocate(mask)) that renders `stream`. The count starts at 0, so the first holder
-    // adds the use (clone() and the append buffer do). The last argument is not read.
-    CMeshBuffer(std::uint32_t attributeMask, const video::CPrimitiveStream& stream, bool flag);
+    // 0x6b88a8, 0x6d11d4 and 0x6d5ed4 (listings of one constructor; the first two are compiler clones with the last argument folded
+    // to true and to false): a buffer for the vertex attributes in `attributeMask` (CVertexStreams::allocate(mask)) that renders
+    // `stream`. The count starts at 0, so the first holder adds the use (clone() and the append buffer do). The last argument is
+    // stored in the flag byte at +0x34 (createMeshCopy's inlined copy stores false, CAppendMeshBuffer passes true).
+    CMeshBuffer(std::uint32_t attributeMask, const video::CPrimitiveStream& stream, bool flag = true);
     // 0x6bcf80 (C2) and 0x6bd9f8 (C1, skipped): from a Collada mesh record. PARTIAL, see src.
     CMeshBuffer(video::IVideoDriver* driver, collada::SMesh& mesh, std::uint32_t primitiveIndex,
                 const collada::SBufferConfig& vertexConfig, const collada::SBufferConfig& indexConfig, bool onDemand);
@@ -58,7 +59,7 @@ public:
     boost::intrusive_ptr<video::CVertexStreams> vertexStreams;   // +0x14
     video::CPrimitiveStream primitiveStream;                     // +0x18 .. +0x2f
     video::CDriverBinding* owner = nullptr;                      // +0x30 the driver binding of the buffer's process buffer (CDriverBinding: vtable with the deleting destructor at +0x04 and onDelete at +0x08, +0x18 a word CSkinnedMesh tests)
-    std::uint8_t flag_34 = 1;                                    // +0x34 set to 1 by the constructors; role not confirmed
+    std::uint8_t flag_34 = 1;                                    // +0x34 the constructor's bool argument (1 for the empty and the Collada buffers); role not confirmed
 };
 
 }  // namespace glitch::scene

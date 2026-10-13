@@ -92,9 +92,9 @@ void TestDefaults() {
     EXPECT(m.m_lightSetNames[3] == "MonsterLight");
     EXPECT(m.m_countStaticLight == 0);
     EXPECT(m.m_countActiveLight == 0);
-    EXPECT(m.unk_19c);
-    EXPECT(m.unk_19d);
-    EXPECT(!m.unk_19e);
+    EXPECT(m.m_lightingEnabled);
+    EXPECT(m.m_specularEnabled);
+    EXPECT(!m.m_fogEnabled);
     EXPECT(m.unk_1a0 == 0);
     EXPECT(m.unk_178[0] == 0 && m.unk_178[3] == 0);
     EXPECT(m.unk_190.empty());
@@ -224,7 +224,7 @@ void TestAssign() {
         source.SetLight(3, 1, light);
         source.SetDummyLightOff(4, light);
         source.unk_1a0 = 77;
-        source.unk_19e = true;
+        source.m_fogEnabled = true;
 
         LightSetManager copy;
         copy = source;
@@ -237,7 +237,7 @@ void TestAssign() {
         EXPECT(copy.m_dummyLightOff[4].get() == FakeLight());
         EXPECT(copy.m_lightSetNames[2] == "CameraLight");
         EXPECT(copy.unk_1a0 == 77);
-        EXPECT(copy.unk_19e);
+        EXPECT(copy.m_fogEnabled);
         // Source holds the light in two slots and the local holds it once; the copy holds it in two more.
         EXPECT(FakeLight()->m_refCount == base + 5);
     }

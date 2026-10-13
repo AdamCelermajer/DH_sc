@@ -12,6 +12,7 @@
 // repeat them.
 
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <map>
@@ -30,11 +31,26 @@
 #include "dh2/ItemInventory.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"  // Structs::Faery (m_w7 at +0x1c)
 
 namespace {
+
+// The CMsgControllerAction every online spell and skill start/end sends: action code at +0x50, the target/faery id at +0x52 and the owner's
+// network id (Character +0x108) at +0x54.
+void SendControllerAction(Character* character, std::uint8_t action, std::uint16_t targetId) {
+    CMessaging* messaging = GetMessaging();
+    CMsgControllerAction* message = static_cast<CMsgControllerAction*>(CMessage::CreateMessage("CMsgControllerAction", true));
+    message->senderId_ = static_cast<std::uint8_t>(character->unk_108);
+    message->action_ = action;
+    message->targetId_ = targetId;
+    messaging->SendMsg(message);
+}
 
 const char* const kCharAIQueries =
     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\AI\\CharAI_Queries.cpp";
@@ -430,10 +446,8 @@ void CharAI::AI_SkillInfo(unsigned int skillId, unsigned int infoId, float& info
 }
 
 // 0x3d7f60 CharAI::AI_EndSpell(bool)
-// PARTIAL: written are the casting test, the faery test (Structs::Faery::m_w7 at +0x1c equal to 2) and the anim step flags:
-// the loop stop when m_skillStepBegun is set, otherwise m_skillStepEnded is set. Omitted is the online branch that, for
-// flag false, sends CMsgControllerAction through CMessaging. That needs COnline's +0x05 flag (private, with no accessor) and
-// the CMessage fields at +0x50 (byte 4), +0x52 (16-bit 0) and +0x54 (byte copied from Character +0x108, unnamed).
+// While casting, and when the current faery's record word m_w7 (+0x1c) is 2: the loop stops when the anim step has begun, otherwise the step
+// is marked ended. Online, unless forced (flag true), a CMsgControllerAction (action 4, target 0, the owner's network id) is sent.
 void CharAI::AI_EndSpell(bool flag) {
     if (!static_cast<CharStateMachine*>(m_character)->SM_IsCasting()) {
         return;
@@ -448,5 +462,7 @@ void CharAI::AI_EndSpell(bool flag) {
     } else {
         m_skillStepEnded = true;
     }
-    (void)flag;  // used only by the omitted send branch
+    if (GetOnlineGameFlag() && !flag) {
+        SendControllerAction(m_character, 4, 0);
+    }
 }

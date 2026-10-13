@@ -7,14 +7,6 @@
 
 namespace glitch::scene::recon_29 {
 
-// 0x7031d8 _ZN6glitch5scene17CMeshConnectivityC2ERKN5boost13intrusive_ptrIKNS0_11CMeshBufferEEE
-// 0x70320c _ZN6glitch5scene17CMeshConnectivityC1ERKN5boost13intrusive_ptrIKNS0_11CMeshBufferEEE
-// (same body; one definition serves both the C1 and C2 entries)
-CMeshConnectivity::CMeshConnectivity(const boost::intrusive_ptr<const CMeshBuffer>& buffer_in)
-    : buffer(buffer_in) {
-    // The copy of the counting handle takes the reference on the buffer (+0x04), as the original does by hand.
-}
-
 // 0x6ffdf8 _ZN6glitch5scene22CShadowVolumeSceneNode11SSilhouetteC1ERKN5boost13intrusive_ptrIKNS0_11CMeshBufferEEE
 // 0x6ffe20 _ZN6glitch5scene22CShadowVolumeSceneNode11SSilhouetteC2ERKN5boost13intrusive_ptrIKNS0_11CMeshBufferEEE
 // (same body; one definition serves both entries)

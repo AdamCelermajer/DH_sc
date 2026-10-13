@@ -35,13 +35,9 @@ int caseInsensitiveCompare(const char* a, const char* b) {
     }
 }
 
-// The first word of SAttributeReadWriteOptions is its Flags (core-io declares the struct only): value 2 selects the
-// editor attributes (Camera Offset, Rendering Layer).
+// The options word 2 selects the editor attributes (Camera Offset, Rendering Layer); the original compares the flag word for equality.
 bool optionsAskForEditorAttributes(const io::SAttributeReadWriteOptions* options) {
-    if (options == nullptr) return false;
-    std::int32_t flags = 0;
-    std::memcpy(&flags, options, sizeof(flags));
-    return flags == 2;
+    return options != nullptr && options->flags == 2;
 }
 
 }  // namespace
@@ -76,8 +72,7 @@ ISceneNode::~ISceneNode() {
 
 // 0x5972a4 _ZNK6glitch5scene10ISceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // Writes Name, Id, Position, Rotation, Scale, Visible, AutomaticCulling and IsDebugObject; with options flags 2 it also
-// writes Camera Offset and Rendering Layer. PARTIAL: the options struct is declared only in core-io, so its Flags word is
-// read through a four-byte copy.
+// writes Camera Offset and Rendering Layer.
 void ISceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const {
     if (attributes == nullptr) return;
     attributes->addString("Name", name.c_str(), false);
@@ -96,7 +91,7 @@ void ISceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttribute
 
 // 0x598058 _ZN6glitch5scene10ISceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // The reverse of the serializer. The Rotation attribute may be stored as a vector3d of degrees (converted with 0.017453
-// and quaternion::set) or as a quaternion. Ends with updateAbsolutePosition(false). PARTIAL: same options caveat.
+// and quaternion::set) or as a quaternion. Ends with updateAbsolutePosition(false).
 void ISceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) {
     if (attributes == nullptr) return;
     name = attributes->getString("Name");

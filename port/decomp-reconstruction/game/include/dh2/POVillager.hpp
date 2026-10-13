@@ -9,5 +9,8 @@
 
 class POVillager : public POCharacter {
 public:
+    // The original builds these with the POCharacter constructor clone (0x3b4010) and then stores the derived vtable pointer.
+    POVillager(PhysicalWorld* world, GameObject* owner, short group, unsigned short category, unsigned short mask, bool isBullet, bool unused)
+        : POCharacter(world, owner, group, category, mask, isBullet, unused) {}
     ~POVillager() override;                                         // +0x00/+0x04 0x3b3824 (D1), 0x3b43e0 (D0)
 };

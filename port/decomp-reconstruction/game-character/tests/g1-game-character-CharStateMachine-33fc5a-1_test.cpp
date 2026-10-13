@@ -110,7 +110,7 @@ unsigned int Random::GetRandom(int range, bool synced) {
 // ---- Checks --------------------------------------------------------------------------------------------------
 
 int main() {
-    // Zero-filled storage for the Character the state machine points at. Only m_spawnDelay and unk_1438 are used.
+    // Zero-filled storage for the Character the state machine points at. Only m_spawnDelay is used.
     alignas(alignof(Character)) unsigned char storage[sizeof(Character)];
     std::memset(storage, 0, sizeof storage);
     Character* const ch = reinterpret_cast<Character*>(storage);
@@ -151,8 +151,8 @@ int main() {
           "SetSpawnState(false) sets state 1 and returns the RaiseEvent result");
 
     // Random spawn delay between 10 and 30: the timer gets roll + low.
-    ch->m_spawnDelay = 10;
-    ch->unk_1438 = 30;
+    ch->m_spawnDelay.X = 10;
+    ch->m_spawnDelay.Y = 30;
     g_randomReturn = 5;
     ResetRecords();
     r = sm.SM_SetSpawnState(true, false);
@@ -163,32 +163,32 @@ int main() {
     Check(r == g_timerReturn, "SetSpawnState returns the TMR_Start result");
 
     // Negative minimum clamps to 0; with a maximum of 0 the timer is 0, so the state is set at once.
-    ch->m_spawnDelay = -3;
-    ch->unk_1438 = 0;
+    ch->m_spawnDelay.X = -3;
+    ch->m_spawnDelay.Y = 0;
     ResetRecords();
     sm.SM_SetSpawnState(true, false);
-    Check(ch->m_spawnDelay == 0, "negative spawn_delay is clamped and stored");
+    Check(ch->m_spawnDelay.X == 0, "negative spawn_delay is clamped and stored");
     Check(g_timerCalls == 0 && g_randomCalls == 0 && g_raiseCalls == 1 && g_raiseEvent == 29,
           "zero spawn delay sets the state at once");
 
     // Maximum below minimum: the maximum is raised to the minimum and that value is the timer.
-    ch->m_spawnDelay = 10;
-    ch->unk_1438 = 4;
+    ch->m_spawnDelay.X = 10;
+    ch->m_spawnDelay.Y = 4;
     ResetRecords();
     sm.SM_SetSpawnState(true, false);
-    Check(ch->unk_1438 == 10, "maximum below minimum is raised to the minimum");
+    Check(ch->m_spawnDelay.Y == 10, "maximum below minimum is raised to the minimum");
     Check(g_timerCalls == 1 && g_timerMs == 10 && g_randomCalls == 0, "maximum below minimum uses the minimum as timer");
 
     // Equal bounds: the timer is the bound, with no random draw.
-    ch->m_spawnDelay = 10;
-    ch->unk_1438 = 10;
+    ch->m_spawnDelay.X = 10;
+    ch->m_spawnDelay.Y = 10;
     ResetRecords();
     sm.SM_SetSpawnState(true, false);
     Check(g_timerCalls == 1 && g_timerMs == 10 && g_randomCalls == 0, "equal bounds start the timer without a draw");
 
     // Roll of 0 gives the minimum as the timer.
-    ch->m_spawnDelay = 10;
-    ch->unk_1438 = 20;
+    ch->m_spawnDelay.X = 10;
+    ch->m_spawnDelay.Y = 20;
     g_randomReturn = 0;
     ResetRecords();
     sm.SM_SetSpawnState(true, false);

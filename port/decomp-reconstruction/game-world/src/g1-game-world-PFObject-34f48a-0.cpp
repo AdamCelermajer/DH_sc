@@ -98,15 +98,12 @@ float PFObject::GetPathLengthSQ() const {
 // 0x524538 _ZN8PFObjectC2Ev
 // 0x524644 _ZN8PFObjectC1Ev
 // The two addresses hold the same body: the complete-object (C2) and base-object (C1) constructor.
-// PARTIAL: the vptr word at +0x4c (off_96C810, the vtable of the embedded PFGInnerDirectEdge) is not stored, and the
-// embedded edge is not a declared member. Layout request: "PFObject +0x4c PFGInnerDirectEdge m_edge, 0x30 bytes
-// (PFGInnerDirectEdge.hpp: from +0x50, to +0x54, weight +0x58, distance +0x5c, clearance +0x60, source +0x64,
-// destination +0x70); it replaces unk_4c, unk_50 and unk_6c..unk_78, which are its words". The other words are written.
+// The embedded PFGInnerDirectEdge (+0x4c .. +0x7b) is built with its vptr; the constructor sets its words: from and to null, weight 1.0f, distance, clearance and both points zero.
 PFObject::PFObject() {
     m_owner = nullptr;                                  // +0x00
     m_flags = 8u;                                       // +0x04
     m_radius = 1.0f;                                    // +0x08
-    m_floorHeight = 0.0f;                               // +0x0c
+    m_room = nullptr;                                   // +0x0c
     m_floor = nullptr;                                  // +0x10
     m_moveFlags = 2u;                                   // +0x14
     m_pos = Point3D<float>{0.0f, 0.0f, 0.0f};           // +0x18 .. +0x20
@@ -115,19 +112,15 @@ PFObject::PFObject() {
     m_obstacleStrength = 0.0f;                          // +0x34
     // +0x38 and +0x3c: the list head and tail point at the sentinel. std::list starts empty.
     m_pathEnd = Point3D<float>{0.0f, 0.0f, 0.0f};       // +0x40 .. +0x48
-    unk_4c = nullptr;                                   // +0x4c vptr, see PARTIAL above
-    // +0x50 from and +0x54 to (null), +0x58 weight 1.0f, +0x5c .. +0x6b zero: the raw words of the embedded edge.
-    std::memset(unk_50, 0, sizeof unk_50);
-    const float weight = 1.0f;
-    std::memcpy(&unk_50[8], &weight, sizeof weight);
-    unk_6c = 0;                                         // +0x6c
-    unk_70 = 0;                                         // +0x70
-    unk_74 = 0;                                         // +0x74
-    unk_78 = 0;                                         // +0x78
+    m_edge.m_from = nullptr;                            // +0x50
+    m_edge.m_to = nullptr;                              // +0x54
+    m_edge.m_weight = 1.0f;                             // +0x58
+    m_edge.m_distance = 0.0f;                           // +0x5c
+    m_edge.m_clearance = 0.0f;                          // +0x60
+    m_edge.m_source = Point3D<float>{0.0f, 0.0f, 0.0f};       // +0x64 .. +0x6c
+    m_edge.m_destination = Point3D<float>{0.0f, 0.0f, 0.0f};  // +0x70 .. +0x78
     m_pathSmoothIdx = 0;                                // +0x7c
-    unk_80 = 0;                                         // +0x80
-    unk_84 = 0;                                         // +0x84
-    unk_88 = 0;                                         // +0x88
+    m_waypointDir = Point3D<float>{0.0f, 0.0f, 0.0f};  // +0x80 .. +0x88
     // +0x8c m_debugName is default constructed (empty).
     unk_9c = &m_debugName;                              // +0x9c self pointer to m_debugName
     unk_a0 = &m_debugName;                              // +0xa0 self pointer to m_debugName
@@ -136,11 +129,8 @@ PFObject::PFObject() {
 // 0x524750 _ZN8PFObjectD2Ev
 // 0x524f50 _ZN8PFObjectD1Ev
 // The two addresses hold the same body: the complete-object (D2) and base-object (D1) destructor.
-// PARTIAL: the original frees the buffer at +0xa0 when it is neither null nor &m_debugName, bounded by the word at
-// +0x8c. That container is not recovered, so no free is made. A freshly constructed object takes no such branch.
-// The calls to PFWorld::DropPath and PFWorld::InitObstacle (singleton PFWorld::s_inst, InitObstacle with add false,
-// radius 0 and strength 0) and the release of the path nodes are made. The vptr reset to off_96C6F0 is not made: the
-// embedded edge is not a declared member yet (layout request, see the constructor).
+// Drops the path in the PF world (PFWorld::DropPath), takes the object out of the obstacle lists (InitObstacle with add false, radius 0, strength 0) and releases the path nodes; the buffer of m_debugName
+// (the original frees it when it is not the inline one) and the embedded edge (vptr reset to off_96C6F0) go with the members.
 PFObject::~PFObject() {
     PFWorld::s_inst.DropPath(*this);
     PFWorld::s_inst.InitObstacle(*this, false, 0.0f, 0.0f);

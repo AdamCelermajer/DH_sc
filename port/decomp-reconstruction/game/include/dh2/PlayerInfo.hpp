@@ -21,6 +21,12 @@
 
 class Character;
 
+// The loading-info object at PlayerInfo +0x680 is only ever deleted through its virtual deleting destructor; its class is not recovered.
+class PolymorphicObject {
+public:
+    virtual ~PolymorphicObject() = default;
+};
+
 class PlayerInfo : public CNetPlayerInfo {
 public:
     PlayerInfo();                                                       // 0x37418c (C1), 0x374cc0 (C2)
@@ -97,6 +103,6 @@ public:
     std::int32_t unk_674;                                               // +0x674 Reset writes -1
     std::int32_t unk_678;                                               // +0x678 Reset writes -1. name: m_playerNumber (candidate; NativeGetPlayerInfos and the multiplayer highlight read it)
     std::int32_t unk_67c;                                               // +0x67c Reset writes -1
-    void* unk_680;                                                      // +0x680 loading info object: Reset writes 0; ~PlayerInfo calls its virtual deleting destructor (vtable slot 1)
+    PolymorphicObject* unk_680;                                                      // +0x680 loading info object: Reset writes 0; ~PlayerInfo calls its virtual deleting destructor (vtable slot 1)
     std::uint32_t unk_684;                                              // +0x684 Reset writes 0
 };

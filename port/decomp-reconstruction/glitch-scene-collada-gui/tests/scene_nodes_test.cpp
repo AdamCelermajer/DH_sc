@@ -182,13 +182,13 @@ int main() {
     sceneMgr.setAmbientLight(ambient);
     CHECK(sceneMgr.ambientLight.b == 0.3f);
     int nodeMarker = 0;
-    sceneMgr.currentRenderedNode = &nodeMarker;
-    sceneMgr.currentRenderedSecond = 9;
-    sceneMgr.currentRenderedWord = 4;
-    void* renderedNode = nullptr;
-    std::int32_t renderedSecond = 0;
-    CHECK(sceneMgr.getCurrentRenderedNode(&renderedNode, &renderedSecond) == 4);
-    CHECK(renderedNode == &nodeMarker && renderedSecond == 9);
+    sceneMgr.currentUserData = &nodeMarker;
+    sceneMgr.currentSortOrder = 9;
+    sceneMgr.currentNode = reinterpret_cast<ISceneNode*>(static_cast<std::uintptr_t>(4));
+    void* renderedUserData = nullptr;
+    std::int32_t renderedSortOrder = 0;
+    CHECK(sceneMgr.getCurrentRenderedNode(&renderedUserData, &renderedSortOrder) == 4);
+    CHECK(renderedUserData == &nodeMarker && renderedSortOrder == 9);
     CHECK(sceneMgr.getCurrentRenderedNode(nullptr, nullptr) == 4);
 
     std::printf("%s\n", failures ? "scene_nodes: FAILED" : "scene_nodes: ok");

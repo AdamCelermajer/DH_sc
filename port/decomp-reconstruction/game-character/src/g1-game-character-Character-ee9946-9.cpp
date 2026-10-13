@@ -6,28 +6,42 @@
 // Declarations come from dh2/Character.hpp, which this batch does not change (every member and method used here is
 // already declared there).
 //
-// Several bodies are PARTIAL. Each PARTIAL comment names the missing piece; the ledger rows repeat it:
-//  - gAssertLevel 2: the original stores 0 to address 0 (a deliberate crash). That store is not reproduced; level 1
-//    prints the assert text to stderr as the original does.
-//  - PlayerManager: dh2/PlayerManager.hpp cannot be included together with Character.hpp (its StreamBuffer needs
-//    net-transport's IStreamBase, which pydata's stream_reader.hpp also defines). Every branch that tests
-//    PlayerManager::IsLocalPlayer, GetLocalPlayer or GetPlayerByCharacter is therefore not taken, and its body is not run.
-//  - Name tables and undeclared members or globals: Arrays::*::m_memberNames (only in member_names.hpp, which conflicts
-//    with the structs headers), VisualFXManager's instance (Singleton<VisualFXManager>::s_inst at ELF 0x9a1cf0),
-//    VoxSoundManager, PyDataConstants' accessor, Level's difficulty, the scene node's RootSceneNode, the LightSetManager
-//    path, the VisualObject light filter (std::vector<bool> at +0x44, declared as void* unk_44), and the CharProperties
-//    words at +0x3c..+0x44 (the scale).
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 #include "dh2/Character.hpp"
+#include "dh2/AnchorBase.hpp"
+#include "dh2/AnchorForward.hpp"
 #include "dh2/AnchorGroup.hpp"
+#include "dh2/AnimatedFX.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/POCharacter.hpp"
+#include "dh2/PODecor.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/POFaerie.hpp"
+#include "dh2/POFollower.hpp"
+#include "dh2/POMonster.hpp"
+#include "dh2/POPlayer.hpp"
+#include "dh2/POVillager.hpp"
 #include "dh2/PhysicalObject.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/Vec3f_Origin.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/Singleton.hpp"
 #include "dh2/VisualFXManager.hpp"
 #include "dh2/global/charai_ai.hpp"
@@ -126,28 +140,28 @@ void Character::F_SkillAttack(AttackResult& result, Character* attacker, Charact
 }
 // 0x3b3368 _ZN9Character15F_MeleeAttackERNS_12AttackResultEPS_S2_bb
 // Character::F_MeleeAttack(Character::AttackResult&, Character*, Character*, bool, bool)
-// PARTIAL: (1) the gAssertLevel 2 store of the two null checks is not reproduced. (2) When b is false the original's flag
-// word is the link-time address of a string literal (MOVEQ R7, R3 in the listing: aZn6glitch5scen_399+0x12), not a flag.
-// That value is not recoverable from the pseudocode; the placeholder 0 stands in for it in that case only. (3) The
-// SnS_CleanUp class application when b is set (a name search in Arrays::ClassTable::m_memberNames, then PROPS_ApplyClass
-// with useTemp false) is not reproduced: the name table is declared only in pydata-accessors/member_names.hpp, which cannot
-// be included with Character.hpp. Reproduced: the switch read, the weapon slot (2 when a is set), the weapon word, flag
-// 0x4000000 when a is set, and the roll with c = -1, d = 0.
+// The two null checks (asserts 584 and 585), the isTracingChar_Attack switch read, and the weapon of the attacker (slot 2 for the off hand, a, else slot 1; its
+// Structs::Item m_w37, or -1 with nothing equipped). The request word is 0x5554A when b is set and 0x22AAB5 when it is not (the listing builds the second as the
+// address of a string literal; the value is the immediate it loads). With b set the attacker's class "SnS_CleanUp" is applied to its properties (a name search in
+// Arrays::ClassTable, PROPS_ApplyClass(index, false)). The off hand adds flag 0x4000000. The roll runs with element -1, d = 0.
 void Character::F_MeleeAttack(AttackResult& result, Character* attacker, Character* target, bool a, bool b) {
     if (!attacker) {
-        ReportAssertLevel1("attacker", kFormulasFile, 584);
+        ReportAssertFailure("attacker", kFormulasFile, 584);
     }
     if (!target) {
-        ReportAssertLevel1("defender", kFormulasFile, 585);
+        ReportAssertFailure("defender", kFormulasFile, 585);
     }
     TouchDebugSwitch("isTracingChar_Attack");
     const unsigned int slot = a ? 2u : 1u;
-    int flags = b ? 0x0005554A : 0;  // PARTIAL: 0 stands in for the link-time address when b is false (see above)
+    int flags = b ? 0x0005554A : 0x0022AAB5;
     int weapon = -1;
     if (ItemInstance* equipped = attacker->GetEquippedItem(slot)) {
         weapon = equipped->GetItem()->m_w37;
     }
-    // PARTIAL: SnS_CleanUp class application when b is set (see above).
+    const int cleanUp = pydata::FindMemberName(Arrays::ClassTable::m_memberNames, static_cast<int>(Arrays::ClassTable::size), "SnS_CleanUp");
+    if (cleanUp != -1 && b) {
+        attacker->CharProperties::PROPS_ApplyClass(cleanUp, false);
+    }
     if (a) {
         flags |= 0x4000000;
     }
@@ -180,13 +194,16 @@ void Character::UpdateInventoryLocalization() {
 
 // 0x3b36ec _ZN9Character26SafeGetCharPropsTemplateIdEv
 // Character::SafeGetCharPropsTemplateId(void)
-// PARTIAL. Reproduced: when m_charTemplate is empty the cached m_charPropsTemplateId (+0x13ca) is returned. The original's
-// string test compares the string's start and finish pointers, which is the empty test of the host std::string.
-// Not reproduced: the name search of m_charTemplate in Arrays::Charater_Templates::m_memberNames (the first match or -1,
-// cached into m_charPropsTemplateId). That name table is declared only in pydata-accessors/member_names.hpp, which cannot be
-// included with Character.hpp. The cached value is returned unchanged in the non-empty case.
+// Without a template name (m_charTemplate empty) the cached m_charPropsTemplateId (+0x13ca) is returned. Otherwise the name is searched in
+// Arrays::Charater_Templates (the first match, or -1), cached and returned.
 int Character::SafeGetCharPropsTemplateId() {
-    return m_charPropsTemplateId;
+    if (m_charTemplate.empty()) {
+        return m_charPropsTemplateId;
+    }
+    const int id = pydata::FindMemberName(Arrays::Charater_Templates::m_memberNames, static_cast<int>(Arrays::Charater_Templates::size),
+                                          m_charTemplate.c_str());
+    m_charPropsTemplateId = static_cast<std::int16_t>(id);
+    return static_cast<std::int16_t>(id);
 }
 
 // 0x3b379c _ZN9Character11InitSpawnedEiRK7Point3DIfE
@@ -217,13 +234,23 @@ void Character::InitCoopCam() {
 
 // 0x3b395c _ZN9Character14_InitEquipmentEv
 // Character::_InitEquipment(void)
-// PARTIAL: the entry gate is not evaluable here. It is `!GetOnline()-><offline flag> || PlayerManager::GetPlayerByCharacter(
-// this, 0)->+0x66c == 1`; COnline's flag has no getter and PlayerManager cannot be included. The body is therefore not run.
-// Also missing from the body: the item-9 property read (CharProperties::_GetProperty on the m_props sheet at +0xa94; the
-// method and member are private in dh2/CharProperties.hpp), and the branch on the word at Character +0x39c (the
-// ItemInventory +0x20 word, m_gold in dh2/ItemInventory.hpp), whose meaning is not confirmed. The EquipItemAuto loop over
-// IsItemEquippable slots is part of the body too.
+// Offline, or for a player record whose flag byte (PlayerInfo +0x66c) is 1: a character that already has items, or gold, only refreshes its skins (INV_UpdateSkin).
+// An empty one gets the loot of its starting loot table (property 9 of the final sheet) and equips every item that can be equipped, in order (EquipItemAuto).
 void Character::_InitEquipment() {
+    if (GetOnlineGameFlag() && dword_99F76C->GetPlayerByCharacter(this, false)->unk_66c != 1) {
+        return;
+    }
+    if (ItemInventory::GetNumItems() != 0 || ItemInventory::m_gold != 0) {
+        INV_UpdateSkin();
+        return;
+    }
+    ItemInventory::AddLoot(CharProperties::_GetProperty(CharProperties::m_props, 9), 0, 0, -1, false);
+    const unsigned int count = static_cast<unsigned int>(ItemInventory::GetNumItems());
+    for (unsigned int i = 0; i < count; ++i) {
+        if (ItemInventory::IsItemEquippable(i)) {
+            EquipItemAuto(i);
+        }
+    }
 }
 
 // 0x3b3a70 _ZN9Character10_InitHpMpEv
@@ -253,40 +280,54 @@ void Character::_InitSkillsSlots() {
 
 // 0x3b3b00 _ZN9Character11_InitSoundsEv
 // Character::_InitSounds(void)
-// PARTIAL: the four loops load the sound ids of the Structs::CharSounds row (counts m_w1, m_w3, m_w5, m_w7 with arrays
-// m_w2, m_w4, m_w6, m_w8) through VoxSoundManager::LoadSound on VoxSoundManager::s_instance. No header declares
-// VoxSoundManager's instance or LoadSound (vox-audio has no header; core-platform/w7_global_rem.hpp only forward-declares
-// the type), so nothing is loaded.
+// With a sound manager, the sounds of the character's Structs::CharSounds row are loaded in the order injured (m_w3/m_w4), death (m_w1/m_w2), hit (m_w5/m_w6) and
+// m_w7/m_w8 (VoxSoundManager::LoadSound for each id). The original returns the manager or the register LoadSound leaves; the header is void.
 void Character::_InitSounds() {
+    const Structs::CharSounds* sounds = GetCharSounds();
+    if (VoxSoundManager::s_instance == nullptr) {
+        return;
+    }
+    auto loadAll = [](std::uint32_t count, const void* ids) {
+        for (std::uint32_t i = 0; i < count; ++i) {
+            VoxSoundManager::s_instance->LoadSound(static_cast<const std::int32_t*>(ids)[i]);
+        }
+    };
+    loadAll(sounds->m_w3, sounds->m_w4);
+    loadAll(sounds->m_w1, sounds->m_w2);
+    loadAll(sounds->m_w5, sounds->m_w6);
+    loadAll(sounds->m_w7, sounds->m_w8);
 }
 
 // 0x3b3d38 _ZN9Character17SafeGetCharPropsIdEv
 // Character::SafeGetCharPropsId(void)
-// PARTIAL. (1) The gAssertLevel 2 store at Character_Initialization.cpp:756 is not reproduced; the assert cannot fire for a
-// valid table (the index is a remainder of the count). (2) Not reproduced: every name search of Arrays::CharacterTable::
-// m_memberNames ("KnightPlayerBase" for a player whose class is -1, and m_charPropsName for a character without a
-// template); that table is declared only in pydata-accessors/member_names.hpp, which cannot be included with Character.hpp.
-// Those branches leave the cached id unchanged. Reproduced: the cached id (+0x13c8), the player class read (SG_Load(1),
-// SG_GetPlayerClass, SG_SetPlayerClass when the class is not -1), and the template branch: the Random draw (Random::s_seed,
-// LCG 59051 / 177149 mod 0xdaf26b, debug counter [0]) and the Structs::CharInfoName index into the template row. That
-// branch takes its template id from SafeGetCharPropsTemplateId, which is a stub (see there), so it is only as good as that id.
+// A resolved id (+0x13c8, not -1) is returned. A player loads its savegame class (SG_Load(1), SG_GetPlayerClass); a class of -1 becomes the row "KnightPlayerBase" of
+// Arrays::CharacterTable (-1 if absent) and is stored back with SG_SetPlayerClass. A character without a template name looks m_charPropsName up in
+// Arrays::CharacterTable (an empty name keeps the id). A character with a template draws a random entry of the template's Structs::CharInfoName list (the ordinary random
+// stream, LCG 59051 / 177149 mod 0xdaf26b, debug counter [0]) and takes its id; a template id below 0 or an empty list keeps the id. The assert at
+// Character_Initialization.cpp:756 checks the draw is inside the list.
 int Character::SafeGetCharPropsId() {
     if (m_charPropsId != -1) {
         return m_charPropsId;
     }
     if (IsPlayer()) {
         SG_Load(1);
-        const int playerClass = SG_GetPlayerClass();
+        int playerClass = SG_GetPlayerClass();
         m_charPropsId = static_cast<std::int16_t>(playerClass);
-        if (playerClass != -1) {
-            SG_SetPlayerClass(playerClass);
+        if (playerClass == -1) {
+            playerClass = pydata::FindMemberName(Arrays::CharacterTable::m_memberNames, static_cast<int>(Arrays::CharacterTable::size), "KnightPlayerBase");
+            m_charPropsId = static_cast<std::int16_t>(playerClass);
         }
-        // PARTIAL: playerClass == -1 needs the KnightPlayerBase name search (see above); SG_SetPlayerClass is not called then.
+        SG_SetPlayerClass(playerClass);
         return m_charPropsId;
     }
     if (m_charTemplate.empty()) {
-        // PARTIAL: the m_charPropsName search (see above). The cached id is returned as it is.
-        return m_charPropsId;
+        if (m_charPropsName.empty()) {
+            return m_charPropsId;
+        }
+        const int id = pydata::FindMemberName(Arrays::CharacterTable::m_memberNames, static_cast<int>(Arrays::CharacterTable::size),
+                                              m_charPropsName.c_str());
+        m_charPropsId = static_cast<std::int16_t>(id);
+        return static_cast<std::int16_t>(id);
     }
     const int templateId = SafeGetCharPropsTemplateId();
     if (templateId < 0) {
@@ -301,7 +342,7 @@ int Character::SafeGetCharPropsId() {
     const int index = Abs32(static_cast<int>(Random::s_seed % count));
     ++Random::s_debugRandomCounters[0];
     if (count <= static_cast<std::uint32_t>(index)) {
-        ReportAssertLevel1("random >= 0 && random < (int)charTemplate.CharInfoSize", kInitializationFile, 756);
+        ReportAssertFailure("random >= 0 && random < (int)charTemplate.CharInfoSize", kInitializationFile, 756);
     }
     const auto* infos = reinterpret_cast<const Structs::CharInfoName*>(row->m_w2);
     m_charPropsId = static_cast<std::int16_t>(infos[index].m_w1);
@@ -310,44 +351,43 @@ int Character::SafeGetCharPropsId() {
 
 // 0x3b4088 _ZN9Character18InitPhysicalObjectEv
 // Character::InitPhysicalObject(void)
-// PARTIAL. The leaves run in the original's order. Each builds its physics body on the physics world
-// (Singleton<Application>::s_inst.m_physicalWorld, Application +0x44, the original's dword_99F770) and hands it to
-// GameObject::SetPhysicalObject with pin set. The original's derived leaves (POFaerie, POVillager, POFollower, POMonster
-// and the player's POPlayer) are built as POCharacter here: those headers declare no constructor and add only destructor
-// slots to POCharacter, so the vptr of the derived class is not set. Layout/construction request: a constructor forwarding
-// to POCharacter in each derived header. The non-monster leaf with no object is SetPhysicalObject(nullptr, false).
+// The leaves run in the original's order. Each builds its physics body on the physics world (Application +0x44, the original's dword_99F770) and hands it to
+// GameObject::SetPhysicalObject with pin set: an invisible man a POFaerie (group 0, category 256), a static character a PODecor, an NPC a POVillager (-4, 1024, 0xD1F), a
+// player a POPlayer (-1, 4, 0xD7F, bullet), a follower or summoned character a POFollower (-2, 8, 0xD3B), a faerie a POFaerie, a monster a POMonster (2, 16, 0xD3F). Anything
+// else gets no physics object (SetPhysicalObject(nullptr, false)).
 void Character::InitPhysicalObject() {
     PhysicalWorld* world = Singleton<Application>::s_inst.m_physicalWorld;
     if (IsInvisibleMan()) {
-        SetPhysicalObject(new POCharacter(world, this, 0, 256, 0, false, false), true);  // POFaerie in the original
+        SetPhysicalObject(new POFaerie(world, this, 0, 256, 0, false, false), true);
         return;
     }
     if (m_static) {
-        SetPhysicalObject(new PhysicalObject(world, this, true, false, false, false, 0, 2, 0xFFFF, 1), true);
+        SetPhysicalObject(new PODecor(world, this, true), true);
         return;
     }
     if (IsNPC()) {
-        SetPhysicalObject(new POCharacter(world, this, -4, 1024, 0xD1F, false, false), true);  // POVillager
+        SetPhysicalObject(new POVillager(world, this, -4, 1024, 0xD1F, false, false), true);
         return;
     }
     if (IsPlayer()) {
-        SetPhysicalObject(new POCharacter(world, this, -1, 4, 0xD7F, true, false), true);  // POPlayer
+        SetPhysicalObject(new POPlayer(world, this, -1, 4, 0xD7F, true, false), true);
         return;
     }
     if (IsFollower() || IsSummoned()) {
-        SetPhysicalObject(new POCharacter(world, this, -2, 8, 0xD3B, false, false), true);  // POFollower
+        SetPhysicalObject(new POFollower(world, this, -2, 8, 0xD3B, false, false), true);
         return;
     }
     if (IsFaerie()) {
-        SetPhysicalObject(new POCharacter(world, this, 0, 256, 0, false, false), true);  // POFaerie
+        SetPhysicalObject(new POFaerie(world, this, 0, 256, 0, false, false), true);
         return;
     }
     if (!IsMonster()) {
         SetPhysicalObject(nullptr, false);
         return;
     }
-    SetPhysicalObject(new POCharacter(world, this, 2, 16, 0xD3F, false, false), true);  // POMonster
+    SetPhysicalObject(new POMonster(world, this, 2, 16, 0xD3F, false, false), true);
 }
+
 // 0x3b4738 _ZN9Character23RegisterCharacterFXTableEv
 // Character::RegisterCharacterFXTable(void)
 // The footprint, blood and blood death effect ids are read, the isTracingChar_Init switch is read, and each id that is not
@@ -369,14 +409,19 @@ void Character::RegisterCharacterFXTable() {
 }
 // 0x3b4834 _ZN9Character20InitLightSetAndMaterialEv
 // Character::InitLightSetAndMaterial(void)
-// PARTIAL. Not reproduced: the light set id store (VisualObject +0x40, declared unk_40) from LightSetManager::
-// GetLightSetIdFromName("MonsterLight") on the light manager reached from the Application singleton (no header path), and the
-// std::vector<bool> light filter copy into VisualObject +0x44 (declared void* unk_44 in dh2/VisualObject.hpp). Reproduced:
-// the five material applications, in the original's order, on the visual object (+0x2d8).
+// With a visual object: a light filter with every light on (LightSetManager::InitLightFilter(filter, true) on the device scene manager's light set manager) is built, the
+// visual's light set id (VisualObject +0x40) becomes the id of "MonsterLight" and its filter (+0x44) the new one; the light set and the material, base parameter, shadow and
+// x-ray materials are applied, in that order.
 void Character::InitLightSetAndMaterial() {
     VisualObject* visual = m_visualObject;
     if (visual == nullptr) {
         return;
+    }
+    if (SceneManager* sceneManager = DeviceSceneManager()) {  // the original has no device test; a device always exists in the game
+        std::vector<bool> filter;
+        sceneManager->m_lightSetManager.InitLightFilter(filter, true);
+        visual->unk_40 = sceneManager->m_lightSetManager.GetLightSetIdFromName(std::string("MonsterLight"));
+        visual->m_lightFilter = filter;
     }
     visual->ApplyLightSet();
     visual->ApplyMaterial();
@@ -387,14 +432,9 @@ void Character::InitLightSetAndMaterial() {
 
 // 0x3b4978 _ZN9Character9InitFinalEv
 // Character::InitFinal(void)
-// PARTIAL. Reproduced: the one-time guard (+0x1395), the spawn probability test against GameObject::m_spawnProb, the
-// GameObject::InitFinal base call, and the CharAI::OnInitFinal call (CharAI vtable slot +0x10) on the CharAI base.
-// Not reproduced (each needs PlayerManager or the light manager):
-//  - Faerie or follower: the offset vector (GameObject::GetLookAtVec of the local player's object at +0x660 of the local
-//    player record, plus its GetTargetPosition) passed to GameObject::SetPosition(vector, true).
-//  - The light set name ("SceneLight" for a player, "MonsterLight" otherwise) and its store (VisualObject +0x40).
-//  - Local player only: CharAI::UpdateAllSkills, CharProperties::RecalcProperties(true), the PROPS word 194 clamp into
-//    ItemInventory::m_maxPotions (+0x2c, word +0x3a8) and Character::SG_Save.
+// The one-time guard (+0x1395) and the spawn probability test against GameObject::m_spawnProb; GameObject::InitFinal. A faerie or follower is placed next to the local player (the
+// player's look vector plus its target position, SetPosition(point, true)). The visual's light set id becomes "SceneLight" for a player and "MonsterLight" otherwise. The AI is told
+// OnInitFinal (CharAI vtable slot +0x10). The local player then updates its skills, recalculates its properties, sets the potion cap from property 194 and saves.
 void Character::InitFinal() {
     if (m_initFinalDone != 0) {
         return;
@@ -404,56 +444,64 @@ void Character::InitFinal() {
         return;
     }
     GameObject::InitFinal();
-    // PARTIAL: faerie or follower offset vector (see above).
-    // PARTIAL: light set name and id store (see above).
+    if (IsFaerie() || IsFollower()) {
+        GameObject* localPlayer = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+        Point3D<float> offset{0.0f, 0.0f, 0.0f};
+        if (localPlayer != nullptr) {
+            localPlayer->GetLookAtVec(offset);
+            const Point3D<float>& position = localPlayer->GetTargetPosition();
+            offset.X += position.X;
+            offset.Y += position.Y;
+            offset.Z += position.Z;
+            GameObject::SetPosition(offset, true);
+        }
+    }
+    if (m_visualObject != nullptr) {
+        if (SceneManager* sceneManager = DeviceSceneManager()) {  // the original has no device test; a device always exists in the game
+            m_visualObject->unk_40 = sceneManager->m_lightSetManager.GetLightSetIdFromName(std::string(IsPlayer() ? "SceneLight" : "MonsterLight"));
+        }
+    }
     OnInitFinal();
-    // PARTIAL: local player block (see above).
+    if (IsPlayer() && dword_99F76C->IsLocalPlayer(this)) {
+        CharAI::UpdateAllSkills();
+        CharProperties::RecalcProperties(true);
+        const int potionCap = PROPS_GetInt(194, false);
+        ItemInventory::m_maxPotions = static_cast<std::int8_t>(potionCap > 0 ? potionCap : 0);
+        SG_Save();
+    }
 }
 
 // 0x3b4bc4 _ZN9Character7InitCamEv
 // Character::InitCam(void)
-// PARTIAL. Reproduced: the UseStaticCamera debug switch read and, in the forward branch, the three ForwardCamera constants
-// of CharacterDesign (PyDataConstants through ApplicationGetPyDataConstants; the ints are converted to float and the
-// threshold is scaled by 0.01). Not reproduced: the anchor objects and GameObject::SetCameraAnchorObject. The static branch
-// constructs an AnchorBase with one argument (the object only), which dh2/AnchorBase.hpp does not declare (its constructor
-// takes GameObject* and AnchorType). The forward branch constructs AnchorForward with four arguments after the object
-// (the owner, maxDistance, distPerSec, threshold), and dh2/AnchorForward.hpp takes a fifth AnchorBase::AnchorType argument
-// the listing does not pass. Layout request: the constructor signatures the listing calls.
+// The UseStaticCamera debug switch gives a plain camera anchor on this character (AnchorBase, type 0). Otherwise a forward-looking anchor is built from the CharacterDesign
+// constants ForwardCamera_Max_Distance, ForwardCamera_Distance_PerSec and ForwardCamera_Threshold (the last scaled by 0.01), type 2. The anchor becomes the camera anchor object.
 void Character::InitCam() {
     DebugSwitches::GetInstance()->load();
     const bool useStaticCamera = DebugSwitches::GetInstance()->GetSwitch("UseStaticCamera");
-    if (!useStaticCamera) {
+    AnchorBase* anchor;
+    if (useStaticCamera) {
+        anchor = new AnchorBase(this, static_cast<AnchorBase::AnchorType>(0));
+    } else {
         PyDataConstants* constants = ApplicationGetPyDataConstants();
-        const float maxDistance = static_cast<float>(constants->getConstant("CharacterDesign", "ForwardCamera_Max_Distance"));
-        const float distPerSec =
-            static_cast<float>(constants->getConstant("CharacterDesign", "ForwardCamera_Distance_PerSec"));
-        const float threshold =
-            static_cast<float>(constants->getConstant("CharacterDesign", "ForwardCamera_Threshold")) * 0.01f;
-        (void)maxDistance;
-        (void)distPerSec;
-        (void)threshold;
+        const int maxDistance = constants->getConstant("CharacterDesign", "ForwardCamera_Max_Distance");
+        const int distPerSec = constants->getConstant("CharacterDesign", "ForwardCamera_Distance_PerSec");
+        const int threshold = constants->getConstant("CharacterDesign", "ForwardCamera_Threshold");
+        anchor = new AnchorForward(this, static_cast<float>(maxDistance), static_cast<float>(distPerSec), static_cast<float>(threshold) * 0.01f,
+                                   static_cast<AnchorBase::AnchorType>(2));
     }
+    SetCameraAnchorObject(anchor);
 }
+
 // 0x3b4d60 _ZN9Character8InitPostEv
 // Character::InitPost(void)
-// PARTIAL. Reproduced, in the original's order: the one-time guard (+0x1394), the spawn probability test, the starting
-// waypoint move (ObjectManager::GetObjectByName with the ObjectBase word +0x64, active false, no type, then Cmd_MoveTo on
-// the controller), the character property id and the base property load with RecalcProperties, the model name assign
-// (GameObject m_dae), GameObject::InitPost, the MeetCondition split (false: SetVisible(false) and ObjectBase::Delete),
-// SG_Load(2), RegisterCharacterFXTable, CharAnimator::SetAnimationSet, _InitSounds, the properties 210 and 211 into
-// unk_1440 and unk_1444, the initial position (SetInitialPosition(m_position), SetPosition(m_initialPosition, true)), the
-// rotation copy, the mesh box, Revive(nullptr, true) and _InitHpMp.
-// Not reproduced:
-//  - Scale (+0x120..+0x128): the CharProperties words at Character +0x59c, +0x5a0 and +0x5a4 (0.009f, 0.009f, 0.01f) are
-//    not named by dh2/CharProperties.hpp.
-//  - The script gate: it needs PlayerManager::IsLocalPlayer. Its false branch sets CharAI m_stagedLoad (+0x24), which is
-//    private in dh2/CharAI.hpp, so the InitScriptProcess and AddToGroup calls (AddToGroup takes the flag as a second
-//    argument in the listing; the header declares one parameter) are not made.
-//  - m_selfFX (+0x1484): VisualFXManager's instance is not declared.
-//  - The IsPlayer block: the scene node's automatic culling (RootSceneNode is incomplete in VisualObject.hpp), SG_Load(4),
-//    the difficulty from the current Level (Level.hpp conflicts with Character.hpp), the local player's equipment, skill
-//    slots and gear properties (PlayerManager), the maximum gold of 999999999 (ItemInventory::m_maxGold), the
-//    m_maxPotions clamp, the target-circle and cursor FX (VisualFXManager), and AddMultiplayerHighlight.
+// In the original's order: the one-time guard (+0x1394) and the spawn probability test; the starting waypoint move (Cmd_MoveTo to the object named by
+// m_startingWaypoint); SafeGetCharPropsId and LoadBaseProperties/RecalcProperties; the model name (GameObject m_dae); the scale from three base-sheet words (x and y 0.009 each, z 0.01);
+// GameObject::InitPost; a character that fails its condition is hidden and deleted. Otherwise SG_Load(2); the AI script process loads at once unless it is staged (a non-player whose
+// AITable row flag +0x10 is set, or a player that is not local, is staged: CharAI m_stagedLoad); the self FX (m_selfFXBaseId plus the AITable row's +0x30); the character FX table;
+// the animation set; the sounds. A player: automatic culling off on its node, SG_Load(4), the savegame difficulty from the current level, for the local player the equipment, gear
+// properties and quest sync, then the base and gear properties and the recalculation, the skill slots (local), the maximum gold 999999999 and the potion cap (property 194), and,
+// when the FX library is built, nine ground-circle FX (target_circle_00_chest + i; hidden, looping), the local player's cursor FX (DesignSettings +0x88) and the multiplayer
+// highlight. Last: properties 210 and 211, the initial position and rotation, the mesh box, Revive(nullptr, true), _InitHpMp, the staged AI script start and the group add.
 void Character::InitPost() {
     if (m_initPostDone != 0) {
         return;
@@ -484,7 +532,9 @@ void Character::InitPost() {
         m_dae.assign(modelName);
     }
     TouchDebugSwitch("isTracingChar_Init");
-    // PARTIAL: scale from the CharProperties words (see above).
+    m_scale.X = static_cast<float>(CharProperties::m_baseProps.m_w13) * 0.009f;
+    m_scale.Y = static_cast<float>(CharProperties::m_baseProps.m_w14) * 0.009f;
+    m_scale.Z = static_cast<float>(CharProperties::m_baseProps.m_w15) * 0.01f;
     GameObject::InitPost();
     if (!MeetCondition()) {
         SetVisible(false);
@@ -492,18 +542,76 @@ void Character::InitPost() {
         return;
     }
     SG_Load(2);
-    // PARTIAL: script gate and m_selfFX (see above).
+    const Structs::AIProps* aiRow = GetCharAI();
+    if ((IsPlayer() || !aiRow->m_w4) && (!IsPlayer() || dword_99F76C->IsLocalPlayer(this))) {
+        CharAI::LoadScriptProcess();
+    } else {
+        CharAI::m_stagedLoad = true;
+    }
+    m_selfFX = VisualFXManager::s_inst.GrabAnimFX(m_selfFXBaseId + aiRow->m_w12, this);
     RegisterCharacterFXTable();
     TouchDebugSwitch("isTracingChar_Init");
     CharAnimator::SetAnimationSet();
     TouchDebugSwitch("isTracingChar_Init");
     _InitSounds();
     TouchDebugSwitch("isTracingChar_Init");
-    // PARTIAL: IsPlayer block (see above).
-    // The original reads CharProperties::_GetProperty(m_props, 210 and 211) (m_props is private in the header). PROPS_Get
-    // reads m_props only, per its declaration note; that equivalence is assumed here and is the one PARTIAL point of this read.
-    unk_1440 = static_cast<float>(PROPS_Get(210, false));
-    unk_1444 = static_cast<float>(PROPS_Get(211, false));
+    if (IsPlayer()) {
+        if (m_visualObject != nullptr) {
+            m_visualObject->m_node->setAutomaticCulling(0);
+        }
+        SG_Load(4);
+        if (Level* level = ApplicationGetInstance().GetCurrentLevel()) {
+            SG_SetGameDifficulty(level->m_difficulty);
+        }
+        if (dword_99F76C->IsLocalPlayer(this)) {
+            _InitEquipment();
+            CharProperties::ResetGearsProperties();
+            if (m_savegame != nullptr) {
+                m_savegame->SG_TryQuestSync();
+            }
+        }
+        CharProperties::LoadBaseProperties(m_charPropsId);
+        CharProperties::LoadGearsProperties();
+        CharProperties::RecalcProperties(true);
+        if (dword_99F76C->IsLocalPlayer(this)) {
+            _InitSkillsSlots();
+        }
+        ItemInventory::m_maxGold = 999999999;
+        const int potionCap = PROPS_GetInt(194, false);
+        ItemInventory::m_maxPotions = static_cast<std::int8_t>(potionCap > 0 ? potionCap : 0);
+        if (!VisualFXManager::s_inst.m_animatedFXPools.empty()) {
+            m_targetCircleFX = new AnimatedFX*[9];
+            const int circle = pydata::FindMemberName(Arrays::AnimatedEffectTable::m_memberNames, static_cast<int>(Arrays::AnimatedEffectTable::size),
+                                                      "target_circle_00_chest");
+            for (int i = 0; i < 9; ++i) {
+                AnimatedFX* fx = VisualFXManager::s_inst.GrabAnimFX(circle + i, nullptr);
+                m_targetCircleFX[i] = fx;
+                if (fx != nullptr) {
+                    std::memcpy(&fx->unk_34, &Vec3f_Origin.X, sizeof(float));
+                    std::memcpy(&fx->unk_38, &Vec3f_Origin.Y, sizeof(float));
+                    std::memcpy(&fx->unk_3c, &Vec3f_Origin.Z, sizeof(float));
+                    fx->SyncIrrData(false);
+                    fx->SetVisible(false);
+                    fx->GetAnimator()->getTimelineCtrl()->setLoop(true);
+                }
+            }
+            if (dword_99F76C->IsLocalPlayer(this)) {
+                const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
+                m_cursorFX = VisualFXManager::s_inst.GrabAnimFX(design->m_w34, nullptr);
+                if (AnimatedFX* fx = m_cursorFX) {
+                    fx->unk_3c = 0;
+                    fx->unk_34 = 0;
+                    fx->unk_38 = 0;
+                    fx->SyncIrrData(false);
+                    fx->SetVisible(false);
+                    fx->GetAnimator()->getTimelineCtrl()->setLoop(true);
+                }
+            }
+            AddMultiplayerHighlight();
+        }
+    }
+    unk_1440 = static_cast<float>(CharProperties::_GetProperty(CharProperties::m_props, 210));
+    unk_1444 = static_cast<float>(CharProperties::_GetProperty(CharProperties::m_props, 211));
     SetInitialPosition(m_position);
     SetPosition(m_initialPosition, true);
     m_initialRotation = m_rotation;
@@ -512,6 +620,9 @@ void Character::InitPost() {
     }
     Revive(nullptr, true);
     _InitHpMp();
-    // PARTIAL: CharAI script start and group add (see above).
+    if (!CharAI::m_stagedLoad) {
+        CharAI::InitScriptProcess(false);
+    }
+    CharAI::AddToGroup(this);
     TouchDebugSwitch("isTracingChar_Init");
 }

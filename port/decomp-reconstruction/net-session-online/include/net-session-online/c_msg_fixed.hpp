@@ -159,7 +159,7 @@ public:
         includeLocalMember_ = false;   // +0x33
         sendMode_ = 0;                 // +0x2c
     }
-    void* GetDataPtr() override { return payload_; }
+    void* GetDataPtr() override { return &objectId_; }
     std::uint32_t GetDataSize() const override { return 28; }
     // 0x32789c _ZN15CMsgSpawnObject13SetPropertiesEv
     void SetProperties() {
@@ -169,8 +169,18 @@ public:
         sendMode_ = 0;
     }
 
-private:
-    std::uint8_t payload_[28] = {};  // +0x50
+    // Payload (original 32-bit offsets, 28 bytes). Character::InterpretIncomingNetStruct asks the owner to send an object again with
+    // objectId_ = the object's ObjectBase +0x108 id, unk_54..unk_64 zero and unk_68 set. GameObject::_Summon announces a summoned
+    // character with objectId_ = its network id, unk_54 = the character type (Arrays::CharacterTable row), unk_58 = the summoner's
+    // network id, (unk_5c, unk_60, unk_64) = its position, and unk_68 = 0.
+    std::int32_t objectId_ = 0;      // +0x50
+    std::int32_t unk_54 = 0;         // +0x54
+    std::int32_t unk_58 = 0;         // +0x58
+    float unk_5c = 0.0f;             // +0x5c
+    float unk_60 = 0.0f;             // +0x60
+    float unk_64 = 0.0f;             // +0x64
+    std::uint8_t unk_68 = 0;         // +0x68
+    std::uint8_t pad_69[3] = {};     // +0x69
 };
 
 // CMsgRaisedEvent has one definition: c_msg_raised_event.hpp (the typed payload, the constructor and Create).
@@ -205,22 +215,7 @@ public:
     std::uint8_t unk_55[15] = {};   // +0x55 .. +0x63: sent with the message, never read
 };
 
-class CMsgAttackResult : public CMessage {
-public:
-    void* GetDataPtr() override { return payload_; }
-    std::uint32_t GetDataSize() const override { return 52; }
-    // 0x327a40 _ZN16CMsgAttackResult13SetPropertiesEv
-    // Note: a second CMsgAttackResult class lives in c_msg_attack_result.hpp (another worker);
-    // the two definitions conflict and must be merged before both are compiled together.
-    void SetProperties() {
-        typeName_ = "CMsgAttackResult";
-        includeLocalMember_ = false;
-        sendMode_ = 1;
-    }
-
-private:
-    std::uint8_t payload_[52] = {};  // +0x50
-};
+// CMsgAttackResult has one definition: c_msg_attack_result.hpp (the typed payload, the constructor and Create).
 
 // CMsgGlobalDeath has no payload: GetDataPtr is the base CMessage one.
 class CMsgGlobalDeath : public CMessage {

@@ -10,7 +10,9 @@
 
 #include "dh2/GameObject.hpp"
 #include "dh2/RootSceneNode.hpp"
+#include "dh2/SceneManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
 
 // 0x470ce8 _ZN12VisualObject10StopFadeInEv
@@ -117,11 +119,12 @@ void VisualObject::ApplyShadowMaterial() {
 }
 
 // 0x471214 _ZN12VisualObject13ApplyLightSetEv
-// PARTIAL: the original tail-calls SceneManager::UpdateLightSet(sm, index, filter, node) with index = unk_40
-// (+0x40), filter = the std::vector<bool>& at this+0x44 and node = m_node (+0x08). The scene manager is not
-// reachable, and +0x44 is declared as raw words in VisualObject.hpp (layout request), so the call is left out.
+// The original tail-calls SceneManager::UpdateLightSet(sm, index, filter, node) with the device's scene manager, index = unk_40 (+0x40, the light set id), filter = the
+// std::vector<bool> light filter at +0x44 and node = m_node (+0x08).
 void VisualObject::ApplyLightSet() {
-    // Not made: SceneManager::UpdateLightSet(sm, unk_40, <std::vector<bool> at +0x44>, m_node).
+    if (SceneManager* sceneManager = DeviceSceneManager()) {
+        sceneManager->UpdateLightSet(unk_40, m_lightFilter, m_node);
+    }
 }
 
 // 0x47124c _ZN12VisualObject13ApplyPositionEv

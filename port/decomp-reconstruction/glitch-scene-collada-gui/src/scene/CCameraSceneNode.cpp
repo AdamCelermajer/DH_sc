@@ -13,6 +13,7 @@
 #include "glitch-scene-collada-gui/core_matrix_builders.hpp"
 #include "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-video/video_driver.hpp"
 
 namespace glitch::scene {
 
@@ -31,6 +32,16 @@ float floatFromBits(std::uint32_t bits) {
     float value = 0.0f;
     std::memcpy(&value, &bits, sizeof value);
     return value;
+}
+
+// The aspect ratio the camera takes from its scene manager: the current render target of the manager's driver (the last entry of the
+// driver's target stack, +0xc8), width (+0x0c) over height (+0x10); 4:3 (0x3FAAAAAB) without a manager or a driver.
+float renderTargetAspectRatio(const CSceneManager* manager) {
+    if (manager != nullptr && manager->driver != nullptr) {
+        const video::IRenderTarget* target = manager->driver->m_renderTargets.back().get();
+        return static_cast<float>(target->m_width) / static_cast<float>(target->m_height);
+    }
+    return floatFromBits(0x3FAAAAABu);
 }
 
 }  // namespace
@@ -83,7 +94,7 @@ CCameraSceneNode::CCameraSceneNode(int nodeId, const core::vector3d<float>& node
 CCameraSceneNode::~CCameraSceneNode() = default;
 
 // 0x582160 _ZNK6glitch5scene16CCameraSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// The ISceneNode attributes, then Target, UpVector, Fovy, Aspect, ZNear and ZFar. PARTIAL: the ISceneNode options caveat applies.
+// The ISceneNode attributes, then Target, UpVector, Fovy, Aspect, ZNear and ZFar.
 void CCameraSceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const {
     ISceneNode::serializeAttributes(attributes, options);
     attributes->addVector3d("Target", target, false);
@@ -96,14 +107,14 @@ void CCameraSceneNode::serializeAttributes(io::IAttributes* attributes, io::SAtt
 
 // 0x582948 _ZN6glitch5scene16CCameraSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // The ISceneNode attributes, then Target, UpVector, Fovy, ZNear and ZFar; the aspect ratio is not read: it comes from the
-// driver's render target when a driver is attached (PARTIAL: the driver is not ported, so the default 4:3, 0x3FAAAAAB, is used).
+// current render target of the scene manager's driver (width over height; 4:3, 0x3FAAAAAB, without a driver).
 // Ends with recalculateProjectionMatrix() and recalculateViewArea().
 void CCameraSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) {
     ISceneNode::deserializeAttributes(attributes, options);
     target = attributes->getVector3d("Target");
     upVector = attributes->getVector3d("UpVector");
     fov = attributes->getFloat("Fovy");
-    aspectRatio = floatFromBits(0x3FAAAAABu);
+    aspectRatio = renderTargetAspectRatio(sceneManager);
     nearValue = attributes->getFloat("ZNear");
     farValue = attributes->getFloat("ZFar");
     recalculateProjectionMatrix();
@@ -125,10 +136,15 @@ int CCameraSceneNode::onRegisterSceneNode() {
 }
 
 // 0x5820e4 _ZN6glitch5scene16CCameraSceneNode6renderEPv
-// PARTIAL, stub: the original reads the scene manager's driver (+0x14); when it is set it calls the driver virtual at Hex-Rays +108
-// twice, first with state 2 and the projection matrix, then with state 0 and the view matrix. The video driver interface is
-// glitch-video's and is not called from here, so this body does nothing.
-void CCameraSceneNode::render(void* /*renderContext*/) {}
+// With a driver on the scene manager (+0x14): setTransform (vptr+0x6c) with state 2 and the projection matrix, then with state 0 and
+// the view matrix. The original dereferences the scene manager without a test; a camera that is not attached to one does nothing here.
+void CCameraSceneNode::render(void* /*renderContext*/) {
+    video::IVideoDriver* driver = sceneManager != nullptr ? sceneManager->driver : nullptr;
+    if (driver != nullptr) {
+        driver->setTransform(2, frustum.projectionMatrix);
+        driver->setTransform(0, frustum.viewMatrix);
+    }
+}
 
 // 0x582130 _ZNK6glitch5scene16CCameraSceneNode14getBoundingBoxEv
 // Original returns this + 0x1d4, the box of the frustum member (frustum +0x6c).
@@ -151,13 +167,10 @@ E_SCENE_NODE_TYPE CCameraSceneNode::getType() const {
 }
 
 // 0x582aa0 _ZN6glitch5scene16CCameraSceneNode21onChangedSceneManagerEv
-// PARTIAL. Without a manager (or without its driver) the aspect ratio is 0x3FAAAAAB; with a driver it is the render target's
-// width over height, which is glitch-video's state and is not read here (the aspect ratio is left as it is). Then
-// recalculateProjectionMatrix() (vptr+0x158) and recalculateViewArea().
+// Without a manager (or without its driver) the aspect ratio is 0x3FAAAAAB; with a driver it is the current render target's width
+// over height. Then recalculateProjectionMatrix() (vptr+0x158) and recalculateViewArea().
 void CCameraSceneNode::onChangedSceneManager() {
-    if (sceneManager == nullptr || sceneManager->driver == nullptr) {
-        aspectRatio = floatFromBits(0x3FAAAAABu);
-    }
+    aspectRatio = renderTargetAspectRatio(sceneManager);
     recalculateProjectionMatrix();
     recalculateViewArea();
 }

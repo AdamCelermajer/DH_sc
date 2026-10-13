@@ -18,8 +18,10 @@
 #include "dh2/Application.hpp"
 #include "dh2/CameraLevel.hpp"
 #include "dh2/CharAI.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/CharAnimator.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/ObjectHandle.hpp"
@@ -402,16 +404,19 @@ int FindNameIndex(const pydata::NameTable& table, const char* name) {
     return -1;
 }
 
+// The trace probe the original makes before the spell, skill, ranged, interact and melee attack branches of _OnAnimEvent (DebugSwitches::load, then
+// GetSwitch with the std::string "isTracingCharAI_AnimEvent", built by a compiler clone of the string constructor at 0x3d43ec). The result is unused.
+void ProbeTracingAnimEvent() {
+    DebugSwitches::GetInstance()->GetSwitch("isTracingCharAI_AnimEvent");
+}
+
 }  // namespace
 
 // 0x3d4434 CharAI::_OnAnimEvent(char const*)
 // The prefixes route the event: "ev_" goes to the virtual OnAnimEvent (the script hook), "an_" to _ParseObjectAnimEvent,
 // "fx_" to the animated effect table, "sfx_" to the sound table. Any other name is handled by the loaded state:
 // 5 (attack) picks the attack event, 6 (skill) "do_skill", 7 (spell) "do_spell", 13 (interact) "interact".
-// PARTIAL: the trace probes (DebugSwitches::load and GetSwitch on a stack-built name before each branch) are not written,
-// because their names are built on the stack and are not recovered. Their result is discarded, so the only possible effect is
-// the lazy load of the switch table. The "sfx_" branch looks the sound up but does not play it: VoxSoundManager::Play3D is not
-// declared in the tree (vox-audio has only SetIPodShuffle, UpdateIPodAsync and ConvertVisual3DToSound3D).
+// Every attack, skill, spell and interact branch first makes the "isTracingCharAI_AnimEvent" trace probe (ProbeTracingAnimEvent).
 bool CharAI::_OnAnimEvent(const char* name) {
     const int stepIndex = m_character->CharAnimator::ANIM_GetStepIndex();
     m_character->CharAnimator::ANIM_GetStepCount();
@@ -431,10 +436,13 @@ bool CharAI::_OnAnimEvent(const char* name) {
         return true;
     }
     if (std::strncmp(name, "sfx_", 4) == 0) {
-        // PARTIAL: the original plays the sound (Arrays::Sounds index, -1 when absent) at the target position through
-        // VoxSoundManager::Play3D on the sound manager. Play3D is not declared, so only the lookup is written.
+        // The sound (Arrays::Sounds index, -1 when absent) plays at the owner's target position: Play3D(sound, position, false, 1, -1.0, -1.0).
         const int soundId = FindNameIndex(Arrays::Sounds::m_memberNames, name + 4);
-        (void)soundId;
+        if (soundId != -1) {
+            const Point3D<float>& target = m_character->GetTargetPosition();
+            const glitch::core::vector3d<float> position{target.X, target.Y, target.Z};
+            VoxSoundManager::s_instance->Play3D(soundId, position, false, 1, -1.0f, -1.0f);
+        }
         return true;
     }
     switch (m_character->CharStateMachine::SM_GetState()) {
@@ -445,32 +453,37 @@ bool CharAI::_OnAnimEvent(const char* name) {
             if (m_character->CanRangeAttack(unusedA, unusedB, projectileIndex)) {
                 if (std::strcmp(name, "attack_ranged") == 0 || std::strcmp(name, "attack_mainhand") == 0 ||
                     std::strcmp(name, "do_skill") == 0) {
-                    // PARTIAL: the original plays a DebugSwitches trace probe first (not written, see above). Then it spawns
-                    // projectile projectileIndex owned by m_character, with CharAI::_HandleProjectile as the callback.
+                    // The trace probe, then projectile projectileIndex is spawned owned by m_character with CharAI::_HandleProjectile as the callback.
+                    ProbeTracingAnimEvent();
                     Singleton<ProjectileManager>::s_inst.Spawn(projectileIndex, m_character, nullptr, nullptr,
                                                                &CharAI::_HandleProjectile, nullptr, false);
                 }
             } else if (std::strcmp(name, "attack_mainhand") != 0) {
                 if (std::strcmp(name, "attack_offhand") == 0) {
+                    ProbeTracingAnimEvent();
                     OnAttack(m_attackStep, stepIndex - 1, true);
                 }
             } else {
+                ProbeTracingAnimEvent();
                 OnAttack(m_attackStep, stepIndex - 1, false);
             }
             break;
         }
         case 6:
             if (std::strcmp(name, "do_skill") == 0) {
+                ProbeTracingAnimEvent();
                 _SkillEvent();
             }
             break;
         case 7:
             if (std::strcmp(name, "do_spell") == 0) {
+                ProbeTracingAnimEvent();
                 _SpellEvent();
             }
             break;
         case 13:  // 0xD
             if (std::strcmp(name, "interact") == 0) {
+                ProbeTracingAnimEvent();
                 OnInteract();
             }
             break;

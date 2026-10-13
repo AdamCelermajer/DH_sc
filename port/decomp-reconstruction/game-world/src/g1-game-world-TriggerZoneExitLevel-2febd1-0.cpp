@@ -2,16 +2,24 @@
 // Reconstructed from the Hex-Rays pseudocode of libDungeonHunter2.so. The layout is in dh2/TriggerZoneExitLevel.hpp.
 // Offsets in the comments are the original 32-bit ones.
 //
-// Include conflict (affects InitPost and Update, both PARTIAL). dh2/TriggerZone.hpp pulls in
-// net-transport/deps/byte_array.hpp, which defines an inline CustomFree. Character.hpp (through CharProperties and
-// pydata-accessors/structs_records.hpp), structs_records.hpp itself and pydata-accessors/member_names.hpp each pull in
-// pydata-accessors/deps/stream_reader.hpp, which defines a second inline CustomFree. member_names.hpp and
-// w7_arrays_00.hpp also define the same Arrays structs. A translation unit that includes the owner header therefore
-// cannot include Character.hpp, structs_records.hpp or member_names.hpp until those duplicates are resolved in their
-// deps headers (outside this batch: those headers are read-only here).
+
 #include "dh2/TriggerZoneExitLevel.hpp"
 
 #include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/item_instance.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "gameswf/gameswf_root.h"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance()
@@ -37,13 +45,12 @@ TriggerZoneExitLevel::~TriggerZoneExitLevel() {
 }
 
 // 0x39c8c8 TriggerZoneExitLevel::InitPost()
-// PARTIAL: the name lookup is not built (see the include conflict above), so m_levelIndex stays -1.
+// TriggerZone::InitPost, then a non-empty m_levelName (the original compares the string's start and end pointers) is searched in Arrays::LevelList and the index stored in m_levelIndex (+0x7d4).
 void TriggerZoneExitLevel::InitPost() {
     TriggerZone::InitPost();
-    // The original resolves m_levelName when it is not empty (its two string pointers at +0x7ec and +0x7f0 differ;
-    // the end pointer is at +0x7ec, as in std::priv::_String_base::_M_allocate_block, 0x31167c) with
-    // Arrays::GetMemberIDByString<Arrays::LevelList>(m_levelName.c_str()) and stores the id at +0x7d4 (m_levelIndex).
-    // That template is declared in pydata-accessors/member_names.hpp, which cannot be included here.
+    if (!m_levelName.empty()) {
+        m_levelIndex = pydata::FindMemberName(Arrays::LevelList::m_memberNames, static_cast<int>(Arrays::LevelList::size), m_levelName.c_str());
+    }
 }
 
 // 0x39c8f8 TriggerZoneExitLevel::DeclareProperties()
@@ -60,30 +67,18 @@ void TriggerZoneExitLevel::DeclareProperties() {
 }
 
 // 0x39c33c TriggerZoneExitLevel::Update()
-// PARTIAL. Rebuilt: the idle sound, the refresh of unk_3c0 (+0x3c0, with the online test stubbed) and the return while
-// the current level is not loaded. Not rebuilt, in the original order:
-//   1. The first test reads COnline::isOnlineGame_ (GetOnline() +0x05). In net-session-online/include/net-session-online/
-//      c_online.hpp that flag is protected with no accessor, so it is stubbed to false (offline) below and GetOnline() is
-//      not called. In an online game the original skips the refresh when IsRemotelyUpdated() is true; this build always
-//      refreshes. A public accessor for the flag is needed (layout request).
-//   2. Reading the local player (PlayerManager::GetLocalPlayer(0, true), PlayerInfo +0x660 Character) and the
-//      fast travel unlock (Character::SG_SetFastTravelIdUnlocked(m_fastTravelId, true, -1), once unk_3c0 is set and
-//      m_fastTravelUnlocked is clear). Needs Character.hpp (include conflict above).
-//   3. The touch test: GameObject::IsTouching(character), PlayerManager::IsLocalPlayerHosting() and
-//      GameObject::MeetCondition(). The first needs Character.hpp (include conflict above).
-//   4. GameObject::RequireOnlineUpdate(), then, when m_levelIndex is not -1 and m_fastTravelShown is clear, the
-//      DisplayFastTravel call with show = true, or with show = false when the test in step 3 fails and the panel is
-//      shown. The panel call takes the localized level name (StringManager::getString of the LevelList row's +0x24 word,
-//      Structs::LevelDeclaration::m_w9), the level name and the entry point (+0x7f4). It needs member_names.hpp and
-//      structs_records.hpp (include conflict above). The local player's Character null case is the hide path.
+// The idle sound is updated when the object has one (m_idleSoundId, +0x370). The activating player count (unk_3c0) is refreshed unless the zone is remotely updated online. Nothing more happens while a
+// current level exists but is not loaded. With a local player's Character: once the count is non-zero the fast travel point m_fastTravelId is unlocked for it (SG_SetFastTravelIdUnlocked(id, true, -1),
+// once). When that character touches the zone, this device hosts and the condition holds: RequireOnlineUpdate runs and, with a level index and the panel not yet shown, the HUD root's
+// DisplayFastTravel(true, localized level name, level name, entry point) callback is invoked. In every other case, a shown panel is hidden with DisplayFastTravel(false, ...).
+// The localized name is StringManager::getString of Arrays::LevelList row +0x24 (Structs::LevelDeclaration m_w9) for the level m_levelName.
 void TriggerZoneExitLevel::Update() {
     // GameObject +0x370 m_idleSoundId, -1 when the object has no idle sound.
     if (m_idleSoundId >= 0) {
         GameObject::UpdateIdleSound();
     }
 
-    constexpr bool kOnlineGameFlag = false;  // stub for COnline +0x05, see step 1 above
-    if (!kOnlineGameFlag || !IsRemotelyUpdated()) {
+    if (!GetOnlineGameFlag() || !IsRemotelyUpdated()) {
         unk_3c0 = Trigger::GetNumPlayerActivating();  // +0x3c0
     }
 
@@ -93,5 +88,36 @@ void TriggerZoneExitLevel::Update() {
         return;
     }
 
-    // Steps 2 to 4 above are not rebuilt in this translation unit.
+    auto displayFastTravel = [this](bool show) {
+        const int row = pydata::FindMemberName(Arrays::LevelList::m_memberNames, static_cast<int>(Arrays::LevelList::size), m_levelName.c_str());
+        const Structs::LevelDeclaration& declaration = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members)[row];
+        const char* text = ApplicationGetStringManager()->getString(declaration.m_w9);
+        gameswf::as_value arguments[4];
+        arguments[0] = gameswf::as_value(show);
+        arguments[1] = gameswf::as_value(text);
+        arguments[2] = gameswf::as_value(m_levelName.c_str());
+        arguments[3] = gameswf::as_value(static_cast<double>(m_entrypointID));
+        MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+        hud->InvokeASCallback(hud->GetRoot()->get_root_movie(), "DisplayFastTravel", arguments, 4);
+    };
+
+    Character* local = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    if (local != nullptr) {
+        if (unk_3c0 != 0 && !m_fastTravelUnlocked) {
+            local->SG_SetFastTravelIdUnlocked(m_fastTravelId.c_str(), true, -1);
+            m_fastTravelUnlocked = true;   // +0x818
+        }
+        if (IsTouching(local) && dword_99F76C->IsLocalPlayerHosting() && MeetCondition()) {
+            RequireOnlineUpdate();
+            if (m_levelIndex != -1 && !m_fastTravelShown) {
+                displayFastTravel(true);
+                m_fastTravelShown = true;  // +0x819
+            }
+            return;
+        }
+    }
+    if (m_fastTravelShown) {
+        displayFastTravel(false);
+        m_fastTravelShown = false;
+    }
 }

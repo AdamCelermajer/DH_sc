@@ -90,6 +90,14 @@ void AISDefault::OnCollisionEnd(GameObject* /*other*/, bool /*flag*/) {
 // 0x3dbf68 AISDefault::OnCollisionResult(GameObject*,bool)
 void AISDefault::OnCollisionResult(GameObject* /*other*/, bool /*flag*/) {}
 
+// AISDefault::AISDefault(bool)  (inlined into CharAI::SetScript<AISDefault> at 0x3cce14, 0x3ccbe4, 0x3cccf8 and 0x3cd11c)
+// CharAIScript(skipBindings), then the callback mask words unk_b8, unk_bc and unk_c0 are cleared.
+AISDefault::AISDefault(bool skipBindings) : CharAIScript(skipBindings) {
+    unk_b8 = 0;
+    unk_bc = 0;
+    unk_c0 = 0;
+}
+
 // 0x3dbf6c AISDefault::~AISDefault()
 // The base-object destructor. It stores AISDefault's vtable and runs CharAIScript::~CharAIScript, which is exactly what the
 // compiler generates for a defaulted destructor. The deleting variant (0x3dc968) is compiler generated and not in this batch.

@@ -1,20 +1,18 @@
 // ObjectManager, part 4 of 4 (batch g1-game-world-ObjectManager-5017c7-3).
 // Reconstructed from the Hex-Rays pseudocode and the disassembly of libDungeonHunter2.so. Offsets in comments are the
 // original 32-bit ones.
-//
-// Spawn is complete. The 5-argument LoadFromXML is partial: everything after its null-element ASSERT needs
-// TiXmlElement::Attribute, which tinyxml-and-c-libs/include/tinyxml-and-c-libs/tixml_dh.hpp does not declare. The
-// 2-argument LoadFromXML forwards exactly as the original does, but it is partial as well, because the int that the
-// original returns cannot be carried (the header declares void; see the ledger rows).
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <string>
 
+#include "dh2/GameObject.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/Point3D.hpp"
+#include "tinyxml-and-c-libs/tixml_dh.hpp"
 
 // The global assert level (gAssertLevel at 0x99f914). It is declared here as in the other ObjectManager parts.
 extern int gAssertLevel;
@@ -45,9 +43,8 @@ void ReportAssert(const char* expression, int line) {
 //   m_gameType (+0x48) = type,
 //   when the third parameter is false: InitPost() (vtable +0x1c), then TestEnableCondition(true),
 //   when IsUpdatable() (vtable +0x38) is true: the object is appended to m_spawnList (+0x34).
-// The parameter names follow the header. The disassembly confirms only the positions: the third parameter gates the
-// init pair and the fourth feeds GetNewObject's active flag. Whether those names are right is not confirmed.
-// Objects are created through GetNewObject (0x34b520), which is partial, so a null handle comes back until it is written.
+// The parameter names follow the header; the disassembly fixes the positions: the third parameter gates the init pair and the fourth feeds
+// GetNewObject's active flag. Objects are created through GetNewObject (0x34b520).
 ObjectHandle ObjectManager::Spawn(char const* type, char const* name, bool active, bool silent) {
     ObjectHandle handle = GetNewObject(type, name, -1, silent);
     if (handle.GetObject(false) != nullptr) {
@@ -67,34 +64,52 @@ ObjectHandle ObjectManager::Spawn(char const* type, char const* name, bool activ
 }
 
 // 0x34b868 ObjectManager::LoadFromXML(TiXmlElement*,char const*,Point3D<float> const&,int)
-// PARTIAL. Written: the null-element ASSERT (line 524), which returns after the report.
-// Not written: the rest of the body. It reads the attributes "gametype", "name" and "template" through
-// TiXmlElement::Attribute, which tixml_dh.hpp does not declare (it has Value() only). The disassembly gives the rest:
-//   1. gametype and name must both be non-null, and a non-null type filter must be equal to gametype (strcmp); otherwise return.
-//   2. name "_prim_PlayerLight" becomes "<name>_S" with flags -1. The other sprintf results in the original are dead.
-//   3. handle = GetNewObject(gametype, name, flags, true). The active flag is the constant 1 in the disassembly, and
-//      Hex-Rays drops it from the call.
-//   4. A null object returns. Otherwise: InitProperties; SetTemplate(template) when template is set; LoadDefaultProperties;
-//      LoadOverridesFromXML(element); when gametype is "LevelConfig", InitPost().
-//   5. When IsGameObject() (vtable +0x20) is true: the new position is the object's m_position (+0x160) plus pos,
-//      component by component, and SetPosition(position, true).
-// The original returns an int: strcmp's result on a type mismatch, the name pointer when gametype is missing, 0 on the
-// other early exits, and what SetPosition leaves in r0 on success. This header declares void, so the value is not
-// reproduced. Level::_LoadFromXML reads it (see the Level-7c7f5d-1 note).
+// A null element fails ASSERT(element) at line 524 and returns. The element's "gametype" and "name" attributes must both exist, and a non-null type filter must equal the game type; otherwise
+// nothing is created. The name "_prim_PlayerLight" becomes "<name>_S" and the flags -1 (every other name is kept: the original's sprintf results for them are dead). The object is made with
+// GetNewObject(gametype, name, flags, true); a null object ends the function. Otherwise its properties are initialised, the "template" attribute (when present) becomes its property template,
+// the defaults and then the element's overrides are loaded, a LevelConfig also runs InitPost, and a GameObject is moved to its position plus pos (SetPosition(position, true)). The original
+// returns an int that is a leftover of the paths above (the strcmp result, the name pointer or the SetPosition register); no caller depends on it, so the function is void.
 void ObjectManager::LoadFromXML(TiXmlElement* element, char const* type, Point3D<float> const& pos, int flags) {
     if (element == nullptr) {
         ReportAssert("element", 524);
         return;
     }
-    // NOT WRITTEN: see the row note.
-    (void)type;
-    (void)pos;
-    (void)flags;
+    const char* gameType = element->Attribute("gametype");
+    const char* name = element->Attribute("name");
+    if (name == nullptr || gameType == nullptr) {
+        return;
+    }
+    if (type != nullptr && std::strcmp(type, gameType) != 0) {
+        return;
+    }
+    std::string objectName(name);
+    if (std::strcmp(name, "_prim_PlayerLight") == 0) {
+        objectName += "_S";
+        flags = -1;
+    }
+    ObjectHandle handle = GetNewObject(gameType, objectName.c_str(), flags, true);
+    if (handle.GetObject(false) == nullptr) {
+        return;
+    }
+    handle.GetObject(true)->PropertyMap::InitProperties();
+    if (const char* templateName = element->Attribute("template")) {
+        handle.GetObject(true)->PropertyMap::SetTemplate(std::string(templateName));
+    }
+    handle.GetObject(true)->PropertyMap::LoadDefaultProperties();
+    handle.GetObject(true)->PropertyMap::LoadOverridesFromXML(element);
+    if (std::strcmp(gameType, "LevelConfig") == 0) {
+        handle.GetObject(true)->InitPost();
+    }
+    if (handle.GetObject(true)->IsGameObject()) {
+        GameObject* gameObject = handle;
+        const Point3D<float> position{gameObject->m_position.X + pos.X, gameObject->m_position.Y + pos.Y,
+                                      gameObject->m_position.Z + pos.Z};
+        gameObject->SetPosition(position, true);
+    }
 }
 
 // 0x34bbe4 ObjectManager::LoadFromXML(TiXmlElement*,char const*)
-// PARTIAL. The original zeroes a Point3D (memset of 12 bytes) and calls the 5-argument overload with flags -1, and this
-// version does the same. The int return of the 5-argument overload is not carried (see 0x34b868).
+// The original zeroes a Point3D (memset of 12 bytes) and calls the 5-argument overload with flags -1; this version does the same. The int the original returns is the other overload's leftover value (see 0x34b868).
 void ObjectManager::LoadFromXML(TiXmlElement* element, char const* type) {
     Point3D<float> origin{0.0f, 0.0f, 0.0f};  // memset(v4, 0, 12)
     LoadFromXML(element, type, origin, -1);

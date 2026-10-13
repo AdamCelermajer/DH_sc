@@ -1,7 +1,6 @@
 // Batch g1-game-character-Character-ee9946-2: part 3 of the Character functions (queries on the character
 // tables, the combat and quest helpers, the multiplayer and FX helpers, and the AI pointer refresh).
-// Declarations come from dh2/Character.hpp. Partial bodies name the missing field, table or callee in a
-// PARTIAL comment; the ledger rows in game-character/ledger.d/g1-game-character-Character-ee9946-2.csv repeat it.
+// Declarations come from dh2/Character.hpp.
 //
 // The table getters GetCharSoundsId, GetCharSounds, GetFXFootprint, GetFXBloodDeath, GetFXBlood, GetAttackDelay and
 // HasComboAttack read the table rows as host elements (the convention of GetCharAI in batch -1). The raw ids are
@@ -10,11 +9,19 @@
 #include <cstdint>
 #include <cstring>
 
+#include "dh2/AnimatedFX.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/Quest.hpp"
 #include "dh2/Singleton.hpp"
 #include "dh2/TrophyManager.hpp"
 #include "dh2/VisualFXManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/Vec3f_Origin.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+#include "pydata-accessors/name_table.hpp"
 #include "pydata-accessors/w7_arrays_02.hpp"
 #include "pydata-accessors/w7_arrays27.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
@@ -191,19 +198,34 @@ void Character::DisableStateFX() {
 }
 
 // 0x3a41a0 _ZN9Character23AddMultiplayerHighlightEv
+// Without a highlight yet, the player's number (PlayerInfo +0x678, 0 to 3) picks the effect "multiplayer_player01_glow" plus that number in
+// Arrays::AnimatedEffectTable. The effect is grabbed, placed at the origin offset, hidden, owned by this character and set looping.
 void Character::AddMultiplayerHighlight() {
     if (m_multiplayerHighlightFX != nullptr) {
         return;
     }
-    // PARTIAL: with no highlight yet, the original (1) gets this character's player record through
-    // PlayerManager::GetPlayerByCharacter (declared in dh2/PlayerManager.hpp) and reads its slot word (+0x678, 0..3),
-    // (2) scans the names of Arrays::AnimatedEffectTable from index 0 for "multiplayer_player01_glow", (3) grabs the
-    // effect at the found index plus the slot through VisualFXManager::GrabAnimFX and stores it in
-    // m_multiplayerHighlightFX, (4) copies Vec3f_Origin into the effect words +0x34..+0x3c, runs AnimatedFX::SyncIrrData
-    // and SetVisible, stores this character at effect +0x28 and syncs again, and (5) calls two virtual slots of the
-    // effect's animator (+0x44 and +0x40). dh2/PlayerInfo.hpp (the record and its slot word) and dh2/VisualFXManager.hpp
-    // do not exist yet, Vec3f_Origin has no declaration, and AnimatedFX +0x28 and +0x34..+0x3c are unnamed, so none of
-    // these steps are made here.
+    const std::int32_t slot = dword_99F76C->GetPlayerByCharacter(this, false)->unk_678;
+    if (slot > 3) {
+        return;
+    }
+    const int index = pydata::FindMemberName(Arrays::AnimatedEffectTable::m_memberNames, static_cast<int>(Arrays::AnimatedEffectTable::size),
+                                             "multiplayer_player01_glow");
+    if (index == -1) {
+        return;
+    }
+    m_multiplayerHighlightFX = VisualFXManager::s_inst.GrabAnimFX(index + slot, nullptr);
+    AnimatedFX* fx = m_multiplayerHighlightFX;
+    if (fx == nullptr) {
+        return;
+    }
+    std::memcpy(&fx->unk_34, &Vec3f_Origin.X, sizeof(float));
+    std::memcpy(&fx->unk_38, &Vec3f_Origin.Y, sizeof(float));
+    std::memcpy(&fx->unk_3c, &Vec3f_Origin.Z, sizeof(float));
+    fx->SyncIrrData(false);
+    fx->SetVisible(false);
+    fx->unk_28 = this;
+    fx->SyncIrrData(true);
+    fx->GetAnimator()->getTimelineCtrl()->setLoop(true);
 }
 
 // 0x3a4344 _ZN9Character16UpdateAIPointersEv
@@ -218,10 +240,19 @@ void Character::UpdateAIPointers() {
 }
 
 // 0x3a4398 _ZN9Character15SetRelativeAABBERK4aabbIfEb
+// The six floats of the box become m_relAabb (+0x144); unless update is set they are scaled by the character's size percent (m_props.m_w17, Character +0x1038)
+// times 0.01. GameObject::SetRelativeAABB then runs on the character's own m_relAabb.
 void Character::SetRelativeAABB(const aabb<float>& box, bool update) {
-    // PARTIAL: when update is false the original scales the six floats of box by (m_props.m_w17, the Character +0x1038
-    // percent word, times 0.01f) before the GameObject call. The scale is not applied here: aabb<float> is only
-    // forward-declared in the game headers, so its six floats cannot be read or rebuilt in this translation unit.
-    // With update set the call matches the original; GameObject::SetRelativeAABB copies the box into m_relAabb (+0x144).
-    GameObject::SetRelativeAABB(box, update);
+    float source[6];
+    std::memcpy(source, &box, sizeof source);
+    for (int i = 0; i < 6; ++i) {
+        m_relAabb[i] = source[i];
+    }
+    if (!update) {
+        const float scale = static_cast<float>(m_props.m_w17) * 0.01f;
+        for (int i = 0; i < 6; ++i) {
+            m_relAabb[i] = scale * source[i];
+        }
+    }
+    GameObject::SetRelativeAABB(reinterpret_cast<const aabb<float>&>(m_relAabb), update);
 }

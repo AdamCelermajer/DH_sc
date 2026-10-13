@@ -6,18 +6,13 @@
 // comments are the original 32-bit ones. Partial functions name the blocked part in their comment; the ledger notes
 // repeat the reason.
 //
-// Blocked in this batch:
-//  - Arrays::TriggerTraps::m_memberNames is declared in pydata-accessors/member_names.hpp, and members and size in
-//    w7_arrays27.hpp. Both headers define struct Arrays::TriggerTraps, so one translation unit cannot include both.
-//    GetDataId and Create do not read or write the name table (layout request).
-//  - VoxSoundManager::s_instance, VoxSoundManager::LoadSound(int) and VoxSoundManager::Play3D are not declared anywhere in
-//    the tree (vox-audio's sound_manager.hpp declares only the iPod members and ConvertVisual3DToSound3D). InitPost and
-//    Activate do not play their sounds (layout request).
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 
+#include "pydata-accessors/name_table.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/AnimController.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/ObjectBase.hpp"
@@ -174,20 +169,14 @@ void TriggerTrap::_Remove(const sfc::script::lua::Arguments& /*args*/, sfc::scri
 }
 
 // 0x39de6c TriggerTrap::GetDataId() const
-// PARTIAL: the original returns the first index in Arrays::TriggerTraps::m_memberNames (scanned up to
-// Arrays::TriggerTraps::size) whose name equals the data string, or -1 when the table is empty or nothing matches. The
-// data string is the word at +0x3bc in the listing, the data pointer of m_data (+0x3a8). The name table is not reachable
-// from this translation unit (layout request), so -1 is returned. CONSEQUENCE: no data row is resolved, so InitPost
-// leaves m_dataIndex at -1 and the row getters fall back to their no-row results.
+// The first index in Arrays::TriggerTraps::m_memberNames (scanned up to Arrays::TriggerTraps::size) whose name equals the data string m_data (+0x3a8, its data pointer is the word the listing reads at +0x3bc), or -1.
 int TriggerTrap::GetDataId() const {
-    return -1;
+    return pydata::FindMemberName(Arrays::TriggerTraps::m_memberNames, static_cast<int>(Arrays::TriggerTraps::size), m_data.c_str());
 }
 
 // 0x39dee0 TriggerTrap::InitPost()
-// PARTIAL: the sound load (VoxSoundManager::s_instance->LoadSound(GetSound()) when s_instance is set) is not made, since
-// VoxSoundManager does not declare s_instance or LoadSound (layout request). Everything else is written in the original
-// order: the spawn probability gate, the data id, the m_dae name, Zone::InitPost, the MeetCondition branch with the spawn
-// clip and the idle clip, the script load, and the hidden branch.
+// In the original order: the spawn probability gate, the data id, the m_dae name, Zone::InitPost, the MeetCondition branch with the spawn clip and the idle clip, the sound load
+// (VoxSoundManager::LoadSound(GetSound()) when the manager exists), the script load, and the hidden branch.
 void TriggerTrap::InitPost() {
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {  // +0x274
         m_dataIndex = GetDataId();                             // +0x3c0, the vtable slot 0xd8 call
@@ -214,7 +203,9 @@ void TriggerTrap::InitPost() {
                     anim->PlayClip("idle", true, 0, 0);
                 }
             }
-            // PARTIAL: VoxSoundManager::s_instance->LoadSound(GetSound()) is not made (see the comment above).
+            if (VoxSoundManager::s_instance != nullptr) {
+                VoxSoundManager::s_instance->LoadSound(GetSound());
+            }
             LoadExternalScript(GetScript(), "data/scripts/objects/");
         } else {
             SetVisible(false);  // vtable +0x40, with r1 = 0 (the MeetCondition result)
@@ -223,9 +214,7 @@ void TriggerTrap::InitPost() {
 }
 
 // 0x39e198 TriggerTrap::Activate()
-// PARTIAL: the 3D sound that plays when m_dataIndex >= 0 is not made (VoxSoundManager::s_instance and Play3D are not
-// declared, layout request). The visual branch and the victim reset are written. With a visual, the trap is marked
-// activated and its "activate" clip plays. Without one, the victims are cleared.
+// With a visual, the trap is marked activated and its "activate" clip plays. Without one, the victims are cleared. With a data row (m_dataIndex >= 0) the trap's sound plays in 3D at its position.
 void TriggerTrap::Activate() {
     if (m_visualObject != nullptr) {  // +0x2d8
         m_activated = true;           // +0x3c4
@@ -235,15 +224,14 @@ void TriggerTrap::Activate() {
         m_victims.clear();            // the tree at +0x3e0 is erased and its header reset
     }
     if (m_dataIndex >= 0) {
-        // NOT MADE: VoxSoundManager::s_instance->Play3D(GetSound(), position (+0x160..+0x168), false, 1, -1.0f, -1.0f).
+        const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
+        VoxSoundManager::s_instance->Play3D(GetSound(), at, false, 1, -1.0f, -1.0f);
     }
 }
 
 // 0x39e298 TriggerTrap::Create(GameObject*, int, int)
 // Spawns a TriggerTrap object owned by owner, with trapIndex into Arrays::TriggerTraps and damagerIndex into
-// Arrays::GameObjectDamager. PARTIAL: m_data is not set to the row name, because Arrays::TriggerTraps::m_memberNames is not
-// reachable from this translation unit (layout request). Without m_data, GetDataId cannot match the row either. Written:
-// the owner assert (level 2 aborts, level 1 prints the message at line 229 and returns null), the spawn of a
+// Arrays::GameObjectDamager; m_data is set to the row name (Arrays::TriggerTraps::m_memberNames[trapIndex]). Steps: the owner assert (level 2 aborts, level 1 prints the message at line 229 and returns null), the spawn of a
 // "TriggerTrap_%04u" object through the ObjectManager instance, the GO id check (15), m_owner (+0x3f8), m_dataIndex
 // (+0x3c0), m_damagerIndex (+0x3fc), the position copy (+0x160..+0x168), InitPost, InitFinal and AddInitialObject on the
 // owner's room (+0x2f4) when it is set.
@@ -264,7 +252,7 @@ GameObject* TriggerTrap::Create(GameObject* owner, int trapIndex, int damagerInd
     TriggerTrap* trap = static_cast<TriggerTrap*>(object);
     trap->m_owner = owner;          // +0x3f8
     trap->m_dataIndex = trapIndex;  // +0x3c0
-    // NOT MADE: trap->m_data = Arrays::TriggerTraps::m_memberNames[trapIndex] (+0x3a8, the 24-byte std::string).
+    trap->m_data = Arrays::TriggerTraps::m_memberNames.names[trapIndex];   // +0x3a8, the 24-byte std::string
     trap->m_damagerIndex = damagerIndex;   // +0x3fc
     trap->m_position = owner->m_position;  // +0x160..+0x168, copied word by word in the original
     trap->InitPost();                      // vtable +0x1c

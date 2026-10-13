@@ -90,7 +90,7 @@ protected:
 };
 
 template <unsigned Bits, int Min, int Max>
-class NetStructInterpolatedRangedFloat : public NetStructMemberType<float>, public NetStructInterpolation<float> {
+class NetStructInterpolatedRangedFloat : public NetStructRangedFloat<Bits, Min, Max>, public NetStructInterpolation<float> {
 public:
     // 0x3a681c / 0x3a6920 _ZN32NetStructInterpolatedRangedFloat...C1Ef: sets the base fields (sizeBits =
     // Bits), stores the value with SetChanged when it differs from the stored one, then clears the ring.
@@ -105,7 +105,7 @@ public:
 
 template <unsigned Bits, int Min, int Max>
 NetStructInterpolatedRangedFloat<Bits, Min, Max>::NetStructInterpolatedRangedFloat(float value)
-    : NetStructMemberType<float>(static_cast<int>(Bits)) {
+    : NetStructRangedFloat<Bits, Min, Max>() {
     // The original sets the value and calls SetChanged when it differs from the stored value
     // (the stored value starts at zero), then zeroes the sample ring and sets the window to 40
     // (the member initialisers of NetStructInterpolation).

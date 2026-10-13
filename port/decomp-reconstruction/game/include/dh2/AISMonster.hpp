@@ -12,6 +12,8 @@ class Character;
 
 class AISMonster : public AISDefault {
 public:
+    explicit AISMonster(bool skipBindings);                             // inlined into CharAI::SetScript<AISMonster>: AISDefault(skipBindings)
+
     // Virtual hooks, in vtable slot order. Only the overrides are listed here. The rest are inherited from AISDefault.
     ~AISMonster() override;                                             // slot 0/1: 0x3dd498 (base object), 0x3dd7b0 (deleting)
     void OnUpdate() override;                                           // slot 6:  0x3dd588

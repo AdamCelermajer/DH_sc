@@ -7,11 +7,15 @@
 #include <cstdint>
 
 #include "glitch-shared/reference_counted.hpp"
+#include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/tb/renderpass_srenderstate.hpp"
 
 namespace glitch::video {
 
 class IVideoDriver;
+class CMaterial;
+class CMaterialRenderer;
+enum E_MATERIAL_TYPE : int;
 
 class CMaterialRendererManager {
 public:
@@ -103,6 +107,14 @@ public:
     void clearCreationState();
     // 0x5dc058. Partial: the warning log for a non-null name is not written.
     bool isCreatingTechnique(const char* name) const;
+
+    // Declared by the scene owner pass (R3b) for CSkyBoxSceneNode (type 11) and CBillboardTextSceneNode (type 9); the bodies are
+    // glitch-video's and are not in this port yet (the link stubs cover them). 0x5d8b28: the id of the renderer of a built-in type
+    // (created on first use). 0x5d9af0: a new material of that renderer (technique 0). getMaterialRenderer is the inline lookup in the
+    // SIDedCollection at +0x18 .. +0x1c (eight-byte entries) that the callers write out, null for an id past the end.
+    uint16_t createMaterialRenderer(E_MATERIAL_TYPE type);
+    boost::intrusive_ptr<CMaterial> createMaterialInstance(E_MATERIAL_TYPE type);
+    boost::intrusive_ptr<CMaterialRenderer> getMaterialRenderer(uint16_t id) const;
 
     IVideoDriver* m_driver = nullptr;               // +0x28
     SCreationState* m_creationState = nullptr;      // +0x90, open technique state (null when none)

@@ -31,7 +31,13 @@ class IWriteFile;
 class IFileList;
 class IXMLWriter;
 class IAttributes;
-struct SAttributeReadWriteOptions;
+// The options a serialization call carries (the last argument of IAttributeExchangingObject's two slots). Only the first
+// word is evidenced: a flag word the scene animators test with `& 2` (CSceneNodeAnimatorFollowSpline::serializeAttributes
+// 0x6ccef8 and CSceneNodeAnimatorTexture::serializeAttributes 0x6cdee4 add one terminating entry when it is set; the
+// matching deserializers drop it). The rest of the structure is not recovered.
+struct SAttributeReadWriteOptions {
+    std::uint32_t flags;  // +0x00
+};
 
 // Completion callback of the asynchronous reads: void (*)(int, int, IReadFile*, void*).
 using ReadAsyncCallBack = void (*)(int, int, IReadFile*, void*);

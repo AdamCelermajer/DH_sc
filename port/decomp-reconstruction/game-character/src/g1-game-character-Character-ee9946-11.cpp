@@ -92,11 +92,8 @@ void Character::_HasShield(const sfc::script::lua::Arguments& /*args*/, sfc::scr
 
 // 0x3b6fc4 _ZN9Character19_IsMasterHostPlayerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv
 // Character::_IsMasterHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL: exact in the closed gate only. When CharAI::m_master (+0x50, Character +0x418) is null the listing pushes
-// false and does not read the player manager. Otherwise it pushes whether the hosting player's character (PlayerInfo
-// +0x660, PlayerInfo::unk_660) is m_master. The hosting player is PlayerManager::GetHostingPlayer() on the PlayerManager
-// global dword_99F76C (dh2/global/IsMultiplayerGame.hpp). GetHostingPlayer is partial (ledger 0x36e09c): its open gate
-// needs the host member id, so in a multiplayer game the hosting player it returns is not yet exact.
+// Without a master (CharAI::m_master, +0x50, Character +0x418) false is pushed and the player manager is not read. Otherwise it pushes whether the hosting player's character
+// (PlayerManager::GetHostingPlayer() on the PlayerManager global dword_99F76C, then PlayerInfo::unk_660) is the master.
 void Character::_IsMasterHostPlayer(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& ret,
                                     void* userData) {
     const Character* self = static_cast<Character*>(userData);

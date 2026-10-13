@@ -41,6 +41,7 @@
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/Point3D.hpp"
 #include "dh2/Projectile.hpp"
+#include "dh2/global/Vec3f_K.hpp"
 #include "dh2/global/character_lua_bindings.hpp"
 #include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/sfc/script/lua/ReturnValues.hpp"
@@ -319,13 +320,12 @@ void Character::_SetScareState(const sfc::script::lua::Arguments& args, [[maybe_
 }
 
 // 0x3b97e0 _ZN9Character24_SetSkillCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv
-// PARTIAL. Checked in the assembly (0x3b97e0). Needs more than one argument. When args[0] is not a number, the skill index
+// Checked in the assembly (0x3b97e0). Needs more than one argument. When args[0] is not a number, the skill index
 // (getNumber, truncated to unsigned) must be below the count word (+4) of GetCharSkillList(), or the binding returns.
 // args[1] must be a number or nil, or it returns. slot = (int) getNumber(args[0]) indexes CharAI::m_skillScripts (self
 // +0x47c). When that script is non-null, its cooldown timer id (CharAISkillScript +0x18, m_cooldownTimerId) becomes
 // getUInteger(args[1]) for a number, and -1 for nil.
-// PARTIAL: for a slot outside m_skillScripts the original reads past the end of the vector (undefined). This port writes
-// nothing for such a slot.
+// For a slot outside m_skillScripts the original reads past the end of the vector (undefined); this port writes nothing for such a slot.
 void Character::_SetSkillCooldownTimerId(const sfc::script::lua::Arguments& args,
                                          sfc::script::lua::ReturnValues& /*ret*/, void* userData) {
     Character* self = static_cast<Character*>(userData);
@@ -546,20 +546,40 @@ void Character::_PlayAnim(const sfc::script::lua::Arguments& args, sfc::script::
 }
 
 // 0x3ba71c _ZN9Character7_HeadToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv
-// PARTIAL. Not written. The argument count chooses the form (the position arithmetic is from the listing):
-//   one argument, a light userdata (tag 2) or userdata (tag 7): v2Controller::Cmd_MoveTo(getUserData(args[0])) on the
-//     controller at self +0x378 (GameObject overload). One argument of any other tag: nothing.
-//   two arguments, or no argument: nothing.
-//   three or more arguments: needs args[0] a number, or args[1] a number, or args[2] a number. Otherwise nothing.
-//     Relative form, when there are four or more arguments and args[3] is boolean true:
-//       L = GameObject::GetLookAtVec(self), K = Vec3f_K (the 3-float global at 0x99f878; (0, 0, 1) per the game-world notes),
-//       pos = self m_position (+0x160) + t * (K x L) + f * L + u * K, with t = getNumber(args[0]), f = getNumber(args[1]),
-//       u = getNumber(args[2]). For K = (0, 0, 1), K x L is (-Ly, Lx, 0).
-//     Absolute form otherwise: pos = (getNumber(args[0]), getNumber(args[1]), getNumber(args[2])).
-//   Then v2Controller::Cmd_HeadTo(const Point3D&) runs on the controller at self +0x378 with pos.
-// Missing: the Arguments and Value accessors. Vec3f_K has no declaration in the tree.
-void Character::_HeadTo([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                        [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* userData) {}
+// The same argument dispatch as _MoveTo (checked in the listing). One argument, a light userdata (tag 2) or userdata (tag 7): Cmd_MoveTo(target) on the
+// controller at self +0x378, target = getUserData(args[0]) (the listing calls the MoveTo overload here, not HeadTo); one argument of any other tag
+// does nothing. Two arguments, or none, do nothing. Three or more need a number in args 0, 1 or 2. The point is (getNumber(args[0]), getNumber(args[1]),
+// getNumber(args[2])), or, when a fourth argument is a true boolean, the look-frame point LookFrameOffset(self m_position, look, Vec3f_K, t, f, u) with
+// look = GameObject::GetLookAtVec(self). Then Cmd_HeadTo(point) runs on the controller.
+void Character::_HeadTo(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/, void* userData) {
+    Character* self = static_cast<Character*>(userData);
+    const std::size_t count = LuaArgCount(args);
+    if (count == 1) {
+        if (!LuaArgHasTag(args, 0, kLuaTagLightUserData) && !LuaArgHasTag(args, 0, kLuaTagUserData)) {
+            return;
+        }
+        GameObject* target = static_cast<GameObject*>(args[0].getUserData());
+        self->v2Controllable::m_controller->Cmd_MoveTo(target);
+        return;
+    }
+    if (count <= 2) {
+        return;
+    }
+    if (!LuaArgHasTag(args, 0, kLuaTagNumber) && !LuaArgHasTag(args, 1, kLuaTagNumber) &&
+        !LuaArgHasTag(args, 2, kLuaTagNumber)) {
+        return;
+    }
+    Point3D<float> point{0.0f, 0.0f, 0.0f};
+    if (count > 3 && LuaArgHasTag(args, 3, kLuaTagBoolean) && args[3].getBool()) {
+        Point3D<float> look{0.0f, 0.0f, 0.0f};
+        self->GameObject::GetLookAtVec(look);
+        point = LookFrameOffset(self->GameObject::m_position, look, Vec3f_K, args[0].getNumber(), args[1].getNumber(),
+                                args[2].getNumber());
+    } else {
+        point = Point3D<float>{args[0].getNumber(), args[1].getNumber(), args[2].getNumber()};
+    }
+    self->v2Controllable::m_controller->Cmd_HeadTo(point);
+}
 
 // 0x3babdc _ZN9Character15_ApplyPropClassERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv
 // Needs args[0] a number, classId = getUInteger(args[0]). Returns when classId is above Arrays::ClassTable::size (the

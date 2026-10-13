@@ -193,7 +193,7 @@ CharStateMachine::CharStateMachine()
       m_interactTarget(nullptr),
       m_skillId(0),
       m_skillFlag(false),
-      unk_5c(0),
+      m_reviveTarget(nullptr),
       m_stateTime(0) {}
 
 // 0x3c2734 CharStateMachine::SM_SetSpawnState(bool,bool)
@@ -206,21 +206,21 @@ int CharStateMachine::SM_SetSpawnState(bool delayed, bool /*flag*/) {
         return _SetState(1, -1, nullptr);
     }
     Character* const ch = m_character;
-    int minDelay = ch->m_spawnDelay;  // +0x1434, int32 (LDR in the original)
+    int minDelay = ch->m_spawnDelay.X;  // +0x1434, int32 (LDR in the original)
     if (minDelay < 0) {
         minDelay = 0;
-        ch->m_spawnDelay = 0;
+        ch->m_spawnDelay.X = 0;
     }
-    const int maxDelay = ch->unk_1438;  // +0x1438, int32
+    const int maxDelay = ch->m_spawnDelay.Y;  // +0x1438, int32
     int high = 0;  // the original's v5
     int low = 0;   // the original's v8
     if (maxDelay >= minDelay) {
         low = minDelay;
         high = maxDelay;
     } else {
-        low = ch->m_spawnDelay;  // +0x1434 read again; equals minDelay after the clamp above
+        low = ch->m_spawnDelay.X;  // +0x1434 read again; equals minDelay after the clamp above
         high = minDelay;
-        ch->unk_1438 = minDelay;  // the maximum is raised to the minimum
+        ch->m_spawnDelay.Y = minDelay;  // the maximum is raised to the minimum
     }
     if (high == low) {
         if (high == 0) {

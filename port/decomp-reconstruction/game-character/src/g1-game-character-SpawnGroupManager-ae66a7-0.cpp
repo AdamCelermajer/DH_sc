@@ -10,9 +10,8 @@
 // Lists. The original closes each group's list with a sentinel inside GroupInfo; the port ends the list with nullptr
 // (see dh2/SpawnGroupManager.hpp). The behaviour is unchanged.
 //
-// Omitted, and the reason the function is partial: update() calls DebugSwitches::load and DebugSwitches::GetSwitch six
-// times. The std::string names in those calls come from stack buffers that update() never writes, so the names cannot be
-// recovered from the binary. The return values are unused. Only the load and lookup side effects are lost.
+// update() makes six trace probes, DebugSwitches::load then GetSwitch("isTracingSpawnGroupManager") (the name comes from a compiler clone of the
+// std::string constructor at 0x3e91f0); the results are unused.
 
 #include <algorithm>
 #include <cstdint>
@@ -23,6 +22,7 @@
 
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/DebugSwitches.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/Random.hpp"
@@ -95,6 +95,11 @@ void Unlink(SpawnGroupManager::GroupInfo& group, SpawnGroupManager::SpawnEntry* 
         group.m_spotsLast = entry->prev;
     }
     delete entry;
+}
+
+// The trace probe that update() makes at six points: DebugSwitches::load, then GetSwitch("isTracingSpawnGroupManager"); the result is unused.
+void ProbeTracingSpawnGroupManager() {
+    DebugSwitches::GetInstance()->GetSwitch("isTracingSpawnGroupManager");
 }
 
 // The Arrays::SpawnGroups record of a member id: members + 20 * id in the original, a host Structs::SpawnGroup here.
@@ -188,8 +193,7 @@ void SpawnGroupManager::DelSpawn(SpawnSpot* spot) {
 // spots drawn at random. The countdown is reset to the group's interval (Arrays::SpawnGroups +0x08), or to 1000 when no spot
 // is ready. The argument is not read; Level::Update passes 0.0.
 //
-// Omitted: the DebugSwitches probes (see the file comment). Each of the six points marked "probe" is a DebugSwitches::load
-// followed by a DebugSwitches::GetSwitch whose result is unused.
+// The six points marked "probe" make the "isTracingSpawnGroupManager" trace probe (see the file comment).
 void SpawnGroupManager::update(double /*dt*/) {
     static unsigned int spawnUniqueId = 0;  // SpawnGroupManager::update(double)::spawnUniqueId
 
@@ -203,7 +207,8 @@ void SpawnGroupManager::update(double /*dt*/) {
             continue;
         }
 
-        // The countdown ran out. The original runs its first DebugSwitches probe here, before the interval is stored.
+        // The countdown ran out. The first probe runs here, before the interval is stored.
+        ProbeTracingSpawnGroupManager();
         const Structs::SpawnGroup& record = SpawnGroupRecord(id);
         group.m_timer = record.m_w2;  // +0x08 of the record: the interval
         const std::uint32_t entryCount = record.m_w3;  // +0x0c
@@ -228,6 +233,7 @@ void SpawnGroupManager::update(double /*dt*/) {
         }
         // probe: the chosen entry's +0x0c is zero.
         if (chosen->m_w3 == 0) {
+            ProbeTracingSpawnGroupManager();
             continue;
         }
 
@@ -242,11 +248,11 @@ void SpawnGroupManager::update(double /*dt*/) {
             candidates.push_back(spot);
         }
         if (candidates.empty()) {
-            // probe: no candidate spot.
+            ProbeTracingSpawnGroupManager();  // no candidate spot
             group.m_timer = 1000;
             continue;
         }
-        // probe: candidates exist.
+        ProbeTracingSpawnGroupManager();  // candidates exist
         if (chosen->m_w3 <= 0) {
             continue;
         }
@@ -267,7 +273,7 @@ void SpawnGroupManager::update(double /*dt*/) {
             if (character != nullptr) {
                 character->InitSpawned(chosen->m_w1, spot->m_position);  // +0x04 of the entry: the character props id
                 spot->PlaceObject(character);
-                // probe: after a placed character.
+                ProbeTracingSpawnGroupManager();  // after a placed character
             }
 
             ++spawned;
@@ -275,7 +281,7 @@ void SpawnGroupManager::update(double /*dt*/) {
                 break;
             }
             if (candidates.empty()) {
-                // probe: the candidates ran out before the count was reached.
+                ProbeTracingSpawnGroupManager();  // the candidates ran out before the count was reached
                 break;
             }
         }

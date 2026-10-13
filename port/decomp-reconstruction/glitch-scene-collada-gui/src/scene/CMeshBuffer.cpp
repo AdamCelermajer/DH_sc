@@ -23,10 +23,12 @@ CMeshBuffer::CMeshBuffer() {
 
 // 0x6b88a8, 0x6d11d4 and 0x6d5ed4 _ZN6glitch5scene11CMeshBufferC1EjRKNS_5video16CPrimitiveStreamEb (three listings)
 // Reconstructed: clears the count and the three blocks, allocates the vertex stream table for the mask, copies the primitive
-// stream (taking a use of its index buffer), clears the owner and sets the flag byte to 1. The bool argument is not read.
-CMeshBuffer::CMeshBuffer(std::uint32_t attributeMask, const video::CPrimitiveStream& stream, bool /*flag*/)
+// stream (taking a use of its index buffer), clears the owner and stores the bool argument in the flag byte at +0x34 (the
+// listings at 0x6b88a8 and 0x6d11d4 are clones of it with the argument folded to 1 and to 0).
+CMeshBuffer::CMeshBuffer(std::uint32_t attributeMask, const video::CPrimitiveStream& stream, bool flag)
     : vertexStreams(video::CVertexStreams::allocate(attributeMask)), primitiveStream(stream) {
     referenceCounter = 0;
+    flag_34 = flag ? 1 : 0;
 }
 
 // 0x6bc8c4 _ZN6glitch5scene11CMeshBufferD1Ev

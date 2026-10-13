@@ -3,17 +3,9 @@
 // Declarations come from dh2/SlotContainer.hpp, which needs no change for this batch. Offsets in comments are the original
 // 32-bit ones.
 //
-// PARTIAL bodies (the reasons are in each comment and in the ledger rows):
-//   - The scene manager. Update (SceneManager::SetMaterialEffects) and InitPost (the material lookup) reach it through the
-//     device: the global dword_99F73C is Singleton<Application>::s_inst +0x10 (m_device), and the device's +0x1c is the
-//     SceneManager. glitch::IDevice declares no +0x1c, so DeviceSceneManager() returns null here and those calls are
-//     skipped, as VisualObject does.
-//   - The material lookup in InitPost. The original reads the visual's word at +0x08 as the model name, which
-//     VisualObject.hpp declares as m_node (RootSceneNode*), and passes it with the literal "GL_" to
-//     SceneManager::GetMaterial (0x359c60). No declared overload matches that call, so m_material is left as it is.
-//   - The base constructor (OpenableContainer C2, partial in its own batch), which the constructors inherit.
-//   - The separator read in the "slots" parse. The original calls std::istream::_M_formatted_get(char&) without setting
-//     the flag it reads from r2, so the port uses the standard formatted extraction (leading whitespace skipped).
+// The scene manager is reached through the device: the global dword_99F73C is Singleton<Application>::s_inst +0x10 (m_device), and the device's +0x1c is the SceneManager
+// (DeviceSceneManager()). The separator read in the "slots" parse is the standard formatted extraction (leading whitespace skipped); the original's STLport
+// std::istream::_M_formatted_get(char&) does the same.
 //
 // Slot list. The "slots" property text is a run of entries "<numPowers><sep><duration><sep>". Each number is read with
 // operator>>, and one separator character follows it. The loop runs while the stream is not at end of text (the original's
@@ -24,18 +16,15 @@
 #include <string>
 
 #include "dh2/Application.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/VisualObject.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/SlotContainer.hpp"
 
 namespace {
 
-// The device's scene manager, the object at +0x1c of the device that the original reads through dword_99F73C. IDevice
-// declares no such word, so this returns null until the device layout is bound. The scene-manager calls that need it are
-// then skipped.
-SceneManager* DeviceSceneManager() {
-    return nullptr;
-}
 
 // One colour channel of ItemInstance::GetColor: byte `shift / 8` of the packed value, divided by 255. The original converts
 // the byte to float, divides by the double 255.0 and stores the result as float, so the division is done in double here too.
@@ -53,9 +42,8 @@ bool SlotContainer::IsUpdatable() const {
 }
 
 // 0x3a2098 _ZNK13SlotContainer21GetLootFixedNumPowersEv
-// PARTIAL. m_numPowers (+0x00) of the current entry, m_slotInfos[m_slotIndex], and -1 when the list is empty, as the original
-// returns. Before the first Update, m_slotIndex is still -1 (the constructor's value). The original then reads the word in
-// front of the entry array, which is not recoverable, so the port returns -1 for that case as well.
+// m_numPowers (+0x00) of the current entry, m_slotInfos[m_slotIndex], and -1 when the list is empty. The index (+0x72c) is -1 only before the first Update (InitFinal runs one), where the original
+// reads the word in front of the entry array (outside the array); the port returns -1 for that case.
 int SlotContainer::GetLootFixedNumPowers() const {
     if (m_slotInfos.empty() || m_slotIndex < 0) {  // +0x734 .. +0x738 empty, +0x72c index
         return -1;
@@ -64,11 +52,9 @@ int SlotContainer::GetLootFixedNumPowers() const {
 }
 
 // 0x3a20d8 _ZN13SlotContainer6UpdateEv
-// PARTIAL. Does nothing when the list is empty or the container is ACTIVATE or OPENED (state 3 or 4, the original's
-// unsigned (state - 3) > 1 test). Otherwise the timer loses Application::GetDt() milliseconds. When it is not positive, the
-// index steps forward and wraps to 0 after the last entry, and the timer is reloaded from that entry's duration. When the
-// material is set, the entry colour is applied with SceneManager::SetMaterialEffects(material, colour, 0.1, -1.0). That call
-// needs the device's scene manager, which is null here (DeviceSceneManager), so it is skipped.
+// Does nothing when the list is empty or the container is ACTIVATE or OPENED (state 3 or 4, the original's unsigned (state - 3) > 1 test). Otherwise the timer loses Application::GetDt()
+// milliseconds. When it is not positive, the index steps forward and wraps to 0 after the last entry, and the timer is reloaded from that entry's duration. When the material is set, the entry colour
+// is applied to it with SceneManager::SetMaterialEffects(material, colour, 0.1, -1.0) on the device's scene manager. The original's int return is not part of the void declaration.
 void SlotContainer::Update() {
     if (m_slotInfos.empty()) {
         return;
@@ -87,10 +73,8 @@ void SlotContainer::Update() {
     const SlotInfo& entry = m_slotInfos[static_cast<std::size_t>(m_slotIndex)];
     m_slotTimer = entry.m_duration;  // +0x730
     if (m_material) {  // +0x740
-        if (SceneManager* sceneManager = DeviceSceneManager()) {
-            sceneManager->SetMaterialEffects(
-                m_material, glitch::core::vector3d<float>{entry.m_color[0], entry.m_color[1], entry.m_color[2]}, 0.1f, -1.0f);
-        }
+        DeviceSceneManager()->SetMaterialEffects(
+            m_material, glitch::core::vector3d<float>{entry.m_color[0], entry.m_color[1], entry.m_color[2]}, 0.1f, -1.0f);
     }
 }
 
@@ -102,46 +86,44 @@ void SlotContainer::Update() {
 SlotContainer::~SlotContainer() {}
 
 // 0x3a2640 _ZN13SlotContainer8InitPostEv
-// PARTIAL. OpenableContainer::InitPost first. When the "slots" text is not empty, its entries are parsed into m_slotInfos (the
-// format is in the file comment). Each entry takes numPowers as the first number, duration as the second, and the colour
-// ItemInstance::GetColor(numPowers) split into three bytes, each divided by 255 (red from bits 16..23, green from 8..15, blue
-// from 0..7). Entries are appended in order, as the original's push-back does.
-// Not bound: the material of the visual. The original stores SceneManager::GetMaterial(scene, visual name, "GL_", true) in
-// m_material, releasing the old value. The visual name word and the lookup are not declared (see the file comment), so
-// m_material keeps its value, which is null after the constructor.
+// OpenableContainer::InitPost first. When the "slots" text is not empty, its entries are parsed into m_slotInfos (the format is in the file comment). Each entry takes numPowers as the first
+// number, duration as the second, and the colour ItemInstance::GetColor(numPowers) split into three bytes, each divided by 255 (red from bits 16..23, green from 8..15, blue from 0..7). Entries
+// are appended in order, as the original's push-back does. With a visual, m_material is then replaced by SceneManager::GetMaterial(visual node, "GL_", true) of the device's scene manager
+// (the first material whose name matches). The original's return value is not part of the void declaration.
 void SlotContainer::InitPost() {
     OpenableContainer::InitPost();
-    if (m_slots.empty()) {  // *(this+457) == *(this+458) in the original
-        return;
-    }
-
-    std::istringstream in(m_slots);
-    int numPowers = -1;  // +0x00 of the entry, read first
-    int duration = 0;    // +0x04 of the entry, read second
-    char separator = 0;
-    while (!in.eof()) {
-        in >> numPowers;
-        in >> separator;
-        in >> duration;
-        if (!in.eof()) {
+    if (!m_slots.empty()) {  // *(this+457) != *(this+458) in the original
+        std::istringstream in(m_slots);
+        int numPowers = -1;  // +0x00 of the entry, read first
+        int duration = 0;    // +0x04 of the entry, read second
+        char separator = 0;
+        while (!in.eof()) {
+            in >> numPowers;
             in >> separator;
-        }
+            in >> duration;
+            if (!in.eof()) {
+                in >> separator;
+            }
 
-        SlotInfo entry{};
-        entry.m_numPowers = numPowers;
-        entry.m_duration = duration;
-        const int color = ItemInstance::GetColor(numPowers);
-        entry.m_color[0] = ColourChannel(color, 16);  // BYTE2
-        entry.m_color[1] = ColourChannel(color, 8);   // BYTE1
-        entry.m_color[2] = ColourChannel(color, 0);   // BYTE0
-        m_slotInfos.push_back(entry);
+            SlotInfo entry{};
+            entry.m_numPowers = numPowers;
+            entry.m_duration = duration;
+            const int color = ItemInstance::GetColor(numPowers);
+            entry.m_color[0] = ColourChannel(color, 16);  // BYTE2
+            entry.m_color[1] = ColourChannel(color, 8);   // BYTE1
+            entry.m_color[2] = ColourChannel(color, 0);   // BYTE0
+            m_slotInfos.push_back(entry);
+        }
+    }
+    if (m_visualObject != nullptr) {  // +0x2d8
+        m_material = DeviceSceneManager()->GetMaterial(m_visualObject->m_node, "GL_", true);  // +0x740
     }
 }
 
+
 // 0x3a2bcc _ZN13SlotContainerC1EN10ObjectBase6GO_IDSE
 // 0x3a2c54 _ZN13SlotContainerC2EN10ObjectBase6GO_IDSE
-// PARTIAL, inherited. The two constructors have the same body. The id goes to OpenableContainer(id), which is partial in its
-// own batch. The vtables and the empty "slots" string are implicit. The two words the original sets after the base call are the
+// The two constructors have the same body. The id goes to OpenableContainer(id). The vtables and the empty "slots" string are implicit. The two words the original sets after the base call are the
 // index and the timer, both -1 (+0x72c, +0x730). The entry vector and the material start empty and null (+0x734 .. +0x73c,
 // +0x740).
 SlotContainer::SlotContainer(ObjectBase::GO_IDS id) : OpenableContainer(id) {

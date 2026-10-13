@@ -2,6 +2,9 @@
 // bare return; the D0 variants are compiler-generated and skipped in the ledger.
 #include "glitch-scene-collada-gui/scene/SceneFactories.hpp"
 
+#include "glitch-scene-collada-gui/scene/IMesh.hpp"
+#include "glitch-video/texture.hpp"
+
 namespace glitch::scene {
 
 // 0x6b9cec _ZN6glitch5scene17ISceneNodeFactoryD1Ev

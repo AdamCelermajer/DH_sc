@@ -1,6 +1,5 @@
 // Batch g1-game-world-PFWorld-d9994a-0: the debug queries, the two constructors and the destructor, _Init, PostLoad,
 // Flush, _AddExitPosition, LoadRoom and GetRoomAt of PFWorld. Declarations come from dh2/PFWorld.hpp.
-// LoadRoom is PARTIAL: the scene manager it searches with is not reachable from any declared member (see its comment).
 //
 // Layout facts used here (original 32-bit offsets, named in dh2/PFWorld.hpp, dh2/PFRoom.hpp and dh2/PFFloor.hpp):
 //   PFWorld  +0x04 m_state            0 idle, 1 loading (set by _Init), 2 after PostLoad
@@ -26,6 +25,7 @@
 #include "dh2/PFGOuterGraph.hpp"
 #include "dh2/PFRoom.hpp"
 #include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"  // IMeshSceneNode, the type _LoadFloor takes
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
@@ -298,13 +298,10 @@ void PFWorld::_AddExitPosition(glitch::scene::ISceneNode* node, const char* name
 }
 
 // 0x523c14 _ZN7PFWorld8LoadRoomEPN6glitch5scene10ISceneNodeEjPKc
-// PARTIAL. The original searches for the room's nodes and adds them to the map with the scene manager, which it reads
-// from the device: the word at IDevice +0x1c of dword_99F73C (Singleton<Application>::s_inst.m_device). glitch::IDevice
-// declares no member there (layout request), so no SceneManager pointer can be read. Until it is supplied, the search
-// finds nothing, the room is discarded by the same path the original takes when no floor is found, and LoadRoom
-// returns null. The rest follows the binary: the room is pushed before the search, the minimap node and the floor and
-// exit children are chosen by name (an unnamed child takes its parent's name), the world box is set or grown by the
-// room's box, and the room is removed again when no floor is found.
+// _Init, then the asserts on the state (RS_LOADING, line 92) and the node (line 98). The room is created and pushed before the search. The nodes of type tag 0x6d656164 (the fourcc "daem") below the node are
+// searched through the device's scene manager. The minimap node is the last child whose own name (or, for an unnamed child, its parent's name) contains "minimap"; a child whose name contains "floor" becomes a
+// floor of the room (_LoadFloor with the child itself) and the minimap node, or else the new floor's nav mesh, is added to the scene manager's node map; a name containing "_exit_" adds an exit position. A room
+// without a floor is taken out again and freed (LoadRoom returns null). Otherwise the world box is set from the first room or grown by the room's box.
 PFRoom* PFWorld::LoadRoom(glitch::scene::ISceneNode* node, unsigned int flags, const char* name) {
     _Init();
     if (m_state != kStateLoading) {
@@ -317,13 +314,10 @@ PFRoom* PFWorld::LoadRoom(glitch::scene::ISceneNode* node, unsigned int flags, c
     PFRoom* room = new PFRoom(name, flags, this, m_oGraph, m_iGraph);
     m_rooms.push_back(room);
 
-    // SEAM: the scene manager of the device (+0x1c, see above). Null until the layout request is applied.
-    SceneManager* sceneManager = nullptr;
+    SceneManager* sceneManager = DeviceSceneManager();
     std::vector<glitch::scene::ISceneNode*> found;
-    if (sceneManager != nullptr) {
-        // Node type tag 1835360612 = 0x6d656164, the fourcc "daem". scene_types.hpp has no enumerator for it.
-        sceneManager->SearchByType(node, found, 0x6d656164u);
-    }
+    // Node type tag 1835360612 = 0x6d656164, the fourcc "daem". scene_types.hpp has no enumerator for it.
+    sceneManager->SearchByType(node, found, 0x6d656164u);
 
     // Minimap node: a child with an empty name under a parent tests the parent's name; any other child tests its own
     // name. The last match wins.

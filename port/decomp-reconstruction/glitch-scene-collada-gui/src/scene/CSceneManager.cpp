@@ -12,6 +12,7 @@
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/SViewFrustum.hpp"
 #include "glitch-scene-collada-gui/scene/SceneFactories.hpp"
+#include "glitch-video/texture.hpp"
 
 namespace glitch::scene {
 
@@ -83,17 +84,17 @@ void CSceneManager::setAmbientLight(const video::SColorf& color) {
 }
 
 // 0x589518 _ZNK6glitch5scene13CSceneManager22getCurrentRenderedNodeEPPvPi
-std::uint32_t CSceneManager::getCurrentRenderedNode(void** node, std::int32_t* second) const {
-    if (node != nullptr) *node = currentRenderedNode;
-    if (second != nullptr) *second = currentRenderedSecond;
-    return currentRenderedWord;
+std::uintptr_t CSceneManager::getCurrentRenderedNode(void** userData, std::int32_t* sortOrder) const {
+    if (userData != nullptr) *userData = currentUserData;
+    if (sortOrder != nullptr) *sortOrder = currentSortOrder;
+    return reinterpret_cast<std::uintptr_t>(currentNode);
 }
 
 // 0x589538 _ZNK6glitch5scene13CSceneManager19getNextRenderedNodeEPPvPi
-std::uint32_t CSceneManager::getNextRenderedNode(void** node, std::int32_t* second) const {
-    if (node != nullptr) *node = nextRenderedNode;
-    if (second != nullptr) *second = nextRenderedSecond;
-    return nextRenderedWord;
+std::uintptr_t CSceneManager::getNextRenderedNode(void** userData, std::int32_t* sortOrder) const {
+    if (userData != nullptr) *userData = nextUserData;
+    if (sortOrder != nullptr) *sortOrder = nextSortOrder;
+    return reinterpret_cast<std::uintptr_t>(nextNode);
 }
 
 // 0x589558 _ZN6glitch5scene13CSceneManager16createMeshWriterENS0_17EMESH_WRITER_TYPEE
@@ -212,22 +213,29 @@ void CSceneManager::addExternalMeshLoader(IMeshLoader* loader) {
 // 0x58a7f0 _ZN6glitch5scene13CSceneManager23addShadowReceiverTargetEN5boost13intrusive_ptrINS0_21IShadowReceiverTargetEEE
 // Appends the target unless it is already registered; the list holds a use of its own.
 void CSceneManager::addShadowReceiverTarget(boost::intrusive_ptr<IShadowReceiverTarget> target) {
-    IShadowReceiverTarget* raw = target.get();
-    for (IShadowReceiverTarget* existing : shadowReceiverTargets) {
-        if (existing == raw) return;
+    for (const boost::intrusive_ptr<IShadowReceiverTarget>& existing : shadowReceiverTargets) {
+        if (existing == target) return;
     }
-    grab(raw);
-    shadowReceiverTargets.push_back(raw);
+    shadowReceiverTargets.push_back(target);
 }
 
 // 0x5897d4 _ZN6glitch5scene13CSceneManager26removeShadowReceiverTargetEN5boost13intrusive_ptrINS0_21IShadowReceiverTargetEEE
 // Removes the first registered entry equal to `target` (dropping the list's use).
 void CSceneManager::removeShadowReceiverTarget(boost::intrusive_ptr<IShadowReceiverTarget> target) {
     for (auto it = shadowReceiverTargets.begin(); it != shadowReceiverTargets.end(); ++it) {
-        if (*it == target.get()) {
-            IShadowReceiverTarget* removed = *it;
+        if (*it == target) {
             shadowReceiverTargets.erase(it);
-            release(removed);
+            return;
+        }
+    }
+}
+
+// 0x589754 _ZN6glitch5scene13CSceneManager26removeShadowReceiverTargetEN5boost13intrusive_ptrINS_5video8ITextureEEE
+// Removes the first registered target whose texture (IShadowReceiverTarget +0x0c) is the given texture, null included.
+void CSceneManager::removeShadowReceiverTarget(boost::intrusive_ptr<video::ITexture> texture) {
+    for (auto it = shadowReceiverTargets.begin(); it != shadowReceiverTargets.end(); ++it) {
+        if ((*it)->texture == texture) {
+            shadowReceiverTargets.erase(it);
             return;
         }
     }

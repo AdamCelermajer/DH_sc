@@ -8,6 +8,9 @@
 
 #include "dh2/AISMonster.hpp"
 
+// AISMonster::AISMonster(bool)  (inlined into CharAI::SetScript<AISMonster> at 0x3ccbe4): AISDefault(skipBindings), mask words cleared.
+AISMonster::AISMonster(bool skipBindings) : AISDefault(skipBindings) {}
+
 #include "dh2/AISDefault.hpp"
 #include "dh2/CharAI.hpp"
 #include "dh2/CharStateMachine.hpp"
