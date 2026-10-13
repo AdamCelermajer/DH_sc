@@ -53,6 +53,7 @@
 #include "features/generic_skills/runtime_skill_cast_coordinator_v1.hpp"
 #include "features/generic_skills/runtime_skill_cast_prepare_v1.hpp"
 #include "features/generic_skills/runtime_mage_skill_owner_v1.hpp"
+#include "features/generic_skills/runtime_skill_external_owner_registry_v1.hpp"
 #include "features/generic_skills/pc_gameplay_hud_v1.hpp"
 #include "features/campaign_host/campaign_host.hpp" // P16 HOST
 #include "features/campaign_host/actor_clip_manifest.hpp" // P16 OPENING: scripted actor clip names (PlayActorAnim)
@@ -2881,6 +2882,9 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::effects::RuntimeSessionProjectileRenderV1> playerProjectileRender; // only supplies the authored BDAE bounds
         std::unique_ptr<f::effects::RuntimeSessionProjectileContactBodiesV1> playerProjectileContacts;
         std::unique_ptr<f::generic_skills::RuntimeMageSkillOwnerV1> mageSkillOwner; // v21.8 magewire: ChainLightning/Cyclone/StoneEscape external owner
+        // v21.8 es-runtime: the coordinator's single external_owner slot holds this registry; every owner registers here.
+        f::generic_skills::RuntimeSkillExternalOwnerRegistryV1 skillOwnerRegistry;
+        bool playerSkillCleanupRan=false; // RegisterSkillEx cleanup of the dead caster's skills runs once per death
         std::uint64_t playerProjectileStepFrame=0;
         f::OriginalActorCollisionFilter nativeCollisionFilter;
         struct NativeBodyContext {
@@ -6883,7 +6887,7 @@ int main(int argc,char** argv) {
             bindContainerLoot();
             bindQuestRuntime(false);
             bindSourcePresentations();
-            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();if(mageSkillOwner)mageSkillOwner->reset();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
+            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();skillOwnerRegistry.reset();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
             faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
             if(restored)scriptRoutes.clear();
             if(options.combatText)combatText.clear_for_reload();
@@ -7820,6 +7824,11 @@ int main(int argc,char** argv) {
                 deathGate.player_manager_phase_active=drawn>0; // PlayerManager phase>0 proxy: a gameplay frame has run
                 deathGate.local_character_assigned=deathPlayer!=nullptr;
                 deathGate.local_character_dead=deathPlayer!=nullptr&&deathPlayer->is_dead();
+                // v21.8 es-runtime: CharAI::AI_SetDead runs the RegisterSkillEx cleanup (OnSkillCleanUp) of the dead caster once.
+                if(deathGate.local_character_dead&&!playerSkillCleanupRan){
+                    playerSkillCleanupRan=true;
+                    skillOwnerRegistry.cleanup(*combatSession,combatSession->player_id());
+                }else if(!deathGate.local_character_dead)playerSkillCleanupRan=false;
                 deathGate.online=false;
                 std::string deathError;
                 std::uniform_int_distribution<int> quoteDistribution(1,5);
@@ -8147,7 +8156,7 @@ int main(int argc,char** argv) {
                     bindContainerLoot();
                     bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: restore shows no bind banners)
                     bindSourcePresentations();
-                    skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();if(mageSkillOwner)mageSkillOwner->reset();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
+                    skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();skillOwnerRegistry.reset();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
                     traceState("restore-after");
                     std::cout<<"Restored live checkpoint frame="<<drawn<<" HP="<<player->health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
@@ -8561,8 +8570,9 @@ int main(int argc,char** argv) {
                                 };
                                 mageServices.trace=[&](const std::string& line){std::cout<<line<<'\n';};
                                 mageSkillOwner=std::make_unique<f::generic_skills::RuntimeMageSkillOwnerV1>(std::move(mageServices));
+                                skillOwnerRegistry.add(mageSkillOwner.get());
                             }
-                            request.external_owner=mageSkillOwner.get();
+                            request.external_owner=&skillOwnerRegistry;
                             request.timed_buffs=timedBuffs.get();
                             skillCastCoordinator->begin_skill_cast_v1(request,*combatSession,receipt,castError);
                             if(motor)motor->setFacingRadians(combatSession->actor(request.actor)->transform.rotation[2]);
@@ -8832,10 +8842,10 @@ int main(int argc,char** argv) {
                     (void)playerProjectiles->take_results(); // the same receipts are carried by the impacts above
                     playerProjectileClockMs+=std::int64_t(gameplayDt*1000);
                 }
-                if(mageSkillOwner&&!gameplayPaused&&combatSession) {
-                    // Statue timers and tornado ticks run on the gameplay clock after the session and projectile executor updates.
+                if(skillOwnerRegistry.size()>0&&!gameplayPaused&&combatSession) {
+                    // Owner timers (statue timers, tornado ticks, ...) run on the gameplay clock after the session and projectile executor updates.
                     std::string mageError;
-                    if(!mageSkillOwner->advance(*combatSession,gameplayDt*1000.0,mageError))std::cerr<<"Mage skill owner advance: "<<mageError<<'\n';
+                    if(!skillOwnerRegistry.advance(*combatSession,gameplayDt*1000.0,mageError))std::cerr<<"Skill owner advance: "<<mageError<<'\n';
                 }
                 // P16 SPACEBTN: the OOI candidates that are not combat actors are re-registered each frame from their owners:
                 // containers (source GetInteractionType: openable 0, destructible 8; broken destructibles are not candidates)

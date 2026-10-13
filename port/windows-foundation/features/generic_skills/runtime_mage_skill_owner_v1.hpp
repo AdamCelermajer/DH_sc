@@ -9,6 +9,7 @@
 //
 // Inferences and gaps are marked in the .cpp next to the code and in coordination/v21.8/mage-report.md.
 #include "runtime_skill_external_owner_v1.hpp"
+#include "runtime_skill_timer_service_v1.hpp"
 #include "../effects/runtime_session_projectile_v1.hpp"
 
 #include <array>
@@ -49,11 +50,13 @@ public:
     bool use(CombatSession&, const RuntimeSkillExternalContextV1&, std::string& error) override;
 
     // Gameplay clock for the StartSkillTimerCB owners (statue explosion, tornado tick/carry). Call once per
-    // unpaused frame after the Session update and the projectile executor update.
-    bool advance(CombatSession&, double dt_ms, std::string& error);
-    void reset();
+    // unpaused frame after the Session update and the projectile executor update. The timers run on the shared
+    // RuntimeSkillTimerServiceV1 (runtime_skill_timer_service_v1.hpp); this owner only keeps the authored state.
+    bool advance(CombatSession&, double dt_ms, std::string& error) override;
+    void reset() override;
     std::size_t active_tornados() const noexcept { return tornados_.size(); }
     std::size_t pending_statues() const noexcept { return statues_.size(); }
+    std::size_t active_timers() const noexcept { return timers_.size(); }
 
 private:
     struct RollContext;
@@ -77,6 +80,10 @@ private:
     std::vector<std::shared_ptr<Tornado>> tornados_;
     std::vector<std::shared_ptr<Statue>> statues_;
     std::map<ActorId, std::array<float, 3>> stone_escape_origin_;
+    // StartSkillTimerCB clock of this owner (statue TNT_DELAY one-shots, tornado TICK_DELAY loops).
+    RuntimeSkillTimerServiceV1 timers_;
+    // Session of the advance() call in progress; timer callbacks run only inside advance().
+    CombatSession* timer_session_ = nullptr;
 };
 
 } // namespace dh::foundation::generic_skills
