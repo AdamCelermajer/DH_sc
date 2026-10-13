@@ -32,9 +32,10 @@ int caseInsensitiveCompare(const char* a, const char* b) {
 
 // 0x666e40 _ZN6glitch7collada19CTimelineControllerC1Ev
 // 0x666db8 _ZN6glitch7collada19CTimelineControllerC2Ev (the VTT form)
-// PARTIAL: the member words are the default member initialisers (+0x04 0, +0x08 0, +0x18 1, +0x20 0, +0x24 0, +0x2c 0.0,
-// +0x30 1.0, +0x34 0, +0x38 0, +0x3c 0, +0x3d 0). The virtual-base words (vptr +0x40, count 1 at +0x44) are written by the C++
-// virtual base. The vtable stores of the three base classes are the compiler's.
+// The member words are the default member initialisers (+0x04 0, +0x08 0, +0x18 1, +0x20 0, +0x24 0, +0x2c 0.0,
+// +0x30 1.0, +0x34 0, +0x38 0, +0x3c 0, +0x3d 0), checked against both forms. The virtual-base words (vptr +0x40, count 1 at
+// +0x44) and the vtable stores of the three base classes are emitted by the compiler. +0x0c, +0x10 and +0x14 are left
+// indeterminate in both forms, as in the original.
 CTimelineController::CTimelineController() = default;
 
 // 0x666efc _ZN6glitch7collada19CTimelineControllerD2Ev (empty)

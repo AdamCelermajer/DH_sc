@@ -45,6 +45,9 @@
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 #include "dh2/global/ctrl_camera.hpp"            // ApplicationGetInstance()
 #include "dh2/global/runtime_support.hpp"        // PushProfilingContext, PopProfilingContext (included above)
+#include "dh2/global/net_singletons.hpp"         // GetOnlineGameFlag (COnline +0x05)
+#include "pydata-accessors/arrays.hpp"           // Arrays::DesignSettingsTable
+#include "pydata-accessors/structs_records.hpp"  // Structs::DesignSettings
 
 namespace {
 
@@ -619,8 +622,48 @@ void Level::UpdateCameraZoom() {
     if (dword_99F76C->m_numCharacters == 1) {
         return;
     }
-    // SEAM: online check (no accessor); the co-op limit asserts at Level_Players.cpp:36..38 (not reproduced); the four-player
-    // screen-position scan; and the zoom step applied to the camera distance at +0x8c.
+    if (GetOnlineGameFlag()) {  // COnline +0x05 (GetOnline()->isOnlineGame_)
+        return;
+    }
+    const auto* settings = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
+    // Level_Players.cpp:36..38 asserts. gAssertLevel 2 traps in the original; only the message is reproduced here.
+    if (settings->m_w7 < 0.0f && gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "settings.CoopCamLimits_Sides >= 0.0f",
+                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level_Players.cpp", 36);
+    }
+    if (settings->m_w8 < 0.0f && gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "settings.CoopCamLimits_Top >= 0.0f",
+                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level_Players.cpp", 37);
+    }
+    if (settings->m_w6 < 0.0f && gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "settings.CoopCamLimits_Bottom >= 0.0f",
+                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level_Players.cpp", 38);
+    }
+    // Lowest headroom over the living local players (the original starts at FLT_MAX).
+    float headroom = 3.4028e38f;
+    for (int i = 0; i != 4; ++i) {
+        Character* character = dword_99F76C->GetPlayer(i, false)->unk_660;
+        if (character && !character->IsDead()) {
+            Point2D<float> screen;
+            CameraBase::GetScreenCoord(character->m_position, screen);
+            if (settings->m_w7 - std::fabs(screen.X) < headroom) {
+                headroom = settings->m_w7 - std::fabs(screen.X);
+            }
+            if (headroom > settings->m_w8 - screen.Y) {
+                headroom = settings->m_w8 - screen.Y;
+            }
+            if (headroom > screen.Y + settings->m_w6) {
+                headroom = screen.Y + settings->m_w6;
+            }
+        }
+    }
+    const float current = settings->m_w3;
+    const float delta = std::fabs(current - headroom);
+    if (current > headroom) {
+        m_camera->m_zoomTarget -= delta * settings->m_w4;
+    } else if (current < headroom) {
+        m_camera->m_zoomTarget += delta * settings->m_w4;
+    }
 }
 
 // 0x474260 Level::GetRimLightFile()
