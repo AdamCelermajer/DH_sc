@@ -280,8 +280,137 @@ int main(int argc, char** argv) {
         check(owner.active_count(1) == 0, "A dead actor must lose its buffs");
         session.actor(1)->health = session.actor(1)->max_health;
 
+        {
+            // v21.8 es-buff. Monsters 2,3,4 (faction 2) are bound into the same world as the player (actor 1).
+            const auto spec_fx = debuff_slow_spec_from_duration_v1(0x100u, 5000 << 8, false);
+            check(spec_fx && spec_fx->fx_set_name == "AUTO_DEBUFF_SLOW", "Debuff_Slow must request the AUTO_DEBUFF_SLOW FX (PROPS_DebuffSlow)");
+            const auto live_of = [&](ActorId id) -> const dh2::data::PropertySheet& { return session.world()->combat_properties(id)->sheets.resolved; };
+            const auto bind_monster = [&](ActorId id, std::int32_t faction) {
+                auto props = *session.world()->combat_properties(1);
+                props.sheets.resolved[0] = faction;
+                props.sheets.saved[0] = faction; // the resolver's base for AIFaction (the player's copied base is 11)
+                auto traits = *session.world()->traits(1);
+                traits.is_player = false;
+                traits.targetable = true;
+                ActorState state;
+                state.id = id;
+                state.definition_id = "es_buff_test_monster";
+                state.class_id = "es_buff_test";
+                state.faction_id = faction;
+                state.health = state.max_health = 100.0f;
+                check(session.world()->bind_actor(state, props, traits, error), "monster bind failed: " + error);
+            };
+            bind_monster(2, 2);
+            bind_monster(3, 2);
+            bind_monster(4, 2);
+            const std::string tc = "Buff_Illusionist_TimeControl";
+            const auto tc_cells = buff_cells(tc.c_str(), 1);
+            check(tc_cells[kWalk] < 0, "Buff_Illusionist_TimeControl row must slow walk");
+            const auto base2 = live_of(2), base3 = live_of(3), base4 = live_of(4);
+
+            // 1. Per-target enemy loop (TimeControl): caster skipped, normal monster slowed with FX, boss and miniboss excluded.
+            TimedBuffSpecV1 tcs;
+            tcs.class_name = tc;
+            tcs.strength = 1;
+            tcs.duration_ms = 5000.0;
+            tcs.fx_set_name = "spell_dh2_prince_illusionist_timecontrol";
+            tcs.source = "TimeControl";
+            TargetBuffPolicyV1 policy;
+            policy.skip_player = true;
+            policy.skip_boss = true;
+            policy.skip_miniboss = true;
+            const auto flags = [](ActorId id) { TargetBuffActorFlagsV1 f; f.is_boss = id == 3; f.is_miniboss = id == 4; return f; };
+            std::vector<TargetBuffOutcomeV1> outcomes;
+            const std::size_t fx_before = fx_played.size();
+            check(owner.apply_timed_buff_to_targets(session, 1, {1, 2, 3, 4}, tcs, policy, flags, outcomes, error), error);
+            check(outcomes.size() == 4 && outcomes[0].result == TargetBuffOutcomeV1::Result::skipped_caster &&
+                  outcomes[1].result == TargetBuffOutcomeV1::Result::applied && outcomes[1].handle != 0 &&
+                  outcomes[2].result == TargetBuffOutcomeV1::Result::skipped_boss &&
+                  outcomes[3].result == TargetBuffOutcomeV1::Result::skipped_miniboss,
+                  "Per-target loop outcomes wrong (caster, normal, boss, miniboss)");
+            check(owner.active(2, tc) && !owner.active(1, tc) && !owner.active(3, tc) && !owner.active(4, tc),
+                  "Per-target loop must buff only the normal monster");
+            // Buff_Illusionist_TimeControl is an absolute row (p1 = -30 is the value, not a delta), so the cells equal the class result.
+            check(live_of(2)[kWalk] == tc_cells[kWalk] && live_of(2)[kRotation] == tc_cells[kRotation] && live_of(2)[kAttack] == tc_cells[kAttack],
+                  "Slowed monster walk/rotation/attack must equal the absolute TimeControl row");
+            check(original_speed_modifier(live_of(2)[kWalk]) < original_speed_modifier(base2[kWalk]) &&
+                  near(original_speed_modifier(live_of(2)[kWalk]), 0.67),
+                  "TimeControl level 1 must slow walk to 0.67 of the base rate");
+            check(live_of(3)[kWalk] == base3[kWalk] && live_of(4)[kWalk] == base4[kWalk], "Boss/miniboss sheet must stay untouched");
+            check(fx_played.size() == fx_before + 1 && fx_played.back() == tcs.fx_set_name, "Per-target buff FX must be requested once per applied target");
+            const auto handle_monster = outcomes[1].handle;
+
+            // 2. Native RemoveBuff shapes (IDA Character::_RemoveBuff / PROPS_DelBuff).
+            check(owner.remove_timed_buff_by_handle(session, 1, tc, TimedBuffRemoveArgV1::of_handle(handle_monster), error), error);
+            check(owner.active(2, tc), "Caller without the class must not remove the monster's buff with its handle (native D13)");
+            check(owner.apply_timed_buff(session, 1, tcs, error), error);
+            check(owner.remove_timed_buff_by_handle(session, 1, tc, TimedBuffRemoveArgV1::of_handle(handle_monster), error) &&
+                  !owner.active(1, tc) && owner.active(2, tc),
+                  "Single-instance branch: the caller's only instance is removed whatever handle was passed, the monster keeps its buff");
+            check(owner.apply_timed_buff(session, 1, tcs, error), error);
+            check(owner.remove_timed_buff_by_handle(session, 1, tc, TimedBuffRemoveArgV1::nil_handle(), error) && owner.active(1, tc),
+                  "A nil handle must be a no-op");
+            check(owner.remove_timed_buff_by_handle(session, 1, tc, TimedBuffRemoveArgV1::class_only(), error) && !owner.active(1, tc),
+                  "Class-only RemoveBuff must remove a single instance");
+
+            // 3. Capacity-1 strength rule (PROPS_AddBuff): a stronger instance survives a weaker re-cast; equal replaces and keeps the handle.
+            tcs.strength = 3;
+            std::uint64_t h3 = 0;
+            check(owner.apply_timed_buff_handle(session, 2, tcs, h3, error), error);
+            check(h3 == handle_monster, "A same-class replacement must keep the Lua handle (native victim reuse)");
+            const auto strong_walk = live_of(2)[kWalk];
+            owner.take_events();
+            tcs.strength = 1;
+            std::uint64_t h_weak = 99;
+            check(owner.apply_timed_buff_handle(session, 2, tcs, h_weak, error) && h_weak == 0, "A weaker re-cast must return a nil handle");
+            check(live_of(2)[kWalk] == strong_walk && owner.active(2, tc), "A weaker re-cast must leave the stronger instance in place");
+            auto rejected_events = owner.take_events();
+            check(rejected_events.size() == 1 && rejected_events[0].kind == TimedBuffEventV1::Kind::rejected,
+                  "A rejected re-cast must report one rejected event");
+            tcs.strength = 3;
+            std::uint64_t h_equal = 0;
+            check(owner.apply_timed_buff_handle(session, 2, tcs, h_equal, error) && h_equal == handle_monster,
+                  "An equal-strength re-cast must refresh with the same handle");
+            owner.take_events();
+
+            // 4. Buff-coupled selection (Blindness/Conversion SetIsTargetable pattern): selection only, damage untouched, restored at expiry.
+            auto* world = session.world();
+            const auto* attacker = world->find_actor(1);
+            const bool damage_before = world->damage_eligible(*attacker, *world->find_actor(3));
+            TimedBuffSpecV1 hidden = tcs;
+            hidden.suppress_selection = true;
+            hidden.duration_ms = 3000.0;
+            check(owner.apply_timed_buff(session, 3, hidden, error), error);
+            check(world->selection_suppressed(3) && world->damage_eligible(*attacker, *world->find_actor(3)) == damage_before,
+                  "Suppressing buff must hide the actor from selection without changing damage eligibility");
+            // An external suppression (for example a submerged boss) is not owned by the buff and must survive its expiry.
+            world->set_selection_suppressed(4, true);
+            TimedBuffSpecV1 plain = tcs;
+            plain.duration_ms = 3000.0;
+            check(owner.apply_timed_buff(session, 4, plain, error), error);
+            check(owner.advance(session, 3.1, error), error);
+            check(!owner.active(3, tc) && !world->selection_suppressed(3), "Expiry must restore the selection of the buff-hidden actor");
+            check(world->selection_suppressed(4), "Expiry must not clear a suppression the buff did not set");
+            world->set_selection_suppressed(4, false);
+
+            // 5. Faction re-sync: FactionBuff writes AIFaction 8 on the sheet; the actor's faction follows and restores at expiry.
+            TimedBuffSpecV1 faction;
+            faction.class_name = "FactionBuff";
+            faction.strength = 1;
+            faction.duration_ms = 3000.0;
+            faction.source = "Terror";
+            check(owner.apply_timed_buff(session, 2, faction, error), error);
+            check(session.actor(2)->faction_id == 8 && live_of(2)[0] == 8,
+                  "FactionBuff must flip the monster faction to 8 and re-sync the actor record");
+            check(owner.advance(session, 3.1, error), error);
+            check(session.actor(2)->faction_id == 2 && live_of(2)[0] == 2,
+                  "Faction expiry must restore the monster faction actor=" + std::to_string(session.actor(2)->faction_id) +
+                  " sheet=" + std::to_string(live_of(2)[0]) + " active=" + std::to_string(int(owner.active(2, "FactionBuff"))));
+        }
+
         std::cout << "PASS runtime_timed_buff_v1: Quickness L1 walk/rotation/attack x" << original_speed_modifier(base[kWalk] + quick1[kWalk])
-                  << ", copy-modify survival, re-assertion, expiry/restore, replace, stacking, removal, FX failure, rejections, death\n";
+                  << ", copy-modify survival, re-assertion, expiry/restore, replace, stacking, removal, FX failure, rejections, death, "
+                     "per-target enemy loop, RemoveBuff handle shapes, capacity-1 strength, buff-coupled selection, faction re-sync\n";
         return 0;
     } catch (const std::exception& ex) {
         std::cerr << "FAIL runtime_timed_buff_v1: " << ex.what() << '\n';

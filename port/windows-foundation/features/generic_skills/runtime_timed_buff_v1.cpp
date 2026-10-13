@@ -110,6 +110,8 @@ std::optional<TimedBuffSpecV1> debuff_slow_spec_from_duration_v1(std::uint32_t s
     spec.strength = 0;
     spec.duration_ms = static_cast<double>(duration);
     spec.source = "debuff_slow";
+    // CharProperties::PROPS_DebuffSlow (0x3e2a5c) passes the AnimatedEffectTable entry AUTO_DEBUFF_SLOW to PROPS_AddBuff.
+    spec.fx_set_name = "AUTO_DEBUFF_SLOW";
     return spec;
 }
 
@@ -147,6 +149,20 @@ bool RuntimeTimedBuffOwnerV1::publish(CombatSession& session, ActorId actor, Act
     return true;
 }
 
+void RuntimeTimedBuffOwnerV1::sync_selection(CombatSession& session, ActorId actor, ActorBuffs& buffs) {
+    auto* world = session.world();
+    if (!world) return;
+    const bool want = std::any_of(buffs.instances.begin(), buffs.instances.end(),
+        [](const auto& item) { return item->suppress_selection; });
+    if (want) {
+        world->set_selection_suppressed(actor, true);
+        buffs.selection_owned = true;
+    } else if (buffs.selection_owned) {
+        world->set_selection_suppressed(actor, false);
+        buffs.selection_owned = false;
+    }
+}
+
 bool RuntimeTimedBuffOwnerV1::remove_timed_buff(CombatSession& session, ActorId actor,
                                                 const std::string& class_name, std::string& error) {
     error.clear();
@@ -167,13 +183,83 @@ bool RuntimeTimedBuffOwnerV1::remove_timed_buff(CombatSession& session, ActorId 
     bool changed = false;
     if (!publish(session, actor, buffs, TimedBuffEventV1::Kind::removed, class_name, std::string(), 0, 0.0, changed, error))
         return false;
+    sync_selection(session, actor, buffs);
+    if (buffs.instances.empty()) actors_.erase(found);
+    return true;
+}
+
+bool RuntimeTimedBuffOwnerV1::remove_timed_buff_by_handle(CombatSession& session, ActorId caller, const std::string& class_name,
+                                                          const TimedBuffRemoveArgV1& arg, std::string& error) {
+    error.clear();
+    if (!bindings_.classes || !bindings_.rules) return fail(error, "Timed buff owner has no class/property tables");
+    if (!bind_lease(session)) return fail(error, "Timed buff removal requires a live CombatSession binding");
+    if (arg.shape == TimedBuffRemoveArgV1::Shape::nil_handle) return true; // the native call returns without touching the deque
+    const auto found = actors_.find(caller);
+    if (found == actors_.end()) return true;
+    auto& buffs = found->second;
+    const auto same_class = [&](const auto& item) { return item->class_name == class_name; };
+    const auto same = std::count_if(buffs.instances.begin(), buffs.instances.end(), same_class);
+    if (same == 0) return true;
+    // PROPS_DelBuff tests the class deque size first: a single instance is removed whatever pointer was given.
+    auto target = same == 1 ? std::find_if(buffs.instances.begin(), buffs.instances.end(), same_class)
+                            : buffs.instances.end();
+    if (same > 1 && arg.shape == TimedBuffRemoveArgV1::Shape::handle)
+        target = std::find_if(buffs.instances.begin(), buffs.instances.end(),
+            [&](const auto& item) { return same_class(item) && item->handle == arg.handle; });
+    if (target == buffs.instances.end()) return true; // several instances and no handle match (or class only): no-op
+    release_fx(**target);
+    buffs.instances.erase(target);
+    bool changed = false;
+    if (!publish(session, caller, buffs, TimedBuffEventV1::Kind::removed, class_name, std::string(), 0, 0.0, changed, error))
+        return false;
+    sync_selection(session, caller, buffs);
     if (buffs.instances.empty()) actors_.erase(found);
     return true;
 }
 
 bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId actor, const TimedBuffSpecV1& spec,
                                                std::string& error) {
+    std::uint64_t handle = 0;
+    return apply_timed_buff_handle(session, actor, spec, handle, error);
+}
+
+bool RuntimeTimedBuffOwnerV1::apply_timed_buff_to_targets(CombatSession& session, ActorId caster,
+                                                          const std::vector<ActorId>& targets, const TimedBuffSpecV1& spec,
+                                                          const TargetBuffPolicyV1& policy,
+                                                          const std::function<TargetBuffActorFlagsV1(ActorId)>& flags,
+                                                          std::vector<TargetBuffOutcomeV1>& outcomes, std::string& error) {
     error.clear();
+    outcomes.clear();
+    if (!bindings_.classes || !bindings_.rules) return fail(error, "Timed buff owner has no class/property tables");
+    if (!bind_lease(session)) return fail(error, "Target buff loop requires a live CombatSession binding");
+    for (const ActorId target : targets) {
+        TargetBuffOutcomeV1 outcome;
+        outcome.target = target;
+        const TargetBuffActorFlagsV1 traits = flags ? flags(target) : TargetBuffActorFlagsV1{};
+        if (target == caster) outcome.result = TargetBuffOutcomeV1::Result::skipped_caster;
+        else if (policy.skip_player && traits.is_player) outcome.result = TargetBuffOutcomeV1::Result::skipped_player;
+        else if (policy.skip_boss && traits.is_boss) outcome.result = TargetBuffOutcomeV1::Result::skipped_boss;
+        else if (policy.skip_miniboss && traits.is_miniboss) outcome.result = TargetBuffOutcomeV1::Result::skipped_miniboss;
+        else {
+            std::string target_error;
+            std::uint64_t handle = 0;
+            if (!apply_timed_buff_handle(session, target, spec, handle, target_error)) {
+                outcome.result = TargetBuffOutcomeV1::Result::failed;
+                outcome.error = target_error;
+            } else {
+                outcome.handle = handle;
+                outcome.result = handle ? TargetBuffOutcomeV1::Result::applied : TargetBuffOutcomeV1::Result::rejected;
+            }
+        }
+        outcomes.push_back(std::move(outcome));
+    }
+    return true;
+}
+
+bool RuntimeTimedBuffOwnerV1::apply_timed_buff_handle(CombatSession& session, ActorId actor, const TimedBuffSpecV1& spec,
+                                                      std::uint64_t& handle, std::string& error) {
+    error.clear();
+    handle = 0;
     if (!bindings_.classes || !bindings_.rules) return fail(error, "Timed buff owner has no class/property tables");
     if (!bind_lease(session)) return fail(error, "Timed buff application requires a live CombatSession binding");
     // Native PROPS_AddBuff starts an expiry timer only for a nonzero duration; a permanent buff (duration 0, the Celest
@@ -231,11 +317,16 @@ bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId a
         event.class_name = spec.class_name;
         event.source = spec.source;
         event.strength = spec.strength;
+        event.duration_ms = spec.duration_ms;
         event.detail = "capacity " + std::to_string(capacity) + " reached by stronger instances";
         events_.push_back(std::move(event));
         return true;
     }
     const bool replaced = full && victim != buffs.instances.end();
+    // A replacement keeps the Lua handle: the native slot reuses the victim BuffInst object.
+    if (replaced) instance->handle = (*victim)->handle;
+    else instance->handle = next_handle_++;
+    instance->suppress_selection = spec.suppress_selection;
     if (replaced) {
         release_fx(**victim);
         buffs.instances.erase(victim);
@@ -246,6 +337,7 @@ bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId a
         if (bindings_.fx.play(spec.fx_set_name, actor, identity, fx_error)) instance->fx_identity = identity;
     }
     const auto fx_note = fx_error.empty() ? std::string() : "fx=" + fx_error;
+    const std::uint64_t issued = instance->handle;
     buffs.instances.push_back(std::move(instance));
     bool changed = false;
     if (!publish(session, actor, buffs, replaced ? TimedBuffEventV1::Kind::replaced : TimedBuffEventV1::Kind::applied,
@@ -255,7 +347,9 @@ bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId a
         if (buffs.instances.empty()) actors_.erase(actor);
         return false;
     }
+    sync_selection(session, actor, buffs);
     if (!fx_note.empty() && !events_.empty()) events_.back().detail = fx_note;
+    handle = issued;
     return true;
 }
 
@@ -271,6 +365,8 @@ bool RuntimeTimedBuffOwnerV1::advance(CombatSession& session, double dt_seconds,
         const auto* state = session.actor(actor);
         if (!state || !state->alive() || !session.world() || !session.world()->combat_properties(actor)) {
             // The actor is gone or dead: its owner released the buffs; there is no sheet left to publish.
+            if (buffs.selection_owned && session.world() && session.world()->find_actor(actor))
+                session.world()->set_selection_suppressed(actor, false);
             for (auto& instance : buffs.instances) {
                 release_fx(*instance);
                 TimedBuffEventV1 event;
@@ -301,6 +397,7 @@ bool RuntimeTimedBuffOwnerV1::advance(CombatSession& session, double dt_seconds,
                             0, 0.0, changed, error)) {
             return false;
         }
+        sync_selection(session, actor, buffs);
         if (buffs.instances.empty()) it = actors_.erase(it);
         else ++it;
     }
