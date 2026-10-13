@@ -90,7 +90,12 @@ bool PlaybackOwner::request_clip(std::int32_t clip_id,Trigger trigger,
     const auto found=std::find_if(selection_.resources.begin(),selection_.resources.end(),
         [clip_id](const Resource& resource){return resource.clip_id==clip_id;});
     if(found==selection_.resources.end()){
-        error="Camera AnimDict clip is not registered in selected AnimSet";return false;
+        error="Camera AnimDict clip "+std::to_string(clip_id)+
+              " is not registered in selected AnimSet "+selection_.name+" (clips";
+        for(const auto& resource:selection_.resources)
+            error+=" "+std::to_string(resource.clip_id);
+        error+=")";
+        return false;
     }
     out.present=true;out.trigger=trigger;out.resource=*found;out.preserve_zoom=preserve_zoom;
     out.loop=false;out.speed=1.0f;return true;
@@ -145,6 +150,29 @@ bool PlaybackOwner::combat_shake(bool critical_result,bool requester_is_player,
     // Character::F_ApplyResult calls CanPlayShakeAnim, then reads the selected
     // CamAnimSet row's +0x0c Crit field and calls PlayAnim(id, 0, true).
     return request(crit->clip_id,Resource::Slot::crit,Trigger::combat_crit,true,out,error);
+}
+
+bool PlaybackOwner::on_demand_resource(std::int32_t clip_id,const data::Dictionary& clips,
+                                       Resource& out,std::string& error) const {
+    out={};error.clear();
+    if(!bound_){error="Camera AnimSet is not bound";return false;}
+    if(clip_id<0||static_cast<std::size_t>(clip_id)>=clips.values.size()){
+        error="Camera AnimDict clip reference is outside AnimDict";return false;
+    }
+    const auto& path=clips.values[static_cast<std::size_t>(clip_id)];
+    if(path.empty()||path.size()>4096||path.find('\0')!=std::string::npos){
+        error="Camera AnimDict clip path is invalid";return false;
+    }
+    out.slot=Resource::Slot::cam_animation;
+    out.registration_order=static_cast<std::int32_t>(selection_.resources.size());
+    out.clip_id=clip_id;out.path=path;return true;
+}
+
+bool PlaybackOwner::adopt_loaded(const Resource& resource) {
+    if(!bound_||resource.clip_id<0||resource.path.empty()||
+       resource.registration_order!=static_cast<std::int32_t>(selection_.resources.size()))
+        return false;
+    selection_.resources.push_back(resource);return true;
 }
 
 bool PlaybackOwner::script_play_camera(bool use_crit,std::int32_t external_clip,

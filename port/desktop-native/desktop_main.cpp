@@ -74,6 +74,10 @@ struct Options {
     // Level's ScriptManager at rendered frame N (default 200).
     struct ScriptStart {std::string name; std::uint64_t frame;};
     std::vector<ScriptStart> script_starts;
+    // --flush-dialogs: while a level script holds the controllers (LockCharacter
+    // "All"), flush its dialogs every 20 frames like the player's taps would, so
+    // an unattended run is not parked behind a cutscene such as Swamp_Intro.
+    bool flush_dialogs = false;
     // --play-anim TARGET:DICT[:DICT2][:wait][@N] (repeatable): Character::
     // _RegisterAnim/_PlayAnim on the Player ("player") or a named Monster.
     struct PlayAnim {std::string target, dict, second; bool wait; std::uint64_t frame;};
@@ -222,6 +226,7 @@ Options parse(int argc, char** argv) {
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
+        else if (arg == "--flush-dialogs") options.flush_dialogs = true;
         else if (arg == "--hud-tap-xy") {
             const auto xy = value("--hud-tap-xy");
             const auto comma = xy.find(',');
@@ -280,6 +285,7 @@ Options parse(int argc, char** argv) {
                          "  --return-delay N      frames to wait in the --transition-to destination before returning (default 240)\n"
                          "  --enemy-census-at N   log every materialized Monster and the dead ones at rendered frame N (repeatable)\n"
                          "  --start-script NAME[@N] start the named Level pyscript (e.g. Swamp_Intro) on the Level ScriptManager at frame N (default 200)\n"
+                         "  --flush-dialogs     flush script dialogs every 20 frames while a script holds the controllers (unattended cutscenes)\n"
                          "  --play-anim TARGET:DICT[:DICT2][:wait][@N] run Character::_RegisterAnim/_PlayAnim (AnimDict names) on 'player' or a Monster name at frame N\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
@@ -2259,6 +2265,10 @@ int main(int argc, char** argv) {
         std::int32_t scenario_target_initial_hp = 0;
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
+        // A fresh SWAMP profile starts Swamp_Escape's lifecycle (Swamp_Intro, then Movement_Tuto):
+        // scenarios begin once those cutscenes are over, the budget does not count them.
+        bool intro_released = false, intro_holding = false;
+        std::uint64_t intro_held_frames = 0;
         unsigned scenario_kills = 0;
         unsigned scenario_pickups = 0, scenario_loot_frames = 0;
         std::int32_t scenario_last_item_count = -1;
@@ -2465,10 +2475,41 @@ int main(int argc, char** argv) {
             }
             return_to_authored_menu();
             sync_text_input();
+            intro_holding = false;
+            if (gameplay && options.level_row == 41 && !intro_released &&
+                (options.movement_attack_scenario || options.movement_defend_scenario ||
+                 options.movement_kill_scenario || options.skill_kill_scenario ||
+                 options.tutorial_potion_scenario || options.probe_scenario())) {
+                bool finished = false;
+                std::uintptr_t player_identity = 0;
+                std::vector<model_renderer::UiQuestReadV1> quest_rows;
+                if (rendered_frames >= 4 &&
+                    model_renderer::ui_player_identity(player_identity, ui_error) &&
+                    model_renderer::ui_player_quest_rows(player_identity, quest_rows, ui_error, nullptr) &&
+                    quest_rows.size() > 50 && quest_rows[50].state >= 6 &&
+                    !model_renderer::script_controllers_blocked() &&
+                    !model_renderer::tutorial_script_running("Swamp_Intro") &&
+                    !model_renderer::tutorial_script_running("Movement_Tuto") &&
+                    !model_renderer::tutorial_script_running("Movement_Tuto2"))
+                    finished = true;
+                if (finished || intro_held_frames >= 9000) {
+                    intro_released = true;
+                    std::cout << "Scenario intro released | frame " << rendered_frames << " | held "
+                              << intro_held_frames << " frames | "
+                              << (finished ? "Swamp_Escape active, cutscenes over" : "hold timed out") << std::endl;
+                } else {
+                    intro_holding = true;
+                    ++intro_held_frames;
+                    ++options.frames;
+                    if (rendered_frames % 20 == 0 && model_renderer::script_controllers_blocked() &&
+                        !original_ui.flush_source_messages(ui_error))
+                        throw std::runtime_error("Intro dialog flush failed: " + ui_error);
+                }
+            }
             if (gameplay && options.faery_follow_scenario && !options.capture_series.empty() && rendered_frames == 20)
                 copy_level_saves(options.runtime, options.capture_series, "entry");
-            if (gameplay && options.probe_scenario() && rendered_frames >= 2) {
-                probe_runner.tick(rendered_frames, SDL_GetTicks64());
+            if (gameplay && options.probe_scenario() && rendered_frames >= 2 && !intro_holding) {
+                probe_runner.tick(rendered_frames - intro_held_frames, SDL_GetTicks64());
                 int tap_action = -1;
                 if (probe_runner.take_tap(tap_action)) {
                     // Centre of the authored HUD faery button on the 1280x720 reference layout.
@@ -2773,8 +2814,8 @@ int main(int argc, char** argv) {
             // authored Level Up tutorial script (LockCharacter "All", BlockSaveGame and
             // dialogs that wait for the player's taps). Flush its dialogs like those
             // taps would so the probe is not parked behind the script until the bound.
-            if (options.skill_matrix_scenario && gameplay && rendered_frames % 20 == 0 &&
-                model_renderer::script_controllers_blocked() &&
+            if ((options.skill_matrix_scenario || options.flush_dialogs) && gameplay &&
+                rendered_frames % 20 == 0 && model_renderer::script_controllers_blocked() &&
                 !original_ui.flush_source_messages(ui_error))
                 throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);
             // After death, tap the authored death screen's btn_Continue (full-screen
@@ -3071,7 +3112,7 @@ int main(int argc, char** argv) {
                 }
             }
             if (gameplay && (options.movement_attack_scenario || options.movement_defend_scenario || options.fixed_cultist_scenario ||
-                             options.fixed_cultist_kill_scenario) && !scenario_started) {
+                             options.fixed_cultist_kill_scenario) && !scenario_started && !intro_holding) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
                 model_renderer::move_axis(0.0f, 0.0f);

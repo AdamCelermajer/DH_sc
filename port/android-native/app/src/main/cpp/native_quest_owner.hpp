@@ -96,6 +96,47 @@ struct QuestCompileServicesV1 {
                                   const data::quest_compile_v1::MemberCall&)=nullptr;
 };
 using QuestUpdateCompletedResultV1=data::quest_update_completed_v1::Result;
+// Quest::Update (0x481818) for the lifecycle states that precede Active:
+// Locked, PostLocked, PreAvailable, Available, PostAvailable and PreActive
+// (v2QuestState 0..5), with the Quest::SetState (0x480c78) effects of entering
+// each, up to and including the Active entry (script slot 0, ObjectiveList::
+// Register, the "new quest" DialogMsg and the current-quest words).
+//
+// A Quest whose accept Objective is not the base/Automatic kind needs that
+// kind's InstallObjectiveMarker/Register/Unregister virtuals (TalkToNPC and
+// MoveInZone quest givers) and one whose ConditionList holds a kind the
+// condition kernel does not evaluate stays in its current state, exactly as it
+// did before this lifecycle existed; the result reports it as unsupported.
+struct QuestLifecycleServicesV1 {
+ void* context=nullptr;
+ // Application::GetCurrentLevel()->+0x3c, read by Condition_PlayerInLevel.
+ bool (*current_level_index)(void*,std::int32_t&,std::string&)=nullptr;
+ // Script resolution: TempHackScriptIDAreStrings -> ScriptManager::GetIDFromName
+ // (-1 when the manager has no such script).
+ bool (*script_exists)(void*,const std::string&,bool&,std::string&)=nullptr;
+ // Quest::HandleSaveInStateTransitonIfNeeded body: Level::SG_BlockLevel(false),
+ // Level::QuickSave(false), Character::SG_Block(false), Character::SG_Save.
+ bool (*save_for_state_transition)(void*,std::string&)=nullptr;
+ // Quest::SetState(Active): MenuMessageManager<DialogMsg,1>::EnqueueMessage of
+ // DialogMsg(StrID.GLOBAL_QUEST_NEW, quest name StringManager ID,
+ // DialogStyles.QuestMsgDialog, -1).
+ bool (*announce_new_quest)(void*,std::int32_t quest_name_string_id,std::string&)=nullptr;
+ // ScriptManager running-state / StartScript(id,-1,true) and the Application
+ // time snapshot Quest::SetState stores into Quest+4.
+ QuestUpdateActiveServicesV1 scripts{};
+ // Level-backed ObjectiveList virtuals (Register, InstallObjectiveMarker).
+ QuestCompileServicesV1 objectives{};
+};
+enum class QuestLifecycleOutcomeV1 : std::uint8_t {
+ unchanged, advanced, unsupported
+};
+struct QuestLifecycleResultV1 {
+ QuestLifecycleOutcomeV1 outcome=QuestLifecycleOutcomeV1::unchanged;
+ std::uintptr_t quest_identity=0;
+ std::int32_t quest_id=-1;
+ std::int32_t prior_state=-1,new_state=-1;
+ std::string reason;
+};
 enum class QuestLookupStatusV1 : std::uint8_t {
  unavailable, missing, compile_required, source_fault, found
 };
@@ -271,6 +312,12 @@ public:
                           std::vector<QuestUpdateActiveResultV1>&,
                           std::vector<QuestUpdateCompletedResultV1>&,
                           std::string&);
+ // Quest::Update for v2QuestState 0..5 in published order, ahead of the
+ // Active/Closed dispatchers above (see QuestLifecycleServicesV1). The current
+ // Level's CompileQuests must already have run for this difficulty.
+ bool update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
+                       const QuestLifecycleServicesV1&,
+                       std::vector<QuestLifecycleResultV1>&,std::string&);
  bool has_state_in_log(std::uint32_t log,std::uint32_t difficulty,
                        std::int32_t state,bool& found,std::string&) const;
  // Source Quest::Update states currently implemented by the gameplay

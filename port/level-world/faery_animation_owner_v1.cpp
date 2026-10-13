@@ -134,11 +134,19 @@ bool registered(const Visual& visual, std::int32_t source_sequence,
         visual.anim_set.character != visual.character ||
         visual.anim_set.phase != character_anim_set_owner_v1::Phase::ready)
         return false;
-    for (const auto& registration : visual.anim_set.registrations)
+    for (const auto& registration : visual.anim_set.registrations) {
         if (registration.kind == character_anim_set_owner_v1::RegistrationKind::animation &&
             registration.source_sequence_id == source_sequence &&
             registration.animation_dictionary_id == animation_dictionary)
             return true;
+        // CharAnimator::ANIM_AddAnimDictToSet (0x3c9b14): the source anim set
+        // is keyed by AnimDict id alone, so a script-added AnimDict is playable
+        // from any AnimTable row.
+        if (registration.kind ==
+                character_anim_set_owner_v1::RegistrationKind::added_dictionary &&
+            registration.animation_dictionary_id == animation_dictionary)
+            return true;
+    }
     return false;
 }
 

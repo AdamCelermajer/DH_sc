@@ -124,6 +124,10 @@ public:
                       bool check_running, bool online, std::string& error);
     bool script_is_running(const std::string& script_name, bool& running,
                            std::string& error) const;
+    // ScriptManager::GetIDFromName(name, false) >= 0: the common or Level table
+    // holds a script of that name.
+    bool script_exists(const std::string& script_name, bool& present,
+                       std::string& error) const;
     bool start_script(const std::string& script_name, std::int32_t argument,
                       bool check_running, bool online, std::string& error);
     bool advance(std::uint32_t milliseconds, std::string& error);

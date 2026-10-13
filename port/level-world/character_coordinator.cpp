@@ -357,6 +357,15 @@ int Coordinator::transition(std::int32_t next, std::int32_t event_id,
         return dh2_character_anim_spawn_state_transition(&state,&facts,&spawn,&anim,
             event_id,&services);
     }
+    if(state.current==14&&next==0){
+        // SM_SetLimbusState while CSAnim plays: CSLimbus::OnFocus needs the
+        // Spawn facts the other Limbus entry points borrow.
+        if(!bindings_.spawn_facts)return -1;
+        const auto spawn = bindings_.spawn_facts(bindings_.context);
+        const auto anim = anim_facts();
+        return dh2_character_anim_limbus_transition(&state,&facts,&spawn,&anim,
+            event_id,&services);
+    }
     if(state.current==14||next==14){
         const auto anim = anim_facts();
         if(state.current==6||state.current==7){

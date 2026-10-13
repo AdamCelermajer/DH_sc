@@ -4600,6 +4600,39 @@ bool OriginalUiSession::enqueue_source_dialog_id(std::int32_t dialog_id,
         return false;
     error.clear();return true;
 }
+bool OriginalUiSession::enqueue_source_new_quest_message(std::int32_t quest_name_string_id,
+    std::string& error){
+    auto& self=*impl_;
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()&&
+       !self.load(error))return false;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie){
+        error="Quest::SetState(Active) DialogMsg requires the retained gameplay HUD session";
+        return false;
+    }
+    // Quest::SetState(Active) 0x480d00: DialogMsg(StrID.GLOBAL_QUEST_NEW, the
+    // Quest's name string, DialogStyles.QuestMsgDialog, -1) is enqueued on the
+    // same MenuMessageManager<DialogMsg, 1> the Script_StartDialog family uses.
+    std::uint32_t title_id=0;
+    if(!Impl::constant(&self,"StrID","GLOBAL_QUEST_NEW",title_id,error)||
+       !self.ensure_dialog_metadata_ready(error))return false;
+    dh2_pycst_result style_constant{};
+    if(dh2_pycst_get(&self.dialog_constants,"DialogStyles",sizeof("DialogStyles")-1,
+           "QuestMsgDialog",sizeof("QuestMsgDialog")-1,&style_constant)!=0||
+       !style_constant.found){error="DialogStyles.QuestMsgDialog constant is missing";return false;}
+    ui::SourceDialogMessageQueueV1::Message message;
+    message.style=static_cast<std::int8_t>(static_cast<std::uint8_t>(style_constant.value));
+    if(!self.source_dialog_string(static_cast<std::int32_t>(title_id),message.title,error)||
+       !self.source_dialog_string(quest_name_string_id,message.text,error)||
+       !self.source_dialog_style_name(message.style,message.style_name,error))return false;
+    bool start_now=false;
+    if(!self.source_dialog_messages.enqueue(std::move(message),start_now)){
+        error="Source DialogMsg queue rejected the new-quest message";return false;
+    }
+    if(start_now&&!self.movie->action_script(&self,Impl::invoke_source_dialog_start,error))
+        return false;
+    error.clear();return true;
+}
 bool OriginalUiSession::lock_source_tutorial(std::int32_t id,std::string& error){
     auto& self=*impl_;
     if(!self.settings){error="Script_LockTutorial requires the retained settings owner";return false;}
