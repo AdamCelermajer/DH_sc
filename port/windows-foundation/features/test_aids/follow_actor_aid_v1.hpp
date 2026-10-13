@@ -11,6 +11,11 @@
 
 namespace dh::foundation::test_aids {
 
+// B158 (mudlord3): the smallest follow distance that keeps the hero outside the boss body. Run m3f1 (distance 170) placed the
+// hero inside the boss body (boss body radius 224.06 + hero controller radius 65.45 = 289.5, from the run log): the hero did not
+// move while the boss was pushed away from him. Distance 300 (run m3f2/m3f4) kept the hero in reach for the whole fight.
+inline constexpr float kFollowContactDistance = 290.0f;
+
 struct FollowActorAidV1 {
     std::string profile;      // population profile id of the actor to follow (e.g. SwampKing)
     int from_frame = 0;       // inclusive
@@ -32,6 +37,8 @@ inline FollowActorAidV1 parse_follow_actor_aid_v1(const std::string& spec) {
     aid.to_frame = std::stoi(spec.substr(dash + 1, colon == std::string::npos ? std::string::npos : colon - dash - 1));
     if (colon != std::string::npos) aid.distance = std::stof(spec.substr(colon + 1));
     if (aid.to_frame <= aid.from_frame || !(aid.distance > 0)) throw std::runtime_error("--follow-actor window or distance is empty");
+    if (aid.distance < kFollowContactDistance)
+        throw std::runtime_error("--follow-actor distance must be at least 290 (inside the boss body the placement is not applied)");
     return aid;
 }
 
