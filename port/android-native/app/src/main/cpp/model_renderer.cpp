@@ -10521,6 +10521,9 @@ struct SpawnOwner {
  std::array<float,3> interaction_restore_rotation_145c{};
  bool interaction_restore_rotation_ready=false;
  bool source_enabled=true,source_visible=true;
+ // PhysicalObject +0x26: PhysicalObject::disableFilter (0x46eb70) zeroes the body
+ // shape filter once, enableFilter (0x46ebe4) restores the authored one.
+ bool collision_filter_disabled_38=false;
  explicit SpawnOwner(std::uint64_t id)
      :owned_character(std::make_unique<dh2::character::Coordinator>(id)),
       character(*owned_character) {
@@ -10604,6 +10607,32 @@ struct SpawnOwner {
    if(!buffs)throw std::runtime_error("Spawn Character buff owner rejected canonical actor properties");
   }
  }
+ // Applies the +0x26 latch to the current body shape (the body may be created later).
+ void apply_collision_filter() {
+  if(!body.body)return;
+  auto* shape=body.body->GetShapeList();
+  if(!shape)return;
+  auto filter=shape->GetFilterData();
+  if(!collision_filter_disabled_38) {
+   body_owner.set_filter(config);
+   filter.groupIndex=std::int16_t(config.shape.group_index);
+   filter.categoryBits=std::uint16_t(config.shape.category_bits);
+   filter.maskBits=std::uint16_t(config.shape.mask_bits);
+  } else {
+   filter.groupIndex=0;filter.categoryBits=0;filter.maskBits=0;
+   body_owner.contact.disabled=1;
+   body_owner.contact.primary={0,0,0,1};
+  }
+  shape->SetFilterData(filter);
+  if(actor_world.backend())actor_world.backend()->Refilter(shape);
+ }
+ // GameObject::EnableCollisions (0x394a3c) / DisableCollisions (0x3949b0): the
+ // PhysicalObject filter switch (the PFWorld obstacle branch is for obstacle classes).
+ void set_collision_filter_disabled(bool disabled) {
+  if(collision_filter_disabled_38==disabled)return;
+  collision_filter_disabled_38=disabled;
+  apply_collision_filter();
+ }
  void create_body() {
   if(!actor||!config.enabled)throw std::runtime_error("Spawn body configuration unavailable");
   // A repeated source InitPhysicalObject request replaces the prior backend
@@ -10621,6 +10650,7 @@ struct SpawnOwner {
    throw std::runtime_error("Spawn Character physical identity registration failed");
   }
   ++body_creations;
+  if(collision_filter_disabled_38)apply_collision_filter();
   register_runtime_object();
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Spawn body ready | %s | creations %u | radius %.9g | category %x | mask %x",actor->name.c_str(),body_creations,body.radius*100.f,config.shape.category_bits,config.shape.mask_bits);
  }
@@ -10665,6 +10695,7 @@ bool apply_source_character_enable_v1(NativeCryptRoomRuntime& runtime,
   return false;
  }
  spawn.source_enabled=enabled;
+ spawn.collision_filter_disabled_38=!enabled;
  spawn.source_visible=enabled;
  actor.visible_80=std::uint8_t(enabled);
  actor.source_updates_enabled=enabled;
@@ -33200,6 +33231,25 @@ std::int32_t NativeMonsterInitialization::monster_character_native(
       &skill_property_temp,false,&s.owner->buff_properties};
   return dh2::player_skill_property_services_v1::invoke(&bindings,id,function,a,count,out,
       capacity,returned,error,error_capacity)==0?0:DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;
+ }
+ // GameObject::_EnableCollisions (0x39040c): a boolean first argument selects
+ // EnableCollisions / DisableCollisions on the receiver; a true second boolean
+ // switches to the PhysicalObject::resetFilter / setFilter form.
+ case Fn::game_object_enable_collisions:{
+  if(!own)return fail("EnableCollisions is bound to the scripted Character");
+  if(count==0||a[0].type!=DH2_SCRIPT_BOOLEAN)return 0;
+  if(count>1&&a[1].type==DH2_SCRIPT_BOOLEAN&&a[1].boolean)
+   return fail("the PhysicalObject filter-override form is not attached");
+  s.owner->set_collision_filter_disabled(a[0].boolean==0);
+  return 0;
+ }
+ // Character::_CanAttackFromRange (0x3b6f10) pushes Character::CanRangeAttack().
+ case Fn::character_can_attack_from_range:{
+  if(!own)return fail("CanAttackFromRange is bound to the scripted Character");
+  bool capable=false;std::string range_error;
+  if(!actor.source_inventory||!actor.source_inventory->can_range_attack(actor,capable,range_error))
+   return fail(range_error.empty()?"the Character has no canonical ItemInventory":range_error);
+  return put_boolean(capable)?0:fail("missing result buffer");
  }
  // Character::_GetCurrentSpellInfo (0x3b6e30) pushes SG_GetFaerieLevel(current
  // faerie, difficulty): a Character without a PlayerSavegame (Character+0x14e8
