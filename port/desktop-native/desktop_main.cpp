@@ -124,6 +124,10 @@ struct Options {
                boss_fight_scenario;
     }
     bool tutorial_potion_scenario = false;
+    // first-kill-ui: move-kill on a fresh SWAMP profile where every dialog a script
+    // starts (tutorials, quest updates) is dismissed by a real touch on the
+    // authored DialogBox, never flushed from the queue.
+    bool first_kill_ui_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -237,6 +241,9 @@ Options parse(int argc, char** argv) {
             else if (scenario == "move-defend") options.movement_defend_scenario = true;
             else if (scenario == "tutorial-potion")
                 options.movement_defend_scenario = options.tutorial_potion_scenario = true;
+            else if (scenario == "first-kill-ui")
+                options.movement_attack_scenario = options.movement_kill_scenario =
+                    options.first_kill_ui_scenario = true;
             else if (scenario == "skill-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
             else if (scenario == "touch-kill")
@@ -281,6 +288,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
                          "  --scenario tutorial-potion move-defend on SWAMP; verify HP <= half starts cinematic_Tuto_potionUse once\n"
                          "  --scenario touch-kill  move-kill driven through the HUD: a held joystick finger steers, a second finger holds the attack button while the stick stays down\n"
+                         "  --scenario first-kill-ui move-kill on a fresh SWAMP profile; script dialogs are dismissed by touching the DialogBox (no flush); fails if the Player stays locked\n"
                          "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
                          "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
@@ -300,6 +308,10 @@ Options parse(int argc, char** argv) {
     if (options.tutorial_potion_scenario) {
         if (options.level_row < 0) options.level_row = 41;
         if (!frames_supplied) options.frames = 3000;
+    }
+    if (options.first_kill_ui_scenario) {
+        if (options.level_row < 0) options.level_row = 41;
+        if (!frames_supplied) options.frames = 4500;
     }
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
@@ -2269,6 +2281,10 @@ int main(int argc, char** argv) {
         std::uint64_t tutorial_verified_frame = 0, tutorial_finished_frame = 0;
         std::int32_t tutorial_hp_start = 0, tutorial_hp_end = 0, tutorial_hp_last = 0, tutorial_hp_lowest = 0;
         std::uint64_t tutorial_lock_frame = 0, tutorial_unlock_frame = 0;
+        // first-kill-ui: touches that landed on a visible dialog, consecutive frames the
+        // controllers stayed blocked, and the longest such stretch.
+        unsigned dialog_taps = 0;
+        std::uint64_t blocked_streak = 0, blocked_longest = 0;
         unsigned tutorial_hp_drops = 0;
         std::array<float, 3> tutorial_position{};
         float tutorial_moved = 0.0f;
@@ -2727,6 +2743,32 @@ int main(int argc, char** argv) {
             }
             if (options.tutorial_potion_scenario && tutorial_finished_frame &&
                 rendered_frames >= tutorial_finished_frame + 60) running = false;
+            // first-kill-ui: a player taps the dialog box to read on. Press and release
+            // are separate frames so GameSWF sees both edges; the dialog queue is never
+            // flushed, so a dialog the UI cannot show or dismiss keeps the Player locked
+            // and fails the scenario below.
+            if (options.first_kill_ui_scenario && gameplay) {
+                const bool blocked_now = model_renderer::script_controllers_blocked();
+                blocked_streak = blocked_now ? blocked_streak + 1 : 0;
+                blocked_longest = std::max(blocked_longest, blocked_streak);
+                bool dialog_active = false;
+                if (!original_ui.source_dialog_active(dialog_active, ui_error))
+                    throw std::runtime_error("Dialog activity query failed: " + ui_error);
+                const auto phase = rendered_frames % 24;
+                if (dialog_active && (phase == 0 || phase == 6)) {
+                    int window_width = 1, window_height = 1;
+                    SDL_GetWindowSize(window, &window_width, &window_height);
+                    if (!dispatch_touch(original_ui, window, window_width / 2, window_height / 2,
+                                        phase == 0 ? 0 : 1, ui_error))
+                        throw std::runtime_error("Dialog tap failed: " + ui_error);
+                    if (phase == 6) {
+                        ++dialog_taps;
+                        if (dialog_taps == 1 || dialog_taps % 10 == 0)
+                            std::cout << "Scenario dialog tap " << dialog_taps << " | frame " << rendered_frames
+                                      << " | controllers blocked " << blocked_now << std::endl;
+                    }
+                }
+            }
             // skill-matrix applies real Character::LevelUp steps, which start the
             // authored Level Up tutorial script (LockCharacter "All", BlockSaveGame and
             // dialogs that wait for the player's taps). Flush its dialogs like those
@@ -3147,6 +3189,29 @@ int main(int argc, char** argv) {
                 throw std::runtime_error("fixed-cultist07-kill reached its frame bound before verified death");
             if (fixed_attack_count == 0 || !fixed_target_identity)
                 throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
+        }
+        if (options.first_kill_ui_scenario && gameplay) {
+            bool dialog_active = false;
+            if (!original_ui.source_dialog_active(dialog_active, ui_error))
+                throw std::runtime_error("Final dialog activity query failed: " + ui_error);
+            const bool blocked_at_end = model_renderer::script_controllers_blocked();
+            std::cout << "Scenario first-kill-ui | kills " << scenario_kills << " | dialog taps " << dialog_taps
+                      << " | longest controller lock " << blocked_longest << " frames | locked at end "
+                      << blocked_at_end << " | dialog active at end " << dialog_active
+                      << " | potionUse starts "
+                      << model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse")
+                      << " | levelUp starts "
+                      << model_renderer::tutorial_script_start_count("cinematic_Tuto_levelUp") << std::endl;
+            if (!scenario_kills)
+                throw std::runtime_error("first-kill-ui reached its frame bound without a verified kill");
+            if (blocked_at_end || dialog_active)
+                throw std::runtime_error("first-kill-ui ended with the Player still locked behind a dialog (freeze)");
+            if (model_renderer::tutorial_script_running("cinematic_Tuto_potionUse") ||
+                model_renderer::tutorial_script_running("cinematic_Tuto_levelUp"))
+                throw std::runtime_error("first-kill-ui ended with a tutorial cinematic still running (freeze)");
+            if ((model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse") ||
+                 model_renderer::tutorial_script_start_count("cinematic_Tuto_levelUp")) && !dialog_taps)
+                throw std::runtime_error("first-kill-ui finished a tutorial without any dialog touch");
         }
         if (options.tutorial_potion_scenario && gameplay) {
             if (!tutorial_verified_frame)

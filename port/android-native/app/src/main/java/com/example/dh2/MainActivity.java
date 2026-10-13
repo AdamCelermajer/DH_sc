@@ -580,7 +580,31 @@ public final class MainActivity extends Activity {
             startPendingMenuGame(gameplayStartGeneration);
         }
     }
+    private volatile boolean frameErrorShown;
+    /** A failed native frame (exception or HUD/menu render error) is shown, never swallowed. */
+    private void showNativeFrameError(final String error){
+        Log.e("DH2Native","Native frame failure shown to the player | "+error);
+        if(frameErrorShown)return;
+        frameErrorShown=true;
+        runOnUiThread(()->{
+            if(isFinishing()||isDestroyed()){frameErrorShown=false;return;}
+            movement.stop();
+            new android.app.AlertDialog.Builder(MainActivity.this)
+                .setTitle("The game stopped")
+                .setMessage(error+"\n\nThe same text is in the device log (DH2Native).")
+                .setCancelable(false)
+                .setPositiveButton("Main menu",(dialog,which)->{
+                    frameErrorShown=false;
+                    for(int i=0;i<assets.length;i++)if("ui/original-main-menu".equals(assets[i])){selected=i;break;}
+                    surface.queueEvent(()->loadSelected(true));
+                })
+                .setNegativeButton("Close game",(dialog,which)->finish())
+                .show();
+        });
+    }
     private void afterNativeFrame(){
+        String frameError=NativeBridge.consumeFrameError();
+        if(frameError!=null&&!frameError.isEmpty())showNativeFrameError(frameError);
         if(pendingStartAfterSplashFrame&&"ui/opening-splash".equals(loadedAsset)){
             pendingStartAfterSplashFrame=false;
             final int generation=gameplayStartGeneration;

@@ -62,6 +62,8 @@ final class NativeBridge {
     /** Dispatches one deferred NativeGoToZone request on the GL owner thread. */
     static native String transitionLevel(String destination,double rawEntryPoint,
                                          android.content.res.AssetManager assets);
+    /** Returns (once) the first native frame-path failure, or an empty string. */
+    static native String consumeFrameError();
     static native String consumeMenuAudio();
     static native String consumeMenuSound();
     static native String loadTexture(byte[] encoded);
