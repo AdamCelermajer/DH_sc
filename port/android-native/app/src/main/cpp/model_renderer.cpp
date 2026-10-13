@@ -19419,6 +19419,18 @@ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,con
   if(!a&&folder=="actors"&&path.rfind("data/3d/",0)==0){
     const auto original_relative="original-cache/"+path;
     a=AAssetManager_open(assets,original_relative.c_str(),AASSET_MODE_BUFFER);
+    // Item rows name the Player's weapon visuals in the authored mixed case
+    // (data/3d/characters/prince/weapons/MC_RWeapon_Longsword_01.bdae) while
+    // the packaged cache is lowercase and AAssetManager is case-sensitive.
+    if(!a){
+      auto packaged=path;
+      std::transform(packaged.begin(),packaged.end(),packaged.begin(),
+          [](unsigned char c){return static_cast<char>(std::tolower(c));});
+      if(packaged!=path){
+        const auto packaged_relative="original-cache/"+packaged;
+        a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
+      }
+    }
     if(a)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Original-cache actor resource | %s",path.c_str());
   }
   if(!a)throw std::runtime_error("Bundled asset missing: "+folder+"/"+name);
