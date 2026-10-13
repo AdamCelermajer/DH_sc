@@ -1,0 +1,63 @@
+{
+  "availability": {
+    "ANDROID_OR_RECOVERED_ONLY": 6288,
+    "BOTH": 17,
+    "IOS_ONLY": 239
+  },
+  "by_format": {
+    ".bdae": {
+      "ANDROID_OR_RECOVERED_ONLY": 2889,
+      "BOTH": 3
+    },
+    ".bin": {
+      "ANDROID_OR_RECOVERED_ONLY": 219
+    },
+    ".lightset_xml": {
+      "ANDROID_OR_RECOVERED_ONLY": 40
+    },
+    ".luac": {
+      "ANDROID_OR_RECOVERED_ONLY": 219
+    },
+    ".mgp": {
+      "ANDROID_OR_RECOVERED_ONLY": 629
+    },
+    ".mgx": {
+      "ANDROID_OR_RECOVERED_ONLY": 250
+    },
+    ".mlx": {
+      "ANDROID_OR_RECOVERED_ONLY": 400
+    },
+    ".mvp": {
+      "ANDROID_OR_RECOVERED_ONLY": 598
+    },
+    ".mvx": {
+      "ANDROID_OR_RECOVERED_ONLY": 253
+    },
+    ".state": {
+      "ANDROID_OR_RECOVERED_ONLY": 1
+    },
+    ".tga": {
+      "ANDROID_OR_RECOVERED_ONLY": 242
+    },
+    ".txt": {
+      "ANDROID_OR_RECOVERED_ONLY": 23
+    },
+    ".vxn": {
+      "ANDROID_OR_RECOVERED_ONLY": 3,
+      "BOTH": 14
+    },
+    ".wav": {
+      "ANDROID_OR_RECOVERED_ONLY": 244,
+      "IOS_ONLY": 239
+    },
+    ".xml": {
+      "ANDROID_OR_RECOVERED_ONLY": 41
+    },
+    "extensionless": {
+      "ANDROID_OR_RECOVERED_ONLY": 237
+    }
+  },
+  "differing_content": 15,
+  "paths": 6544,
+  "policy": "Use both supplied partial caches, as clarified by the owner; record the platform of every resolution."
+}

@@ -1,0 +1,52 @@
+{
+  "by_act": [
+    {
+      "act": "act_2",
+      "rank_basis": "source-scene references with TODO/UNRESOLVED/AMBIGUOUS status; global actor/boss/dialogue gaps shown separately",
+      "status": "TODO",
+      "unmapped_actor_rows": 448,
+      "unmapped_boss_candidates": 26,
+      "unmapped_dialogue_rows": 55,
+      "unresolved_scene_references": 274
+    },
+    {
+      "act": "act_3",
+      "rank_basis": "source-scene references with TODO/UNRESOLVED/AMBIGUOUS status; global actor/boss/dialogue gaps shown separately",
+      "status": "TODO",
+      "unmapped_actor_rows": 448,
+      "unmapped_boss_candidates": 26,
+      "unmapped_dialogue_rows": 55,
+      "unresolved_scene_references": 158
+    },
+    {
+      "act": "act_1",
+      "rank_basis": "source-scene references with TODO/UNRESOLVED/AMBIGUOUS status; global actor/boss/dialogue gaps shown separately",
+      "status": "TODO",
+      "unmapped_actor_rows": 448,
+      "unmapped_boss_candidates": 26,
+      "unmapped_dialogue_rows": 55,
+      "unresolved_scene_references": 153
+    },
+    {
+      "act": "act_4",
+      "rank_basis": "source-scene references with TODO/UNRESOLVED/AMBIGUOUS status; global actor/boss/dialogue gaps shown separately",
+      "status": "TODO",
+      "unmapped_actor_rows": 448,
+      "unmapped_boss_candidates": 26,
+      "unmapped_dialogue_rows": 55,
+      "unresolved_scene_references": 77
+    },
+    {
+      "act": "act_5",
+      "rank_basis": "source-scene references with TODO/UNRESOLVED/AMBIGUOUS status; global actor/boss/dialogue gaps shown separately",
+      "status": "TODO",
+      "unmapped_actor_rows": 448,
+      "unmapped_boss_candidates": 26,
+      "unmapped_dialogue_rows": 55,
+      "unresolved_scene_references": 5
+    }
+  ],
+  "shared_rule": "A target is shared only when resolved references from source scene files in at least two distinct inferred acts point to the same target.",
+  "status": "TODO",
+  "top20_acts_2_plus": []
+}

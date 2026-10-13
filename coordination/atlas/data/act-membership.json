@@ -1,787 +1,3557 @@
 {
-  "actor_assignment_gap": "No direct character spawn records are present in the supplied scene XML. Level scriptFile paths point to .pyscript files not included in assets-extra/android/data; procedural module files contain geometry blocks but no actor rows. Keep CharacterProperties rows unplaced until a level-to-script/module spawn link is evidenced.",
-  "actor_assignments": [],
+  "actor_assignment_gap": "Serialized Script_SpawnCharacter targets are recorded as authored object names; exact table-name matches and task-evidence Act 1 boss rows are linked. Other actor placement, branch execution, and runtime spawn conditions remain unresolved.",
+  "actor_assignments": [
+    {
+      "act": "unplaced",
+      "actor": "SKYGUARDIAN",
+      "actor_id": "e0068a13716136a1af28",
+      "command_index": 54,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "029_wind_temple.rule.xml",
+      "scene_id": "7bac2e2741f6bd3044a0",
+      "script_index": 2,
+      "script_name": "Boss_intro",
+      "status": "INFERENCE",
+      "target_name": "SKYGUARDIAN",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "SKYGUARDIAN",
+      "actor_id": "e0068a13716136a1af28",
+      "command_index": 54,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "x29_wind_temple_backup.mlx",
+      "scene_id": "8d794c0b2238c1f4d70a",
+      "script_index": 2,
+      "script_name": "Boss_intro",
+      "status": "INFERENCE",
+      "target_name": "SKYGUARDIAN",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "Madruk_A",
+      "actor_id": "6049d17d9d924ff5b265",
+      "command_index": 0,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "038_dark_temple.mlx",
+      "scene_id": "f5c436de2b255f87b02f",
+      "script_index": 5,
+      "script_name": "end_MadrukPhase1",
+      "status": "INFERENCE",
+      "target_name": "Madruk_A",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "Madruk_A",
+      "actor_id": "6049d17d9d924ff5b265",
+      "command_index": 0,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "039_dark_temple_bossroom_01.mlx",
+      "scene_id": "0995df95dc10822639cb",
+      "script_index": 4,
+      "script_name": "end_MadrukPhase1",
+      "status": "INFERENCE",
+      "target_name": "Madruk_A",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "MadrukTorso",
+      "actor_id": "e90cdf184470499d5d8c",
+      "command_index": 4,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "038_dark_temple.mlx",
+      "scene_id": "f5c436de2b255f87b02f",
+      "script_index": 6,
+      "script_name": "end_MadrukPhase2",
+      "status": "INFERENCE",
+      "target_name": "MadrukTorso",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "MadrukTorso",
+      "actor_id": "e90cdf184470499d5d8c",
+      "command_index": 4,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "039_dark_temple_bossroom_01.mlx",
+      "scene_id": "0995df95dc10822639cb",
+      "script_index": 5,
+      "script_name": "end_MadrukPhase2",
+      "status": "INFERENCE",
+      "target_name": "MadrukTorso",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "b8d200d97507f568654f",
+      "actor_name": "Assassin",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "87e8e6404dccb09ddc22",
+      "actor_name": "AssassinLighthouse",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "fa7c3f5e02076e041d4c",
+      "actor_name": "Castle2Cultist",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "09b43484fbfd3f5c9ff2",
+      "actor_name": "Castle2RCultist",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "975fcd941392ad6a19b5",
+      "actor_name": "DW_Cherub_RE",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "975fcd941392ad6a19b5",
+      "actor_name": "DW_Cherub_RE",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "89d6b10973db87e6eecd",
+      "actor_name": "DW_Merchant",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "f53bda09f68d2994b795",
+      "actor_name": "DW_Statue",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "78dd4d9c682bce11db47",
+      "actor_name": "DarkQueenForm1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "fc65221a5384c667d68a",
+      "actor_name": "DefaultFairy",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "fc65221a5384c667d68a",
+      "actor_name": "DefaultFairy",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "fc65221a5384c667d68a",
+      "actor_name": "DefaultFairy",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "fc65221a5384c667d68a",
+      "actor_name": "DefaultFairy",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "fc65221a5384c667d68a",
+      "actor_name": "DefaultFairy",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "54f1876e5935d7a4287b",
+      "actor_name": "Desert_Merchant",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "6d657067ae55dec21317",
+      "actor_name": "Desert_Spider1_XL",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "016_red_desert_cave_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "3da7d2f21cc7b083c36f",
+      "actor_name": "Desert_Spider2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "016_red_desert_cave_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "2cbc6f63ea784576e2cf",
+      "actor_name": "Desert_Spider_Midboss",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "016_red_desert_cave_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "7f5c6e2c8a53c2377084",
+      "actor_name": "DoorCultists2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "9b7c26516c99f24b8cad",
+      "actor_name": "DummyEarthFaery",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "013_earth_temple_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "9b7c26516c99f24b8cad",
+      "actor_name": "DummyEarthFaery",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "f27f53abe71e3c84009f",
+      "actor_name": "DummyLightningFaery",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "f27f53abe71e3c84009f",
+      "actor_name": "DummyLightningFaery",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "f27f53abe71e3c84009f",
+      "actor_name": "DummyLightningFaery",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "71129f6e1eb075528284",
+      "actor_name": "ET_Treething",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "25022a8b13e74bf7af99",
+      "actor_name": "EarthTemple_BigSpider",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "ba343ee81e8b99576bdf",
+      "actor_name": "EarthTemple_Cultist",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "013_earth_temple_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "17360f430d64f0054a38",
+      "actor_name": "EarthTemple_Cultist_Talker",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "013_earth_temple_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "0ec37266cdebe539c582",
+      "actor_name": "EarthTemple_DoorPlant_A",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "011_earth_temple_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "151f72f7b090a555c146",
+      "actor_name": "EarthTemple_DoorPlant_C",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "013_earth_temple_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "ee302fd73a60178f6ad3",
+      "actor_name": "EarthTemple_Goblin_Rogue_HELPER",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "274760ff95a8475a61e8",
+      "actor_name": "EarthTemple_Goblin_Shaman_BOSS",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "332fb9d0829accdce45e",
+      "actor_name": "EarthTemple_SmallPlant",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "332fb9d0829accdce45e",
+      "actor_name": "EarthTemple_SmallPlant",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "037_machine_rooms_01.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "c08739eb7d6fef71dacc",
+      "actor_name": "EarthTemple_SmallPlantMinion",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "011_earth_temple_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "f5eb746d05ff50079aa3",
+      "actor_name": "EarthTemple_Spider",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "e7758de741552a7f15c0",
+      "actor_name": "EarthTemple_Spider_HUGE",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "819ba04ddfde08f1627c",
+      "actor_name": "EarthTemple_Spider_helper",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "0347a6a75b182724aedb",
+      "actor_name": "Edward",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "0347a6a75b182724aedb",
+      "actor_name": "Edward",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "3776f158db2e8922ab32",
+      "actor_name": "Epic_merchant_bloodsands",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "017_red_desert_cave_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_deadend_dsrtcave_merchant_s_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "53f2dc7db37b4cb101cb",
+      "actor_name": "Epic_merchant_darkwoods",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "85ab22a9ca49b59dd505",
+      "actor_name": "Epic_merchant_notherlands",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2_trollcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_merchant_n_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "85ab22a9ca49b59dd505",
+      "actor_name": "Epic_merchant_notherlands",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "026_icy_cavern_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_t_icycavern_merchant_nse_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "182ca511b74b336a5f8d",
+      "actor_name": "Epic_merchant_swamp",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "7f1e6a124316e6580503",
+      "actor_name": "Epic_merchant_underworld",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "d32709057d6294da0f00",
+      "actor_name": "FallenGuard",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "7cf3ad15e220ca2caa00",
+      "actor_name": "Fallen_cultist_1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "25852d65f372d5345d96",
+      "actor_name": "GC02_DeadGuard",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "0ce60473126f02b88205",
+      "actor_name": "GCV_BanditHunt_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "d1d82769d268bd1c1cda",
+      "actor_name": "GCV_DemonChild",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "3d70d1909e15ec342d55",
+      "actor_name": "GCV_GUARD_P1_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "8991f970a2c80d37c726",
+      "actor_name": "GCV_GUARD_P1_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "343c6d75393048f7e8a5",
+      "actor_name": "GCV_GUARD_P2_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "1f16b65ee2bf288f4f2f",
+      "actor_name": "GCV_GUARD_P2_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "13fba2b932a50175954d",
+      "actor_name": "GCV_GUARD_P4_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "a734c77ee707acd6a8cc",
+      "actor_name": "GCV_P1_004",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "31b254353b819892de3f",
+      "actor_name": "GCV_P1_005",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "e58e430b7903795b0b43",
+      "actor_name": "GCV_P1_008",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "6b75456a861372fca2ad",
+      "actor_name": "GCV_P2_005",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "3aa76c37955db412f61b",
+      "actor_name": "GCV_P3_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "6898a1a8a3dfad8e4ea4",
+      "actor_name": "GCV_P3_003",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "40e3da4a9eb3f8df88a8",
+      "actor_name": "GCV_P3_004",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "75959bb3cf8f697f3de2",
+      "actor_name": "GCV_P4_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "fb5b26b0ed4f2800fae8",
+      "actor_name": "GothicusB_survivor_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "bd30f9fd4884fdd6c6a2",
+      "actor_name": "GothicusB_survivor_d",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "f0e9502e4e1d0aadf61b",
+      "actor_name": "HellMan",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "026_icy_cavern_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "f619aeb1bb817eeb2fa4",
+      "actor_name": "HellMan_DW_final",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "e1e9fcc3e7d4f121973e",
+      "actor_name": "HellMan_UW_talk",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "7aeb4a2b7aed1df5a462",
+      "actor_name": "HellMan_quest_1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "bf142bd31a2dea3f1884",
+      "actor_name": "IC_Crawler_Midboss",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "026_icy_cavern_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "332f3e8d529b44b00ccf",
+      "actor_name": "IC_Snow_Wolf_Hound",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_bossroom_icycavern_w_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "3e66e9d2b46eceb1d11f",
+      "actor_name": "IC_Spider",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "026_icy_cavern_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "4dbf733887483efd722e",
+      "actor_name": "IH_Barbarian_King_Quest",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_bossroom_icycavern_w_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "88d600ed4738eefadccc",
+      "actor_name": "IH_Snow_Wolf_MIDBOSS",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_bossroom_icycavern_w_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "e02b9210c5ac9e0e6775",
+      "actor_name": "IH_Snow_Wolf_Pup",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_bossroom_icycavern_w_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "8cc85841cb4984d659c9",
+      "actor_name": "IH_Statue",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "c2bc6368012cdf0bbf27",
+      "actor_name": "IcyHub_Merchant",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "3454e3bfb3a64ec469aa",
+      "actor_name": "IcyHub_NPC_FrostComb_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "96ec6202786cbebe1605",
+      "actor_name": "IcyHub_NPC_FrostComb_b",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "7a195e23def78e3dd78d",
+      "actor_name": "IcyHub_NPC_Howling_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "8e13ed1b0f92d083113d",
+      "actor_name": "IcyHub_NPC_Howling_b",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "ebac7b73734f9b758e02",
+      "actor_name": "IcyHub_NPC_Icemurk_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "270e80cf23a3d6ae45e8",
+      "actor_name": "IcyHub_NPC_Icemurk_b",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "4a97a8951b17eb74ef42",
+      "actor_name": "IcyHub_NPC_cultist_cave_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_monument_icycavern_we_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "719e7fa4fc4d135cb951",
+      "actor_name": "IcyHub_NPC_cultist_cave_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_monument_icycavern_we_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "70d92cab3d5dec9bdaa5",
+      "actor_name": "IcyHub_NPC_monk_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "f28d0afbe23defd8f80d",
+      "actor_name": "IcyHub_NPC_monk_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "9c2e07ae3973d6568b2c",
+      "actor_name": "IcyHub_StillStatue",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "9c2e07ae3973d6568b2c",
+      "actor_name": "IcyHub_StillStatue",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "9451549fd82f4f148f8b",
+      "actor_name": "InfectedNun",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "005_infectedvillage.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "c5c01828480de106ac40",
+      "actor_name": "Infected_Werewolf_Midboss",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "005_infectedvillage.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "89309ecba5b72e7de55d",
+      "actor_name": "King",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "48a468f30edbfe91f1e1",
+      "actor_name": "Lighthouse_Emissary",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "2770426a1d30696ab79f",
+      "actor_name": "Lighthouse_Ghost_Champion",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "ed89241ac39f8a4efc08",
+      "actor_name": "Lighthouse_Ghost_dark",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "1379e0295ad7eeb698b4",
+      "actor_name": "Lighthouse_Ghost_dark_RE",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "eeb1a192a8fd6ee43af7",
+      "actor_name": "Lighthouse_Zombie_Champion",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "509db0a2864c67e271bf",
+      "actor_name": "Lighthouse_Zombie_RE",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "019_light_house_01.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "8ac8e5db3a7ce5c38863",
+      "actor_name": "MachineRoom_DarkFaery",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "037_machine_rooms_01.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "318c68af88fe46ed18b9",
+      "actor_name": "MachineRoom_HellSkeleton",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "037_machine_rooms_01.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "baccf17fb76493f99e9c",
+      "actor_name": "NPC_friendly_cultist",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "b35c45d342195815c1ba",
+      "actor_name": "NPCmerchantCamp",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "9ec6aeb5ab0c12d7a056",
+      "actor_name": "Prisonier",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "01ed68f07c7770cccd16",
+      "actor_name": "Prisonier2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "ab80b77080aeac53484d",
+      "actor_name": "Ref_FAUX_ree",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "037_machine_rooms_01.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "132b7271e97fe81ad7c5",
+      "actor_name": "Referee_MachineRoom",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "037_machine_rooms_01.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "d7a08ef42384b8eec32f",
+      "actor_name": "ReneHG",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "125d78f1be84734bc100",
+      "actor_name": "RootTroll",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "013_earth_temple_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "c4504e979373d63945c2",
+      "actor_name": "SandWorm",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "017_red_desert_cave_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_t_dsrtcave_nse_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "9a42adb6e7886b87354d",
+      "actor_name": "SandWorm2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "017_red_desert_cave_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_straight_dsrtcave_we_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "e9d398b946cb853feb9c",
+      "actor_name": "SandWormQueen",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "017_red_desert_cave_02.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_obj05_dsrtcave_n_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "c467363094be3ef5cd89",
+      "actor_name": "Sandwalker_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "90c2824ea98847b1fa56",
+      "actor_name": "Sandwalker_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "cd94c5bd9675bb694186",
+      "actor_name": "Sandwalker_003",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "99166b8ab940cfe9c0be",
+      "actor_name": "Sandwalker_004",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "9c291b44ea5ae5e5118f",
+      "actor_name": "Sandwalker_005",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "1bfae6cf92bdbc1132d1",
+      "actor_name": "Sandwalker_Bandit_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "b9ab5f689ea028f11fb9",
+      "actor_name": "Sandwalker_Bandit_b",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "f4cbca910e1f8c451fdf",
+      "actor_name": "Sandwalker_Tar_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "4056363237826ab022a2",
+      "actor_name": "Sandwalker_Tar_b",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "3136a4940ed0be313384",
+      "actor_name": "Sandwalker_Worm_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "9942861cfa8299b59751",
+      "actor_name": "Sandwalker_Worm_b",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "c052441fdd99de0663f8",
+      "actor_name": "Slime",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "0788a4ef5bcf383a9b2c",
+      "actor_name": "Swamp2_LizadMan_Type1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "75d4fe5dac155fb9bd8a",
+      "actor_name": "Swamp2_LizadMan_Type1_Respawn",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2_trollcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_corner_swpcave_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "ed021b6febbc9ef4ec5e",
+      "actor_name": "Swamp2_LizadMan_Type2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_obj_1of4_brdwalk_nse_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "5fc0c347c051fed8515c",
+      "actor_name": "Swamp2_Moth_Type1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "4a2b9ff0967e8f8643cc",
+      "actor_name": "Swamp2_Slime",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2_trollcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "6e14511e3c9f602b1246",
+      "actor_name": "Swamp2_Slime_Large",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2_trollcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_t_swpcave_nse_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "debe3161f75f83cfc4a0",
+      "actor_name": "SwampKing",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "85e3752f001d5903f863",
+      "actor_name": "Swamp_ActorTroll",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "4857e9afd486029389df",
+      "actor_name": "Swamp_LizadMan_Type1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "32a6018452d04659b538",
+      "actor_name": "Swamp_LizadMan_Type2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "d247470ac9c21be0bc4e",
+      "actor_name": "Swamp_LizadMan_Type3",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "947922c76e6510899ab0",
+      "actor_name": "Swamp_MerchantCamp_NPC_A",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "72fca2c25f55b40c4d82",
+      "actor_name": "Swamp_MerchantCamp_NPC_B",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "21318615b56fef370891",
+      "actor_name": "Swamp_MerchantCamp_NPC_C",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "89e62d1af1e2d587891f",
+      "actor_name": "Swamp_Moth_Cocoon",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "4ed3b91e21197d70e6f5",
+      "actor_name": "Swamp_Moth_Cocoon_Queen",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2_trollcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_t_swpcave_nse_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "b298df8fe9d963b41e6c",
+      "actor_name": "Swamp_MovieMoth",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "a2c77cc142e62db476d1",
+      "actor_name": "Swamp_SnackMan",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "2c25b8b64a02a262e893",
+      "actor_name": "TarSlime",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "018_red_desert_cave_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc03_obj03_dsrtcave_ns_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "86f2f79f0f11c5a8ed25",
+      "actor_name": "Tar_mine_queen",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "018_red_desert_cave_03.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc03_obj03_dsrtcave_ns_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "5aa52bd105935c0a1b76",
+      "actor_name": "Troll",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "9311543617acd314349f",
+      "actor_name": "Troll2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "022_swamp2.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "e132f88889624c0c65e9",
+      "actor_name": "UW_Cherub",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "0ebe402a9e952527ca77",
+      "actor_name": "UW_CherubRE",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "4a8c8f6b3f21d75a27da",
+      "actor_name": "UW_Emissary",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_04.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "265479a8a8125bc9aa9d",
+      "actor_name": "UW_Skydevil_RE",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "afe9cbf2d56aa2052763",
+      "actor_name": "UW_Statue",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_07.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "eac2886bbf425505a7bc",
+      "actor_name": "UW_Treething",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_05.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "2845e42f9cfb1f916815",
+      "actor_name": "WanderingEddie",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "2845e42f9cfb1f916815",
+      "actor_name": "WanderingEddie",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "actor_id": "2845e42f9cfb1f916815",
+      "actor_name": "WanderingEddie",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "015_red_desert_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "2845e42f9cfb1f916815",
+      "actor_name": "WanderingEddie",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "893b2e8fb38716fa20a8",
+      "actor_name": "WanderingPriest",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "893b2e8fb38716fa20a8",
+      "actor_name": "WanderingPriest",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "actor_id": "893b2e8fb38716fa20a8",
+      "actor_name": "WanderingPriest",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "025_icy_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "493d2e115ad25e84db5e",
+      "actor_name": "Witch",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "0a6ad56ef69401dc8b80",
+      "actor_name": "zCrown",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "799341333d588a1b6f30",
+      "actor_name": "zEdwardGrave",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "ffced55104feb850c42e",
+      "actor_name": "zKill5Lizman_Post",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "actor_id": "1ebacc192f96109f811b",
+      "actor_name": "zKingGrave",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "036_underworld_hub.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "debe3161f75f83cfc4a0",
+      "actor_name": "SwampKing",
+      "candidate_type": "handoff_encounter_link",
+      "confidence": "LIKELY",
+      "reason": "B155 links CharacterTable SwampKing (row 358) to the Mud Lord encounter and Darkwood transition.",
+      "source": "coordination/v21.7/B155-B156-HANDOFF.md",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "493d2e115ad25e84db5e",
+      "actor_name": "Witch",
+      "candidate_type": "handoff_encounter_link",
+      "confidence": "LIKELY",
+      "reason": "B156 identifies the Witch encounter in the Witch Cave progression.",
+      "source": "coordination/v21.7/B155-B156-HANDOFF.md",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    }
+  ],
   "boundary_policy": "All act boundaries are INFERENCE until owner confirmation.",
   "boundary_rows": [
     {
       "act": "act_1",
-      "confidence": "UNKNOWN",
-      "evidence": [],
-      "reason": "Transition-chain / source-act analysis has not begun.",
-      "status": "TODO"
+      "candidates": [],
+      "confidence": "LIKELY",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
       "act": "act_2",
-      "confidence": "UNKNOWN",
-      "evidence": [],
-      "reason": "Transition-chain / source-act analysis has not begun.",
-      "status": "TODO"
+      "candidates": [],
+      "confidence": "GUESS",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
       "act": "act_3",
-      "confidence": "UNKNOWN",
-      "evidence": [],
-      "reason": "Transition-chain / source-act analysis has not begun.",
-      "status": "TODO"
+      "candidates": [],
+      "confidence": "GUESS",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
       "act": "act_4",
-      "confidence": "UNKNOWN",
-      "evidence": [],
-      "reason": "Transition-chain / source-act analysis has not begun.",
-      "status": "TODO"
+      "candidates": [],
+      "confidence": "GUESS",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
       "act": "act_5",
-      "confidence": "UNKNOWN",
-      "evidence": [],
-      "reason": "Transition-chain / source-act analysis has not begun.",
-      "status": "TODO"
+      "candidates": [],
+      "confidence": "GUESS",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     }
   ],
-  "inferences": [],
+  "inferences": [
+    {
+      "act": "act_1",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "pydata/levels_pyarray.bin: ordered fast-travel level names; geography changes are computed from row names",
+        "pydata/levels_pyarray.bin: LevelName inventory used for normalized scene-name matching",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: Act 1 scope and Darkwood transition",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 Mud Lord encounter and subsequent Darkwood load"
+      ],
+      "level_stems": [
+        "001_swamp",
+        "002_swamp_witchcave.rule",
+        "022_swamp2.rule",
+        "022_swamp2_trollcave.rule",
+        "023_watertemple.rule"
+      ],
+      "note": "Generated region bucket from original fast-travel row order. The table does not encode an authored act boundary; memberships are INFERENCE.",
+      "route_region_starts": [
+        {
+          "index": 0,
+          "region": "SWAMP"
+        },
+        {
+          "index": 4,
+          "region": "DARKWOOD"
+        },
+        {
+          "index": 19,
+          "region": "DESERT"
+        },
+        {
+          "index": 25,
+          "region": "ICY"
+        },
+        {
+          "index": 30,
+          "region": "UNDERWORLD"
+        }
+      ]
+    },
+    {
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "pydata/levels_pyarray.bin: ordered fast-travel level names; geography changes are computed from row names",
+        "pydata/levels_pyarray.bin: LevelName inventory used for normalized scene-name matching",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: Act 1 scope and Darkwood transition",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 Mud Lord encounter and subsequent Darkwood load"
+      ],
+      "level_stems": [
+        "003_darkwood",
+        "004_root_den.rule",
+        "005_infectedvillage",
+        "006_basement.rule",
+        "007_crypt_01.rule",
+        "008_gothicus_castle_01.rule",
+        "011_earth_temple_01.rule",
+        "012_earth_temple_02.rule",
+        "013_earth_temple_03.rule",
+        "021_gothicus_castle_02.rule",
+        "030_el_air.rule"
+      ],
+      "note": "Generated region bucket from original fast-travel row order. The table does not encode an authored act boundary; memberships are INFERENCE.",
+      "route_region_starts": [
+        {
+          "index": 0,
+          "region": "SWAMP"
+        },
+        {
+          "index": 4,
+          "region": "DARKWOOD"
+        },
+        {
+          "index": 19,
+          "region": "DESERT"
+        },
+        {
+          "index": 25,
+          "region": "ICY"
+        },
+        {
+          "index": 30,
+          "region": "UNDERWORLD"
+        }
+      ]
+    },
+    {
+      "act": "act_3",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "pydata/levels_pyarray.bin: ordered fast-travel level names; geography changes are computed from row names",
+        "pydata/levels_pyarray.bin: LevelName inventory used for normalized scene-name matching",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: Act 1 scope and Darkwood transition",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 Mud Lord encounter and subsequent Darkwood load"
+      ],
+      "level_stems": [
+        "015_red_desert_hub",
+        "016_red_desert_cave_01.rule",
+        "017_red_desert_cave_02.rule",
+        "018_red_desert_cave_03.rule",
+        "019_light_house_01.rule",
+        "019_light_house_02.rule",
+        "019_light_house_03.rule"
+      ],
+      "note": "Generated region bucket from original fast-travel row order. The table does not encode an authored act boundary; memberships are INFERENCE.",
+      "route_region_starts": [
+        {
+          "index": 0,
+          "region": "SWAMP"
+        },
+        {
+          "index": 4,
+          "region": "DARKWOOD"
+        },
+        {
+          "index": 19,
+          "region": "DESERT"
+        },
+        {
+          "index": 25,
+          "region": "ICY"
+        },
+        {
+          "index": 30,
+          "region": "UNDERWORLD"
+        }
+      ]
+    },
+    {
+      "act": "act_4",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "pydata/levels_pyarray.bin: ordered fast-travel level names; geography changes are computed from row names",
+        "pydata/levels_pyarray.bin: LevelName inventory used for normalized scene-name matching",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: Act 1 scope and Darkwood transition",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 Mud Lord encounter and subsequent Darkwood load"
+      ],
+      "level_stems": [
+        "025_icy_hub",
+        "026_icy_cavern_01.rule",
+        "027_icy_cavern_02.rule",
+        "028_icy_cavern_03.rule"
+      ],
+      "note": "Generated region bucket from original fast-travel row order. The table does not encode an authored act boundary; memberships are INFERENCE.",
+      "route_region_starts": [
+        {
+          "index": 0,
+          "region": "SWAMP"
+        },
+        {
+          "index": 4,
+          "region": "DARKWOOD"
+        },
+        {
+          "index": 19,
+          "region": "DESERT"
+        },
+        {
+          "index": 25,
+          "region": "ICY"
+        },
+        {
+          "index": 30,
+          "region": "UNDERWORLD"
+        }
+      ]
+    },
+    {
+      "act": "act_5",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "pydata/levels_pyarray.bin: ordered fast-travel level names; geography changes are computed from row names",
+        "pydata/levels_pyarray.bin: LevelName inventory used for normalized scene-name matching",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: Act 1 scope and Darkwood transition",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 Mud Lord encounter and subsequent Darkwood load"
+      ],
+      "level_stems": [
+        "036_underworld_hub",
+        "037_machine_rooms_01"
+      ],
+      "note": "Generated region bucket from original fast-travel row order. The table does not encode an authored act boundary; memberships are INFERENCE.",
+      "route_region_starts": [
+        {
+          "index": 0,
+          "region": "SWAMP"
+        },
+        {
+          "index": 4,
+          "region": "DARKWOOD"
+        },
+        {
+          "index": 19,
+          "region": "DESERT"
+        },
+        {
+          "index": 25,
+          "region": "ICY"
+        },
+        {
+          "index": 30,
+          "region": "UNDERWORLD"
+        }
+      ]
+    }
+  ],
   "level_rows": [
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_1",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName SWAMP",
+        "task-directed Act 1 scope; boundary remains INFERENCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "001_swamp.mlx",
       "scene_id": "6b2f662bc32e54797884",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_1",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName SWAMP_CAVE_WITCH_A",
+        "task-directed Act 1 scope; boundary remains INFERENCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "002_swamp_witchcave.rule.xml",
       "scene_id": "f6ed60ebabd20b89aaf1",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName DARKWOOD",
+        "fast-travel route region DARKWOOD (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "003_darkwood.mlx",
       "scene_id": "2e1304ff2c8ed98caa94",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 17: a18_DARKWOOD_ROOT_DEN_01_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "004_root_den.rule.xml",
       "scene_id": "bf6ca7beefbed5a32c86",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 7: a08_DARKWOOD_INFECTED_VILLAGE_01_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "005_infectedvillage.mlx",
       "scene_id": "1ee09bcff06fac62bcc3",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 8: a09_DARKWOOD_SECRET_BASEMENT_01"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "006_basement.rule.xml",
       "scene_id": "b392eb001343a839de27",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 9: a10_DARKWOOD_CRYPT_01_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "007_crypt_01.rule.xml",
       "scene_id": "00f4beec573704987fff",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 11: a12_GOTHICUS_CASTLE_02"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "008_gothicus_castle_01.rule.xml",
       "scene_id": "9e69404bebff0e9a7211",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "ABBEY_ENTRANCE_01",
+        "ABBEY_RUINS_01"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "009_abbey.rule.xml",
       "scene_id": "00d6b04d855fccf54bfd",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "ABBEY_ENTRANCE_01",
+        "ABBEY_RUINS_01"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "009a_abbey.mlx",
       "scene_id": "b5c805e540ccbf63b432",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "010_el_lightning.rule.xml",
       "scene_id": "fa629399ded8e23c4fb7",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 18: a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "011_earth_temple_01.rule.xml",
       "scene_id": "dedfd7d9431f2172275e",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 18: a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "012_earth_temple_02.rule.xml",
       "scene_id": "3ccb758ba39eee28aa87",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 18: a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "013_earth_temple_03.rule.xml",
       "scene_id": "45fe61c5ea04fd4f4dea",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "EARTH_TEMPLE_01",
+        "EARTH_TEMPLE_02",
+        "EARTH_TEMPLE_03",
+        "ELEMENTAL_EARTH"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "014_el_earth.rule.xml",
       "scene_id": "87474d560b2e8c1f85b5",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_3",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName RED_DESERT_HUB",
+        "fast-travel route region DESERT (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "015_red_desert_hub.mlx",
       "scene_id": "145c9b75ecc0bcae66e0",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_3",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName DESERT_CAVE_01",
+        "fast-travel route region DESERT (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "016_red_desert_cave_01.rule.xml",
       "scene_id": "5d5bf670c8e428777dbe",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_3",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName DESERT_CAVE_02",
+        "fast-travel route region DESERT (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "017_red_desert_cave_02.rule.xml",
       "scene_id": "1670cdc190d298717e82",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_3",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName DESERT_CAVE_03",
+        "fast-travel route region DESERT (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "018_red_desert_cave_03.rule.xml",
       "scene_id": "7cb216ae991b0f5391f8",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_3",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 23: a24_DESERT_LIGHT_HOUSE_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "019_light_house_01.rule.xml",
       "scene_id": "b2b7ec3332bd71af7ff0",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_3",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 23: a24_DESERT_LIGHT_HOUSE_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "019_light_house_02.rule.xml",
       "scene_id": "247b44fa30e0237397a6",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_3",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 23: a24_DESERT_LIGHT_HOUSE_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "019_light_house_03.rule.xml",
       "scene_id": "7939d43105cf511cd73e",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "a11_DARKWOOD_CRYPT_02_ENTRANCE",
+        "a12_GOTHICUS_CASTLE_02"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "020_crypt_02.rule.xml",
       "scene_id": "a763713c29120b2d03f7",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 11: a12_GOTHICUS_CASTLE_02"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "021_gothicus_castle_02.rule.xml",
       "scene_id": "2adb7adbe4e5653621e3",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_1",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName SWAMP_02",
+        "fast-travel route region SWAMP (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "022_swamp2.rule.xml",
       "scene_id": "6ee863765454d115924d",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_1",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName SWAMP_CAVE_TROLL_A",
+        "fast-travel route region SWAMP (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "022_swamp2_trollcave.rule.xml",
       "scene_id": "a548290f261f5521bfe7",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_1",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 2: a03_SWAMP_WATER_TEMPLE_01_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "023_watertemple.rule.xml",
       "scene_id": "6add1b5bcc34b6249574",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "ELEMENTAL_WATER",
+        "WATER_TEMPLE_01"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "024_el_water.rule.xml",
       "scene_id": "fc8f217aa6c8f4b41e89",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_4",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName ICY_HUB",
+        "fast-travel route region ICY (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "025_icy_hub.mlx",
       "scene_id": "4a600b19f18959411fdf",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_4",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName ICY_CAVERN_01",
+        "fast-travel route region ICY (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "026_icy_cavern_01.rule.xml",
       "scene_id": "283f20b8e682c7f9b20a",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_4",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName ICY_CAVERN_02",
+        "fast-travel route region ICY (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "027_icy_cavern_02.rule.xml",
       "scene_id": "9e6cb2d21b3bb5326d90",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_4",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName ICY_CAVERN_03",
+        "fast-travel route region ICY (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "028_icy_cavern_03.rule.xml",
       "scene_id": "b1af54e0aba90d48aa2d",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "a03_SWAMP_WATER_TEMPLE_01_ENTRANCE",
+        "a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE",
+        "a31_ICY_WIND_TEMPLE_ENTRANCE",
+        "a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "029_wind_temple.rule.xml",
       "scene_id": "7bac2e2741f6bd3044a0",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_2",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 15: a16_ELEMENTAL_AIR"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "030_el_air.rule.xml",
       "scene_id": "04afe51fc8b013539656",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "a03_SWAMP_WATER_TEMPLE_01_ENTRANCE",
+        "a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE",
+        "a25_DESERT_FIRE_TEMPLE_ENTRANCE",
+        "a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "031_firetemple.mlx",
       "scene_id": "bf01948063f214749992",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "ELEMENTAL_FIRE",
+        "FIRE_TEMPLE_01"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "032_el_fire.rule.xml",
       "scene_id": "1803d31bc622e52e4ca3",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "a03_SWAMP_WATER_TEMPLE_01_ENTRANCE",
+        "a08_DARKWOOD_INFECTED_VILLAGE_01_ENTRANCE",
+        "a09_DARKWOOD_SECRET_BASEMENT_01",
+        "a10_DARKWOOD_CRYPT_01_ENTRANCE",
+        "a18_DARKWOOD_ROOT_DEN_01_ENTRANCE",
+        "a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE",
+        "a21_DESERT_CAVE_01_ENTRANCE",
+        "a27_ICY_CAVERN_01_ENTRANCE",
+        "a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "033_voidmaze_01.rule.xml",
       "scene_id": "4f80125fe47e002ef26d",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "a11_DARKWOOD_CRYPT_02_ENTRANCE",
+        "a12_GOTHICUS_CASTLE_02",
+        "a22_DESERT_CAVE_02_ENTRANCE",
+        "a28_ICY_CAVERN_02_ENTRANCE"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "034_voidmaze_02.rule.xml",
       "scene_id": "300f7146ce3acdd727cd",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "a23_DESERT_CAVE_03_ENTRANCE",
+        "a29_ICY_CAVERN_03_ENTRANCE"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "035_voidmaze_03.rule.xml",
       "scene_id": "7a26952703674a362230",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_5",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels LevelName UNDERWORLD_HUB",
+        "fast-travel route region UNDERWORLD (computed from row names/order)"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "036_underworld_hub.mlx",
       "scene_id": "a9e0f80e1d8689ad5593",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "act_5",
+      "confidence": "INFERENCE",
+      "evidence": [
+        "levels fast-travel row 31: a33_UNDERWORLD_MACHINE_ROOMS_ENTRANCE"
+      ],
+      "reason": "Generated geographic route grouping; all act placement remains INFERENCE.",
       "scene": "037_machine_rooms_01.mlx",
       "scene_id": "9fc3c1a42c6b469bbf26",
-      "status": "TODO"
+      "status": "INFERENCE",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "DARK_DUNGEON_TEMPLE_01",
+        "DARK_DUNGEON_TEMPLE_BOSSROOM"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "038_dark_temple.mlx",
       "scene_id": "f5c436de2b255f87b02f",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [
+        "DARK_DUNGEON_TEMPLE_01",
+        "DARK_DUNGEON_TEMPLE_BOSSROOM"
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "039_dark_temple_bossroom_01.mlx",
       "scene_id": "0995df95dc10822639cb",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "050_earth_temple_demo.rule.xml",
       "scene_id": "fd53aaa9131257ea80de",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "100_debug_cowardtest.mlx",
       "scene_id": "2b95c86de2810d99273c",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "101_debug_machineroomtestmultiplayer.mlx",
       "scene_id": "7f02f2f3599c6e77d903",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "102_debug_questtest.rule.xml",
       "scene_id": "41e35674cc46db663570",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "103_debug_darktemple_test.mlx",
       "scene_id": "32cc037c38dc940741df",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "104_debug_abbey.mlx",
       "scene_id": "5564aaf6d2711af026ea",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "105_debug_alphatestlevel.mlx",
       "scene_id": "7549a4dc0be0fb283d8b",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "106_debug_crypt1.mlx",
       "scene_id": "ecaa33d30ea6ab5007d0",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "107_debug_crypt2.mlx",
       "scene_id": "3f11e1b9bef0c1a1bf7b",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "108_debug_firetemple.mlx",
       "scene_id": "bdd536b8cd7347b0d394",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "109_debug_moveactor.mlx",
       "scene_id": "85c82ab578b23aabbfec",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "110_debug_soundtest_01.mlx",
       "scene_id": "2d1324cdb8cbf0da1aae",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "111_debug_soundtest_02.mlx",
       "scene_id": "073fffd57582bf9fc178",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "112_debug_spawn.mlx",
       "scene_id": "200071d8f6c5f0091064",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "113_debug_spiderquituelefps.mlx",
       "scene_id": "d57da54ea45891497206",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "114_debug_swampcave.mlx",
       "scene_id": "463f0824126152797b3d",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "115_debug_dh1_oldcatacombs.mlx",
       "scene_id": "cbc04ec13bdec43dc856",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "116_debug_dk_test.mlx",
       "scene_id": "c61060f54503836b39a9",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "117_debug_modulespleindecrap.mlx",
       "scene_id": "56f9731481b8fafb12f7",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "118_debug_mvps_for_alex.mlx",
       "scene_id": "2b597160b531677c6f6d",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "119_debug_respawntest.mlx",
       "scene_id": "1d4ea70eb225808c49c7",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "120_debug_snaketest.mlx",
       "scene_id": "7ff2951f63037d6375fc",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "121_debug_test2.rule.xml",
       "scene_id": "202d08c35c552739478a",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "122_debug_test.rule.xml",
       "scene_id": "267d20b120521bc744bb",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "123_debug_testbleh.mlx",
       "scene_id": "02cd547da170996e8c85",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "124_debug_soundtest_all.mlx",
       "scene_id": "a23e03f83e706cdedecd",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "125_debug_icyhub_mvps.mlx",
       "scene_id": "1b91a85161042bd186d7",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "125_randomforalexb.rule.xml",
       "scene_id": "41293d5d381cf6d037a0",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "126_debug_darkqueen.mlx",
       "scene_id": "17fe413b1c5583810205",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "127_debug_flaminite.mlx",
       "scene_id": "e316b9817b863124de37",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "128_debug_dragon_skygardian.mlx",
       "scene_id": "3f00d959fb031f6afac0",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "129_debug_roottroll.mlx",
       "scene_id": "a3b0b8484244a6650239",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "130_debug_lighthouse_emissary.mlx",
       "scene_id": "5900ff42af92c397bf6c",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x02_swamp_witchcave_backup.mlx",
       "scene_id": "3742542e206449711b75",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x04_root_den_backup.mlx",
       "scene_id": "c780a0b84ef165d698a4",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x06_basement_backup.mlx",
       "scene_id": "7dd7c101641a22a2e543",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x07_crypt_backup.mlx",
       "scene_id": "26bf5aad63cc6496713f",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x08_gothicus_castle_01_backup.mlx",
       "scene_id": "bfc9316b8279529b2326",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x09_abbey_backup.mlx",
       "scene_id": "a6cc28ba6c5d289eba86",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x10_el_lightning_backup.mlx",
       "scene_id": "fb581f471dc28f4e274c",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x11_earth_temple_01_backup.mlx",
       "scene_id": "07e6db8f453fa41eb30c",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x12_earth_temple_02_backup.mlx",
       "scene_id": "f3fd6d83c28f71706b13",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x13_earth_temple_03_backup.mlx",
       "scene_id": "a097760b1763d94fcde9",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x14_el_earth_backup.mlx",
       "scene_id": "f345bc65f7f354a06cb0",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x16_red_desert_cave_01_backup.mlx",
       "scene_id": "2b1bba770721c9463e4a",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x17_red_desert_cave_02_backup.mlx",
       "scene_id": "93d8a0e33402b68f38fe",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x18_red_desert_cave_03_backup.mlx",
       "scene_id": "4669a8bda2faf6857e1f",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x19_light_house_01_backup.mlx",
       "scene_id": "08ee89e498537a6a1f2e",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x19_light_house_02_backup.mlx",
       "scene_id": "bbdef3758c29a44ca2a7",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x19_light_house_03_backup.mlx",
       "scene_id": "f0716baf00a5f1d47789",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x20_crypt_02_backup.mlx",
       "scene_id": "a9bcc1a61f26a2c76fc0",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x21_gothicus_castle_02_backup.mlx",
       "scene_id": "d9dd538044cee571458d",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x22_swamp2_backup.mlx",
       "scene_id": "77031c97df24c6984920",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x22_swamp2_trollcave_backup.mlx",
       "scene_id": "bab670a6b1873aa5e604",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x23_watertemple_backup.mlx",
       "scene_id": "a78fe8f2252b11b3891e",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x24_el_water_backup.mlx",
       "scene_id": "d4ad36e62a1d1d8b9d42",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x26_icy_cavern_01_backup.mlx",
       "scene_id": "6e7b0753de61a6519211",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x27_icy_cavern_02_backup.mlx",
       "scene_id": "d37e6aa495d131b2690b",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x28_icy_cavern_03_backup.mlx",
       "scene_id": "bf502e4ef117819e5cfe",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x29_wind_temple_backup.mlx",
       "scene_id": "8d794c0b2238c1f4d70a",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x30_el_air_backup.mlx",
       "scene_id": "8d804614e73f81fa1b92",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x32_el_fire_backup.mlx",
       "scene_id": "83ac3269ecd9f93efc34",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     },
     {
-      "act": null,
-      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "act": "unplaced",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
       "scene": "x50_earth_temple_demo_backup.mlx",
       "scene_id": "4a64f870b4755d38e4ca",
-      "status": "TODO"
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
     }
   ],
   "schema": "atlas-act-membership-v1"

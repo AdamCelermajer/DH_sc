@@ -1,8 +1,7 @@
-"""Reference and source-table inventory for the Original Data Atlas.
+"""Reference and source-table resolution ledger for the Original Data Atlas.
 
-This first pass is deliberately conservative: table rows are inventoried from
-their native names blocks, while rows whose payload schema is not decoded remain
-TODO rather than being guessed from adjacent bytes.
+Rows are decoded only where a recovered parser or native source schema proves
+the serialized layout. Other table payloads remain explicitly unresolved.
 """
 from __future__ import annotations
 
@@ -12,7 +11,7 @@ import struct
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from common import read_json, stable_id, write_json, source_roots
+from common import read_json, stable_id, write_json, source_roots, markdown_table
 
 
 def _string_groups(path: Path):
@@ -57,12 +56,18 @@ def _table_inventory(ctx):
         aliases={('animations',0):'animation_sequences',('animations',1):'camera_animation_sets',('animations',2):'character_animations',
                  ('effects',0):'effect_sets',('effects',1):'character_effects',('effects',2):'footstep_effects',
                  ('sdd_dungeon_hunter_2_iphone',0):'sdd_dungeon_hunter_2_iphone'}
+        if name=='sdd_dungeon_hunter_2_iphone':
+            _,authoritative_names=_sound_table_paths(ctx)
+            groups=[_strings(authoritative_names)]
         for gi,group in enumerate(groups):
           table=aliases.get((name,gi),f'{name}#group{gi}')
           for i,n in enumerate(group):
             tables.append({'id':stable_id('table',table,i,n),'table':table,'index':i,'name':n,
                            'fields':{},'status':'TODO','reason':None,'candidates':[],
-                           'candidate_note':None,'work_status':'TODO'})
+                           'candidate_note':None,'work_status':'TODO',
+                           'source_path':('.local-inputs/items-discovery/sdd_dungeon_hunter_2_iphone_pyarraynames.bin'
+                             if table=='sdd_dungeon_hunter_2_iphone' and (ctx.inputs/'items-discovery/sdd_dungeon_hunter_2_iphone_pyarraynames.bin').exists()
+                             else f'.local-inputs/assets-extra/android/data/pydata/{name}_pyarraynames.bin')})
     return tables
 
 
@@ -92,6 +97,16 @@ class _Reader:
 
 def _table_by(tables):
     return {(r['table'],r['index']):r for r in tables if r.get('index') is not None}
+
+
+def _sound_table_paths(ctx):
+    discovered=ctx.inputs/'items-discovery'
+    if (discovered/'sdd_dungeon_hunter_2_iphone_pyarray.bin').exists():
+        return (discovered/'sdd_dungeon_hunter_2_iphone_pyarray.bin',
+                discovered/'sdd_dungeon_hunter_2_iphone_pyarraynames.bin')
+    py=ctx.inputs/'assets-extra/android/data/pydata'
+    return (py/'sdd_dungeon_hunter_2_iphone_pyarray.bin',
+            py/'sdd_dungeon_hunter_2_iphone_pyarraynames.bin')
 
 
 def _mark_cell(tables_by,table,index,field,value):
@@ -140,6 +155,7 @@ def _decode_animation_and_effect_refs(ctx,tables):
           for fidx,field in enumerate(state_names):
             vals=r.ints() if fidx in (15,31) else [r.i()]
             for vi,value in enumerate(vals):
+              _mark_cell(by,'character_animations',ci,field,vals if fidx in (15,31) else value)
               if value<0: continue
               site=f'pydata/animations_pyarray.bin[character={ci}].{field}[{vi}]'
               valid=value<seq_count
@@ -147,15 +163,137 @@ def _decode_animation_and_effect_refs(ctx,tables):
               rr['resolves_to']=[{'type':'source-table-cell','table':f'AnimTable[{value}]','name':names[value] if valid else None}]
               rr['status']='RESOLVED' if valid else 'UNRESOLVED';rr['reason']=None if valid else 'ID_OUT_OF_RANGE';rr['candidates']=[]
               rr['work_status']='DONE';rr['confidence']='PROVEN';refs.append(rr)
-              _mark_cell(by,'character_animations',ci,field,vals if fidx in (15,31) else value)
       except Exception as exc:
         refs.append({'id':stable_id('schema-error','animations'),'site':'pydata/animations_pyarray.bin','name':'animations','kind':'table','resolves_to':[],'rule':'animation_tables.cpp schema','status':'UNRESOLVED','reason':'OTHER','candidates':[],'port_status':'UNKNOWN','implementation':None,'confidence':'PROVEN','work_status':'DONE','note':str(exc)})
+    # EffectsTables grammar (four layouts; row names stay in their own groups).
+    try:
+      names=_string_groups(py/'effects_pyarraynames.bin');dict_paths=_strings(py/'effects_dictionary_pyarray.bin')
+      r=_Reader(py/'effects_pyarray.bin');set_count=r.word(); effect_rows=[]
+      for si in range(set_count):
+        force=r.byte();loop=r.i();step_count=r.word();steps=[]
+        for sj in range(step_count):
+          vals={'File':r.i(),'ForceCancel':r.byte(),'Loop':r.i(),'OrientOnce':r.byte(),'OrientWithAnchor':r.byte(),
+                'PlayTime':r.i(),'PoolSize':r.i(),'Redir':r.i(),'ScaleWithAnchor':r.byte(),'SelfIllum':r.byte(),
+                'SpeedBits':r.word(),'SubObject':r.text()}
+          steps.append(vals); file_id=vals['File']; valid=0<=file_id<len(dict_paths)
+          if file_id<0: continue
+          rr=_reference(f'pydata/effects_pyarray.bin[set={si},step={sj}].File',str(file_id),'animated effect',
+                        'EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp')
+          rr['resolves_to']=[{'type':'EffectDict file row','index':file_id,'path':dict_paths[file_id] if valid else None,
+                              'effect_set_index':si,'effect_set_name':names[0][si] if si<len(names[0]) else None,
+                              'redir':vals['Redir']}]
+          if not valid:
+            rr.update(status='UNRESOLVED',reason='ID_OUT_OF_RANGE',candidates=[{'index':len(dict_paths)-1,'path':dict_paths[-1]}] if dict_paths else [],
+                      work_status='DONE',confidence='PROVEN')
+          else: rr.update(status='RESOLVED',work_status='DONE',confidence='PROVEN')
+          refs.append(rr)
+        typ=r.i();effect_rows.append({'ForceCache':force,'Loop':loop,'Steps':steps,'Type':typ})
+        _mark_cell(by,'effect_sets',si,'steps',steps);_mark_cell(by,'effect_sets',si,'type',typ)
+      char_count=r.word()
+      for ci in range(char_count):
+        vals={'BloodDeathEffect':r.i(),'BloodEffect':r.i(),'FootprintEffect':r.i(),'SwooshEffect':r.i(),'TriggerFloorFX':r.byte()}
+        _mark_cell(by,'character_effects',ci,'fields',vals)
+        for field,value in vals.items():
+          if field=='TriggerFloorFX' or value<0: continue
+          valid=value<set_count;rr=_reference(f'pydata/effects_pyarray.bin[character={ci}].{field}',str(value),'effect set','CharEffectTable field -> AnimatedEffectTable row')
+          rr['resolves_to']=[{'type':'EffectTables set','index':value,'name':names[0][value] if valid else None}]
+          rr.update(status='RESOLVED' if valid else 'UNRESOLVED',reason=None if valid else 'ID_OUT_OF_RANGE',work_status='DONE',confidence='PROVEN')
+          if not valid: rr['candidate_note']='No matching AnimatedEffectTable row exists for the source set id.'
+          refs.append(rr)
+      foot_count=r.word()
+      for fi in range(foot_count):
+        effect=r.i();floor=r.text();run_sounds=r.ints();walk_sounds=r.ints()
+        vals={'Effect':effect,'Floortype':floor,'RunSound':run_sounds,'WalkSound':walk_sounds};_mark_cell(by,'footstep_effects',fi,'fields',vals)
+        if effect>=0:
+          valid=effect<set_count;rr=_reference(f'pydata/effects_pyarray.bin[footstep={fi}].Effect',str(effect),'effect set','FootstepEffectTable Effect -> AnimatedEffectTable row')
+          rr['resolves_to']=[{'type':'EffectTables set','index':effect,'name':names[0][effect] if valid else None}]
+          rr.update(status='RESOLVED' if valid else 'UNRESOLVED',reason=None if valid else 'ID_OUT_OF_RANGE',work_status='DONE',confidence='PROVEN')
+          if not valid: rr['candidate_note']='No matching AnimatedEffectTable row exists for the source set id.'
+          refs.append(rr)
+        for field,ids in [('RunSound',run_sounds),('WalkSound',walk_sounds)]:
+          for j,sid in enumerate(ids):
+            if sid<0: continue
+            valid=sid<638;rr=_reference(f'pydata/effects_pyarray.bin[footstep={fi}].{field}[{j}]',str(sid),'sound','FootstepEffectTable sound list -> source SDD row index')
+            rr['resolves_to']=[{'type':'source sound row','index':sid}]
+            rr.update(status='RESOLVED' if valid else 'UNRESOLVED',reason=None if valid else 'ID_OUT_OF_RANGE',work_status='DONE',confidence='PROVEN')
+            if not valid: rr['candidate_note']='Source sound index lies outside the 638-row SDD table.'
+            refs.append(rr)
+    except Exception as exc:
+      refs.append({'id':stable_id('schema-error','effects'),'site':'pydata/effects_pyarray.bin','name':'effects','kind':'table','resolves_to':[],'rule':'effects_tables.cpp schema','status':'UNRESOLVED','reason':'OTHER','candidates':[],'candidate_note':'Effect set payload could not be decoded by the recovered source schema.','port_status':'UNKNOWN','implementation':None,'confidence':'PROVEN','work_status':'DONE','note':str(exc)})
     # Exact 638-row sound records: count followed by <uid,event> pairs.
     try:
-      sound_names=_strings(py/'sdd_dungeon_hunter_2_iphone_pyarraynames.bin'); rrdr=_Reader(py/'sdd_dungeon_hunter_2_iphone_pyarray.bin');n=rrdr.word()
+      sound_bin,sound_name_bin=_sound_table_paths(ctx)
+      sound_names=_strings(sound_name_bin); rrdr=_Reader(sound_bin);n=rrdr.word()
       for i in range(n):
         uid=rrdr.i();event=rrdr.i();_mark_cell(by,'sdd_dungeon_hunter_2_iphone',i,'uid',uid);_mark_cell(by,'sdd_dungeon_hunter_2_iphone',i,'isEvent',event)
     except Exception: pass
+    # ProjectileTable uses the original registered wire shape and compiled
+    # member order (source_process_array_registration_v101.hpp / compiled_members).
+    try:
+      pnames=_strings(py/'projectiles_pyarraynames.bin');pfields=_strings(py/'projectiles_pystructnames.bin')
+      models=_strings(py/'projectiles_dictionary_pyarray.bin');r=_Reader(py/'projectiles_pyarray.bin');n=r.word()
+      shape='bbiibiibbiiiiibbiiii'
+      if len(pfields)!=20 or len(shape)!=len(pfields): raise ValueError('Projectile schema/name dimensions differ')
+      # The descriptor records exact serialized widths: b=byte, i/f=word, S=length-prefixed string.
+      for i in range(n):
+        values={}
+        for field,typ in zip(pfields,shape):
+          values[field]=r.byte() if typ=='b' else r.text() if typ=='S' else r.i()
+        _mark_cell(by,'projectiles#group0',i,'fields',values)
+        for field,kind in [('Model','projectile'),('ImpactFX','effect set'),('ExpireFX','effect set'),('ObjectImpactFX','effect set'),
+                           ('ImpactSFX','sound'),('ExpireSFX','sound'),('ObjectImpactSFX','sound')]:
+          value=int(values.get(field,-1))
+          if value<0: continue
+          if field=='Model':
+            valid=value<len(models);target={'type':'ProjectileDict row','index':value,'path':models[value] if valid else None}
+          elif kind=='sound':
+            valid=value<638;target={'type':'source sound row','index':value}
+          else:
+            valid=value<len(names[0]);target={'type':'AnimatedEffectTable row','index':value,'name':names[0][value] if valid else None}
+          rr=_reference(f'pydata/projectiles_pyarray.bin[row={i}].{field}',str(value),kind,
+                        'ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json')
+          rr['resolves_to']=[target];rr.update(status='RESOLVED' if valid else 'UNRESOLVED',reason=None if valid else 'ID_OUT_OF_RANGE',work_status='DONE',confidence='PROVEN')
+          if not valid: rr['candidate_note']=f'{field} index {value} is outside its source dictionary/table.'
+          refs.append(rr)
+    except Exception as exc:
+      refs.append({'id':stable_id('schema-error','projectiles'),'site':'pydata/projectiles_pyarray.bin','name':'projectiles','kind':'table','resolves_to':[],'rule':'ProjectileTable registered shape bbiibiibbiiiiibbiiii','status':'UNRESOLVED','reason':'OTHER','candidates':[],'candidate_note':'ProjectileTable rows could not be decoded by the registered source schema.','port_status':'UNKNOWN','implementation':None,'confidence':'PROVEN','work_status':'DONE','note':str(exc)})
+    # SkillList and SkillTable exact record layout from game-data/skill_tables.cpp.
+    try:
+      skill_groups=_string_groups(py/'skills_pyarraynames.bin');list_names,skill_names=skill_groups
+      schemas=_string_groups(py/'skills_pystructnames.bin');r=_Reader(py/'skills_pyarray.bin');list_count=r.word()
+      for li in range(list_count):
+        ids=r.ints();_mark_cell(by,'skills#group0',li,'list_entries',ids)
+        for j,sid in enumerate(ids):
+          valid=sid<len(skill_names);rr=_reference(f'pydata/skills_pyarray.bin[skill_list={li}].List[{j}]',str(sid),'skill','SkillListTable List entries -> SkillTable row index')
+          rr['resolves_to']=[{'type':'SkillTable row','index':sid,'name':skill_names[sid] if valid else None}]
+          rr.update(status='RESOLVED' if valid else 'UNRESOLVED',reason=None if valid else 'ID_OUT_OF_RANGE',work_status='DONE',confidence='PROVEN')
+          if not valid: rr['candidate_note']='Skill list id is outside the decoded SkillTable rows.'
+          refs.append(rr)
+      skill_count=r.word();skill_fields=['Anim','AnimIsMoving','DisplayProps','ElementalType','FairieDependantText','Flags','Level','Script','SkillAssignable','SkillCurrLevel','SkillDescription','SkillIcon','SkillName','SkillNextLevel','Type']
+      for si in range(skill_count):
+        row={}
+        for field in skill_fields:
+          if field=='DisplayProps': row[field]=r.ints()
+          elif field in ('Script','SkillIcon'): row[field]=r.text()
+          elif field in ('AnimIsMoving','FairieDependantText','SkillAssignable'): row[field]=r.byte()
+          elif field=='Anim': row[field]=r.i()
+          else: row[field]=r.word()
+        _mark_cell(by,'skills#group1',si,'fields',row)
+        anim=int(row['Anim']);
+        if anim>=0:
+          valid=anim<len(groups[0]);rr=_reference(f'pydata/skills_pyarray.bin[skill={si}].Anim',str(anim),'anim','SkillTable Anim field -> AnimTable sequence row')
+          rr['resolves_to']=[{'type':'AnimTable row','index':anim,'name':groups[0][anim] if valid else None}]
+          rr.update(status='RESOLVED' if valid else 'UNRESOLVED',reason=None if valid else 'ID_OUT_OF_RANGE',work_status='DONE',confidence='PROVEN')
+          if not valid: rr['candidate_note']='Skill animation id is outside the decoded AnimTable rows.'
+          refs.append(rr)
+        for field,kind in [('Script','script'),('SkillIcon','data file')]:
+          value=row[field]
+          if not value: continue
+          rr=_reference(f'pydata/skills_pyarray.bin[skill={si}].{field}',value,kind,'SkillTable named string field; game-data/skill_tables.cpp')
+          rr['resolves_to']=[{'type':'source path or key','path':value}]
+          rr.update(status='TODO',work_status='TODO',confidence='PROVEN');refs.append(rr)
+    except Exception as exc:
+      refs.append({'id':stable_id('schema-error','skills'),'site':'pydata/skills_pyarray.bin','name':'skills','kind':'table','resolves_to':[],'rule':'skill_tables.cpp schema','status':'UNRESOLVED','reason':'OTHER','candidates':[],'candidate_note':'SkillList/SkillTable rows could not be decoded by the recovered source schema.','port_status':'UNKNOWN','implementation':None,'confidence':'PROVEN','work_status':'DONE','note':str(exc)})
     return refs
 
 
@@ -179,33 +317,69 @@ def _asset_index(ctx):
     return read_json(ctx.out/'data/assets.json', []) or []
 
 
+_ASSET_LOOKUP = None
+_TABLE_LOOKUP = None
 def _resolve_file(name, assets):
     # Exact path and case-insensitive path are both retained as evidence.
     norm=str(name).replace('\\','/').lstrip('./')
     for prefix in ('q:/data/iphone/','q:/data/','data/iphone/','data/'):
         if norm.casefold().startswith(prefix): norm=norm[len(prefix):];break
     if norm.casefold().startswith('data/'): norm=norm[5:]
-    exact=[a for a in assets if a.get('relative','').replace('\\','/')==norm]
+    global _ASSET_LOOKUP
+    if _ASSET_LOOKUP is None or _ASSET_LOOKUP[0] != id(assets):
+        exact_map={};fold_map={};leaf_map={}
+        for a in assets:
+            rel=a.get('relative','').replace('\\','/')
+            exact_map.setdefault(rel,[]).append(a);fold_map.setdefault(rel.casefold(),[]).append(a)
+            leaf_map.setdefault(Path(rel).name.casefold(),[]).append(a)
+        _ASSET_LOOKUP=(id(assets),exact_map,fold_map,leaf_map)
+    _,exact_map,fold_map,leaf_map=_ASSET_LOOKUP
+    exact=exact_map.get(norm,[])
     if exact: return ('RESOLVED',exact,[],None)
-    folded=[a for a in assets if a.get('relative','').replace('\\','/').casefold()==norm.casefold()]
+    folded=fold_map.get(norm.casefold(),[])
     if folded: return ('RESOLVED',folded,[],None)
     leaf=Path(norm).name.casefold()
-    candidates=[a for a in assets if Path(a.get('relative','')).name.casefold()==leaf]
+    candidates=leaf_map.get(leaf,[])
     if candidates:
         same_path=[a for a in candidates if a.get('relative','').replace('\\','/').casefold()==norm.casefold()]
         return ('UNRESOLVED',[],candidates,'PATH_CASE' if same_path else 'NAME_NO_FILE')
-    # Fuzzy basename candidates are diagnostic only.
-    stem=Path(leaf).stem
-    close=[a for a in assets if stem and stem in Path(a.get('relative','')).name.casefold()]
-    return ('UNRESOLVED',[],close[:10],'FILE_MISSING' if name else 'NAME_NO_FILE')
+    return ('UNRESOLVED',[],[],'FILE_MISSING' if name else 'NAME_NO_FILE')
 
 
+_SOUND_LABEL_LOOKUP = None
 def resolve_reference(ctx,row,tables=None,assets=None):
     """Resolve one reference row through the shared table and file rules."""
     tables=tables if tables is not None else (read_json(ctx.out/'data/tables.json',[]) or [])
     assets=assets if assets is not None else _asset_index(ctx)
-    table_by={(t.get('table'),t.get('index')):t for t in tables}
+    global _TABLE_LOOKUP
+    if _TABLE_LOOKUP is None or _TABLE_LOOKUP[0] != id(tables):
+      _TABLE_LOOKUP=(id(tables),{(t.get('table'),t.get('index')):t for t in tables})
+    table_by=_TABLE_LOOKUP[1]
     for target in row.get('resolves_to') or []:
+      type_to_table={'AnimTable row':'animation_sequences','AnimTable sequence':'animation_sequences',
+                     'AnimatedEffectTable row':'effect_sets','EffectTables set':'effect_sets',
+                     'SkillTable row':'skills#group1','SkillListTable row':'skills#group0',
+                     'source sound row':'sdd_dungeon_hunter_2_iphone',
+                     'ProjectileDict row':'projectiles_dictionary#group0'}
+      target_type=target.get('type')
+      if target_type=='table-row':
+        tname=target.get('table');idx=target.get('index');trow=table_by.get((tname,idx))
+        row['referenced_table']=tname;row['referenced_index']=idx
+        if trow is None:
+          row['invalid_id']=True;row['status']='UNRESOLVED';row['reason']='ID_OUT_OF_RANGE'
+          target.setdefault('candidate_note',f'{tname} has no decoded row at index {idx}.')
+        else:
+          row['invalid_id']=False
+          target['source_row']={'table':tname,'index':idx,'name':trow.get('name'),'fields':trow.get('fields',{})}
+      if isinstance(target.get('index'),int) and target_type in type_to_table:
+        tname=type_to_table[target_type];idx=target['index'];trow=table_by.get((tname,idx))
+        row['referenced_table']=tname;row['referenced_index']=idx
+        if trow is None:
+          row['invalid_id']=True
+          target.setdefault('candidate_note',f'{tname} has no decoded row at index {idx}.')
+        else:
+          row['invalid_id']=False
+          target['source_row']={'table':tname,'index':idx,'name':trow.get('name'),'fields':trow.get('fields',{})}
       table=target.get('table')
       m=re.search(r'(?:AnimTable|EffectsTables|sdd_dungeon_hunter_2_iphone)\[(\d+)\]',str(table or ''))
       if m:
@@ -236,11 +410,37 @@ def resolve_reference(ctx,row,tables=None,assets=None):
         row['candidates']=[{'path':a.get('path'),'source':a.get('source')} for a in candidates]
         if not row['candidates']: row['candidate_note']='Exact target path and basename were absent from all indexed original source roots.'
     elif not row.get('resolves_to') and isinstance(name,str) and row.get('kind')=='sound':
-      # Labels are keys in the source sounds table, not filenames.
-      hits=[x for x in read_json(ctx.out/'data/references.json',[]) or [] if x.get('kind')=='sound' and x.get('name')==name]
-      if len(hits)==1:
-        row['resolves_to']=[{'type':'source sound row','id':hits[0].get('site'),'members':hits[0].get('resolves_to',[])}]
-        row.update(status='RESOLVED',work_status='DONE',confidence='PROVEN')
+      # BDAE sound event names are XML labels after stripping one leading sfx_.
+      global _SOUND_LABEL_LOOKUP
+      sound_xml=ctx.inputs/'audio-v34/cache/sounds.xml'
+      if _SOUND_LABEL_LOOKUP is None:
+        sound_nodes=[x.attrib for x in ET.parse(sound_xml).iter('sound')] if sound_xml.exists() else []
+        led=json.loads((ctx.root/'port/engine-audio/reference/source-bindings-v38/ledger.json').read_text(encoding='utf-8'))
+        uid_map={}
+        for entry in led: uid_map.setdefault(str(entry.get('uid')),[]).append(entry)
+        _SOUND_LABEL_LOOKUP={}
+        for x in sound_nodes:
+          item=dict(x);item['source_ids']=[e.get('source_id') for e in uid_map.get(str(x.get('uid')),[])]
+          _SOUND_LABEL_LOOKUP.setdefault(x.get('label',''),[]).append(item)
+      sound_nodes=_SOUND_LABEL_LOOKUP.get(name,[])
+      if sound_nodes:
+        catalog=[]
+        for x in sound_nodes:
+          uid=int(x.get('uid','-1'))
+          catalog.append({'uid':uid,'filename':x.get('filename'),'source_ids':x.get('source_ids',[])})
+        existing=[a for item in catalog for a in _resolve_file(item.get('filename') or '',assets)[1]]
+        row['resolves_to']=[{'type':'sounds.xml label','label':name,'rows':catalog,
+                             'asset_files':[{'path':a.get('path'),'source':a.get('source')} for a in existing]}]
+        missing=[x for x in catalog if not _resolve_file(x.get('filename') or '',assets)[1]]
+        if len(catalog)==1 and not missing:
+          row.update(status='RESOLVED',work_status='DONE',confidence='PROVEN')
+        else:
+          row.update(status='UNRESOLVED' if missing else 'AMBIGUOUS',reason='FILE_MISSING' if missing else None,work_status='DONE')
+          row['candidates']=[{'path':x.get('filename'),'uid':x.get('uid')} for x in catalog]
+          if not row['candidates']: row['candidate_note']='No exact sounds.xml label row exists.'
+      elif row.get('rule')=='BRES_EVENT_SFX_PREFIX':
+        row.update(status='UNRESOLVED',reason='NAME_NO_FILE',work_status='DONE',confidence='PROVEN')
+        row['candidate_note']='No sounds.xml label matches the exact BDAE event name after one leading sfx_ is removed.'
     if row.get('status')=='TODO' and row.get('resolves_to'):
       row.update(status='RESOLVED',work_status='DONE',confidence='PROVEN')
     if row.get('status')=='UNRESOLVED' and not row.get('candidates') and not row.get('candidate_note'):
@@ -248,9 +448,41 @@ def resolve_reference(ctx,row,tables=None,assets=None):
     return row
 
 
+def _resolve_campaign_candidates(refs,tables):
+    """Promote only command fields whose names and source roles establish a target table."""
+    by_id={t.get('id'):t for t in tables}
+    for ref in refs:
+      kind=ref.get('kind');command=ref.get('command_name',ref.get('command',''))
+      allowed=(kind=='level_name_candidate' and command=='Script_ChangeLevel') or (
+               kind=='actor_name_candidate' and command=='Script_PlayActorAnim')
+      candidates=ref.get('candidates') or []
+      if not allowed or len(candidates)!=1: continue
+      candidate=candidates[0];target=by_id.get(candidate.get('id'))
+      if not target or target.get('name')!=ref.get('name'): continue
+      ref['resolves_to']=[{'type':'table-row','table':target.get('table'),'index':target.get('index'),
+                           'name':target.get('name'),'row_id':target.get('id')}]
+      ref.update(status='RESOLVED',reason=None,confidence='PROVEN',work_status='DONE',
+                 rule=f"{command} source field role plus exact {target.get('table')} row-name match")
+
+
+def prepare_tables(ctx):
+    """Seed source-derived tables before level/campaign consumers on a clean run."""
+    tables=_table_inventory(ctx)
+    tables.extend(read_json(ctx.out/'data/tables-extra.json',[]) or [])
+    tables=list({r['id']:r for r in tables}.values())
+    _decode_animation_and_effect_refs(ctx,tables)
+    write_json(ctx.out/'data/tables.json',tables)
+
 def run(ctx, inventory_only=False):
     data=ctx.inputs/'assets-extra/android/data'; py=data/'pydata'
+    assets_all=_asset_index(ctx)
     tables=_table_inventory(ctx)
+    # Root-owned parser for character, AI, item and faery tables supplies rows
+    # from their native schemas. The names-stream inventory remains our source
+    # of total row coverage; parser rows enrich those same stable table IDs.
+    tables.extend(read_json(ctx.out/'data/tables-extra.json',[]) or [])
+    table_dedup={r.get('id') or stable_id(r.get('table'),r.get('index'),r.get('name')):r for r in tables}
+    tables=list(table_dedup.values())
     refs=_decode_animation_and_effect_refs(ctx,tables)
     # Use native audio ledger when present; it records the complete 638-row source
     # sound table resolution and event members from the existing source parser.
@@ -265,10 +497,14 @@ def run(ctx, inventory_only=False):
                 tgt=e.get('target') or {}
                 target=tgt.get('filename')
                 members=e.get('assets') or ([tgt] if tgt else [])
-                existing=[m for m in members if m.get('exists')]
-                absent=[m for m in members if not m.get('exists')]
+                for m in members:
+                    _,present,_,_=_resolve_file(m.get('filename') or '',assets_all)
+                    m['_source_exists']=bool(present)
+                existing=[m for m in members if m.get('_source_exists')]
+                absent=[m for m in members if not m.get('_source_exists')]
                 row['resolves_to']=[{'type':'sounds.xml filename','path':m.get('filename'),'uid':m.get('uid',tgt.get('uid')),
-                                     'event':e.get('event'),'exists_in_source_cache':bool(m.get('exists'))} for m in members]
+                                     'event':e.get('event'),'exists_in_source_cache':bool(m.get('_source_exists')),
+                                     'asset_files':[{'path':a.get('path'),'source':a.get('source')} for a in _resolve_file(m.get('filename') or '',assets_all)[1]]} for m in members]
                 if members and not absent:
                     row['status']='RESOLVED';row['work_status']='DONE';row['confidence']='PROVEN'
                 elif existing:
@@ -285,13 +521,15 @@ def run(ctx, inventory_only=False):
     script_refs=read_json(ctx.out/'data/script-references.json', []) or []
     # Another category agent may already have promoted its rows to the combined
     # ledger. Preserve those rows and merge by stable id.
-    prior_refs=read_json(ctx.out/'data/references.json', []) or []
-    prior_refs=[r for r in prior_refs if r.get('context') or r.get('kind')=='named_reference']
-    refs.extend(prior_refs)
     refs.extend(script_refs)
     refs.extend(read_json(ctx.out/'data/references-extra.json',[]) or [])
+    refs.extend(read_json(ctx.out/'data/reference-cells-extra.json',[]) or [])
+    # The campaign decoder owns its extraction; normalize and merge its rows
+    # without changing their stable identities or source locations.
+    refs.extend(read_json(ctx.out/'data/campaign-references.json',[]) or [])
     by_id={r.get('id') or stable_id(r.get('site'),r.get('name'),r.get('kind')):r for r in refs}
     refs=list(by_id.values())
+    _resolve_campaign_candidates(refs,tables)
     if inventory_only:
         for row in tables:
             row.update(status='TODO',reason=None,fields={},work_status='TODO',confidence='GUESS',candidate_note=None)
@@ -301,22 +539,46 @@ def run(ctx, inventory_only=False):
     else:
         for row in tables:
             if row.get('status')=='TODO':
+                schema = row.get('table','').split('#',1)[0]
                 row.update(status='UNRESOLVED',reason='OTHER',work_status='DONE',confidence='PROVEN',
-                           candidate_note='No recovered-source schema or existing parser was available for this PyData table; payload fields intentionally remain undecoded.')
+                           candidate_note=f'Names and local row index are proven from the native names stream. Payload schema for {schema} has not yet been decoded in this atlas module; no field values or references are inferred.')
         _add_knight_skill_refs(ctx,refs)
-        assets=_asset_index(ctx)
-        for ref in refs: resolve_reference(ctx,ref,tables,assets)
+        assets=assets_all
+        for ref in refs:
+            resolve_reference(ctx,ref,tables,assets)
+            # A reference site must end with an explicit disposition. Numeric
+            # expressions without a proven table role are unresolved as
+            # semantics, never treated as IDs based on their shape alone.
+            if ref.get('status')=='TODO':
+                ref.update(status='UNRESOLVED',reason='OTHER',work_status='DONE')
+                ref.setdefault('candidate_note','Source site was extracted, but no audited name/path/table-index rule maps this value to an original row or file.')
+                ref.setdefault('candidates',[])
+            if ref.get('status')=='UNRESOLVED' and not ref.get('reason'):
+                ref['reason']='OTHER'
+            if ref.get('status') in ('UNRESOLVED','AMBIGUOUS') and not ref.get('candidates') and not ref.get('candidate_note'):
+                ref['candidate_note']='No exact source file or table row was established; no plausible substitute was inferred.'
+            if ref.get('status') in ('RESOLVED','UNRESOLVED','AMBIGUOUS'):
+                ref['work_status']='DONE'
     refs.sort(key=lambda r:(r.get('site',''),r.get('name',''),r.get('kind','')))
+    audio_rows=[r for r in refs if r.get('site','').startswith('pydata/sdd_dungeon_hunter_2_iphone_pyarray.bin[row=') and r.get('rule','').startswith('row index in the 638-entry')]
     write_json(ctx.out/'data/tables.json',tables)
     write_json(ctx.out/'data/references.json',refs)
+    write_json(ctx.out/'data/audio.json',audio_rows)
     rules=[
       {'id':'pydata-name-blocks','rule':'PyData name blocks are count-prefixed lists of length-prefixed UTF-8 strings; row index is zero-based in serialized order.','evidence':'port/game-data/animation_tables.cpp Reader::strings and load_animation_tables; port/game-data/effects_tables.cpp Reader::names.','status':'PROVEN','confidence':'PROVEN'},
-      {'id':'audio-row-index','rule':'Sound id indexes the 638-row sdd_dungeon_hunter_2_iphone table. Ordinary rows resolve to sounds.xml filename; isEvent rows expand their member sounds.','evidence':'port/engine-audio/reference/source-bindings-v38/ledger.json source_id, event, target; coordination/v21.8/SKILL-VERIFICATION-MATRIX.md.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'audio-row-index','rule':'Sound id indexes the 638-row sdd_dungeon_hunter_2_iphone table. Ordinary rows resolve to the sounds.xml filename; isEvent rows expand member filenames. File existence is checked across the partial Android/recovered-cache and iOS corpora; a file in any included source corpus resolves the row.','evidence':'items-discovery/sdd_dungeon_hunter_2_iphone_pyarray.bin and names; port/engine-audio/reference/source-bindings-v38/ledger.json source_id/event/target; audio-v34/cache/sounds.xml; coordination/v21.8/ATLAS-CODEX-PROMPT.md and user clarification that Android/recovered-cache and iOS are both partial sources.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'asset-platform-availability','rule':'Asset presence is recorded per actual source corpus and resolved paths retain their source labels and content hashes. Platform availability differences are diagnostics, not substitutions or grounds to suppress a match from another included original corpus.','evidence':'coordination/atlas/data/platform-comparison.json; coordination/v21.8/ATLAS-CODEX-PROMPT.md; user clarification 2026-10-13.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'path-case-resolution','rule':'Resolve a data URI against actual source file paths using exact case first, then case-insensitive comparison; preserve ambiguous candidates. Do not infer missing content from a similar basename.','evidence':'atlas path-resolution implementation; source path inventory.','status':'PROVEN','confidence':'PROVEN'},
-      {'id':'unsupported-pyarray','rule':'Rows without an audited source schema remain TODO/UNRESOLVED until a matching recovered-source parser or native schema is available; do not infer fields from byte patterns.','evidence':'data/tables.json rows with empty fields and TODO status.','status':'PROVEN','confidence':'PROVEN'}]
+      {'id':'signed-reference-sentinels','rule':'Typed signed table-index fields use signed 32-bit values; negative values such as -1 mean no reference and are omitted from reference rows, never reinterpreted as large unsigned IDs.','evidence':'port/game-data/skill_tables.cpp signed_word and Skill Anim field; Projectiles registered source descriptor and signed row fields; exact source pyarray bytes.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'bdae-sound-prefix','rule':'BDAE sound events strip exactly one leading `sfx_` before lookup in sounds.xml; preserve the resulting label verbatim, including malformed or missing names.','evidence':'port/engine-audio/reference/source-bindings-v38/ledger.json; adapter.cpp sound event mapping; BDAE event sites from tools/atlas/sites.py.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'unsupported-pyarray','rule':'An undecoded PyData payload retains its proven table name and local row index with terminal UNRESOLVED/OTHER disposition; its fields remain unknown pending a recovered parser or native schema. No fields are inferred from adjacent bytes.','evidence':'Native count-prefixed names streams plus exact decoded schemas in port/game-data/animation_tables.cpp, effects_tables.cpp, skill_tables.cpp, and data.cpp.','status':'PROVEN','confidence':'PROVEN'}]
     write_json(ctx.out/'data/rules.json',rules)
+    (ctx.out/'RULES.md').write_text('# Reference resolution rules\n\n'+'\n'.join(f"- **{r['id']}** — {r['rule']} Evidence: `{r['evidence']}`" for r in rules)+'\n',encoding='utf-8')
     counts={'tables':len(tables),'table_rows_todo':sum(r.get('status')=='TODO' for r in tables),
+            'table_rows_unresolved':sum(r.get('status')=='UNRESOLVED' for r in tables),
+            'table_rows_work_todo':sum(r.get('work_status')=='TODO' for r in tables),
             'references':len(refs),'reference_todo':sum(r.get('status')=='TODO' for r in refs),
+            'reference_work_todo':sum(r.get('work_status')=='TODO' for r in refs),
             'sound_ledger_rows':sum(r.get('rule','').startswith('row index in the 638-entry') for r in refs),
             'references_by_kind':{k:sum(r.get('kind')==k for r in refs) for k in sorted({r.get('kind','') for r in refs})},
             'inventory_only':bool(inventory_only)}
@@ -327,16 +589,27 @@ def run(ctx, inventory_only=False):
 
 def _write_report(ctx,counts,refs,tables):
     p=ctx.out/'reports/references.md';p.parent.mkdir(parents=True,exist_ok=True)
+    kinds=sorted({r.get('kind','') for r in refs})
+    status_rows=[]
+    for kind in kinds:
+      subset=[r for r in refs if r.get('kind')==kind]
+      status_rows.append([kind,len(subset),sum(r.get('status')=='RESOLVED' for r in subset),
+                          sum(r.get('status')=='AMBIGUOUS' for r in subset),
+                          sum(r.get('status')=='UNRESOLVED' for r in subset),
+                          json.dumps(dict(sorted(__import__('collections').Counter(r.get('reason') for r in subset if r.get('status')=='UNRESOLVED').items())),ensure_ascii=False)])
     lines=['# Reference resolution ledger','',
-      'Generated by `tools/atlas/references.py`. The initial inventory intentionally leaves payloads without a recovered-source schema as TODO; no byte-pattern field guesses are made.','',
+      'Generated by `tools/atlas/references.py`. Every extracted site has an explicit resolution status. Fields are decoded only from a matching recovered-source parser or native schema.','',
       '## Inventory','',
       f"- PyData table rows inventoried: {counts['tables']} ({counts['table_rows_todo']} TODO).",
-      f"- Reference rows: {counts['references']} ({counts['reference_todo']} TODO).",
+      f"- PyData rows unresolved: {counts.get('table_rows_unresolved',0)}; rows still requiring schema work: {counts.get('table_rows_work_todo',0)}.",
+      f"- Reference rows: {counts['references']} ({counts['reference_todo']} TODO; {counts.get('reference_work_todo',0)} require more evidence/work).",
       f"- Audio ledger rows: {counts['sound_ledger_rows']}.",'',
+      '## Resolution by reference kind','',
+      markdown_table(['Kind','Rows','Resolved','Ambiguous','Unresolved','Unresolved reasons'],status_rows),'',
       '## Evidence and gaps','',
-      '- Audio row-index mappings are copied from the source binding ledger. `isEvent` rows are represented by the event member mapping in that ledger; the referenced WAV name alone does not prove the file exists in the Android corpus.',
+      '- Sound-row mappings use the recovered 638-row source table and the source binding ledger. `isEvent` rows expand to member filenames; file existence is resolved across the partial Android/recovered-cache and iOS corpora. The iOS-only missing-name total is retained in the platform comparison as a diagnostic.',
       '- Animation sequences and character state references are parsed with the exact schemas in `port/game-data/animation_tables.cpp`; sound table UID/event fields use the source registration and the audio ledger.',
-      '- Tables without a matching recovered-source schema are UNRESOLVED/OTHER with a note; their payload fields remain blank.','']
+      '- Tables without a matching recovered-source schema retain their source names and indexes but remain UNRESOLVED/OTHER with a schema-gap note; their payload fields remain blank.','']
     p.write_text('\n'.join(lines),encoding='utf-8')
 
 
@@ -383,17 +656,22 @@ def known_checks(ctx):
     ledger_path=ctx.root/'port/engine-audio/reference/source-bindings-v38/ledger.json'
     try:
         rows=json.loads(ledger_path.read_text(encoding='utf-8'))
-        names=_strings(py/'sdd_dungeon_hunter_2_iphone_pyarraynames.bin')
-        records=_Reader(py/'sdd_dungeon_hunter_2_iphone_pyarray.bin'); n=records.word(); pairs=[(records.i(),records.i()) for _ in range(n)]
+        sound_bin,sound_name_bin=_sound_table_paths(ctx)
+        names=_strings(sound_name_bin)
+        records=_Reader(sound_bin); n=records.word(); pairs=[(records.i(),records.i()) for _ in range(n)]
         out.append({'name':'sound row index is the 638-row source table with 63 events','passed':n==638 and len(names)==638 and sum(e==1 for _,e in pairs)==63 and len(rows)==638,
                     'detail':f'rows={n}, names={len(names)}, isEvent={sum(e==1 for _,e in pairs)}, ledger={len(rows)}'})
         xml=ctx.inputs/'audio-v34/cache/sounds.xml'
         xml_names={x.get('filename') for x in ET.parse(xml).iter('sound') if x.get('filename')}
         assets=_asset_index(ctx)
-        source_files={Path(a.get('relative','')).name.casefold() for a in assets if a.get('source') in ('android','ios','original-cache')}
+        source_files={Path(a.get('relative','')).name.casefold() for a in assets if a.get('source') in ('android','ios','original-cache','android-extra','audio-cache','items-discovery')}
         missing=sorted(nm for nm in xml_names if nm.casefold() not in source_files)
-        out.append({'name':'45 sounds.xml filenames lack a file in original data','passed':len(missing)==45,
-                    'detail':f'xml_names={len(xml_names)}, missing={len(missing)}; names={missing}'})
+        ios_files={Path(a.get('relative','')).name.casefold() for a in assets if a.get('source')=='ios'}
+        ios_missing=sorted(nm for nm in xml_names if nm.casefold() not in ios_files)
+        out.append({'name':'45 distinct sounds.xml filenames absent from the combined original corpus','passed':len(missing)==45,
+                    'detail':f'xml_names={len(xml_names)}, combined_source_missing={len(missing)}, ios_only_missing={len(ios_missing)}; combined_missing_names={missing}'})
+        out.append({'name':'iOS-only sound corpus gap retained as platform diagnostic','passed':len(ios_missing)==245,
+                    'detail':f'ios_only_missing_distinct={len(ios_missing)}; iOS corpus is one source platform, not the complete Android/recovered-cache authority.'})
         ice='sfx_faerie_ice.wav'
         out.append({'name':'sfx_faerie_ice.wav is absent from original data','passed':ice.casefold() not in source_files,
                     'detail':f'{ice} present={ice.casefold() in source_files}'})
@@ -402,14 +680,33 @@ def known_checks(ctx):
     matrix=ctx.root/'coordination/v21.8/SKILL-VERIFICATION-MATRIX.md'
     try:
         lines=matrix.read_text(encoding='utf-8').splitlines()
-        expected={'BashDown':('347','164','190'),'GroundSlam':('350','173','185'),'Charge':('349','172','48')}
-        results={}
+        expected={'BashDown':(347,'skill_dh2_prince_warrior_bash_down.bdae',164,190,101),
+                  'GroundSlam':(350,'skill_dh2_prince_warrior_crushing_blow.bdae',173,185,103),
+                  'Charge':(349,'skill_dh2_prince_warrior_charge.bdae',172,48,102)}
+        matrix_rows={};skill_names=_string_groups(py/'skills_pyarraynames.bin')[1]
+        anim_refs=_decode_animation_and_effect_refs(ctx,_table_inventory(ctx))
+        actual={}
         for line in lines:
-            for name,values in expected.items():
-                if f'| {name} |' in line:
-                    results[name]=all(v in line for v in values)
-        out.append({'name':'Knight BashDown, GroundSlam, and Charge source rows','passed':all(results.get(k,False) for k in expected),
-                    'detail':json.dumps({k:{'expected':v,'matrix_match':results.get(k,False)} for k,v in expected.items()})})
+            for name in expected:
+                if f'| {name} |' in line: matrix_rows[name]=line
+        led=json.loads(ledger_path.read_text(encoding='utf-8'));by_id={int(e['source_id']):e for e in led}
+        assets=_asset_index(ctx)
+        for name,(anim,clip,fx,sound,uid) in expected.items():
+            idx=skill_names.index(name) if name in skill_names else -1
+            skill_anim=next((int(r['name']) for r in anim_refs if r.get('site')==f'pydata/skills_pyarray.bin[skill={idx}].Anim'),None)
+            step_values={}
+            for field in ('FX','Sound'):
+                rr=next((r for r in anim_refs if r.get('site')==f'pydata/animations_pyarray.bin[sequence={anim},step=0].{field}'),None)
+                step_values[field]=int(rr['name']) if rr else None
+            sound_row=by_id.get(sound,{})
+            clip_present=any(Path(a.get('relative','')).name.casefold()==clip.casefold() for a in assets)
+            actual[name]={'skill_index':idx,'skill_anim':skill_anim,'fx':step_values['FX'],'sound':step_values['Sound'],
+                          'sound_uid':sound_row.get('uid'),'clip_present':clip_present,
+                          'matrix_row_present':name in matrix_rows}
+        passed=all(actual[n]['skill_anim']==v[0] and actual[n]['fx']==v[2] and actual[n]['sound']==v[3] and
+                   actual[n]['sound_uid']==v[4] and actual[n]['clip_present'] and actual[n]['matrix_row_present'] for n,v in expected.items())
+        out.append({'name':'Knight BashDown, GroundSlam, and Charge source rows','passed':passed,
+                    'detail':json.dumps({'expected':expected,'actual':actual},ensure_ascii=False)})
     except Exception as e: out.append({'name':'Knight skill known answers','passed':False,'detail':str(e)})
     return out
 
@@ -425,7 +722,8 @@ def coverage_check(ctx):
         except Exception as e:
             errors.append(f'{table}: unable to independently extract row names: {e}');continue
         aliases={('animations',0):'animation_sequences',('animations',1):'camera_animation_sets',('animations',2):'character_animations',
-                 ('effects',0):'effect_sets',('effects',1):'character_effects',('effects',2):'footstep_effects'}
+                 ('effects',0):'effect_sets',('effects',1):'character_effects',('effects',2):'footstep_effects',
+                 ('sdd_dungeon_hunter_2_iphone',0):'sdd_dungeon_hunter_2_iphone'}
         missing=[]
         for gi,group in enumerate(groups):
           tname=aliases.get((table,gi),f'{table}#group{gi}')
@@ -436,6 +734,31 @@ def coverage_check(ctx):
     script_refs=read_json(ctx.out/'data/script-references.json',[]) or []
     missing_script=[r.get('id') for r in script_refs if r.get('id') not in ids]
     if missing_script: errors.append(f'script references not merged into references.json: {len(missing_script)}')
-    uncovered=sorted({r.get('table') for r in table_rows if r.get('status')=='UNRESOLVED' and r.get('reason')=='OTHER'})
-    if uncovered: errors.append(f'PyData payloads without a recovered-source decoder remain uncovered: {uncovered}')
+    for filename,label in (('references-extra.json','scene/rule and BDAE sites'),
+                           ('reference-cells-extra.json','native table reference cells'),
+                           ('campaign-references.json','campaign script fields')):
+        source_rows=read_json(ctx.out/'data'/filename,[]) or []
+        missing=[r.get('id') for r in source_rows if r.get('id') not in ids]
+        if missing: errors.append(f'{label} not merged into references.json: {len(missing)}')
+    audio=[r for r in refs if r.get('site','').startswith('pydata/sdd_dungeon_hunter_2_iphone_pyarray.bin[row=') and r.get('rule','').startswith('row index in the 638-entry')]
+    if len(audio)!=638: errors.append(f'sound row-site coverage differs from source table: references={len(audio)}, expected=638')
+    # Fail coverage for the reference-bearing source families specified by the
+    # atlas contract. Other opaque tables stay visible in the report as
+    # UNRESOLVED and are not mislabeled as reference-bearing.
+    required=('character_properties','ai','ai_factions','faeries','item_powers','projectiles','skills','animations','effects')
+    uncovered=[]
+    for family in required:
+        if family=='character_properties':
+            # Sections 1 and 2 are the class name blocks; only group 0 is the
+            # 448-row CharacterProperties payload with 224 serialized fields.
+            group=[r for r in table_rows if r.get('table')=='character_properties#group0']
+        elif family=='animations':
+            group=[r for r in table_rows if r.get('table') in ('animation_sequences','camera_animation_sets','character_animations')]
+        elif family=='effects':
+            group=[r for r in table_rows if r.get('table') in ('effect_sets','character_effects','footstep_effects')]
+        else:
+            group=[r for r in table_rows if r.get('table','').split('#',1)[0]==family]
+        if group and any(r.get('status')!='RESOLVED' for r in group):
+            uncovered.append(f'{family}: {sum(r.get("status")!="RESOLVED" for r in group)} unresolved rows')
+    if uncovered: errors.append(f'required reference-bearing table rows remain undecoded: {uncovered}')
     return errors

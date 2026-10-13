@@ -1,0 +1,104 @@
+{
+  "coverage": {
+    "actors": {
+      "statuses": {
+        "RESOLVED": 448
+      },
+      "total": 448
+    },
+    "assets": {
+      "statuses": {
+        "ORPHAN": 964,
+        "REFERENCED": 5769
+      },
+      "total": 6733
+    },
+    "bosses": {
+      "statuses": {
+        "UNRESOLVED": 26
+      },
+      "total": 26
+    },
+    "calls": {
+      "statuses": {
+        "DONE": 4170,
+        "UNRESOLVED": 3812
+      },
+      "total": 7982
+    },
+    "functions": {
+      "statuses": {
+        "DONE": 31,
+        "UNRESOLVED": 257
+      },
+      "total": 288
+    },
+    "levels": {
+      "statuses": {
+        "DONE": 91,
+        "UNRESOLVED": 99
+      },
+      "total": 190
+    },
+    "references": {
+      "statuses": {
+        "RESOLVED": 28337,
+        "UNRESOLVED": 31769
+      },
+      "total": 60106
+    },
+    "scripts": {
+      "statuses": {
+        "DONE": 4,
+        "UNRESOLVED": 215
+      },
+      "total": 219
+    },
+    "tables": {
+      "statuses": {
+        "RESOLVED": 7463,
+        "UNRESOLVED": 1400
+      },
+      "total": 8863
+    }
+  },
+  "errors": [],
+  "known_answers": [
+    {
+      "detail": "Exact call-list fixture matches=True (46 names); code anchors verify source-specific skill slots, dive targetability, animation/state and timer parsing plus timer-trap parser. B159 supersedes the early B155 gaps for level scaling, damage calibration and AOE pushback: those are implemented and documented in mudlord3-report.md. Remaining documented gaps are MarkAsFlying, the camera-frustum awake latch, resetonhubchange, timer/culling differences, TimerTrap point-cloud bounds and projectile expiry; SetIsTargetable is a targeting gate, not a damage gate. Missing code anchors=[].",
+      "name": "swampking_core.luac",
+      "passed": true
+    },
+    {
+      "detail": "Exact call-list fixture matches=True (44 names); DoSkill count=1, only slot 0=True, 10s teleport delay=True. Production code anchors cover generic DoTeleport/FX/WarpTo and timer delay handling; full user-session integration is not asserted. Missing code anchors=[].",
+      "name": "witch.luac",
+      "passed": true
+    },
+    {
+      "detail": "rows=638, names=638, isEvent=63, ledger=638",
+      "name": "sound row index is the 638-row source table with 63 events",
+      "passed": true
+    },
+    {
+      "detail": "xml_names=498, combined_source_missing=45, ios_only_missing=245; combined_missing_names=['m_boss_hell_king.wav', 'm_combat_big_enemy.wav', 'm_cutscene_01.wav', 'm_level_cathedral.vxn', 'm_level_darkwood.vxn', 'm_level_gothicus.vxn', 'm_level_hell.vxn', 'm_level_icy_cliff.vxn', 'm_level_red_desert.vxn', 'm_level_swamp.vxn', 'm_title_intro.wav', 'm_title_loop.wav', 'sfx_assassin_bomb_throw.wav', 'sfx_assassin_knife_throw1.wav', 'sfx_assassin_laugh.wav', 'sfx_balrog_idle.wav', 'sfx_checkpoint_activated.wav', 'sfx_critical_hit.wav', 'sfx_cultitst_group_chant_loop', 'sfx_dark_queen_critical_hurt.wav', 'sfx_dark_queen_intimidate_1.wav', 'sfx_dark_queen_intimidate_2.wav', 'sfx_dark_queen_intimidate_3.wav', 'sfx_dark_queen_killed.wav', 'sfx_demon_attack.wav', 'sfx_demon_die.wav', 'sfx_demon_howl.wav', 'sfx_demon_hurt.wav', 'sfx_demon_rain_attack.wav', 'sfx_demon_spawn.wav', 'sfx_demon_steam_burst_attack', 'sfx_faerie_ice.wav', 'sfx_impact_metal_metal_2.wav', 'sfx_impactl_metal_1_22.wav', 'sfx_skill_mage_thunder_braid_add_2,wav', 'sfx_specter_attack_energyball_explosion', 'sfx_statue_attack.wav', 'sfx_statue_frost_attack.wav', 'sfx_statue_heat_attack.wav', 'sfx_trap_armed.wav', 'sfx_wolf_attack.wav', 'sfx_wolf_die.wav', 'sfx_wolf_howl.wav', 'sfx_wolf_hurt.wav', 'sfx_wolf_spawn.wav']",
+      "name": "45 distinct sounds.xml filenames absent from the combined original corpus",
+      "passed": true
+    },
+    {
+      "detail": "ios_only_missing_distinct=245; iOS corpus is one source platform, not the complete Android/recovered-cache authority.",
+      "name": "iOS-only sound corpus gap retained as platform diagnostic",
+      "passed": true
+    },
+    {
+      "detail": "sfx_faerie_ice.wav present=False",
+      "name": "sfx_faerie_ice.wav is absent from original data",
+      "passed": true
+    },
+    {
+      "detail": "{\"expected\": {\"BashDown\": [347, \"skill_dh2_prince_warrior_bash_down.bdae\", 164, 190, 101], \"GroundSlam\": [350, \"skill_dh2_prince_warrior_crushing_blow.bdae\", 173, 185, 103], \"Charge\": [349, \"skill_dh2_prince_warrior_charge.bdae\", 172, 48, 102]}, \"actual\": {\"BashDown\": {\"skill_index\": 7, \"skill_anim\": 347, \"fx\": 164, \"sound\": 190, \"sound_uid\": 101, \"clip_present\": true, \"matrix_row_present\": true}, \"GroundSlam\": {\"skill_index\": 51, \"skill_anim\": 350, \"fx\": 173, \"sound\": 185, \"sound_uid\": 103, \"clip_present\": true, \"matrix_row_present\": true}, \"Charge\": {\"skill_index\": 13, \"skill_anim\": 349, \"fx\": 172, \"sound\": 48, \"sound_uid\": 102, \"clip_present\": true, \"matrix_row_present\": true}}}",
+      "name": "Knight BashDown, GroundSlam, and Charge source rows",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

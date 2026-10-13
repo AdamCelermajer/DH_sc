@@ -1,0 +1,16 @@
+{
+  "passed": false,
+  "tests": [
+    {
+      "errors": [
+        "missing source cell reference: .local-inputs/assets-extra/android/data/pydata/levels_pyarray.bin[section=0,row=0].LevelName",
+        "missing source cell reference: .local-inputs/assets-extra/android/data/pydata/levels_pyarray.bin[section=0,row=1].LevelName",
+        "missing source cell reference: .local-inputs/assets-extra/android/data/pydata/levels_pyarray.bin[section=0,row=2].LevelName",
+        "missing source cell reference: .local-inputs/assets-extra/android/data/pydata/levels_pyarray.bin[section=0,row=3].LevelName",
+        "missing source cell reference: .local-inputs/assets-extra/android/data/pydata/levels_pyarray.bin[section=0,row=4].LevelName"
+      ],
+      "name": "unmodified generated atlas passes",
+      "passed": false
+    }
+  ]
+}

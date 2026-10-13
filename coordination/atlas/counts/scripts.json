@@ -1,52 +1,67 @@
 {
   "calls": {
     "by_mode": {
-      "global": 6998,
+      "global": 6166,
+      "imported_script_function": 832,
       "local_function": 257,
       "lua_builtin": 137,
       "object_method": 498,
       "qualified_function": 8,
       "script_function": 84
     },
-    "engine_candidates": 7504,
-    "todo": 7982,
-    "total": 7982
+    "done": 4170,
+    "engine_candidates": 6672,
+    "port_status": {
+      "MISSING": 919,
+      "PARTIAL": 4915,
+      "PORTED": 2148
+    },
+    "total": 7982,
+    "unresolved": 3812
   },
-  "engine_call_sites": 7504,
-  "engine_function_names": 314,
+  "engine_call_sites": 6672,
+  "engine_function_names": 288,
   "engine_function_rows": {
-    "done": 0,
-    "todo": 314,
-    "total": 314
+    "done": 31,
+    "total": 288,
+    "unresolved": 257
   },
   "known_answer_tests": {
-    "swampking_core.luac": "INVENTORIED_TODO",
-    "witch.luac": "INVENTORIED_TODO"
+    "swampking_core.luac": "STATIC_SOURCE_ASSERTIONS_PASS",
+    "witch.luac": "STATIC_SOURCE_ASSERTIONS_PASS"
   },
   "native_addresses": 498,
   "native_binding_matches": 271,
   "port_status_candidates": {
-    "MISSING": 42,
-    "PARTIAL": 272
+    "MISSING": 67,
+    "PARTIAL": 174,
+    "PORTED": 47
   },
   "script_file_format_counts": {
     "lua-source": 219
   },
   "script_lines": 27037,
+  "script_readiness": {
+    "missing": 919,
+    "partial": 4083,
+    "ported": 1670,
+    "unknown": 0
+  },
   "script_references": {
     "by_kind": {
       "named_reference": 1939,
       "numeric_reference": 294,
       "script": 3,
-      "sound": 3
+      "sound": 3,
+      "symbolic_reference": 2544
     },
-    "todo": 2239,
-    "total": 2239
+    "todo": 4783,
+    "total": 4783
   },
   "script_rows": {
-    "done": 0,
-    "todo": 219,
-    "total": 219
+    "done": 4,
+    "total": 219,
+    "unresolved": 215
   },
   "scripts": 219,
   "scripts_by_platform": {

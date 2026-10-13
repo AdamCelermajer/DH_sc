@@ -8,7 +8,7 @@ from collections import Counter
 import html
 import re
 import struct
-from common import source_roots, source_site, stable_id, write_json, read_json
+from common import source_roots, source_files, source_site, stable_id, write_json, read_json
 
 EXT = re.compile(r'\.(?:bdae|wav|vxn|ogg|mp3|luac|lua|pyscript|mlx|mgp|mgx|mvx|mvp|png|dds|tga|xml|lightset_xml|bin)$',re.I)
 ATTR = re.compile(r'\b([A-Za-z_][\w:.-]*)\s*=\s*(["\'])(.*?)\2',re.S)
@@ -108,9 +108,7 @@ def binary_refs(ctx,p):
 
 def extract(ctx):
     refs=[];errors=[];counts=Counter();files=Counter()
-    for label,folder in source_roots(ctx):
-        for p in sorted(folder.rglob('*')):
-            if not p.is_file():continue
+    for label,p in source_files(ctx):
             if p.suffix.lower() in ('.xml','.mlx','.mgp','.mgx','.mvp','.mvx','.lightset_xml'):
                 refs.extend(xml_refs(ctx,p));files['xml']+=1
             elif p.suffix.lower() in ('.bdae',):

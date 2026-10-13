@@ -1,10 +1,11 @@
 {
-  "asset_files": 6731,
+  "asset_files": 6733,
   "by_source": {
     "android": 6040,
     "android-extra": 18,
     "audio-cache": 265,
     "ios": 256,
-    "original-cache": 152
+    "original-cache": 152,
+    "sound-table": 2
   }
 }

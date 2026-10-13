@@ -19,7 +19,7 @@ def context(inputs=None):
 def write_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
 
 def read_json(path, default=None):
     path = Path(path)
@@ -35,6 +35,20 @@ def source_roots(ctx):
                   ('android-extra',ctx.inputs / 'assets-extra/android/3d'),
                   ('audio-cache',ctx.inputs / 'audio-v34/cache')]
     return [(label,p) for label,p in candidates if p.is_dir()]
+
+def source_files(ctx):
+    seen=set()
+    for label,folder in source_roots(ctx):
+        for p in sorted(folder.rglob('*')):
+            if p.is_file():
+                seen.add(p)
+                yield label,p
+    # Owner clarified that both partial caches are authoritative inputs and
+    # assets present in either may resolve. Keep the explicit SDD authority.
+    for label,p in [('audio-catalog',ctx.inputs/'audio-v34/cache/sounds.xml'),
+                    ('sound-table',ctx.inputs/'items-discovery/sdd_dungeon_hunter_2_iphone_pyarray.bin'),
+                    ('sound-table',ctx.inputs/'items-discovery/sdd_dungeon_hunter_2_iphone_pyarraynames.bin')]:
+        if p.is_file() and p not in seen:yield label,p
 
 def source_site(ctx, path):
     return '.local-inputs/' + Path(path).relative_to(ctx.inputs).as_posix()

@@ -1,69 +1,8 @@
 {
-  "actor_act_membership_rows": {
-    "todo": 448,
-    "total": 448
-  },
-  "boundary_rows": {
-    "todo": 5,
-    "total": 5
-  },
-  "category": "ACT-ORGANISED GENERATED VIEWS",
-  "inventory": {
-    "asset_reference_rows": {
-      "todo": 2872,
-      "total": 2872
-    },
-    "backup_scene_rows": {
-      "todo": 30,
-      "total": 30
-    },
-    "boss_candidate_actor_rows": {
-      "definition": "BOSS/MIDBOSS name markers or explicitly named encounter actors; candidates only",
-      "todo": 26,
-      "total": 26
-    },
-    "boss_candidates_by_custom_core_ai_link": {
-      "classification": "candidate; must confirm table link",
-      "todo": 26,
-      "total": 26
-    },
-    "campaign_scene_rows": {
-      "todo": 44,
-      "total": 44
-    },
-    "character_properties_actor_rows": {
-      "todo": 448,
-      "total": 448
-    },
-    "debug_scene_rows": {
-      "todo": 32,
-      "total": 32
-    },
-    "dialogue_rows": {
-      "todo": 55,
-      "total": 55
-    },
-    "levels_table_rows": {
-      "todo": 84,
-      "total": 84
-    },
-    "scene_level_rows": {
-      "todo": 106,
-      "total": 106
-    },
-    "script_reference_rows": {
-      "todo": 2239,
-      "total": 2239
-    },
-    "source_script_rows": {
-      "todo": 219,
-      "total": 219
-    }
-  },
-  "notes": [
-    "Counts are inventory, not completion claims.",
-    "Rows remain TODO pending owner integration/acceptance.",
-    "Boss count is only a candidate count from explicit custom-core links."
-  ],
-  "work_status": "TODO"
+  "backup_scene_rows": 30,
+  "boss_candidates": 26,
+  "campaign_scene_rows": 43,
+  "character_properties_actor_rows": 448,
+  "debug_scene_rows": 32,
+  "scene_level_rows": 106
 }
