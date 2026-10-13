@@ -1,0 +1,1241 @@
+[
+{
+"id": "p1-core-platform-global-f216b6-0",
+"category": "core-platform",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 0,
+"parts": 5,
+"functions": [
+{
+"address": "0x48bbbc",
+"bytes": 40,
+"owner": "<global>",
+"demangled": "tolower"
+},
+{
+"address": "0x52f0e4",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "nativepauseAllMusic"
+},
+{
+"address": "0x531150",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGameRenderer"
+},
+{
+"address": "0x531154",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeConfig"
+},
+{
+"address": "0x531158",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnDrawFrame"
+},
+{
+"address": "0x53115c",
+"bytes": 24,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGetJNIEnv"
+},
+{
+"address": "0x53117c",
+"bytes": 16,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeResize"
+},
+{
+"address": "0x531190",
+"bytes": 12,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnSurfaceChanged"
+},
+{
+"address": "0x53119c",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeDone"
+},
+{
+"address": "0x5311a0",
+"bytes": 32,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeRender"
+},
+{
+"address": "0x5311c8",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeInit"
+},
+{
+"address": "0x531214",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeGetTotalSounds"
+},
+{
+"address": "0x53121c",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeGetTotalSoundsOfSameInstance"
+},
+{
+"address": "0x531224",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeSetStopOnMusic"
+},
+{
+"address": "0x531230",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "nativeLoadSound"
+},
+{
+"address": "0x53128c",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeLoadSoundBig"
+},
+{
+"address": "0x5312d8",
+"bytes": 100,
+"owner": "<global>",
+"demangled": "nativePlaySound"
+},
+{
+"address": "0x531348",
+"bytes": 112,
+"owner": "<global>",
+"demangled": "nativePlaySoundBig"
+},
+{
+"address": "0x5313c4",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "nativePauseSound"
+},
+{
+"address": "0x531420",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativePauseSoundBig"
+}
+],
+"bytes": 728
+},
+{
+"id": "p1-core-platform-global-f216b6-1",
+"category": "core-platform",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 1,
+"parts": 5,
+"functions": [
+{
+"address": "0x53146c",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "nativeResumeSound"
+},
+{
+"address": "0x5314c8",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeResumeSoundBig"
+},
+{
+"address": "0x531514",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "nativeStopSound"
+},
+{
+"address": "0x531570",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeStopSoundBig"
+},
+{
+"address": "0x5315bc",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "nativeUnloadSound"
+},
+{
+"address": "0x531618",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeUnloadSoundBig"
+},
+{
+"address": "0x531664",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "nativeIsSoundLoaded"
+},
+{
+"address": "0x5316c0",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeIsSoundLoadedBig"
+},
+{
+"address": "0x53170c",
+"bytes": 100,
+"owner": "<global>",
+"demangled": "nativeSetVolume"
+},
+{
+"address": "0x53177c",
+"bytes": 104,
+"owner": "<global>",
+"demangled": "nativeSetVolumeBig"
+},
+{
+"address": "0x5317f0",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeResetSound"
+},
+{
+"address": "0x53183c",
+"bytes": 100,
+"owner": "<global>",
+"demangled": "nativeSetPitch"
+},
+{
+"address": "0x5318ac",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeStopAllSounds"
+},
+{
+"address": "0x5318f4",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeStopAllSoundPool"
+},
+{
+"address": "0x531940",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeStopAllBigSound"
+},
+{
+"address": "0x53198c",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeDestroySoundPool"
+},
+{
+"address": "0x5319d4",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeInitSoundPoolArray"
+},
+{
+"address": "0x531a1c",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeGetWidth"
+},
+{
+"address": "0x531a64",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeIsMediaPlaying"
+},
+{
+"address": "0x531ab0",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeDetectPhoneLang"
+}
+],
+"bytes": 1436
+},
+{
+"id": "p1-core-platform-global-f216b6-2",
+"category": "core-platform",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 2,
+"parts": 5,
+"functions": [
+{
+"address": "0x531af8",
+"bytes": 168,
+"owner": "<global>",
+"demangled": "nativeGetSdFolderPath"
+},
+{
+"address": "0x531bac",
+"bytes": 216,
+"owner": "<global>",
+"demangled": "nativeLoadMovie"
+},
+{
+"address": "0x531ca4",
+"bytes": 1272,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeInit"
+},
+{
+"address": "0x53224c",
+"bytes": 32,
+"owner": "<global>",
+"demangled": "JNI_OnLoad"
+},
+{
+"address": "0x5324c0",
+"bytes": 216,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GLResLoader_nativeInit"
+},
+{
+"address": "0x5325c4",
+"bytes": 1092,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeInit"
+},
+{
+"address": "0x532a8c",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeSendAppBackground"
+},
+{
+"address": "0x532ad4",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeOpenIGP"
+},
+{
+"address": "0x532b20",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeOpenGLive"
+},
+{
+"address": "0x532b6c",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "NotifyTrophy"
+},
+{
+"address": "0x532bb8",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeExit"
+},
+{
+"address": "0x532c00",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeIsWifiAlive"
+},
+{
+"address": "0x532c48",
+"bytes": 116,
+"owner": "<global>",
+"demangled": "nativeOpenBrowser"
+},
+{
+"address": "0x532cc8",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeGet_PhoneLanguage"
+},
+{
+"address": "0x532d10",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeGet_PhoneManufacturer"
+},
+{
+"address": "0x532d58",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeGet_PhoneModel"
+},
+{
+"address": "0x532da0",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeUnlockDemo"
+},
+{
+"address": "0x532de8",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeLockDemo"
+},
+{
+"address": "0x532e30",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeDisableLaunchGame"
+},
+{
+"address": "0x532e78",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeSetPhone"
+}
+],
+"bytes": 3880
+},
+{
+"id": "p1-core-platform-global-f216b6-3",
+"category": "core-platform",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 3,
+"parts": 5,
+"functions": [
+{
+"address": "0x532ea8",
+"bytes": 24,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeCanInterrupt"
+},
+{
+"address": "0x532ec8",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeAccelerometer"
+},
+{
+"address": "0x532f68",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeIncreaseLaunchTimes"
+},
+{
+"address": "0x533400",
+"bytes": 28,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeOpenIGM"
+},
+{
+"address": "0x533424",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativePause"
+},
+{
+"address": "0x533428",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyUp"
+},
+{
+"address": "0x533430",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeonTrackballEvent"
+},
+{
+"address": "0x533438",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyDown"
+},
+{
+"address": "0x533440",
+"bytes": 148,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GameGLSurfaceView_nativeOnTouch"
+},
+{
+"address": "0x5334dc",
+"bytes": 28,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeResume"
+},
+{
+"address": "0x533500",
+"bytes": 72,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeSetOrientation"
+},
+{
+"address": "0x533554",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeGetGameMusicVolume"
+},
+{
+"address": "0x533558",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativegetState"
+},
+{
+"address": "0x533570",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "nativeIsSupportMM"
+},
+{
+"address": "0x5335d4",
+"bytes": 132,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeGetInfo"
+},
+{
+"address": "0x533658",
+"bytes": 440,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeInitplayer"
+},
+{
+"address": "0x533850",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeSetPlaylist"
+},
+{
+"address": "0x53389c",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "nativeChangeStep"
+},
+{
+"address": "0x5338e8",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeResumeMusicBG"
+},
+{
+"address": "0x533930",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeStopMusicBG"
+}
+],
+"bytes": 1360
+},
+{
+"id": "p1-core-platform-global-f216b6-4",
+"category": "core-platform",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 4,
+"parts": 5,
+"functions": [
+{
+"address": "0x533978",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "nativeGetisplaying"
+},
+{
+"address": "0x533980",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativePauseMusicBG"
+},
+{
+"address": "0x5339c8",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativePlayBGMusic"
+},
+{
+"address": "0x533a10",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "nativeGetNumPlaylists"
+},
+{
+"address": "0x533a58",
+"bytes": 200,
+"owner": "<global>",
+"demangled": "nativeGetPlaylistName"
+},
+{
+"address": "0x533b2c",
+"bytes": 164,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeDisplayMusicTitle"
+}
+],
+"bytes": 552
+},
+{
+"id": "p1-core-platform-ADevice-127f54-0",
+"category": "core-platform",
+"owner": "ADevice",
+"owners": [
+"ADevice"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x52eaa8",
+"bytes": 32,
+"owner": "ADevice",
+"demangled": "ADevice::CallJNIFuncBool(_jclass*, _jmethodID*)"
+},
+{
+"address": "0x52eac8",
+"bytes": 36,
+"owner": "ADevice",
+"demangled": "ADevice::isWifiEnable()"
+},
+{
+"address": "0x52eb2c",
+"bytes": 40,
+"owner": "ADevice",
+"demangled": "ADevice::CallJNIFuncSendInt(_jclass*, _jmethodID*, int)"
+},
+{
+"address": "0x52eb54",
+"bytes": 40,
+"owner": "ADevice",
+"demangled": "ADevice::setUniqueCode(int)"
+},
+{
+"address": "0x52eb88",
+"bytes": 88,
+"owner": "ADevice",
+"demangled": "ADevice::CallJNIFuncSendChar(_jclass*, _jmethodID*, char*)"
+},
+{
+"address": "0x52ebe0",
+"bytes": 196,
+"owner": "ADevice",
+"demangled": "ADevice::CallJNIFuncChar(_jclass*, _jmethodID*, char*, int, char*)"
+},
+{
+"address": "0x52eca4",
+"bytes": 148,
+"owner": "ADevice",
+"demangled": "ADevice::CallJNIFuncChar(_jclass*, _jmethodID*, char*, int)"
+},
+{
+"address": "0x52ed38",
+"bytes": 44,
+"owner": "ADevice",
+"demangled": "ADevice::getUserAgent(char*)"
+},
+{
+"address": "0x52ed70",
+"bytes": 52,
+"owner": "ADevice",
+"demangled": "ADevice::getHostName(char*, int)"
+},
+{
+"address": "0x52edb0",
+"bytes": 8,
+"owner": "ADevice",
+"demangled": "ADevice::getHostName(char*)"
+},
+{
+"address": "0x52edb8",
+"bytes": 52,
+"owner": "ADevice",
+"demangled": "ADevice::getGameVersion(char*, int)"
+},
+{
+"address": "0x52edf8",
+"bytes": 8,
+"owner": "ADevice",
+"demangled": "ADevice::getGameVersion(char*)"
+},
+{
+"address": "0x52ee00",
+"bytes": 44,
+"owner": "ADevice",
+"demangled": "ADevice::getLineNumber(char*)"
+},
+{
+"address": "0x52ee38",
+"bytes": 44,
+"owner": "ADevice",
+"demangled": "ADevice::getOperatorName(char*)"
+},
+{
+"address": "0x52ee70",
+"bytes": 44,
+"owner": "ADevice",
+"demangled": "ADevice::getIMEI(char*)"
+},
+{
+"address": "0x52eee8",
+"bytes": 412,
+"owner": "ADevice",
+"demangled": "ADevice::Init(_JNIEnv*, _jclass*)"
+}
+],
+"bytes": 1288
+},
+{
+"id": "p1-core-platform-JNIEnv-09bcf6-0",
+"category": "core-platform",
+"owner": "_JNIEnv",
+"owners": [
+"_JNIEnv"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x52ea74",
+"bytes": 52,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::CallStaticBooleanMethod(_jclass*, _jmethodID*, ...)"
+},
+{
+"address": "0x52eaf8",
+"bytes": 52,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::CallStaticObjectMethod(_jclass*, _jmethodID*, ...)"
+},
+{
+"address": "0x88ed78",
+"bytes": 20,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::GetMethodID(_jclass*, char const*, char const*)"
+},
+{
+"address": "0x88ee94",
+"bytes": 52,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::NewObject(_jclass*, _jmethodID*, ...)"
+},
+{
+"address": "0x88eec8",
+"bytes": 56,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::CallNonvirtualVoidMethod(_jobject*, _jclass*, _jmethodID*, ...)"
+},
+{
+"address": "0x88ef00",
+"bytes": 56,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::CallNonvirtualIntMethod(_jobject*, _jclass*, _jmethodID*, ...)"
+},
+{
+"address": "0x88ef38",
+"bytes": 4,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::CallStaticIntMethod(_jclass*, _jmethodID*, ...)"
+},
+{
+"address": "0x89acc8",
+"bytes": 52,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::CallObjectMethod(_jobject*, _jmethodID*, ...)"
+},
+{
+"address": "0x89aea0",
+"bytes": 52,
+"owner": "_JNIEnv",
+"demangled": "_JNIEnv::CallStaticVoidMethod(_jclass*, _jmethodID*, ...)"
+}
+],
+"bytes": 396
+},
+{
+"id": "p1-core-platform-lib_libnativeinterface-fd1381-0",
+"category": "core-platform",
+"owner": "lib-libnativeinterface",
+"owners": [
+"lib-libnativeinterface"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x8e4",
+"bytes": 60,
+"owner": "lib-libnativeinterface",
+"demangled": "entry"
+},
+{
+"address": "0x920",
+"bytes": 4,
+"owner": "lib-libnativeinterface",
+"demangled": "Java_com_samsung_zirconia_NativeInterface_checkLicenseFile2"
+},
+{
+"address": "0x924",
+"bytes": 116,
+"owner": "lib-libnativeinterface",
+"demangled": "FUN_00010924"
+},
+{
+"address": "0x9a0",
+"bytes": 46,
+"owner": "lib-libnativeinterface",
+"demangled": "FUN_000109a0"
+},
+{
+"address": "0x9d0",
+"bytes": 296,
+"owner": "lib-libnativeinterface",
+"demangled": "Java_com_samsung_zirconia_NativeInterface_storeLicenseKey"
+},
+{
+"address": "0xaf8",
+"bytes": 76,
+"owner": "lib-libnativeinterface",
+"demangled": "FUN_00010af8"
+},
+{
+"address": "0xb48",
+"bytes": 1,
+"owner": "lib-libnativeinterface",
+"demangled": "FUN_00010b48"
+},
+{
+"address": "0xc60",
+"bytes": 190,
+"owner": "lib-libnativeinterface",
+"demangled": "Java_com_samsung_zirconia_NativeInterface_doPassphraseTest"
+},
+{
+"address": "0xd20",
+"bytes": 268,
+"owner": "lib-libnativeinterface",
+"demangled": "CheckLicenseFile"
+},
+{
+"address": "0xe2c",
+"bytes": 176,
+"owner": "lib-libnativeinterface",
+"demangled": "Java_com_samsung_zirconia_NativeInterface_checkLicenseFile"
+},
+{
+"address": "0xedc",
+"bytes": 56,
+"owner": "lib-libnativeinterface",
+"demangled": "SHA1Reset"
+},
+{
+"address": "0xf14",
+"bytes": 532,
+"owner": "lib-libnativeinterface",
+"demangled": "SHA1ProcessMessageBlock"
+},
+{
+"address": "0x1128",
+"bytes": 98,
+"owner": "lib-libnativeinterface",
+"demangled": "SHA1Input"
+},
+{
+"address": "0x118c",
+"bytes": 176,
+"owner": "lib-libnativeinterface",
+"demangled": "SHA1PadMessage"
+},
+{
+"address": "0x123c",
+"bytes": 36,
+"owner": "lib-libnativeinterface",
+"demangled": "SHA1Result"
+}
+],
+"bytes": 2131
+},
+{
+"id": "p1-vox-audio-VoxSoundManager-3a5f5c-0",
+"category": "vox-audio",
+"owner": "VoxSoundManager",
+"owners": [
+"VoxSoundManager"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x36921c",
+"bytes": 116,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::UnloadSound(int)"
+},
+{
+"address": "0x369298",
+"bytes": 80,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::UnloadAllSounds()"
+},
+{
+"address": "0x369514",
+"bytes": 208,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::SetMusicState(char const*)"
+},
+{
+"address": "0x3696dc",
+"bytes": 284,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::IsSoundPlaying(int)"
+},
+{
+"address": "0x369804",
+"bytes": 224,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::IsMusicPlaying()"
+},
+{
+"address": "0x3698f0",
+"bytes": 148,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::StopAllMusic(int)"
+},
+{
+"address": "0x369990",
+"bytes": 80,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::StopAllSounds(int)"
+},
+{
+"address": "0x3699fc",
+"bytes": 212,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::LoadSound(int)"
+},
+{
+"address": "0x369b38",
+"bytes": 216,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::GetSoundVolume(int)"
+},
+{
+"address": "0x369c2c",
+"bytes": 176,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::SetInitialVolume(float, float, float)"
+},
+{
+"address": "0x369da0",
+"bytes": 268,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::SetSoundVolume(int, float)"
+},
+{
+"address": "0x369ee8",
+"bytes": 44,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::GetMasterVolume()"
+},
+{
+"address": "0x369f1c",
+"bytes": 44,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::SetMasterVolume(float)"
+},
+{
+"address": "0x369f50",
+"bytes": 148,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::SetListenerPos(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, int, int, float)"
+},
+{
+"address": "0x369fec",
+"bytes": 148,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::Stop(int, int)"
+},
+{
+"address": "0x36a1a0",
+"bytes": 108,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::StopMusic(int)"
+},
+{
+"address": "0x36a218",
+"bytes": 152,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::Stop3D(int, int, Point3D<float>*, float)"
+},
+{
+"address": "0x36a470",
+"bytes": 272,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::Resume(int)"
+},
+{
+"address": "0x36a590",
+"bytes": 132,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::ResumeAllSounds()"
+},
+{
+"address": "0x36a624",
+"bytes": 56,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::PauseAllSounds()"
+}
+],
+"bytes": 3116
+},
+{
+"id": "p1-vox-audio-VoxSoundManager-3a5f5c-1",
+"category": "vox-audio",
+"owner": "VoxSoundManager",
+"owners": [
+"VoxSoundManager"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x36a664",
+"bytes": 272,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::Pause(int)"
+},
+{
+"address": "0x36a784",
+"bytes": 52,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::PauseMusic()"
+},
+{
+"address": "0x36a7c0",
+"bytes": 1060,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::PlaySoundPackSound(int, char const*, vox::FormatTypes, int, int, vox::VoxSourceLoadingFlags, glitch::core::vector3d<float> const&, float, float)"
+},
+{
+"address": "0x36afb0",
+"bytes": 60,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::~VoxSoundManager()"
+},
+{
+"address": "0x36b088",
+"bytes": 60,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::~VoxSoundManager()"
+},
+{
+"address": "0x36b2cc",
+"bytes": 256,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::ReleaseLvlSounds()"
+},
+{
+"address": "0x36b420",
+"bytes": 116,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::PlayEvent(int, glitch::core::vector3d<float> const&, float, float)"
+},
+{
+"address": "0x36b5d8",
+"bytes": 112,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::Play3D(int, glitch::core::vector3d<float> const&, bool, int, float, float)"
+},
+{
+"address": "0x36b80c",
+"bytes": 116,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::Play(int, bool, int, int, bool)"
+},
+{
+"address": "0x36baa0",
+"bytes": 388,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::CrossfadeMusic(int, int)"
+},
+{
+"address": "0x36bd78",
+"bytes": 64,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::PlayMusic(int, bool, bool, int)"
+},
+{
+"address": "0x36c014",
+"bytes": 304,
+"owner": "VoxSoundManager",
+"demangled": "VoxSoundManager::SetInSafeZoneMusic(bool)"
+}
+],
+"bytes": 2860
+},
+{
+"id": "p1-tinyxml-and-c-libs-global-f216b6-0",
+"category": "tinyxml-and-c-libs",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x52f0d8",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "Java_com_gameloft_android_GAND_GloftD2SS_GLUtils_Device_nativeInit"
+},
+{
+"address": "0x532fb0",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "VZPurchase_requestLogin"
+},
+{
+"address": "0x532ff8",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "VZPurchase_requestPurchaseGame"
+},
+{
+"address": "0x533040",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "VZPurchase_InitMobileNetwork"
+},
+{
+"address": "0x533088",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "VZPurchase_RestoreNetworkState"
+},
+{
+"address": "0x5330d0",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "VZPurchase_IsMobileNetworkReady"
+},
+{
+"address": "0x53311c",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "VZPurchase_isErrorOcurred"
+},
+{
+"address": "0x533168",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "VZPurchase_isInProgress"
+},
+{
+"address": "0x5331b4",
+"bytes": 184,
+"owner": "<global>",
+"demangled": "VZPurchase_getLastServerMsg"
+},
+{
+"address": "0x533278",
+"bytes": 184,
+"owner": "<global>",
+"demangled": "VZPurchase_getGameName"
+},
+{
+"address": "0x53333c",
+"bytes": 184,
+"owner": "<global>",
+"demangled": "VZPurchase_getGamePrice"
+},
+{
+"address": "0x533cb8",
+"bytes": 100,
+"owner": "<global>",
+"demangled": "NVThreadSpawnJNIThread"
+},
+{
+"address": "0x533d20",
+"bytes": 268,
+"owner": "<global>",
+"demangled": "NVThreadGetCurrentJNIEnv"
+},
+{
+"address": "0x533e4c",
+"bytes": 72,
+"owner": "<global>",
+"demangled": "NVThreadSpawnProc"
+}
+],
+"bytes": 1428
+},
+{
+"id": "p1-net-transport-pack0-912dbe-0",
+"category": "net-transport",
+"owner": "CAndroidSocket | LCAndroidSocket",
+"owners": [
+"CAndroidSocket",
+"LCAndroidSocket"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x8422b8",
+"bytes": 20,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::~CAndroidSocket()"
+},
+{
+"address": "0x89ffac",
+"bytes": 20,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::~LCAndroidSocket()"
+},
+{
+"address": "0x89ffc8",
+"bytes": 12,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::~LCAndroidSocket()"
+},
+{
+"address": "0x8a013c",
+"bytes": 28,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::LCAndroidSocket(char*, int, LCXPlayerSocketObserver*)"
+}
+],
+"bytes": 80
+},
+{
+"id": "p1-glitch-scene-collada-gui-pack0-837d16-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::CAndroidOSDevice::CCursorControl | glitch::CAndroidOSDevice",
+"owners": [
+"glitch::CAndroidOSDevice::CCursorControl",
+"glitch::CAndroidOSDevice"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6a04ec",
+"bytes": 12,
+"owner": "glitch::CAndroidOSDevice::CCursorControl",
+"demangled": "glitch::CAndroidOSDevice::CCursorControl::~CCursorControl()"
+},
+{
+"address": "0x6a05b0",
+"bytes": 20,
+"owner": "glitch::CAndroidOSDevice",
+"demangled": "glitch::CAndroidOSDevice::~CAndroidOSDevice()"
+}
+],
+"bytes": 32
+}
+]

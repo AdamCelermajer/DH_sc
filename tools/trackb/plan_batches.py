@@ -86,6 +86,7 @@ def main() -> int:
     ap.add_argument("--max-funcs", type=int, default=20)
     ap.add_argument("--max-bytes", type=int, default=24000)
     ap.add_argument("--redo-partial", action="store_true")
+    ap.add_argument("--redo-status", help="select rows whose current status is this (e.g. skipped)")
     ap.add_argument("--prefix", default="b")
     ap.add_argument("--only", help="JSON file with a list of elf addresses; plan only those rows")
     ap.add_argument("--pack-under", type=int, default=8,
@@ -102,7 +103,8 @@ def main() -> int:
         for r in csv.DictReader((cat / "queue.csv").open(encoding="utf-8")):
             addr = r["elf_address"].lower().removeprefix("0x")
             s = st.get(addr)
-            if (a.redo_partial and s != "partial") or (not a.redo_partial and s is not None):
+            want = a.redo_status or ("partial" if a.redo_partial else None)
+            if (want and s != want) or (not want and s is not None):
                 continue
             if only is not None and addr not in only:
                 continue
