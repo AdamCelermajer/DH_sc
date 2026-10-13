@@ -55,3 +55,9 @@ read it if it exists and skip the batches already listed. A later worker can the
 Report: batches done, counts per status, batches that do not compile (and why), and the layout requests
 you could not apply (class, offset, type, evidence). Keep the report short. The details are in the ledger
 parts and the progress log.
+
+## Layout recovery helper
+
+`py -3 tools/trackb/field_sweep.py <Qualified::Class>` lists every `this+N` access across all the class's
+queue functions (offset, access types, functions). Use it to write or complete a class header in one step:
+a typed member per offset, padding for gaps, and the original offset as a comment.
