@@ -30,14 +30,15 @@ public:
 // EventManager instance; ELF global dword_99F740. Defined by the owning category.
 extern EventManager* g_eventManager;
 
-// Resource lister used by the module and scene lists. Object pointer taken from the
-// ELF global dword_99F73C at offset +52. Its type is not recovered; only the list call
-// used here is declared.
+// File lister used by the module and scene lists. The object is the file system at
+// dword_99F73C+0x34 (IDevice +0x34). Its ELF vtable slot +0x7c is
+// FileSystemWin32::getFiles(char const*, vector<string>&), the one call used here.
 class ConsoleFileLister {
 public:
     virtual ~ConsoleFileLister() = default;
-    // ELF vtable slot +124. Appends the names matching `pattern` to `out`.
-    virtual void ListFiles(const char* pattern, std::vector<std::string>& out) = 0;
+    // ELF vtable slot +0x7c. Appends the names matching `dir` (a path with a wildcard
+    // such as "data/scene/*.xml") to `out`.
+    virtual void getFiles(const char* dir, std::vector<std::string>& out) = 0;
 };
 extern ConsoleFileLister* g_consoleFileLister;
 

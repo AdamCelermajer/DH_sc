@@ -23,3 +23,6 @@ void* VoxAlloc(std::size_t size, vox::VoxMemHint hint);
 void* VoxAlloc(std::size_t size, const char* file, const char* function, int line);
 void* VoxAlloc(std::size_t size, vox::VoxMemHint hint, const char* file, const char* function, int line);
 void VoxFree(void* ptr);
+// 0x889494 VoxAlloc_c: C-linkage thunk to the four-argument VoxAlloc (0x31068c). Defined in
+// src/r1-vox-audio-pack0-5b0f48-0.cpp.
+extern "C" void* VoxAlloc_c(std::size_t size, const char* file, const char* function, unsigned int line);

@@ -149,10 +149,15 @@ int VoxMSWavSubDecoderIMAADPCM::Decode(void* dst, int count) {
     return (wanted - remaining) * channels_ * bytes_per_sample;
 }
 
-// 0x8758d8 _ZN3vox26VoxMSWavSubDecoderIMAADPCM11DecodeBlockEPv
+// 0x8758d8 _ZN3vox26VoxMSWavSubDecoderIMAADPCM11DecodeBlockEPv (partial: one deviation, see below)
 // Reads up to one block from the stream (fewer at the end of the data chunk) and decodes it
 // with the shared IMA ADPCM block decoder, which takes the header predictors and step indices
-// from the block and keeps them in states_.
+// from the block and keeps them in states_. The step and index tables are the binary's (confirmed
+// against .rodata 0x911a24 and 0x911a14 with IDA get_bytes, see ima_adpcm.hpp). The header, group,
+// predictor and index logic, the 8-frame groups, and the clip to total - frames_done match the listing.
+// Deviation: with a chunk of zero channels and bytes read, the listing's group loop never advances
+// (its group counter stays 0 below the byte count) and does not return. The port returns one frame
+// and decodes nothing, since a zero channel count is not valid data.
 int VoxMSWavSubDecoderIMAADPCM::DecodeBlock(std::int16_t* out) {
     const std::uint32_t left = chunk_->current_data_size - static_cast<std::uint32_t>(data_pos_);
     const std::uint32_t block_align = static_cast<std::uint32_t>(chunk_->block_align);

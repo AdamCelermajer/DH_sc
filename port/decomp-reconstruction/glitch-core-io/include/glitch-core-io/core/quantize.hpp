@@ -41,18 +41,20 @@ inline const T* strided(const void* base, std::ptrdiff_t stride, unsigned i) {
 }
 
 // 0x6a1300 quantizeScaleOffset<vector3d<short>, vector3d<float>>.
-// The box of the input is taken (computeBoundingBox, 3 components). scale is the box size
-// divided by 65535 as 0.000015259 steps; offset is the box centre. Each output is the
-// truncated (center-relative) value divided by scale.
-// The original's return register is not reproduced: the function returns nothing.
+// The box of the input is taken (computeBoundingBox, 3 components). scale is the box size times
+// the float nearest 1/65535 (the constant 0x37800080 in the listing, not a rounded decimal); offset
+// is the box centre. Each output is the truncated (center-relative) value divided by scale.
+// The float left in r0 at the return is not reproduced: both call sites in createQuantizedBuffer
+// (0x6a2cdc) read nothing from r0 after the call, so the function returns nothing.
 inline void quantizeScaleOffset(vector3d<std::int16_t>* out, unsigned outStride,
                                 const vector3d<float>* in, unsigned inStride, unsigned count,
                                 vector3d<float>& scale, vector3d<float>& offset) {
     aabbox3d<float> box{};
     computeBoundingBox<float>(&in->X, 3u, static_cast<int>(inStride), count, box);
-    scale.X = (box.MaxEdge.X - box.MinEdge.X) * 0.000015259f;
-    scale.Y = (box.MaxEdge.Y - box.MinEdge.Y) * 0.000015259f;
-    scale.Z = (box.MaxEdge.Z - box.MinEdge.Z) * 0.000015259f;
+    const float inv65535 = 1.0f / 65535.0f;  // 0x37800080
+    scale.X = (box.MaxEdge.X - box.MinEdge.X) * inv65535;
+    scale.Y = (box.MaxEdge.Y - box.MinEdge.Y) * inv65535;
+    scale.Z = (box.MaxEdge.Z - box.MinEdge.Z) * inv65535;
     offset.X = (box.MinEdge.X + box.MaxEdge.X) * 0.5f;
     offset.Y = (box.MinEdge.Y + box.MaxEdge.Y) * 0.5f;
     offset.Z = (box.MinEdge.Z + box.MaxEdge.Z) * 0.5f;

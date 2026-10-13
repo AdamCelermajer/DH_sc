@@ -52,4 +52,13 @@ struct SEvent {
     int reserved6;
     int reserved7;
 };
+
+// Stand-in for glitch::IEventReceiver (glitch-core-io). The secondary vtable of
+// TouchScreenPS3 and TouchScreenWin32 holds the two destructor entries and onEvent,
+// so the interface is declared with those three slots.
+class IEventReceiver {
+public:
+    virtual ~IEventReceiver() = default;
+    virtual bool onEvent(const SEvent& event) = 0;
+};
 }  // namespace glitch

@@ -21,7 +21,10 @@ struct SStreamItrLoader {
     // When swapBytes is set, elements of 2, 4 and 8 bytes are read one at a time and stored
     // from big-endian to host order. When it is clear, or the element size is 0, 1 or another
     // unlisted size, nothing is read. The destination advances by stride in every case.
-    // PARTIAL: the caller's block read for the clear case is not in this listing.
+    // PARTIAL (return value only): the original returns int, the object address when nothing is read
+    // and the count of the last read otherwise. The port returns void because IReadFile::read is void.
+    // The two callers in the listing (chunk_041.c) do not use the value. The listing has no read on
+    // the clear path, so nothing else is missing.
     void loadAndAdvance(IReadFile* file, bool swapBytes);
 };
 

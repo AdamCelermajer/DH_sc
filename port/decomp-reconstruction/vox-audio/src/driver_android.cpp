@@ -1,6 +1,9 @@
 // vox::DriverAndroid and the VoxSet* exports. The JNI and OpenSL paths are not ported:
 // the functions that need them are marked partial in the comments.
+#include <chrono>
+
 #include "vox-audio/vox/driver_android.hpp"
+#include "vox-audio/vox/memory.hpp"
 
 namespace vox {
 
@@ -8,6 +11,22 @@ _JavaVM* DriverAndroid::s_javaVM = nullptr;
 int DriverAndroid::s_androidAPILevel = 0;
 double DriverAndroid::m_dataThresholdRatio = 0.0;
 bool DriverAndroid::m_running = false;
+double DriverAndroid::m_updateTime = 0.0;
+double DriverAndroid::m_updateStartTime = 0.0;
+double DriverAndroid::m_dataThreshold = 0.0;
+double DriverAndroid::m_dataDuration = 0.0;
+
+namespace {
+
+// Seconds from a steady clock, the same stand-in as vox_thread_object.cpp for _GetTime
+// (core-platform 0x862bf4). The driver only uses differences of two readings, so the epoch does
+// not matter, and vox-audio does not link core-platform.
+double DriverAndroidNowSeconds() {
+    using Clock = std::chrono::steady_clock;
+    return std::chrono::duration<double>(Clock::now().time_since_epoch()).count();
+}
+
+}  // namespace
 
 // 0x88fae4 (partial): the original calls the DriverCallbackInterface constructor first.
 DriverAndroid::DriverAndroid() {
@@ -65,14 +84,19 @@ void DriverAndroid::Shutdown() {
 }
 
 // 0x88f9a0 _ZN3vox13DriverAndroid4InitEPv (partial)
+// The original calls DriverCallbackInterface::Init and SetDefaultParameter before and after
+// _InitAT. That base is not inherited by the port, so those two pairs of calls are missing.
 void DriverAndroid::Init(void* context) {
-    (void)context;
     mutex_.Lock();
-    // The rest of Init is not ported; the original calls into the JNI environment here.
+    _InitAT(context);
     mutex_.Unlock();
 }
 
 // 0x88fbe8 _ZN3vox13DriverAndroid18CreateDriverSourceEPvS1_i (partial)
+// The original allocates a DriverAndroidSource (VoxAlloc 0xb4) when at_active_ is set, builds it
+// with the base source counter (+0x0c) as its flags, and links a node into the base source list
+// (+0x10). The counter and the list belong to DriverCallbackInterface, which the port does not
+// inherit, so no source is created and this returns null.
 DriverSourceInterface* DriverAndroid::CreateDriverSource(const std::int32_t* params, void* user, int flags) {
     (void)params;
     (void)user;
@@ -83,9 +107,15 @@ DriverSourceInterface* DriverAndroid::CreateDriverSource(const std::int32_t* par
 }
 
 // 0x88f59c _ZN3vox13DriverAndroid19DestroyDriverSourceEPNS_21DriverSourceInterfaceE (partial)
+// The original unlinks the node that holds the source from the base source list (+0x10), which is
+// not reachable here, then runs the source's virtual destructor and frees the block. The
+// destructor and VoxFree run whether or not the node was found, as in the original.
 void DriverAndroid::DestroyDriverSource(DriverSourceInterface* source) {
-    (void)source;
     mutex_.Lock();
+    if (source != nullptr) {
+        source->~DriverSourceInterface();
+        VoxFree(source);
+    }
     mutex_.Unlock();
 }
 
@@ -124,11 +154,32 @@ void DriverAndroid::_ShutdownAT() {
     }
 }
 
-// 0x88f044 _ZN3vox13DriverAndroid10_SuspendATEv (partial: not ported)
-void DriverAndroid::_SuspendAT() {}
+// 0x88f044 _ZN3vox13DriverAndroid10_SuspendATEv (partial)
+// The original pauses the AudioTrack through JNI (GetEnv with version 0x10002, then
+// CallNonvirtualVoidMethod with mPause). That call is not ported. The flag and the duration
+// update run as in the original: the buffered duration loses the time played since the last
+// start.
+void DriverAndroid::_SuspendAT() {
+    mutex_.Lock();
+    if (at_active_) {
+        paused_ = true;
+        m_dataDuration = m_dataDuration - (DriverAndroidNowSeconds() - m_updateStartTime);
+    }
+    mutex_.Unlock();
+}
 
-// 0x88ef6c _ZN3vox13DriverAndroid9_ResumeATEv (partial: not ported)
-void DriverAndroid::_ResumeAT() {}
+// 0x88ef6c _ZN3vox13DriverAndroid9_ResumeATEv (partial)
+// The original starts the AudioTrack through JNI (GetEnv, then CallNonvirtualVoidMethod with
+// mPlay). That call is not ported. The flag is cleared and the start time is reset as in the
+// original.
+void DriverAndroid::_ResumeAT() {
+    mutex_.Lock();
+    if (at_active_) {
+        paused_ = false;
+        m_updateStartTime = DriverAndroidNowSeconds();
+    }
+    mutex_.Unlock();
+}
 
 }  // namespace vox
 

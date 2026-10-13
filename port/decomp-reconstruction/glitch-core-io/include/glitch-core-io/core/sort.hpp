@@ -14,7 +14,9 @@
 
 namespace glitch::core {
 
-// 0x350f00 / 0x35104c / 0x6b41d8 (heapsink instantiations)
+// heapsink instantiations: 0x350f00 / 0x35104c (scene entries), 0x56fa04 (SPakFileEntry),
+// 0x5775a4 (SZipFileEntry), 0x6b41d8 (CFileList::FileEntry), 0x6dac5c (CVideoModeList::SVideoMode).
+// Each element type supplies the operator< the listing inlines (see its header).
 template <class T>
 void heapsink(T* array, int element, int max) {
     int child = element * 2;
@@ -27,7 +29,8 @@ void heapsink(T* array, int element, int max) {
     }
 }
 
-// 0x350fc0 / 0x3510f0 / 0x6b4338 (heapsort instantiations)
+// heapsort instantiations: 0x350fc0 / 0x3510f0 (scene entries), 0x56fc0c (SPakFileEntry),
+// 0x5777ac (SZipFileEntry), 0x6b4338 (CFileList::FileEntry), 0x6dad8c (CVideoModeList::SVideoMode).
 template <class T>
 void heapsort(T* array, int size) {
     for (int i = (size - 1) / 2 + 1; i >= 1; --i) heapsink(array, i, size + 1);
@@ -40,7 +43,8 @@ void heapsort(T* array, int size) {
     } while (n != 0);
 }
 
-// 0x538314 / 0x538470 / 0x5385cc / 0x539e3c (binary_search instantiations): the index of
+// binary_search instantiations: 0x538314 / 0x538470 / 0x5385cc / 0x539e3c (other element types),
+// 0x57015c (SPakFileEntry), 0x5783c4 (SZipFileEntry): the index of
 // an element equal to key (neither less than the other), or -1.
 template <class T, class Alloc>
 int binary_search(const std::vector<T, Alloc>& values, const T& key) {

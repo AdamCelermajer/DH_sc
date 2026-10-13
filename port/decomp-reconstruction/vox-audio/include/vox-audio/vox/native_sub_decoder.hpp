@@ -90,9 +90,10 @@ public:
     int MixMultipleSegments(std::int16_t* dst, int bytes);
     // 0x8841fc (partial): frame count for the byte count, as MixMultipleSegments.
     int EmulateMixSegmentInBuffer(int bytes, SegmentState* segment);
-    // 0x8847e8 and 0x884ab4 (partial): the 0x41-byte state copies between the segment
-    // arrays are not reproduced (the arrays are not laid out in the port).
+    // 0x8847e8: the old segment is copied from the current one, then the rule's frames and
+    // the gain ramp are set (the loop-list lookups use the chunk's list in loop_lists_).
     void UpdateOldSegmentState(TransitionRule* rule);
+    // 0x884ab4: see the source comment.
     void UpdateDyingSegmentState(TransitionRule* rule);
 
     // 0x8842e8 (partial): the two decode calls through virtual slots 0x30 and 0x34 are

@@ -26,7 +26,7 @@ struct TransitionRule {
     float start_ = 0.0f;         // +0x10
     float end_ = 0.0f;           // +0x14
     float length_ = 0.0f;        // +0x18: length in seconds (scaled by the base field_0c_)
-    std::int32_t field_1c_ = 0;  // +0x1c
+    float field_1c_ = 0.0f;      // +0x1c: float (UpdateOldSegmentState reads it as *(float*)(rule+0x1c))
     std::int32_t field_20_ = 0;  // +0x20
 };
 

@@ -22,16 +22,18 @@ public:
     // separator handling in FileSystemWin32::formatFilePath.
     std::string formatFilePath(const std::string& path) const;
 
-    // 0x34df94: stdio existence check. Partial: the original calls a virtual
-    // existence test of the derived file system, which is not in this tree.
-    bool doesFileExists(const char* name) const;
+    // 0x34df94: stdio existence check. Partial: the original opens the name through
+    // the derived file system's openFile (vtable slot +0x88, read-only flags) and closes
+    // the handle through closeFile (slot +0x78). The base has no virtuals in this tree.
+    bool doesFileExists(const char* name);
 
-    // 0x34dfe0: partial, same check as doesFileExists (the resource lookup is in the
-    // derived class).
-    bool doesResourceExists(const char* name) const;
+    // 0x34dfe0: partial, same check as doesFileExists. The original uses openResource
+    // (vtable slot +0x90) in place of openFile.
+    bool doesResourceExists(const char* name);
 
     // 0x34e150: partial, same check after the savegame job flush (not reconstructed).
-    bool doesSavefileExists(const char* name) const;
+    // The original uses openSavefile (vtable slot +0x94) and the flush is omitted.
+    bool doesSavefileExists(const char* name);
 
     // 0x34e96c: partial. The name substitutions of the original are not visible in
     // the pseudocode; the name is returned unchanged.

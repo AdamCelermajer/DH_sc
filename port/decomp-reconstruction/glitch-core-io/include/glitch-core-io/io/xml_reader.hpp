@@ -33,9 +33,8 @@ public:
         std::string value;  // (its c_str is returned)
     };
 
-    // 0x573eb0 (D1): PARTIAL. As the wide reader: the defaulted destructor releases the std members
-    // in place of the original buffer frees (layout differs).
-    ~CXMLReaderImpl() override = default;
+    // 0x573eb0 (D1): releases the text buffer (operator delete[]); the std members are destroyed after it.
+    ~CXMLReaderImpl() override;
 
     // Parser step (vtable +0x0c). 0x576048: returns the pending closing node of an empty element, or
     // parses the next node from the current position.
@@ -106,9 +105,8 @@ public:
         std::wstring value;  // (its c_str is returned)
     };
 
-    // 0x573928 (D1): PARTIAL. The original frees its text and attribute buffers in member
-    // order; the defaulted destructor releases the std members the same way (layout differs).
-    ~CXMLReaderImpl() override = default;
+    // 0x573928 (D1): releases the text buffer (operator delete[]); the std members are destroyed after it.
+    ~CXMLReaderImpl() override;
 
     // 0x57506c: as the narrow reader; the wide text is read in 4-byte units (wchar_t on the target).
     virtual bool read();

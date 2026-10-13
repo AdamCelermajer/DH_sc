@@ -8,9 +8,10 @@
 #pragma once
 
 char SSEncDec_GetCharFromKeyByIndex(int index);
-char SSEncDec_GetKeyFromChar(char c);
+// The key of a character is signed char (the original sign-extends it). A character of 0x80 or more is negative.
+signed char SSEncDec_GetKeyFromChar(char c);
 char SSEncDec_GetCharFromKeyByIndexLC(int index);
-char SSEncDec_GetKeyFromCharLC(char c);
+signed char SSEncDec_GetKeyFromCharLC(char c);
 
 // Encodes length bytes. The buffer is zero-filled, and holds the bytes the original allocates (v4 + 3, or 2 when
 // length is 0).

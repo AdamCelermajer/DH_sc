@@ -1,0 +1,7201 @@
+[
+{
+"id": "v1-vendor-gameswf-gameswf_character-670fee-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::character",
+"owners": [
+"gameswf::character"
+],
+"part": 0,
+"parts": 3,
+"functions": [
+{
+"address": "0x4121f8",
+"bytes": 96,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_matrix(gameswf::matrix const&)"
+},
+{
+"address": "0x752c48",
+"bytes": 8,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::hit_test(float, float)"
+},
+{
+"address": "0x752ca8",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_play_state(gameswf::character::play_state)"
+},
+{
+"address": "0x752cc4",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::clear_display_objects()"
+},
+{
+"address": "0x752cc8",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::remove_display_object(gameswf::character*)"
+},
+{
+"address": "0x752ce4",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::move_display_object(int, gameswf::cxform const*, gameswf::matrix const*, gameswf::effect const*, float, unsigned short)"
+},
+{
+"address": "0x752ce8",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::replace_display_object(unsigned short, char const*, int, gameswf::cxform const*, gameswf::matrix const*, gameswf::effect const*, float, unsigned short)"
+},
+{
+"address": "0x752cec",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::replace_display_object(gameswf::character*, char const*, int, gameswf::cxform const*, gameswf::matrix const*, gameswf::effect const*, float, unsigned short)"
+},
+{
+"address": "0x752cf0",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::remove_display_object(int, int)"
+},
+{
+"address": "0x752cf4",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::execute_frame_tags(int, bool)"
+},
+{
+"address": "0x752cf8",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::add_action_buffer(gameswf::action_buffer*)"
+},
+{
+"address": "0x752cfc",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::do_actions(gameswf::array<gameswf::action_buffer*> const&)"
+},
+{
+"address": "0x752d08",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::remove_display_object(gameswf::tu_string const&)"
+},
+{
+"address": "0x752d0c",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_drag_state(gameswf::character::drag_state const&)"
+},
+{
+"address": "0x752d10",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::stop_drag()"
+},
+{
+"address": "0x752d14",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::call_frame_actions(gameswf::as_value const&)"
+},
+{
+"address": "0x752d18",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_background_color(gameswf::rgba const&)"
+},
+{
+"address": "0x752d1c",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_background_alpha(float)"
+},
+{
+"address": "0x752d28",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_display_viewport(int, int, int, int)"
+},
+{
+"address": "0x752d2c",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_display_bounds(int, int, int, int)"
+}
+],
+"bytes": 176
+},
+{
+"id": "v1-vendor-gameswf-gameswf_character-670fee-1",
+"category": "vendor-gameswf",
+"owner": "gameswf::character",
+"owners": [
+"gameswf::character"
+],
+"part": 1,
+"parts": 3,
+"functions": [
+{
+"address": "0x752d38",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_userdata(void*)"
+},
+{
+"address": "0x752d3c",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_variable(char const*, char const*)"
+},
+{
+"address": "0x752d40",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_variable(char const*, wchar_t const*)"
+},
+{
+"address": "0x752d54",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::attach_display_callback(char const*, void (*)(void*), void*)"
+},
+{
+"address": "0x752d58",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::display()"
+},
+{
+"address": "0x752d84",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::construct()"
+},
+{
+"address": "0x752d88",
+"bytes": 12,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::advance(float)"
+},
+{
+"address": "0x752d94",
+"bytes": 8,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::goto_frame(int)"
+},
+{
+"address": "0x7531e4",
+"bytes": 124,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::detach_scene_node()"
+},
+{
+"address": "0x753260",
+"bytes": 4,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::enumerate(gameswf::as_environment*)"
+},
+{
+"address": "0x753470",
+"bytes": 116,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::~character()"
+},
+{
+"address": "0x7534ec",
+"bytes": 20,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::~character()"
+},
+{
+"address": "0x753508",
+"bytes": 84,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_display_callback(void (*)(gameswf::render_state&, void*), void*)"
+},
+{
+"address": "0x75355c",
+"bytes": 92,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_cxform(gameswf::cxform const&)"
+},
+{
+"address": "0x7535b8",
+"bytes": 100,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_name(gameswf::tu_string const&)"
+},
+{
+"address": "0x753c10",
+"bytes": 356,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::attach_scene_node(glitch::scene::ISceneNode*, glitch::core::dimension2d<int>, bool)"
+},
+{
+"address": "0x753e34",
+"bytes": 140,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::get_world_cxform_root_change()"
+},
+{
+"address": "0x753ee8",
+"bytes": 140,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::get_world_matrix_root_change()"
+},
+{
+"address": "0x753f9c",
+"bytes": 248,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::do_display_callback()"
+},
+{
+"address": "0x7547b4",
+"bytes": 112,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::get_root_movie()"
+}
+],
+"bytes": 1580
+},
+{
+"id": "v1-vendor-gameswf-gameswf_character-670fee-2",
+"category": "vendor-gameswf",
+"owner": "gameswf::character",
+"owners": [
+"gameswf::character"
+],
+"part": 2,
+"parts": 3,
+"functions": [
+{
+"address": "0x754824",
+"bytes": 104,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::get_drag_state(gameswf::character::drag_state*)"
+},
+{
+"address": "0x75488c",
+"bytes": 196,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::update_world_cxform()"
+},
+{
+"address": "0x754958",
+"bytes": 176,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::recycle(gameswf::character*, int)"
+},
+{
+"address": "0x754a1c",
+"bytes": 244,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::character(gameswf::player*, gameswf::character*, int, int)"
+},
+{
+"address": "0x754b28",
+"bytes": 244,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::character(gameswf::player*, gameswf::character*, int, int)"
+},
+{
+"address": "0x754c34",
+"bytes": 212,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::update_world_matrix()"
+},
+{
+"address": "0x754d70",
+"bytes": 120,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::get_mouse_state(int*, int*, int*)"
+},
+{
+"address": "0x755cf8",
+"bytes": 168,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::set_effect(gameswf::effect const&)"
+},
+{
+"address": "0x75dd74",
+"bytes": 100,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::~character()"
+},
+{
+"address": "0x75e3a8",
+"bytes": 308,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::do_mouse_drag()"
+},
+{
+"address": "0x7750e8",
+"bytes": 108,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::notify_need_advance()"
+},
+{
+"address": "0x7804d4",
+"bytes": 84,
+"owner": "gameswf::character",
+"demangled": "gameswf::character::get_parent() const"
+}
+],
+"bytes": 2064
+},
+{
+"id": "v1-vendor-gameswf-gameswf_as_value-794e76-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_value",
+"owners": [
+"gameswf::as_value"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x439d50",
+"bytes": 60,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::as_value(int)"
+},
+{
+"address": "0x769540",
+"bytes": 84,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::as_value(gameswf::as_value const&, gameswf::as_value const&)"
+},
+{
+"address": "0x796fd0",
+"bytes": 320,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::get_member(gameswf::tu_string const&, gameswf::as_value*)"
+},
+{
+"address": "0x797124",
+"bytes": 200,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::drop_refs()"
+},
+{
+"address": "0x7972d8",
+"bytes": 120,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::set_tu_string(gameswf::tu_string const&)"
+},
+{
+"address": "0x797350",
+"bytes": 172,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::set_string(char const*)"
+},
+{
+"address": "0x797408",
+"bytes": 60,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::as_value(wchar_t const*)"
+},
+{
+"address": "0x797448",
+"bytes": 60,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::as_value(wchar_t const*)"
+},
+{
+"address": "0x797654",
+"bytes": 212,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::_typeof() const"
+},
+{
+"address": "0x797b7c",
+"bytes": 540,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::to_string(gameswf::tu_string&) const"
+},
+{
+"address": "0x797dc0",
+"bytes": 640,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::operator==(gameswf::as_value const&) const"
+},
+{
+"address": "0x798040",
+"bytes": 20,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::operator!=(gameswf::as_value const&) const"
+},
+{
+"address": "0x7ba984",
+"bytes": 52,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::operator/=(double)"
+},
+{
+"address": "0x7babb0",
+"bytes": 52,
+"owner": "gameswf::as_value",
+"demangled": "gameswf::as_value::as_value(gameswf::as_object*)"
+}
+],
+"bytes": 2592
+},
+{
+"id": "v1-vendor-gameswf-gameswf_tu_string-39e5bd-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::tu_string",
+"owners": [
+"gameswf::tu_string"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x751d10",
+"bytes": 4,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::stricmp(char const*, char const*)"
+},
+{
+"address": "0x7520e0",
+"bytes": 4,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::encode_utf8_from_wchar(gameswf::tu_string*, unsigned short const*)"
+},
+{
+"address": "0x7521c8",
+"bytes": 4,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::encode_utf8_from_wchar(gameswf::tu_string*, unsigned int const*)"
+},
+{
+"address": "0x7521cc",
+"bytes": 20,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::operator+=(char const*)"
+},
+{
+"address": "0x753120",
+"bytes": 112,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::operator+=(gameswf::tu_string const&)"
+},
+{
+"address": "0x7635c8",
+"bytes": 152,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::get_hashi() const"
+},
+{
+"address": "0x78aebc",
+"bytes": 36,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::operator==(char const*) const"
+},
+{
+"address": "0x796f18",
+"bytes": 68,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::operator==(gameswf::tu_string const&) const"
+},
+{
+"address": "0x7a3cf4",
+"bytes": 104,
+"owner": "gameswf::tu_string",
+"demangled": "gameswf::tu_string::operator+=(char)"
+}
+],
+"bytes": 504
+},
+{
+"id": "v1-vendor-gameswf-gameswf-fddef6-0",
+"category": "vendor-gameswf",
+"owner": "gameswf",
+"owners": [
+"gameswf"
+],
+"part": 0,
+"parts": 8,
+"functions": [
+{
+"address": "0x751e30",
+"bytes": 124,
+"owner": "gameswf",
+"demangled": "gameswf::string_printf(char const*, ...)"
+},
+{
+"address": "0x751ffc",
+"bytes": 220,
+"owner": "gameswf",
+"demangled": "void gameswf::encode_utf8_from_wchar_generic<unsigned short>(gameswf::tu_string*, unsigned short const*)"
+},
+{
+"address": "0x7520e4",
+"bytes": 220,
+"owner": "gameswf",
+"demangled": "void gameswf::encode_utf8_from_wchar_generic<unsigned int>(gameswf::tu_string*, unsigned int const*)"
+},
+{
+"address": "0x752494",
+"bytes": 848,
+"owner": "gameswf",
+"demangled": "gameswf::decode_next_unicode_character(char const**)"
+},
+{
+"address": "0x7527e4",
+"bytes": 564,
+"owner": "gameswf",
+"demangled": "gameswf::encode_unicode_character(char*, int*, unsigned int)"
+},
+{
+"address": "0x752a18",
+"bytes": 276,
+"owner": "gameswf",
+"demangled": "gameswf::format_utf_text(char const*, char*, int, bool)"
+},
+{
+"address": "0x752b2c",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::init_memory_allocator()"
+},
+{
+"address": "0x752b30",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::close_memory_allocator()"
+},
+{
+"address": "0x752b34",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::dump_memory_allocator()"
+},
+{
+"address": "0x752b38",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::free_internal(void*, unsigned int)"
+},
+{
+"address": "0x752b3c",
+"bytes": 8,
+"owner": "gameswf",
+"demangled": "gameswf::malloc_internal(unsigned int, swf::MemHint, char const*, int)"
+},
+{
+"address": "0x752b4c",
+"bytes": 60,
+"owner": "gameswf",
+"demangled": "gameswf::realloc_internal(void*, unsigned int, unsigned int, swf::MemHint, char const*, int)"
+},
+{
+"address": "0x752b9c",
+"bytes": 8,
+"owner": "gameswf",
+"demangled": "gameswf::malloc_internal(unsigned int, swf::MemHint)"
+},
+{
+"address": "0x752bac",
+"bytes": 52,
+"owner": "gameswf",
+"demangled": "gameswf::realloc_internal(void*, unsigned int, unsigned int, swf::MemHint)"
+},
+{
+"address": "0x75756c",
+"bytes": 60,
+"owner": "gameswf",
+"demangled": "gameswf::create_filter_engine()"
+},
+{
+"address": "0x757840",
+"bytes": 28,
+"owner": "gameswf",
+"demangled": "gameswf::gaussian_kernel(float*, int)"
+},
+{
+"address": "0x759140",
+"bytes": 68,
+"owner": "gameswf",
+"demangled": "gameswf::close_filter_engine()"
+},
+{
+"address": "0x759b24",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::get_verbose_parse()"
+},
+{
+"address": "0x759b44",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::get_verbose_debug()"
+},
+{
+"address": "0x759b64",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::get_verbose_action()"
+}
+],
+"bytes": 2624
+},
+{
+"id": "v1-vendor-gameswf-gameswf-fddef6-1",
+"category": "vendor-gameswf",
+"owner": "gameswf",
+"owners": [
+"gameswf"
+],
+"part": 1,
+"parts": 8,
+"functions": [
+{
+"address": "0x759b84",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::get_verbose_dlist()"
+},
+{
+"address": "0x759be4",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::set_verbose_dlist(bool)"
+},
+{
+"address": "0x759c74",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::null_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x759cdc",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::register_texture_loader_callback(glitch::video::ITexture* (*)(char const*, int, int))"
+},
+{
+"address": "0x759cfc",
+"bytes": 152,
+"owner": "gameswf",
+"demangled": "gameswf::substitute_bitmap_character(gameswf::tu_string&, gameswf::bitmap_character_def*, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x759d9c",
+"bytes": 72,
+"owner": "gameswf",
+"demangled": "gameswf::define_debug_id_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x759e28",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::end_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x75a02c",
+"bytes": 16,
+"owner": "gameswf",
+"demangled": "void gameswf::destructp<unsigned char>(unsigned char const*, unsigned int)"
+},
+{
+"address": "0x75a1bc",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::image_rgb>(gameswf::image_rgb const*)"
+},
+{
+"address": "0x75a1e8",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::image_rgba>(gameswf::image_rgba const*)"
+},
+{
+"address": "0x75a214",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::ref_counted>(gameswf::ref_counted const*)"
+},
+{
+"address": "0x75a4b8",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::define_video_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x75a4d4",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::jpeg_tables_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x75c86c",
+"bytes": 180,
+"owner": "gameswf",
+"demangled": "gameswf::frame_label_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x75cb14",
+"bytes": 84,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::character::custom>(gameswf::character::custom const*)"
+},
+{
+"address": "0x75fbf8",
+"bytes": 288,
+"owner": "gameswf",
+"demangled": "gameswf::define_native_image_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x7613b8",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::shape_character_def>(gameswf::shape_character_def const*)"
+},
+{
+"address": "0x763dc0",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::jpeg::input>(gameswf::jpeg::input const*)"
+},
+{
+"address": "0x763e6c",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::execute_tag>(gameswf::execute_tag const*)"
+},
+{
+"address": "0x76493c",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "gameswf::hash<int, void (*)(gameswf::stream*, int, gameswf::movie_definition_sub*), gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+}
+],
+"bytes": 1220
+},
+{
+"id": "v1-vendor-gameswf-gameswf-fddef6-2",
+"category": "vendor-gameswf",
+"owner": "gameswf",
+"owners": [
+"gameswf"
+],
+"part": 2,
+"parts": 8,
+"functions": [
+{
+"address": "0x764c5c",
+"bytes": 92,
+"owner": "gameswf",
+"demangled": "gameswf::is_tag_loaders_initialized()"
+},
+{
+"address": "0x7652d0",
+"bytes": 84,
+"owner": "gameswf",
+"demangled": "gameswf::get_tag_loader(int, void (**)(gameswf::stream*, int, gameswf::movie_definition_sub*))"
+},
+{
+"address": "0x769d00",
+"bytes": 164,
+"owner": "gameswf",
+"demangled": "gameswf::as_object_dump(gameswf::fn_call const&)"
+},
+{
+"address": "0x76c768",
+"bytes": 16,
+"owner": "gameswf",
+"demangled": "gameswf::get_standard_property_map()"
+},
+{
+"address": "0x76c870",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::permanent_string>(gameswf::permanent_string const*)"
+},
+{
+"address": "0x76c9ac",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::bitmap_glyph_provider>(gameswf::bitmap_glyph_provider const*)"
+},
+{
+"address": "0x76d594",
+"bytes": 20,
+"owner": "gameswf",
+"demangled": "gameswf::get_static_string(gameswf::tu_string const&)"
+},
+{
+"address": "0x76ef5c",
+"bytes": 176,
+"owner": "gameswf",
+"demangled": "gameswf::register_as_native_function(char const*, void (*)(gameswf::fn_call const&))"
+},
+{
+"address": "0x76f5c0",
+"bytes": 8060,
+"owner": "gameswf",
+"demangled": "gameswf::standard_method_map_init()"
+},
+{
+"address": "0x772030",
+"bytes": 4084,
+"owner": "gameswf",
+"demangled": "gameswf::get_standard_member(gameswf::tu_stringi const&)"
+},
+{
+"address": "0x7775f4",
+"bytes": 464,
+"owner": "gameswf",
+"demangled": "void gameswf::collect<signed char>(unsigned int const*, unsigned int, glitch::video::SVertexStream const&, gameswf::point*)"
+},
+{
+"address": "0x7777c4",
+"bytes": 464,
+"owner": "gameswf",
+"demangled": "void gameswf::collect<unsigned int>(unsigned int const*, unsigned int, glitch::video::SVertexStream const&, gameswf::point*)"
+},
+{
+"address": "0x777994",
+"bytes": 392,
+"owner": "gameswf",
+"demangled": "void gameswf::collect<float>(unsigned int const*, unsigned int, glitch::video::SVertexStream const&, gameswf::point*)"
+},
+{
+"address": "0x777b1c",
+"bytes": 464,
+"owner": "gameswf",
+"demangled": "void gameswf::collect<unsigned char>(unsigned int const*, unsigned int, glitch::video::SVertexStream const&, gameswf::point*)"
+},
+{
+"address": "0x777cec",
+"bytes": 464,
+"owner": "gameswf",
+"demangled": "void gameswf::collect<short>(unsigned int const*, unsigned int, glitch::video::SVertexStream const&, gameswf::point*)"
+},
+{
+"address": "0x777ebc",
+"bytes": 464,
+"owner": "gameswf",
+"demangled": "void gameswf::collect<unsigned short>(unsigned int const*, unsigned int, glitch::video::SVertexStream const&, gameswf::point*)"
+},
+{
+"address": "0x77808c",
+"bytes": 464,
+"owner": "gameswf",
+"demangled": "void gameswf::collect<int>(unsigned int const*, unsigned int, glitch::video::SVertexStream const&, gameswf::point*)"
+},
+{
+"address": "0x77932c",
+"bytes": 48,
+"owner": "gameswf",
+"demangled": "void gameswf::write_le<short>(gameswf::tu_file*, short)"
+},
+{
+"address": "0x77935c",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "short gameswf::read_le<short>(gameswf::tu_file*)"
+},
+{
+"address": "0x7797e4",
+"bytes": 32,
+"owner": "gameswf",
+"demangled": "gameswf::sort_by_decreasing_error(void const*, void const*)"
+}
+],
+"bytes": 16096
+},
+{
+"id": "v1-vendor-gameswf-gameswf-fddef6-3",
+"category": "vendor-gameswf",
+"owner": "gameswf",
+"owners": [
+"gameswf"
+],
+"part": 3,
+"parts": 8,
+"functions": [
+{
+"address": "0x77b59c",
+"bytes": 48,
+"owner": "gameswf",
+"demangled": "void gameswf::write_le<float>(gameswf::tu_file*, float)"
+},
+{
+"address": "0x77b84c",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "float gameswf::read_le<float>(gameswf::tu_file*)"
+},
+{
+"address": "0x77d0d0",
+"bytes": 3016,
+"owner": "gameswf",
+"demangled": "gameswf::define_sound_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x789d98",
+"bytes": 1204,
+"owner": "gameswf",
+"demangled": "gameswf::execute_tesselate(gameswf::mesh_set*, gameswf::shape_character_def const*, float)"
+},
+{
+"address": "0x78b240",
+"bytes": 428,
+"owner": "gameswf",
+"demangled": "gameswf::preload_glyph_codes(gameswf::player_context*, unsigned short*, int, gameswf::font*, int, gameswf::filter const*)"
+},
+{
+"address": "0x78b4d8",
+"bytes": 260,
+"owner": "gameswf",
+"demangled": "gameswf::removeHTML(gameswf::tu_string&)"
+},
+{
+"address": "0x791d48",
+"bytes": 160,
+"owner": "gameswf",
+"demangled": "gameswf::get_textformat(gameswf::fn_call const&)"
+},
+{
+"address": "0x798204",
+"bytes": 160,
+"owner": "gameswf",
+"demangled": "gameswf::as_array_reverse(gameswf::fn_call const&)"
+},
+{
+"address": "0x798e44",
+"bytes": 700,
+"owner": "gameswf",
+"demangled": "gameswf::array_init(gameswf::player*)"
+},
+{
+"address": "0x79b298",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::as_boolean_valueof(gameswf::fn_call const&)"
+},
+{
+"address": "0x79b8e4",
+"bytes": 196,
+"owner": "gameswf",
+"demangled": "gameswf::broadcaster_init(gameswf::player*)"
+},
+{
+"address": "0x79e380",
+"bytes": 320,
+"owner": "gameswf",
+"demangled": "gameswf::flash_init(gameswf::player*)"
+},
+{
+"address": "0x79e4d8",
+"bytes": 496,
+"owner": "gameswf",
+"demangled": "gameswf::geom_init(gameswf::player*)"
+},
+{
+"address": "0x79e700",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "gameswf::as_global_get_active_controller(gameswf::fn_call const&)"
+},
+{
+"address": "0x79eb7c",
+"bytes": 124,
+"owner": "gameswf",
+"demangled": "gameswf::as_global_get_version(gameswf::fn_call const&)"
+},
+{
+"address": "0x79f3c4",
+"bytes": 3308,
+"owner": "gameswf",
+"demangled": "gameswf::key_init(gameswf::player*)"
+},
+{
+"address": "0x7a01d8",
+"bytes": 124,
+"owner": "gameswf",
+"demangled": "gameswf::math_min(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a0254",
+"bytes": 124,
+"owner": "gameswf",
+"demangled": "gameswf::math_max(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a02d0",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "gameswf::math_floor(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a0308",
+"bytes": 52,
+"owner": "gameswf",
+"demangled": "gameswf::math_fabs(gameswf::fn_call const&)"
+}
+],
+"bytes": 10880
+},
+{
+"id": "v1-vendor-gameswf-gameswf-fddef6-4",
+"category": "vendor-gameswf",
+"owner": "gameswf",
+"owners": [
+"gameswf"
+],
+"part": 4,
+"parts": 8,
+"functions": [
+{
+"address": "0x7a0374",
+"bytes": 108,
+"owner": "gameswf",
+"demangled": "gameswf::math_pow(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a03e0",
+"bytes": 108,
+"owner": "gameswf",
+"demangled": "gameswf::math_atan2(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a044c",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "gameswf::math_tan(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a0484",
+"bytes": 60,
+"owner": "gameswf",
+"demangled": "gameswf::math_sqrt(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a04c0",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "gameswf::math_sin(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a04f8",
+"bytes": 60,
+"owner": "gameswf",
+"demangled": "gameswf::math_log(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a0534",
+"bytes": 60,
+"owner": "gameswf",
+"demangled": "gameswf::math_exp(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a0570",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "gameswf::math_cos(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a05a8",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "gameswf::math_ceil(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a05e0",
+"bytes": 56,
+"owner": "gameswf",
+"demangled": "gameswf::math_atan(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a0618",
+"bytes": 60,
+"owner": "gameswf",
+"demangled": "gameswf::math_asin(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a0654",
+"bytes": 60,
+"owner": "gameswf",
+"demangled": "gameswf::math_acos(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a0690",
+"bytes": 3108,
+"owner": "gameswf",
+"demangled": "gameswf::math_init(gameswf::player*)"
+},
+{
+"address": "0x7a3ce0",
+"bytes": 12,
+"owner": "gameswf",
+"demangled": "gameswf::as_global_netstream_ctor(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a3cf0",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::as_number_valueof(gameswf::fn_call const&)"
+},
+{
+"address": "0x7a7fb8",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::player_context>(gameswf::player_context const*)"
+},
+{
+"address": "0x7a7ff0",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::render_handler>(gameswf::render_handler const*)"
+},
+{
+"address": "0x7a9988",
+"bytes": 112,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::array<RenderFX::SearchIndex::Entry> >(gameswf::array<RenderFX::SearchIndex::Entry> const*)"
+},
+{
+"address": "0x7b0090",
+"bytes": 1212,
+"owner": "gameswf",
+"demangled": "gameswf::edges_intersect_sub(int*, int*, gameswf::vec2<float> const&, gameswf::vec2<float> const&, gameswf::vec2<float> const&, gameswf::vec2<float> const&)"
+},
+{
+"address": "0x7b21a8",
+"bytes": 144,
+"owner": "gameswf",
+"demangled": "void gameswf::destructa<gameswf::array<gameswf::grid_entry_box<float, bool>*> >(gameswf::array<gameswf::grid_entry_box<float, bool>*> const*, unsigned int)"
+}
+],
+"bytes": 5476
+},
+{
+"id": "v1-vendor-gameswf-gameswf-fddef6-5",
+"category": "vendor-gameswf",
+"owner": "gameswf",
+"owners": [
+"gameswf"
+],
+"part": 5,
+"parts": 8,
+"functions": [
+{
+"address": "0x7b2298",
+"bytes": 52,
+"owner": "gameswf",
+"demangled": "void gameswf::grid_index_pick_good_grid_size<float>(int*, int*, gameswf::index_box<float> const&, int, float)"
+},
+{
+"address": "0x7b526c",
+"bytes": 16,
+"owner": "gameswf",
+"demangled": "gameswf::scanline(gameswf::image_base*, int)"
+},
+{
+"address": "0x7b527c",
+"bytes": 16,
+"owner": "gameswf",
+"demangled": "gameswf::scanline(gameswf::image_base const*, int)"
+},
+{
+"address": "0x7b537c",
+"bytes": 432,
+"owner": "gameswf",
+"demangled": "gameswf::make_next_miplevel(gameswf::image_rgb*)"
+},
+{
+"address": "0x7b552c",
+"bytes": 488,
+"owner": "gameswf",
+"demangled": "gameswf::make_next_miplevel(gameswf::image_rgba*)"
+},
+{
+"address": "0x7b5c84",
+"bytes": 48,
+"owner": "gameswf",
+"demangled": "gameswf::create_alpha(int, int)"
+},
+{
+"address": "0x7b5cb4",
+"bytes": 48,
+"owner": "gameswf",
+"demangled": "gameswf::create_rgba(int, int)"
+},
+{
+"address": "0x7b5ce4",
+"bytes": 356,
+"owner": "gameswf",
+"demangled": "gameswf::read_swf_jpeg3(gameswf::tu_file*)"
+},
+{
+"address": "0x7b5e48",
+"bytes": 48,
+"owner": "gameswf",
+"demangled": "gameswf::create_rgb(int, int)"
+},
+{
+"address": "0x7b5e78",
+"bytes": 164,
+"owner": "gameswf",
+"demangled": "gameswf::read_swf_jpeg2_with_tables(gameswf::jpeg::input*)"
+},
+{
+"address": "0x7b5f1c",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "gameswf::read_swf_jpeg2(gameswf::tu_file*)"
+},
+{
+"address": "0x7b5f48",
+"bytes": 152,
+"owner": "gameswf",
+"demangled": "gameswf::read_jpeg(gameswf::tu_file*)"
+},
+{
+"address": "0x7b5fe0",
+"bytes": 80,
+"owner": "gameswf",
+"demangled": "gameswf::read_jpeg(char const*)"
+},
+{
+"address": "0x7b6034",
+"bytes": 532,
+"owner": "gameswf",
+"demangled": "gameswf::write_tga(gameswf::tu_file*, gameswf::image_rgba*)"
+},
+{
+"address": "0x7b65d8",
+"bytes": 48,
+"owner": "gameswf",
+"demangled": "gameswf::mem_seek_func(int, void*)"
+},
+{
+"address": "0x7b6608",
+"bytes": 20,
+"owner": "gameswf",
+"demangled": "gameswf::mem_seek_to_end_func(void*)"
+},
+{
+"address": "0x7b661c",
+"bytes": 8,
+"owner": "gameswf",
+"demangled": "gameswf::mem_tell_func(void const*)"
+},
+{
+"address": "0x7b6624",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::mem_get_eof_func(void*)"
+},
+{
+"address": "0x7b6c8c",
+"bytes": 8,
+"owner": "gameswf",
+"demangled": "gameswf::buffered_write(void const*, int, void*)"
+},
+{
+"address": "0x7b6c94",
+"bytes": 264,
+"owner": "gameswf",
+"demangled": "gameswf::buffered_seek(int, void*)"
+}
+],
+"bytes": 2848
+},
+{
+"id": "v1-vendor-gameswf-gameswf-fddef6-6",
+"category": "vendor-gameswf",
+"owner": "gameswf",
+"owners": [
+"gameswf"
+],
+"part": 6,
+"parts": 8,
+"functions": [
+{
+"address": "0x7b6d9c",
+"bytes": 76,
+"owner": "gameswf",
+"demangled": "gameswf::buffered_seek_to_end(void*)"
+},
+{
+"address": "0x7b6de8",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::buffered_tell(void const*)"
+},
+{
+"address": "0x7b6e00",
+"bytes": 52,
+"owner": "gameswf",
+"demangled": "gameswf::buffered_get_eof(void*)"
+},
+{
+"address": "0x7b6e34",
+"bytes": 176,
+"owner": "gameswf",
+"demangled": "gameswf::get_buffered_file(gameswf::tu_file*)"
+},
+{
+"address": "0x7b6f04",
+"bytes": 28,
+"owner": "gameswf",
+"demangled": "gameswf::buffered_close(void*)"
+},
+{
+"address": "0x7b6f20",
+"bytes": 168,
+"owner": "gameswf",
+"demangled": "gameswf::buffered_read(void*, int, void*)"
+},
+{
+"address": "0x7b6ff4",
+"bytes": 72,
+"owner": "gameswf",
+"demangled": "gameswf::mem_read_func(void*, int, void*)"
+},
+{
+"address": "0x7b7168",
+"bytes": 116,
+"owner": "gameswf",
+"demangled": "gameswf::mem_write_func(void const*, int, void*)"
+},
+{
+"address": "0x7b7370",
+"bytes": 36,
+"owner": "gameswf",
+"demangled": "gameswf::mem_close_func(void*)"
+},
+{
+"address": "0x7b74e4",
+"bytes": 24,
+"owner": "gameswf",
+"demangled": "gameswf::std_close_func(void*)"
+},
+{
+"address": "0x7b74fc",
+"bytes": 20,
+"owner": "gameswf",
+"demangled": "gameswf::std_get_eof_func(void*)"
+},
+{
+"address": "0x7b7510",
+"bytes": 4,
+"owner": "gameswf",
+"demangled": "gameswf::std_tell_func(void const*)"
+},
+{
+"address": "0x7b7514",
+"bytes": 32,
+"owner": "gameswf",
+"demangled": "gameswf::std_seek_to_end_func(void*)"
+},
+{
+"address": "0x7b7534",
+"bytes": 52,
+"owner": "gameswf",
+"demangled": "gameswf::std_seek_func(int, void*)"
+},
+{
+"address": "0x7b7568",
+"bytes": 16,
+"owner": "gameswf",
+"demangled": "gameswf::std_write_func(void const*, int, void*)"
+},
+{
+"address": "0x7b7578",
+"bytes": 16,
+"owner": "gameswf",
+"demangled": "gameswf::std_read_func(void*, int, void*)"
+},
+{
+"address": "0x7badb4",
+"bytes": 84,
+"owner": "gameswf",
+"demangled": "void gameswf::swap<gameswf::as_value>(gameswf::as_value*, gameswf::as_value*)"
+},
+{
+"address": "0x7bb3e0",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "gameswf::clear_standard_fnames()"
+},
+{
+"address": "0x7bbbfc",
+"bytes": 488,
+"owner": "gameswf",
+"demangled": "gameswf::call_method(gameswf::as_environment*, gameswf::as_object*, char const*, gameswf::as_value const*, int)"
+},
+{
+"address": "0x7c0f7c",
+"bytes": 108,
+"owner": "gameswf",
+"demangled": "gameswf::sprite_instance_at_depth(gameswf::fn_call const&)"
+}
+],
+"bytes": 1636
+},
+{
+"id": "v1-vendor-gameswf-gameswf-fddef6-7",
+"category": "vendor-gameswf",
+"owner": "gameswf",
+"owners": [
+"gameswf"
+],
+"part": 7,
+"parts": 8,
+"functions": [
+{
+"address": "0x7c1574",
+"bytes": 384,
+"owner": "gameswf",
+"demangled": "gameswf::transform_point(gameswf::as_object*, gameswf::matrix const&)"
+},
+{
+"address": "0x7d0444",
+"bytes": 44,
+"owner": "gameswf",
+"demangled": "void gameswf::destruct<gameswf::image_alpha>(gameswf::image_alpha const*)"
+},
+{
+"address": "0x7d6658",
+"bytes": 40,
+"owner": "gameswf",
+"demangled": "gameswf::create_render_handler_irrlicht(void*)"
+},
+{
+"address": "0x7da144",
+"bytes": 1132,
+"owner": "gameswf",
+"demangled": "gameswf::get_color_transform_member(gameswf::tu_stringi const&)"
+},
+{
+"address": "0x7daea4",
+"bytes": 252,
+"owner": "gameswf",
+"demangled": "gameswf::mouse_event_init(gameswf::player*)"
+}
+],
+"bytes": 1852
+},
+{
+"id": "v1-vendor-gameswf-gameswf_as_object-6b7905-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_object",
+"owners": [
+"gameswf::as_object"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x752c0c",
+"bytes": 12,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::_typeof()"
+},
+{
+"address": "0x752c24",
+"bytes": 4,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::notify_set_member(gameswf::tu_stringi const&, gameswf::as_value const&)"
+},
+{
+"address": "0x768b50",
+"bytes": 4,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::advance(float)"
+},
+{
+"address": "0x768b78",
+"bytes": 8,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::set_member(int, gameswf::as_value const&)"
+},
+{
+"address": "0x768b80",
+"bytes": 8,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::get_member(int, gameswf::as_value*)"
+},
+{
+"address": "0x769a9c",
+"bytes": 200,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::~as_object()"
+},
+{
+"address": "0x769b70",
+"bytes": 200,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::~as_object()"
+},
+{
+"address": "0x76b45c",
+"bytes": 80,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::find_target(gameswf::as_value const&)"
+},
+{
+"address": "0x76b820",
+"bytes": 136,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::as_object(gameswf::player*)"
+},
+{
+"address": "0x76b8b0",
+"bytes": 932,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::create_proto(gameswf::as_value const&)"
+},
+{
+"address": "0x76bce0",
+"bytes": 136,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::as_object(gameswf::player*)"
+},
+{
+"address": "0x780374",
+"bytes": 84,
+"owner": "gameswf::as_object",
+"demangled": "gameswf::as_object::get_player() const"
+}
+],
+"bytes": 1804
+},
+{
+"id": "v1-vendor-gameswf-gameswf_texture_cache-d731ee-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::texture_cache",
+"owners": [
+"gameswf::texture_cache"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x756c30",
+"bytes": 96,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::get_region_bounds(gameswf::texture_cache::region const*, gameswf::rect&)"
+},
+{
+"address": "0x758b8c",
+"bytes": 284,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::~texture_cache()"
+},
+{
+"address": "0x79352c",
+"bytes": 52,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::verify_integrity(gameswf::texture_cache::region*)"
+},
+{
+"address": "0x793560",
+"bytes": 140,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::get_region_size_requirement(int&, int&)"
+},
+{
+"address": "0x7935ec",
+"bytes": 124,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::unlock_all(gameswf::player_context*)"
+},
+{
+"address": "0x793d78",
+"bytes": 352,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::verify_integrity()"
+},
+{
+"address": "0x793ed8",
+"bytes": 344,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::reset()"
+},
+{
+"address": "0x794030",
+"bytes": 392,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::texture_cache(int, int, int, bool)"
+},
+{
+"address": "0x7941c0",
+"bytes": 392,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::texture_cache(int, int, int, bool)"
+},
+{
+"address": "0x794350",
+"bytes": 312,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::subdivide_region(gameswf::texture_cache::region*, int, int)"
+},
+{
+"address": "0x794488",
+"bytes": 480,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::find_used_region(int, int)"
+},
+{
+"address": "0x794668",
+"bytes": 232,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::find_available_region(int, int)"
+},
+{
+"address": "0x7c44d8",
+"bytes": 156,
+"owner": "gameswf::texture_cache",
+"demangled": "gameswf::texture_cache::lock()"
+}
+],
+"bytes": 3356
+},
+{
+"id": "v1-vendor-gameswf-gameswf_filter_engine-9ad474-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::filter_engine",
+"owners": [
+"gameswf::filter_engine"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x756d88",
+"bytes": 400,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::blend(gameswf::filter_engine::raster&, gameswf::filter_engine::raster&)"
+},
+{
+"address": "0x756f18",
+"bytes": 4,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::apply_glow(gameswf::filter_engine::params&)"
+},
+{
+"address": "0x7572a0",
+"bytes": 312,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::read_frame_buffer(int, int, int, int)"
+},
+{
+"address": "0x757500",
+"bytes": 108,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::filter_engine()"
+},
+{
+"address": "0x7575b0",
+"bytes": 108,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::prepare(gameswf::filter_engine::params&)"
+},
+{
+"address": "0x7576d4",
+"bytes": 164,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::apply_shadow(gameswf::filter_engine::params&)"
+},
+{
+"address": "0x75792c",
+"bytes": 80,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::apply_blur_v(gameswf::filter_engine::params&)"
+},
+{
+"address": "0x757cd8",
+"bytes": 80,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::apply_blur_h(gameswf::filter_engine::params&)"
+},
+{
+"address": "0x75807c",
+"bytes": 100,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::copy(gameswf::filter_engine::raster&, gameswf::filter_engine::raster&)"
+},
+{
+"address": "0x7580f8",
+"bytes": 72,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::clear(gameswf::filter_engine::raster&)"
+},
+{
+"address": "0x758140",
+"bytes": 176,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::apply(gameswf::filter_engine::params&)"
+},
+{
+"address": "0x75830c",
+"bytes": 204,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::collect_filtered_characters(gameswf::character*)"
+},
+{
+"address": "0x758434",
+"bytes": 124,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::display_cached(gameswf::character*)"
+},
+{
+"address": "0x7590a4",
+"bytes": 156,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::~filter_engine()"
+},
+{
+"address": "0x75918c",
+"bytes": 1104,
+"owner": "gameswf::filter_engine",
+"demangled": "gameswf::filter_engine::run(gameswf::root*)"
+}
+],
+"bytes": 3192
+},
+{
+"id": "v1-vendor-gameswf-gameswf_character_def-837b6d-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::character_def",
+"owners": [
+"gameswf::character_def"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7599a8",
+"bytes": 4,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::display(gameswf::character*)"
+},
+{
+"address": "0x7599b4",
+"bytes": 4,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::get_bound(gameswf::rect*)"
+},
+{
+"address": "0x7599b8",
+"bytes": 4,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::output_cached_data(gameswf::tu_file*, gameswf::cache_options const&)"
+},
+{
+"address": "0x7599bc",
+"bytes": 4,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::input_cached_data(gameswf::tu_file*)"
+},
+{
+"address": "0x7599c0",
+"bytes": 4,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::csm_textsetting(gameswf::stream*, int)"
+},
+{
+"address": "0x75de78",
+"bytes": 136,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::~character_def()"
+},
+{
+"address": "0x75e180",
+"bytes": 136,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::~character_def()"
+},
+{
+"address": "0x75e214",
+"bytes": 20,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::~character_def()"
+},
+{
+"address": "0x75e354",
+"bytes": 84,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::get_player() const"
+},
+{
+"address": "0x75ea44",
+"bytes": 88,
+"owner": "gameswf::character_def",
+"demangled": "gameswf::character_def::character_def(gameswf::player*)"
+}
+],
+"bytes": 484
+},
+{
+"id": "v1-vendor-gameswf-gameswf_ref_counted-0eb785-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::ref_counted",
+"owners": [
+"gameswf::ref_counted"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x759c04",
+"bytes": 40,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::ref_counted()"
+},
+{
+"address": "0x759c34",
+"bytes": 40,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::ref_counted()"
+},
+{
+"address": "0x759c64",
+"bytes": 16,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::add_ref() const"
+},
+{
+"address": "0x75a240",
+"bytes": 24,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::drop_ref()"
+},
+{
+"address": "0x75a88c",
+"bytes": 80,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::get_weak_proxy() const"
+},
+{
+"address": "0x75dbe4",
+"bytes": 68,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::detach_weak_proxy()"
+},
+{
+"address": "0x75dc28",
+"bytes": 88,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::~ref_counted()"
+},
+{
+"address": "0x75dc88",
+"bytes": 20,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::~ref_counted()"
+},
+{
+"address": "0x75dca4",
+"bytes": 88,
+"owner": "gameswf::ref_counted",
+"demangled": "gameswf::ref_counted::~ref_counted()"
+}
+],
+"bytes": 464
+},
+{
+"id": "v1-vendor-gameswf-gameswf_player-e0b31b-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::player",
+"owners": [
+"gameswf::player"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x76c7d8",
+"bytes": 4,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::action_clear()"
+},
+{
+"address": "0x76c7e4",
+"bytes": 8,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::get_stage() const"
+},
+{
+"address": "0x76c808",
+"bytes": 16,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::set_as_garbage()"
+},
+{
+"address": "0x76c9d8",
+"bytes": 48,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::clear_unused_instances()"
+},
+{
+"address": "0x76cb44",
+"bytes": 188,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::create_edit_text_character(gameswf::edit_text_character_def*, gameswf::character*, int)"
+},
+{
+"address": "0x76cc00",
+"bytes": 188,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::create_generic_character(gameswf::character_def*, gameswf::character*, int)"
+},
+{
+"address": "0x76ccf0",
+"bytes": 196,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::create_sprite_instance(gameswf::movie_definition_sub*, gameswf::root*, gameswf::character*, int)"
+},
+{
+"address": "0x76d5b4",
+"bytes": 84,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::get_root()"
+},
+{
+"address": "0x76d608",
+"bytes": 116,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::notify_key_event(gameswf::key::code, bool)"
+},
+{
+"address": "0x771c38",
+"bytes": 20,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::~player()"
+},
+{
+"address": "0x773268",
+"bytes": 344,
+"owner": "gameswf::player",
+"demangled": "gameswf::player::notify_unused_instance(gameswf::character*)"
+}
+],
+"bytes": 1212
+},
+{
+"id": "v1-vendor-gameswf-gameswf_bitmap_info-d3c4c6-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::bitmap_info",
+"owners": [
+"gameswf::bitmap_info"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7737d0",
+"bytes": 4,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::layout()"
+},
+{
+"address": "0x7737d4",
+"bytes": 4,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::unlayout()"
+},
+{
+"address": "0x7737d8",
+"bytes": 4,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::activate()"
+},
+{
+"address": "0x7737dc",
+"bytes": 4,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::set_writable()"
+},
+{
+"address": "0x7737e0",
+"bytes": 8,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::lock()"
+},
+{
+"address": "0x7737e8",
+"bytes": 4,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::unlock()"
+},
+{
+"address": "0x7737ec",
+"bytes": 4,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::set_texture(glitch::video::ITexture*)"
+},
+{
+"address": "0x773800",
+"bytes": 4,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::set_min_filter(gameswf::bitmap_info::filter_mode)"
+},
+{
+"address": "0x773804",
+"bytes": 4,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::set_mag_filter(gameswf::bitmap_info::filter_mode)"
+},
+{
+"address": "0x773808",
+"bytes": 8,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::is_layout() const"
+},
+{
+"address": "0x773810",
+"bytes": 20,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::get_internal_width() const"
+},
+{
+"address": "0x773824",
+"bytes": 20,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::get_internal_height() const"
+},
+{
+"address": "0x7739a8",
+"bytes": 44,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::~bitmap_info()"
+},
+{
+"address": "0x773cbc",
+"bytes": 44,
+"owner": "gameswf::bitmap_info",
+"demangled": "gameswf::bitmap_info::~bitmap_info()"
+}
+],
+"bytes": 176
+},
+{
+"id": "v1-vendor-gameswf-gameswf_root-d24935-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::root",
+"owners": [
+"gameswf::root"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x773dc0",
+"bytes": 116,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::screen_to_logical(gameswf::point&)"
+},
+{
+"address": "0x773f50",
+"bytes": 104,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::logical_to_screen(gameswf::point&)"
+},
+{
+"address": "0x774128",
+"bytes": 16,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::notify_mouse_state(int, int, int)"
+},
+{
+"address": "0x774298",
+"bytes": 84,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::end_display()"
+},
+{
+"address": "0x774544",
+"bytes": 100,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::notify_key_event(gameswf::player*, gameswf::key::code, bool)"
+},
+{
+"address": "0x7748b8",
+"bytes": 96,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::flush_buffered_text()"
+},
+{
+"address": "0x774918",
+"bytes": 236,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::set_active_entity(gameswf::character*)"
+},
+{
+"address": "0x774ebc",
+"bytes": 252,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::~root()"
+},
+{
+"address": "0x774fc4",
+"bytes": 252,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::~root()"
+},
+{
+"address": "0x775154",
+"bytes": 104,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::start_drag(gameswf::character*, bool, bool, gameswf::rect&)"
+},
+{
+"address": "0x7751bc",
+"bytes": 320,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::begin_display()"
+},
+{
+"address": "0x775304",
+"bytes": 52,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::advance(float, bool)"
+},
+{
+"address": "0x7755f4",
+"bytes": 180,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::set_display_bounds(int, int, int, int, gameswf::scale_mode)"
+},
+{
+"address": "0x775da0",
+"bytes": 428,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::root(gameswf::player*, gameswf::movie_def_impl*)"
+},
+{
+"address": "0x775f70",
+"bytes": 428,
+"owner": "gameswf::root",
+"demangled": "gameswf::root::root(gameswf::player*, gameswf::movie_def_impl*)"
+}
+],
+"bytes": 2768
+},
+{
+"id": "v1-vendor-gameswf-gameswf_scene_node-173d98-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::scene_node",
+"owners": [
+"gameswf::scene_node"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x776140",
+"bytes": 4,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::render(void*)"
+},
+{
+"address": "0x776144",
+"bytes": 8,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::getBoundingBox() const"
+},
+{
+"address": "0x77616c",
+"bytes": 216,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::build_dlist(gameswf::character*)"
+},
+{
+"address": "0x776244",
+"bytes": 228,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::~scene_node()"
+},
+{
+"address": "0x776354",
+"bytes": 20,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::~scene_node()"
+},
+{
+"address": "0x776390",
+"bytes": 468,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::onRegisterSceneNode()"
+},
+{
+"address": "0x776564",
+"bytes": 68,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::get_collision_uv(glitch::core::line3d<float>&, gameswf::point&)"
+},
+{
+"address": "0x777350",
+"bytes": 372,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::update_inverse_transform()"
+},
+{
+"address": "0x777514",
+"bytes": 60,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::get_local_mouse(gameswf::character*, float&, float&)"
+},
+{
+"address": "0x7775c4",
+"bytes": 48,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::get_world_mouse(int&, int&)"
+},
+{
+"address": "0x77825c",
+"bytes": 784,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::collect_uvs(boost::intrusive_ptr<glitch::scene::IMesh const> const&, gameswf::point*, unsigned int)"
+},
+{
+"address": "0x7785b0",
+"bytes": 552,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::init_corners()"
+},
+{
+"address": "0x778840",
+"bytes": 1028,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::scene_node(gameswf::player*, glitch::scene::ISceneNode*, glitch::core::dimension2d<int>)"
+},
+{
+"address": "0x778c58",
+"bytes": 980,
+"owner": "gameswf::scene_node",
+"demangled": "gameswf::scene_node::scene_node(gameswf::player*, glitch::scene::ISceneNode*, glitch::core::dimension2d<int>)"
+}
+],
+"bytes": 4836
+},
+{
+"id": "v1-vendor-gameswf-gameswf_shape_character_def-7e2b97-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::shape_character_def",
+"owners": [
+"gameswf::shape_character_def"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x779fd0",
+"bytes": 32,
+"owner": "gameswf::shape_character_def",
+"demangled": "gameswf::shape_character_def::sort_and_clean_meshes() const"
+},
+{
+"address": "0x77a570",
+"bytes": 28,
+"owner": "gameswf::shape_character_def",
+"demangled": "gameswf::shape_character_def::point_test_local(float, float)"
+},
+{
+"address": "0x77a990",
+"bytes": 40,
+"owner": "gameswf::shape_character_def",
+"demangled": "gameswf::shape_character_def::display(gameswf::matrix const&, gameswf::cxform const&, float, gameswf::array<gameswf::fill_style> const&, gameswf::array<gameswf::line_style> const&) const"
+},
+{
+"address": "0x77b878",
+"bytes": 128,
+"owner": "gameswf::shape_character_def",
+"demangled": "gameswf::shape_character_def::shape_character_def(gameswf::player*)"
+},
+{
+"address": "0x77b900",
+"bytes": 128,
+"owner": "gameswf::shape_character_def",
+"demangled": "gameswf::shape_character_def::shape_character_def(gameswf::player*)"
+},
+{
+"address": "0x77be00",
+"bytes": 116,
+"owner": "gameswf::shape_character_def",
+"demangled": "gameswf::shape_character_def::create_character_instance(gameswf::character*, int)"
+},
+{
+"address": "0x77c570",
+"bytes": 300,
+"owner": "gameswf::shape_character_def",
+"demangled": "gameswf::shape_character_def::~shape_character_def()"
+},
+{
+"address": "0x77c754",
+"bytes": 300,
+"owner": "gameswf::shape_character_def",
+"demangled": "gameswf::shape_character_def::~shape_character_def()"
+}
+],
+"bytes": 1072
+},
+{
+"id": "v1-vendor-gameswf-gameswf_sprite_instance-d5206d-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::sprite_instance",
+"owners": [
+"gameswf::sprite_instance"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x77de28",
+"bytes": 8,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::get_character(int)"
+},
+{
+"address": "0x77de68",
+"bytes": 12,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::_typeof()"
+},
+{
+"address": "0x77df9c",
+"bytes": 60,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::get_frameid_from_label(gameswf::tu_stringi const&)"
+},
+{
+"address": "0x77e02c",
+"bytes": 44,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::get_drag_state(gameswf::character::drag_state*)"
+},
+{
+"address": "0x77e184",
+"bytes": 76,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::update_world_cxform()"
+},
+{
+"address": "0x77e1d0",
+"bytes": 76,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::update_world_matrix()"
+},
+{
+"address": "0x77e874",
+"bytes": 64,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::add_action_buffer(gameswf::action_buffer*)"
+},
+{
+"address": "0x77efd8",
+"bytes": 52,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::construct()"
+},
+{
+"address": "0x77f614",
+"bytes": 168,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::has_keypress_event()"
+},
+{
+"address": "0x77f8d0",
+"bytes": 328,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::get_variable(char const*) const"
+},
+{
+"address": "0x77fdd0",
+"bytes": 64,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::set_drag_state(gameswf::character::drag_state const&)"
+},
+{
+"address": "0x77fe60",
+"bytes": 212,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::notify_set_member(gameswf::tu_stringi const&, gameswf::as_value const&)"
+},
+{
+"address": "0x77ff40",
+"bytes": 124,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::get_transform()"
+},
+{
+"address": "0x780594",
+"bytes": 264,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::this_alive()"
+},
+{
+"address": "0x78069c",
+"bytes": 124,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::do_init_actions()"
+},
+{
+"address": "0x780718",
+"bytes": 584,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::sprite_instance(gameswf::player*, gameswf::movie_definition_sub*, gameswf::root*, gameswf::character*, int)"
+},
+{
+"address": "0x780bb0",
+"bytes": 120,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::get_environment()"
+},
+{
+"address": "0x780f3c",
+"bytes": 296,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::recycle(gameswf::character*, int)"
+},
+{
+"address": "0x781074",
+"bytes": 584,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::sprite_instance(gameswf::player*, gameswf::movie_definition_sub*, gameswf::root*, gameswf::character*, int)"
+},
+{
+"address": "0x78146c",
+"bytes": 348,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::~sprite_instance()"
+}
+],
+"bytes": 3608
+},
+{
+"id": "v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1",
+"category": "vendor-gameswf",
+"owner": "gameswf::sprite_instance",
+"owners": [
+"gameswf::sprite_instance"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x7815d0",
+"bytes": 348,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::~sprite_instance()"
+},
+{
+"address": "0x781a3c",
+"bytes": 744,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::goto_frame(int)"
+},
+{
+"address": "0x781eac",
+"bytes": 684,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::do_actions()"
+},
+{
+"address": "0x7830ec",
+"bytes": 8,
+"owner": "gameswf::sprite_instance",
+"demangled": "gameswf::sprite_instance::hit_test(float, float)"
+}
+],
+"bytes": 1784
+},
+{
+"id": "v1-vendor-gameswf-gameswf_sprite_definition-9a9a59-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::sprite_definition",
+"owners": [
+"gameswf::sprite_definition"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x783184",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::add_abc(gameswf::tu_string&, gameswf::abc_def*)"
+},
+{
+"address": "0x783188",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::add_symbol_class(int, gameswf::tu_string const&)"
+},
+{
+"address": "0x78318c",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::add_scene(int, gameswf::tu_string const&)"
+},
+{
+"address": "0x783190",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::add_frame_label(int, gameswf::tu_string const&)"
+},
+{
+"address": "0x7831b0",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::set_jpeg_loader(gameswf::jpeg::input*)"
+},
+{
+"address": "0x783214",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::add_bitmap_info(gameswf::bitmap_info*)"
+},
+{
+"address": "0x783234",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::add_import(gameswf::tu_string const&, int, gameswf::tu_string const&)"
+},
+{
+"address": "0x783238",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::visit_imported_movies(gameswf::movie_definition::import_visitor*)"
+},
+{
+"address": "0x783258",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::output_cached_data(gameswf::tu_file*, gameswf::cache_options const&)"
+},
+{
+"address": "0x78325c",
+"bytes": 4,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::input_cached_data(gameswf::tu_file*)"
+},
+{
+"address": "0x783268",
+"bytes": 8,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::has_init_actions()"
+},
+{
+"address": "0x7832e4",
+"bytes": 84,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::get_labeled_frame(gameswf::tu_stringi const&, int*)"
+},
+{
+"address": "0x7835f0",
+"bytes": 20,
+"owner": "gameswf::sprite_definition",
+"demangled": "gameswf::sprite_definition::~sprite_definition()"
+}
+],
+"bytes": 152
+},
+{
+"id": "v1-vendor-gameswf-gameswf_tesselator_accepter-d2b877-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::tesselator_accepter",
+"owners": [
+"gameswf::tesselator_accepter"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7854f8",
+"bytes": 144,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::callback_combine(double*, void**, float*, void**, gameswf::tesselator_accepter*)"
+},
+{
+"address": "0x78558c",
+"bytes": 4,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::callback_error(int, gameswf::tesselator_accepter*)"
+},
+{
+"address": "0x7859a0",
+"bytes": 332,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::tesselator_accepter(bool, bool, bool)"
+},
+{
+"address": "0x786cc8",
+"bytes": 96,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::callback_vertex(void const*, gameswf::tesselator_accepter*)"
+},
+{
+"address": "0x7871f4",
+"bytes": 84,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::callback_begin(int, gameswf::tesselator_accepter*)"
+},
+{
+"address": "0x787578",
+"bytes": 232,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::init()"
+},
+{
+"address": "0x78810c",
+"bytes": 248,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::~tesselator_accepter()"
+},
+{
+"address": "0x788264",
+"bytes": 248,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::add_point(gameswf::point&)"
+},
+{
+"address": "0x788360",
+"bytes": 1096,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::callback_end_strip(gameswf::tesselator_accepter*)"
+},
+{
+"address": "0x7887a8",
+"bytes": 580,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::end_shape(gameswf::array<gameswf::point>&, gameswf::array<unsigned short>&)"
+},
+{
+"address": "0x788cac",
+"bytes": 1516,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::callback_end_tris(gameswf::tesselator_accepter*)"
+},
+{
+"address": "0x789298",
+"bytes": 292,
+"owner": "gameswf::tesselator_accepter",
+"demangled": "gameswf::tesselator_accepter::end_shape(gameswf::mesh_set*, int)"
+}
+],
+"bytes": 4872
+},
+{
+"id": "v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::edit_text_character",
+"owners": [
+"gameswf::edit_text_character"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x78a348",
+"bytes": 28,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::hit_test(float, float)"
+},
+{
+"address": "0x78a398",
+"bytes": 48,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::align_line(gameswf::edit_text_character_def::alignment, int, float)"
+},
+{
+"address": "0x78a990",
+"bytes": 352,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::append_image(gameswf::tu_string const&, int, int)"
+},
+{
+"address": "0x78ae10",
+"bytes": 32,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::update_world_cxform()"
+},
+{
+"address": "0x78ae30",
+"bytes": 32,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::update_world_matrix()"
+},
+{
+"address": "0x78b128",
+"bytes": 44,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::show_cursor()"
+},
+{
+"address": "0x78c0ec",
+"bytes": 444,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::preload_glyphs(gameswf::filter const*)"
+},
+{
+"address": "0x78c2d0",
+"bytes": 88,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::preload_glyphs()"
+},
+{
+"address": "0x78c328",
+"bytes": 192,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::~edit_text_character()"
+},
+{
+"address": "0x78c3f4",
+"bytes": 20,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::~edit_text_character()"
+},
+{
+"address": "0x78c410",
+"bytes": 192,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::~edit_text_character()"
+},
+{
+"address": "0x78cb90",
+"bytes": 128,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::append_text(gameswf::tu_string const&, gameswf::edit_text_character::text_attributes&, bool)"
+},
+{
+"address": "0x78dde8",
+"bytes": 112,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::get_root()"
+},
+{
+"address": "0x7914dc",
+"bytes": 440,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::init()"
+},
+{
+"address": "0x7916a4",
+"bytes": 24,
+"owner": "gameswf::edit_text_character",
+"demangled": "gameswf::edit_text_character::recycle(gameswf::character*, int)"
+}
+],
+"bytes": 2176
+},
+{
+"id": "v1-vendor-gameswf-gameswf_as_timer-8a0e04-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_timer",
+"owners": [
+"gameswf::as_timer"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7a6b94",
+"bytes": 532,
+"owner": "gameswf::as_timer",
+"demangled": "gameswf::as_timer::clear_refs(gameswf::hash<gameswf::as_object*, bool, gameswf::fixed_size_hash<gameswf::as_object*> >*, gameswf::as_object*)"
+},
+{
+"address": "0x7a6da8",
+"bytes": 36,
+"owner": "gameswf::as_timer",
+"demangled": "gameswf::as_timer::clear()"
+},
+{
+"address": "0x7a6e48",
+"bytes": 88,
+"owner": "gameswf::as_timer",
+"demangled": "gameswf::as_timer::~as_timer()"
+},
+{
+"address": "0x7a6ea8",
+"bytes": 20,
+"owner": "gameswf::as_timer",
+"demangled": "gameswf::as_timer::~as_timer()"
+},
+{
+"address": "0x7a6ec4",
+"bytes": 88,
+"owner": "gameswf::as_timer",
+"demangled": "gameswf::as_timer::~as_timer()"
+},
+{
+"address": "0x7a6f24",
+"bytes": 152,
+"owner": "gameswf::as_timer",
+"demangled": "gameswf::as_timer::as_timer(gameswf::as_value&, gameswf::as_value&, double, gameswf::fn_call const&, int)"
+},
+{
+"address": "0x7a7064",
+"bytes": 152,
+"owner": "gameswf::as_timer",
+"demangled": "gameswf::as_timer::as_timer(gameswf::as_value&, gameswf::as_value&, double, gameswf::fn_call const&, int)"
+},
+{
+"address": "0x7a71a4",
+"bytes": 24,
+"owner": "gameswf::as_timer",
+"demangled": "gameswf::as_timer::advance(float)"
+}
+],
+"bytes": 1092
+},
+{
+"id": "v1-vendor-gameswf-gameswf_image_alpha-621a91-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::image_alpha",
+"owners": [
+"gameswf::image_alpha"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7b52c4",
+"bytes": 28,
+"owner": "gameswf::image_alpha",
+"demangled": "gameswf::image_alpha::set_pixel(int, int, unsigned char)"
+},
+{
+"address": "0x7b52e0",
+"bytes": 156,
+"owner": "gameswf::image_alpha",
+"demangled": "gameswf::image_alpha::compute_hash() const"
+},
+{
+"address": "0x7b5714",
+"bytes": 100,
+"owner": "gameswf::image_alpha",
+"demangled": "gameswf::image_alpha::image_alpha(int, int)"
+},
+{
+"address": "0x7b5780",
+"bytes": 100,
+"owner": "gameswf::image_alpha",
+"demangled": "gameswf::image_alpha::image_alpha(int, int)"
+},
+{
+"address": "0x7b5a54",
+"bytes": 44,
+"owner": "gameswf::image_alpha",
+"demangled": "gameswf::image_alpha::~image_alpha()"
+},
+{
+"address": "0x7b5a88",
+"bytes": 44,
+"owner": "gameswf::image_alpha",
+"demangled": "gameswf::image_alpha::~image_alpha()"
+},
+{
+"address": "0x7b5b8c",
+"bytes": 116,
+"owner": "gameswf::image_alpha",
+"demangled": "gameswf::image_alpha::operator==(gameswf::image_alpha const&) const"
+},
+{
+"address": "0x7b5c30",
+"bytes": 20,
+"owner": "gameswf::image_alpha",
+"demangled": "gameswf::image_alpha::~image_alpha()"
+}
+],
+"bytes": 608
+},
+{
+"id": "v1-vendor-gameswf-gameswf_membuf-3351d8-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::membuf",
+"owners": [
+"gameswf::membuf"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7b6260",
+"bytes": 20,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::capacity(int)"
+},
+{
+"address": "0x7b62dc",
+"bytes": 40,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::operator!=(gameswf::membuf const&) const"
+},
+{
+"address": "0x7b6310",
+"bytes": 40,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::operator==(gameswf::membuf const&) const"
+},
+{
+"address": "0x7b6344",
+"bytes": 60,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::shrink()"
+},
+{
+"address": "0x7b6380",
+"bytes": 76,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::reserve(int)"
+},
+{
+"address": "0x7b644c",
+"bytes": 40,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::membuf(gameswf::tu_string const&)"
+},
+{
+"address": "0x7b6474",
+"bytes": 40,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::membuf(gameswf::tu_string const&)"
+},
+{
+"address": "0x7b64a8",
+"bytes": 40,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::membuf(gameswf::membuf const&)"
+},
+{
+"address": "0x7b64d0",
+"bytes": 40,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::membuf(gameswf::membuf const&)"
+},
+{
+"address": "0x7b64f8",
+"bytes": 40,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::membuf(void const*, int)"
+},
+{
+"address": "0x7b6520",
+"bytes": 40,
+"owner": "gameswf::membuf",
+"demangled": "gameswf::membuf::membuf(void const*, int)"
+}
+],
+"bytes": 476
+},
+{
+"id": "v1-vendor-gameswf-gameswf_tu_timer-613082-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::tu_timer",
+"owners": [
+"gameswf::tu_timer"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7b78e8",
+"bytes": 8,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_milli(unsigned long long)"
+},
+{
+"address": "0x7b78f0",
+"bytes": 4,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::sleep(int)"
+},
+{
+"address": "0x7b791c",
+"bytes": 4,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::ticks_to_seconds(unsigned long long)"
+},
+{
+"address": "0x7b799c",
+"bytes": 52,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_time(unsigned long long)"
+},
+{
+"address": "0x7b79d0",
+"bytes": 36,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_year(unsigned long long)"
+},
+{
+"address": "0x7b79f4",
+"bytes": 36,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_seconds(unsigned long long)"
+},
+{
+"address": "0x7b7a18",
+"bytes": 36,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_minutes(unsigned long long)"
+},
+{
+"address": "0x7b7a3c",
+"bytes": 36,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_month(unsigned long long)"
+},
+{
+"address": "0x7b7a60",
+"bytes": 44,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_fullyear(unsigned long long)"
+},
+{
+"address": "0x7b7a8c",
+"bytes": 36,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_hours(unsigned long long)"
+},
+{
+"address": "0x7b7ab0",
+"bytes": 36,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_day(unsigned long long)"
+},
+{
+"address": "0x7b7ad4",
+"bytes": 36,
+"owner": "gameswf::tu_timer",
+"demangled": "gameswf::tu_timer::get_date(unsigned long long)"
+}
+],
+"bytes": 364
+},
+{
+"id": "v1-vendor-gameswf-gameswf_font-a42405-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::font",
+"owners": [
+"gameswf::font"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7ce3d0",
+"bytes": 4,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::output_cached_data(gameswf::tu_file*, gameswf::cache_options const&)"
+},
+{
+"address": "0x7ce3d4",
+"bytes": 4,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::input_cached_data(gameswf::tu_file*)"
+},
+{
+"address": "0x7ce628",
+"bytes": 108,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::copy_from(gameswf::font*)"
+},
+{
+"address": "0x7cf228",
+"bytes": 224,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::~font()"
+},
+{
+"address": "0x7cf314",
+"bytes": 224,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::~font()"
+},
+{
+"address": "0x7cf41c",
+"bytes": 260,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::get_units_per_em() const"
+},
+{
+"address": "0x7cf520",
+"bytes": 272,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::get_height() const"
+},
+{
+"address": "0x7cf8d8",
+"bytes": 164,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::font(gameswf::player*)"
+},
+{
+"address": "0x7cf984",
+"bytes": 164,
+"owner": "gameswf::font",
+"demangled": "gameswf::font::font(gameswf::player*)"
+}
+],
+"bytes": 1424
+},
+{
+"id": "v1-vendor-gameswf-gameswf_glyph_provider-cbad99-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::glyph_provider",
+"owners": [
+"gameswf::glyph_provider"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7d043c",
+"bytes": 8,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::get_char_def(unsigned short, char const*, bool, bool, int, gameswf::rect*, float*)"
+},
+{
+"address": "0x7d0470",
+"bytes": 108,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::cubic_to_callback(FT_Vector_*, FT_Vector_*, FT_Vector_*, void*)"
+},
+{
+"address": "0x7d0580",
+"bytes": 40,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::conic_to_callback(FT_Vector_*, FT_Vector_*, void*)"
+},
+{
+"address": "0x7d061c",
+"bytes": 32,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::line_to_callback(FT_Vector_*, void*)"
+},
+{
+"address": "0x7d0670",
+"bytes": 32,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::move_to_callback(FT_Vector_*, void*)"
+},
+{
+"address": "0x7d06c4",
+"bytes": 208,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::draw_bitmap(FT_Bitmap_ const&)"
+},
+{
+"address": "0x7d0dfc",
+"bytes": 232,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::glyph_provider(int, int, bool, float)"
+},
+{
+"address": "0x7d0ef0",
+"bytes": 232,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::glyph_provider(int, int, bool, float)"
+},
+{
+"address": "0x7d113c",
+"bytes": 1204,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::get_face_entity(gameswf::tu_string const&, bool, bool)"
+},
+{
+"address": "0x7d1614",
+"bytes": 188,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::get_char_image(unsigned short, gameswf::tu_string const&, bool, bool, int, gameswf::rect*, float*)"
+},
+{
+"address": "0x7d1a7c",
+"bytes": 176,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::~glyph_provider()"
+},
+{
+"address": "0x7d1b40",
+"bytes": 176,
+"owner": "gameswf::glyph_provider",
+"demangled": "gameswf::glyph_provider::~glyph_provider()"
+}
+],
+"bytes": 2636
+},
+{
+"id": "v1-vendor-gameswf-gameswf_render_handler-1ca9d1-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::render_handler",
+"owners": [
+"gameswf::render_handler"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7d3b90",
+"bytes": 4,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::~render_handler()"
+},
+{
+"address": "0x7d3b94",
+"bytes": 4,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::flush()"
+},
+{
+"address": "0x7d3b98",
+"bytes": 4,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::set_cursor(gameswf::render_handler::cursor_type)"
+},
+{
+"address": "0x7d3b9c",
+"bytes": 4,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::reset()"
+},
+{
+"address": "0x7d3ba0",
+"bytes": 4,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::set_orientation(gameswf::orientation_mode)"
+},
+{
+"address": "0x7d3ba4",
+"bytes": 8,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::get_orientation()"
+},
+{
+"address": "0x7d3bac",
+"bytes": 4,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::begin_display_callback()"
+},
+{
+"address": "0x7d3bb0",
+"bytes": 4,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::end_display_callback()"
+},
+{
+"address": "0x7d4074",
+"bytes": 12,
+"owner": "gameswf::render_handler",
+"demangled": "gameswf::render_handler::~render_handler()"
+}
+],
+"bytes": 48
+},
+{
+"id": "v1-vendor-gameswf-bitmap_info_ogl-434136-0",
+"category": "vendor-gameswf",
+"owner": "bitmap_info_ogl",
+"owners": [
+"bitmap_info_ogl"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x7d3cbc",
+"bytes": 4,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::activate()"
+},
+{
+"address": "0x7d3cc0",
+"bytes": 12,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::set_writable()"
+},
+{
+"address": "0x7d3ccc",
+"bytes": 100,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::set_min_filter(gameswf::bitmap_info::filter_mode)"
+},
+{
+"address": "0x7d3d34",
+"bytes": 76,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::set_mag_filter(gameswf::bitmap_info::filter_mode)"
+},
+{
+"address": "0x7d3d84",
+"bytes": 8,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::get_width() const"
+},
+{
+"address": "0x7d3d8c",
+"bytes": 8,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::get_height() const"
+},
+{
+"address": "0x7d3d94",
+"bytes": 16,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::is_layout() const"
+},
+{
+"address": "0x7d3da4",
+"bytes": 40,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::get_internal_width() const"
+},
+{
+"address": "0x7d3dcc",
+"bytes": 40,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::get_internal_height() const"
+},
+{
+"address": "0x7d3fcc",
+"bytes": 64,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::p2(int)"
+},
+{
+"address": "0x7d4048",
+"bytes": 8,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::unlock()"
+},
+{
+"address": "0x7d4050",
+"bytes": 36,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::lock()"
+},
+{
+"address": "0x7d4b3c",
+"bytes": 112,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, int, int, gameswf::membuf const*)"
+},
+{
+"address": "0x7d4bfc",
+"bytes": 112,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, int, int, gameswf::membuf const*)"
+},
+{
+"address": "0x7d4c74",
+"bytes": 132,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, glitch::video::ITexture*)"
+},
+{
+"address": "0x7d4d30",
+"bytes": 132,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, glitch::video::ITexture*)"
+},
+{
+"address": "0x7d4dbc",
+"bytes": 100,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x7d4e50",
+"bytes": 100,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x7d5004",
+"bytes": 336,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, gameswf::image_rgb*)"
+},
+{
+"address": "0x7d515c",
+"bytes": 300,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, int, int)"
+}
+],
+"bytes": 1736
+},
+{
+"id": "v1-vendor-gameswf-bitmap_info_ogl-434136-1",
+"category": "vendor-gameswf",
+"owner": "bitmap_info_ogl",
+"owners": [
+"bitmap_info_ogl"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x7d5294",
+"bytes": 300,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, int, int)"
+},
+{
+"address": "0x7d5404",
+"bytes": 272,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, int, int, unsigned char*)"
+},
+{
+"address": "0x7d5564",
+"bytes": 272,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, int, int, unsigned char*)"
+},
+{
+"address": "0x7d567c",
+"bytes": 300,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, gameswf::image_rgba*)"
+},
+{
+"address": "0x7d57e0",
+"bytes": 300,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, gameswf::image_rgba*)"
+},
+{
+"address": "0x7d5914",
+"bytes": 336,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::bitmap_info_ogl(glitch::video::IVideoDriver*, gameswf::image_rgb*)"
+},
+{
+"address": "0x7d5a9c",
+"bytes": 136,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::release()"
+},
+{
+"address": "0x7d5b2c",
+"bytes": 84,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::set_texture(glitch::video::ITexture*)"
+},
+{
+"address": "0x7d5b80",
+"bytes": 4,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::unlayout()"
+},
+{
+"address": "0x7d5b84",
+"bytes": 116,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::~bitmap_info_ogl()"
+},
+{
+"address": "0x7d5c04",
+"bytes": 20,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::~bitmap_info_ogl()"
+},
+{
+"address": "0x7d5c20",
+"bytes": 1040,
+"owner": "bitmap_info_ogl",
+"demangled": "bitmap_info_ogl::layout()"
+}
+],
+"bytes": 3180
+},
+{
+"id": "v1-vendor-gameswf-render_handler_glitch-fd003c-0",
+"category": "vendor-gameswf",
+"owner": "render_handler_glitch",
+"owners": [
+"render_handler_glitch"
+],
+"part": 0,
+"parts": 3,
+"functions": [
+{
+"address": "0x7d3df4",
+"bytes": 4,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::open()"
+},
+{
+"address": "0x7d3df8",
+"bytes": 8,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::get_orientation()"
+},
+{
+"address": "0x7d3e00",
+"bytes": 4,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_antialiased(bool)"
+},
+{
+"address": "0x7d3e04",
+"bytes": 8,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::create_video_handler()"
+},
+{
+"address": "0x7d3e0c",
+"bytes": 92,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_target(gameswf::bitmap_info*)"
+},
+{
+"address": "0x7d3e68",
+"bytes": 4,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::clear_frame_buffer()"
+},
+{
+"address": "0x7d3e6c",
+"bytes": 4,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::read_frame_buffer(int, int, int, int, unsigned char*)"
+},
+{
+"address": "0x7d3e70",
+"bytes": 8,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_wire_frame(bool)"
+},
+{
+"address": "0x7d3e78",
+"bytes": 12,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_context(gameswf::player_context*)"
+},
+{
+"address": "0x7d3e84",
+"bytes": 96,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::end_display_callback()"
+},
+{
+"address": "0x7d3ee4",
+"bytes": 36,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_matrix(gameswf::matrix const&)"
+},
+{
+"address": "0x7d3f08",
+"bytes": 36,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_cxform(gameswf::cxform const&)"
+},
+{
+"address": "0x7d3f2c",
+"bytes": 20,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::fill_style_disable(int)"
+},
+{
+"address": "0x7d3f40",
+"bytes": 12,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::line_style_disable()"
+},
+{
+"address": "0x7d3f4c",
+"bytes": 8,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::line_style_width(float)"
+},
+{
+"address": "0x7d3f54",
+"bytes": 28,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::is_visible(gameswf::rect const&)"
+},
+{
+"address": "0x7d4334",
+"bytes": 12,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_buffer_capacity(gameswf::render_handler::buffer_mode, int)"
+},
+{
+"address": "0x7d4340",
+"bytes": 140,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::ensureBufferCapacity(int)"
+},
+{
+"address": "0x7d43cc",
+"bytes": 100,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::line_style_color(gameswf::rgba)"
+},
+{
+"address": "0x7d4558",
+"bytes": 44,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::fill_style_bitmap(int, gameswf::bitmap_info*, gameswf::matrix const&, gameswf::render_handler::bitmap_wrap_mode)"
+}
+],
+"bytes": 676
+},
+{
+"id": "v1-vendor-gameswf-render_handler_glitch-fd003c-1",
+"category": "vendor-gameswf",
+"owner": "render_handler_glitch",
+"owners": [
+"render_handler_glitch"
+],
+"part": 1,
+"parts": 3,
+"functions": [
+{
+"address": "0x7d4624",
+"bytes": 216,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::fill_style_color(int, gameswf::rgba const&)"
+},
+{
+"address": "0x7d4bb4",
+"bytes": 72,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::create_bitmap_info_native(int, int, gameswf::membuf const*)"
+},
+{
+"address": "0x7d4d00",
+"bytes": 48,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::create_bitmap_info_texture(glitch::video::ITexture*)"
+},
+{
+"address": "0x7d4e28",
+"bytes": 40,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::create_bitmap_info_empty()"
+},
+{
+"address": "0x7d4f8c",
+"bytes": 120,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_render_cache(gameswf::render_cache*)"
+},
+{
+"address": "0x7d53cc",
+"bytes": 56,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::create_bitmap_info_target(int, int)"
+},
+{
+"address": "0x7d551c",
+"bytes": 72,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::create_bitmap_info_alpha(int, int, unsigned char*)"
+},
+{
+"address": "0x7d57b0",
+"bytes": 48,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::create_bitmap_info_rgba(gameswf::image_rgba*)"
+},
+{
+"address": "0x7d5a6c",
+"bytes": 48,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::create_bitmap_info_rgb(gameswf::image_rgb*)"
+},
+{
+"address": "0x7d60f4",
+"bytes": 1328,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::render_handler_glitch(glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x7d6680",
+"bytes": 188,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::get_matrix(gameswf::matrix const&)"
+},
+{
+"address": "0x7d6a40",
+"bytes": 8,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::begin_display_callback()"
+},
+{
+"address": "0x7d6afc",
+"bytes": 88,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::reset()"
+},
+{
+"address": "0x7d6ddc",
+"bytes": 8,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::flush()"
+},
+{
+"address": "0x7d6de4",
+"bytes": 188,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::end_display()"
+},
+{
+"address": "0x7d71bc",
+"bytes": 248,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::render_mask_intersection()"
+},
+{
+"address": "0x7d73d0",
+"bytes": 36,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::begin_display(gameswf::rgba, int, int, int, int, float, float, float, float)"
+},
+{
+"address": "0x7d77b0",
+"bytes": 44,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::draw_line_strip(void const*, int)"
+},
+{
+"address": "0x7d7cf4",
+"bytes": 500,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::~render_handler_glitch()"
+},
+{
+"address": "0x7d7f0c",
+"bytes": 20,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::~render_handler_glitch()"
+}
+],
+"bytes": 3376
+},
+{
+"id": "v1-vendor-gameswf-render_handler_glitch-fd003c-2",
+"category": "vendor-gameswf",
+"owner": "render_handler_glitch",
+"owners": [
+"render_handler_glitch"
+],
+"part": 2,
+"parts": 3,
+"functions": [
+{
+"address": "0x7d81e4",
+"bytes": 120,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::set_blend_mode(gameswf::blend_mode::id)"
+},
+{
+"address": "0x7d825c",
+"bytes": 80,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::begin_submit_mask()"
+},
+{
+"address": "0x7d8340",
+"bytes": 636,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::disable_mask()"
+},
+{
+"address": "0x7d85bc",
+"bytes": 80,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::end_submit_mask()"
+},
+{
+"address": "0x7d860c",
+"bytes": 1936,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::process_mask_intersection(Vertex*, int, unsigned short const*, int, glitch::video::E_PRIMITIVE_TYPE)"
+},
+{
+"address": "0x7d8df4",
+"bytes": 100,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::draw_bitmap(gameswf::matrix const&, gameswf::bitmap_info*, gameswf::rect const&, gameswf::rect const&, gameswf::rgba)"
+},
+{
+"address": "0x7d93ac",
+"bytes": 332,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::draw(gameswf::render_cache*)"
+},
+{
+"address": "0x7d94f8",
+"bytes": 320,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::draw_mesh_primitive(int, void const*, int, unsigned short const*, int)"
+},
+{
+"address": "0x7d9734",
+"bytes": 48,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::draw_triangle_list(void const*, int, unsigned short const*, int)"
+},
+{
+"address": "0x7d9764",
+"bytes": 44,
+"owner": "render_handler_glitch",
+"demangled": "render_handler_glitch::draw_mesh_strip(void const*, int)"
+}
+],
+"bytes": 3696
+},
+{
+"id": "v1-vendor-gameswf-pack0-157e56-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::character::custom | gameswf::matrix | gameswf::smart_ptr_proxy | gameswf::weak_ptr<gameswf::character> | gameswf::permanent_string | gameswf::display_list | gameswf::hash<gameswf::stringi_pointer, gameswf::character*, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> > | gameswf::filter_texture_cache",
+"owners": [
+"gameswf::character::custom",
+"gameswf::matrix",
+"gameswf::smart_ptr_proxy",
+"gameswf::weak_ptr<gameswf::character>",
+"gameswf::permanent_string",
+"gameswf::display_list",
+"gameswf::hash<gameswf::stringi_pointer, gameswf::character*, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >",
+"gameswf::filter_texture_cache"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x412160",
+"bytes": 152,
+"owner": "gameswf::character::custom",
+"demangled": "gameswf::character::custom::custom()"
+},
+{
+"address": "0x7533c0",
+"bytes": 172,
+"owner": "gameswf::character::custom",
+"demangled": "gameswf::character::custom::~custom()"
+},
+{
+"address": "0x4165b8",
+"bytes": 48,
+"owner": "gameswf::matrix",
+"demangled": "gameswf::matrix::concatenate(gameswf::matrix const&)"
+},
+{
+"address": "0x75329c",
+"bytes": 24,
+"owner": "gameswf::matrix",
+"demangled": "gameswf::matrix::get_x_scale() const"
+},
+{
+"address": "0x7947b8",
+"bytes": 36,
+"owner": "gameswf::matrix",
+"demangled": "gameswf::matrix::set_lerp(gameswf::matrix const&, gameswf::matrix const&, float)"
+},
+{
+"address": "0x794a14",
+"bytes": 36,
+"owner": "gameswf::matrix",
+"demangled": "gameswf::matrix::transform(gameswf::rect*) const"
+},
+{
+"address": "0x795adc",
+"bytes": 28,
+"owner": "gameswf::matrix",
+"demangled": "gameswf::matrix::set_inverse(gameswf::matrix const&)"
+},
+{
+"address": "0x41fe84",
+"bytes": 80,
+"owner": "gameswf::smart_ptr_proxy",
+"demangled": "gameswf::smart_ptr_proxy::operator=(gameswf::weak_proxy*)"
+},
+{
+"address": "0x43c404",
+"bytes": 56,
+"owner": "gameswf::smart_ptr_proxy",
+"demangled": "gameswf::smart_ptr_proxy::operator=(gameswf::weak_proxy*)"
+},
+{
+"address": "0x7c1330",
+"bytes": 56,
+"owner": "gameswf::smart_ptr_proxy",
+"demangled": "gameswf::smart_ptr_proxy::operator=(gameswf::weak_proxy*)"
+},
+{
+"address": "0x421f74",
+"bytes": 12,
+"owner": "gameswf::weak_ptr<gameswf::character>",
+"demangled": "gameswf::weak_ptr<gameswf::character>::operator=(gameswf::character*)"
+},
+{
+"address": "0x42da98",
+"bytes": 12,
+"owner": "gameswf::weak_ptr<gameswf::character>",
+"demangled": "gameswf::weak_ptr<gameswf::character>::operator=(gameswf::character*)"
+},
+{
+"address": "0x438224",
+"bytes": 84,
+"owner": "gameswf::weak_ptr<gameswf::character>",
+"demangled": "gameswf::weak_ptr<gameswf::character>::get_ptr() const"
+},
+{
+"address": "0x752e64",
+"bytes": 40,
+"owner": "gameswf::permanent_string",
+"demangled": "gameswf::permanent_string::~permanent_string()"
+},
+{
+"address": "0x755a10",
+"bytes": 200,
+"owner": "gameswf::display_list",
+"demangled": "gameswf::display_list::construct()"
+},
+{
+"address": "0x756564",
+"bytes": 36,
+"owner": "gameswf::display_list",
+"demangled": "gameswf::display_list::remove_display_object(gameswf::character*)"
+},
+{
+"address": "0x77f288",
+"bytes": 144,
+"owner": "gameswf::display_list",
+"demangled": "gameswf::display_list::~display_list()"
+},
+{
+"address": "0x755f94",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::stringi_pointer, gameswf::character*, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >",
+"demangled": "gameswf::hash<gameswf::stringi_pointer, gameswf::character*, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >::set_raw_capacity(int)"
+},
+{
+"address": "0x756cdc",
+"bytes": 172,
+"owner": "gameswf::filter_texture_cache",
+"demangled": "gameswf::filter_texture_cache::get_region_size_requirement_cellsize(int&, int&)"
+},
+{
+"address": "0x758a80",
+"bytes": 120,
+"owner": "gameswf::filter_texture_cache",
+"demangled": "gameswf::filter_texture_cache::get_character_region(gameswf::character*, int, int)"
+}
+],
+"bytes": 1564
+},
+{
+"id": "v1-vendor-gameswf-pack1-607ee7-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::hash<gameswf::character*, gameswf::filter_cache_infos, gameswf::fixed_size_hash<gameswf::character*> > | gameswf::effect | gameswf::generic_character | gameswf::bitmap_character",
+"owners": [
+"gameswf::hash<gameswf::character*, gameswf::filter_cache_infos, gameswf::fixed_size_hash<gameswf::character*> >",
+"gameswf::effect",
+"gameswf::generic_character",
+"gameswf::bitmap_character"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7586b8",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::character*, gameswf::filter_cache_infos, gameswf::fixed_size_hash<gameswf::character*> >",
+"demangled": "gameswf::hash<gameswf::character*, gameswf::filter_cache_infos, gameswf::fixed_size_hash<gameswf::character*> >::set_raw_capacity(int)"
+},
+{
+"address": "0x758af8",
+"bytes": 148,
+"owner": "gameswf::effect",
+"demangled": "gameswf::effect::~effect()"
+},
+{
+"address": "0x7599cc",
+"bytes": 36,
+"owner": "gameswf::generic_character",
+"demangled": "gameswf::generic_character::is(int) const"
+},
+{
+"address": "0x7599f8",
+"bytes": 28,
+"owner": "gameswf::generic_character",
+"demangled": "gameswf::generic_character::hit_test(float, float)"
+},
+{
+"address": "0x75b75c",
+"bytes": 100,
+"owner": "gameswf::generic_character",
+"demangled": "gameswf::generic_character::generic_character(gameswf::player*, gameswf::character_def*, gameswf::character*, int)"
+},
+{
+"address": "0x75dde0",
+"bytes": 64,
+"owner": "gameswf::generic_character",
+"demangled": "gameswf::generic_character::~generic_character()"
+},
+{
+"address": "0x75de28",
+"bytes": 64,
+"owner": "gameswf::generic_character",
+"demangled": "gameswf::generic_character::~generic_character()"
+},
+{
+"address": "0x759a14",
+"bytes": 28,
+"owner": "gameswf::bitmap_character",
+"demangled": "gameswf::bitmap_character::is(int) const"
+},
+{
+"address": "0x759a30",
+"bytes": 28,
+"owner": "gameswf::bitmap_character",
+"demangled": "gameswf::bitmap_character::point_test_local(float, float)"
+},
+{
+"address": "0x759aa8",
+"bytes": 20,
+"owner": "gameswf::bitmap_character",
+"demangled": "gameswf::bitmap_character::get_bound(gameswf::rect*)"
+},
+{
+"address": "0x75df40",
+"bytes": 80,
+"owner": "gameswf::bitmap_character",
+"demangled": "gameswf::bitmap_character::~bitmap_character()"
+},
+{
+"address": "0x75dfd8",
+"bytes": 80,
+"owner": "gameswf::bitmap_character",
+"demangled": "gameswf::bitmap_character::~bitmap_character()"
+},
+{
+"address": "0x75eaa4",
+"bytes": 108,
+"owner": "gameswf::bitmap_character",
+"demangled": "gameswf::bitmap_character::bitmap_character(gameswf::player*, gameswf::bitmap_info*, gameswf::rect*)"
+},
+{
+"address": "0x7ae1c8",
+"bytes": 112,
+"owner": "gameswf::bitmap_character",
+"demangled": "gameswf::bitmap_character::bitmap_character(gameswf::player*, gameswf::bitmap_info*, gameswf::rect*)"
+}
+],
+"bytes": 952
+},
+{
+"id": "v1-vendor-gameswf-pack2-6d7f71-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::execute_tag | gameswf::place_object_2 | gameswf::remove_object_2 | gameswf::set_background_color | gameswf::hash<int, gameswf::cxform*, gameswf::fixed_size_hash<int> > | gameswf::counted_buffer | gameswf::hash<int, gameswf::matrix*, gameswf::fixed_size_hash<int> > | gameswf::hash<gameswf::string_pointer, gameswf::permanent_string*, gameswf::string_pointer_hash_functor<gameswf::string_pointer> >",
+"owners": [
+"gameswf::execute_tag",
+"gameswf::place_object_2",
+"gameswf::remove_object_2",
+"gameswf::set_background_color",
+"gameswf::hash<int, gameswf::cxform*, gameswf::fixed_size_hash<int> >",
+"gameswf::counted_buffer",
+"gameswf::hash<int, gameswf::matrix*, gameswf::fixed_size_hash<int> >",
+"gameswf::hash<gameswf::string_pointer, gameswf::permanent_string*, gameswf::string_pointer_hash_functor<gameswf::string_pointer> >"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x759ac4",
+"bytes": 4,
+"owner": "gameswf::execute_tag",
+"demangled": "gameswf::execute_tag::~execute_tag()"
+},
+{
+"address": "0x759ac8",
+"bytes": 4,
+"owner": "gameswf::execute_tag",
+"demangled": "gameswf::execute_tag::execute(gameswf::character*)"
+},
+{
+"address": "0x759acc",
+"bytes": 4,
+"owner": "gameswf::execute_tag",
+"demangled": "gameswf::execute_tag::execute_state(gameswf::character*)"
+},
+{
+"address": "0x759afc",
+"bytes": 8,
+"owner": "gameswf::execute_tag",
+"demangled": "gameswf::execute_tag::get_depth() const"
+},
+{
+"address": "0x759b04",
+"bytes": 8,
+"owner": "gameswf::execute_tag",
+"demangled": "gameswf::execute_tag::get_action_offset() const"
+},
+{
+"address": "0x759b0c",
+"bytes": 8,
+"owner": "gameswf::execute_tag",
+"demangled": "gameswf::execute_tag::is_place_tag() const"
+},
+{
+"address": "0x759ff0",
+"bytes": 12,
+"owner": "gameswf::execute_tag",
+"demangled": "gameswf::execute_tag::~execute_tag()"
+},
+{
+"address": "0x759b14",
+"bytes": 8,
+"owner": "gameswf::place_object_2",
+"demangled": "gameswf::place_object_2::get_depth() const"
+},
+{
+"address": "0x759b1c",
+"bytes": 8,
+"owner": "gameswf::place_object_2",
+"demangled": "gameswf::place_object_2::is_place_tag() const"
+},
+{
+"address": "0x759fe8",
+"bytes": 4,
+"owner": "gameswf::remove_object_2",
+"demangled": "gameswf::remove_object_2::~remove_object_2()"
+},
+{
+"address": "0x75a004",
+"bytes": 12,
+"owner": "gameswf::remove_object_2",
+"demangled": "gameswf::remove_object_2::~remove_object_2()"
+},
+{
+"address": "0x759fec",
+"bytes": 4,
+"owner": "gameswf::set_background_color",
+"demangled": "gameswf::set_background_color::~set_background_color()"
+},
+{
+"address": "0x75a018",
+"bytes": 12,
+"owner": "gameswf::set_background_color",
+"demangled": "gameswf::set_background_color::~set_background_color()"
+},
+{
+"address": "0x75aa70",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::cxform*, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::cxform*, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x75b974",
+"bytes": 128,
+"owner": "gameswf::counted_buffer",
+"demangled": "gameswf::counted_buffer::~counted_buffer()"
+},
+{
+"address": "0x75b9f4",
+"bytes": 52,
+"owner": "gameswf::counted_buffer",
+"demangled": "gameswf::counted_buffer::drop_ref()"
+},
+{
+"address": "0x75baf8",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::matrix*, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::matrix*, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x75c0e8",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::string_pointer, gameswf::permanent_string*, gameswf::string_pointer_hash_functor<gameswf::string_pointer> >",
+"demangled": "gameswf::hash<gameswf::string_pointer, gameswf::permanent_string*, gameswf::string_pointer_hash_functor<gameswf::string_pointer> >::set_raw_capacity(int)"
+}
+],
+"bytes": 444
+},
+{
+"id": "v1-vendor-gameswf-pack3-a95b99-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::permanent_string_cache | gameswf::array<gameswf::swf_event*> | gameswf::as_object_interface | gameswf::bitmap_character_def | gameswf::as_environment | gameswf::listener | gameswf::base_fill_style | gameswf::base_line_style",
+"owners": [
+"gameswf::permanent_string_cache",
+"gameswf::array<gameswf::swf_event*>",
+"gameswf::as_object_interface",
+"gameswf::bitmap_character_def",
+"gameswf::as_environment",
+"gameswf::listener",
+"gameswf::base_fill_style",
+"gameswf::base_line_style"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x75c2cc",
+"bytes": 124,
+"owner": "gameswf::permanent_string_cache",
+"demangled": "gameswf::permanent_string_cache::get(gameswf::tu_string const&)"
+},
+{
+"address": "0x76c8ac",
+"bytes": 228,
+"owner": "gameswf::permanent_string_cache",
+"demangled": "gameswf::permanent_string_cache::clear()"
+},
+{
+"address": "0x76c990",
+"bytes": 28,
+"owner": "gameswf::permanent_string_cache",
+"demangled": "gameswf::permanent_string_cache::~permanent_string_cache()"
+},
+{
+"address": "0x75d89c",
+"bytes": 60,
+"owner": "gameswf::array<gameswf::swf_event*>",
+"demangled": "gameswf::array<gameswf::swf_event*>::release_buffer()"
+},
+{
+"address": "0x75dd04",
+"bytes": 44,
+"owner": "gameswf::as_object_interface",
+"demangled": "gameswf::as_object_interface::~as_object_interface()"
+},
+{
+"address": "0x75dd38",
+"bytes": 44,
+"owner": "gameswf::as_object_interface",
+"demangled": "gameswf::as_object_interface::~as_object_interface()"
+},
+{
+"address": "0x75df0c",
+"bytes": 44,
+"owner": "gameswf::bitmap_character_def",
+"demangled": "gameswf::bitmap_character_def::~bitmap_character_def()"
+},
+{
+"address": "0x75df9c",
+"bytes": 44,
+"owner": "gameswf::bitmap_character_def",
+"demangled": "gameswf::bitmap_character_def::~bitmap_character_def()"
+},
+{
+"address": "0x75e03c",
+"bytes": 316,
+"owner": "gameswf::as_environment",
+"demangled": "gameswf::as_environment::~as_environment()"
+},
+{
+"address": "0x7997c4",
+"bytes": 72,
+"owner": "gameswf::as_environment",
+"demangled": "gameswf::as_environment::pop()"
+},
+{
+"address": "0x7bc1dc",
+"bytes": 84,
+"owner": "gameswf::as_environment",
+"demangled": "gameswf::as_environment::get_player() const"
+},
+{
+"address": "0x7ccecc",
+"bytes": 8,
+"owner": "gameswf::as_environment",
+"demangled": "gameswf::as_environment::set_target(gameswf::character*)"
+},
+{
+"address": "0x7cda54",
+"bytes": 88,
+"owner": "gameswf::as_environment",
+"demangled": "gameswf::as_environment::get_root() const"
+},
+{
+"address": "0x7d2b94",
+"bytes": 164,
+"owner": "gameswf::as_environment",
+"demangled": "gameswf::as_environment::add_frame_barrier()"
+},
+{
+"address": "0x760940",
+"bytes": 164,
+"owner": "gameswf::listener",
+"demangled": "gameswf::listener::alive()"
+},
+{
+"address": "0x7613b0",
+"bytes": 4,
+"owner": "gameswf::base_fill_style",
+"demangled": "gameswf::base_fill_style::~base_fill_style()"
+},
+{
+"address": "0x7617b4",
+"bytes": 12,
+"owner": "gameswf::base_fill_style",
+"demangled": "gameswf::base_fill_style::~base_fill_style()"
+},
+{
+"address": "0x7613b4",
+"bytes": 4,
+"owner": "gameswf::base_line_style",
+"demangled": "gameswf::base_line_style::~base_line_style()"
+},
+{
+"address": "0x7617c8",
+"bytes": 12,
+"owner": "gameswf::base_line_style",
+"demangled": "gameswf::base_line_style::~base_line_style()"
+}
+],
+"bytes": 1544
+},
+{
+"id": "v1-vendor-gameswf-pack4-6d36ef-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::fill_style | gameswf::array<gameswf::line_style> | gameswf::morph2_character_def | gameswf::movie_def_impl",
+"owners": [
+"gameswf::fill_style",
+"gameswf::array<gameswf::line_style>",
+"gameswf::morph2_character_def",
+"gameswf::movie_def_impl"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x761878",
+"bytes": 220,
+"owner": "gameswf::fill_style",
+"demangled": "gameswf::fill_style::fill_style(gameswf::fill_style const&)"
+},
+{
+"address": "0x77a780",
+"bytes": 164,
+"owner": "gameswf::fill_style",
+"demangled": "gameswf::fill_style::operator=(gameswf::fill_style const&)"
+},
+{
+"address": "0x784a20",
+"bytes": 100,
+"owner": "gameswf::fill_style",
+"demangled": "gameswf::fill_style::~fill_style()"
+},
+{
+"address": "0x784a8c",
+"bytes": 140,
+"owner": "gameswf::fill_style",
+"demangled": "gameswf::fill_style::fill_style()"
+},
+{
+"address": "0x784c18",
+"bytes": 140,
+"owner": "gameswf::fill_style",
+"demangled": "gameswf::fill_style::fill_style()"
+},
+{
+"address": "0x784cac",
+"bytes": 100,
+"owner": "gameswf::fill_style",
+"demangled": "gameswf::fill_style::~fill_style()"
+},
+{
+"address": "0x784d4c",
+"bytes": 20,
+"owner": "gameswf::fill_style",
+"demangled": "gameswf::fill_style::~fill_style()"
+},
+{
+"address": "0x7619b8",
+"bytes": 204,
+"owner": "gameswf::array<gameswf::line_style>",
+"demangled": "void gameswf::array<gameswf::line_style>::push_back<gameswf::line_style>(gameswf::line_style const&)"
+},
+{
+"address": "0x76212c",
+"bytes": 72,
+"owner": "gameswf::morph2_character_def",
+"demangled": "gameswf::morph2_character_def::~morph2_character_def()"
+},
+{
+"address": "0x762184",
+"bytes": 20,
+"owner": "gameswf::morph2_character_def",
+"demangled": "gameswf::morph2_character_def::~morph2_character_def()"
+},
+{
+"address": "0x7621a0",
+"bytes": 72,
+"owner": "gameswf::morph2_character_def",
+"demangled": "gameswf::morph2_character_def::~morph2_character_def()"
+},
+{
+"address": "0x7621f0",
+"bytes": 132,
+"owner": "gameswf::morph2_character_def",
+"demangled": "gameswf::morph2_character_def::morph2_character_def(gameswf::player*)"
+},
+{
+"address": "0x76227c",
+"bytes": 132,
+"owner": "gameswf::morph2_character_def",
+"demangled": "gameswf::morph2_character_def::morph2_character_def(gameswf::player*)"
+},
+{
+"address": "0x7636b4",
+"bytes": 8,
+"owner": "gameswf::movie_def_impl",
+"demangled": "gameswf::movie_def_impl::has_init_actions()"
+},
+{
+"address": "0x764da0",
+"bytes": 84,
+"owner": "gameswf::movie_def_impl",
+"demangled": "gameswf::movie_def_impl::get_labeled_frame(gameswf::tu_stringi const&, int*)"
+},
+{
+"address": "0x765ec8",
+"bytes": 364,
+"owner": "gameswf::movie_def_impl",
+"demangled": "gameswf::movie_def_impl::movie_def_impl(gameswf::player*, gameswf::create_bitmaps_flag, gameswf::create_font_shapes_flag)"
+},
+{
+"address": "0x76603c",
+"bytes": 364,
+"owner": "gameswf::movie_def_impl",
+"demangled": "gameswf::movie_def_impl::movie_def_impl(gameswf::player*, gameswf::create_bitmaps_flag, gameswf::create_font_shapes_flag)"
+},
+{
+"address": "0x7663b8",
+"bytes": 20,
+"owner": "gameswf::movie_def_impl",
+"demangled": "gameswf::movie_def_impl::~movie_def_impl()"
+},
+{
+"address": "0x7689b0",
+"bytes": 160,
+"owner": "gameswf::movie_def_impl",
+"demangled": "gameswf::movie_def_impl::export_resource(gameswf::tu_string const&, gameswf::character_def*)"
+}
+],
+"bytes": 2516
+},
+{
+"id": "v1-vendor-gameswf-pack5-64b2da-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::movie_definition | gameswf::hash<int, gameswf::smart_ptr<gameswf::sound_sample>, gameswf::fixed_size_hash<int> > | gameswf::hash<int, gameswf::smart_ptr<gameswf::bitmap_character_def>, gameswf::fixed_size_hash<int> > | gameswf::hash<int, gameswf::smart_ptr<gameswf::font>, gameswf::fixed_size_hash<int> > | gameswf::hash<int, gameswf::smart_ptr<gameswf::character_def>, gameswf::fixed_size_hash<int> > | gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry | gameswf::hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> > | gameswf::hash<int, gameswf::tu_string, gameswf::fixed_size_hash<int> > | gameswf::hash<gameswf::tu_stringi, bool, gameswf::stringi_hash_functor<gameswf::tu_stringi> > | gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> > | gameswf::hash<gameswf::as_object*, bool, gameswf::fixed_size_hash<gameswf::as_object*> > | gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry | gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry | gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> > | gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"owners": [
+"gameswf::movie_definition",
+"gameswf::hash<int, gameswf::smart_ptr<gameswf::sound_sample>, gameswf::fixed_size_hash<int> >",
+"gameswf::hash<int, gameswf::smart_ptr<gameswf::bitmap_character_def>, gameswf::fixed_size_hash<int> >",
+"gameswf::hash<int, gameswf::smart_ptr<gameswf::font>, gameswf::fixed_size_hash<int> >",
+"gameswf::hash<int, gameswf::smart_ptr<gameswf::character_def>, gameswf::fixed_size_hash<int> >",
+"gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"gameswf::hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >",
+"gameswf::hash<int, gameswf::tu_string, gameswf::fixed_size_hash<int> >",
+"gameswf::hash<gameswf::tu_stringi, bool, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"gameswf::hash<gameswf::as_object*, bool, gameswf::fixed_size_hash<gameswf::as_object*> >",
+"gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x765164",
+"bytes": 44,
+"owner": "gameswf::movie_definition",
+"demangled": "gameswf::movie_definition::~movie_definition()"
+},
+{
+"address": "0x765398",
+"bytes": 44,
+"owner": "gameswf::movie_definition",
+"demangled": "gameswf::movie_definition::~movie_definition()"
+},
+{
+"address": "0x7665dc",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::smart_ptr<gameswf::sound_sample>, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::smart_ptr<gameswf::sound_sample>, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x766960",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::smart_ptr<gameswf::bitmap_character_def>, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::smart_ptr<gameswf::bitmap_character_def>, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x766d10",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::smart_ptr<gameswf::font>, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::smart_ptr<gameswf::font>, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x767094",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::smart_ptr<gameswf::character_def>, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::smart_ptr<gameswf::character_def>, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x767418",
+"bytes": 60,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry::entry(gameswf::tu_stringi const&, gameswf::smart_ptr<gameswf::character_def> const&, int, int)"
+},
+{
+"address": "0x767454",
+"bytes": 68,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry::entry(gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry const&)"
+},
+{
+"address": "0x767824",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >",
+"demangled": "gameswf::hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >::set_raw_capacity(int)"
+},
+{
+"address": "0x767e40",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::tu_string, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::tu_string, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x768254",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_stringi, bool, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"demangled": "gameswf::hash<gameswf::tu_stringi, bool, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7687ac",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::character_def>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)"
+},
+{
+"address": "0x769610",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::as_object*, bool, gameswf::fixed_size_hash<gameswf::as_object*> >",
+"demangled": "gameswf::hash<gameswf::as_object*, bool, gameswf::fixed_size_hash<gameswf::as_object*> >::set_raw_capacity(int)"
+},
+{
+"address": "0x76a010",
+"bytes": 64,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry::entry(gameswf::tu_stringi const&, gameswf::as_value const&, int, int)"
+},
+{
+"address": "0x76a050",
+"bytes": 72,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry::entry(gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry const&)"
+},
+{
+"address": "0x76a098",
+"bytes": 72,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry::entry(gameswf::tu_stringi const&, gameswf::as_object::as_watch const&, int, int)"
+},
+{
+"address": "0x76a0e0",
+"bytes": 80,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry::entry(gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry const&)"
+},
+{
+"address": "0x76a2f8",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::as_value, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)"
+},
+{
+"address": "0x76a6ec",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)"
+}
+],
+"bytes": 1120
+},
+{
+"id": "v1-vendor-gameswf-pack6-a8bd9d-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_stage | gameswf::player_context | gameswf::string_hash<gameswf::tu_loadlib*> | gameswf::stringi_hash<gameswf::as_standard_member> | gameswf::hash<gameswf::tu_stringi, gameswf::as_standard_member, gameswf::stringi_hash_functor<gameswf::tu_stringi> > | gameswf::render_cache | gameswf::render::bogus_bi | gameswf::render",
+"owners": [
+"gameswf::as_stage",
+"gameswf::player_context",
+"gameswf::string_hash<gameswf::tu_loadlib*>",
+"gameswf::stringi_hash<gameswf::as_standard_member>",
+"gameswf::hash<gameswf::tu_stringi, gameswf::as_standard_member, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"gameswf::render_cache",
+"gameswf::render::bogus_bi",
+"gameswf::render"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x76c728",
+"bytes": 24,
+"owner": "gameswf::as_stage",
+"demangled": "gameswf::as_stage::is(int) const"
+},
+{
+"address": "0x76ccbc",
+"bytes": 44,
+"owner": "gameswf::as_stage",
+"demangled": "gameswf::as_stage::~as_stage()"
+},
+{
+"address": "0x76d490",
+"bytes": 44,
+"owner": "gameswf::as_stage",
+"demangled": "gameswf::as_stage::~as_stage()"
+},
+{
+"address": "0x76d724",
+"bytes": 436,
+"owner": "gameswf::as_stage",
+"demangled": "gameswf::as_stage::get_member(gameswf::tu_stringi const&, gameswf::as_value*)"
+},
+{
+"address": "0x76f018",
+"bytes": 332,
+"owner": "gameswf::as_stage",
+"demangled": "gameswf::as_stage::as_stage(gameswf::player*)"
+},
+{
+"address": "0x76ce38",
+"bytes": 80,
+"owner": "gameswf::player_context",
+"demangled": "gameswf::player_context::player_context()"
+},
+{
+"address": "0x76ce90",
+"bytes": 80,
+"owner": "gameswf::player_context",
+"demangled": "gameswf::player_context::player_context()"
+},
+{
+"address": "0x76cee8",
+"bytes": 164,
+"owner": "gameswf::player_context",
+"demangled": "gameswf::player_context::~player_context()"
+},
+{
+"address": "0x76d4cc",
+"bytes": 164,
+"owner": "gameswf::player_context",
+"demangled": "gameswf::player_context::~player_context()"
+},
+{
+"address": "0x76d578",
+"bytes": 20,
+"owner": "gameswf::player_context",
+"demangled": "gameswf::player_context::~player_context()"
+},
+{
+"address": "0x76d9d0",
+"bytes": 20,
+"owner": "gameswf::string_hash<gameswf::tu_loadlib*>",
+"demangled": "gameswf::string_hash<gameswf::tu_loadlib*>::~string_hash()"
+},
+{
+"address": "0x76dba8",
+"bytes": 20,
+"owner": "gameswf::stringi_hash<gameswf::as_standard_member>",
+"demangled": "gameswf::stringi_hash<gameswf::as_standard_member>::~stringi_hash()"
+},
+{
+"address": "0x76dbd0",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::as_standard_member, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::as_standard_member, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7738a4",
+"bytes": 208,
+"owner": "gameswf::render_cache",
+"demangled": "gameswf::render_cache::is_valid(gameswf::character*)"
+},
+{
+"address": "0x78ba28",
+"bytes": 304,
+"owner": "gameswf::render_cache",
+"demangled": "gameswf::render_cache::~render_cache()"
+},
+{
+"address": "0x773974",
+"bytes": 44,
+"owner": "gameswf::render::bogus_bi",
+"demangled": "gameswf::render::bogus_bi::~bogus_bi()"
+},
+{
+"address": "0x773cf8",
+"bytes": 44,
+"owner": "gameswf::render::bogus_bi",
+"demangled": "gameswf::render::bogus_bi::~bogus_bi()"
+},
+{
+"address": "0x7739dc",
+"bytes": 116,
+"owner": "gameswf::render",
+"demangled": "gameswf::render::create_bitmap_info_native(int, int, gameswf::membuf const*)"
+},
+{
+"address": "0x773a5c",
+"bytes": 100,
+"owner": "gameswf::render",
+"demangled": "gameswf::render::create_bitmap_info_texture(glitch::video::ITexture*)"
+},
+{
+"address": "0x773c2c",
+"bytes": 132,
+"owner": "gameswf::render",
+"demangled": "gameswf::render::create_bitmap_info_empty()"
+}
+],
+"bytes": 2432
+},
+{
+"id": "v1-vendor-gameswf-pack7-2f63b3-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::tu_mutex | gameswf::tesselate::tesselating_shape | gameswf::edge | gameswf::mesh | gameswf::mesh_set | gameswf::path",
+"owners": [
+"gameswf::tu_mutex",
+"gameswf::tesselate::tesselating_shape",
+"gameswf::edge",
+"gameswf::mesh",
+"gameswf::mesh_set",
+"gameswf::path"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x773d34",
+"bytes": 4,
+"owner": "gameswf::tu_mutex",
+"demangled": "gameswf::tu_mutex::~tu_mutex()"
+},
+{
+"address": "0x779034",
+"bytes": 4,
+"owner": "gameswf::tesselate::tesselating_shape",
+"demangled": "gameswf::tesselate::tesselating_shape::~tesselating_shape()"
+},
+{
+"address": "0x77a948",
+"bytes": 12,
+"owner": "gameswf::tesselate::tesselating_shape",
+"demangled": "gameswf::tesselate::tesselating_shape::~tesselating_shape()"
+},
+{
+"address": "0x7790a0",
+"bytes": 24,
+"owner": "gameswf::edge",
+"demangled": "gameswf::edge::edge()"
+},
+{
+"address": "0x7790b8",
+"bytes": 24,
+"owner": "gameswf::edge",
+"demangled": "gameswf::edge::edge()"
+},
+{
+"address": "0x7790d0",
+"bytes": 264,
+"owner": "gameswf::edge",
+"demangled": "gameswf::edge::edge(float, float, float, float)"
+},
+{
+"address": "0x7791d8",
+"bytes": 264,
+"owner": "gameswf::edge",
+"demangled": "gameswf::edge::edge(float, float, float, float)"
+},
+{
+"address": "0x779388",
+"bytes": 56,
+"owner": "gameswf::mesh",
+"demangled": "gameswf::mesh::mesh()"
+},
+{
+"address": "0x7793c0",
+"bytes": 56,
+"owner": "gameswf::mesh",
+"demangled": "gameswf::mesh::mesh()"
+},
+{
+"address": "0x77b988",
+"bytes": 132,
+"owner": "gameswf::mesh",
+"demangled": "gameswf::mesh::add_triangle(float const*)"
+},
+{
+"address": "0x77bf20",
+"bytes": 228,
+"owner": "gameswf::mesh",
+"demangled": "gameswf::mesh::~mesh()"
+},
+{
+"address": "0x77ca1c",
+"bytes": 320,
+"owner": "gameswf::mesh",
+"demangled": "gameswf::mesh::set_triangles(float const*, int, unsigned short const*, int)"
+},
+{
+"address": "0x77956c",
+"bytes": 32,
+"owner": "gameswf::mesh_set",
+"demangled": "gameswf::mesh_set::mesh_set()"
+},
+{
+"address": "0x77958c",
+"bytes": 32,
+"owner": "gameswf::mesh_set",
+"demangled": "gameswf::mesh_set::mesh_set()"
+},
+{
+"address": "0x77a95c",
+"bytes": 52,
+"owner": "gameswf::mesh_set",
+"demangled": "gameswf::mesh_set::mesh_set(gameswf::tesselate::tesselating_shape const*, float)"
+},
+{
+"address": "0x77abcc",
+"bytes": 52,
+"owner": "gameswf::mesh_set",
+"demangled": "gameswf::mesh_set::mesh_set(gameswf::tesselate::tesselating_shape const*, float)"
+},
+{
+"address": "0x77c230",
+"bytes": 44,
+"owner": "gameswf::mesh_set",
+"demangled": "gameswf::mesh_set::~mesh_set()"
+},
+{
+"address": "0x77c544",
+"bytes": 44,
+"owner": "gameswf::mesh_set",
+"demangled": "gameswf::mesh_set::~mesh_set()"
+},
+{
+"address": "0x779a64",
+"bytes": 156,
+"owner": "gameswf::path",
+"demangled": "gameswf::path::path(gameswf::path const&)"
+},
+{
+"address": "0x779ff4",
+"bytes": 140,
+"owner": "gameswf::path",
+"demangled": "gameswf::path::point_test(float, float)"
+}
+],
+"bytes": 1940
+},
+{
+"id": "v1-vendor-gameswf-pack8-c43a3a-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::start_sound_tag | gameswf::hash<int, gameswf::smart_ptr<gameswf::as_function>, gameswf::fixed_size_hash<int> > | gameswf::sprite_instance::init_actions | gameswf::stream | gameswf::gradient_record | gameswf::line_style | gameswf::tesselate",
+"owners": [
+"gameswf::start_sound_tag",
+"gameswf::hash<int, gameswf::smart_ptr<gameswf::as_function>, gameswf::fixed_size_hash<int> >",
+"gameswf::sprite_instance::init_actions",
+"gameswf::stream",
+"gameswf::gradient_record",
+"gameswf::line_style",
+"gameswf::tesselate"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x77cd28",
+"bytes": 68,
+"owner": "gameswf::start_sound_tag",
+"demangled": "gameswf::start_sound_tag::~start_sound_tag()"
+},
+{
+"address": "0x77d07c",
+"bytes": 68,
+"owner": "gameswf::start_sound_tag",
+"demangled": "gameswf::start_sound_tag::~start_sound_tag()"
+},
+{
+"address": "0x77e3b8",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::smart_ptr<gameswf::as_function>, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::smart_ptr<gameswf::as_function>, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x780ea0",
+"bytes": 156,
+"owner": "gameswf::sprite_instance::init_actions",
+"demangled": "gameswf::sprite_instance::init_actions::~init_actions()"
+},
+{
+"address": "0x783a68",
+"bytes": 36,
+"owner": "gameswf::stream",
+"demangled": "gameswf::stream::read_sint(int)"
+},
+{
+"address": "0x783dd4",
+"bytes": 80,
+"owner": "gameswf::stream",
+"demangled": "gameswf::stream::stream(gameswf::tu_file*, bool)"
+},
+{
+"address": "0x783e24",
+"bytes": 80,
+"owner": "gameswf::stream",
+"demangled": "gameswf::stream::stream(gameswf::tu_file*, bool)"
+},
+{
+"address": "0x784030",
+"bytes": 152,
+"owner": "gameswf::stream",
+"demangled": "gameswf::stream::~stream()"
+},
+{
+"address": "0x7840c8",
+"bytes": 152,
+"owner": "gameswf::stream",
+"demangled": "gameswf::stream::~stream()"
+},
+{
+"address": "0x784370",
+"bytes": 32,
+"owner": "gameswf::gradient_record",
+"demangled": "gameswf::gradient_record::gradient_record()"
+},
+{
+"address": "0x784390",
+"bytes": 32,
+"owner": "gameswf::gradient_record",
+"demangled": "gameswf::gradient_record::gradient_record()"
+},
+{
+"address": "0x784b20",
+"bytes": 116,
+"owner": "gameswf::line_style",
+"demangled": "gameswf::line_style::line_style()"
+},
+{
+"address": "0x784b9c",
+"bytes": 116,
+"owner": "gameswf::line_style",
+"demangled": "gameswf::line_style::line_style()"
+},
+{
+"address": "0x784d18",
+"bytes": 44,
+"owner": "gameswf::line_style",
+"demangled": "gameswf::line_style::~line_style()"
+},
+{
+"address": "0x784d68",
+"bytes": 44,
+"owner": "gameswf::line_style",
+"demangled": "gameswf::line_style::~line_style()"
+},
+{
+"address": "0x78531c",
+"bytes": 32,
+"owner": "gameswf::tesselate",
+"demangled": "gameswf::tesselate::compare_segment_y(void const*, void const*)"
+},
+{
+"address": "0x7853c0",
+"bytes": 32,
+"owner": "gameswf::tesselate",
+"demangled": "gameswf::tesselate::compare_segment_x(void const*, void const*)"
+},
+{
+"address": "0x786a38",
+"bytes": 48,
+"owner": "gameswf::tesselate",
+"demangled": "gameswf::tesselate::curve(float, float, float, float, float, float)"
+},
+{
+"address": "0x7873dc",
+"bytes": 112,
+"owner": "gameswf::tesselate",
+"demangled": "gameswf::tesselate::end_shape()"
+}
+],
+"bytes": 1456
+},
+{
+"id": "v1-vendor-gameswf-pack9-22190e-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::triangle_intersector | gameswf::array<gameswf::tesselate::fill_segment> | gameswf::tesselate_new | gameswf::final_shape | gameswf::array<gameswf::tesselate_new::path_part> | gameswf::array<gameswf::point> | gameswf::array<gameswf::final_shape::segment> | gameswf::text_glyph_record",
+"owners": [
+"gameswf::triangle_intersector",
+"gameswf::array<gameswf::tesselate::fill_segment>",
+"gameswf::tesselate_new",
+"gameswf::final_shape",
+"gameswf::array<gameswf::tesselate_new::path_part>",
+"gameswf::array<gameswf::point>",
+"gameswf::array<gameswf::final_shape::segment>",
+"gameswf::text_glyph_record"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x785b08",
+"bytes": 52,
+"owner": "gameswf::triangle_intersector",
+"demangled": "gameswf::triangle_intersector::triangle_intersector()"
+},
+{
+"address": "0x785b3c",
+"bytes": 52,
+"owner": "gameswf::triangle_intersector",
+"demangled": "gameswf::triangle_intersector::triangle_intersector()"
+},
+{
+"address": "0x788204",
+"bytes": 48,
+"owner": "gameswf::triangle_intersector",
+"demangled": "gameswf::triangle_intersector::~triangle_intersector()"
+},
+{
+"address": "0x788234",
+"bytes": 48,
+"owner": "gameswf::triangle_intersector",
+"demangled": "gameswf::triangle_intersector::~triangle_intersector()"
+},
+{
+"address": "0x7889ec",
+"bytes": 160,
+"owner": "gameswf::triangle_intersector",
+"demangled": "gameswf::triangle_intersector::process(gameswf::point*, gameswf::point*, gameswf::array<gameswf::point>&)"
+},
+{
+"address": "0x7862b8",
+"bytes": 120,
+"owner": "gameswf::array<gameswf::tesselate::fill_segment>",
+"demangled": "gameswf::array<gameswf::tesselate::fill_segment>::~array()"
+},
+{
+"address": "0x786670",
+"bytes": 48,
+"owner": "gameswf::tesselate_new",
+"demangled": "gameswf::tesselate_new::curve(float, float, float, float, float, float)"
+},
+{
+"address": "0x786fac",
+"bytes": 36,
+"owner": "gameswf::final_shape",
+"demangled": "gameswf::final_shape::add_curve(float, float, float, float, float, float)"
+},
+{
+"address": "0x787fc8",
+"bytes": 116,
+"owner": "gameswf::final_shape",
+"demangled": "gameswf::final_shape::~final_shape()"
+},
+{
+"address": "0x7893bc",
+"bytes": 432,
+"owner": "gameswf::final_shape",
+"demangled": "gameswf::final_shape::flush(gameswf::mesh_set*, gameswf::tesselator_accepter&)"
+},
+{
+"address": "0x78956c",
+"bytes": 1936,
+"owner": "gameswf::final_shape",
+"demangled": "gameswf::final_shape::merge_segment(gameswf::final_shape::segment*)"
+},
+{
+"address": "0x789cfc",
+"bytes": 156,
+"owner": "gameswf::final_shape",
+"demangled": "gameswf::final_shape::end_path()"
+},
+{
+"address": "0x787858",
+"bytes": 36,
+"owner": "gameswf::array<gameswf::tesselate_new::path_part>",
+"demangled": "gameswf::array<gameswf::tesselate_new::path_part>::~array()"
+},
+{
+"address": "0x787e80",
+"bytes": 108,
+"owner": "gameswf::array<gameswf::point>",
+"demangled": "gameswf::array<gameswf::point>::~array()"
+},
+{
+"address": "0x787eec",
+"bytes": 220,
+"owner": "gameswf::array<gameswf::final_shape::segment>",
+"demangled": "void gameswf::array<gameswf::final_shape::segment>::push_back<gameswf::final_shape::segment>(gameswf::final_shape::segment const&)"
+},
+{
+"address": "0x78a5b8",
+"bytes": 60,
+"owner": "gameswf::text_glyph_record",
+"demangled": "gameswf::text_glyph_record::~text_glyph_record()"
+},
+{
+"address": "0x78a8b8",
+"bytes": 144,
+"owner": "gameswf::text_glyph_record",
+"demangled": "gameswf::text_glyph_record::text_glyph_record(gameswf::text_glyph_record const&)"
+}
+],
+"bytes": 3772
+},
+{
+"id": "v1-vendor-gameswf-pack10-9a32ad-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::text_character_def | gameswf::edit_text_character_def | gameswf::hash<gameswf::tu_stringi, gameswf::tu_string, gameswf::stringi_hash_functor<gameswf::tu_stringi> > | gameswf::html_reader | gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*> > | gameswf::cxform | gameswf::rect",
+"owners": [
+"gameswf::text_character_def",
+"gameswf::edit_text_character_def",
+"gameswf::hash<gameswf::tu_stringi, gameswf::tu_string, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"gameswf::html_reader",
+"gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*> >",
+"gameswf::cxform",
+"gameswf::rect"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x78bde0",
+"bytes": 76,
+"owner": "gameswf::text_character_def",
+"demangled": "gameswf::text_character_def::~text_character_def()"
+},
+{
+"address": "0x78be3c",
+"bytes": 76,
+"owner": "gameswf::text_character_def",
+"demangled": "gameswf::text_character_def::~text_character_def()"
+},
+{
+"address": "0x78dc40",
+"bytes": 120,
+"owner": "gameswf::text_character_def",
+"demangled": "gameswf::text_character_def::text_character_def(gameswf::player*, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x78dd68",
+"bytes": 120,
+"owner": "gameswf::text_character_def",
+"demangled": "gameswf::text_character_def::text_character_def(gameswf::player*, gameswf::movie_definition_sub*)"
+},
+{
+"address": "0x790a7c",
+"bytes": 52,
+"owner": "gameswf::text_character_def",
+"demangled": "gameswf::text_character_def::display(gameswf::character*)"
+},
+{
+"address": "0x78c4dc",
+"bytes": 96,
+"owner": "gameswf::edit_text_character_def",
+"demangled": "gameswf::edit_text_character_def::~edit_text_character_def()"
+},
+{
+"address": "0x78c560",
+"bytes": 20,
+"owner": "gameswf::edit_text_character_def",
+"demangled": "gameswf::edit_text_character_def::~edit_text_character_def()"
+},
+{
+"address": "0x78c57c",
+"bytes": 96,
+"owner": "gameswf::edit_text_character_def",
+"demangled": "gameswf::edit_text_character_def::~edit_text_character_def()"
+},
+{
+"address": "0x78d970",
+"bytes": 276,
+"owner": "gameswf::edit_text_character_def",
+"demangled": "gameswf::edit_text_character_def::edit_text_character_def(gameswf::player*, int, int)"
+},
+{
+"address": "0x78dad8",
+"bytes": 276,
+"owner": "gameswf::edit_text_character_def",
+"demangled": "gameswf::edit_text_character_def::edit_text_character_def(gameswf::player*, int, int)"
+},
+{
+"address": "0x78c6cc",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::tu_string, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::tu_string, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)"
+},
+{
+"address": "0x78e060",
+"bytes": 704,
+"owner": "gameswf::html_reader",
+"demangled": "gameswf::html_reader::parse_tag(gameswf::stringi_hash<gameswf::tu_string>&, char const*)"
+},
+{
+"address": "0x78e354",
+"bytes": 712,
+"owner": "gameswf::html_reader",
+"demangled": "gameswf::html_reader::parse(gameswf::edit_text_character*)"
+},
+{
+"address": "0x7939dc",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*> >",
+"demangled": "gameswf::hash<gameswf::texture_cache::region*, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::region*> >::set_raw_capacity(int)"
+},
+{
+"address": "0x794d38",
+"bytes": 24,
+"owner": "gameswf::cxform",
+"demangled": "gameswf::cxform::concatenate(gameswf::cxform const&)"
+},
+{
+"address": "0x794f8c",
+"bytes": 40,
+"owner": "gameswf::cxform",
+"demangled": "gameswf::cxform::transform(gameswf::rgba) const"
+},
+{
+"address": "0x795130",
+"bytes": 24,
+"owner": "gameswf::cxform",
+"demangled": "gameswf::cxform::clamp()"
+},
+{
+"address": "0x795600",
+"bytes": 40,
+"owner": "gameswf::rect",
+"demangled": "gameswf::rect::enclose_transformed_rect(gameswf::matrix const&, gameswf::rect const&)"
+}
+],
+"bytes": 2864
+},
+{
+"id": "v1-vendor-gameswf-pack11-4edfaf-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_property | gameswf::as_array | gameswf::standard_array_sorter | gameswf::custom_array_sorter | gameswf::as_listener | gameswf::as_color",
+"owners": [
+"gameswf::as_property",
+"gameswf::as_array",
+"gameswf::standard_array_sorter",
+"gameswf::custom_array_sorter",
+"gameswf::as_listener",
+"gameswf::as_color"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x796c28",
+"bytes": 80,
+"owner": "gameswf::as_property",
+"demangled": "gameswf::as_property::~as_property()"
+},
+{
+"address": "0x796c80",
+"bytes": 20,
+"owner": "gameswf::as_property",
+"demangled": "gameswf::as_property::~as_property()"
+},
+{
+"address": "0x796c9c",
+"bytes": 80,
+"owner": "gameswf::as_property",
+"demangled": "gameswf::as_property::~as_property()"
+},
+{
+"address": "0x79806c",
+"bytes": 96,
+"owner": "gameswf::as_array",
+"demangled": "gameswf::as_array::is_index(gameswf::tu_stringi const&)"
+},
+{
+"address": "0x7980cc",
+"bytes": 60,
+"owner": "gameswf::as_array",
+"demangled": "gameswf::as_array::pop(gameswf::as_value*)"
+},
+{
+"address": "0x79839c",
+"bytes": 176,
+"owner": "gameswf::as_array",
+"demangled": "gameswf::as_array::this_alive()"
+},
+{
+"address": "0x798bc8",
+"bytes": 76,
+"owner": "gameswf::as_array",
+"demangled": "gameswf::as_array::enumerate(gameswf::as_environment*)"
+},
+{
+"address": "0x79a440",
+"bytes": 100,
+"owner": "gameswf::as_array",
+"demangled": "gameswf::as_array::~as_array()"
+},
+{
+"address": "0x79a4bc",
+"bytes": 20,
+"owner": "gameswf::as_array",
+"demangled": "gameswf::as_array::~as_array()"
+},
+{
+"address": "0x7986e4",
+"bytes": 444,
+"owner": "gameswf::standard_array_sorter",
+"demangled": "gameswf::standard_array_sorter::operator()(gameswf::as_value const&, gameswf::as_value const&)"
+},
+{
+"address": "0x799514",
+"bytes": 152,
+"owner": "gameswf::custom_array_sorter",
+"demangled": "gameswf::custom_array_sorter::operator()(gameswf::as_value const&, gameswf::as_value const&)"
+},
+{
+"address": "0x79b518",
+"bytes": 80,
+"owner": "gameswf::as_listener",
+"demangled": "gameswf::as_listener::as_listener(gameswf::player*)"
+},
+{
+"address": "0x79b570",
+"bytes": 80,
+"owner": "gameswf::as_listener",
+"demangled": "gameswf::as_listener::as_listener(gameswf::player*)"
+},
+{
+"address": "0x79b5c8",
+"bytes": 228,
+"owner": "gameswf::as_listener",
+"demangled": "gameswf::as_listener::~as_listener()"
+},
+{
+"address": "0x79b6b4",
+"bytes": 20,
+"owner": "gameswf::as_listener",
+"demangled": "gameswf::as_listener::~as_listener()"
+},
+{
+"address": "0x79c0a0",
+"bytes": 84,
+"owner": "gameswf::as_color",
+"demangled": "gameswf::as_color::~as_color()"
+},
+{
+"address": "0x79c0fc",
+"bytes": 20,
+"owner": "gameswf::as_color",
+"demangled": "gameswf::as_color::~as_color()"
+},
+{
+"address": "0x79c2f0",
+"bytes": 632,
+"owner": "gameswf::as_color",
+"demangled": "gameswf::as_color::as_color(gameswf::player*, gameswf::character*)"
+},
+{
+"address": "0x79c66c",
+"bytes": 632,
+"owner": "gameswf::as_color",
+"demangled": "gameswf::as_color::as_color(gameswf::player*, gameswf::character*)"
+}
+],
+"bytes": 3080
+},
+{
+"id": "v1-vendor-gameswf-pack12-e7eff8-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_date | gameswf::as_key | gameswf::as_matrix | gameswf::as_mcloader::loadable_movie | gameswf::as_mcloader",
+"owners": [
+"gameswf::as_date",
+"gameswf::as_key",
+"gameswf::as_matrix",
+"gameswf::as_mcloader::loadable_movie",
+"gameswf::as_mcloader"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x79d650",
+"bytes": 12,
+"owner": "gameswf::as_date",
+"demangled": "gameswf::as_date::get_time() const"
+},
+{
+"address": "0x79d690",
+"bytes": 44,
+"owner": "gameswf::as_date",
+"demangled": "gameswf::as_date::~as_date()"
+},
+{
+"address": "0x79d72c",
+"bytes": 44,
+"owner": "gameswf::as_date",
+"demangled": "gameswf::as_date::~as_date()"
+},
+{
+"address": "0x79f020",
+"bytes": 96,
+"owner": "gameswf::as_key",
+"demangled": "gameswf::as_key::as_key(gameswf::player*)"
+},
+{
+"address": "0x79f088",
+"bytes": 96,
+"owner": "gameswf::as_key",
+"demangled": "gameswf::as_key::as_key(gameswf::player*)"
+},
+{
+"address": "0x79f2e0",
+"bytes": 192,
+"owner": "gameswf::as_key",
+"demangled": "gameswf::as_key::~as_key()"
+},
+{
+"address": "0x79f3a8",
+"bytes": 20,
+"owner": "gameswf::as_key",
+"demangled": "gameswf::as_key::~as_key()"
+},
+{
+"address": "0x7a1420",
+"bytes": 44,
+"owner": "gameswf::as_matrix",
+"demangled": "gameswf::as_matrix::~as_matrix()"
+},
+{
+"address": "0x7a1620",
+"bytes": 44,
+"owner": "gameswf::as_matrix",
+"demangled": "gameswf::as_matrix::~as_matrix()"
+},
+{
+"address": "0x7a179c",
+"bytes": 860,
+"owner": "gameswf::as_matrix",
+"demangled": "gameswf::as_matrix::as_matrix(gameswf::player*, gameswf::matrix const*)"
+},
+{
+"address": "0x7a1ea0",
+"bytes": 860,
+"owner": "gameswf::as_matrix",
+"demangled": "gameswf::as_matrix::as_matrix(gameswf::player*, gameswf::matrix const*)"
+},
+{
+"address": "0x7a2734",
+"bytes": 68,
+"owner": "gameswf::as_mcloader::loadable_movie",
+"demangled": "gameswf::as_mcloader::loadable_movie::~loadable_movie()"
+},
+{
+"address": "0x7a2aec",
+"bytes": 96,
+"owner": "gameswf::as_mcloader",
+"demangled": "gameswf::as_mcloader::~as_mcloader()"
+},
+{
+"address": "0x7a2b54",
+"bytes": 624,
+"owner": "gameswf::as_mcloader",
+"demangled": "gameswf::as_mcloader::as_mcloader(gameswf::player*)"
+},
+{
+"address": "0x7a2e0c",
+"bytes": 624,
+"owner": "gameswf::as_mcloader",
+"demangled": "gameswf::as_mcloader::as_mcloader(gameswf::player*)"
+},
+{
+"address": "0x7a30c4",
+"bytes": 96,
+"owner": "gameswf::as_mcloader",
+"demangled": "gameswf::as_mcloader::~as_mcloader()"
+},
+{
+"address": "0x7a312c",
+"bytes": 20,
+"owner": "gameswf::as_mcloader",
+"demangled": "gameswf::as_mcloader::~as_mcloader()"
+}
+],
+"bytes": 3840
+},
+{
+"id": "v1-vendor-gameswf-pack13-ea1503-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_netconnection | gameswf::as_point | gameswf::as_selection | gameswf::as_sound | gameswf::as_textformat",
+"owners": [
+"gameswf::as_netconnection",
+"gameswf::as_point",
+"gameswf::as_selection",
+"gameswf::as_sound",
+"gameswf::as_textformat"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7a39b4",
+"bytes": 44,
+"owner": "gameswf::as_netconnection",
+"demangled": "gameswf::as_netconnection::~as_netconnection()"
+},
+{
+"address": "0x7a3acc",
+"bytes": 184,
+"owner": "gameswf::as_netconnection",
+"demangled": "gameswf::as_netconnection::as_netconnection(gameswf::player*)"
+},
+{
+"address": "0x7a3b98",
+"bytes": 184,
+"owner": "gameswf::as_netconnection",
+"demangled": "gameswf::as_netconnection::as_netconnection(gameswf::player*)"
+},
+{
+"address": "0x7a3ca4",
+"bytes": 44,
+"owner": "gameswf::as_netconnection",
+"demangled": "gameswf::as_netconnection::~as_netconnection()"
+},
+{
+"address": "0x7a41b4",
+"bytes": 44,
+"owner": "gameswf::as_point",
+"demangled": "gameswf::as_point::~as_point()"
+},
+{
+"address": "0x7a4410",
+"bytes": 44,
+"owner": "gameswf::as_point",
+"demangled": "gameswf::as_point::~as_point()"
+},
+{
+"address": "0x7a444c",
+"bytes": 408,
+"owner": "gameswf::as_point",
+"demangled": "gameswf::as_point::as_point(gameswf::player*, float, float)"
+},
+{
+"address": "0x7a48c0",
+"bytes": 408,
+"owner": "gameswf::as_point",
+"demangled": "gameswf::as_point::as_point(gameswf::player*, float, float)"
+},
+{
+"address": "0x7a4aa0",
+"bytes": 44,
+"owner": "gameswf::as_selection",
+"demangled": "gameswf::as_selection::as_selection(gameswf::player*)"
+},
+{
+"address": "0x7a4ad4",
+"bytes": 44,
+"owner": "gameswf::as_selection",
+"demangled": "gameswf::as_selection::as_selection(gameswf::player*)"
+},
+{
+"address": "0x7a4b08",
+"bytes": 44,
+"owner": "gameswf::as_selection",
+"demangled": "gameswf::as_selection::~as_selection()"
+},
+{
+"address": "0x7a4d20",
+"bytes": 44,
+"owner": "gameswf::as_selection",
+"demangled": "gameswf::as_selection::~as_selection()"
+},
+{
+"address": "0x7a4df8",
+"bytes": 88,
+"owner": "gameswf::as_sound",
+"demangled": "gameswf::as_sound::~as_sound()"
+},
+{
+"address": "0x7a681c",
+"bytes": 44,
+"owner": "gameswf::as_textformat",
+"demangled": "gameswf::as_textformat::as_textformat(gameswf::player*)"
+},
+{
+"address": "0x7a6850",
+"bytes": 44,
+"owner": "gameswf::as_textformat",
+"demangled": "gameswf::as_textformat::as_textformat(gameswf::player*)"
+},
+{
+"address": "0x7a6884",
+"bytes": 44,
+"owner": "gameswf::as_textformat",
+"demangled": "gameswf::as_textformat::~as_textformat()"
+},
+{
+"address": "0x7a6b40",
+"bytes": 44,
+"owner": "gameswf::as_textformat",
+"demangled": "gameswf::as_textformat::~as_textformat()"
+}
+],
+"bytes": 1800
+},
+{
+"id": "v1-vendor-gameswf-pack14-1a21ee-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_transform | gameswf::default_bitmap_glyph_provider | gameswf::bitmap_glyph_provider | gameswf::hash<gameswf::tu_string, gameswf::array<RenderFX::SearchIndex::Entry>*, gameswf::string_hash_functor<gameswf::tu_string> > | gameswf::grid_index_point<float, bool> | gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> > | gameswf::grid_index_box<float, bool>",
+"owners": [
+"gameswf::as_transform",
+"gameswf::default_bitmap_glyph_provider",
+"gameswf::bitmap_glyph_provider",
+"gameswf::hash<gameswf::tu_string, gameswf::array<RenderFX::SearchIndex::Entry>*, gameswf::string_hash_functor<gameswf::tu_string> >",
+"gameswf::grid_index_point<float, bool>",
+"gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >",
+"gameswf::grid_index_box<float, bool>"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7a72e8",
+"bytes": 84,
+"owner": "gameswf::as_transform",
+"demangled": "gameswf::as_transform::~as_transform()"
+},
+{
+"address": "0x7a7344",
+"bytes": 20,
+"owner": "gameswf::as_transform",
+"demangled": "gameswf::as_transform::~as_transform()"
+},
+{
+"address": "0x7a75c0",
+"bytes": 1188,
+"owner": "gameswf::as_transform",
+"demangled": "gameswf::as_transform::init()"
+},
+{
+"address": "0x7a7a8c",
+"bytes": 80,
+"owner": "gameswf::as_transform",
+"demangled": "gameswf::as_transform::as_transform(gameswf::player*, gameswf::character*)"
+},
+{
+"address": "0x7a7bd8",
+"bytes": 80,
+"owner": "gameswf::as_transform",
+"demangled": "gameswf::as_transform::as_transform(gameswf::player*, gameswf::character*)"
+},
+{
+"address": "0x7a9634",
+"bytes": 48,
+"owner": "gameswf::default_bitmap_glyph_provider",
+"demangled": "gameswf::default_bitmap_glyph_provider::get_font_entity_impl(gameswf::tu_string const&)"
+},
+{
+"address": "0x7a9664",
+"bytes": 44,
+"owner": "gameswf::default_bitmap_glyph_provider",
+"demangled": "gameswf::default_bitmap_glyph_provider::~default_bitmap_glyph_provider()"
+},
+{
+"address": "0x7a99f8",
+"bytes": 44,
+"owner": "gameswf::default_bitmap_glyph_provider",
+"demangled": "gameswf::default_bitmap_glyph_provider::~default_bitmap_glyph_provider()"
+},
+{
+"address": "0x7a9698",
+"bytes": 104,
+"owner": "gameswf::bitmap_glyph_provider",
+"demangled": "gameswf::bitmap_glyph_provider::bitmap_glyph_provider(int, int, bool)"
+},
+{
+"address": "0x7c4e34",
+"bytes": 108,
+"owner": "gameswf::bitmap_glyph_provider",
+"demangled": "gameswf::bitmap_glyph_provider::~bitmap_glyph_provider()"
+},
+{
+"address": "0x7c6048",
+"bytes": 896,
+"owner": "gameswf::bitmap_glyph_provider",
+"demangled": "gameswf::bitmap_glyph_provider::get_font_entity(gameswf::tu_string const&, bool, bool)"
+},
+{
+"address": "0x7c63f8",
+"bytes": 108,
+"owner": "gameswf::bitmap_glyph_provider",
+"demangled": "gameswf::bitmap_glyph_provider::~bitmap_glyph_provider()"
+},
+{
+"address": "0x7c646c",
+"bytes": 20,
+"owner": "gameswf::bitmap_glyph_provider",
+"demangled": "gameswf::bitmap_glyph_provider::~bitmap_glyph_provider()"
+},
+{
+"address": "0x7aa8f0",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_string, gameswf::array<RenderFX::SearchIndex::Entry>*, gameswf::string_hash_functor<gameswf::tu_string> >",
+"demangled": "gameswf::hash<gameswf::tu_string, gameswf::array<RenderFX::SearchIndex::Entry>*, gameswf::string_hash_functor<gameswf::tu_string> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7b054c",
+"bytes": 32,
+"owner": "gameswf::grid_index_point<float, bool>",
+"demangled": "gameswf::grid_index_point<float, bool>::get_containing_cell_clamped(gameswf::index_point<float> const&) const"
+},
+{
+"address": "0x7b063c",
+"bytes": 724,
+"owner": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >",
+"demangled": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::vertex_in_cone(gameswf::vec2<float> const&, gameswf::vec2<float> const&, gameswf::vec2<float> const&, gameswf::vec2<float> const&)"
+},
+{
+"address": "0x7b157c",
+"bytes": 80,
+"owner": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >",
+"demangled": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::any_edge_intersects(gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::tristate const*, gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::edge const&, gameswf::grid_index_box<float, bool>*)"
+},
+{
+"address": "0x7b3cd8",
+"bytes": 36,
+"owner": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >",
+"demangled": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::debug_make_square(gameswf::array<float>*, gameswf::vec2<float> const&)"
+},
+{
+"address": "0x7b4130",
+"bytes": 36,
+"owner": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >",
+"demangled": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::debug_make_x(gameswf::array<float>*, gameswf::vec2<float> const&)"
+},
+{
+"address": "0x7b11e4",
+"bytes": 32,
+"owner": "gameswf::grid_index_box<float, bool>",
+"demangled": "gameswf::grid_index_box<float, bool>::get_containing_cell_clamped(gameswf::index_point<float> const&) const"
+}
+],
+"bytes": 3820
+},
+{
+"id": "v1-vendor-gameswf-pack15-a0a47d-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::tristate | gameswf::image_base | gameswf::image_rgba | gameswf::image_rgb | gameswf::tu_file | gameswf::tu_loadlib",
+"owners": [
+"gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::tristate",
+"gameswf::image_base",
+"gameswf::image_rgba",
+"gameswf::image_rgb",
+"gameswf::tu_file",
+"gameswf::tu_loadlib"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7b3110",
+"bytes": 104,
+"owner": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::tristate",
+"demangled": "gameswf::ear_clip_wrapper<float, gameswf::ear_clip_triangulate::ear_clip_array_io<float>, gameswf::ear_clip_triangulate::ear_clip_array_io<float> >::tristate::~tristate()"
+},
+{
+"address": "0x7b51dc",
+"bytes": 64,
+"owner": "gameswf::image_base",
+"demangled": "gameswf::image_base::image_base(unsigned char*, int, int, int, gameswf::image_base::id_image)"
+},
+{
+"address": "0x7b5224",
+"bytes": 64,
+"owner": "gameswf::image_base",
+"demangled": "gameswf::image_base::image_base(unsigned char*, int, int, int, gameswf::image_base::id_image)"
+},
+{
+"address": "0x7b528c",
+"bytes": 56,
+"owner": "gameswf::image_rgba",
+"demangled": "gameswf::image_rgba::set_pixel(int, int, unsigned char, unsigned char, unsigned char, unsigned char)"
+},
+{
+"address": "0x7b57ec",
+"bytes": 104,
+"owner": "gameswf::image_rgba",
+"demangled": "gameswf::image_rgba::image_rgba(int, int)"
+},
+{
+"address": "0x7b585c",
+"bytes": 104,
+"owner": "gameswf::image_rgba",
+"demangled": "gameswf::image_rgba::image_rgba(int, int)"
+},
+{
+"address": "0x7b5abc",
+"bytes": 44,
+"owner": "gameswf::image_rgba",
+"demangled": "gameswf::image_rgba::~image_rgba()"
+},
+{
+"address": "0x7b5af0",
+"bytes": 44,
+"owner": "gameswf::image_rgba",
+"demangled": "gameswf::image_rgba::~image_rgba()"
+},
+{
+"address": "0x7b5c4c",
+"bytes": 20,
+"owner": "gameswf::image_rgba",
+"demangled": "gameswf::image_rgba::~image_rgba()"
+},
+{
+"address": "0x7b58cc",
+"bytes": 112,
+"owner": "gameswf::image_rgb",
+"demangled": "gameswf::image_rgb::image_rgb(int, int)"
+},
+{
+"address": "0x7b5944",
+"bytes": 112,
+"owner": "gameswf::image_rgb",
+"demangled": "gameswf::image_rgb::image_rgb(int, int)"
+},
+{
+"address": "0x7b5b24",
+"bytes": 44,
+"owner": "gameswf::image_rgb",
+"demangled": "gameswf::image_rgb::~image_rgb()"
+},
+{
+"address": "0x7b5b58",
+"bytes": 44,
+"owner": "gameswf::image_rgb",
+"demangled": "gameswf::image_rgb::~image_rgb()"
+},
+{
+"address": "0x7b5c68",
+"bytes": 20,
+"owner": "gameswf::image_rgb",
+"demangled": "gameswf::image_rgb::~image_rgb()"
+},
+{
+"address": "0x7b6a80",
+"bytes": 112,
+"owner": "gameswf::tu_file",
+"demangled": "gameswf::tu_file::read_fully(gameswf::membuf*, int)"
+},
+{
+"address": "0x7b7588",
+"bytes": 4,
+"owner": "gameswf::tu_loadlib",
+"demangled": "gameswf::tu_loadlib::~tu_loadlib()"
+},
+{
+"address": "0x7b758c",
+"bytes": 4,
+"owner": "gameswf::tu_loadlib",
+"demangled": "gameswf::tu_loadlib::~tu_loadlib()"
+},
+{
+"address": "0x7b7590",
+"bytes": 8,
+"owner": "gameswf::tu_loadlib",
+"demangled": "gameswf::tu_loadlib::get_function(char const*)"
+}
+],
+"bytes": 1064
+},
+{
+"id": "v1-vendor-gameswf-pack16-133bd3-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::profiler | gameswf::zlib_adapter | gameswf::metadata_info | gameswf::abc_def | gameswf::class_info | gameswf::script_info | gameswf::array<int>",
+"owners": [
+"gameswf::profiler",
+"gameswf::zlib_adapter",
+"gameswf::metadata_info",
+"gameswf::abc_def",
+"gameswf::class_info",
+"gameswf::script_info",
+"gameswf::array<int>"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7b793c",
+"bytes": 4,
+"owner": "gameswf::profiler",
+"demangled": "gameswf::profiler::set_enabled(bool)"
+},
+{
+"address": "0x7b7940",
+"bytes": 4,
+"owner": "gameswf::profiler",
+"demangled": "gameswf::profiler::begin_event(char const*)"
+},
+{
+"address": "0x7b7944",
+"bytes": 4,
+"owner": "gameswf::profiler",
+"demangled": "gameswf::profiler::end_event()"
+},
+{
+"address": "0x7b7948",
+"bytes": 4,
+"owner": "gameswf::profiler",
+"demangled": "gameswf::profiler::dump()"
+},
+{
+"address": "0x7b7bf0",
+"bytes": 156,
+"owner": "gameswf::zlib_adapter",
+"demangled": "gameswf::zlib_adapter::make_inflater(gameswf::tu_file*)"
+},
+{
+"address": "0x7b7fb0",
+"bytes": 4,
+"owner": "gameswf::metadata_info",
+"demangled": "gameswf::metadata_info::read(gameswf::stream*, gameswf::abc_def*)"
+},
+{
+"address": "0x7b91fc",
+"bytes": 44,
+"owner": "gameswf::metadata_info",
+"demangled": "gameswf::metadata_info::~metadata_info()"
+},
+{
+"address": "0x7b9230",
+"bytes": 44,
+"owner": "gameswf::metadata_info",
+"demangled": "gameswf::metadata_info::~metadata_info()"
+},
+{
+"address": "0x7b7fb4",
+"bytes": 12,
+"owner": "gameswf::abc_def",
+"demangled": "gameswf::abc_def::find_instance(gameswf::tu_string const&) const"
+},
+{
+"address": "0x7b8e04",
+"bytes": 240,
+"owner": "gameswf::abc_def",
+"demangled": "gameswf::abc_def::abc_def(gameswf::player*)"
+},
+{
+"address": "0x7b8efc",
+"bytes": 240,
+"owner": "gameswf::abc_def",
+"demangled": "gameswf::abc_def::abc_def(gameswf::player*)"
+},
+{
+"address": "0x7b94c4",
+"bytes": 548,
+"owner": "gameswf::abc_def",
+"demangled": "gameswf::abc_def::~abc_def()"
+},
+{
+"address": "0x7b96f0",
+"bytes": 20,
+"owner": "gameswf::abc_def",
+"demangled": "gameswf::abc_def::~abc_def()"
+},
+{
+"address": "0x7b99ec",
+"bytes": 548,
+"owner": "gameswf::abc_def",
+"demangled": "gameswf::abc_def::~abc_def()"
+},
+{
+"address": "0x7b926c",
+"bytes": 76,
+"owner": "gameswf::class_info",
+"demangled": "gameswf::class_info::~class_info()"
+},
+{
+"address": "0x7b931c",
+"bytes": 76,
+"owner": "gameswf::class_info",
+"demangled": "gameswf::class_info::~class_info()"
+},
+{
+"address": "0x7b92c8",
+"bytes": 76,
+"owner": "gameswf::script_info",
+"demangled": "gameswf::script_info::~script_info()"
+},
+{
+"address": "0x7b9370",
+"bytes": 76,
+"owner": "gameswf::script_info",
+"demangled": "gameswf::script_info::~script_info()"
+},
+{
+"address": "0x7b98d4",
+"bytes": 100,
+"owner": "gameswf::array<int>",
+"demangled": "gameswf::array<int>::~array()"
+}
+],
+"bytes": 2276
+},
+{
+"id": "v1-vendor-gameswf-pack17-c88d12-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::instance_info | gameswf::traits_info | gameswf::do_action | gameswf::action_buffer | gameswf::event_id | gameswf::array<gameswf::tu_stringi> | gameswf::hash<gameswf::tu_string, gameswf::tu_loadlib*, gameswf::string_hash_functor<gameswf::tu_string> > | gameswf::as_function",
+"owners": [
+"gameswf::instance_info",
+"gameswf::traits_info",
+"gameswf::do_action",
+"gameswf::action_buffer",
+"gameswf::event_id",
+"gameswf::array<gameswf::tu_stringi>",
+"gameswf::hash<gameswf::tu_string, gameswf::tu_loadlib*, gameswf::string_hash_functor<gameswf::tu_string> >",
+"gameswf::as_function"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7b9938",
+"bytes": 144,
+"owner": "gameswf::instance_info",
+"demangled": "gameswf::instance_info::~instance_info()"
+},
+{
+"address": "0x7b99d0",
+"bytes": 20,
+"owner": "gameswf::instance_info",
+"demangled": "gameswf::instance_info::~instance_info()"
+},
+{
+"address": "0x7b9c18",
+"bytes": 112,
+"owner": "gameswf::traits_info",
+"demangled": "gameswf::traits_info::~traits_info()"
+},
+{
+"address": "0x7ba5e4",
+"bytes": 112,
+"owner": "gameswf::traits_info",
+"demangled": "gameswf::traits_info::~traits_info()"
+},
+{
+"address": "0x7ba68c",
+"bytes": 8,
+"owner": "gameswf::do_action",
+"demangled": "gameswf::do_action::get_action_offset() const"
+},
+{
+"address": "0x7bb234",
+"bytes": 56,
+"owner": "gameswf::do_action",
+"demangled": "gameswf::do_action::~do_action()"
+},
+{
+"address": "0x7bb274",
+"bytes": 56,
+"owner": "gameswf::do_action",
+"demangled": "gameswf::do_action::~do_action()"
+},
+{
+"address": "0x7bae08",
+"bytes": 84,
+"owner": "gameswf::action_buffer",
+"demangled": "gameswf::action_buffer::action_buffer()"
+},
+{
+"address": "0x7bae5c",
+"bytes": 84,
+"owner": "gameswf::action_buffer",
+"demangled": "gameswf::action_buffer::action_buffer()"
+},
+{
+"address": "0x7c0690",
+"bytes": 88,
+"owner": "gameswf::action_buffer",
+"demangled": "gameswf::action_buffer::execute(gameswf::as_environment*)"
+},
+{
+"address": "0x7baef8",
+"bytes": 160,
+"owner": "gameswf::event_id",
+"demangled": "gameswf::event_id::get_function_name() const"
+},
+{
+"address": "0x7bb410",
+"bytes": 32,
+"owner": "gameswf::array<gameswf::tu_stringi>",
+"demangled": "gameswf::array<gameswf::tu_stringi>::~array()"
+},
+{
+"address": "0x7bb580",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_string, gameswf::tu_loadlib*, gameswf::string_hash_functor<gameswf::tu_string> >",
+"demangled": "gameswf::hash<gameswf::tu_string, gameswf::tu_loadlib*, gameswf::string_hash_functor<gameswf::tu_string> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7c2894",
+"bytes": 12,
+"owner": "gameswf::as_function",
+"demangled": "gameswf::as_function::_typeof()"
+},
+{
+"address": "0x7c28c8",
+"bytes": 136,
+"owner": "gameswf::as_function",
+"demangled": "gameswf::as_function::clear_refs(gameswf::hash<gameswf::as_object*, bool, gameswf::fixed_size_hash<gameswf::as_object*> >*, gameswf::as_object*)"
+},
+{
+"address": "0x7c2990",
+"bytes": 92,
+"owner": "gameswf::as_function",
+"demangled": "gameswf::as_function::get_member(gameswf::tu_stringi const&, gameswf::as_value*)"
+},
+{
+"address": "0x7c29f0",
+"bytes": 100,
+"owner": "gameswf::as_function",
+"demangled": "gameswf::as_function::set_member(gameswf::tu_stringi const&, gameswf::as_value const&)"
+},
+{
+"address": "0x7c2fc4",
+"bytes": 64,
+"owner": "gameswf::as_function",
+"demangled": "gameswf::as_function::~as_function()"
+},
+{
+"address": "0x7c316c",
+"bytes": 64,
+"owner": "gameswf::as_function",
+"demangled": "gameswf::as_function::~as_function()"
+},
+{
+"address": "0x7c40a4",
+"bytes": 140,
+"owner": "gameswf::as_function",
+"demangled": "gameswf::as_function::this_alive()"
+}
+],
+"bytes": 1620
+},
+{
+"id": "v1-vendor-gameswf-pack18-88bfb4-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::except_info | gameswf::as_3_function | gameswf::bitmap_font_entity | gameswf::bitmap_glyph_texture_cache",
+"owners": [
+"gameswf::except_info",
+"gameswf::as_3_function",
+"gameswf::bitmap_font_entity",
+"gameswf::bitmap_glyph_texture_cache"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7c2c2c",
+"bytes": 44,
+"owner": "gameswf::except_info",
+"demangled": "gameswf::except_info::~except_info()"
+},
+{
+"address": "0x7c300c",
+"bytes": 44,
+"owner": "gameswf::except_info",
+"demangled": "gameswf::except_info::~except_info()"
+},
+{
+"address": "0x7c3048",
+"bytes": 280,
+"owner": "gameswf::as_3_function",
+"demangled": "gameswf::as_3_function::~as_3_function()"
+},
+{
+"address": "0x7c31bc",
+"bytes": 280,
+"owner": "gameswf::as_3_function",
+"demangled": "gameswf::as_3_function::~as_3_function()"
+},
+{
+"address": "0x7c32e0",
+"bytes": 20,
+"owner": "gameswf::as_3_function",
+"demangled": "gameswf::as_3_function::~as_3_function()"
+},
+{
+"address": "0x7c32fc",
+"bytes": 364,
+"owner": "gameswf::as_3_function",
+"demangled": "gameswf::as_3_function::as_3_function(gameswf::abc_def*, int, gameswf::player*)"
+},
+{
+"address": "0x7c347c",
+"bytes": 364,
+"owner": "gameswf::as_3_function",
+"demangled": "gameswf::as_3_function::as_3_function(gameswf::abc_def*, int, gameswf::player*)"
+},
+{
+"address": "0x7c4574",
+"bytes": 68,
+"owner": "gameswf::bitmap_font_entity",
+"demangled": "gameswf::bitmap_font_entity::copy_argb(unsigned char*, int, int, int, unsigned char*, int, int)"
+},
+{
+"address": "0x7c4cd8",
+"bytes": 308,
+"owner": "gameswf::bitmap_font_entity",
+"demangled": "gameswf::bitmap_font_entity::~bitmap_font_entity()"
+},
+{
+"address": "0x7c4ea8",
+"bytes": 308,
+"owner": "gameswf::bitmap_font_entity",
+"demangled": "gameswf::bitmap_font_entity::~bitmap_font_entity()"
+},
+{
+"address": "0x7c5004",
+"bytes": 20,
+"owner": "gameswf::bitmap_font_entity",
+"demangled": "gameswf::bitmap_font_entity::~bitmap_font_entity()"
+},
+{
+"address": "0x7c59dc",
+"bytes": 328,
+"owner": "gameswf::bitmap_font_entity",
+"demangled": "gameswf::bitmap_font_entity::get_char_image(unsigned short, int, gameswf::rect*, float*)"
+},
+{
+"address": "0x7c4648",
+"bytes": 40,
+"owner": "gameswf::bitmap_glyph_texture_cache",
+"demangled": "gameswf::bitmap_glyph_texture_cache::bitmap_glyph_texture_cache(int, int)"
+},
+{
+"address": "0x7c4670",
+"bytes": 40,
+"owner": "gameswf::bitmap_glyph_texture_cache",
+"demangled": "gameswf::bitmap_glyph_texture_cache::bitmap_glyph_texture_cache(int, int)"
+},
+{
+"address": "0x7c53c4",
+"bytes": 328,
+"owner": "gameswf::bitmap_glyph_texture_cache",
+"demangled": "gameswf::bitmap_glyph_texture_cache::add_glyph_region(unsigned short, void*, int)"
+},
+{
+"address": "0x7c55d8",
+"bytes": 268,
+"owner": "gameswf::bitmap_glyph_texture_cache",
+"demangled": "gameswf::bitmap_glyph_texture_cache::get_glyph_region(unsigned short, void*, int, gameswf::rect&)"
+}
+],
+"bytes": 3104
+},
+{
+"id": "v1-vendor-gameswf-pack19-4d4603-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::default_bitmap_font_entity | gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key> > | gameswf::hash<int, gameswf::glyph_entity*, gameswf::fixed_size_hash<int> > | gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry | gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> > | gameswf::button_character_instance | gameswf::button_record | gameswf::button_character_definition::button_sound_def",
+"owners": [
+"gameswf::default_bitmap_font_entity",
+"gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key> >",
+"gameswf::hash<int, gameswf::glyph_entity*, gameswf::fixed_size_hash<int> >",
+"gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"gameswf::button_character_instance",
+"gameswf::button_record",
+"gameswf::button_character_definition::button_sound_def"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7c4698",
+"bytes": 1000,
+"owner": "gameswf::default_bitmap_font_entity",
+"demangled": "gameswf::default_bitmap_font_entity::get_char_image(gameswf::bitmap_glyph_data*, unsigned short, int, gameswf::bitmap_glyph_metrics*)"
+},
+{
+"address": "0x7c6488",
+"bytes": 196,
+"owner": "gameswf::default_bitmap_font_entity",
+"demangled": "gameswf::default_bitmap_font_entity::~default_bitmap_font_entity()"
+},
+{
+"address": "0x7c6554",
+"bytes": 20,
+"owner": "gameswf::default_bitmap_font_entity",
+"demangled": "gameswf::default_bitmap_font_entity::~default_bitmap_font_entity()"
+},
+{
+"address": "0x7c6570",
+"bytes": 196,
+"owner": "gameswf::default_bitmap_font_entity",
+"demangled": "gameswf::default_bitmap_font_entity::~default_bitmap_font_entity()"
+},
+{
+"address": "0x7c663c",
+"bytes": 380,
+"owner": "gameswf::default_bitmap_font_entity",
+"demangled": "gameswf::default_bitmap_font_entity::default_bitmap_font_entity(gameswf::bitmap_glyph_provider*, gameswf::tu_string const&)"
+},
+{
+"address": "0x7c68c4",
+"bytes": 380,
+"owner": "gameswf::default_bitmap_font_entity",
+"demangled": "gameswf::default_bitmap_font_entity::default_bitmap_font_entity(gameswf::bitmap_glyph_provider*, gameswf::tu_string const&)"
+},
+{
+"address": "0x7c5020",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key> >",
+"demangled": "gameswf::hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, gameswf::fixed_size_hash<gameswf::texture_cache::key> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7c56ec",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::glyph_entity*, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::glyph_entity*, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7c5c10",
+"bytes": 60,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry::entry(gameswf::tu_stringi const&, gameswf::smart_ptr<gameswf::bitmap_font_entity> const&, int, int)"
+},
+{
+"address": "0x7c5c4c",
+"bytes": 68,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry::entry(gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::entry const&)"
+},
+{
+"address": "0x7c5e58",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::smart_ptr<gameswf::bitmap_font_entity>, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7c6ba0",
+"bytes": 28,
+"owner": "gameswf::button_character_instance",
+"demangled": "gameswf::button_character_instance::hit_test(float, float)"
+},
+{
+"address": "0x7c7ac0",
+"bytes": 92,
+"owner": "gameswf::button_character_instance",
+"demangled": "gameswf::button_character_instance::~button_character_instance()"
+},
+{
+"address": "0x7c7b24",
+"bytes": 20,
+"owner": "gameswf::button_character_instance",
+"demangled": "gameswf::button_character_instance::~button_character_instance()"
+},
+{
+"address": "0x7c8020",
+"bytes": 112,
+"owner": "gameswf::button_character_instance",
+"demangled": "gameswf::button_character_instance::get_root_movie()"
+},
+{
+"address": "0x7c873c",
+"bytes": 120,
+"owner": "gameswf::button_character_instance",
+"demangled": "gameswf::button_character_instance::get_mouse_state(int*, int*, int*)"
+},
+{
+"address": "0x7c708c",
+"bytes": 264,
+"owner": "gameswf::button_record",
+"demangled": "gameswf::button_record::button_record(gameswf::button_record const&)"
+},
+{
+"address": "0x7c72ec",
+"bytes": 64,
+"owner": "gameswf::button_character_definition::button_sound_def",
+"demangled": "gameswf::button_character_definition::button_sound_def::~button_sound_def()"
+}
+],
+"bytes": 3168
+},
+{
+"id": "v1-vendor-gameswf-pack20-97b00f-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::button_character_definition | gameswf::canvas | gameswf::inst_info_avm2 | gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> >::entry | gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> > | gameswf::hash<unsigned short, short, gameswf::font::simple_code_hash<unsigned short> > | gameswf::hash<gameswf::font::kerning_pair, float, gameswf::fixed_size_hash<gameswf::font::kerning_pair> > | gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >::entry | gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >",
+"owners": [
+"gameswf::button_character_definition",
+"gameswf::canvas",
+"gameswf::inst_info_avm2",
+"gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> >::entry",
+"gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> >",
+"gameswf::hash<unsigned short, short, gameswf::font::simple_code_hash<unsigned short> >",
+"gameswf::hash<gameswf::font::kerning_pair, float, gameswf::fixed_size_hash<gameswf::font::kerning_pair> >",
+"gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >::entry",
+"gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7c78d4",
+"bytes": 132,
+"owner": "gameswf::button_character_definition",
+"demangled": "gameswf::button_character_definition::~button_character_definition()"
+},
+{
+"address": "0x7c797c",
+"bytes": 132,
+"owner": "gameswf::button_character_definition",
+"demangled": "gameswf::button_character_definition::~button_character_definition()"
+},
+{
+"address": "0x7c7a08",
+"bytes": 84,
+"owner": "gameswf::button_character_definition",
+"demangled": "gameswf::button_character_definition::button_character_definition(gameswf::player*)"
+},
+{
+"address": "0x7c7a64",
+"bytes": 84,
+"owner": "gameswf::button_character_definition",
+"demangled": "gameswf::button_character_definition::button_character_definition(gameswf::player*)"
+},
+{
+"address": "0x7c8aa0",
+"bytes": 52,
+"owner": "gameswf::canvas",
+"demangled": "gameswf::canvas::~canvas()"
+},
+{
+"address": "0x7c8ae4",
+"bytes": 20,
+"owner": "gameswf::canvas",
+"demangled": "gameswf::canvas::~canvas()"
+},
+{
+"address": "0x7c8b00",
+"bytes": 52,
+"owner": "gameswf::canvas",
+"demangled": "gameswf::canvas::~canvas()"
+},
+{
+"address": "0x7c8b3c",
+"bytes": 84,
+"owner": "gameswf::canvas",
+"demangled": "gameswf::canvas::canvas(gameswf::player*)"
+},
+{
+"address": "0x7c8b98",
+"bytes": 84,
+"owner": "gameswf::canvas",
+"demangled": "gameswf::canvas::canvas(gameswf::player*)"
+},
+{
+"address": "0x7c9b24",
+"bytes": 164,
+"owner": "gameswf::inst_info_avm2",
+"demangled": "gameswf::inst_info_avm2::operator=(gameswf::inst_info_avm2 const&)"
+},
+{
+"address": "0x7c9bc8",
+"bytes": 96,
+"owner": "gameswf::inst_info_avm2",
+"demangled": "gameswf::inst_info_avm2::~inst_info_avm2()"
+},
+{
+"address": "0x7c9cd8",
+"bytes": 180,
+"owner": "gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> >::entry",
+"demangled": "gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> >::entry::entry(gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> >::entry const&)"
+},
+{
+"address": "0x7ca120",
+"bytes": 56,
+"owner": "gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> >",
+"demangled": "gameswf::hash<int, gameswf::inst_info_avm2, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7ce694",
+"bytes": 56,
+"owner": "gameswf::hash<unsigned short, short, gameswf::font::simple_code_hash<unsigned short> >",
+"demangled": "gameswf::hash<unsigned short, short, gameswf::font::simple_code_hash<unsigned short> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7ce998",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::font::kerning_pair, float, gameswf::fixed_size_hash<gameswf::font::kerning_pair> >",
+"demangled": "gameswf::hash<gameswf::font::kerning_pair, float, gameswf::fixed_size_hash<gameswf::font::kerning_pair> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7d081c",
+"bytes": 60,
+"owner": "gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >::entry::entry(gameswf::tu_string const&, gameswf::smart_ptr<gameswf::face_entity> const&, int, int)"
+},
+{
+"address": "0x7d0858",
+"bytes": 68,
+"owner": "gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >::entry",
+"demangled": "gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >::entry::entry(gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >::entry const&)"
+},
+{
+"address": "0x7d0a20",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >",
+"demangled": "gameswf::hash<gameswf::tu_string, gameswf::smart_ptr<gameswf::face_entity>, gameswf::string_hash_functor<gameswf::tu_string> >::set_raw_capacity(int)"
+}
+],
+"bytes": 1516
+},
+{
+"id": "v1-vendor-gameswf-pack21-d2e85b-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::face_entity | gameswf::glyph_texture_cache | gameswf::as_s_function | gameswf::as_c_function | render_handler_glitch::fill_style | render_handler_glitch::TransformState | gameswf::array<gameswf::array<glitch::core::vector2d<float> > >",
+"owners": [
+"gameswf::face_entity",
+"gameswf::glyph_texture_cache",
+"gameswf::as_s_function",
+"gameswf::as_c_function",
+"render_handler_glitch::fill_style",
+"render_handler_glitch::TransformState",
+"gameswf::array<gameswf::array<glitch::core::vector2d<float> > >"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7d0cf8",
+"bytes": 124,
+"owner": "gameswf::face_entity",
+"demangled": "gameswf::face_entity::face_entity(FT_FaceRec_*, gameswf::membuf*, gameswf::tu_string&)"
+},
+{
+"address": "0x7d0d7c",
+"bytes": 120,
+"owner": "gameswf::face_entity",
+"demangled": "gameswf::face_entity::face_entity(FT_FaceRec_*, gameswf::tu_string&)"
+},
+{
+"address": "0x7d1c04",
+"bytes": 348,
+"owner": "gameswf::face_entity",
+"demangled": "gameswf::face_entity::~face_entity()"
+},
+{
+"address": "0x7d1d88",
+"bytes": 20,
+"owner": "gameswf::face_entity",
+"demangled": "gameswf::face_entity::~face_entity()"
+},
+{
+"address": "0x7d1a28",
+"bytes": 84,
+"owner": "gameswf::glyph_texture_cache",
+"demangled": "gameswf::glyph_texture_cache::~glyph_texture_cache()"
+},
+{
+"address": "0x7d1da4",
+"bytes": 84,
+"owner": "gameswf::glyph_texture_cache",
+"demangled": "gameswf::glyph_texture_cache::add_glyph_region(unsigned short, void*, int, gameswf::glyph_texture_cache::filter_info&, bool)"
+},
+{
+"address": "0x7d266c",
+"bytes": 352,
+"owner": "gameswf::glyph_texture_cache",
+"demangled": "gameswf::glyph_texture_cache::get_glyph_region(unsigned short, void*, int, gameswf::glyph_texture_cache::filter_info&, gameswf::rect&)"
+},
+{
+"address": "0x7d2878",
+"bytes": 60,
+"owner": "gameswf::as_s_function",
+"demangled": "gameswf::as_s_function::get_member(gameswf::tu_stringi const&, gameswf::as_value*)"
+},
+{
+"address": "0x7d2c8c",
+"bytes": 184,
+"owner": "gameswf::as_s_function",
+"demangled": "gameswf::as_s_function::~as_s_function()"
+},
+{
+"address": "0x7d2d54",
+"bytes": 20,
+"owner": "gameswf::as_s_function",
+"demangled": "gameswf::as_s_function::~as_s_function()"
+},
+{
+"address": "0x7d2d70",
+"bytes": 184,
+"owner": "gameswf::as_s_function",
+"demangled": "gameswf::as_s_function::~as_s_function()"
+},
+{
+"address": "0x7d28b4",
+"bytes": 96,
+"owner": "gameswf::as_c_function",
+"demangled": "gameswf::as_c_function::as_c_function(gameswf::player*, void (*)(gameswf::fn_call const&))"
+},
+{
+"address": "0x7d291c",
+"bytes": 96,
+"owner": "gameswf::as_c_function",
+"demangled": "gameswf::as_c_function::as_c_function(gameswf::player*, void (*)(gameswf::fn_call const&))"
+},
+{
+"address": "0x7d2984",
+"bytes": 64,
+"owner": "gameswf::as_c_function",
+"demangled": "gameswf::as_c_function::~as_c_function()"
+},
+{
+"address": "0x7d2c44",
+"bytes": 64,
+"owner": "gameswf::as_c_function",
+"demangled": "gameswf::as_c_function::~as_c_function()"
+},
+{
+"address": "0x7d4430",
+"bytes": 100,
+"owner": "render_handler_glitch::fill_style",
+"demangled": "render_handler_glitch::fill_style::set_bitmap(gameswf::bitmap_info*, gameswf::matrix const&, gameswf::render_handler::bitmap_wrap_mode, gameswf::cxform const&)"
+},
+{
+"address": "0x7d6050",
+"bytes": 164,
+"owner": "render_handler_glitch::TransformState",
+"demangled": "render_handler_glitch::TransformState::TransformState()"
+},
+{
+"address": "0x7d7c18",
+"bytes": 220,
+"owner": "gameswf::array<gameswf::array<glitch::core::vector2d<float> > >",
+"demangled": "void gameswf::array<gameswf::array<glitch::core::vector2d<float> > >::push_back<gameswf::array<glitch::core::vector2d<float> > >(gameswf::array<glitch::core::vector2d<float> > const&)"
+}
+],
+"bytes": 2384
+},
+{
+"id": "v1-vendor-gameswf-pack22-8e8f27-0",
+"category": "vendor-gameswf",
+"owner": "gameswf::as_color_transform | gameswf::stringi_hash<gameswf::as_color_transform_member> | gameswf::hash<gameswf::tu_stringi, gameswf::as_color_transform_member, gameswf::stringi_hash_functor<gameswf::tu_stringi> > | gameswf::as_event | gameswf::as_mouse_event",
+"owners": [
+"gameswf::as_color_transform",
+"gameswf::stringi_hash<gameswf::as_color_transform_member>",
+"gameswf::hash<gameswf::tu_stringi, gameswf::as_color_transform_member, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"gameswf::as_event",
+"gameswf::as_mouse_event"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7d97a8",
+"bytes": 44,
+"owner": "gameswf::as_color_transform",
+"demangled": "gameswf::as_color_transform::~as_color_transform()"
+},
+{
+"address": "0x7d9818",
+"bytes": 112,
+"owner": "gameswf::as_color_transform",
+"demangled": "gameswf::as_color_transform::as_color_transform(gameswf::player*, gameswf::cxform const*)"
+},
+{
+"address": "0x7d9890",
+"bytes": 112,
+"owner": "gameswf::as_color_transform",
+"demangled": "gameswf::as_color_transform::as_color_transform(gameswf::player*, gameswf::cxform const*)"
+},
+{
+"address": "0x7d9cac",
+"bytes": 44,
+"owner": "gameswf::as_color_transform",
+"demangled": "gameswf::as_color_transform::~as_color_transform()"
+},
+{
+"address": "0x7d9d88",
+"bytes": 20,
+"owner": "gameswf::stringi_hash<gameswf::as_color_transform_member>",
+"demangled": "gameswf::stringi_hash<gameswf::as_color_transform_member>::~stringi_hash()"
+},
+{
+"address": "0x7d9f98",
+"bytes": 56,
+"owner": "gameswf::hash<gameswf::tu_stringi, gameswf::as_color_transform_member, gameswf::stringi_hash_functor<gameswf::tu_stringi> >",
+"demangled": "gameswf::hash<gameswf::tu_stringi, gameswf::as_color_transform_member, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)"
+},
+{
+"address": "0x7daaf4",
+"bytes": 44,
+"owner": "gameswf::as_event",
+"demangled": "gameswf::as_event::~as_event()"
+},
+{
+"address": "0x7dabbc",
+"bytes": 96,
+"owner": "gameswf::as_event",
+"demangled": "gameswf::as_event::as_event(gameswf::player*)"
+},
+{
+"address": "0x7dac24",
+"bytes": 44,
+"owner": "gameswf::as_event",
+"demangled": "gameswf::as_event::~as_event()"
+},
+{
+"address": "0x7dac60",
+"bytes": 96,
+"owner": "gameswf::as_event",
+"demangled": "gameswf::as_event::as_event(gameswf::player*)"
+},
+{
+"address": "0x7dae08",
+"bytes": 44,
+"owner": "gameswf::as_mouse_event",
+"demangled": "gameswf::as_mouse_event::as_mouse_event(gameswf::player*)"
+},
+{
+"address": "0x7dae3c",
+"bytes": 44,
+"owner": "gameswf::as_mouse_event",
+"demangled": "gameswf::as_mouse_event::as_mouse_event(gameswf::player*)"
+},
+{
+"address": "0x7dae70",
+"bytes": 44,
+"owner": "gameswf::as_mouse_event",
+"demangled": "gameswf::as_mouse_event::~as_mouse_event()"
+},
+{
+"address": "0x7dafb8",
+"bytes": 44,
+"owner": "gameswf::as_mouse_event",
+"demangled": "gameswf::as_mouse_event::~as_mouse_event()"
+}
+],
+"bytes": 844
+},
+{
+"id": "v1-vendor-box2d-pack0-aa42c4-0",
+"category": "vendor-box2d",
+"owner": "b2Body | b2BroadPhase | b2Sweep | b2PolygonShape | b2Vec2 | b2World | b2DebugDraw | b2BlockAllocator | b2CircleShape | b2MouseJoint | b2PolyAndCircleContact | b2PolygonContact",
+"owners": [
+"b2Body",
+"b2BroadPhase",
+"b2Sweep",
+"b2PolygonShape",
+"b2Vec2",
+"b2World",
+"b2DebugDraw",
+"b2BlockAllocator",
+"b2CircleShape",
+"b2MouseJoint",
+"b2PolyAndCircleContact",
+"b2PolygonContact"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7e1b28",
+"bytes": 72,
+"owner": "b2Body",
+"demangled": "b2Body::SetMass(b2MassData const*)"
+},
+{
+"address": "0x7e25b8",
+"bytes": 56,
+"owner": "b2BroadPhase",
+"demangled": "b2BroadPhase::ComputeBounds(unsigned short*, unsigned short*, b2AABB const&)"
+},
+{
+"address": "0x7e3a94",
+"bytes": 24,
+"owner": "b2Sweep",
+"demangled": "b2Sweep::Advance(float)"
+},
+{
+"address": "0x7e3bfc",
+"bytes": 32,
+"owner": "b2Sweep",
+"demangled": "b2Sweep::GetXForm(b2XForm*, float) const"
+},
+{
+"address": "0x7e47e8",
+"bytes": 48,
+"owner": "b2PolygonShape",
+"demangled": "b2PolygonShape::TestSegment(b2XForm const&, float*, b2Vec2*, b2Segment const&, float) const"
+},
+{
+"address": "0x7e5524",
+"bytes": 24,
+"owner": "b2Vec2",
+"demangled": "b2Vec2::Normalize()"
+},
+{
+"address": "0x7e7f7c",
+"bytes": 116,
+"owner": "b2World",
+"demangled": "b2World::~b2World()"
+},
+{
+"address": "0x7e7ffc",
+"bytes": 116,
+"owner": "b2World",
+"demangled": "b2World::~b2World()"
+},
+{
+"address": "0x7e8c9c",
+"bytes": 36,
+"owner": "b2DebugDraw",
+"demangled": "b2DebugDraw::b2DebugDraw()"
+},
+{
+"address": "0x7e8cc8",
+"bytes": 36,
+"owner": "b2DebugDraw",
+"demangled": "b2DebugDraw::b2DebugDraw()"
+},
+{
+"address": "0x7e8da0",
+"bytes": 52,
+"owner": "b2BlockAllocator",
+"demangled": "b2BlockAllocator::Free(void*, int)"
+},
+{
+"address": "0x7e969c",
+"bytes": 44,
+"owner": "b2CircleShape",
+"demangled": "b2CircleShape::TestSegment(b2XForm const&, float*, b2Vec2*, b2Segment const&, float) const"
+},
+{
+"address": "0x7eb4b0",
+"bytes": 36,
+"owner": "b2MouseJoint",
+"demangled": "b2MouseJoint::InitVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7eb778",
+"bytes": 20,
+"owner": "b2MouseJoint",
+"demangled": "b2MouseJoint::GetAnchor1() const"
+},
+{
+"address": "0x7eb850",
+"bytes": 32,
+"owner": "b2MouseJoint",
+"demangled": "b2MouseJoint::SolveVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7ebfbc",
+"bytes": 60,
+"owner": "b2PolyAndCircleContact",
+"demangled": "b2PolyAndCircleContact::Evaluate(b2ContactListener*)"
+},
+{
+"address": "0x7ecb84",
+"bytes": 60,
+"owner": "b2PolygonContact",
+"demangled": "b2PolygonContact::Evaluate(b2ContactListener*)"
+}
+],
+"bytes": 864
+},
+{
+"id": "v1-vendor-box2d-pack1-41fb55-0",
+"category": "vendor-box2d",
+"owner": "b2PrismaticJoint | b2PulleyJoint | b2RevoluteJoint | lib-box2d | b2CircleContact | b2ContactSolver | b2DistanceJoint",
+"owners": [
+"b2PrismaticJoint",
+"b2PulleyJoint",
+"b2RevoluteJoint",
+"lib-box2d",
+"b2CircleContact",
+"b2ContactSolver",
+"b2DistanceJoint"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7ed7e8",
+"bytes": 32,
+"owner": "b2PrismaticJoint",
+"demangled": "b2PrismaticJoint::InitVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7ee080",
+"bytes": 36,
+"owner": "b2PrismaticJoint",
+"demangled": "b2PrismaticJoint::SolveVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7eec94",
+"bytes": 28,
+"owner": "b2PrismaticJoint",
+"demangled": "b2PrismaticJoint::GetJointSpeed() const"
+},
+{
+"address": "0x7ef010",
+"bytes": 28,
+"owner": "b2PrismaticJoint",
+"demangled": "b2PrismaticJoint::SolvePositionConstraints()"
+},
+{
+"address": "0x7efc10",
+"bytes": 32,
+"owner": "b2PulleyJoint",
+"demangled": "b2PulleyJoint::SolveVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7f09c0",
+"bytes": 32,
+"owner": "b2PulleyJoint",
+"demangled": "b2PulleyJoint::InitVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7f129c",
+"bytes": 40,
+"owner": "b2PulleyJoint",
+"demangled": "b2PulleyJoint::SolvePositionConstraints()"
+},
+{
+"address": "0x7f1e84",
+"bytes": 32,
+"owner": "b2RevoluteJoint",
+"demangled": "b2RevoluteJoint::InitVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7f2478",
+"bytes": 32,
+"owner": "b2RevoluteJoint",
+"demangled": "b2RevoluteJoint::SolveVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7f2bec",
+"bytes": 28,
+"owner": "b2RevoluteJoint",
+"demangled": "b2RevoluteJoint::SolvePositionConstraints()"
+},
+{
+"address": "0x7f3728",
+"bytes": 40,
+"owner": "lib-box2d",
+"demangled": "b2TimeOfImpact(b2Shape const*, b2Sweep const&, b2Shape const*, b2Sweep const&)"
+},
+{
+"address": "0x7f4424",
+"bytes": 60,
+"owner": "lib-box2d",
+"demangled": "b2CollidePolygonAndCircle(b2Manifold*, b2PolygonShape const*, b2XForm const&, b2CircleShape const*, b2XForm const&)"
+},
+{
+"address": "0x7f4c4c",
+"bytes": 52,
+"owner": "lib-box2d",
+"demangled": "b2CollideCircles(b2Manifold*, b2CircleShape const*, b2XForm const&, b2CircleShape const*, b2XForm const&)"
+},
+{
+"address": "0x7f5920",
+"bytes": 68,
+"owner": "lib-box2d",
+"demangled": "b2CollidePolygons(b2Manifold*, b2PolygonShape const*, b2XForm const&, b2PolygonShape const*, b2XForm const&)"
+},
+{
+"address": "0x7f3b9c",
+"bytes": 52,
+"owner": "b2CircleContact",
+"demangled": "b2CircleContact::Evaluate(b2ContactListener*)"
+},
+{
+"address": "0x7f6b9c",
+"bytes": 100,
+"owner": "b2ContactSolver",
+"demangled": "b2ContactSolver::SolvePositionConstraints(float)"
+},
+{
+"address": "0x7f9bc8",
+"bytes": 28,
+"owner": "b2DistanceJoint",
+"demangled": "b2DistanceJoint::SolveVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7fa098",
+"bytes": 40,
+"owner": "b2DistanceJoint",
+"demangled": "b2DistanceJoint::InitVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7fa714",
+"bytes": 24,
+"owner": "b2DistanceJoint",
+"demangled": "b2DistanceJoint::SolvePositionConstraints()"
+}
+],
+"bytes": 784
+},
+{
+"id": "v1-vendor-box2d-pack2-798192-0",
+"category": "vendor-box2d",
+"owner": "b2GearJoint",
+"owners": [
+"b2GearJoint"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7fab98",
+"bytes": 124,
+"owner": "b2GearJoint",
+"demangled": "b2GearJoint::InitVelocityConstraints(b2TimeStep const&)"
+},
+{
+"address": "0x7fb048",
+"bytes": 32,
+"owner": "b2GearJoint",
+"demangled": "b2GearJoint::SolveVelocityConstraints(b2TimeStep const&)"
+}
+],
+"bytes": 156
+},
+{
+"id": "v1-vendor-lua-lib_lua-d91850-0",
+"category": "vendor-lua",
+"owner": "lib-lua",
+"owners": [
+"lib-lua"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x84be2c",
+"bytes": 8,
+"owner": "lib-lua",
+"demangled": "f_call"
+},
+{
+"address": "0x84c080",
+"bytes": 32,
+"owner": "lib-lua",
+"demangled": "lua_setfield"
+},
+{
+"address": "0x84cbd0",
+"bytes": 112,
+"owner": "lib-lua",
+"demangled": "luaL_addlstring"
+},
+{
+"address": "0x84dbfc",
+"bytes": 324,
+"owner": "lib-lua",
+"demangled": "luaopen_base"
+},
+{
+"address": "0x850650",
+"bytes": 300,
+"owner": "lib-lua",
+"demangled": "luaG_runerror"
+},
+{
+"address": "0x85228c",
+"bytes": 784,
+"owner": "lib-lua",
+"demangled": "DumpFunction"
+},
+{
+"address": "0x852ce8",
+"bytes": 32,
+"owner": "lib-lua",
+"demangled": "luaC_barrierback"
+},
+{
+"address": "0x854180",
+"bytes": 48,
+"owner": "lib-lua",
+"demangled": "math_random"
+},
+{
+"address": "0x854854",
+"bytes": 52,
+"owner": "lib-lua",
+"demangled": "luaO_log2"
+},
+{
+"address": "0x8559dc",
+"bytes": 896,
+"owner": "lib-lua",
+"demangled": "body"
+},
+{
+"address": "0x856b10",
+"bytes": 2680,
+"owner": "lib-lua",
+"demangled": "chunk"
+},
+{
+"address": "0x857820",
+"bytes": 32,
+"owner": "lib-lua",
+"demangled": "luaY_parser"
+},
+{
+"address": "0x857c48",
+"bytes": 4,
+"owner": "lib-lua",
+"demangled": "callallgcTM"
+},
+{
+"address": "0x8598a0",
+"bytes": 12,
+"owner": "lib-lua",
+"demangled": "addintlen"
+},
+{
+"address": "0x85bc00",
+"bytes": 36,
+"owner": "lib-lua",
+"demangled": "luaT_init"
+},
+{
+"address": "0x85bc64",
+"bytes": 40,
+"owner": "lib-lua",
+"demangled": "luaU_header"
+},
+{
+"address": "0x85e8c0",
+"bytes": 28,
+"owner": "lib-lua",
+"demangled": "luaK_codeABC"
+},
+{
+"address": "0x85f904",
+"bytes": 896,
+"owner": "lib-lua",
+"demangled": "luaK_prefix"
+}
+],
+"bytes": 6316
+}
+]

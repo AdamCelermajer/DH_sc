@@ -262,7 +262,7 @@ public:
     void addStringAsColorf(const char* name, const wchar_t* value, bool flag);       // 0x56a240
     void addStringAsMatrix(const char* name, const wchar_t* value, bool flag);       // 0x56a638
     void addStringAsTexture(const char* name, const wchar_t* value, bool flag);      // 0x5682c0
-    // 0x568124: PARTIAL. The light is null here, as in the original (see CLightAttribute).
+    // 0x568124: the light is null here, as in the original; the text goes to the narrow setter, which keeps nothing.
     void addStringAsLight(const char* name, const wchar_t* value, bool flag);
     void addBinary(const char* name, void* data, int size, bool flag);                      // 0x5684d8
     void addStringAsBinary(const char* name, const wchar_t* value, bool flag);              // 0x56840c: PARTIAL
@@ -284,7 +284,7 @@ public:
     // vector) is not in this layout, so the output is left unchanged.
     void getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const;
     void getAttributeEnumerationLiteralsOfEnumeration(int index, std::vector<std::string>& literals) const;
-    // 0x568238: PARTIAL, the light is not stored by the attribute constructor (see CLightAttribute).
+    // 0x568238: the light attribute constructor keeps the light and the driver.
     void addLight(const char* name, boost::intrusive_ptr<glitch::video::CLight> value, bool flag);
     void addMatrix(const char* name, const glitch::core::CMatrix4<float>& value, bool flag);         // 0x56a70c
 
@@ -298,7 +298,7 @@ public:
     void setAttribute(const char* name, const glitch::core::aabbox3d<float>& value);
     // 0x56b400: PARTIAL, see attributes_add.cpp (the new enumeration uses the partial constructor).
     void setAttribute(const char* name, const char* value, const char* const* choices);
-    // 0x566db0: PARTIAL, see attributes_add.cpp.
+    // 0x566db0: a missing name appends a light attribute that keeps the light (flag clear).
     void setAttribute(const char* name, boost::intrusive_ptr<glitch::video::CLight> value);
     // 0x56b35c: PARTIAL, sets the existing texture attribute, else adds one (see addTexture).
     void setAttribute(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value);

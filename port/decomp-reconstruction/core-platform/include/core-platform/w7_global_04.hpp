@@ -25,6 +25,14 @@ int ConvertUnicodeToUTF8_Old(char* dst, const unsigned short* src);
 // 0x89c6ac _Z26ConvertUnicodeToUTF8_OldLCPcPKt
 int ConvertUnicodeToUTF8_OldLC(char* dst, const unsigned short* src);
 
+// The process-wide host caches. The binary has one l_host / l_count pair (for
+// threadGetHostByNameProcess) and one l_hostLC / l_countLC pair (for
+// threadGetHostByNameProcessLC). Defined in src/w7_global_04.cpp.
+extern hostent* l_host[4];
+extern int l_count;
+extern hostent* l_hostLC[4];
+extern int l_countLC;
+
 // 0x841ba8 _Z26threadGetHostByNameProcessPv
 hostent* threadGetHostByNameProcess(void* request);
 

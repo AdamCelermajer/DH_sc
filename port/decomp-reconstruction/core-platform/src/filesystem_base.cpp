@@ -68,22 +68,22 @@ bool fileExistsOnDisk(const char* name) {
 std::string FileSystemBase::formatFilePath(const std::string& path) const { return path; }
 
 // 0x34df94 _ZN14FileSystemBase14doesFileExistsEPKc
-// Partial: the original opens the name through the virtual slot at +0x88 (with
-// read-only flags) and closes it through +0x78; those virtual calls are not in this
-// tree, so a stdio existence check stands in for them.
-bool FileSystemBase::doesFileExists(const char* name) const { return fileExistsOnDisk(name); }
+// Partial: the original opens the name through the virtual slot at +0x88 (FileSystemWin32
+// openFile(name, false, false)) and closes it through +0x78 (closeFile); those virtual
+// calls are not in this tree, so a stdio existence check stands in for them.
+bool FileSystemBase::doesFileExists(const char* name) { return fileExistsOnDisk(name); }
 
 // 0x34dfe0 _ZN14FileSystemBase18doesResourceExistsEPKc
-// Partial: the original looks the name up through the virtual slot at +0x90; that
-// lookup is in the derived class and is not in this tree. A stdio existence check
-// stands in for it.
-bool FileSystemBase::doesResourceExists(const char* name) const { return fileExistsOnDisk(name); }
+// Partial: the original looks the name up through the virtual slot at +0x90 (openResource)
+// and closes it through +0x78; that lookup is in the derived class and is not in this
+// tree. A stdio existence check stands in for it.
+bool FileSystemBase::doesResourceExists(const char* name) { return fileExistsOnDisk(name); }
 
 // 0x34e150 _ZN14FileSystemBase18doesSavefileExistsEPKc
 // Partial: the original calls Savegame::FlushJobs first (Savegame is not in this
-// tree, so it is omitted) and then the virtual slot at +0x94. A stdio existence check
-// stands in for the virtual call.
-bool FileSystemBase::doesSavefileExists(const char* name) const { return fileExistsOnDisk(name); }
+// tree, so it is omitted) and then the virtual slot at +0x94 (openSavefile(name, false)).
+// A stdio existence check stands in for the virtual call.
+bool FileSystemBase::doesSavefileExists(const char* name) { return fileExistsOnDisk(name); }
 
 // 0x34e96c _ZNK14FileSystemBase18ApplyFilenameHacksEPKc
 // Partial: the original takes the working-directory prefix (virtual slot +0x2c,

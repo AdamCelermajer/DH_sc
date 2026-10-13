@@ -22,28 +22,28 @@ void PrintTimestamp() {
 
 namespace sys {
 
-// 0x317848 sys::printNoFormat(char const*)
-// Partial: the listing is a thunk to printf(format), which passes the text as the
-// format string. This uses "%s" instead, a deliberate change recorded in NOTES.md, so a
-// '%' in a message is printed literally rather than interpreted.
-void printNoFormat(const char* text) { std::printf("%s", text); }
+// 0x317848 _ZN3sys13printNoFormatEPKc
+// The listing is a bare tail call, `b printf`: the text is the format string and the
+// result is printf's count. Forwarded as-is (a thunk is never reimplemented; Track B
+// decision 4), so a '%' in the text is read as a conversion, as in the original.
+int printNoFormat(const char* text) { return std::printf(text); }
 
-// 0x31784c sys::print(char const*, ...)
-// Partial: the listing matches this body except that the message goes through
-// printNoFormat, which uses "%s" (see above); output differs for messages containing '%'.
-void print(const char* fmt, ...) {
+// 0x31784c _ZN3sys5printEPKcz
+// Formats into a 1 KiB buffer, writes the "[HH:MM:SS] " prefix, then the message through
+// printNoFormat. Returns printNoFormat's count for the message.
+int print(const char* fmt, ...) {
     char message[1024];
     va_list args;
     va_start(args, fmt);
     FormatMessage(message, sizeof message, fmt, args);
     va_end(args);
     PrintTimestamp();
-    printNoFormat(message);
+    return printNoFormat(message);
 }
 
-// 0x317914 sys::println(char const*, ...)
-// Partial, same caveat as print().
-void println(const char* fmt, ...) {
+// 0x317914 _ZN3sys7printlnEPKcz
+// As print, then the newline. Returns printNoFormat's count for the newline (1).
+int println(const char* fmt, ...) {
     char message[1024];
     va_list args;
     va_start(args, fmt);
@@ -51,7 +51,7 @@ void println(const char* fmt, ...) {
     va_end(args);
     PrintTimestamp();
     printNoFormat(message);
-    printNoFormat("\n");
+    return printNoFormat("\n");
 }
 
 }  // namespace sys

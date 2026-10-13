@@ -7,12 +7,11 @@
 #include <cstdio>
 #include <new>
 
+#include "core-platform/deps/swf_types.hpp"
+#include "core-platform/memory.hpp"
+#include "core-platform/tb/tu_file.hpp"
+
 namespace gameswf {
-// Only the layout the call site needs; the real class lives in the gameswf tree.
-class tu_file {
-public:
-    tu_file(const char* name, const char* mode);
-};
 int get_verbose_parse();
 }  // namespace gameswf
 
@@ -21,16 +20,18 @@ using w7g3::Vec2;
 
 namespace {
 
-// Normalizes v in place and returns its length. Stands in for b2Vec2::Normalize,
-// whose body is outside this slice.
+// b2Vec2::Normalize (0x7e5524), stand-in for the Box2D method. The listing compares the length
+// with 0x34000000 (2^-23, FLT_EPSILON) using __aeabi_fcmplt and returns 0 when it is below that,
+// leaving v unchanged. Otherwise it scales v by 1/length and returns the length. A NaN length is
+// not below the constant, so it is scaled, as in the original.
 float NormalizeVec(Vec2& v) {
-    float len = std::sqrt(v.x * v.x + v.y * v.y);
+    const float len = std::sqrt(v.x * v.x + v.y * v.y);
     if (len < FLT_EPSILON) {
-        return len;
+        return 0.0f;
     }
-    float inv = 1.0f / len;
-    v.x *= inv;
-    v.y *= inv;
+    const float inv = 1.0f / len;
+    v.x = v.x * inv;
+    v.y = v.y * inv;
     return len;
 }
 
@@ -44,8 +45,11 @@ void fs_callback(gameswf::character* a1, const char* a2, const char* a3) {
 }
 
 // 0x7a8420 _ZL11message_logPKc
-// Partial: the stream is taken as stdout. The listing addresses it as __sF + 0x54,
-// which is stdout in the Android libc FILE layout; the Windows mapping is not checked.
+// The stream is stdout: the listing addresses it as (FILE*)&__sF + 1, which is
+// __sF[1] in the bionic FILE array (stdin, stdout, stderr). log_callback uses
+// __sF + 2 for stderr, the same array. get_verbose_parse() is the vendored
+// gameswf bool, and the argument the pseudocode passes it is register residue.
+// The listing returns get_verbose_parse's result on the false path.
 int message_log(const char* msg) {
     int verbose = gameswf::get_verbose_parse();
     if (verbose) {
@@ -56,7 +60,8 @@ int message_log(const char* msg) {
 }
 
 // 0x7a846c _ZL12log_callbackbPKc
-// Partial: the second stream is taken as stderr (__sF + 0xA8 in the listing); see message_log.
+// Reconstructed: the listing passes __sF + 0xA8 to fputs and fflush. message_log uses
+// __sF + 0x54 for stdout, so the bionic FILE stride is 0x54 and 0xA8 is __sF[2], stderr.
 int log_callback(bool to_stderr, const char* msg) {
     if (!to_stderr) {
         return message_log(msg);
@@ -67,10 +72,13 @@ int log_callback(bool to_stderr, const char* msg) {
 }
 
 // 0x7a9954 _ZL11file_openerPKc
-// Partial: the listing calls operator new(0x28, swf::MemHint); that MemHint overload is
-// not reproduced, and plain ::operator new is used with the same 0x28 size.
+// Partial: the listing calls operator new(0x28, swf::MemHint) with hint 0 (MEM_UNRECOVERED in
+// deps), then the tu_file constructor with mode "rb" on the block. 0x28 is the 32-bit size of the
+// object. On the host the vendor-gameswf tu_file holds eight pointer-sized members plus m_error,
+// so the block is sizeof(gameswf::tu_file). tb/tu_file.hpp declares no members, so that size is
+// only a placeholder until the complete class layout is declared for core-platform.
 gameswf::tu_file* file_opener(const char* name) {
-    void* mem = ::operator new(0x28);
+    void* mem = ::operator new(sizeof(gameswf::tu_file), swf::MEM_UNRECOVERED);
     return new (mem) gameswf::tu_file(name, "rb");
 }
 
@@ -86,9 +94,10 @@ int LongAxis(double* a) {
 }
 
 // 0x7f5038 _ZL17ClipSegmentToLineP10ClipVertexS0_RK6b2Vec2f
-// Partial: the segment clip matches Hex-Rays: vertex copies, the crossing point, and the
-// id of the crossing point (v1.id when d0 <= 0, else v0.id). Uses the w7g3::ClipVertex and
-// w7g3::Vec2 stand-ins for ClipVertex and b2Vec2, which are defined outside this slice.
+// Reconstructed: vertex copies, the crossing point, and its id (v1.id when d0 <= 0, else v0.id).
+// The id select is checked against the listing: in[0] is at R4 (+8 for id) and in[1] at R4+0xC
+// (+8 for id), and the LDRNE/LDREQ pair picks in[0] when d0 > 0. Uses the w7g3::ClipVertex and
+// w7g3::Vec2 stand-ins for ClipVertex and b2Vec2.
 int ClipSegmentToLine(ClipVertex* out, ClipVertex* in, const Vec2& normal, float offset) {
     const ClipVertex& v0 = in[0];
     const ClipVertex& v1 = in[1];
@@ -133,14 +142,15 @@ int InPoints(const Vec2& p, const Vec2* pts, int count) {
 }
 
 // 0x7f89e0 _ZL10ProcessTwoP6b2Vec2S0_S0_S0_S0_
-// Partial: matches Hex-Rays. Uses the w7g3::Vec2 stand-in for b2Vec2 and NormalizeVec in
-// place of b2Vec2::Normalize (not in this tree). The scale only matters when the length is
-// at least FLT_EPSILON, the case where the normalized vector is used.
+// Reconstructed from Hex-Rays and the listing. NormalizeVec is the stand-in for b2Vec2::Normalize
+// (0x7e5524). Both the Normalize threshold and the copy test use FLT_EPSILON (0x34000000, 2^-23):
+// the copy branch is taken when the projection is not positive, or when the returned length is
+// below FLT_EPSILON (Normalize returns 0 in that case). Uses the w7g3::Vec2 stand-in for b2Vec2.
 int ProcessTwo(Vec2* a1, Vec2* a2, Vec2* a3, Vec2* a4, Vec2* a5) {
     Vec2 d{a5[0].x - a5[1].x, a5[0].y - a5[1].y};
     float len = NormalizeVec(d);
     float v13 = (-a5[1].x) * d.x + (-a5[1].y) * d.y;
-    if (v13 <= 0.0f || len < 0.00000011921f) {
+    if (v13 <= 0.0f || len < FLT_EPSILON) {
         a1[0] = a3[1];
         a2[0] = a4[1];
         a3[0] = a3[1];
@@ -157,8 +167,10 @@ int ProcessTwo(Vec2* a1, Vec2* a2, Vec2* a3, Vec2* a4, Vec2* a5) {
 }
 
 // 0x7f8018 _ZL12ProcessThreeP6b2Vec2S0_S0_S0_S0_
-// Partial: control flow and expressions match Hex-Rays. The three return paths (1: vertex 2
-// kept, 2: edge reduction, 3: barycentric) are present. Uses the w7g3::Vec2 stand-in for b2Vec2.
+// Reconstructed: control flow and expressions checked against Hex-Rays line by line. Return 1
+// copies vertex 2 into every slot, return 3 is the barycentric point, and return 2 is the edge
+// reduction (inner branch) or the reduction on the outer else branch. Uses the w7g3::Vec2
+// stand-in for b2Vec2.
 int ProcessThree(Vec2* a1, Vec2* a2, Vec2* a3, Vec2* a4, Vec2* a5) {
     const float x0 = a5[0].x, y0 = a5[0].y;
     const float x1 = a5[1].x, y1 = a5[1].y;

@@ -18,9 +18,10 @@ int TouchScreenWin32::getBottomBound() const { return 0; }
 // 0x33d4b4 _ZN16TouchScreenWin327onEventERKN6glitch6SEventE
 // Mouse event code 0 (left down) begins a touch, 6 (move) continues it only
 // while the button is held, and 3 (left up) ends it. Point is (mouseX, mouseY).
-// Partial: the listing dispatches through vtable slots +32 (begin), +36 (move) and
-// +40 (end). The begin slot is called with the point only, with no touch id, so the
-// id is taken as 0 here for all three calls.
+// The listing dispatches through vtable slots +32 (begin), +36 (move) and +40 (end).
+// The begin call shows only two arguments in Hex-Rays; the disassembly (0x33d4b4) shows
+// the slot argument is r2, which still holds the event's mouse code, 0, at that point,
+// so all three calls pass slot 0.
 bool TouchScreenWin32::onEvent(const glitch::SEvent& event) {
     static bool isDown = false;  // _ZZ...onEvent...isDown in the original
     if (event.type != 1) {

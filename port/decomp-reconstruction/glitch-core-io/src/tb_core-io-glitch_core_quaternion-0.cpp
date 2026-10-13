@@ -102,8 +102,9 @@ quaternion& quaternion::set(float a, float b, float c) {
 // 0x410e48 glitch::core::quaternion::fromAngleAxis(float,glitch::core::vector3d<float> const&) [clone]
 // The listing has no angle argument: the second register holds the axis pointer, the result
 // pointer is r0, and the scale constants are 0x3F59D4D0 (sin of the half angle, 0.8509035) and
-// 0x3F067B80 (cos of the half angle, 0.5253220). Kept as a free function because it is a clone
-// with a different parameter list from the member.
+// 0x3F067B80 (cos of the half angle, 0.5253220). The assembly (0x410e48) reads no float argument,
+// only the three axis components, so the body is complete. Kept as a free function because it is a
+// clone with a different parameter list from the member.
 namespace tb {
 quaternion fromAngleAxisClone_0x410e48(const vector3d<float>& axis) {
     quaternion r;
@@ -138,15 +139,14 @@ void quaternion::getMatrix(CMatrix4<float>& out) const {
 }
 
 // 0x432e58 glitch::core::quaternion::toEulerDegree(glitch::core::vector3d<float> &) const
-// PARTIAL: the listing finishes with CMatrix4<float>::getRotationDegrees(out, matrix), and that
-// routine is not reconstructed in this tree. The matrix step is kept; out is left unchanged.
+// The matrix comes from getMatrix; CMatrix4<float>::getRotationDegrees (0x432bbc, defined in
+// tb_core-io-glitch_core_CMatrix4_float-0.cpp) gives the angles, which are copied to out as X, Y, Z.
+// The listing also returns the address of its stack temporary, which points into this function's
+// frame and is dangling once it returns; that return value is not reproduced.
 void quaternion::toEulerDegree(vector3d<float>& out) const {
     CMatrix4<float> m;
     getMatrix(m);
-    // TODO(e1-glitch_core_quaternion-0): call CMatrix4<float>::getRotationDegrees(out, m) once it is
-    // reconstructed; then copy out.X, out.Y, out.Z as the listing does (X from v9[0], Y from v9[1],
-    // Z from v9[2]).
-    (void)out;
+    out = m.getRotationDegrees();
 }
 
 // 0x50eeb4 glitch::core::quaternion::operator=(glitch::core::CMatrix4<float> const&)

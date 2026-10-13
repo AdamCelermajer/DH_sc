@@ -18,6 +18,10 @@ public:
         // writable=false opens read-only. readwrite selects the write mode.
         _FileHandle(const char* dir, const char* name, bool writable, bool readwrite);
         ~_FileHandle();
+        // The deleting destructor (0x34fbbc) is ~_FileHandle followed by CustomFree(this).
+        // The allocation pairs with it through CustomAlloc (the original calls operator new).
+        static void* operator new(std::size_t size);
+        static void operator delete(void* p);
 
         std::size_t read(void* buf, std::size_t n);         // 0x34eec8
         std::size_t write(const void* buf, std::size_t n);  // 0x34ee74
@@ -52,7 +56,7 @@ public:
     _FileHandle* _createHandle(const char* dir, const char* name, bool writable, bool readwrite);  // 0x34fe50
 
     bool backupSavefile(const char* src, const char* dst) const;  // 0x34f10c
-    void deleteSavefile(const char* name) const;                  // 0x34f274
+    bool deleteSavefile(const char* name) const;                  // 0x34f274: true when the file was removed
     std::string formatFilePath(const std::string& path) const;    // 0x34f8a4
     void getFiles(const char* dir, std::vector<std::string>& out) const;  // 0x3505a0
     void getFilesMatching(const char* dir, const char* pattern, std::vector<std::string>& out) const;  // 0x35041c

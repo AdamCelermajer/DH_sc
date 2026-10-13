@@ -5,7 +5,9 @@
 #include "core-platform/deps/glitch_core.hpp"
 #include "core-platform/touch_screen_base.hpp"
 
-class TouchScreenPS3 : public TouchScreenBase {
+// Two bases in the original's order: TouchScreenBase at +0 and the glitch::IEventReceiver
+// interface at +0x1b4 (its vtable is the secondary table at off_95C4F0).
+class TouchScreenPS3 : public TouchScreenBase, public glitch::IEventReceiver {
 public:
     TouchScreenPS3();
 
@@ -15,8 +17,5 @@ public:
     int getBottomBound() const override;  // 0x33d20c
 
     // Maps a pointer event onto touch began/moved/ended. Returns true when consumed.
-    bool onEvent(const glitch::SEvent& event);  // 0x33d21c
-
-private:
-    const void* eventReceiverVtable_ = nullptr;  // +0x1b4 (data address not recovered)
+    bool onEvent(const glitch::SEvent& event) override;  // 0x33d21c
 };

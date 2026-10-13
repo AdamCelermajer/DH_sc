@@ -14,13 +14,14 @@
 #endif
 
 #include "core-platform/debug_out.hpp"
+#include "core-platform/lc_api.hpp"
 #include "core-platform/misc_util.hpp"
 
 namespace {
 
-// Copies a C string onto the heap with operator new[], so that the matching
-// cleanup can use operator delete[]. Stands in for XP_API_STRNEW / LC_API_STRNEW,
-// whose bodies belong to other categories.
+// Copies a C string onto the heap with operator new[]: strlen + 1 bytes, zero-filled, then the
+// text. This is the body of LC_API_STRNEW (0x89d31c) and XP_API_STRNEW (0x82b9a0), so the
+// matching cleanup can use operator delete[].
 char* DupCString(const char* text) {
     const std::size_t length = std::strlen(text);
     char* copy = new char[length + 1];
@@ -35,22 +36,6 @@ Fn VirtualSlot(const void* object, std::size_t byte_offset) {
     void* const* vtable = *static_cast<void* const* const*>(object);
     return reinterpret_cast<Fn>(vtable[byte_offset / 4]);
 }
-
-// One entry of the per-process host cache. Field offsets match the original
-// 20-byte allocation: name at 0, h_length at 12, address list at 16.
-struct HostEntry {
-    char* name = nullptr;
-    int unused_4 = 0;
-    int unused_8 = 0;
-    int h_length = 0;
-    char** h_addr_list = nullptr;
-};
-
-HostEntry* l_host[4] = {};
-int l_count = 0;
-
-HostEntry* l_hostLC[4] = {};
-int l_countLC = 0;
 
 // Maps a 16-bit value to a PCM sample: scale by 32768 and clamp to the short range.
 std::int16_t ToPcm16(float sample) {
@@ -142,9 +127,11 @@ constexpr std::uint32_t kChannelSelector[3][2] = {
 }  // namespace
 
 // 0x8279d8 _Z24ParseDedicatedServerInfoR21_tDedicatedServerInfoP10DataPacket
-// Partial: the vtable slots (16, 9, 5) and the field offsets (24, 28, 30, 44)
-// are taken from the original's byte offsets; no _tDedicatedServerInfo or
-// DataPacket declaration exists in this port yet.
+// Partial: the vtable slots (byte offsets 64, 36, 20) and the field offsets (24, 28, 30, 44)
+// are the original's, read by offset. _tDedicatedServerInfo is not declared in the tree (only a
+// forward declaration in game/include/dh2/global/net_singletons.hpp), so its layout is unknown.
+// DataPacket is declared in net-transport with addBlob and getBlob (+0x4c, +0x50), not the slots
+// used here, so those calls go through the vtable.
 bool ParseDedicatedServerInfo(_tDedicatedServerInfo& info, DataPacket* packet) {
     unsigned char* raw = reinterpret_cast<unsigned char*>(&info);
 
@@ -201,10 +188,23 @@ int ConvertUnicodeToUTF8_OldLC(char* dst, const unsigned short* src) {
     return ConvertUnicodeToUTF8Impl(dst, src);
 }
 
+// The process-wide host caches. The binary has one l_host / l_count pair, reached through the GOT
+// pointers l_host_ptr and l_count_ptr, and one l_hostLC / l_countLC pair, reached through
+// l_hostLC_ptr and l_countLC_ptr. Each is defined once here with the host hostent type; an entry
+// is the hostent the thread functions below fill in. Declared in w7_global_04.hpp.
+hostent* l_host[4] = {};
+int l_count = 0;
+hostent* l_hostLC[4] = {};
+int l_countLC = 0;
+
 // 0x841ba8 _Z26threadGetHostByNameProcessPv
-// Partial: the request is read with the original 32-bit layout (busy-flag
-// pointer at offset 0, host name at offset 4). The XP_DEBUG_OUT trace is sent
-// to _DBG_OUT, since that target is not reconstructed in this slice.
+// Partial: the request is read at the original 32-bit layout (busy-flag pointer at byte offset 0,
+// host name at byte offset 4). No request struct is declared in the tree, so this raw-offset read
+// is not host-correct yet. An added entry goes into the shared l_host / l_count cache as a host
+// hostent. When an entry is added, the listing returns the XP_DEBUG_OUT result instead of the
+// gethostbyname result. XP_DEBUG_OUT (0x82b784) is a 1991-byte formatter that is not
+// reconstructed, so this returns the gethostbyname result on every path. The trace goes to
+// _DBG_OUT.
 hostent* threadGetHostByNameProcess(void* request) {
     unsigned char* raw = static_cast<unsigned char*>(request);
     int** busy = reinterpret_cast<int**>(raw);
@@ -214,11 +214,11 @@ hostent* threadGetHostByNameProcess(void* request) {
     hostent* found = gethostbyname(host);
     if (found != nullptr) {
         if (l_count <= 3) {
-            HostEntry* entry = new HostEntry();
+            hostent* entry = new hostent{};
             l_host[l_count] = entry;
             entry->h_length = found->h_length;
-            entry->name = DupCString(host);
-            entry->h_addr_list = new char*[1];
+            entry->h_name = DupCString(host);
+            entry->h_addr_list = new char*[1]{};
             // As in the original, the first address pointer is copied as a C string.
             entry->h_addr_list[0] = DupCString(found->h_addr_list[0]);
             ++l_count;
@@ -230,8 +230,13 @@ hostent* threadGetHostByNameProcess(void* request) {
 }
 
 // 0x89f8a0 _Z28threadGetHostByNameProcessLCPv
-// Partial: LC_DEBUG_OUT (0x89c304) has an empty body in the binary, so its call
-// is dropped here. LC_API_STRNEW is replaced by DupCString, as above.
+// Partial: the request is read at the 32-bit layout as in threadGetHostByNameProcess (busy-flag
+// pointer at byte offset 0, host name at byte offset 4), which is not host-correct until a request
+// struct is declared. An added entry goes into the shared l_hostLC / l_countLC cache that the
+// binary's GetHostIP, GetHostByName and Startup read. LC_DEBUG_OUT (0x89c304) is a bare-return
+// stub in the binary, so its call is kept with no arguments; the stub ignores them. LC_API_STRNEW
+// (0x89d31c) is DupCString, as above. net-transport/src/lc_android_socket.cpp keeps its own
+// copy of this cache and of this function, so its readers do not see these entries yet.
 void threadGetHostByNameProcessLC(void* request) {
     unsigned char* raw = static_cast<unsigned char*>(request);
     int** busy = reinterpret_cast<int**>(raw);
@@ -241,13 +246,14 @@ void threadGetHostByNameProcessLC(void* request) {
     hostent* found = gethostbyname(host);
     if (found != nullptr) {
         if (l_countLC <= 3) {
-            HostEntry* entry = new HostEntry();
+            hostent* entry = new hostent{};
             l_hostLC[l_countLC] = entry;
             entry->h_length = found->h_length;
-            entry->name = DupCString(host);
-            entry->h_addr_list = new char*[1];
+            entry->h_name = DupCString(host);
+            entry->h_addr_list = new char*[1]{};
             entry->h_addr_list[0] = DupCString(found->h_addr_list[0]);
             ++l_countLC;
+            LC_DEBUG_OUT();
         }
         **busy = 0;
     }

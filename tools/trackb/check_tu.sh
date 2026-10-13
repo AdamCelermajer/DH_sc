@@ -16,7 +16,8 @@ engine=(core-platform pydata-accessors net-transport net-session-online vox-audi
 includes_for() {  # category of a path -> -I flags
   local rel=${1#"$dr"/}; rel=${rel#port/decomp-reconstruction/}
   local cat=${rel%%/*}
-  if [[ $cat == game || $cat == game-* ]]; then
+  if [[ $cat == game || $cat == game-* || $cat == vendor-* ]]; then
+    [[ $cat == vendor-* ]] && printf -- '-I%s\n' "$dr/$cat/include"
     printf -- '-I%s\n' "$dr/game/include" "$dr/shared/include"
     for c in "${engine[@]}"; do printf -- '-I%s\n' "$dr/$c/include"; done
     printf -- '%s\n' -DNOMINMAX -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_THREAD=0

@@ -37,6 +37,15 @@ long CMemoryReadFile::getSize() const { return size; }  // +0x18
 // 0x56ec80 _ZNK6glitch2io15CMemoryReadFile6getPosEv
 long CMemoryReadFile::getPos() const { return position; }  // +0x1c
 
+// 0x56ec88 _ZNK6glitch2io15CMemoryReadFile11getFileNameEv
+// ldr r0, [r0, #0x34]: the name string at +0x20 has its begin pointer at +0x34 (the glitch string
+// layout: end at +0x10, begin at +0x14, relative to the string). The original returns that character
+// pointer; the port's slot returns the std::string, which is the same name.
+const std::string& CMemoryReadFile::getFileName() const { return name; }
+
+// 0x56ec90 _ZNK6glitch2io15CMemoryReadFile11getFullPathEv (same body: the full path is the name)
+const std::string& CMemoryReadFile::getFullPath() const { return name; }
+
 // Partial, no body yet:
 //
 // 0x56ecc4 _ZN6glitch2io15CMemoryReadFile4readEPvj (signed int read(void*, unsigned int))
@@ -51,9 +60,5 @@ long CMemoryReadFile::getPos() const { return position; }  // +0x1c
 // 0x56ebe0 readAsync(void*, unsigned int, long, callback, void*)
 //   Calls seek(position, false) (result ignored), then the read slot, then callBack(count, count == 0,
 //   this, context); returns 1 (true). Needs the read count.
-//
-// 0x56ec88 getFileName() const and 0x56ec90 getFullPath() const
-//   Both return the word at +0x34 (ldr r0, [r0, #0x34]). That field is not in this layout; the name
-//   std::string is at +0x20 (set() assigns it there). Missing: what +0x34 holds.
 
 }  // namespace glitch::io

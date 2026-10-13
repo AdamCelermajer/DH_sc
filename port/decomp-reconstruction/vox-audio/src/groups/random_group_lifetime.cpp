@@ -64,7 +64,9 @@ RandomGroup::RandomGroup(const RandomGroup& other) : SegmentGroup(other) {
 // 0x882c84 _ZN3vox11RandomGroupD0Ev is the compiler's deleting variant: it calls this body
 // and frees the object, so it is not written out here.
 // The original frees every element record, first the ones in the vector and then the ones on
-// the removed list, then the list nodes. The vector's own buffer is released by its member
+// the removed list, then the list nodes. It does not know whether another group shares a
+// record (SetState from a state or from another group copies pointers), so a record shared by
+// two groups that are both destroyed is freed twice, in the binary as here. The vector's own buffer is released by its member
 // destructor here; the original calls VoxFree on it explicitly.
 RandomGroup::~RandomGroup() {
     for (RandomGroupElement* element : elements_) {

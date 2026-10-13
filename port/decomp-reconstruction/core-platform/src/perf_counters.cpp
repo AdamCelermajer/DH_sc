@@ -8,6 +8,10 @@ namespace {
 // The original's node block, taken in the constructor (0x3e84 bytes).
 constexpr unsigned kNodeBlockSize = 0x3e84;
 
+// Capacity the constructor reserves for the history (10000 floats, from the .clone.4
+// reserve specialisation at 0x311018).
+constexpr std::size_t kHistoryReserve = 10000;
+
 // Every counter entry point checks the same debug switch, after reloading the switch file.
 bool perfCountersEnabled() {
     DebugSwitches::s_inst.load();
@@ -25,10 +29,14 @@ PerfCounters::CounterEntry::CounterEntry(const CounterEntry& other)
       history_(other.history_) {}
 
 // 0x3110c4 / 0x311118 _ZN12PerfCountersC2Ev / _ZN12PerfCountersC1Ev
-// Partial: the listing takes the 0x3e84-byte node block with operator new[] (hint 0,
-// the overload is not identified here) and reserves the history vector. The block is
-// taken here with CustomAlloc; std::list allocates the entry nodes itself.
-PerfCounters::PerfCounters() : buffer_(CustomAlloc(kNodeBlockSize)) {}
+// The listing zeroes time_ and the sample count (+0x4), makes the entry list empty, and
+// calls std::vector<float>::reserve on the history. The reserve call is the .clone.4
+// specialisation (0x311018), which reserves the constant 10000 floats when the capacity is
+// smaller. The 0x3e84-byte node block comes from operator new[](size, hint 0), which
+// forwards to GlitchAlloc and then CustomAlloc (memory.cpp).
+PerfCounters::PerfCounters() : buffer_(CustomAlloc(kNodeBlockSize)) {
+    history_.reserve(kHistoryReserve);
+}
 
 // 0x3115c4 / 0x311620 _ZN12PerfCountersD1Ev / _ZN12PerfCountersD2Ev
 // Frees the node block, as the listing does; the entries and the history are released
@@ -40,10 +48,11 @@ PerfCounters::~PerfCounters() {
 }
 
 // 0x312584 _ZN12PerfCounters8GetEntryERKSs
-// A name that is not present is created: appended to the list with its history sized to
-// the sample count (the number of Update calls, which is history_.size()), all zeros.
-// The listing's construction of the new entry's history is ambiguous in Hex-Rays, so
-// the value and extra fields are left at zero here. Partial for that reason.
+// A name that is not present is created: appended at the back of the list, with its
+// history set to the sample count (this+4, the number of Update calls; here history_.size())
+// zeros. The listing resizes the history to count+1 and then assigns count zeros, so the
+// final size is count. Partial: the listing writes no value, extra1 or extra2 to the new
+// entry, so those stay at their default zero here.
 PerfCounters::CounterEntry* PerfCounters::GetEntry(const std::string& name) {
     for (CounterEntry& entry : entries_) {
         if (entry.name_ == name) {

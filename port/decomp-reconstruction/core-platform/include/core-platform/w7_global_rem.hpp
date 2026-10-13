@@ -21,17 +21,26 @@ struct ObjectManager;
 struct ObjectHandle {
     std::uint32_t words[3];
 };
-// ObjectHandle::GetObject(this, index). Index 0 is the presence check, index 1
-// returns the object whose name pointer is at +0x44.
-void* ObjectHandleGetObject(const ObjectHandle* handle, int index);
-// ObjectManager::GetObjectByName, called on the ObjectManager instance (dword_99F764).
-ObjectHandle ObjectManagerGetObjectByName(ObjectManager* mgr, const char* name, int a, const char* b, int c);
+// ObjectHandle::GetObject(bool assertFound), as declared in game/include/dh2/ObjectHandle.hpp
+// (0x33fdc0). The listing passes 0 (false) for the presence check and 1 (true) for the
+// object itself. Returns the object, or null.
+void* ObjectHandleGetObject(const ObjectHandle* handle, bool assertFound);
+// Name pointer of the object (word 17, byte +0x44 of ObjectBase in the listing).
+const char* ObjectBaseName(void* object);
+// ObjectManager::GetObjectByName(name, flags, active, type), declared in
+// game/include/dh2/ObjectManager.hpp (0x34aca0). The listing returns the handle through
+// a hidden pointer, so it is returned by value here. Called on dword_99F764 with
+// flags -1, active = true (the listing's `&dword_0 + 1` is the integer 1) and type null.
+ObjectHandle ObjectManagerGetObjectByName(ObjectManager* mgr, const char* name, int flags, bool active,
+                                          const char* type);
 extern ObjectManager* g_ObjectManagerInstance;  // dword_99F764
 
 // ---- Debug drawing (stand-in driver call) -----------------------------------
-// dword_99F73C is the debug-draw owner; the driver is at its +0x10. The call goes
-// through the driver's vtable slot at byte offset +0x28 (not named in the tree).
-extern void* g_DbgDrawOwner;  // dword_99F73C
+// dword_99F73C is the debug-draw owner; the driver pointer is at its +0x10. The
+// driver's vtable slot at byte offset +0x28 is glitch::video::IVideoDriver::draw3DBox
+// (aabbox3d<float> const&, SColor) in the IVideoDriver vtable listing; the owner's
+// type is not confirmed as IVideoDriver, so the call stays a stand-in.
+void* DbgDrawOwnerDriver();  // *(dword_99F73C + 0x10)
 int DbgDrawBoxViaDriverSlot28(void* driver, const float rect[6], std::uint32_t packedColor);
 
 // ---- Player and character stand-ins -----------------------------------------

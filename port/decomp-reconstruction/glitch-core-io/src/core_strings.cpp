@@ -30,9 +30,9 @@ std::string int2stringc(int value) {
 namespace {
 
 // Decimal scale factors, indexed by the number of decimal digits: fast_atof_table[0..15] at
-// 0x8be9a4. Entries 0..9 are the DCFS data in the IDA listing; 10..15 are the float bit patterns
-// that follow it there (nearest floats of 10^-10 .. 10^-15). Fractions with 16 or more digits
-// read past the table in the original; the port uses pow there instead (partial, see the notes).
+// 0x8be9a4. The 64 bytes there are float bit patterns: entry 0 is 0.0 and entries 1..15 are the
+// nearest floats to 10^-1 .. 10^-15 (checked bit for bit against the database). Fractions with 16 or
+// more digits read past the table in the original; the port uses pow there instead (partial).
 constexpr float kFastAtofTable[16] = {
     0.f,
     0.1f,

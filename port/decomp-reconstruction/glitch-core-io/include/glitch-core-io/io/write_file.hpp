@@ -1,5 +1,6 @@
-// glitch::io::CWriteFile: plain file writer. Layout: +0x20 handle, +0x24 size,
-// +0x1c name (see NOTES.md for the shared-handle replacement).
+// glitch::io::CWriteFile: plain file writer. Layout: +0x08 name (a 0x18-byte string: end +0x18,
+// begin +0x1c, from the constructor), +0x20 handle, +0x24 size (see NOTES.md for the shared-handle
+// replacement).
 #pragma once
 
 #include <cstddef>
@@ -28,7 +29,7 @@ public:
     CWriteFile& operator=(const CWriteFile&) = delete;
 
 private:
-    std::string fileName;                 // +0x1c
+    std::string fileName;                 // +0x08 (0x18 bytes, through +0x20)
     std::FILE* file = nullptr;            // +0x20
     long size = 0;                        // +0x24
 };

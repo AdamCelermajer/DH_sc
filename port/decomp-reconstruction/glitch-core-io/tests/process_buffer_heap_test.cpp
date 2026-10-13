@@ -68,7 +68,9 @@ int main() {
     dumpProcessBufferAllocations(&logger, glitch::os::ELL_DEBUG);
     CHECK(logger.lines.empty());
 
-    // A request larger than the heap fails unless excess is enabled.
+    // A request larger than the heap fails unless excess is enabled (the static initializer
+    // enables it, so turn it off first).
+    setProcessBufferHeapExcessEnabled(false);
     CHECK(allocProcessBuffer(1000) == nullptr);
     setProcessBufferHeapExcessEnabled(true);
     int* big = allocProcessBuffer(1000);

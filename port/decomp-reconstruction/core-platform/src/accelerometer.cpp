@@ -33,11 +33,12 @@ void AccelerometerBase::update(double) { clear(); }
 
 // 0x33d8dc _ZN17AccelerometerBase5movedEfff
 // Stores the sample, lowers the min and raises the max of each axis, and
-// recomputes the angles. Partial: the listing then raises an event (type 6 with
-// the three components) through EventManager::Raise on the global at dword_99F740,
-// and its event vtable (off_95C580) is not recovered. Neither is declared in this
-// category (the stand-in EventManager in w7_console_01.hpp has Attach/Detach only),
-// so the call is not reproduced here.
+// recomputes the angles. Partial: the listing then raises an EvAcceleration event
+// (vtable off_95C580, from the vtable listing; IEvent base with type 6 at +4, and x, y, z
+// at +8, +0xc, +0x10 as stored by the listing) through EventManager::Raise on the global
+// at dword_99F740 (Application's event manager). Neither EvAcceleration nor
+// EventManager::Raise is declared in core-platform (the stand-in EventManager in
+// w7_console_01.hpp has Attach/Detach only), so the raise is not reproduced here.
 void AccelerometerBase::moved(float x, float y, float z) {
     x_ = x;
     y_ = y;

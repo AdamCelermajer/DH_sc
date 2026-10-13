@@ -7,6 +7,9 @@
 #include <string>
 #include <utility>
 
+#include "tinyxml-and-c-libs/tb/tixml_attribute.hpp"
+#include "tinyxml-and-c-libs/tb/tixml_node.hpp"
+
 class TiXmlDocument;
 class TiXmlElement;
 class TiXmlAttribute;
@@ -22,29 +25,32 @@ public:
     virtual bool VisitExit(const TiXmlElement&) { return true; }
 };
 
-// Subset of TiXmlElement: only the element name is needed by the printer.
-class TiXmlElement {
+// Subset of TiXmlElement: the element name, and the child links (from TiXmlNode) that the printer reads.
+class TiXmlElement : public TiXmlNode {
 public:
     explicit TiXmlElement(std::string value) : value_(std::move(value)) {}
     const std::string& Value() const { return value_; }
 private:
-    std::string value_;  // original: std::string at +0x34 (data pointer)
+    std::string value_;  // original: the name's begin pointer at +0x34 (VisitEnter reads it)
 };
 
-// TiXmlPrinter layout (original, 32-bit): vptr +0x00, depth +0x04,
-// buffer +0x0c, indent +0x34..+0x38 (string data/length, see NOTES.md).
+// TiXmlPrinter layout (original, 32-bit): vptr +0x00, depth +0x04, simpleTextPrint +0x08,
+// buffer +0x0c, indent +0x24 (string object), lineBreak +0x3c (string object). The defaults are set
+// by TiXmlPrinter::TiXmlPrinter (0x485aa0): indent is a tab and lineBreak is a newline.
 class TiXmlPrinter : public TiXmlVisitor {
 public:
     TiXmlPrinter() = default;
     ~TiXmlPrinter() override = default;
 
-    int depth = 0;              // +0x04
-    std::string buffer;         // +0x0c
-    std::string indent = "    "; // +0x34..+0x38
+    int depth = 0;                  // +0x04
+    bool simpleTextPrint = false;   // +0x08
+    std::string buffer;             // +0x0c
+    std::string indent = "\t";      // +0x24
+    std::string lineBreak = "\n";   // +0x3c
 };
 
-// Game subclass. VisitEnter(element) writes the indentation for the current
-// depth followed by "<name" into the buffer.
+// Game subclass. VisitEnter(element, attributes) writes the start tag into the buffer: indentation, "<name",
+// attributes (each on its own line), and then either " />" or ">" with a line break, or the simpleTextPrint flag.
 class TiXmlPrinterDH : public TiXmlPrinter {
 public:
     using TiXmlPrinter::TiXmlPrinter;

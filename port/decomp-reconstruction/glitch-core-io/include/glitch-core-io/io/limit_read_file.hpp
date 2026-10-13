@@ -23,10 +23,11 @@ public:
 
     ~CLimitReadFile() override;  // 0x6b4bcc (D1), 0x6b4b54 (D2): drops the wrapped file
 
-    // 0x6b4740: takes the window from the wrapped file's position and full path.
+    // 0x6b4740: takes the window from the wrapped file's position; the full name is name2 when
+    // given, otherwise the wrapped file's full path, a slash and the name.
     void init(const char* name2);
 
-    IReadFile* clone() const override;  // 0x6b48bc
+    IReadFile* clone() const override;  // 0x6b48bc: the copy gets this reader's name and full name
 
     // 0x6b44e8: PARTIAL, see src. The original returns the byte count of the wrapped read; the
     // port's IReadFile::read slot is void, so the position is not advanced here.

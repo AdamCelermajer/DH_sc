@@ -17,8 +17,7 @@ CMatrix4<float> mult(const CMatrix4<float>& self, const CMatrix4<float>& other);
 CMatrix4<float>& mult34(const CMatrix4<float>& self, const CMatrix4<float>& other, CMatrix4<float>& out);
 
 // 0x5822c8 CMatrix4Base<float>::setbyproduct(const CMatrix4Base&, const CMatrix4Base&): self = a * b,
-// with the identity short-cuts. PARTIAL: the general case goes through setbyproduct_nocheck in the
-// original, which is not reconstructed; it is written here as the same product as mult.
+// with the identity short-cuts. The general case calls setbyproduct_nocheck, as the original does.
 void setbyproduct(CMatrix4<float>& self, const CMatrix4<float>& a, const CMatrix4<float>& b);
 
 // 0x40ea54 CMatrix4Base<float>::setbyproduct_nocheck(const CMatrix4Base&, const CMatrix4Base&): self = a * b

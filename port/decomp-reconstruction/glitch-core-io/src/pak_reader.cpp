@@ -6,6 +6,7 @@
 #include "glitch-core-io/core/sort.hpp"
 
 #include <cstddef>
+#include <cstring>
 
 namespace glitch::io {
 
@@ -51,12 +52,10 @@ CPakReader::~CPakReader() {
     if (readFile != nullptr) readFile->drop();
 }
 
-// 0x56f568 _ZN6glitch2io10CPakReader22deletePathFromFilenameERSbIc...
-// Partial: the original scans the glitch string from its end pointer and tests the byte
-// there first. std::string keeps a terminator at size(), which is never a separator, so
-// that first test is dropped and the scan starts at the last character. The rest matches:
-// the text after the last separator is kept, and a separator at index 0 leaves the string
-// unchanged (the original calls the assign helper with the text after the separator).
+// 0x56f568 _ZN6glitch2io10CPakReader22deletePathFromFilenameERSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
+// The original scans the glitch string from its end pointer and tests the byte there first. For
+// std::string that byte is the terminator (never a separator), so the scan starts at the last
+// character. The text after the last separator is kept; a separator at index 0 leaves name unchanged.
 void CPakReader::deletePathFromFilename(std::string& name) {
     const std::size_t size = name.size();
     if (size == 0) return;
@@ -72,11 +71,14 @@ void CPakReader::deletePathFromFilename(std::string& name) {
 
 
 // 0x57002c _ZN6glitch2io10CPakReaderC1EPNS0_9IReadFileEbb (C2 at 0x5700c4 is the same body)
-// PARTIAL: the scan runs once (scanLocalHeader) and the sort of the entries is not applied.
+// Takes a reference to the file, scans the directory once, then sorts the entries with the
+// heapsort (heapsort<SPakFileEntry> at 0x56fa04; the comparison is operator< above).
 CPakReader::CPakReader(IReadFile* file, bool a, bool b) : readFile(file), flagA(a), flagB(b) {
     if (readFile) {
         ++readFile->referenceCounter;
         scanLocalHeader();
+        const int count = static_cast<int>(entries.size());
+        if (count > 1) glitch::core::heapsort(entries.data(), count);
     }
 }
 
@@ -88,13 +90,25 @@ IReadFile* CPakReader::openFile(int index) {
 }
 
 // 0x56fcec _ZN6glitch2io10CPakReader15extractFilenameEPNS0_13SPakFileEntryE
-// PARTIAL: lower-cases the path (ASCII 'A'..'Z') when flagA is set. The original's separator
-// handling afterwards is not recovered.
+// PARTIAL: the separator is searched in a fixed 56-byte window of the path buffer (the pak name
+// field, scanned from index 55 down, with index 56 tested first). The port searches the string's
+// own length. The bytes past the terminator, which the original also reads, are not reproduced.
 void CPakReader::extractFilename(SPakFileEntry* entry) {
-    if (!flagA) return;
-    for (char& c : entry->path) {
-        if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
+    std::string& path = entry->path;
+    if (flagA) {
+        for (char& c : path) {
+            if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
+        }
     }
+    // Only '/' splits here (the original does not test '\\'). A '/' at index 0 counts as none.
+    const std::size_t sep = path.rfind('/');
+    if (sep == std::string::npos || sep == 0) {
+        entry->name = path;
+        entry->extra.clear();
+        return;
+    }
+    entry->extra = path.substr(0, sep + 1);
+    entry->name = flagB ? path.substr(sep + 1) : path;
 }
 
 // 0x5703b8 _ZN6glitch2io10CPakReader8openFileEPKc
@@ -105,9 +119,11 @@ IReadFile* CPakReader::openFile(const char* name) {
 }
 
 // 0x5702b4 _ZN6glitch2io10CPakReader8findFileEPKc
-// PARTIAL: the key is built from the name (the path is left empty) and lower-cased when
-// flagA is set, as the decompile shows. The search is the shared binary search over the
-// entries, which relies on the same name ordering as the sort.
+// The key is a new entry whose name is the argument, and its path is left empty. The original runs
+// three steps on the key name, in order: lower-case it when flagA (+0x24) is set; cut it to the text
+// after its last '/' or '\\' when flagB (+0x25) is set (the call to deletePathFromFilename at 0x570368);
+// then the shared binary search (lower_bound plus an equality test) over the entries, which relies on
+// the same name order as the sort in the constructor.
 int CPakReader::findFile(const char* name) {
     SPakFileEntry key;
     key.name = name;
@@ -116,13 +132,70 @@ int CPakReader::findFile(const char* name) {
             if (c >= 'A' && c <= 'Z') c = static_cast<char>(c + ' ');
         }
     }
+    if (flagB) deletePathFromFilename(key.name);
     return glitch::core::binary_search(entries, key);
 }
 
-// 0x56fa04 / 0x56fc0c: see the declaration in pak_reader.hpp for the comparison used.
-bool operator<(const SPakFileEntry& a, const SPakFileEntry& b) { return a.name < b.name; }
+// 0x56fa04 / 0x56fc0c / 0x57015c: the inlined comparator (see pak_reader.hpp). The name bytes are
+// compared as signed chars (LDRSB in the heapsink listing); when one is a prefix of the other the
+// shorter one is less.
+namespace {
+bool signedCharNameLess(const std::string& a, const std::string& b) {
+    const std::size_t common = a.size() < b.size() ? a.size() : b.size();
+    for (std::size_t i = 0; i < common; ++i) {
+        const auto ca = static_cast<signed char>(a[i]);
+        const auto cb = static_cast<signed char>(b[i]);
+        if (ca != cb) return ca < cb;
+    }
+    return a.size() < b.size();
+}
+}  // namespace
 
-// 0x56fe44 _ZN6glitch2io10CPakReader15scanLocalHeaderEv: PARTIAL stub, records no entries.
-void CPakReader::scanLocalHeader() {}
+bool operator<(const SPakFileEntry& a, const SPakFileEntry& b) { return signedCharNameLess(a.name, b.name); }
+
+namespace {
+// Little-endian 32-bit field of the pak file (Decisions in force: file data is decoded field by field).
+std::uint32_t readLe32(const std::uint8_t* p) {
+    return static_cast<std::uint32_t>(p[0]) | (static_cast<std::uint32_t>(p[1]) << 8) |
+           (static_cast<std::uint32_t>(p[2]) << 16) | (static_cast<std::uint32_t>(p[3]) << 24);
+}
+}  // namespace
+
+// 0x56fe44 _ZN6glitch2io10CPakReader15scanLocalHeaderEv
+// The original zeroes the header fields, reads 12 bytes at the current position, then tests byte 0
+// for 'P' or byte 1 for 'A' (the two compares of the decompile, joined by ||). The directory is read
+// from its offset: one 64-byte record per entry, a 56-byte name (NUL-terminated at 56), then the
+// offset and the size. A short read is not reported, because IReadFile::read returns nothing here.
+bool CPakReader::scanLocalHeader() {
+    if (readFile == nullptr) return false;  // the original dereferences the file here
+    header[0] = header[1] = header[2] = header[3] = 0;
+    directoryOffset = 0;
+    directorySize = 0;
+    std::uint8_t raw[12] = {};
+    readFile->read(raw, 12);
+    std::memcpy(header, raw, sizeof header);
+    directoryOffset = readLe32(raw + 4);
+    directorySize = readLe32(raw + 8);
+    if (!(header[0] == 'P' || header[1] == 'A')) return false;
+
+    readFile->seek(static_cast<long>(directoryOffset), false);
+    const std::uint32_t count = directorySize >> 6;  // 0x40 bytes per record
+    for (std::uint32_t i = 0; i != count; ++i) {
+        char nameBuffer[57];
+        readFile->read(nameBuffer, 56);
+        nameBuffer[56] = '\0';
+        SPakFileEntry entry;
+        entry.path = nameBuffer;  // up to the first NUL, as strlen gives
+        extractFilename(&entry);
+        std::uint8_t offsetBytes[4] = {};
+        std::uint8_t sizeBytes[4] = {};
+        readFile->read(offsetBytes, 4);
+        readFile->read(sizeBytes, 4);
+        entry.offset = static_cast<std::int32_t>(readLe32(offsetBytes));
+        entry.size = static_cast<std::int32_t>(readLe32(sizeBytes));
+        entries.push_back(entry);
+    }
+    return true;
+}
 
 }  // namespace glitch::io

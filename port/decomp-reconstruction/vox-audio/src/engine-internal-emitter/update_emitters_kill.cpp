@@ -2,10 +2,12 @@
 // advances the master and group fades, pushes each group's gain to its emitters, updates
 // every emitter, collects the dead ones, and kills them after the read pass.
 #include "vox-audio/vox/data_obj.hpp"
+#include "vox-audio/vox/decoder.hpp"
 #include "vox-audio/vox/emitter_obj.hpp"
 #include "vox-audio/vox/gain_fade.hpp"
 #include "vox-audio/vox/memory.hpp"
 #include "vox-audio/vox/priority_bank.hpp"
+#include "vox-audio/vox/stream.hpp"
 #include "vox-audio/vox/voxengine_internal.hpp"
 
 namespace vox {
@@ -93,15 +95,18 @@ int VoxEngineInternal::UpdateEmitters(float dt) {
 
 // 0x86e160 _ZN3vox17VoxEngineInternal11KillEmitterEPNS_10EmitterObjE
 // Partial. Done: the slot stamp is bumped (the handles to this emitter go stale), the
-// priority bank entry is removed, the emitter is unregistered from its data object, and the
-// object is destroyed. Not done, because the pieces are not in the port:
-//   - the driver call at slot +0x48 that the original makes when the emitter has a DSP
-//     source (+0x110), with no argument;
-//   - the release of the source object the emitter owns (+0x114, a DataSource with vtable
-//     slots +0x14 and +0x20, plus the source's own release at +0x30);
-//   - the push of the data object onto the pending-release list (sentinel at +0x6c, its
-//     mutex at +0x74) that UpdateSources drains.
-// Until those are in, the data objects of killed emitters are not released.
+// priority bank entry is removed, the emitter's decoder cursor (+0x114) and its stream cursor
+// are released, the emitter is unregistered from its data object, the data object is queued
+// for release (QueueForRelease, the pending list at +0x6c under its mutex at +0x74), and the
+// object is destroyed.
+// Cursor release, as the listing shows it (0x86e160, asm 0x86e1d0-0x86e2ec): the stream cursor
+// comes from DecoderCursorInterface::GetStreamCursor (slot +0x30) and goes to the data object's
+// stream (+0x38, slot +0x18) or is destroyed directly when there is none; the cursor goes to the
+// data object's decoder (+0x3c, DestroyCursor slot +0x14) or is destroyed directly. The release
+// runs only when the emitter has a data object.
+// Not done: the driver call at slot +0x48 that the original makes when the emitter has a DSP
+// source (+0x110). The asm (0x86e1a0-0x86e1b4) passes the driver in R0 alone, with no second
+// argument. DriverInterface has no no-argument slot +0x48 in the port, so the call is not made.
 void VoxEngineInternal::KillEmitter(EmitterObj* emitter) {
     if (emitter == nullptr) {
         return;
@@ -114,7 +119,24 @@ void VoxEngineInternal::KillEmitter(EmitterObj* emitter) {
 
     data_objects_access_.GetReadAccess();
     if (DataObj* data = emitter->data_) {
+        if (DecoderCursorInterface* cursor = emitter->decoder_cursor_) {  // +0x114
+            if (StreamCursorInterface* stream_cursor = cursor->GetStreamCursor()) {  // slot +0x30
+                if (StreamInterface* stream = data->stream_) {                       // DataObj +0x38
+                    stream->DestroyCursor(stream_cursor);                            // slot +0x18
+                } else {
+                    Destruct(stream_cursor);
+                    VoxFree(stream_cursor);
+                }
+            }
+            if (DecoderInterface* decoder = data->decoder_) {  // DataObj +0x3c
+                decoder->DestroyCursor(cursor);                // slot +0x14
+            } else {
+                Destruct(cursor);
+                VoxFree(cursor);
+            }
+        }
         data->UnregisterEmitter(emitter->id);
+        QueueForRelease(data);
     }
     data_objects_access_.ReleaseReadAccess();
 

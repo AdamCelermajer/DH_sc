@@ -144,9 +144,10 @@ void* operator new(std::size_t size, swf::MemHint hint) { return SwfAlloc(static
 void* operator new[](std::size_t size, swf::MemHint hint) { return SwfAlloc(static_cast<unsigned>(size), hint); }
 
 // 0x752b48 _ZnwjN3swf7MemHintEPKci
-// Partial: the listing is a thunk to gameswf::malloc_internal(size, hint, file, line),
-// which belongs to the gameswf category and is not declared here. SwfAlloc stands in
-// for it with the same four arguments.
+// Partial: the listing is a thunk to gameswf::malloc_internal(size, hint, file, line)
+// (vendor-gameswf queue row 0x752b3c, not defined in this tree yet). Decision 4 says
+// the thunk forwards to its target, so SwfAlloc stands in for it with the same four
+// arguments until that target is reconstructed.
 void* operator new(std::size_t size, swf::MemHint hint, const char* file, int line) {
     return SwfAlloc(static_cast<unsigned>(size), hint, file, line);
 }

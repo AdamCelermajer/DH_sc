@@ -26,6 +26,10 @@ public:
         std::uint32_t ID = 0;
         // +0x34
         bool isDirectory = false;
+
+        // 0x6b41d8 (the order heapsink<FileEntry> uses, sort.hpp): a directory is less than a file;
+        // otherwise the names compare as strcasecmp does.
+        bool operator<(const FileEntry& other) const;
     };
 
     CFileList() = default;                             // 0x6b4418, 0x6b4480

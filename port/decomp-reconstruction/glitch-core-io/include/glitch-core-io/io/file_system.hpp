@@ -1,10 +1,11 @@
-// glitch::io::CFileSystem: the file system facade. Only the members used by the reconstructed
-// functions are declared. Not modelled yet: the constructor's archive containers (+0x08 ..),
-// the archive functions, the obfuscation map and the XML reader factories (they need the
-// IrrXML reader interface, which the port does not have).
+// glitch::io::CFileSystem: the file system facade. The object is 0x2c bytes (operator new in
+// createFileSystem): vtable, refcount, and the three archive lists (zip, pak, unzip). Not
+// modelled yet: the archive add/remove functions, the obfuscation map and the XML reader
+// factories (they need the IrrXML reader interface, which the port does not have).
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "glitch-core-io/io/attributes.hpp"
 #include "glitch-core-io/io/file_list.hpp"
@@ -15,19 +16,22 @@
 
 namespace glitch::io {
 
+class CZipReader;
+class CPakReader;
+class CUnZipReader;
+
 class CFileSystem : public IFileSystem {
 public:
-    // 0x56c058, 0x56c0a8: PARTIAL. The original clears its archive lists and the obfuscation
-    // map; the port has no such lists, so the default state is the same as far as it goes.
-    CFileSystem() = default;
-    // 0x56cc44 (D1), 0x56ccc4 (D2): PARTIAL, releases the archive lists through clear().
+    // 0x56c058 (C2), 0x56c0a8 (C1): zeroes the refcount (+0x04, so createFileSystem returns an
+    // object with count 0) and the three archive lists; the vtable is implicit.
+    CFileSystem();
+    // 0x56cc44 (D1), 0x56ccc4 (D2): clear() drops the archive readers; the lists are then freed.
     ~CFileSystem();
 
-    // 0x56cb78: PARTIAL, drops the archives. The port keeps no archive lists (zip, pak and
-    // unzip), so there is nothing to drop.
+    // 0x56cb78: drops every reader in the three archive lists and empties them.
     void clear();
-    // 0x56df38: PARTIAL, 1 when a file of the name can be opened for reading. The archive
-    // lists are not searched.
+    // 0x56df38: 1 when a zip, pak or unzip archive lists the name, or when the file can be opened
+    // for reading; 0 otherwise. PARTIAL: the last step uses fopen, not CFileSystem::open (0x56dc40).
     int existFile(const char* name) const;
     // 0x34df7c: forwards to the name overload.
     int existFile(const std::string& name) const;
@@ -55,12 +59,19 @@ public:
     // 0x56c6b4: the part before the last '/' or '\\', or "." when there is none.
     std::string getFileDir(const std::string& path) const;
     // 0x56c740: the file name after the last separator; without keepExtension the text from the
-    // last '.' is dropped too. PARTIAL: a dot before the separator is not handled as the original
-    // (its length is computed unsigned and can wrap).
+    // last '.' is dropped too. A dot before the separator gives the rest after the separator, as
+    // the original's unsigned count does.
     std::string getFileBasename(const std::string& path, bool keepExtension) const;
 
-    // The working directory is a process-wide static in the original.
+    // The working directory is a process-wide static in the original (char[1024], symbols.csv).
     static std::string WorkingDirectory;  // _ZN6glitch2io11CFileSystem16WorkingDirectoryE
+
+protected:
+    // The archive lists, 12 bytes each in the original (begin, end, capacity). Each element is
+    // referenced; clear() drops them. Protected so a derived test can fill them.
+    std::vector<CZipReader*> zipReaders;      // +0x08
+    std::vector<CPakReader*> pakReaders;      // +0x14
+    std::vector<CUnZipReader*> unZipReaders;  // +0x20
 };
 
 // 0x56c2d8 _ZN6glitch2io16createFileSystemEv

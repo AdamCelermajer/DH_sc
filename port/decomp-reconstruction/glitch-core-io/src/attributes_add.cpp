@@ -268,7 +268,8 @@ void CAttributes::addEnum(const char* name, const char* value, const char* const
 }
 
 // 0x56b400 _ZN6glitch2io11CAttributes12setAttributeEPKcS3_PKS3_
-// PARTIAL: an existing attribute takes the value through setEnum (slot +0xf8); a new one is
+// PARTIAL: an existing attribute takes the value through setEnum (slot +0xf8). The port's CEnumAttribute
+// has no setEnum override (0x5656c8 is skipped: the choice table is not in the layout). A new one is
 // created with the partial enumeration constructor and the flag clear.
 void CAttributes::setAttribute(const char* name, const char* value, const char* const* choices) {
     if (IAttribute* a = getAttributeP(name)) {
@@ -279,7 +280,8 @@ void CAttributes::setAttribute(const char* name, const char* value, const char* 
 }
 
 // 0x56ba54 _ZN6glitch2io11CAttributes12setAttributeEPKcNS_4core8aabbox3dIfEE
-// PARTIAL: the existing branch calls the setter at slot +0xec; here it is setBBox, by name.
+// The existing box goes through setBBox (slot +0xec). A missing box is a CBBoxAttribute: the original
+// runs the CNumbersAttribute box constructor (0x566318), then writes the CBBoxAttribute vtable.
 void CAttributes::setAttribute(const char* name, const glitch::core::aabbox3d<float>& value) {
     if (IAttribute* a = getAttributeP(name)) {
         a->setBBox(value);
@@ -289,7 +291,7 @@ void CAttributes::setAttribute(const char* name, const glitch::core::aabbox3d<fl
 }
 
 // 0x566db0 _ZN6glitch2io11CAttributes12setAttributeEPKcN5boost13intrusive_ptrINS_5video6CLightEEE
-// PARTIAL: a new light attribute is created with the partial constructor (its light stays null).
+// A new light attribute keeps the light, with the container's driver and the flag clear.
 void CAttributes::setAttribute(const char* name, boost::intrusive_ptr<glitch::video::CLight> value) {
     if (IAttribute* a = getAttributeP(name)) {
         a->setLight(value);
@@ -299,7 +301,7 @@ void CAttributes::setAttribute(const char* name, boost::intrusive_ptr<glitch::vi
 }
 
 // 0x568238 _ZN6glitch2io11CAttributes8addLightEPKcN5boost13intrusive_ptrINS_5video6CLightEEEb
-// PARTIAL: the light attribute's constructor does not store the light (see CLightAttribute).
+// The light attribute's constructor keeps the light and the driver, each with a reference.
 void CAttributes::addLight(const char* name, boost::intrusive_ptr<glitch::video::CLight> value, bool flag) {
     currentAttributes().push_back(new CLightAttribute(name, value, driver, flag));
 }
@@ -343,7 +345,8 @@ void CAttributes::setAttribute(int index, const std::vector<std::wstring>& value
 }
 
 // 0x5641ac _ZN6glitch2io11CAttributes44getAttributeEnumerationLiteralsOfEnumerationEPKcRSt6vectorISbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEENS8_ISC_LSA_0EEEE
-// PARTIAL: the literal list of an enumeration (type code 4) is not in the port's layout.
+// PARTIAL: the original copies the literal vector at +0x3c when getType() is 4 (enumeration). The port's
+// CEnumAttribute has no literal vector, so the output is left unchanged.
 void CAttributes::getAttributeEnumerationLiteralsOfEnumeration(const char* name, std::vector<std::string>& literals) const {
     (void)name;
     (void)literals;

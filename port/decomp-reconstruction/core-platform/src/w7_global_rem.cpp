@@ -10,8 +10,10 @@
 // 0x340154 _Z21DBG_DisplayPointAsBoxRKN6glitch4core8vector3dIfEERKNS_5video6SColorEi
 // Partial: the box extents and the packed colour follow the listing (rect order
 // x-r, y-r, z-r, x+r, y+r, z+r; colour bytes packed R | G<<8 | B<<16 | A<<24).
-// The driver call at vtable +0x28 is a stand-in (DbgDrawBoxViaDriverSlot28); the
-// slot's method name is not recovered. The stand-in's result is returned, as the listing does.
+// The driver call at vtable +0x28 is a stand-in (DbgDrawBoxViaDriverSlot28). That
+// slot is IVideoDriver::draw3DBox(aabbox3d<float> const&, SColor) in the IVideoDriver
+// vtable, and the argument shape matches, but the owner's type at dword_99F73C+0x10
+// is not confirmed. The stand-in's result is returned, as the listing does.
 int DBG_DisplayPointAsBox(const glitch::core::vector3d<float>& point, const glitch::video::SColor& color, int size) {
     const float half = static_cast<float>(size / 2);
     const float rect[6] = {
@@ -23,32 +25,34 @@ int DBG_DisplayPointAsBox(const glitch::core::vector3d<float>& point, const glit
                                  (static_cast<std::uint32_t>(bytes[1]) << 8) |
                                  (static_cast<std::uint32_t>(bytes[2]) << 16) |
                                  (static_cast<std::uint32_t>(bytes[3]) << 24);
-    void* driver = *reinterpret_cast<void**>(static_cast<char*>(g_DbgDrawOwner) + 0x10);
+    void* driver = DbgDrawOwnerDriver();
     return DbgDrawBoxViaDriverSlot28(driver, rect, packed);
 }
 
 // 0x342478 _ZlsRSoR12ObjectHandle
-// Partial: ObjectHandle is a stand-in. The name is the pointer at word 17 (+0x44)
-// of the object. The original writes it with _M_put_nowiden (no width handling);
-// operator<< is used here.
+// Partial: ObjectHandle is a stand-in (three words). ObjectHandle::GetObject(bool)
+// is called with false as the presence check and true for the object, as the owner
+// declaration in game/include/dh2/ObjectHandle.hpp gives. The name is the pointer
+// at +0x44 of the object. The original writes it with _M_put_nowiden, which pads
+// to the stream width as operator<< does, so operator<< matches it here.
 std::ostream& operator<<(std::ostream& os, ObjectHandle& handle) {
-    if (ObjectHandleGetObject(&handle, 0)) {
-        void* object = ObjectHandleGetObject(&handle, 1);
-        const char* name = *reinterpret_cast<const char* const*>(static_cast<char*>(object) + 0x44);
-        os << name;
+    if (ObjectHandleGetObject(&handle, false)) {
+        void* object = ObjectHandleGetObject(&handle, true);
+        os << ObjectBaseName(object);
     }
     return os;
 }
 
 // 0x34b170 _ZrsRSiR12ObjectHandle
-// Partial: reads one whitespace-delimited name, looks it up on the ObjectManager and
-// copies the three-word handle back. The third GetObjectByName argument is
-// `&dword_0 + 1` in the pseudocode (an address inside the ELF header); it is taken
-// as the empty string here, which is not confirmed.
+// Partial: reads one whitespace-delimited name, then calls
+// GetObjectByName(name, -1, true, nullptr) on the ObjectManager and copies the
+// three-word handle back. The listing's third argument `&dword_0 + 1` is the integer
+// 1, which is the bool `active`, and the fourth is 0 (null type). The
+// ObjectManager stand-in is not in this tree, so the handle lookup stays partial.
 std::istream& operator>>(std::istream& is, ObjectHandle& handle) {
     std::string name;
     is >> name;
-    ObjectHandle found = ObjectManagerGetObjectByName(g_ObjectManagerInstance, name.c_str(), -1, "", 0);
+    ObjectHandle found = ObjectManagerGetObjectByName(g_ObjectManagerInstance, name.c_str(), -1, true, nullptr);
     handle = found;
     return is;
 }
@@ -135,7 +139,10 @@ std::string ParsePlayerName(const std::string& name) {
 
 // 0x43a8f0 _Z17UpdateSavedValuesv
 // Partial: reads the "AutoOrientation" option and applies it to the orientation.
-// Both calls are stand-ins for Application members.
+// Both calls are stand-ins for Application members. Their signatures match
+// game/include/dh2/Application.hpp (GetSavedOption(const char*) at 0x320e44,
+// ResetOrientation(int) at 0x31f748, which the owner header marks empty), but the
+// Application instance (Singleton<Application>::s_inst) is not reachable from this category.
 void UpdateSavedValues() {
     int savedOption = ApplicationGetSavedOption("AutoOrientation");
     ApplicationResetOrientation(savedOption);

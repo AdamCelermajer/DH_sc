@@ -27,20 +27,17 @@ struct SPakFileEntry {
     std::int32_t size = 0;    // +0x4c: size of the file data (limit of the reader)
 };
 
-// 0x56fa04 / 0x56fc0c use operator< on entries. PARTIAL: the decompiled comparator reads a
-// string field at +0x28..+0x2c; the port compares the name (+0x18), the field that findFile
-// keys on. Order of equal-prefix names follows std::string, not the original's signed char
-// compare.
+// 0x56fa04 / 0x56fc0c / 0x57015c use operator< on entries. The inlined comparator reads the name
+// string (+0x18: its end and begin pointers at +0x28 and +0x2c) and compares the bytes as signed
+// chars, then the lengths. The name is the field findFile keys on.
 bool operator<(const SPakFileEntry& a, const SPakFileEntry& b);
 
 class CPakReader : public glitch::IReferenceCounted {
 public:
-    // The original constructor (0x57002c, 0x5700c4) reads the directory through
-    // scanLocalHeader and sorts it; neither is reconstructed. This default constructor
-    // gives an empty directory (used by the tests).
+    // The default constructor gives an empty directory (used by the tests).
     CPakReader() = default;
-    // 0x57002c (C1), 0x5700c4 (C2): references the file and scans its directory once.
-    // PARTIAL: the scan (scanLocalHeader) and the entry sort are not reconstructed.
+    // 0x57002c (C1), 0x5700c4 (C2): takes a reference to the file, scans its directory once
+    // (scanLocalHeader) and sorts the entries by name (heapsort, core/sort.hpp).
     CPakReader(IReadFile* file, bool flagA, bool flagB);
     ~CPakReader() override;  // 0x56f6f4 (D1), 0x56f73c (D2): drops the read file
 
@@ -49,14 +46,19 @@ public:
     IReadFile* openFile(int index);
     // 0x5703b8: the reader for the named entry; null when there is no such entry.
     IReadFile* openFile(const char* name);
-    // 0x5702b4: PARTIAL. Index of the entry whose name matches (the key's name is lower-cased
-    // when flagA is set), or -1. The lookup is a binary search over the sorted entries.
+    // 0x5702b4: index of the entry whose name matches. The key's name is lower-cased when flagA
+    // is set, then cut to its base name (deletePathFromFilename) when flagB is set, or -1.
+    // A binary search over the sorted entries.
     int findFile(const char* name);
-    // 0x56fcec: PARTIAL. Lower-cases the path when flagA is set; the separator trimming that
-    // follows in the original is not recovered (the pseudocode indexes a fixed offset).
+    // 0x56fcec: PARTIAL. Lower-cases the path when flagA is set, then splits it at the last '/':
+    // the text before and including the '/' goes to extra; name gets the file name, or the whole
+    // path when flagB is clear. The original scans a fixed 56-byte window of the name buffer (bytes
+    // past the terminator are stale there); the port scans the string's own length.
     void extractFilename(SPakFileEntry* entry);
-    // Directory scan, not reconstructed: records nothing.
-    void scanLocalHeader();
+    // 0x56fe44: reads the 12-byte header (see the members below), then one 64-byte record per
+    // entry: a 56-byte name, a 32-bit offset and a 32-bit size. Returns false when the signature
+    // does not match, in which case no entry is read.
+    bool scanLocalHeader();
 
     CPakReader(const CPakReader&) = delete;
     CPakReader& operator=(const CPakReader&) = delete;
@@ -65,13 +67,19 @@ public:
     const SPakFileEntry* getFileInfo(int index) const;  // 0x56f464: begin + index * 0x50
 
     // 0x56f568: keeps the text after the last '/' or '\\' in name. A separator at index 0
-    // or no separator at all leaves name unchanged. The original works on a glitch string
-    // whose end pointer holds the terminator; for std::string the same scan is done from
-    // the last character. Partial: see src/pak_reader.cpp.
+    // or no separator at all leaves name unchanged. The original first tests the byte at the
+    // end pointer; for std::string that byte is the terminator, so the test never succeeds and the
+    // scan starts at the last character.
     void deletePathFromFilename(std::string& name);
 
     // +0x08: the archive's read file (reference counted; released in the destructor).
     glitch::io::IReadFile* readFile = nullptr;
+    // +0x0c .. +0x18: the 12-byte header read by scanLocalHeader. The first four bytes are the
+    // signature (the original tests byte 0 for 'P' and byte 1 for 'A'); the directory offset is
+    // at +0x10 and the directory size at +0x14, both 32-bit little-endian.
+    std::uint8_t header[4] = {};        // +0x0c
+    std::uint32_t directoryOffset = 0;  // +0x10
+    std::uint32_t directorySize = 0;    // +0x14
     // +0x18 .. +0x20: entry vector (begin, end, capacity).
     std::vector<SPakFileEntry> entries;
     // +0x24, +0x25: flags passed to the constructor (their uses are not recovered).

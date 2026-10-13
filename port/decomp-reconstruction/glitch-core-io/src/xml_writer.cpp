@@ -63,12 +63,25 @@ void CXMLWriter::writeClosingTag(const wchar_t* name) {
 }
 
 // 0x576bb8 _ZN6glitch2io10CXMLWriter9writeTextEPKw
-// PARTIAL: the original replaces the characters listed in the XML escape table (and '&')
-// before writing. That table is not read here, so the text is written as it is. The flag
-// is set afterwards, as in the original.
+// The text is copied through the escape table of the original (glitch::io::XMLWSChar at 0x957380):
+// '&' -> "&amp;", '<' -> "&lt;", '>' -> "&gt;", '"' -> "&quot;". The apostrophe is not in the table.
+// The escaped text is written in one call (its byte count may be zero), then the flag is set.
 void CXMLWriter::writeText(const wchar_t* text) {
     if (!file || !text) return;
-    writeWords(file, text);
+    std::wstring escaped;
+    for (const wchar_t* p = text; *p; ++p) {
+        switch (*p) {
+            case L'&': escaped += L"&amp;"; break;
+            case L'<': escaped += L"&lt;"; break;
+            case L'>': escaped += L"&gt;"; break;
+            case L'"': escaped += L"&quot;"; break;
+            default: escaped.push_back(*p); break;
+        }
+    }
+    // One extra zero unit keeps the data pointer valid when the escaped text is empty.
+    std::vector<std::uint32_t> words(escaped.size() + 1, 0);
+    for (std::size_t i = 0; i < escaped.size(); ++i) words[i] = static_cast<std::uint32_t>(escaped[i]);
+    file->write(words.data(), static_cast<unsigned int>(escaped.size() * 4));
     flag = true;
 }
 
@@ -100,7 +113,7 @@ void writeElementBody(CXMLWriter& w, IWriteFile* file, int& indent, bool& flag, 
     writeWords(file, name);
     writeAttributes(w);
     if (empty) {
-        writeWords(file, L"/>\n");  // PARTIAL literal, see the header
+        writeWords(file, L" />");  // 12-byte literal at 0x8df070 (space, slash, greater-than)
     } else {
         writeWords(file, L">");
         ++indent;

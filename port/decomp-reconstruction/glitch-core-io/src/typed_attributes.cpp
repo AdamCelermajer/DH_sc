@@ -83,8 +83,9 @@ const wchar_t* CPlaneAttribute::getTypeString() const { return L"plane"; }
 int CTriangleAttribute::getType() const { return 0x13; }
 
 // 0x561d50 _ZNK6glitch2io17CTriangleAttribute8getPlaneEv
-// PARTIAL: the plane is built from the three corners returned by the attribute's getTriangle (the
-// vtable slot the original calls). The normalize step of setPlane is assumed (see deps).
+// The plane is built from the three corners A, B, C returned by the attribute's getTriangle (vtable
+// +0x48 in the listing, the virtual here). setPlane (0x561bdc) normalizes with vector3d::normalize,
+// which matches its listing (0x35e8e0).
 glitch::core::plane3d<float> CTriangleAttribute::getPlane() const {
     const glitch::core::triangle3d<float> t = getTriangle();
     glitch::core::plane3d<float> plane{};

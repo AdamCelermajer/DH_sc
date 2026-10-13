@@ -6,10 +6,11 @@ namespace glitch::io {
 
 // 0x56c9e8 _ZN6glitch2io5CFileC1EP7__sFILEPKcb
 // 0x56c960 _ZN6glitch2io5CFileC2EP7__sFILEPKcb (same body)
-// PARTIAL: the separator passed to find_last_of is not recovered (the call is a GCC clone
-// with the literal baked in). '/' and '\\' are used, as in CPakReader::deletePathFromFilename.
-// When no separator is found the base name is the whole name (the original leaves +0x20
-// unset). When the separator is the last character the original throws out_of_range.
+// The find_last_of call is a GCC clone (0x56c844) with the separator set folded in. Its bitmap
+// holds '/' (0x2f) and '\\' (0x5c), and the search runs from the end of the name. When the last
+// character is a separator the original throws out_of_range.
+// PARTIAL: when the name has no separator the original stores nothing at +0x20, so the base name
+// offset keeps whatever the object was allocated with. The port default-initialises the offset to 0.
 CFile::CFile(std::FILE* handle, const char* fileName, bool obfuscatedFlag)
     : file(handle), name(fileName ? fileName : "") {
     obfuscated = obfuscatedFlag;

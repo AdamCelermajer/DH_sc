@@ -172,7 +172,7 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x56055c
     const wchar_t* getTypeString() const;  // 0x560564
-    // 0x561d50: PARTIAL. The plane through the triangle's corners A, B, C (see plane3d::setPlane).
+    // 0x561d50: the plane through the triangle's corners A, B, C (see plane3d::setPlane).
     glitch::core::plane3d<float> getPlane() const;
 };
 

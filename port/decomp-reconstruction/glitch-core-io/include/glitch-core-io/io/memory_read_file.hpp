@@ -25,9 +25,12 @@ public:
     bool seek(long offset, bool relative) override;           // 0x56ec3c
     long getSize() const override;                            // 0x56ec78
     long getPos() const override;                             // 0x56ec80
-    // Not declared yet (see the batch ledger): read (0x56ecc4), readAsync (0x56ebac, 0x56ebe0),
-    // getFileName (0x56ec88) and getFullPath (0x56ec90). Their bodies need the count returned by
-    // read (IReadFile::read is declared void here) and the +0x34 field (not in this layout).
+    // 0x56ec88, 0x56ec90: the name. The original returns the character data of the name string
+    // (ldr r0, [r0, #0x34]: the begin pointer of the string at +0x20); the port's slot returns the string.
+    const std::string& getFileName() const override;  // 0x56ec88
+    const std::string& getFullPath() const override;  // 0x56ec90
+    // Not declared yet (see the batch ledger): read (0x56ecc4), readAsync (0x56ebac, 0x56ebe0). Their
+    // bodies need the count returned by read; IReadFile::read is declared void in read_file.hpp.
 
     // +0x0c: block start (void*)
     void* buffer = nullptr;

@@ -3,16 +3,21 @@
 #include "core-platform/deps/debug_switches.hpp"
 #include "core-platform/deps/io_stream.hpp"
 #include "core-platform/filesystem_base.hpp"
+#include "core-platform/memory.hpp"
 
 #include <cerrno>
+#include <cstdint>
 #include <cstring>
-#include <filesystem>
+#include <string>
 #include <utility>
+#include <vector>
 
 #ifdef _WIN32
 #include <direct.h>
+#include <io.h>
 #define DH2_UNLINK _unlink
 #else
+#include <dirent.h>
 #include <unistd.h>
 #define DH2_UNLINK unlink
 #endif
@@ -26,6 +31,44 @@ namespace {
 void traceFileSystemFailure() {
     DebugSwitches::s_inst.load();
     (void)DebugSwitches::s_inst.GetSwitch("isTracingFileSystem");
+}
+
+// Appends the entry names of dir to names, in directory order, "." and ".." included.
+// This is the original's opendir/readdir loop: the name is the dirent d_name field
+// (offset 0x13 in the listing). On Windows the same entries come from _findfirst, the
+// CRT search that MinGW's readdir also wraps, so MSVC and MinGW list alike. Returns false
+// when dir cannot be opened, and then nothing is appended.
+bool listDirectory(const char* dir, std::vector<std::string>& names) {
+#ifdef _WIN32
+    if (dir[0] == '\0') {
+        return false;  // opendir("") fails
+    }
+    std::string pattern(dir);
+    if (pattern.back() != '/' && pattern.back() != '\\') {
+        pattern += '\\';
+    }
+    pattern += '*';
+    _finddata_t info;
+    const intptr_t handle = _findfirst(pattern.c_str(), &info);
+    if (handle == -1) {
+        return false;
+    }
+    do {
+        names.emplace_back(info.name);
+    } while (_findnext(handle, &info) == 0);
+    _findclose(handle);
+    return true;
+#else
+    DIR* d = opendir(dir);
+    if (d == nullptr) {
+        return false;
+    }
+    while (struct dirent* entry = readdir(d)) {
+        names.emplace_back(entry->d_name);
+    }
+    closedir(d);
+    return true;
+#endif
 }
 }  // namespace
 
@@ -70,12 +113,15 @@ void FileSystemWin32::_getPaths() {
 
 // 0x34fc18 _ZN15FileSystemWin3211_FileHandleC1EPKcS2_bb
 // C2 at 0x35003c (_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb) is the same body.
+// The path is dir + name, or RES_PATH + name when the name contains ".savegame".
+// Modes from Hex-Rays: read-only "rb"; writable with readwrite "a+b"; writable without
+// readwrite "w+b". canRead is set in every case and canWrite when writable, even when
+// the open fails (file_ is then null, and _createHandle releases the handle).
 // Partial: the original opens through glitch::io::CFileSystem::open and keeps the
-// returned CFile; here fopen is used with the same modes. The original also lowers
-// the path when the byte_99F7D4 flag is set; that flag is not in this tree.
-// Modes from Hex-Rays: read-only "rb"; writable with readwrite "a+b"; writable
-// without readwrite "w+b". Both writable modes set canRead and canWrite; read-only
-// sets canRead only.
+// returned CFile (+0x8); here fopen is used with the same modes and no CFile exists, so
+// the CFile obfuscation byte is never set. When the global byte_99F7D4 is set, the
+// original lower-cases the path with ToLowerCase; that global has no owner in this tree
+// and the path is never lowered.
 FileSystemWin32::_FileHandle::_FileHandle(const char* dir, const char* name, bool writable, bool readwrite) {
     std::string path = dir;
     path += name;
@@ -93,20 +139,32 @@ FileSystemWin32::_FileHandle::_FileHandle(const char* dir, const char* name, boo
 
 // 0x34fb7c _ZN15FileSystemWin3211_FileHandleD1Ev
 // D2 at 0x34fbd8 (_ZN15FileSystemWin3211_FileHandleD2Ev) has the same body.
-// Partial: the original drops the glitch CFile (ISharedObject::drop); here the FILE
-// is closed directly. The deleting destructor D0 at 0x34fbbc
-// (_ZN15FileSystemWin3211_FileHandleD0Ev) is compiler-generated from this one; the
-// original calls CustomFree after it, which is not reproduced.
+// Partial: the original drops the glitch CFile at +0x8 (ISharedObject::drop), which
+// closes the FILE only when no other reference is left. Here the FILE is closed
+// directly, which matches only when this handle holds the last reference.
 FileSystemWin32::_FileHandle::~_FileHandle() {
     if (file_ != nullptr) {
         std::fclose(file_);
     }
 }
 
+// 0x34fbbc _ZN15FileSystemWin3211_FileHandleD0Ev
+// The deleting destructor is compiler-generated: it runs ~_FileHandle and then this
+// class's operator delete, which is CustomFree(this) as in the original. Partial,
+// because it runs the partial D1 above.
+void FileSystemWin32::_FileHandle::operator delete(void* p) { CustomFree(p); }
+
+// The handle block comes from CustomAlloc, the allocator that CustomFree releases to.
+void* FileSystemWin32::_FileHandle::operator new(std::size_t size) {
+    return CustomAlloc(static_cast<unsigned>(size));
+}
+
 // 0x34eec8 _ZN15FileSystemWin3211_FileHandle4readEPvy
-// Partial: the read-gate is the byte at +0x24 of the glitch CFile in the original;
-// here it is the obfuscated_ member, set by the caller. The decode count is the
-// requested size, clamped by decodeObfuscatedData to 4 - pos.
+// The gate is the virtual canRead() (vtable +0xc), which reads the canRead_ byte. The
+// decode count is the requested size; decodeObfuscatedData clamps it to 4 - pos.
+// Partial: the decode flag is the byte at +0x24 of the glitch CFile (held at +0x8 of
+// the original object). CFileSystem::open, which sets that byte, is not in this tree,
+// so the flag is the obfuscated_ member, set by the caller and false by default.
 std::size_t FileSystemWin32::_FileHandle::read(void* buf, std::size_t n) {
     if (!canRead_) {
         return 0;
@@ -114,7 +172,7 @@ std::size_t FileSystemWin32::_FileHandle::read(void* buf, std::size_t n) {
     long pos = std::ftell(file_);
     std::size_t got = std::fread(buf, 1, n, file_);
     if (obfuscated_ && pos <= 3) {
-        FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), nullptr);
+        FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), file_);
     }
     return got;
 }
@@ -128,8 +186,9 @@ std::size_t FileSystemWin32::_FileHandle::write(const void* buf, std::size_t n) 
 }
 
 // 0x34ef58 _ZNK15FileSystemWin3211_FileHandle4peekEPvy
-// Partial: same read-gate as read() (obfuscated_ stands in for the CFile byte at +0x24).
-// The original then seeks back by the number of bytes read.
+// Same gate and decode as read(); the original then seeks back by the number of bytes
+// read, so the position is unchanged. Partial: the decode flag is the same stand-in
+// as read() (obfuscated_ for the CFile byte at +0x24).
 int FileSystemWin32::_FileHandle::peek(void* buf, std::size_t n) const {
     if (!canRead_) {
         return 0;
@@ -137,7 +196,7 @@ int FileSystemWin32::_FileHandle::peek(void* buf, std::size_t n) const {
     long pos = std::ftell(file_);
     std::size_t got = std::fread(buf, 1, n, file_);
     if (obfuscated_ && pos <= 3) {
-        FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), nullptr);
+        FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), file_);
     }
     std::fseek(file_, -static_cast<long>(got), SEEK_CUR);
     return static_cast<int>(got);
@@ -178,9 +237,9 @@ FileSystemWin32::_FileHandle* FileSystemWin32::_createHandle(const char* dir, co
 }
 
 // 0x34fee4 FileSystemWin32::openSavefile(char const*, bool)
-// Partial: the original calls Savegame::FlushJobs first; Savegame is not in this
-// tree, so that call is omitted. The handle is then opened in the savefiles directory
-// with readwrite = false.
+// Partial: the original first calls Savegame::FlushJobs(name) (game-items-save, 0x314cfc).
+// core-platform cannot see the game headers, so that call is omitted. The handle is then
+// opened in the savefiles directory with readwrite = false.
 FileSystemWin32::_FileHandle* FileSystemWin32::openSavefile(const char* name, bool writable) {
     return _createHandle(savefilesPath_, name, writable, false);
 }
@@ -200,10 +259,9 @@ FileSystemWin32::_FileHandle* FileSystemWin32::openTraceFile(const char* name) {
 }
 
 // 0x34ffb0 _ZN15FileSystemWin328openFileEPKcbb
-// Partial: the original first checks Application::IsUsingUncompiledData(name); when
-// that is true it tries _createHandle("Q:\\", name, false, false) and falls back to the
-// root path. Application::IsUsingUncompiledData is not in this tree, so the root path
-// is always used.
+// Partial: the original first checks Application::IsUsingUncompiledData(name) (game-app,
+// not visible from core-platform). When that is true it tries _createHandle("Q:\\", name,
+// false, false) and falls back to the root path. The root path is always used here.
 FileSystemWin32::_FileHandle* FileSystemWin32::openFile(const char* name, bool writable, bool readwrite) {
     return _createHandle(rootPath_, name, writable, readwrite);
 }
@@ -215,14 +273,19 @@ void FileSystemWin32::makeFullPath(const char*, const char*, char* out, int size
 }
 
 // 0x34f274 _ZNK15FileSystemWin3214deleteSavefileEPKc
-// Partial: the header declares void, but the original returns 1 when the file was
-// removed and 0 otherwise; that result cannot be reported with this signature.
-void FileSystemWin32::deleteSavefile(const char* name) const {
+// Returns true (1 in the original) when the file was removed, false otherwise. On
+// failure the original reads the "isTracingFileSystem" switch and discards it. Partial:
+// that read goes to the DebugSwitches stand-in, whose load() does nothing here. The path
+// is built with snprintf into the original's 260-byte buffer, so a long name is cut
+// short where the original would overrun the buffer.
+bool FileSystemWin32::deleteSavefile(const char* name) const {
     char path[260];
     std::snprintf(path, sizeof path, "%s%s", RES_PATH, name);
-    if (DH2_UNLINK(path) != 0) {
-        traceFileSystemFailure();
+    if (DH2_UNLINK(path) == 0) {
+        return true;
     }
+    traceFileSystemFailure();
+    return false;
 }
 
 // 0x34f10c _ZNK15FileSystemWin3214backupSavefileEPKcS1_
@@ -259,31 +322,27 @@ std::string FileSystemWin32::formatFilePath(const std::string& path) const {
 }
 
 // 0x3505a0 _ZNK15FileSystemWin328getFilesEPKcRSt6vectorISsSaISsEE
-// The original does not use dir: it lists RES_PATH and appends every entry name (no
-// file-type filter). Partial: the original reads the entry name at a fixed offset in
-// the platform dirent, and std::filesystem is used here, so "." and ".." are not listed.
+// The original does not use dir: it lists RES_PATH and appends every entry name, "." and
+// ".." included, with no file-type filter. The listing is shared with getFilesMatching.
+// The original copies each name through a 100-byte buffer; the port keeps the whole name.
 void FileSystemWin32::getFiles(const char* /*dir*/, std::vector<std::string>& out) const {
-    namespace fs = std::filesystem;
-    std::error_code ec;
-    for (const auto& entry : fs::directory_iterator(RES_PATH, ec)) {
-        out.push_back(entry.path().filename().string());
-    }
+    listDirectory(RES_PATH, out);
 }
 
 // 0x35041c _ZNK15FileSystemWin3216getFilesMatchingEPKcS1_RSt6vectorISsSaISsEE
-// Lists the entries of dir whose name contains pattern as a substring (an empty
-// pattern matches every name). Partial: the entry name is taken from std::filesystem
-// rather than the platform dirent offset used by the original, and "." and ".." are
-// not listed. The original's int return code on opendir failure cannot be reported
-// with the void signature.
+// Appends the entries of dir whose name contains pattern as a substring. An empty name
+// matches only an empty pattern, a longer pattern never matches, and an empty pattern
+// matches every other name; std::string::find has the same results. The listing's
+// return value is not set by the function (its epilogue returns whatever the last
+// string destructor left in r0), so the void signature is the original's.
 void FileSystemWin32::getFilesMatching(const char* dir, const char* pattern,
                                        std::vector<std::string>& out) const {
-    namespace fs = std::filesystem;
-    const std::string pat(pattern);
-    std::error_code ec;
-    for (const auto& entry : fs::directory_iterator(dir, ec)) {
-        std::string name = entry.path().filename().string();
-        if (name.find(pat) != std::string::npos) {
+    std::vector<std::string> entries;
+    if (!listDirectory(dir, entries)) {
+        return;  // opendir failed: nothing is listed
+    }
+    for (std::string& name : entries) {
+        if (name.find(pattern) != std::string::npos) {
             out.push_back(std::move(name));
         }
     }

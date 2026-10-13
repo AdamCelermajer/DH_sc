@@ -1,13 +1,16 @@
 // vox::EmitterObj::Update: one frame of an emitter. It loads a pending cursor (LoadAsync),
 // runs the gain and pitch fades, pushes the changed gain and pitch to the source, reads the
-// source state and moves the emitter between its play states.
-// Partial: the cursor's channel count (cursor +0x04, read as 1 for the 3D update) is taken from
-// the data object, because the port's cursor has no parameter block. The 3D and DSP helpers
-// it calls are ported separately (see the w9 and emitter-obj files).
+// source state and moves the emitter between its play states. Every path of the listing ends in
+// Mutex::Unlock, so the port returns that int too.
+// Partial: the listing calls the cursor and the source with no null check. The port returns early
+// when either is missing. Those calls fault in the original, and an emitter whose load failed
+// (state -1, ready flag still set) reaches them. The mono 3D test reads the cursor's channel count
+// (cursor +0x04). The 3D and DSP helpers it calls are ported in their own files.
 #include "vox-audio/vox/data_obj.hpp"
 #include "vox-audio/vox/decoder.hpp"
 #include "vox-audio/vox/driver.hpp"
 #include "vox-audio/vox/emitter_obj.hpp"
+#include "vox-audio/vox/gain_fade.hpp"
 
 namespace vox {
 
@@ -27,44 +30,43 @@ float StepFade(VoxGainFade& fade, float dt) {
 }  // namespace
 
 // 0x86d5b8 _ZN3vox10EmitterObj6UpdateEf
-void EmitterObj::Update(float dt) {
+int EmitterObj::Update(float dt) {
     mutex.Lock();
     const int previous_state = state_;  // +0x90
     if (ready_flag_ != 0 && previous_state != -1) {
         if (LoadAsync() == 0) {
-            mutex.Unlock();
-            return;
+            return mutex.Unlock();
         }
         ready_flag_ = 0;
     }
 
     bool run_frame = true;
-    if (reset_flag_ != 0) {
+    if (reset_flag_ != 0) {  // +0x99
         reset_flag_ = 0;
         if (decoder_cursor_ != nullptr) {
-            decoder_cursor_->Reset();
+            decoder_cursor_->Reset();  // cursor +0x1c
         }
-        state_ = dsp_source_ != nullptr ? dsp_source_->GetState() : 0;
+        state_ = dsp_source_ != nullptr ? dsp_source_->GetState() : 0;  // source +0x18
         run_frame = state_ == 0;
     }
     if (!run_frame) {
         if (dsp_source_ != nullptr) {
-            dsp_source_->Reset();
+            dsp_source_->Reset();  // source +0x14
         }
-        mutex.Unlock();
-        return;
+        return mutex.Unlock();
     }
     if (decoder_cursor_ == nullptr || dsp_source_ == nullptr) {
-        mutex.Unlock();
-        return;
+        return mutex.Unlock();
     }
 
-    // Loop flag: the setter wrote +0x8d, the getter reads +0x8c. Push the new value to the cursor.
+    // Loop flag: the setter wrote +0x8d, the getter reads +0x8c. The listing passes the +0x8d byte
+    // to the cursor's SetLoop (cursor +0x2c) as its argument.
     if (loop_read_ != loop_) {
         decoder_cursor_->SetLoop(loop_ != 0);
         loop_read_ = loop_;
     }
-    if (data_ != nullptr && data_->channels_ == 1) {
+    // A mono cursor (cursor +0x04 channels == 1) pushes the 3D parameters.
+    if (decoder_cursor_->GetTrackParams().channels == 1) {
         Update3D();
     }
     UpdateDSP(dt);
@@ -75,18 +77,18 @@ void EmitterObj::Update(float dt) {
     const float resume_value = CurrentOfFade(resume_fade_);
     const float gain_value = CurrentOfFade(gain_fade_);
     gain_ = gain_modifier_ * resume_value * gain_value;
-    source_gain_ = dsp_source_->GetGain();
+    source_gain_ = dsp_source_->GetGain();  // source +0x34
     if (source_gain_ != gain_) {
-        dsp_source_->SetGain(gain_);
+        dsp_source_->SetGain(gain_);        // source +0x2c
         source_gain_ = gain_;
     }
 
     // Pitch fade.
     StepFade(pitch_fade_, dt);
     pitch_ = CurrentOfFade(pitch_fade_);
-    source_pitch_ = dsp_source_->GetPitch();
+    source_pitch_ = dsp_source_->GetPitch();  // source +0x38
     if (source_pitch_ != pitch_) {
-        dsp_source_->SetPitch(pitch_);
+        dsp_source_->SetPitch(pitch_);        // source +0x30
         source_pitch_ = pitch_;
     }
 
@@ -99,21 +101,19 @@ void EmitterObj::Update(float dt) {
     }
     if (state_ == -1) {
         if (previous_state == -1) {
-            mutex.Unlock();
-            return;
+            return mutex.Unlock();
         }
         callback_pending_ = true;  // +0x98
-        mutex.Unlock();
-        return;
+        return mutex.Unlock();
     }
 
-    if (decoder_type_ == 4) {
+    if (decoder_type_ == 4) {  // +0x140
         ProcessNativeData(dt);
     } else {
         ProcessNonNativeData(dt);
     }
 
-    int next_state = state_;  // v25: the state the frame ends in
+    int next_state = state_;  // the state the frame ends in
     if (state_set_ != state_) {
         switch (state_set_) {
             case 0:
@@ -121,14 +121,14 @@ void EmitterObj::Update(float dt) {
                 break;
             case 1:
                 flag_145_ = 0;
-                dsp_source_->Play();
+                dsp_source_->Play();  // source +0x08
                 next_state = dsp_source_->GetState();
                 state_ = next_state;
                 break;
             case 2:
                 if (resume_fade_.flag) {
                     dsp_source_->SetGain(0.0f);
-                    dsp_source_->Pause();
+                    dsp_source_->Pause();  // source +0x10
                     next_state = dsp_source_->GetState();
                     state_ = next_state;
                 }
@@ -136,7 +136,7 @@ void EmitterObj::Update(float dt) {
             case 3:
                 if (state_ != 0) {
                     if (resume_fade_.flag) {
-                        dsp_source_->Stop();
+                        dsp_source_->Stop();  // source +0x0c
                         const int after = dsp_source_->GetState();
                         state_ = after != 0 ? after : 3;
                         flag_145_ = 1;
@@ -156,11 +156,10 @@ void EmitterObj::Update(float dt) {
         }
     }
     if (previous_state == next_state || next_state == 0) {
-        mutex.Unlock();
-        return;
+        return mutex.Unlock();
     }
     callback_pending_ = true;  // +0x98
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 }  // namespace vox

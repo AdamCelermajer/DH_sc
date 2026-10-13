@@ -347,7 +347,8 @@ void CAttributes::setAttribute(int index, boost::intrusive_ptr<glitch::video::IT
 }
 
 // 0x561aa0 _ZN6glitch2io11CAttributes12setAttributeEiN5boost13intrusive_ptrINS_5video6CLightEEE
-// Forwards to the attribute's setLight (vtable +0x100) with a reference held for the call.
+// Forwards to the attribute's setLight (vtable +0x100). The original passes the address of a copy of the
+// light reference and releases that copy after the call; the by-value parameter here has the same lifetime.
 void CAttributes::setAttribute(int index, boost::intrusive_ptr<glitch::video::CLight> value) {
     if (IAttribute* a = at(currentAttributes(), index)) a->setLight(value);
 }

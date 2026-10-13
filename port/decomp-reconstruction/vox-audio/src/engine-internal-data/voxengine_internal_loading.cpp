@@ -259,6 +259,15 @@ DataHandle VoxEngineInternal::ConvertToRawSource(DataHandle& data) {
         return result;
     }
     const std::int32_t* track = decoder->GetParam();
+    if (track == nullptr) {
+        // GetParam is null for MSWav, MPC8, Native and StbVorbis decoders (see LoadDataSource). The
+        // port fails the conversion here instead of reading through null; the cursor and stream are
+        // released as on the bytes <= 0 path.
+        decoder->DestroyCursor(cursor);
+        stream->DestroyCursor(stream_cursor);
+        data_objects_access_.ReleaseReadAccess();
+        return result;
+    }
     std::int32_t params[4] = {};
     for (int i = 0; i < 4; ++i) {
         params[i] = track[i];

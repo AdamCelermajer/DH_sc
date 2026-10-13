@@ -106,8 +106,11 @@ void RecursiveSetBoolOnNode(glitch::scene::ISceneNode* node, bool enable,
 }
 
 // 0x50e4d0 _Z21NodeRemoveAllChildrenPN6glitch5scene10ISceneNodeE
-// Partial: the vtable slot 96 method name is not recovered, and the layout is ARM32.
-// The pseudocode returns the last call's result; this is void.
+// Partial: the vtable slot 96 (0x60) is not recovered as a removal. The ISceneNode
+// vtable listing (decomp_vtable.py) names 0x60 as getUID() const, which takes no
+// child argument, and removeChild is at 0x6c, so the call's dynamic type is needed
+// to name it. The child-list offsets are ARM32 layout. The pseudocode returns the
+// last call's result; this is void.
 void NodeRemoveAllChildren(glitch::scene::ISceneNode* node) {
     ListLink* head = ChildListHead(node);
     for (ListLink* link = head->next; link != head;) {

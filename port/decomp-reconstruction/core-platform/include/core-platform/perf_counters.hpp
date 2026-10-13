@@ -34,6 +34,8 @@ public:
 
 private:
     float time_ = 0.0f;                // +0x0, advanced by Update
+    // +0x4: int, the number of Update calls while enabled. Not stored separately here: it
+    // always equals history_.size().
     std::vector<float> history_;       // +0x8 (begin, finish, end of storage)
     std::list<CounterEntry> entries_;  // +0x14 (list sentinel in the original)
     void* buffer_ = nullptr;           // +0x1c, the 0x3e84-byte block from the constructor

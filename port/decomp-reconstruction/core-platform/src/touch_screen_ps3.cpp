@@ -1,8 +1,10 @@
 #include "core-platform/touch_screen_ps3.hpp"
 
 // 0x33d3f4 _ZN14TouchScreenPS3C1Ev (and 0x33d440 _ZN14TouchScreenPS3C2Ev, same body)
-// Partial: the listing stores the address off_95C4F0 at +0x1b4 (eventReceiverVtable_).
-// That table is not recovered, so nullptr stands in for it.
+// The listing calls the TouchScreenBase(short, short) constructor with (0, 0), zeroes
+// the active count at +0x190 (the base constructor zeroes it here as well), and stores
+// the primary vptr (off_95C490) and the glitch::IEventReceiver vptr at +0x1b4 (off_95C4F0).
+// The compiler sets both vptrs from the base list.
 TouchScreenPS3::TouchScreenPS3() : TouchScreenBase(0, 0) {}
 
 // 0x33d1f4 TouchScreenPS3::getLeftBound() const

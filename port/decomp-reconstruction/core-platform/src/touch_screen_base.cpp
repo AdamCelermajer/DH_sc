@@ -324,9 +324,12 @@ std::list<long> TouchScreenBase::getTouchIDList() const {
 
 // 0x33c568 _ZN15TouchScreenBase13ProcessEventsEv
 // Partial, and not the listing's logic. The listing drains the whole queue, raising an
-// event per entry through EventManager::Raise (not declared in this category, with
-// vtables off_95C390/off_95B458/off_95C3A8 not recovered), gated by DebugSwitches, and
-// returns int. The header declares float ProcessEvents(), which this file cannot change,
+// event per entry through EventManager::Raise (not declared in this category). The events
+// are identified from the vtable listing: type 5 is EvTouchScreenMove (off_95C390; x, y
+// as shorts, id as int) and type 4 is EvTouchScreenPress (off_95C3A8; x, y, id, and a bool
+// flag). Both derive from IEvent (off_95B458). The debug trace loops are gated by two
+// DebugSwitches reads whose names do not show in the Hex-Rays text, so they are not
+// reproduced. The header declares float ProcessEvents(), which this file cannot change,
 // so this body is a stand-in that pops one event and returns its scaled X.
 float TouchScreenBase::ProcessEvents() {
     if (_IsQueueEmpty()) {

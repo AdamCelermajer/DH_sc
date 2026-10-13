@@ -233,7 +233,8 @@ void CAttributes::getStringW(const char* name, wchar_t* out) const {
 }
 
 // 0x562458 _ZN6glitch2io11CAttributes7getEnumEPKcPKS3_
-// PARTIAL: compares the attribute's text (see attributes.hpp for the +0x80 slot).
+// PARTIAL: compares getString() of the attribute. The original compares slot +0x80, which is
+// IAttribute::getEnum (0x31d814, returns null in the base), so a non-enumeration attribute gives -1 there.
 int CAttributes::getEnum(const char* name, const char* const* choices) const {
     const IAttribute* a = getAttributeP(name);
     if (a == nullptr || choices == nullptr) return -1;

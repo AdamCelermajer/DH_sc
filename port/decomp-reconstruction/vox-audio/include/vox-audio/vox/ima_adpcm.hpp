@@ -8,9 +8,10 @@
 
 namespace vox {
 
-// Standard IMA/DVI tables. The asm reaches them through GOT-indirect pointers
-// and the binary is not in this container, so the values are the standard
-// ones and are not yet confirmed against the rodata.
+// Standard IMA/DVI tables. The binary's copies are confirmed byte for byte: the
+// 89 step values are the 178 bytes at .rodata 0x911a24 (AdpcmDecoder::cAdpcmStepSizeTable)
+// and the 16 index bytes are at 0x911a14 (cAdpcmIndexTable), read with IDA get_bytes
+// (read-only). The test r1-vox-audio-pack0-5b0f48-0_test checks these arrays against them.
 extern const std::int16_t kImaStepTable[89];
 extern const std::int8_t kImaIndexTable[16];
 

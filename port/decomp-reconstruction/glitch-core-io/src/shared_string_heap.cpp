@@ -7,8 +7,11 @@ namespace glitch::core::detail {
 // to the record that holds this data and that record is unlinked and freed. size (+0x20) drops by one. When the
 // removed bucket was the cursor (+0x1c), the cursor moves to the next non-empty bucket, or to the end sentinel
 // when the table is empty. The SData is deleted last (operator delete[] in the listing).
-// Deviation: the listing matches the first record by text (strcmp) and later ones by identity; this port
-// matches by identity.
+// PARTIAL. Deviation: for a committed argument the listing walks the chain by identity (as this port
+// does). For an uncommitted argument it compares each record's text with strcmp (the loop back-edge
+// re-enters the strcmp initialisation); this port uses identity there too. The two differ only when a
+// record has the same text as the released uncommitted holder. The table is passed in: the original
+// reads the anonymous-namespace global, which is not in the port (see the header).
 void releaseSharedString(SSharedStringHeapTable& table, SSharedStringData* data) {
     if (table.bucketCount != 0) {
         const std::size_t index = sharedStringHash(data->text()) % table.bucketCount;

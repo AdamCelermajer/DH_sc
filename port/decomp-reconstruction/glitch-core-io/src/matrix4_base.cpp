@@ -62,11 +62,14 @@ CMatrix4<float>& mult34(const CMatrix4<float>& self, const CMatrix4<float>& othe
 }
 
 // 0x5822c8 _ZN6glitch4core6detail12CMatrix4BaseIfE12setbyproductERKS3_S5_
+// Identity short-cuts on the flag at +0x40: a copy of the other side takes the whole 65-byte record, flag
+// included. When neither side is the identity, the original calls setbyproduct_nocheck (0x40ea54) with the
+// same arguments; that is the full product, so it is called here as well.
 void setbyproduct(CMatrix4<float>& self, const CMatrix4<float>& a, const CMatrix4<float>& b) {
     if (a.flag) {
         self = b;
     } else if (!b.flag) {
-        self = productOf(a, b);
+        setbyproduct_nocheck(self, a, b);
     } else {
         self = a;
     }

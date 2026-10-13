@@ -27,21 +27,34 @@ Vector3D operator/(const Vector3D& v, float divisor) {
 }
 
 // 0x313498 _ZrsRSiRSt6vectorI7Point3DIfESaIS2_EE
-// Partial: the element reader is read as X, sep, Y, sep, Z (the same pattern as
-// the vector3d<float> reader at 0x310380). The separator is read as a single
-// character and the loop continues while it is ';' or ' ' as the listing
-// compares. The ';' element separator matches operator<< at 0x3133e0. The ' '
-// case and the exact char-read call (_M_formatted_get argument) are not confirmed.
+// Each pass sets the outer separator `sep` to 'a' and zeroes one Point3D. The
+// element is read as operator>> <float> (0x313444) does: X, one separator, Y, one
+// separator, Z. The two inner separators go into the element reader's own char
+// (its stack byte at [sp+7]), so they never touch the outer `sep`. The element is
+// appended, then one more separator is read into the outer `sep`, and the loop
+// continues while that char is ';' or ' ' (listing compares 59 and 32). The outer
+// `sep` keeps its 'a' value when that final read fails at end of input or on a
+// failed stream, which ends the loop.
+//
+// _M_formatted_get(char&) (0x3101BC) passes its bool through a sentry clone
+// (0x30F970) that ignores the bool and tests the stream's skipws flag. The
+// register the caller leaves in r2 is therefore not used, and `is >> c` gives the
+// same read.
 std::istream& operator>>(std::istream& is, std::vector<Point3D<float>>& points) {
     char sep = 0;
     do {
         sep = 'a';
         Point3D<float> p{0.0f, 0.0f, 0.0f};
-        is >> p.X;
-        is >> sep;
-        is >> p.Y;
-        is >> sep;
-        is >> p.Z;
+        {
+            // Element reader 0x313444 (operator>><float>(istream&, Point3D<float>&)).
+            // Its two separators go to a local char, not to the loop's `sep`.
+            char element_sep = 0;
+            is >> p.X;
+            is >> element_sep;
+            is >> p.Y;
+            is >> element_sep;
+            is >> p.Z;
+        }
         points.push_back(p);
         is >> sep;
     } while (sep == ';' || sep == ' ');
@@ -52,8 +65,9 @@ std::istream& operator>>(std::istream& is, std::vector<Point3D<float>>& points) 
 // Partial: the queue is a deque of SubtitleEntry* in 32-slot nodes. Each entry
 // frees its text buffer (+0x8) and then itself. The node release at the end of
 // a node calls CustomFree where the original calls the SGI node allocator
-// (__node_alloc::_M_deallocate, 0x80 bytes); the allocation side is not recovered,
-// so the allocator that matches it is not yet confirmed.
+// (__node_alloc::_M_deallocate(node, 0x80), confirmed from the Hex-Rays call at
+// 0x33971c). No __node_alloc is in this tree and the allocation side (the subtitle
+// push that makes the nodes) is not recovered, so the matching allocator is unknown.
 void ClearSubtitles() {
     SubtitleDeque& q = g_SubtitlesQueue;
     while (q.cur != q.finish) {

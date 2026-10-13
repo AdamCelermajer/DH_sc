@@ -1,9 +1,12 @@
 // vox::EmitterObj::GetDebugInfo: one DebugChunk_emitter filled under the Handlable mutex.
 //
-// Partial. The original also sets the chunk's param0 to -1 when the cursor at +0x114 reports
-// more than one channel (asm: cursor +0x04 > 1). That word is TrackParams::channels, which the
-// DecoderCursorInterface does not expose, so the check is not made here. Everything else is
+// Partial. The listing reads the data object's id (data +0x08) and the cursor's channel count
+// (cursor +0x04) without a null check. The port writes 0 for the data id when there is no data
+// object, and skips the param0 override when no cursor is attached (a loading emitter has none
+// before LoadAsync; the listing faults there). The override itself is the listing's: param0 is
+// -1 when the cursor reports more than one channel (TrackParams::channels). Everything else is
 // copied, including the source gain (+0x38 -> +0x20) and source pitch (+0x70 -> +0x28).
+#include "vox-audio/vox/decoder.hpp"
 #include "vox-audio/vox/emitter_obj.hpp"
 
 #include "vox-audio/vox/data_obj.hpp"
@@ -28,6 +31,9 @@ int EmitterObj::GetDebugInfo(DebugChunk_emitter& out) {
     out.velocity = velocity_;                                           // +0xb4..+0xbc -> +0x3c..+0x44
     out.direction = direction_;                                         // +0xa8..+0xb0 -> +0x48..+0x50
     out.param0 = param0_;                                               // +0xc0 -> +0x54
+    if (decoder_cursor_ != nullptr && decoder_cursor_->GetTrackParams().channels > 1) {
+        out.param0 = -1;                                                // cursor +0x04 > 1 -> +0x54
+    }
     for (int i = 0; i < 7; ++i) {
         out.params[i] = float_params_[i];                               // +0xc4..+0xdc -> +0x58..+0x70
     }

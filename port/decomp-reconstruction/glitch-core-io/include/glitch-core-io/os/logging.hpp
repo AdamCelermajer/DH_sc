@@ -20,6 +20,13 @@ public:
     virtual void log(const char* text, ELOG_LEVEL level) = 0;         // +0x14
     virtual void log(const char* text, const char* hint, ELOG_LEVEL level) = 0;  // +0x18
     virtual void log(const wchar_t* text, ELOG_LEVEL level) = 0;      // +0x20
+    // Slot +0x24: Printer::logf calls it with the level, the format and the variadic arguments as a
+    // va_list. Not pure, so a logger that does not override it drops the text (the default).
+    virtual void logv(ELOG_LEVEL level, const char* format, std::va_list args) {
+        (void)level;
+        (void)format;
+        (void)args;
+    }
 };
 
 class Printer {
@@ -35,8 +42,8 @@ public:
     static void vprint(const char* format, std::va_list args);
     // 0x60b280: variadic form of vprint.
     static void print(const char* format, ...);
-    // 0x60afd4 and 0x60b034: forward a formatted message to the logger's +0x24 slot. The
-    // slot is not declared on ILogger here, so the forwarding call is not made (PARTIAL).
+    // 0x60afd4 and 0x60b034: forward the format and the variadic arguments to the logger's
+    // logv (slot +0x24) with ELL_INFORMATION (0x60afd4) or the given level (0x60b034).
     static void logf(const char* format, ...);
     static void logf(ELOG_LEVEL level, const char* format, ...);
 };

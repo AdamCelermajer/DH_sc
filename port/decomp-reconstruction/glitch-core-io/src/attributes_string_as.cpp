@@ -155,8 +155,8 @@ void CAttributes::addStringAsTexture(const char* name, const wchar_t* value, boo
 }
 
 // 0x568124 _ZN6glitch2io11CAttributes16addStringAsLightEPKcPKwb
-// PARTIAL: the light is null here, as in the original; the light attribute's constructor is
-// partial (see CLightAttribute), which only leaves the light unset.
+// The light is null here, as in the original. The text then goes through setString(wchar_t) (slot +0x94),
+// which narrows it and calls the light attribute's narrow setter, which keeps nothing.
 void CAttributes::addStringAsLight(const char* name, const wchar_t* value, bool flag) {
     boost::intrusive_ptr<glitch::video::CLight> none;
     appendAndSetString(currentAttributes(), new CLightAttribute(name, none, driver, flag), value);
@@ -179,9 +179,11 @@ void CAttributes::addString(const char* name, const char* value, bool flag) {
 namespace glitch::io {
 
 // 0x56840c _ZN6glitch2io11CAttributes17addStringAsBinaryEPKcPKwb
-// PARTIAL: the original passes the bool argument as the byte count of a null buffer. This
-// version passes a zero count (a null buffer with a nonzero count is not reachable from a
-// valid call), then sets the hex text through setString(wchar_t).
+// PARTIAL: the original builds a CStringAttribute (name, null buffer, size = the bool argument, flag 0),
+// then writes the CBinaryAttribute vtable over it (ARM: ADD vtable, #8). In the binary CBinaryAttribute
+// derives from CStringAttribute (its D1 calls the CStringAttribute destructor, 0x5650dc); the port's
+// CBinaryAttribute derives from IAttribute, so the object cannot be built the same way. This version
+// passes a zero count, uses the string class, then sets the text through setString(wchar_t).
 void CAttributes::addStringAsBinary(const char* name, const wchar_t* value, bool flag) {
     (void)flag;
     appendAndSetString(currentAttributes(), new CStringAttribute(name, static_cast<void*>(nullptr), 0, false), value);

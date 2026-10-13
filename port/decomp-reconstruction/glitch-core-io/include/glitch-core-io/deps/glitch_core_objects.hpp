@@ -4,6 +4,8 @@
 
 #include <cmath>
 #include <cstdint>
+#include <memory>
+#include <vector>
 
 namespace glitch {
 // Reference-counted base; the counter is at +0x04 in the original.
@@ -55,11 +57,28 @@ public:
     mutable int referenceCounter = 1;  // +0x00
 };
 
+// One stream entry of a CVertexStreams table: 16 bytes in the original (glitch-video's
+// SVertexStream). The buffer is a shared_ptr here (the original counts it); this header cannot
+// use the counting intrusive_ptr, which includes it.
+class IBuffer;
+struct SVertexStream {
+    std::shared_ptr<IBuffer> buffer;  // +0x00
+    std::uint32_t offset = 0;     // +0x04
+    std::uint16_t attribute = 0;  // +0x08
+    std::uint16_t field0a = 0;    // +0x0a, value type: index into SVertexAttributeTypeInspection::ValueTypeSize
+    std::uint16_t field0c = 0;    // +0x0c, component count
+    std::uint16_t field0e = 0;    // +0x0e, per-vertex stride
+};
+
 // CVertexStreams is released like CMaterial: the count is at +0x00 and the last release
 // deletes the object (0x5a10fc; the original calls its destructor first, not modelled).
 class CVertexStreams {
 public:
     mutable int referenceCounter = 1;  // +0x00
+    // SVertexStream entries, 16 bytes each, at +0x14 in the original (its end pointer is at +0x10).
+    std::vector<SVertexStream> streams;
+    std::uint32_t field08 = 0;  // +0x08, set by loadVS to the vertex count (glitch-video field08)
+    std::uint8_t count0c = 0;   // +0x0c, count of the trailing block (24 * count0c + 24 bytes)
 };
 inline void intrusive_ptr_add_ref(const CVertexStreams* p) { ++p->referenceCounter; }
 inline void intrusive_ptr_release(const CVertexStreams* p) {
@@ -69,7 +88,12 @@ inline void intrusive_ptr_release(const CVertexStreams* p) {
 // Reference-counted video objects that only need the +0x04 drop() release here.
 class IShader : public glitch::IReferenceCounted {};      // 0x5b9d6c
 class IShaderCode : public glitch::IReferenceCounted {};  // 0x5b9dfc
-class IBuffer : public glitch::IReferenceCounted {};      // 0x637b8c
+class IBuffer : public glitch::IReferenceCounted {        // 0x637b8c
+public:
+    std::uint8_t* data = nullptr;  // +0x08, the mapped or private data (glitch-video IBuffer::m_data)
+    std::uint32_t size = 0;        // +0x0c, byte size of data
+    std::vector<std::uint8_t> storage;  // stand-in only: owns the bytes that data points to
+};
 class CImage : public glitch::IReferenceCounted {};       // 0x603414
 
 // Found by argument-dependent lookup from boost::intrusive_ptr (0x310be8, 0x351e3c,

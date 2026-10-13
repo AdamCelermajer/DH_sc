@@ -283,7 +283,9 @@ void finishOpeningT(R& r, typename R::CharType* start, typename R::CharType* v32
     ++r.current;
 }
 
-// 0x575918 / 0x5749a0: "<name attr='value' ...>" or "/>". Attributes are appended in order.
+// 0x575918 / 0x5749a0: "<name attr='value' ...>" or "/>". Attributes are appended in order. The record
+// keeps the attribute name and its replaced value. A NUL ends each scan here (the original runs on past
+// it), so only malformed text differs.
 template <typename R>
 void parseOpeningT(R& r) {
     using C = typename R::CharType;
@@ -425,6 +427,14 @@ void swapUnits(std::uint16_t* text) {
 // ---- CXMLReaderImpl<char> -------------------------------------------------
 
 using CharReader = CXMLReaderImpl<char, glitch::IReferenceCounted>;
+
+// 0x573eb0 _ZN6glitch2io14CXMLReaderImplIcNS_17IReferenceCountedEED1Ev
+// Vptr reset, then the text buffer is released (operator delete[]); the attribute and
+// special-character vectors and the two strings are destroyed by their own destructors,
+// which replace the original's explicit frees.
+CharReader::~CXMLReaderImpl() {
+    ::operator delete[](textOwner);
+}
 
 // 0x576048 _ZN6glitch2io14CXMLReaderImplIcNS_17IReferenceCountedEE4readEv
 bool CharReader::read() { return readT(*this); }
@@ -670,8 +680,8 @@ int WideReader::getAttributeValueAsInt(int index) const {
 }
 
 // 0x574488 _ZNK6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE24getAttributeValueAsFloatEPKw
-// PARTIAL: the value is narrowed with stringw2stringc (partial) and read with strtod, as the
-// decompile does. A missing attribute gives zero.
+// The value is narrowed with stringw2stringc and read with strtod, as the pseudocode does. A missing
+// attribute gives zero.
 float WideReader::getAttributeValueAsFloat(const wchar_t* name) const {
     const SAttribute* attribute = getAttributeByName(name);
     if (!attribute) return 0.f;
@@ -680,8 +690,9 @@ float WideReader::getAttributeValueAsFloat(const wchar_t* name) const {
 }
 
 // 0x5743f0 _ZNK6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE24getAttributeValueAsFloatEi
-// PARTIAL: as the name form. The original parses the narrowed text with fast_atof_move, which is
-// partial in the port (see the narrow reader).
+// PARTIAL: the wrapper matches the pseudocode (virtual getAttributeValue(index), narrowing, then
+// fast_atof_move). fast_atof_move (0x322bc8) is partial: it reads past its table for 16 or more
+// fraction digits, so such values are not reproduced.
 float WideReader::getAttributeValueAsFloat(int index) const {
     const wchar_t* text = getAttributeValue(index);
     if (!text) return 0.f;
@@ -714,6 +725,14 @@ const WideReader::SAttribute* WideReader::getAttributeByName(const wchar_t* name
         if (attribute.name == key) return &attribute;
     }
     return nullptr;
+}
+
+// 0x573928 _ZN6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEED1Ev
+// The text buffer is released with operator delete[], as the original does (it is always a new[] block:
+// the read buffer, or the widened copy). The std members are destroyed after this body, in place of the
+// original's explicit frees of its inline string buffers.
+WideReader::~WideReader() {
+    ::operator delete[](textOwner);
 }
 
 // 0x573104 _ZN6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE8readFileEPNS0_17IFileReadCallBackE

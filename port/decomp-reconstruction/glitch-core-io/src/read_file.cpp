@@ -55,8 +55,8 @@ bool CReadFile::seek(long offset, bool relative) {
 }
 
 // 0x5705a8 _ZNK6glitch2io9CReadFile6getPosEv
-// PARTIAL: the pseudocode calls ftell and drops the result (void). Returning
-// it, as Irrlicht does.
+// The original returns ftell of the handle's FILE* (handle +0x04) with no null test. PARTIAL: the
+// port keeps the FILE* at +0x0c and returns 0 when the file is closed (the original has no such case).
 long CReadFile::getPos() const {
     return file ? std::ftell(file) : 0;
 }

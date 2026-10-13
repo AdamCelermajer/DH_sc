@@ -20,7 +20,9 @@ struct CProcessBufferHeap {
     int* end = nullptr;          // +0x04: bound (start plus the data words)
     int* top = nullptr;          // +0x08: first unused word
     int defaultSize = 0;         // +0x0c: size the heap is created with by allocProcessBuffer
-    bool excessEnabled = false;  // +0x10: allocations may fall back to malloc when full
+    // +0x10: allocations may fall back to the allocator when full. The static initializer sets it
+    // to 1 at startup (0x534584, byte_9F65C4 = 1), so it starts enabled.
+    bool excessEnabled = true;
 
     // 0x53427c: 0 when the heap now has the requested size, 1 when blocks are in use and
     // force is clear (nothing changes), 2 when the new storage could not be allocated.
@@ -133,9 +135,11 @@ void processBufferHeapInit(bool atStartup) {
 }
 
 // 0x5345f4 _ZN6glitch4core18allocProcessBufferEi
-// PARTIAL: the size used when the heap is first created is the field at +0x0c, whose
-// static value is not recovered here (zero by default), so the heap is only created by an
-// explicit setProcessBufferHeapSize call unless that field is set.
+// PARTIAL: the overflow path calls operator new[](size, E_MEMORY_HINT 0) (0x5341a8, a thunk to
+// GlitchAlloc 0x310568 and then CustomAlloc 0x310454), which is not reconstructed in this category;
+// malloc stands in for it. The size the heap is first created with is dword_9F65C0, which the
+// static initializer sets to 0 (0x5345a0), so the default is 0 and the heap is only created by an
+// explicit setProcessBufferHeapSize call.
 int* allocProcessBuffer(int size) {
     if (!heap.start) heap.setSize(heap.defaultSize, false);
     const auto words = static_cast<std::ptrdiff_t>(((static_cast<std::uint32_t>(size) + 3u) >> 2) + 2u);
@@ -166,6 +170,9 @@ void SSharedProcessBuffer::reset(int size) {
 }
 
 // 0x5d93c8 _ZN6glitch4core36SScopedEnableProcessBufferHeapExcessC1Eb.clone.1
+// GCC clone with the bool argument folded to a constant: the listing stores the old flag at +0x00
+// and calls the setter with 1 (the setter's second register is not an argument). The parameter is
+// not read, so enabling is unconditional, as in the clone.
 SScopedEnableProcessBufferHeapExcess::SScopedEnableProcessBufferHeapExcess(bool enable) {
     (void)enable;
     previous = isProcessBufferHeapExcessEnabled();

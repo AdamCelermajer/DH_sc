@@ -44,28 +44,31 @@ int utf8toutf16(const char* src, unsigned srcLen, std::uint32_t* dst, unsigned d
 }
 
 // 0x844270 _ZN4slim11utf16toutf8EPKwjPcj
-// Partial: the listing's byte stores are standard UTF-8 (the ~ pairs are a
-// sign-extension with logical shifts, so they keep 0xC0/0xE0 leads and 0x80
-// continuations). The listing returns the byte count written; the header declares
-// void, so that count is not returned here.
-void utf16toutf8(const std::uint32_t* src, unsigned count, char* dst, unsigned dstMax) {
+// Encodes count code points into dst, at most dstMax bytes, and returns the bytes written
+// (the listing's r0; Hex-Rays types it char*). Checked against the ARM listing: the byte
+// stores use logical shifts, so the 2-byte form is 0xC0|(c>>6), 0x80|(c&0x3F), and the
+// 3-byte form is 0xE0|((c>>12)&0x1F), then two 0x80 continuations. A code point above
+// 0xFFFF is written as three bytes, as the listing does. A character that does not fit
+// stops the output (the same comparisons as the listing).
+unsigned utf16toutf8(const std::uint32_t* src, unsigned count, char* dst, unsigned dstMax) {
     unsigned out = 0;
     for (unsigned i = 0; i < count; ++i) {
         std::uint32_t c = src[i];
         if (c <= 0x7f) {
-            if (out + 1 > dstMax) return;
+            if (out == dstMax) return out;
             dst[out++] = static_cast<char>(c);
         } else if (c <= 0x7ff) {
-            if (out + 2 > dstMax) return;
+            if (dstMax < out + 2) return out;
             dst[out++] = static_cast<char>(0xc0 | (c >> 6));
             dst[out++] = static_cast<char>(0x80 | (c & 0x3f));
         } else {
-            if (out + 3 > dstMax) return;
+            if (dstMax < out + 3) return out;
             dst[out++] = static_cast<char>(0xe0 | ((c >> 12) & 0x1f));
             dst[out++] = static_cast<char>(0x80 | ((c >> 6) & 0x3f));
             dst[out++] = static_cast<char>(0x80 | (c & 0x3f));
         }
     }
+    return out;
 }
 
 // 0x844368 slim::detectUtf8(char const*, unsigned)

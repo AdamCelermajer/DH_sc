@@ -34,8 +34,8 @@ inline KdNode* kdNewChildNode(KdTree& tree, const aabbox3d<float>& box, std::uin
     return child;
 }
 
-// Element equality used by the leaf erase. The original SEqPredicate::operator() is not recovered;
-// this compares the id and the six box floats. See the ledger note for the row.
+// Element equality used by the leaf erase (SEqPredicate, the __find_if listing at 0x5a3ef0): the id and the
+// six box floats, each compared with exact float equality.
 inline bool kdSameElement(const KdElement& a, const KdElement& b) {
     return a.first == b.first && a.second.MinEdge.X == b.second.MinEdge.X &&
            a.second.MinEdge.Y == b.second.MinEdge.Y && a.second.MinEdge.Z == b.second.MinEdge.Z &&
@@ -75,9 +75,8 @@ inline void addElemInternal(KdTree& tree, const KdElement& elem, KdNode* node, u
 // 0x5a44b4 _ZN6glitch4core7CKdTreeISt4pairIjNS0_8aabbox3dIfEEEE18removeElemInternalERKS5_PNS6_7SKdNodeE
 // Descends by the same lessThanPlane rule until the chosen child is missing, then erases the matching
 // elements of that node and subtracts the number removed from the element count (+0x50).
-// The listing returns 1227133513 * (remaining size in bytes / 4), i.e. minus the remaining element count;
-// no caller is in this category, so the port returns nothing.
-inline void removeElemInternal(KdTree& tree, const KdElement& elem, KdNode* node) {
+// Returns minus the number of elements left in that node (the listing's 1227133513 * (size / 28) is -count).
+inline int removeElemInternal(KdTree& tree, const KdElement& elem, KdNode* node) {
     KdNode* current = node;
     for (;;) {
         KdNode* child = glitch::lessThanPlane(elem, current->plane, static_cast<char>(current->axis))
@@ -92,6 +91,7 @@ inline void removeElemInternal(KdTree& tree, const KdElement& elem, KdNode* node
                                   [&elem](const KdElement& e) { return kdSameElement(e, elem); }),
                    elements.end());
     tree.elementCount -= static_cast<int>(before - elements.size());  // +0x50
+    return -static_cast<int>(elements.size());
 }
 
 // 0x5a24f8 _ZNK6glitch4core7CKdTreeISt4pairIjNS0_8aabbox3dIfEEEE24findFarthestElemInternalERPKS5_RfPKNS6_7SKdNodeE

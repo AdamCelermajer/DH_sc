@@ -32,7 +32,7 @@ def statuses(cat: Path) -> dict:
     return out
 
 
-BUCKET_OWNERS = {"engine-glitch", "lib-online-glx", "lib-vox-audio", "lib-image-zip-font", "<global>"}
+BUCKET_OWNERS = {"engine-glitch", "lib-online-glx", "lib-vox-audio", "lib-image-zip-font", "lib-gameswf", "lib-box2d", "lib-lua", "<global>"}
 
 
 def owner_of(r: dict) -> str:

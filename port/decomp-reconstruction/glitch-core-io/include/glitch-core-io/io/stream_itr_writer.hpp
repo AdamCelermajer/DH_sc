@@ -21,7 +21,9 @@ struct SStreamItrWriter {
     // swapBytes is taken as in the original: 0 writes the run as one block; 1 writes it element by
     // element, byte-reversing elements of 2, 4 and 8 bytes (other sizes are not written by the swap
     // path). Elements of size 0 or 1 are always written as one block.
-    // PARTIAL: when nothing is written the original returns the object address; here the result is 0.
+    // PARTIAL (return value only): when nothing is written the original returns the object address
+    // (the register it still holds); here the result is 0. The caller in the listing (chunk_041.c)
+    // does not use the value. The effects (block write, byte-reversed 2/4/8 byte writes, stride) match.
     std::size_t writeAndAdvance(IWriteFile* file, bool swapBytes);
 };
 

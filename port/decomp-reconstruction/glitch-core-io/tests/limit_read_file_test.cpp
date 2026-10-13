@@ -47,7 +47,7 @@ static void testLimitWindow() {
 static void testFiveArgumentForm() {
     FakeFile* base = new FakeFile(5, "dir");
     CLimitReadFile lim(base, 7, "a.dat", "ignored");
-    CHECK(lim.start == 5 && lim.end == 12 && lim.fullName == "dir/a.dat");
+    CHECK(lim.start == 5 && lim.end == 12 && lim.fullName == "ignored");
     base->drop();
 }
 

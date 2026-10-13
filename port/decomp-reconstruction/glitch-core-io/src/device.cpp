@@ -9,7 +9,10 @@ namespace glitch {
 
 // 0x672040 _ZN6glitch7IDeviceC1ERKNS_19SCreationParametersE (C2 at 0x67228c is the same body)
 // PARTIAL: the original also copies the receiver from the parameters block (+0x28, a 32-bit
-// pointer) into the device. That read is not modelled here, so the receiver starts null.
+// pointer) into the device. That read is not modelled here, so the receiver starts null. It also
+// builds the collada resource manager (0x2c bytes), the animation streaming manager (0x20 bytes),
+// the os timer (8 bytes), joins the Printer logger, takes the CIrrFactory object and runs
+// checkVersion on the version string at parameters +0x3c. None of these are declared in the port.
 IDevice::IDevice(const SCreationParameters& parameters) {
     std::memcpy(creationParameters.bytes, parameters.bytes, sizeof(creationParameters.bytes));
 }

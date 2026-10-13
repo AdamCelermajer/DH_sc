@@ -5,7 +5,9 @@
 #include "core-platform/deps/glitch_core.hpp"
 #include "core-platform/touch_screen_base.hpp"
 
-class TouchScreenWin32 : public TouchScreenBase {
+// Two bases in the original's order: TouchScreenBase at +0 and the glitch::IEventReceiver
+// interface at +0x1b4 (the secondary vtable thunks to ~TouchScreenWin32 and onEvent).
+class TouchScreenWin32 : public TouchScreenBase, public glitch::IEventReceiver {
 public:
     TouchScreenWin32(short width, short height);
 
@@ -15,8 +17,5 @@ public:
     int getBottomBound() const override;  // 0x33d4a4
 
     // Maps mouse events onto touch begin/move/end. Returns true when consumed.
-    bool onEvent(const glitch::SEvent& event);  // 0x33d4b4
-
-private:
-    int eventReceiverVtable_ = 0;  // +0x1b4 secondary interface vtable (not recovered)
+    bool onEvent(const glitch::SEvent& event) override;  // 0x33d4b4
 };

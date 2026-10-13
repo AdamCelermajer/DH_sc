@@ -109,8 +109,11 @@ void Console::_setMenu() {
 }
 
 // 0x334bd8 _ZN7Console6ToggleEv
-// Partial: the flow matches the listing. The lister type behind dword_99F73C+52 is
-// not recovered, so ListFiles is a declared stand-in (g_consoleFileLister).
+// Partial: the flow matches the listing and the file lister is identified (the file system
+// at dword_99F73C+0x34, slot +0x7c = getFiles). Still partial because the closing branch
+// calls _destroyList (0x32fdc0), which is skipped in this tree, and the menu builders
+// behind _setMenu depend on _createList (also skipped). g_consoleFileLister is the
+// declared stand-in for the file system object.
 void Console::Toggle() {
     open_ = !open_;
     if (open_) {
@@ -118,8 +121,8 @@ void Console::Toggle() {
         if (!items.empty()) {
             items.erase(items.begin(), items.end());
         }
-        g_consoleFileLister->ListFiles("data/scene/*.xml", items);
-        g_consoleFileLister->ListFiles("data/scene/*.mlx", items);
+        g_consoleFileLister->getFiles("data/scene/*.xml", items);
+        g_consoleFileLister->getFiles("data/scene/*.mlx", items);
         // Keep only entries that name a .xml or .mlx file. The listing uses strstr.
         items.erase(
             std::remove_if(items.begin(), items.end(),

@@ -20,7 +20,7 @@ int main() {
     {
         std::ostringstream os;
         os << glitch::video::SColor{'a', 'b', 'c', 0};
-        CHECK(os.str() == "abc");
+        CHECK(os.str() == "a,b,c");
     }
     {
         std::ostringstream os;

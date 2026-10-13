@@ -11,8 +11,11 @@ void rss::write(slim::XmlNode*) const {}
 void channel::read(const slim::XmlNode*) {}
 
 // 0x844050 rss::read(slim::XmlNode const*)
-// Appends one channel per "channel" child of the node, in document order.
-// Partial: channel::read is the stand-in above.
+// Appends one channel per "channel" child of the node, in document order, and reads into the
+// new last element. The listing returns the last findNextChild result, which is always null.
+// Partial: channel::read is the stand-in above. The real one (0x843e64, net-session-online/src/
+// channel.cpp) reads through net-session-online's own XmlNode stand-in, a different class from
+// slim::XmlNode here, so it cannot be linked into this category until the engine unification.
 void rss::read(const slim::XmlNode* node) {
     assert(node != nullptr);
     slim::XmlNode::ChildIterator it;

@@ -32,11 +32,11 @@ public:
     // 0x88f644 (partial): dispatches Shutdown; _ShutdownAT joins the thread.
     void Shutdown();
 
-    // 0x88f9a0 (partial): takes the lock; the rest of Init is not ported.
+    // 0x88f9a0 (partial): the lock and _InitAT; the DriverCallbackInterface Init and SetDefaultParameter calls are not reachable.
     void Init(void* context);
-    // 0x88fbe8 (partial): takes the lock; the source is not created, so this returns null.
+    // 0x88fbe8 (partial): takes the lock; no source is created (the base counter and list are not reachable), so this returns null.
     DriverSourceInterface* CreateDriverSource(const std::int32_t* params, void* user, int flags) override;
-    // 0x88f59c (partial): takes the lock; the source is not released.
+    // 0x88f59c (partial): destroys and frees the source under the lock; the unlink from the base list is not ported.
     void DestroyDriverSource(DriverSourceInterface* source) override;
 
     // 0x88ee6c: the original prints nothing here.
@@ -53,15 +53,18 @@ public:
 
     // 0x88f328 (partial): the audio thread entry; the AudioTrack calls are JNI and not ported.
     int UpdateThreadedAT(void* unused);
-    // 0x88f14c (partial): one JNI write pass; the timing tail is not ported.
+    // 0x88f14c (partial): the timing tail is ported; the JNI write pass is not, so m_dataDuration
+    // does not grow here.
     void DoCallbackAT(_jarray*& array);
-    // 0x88f660 (partial): the sample rate part; the AudioTrack setup is JNI and not ported.
-    int _InitAT(int sample_rate);
+    // 0x88f660 (partial): stores the sample rate 44100 (the original never reads its argument) and
+    // returns 44100 when s_javaVM is null; the AudioTrack setup under a JavaVM is JNI and not ported.
+    int _InitAT(void* context);
 
     // 0x88f618: running flag cleared, then the thread is joined (pthread_join in the
     // original, std::thread::join here).
     void _ShutdownAT();
-    // 0x88f044 and 0x88ef6c: not ported (they use the JNI audio device).
+    // 0x88f044 and 0x88ef6c (partial): the flag and timing part only; the JNI pause and play
+    // calls on the AudioTrack are not ported.
     void _SuspendAT();
     void _ResumeAT();
 
@@ -71,11 +74,19 @@ public:
     static double m_dataThresholdRatio;   // _ZN3vox13DriverAndroid20m_dataThresholdRatioE
     static bool m_running;                // _ZN3vox13DriverAndroid9m_runningE
 
+    // Audio-thread timing in seconds (differences only are used). m_updateTime is one chunk
+    // (chunk frames / 44100), m_dataThreshold is negative, m_dataDuration is the buffered audio.
+    static double m_updateTime;           // _ZN3vox13DriverAndroid12m_updateTimeE
+    static double m_updateStartTime;      // _ZN3vox13DriverAndroid17m_updateStartTimeE
+    static double m_dataThreshold;        // _ZN3vox13DriverAndroid15m_dataThresholdE
+    static double m_dataDuration;         // _ZN3vox13DriverAndroid14m_dataDurationE
+
 private:
     friend struct DriverAndroidTestAccess;
     Mutex mutex_;                  // +0x04
     bool at_active_ = false;       // +0x08: read by the audio-thread suspend and resume
     int mode_ = 0;                 // +0x54: 1 audio thread, 2 OSL
+    bool paused_ = false;          // +0x60: set by _SuspendAT, cleared by _ResumeAT and _InitAT
     std::thread thread_;           // +0x68 (pthread_t in the original)
 };
 

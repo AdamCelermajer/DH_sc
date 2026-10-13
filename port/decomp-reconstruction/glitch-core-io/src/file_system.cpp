@@ -1,5 +1,8 @@
 #include "glitch-core-io/io/file_system.hpp"
 #include "glitch-core-io/io/memory_read_file.hpp"
+#include "glitch-core-io/io/pak_reader.hpp"
+#include "glitch-core-io/io/unzip_reader.hpp"
+#include "glitch-core-io/io/zip_reader.hpp"
 
 #include <cstdio>
 #include <cstdlib>
@@ -16,14 +19,23 @@ namespace glitch::io {
 
 std::string CFileSystem::WorkingDirectory;
 
+// 0x56c058 _ZN6glitch2io11CFileSystemC2Ev and 0x56c0a8 _ZN6glitch2io11CFileSystemC1Ev
+// The three archive lists start empty (their default construction zeroes them, as the original
+// does at +0x08..+0x2c). The refcount is set to 0, not the base default of 1, because the
+// original's constructor stores 0 at +0x04 and createFileSystem returns that object as it is.
+CFileSystem::CFileSystem() {
+    referenceCounter = 0;
+}
+
 // 0x56c214 _ZN6glitch2io11CFileSystem19getWorkingDirectoryEv
 const char* CFileSystem::getWorkingDirectory() {
     return WorkingDirectory.c_str();
 }
 
 // 0x56c528 _ZN6glitch2io11CFileSystem24changeWorkingDirectoryToEPKc
-// The original keeps the new path in a fixed static buffer (its size is not recovered);
-// a std::string is used here.
+// chdir; on success the path is copied with strcpy (LC_API_STRCPY -> PLT strcpy) into the 1024-byte
+// static buffer. The port keeps a std::string, so a path of 1024 bytes or more is kept whole where
+// the original would overflow the buffer (undefined in the original, not reproduced).
 bool CFileSystem::changeWorkingDirectoryTo(const char* directory) {
     const bool changed = GLITCH_CHDIR(directory) == 0;
     if (changed) WorkingDirectory = directory;
@@ -95,33 +107,61 @@ std::string CFileSystem::getFileDir(const std::string& path) const {
 }
 
 // 0x56c740 _ZNK6glitch2io11CFileSystem15getFileBasenameERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEEb
+// Mirrors the listing: with keepExtension false the extension length is size - (last '.') when a
+// dot exists, else 0. A separator before size gives substr(sep + 1, count) with count =
+// size - ext - (sep + 1) in unsigned 32-bit arithmetic. When the dot lies before the separator
+// that count wraps, and the substring is clamped to the end of the path (the rest after the
+// separator). With no separator in range the result is the path minus its extension.
 std::string CFileSystem::getFileBasename(const std::string& path, bool keepExtension) const {
     const long sep = lastSeparator(path);
     const std::size_t size = path.size();
-    // Without the extension the end is the last '.' (when there is one).
-    std::size_t end = size;
+    std::size_t extLength = 0;
     if (!keepExtension) {
         const std::size_t dot = path.rfind('.');
-        if (dot != std::string::npos) end = dot;
+        if (dot != std::string::npos) extLength = size - dot;
     }
-    const std::size_t start = sep >= 0 ? static_cast<std::size_t>(sep) + 1 : 0;
-    if (start >= end) return std::string();
-    return path.substr(start, end - start);
+    if (sep >= 0 && static_cast<std::size_t>(sep) < size) {
+        const std::size_t start = static_cast<std::size_t>(sep) + 1;
+        const std::size_t end = size - extLength;
+        if (end < start) return path.substr(start);  // the original's count wraps and clamps
+        return path.substr(start, end - start);
+    }
+    if (extLength != 0) return path.substr(0, size - extLength);
+    return path;
 }
 
 // 0x56cb78 _ZN6glitch2io11CFileSystem5clearEv
-// PARTIAL: the original drops every reference in its three archive lists and empties them.
-// The port keeps no archive lists, so there is nothing to drop here.
-void CFileSystem::clear() {}
+// Each list is walked from its first element; every reader is dropped (the reference the list
+// held), then the list is emptied. The walk re-reads the size after each drop, as the original does.
+void CFileSystem::clear() {
+    for (std::size_t i = 0; i < zipReaders.size(); ++i) zipReaders[i]->drop();
+    zipReaders.clear();
+    for (std::size_t i = 0; i < pakReaders.size(); ++i) pakReaders[i]->drop();
+    pakReaders.clear();
+    for (std::size_t i = 0; i < unZipReaders.size(); ++i) unZipReaders[i]->drop();
+    unZipReaders.clear();
+}
 
 // 0x56cc44 _ZN6glitch2io11CFileSystemD1Ev and 0x56ccc4 _ZN6glitch2io11CFileSystemD2Ev
-// PARTIAL: clear() and then the release of the list buffers, which are not modelled.
+// clear() drops the readers. The three lists are declared zip, pak, unzip, so their storage is
+// released afterwards in the original's order (unzip, pak, zip).
 CFileSystem::~CFileSystem() { clear(); }
 
 // 0x56df38 _ZNK6glitch2io11CFileSystem9existFileEPKc
-// PARTIAL: the archive lists are not searched. The last step of the original opens the file
-// for reading and releases it again when it opens; that step is kept.
+// The three archive lists are searched in order (zip, pak, unzip): the first reader that finds the
+// name answers 1. Otherwise the file is opened for reading. PARTIAL: the original's last step is
+// CFileSystem::open(name, "rb") (0x56dc40, not reconstructed: it returns a shared CFile and applies
+// the obfuscation map); here fopen stands in for it.
 int CFileSystem::existFile(const char* name) const {
+    for (CZipReader* zip : zipReaders) {
+        if (zip->findFile(name) != -1) return 1;
+    }
+    for (CPakReader* pak : pakReaders) {
+        if (pak->findFile(name) != -1) return 1;
+    }
+    for (CUnZipReader* unzip : unZipReaders) {
+        if (unzip->findFile(name) != -1) return 1;
+    }
     std::FILE* file = std::fopen(name, "rb");
     if (file == nullptr) return 0;
     std::fclose(file);

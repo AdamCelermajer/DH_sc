@@ -64,6 +64,13 @@ void RandomGroup::GetState(RandomGroupState* state) const {
 // 0x882f48 _ZN3vox11RandomGroup8SetStateEPNS_16RandomGroupStateE
 // The element vector is replaced by the pointers the state refers to, and the removed list
 // by a copy of the nodes it refers to (the original frees the old nodes first).
+// Ownership, as in the original: the element blocks are not copied, so this group now shares
+// the blocks of the group the state came from, and the blocks this group held before are not
+// freed (the original drops them too). The destructor (0x882918) frees every block the group
+// refers to, so two live groups that share blocks free each of them twice; the holder of a
+// shared state must let go of the blocks first (see tests/random_group_test.cpp). The caller in
+// the binary, NativePlaylist::SetState(PlaylistState*) 0x882ae0 from
+// NativePlaylistsManager::TransposePlaylistParameters 0x882c0c, has the same exposure.
 void RandomGroup::SetState(const RandomGroupState* state) {
     elements_.clear();
     words_[2] = static_cast<std::uint32_t>(state->cycles);
@@ -100,6 +107,9 @@ void RandomGroup::SetState(const RandomGroupState* state) {
 // not empty, and the destructor would not terminate on it; the port keeps the same steps. When
 // the removed list is empty the original reads the element-count word after the sentinel as the
 // padding pointer; the port uses null there.
+// Ownership is the same as for SetState(const RandomGroupState*): the pointers of the first
+// source-size slots are overwritten with the source's, so the blocks they held are not freed
+// and the source's blocks are shared.
 void RandomGroup::SetState(const RandomGroup& other) {
     SegmentGroup::SetState(other);
 

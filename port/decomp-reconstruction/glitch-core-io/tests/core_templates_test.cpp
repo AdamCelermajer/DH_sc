@@ -57,9 +57,10 @@ int main() {
     glitch::core::rect<int> huge{0, 0, 200, 10};
     CHECK(!huge.constrainTo(limit) && huge.LowerRightCorner.X == 200);
 
-    // The process buffer heap accessors start from an empty heap with the excess flag clear.
+    // The process buffer heap accessors start from an empty heap with the excess flag set (the static
+    // initializer sets byte_9F65C4 = 1).
     CHECK(glitch::core::getProcessBufferHeapSize() == 0);
-    CHECK(!glitch::core::isProcessBufferHeapExcessEnabled());
+    CHECK(glitch::core::isProcessBufferHeapExcessEnabled());
     glitch::core::setProcessBufferHeapExcessEnabled(true);
     CHECK(glitch::core::isProcessBufferHeapExcessEnabled());
     glitch::core::setProcessBufferHeapExcessEnabled(false);

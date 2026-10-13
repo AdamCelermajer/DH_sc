@@ -1,7 +1,8 @@
 // vox::EmitterObj constructors (two overloads), the buffer ring they build, and LoadAsync.
 // The ring is a std::vector<void*> at +0xf4 (begin), +0xf8 (end) and +0xfc (capacity) in the
-// original. Frame size is channels * (bits >> 3) bytes. The port reads the track words from the
-// data object, which holds the same four values the decoder cursor was created from.
+// original. Frame size is channels * (bits >> 3) bytes. The cursor overload and LoadAsync read the
+// track words from the cursor's TrackParams block (cursor +0x04 channels, +0x08 sample rate, +0x0c
+// bits, +0x10 length). The data-object overload reads its own words (data +0x28..+0x34).
 #include <cstdint>
 #include <limits>
 
@@ -94,6 +95,16 @@ void SetRateAndLengthFromData(EmitterObj& e, const DataObj* data) {
     e.play_rate_ = data->sample_rate_ * frame_bytes;  // +0x20
 }
 
+// The cursor overload's play length and rate (0x86c5ec and 0x86ce1c read the cursor words):
+// length = channels * length_frames * (bits >> 3) at +0x24, rate = (bits >> 3) * channels * sample
+// rate (unknown_08) at +0x20. The arithmetic wraps at 32 bits, as the 32-bit listing does.
+void SetRateAndLengthFromCursor(EmitterObj& e, const TrackParams& track) {
+    const std::uint32_t channels = static_cast<std::uint32_t>(track.channels);
+    const std::uint32_t bytes = static_cast<std::uint32_t>(track.bits_per_sample >> 3);
+    e.play_length_ = static_cast<int>(channels * static_cast<std::uint32_t>(track.length_frames) * bytes);
+    e.play_rate_ = static_cast<int>(bytes * channels * static_cast<std::uint32_t>(track.unknown_08));
+}
+
 // The decoder type the constructor stores (+0x140): GetType of the data object's decoder when
 // the data is ready. The original calls GetType on a null pointer when the data is not ready;
 // the port stores 0 there instead.
@@ -166,7 +177,8 @@ EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInte
 
 // 0x86c5ec _ZN3vox10EmitterObjC1ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE
 // 0x86ce1c _ZN3vox10EmitterObjC2ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE (same body)
-// Partial: the play rate and length come from the data object rather than the cursor words.
+// Partial: the same null GetType path as C1 (DecoderTypeOf). The play rate and length come from the
+// cursor's track block, as the listing reads them (cursor +0x04..+0x10).
 EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes, DriverSourceInterface* source,
                        DecoderCursorInterface* cursor, DataObj* data) {
     InitCommonFields(*this, id, priority, bank);
@@ -179,7 +191,7 @@ EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes,
     if (cursor == nullptr || source == nullptr) {
         need_to_die_ = true;         // +0x11c; the original skips SetDefaultParameters here
     } else {
-        SetRateAndLengthFromData(*this, data);
+        SetRateAndLengthFromCursor(*this, cursor->GetTrackParams());
         if (BuildBufferRing(*this, source, cursor) == 0) {
             need_to_die_ = true;
         }
@@ -190,9 +202,10 @@ EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes,
 }
 
 // 0x86d238 _ZN3vox10EmitterObj9LoadAsyncEv
-// Partial: the cursor words are read from the data object (see the file comment). Returns 1
-// when the ring is ready. Otherwise the emitter is marked for death, and the state is -1 on the
-// paths that never got a cursor.
+// Opens a cursor on the data object's stream and decoder, sizes the buffer chunk from the cursor's
+// track block and builds the ring. Returns 1 when the ring is ready. Otherwise the emitter is marked
+// for death, and the state is -1 on the paths that never got a cursor (a ring failure after the
+// cursor exists keeps the state, as the listing does).
 int EmitterObj::LoadAsync() {
     DataObj* data = data_;
     if (data == nullptr || dsp_source_ == nullptr || data->state_ != 0) {
@@ -216,20 +229,20 @@ int EmitterObj::LoadAsync() {
     DecoderCursorInterface* cursor = decoder->CreateNewCursor(stream_cursor);
     if (cursor != nullptr) {
         decoder_cursor_ = cursor;  // +0x114
-        const std::int64_t frame_bits = static_cast<std::int64_t>(data->channels_) * data->bits_per_sample_;
+        const TrackParams& track = cursor->GetTrackParams();
         int chunk = 0;
         if (dsp_source_->AllowBufferReference() && cursor->AllowBufferReference()) {
-            // Original: bits * length / 8 bytes per chunk.
-            chunk = static_cast<int>(static_cast<std::int64_t>(data->bits_per_sample_) * data->length_ / 8);
-            buffer_chunk_bytes_ = chunk;
+            // Original: (bits * length) / 8 bytes per chunk (cursor +0x0c and +0x10).
+            chunk = static_cast<int>(static_cast<std::int64_t>(track.bits_per_sample) * track.length_frames / 8);
+            buffer_chunk_bytes_ = chunk;  // +0x108
         } else {
-            // About 150 ms of audio, rounded down to whole frames.
-            const std::int64_t frame_bytes = frame_bits / 8;
-            const std::int64_t bytes_per_150ms = frame_bytes * 150 * data->sample_rate_;
-            const std::int64_t per_chunk = bytes_per_150ms / 1000;
-            buffer_chunk_bytes_ = static_cast<int>(per_chunk);
+            // About 150 ms of audio: frame bytes = (channels * bits) / 8 (cursor +0x04, +0x0c), bytes
+            // per chunk = frame bytes * 150 * rate / 1000 (cursor +0x08), rounded down to whole frames.
+            // A zero frame size gives a zero chunk, as the listing's remainder does.
+            const std::int64_t frame_bytes = static_cast<std::int64_t>(track.channels) * track.bits_per_sample / 8;
+            const std::int64_t per_chunk = frame_bytes * 150 * track.unknown_08 / 1000;
             chunk = static_cast<int>(per_chunk - (frame_bytes > 0 ? per_chunk % frame_bytes : 0));
-            buffer_chunk_bytes_ = chunk;
+            buffer_chunk_bytes_ = chunk;  // +0x108
         }
         if (chunk > 0) {
             if (BuildBufferRing(*this, dsp_source_, cursor) != 0) {

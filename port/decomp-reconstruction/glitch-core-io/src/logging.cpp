@@ -48,18 +48,24 @@ void Printer::print(const char* format, ...) {
 }
 
 // 0x60afd4 _ZN6glitch2os7Printer4logfEPKcz
-// PARTIAL: the original calls the logger's +0x24 slot with level 1 and the format; that slot
-// is not on ILogger, so only the null check is kept.
-void Printer::logf(const char* /*format*/, ...) {
-    if (Logger) {
-    }
+// The listing saves r0..r3 as the variadic area, then calls the logger's slot +0x24 with
+// (logger, 1, format, pointer to the variadic area). The pointer is the va_list here.
+void Printer::logf(const char* format, ...) {
+    if (!Logger) return;
+    std::va_list args;
+    va_start(args, format);
+    Logger->logv(ELL_INFORMATION, format, args);
+    va_end(args);
 }
 
 // 0x60b034 _ZN6glitch2os7Printer4logfENS_10ELOG_LEVELEPKcz
-// PARTIAL: same forwarding as the one-level form (the +0x24 slot is not declared on ILogger).
-void Printer::logf(ELOG_LEVEL /*level*/, const char* /*format*/, ...) {
-    if (Logger) {
-    }
+// Same forwarding as the one-level form, with the level argument passed through.
+void Printer::logf(ELOG_LEVEL level, const char* format, ...) {
+    if (!Logger) return;
+    std::va_list args;
+    va_start(args, format);
+    Logger->logv(level, format, args);
+    va_end(args);
 }
 
 // 0x60ae9c _ZN6glitch2os5Timer8getSpeedEv

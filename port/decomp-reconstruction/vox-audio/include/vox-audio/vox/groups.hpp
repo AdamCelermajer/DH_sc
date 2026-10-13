@@ -96,6 +96,8 @@ struct RandomGroupNode {
 
 // State record written by RandomGroup::GetState. The last two members hold the addresses of
 // the group's element vector (+0x24) and list sentinel (+0x30), as the original stores them.
+// SetState(const RandomGroupState*) copies the element pointers from them without allocating, so
+// the receiving group shares the source group's element blocks (see random_group_state.cpp).
 struct RandomGroupState {
     std::int32_t cycles = 0;                // [0] +0x14
     std::int32_t remaining = 0;             // [1] +0x18

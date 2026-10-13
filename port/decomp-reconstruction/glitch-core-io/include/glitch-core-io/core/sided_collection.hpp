@@ -100,11 +100,13 @@ public:
         mutable bool managed;         // +0x04: the key owns the characters when set
     };
 
-    // Mapped value of the name map: the id, plus the per-entry properties. The original stores a
-    // string (16-byte block) before the id at +0x1c; it is not used by the functions here.
+    // Mapped value of the name map: the id, plus the per-entry properties. The ITexture record
+    // (0x5e85b4) stores a string block before the id at +0x1c; it is not used by the functions here.
+    // The IShaderCode record (0x6e08b0, 0x6e08b8) is only the id: the constructor stores the u16 at
+    // +0x00 and writes nothing else, and getId reads it at node +0x18 (0x6e1ab4).
     struct SIdValue {
-        explicit SIdValue(IdT value) : id(value) {}  // 0x5e85b4 (C1 and C2)
-        IdT id;      // +0x1c (within the map node value; node value starts at +0x18)
+        explicit SIdValue(IdT value) : id(value) {}  // 0x5e85b4 (ITexture); 0x6e08b0, 0x6e08b8 (IShaderCode)
+        IdT id;      // ITexture: +0x1c (node +0x34); IShaderCode: +0x00 (node +0x18)
         Props properties{};
     };
 
@@ -155,6 +157,9 @@ public:
     }
 
     // Properties of the entry (0x5e83e4, 0x5e83f8): the record stored with its name.
+    // PARTIAL for the IShaderCode instances (0x6e0860, 0x6e0874): the original returns node+0x18, the
+    // address of the whole SIdValue (its id is the first field), with no range check. This returns
+    // the properties member, two bytes further in, and an out-of-range id reaches the invalid entry.
     const Props* getProperties(std::uint16_t id) const { return &get(id)->iterator->second.properties; }
     Props* getProperties(std::uint16_t id) { return &get(id)->iterator->second.properties; }
 
@@ -173,8 +178,13 @@ public:
     // Removes the entry at id when it is set and either only the collection uses the value or
     // force is true (0x5e9e7c). The entry is reset, the next free id moves down to id when that
     // is lower, the count drops, and the trailing unset entries are cut from the vector.
-    // Partial: the trailing trim is read from the ARM loop; the released temporary is dropped
-    // through assignment here.
+    // The IShaderCode instance (0x6e1e54) matches this body step for step: the use-count check, the
+    // erase, the reset, the nextId and count updates, and the trailing trim with no resize when every
+    // entry is unset.
+    // PARTIAL for the CMaterialRenderer instance (0x5d9f74 only): it calls
+    // materialrenderermanager::SProperties::onRemove(record, collection, id) before the erase, and the
+    // port has no such hook. This body was checked against the ITexture remove (0x5e9e7c); the
+    // SShaderParameterDef remove (0x5c0f70) differs and is skipped.
     bool remove(std::uint16_t id, bool force) {
         if (id >= entries.size()) return false;
         SEntry& entry = entries[id];
@@ -184,15 +194,20 @@ public:
         entry.reset();
         if (id < nextId) nextId = id;
         --count;
-        while (!entries.empty() && !Traits::isSet(entries.back().value)) entries.pop_back();
+        // Trailing trim (the loop at the end of 0x5e9e7c and 0x5d9f74): cut the unset entries after the
+        // last set one, only when a set entry remains. An all-unset vector keeps its length.
+        std::size_t last = entries.size();
+        while (last > 0 && !Traits::isSet(entries[last - 1].value)) --last;
+        if (last > 0 && last < entries.size()) entries.resize(last);
         return true;
     }
 
     // Removes every entry for which remove(id, force) succeeds, visiting the names in key order
     // (0x5e9f78). The successor is taken before each removal, as the original does. Returns the
-    // number removed (short in the original).
-    std::int16_t removeAll(bool force) {
-        std::int16_t removed = 0;
+    // number removed (uint16 in the original: the count is stored as unsigned short, 0x5c1104 and 0x5da080).
+    // The IShaderCode instance (0x6e1f50) walks the same in-order successor and returns the same count.
+    std::uint16_t removeAll(bool force) {
+        std::uint16_t removed = 0;
         auto it = ids.begin();
         while (it != ids.end()) {
             const auto next = std::next(it);

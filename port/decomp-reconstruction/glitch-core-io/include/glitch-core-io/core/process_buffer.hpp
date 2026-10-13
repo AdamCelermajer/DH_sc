@@ -34,9 +34,8 @@ struct SSharedProcessBuffer {
     void reset(int size);
 };
 
-// 0x5d93c8: records whether excess was enabled and enables it. PARTIAL: the decompile enables
-// excess whatever the argument is, so the argument is not used here. The matching restore is
-// not in this queue.
+// 0x5d93c8: records whether excess was enabled, then enables it. The GCC clone has the bool
+// argument folded to true, so the argument is not read. The matching restore is not in this queue.
 struct SScopedEnableProcessBufferHeapExcess {
     explicit SScopedEnableProcessBufferHeapExcess(bool enable);
     bool previous = false;  // +0x00

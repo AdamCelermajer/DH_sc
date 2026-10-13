@@ -213,30 +213,159 @@ int VoxNativeSubDecoder::EmulateMixSegmentInBuffer(int bytes, SegmentState* segm
     return ramp_step;
 }
 
-// 0x8847e8 _ZN3vox19VoxNativeSubDecoder21UpdateOldSegmentStateEPNS_14TransitionRuleE (partial)
-// Reproduced: the copy of the third record into the second, the zeroed record for a rule
-// with no frames (or no rule), and the kind-4 start. Not reproduced: the rule branch with
-// frames, which needs the loop-list lookups for the old segment's end position and the
-// gain ramp sums (the 0x41-byte state copies between the arrays are not all accounted for).
+namespace {
+// The first loop-list element past the position for the rule types 4 and 5 (v14 of the
+// original). Type 4 looks at every element from the first; type 5 starts at the fourth
+// (index 3) and needs more than three. Zero when no element is past the position.
+std::int32_t LoopElementAfter(int type, const std::vector<std::int32_t>& list, std::int32_t position) {
+    const int count = static_cast<int>(list.size());
+    if (type == 5) {
+        if (count > 3) {
+            std::int32_t value = list[3];
+            if (value > position) {
+                return value;
+            }
+            for (int i = 4; i != count; ++i) {
+                value = list[static_cast<std::size_t>(i)];
+                if (value > position) {
+                    return value;
+                }
+            }
+        }
+        return 0;
+    }
+    if (count > 0) {
+        if (list[0] > position) {
+            return list[0];
+        }
+        for (int i = 1; i != count; ++i) {
+            if (list[static_cast<std::size_t>(i)] > position) {
+                return list[static_cast<std::size_t>(i)];
+            }
+        }
+    }
+    return 0;
+}
+}  // namespace
+
+// 0x8847e8 _ZN3vox19VoxNativeSubDecoder21UpdateOldSegmentStateEPNS_14TransitionRuleE
+// The old segment (segments_[1]) becomes a copy of the current one (segments_[2], the
+// 0x41-byte record copy), in play mode 2. A null rule, or a rule whose frame count is not
+// positive, takes the zero branch (state 4, one entry). With frames, the remaining frames
+// are the rule's second float scaled by the base field, plus the distance from the position
+// to the loop-list element (rule type 4 or 5, or word 2 for type 6). A negative total is
+// pulled to zero. When the reset flag is set, the frame count becomes 1 - element + the
+// list's end value if that is smaller. The gain ramp runs from the current record's gain,
+// or from 0x40000000 when the current record had no frames left.
 void VoxNativeSubDecoder::UpdateOldSegmentState(TransitionRule* rule) {
     segments_[1] = segments_[2];
     segments_[1].play_mode = 2;
-    if (rule != nullptr) {
-        segments_[1].restart_at_end = rule->flag_0c_;
-        const int frames = static_cast<int>(static_cast<float>(field_0c_) * rule->length_);
-        segments_[1].field_2c = frames;
-        if (frames > 0) {
-            return;  // partial: rule branch with frames is not reproduced
+
+    const auto zero_branch = [this]() {
+        SegmentState& old = segments_[1];
+        old.gain = 0;
+        old.remaining_frames = 0;
+        old.field_2c = 0;
+        old.ramp_frames = 0;
+        old.ramp_step = 0;
+        old.entries_left = 1;
+        old.state = 4;
+        old.entry_count = 1;
+    };
+
+    if (rule == nullptr) {
+        zero_branch();
+        return;
+    }
+
+    // v5 of the original: the current frame count, read before the rule overwrites it.
+    const std::int32_t old_field_2c = segments_[1].field_2c;
+    segments_[1].restart_at_end = rule->flag_0c_;
+    const std::int32_t frames = static_cast<std::int32_t>(static_cast<float>(field_0c_) * rule->length_);
+    segments_[1].field_2c = frames;
+    if (frames <= 0) {
+        zero_branch();
+        return;
+    }
+
+    // v8: the frame count from the rule's second float (+0x1c).
+    std::int32_t remaining = static_cast<std::int32_t>(static_cast<float>(field_0c_) * rule->field_1c_);
+
+    // The loop list of the old segment's chunk (the copy the original makes is only read here).
+    const std::vector<std::int32_t>& list = ChunkLoopList(loop_lists_, segments_[1].chunk_index);
+    const std::int32_t count = static_cast<std::int32_t>(list.size());
+    const std::int32_t sample_position = segments_[1].sample_position;  // v18, +0xe8
+
+    const std::int32_t type = rule->type_;  // +0x04 of the rule
+    std::int32_t element = 0;               // v14: the loop-list element, or the position for type 0
+    std::int32_t reset_flag = 0;            // v13
+    if (type != 0) {
+        if (type == 6) {
+            element = ListAt(list, 2);
+        } else if (type == 4 || type == 5) {
+            element = LoopElementAfter(type, list, sample_position);
+        } else {
+            element = 0;
+        }
+        // LABEL_36: the difference from the position is added to the frame count.
+        remaining += element - sample_position;
+        segments_[1].remaining_frames = remaining;
+        reset_flag = 1;
+    } else {
+        reset_flag = segments_[1].entries_left;  // word 7 (+0x1c of the record)
+        segments_[1].remaining_frames = remaining;
+        element = sample_position;
+        if (reset_flag != 1) {
+            reset_flag = 0;
         }
     }
-    segments_[1].gain = 0;
-    segments_[1].remaining_frames = 0;
-    segments_[1].field_2c = 0;
-    segments_[1].ramp_frames = 0;
-    segments_[1].ramp_step = 0;
-    segments_[1].entries_left = 1;
-    segments_[1].state = 4;
-    segments_[1].entry_count = 1;
+
+    // v15: the frame count of the old segment, pulled to zero when the remaining frames are
+    // negative (LABEL_38 in the original).
+    std::int32_t v15;
+    if (remaining >= 0) {
+        v15 = segments_[1].field_2c;
+    } else {
+        const std::int32_t previous = segments_[1].field_2c;
+        segments_[1].remaining_frames = 0;
+        v15 = remaining + previous;
+        segments_[1].field_2c = v15;
+        if (v15 < 0) {
+            segments_[1].field_2c = 0;
+            v15 = 0;
+        }
+    }
+
+    // LABEL_9: with the reset flag, the frame count is pulled back to the reversed end of the
+    // list (the last element for a rule flag of 1, else word 2) when that is smaller.
+    std::int32_t v17 = v15;
+    if (reset_flag != 0) {
+        const std::int32_t end_value = rule->flag_0c_ == 1 ? ListAt(list, count - 1) : ListAt(list, 2);
+        const std::int32_t candidate = 1 - element + end_value;
+        if (candidate < v15) {
+            segments_[1].field_2c = candidate;
+            v17 = candidate;
+        }
+    }
+
+    segments_[1].ramp_frames = v17;
+    if (old_field_2c > 0) {
+        // The gain of the current record, and its negation as the ramp step.
+        const std::int32_t current_gain = segments_[2].gain;
+        segments_[1].gain = current_gain;
+        const std::int32_t negated = static_cast<std::int32_t>(0u - static_cast<std::uint32_t>(current_gain));
+        segments_[1].ramp_step = DivArm(negated, segments_[1].field_2c);
+    } else {
+        segments_[1].gain = 0x40000000;
+        segments_[1].ramp_step = DivArm(-1073741824, segments_[1].field_2c);
+    }
+
+    if (reset_flag != 0) {
+        // LABEL_30: the state-4 tail of the zero branch, without the ramp reset.
+        segments_[1].entries_left = 1;
+        segments_[1].state = 4;
+        segments_[1].entry_count = 1;
+    }
 }
 
 // 0x884ab4 _ZN3vox19VoxNativeSubDecoder23UpdateDyingSegmentStateEPNS_14TransitionRuleE

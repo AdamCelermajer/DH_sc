@@ -82,8 +82,9 @@ void CAttributes::push(const char* groupName, int groupIndex) {
 }
 
 // 0x5618d8 _ZN6glitch2io11CAttributes3popEv
-// The original has no root check and would load the null parent of the root.
-// This reconstruction keeps the current group when it has no parent.
+// PARTIAL: the original has no root check. It sets the group to the root's null parent, so the next
+// attribute access reads through a null group. This reconstruction keeps the root instead, and
+// attributes_context_test asserts that.
 void CAttributes::pop() {
     if (group->parent) group = group->parent;
 }

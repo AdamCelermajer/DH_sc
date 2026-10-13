@@ -1,5 +1,7 @@
 #include "glitch-core-io/io/file_list.hpp"
 
+#include <cctype>
+
 namespace glitch::io {
 
 // 0x6b4188 _ZN6glitch2io9CFileList9FileEntryC1ERKS2_
@@ -18,6 +20,10 @@ CFileList::FileEntry& CFileList::FileEntry::operator=(const FileEntry& other) {
 }
 
 // 0x6b40a0 _ZN6glitch2io9CFileList15getFullFileNameEj (PARTIAL: see the header)
+// The listing rebuilds the entry's full name only when the entry's string storage has less room
+// left (entry+0x28 minus entry+0x2c) than the name's length; otherwise it returns the cached text.
+// The port has no storage capacity, so it rebuilds on every call. The results agree unless the path
+// or the name changed after an earlier call.
 const char* CFileList::getFullFileName(std::uint32_t index) {
     if (index >= Files.size()) return nullptr;
     FileEntry& entry = Files[index];
@@ -42,6 +48,28 @@ const char* CFileList::getFileName(std::uint32_t index) const {
 bool CFileList::isDirectory(std::uint32_t index) const {
     if (index >= Files.size()) return false;
     return Files[index].isDirectory;
+}
+
+namespace {
+
+// strcasecmp order (the libc call in the heapsink<FileEntry> listing at 0x6b41d8): both strings are
+// read up to their terminator, each byte lower-cased as an unsigned char.
+bool caseInsensitiveLess(const char* a, const char* b) {
+    for (;; ++a, ++b) {
+        const int ca = std::tolower(static_cast<unsigned char>(*a));
+        const int cb = std::tolower(static_cast<unsigned char>(*b));
+        if (ca != cb) return ca < cb;
+        if (ca == 0) return false;
+    }
+}
+
+}  // namespace
+
+// 0x6b41d8: heapsink<FileEntry> swaps a child when the element is less. The flags decide first
+// (a set flag is less when the other is clear), then the names by strcasecmp.
+bool CFileList::FileEntry::operator<(const FileEntry& other) const {
+    if (isDirectory != other.isDirectory) return isDirectory;
+    return caseInsensitiveLess(Name.c_str(), other.Name.c_str());
 }
 
 }  // namespace glitch::io
