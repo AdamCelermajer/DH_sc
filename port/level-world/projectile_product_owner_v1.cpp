@@ -71,6 +71,7 @@ lifecycle::Status Owner::set_info_float(void* raw, objects::GameObject& object,
         row->row_index != args.source_record->row_index)
         return lifecycle::Status::object_not_owned;
     payload->projectile_id = args.projectile_id;
+    ++payload->spawn_serial;
     payload->source_row = *args.source_record;
     payload->owner_identity = args.owner->identity;
     payload->target_identity = args.target ? args.target->identity : 0;
@@ -105,6 +106,7 @@ lifecycle::Status Owner::set_info_bool(void* raw, objects::GameObject& object,
         row->row_index != args.source_record->row_index)
         return lifecycle::Status::object_not_owned;
     payload->projectile_id = args.projectile_id;
+    ++payload->spawn_serial;
     payload->source_row = *args.source_record;
     payload->owner_identity = args.owner->identity;
     payload->target_identity = args.target ? args.target->identity : 0;
