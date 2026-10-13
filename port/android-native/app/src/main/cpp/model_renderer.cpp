@@ -1831,7 +1831,11 @@ struct PlayerSkillTargetList {
  std::string projection_error;
  bool ready=false;
  void clear(){list={};owner={};heap.clear();objects.clear();heads.clear();entries.clear();rooms.clear();sentinel={};registry={};source_methods={};room_cursor={};candidate_route=CandidateRoute::unavailable;source_cursor=source_count=0;player_candidate=0;by_identity.clear();target_points.clear();projection_error.clear();ready=false;}
-} prince_skill_targets;
+};
+// `prince_skill_targets` is defined after `source_level_owner` (below): its named
+// TargetList backups unlock canonical ObjectManager rows when destroyed, so it
+// must be torn down before the Level owner at process exit.
+extern PlayerSkillTargetList prince_skill_targets;
 void skill_sync_target_objects(PlayerSkillTargetList& state);
 dh2::native::character_list::Owner native_characters;
 dh2::data::AiTables actor_ai_tables;bool enemy_ai_enabled=true;
@@ -9044,6 +9048,10 @@ dh2::animation::Player walk_player;dh2::world::Level level;dh2::world::Point act
 bool world_mode=false,walking=false,resume_world=false,terminal_teardown_pending=false;
 unsigned terminal_teardown_retry_count=0;float move_x=0,move_y=0,heading=0;
 dh2::source_level_owner_v1::Owner source_level_owner;
+// Static storage is destroyed in reverse definition order: this Player TargetList
+// (whose destructor unlocks ObjectManager rows through source_level_owner) must be
+// defined after the Level owner so it is destroyed first.
+PlayerSkillTargetList prince_skill_targets;
 // CPacketManager is process-lifetime static storage shared by every Level.
 // Keep its one registry beside the Application owner, while each active
 // ObjectManager owns only its source +0x1ac initialized byte.
@@ -22416,6 +22424,19 @@ void deactivate(bool defer_source_level_finish){
    return;
   }
  }
+ // The Player's GameObject::TargetList BackupObjectLists release their ObjectBase
+ // +0x29 locks when the Player is removed, before Level teardown frees any
+ // candidate row; retiring them later finds the rows already gone. The later
+ // retirement calls below stay as idempotent no-ops.
+ {
+  std::string backup_error;
+  if(prince_skill_targets.named_backups.retire(backup_error)!=
+       dh2::character_target_list_backup_v1::Status::complete){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Player TargetList backup retirement failed: %s",backup_error.c_str());
+   return;
+  }
+ }
  clear_player_equipment_native(true);
  player_camera_rig.reset();player_camera_playback=dh2::player_camera_rig_v1::Playback{};player_camera_animset_selection={};player_camera_animset_playback_owner=dh2::camera_animset_v1::PlaybackOwner{};player_camera_animset_bank.clear();player_camera_asset_manager=nullptr;player_camera_rig_load_attempted=false;player_camera_rig_asset.clear();player_camera_rig_cache_key.clear();player_camera_rig_default_target_distance=0.0f;
  source_camera={};
@@ -23072,6 +23093,92 @@ bool ensure_source_actor_anim_dictionary(ObjectGroup& group,std::int32_t id,
  } catch(const std::exception& failure) {
   error=failure.what();return false;
  }
+}
+
+// The staged Prince bank is the original CharAnimator::SetAnimationSet request
+// list for KnightPlayerBase (AnimTable 48, SkillTree 14). Mage (49) and Rogue (50)
+// run the same SetAnimationSet (IDA 0x3c9f4c) over their own CharAnimTable row and
+// SkillList, so their request list differs in the class skill sequences. Reproduce
+// that producer and derive the class bank from it: clips the staged bank already
+// owns keep their resource, any other clip is read from its authored dictionary
+// path in the restored original cache. The Knight list must match the staged
+// original-derived one exactly, which validates the producer on the same inputs.
+bool derive_player_animation_bank(AAssetManager* assets,
+    const dh2::data::AnimationBank& staged,const dh2::data::AnimationTables& tables,
+    const dh2::data::SkillTables& skills,const dh2::data::Dictionary& clips,
+    const dh2_pycst_view& constants,std::int32_t animation_table,
+    std::int32_t skill_selector,const std::string& character,
+    dh2::data::AnimationBank& output,std::string& error) {
+ error.clear();
+ dh2_pycst_result count{},mask{};
+ if(!constants.bytes||dh2_pycst_get(&constants,"AnimStances",11,"COUNT_IPHONE",12,&count)!=0||
+    !count.found||count.value<=0||
+    dh2_pycst_get(&constants,"AnimStancedAnim",15,"SL__LIST_IPHONE",15,&mask)!=0||!mask.found) {
+  error="Player AnimStances/COUNT_IPHONE or AnimStancedAnim/SL__LIST_IPHONE is unavailable";
+  return false;
+ }
+ dh2::character_anim_set_owner_v1::AnimSetState set;
+ const auto status=dh2::character_anim_set_owner_v1::compile_character_anim_set(
+     set,1,tables,skills,animation_table,skill_selector,count.value,
+     static_cast<std::uint32_t>(mask.value),{},error);
+ if(status!=dh2::character_anim_set_owner_v1::Result::registered) {
+  if(error.empty())error="Player SetAnimationSet registration was not produced";
+  return false;
+ }
+ std::vector<std::int32_t> requests;
+ for(const auto& registration:set.registrations) {
+  if(registration.animation_dictionary_id<0) {
+   error="Player SetAnimationSet requested a negative animation dictionary ID";return false;
+  }
+  requests.push_back(registration.animation_dictionary_id);
+ }
+ if(requests.empty()||set.registrations.front().kind!=
+      dh2::character_anim_set_owner_v1::RegistrationKind::template_animation) {
+  error="Player SetAnimationSet did not register the template animation first";return false;
+ }
+ if(static_cast<std::uint32_t>(animation_table)==staged.animation_table) {
+  if(set.anim_set_id!=static_cast<std::int32_t>(staged.animation_set_id)||
+     requests!=staged.registration_requests||requests.front()!=staged.template_clip_id) {
+   error="Player SetAnimationSet request list differs from the staged original-derived bank";
+   return false;
+  }
+  output=staged;return true;
+ }
+ dh2::data::AnimationBank derived=staged;
+ derived.character=character;
+ derived.animation_table=static_cast<std::uint32_t>(animation_table);
+ derived.animation_set_id=static_cast<std::uint32_t>(set.anim_set_id);
+ derived.template_clip_id=requests.front();
+ derived.resources.clear();
+ derived.registration_requests=requests;
+ std::vector<std::int32_t> unique;
+ for(const auto id:requests)
+  if(std::find(unique.begin(),unique.end(),id)==unique.end())unique.push_back(id);
+ for(const auto id:unique) {
+  if(const auto* owned=dh2::data::animation_resource(staged,id)) {
+   derived.resources.push_back(*owned);continue;
+  }
+  dh2::data::AnimationStep ref;ref.anim=id;
+  const auto* authored=dh2::data::animation_clip(ref,clips);
+  if(!authored) {
+   error="Player SetAnimationSet clip "+std::to_string(id)+" has no AnimDict path";return false;
+  }
+  std::string cache_path=*authored;
+  std::replace(cache_path.begin(),cache_path.end(),'\\','/');
+  std::transform(cache_path.begin(),cache_path.end(),cache_path.begin(),
+      [](unsigned char c){return char(std::tolower(c));});
+  dh2::data::AnimationBankResource resource;
+  resource.clip_id=id;resource.authored_path=*authored;
+  resource.asset=cache_path;resource.cache_entry=cache_path;
+  try {resource.bytes=static_cast<std::uint32_t>(read(assets,cache_path,"original-cache").size());}
+  catch(const std::exception& failure) {
+   error="Player class animation clip "+std::to_string(id)+" ("+*authored+
+         ") is missing from the original cache: "+failure.what();
+   return false;
+  }
+  derived.resources.push_back(std::move(resource));
+ }
+ output=std::move(derived);return true;
 }
 
 // Script_PlayActorAnim may add a Player AnimDict after the normal source bank
@@ -37859,7 +37966,16 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
   std::string callback_error;
   const int status=prince_skills->invoke_skill_callback(skill_index,
       dh2::native::player_skills::SkillCallback::use,callback,callback_error);
-  if(status<0)throw std::runtime_error("Source CharAISkillScript::OnSkill failed: "+callback_error);
+  // CharAI::_SkillEvent ignores OnSkill's result: LuaScript::Call logs and
+  // swallows script errors (the same reason OnPreSkill/OnPostSkill failures and
+  // UpdateAllSkills failures continue). A skill script that needs a native the port
+  // has not bound yet must not abort the process; keep it loud in the log.
+  if(status<0){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Source CharAISkillScript::OnSkill failed; the source ignores script failures and the skill continues | skill row %u | clip %d | %s",
+       skill_index,clip,callback_error.c_str());
+   return;
+  }
   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
       "Source state-6 do_skill dispatched through retained Player VM | skill row %u | calls %u | Lua status %d | value %u | clip %d",
       skill_index,callback.call_count,callback.last_lua_status,callback.value,clip);
@@ -38561,12 +38677,14 @@ std::int32_t player_skill_state_callback(void* raw,
   std::int32_t animation=-1;std::string error;
   if(!prince_skills->select_skill_animation(
        reinterpret_cast<std::uintptr_t>(&prince_locomotion),
-       static_cast<std::int32_t>(request->argument0),animation,error))return -1;
+       static_cast<std::int32_t>(request->argument0),animation,error)){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","CSSkill SM_SetAnim selection failed | %s",error.c_str());return -1;}
   // CharAnimator::_SetAnim ignores IDs below zero; CSSkill's subsequent
   // SetSpeed still runs, so preserve that no-op instead of failing Focus.
   if(animation<0)return 0;
   if(!prince_locomotion.start(actor_animation_tables,animation,actor_random,
-       prince_attack_clips,prince_visual,current_scene,1,error))return -1;
+       prince_attack_clips,prince_visual,current_scene,1,error)){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","CSSkill SM_SetAnim sequence %d failed | %s",animation,error.c_str());return -1;}
   return 0;
  }
  case Operation::set_speed:{
@@ -42650,18 +42768,22 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     fresh_player.animation_table=fresh_player.properties.resolved[2];
     __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native gameplay property cache | class %d | animation table %d | max HP %d | max MP %d",fresh_player.character_class,fresh_player.animation_table,fresh_player.properties.resolved[38],fresh_player.properties.resolved[43]);
     const auto bank_bytes=read(assets,"prince-animation-bank.bin","data");
-    dh2::data::AnimationBank candidate_bank;
-    if(!dh2::data::load_animation_bank({bank_bytes.data(),bank_bytes.size()},candidate_bank,error))throw std::runtime_error("Prince metadata rejected: "+error);
-    // This existing Prince resource bank is shared by the three class tables.
-    // Its Knight registration receipt remains unchanged; class selection owns
-    // the live sequence table. Each reached authored clip is checked below.
-    if(candidate_bank.character!="KnightPlayerBase"||fresh_player.animation_table<48||fresh_player.animation_table>50||candidate_bank.template_clip_id!=1111)throw std::runtime_error("Prince metadata producer does not match player properties");
+    dh2::data::AnimationBank staged_bank,candidate_bank;
+    if(!dh2::data::load_animation_bank({bank_bytes.data(),bank_bytes.size()},staged_bank,error))throw std::runtime_error("Prince metadata rejected: "+error);
+    // The staged Prince resource bank is the original Knight registration receipt
+    // and stays unchanged; the Player's own class SetAnimationSet request list
+    // (Mage/Rogue add their class skill clips) is derived from it below. Each
+    // reached authored clip is checked in the load loop.
+    if(staged_bank.character!="KnightPlayerBase"||fresh_player.animation_table<48||fresh_player.animation_table>50||staged_bank.template_clip_id!=1111)throw std::runtime_error("Prince metadata producer does not match player properties");
+    if(!derive_player_animation_bank(assets,staged_bank,animation_tables,skill_catalogue->tables->skills(),clip_table,skill_catalogue->animations_constants,fresh_player.animation_table,fresh_player.properties.resolved[28],character_table.names.at(fresh_player.character_class),candidate_bank,error))throw std::runtime_error("Prince class animation bank rejected: "+error);
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Player class animation bank | %s | AnimTable %u | AnimSet %u | SkillTree %d | requests %zu | resources %zu | staged Knight resources %zu",candidate_bank.character.c_str(),candidate_bank.animation_table,candidate_bank.animation_set_id,fresh_player.properties.resolved[28],candidate_bank.registration_requests.size(),candidate_bank.resources.size(),staged_bank.resources.size());
     std::map<int,dh2::animation::Player> candidate_player_clips;
     for(const auto& resource:candidate_bank.resources){
      dh2::data::AnimationStep ref;ref.anim=resource.clip_id;
      const auto* authored=dh2::data::animation_clip(ref,clip_table);
-     if(!authored||*authored!=resource.authored_path||resource.asset.rfind("animations/",0)!=0)throw std::runtime_error("Prince bank dictionary path mismatch");
-     const auto raw_clip=read(assets,resource.asset.substr(11),"animations");
+     const bool staged_asset=resource.asset.rfind("animations/",0)==0;
+     if(!authored||*authored!=resource.authored_path||(!staged_asset&&resource.asset.rfind("data/3d/",0)!=0))throw std::runtime_error("Prince bank dictionary path mismatch");
+     const auto raw_clip=staged_asset?read(assets,resource.asset.substr(11),"animations"):read(assets,resource.asset,"original-cache");
      if(raw_clip.size()!=resource.bytes)throw std::runtime_error("Prince bank resource size mismatch");
      auto& playback=candidate_player_clips[resource.clip_id];
      if(!playback.load(raw_clip.data(),raw_clip.size(),rest,error,dh2::animation::MissingTargets::ignore))throw std::runtime_error("Prince bank resource rejected: "+error);

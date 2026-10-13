@@ -22,6 +22,7 @@
 #include <iostream>
 #include <limits>
 #include <map>
+#include <set>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -46,6 +47,11 @@ struct Options {
     std::uint64_t frames = 0;
     bool show_window = false;
     std::int32_t level_row = -1;
+    // PlayerBase row used when the direct-row path has to create the fresh
+    // source profile (the same class ids the authored class-selection menu
+    // passes to NativeCreateSaveSlot). An existing campaign slot is reused as is.
+    std::string player_class = "KnightPlayerBase";
+    std::string player_name = "Desktop Knight";
     bool movement_attack_scenario = false;
     bool movement_kill_scenario = false;
     bool movement_defend_scenario = false;
@@ -108,6 +114,16 @@ Options parse(int argc, char** argv) {
             if (options.level_row != 23 && !model_renderer::static_level_name_for_row(options.level_row))
                 throw std::runtime_error("--level-row supports the authored static MLX rows and generated rule rows");
         }
+        else if (arg == "--player-class") {
+            const auto name = value("--player-class");
+            if (name == "knight" || name == "warrior") {
+                options.player_class = "KnightPlayerBase"; options.player_name = "Desktop Knight";
+            } else if (name == "mage") {
+                options.player_class = "MagePlayerBase"; options.player_name = "Desktop Mage";
+            } else if (name == "rogue") {
+                options.player_class = "RoguePlayerBase"; options.player_name = "Desktop Rogue";
+            } else throw std::runtime_error("--player-class must be knight, mage or rogue");
+        }
         else if (arg == "--transition-to") {
             // Development check: queue NativeGoToZone/ChangeLevel to LEVEL[:entry].
             const std::string spec = value("--transition-to");
@@ -160,6 +176,7 @@ Options parse(int argc, char** argv) {
                          "  --assets DIR       Android app asset tree\n"
                          "  --runtime-dir DIR  save/config output (default per-user AppData)\n"
                          "  --level-row N      skip the menu and start source row 4 (DARKWOOD), 23 (Crypt), 41 (SWAMP) or any generated rule row\n"
+                         "  --player-class C   knight (default), mage or rogue: class of the fresh profile created for --level-row runs\n"
                          "  --frames N         exit after N rendered UI/gameplay frames (hidden window, no audio)\n"
                          "  --show             show the window and play audio for --frames runs\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
@@ -1618,7 +1635,8 @@ bool start_from_authored_menu(const dh2::android_ui::NativeStartGameIntentV1& re
 
 std::int32_t select_or_create_source_profile(
         AAssetManager* assets, const std::filesystem::path& runtime,
-        dh2::android_ui::OriginalUiSession& original_ui) {
+        dh2::android_ui::OriginalUiSession& original_ui,
+        const std::string& player_name, const std::string& player_class) {
     std::string error;
     for (std::uint32_t candidate = 0; candidate < 4; ++candidate) {
         bool exists = false;
@@ -1634,7 +1652,7 @@ std::int32_t select_or_create_source_profile(
     std::int32_t slot = -1;
     bool published = false;
     if (!model_renderer::create_menu_save_slot(
-            assets, "Desktop Knight", "KnightPlayerBase", slot, published, error,
+            assets, player_name, player_class, slot, published, error,
             &original_ui, desktop_difficulty_count))
         throw std::runtime_error("Source profile creation failed: " + error);
     if (!published || slot < 0)
@@ -1780,6 +1798,25 @@ int main(int argc, char** argv) {
             }});
         FrontRuntimeContext front_runtime{assets.get(), &original_ui};
         bind_desktop_front_runtime(original_ui, front_runtime);
+        // Every exit path (including a failed scenario that unwinds through the
+        // catch below) must tear the gameplay world down while the UI session,
+        // audio and asset owners it borrows are still alive, exactly as the normal
+        // exit does; otherwise process-exit statics outlive the Level they unlock.
+        struct GameplayShutdownGuard {
+            dh2::android_ui::OriginalUiSession& ui;
+            bool armed = true;
+            ~GameplayShutdownGuard() {
+                if (!armed) return;
+                try {
+                    model_renderer::deactivate();
+                    ui.deactivate();
+                } catch (const std::exception& failure) {
+                    std::cerr << "Gameplay shutdown after failure also failed: " << failure.what() << '\n';
+                } catch (...) {
+                    std::cerr << "Gameplay shutdown after failure also failed\n";
+                }
+            }
+        } shutdown_guard{original_ui};
         int initial_width = 1, initial_height = 1;
         bool gameplay = false;
         if (options.level_row >= 0) {
@@ -1790,7 +1827,8 @@ int main(int argc, char** argv) {
             SDL_GetWindowSizeInPixels(window, &initial_width, &initial_height);
             if (!original_ui.render(initial_width, initial_height, ui_error))
                 throw std::runtime_error("Shared loading UI frame failed: " + ui_error);
-            const auto slot = select_or_create_source_profile(assets.get(), options.runtime, original_ui);
+            const auto slot = select_or_create_source_profile(
+                assets.get(), options.runtime, original_ui, options.player_name, options.player_class);
             const auto debug_level_row = options.level_row == 41 ? -1 : options.level_row;
             const auto loaded = model_renderer::start_menu_game(
                 slot, assets.get(), debug_level_row, false, 0);
@@ -1829,6 +1867,12 @@ int main(int argc, char** argv) {
         auto last_vitals = SDL_GetTicks64();
         std::array<int, 7> scenario_initial_vitals{};
         std::int32_t scenario_target_index = -1;
+        // move-kill: ray/area skills (Mage Cold Ray, Rogue Roundhouse...) can kill
+        // an enemy other than the nearest one the driver targeted, so every source
+        // Monster is scanned. Monsters already dead (or at 0 HP) when the scan
+        // first runs are the baseline and never count as kills.
+        std::set<std::int32_t> scenario_dead_seen;
+        bool scenario_dead_baseline = false;
         std::int32_t scenario_target_initial_hp = 0;
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
@@ -2033,15 +2077,19 @@ int main(int argc, char** argv) {
                     scenario_revived = true;
                     std::cout << "Scenario move-kill | Player revived | HP " << pose.player_hp << '\n';
                 }
-                if (scenario_target_index >= 0) {
+                for (std::int32_t index = 0; index < 1024; ++index) {
+                    if (scenario_dead_seen.count(index)) continue;
                     model_renderer::GameplayEnemyStateSnapshotV1 target;
-                    if (model_renderer::gameplay_enemy_state_snapshot(scenario_target_index, target, ui_error) &&
-                        (target.dead || target.hp <= 0)) {
-                        std::cout << "Scenario kill verified | " << target.name << " HP " << target.hp
-                                  << '/' << target.max_hp << " dead " << target.dead << '\n';
-                        ++scenario_kills;scenario_target_index = -1;
-                    }
+                    if (!model_renderer::gameplay_enemy_state_snapshot(index, target, ui_error) ||
+                        !(target.dead || target.hp <= 0)) continue;
+                    scenario_dead_seen.insert(index);
+                    if (!scenario_dead_baseline) continue;
+                    std::cout << "Scenario kill verified | " << target.name << " HP " << target.hp
+                              << '/' << target.max_hp << " dead " << target.dead << '\n';
+                    ++scenario_kills;
+                    if (index == scenario_target_index) scenario_target_index = -1;
                 }
+                scenario_dead_baseline = true;
                 // After a kill, walk onto the nearest dropped item and verify
                 // the normal pickup removes it from the world.
                 model_renderer::GameplayWorldItemSnapshotV1 items;
@@ -2196,6 +2244,14 @@ int main(int argc, char** argv) {
             }
             if (options.tutorial_potion_scenario && tutorial_finished_frame &&
                 rendered_frames >= tutorial_finished_frame + 60) running = false;
+            // skill-matrix applies real Character::LevelUp steps, which start the
+            // authored Level Up tutorial script (LockCharacter "All", BlockSaveGame and
+            // dialogs that wait for the player's taps). Flush its dialogs like those
+            // taps would so the probe is not parked behind the script until the bound.
+            if (options.skill_matrix_scenario && gameplay && rendered_frames % 20 == 0 &&
+                model_renderer::script_controllers_blocked() &&
+                !original_ui.flush_source_messages(ui_error))
+                throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);
             // After death, tap the authored death screen's btn_Continue (full-screen
             // hit area) so its timeline reaches NativeReviveAllPlayers.
             if ((options.movement_defend_scenario || options.movement_kill_scenario ||
@@ -2610,6 +2666,7 @@ int main(int argc, char** argv) {
                       << " | dead " << target_state.dead
                       << " | attack " << scenario_attack_result << '\n';
         }
+        shutdown_guard.armed = false;
         model_renderer::deactivate();
         original_ui.deactivate();
         pump_front_audio();
