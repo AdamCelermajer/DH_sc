@@ -29,11 +29,11 @@ public:
     void PlaceTile(int x, int y, float z);                          // 0x4913d8 (stores x, y, z, then Block::PlaceInMap)
     void AddChild(Tile* child);                                     // 0x491428
     void RemoveChild(Tile* child);                                  // 0x491440
-    void Print();                                                   // 0x4914ac (prints the subtree)
+    void Print();                                                   // 0x4914ac (visits the children; the release body prints nothing)
     void SetModuleMVXProperties(Module* module);                    // 0x491518 (reads gameplay/mvx/<name>.mvx into the module)
     void Unspawn();                                                 // 0x4918a8 (removes it from its parent and the grid, then deletes it)
     void RemoveNeighbors();                                         // 0x491928 (unspawns the children)
-    void SaveAsModuleXML(TiXmlElement* parent, int index);          // 0x491d90
+    int SaveAsModuleXML(TiXmlElement* parent, int index);           // 0x491d90 (returns the index after the saved subtree)
 
     // Creates a root tile (no parent). Static: takes the generator and block as references.
     static Tile* NewRoot(RandomGenerator& generator, Block& block, ListElem& elem);  // 0x49196c

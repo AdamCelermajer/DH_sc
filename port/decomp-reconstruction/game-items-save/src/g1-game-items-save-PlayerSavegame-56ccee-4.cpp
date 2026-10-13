@@ -87,6 +87,22 @@ void PlayerSavegame::__SaveLevelName(IStreamBase* stream, void* user) {
     }
 }
 
+// 0x468b78 PlayerSavegame::__LoadLevelName(IStreamBase*, void*)
+// The mirror of __SaveLevelName. The quest act read for each difficulty is stored in both quest logs (m_questLog and
+// m_volatileQuestLog, the act word at QuestSavegame +0x44 of each).
+void PlayerSavegame::__LoadLevelName(IStreamBase* stream, void* user) {
+    auto* save = static_cast<PlayerSavegame*>(user);
+    stream->readAs<std::uint32_t>(save->m_saveDate);  // +0x38
+    for (int d = 0; d != 3; ++d) {
+        stream->readAs<std::int32_t>(save->unk_50[d]);  // +0x50 + 4*d
+        stream->readAs<std::int32_t>(save->m_seeds[d]);  // +0x5c + 4*d
+        std::int32_t act = 0;
+        stream->readAs<std::int32_t>(act);
+        save->m_questLog.m_act[d] = act;               // +0xfc + 4*d
+        save->m_volatileQuestLog.m_act[d] = act;       // +0x15c + 4*d
+    }
+}
+
 // 0x468bf0 PlayerSavegame::__SaveCurrentFaery(IStreamBase*, void*)
 // The current faery index of each difficulty (m_currentFaery, +0xac). A difficulty without a faery array is an ASSERT on
 // m_faeries[j] and the section stops there.

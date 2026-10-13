@@ -1,5 +1,5 @@
 // rnd::ForceBlock: a rule that forces one named block onto the next exit. Adds one int after the Rule
-// base and four bytes the recovered code does not touch. Original 32-bit size 0x90 (144), from the
+// base and one int that Impl::FilterExits reads (+0x8c). Original 32-bit size 0x90 (144), from the
 // operator new(0x90) in NewRule.
 // Reconstructed from libDungeonHunter2.so pseudocode (ctors 0x48dd80 / 0x48ddbc, dtors 0x48d638 /
 // 0x48d734, NewImpl 0x48cfcc, LoadFromXml 0x4912d0, Impl ctors 0x48cf10 / 0x48cff8, Impl dtors 0x48d434 /
@@ -29,7 +29,7 @@ public:
 
     // Original layout. Rule occupies +0x00 .. +0x87.
     int32_t unk_88;                                                 // +0x88 set to 4 by the ctor
-    uint8_t pad_8c[0x04];                                           // +0x8c .. +0x8f not recovered
+    int32_t unk_8c;                                                 // +0x8c compared with the exit's flags by Impl::FilterExits; no writer recovered
 };
 
 // Runtime node of a ForceBlock. Rule::Impl (0x44) plus the source rule pointer; 0x48 bytes.

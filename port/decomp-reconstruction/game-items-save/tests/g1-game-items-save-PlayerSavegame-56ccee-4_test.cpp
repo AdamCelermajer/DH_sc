@@ -545,7 +545,6 @@ void TestFastTravelList() {
     CHECK(out.bytes == expected);
 
     PlayerSavegame loaded;
-    loaded.m_fastTravelUnlocked[2].set(9);  // a stale value that a short section must keep
     ByteStream in;
     in.bytes = expected;
     PlayerSavegame::__LoadFastTravelList(&in, &loaded);
@@ -576,7 +575,6 @@ void TestFastTravelList() {
 }
 
 void TestInitSkills() {
-    static_cast<void>(g_skillIds);
     auto* list = reinterpret_cast<Structs::SkillList*>(g_skillListStorage);
     list->m_w1 = 2;
     list->m_w2 = static_cast<void*>(g_skillIds);

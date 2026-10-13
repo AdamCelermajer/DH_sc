@@ -25,7 +25,7 @@ public:
     RPElem* Find(unsigned char* key);                               // 0x48c3f8
     RPElem* Find(std::string key);                                  // 0x4906bc (by value, as the mangled name shows)
     void LoadFromXml(TiXmlNode* node);                              // 0x48cac0
-    void ComputeSizeOfRules();                                      // 0x490904
+    int ComputeSizeOfRules();                                       // 0x490904 (1 when the sizes are set, 0 when m_size is out of range)
 
     // Original layout. Offsets are the 32-bit offsets of the original object; there is no vptr.
     int32_t m_size;                                                 // +0x00 "size" attribute

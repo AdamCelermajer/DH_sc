@@ -51,7 +51,7 @@ public:
 
     // Original layout. Rule::Impl occupies +0x00 .. +0x43.
     const Path* m_path;                                             // +0x44 the Path this node was built from
-    int32_t unk_48;                                                 // +0x48 set from a byte global by the ctor; OneStep stores a packed direction word
+    int32_t unk_48;                                                 // +0x48 set to 4 by the ctor on every path; OneStep stores a packed direction word
 };
 
 }  // namespace rnd
