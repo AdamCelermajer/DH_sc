@@ -27,7 +27,10 @@ struct TestWorld final : CombatWorld {
     bool resolve_damage_with_outcomes(const std::string& source,const ActorState& a,const ActorState& b,
                         const std::string& marker,float& amount,
                         std::optional<std::uint32_t>& result,
-                        std::optional<std::uint32_t>& mask,std::string& error) const override {
+                        std::optional<std::uint32_t>& mask,std::string& error,
+                        std::int32_t* hp_leech_raw=nullptr,std::int32_t* mp_leech_raw=nullptr) const override {
+        if(hp_leech_raw)*hp_leech_raw=0;
+        if(mp_leech_raw)*mp_leech_raw=0;
         result=outcomes;mask=source_mask;return resolve_damage(source,a,b,marker,amount,error);
     }
 };

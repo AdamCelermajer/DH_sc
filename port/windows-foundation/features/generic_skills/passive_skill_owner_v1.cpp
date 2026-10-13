@@ -1,6 +1,62 @@
 #include "passive_skill_owner_v1.hpp"
 
+#include <cstring>
+
 namespace dh::foundation::generic_skills {
+
+namespace {
+struct StatPassiveScriptV1 {
+    const char* script;
+    const char* class_name;
+};
+// Verified against the original scripts (`GetPyOID("ClassTable", ...)` in each prince_*.luac, plain text).
+constexpr StatPassiveScriptV1 kStatPassives[] = {
+    {"prince_archer_bowmastery", "Skill_Archer_BowMastery"},
+    {"prince_assassin_assassinate", "Skill_Assassin_Assassinate"},
+    {"prince_assassin_blade_deflect", "Skill_Assassin_BladeDeflect"},
+    {"prince_assassin_treasure_hunter", "Skill_Assassin_TreasureHunter"},
+    {"prince_berseeker_ravager", "Skill_Berserk_Ravager"},
+    {"prince_berseeker_toughness", "Skill_Berserk_Toughness"},
+    {"prince_necromancer_leecher", "Skill_Necromancer_Leecher"},
+    {"prince_rogue_acrobat", "Skill_Rogue_Acrobat"},
+    {"prince_rogue_ambidextrous", "Skill_Rogue_Ambidextrous"},
+    {"prince_rogue_combomaster", "Skill_Rogue_ComboMaster"},
+    {"prince_rogue_findweakness", "Skill_Rogue_FindWeakness"},
+    {"prince_warrior_combat_master", "Skill_Warrior_CombatMaster"},
+    {"prince_warrior_fast_metabolism", "Skill_Warrior_FastMetabolism"},
+    {"prince_warrior_hardiness", "Skill_Warrior_Hardiness"},
+    {"prince_warrior_potion_addict", "Skill_Warrior_PotionAddict"},
+};
+} // namespace
+
+const char* stat_passive_class_for_script_v1(std::string_view script) {
+    for (const auto& row : kStatPassives)
+        if (script == row.script) return row.class_name;
+    return nullptr;
+}
+
+bool sync_stat_passive_ranks_v1(RuntimePassiveSkillOwnerV1& owner, CombatSession& session, ActorId actor,
+                                const CharacterState& state, const dh2::data::SkillTables::Borrow& tables,
+                                std::string& error) {
+    error.clear();
+    if (!tables) {
+        error = "Stat passive sync requires the SkillTable snapshot";
+        return false;
+    }
+    const auto& records = tables.skills();
+    for (const auto& progress : state.skills) {
+        const auto index = tables.skill_index(progress.id.c_str());
+        if (index < 0 || static_cast<std::size_t>(index) >= records.size()) continue;
+        const char* class_name = stat_passive_class_for_script_v1(records[static_cast<std::size_t>(index)].script);
+        if (!class_name) continue;
+        PassiveStatRowV1 row;
+        row.skill_key = progress.id;
+        row.class_name = class_name;
+        row.source = "stat passive " + progress.id;
+        if (!owner.set_rank(session, actor, row, progress.rank, error)) return false;
+    }
+    return true;
+}
 
 bool RuntimePassiveSkillOwnerV1::set_rank(CombatSession& session, ActorId actor, const PassiveStatRowV1& row,
                                           std::uint32_t rank, std::string& error) {

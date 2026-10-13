@@ -30,6 +30,7 @@ struct CombatResultEventV1 {
     ActorId attacker = invalid_actor_id;
     ActorId target = invalid_actor_id;
     std::uint32_t outcomes = 0; // result bits; (outcomes & 3) != 0 selects the miss callback
+    bool target_died = false;   // the hit killed the target (Lua defender:IsDead() after the hit)
 };
 
 class CombatResultEventBusV1 {

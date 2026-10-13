@@ -157,8 +157,9 @@ bool CombatSystem::consume_marker(ActorId attacker,const MarkerOccurrence& occur
     float damage = 0;
     std::optional<std::uint32_t> outcomes;
     std::optional<std::uint32_t> source_mask;
+    std::int32_t hp_leech = 0, mp_leech = 0;
     if (!world_.resolve_damage_with_outcomes(binding->damage_source_id, *owner, *victim,
-            binding->marker_name, damage, outcomes, source_mask, error)) {
+            binding->marker_name, damage, outcomes, source_mask, error, &hp_leech, &mp_leech)) {
         if (error.empty()) error = "Authored attack damage provider is unavailable";
         return false;
     }
@@ -172,6 +173,9 @@ bool CombatSystem::consume_marker(ActorId attacker,const MarkerOccurrence& occur
     result.source_mask = source_mask;
     result.health_removed = defer_death_state?apply_actor_damage_health_prefix(*victim,damage):apply_actor_damage(*victim, damage);
     result.applied = true; result.target_died = !victim->alive();
+    // v21.8 es-passive: the attacker's leech (Leech_HP 132 / Leech_MP 133 through the damage calculation) is applied to the
+    // attacker that owns this attack; it does not wait for the victim's death.
+    apply_attacker_leech_v1(*owner, hp_leech, mp_leech);
     if (result.target_died&&!defer_death_state) cleanup_invalid();
     return true;
 }

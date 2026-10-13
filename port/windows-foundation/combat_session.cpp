@@ -1175,6 +1175,12 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
         next->world=std::make_unique<PlayableActorWorld>(std::move(tables),next->random);
         next->combat=std::make_unique<CombatSystem>(*next->world);
         next->runtime=std::make_unique<ActorCombatRuntime>(*next->combat);
+        // v21.8 es-passive: every applied hit (player melee markers, skill/source hits, projectiles) reaches the observer
+        // through the runtime's applied-hit point. The forwarder reads the observer at call time.
+        Impl* observed=next.get(); // moved into impl_ below; the pointer is stable
+        next->runtime->set_combat_result_observer([observed](const DamageEvent& hit){
+            if(observed->combatResultObserver)observed->combatResultObserver(hit.attacker,hit.target,hit.source_outcomes.value_or(0u),hit.target_died);
+        });
         OriginalSequencePolicies sequencePolicies;
         if(std::any_of(config.profiles.begin(),config.profiles.end(),[](const auto& p){return bool(p.second.sequenceAction)||p.second.animationOnly;})&&
            !original_sequence_policies(bindings,sequencePolicies,error))return false;
@@ -1870,14 +1876,17 @@ bool CombatSession::apply_source_result(const CombatSessionSourceHit& hit,
         const auto* attackerProps=s.world->combat_properties(hit.attacker);
         const dh2::data::PropertySheet* slowSheet=hit.attacker_formula_sheet?hit.attacker_formula_sheet:(attackerProps?&attackerProps->sheets.resolved:nullptr);
         if(slowSheet)receipt.source_slow_duration_raw=(*slowSheet)[(result.original.mask&0x10000u)?189:146];
+        // v21.8 es-passive: attacker leech of the source hit (Leech_HP 132 / Leech_MP 133 from the calculation).
+        if(auto* attackerState=s.world->find_actor(hit.attacker))apply_attacker_leech_v1(*attackerState,result.original.hp_leech,result.original.mp_leech);
         s.pendingSourceHits.push_back(receipt);
-        // v21.8 es-passive: OnCombatResults fan-out for passive listeners (attacker receiver, then target receiver).
-        if(s.combatResultObserver)s.combatResultObserver(hit.attacker,hit.target,result.original.outcomes);
     }
     return applied;
 }
 void CombatSession::set_combat_result_observer(CombatResultObserver observer){
     if(impl_)impl_->combatResultObserver=std::move(observer);
+}
+bool CombatSession::has_combat_result_observer() const noexcept{
+    return impl_&&bool(impl_->combatResultObserver);
 }
 void CombatSession::clear_retained_frame_audio_observer(){if(impl_)impl_->retainedFrameAudioObserver={};}
 const std::vector<RetainedFrameAudioObserverDiagnostic>& CombatSession::retained_frame_audio_diagnostics()const noexcept{

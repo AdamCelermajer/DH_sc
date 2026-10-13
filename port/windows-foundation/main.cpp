@@ -53,6 +53,9 @@
 #include "features/generic_skills/runtime_skill_cast_coordinator_v1.hpp"
 #include "features/generic_skills/runtime_skill_cast_prepare_v1.hpp"
 #include "features/generic_skills/runtime_mage_skill_owner_v1.hpp"
+#include "features/generic_skills/combat_result_event_bus_v1.hpp"
+#include "features/generic_skills/passive_skill_owner_v1.hpp"
+#include "features/generic_skills/event_passive_owner_v1.hpp"
 #include "features/generic_skills/runtime_skill_external_owner_registry_v1.hpp"
 #include "features/generic_skills/pc_gameplay_hud_v1.hpp"
 #include "features/campaign_host/campaign_host.hpp" // P16 HOST
@@ -457,6 +460,8 @@ struct Options {
     bool diagnosticAI=false;
     int attackFrames=0, attackStartFrame=0, targetFrame=-1, saveFrame=-1, loadFrame=-1;
     int testStatPoints=0,testSkillPoints=0; // B103 TEST ONLY\r
+    std::vector<std::string> testSkillRanks; // es-passive TEST ONLY: --test-skill-rank NAME=RANK (SkillTable name, rank)
+    std::vector<std::string> testEventPassiveRanks; // es-passive TEST ONLY: --test-event-passive-rank killing_frenzy=N|carrion_eater=N
     float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
     int testPlayerHealthFrame=0;
     dh::foundation::test_aids::PlayerHealAidV1 testHeal; // act1rogue TEST ONLY: --test-player-heal FROM-TO[:PERIOD] tops the hero up to max HP (never above it, never revives), so saves stay valid
@@ -684,6 +689,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--move") o.movable=true;
         else if(arg=="--test-skill-points") o.testSkillPoints=std::stoi(value()); // B096 TEST ONLY
         else if(arg=="--test-stat-points") o.testStatPoints=std::stoi(value()); // B103 TEST ONLY
+        else if(arg=="--test-skill-rank") o.testSkillRanks.push_back(value()); // es-passive TEST ONLY
+        else if(arg=="--test-event-passive-rank") o.testEventPassiveRanks.push_back(value()); // es-passive TEST ONLY
         else if(arg=="--fresh-player") o.freshPlayer=true;
         else if(arg=="--motion-node") o.motionNode=value();
         else if(arg=="--controller-policy") o.controllerPolicy=value();
@@ -7067,6 +7074,14 @@ int main(int argc,char** argv) {
         // Poll can latch a platform close before the next iteration. Admit that iteration so the
         // Application::Quit save/retry handler below owns shutdown instead of bypassing it.
         // v21.8 skills-a + faery: the shared timed buff owner is created on first use (Quickness cast, faery passive).
+        // v21.8 es-passive: live passive wiring. One OnTargetHit bus per Session; hits are queued by the Session observer and
+        // dispatched after the Session update, so passive buffs never change the sheets during a hit.
+        std::unique_ptr<f::generic_skills::CombatResultEventBusV1> passiveBus;
+        std::unique_ptr<f::generic_skills::RuntimePassiveSkillOwnerV1> passiveOwner;
+        std::unique_ptr<f::generic_skills::RuntimeEventPassiveOwnerV1> passiveEvents;
+        std::vector<f::generic_skills::CombatResultEventV1> passivePendingHits;
+        const f::CombatSession* passiveSessionSeen=nullptr;
+        bool passiveErrorShown=false;
         const auto ensureTimedBuffOwner=[&]() {
             if(timedBuffs)return;
                                 f::generic_skills::TimedBuffBindingsV1 buffBindings;
@@ -7288,6 +7303,22 @@ int main(int argc,char** argv) {
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
             if(uiInput.profile_pressed&&options.hud&&combatSession&&!equipmentActionConfirmation.visible()){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())(void)characterMenu.close_with_before([&]{playMenuUiCue("MenuBack");});else{characterMenu.open();playMenuUiCue("MenuTab");statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if(!options.testSkillRanks.empty()&&drawn==60&&combatSession) { // es-passive TEST ONLY: sets saved skill ranks (the passive sync reads them)
+                for(const auto& entry:options.testSkillRanks){
+                    const auto eq=entry.find('=');
+                    if(eq==std::string::npos){std::cerr<<"Test skill rank expects NAME=RANK: "<<entry<<'\n';continue;}
+                    const std::string name=entry.substr(0,eq);const std::uint32_t rank=std::uint32_t(std::stoul(entry.substr(eq+1)));
+                    auto row=std::find_if(state.skills.begin(),state.skills.end(),[&](const auto& s){return s.id==name;});
+                    // Only rows of the saved SkillList are valid: a foreign row makes the HUD reject the saved rows.
+                    if(row==state.skills.end()){
+                        std::cerr<<"Test skill rank: no saved row "<<name<<" saved rows:";
+                        for(const auto& saved:state.skills)std::cerr<<' '<<saved.id;
+                        std::cerr<<'\n';continue;
+                    }
+                    row->rank=rank;
+                    std::cout<<"Test skill rank "<<name<<"="<<rank<<" frame="<<drawn<<'\n';
+                }
+            }
             if((options.testStatPoints>0||options.testSkillPoints>0)&&drawn==60&&combatSession) { // B103 TEST ONLY: --test-stat-points N grants N stat points through the profile projection (never in packaged args)
                 const auto* testSheet=combatSession->world()->combat_properties(combatSession->player_id());const auto* testTraits=combatSession->world()->traits(combatSession->player_id());
                 std::string testError;f::OriginalCombatProperties projected;
@@ -8813,6 +8844,43 @@ int main(int argc,char** argv) {
                     if(gameplayPaused&&audioClock&&(gameplayPausedFrames==1||gameplayPausedFrames%60==0))
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
+                // v21.8 es-passive: live passive wiring for the current Session. Stat passives follow the saved skill ranks
+                // (skills page training and save load both change CharacterState::skills); event passives listen on the bus.
+                if(combatSession&&menuSourceOwner.valid()) {
+                    if(passiveSessionSeen!=combatSession.get()) {
+                        passiveSessionSeen=combatSession.get();
+                        ensureTimedBuffOwner();
+                        passiveEvents.reset();passiveOwner.reset();passivePendingHits.clear();
+                        passiveBus=std::make_unique<f::generic_skills::CombatResultEventBusV1>();
+                        passiveOwner=std::make_unique<f::generic_skills::RuntimePassiveSkillOwnerV1>(*timedBuffs);
+                        passiveEvents=std::make_unique<f::generic_skills::RuntimeEventPassiveOwnerV1>(
+                            *timedBuffs,properties.classes,menuSkillPropertyRules,*passiveBus,combatSession->player_id());
+                        combatSession->set_combat_result_observer([&](f::ActorId attacker,f::ActorId target,std::uint32_t outcomes,bool died){
+                            if(attacker==combatSession->player_id()||target==combatSession->player_id())
+                                std::cout<<"Passive hit observed frame="<<drawn<<" attacker="<<attacker<<" target="<<target<<" outcomes="<<outcomes<<" died="<<died<<'\n';
+                            passivePendingHits.push_back({attacker,target,outcomes,died});
+                        });
+                        passiveErrorShown=false;
+                    }
+                    const auto passiveSkillTables=menuSourceOwner.skill_owner->borrow();
+                    std::string passiveError;
+                    if(!f::generic_skills::sync_stat_passive_ranks_v1(*passiveOwner,*combatSession,combatSession->player_id(),state,passiveSkillTables,passiveError)||
+                       !f::generic_skills::sync_event_passive_ranks_v1(*passiveEvents,state,passiveSkillTables,passiveError))
+                        std::cerr<<"Passive rank sync frame="<<drawn<<": "<<passiveError<<'\n';
+                    // es-passive TEST ONLY (--test-event-passive-rank killing_frenzy=N | carrion_eater=N): the event passive's
+                    // rank without a saved row. The saved SkillList of the available saves (Rogue) has no such row.
+                    for(const auto& entry:options.testEventPassiveRanks) {
+                        const auto eq=entry.find('=');
+                        const std::string kindName=eq==std::string::npos?std::string():entry.substr(0,eq);
+                        const auto rank=eq==std::string::npos?0u:std::uint32_t(std::stoul(entry.substr(eq+1)));
+                        const auto kind=kindName=="killing_frenzy"?f::generic_skills::EventPassiveKindV1::killing_frenzy:
+                                        kindName=="carrion_eater"?f::generic_skills::EventPassiveKindV1::carrion_eater:
+                                        f::generic_skills::EventPassiveKindV1::none;
+                        if(kind==f::generic_skills::EventPassiveKindV1::none) { std::cerr<<"Test event passive expects killing_frenzy=N or carrion_eater=N: "<<entry<<'\n'; continue; }
+                        passiveEvents->set_rank(kind,rank);
+                        if(drawn==60)std::cout<<"Test event passive "<<kindName<<"="<<rank<<" frame="<<drawn<<'\n';
+                    }
+                }
                 {DH_PROBE("combatSession.update");if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);}
                 if(stateTraceEnabled&&drawn%30==0)traceState("post-update");
                 // v21.8 mage: state-5 projectile markers of the ranged player attack go to the shared projectile executor.
@@ -8920,12 +8988,25 @@ int main(int argc,char** argv) {
                     state.stats.health=livePlayer->health;state.stats.max_health=livePlayer->max_health;
                     state.stats.resource=livePlayer->resource;state.stats.max_resource=livePlayer->max_resource;
                 }
+                // v21.8 es-passive: dispatch the hits queued during this Session update, then age the event passives.
+                if(passiveBus&&passiveEvents&&combatSession) {
+                    passiveEvents->bind(*combatSession);
+                    for(const auto& hit:passivePendingHits) passiveBus->dispatch(hit);
+                    passivePendingHits.clear();
+                    if(!gameplayPaused) {
+                        std::string frenzyError;
+                        if(!passiveEvents->advance(*combatSession,gameplayDt,frenzyError)) std::cerr<<"Event passive frame="<<drawn<<": "<<frenzyError<<'\n';
+                    }
+                    if(!passiveEvents->last_error().empty()&&!passiveErrorShown) {
+                        passiveErrorShown=true;std::cerr<<"Event passive frame="<<drawn<<": "<<passiveEvents->last_error()<<'\n';
+                    }
+                }
                 if(!gameplayPaused&&timedBuffs) {
                     // v21.8 skills-a: timed buff clock, expiry and overlay re-assertion after the Session update.
                     if(!timedBuffs->advance(*combatSession,gameplayDt,error))throw std::runtime_error("Timed buffs: "+error);
                     const auto buffEvents=timedBuffs->take_events();
                     for(const auto& buffEvent:buffEvents) {
-                        static const char* const kinds[]={"applied","replaced","removed","expired","reasserted","dropped"};
+                        static const char* const kinds[]={"applied","replaced","removed","expired","reasserted","dropped","rejected"};
                         std::cout<<"Timed buff "<<kinds[int(buffEvent.kind)]<<" frame="<<drawn<<" actor="<<buffEvent.actor<<" class="<<buffEvent.class_name
                                  <<" source="<<buffEvent.source<<" strength="<<buffEvent.strength<<" durationMs="<<buffEvent.duration_ms<<" cells=";
                         for(const auto& cell:buffEvent.changed_cells)std::cout<<cell.first<<':'<<cell.second.first<<"->"<<cell.second.second<<',';
