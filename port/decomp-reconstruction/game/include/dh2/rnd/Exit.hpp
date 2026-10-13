@@ -22,10 +22,10 @@ public:
     Exit(const Direction& direction, Block* block, int x, int y, float weight, int flags,
          std::vector<std::string>& names);                          // 0x48a380 / 0x48a3d4
 
-    void LoadFromXml(TiXmlHandle handle, Block* block, int index);  // 0x48a5d0
-    void GetBlockUnitPosition(Point3D<float>& out, Block* block) const;  // 0x489ddc
+    bool LoadFromXml(TiXmlHandle handle, Block* block, int index);  // 0x48a5d0 (returns 1 when an exit was added)
+    void GetBlockUnitPosition(Point3D<float>& position, Block* block);  // 0x489ddc (writes m_x and m_y; reads position X and Y)
 
-    void* unk_00;                                                   // +0x00 copy of the owning block's +0x18 pointer (ctor)
+    const char* unk_00;                                             // +0x00 the owning block's name pointer (Block::m_name c_str, ctor)
     Block* m_block;                                                 // +0x04
     int32_t m_x;                                                    // +0x08
     int32_t m_y;                                                    // +0x0c

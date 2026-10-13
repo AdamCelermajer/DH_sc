@@ -9,14 +9,17 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
 
 #include "core-platform/array2d.hpp"
+#include "dh2/lstr.hpp"
 #include "dh2/rnd/RootRule.hpp"
 
 class LevelConfig;
 class StreamBuffer;
+class TiXmlDocument;
 class TiXmlNode;
 
 namespace rnd {
@@ -24,6 +27,7 @@ namespace rnd {
 class Tile;
 class Block;
 class ListRule;
+class RoomPool;
 
 class RandomGenerator {
 public:
@@ -45,25 +49,29 @@ public:
     Block* GetBlock(const char* name) const;                        // 0x48e184
 
     void PrintMap();                                                // 0x484820
-    void LoadRoomPools(TiXmlNode* node);                            // 0x485cdc
-    void LoadListRules(TiXmlNode* node);                            // 0x4865f0
-    void LoadBlocks();                                              // 0x4892ec
-    void LoadRuleFile(const char* path);                            // 0x489508
-    void Generate(int count);                                       // 0x488134
+    int LoadRoomPools(TiXmlNode* node);                             // 0x485cdc (returns 1; LoadRuleFile reads it)
+    int LoadListRules(TiXmlNode* node);                             // 0x4865f0 (returns 1; LoadRuleFile reads it)
+    bool LoadBlocks();                                              // 0x4892ec (returns true)
+    bool LoadRuleFile(const char* path);                            // 0x489508 (returns false when the file is not read)
+    int Generate(int seed);                                         // 0x488134 (returns 1 when the root tile is placed)
     void GetFiles(const char* directory, std::vector<std::string>& files);  // 0x488904
     void SaveModularLevelToStream(StreamBuffer& stream);            // 0x488b84
-    void SaveModularLevelXml();                                     // 0x488e50
+    std::string SaveModularLevelXml();                              // 0x488e50 (returns the saved file name)
 
     // Original layout. Offsets are the 32-bit offsets of the original object (no vptr).
-    uint8_t pad_00[0x08];                                           // +0x00 .. +0x07 not written by the ctor
+    uint32_t m_rngState;                                            // +0x00 generator state, stepped by NextInt (the ctor does not write it)
+    int32_t m_seed;                                                 // +0x04 seed passed to Generate (the ctor does not write it)
     Array2d<Tile*> m_tiles;                                         // +0x08 tile grid (Array2d; 0x34 bytes in the original)
-    uint8_t m_blocks[0x14];                                         // +0x3c std::map<const char*, Block*, lstr>, header node at +0x3c (type not declared, see open_questions)
+    std::map<const char*, Block*, lstr> m_blocks;                   // +0x3c header node at +0x3c, count at +0x4c
     uint8_t pad_50[0x04];                                           // +0x50 .. +0x53
-    uint8_t m_listRules[0x14];                                      // +0x54 std::map<const char*, ListRule*, lstr>, header node at +0x54
+    std::map<const char*, ListRule*, lstr> m_listRules;             // +0x54 header node at +0x54, count at +0x64
     uint8_t pad_68[0x04];                                           // +0x68 .. +0x6b
     RootRule m_rootRule;                                            // +0x6c the root rule (0x90 bytes)
     std::string unk_fc;                                             // +0xfc
-    uint8_t pad_114[0x18];                                          // +0x114 .. +0x12b
+    Tile* m_rootTile;                                               // +0x114 root tile of the last Generate (zeroed by the ctor)
+    std::vector<RoomPool*> m_roomPools;                             // +0x118 begin, end, capacity words of the RoomPool vector
+    TiXmlDocument* m_xmlDocument;                                   // +0x124 document LoadRuleFile builds (deleted by UnloadRules)
+    char* m_xmlBuffer;                                              // +0x128 file buffer given to the document (free() in UnloadRules)
     std::string unk_12c;                                            // +0x12c
     std::string unk_144;                                            // +0x144
     std::string m_sceneDir;                                         // +0x15c initialized to "data/scene/" by the ctor

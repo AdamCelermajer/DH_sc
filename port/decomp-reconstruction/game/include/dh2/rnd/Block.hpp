@@ -22,7 +22,7 @@ public:
     // One per-side record of the 8-entry table at +0x60. Original size 300 (0x12c) bytes.
     struct Side {
         uint8_t pad_00[0x14];                                       // +0x00 .. +0x13
-        const char* unk_14;                                         // +0x14 set by the ctor to a shared literal
+        const char* unk_14;                                         // +0x14 ctor stores &unk_956B24: a data object (word 4, then a pointer), not a C string
         uint8_t pad_18[0x04];                                       // +0x18 .. +0x1b
         void* unk_1c;                                               // +0x1c zeroed by the ctor (vector-like)
         void* unk_20;                                               // +0x20 zeroed by the ctor
@@ -34,12 +34,12 @@ public:
     virtual ~Block();                                               // 0x489f58, 0x489fbc, 0x489fd8
 
     // Pure virtuals in vtable slots 2..4. MgxBlock provides them.
-    virtual void PlaceInMap(Array2d<Tile*>& map, Tile* tile, int x, int y) = 0;     // slot 0x08
-    virtual void RemoveFromMap(Array2d<Tile*>& map, Tile* tile, int x, int y) = 0;  // slot 0x0c
+    virtual bool PlaceInMap(Array2d<Tile*>& map, Tile* tile, int x, int y) = 0;     // slot 0x08 (returns 1 in the original)
+    virtual bool RemoveFromMap(Array2d<Tile*>& map, Tile* tile, int x, int y) = 0;  // slot 0x0c (returns 1 in the original)
     virtual bool FitsInMap(Array2d<Tile*>& map, int x, int y) = 0;                  // slot 0x10
 
     bool IsStraight() const;                                        // 0x489988
-    bool GetFlag() const;                                           // 0x4899e4
+    int GetFlag() const;                                            // 0x4899e4 (bit set of 1 << direction id over the sides)
     void LinkToOtherBlocks(const std::map<const char*, Block*, lstr>& blocks);  // 0x489aec
 
     // Original layout. Offsets are the 32-bit offsets of the original object; the vptr at +0x00

@@ -21,7 +21,9 @@ public:
     // isBullet: Box2D bullet flag. The last bool is never read. The constructor passes isStatic 0, isCircle 1 and
     // isSensor 0 to PhysicalObject. The demangled symbol orders the parameters (PhysicalWorld*, GameObject*, bool,
     // short, unsigned short, unsigned short, bool). The clone's register and stack reads give the order declared
-    // here: r3 is stored and passed as the group, and the stack words are loaded as halfwords and then a byte (open question).
+    // here: r2 is passed through as the owner, r3 is stored and passed as the group, and the stack words are loaded as
+    // halfwords and then a byte. The caller Character::InitPhysicalObject (0x3b4088) passes its this pointer as the third
+    // argument, so the owner pointer is confirmed and the demangled bool is not the binary's type.
     POCharacter(PhysicalWorld* world, GameObject* owner, short group, unsigned short category,
                 unsigned short mask, bool isBullet, bool unused);       // 0x3b4010 (C2 clone, the only constructor symbol)
 

@@ -22,12 +22,12 @@ public:
     MgxBlock();                                                     // 0x48ad14 / 0x48b108
     ~MgxBlock() override;                                           // 0x48a03c, 0x48a098, 0x48a0b4
 
-    void PlaceInMap(Array2d<Tile*>& map, Tile* tile, int x, int y) override;     // 0x48ba58, vtable slot 0x08
-    void RemoveFromMap(Array2d<Tile*>& map, Tile* tile, int x, int y) override;  // 0x48b8f0, vtable slot 0x0c
+    bool PlaceInMap(Array2d<Tile*>& map, Tile* tile, int x, int y) override;     // 0x48ba58, vtable slot 0x08
+    bool RemoveFromMap(Array2d<Tile*>& map, Tile* tile, int x, int y) override;  // 0x48b8f0, vtable slot 0x0c
     bool FitsInMap(Array2d<Tile*>& map, int x, int y) override;                  // 0x48b85c, vtable slot 0x10
 
-    void LoadFromXml(TiXmlHandle& handle);                          // 0x48a90c
-    void LoadFromXmlStream(IFileStream* stream);                    // 0x48aa84
+    bool LoadFromXml(TiXmlHandle& handle);                          // 0x48a90c (returns 0 when the handle has no element)
+    bool LoadFromXmlStream(IFileStream* stream);                    // 0x48aa84 (returns the LoadFromXml result)
     static MgxBlock* FromFilename(const char* a, const char* b, const char* c); // 0x48ad54
 
     // MgxBlock occupies +0x00 .. +0x9bf (Block base). Original 32-bit size 0x9c8.

@@ -14,6 +14,8 @@ class TiXmlNode;
 
 namespace rnd {
 
+class RandomGenerator;
+
 class RoomPool {
 public:
     ~RoomPool();                                                    // 0x485a0c (clears the element vector)
@@ -26,7 +28,7 @@ public:
 
     int32_t m_size;                                                 // +0x00 "size" attribute
     std::vector<RPElem> m_elems;                                    // +0x04 elements ("elem" children)
-    uint8_t pad_10[0x04];                                           // +0x10 tail not recovered
+    RandomGenerator* m_generator;                                   // +0x10 the owning generator (LoadRoomPools sets it before LoadFromXml)
 };
 
 }  // namespace rnd

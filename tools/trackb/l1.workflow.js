@@ -12,7 +12,7 @@ const TRACKA = 'C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Reco
 
 phase('Load')
 const loaded = await agent(
-  `Read the file ${ROOT}/reports/decomp-reconstruction/trackb-batches/l1-groups.json (a JSON array of {level, cat, classes, id}) and return it unchanged as "groups". Do nothing else.`,
+  `Read the file ${ROOT}/reports/decomp-reconstruction/trackb-batches/${(typeof args !== "undefined" && args && args.groups) || "l1-groups.json"} (a JSON array of {level, cat, classes, id}) and return it unchanged as "groups". Do nothing else.`,
   { label: 'load groups', phase: 'Load', model: 'haiku', effort: 'low', schema: {
     type: 'object', properties: { groups: { type: 'array', items: { type: 'object', properties: {
       level: { type: 'number' }, cat: { type: 'string' }, id: { type: 'string' }, classes: { type: 'array', items: { type: 'string' } } },

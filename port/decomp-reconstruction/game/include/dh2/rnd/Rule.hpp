@@ -47,7 +47,7 @@ public:
     RootRule* m_root;                                               // +0x04 the root rule (the RootRule itself for RootRule)
     Rule* m_parent;                                                 // +0x08
     int32_t unk_0c;                                                 // +0x0c zeroed by the ctor
-    uint8_t pad_10[0x40];                                           // +0x10 .. +0x4f not written by the ctor
+    Rule* m_children[16];                                           // +0x10 .. +0x4f child rules, count in unk_0c; Unload deletes them (0x48bc94)
     std::string m_exit;                                             // +0x50 "exit" attribute; compared to north, east, south, west
     int32_t unk_68;                                                 // +0x68 zeroed by the ctor
     int32_t unk_6c;                                                 // +0x6c set to -1 by the ctor

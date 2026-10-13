@@ -15,6 +15,8 @@ class TiXmlNode;
 
 namespace rnd {
 
+class RandomGenerator;
+
 class ListRule {
 public:
     // Replaces or appends an element. The element's owner must be this list (asserted in the original).
@@ -28,6 +30,7 @@ public:
     bool m_replacement;                                             // +0x18 "replacement" attribute, default true
     uint8_t pad_19[3];                                              // +0x19
     std::vector<ListElem> m_elems;                                  // +0x1c candidates (push_back target of Replace)
+    RandomGenerator* m_generator;                                   // +0x28 the owning generator (LoadListRules sets it)
 };
 
 }  // namespace rnd

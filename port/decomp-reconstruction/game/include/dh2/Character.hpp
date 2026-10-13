@@ -358,7 +358,7 @@ public:
     void RegenTick(bool a);                                             // 0x3bdd90
     bool UseMana(int cost);                                             // 0x3bdef4
     void LevelUp(int levels);                                           // 0x3beb88
-    void _GiveXP(int xp, bool a);                                       // 0x3bf498
+    bool _GiveXP(int xp, bool a);                                       // 0x3bf498 (returns 1 when the XP was granted; DistributeXP uses it)
     void DistributeXP(Character* victim, Character* killer);            // 0x3bf828
 
     // ---- savegame access (SG_*: thin wrappers over m_savegame, the PlayerSavegame at +0x14e8) ----

@@ -11,12 +11,12 @@
 #include <map>
 
 #include "dh2/IEventReceiver.hpp"
+#include "dh2/TouchData.hpp"
 #include "glitch-scene-collada-gui/deps/event_stand_ins.hpp"
 
 class CameraLevel;
 class IEvent;
 class EventManager;
-struct TouchData;  // 8 bytes of four 16-bit values per finger; layout belongs to its own header
 
 class ZoomHandler : public IEventReceiver, public glitch::IEventReceiver {
 public:
@@ -26,10 +26,10 @@ public:
     // Overrides in vtable order. Primary vtable first, then the glitch::IEventReceiver thunks.
     bool onEvent(const IEvent* event, const EventManager* manager) override;  // slot 0x08: 0x382bdc
     // slot 0x0c: 0x382040. Also reached through the secondary vptr (vtable +0x20) as the glitch::IEventReceiver
-    // slot +0x08 (forwardEvent in the engine stand-in). Not marked override: the names differ.
-    bool onEvent(const glitch::SEvent& event);                          // 0x382040
+    // slot +0x08 (the pure onEvent of glitch::IEventReceiver).
+    bool onEvent(const glitch::SEvent& event) override;                 // 0x382040
 
-    float setCamera(CameraLevel* camera);                               // 0x381fb0, returns 1 / max(width, height)
+    float setCamera(CameraLevel* camera);                               // 0x381fb0, returns m_sensitivity (PARTIAL: see the .cpp)
     void ResetZoom();                                                   // 0x38201c, sets CameraLevel +140 to 1 and +136 to 0
     void ResetFingerMap();                                              // 0x3830bc, erases the finger map
 

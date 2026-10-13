@@ -37,28 +37,30 @@ public:
     // AnimApplicator slots. Original size 0x50.
     class SynchronizedBlenderApplicator : public AnimApplicator {
     public:
-        ~SynchronizedBlenderApplicator() override;                         // 0x367d4c, 0x368c70 (D1/D0)
+        // No symbol of its own: the original inlines this construction into the blender constructors.
+        explicit SynchronizedBlenderApplicator(AnimatorSynchronizedBlender* blender);
+        ~SynchronizedBlenderApplicator() override;                         // 0x367d4c (D1), 0x368c70 (D0)
 
         void SetRefNode(glitch::scene::ISceneNode* node) override;         // 0x3685cc forwards to every segment applicator
         void ResetDelta(unsigned int time) override;                       // 0x367b64
         void AnimateNode(unsigned int time) override;                      // 0x367ec8
 
-        void ApplyValues(unsigned int animatorId, unsigned int segment);   // 0x367d94 checks the weight and animator counts
+        void ApplyValues(unsigned int animatorId, unsigned int timeMs);    // 0x367d94 checks the weight and animator counts; timeMs is unused
         void CustomResetDelta();                                           // 0x3683bc resets the segment deltas
 
         // AnimApplicator occupies +0x00 .. +0x3b.
         AnimatorSynchronizedBlender* m_blender;                            // +0x3c owning blender (set by the blender ctor)
         std::vector<float> m_weights;                                      // +0x40 .. +0x4b one weight per child animator (begin, end, capacity)
-        int32_t unk_4c;                                                    // +0x4c set to -1 by SetRefNode, never read by the methods above
+        int32_t unk_4c;                                                    // +0x4c -1 from the ctor; SetRefNode stores the index of the active child (partial)
     };
 
-    AnimatorSynchronizedBlender();                                         // 0x3688f0 / 0x3689cc
+    AnimatorSynchronizedBlender();                                         // 0x3688f0 (C1); 0x3689cc (C2, VTT form, same body)
 
-    virtual ~AnimatorSynchronizedBlender();                                // 0x368be4 (D1), 0x368cd0 (D0), 0x368d70 (D2)
+    virtual ~AnimatorSynchronizedBlender();                                // 0x368cd0 (D1, complete object), 0x368be4 (D2, base form taking the VTT), 0x368d70 (D0)
 
     virtual void animateNode(glitch::scene::ISceneNode* node, unsigned int time);  // 0x36820c
     virtual int getType() const;                                           // 0x367b6c returns 14
-    static void _CBAnim(glitch::scene::ITimelineController* timeline);     // 0x367b68 empty
+    static void _CBAnim(glitch::scene::ITimelineController* timeline, void* userData);  // 0x367b68 empty (bare return)
     void SetCallbacks(AnimCallback animCallback, void* animUserData,
                       EventCallback eventCallback, void* eventUserData);   // 0x367b74
     void SetScale(float scale);                                            // 0x367c38 scales the cross-fade time
@@ -75,8 +77,8 @@ public:
     int m_blendDuration;                                                   // +0xbc duration of the next cross-fade, set by Blend
     int m_blendRemaining;                                                  // +0xc0 time left in the cross-fade
     float m_blendScale;                                                    // +0xc4 1 / duration of the cross-fade in progress
-    uint32_t unk_c8;                                                       // +0xc8 zero in the ctor, not touched by the methods above
-    uint32_t unk_cc;                                                       // +0xcc zero in the ctor, not touched by the methods above
+    uint32_t m_lastTime;                                                   // +0xc8 time of the last animateNode; the step is the new time minus this
+    int32_t m_clipWrapOffset;                                              // +0xcc overshoot past the clip end, set by animateNode and applied once by BlendPost
     AnimCallback m_animCallback;                                           // +0xd0 set by SetCallbacks, also passed to the applicator
     void* m_animCallbackUser;                                              // +0xd4 set by SetCallbacks
     SynchronizedBlenderApplicator m_applicator;                            // +0xd8 0x50 bytes, owner is this

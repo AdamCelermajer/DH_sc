@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <string>
 
+#include "vendor-gameswf/smart_ptr_proxy.hpp"  // gameswf::smart_ptr_proxy: the weak proxy word at +0x28
+
 class MenuFX;
 namespace gameswf { class character; }
 
@@ -24,8 +26,8 @@ public:
     uint8_t pad_01[3];
     uint32_t unk_04;                                                    // +0x04 0
     std::string m_path;                                                 // +0x08 STLport string, 0x18 bytes (+0x08 .. +0x1f)
-    uint32_t unk_20;                                                    // +0x20 0
-    uint32_t unk_24;                                                    // +0x24 0
-    void* m_characterProxy;                                             // +0x28 gameswf::weak_ptr<character>: proxy (refcount at *proxy)
-    gameswf::character* m_character;                                    // +0x2c ... cached pointer
+    MenuFX* m_menu;                                                     // +0x20 0; the menu passed to RefreshCache (both overloads store it)
+    gameswf::character* m_root;                                         // +0x24 0; the root character passed to RefreshCache
+    gameswf::smart_ptr_proxy m_characterProxy;                          // +0x28 gameswf::weak_ptr<character>: the proxy (one reference, released by operator=(nullptr))
+    gameswf::character* m_character;                                    // +0x2c weak_ptr<character> m_ptr: the cached pointer, valid while the proxy is alive
 };
