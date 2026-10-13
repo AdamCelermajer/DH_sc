@@ -3,7 +3,6 @@
 #include "player_save_section_writers_v1.hpp"
 #include "quest_table_bindings_v1.hpp"
 #include "quest_reward_execution_v1.hpp"
-#include "quest_update_completed_v1.hpp"
 #include "quest_compile_v1.hpp"
 #include "quest_objective_list_v1.hpp"
 #include "game_event_manager_owner_v1.hpp"
@@ -59,29 +58,21 @@ struct QuestUpdateActiveServicesV1 {
  bool (*start_script)(void*,const std::string&,std::int32_t argument,
                       bool flag,std::string&)=nullptr;
 };
-struct QuestUpdateCompletedServicesV1 {
+enum class QuestRewardTextKindV1 : std::uint8_t { gold, xp, none };
+// Quest::GiveRewards -> RewardList::Give (0x482920) runs each compiled Reward's
+// virtual Give in list order and stops at the first zero result. Gold uses the
+// caller's same Character V4 inventory (ItemInventory::AddGold); XP goes through
+// the same Character::_GiveXP owner. The owner never supplies a fake effect.
+struct QuestRewardServicesV1 {
  void* context=nullptr;
  // Must resolve the same live Character projection used by the retained Save.
- // Owner verifies its identity; effect providers must use that Character's
- // existing inventory and Character::_GiveXP implementation.
  data::quest_reward_execution_v1::CharacterRef* (*resolve_character)(
      void*,std::uintptr_t)=nullptr;
- // Required when a Gold reward is reached. Production binds this to the same
- // Character's existing V4 inventory; the owner never supplies a fake effect.
  std::int32_t (*add_gold)(void*,data::quest_reward_execution_v1::Record&,
      data::quest_reward_execution_v1::CharacterRef&,std::int32_t)=nullptr;
- // Character::_GiveXP remains an explicit provider. No native XP behavior is
- // guessed or replaced with a successful no-op.
  std::int32_t (*give_xp)(void*,data::quest_reward_execution_v1::Record&,
      data::quest_reward_execution_v1::CharacterRef&,std::int32_t,
      std::uint8_t,bool*)=nullptr;
- bool (*application_time)(void*,std::int32_t&,std::string&)=nullptr;
- // ARM Quest::SetState(13) checks source slot 7 and conditionally saves the
- // current Character, then dispatches that same slot 7 via ScriptManager.
- // Both providers borrow existing canonical runtime owners.
- bool (*save_character)(void*,std::uintptr_t,std::string&)=nullptr;
- bool (*start_script)(void*,const std::string&,std::int32_t argument,
-                      bool flag,std::string&)=nullptr;
 };
 // The Save/Quest compile adapter owns byte_28, canonical log iteration and
 // source member ordering. These are the two live providers it cannot infer:
@@ -95,18 +86,20 @@ struct QuestCompileServicesV1 {
  std::int32_t (*objective_member)(void*,data::quest_compile_v1::Objective&,
                                   const data::quest_compile_v1::MemberCall&)=nullptr;
 };
-using QuestUpdateCompletedResultV1=data::quest_update_completed_v1::Result;
-// Quest::Update (0x481818) for the lifecycle states that precede Active:
-// Locked, PostLocked, PreAvailable, Available, PostAvailable and PreActive
-// (v2QuestState 0..5), with the Quest::SetState (0x480c78) effects of entering
-// each, up to and including the Active entry (script slot 0, ObjectiveList::
-// Register, the "new quest" DialogMsg and the current-quest words).
+// Quest::Update (0x481818) for every v2QuestState: Locked 0, PostLocked 1,
+// PreAvailable 2, Available 3, PostAvailable 4, PreActive 5, Active 6,
+// PostActive 7, PreCompleted 8, Completed 9, PostCompleted 10, PreClosed 11,
+// Closed 12 and PostClosed 13, with the Quest::SetState (0x480c78) effects of
+// entering each: the quest-table script slot it starts, the accept/end
+// Objective virtuals (InstallObjectiveMarker +0x10, RemoveObjectiveMarker +0x14,
+// Register +0x18, Unregister +0x1c), ObjectiveList Register/Unregister/markers,
+// the volatile-state save (HandleSaveInStateTransitonIfNeeded 0x47fb74), the
+// current-quest/current-act words and the new-quest / quest-completed DialogMsgs.
+// UpdateCompleted (0x4814d8) gives the RewardList through QuestRewardServicesV1.
 //
-// A Quest whose accept Objective is not the base/Automatic kind needs that
-// kind's InstallObjectiveMarker/Register/Unregister virtuals (TalkToNPC and
-// MoveInZone quest givers) and one whose ConditionList holds a kind the
-// condition kernel does not evaluate stays in its current state, exactly as it
-// did before this lifecycle existed; the result reports it as unsupported.
+// A Quest whose ConditionList holds a Condition kind the condition kernel does
+// not evaluate, or whose accept Objective kind has no owner, stays in its
+// current state; the result reports it as unsupported.
 struct QuestLifecycleServicesV1 {
  void* context=nullptr;
  // Application::GetCurrentLevel()->+0x3c, read by Condition_PlayerInLevel.
@@ -121,11 +114,25 @@ struct QuestLifecycleServicesV1 {
  // DialogMsg(StrID.GLOBAL_QUEST_NEW, quest name StringManager ID,
  // DialogStyles.QuestMsgDialog, -1).
  bool (*announce_new_quest)(void*,std::int32_t quest_name_string_id,std::string&)=nullptr;
+ // RewardList::CreateRewardString: one compiled Gold/XP reward is formatted by
+ // StringManager::parse of StrID.GAMEPLAYMENUS_REWARD_DETAIL_GOLD / _EXP with
+ // the reward's pydata amount; `none` is StrID.MENU_AUTOTRANSMUTE_1, the text
+ // the source assigns when no line was produced.
+ bool (*reward_text)(void*,QuestRewardTextKindV1 kind,std::int32_t amount,
+                     std::string& line,std::string&)=nullptr;
+ // Quest::SetState(Closed): DialogMsg(StringManager name, the RewardList text,
+ // DialogStyles.QuestCompletedMsgDialog, actor 1) on the same queue.
+ bool (*announce_quest_completed)(void*,std::int32_t quest_name_string_id,
+     const std::string& reward_text,std::string&)=nullptr;
+ // Character::CheckForAllQuestsTrophy (0x3a3fe4): TrophyManager::UnlockTrophy of
+ // "quest_allcomplete" once every Quest of the log is past Closed. Optional.
+ bool (*all_quests_trophy)(void*,std::string&)=nullptr;
  // ScriptManager running-state / StartScript(id,-1,true) and the Application
  // time snapshot Quest::SetState stores into Quest+4.
  QuestUpdateActiveServicesV1 scripts{};
- // Level-backed ObjectiveList virtuals (Register, InstallObjectiveMarker).
+ // Level-backed ObjectiveList virtuals (Register, markers, Unregister).
  QuestCompileServicesV1 objectives{};
+ QuestRewardServicesV1 rewards{};
 };
 enum class QuestLifecycleOutcomeV1 : std::uint8_t {
  unchanged, advanced, unsupported
@@ -135,6 +142,8 @@ struct QuestLifecycleResultV1 {
  std::uintptr_t quest_identity=0;
  std::int32_t quest_id=-1;
  std::int32_t prior_state=-1,new_state=-1;
+ // Every Quest::SetState target reached in this Quest::Update, in order.
+ std::vector<std::int32_t> path;
  std::string reason;
 };
 enum class QuestLookupStatusV1 : std::uint8_t {
@@ -303,35 +312,25 @@ public:
                         const QuestUpdateActiveServicesV1&,
                         std::vector<QuestUpdateActiveResultV1>&,
                         std::string&);
- // Source QuestSavegame::UpdateQuests subset in canonical published order:
- // dispatch state-6 Active and state-12 Completed through their existing
- // providers, leaving every other state to its own not-yet-bound owner.
- bool update_gameplay_log(std::uint32_t log,std::uint32_t difficulty,
-                          const QuestUpdateActiveServicesV1&,
-                          const QuestUpdateCompletedServicesV1&,
-                          std::vector<QuestUpdateActiveResultV1>&,
-                          std::vector<QuestUpdateCompletedResultV1>&,
-                          std::string&);
- // Quest::Update for v2QuestState 0..5 in published order, ahead of the
- // Active/Closed dispatchers above (see QuestLifecycleServicesV1). The current
- // Level's CompileQuests must already have run for this difficulty.
+ // ObjectiveList::Unregister (0x47a5f0) over this Quest's canonical list: the
+ // vtable+0x1c virtual of every compiled Objective, as Quest::SetState does
+ // when it leaves Active.
+ bool unregister_objectives(std::uintptr_t quest_identity,std::string&);
+ // QuestSavegame::UpdateQuests (0x46bb58) after CompileQuests: Quest::Update
+ // (0x481818) for each Quest of the selected log in published order, covering
+ // every v2QuestState (see QuestLifecycleServicesV1). The current Level's
+ // CompileQuests must already have run for this difficulty. This is the one
+ // Quest state-machine implementation; update_active above is the narrow
+ // Active -> PostActive slice kept for its independent host test.
  bool update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
                        const QuestLifecycleServicesV1&,
                        std::vector<QuestLifecycleResultV1>&,std::string&);
+ // Diagnostic: "Name=state" of every Quest of the selected log that has left
+ // Locked, in published order (the saved QEST state, for save/reload evidence).
+ bool state_summary(std::uint32_t log,std::uint32_t difficulty,std::string& out,
+                    std::string& error) const;
  bool has_state_in_log(std::uint32_t log,std::uint32_t difficulty,
                        std::int32_t state,bool& found,std::string&) const;
- // Source Quest::Update states currently implemented by the gameplay
- // dispatcher. Used before SG_Update(true) so unsupported states fail before
- // force compilation or other visible source effects begin.
- bool gameplay_log_states_supported(std::uint32_t log,std::uint32_t difficulty,
-                                    std::string&) const;
- // Canonical state-12 completion over this Save's published Quest and its
- // existing RewardList. Gold uses the caller's same Character inventory;
- // Character::_GiveXP and Application time remain explicit providers.
- bool update_completed(std::uintptr_t quest_identity,std::uint32_t log,
-                       std::uint32_t difficulty,
-                       const QuestUpdateCompletedServicesV1&,
-                       QuestUpdateCompletedResultV1&,std::string&);
  // Borrow the campaign's existing absolute stream. No second cursor or profile
  // is created; failed loads retain its byte position and canonical field prefix.
  // Full reads use real typed readers. Reached source assertion/logger providers

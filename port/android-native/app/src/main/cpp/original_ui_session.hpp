@@ -162,6 +162,14 @@ public:
     // Quest::SetState(Active): the "new quest" DialogMsg (QuestMsgDialog style).
     bool enqueue_source_new_quest_message(std::int32_t quest_name_string_id,
                                           std::string& error);
+    // Quest::SetState(Closed): DialogMsg(quest name, RewardList text,
+    // QuestCompletedMsgDialog, actor 1) on the same queue.
+    bool enqueue_source_quest_completed_message(std::int32_t quest_name_string_id,
+                                                const std::string& reward_text,
+                                                std::string& error);
+    // RewardList::CreateRewardString line text: kind 0 gold, 1 XP, 2 none.
+    bool source_quest_reward_text(std::int32_t kind,std::int32_t amount,
+                                  std::string& line,std::string& error);
     bool source_dialog_active(bool& active,std::string& error) const;
     // Script_FlushMessages 0x460a58: flushes the DialogMsg and StatusMsg
     // MenuMessageManagers (Achievement/OnlineStatus are not reconstructed).

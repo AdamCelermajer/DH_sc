@@ -112,6 +112,14 @@ inline bool apply(const Services& services,
         level.object_manager_identity !=
             reinterpret_cast<std::uintptr_t>(services.object_manager) ||
         &services.level_owner->object_manager() != services.object_manager) {
+        // Owner teardown clears the receivers' target marks after the Level has
+        // left its active phase; the Characters they marked went with it, so
+        // there is nothing left to unmark.
+        if (operation == Operation::unregister_target ||
+            operation == Operation::remove) {
+            error.clear();
+            return true;
+        }
         error = "TalkToNPC providers do not belong to the active source Level";
         return false;
     }
