@@ -4,7 +4,7 @@
     "staged_assets": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\windows-source-clock-v21.8-staged\\assets",
     "soundpack": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\sounds-original-v4.xml",
     "melee_bindings": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\windows-source-clock-v21.8-staged\\assets\\original-melee-bindings.xml",
-    "port": "port"
+    "port": "C:/Users/adamc/Desktop/workspace/DH_sc/.claude/worktrees/weaponmatrix/port"
   },
   "item_table_records": 1322,
   "weapon_families": [
@@ -87,12 +87,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "BattleAxe01": [
+          -1,
+          -1
+        ],
+        "BattleAxe01_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe01_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe02": [
+          -1,
+          -1
+        ],
+        "BattleAxe02_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe02_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe03": [
+          -1,
+          -1
+        ],
+        "BattleAxe03_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe03_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe04": [
+          -1,
+          -1
+        ],
+        "BattleAxe04_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe04_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe05": [
+          -1,
+          -1
+        ],
+        "BattleAxe05_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe05_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe06": [
+          -1,
+          -1
+        ],
+        "BattleAxe06_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe06_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe07": [
+          -1,
+          -1
+        ],
+        "BattleAxe07_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe07_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe08": [
+          -1,
+          -1
+        ],
+        "BattleAxe08_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe08_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe09": [
+          -1,
+          -1
+        ],
+        "BattleAxe09_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe09_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe10": [
+          -1,
+          -1
+        ],
+        "BattleAxe10_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe10_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe11": [
+          -1,
+          -1
+        ],
+        "BattleAxe11_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe11_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe12": [
+          -1,
+          -1
+        ],
+        "BattleAxe12_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe12_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe13": [
+          -1,
+          -1
+        ],
+        "BattleAxe13_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe13_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe14": [
+          -1,
+          -1
+        ],
+        "BattleAxe14_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe14_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe15": [
+          -1,
+          -1
+        ],
+        "BattleAxe15_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe15_VeryHard": [
+          -1,
+          -1
+        ],
+        "BattleAxe16": [
+          -1,
+          -1
+        ],
+        "BattleAxe16_Hard": [
+          -1,
+          -1
+        ],
+        "BattleAxe16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 1.0,
         "Mage": 1.0,
@@ -188,12 +388,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "Bow01": [
+          -1,
+          -1
+        ],
+        "Bow01_Hard": [
+          -1,
+          -1
+        ],
+        "Bow01_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow02": [
+          -1,
+          -1
+        ],
+        "Bow02_Hard": [
+          -1,
+          -1
+        ],
+        "Bow02_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow03": [
+          -1,
+          -1
+        ],
+        "Bow03_Hard": [
+          -1,
+          -1
+        ],
+        "Bow03_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow04": [
+          -1,
+          -1
+        ],
+        "Bow04_Hard": [
+          -1,
+          -1
+        ],
+        "Bow04_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow05": [
+          -1,
+          -1
+        ],
+        "Bow05_Hard": [
+          -1,
+          -1
+        ],
+        "Bow05_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow06": [
+          -1,
+          -1
+        ],
+        "Bow06_Hard": [
+          -1,
+          -1
+        ],
+        "Bow06_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow07": [
+          -1,
+          -1
+        ],
+        "Bow07_Hard": [
+          -1,
+          -1
+        ],
+        "Bow07_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow08": [
+          -1,
+          -1
+        ],
+        "Bow08_Hard": [
+          -1,
+          -1
+        ],
+        "Bow08_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow09": [
+          -1,
+          -1
+        ],
+        "Bow09_Hard": [
+          -1,
+          -1
+        ],
+        "Bow09_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow10": [
+          -1,
+          -1
+        ],
+        "Bow10_Hard": [
+          -1,
+          -1
+        ],
+        "Bow10_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow11": [
+          -1,
+          -1
+        ],
+        "Bow11_Hard": [
+          -1,
+          -1
+        ],
+        "Bow11_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow12": [
+          -1,
+          -1
+        ],
+        "Bow12_Hard": [
+          -1,
+          -1
+        ],
+        "Bow12_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow13": [
+          -1,
+          -1
+        ],
+        "Bow13_Hard": [
+          -1,
+          -1
+        ],
+        "Bow13_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow14": [
+          -1,
+          -1
+        ],
+        "Bow14_Hard": [
+          -1,
+          -1
+        ],
+        "Bow14_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow15": [
+          -1,
+          -1
+        ],
+        "Bow15_Hard": [
+          -1,
+          -1
+        ],
+        "Bow15_VeryHard": [
+          -1,
+          -1
+        ],
+        "Bow16": [
+          -1,
+          -1
+        ],
+        "Bow16_Hard": [
+          -1,
+          -1
+        ],
+        "Bow16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 0.5,
         "Mage": 0.1,
@@ -289,12 +689,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "Claw01": [
+          -1,
+          -1
+        ],
+        "Claw01_Hard": [
+          -1,
+          -1
+        ],
+        "Claw01_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw02": [
+          -1,
+          -1
+        ],
+        "Claw02_Hard": [
+          -1,
+          -1
+        ],
+        "Claw02_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw03": [
+          -1,
+          -1
+        ],
+        "Claw03_Hard": [
+          -1,
+          -1
+        ],
+        "Claw03_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw04": [
+          -1,
+          -1
+        ],
+        "Claw04_Hard": [
+          -1,
+          -1
+        ],
+        "Claw04_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw05": [
+          -1,
+          -1
+        ],
+        "Claw05_Hard": [
+          -1,
+          -1
+        ],
+        "Claw05_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw06": [
+          -1,
+          -1
+        ],
+        "Claw06_Hard": [
+          -1,
+          -1
+        ],
+        "Claw06_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw07": [
+          -1,
+          -1
+        ],
+        "Claw07_Hard": [
+          -1,
+          -1
+        ],
+        "Claw07_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw08": [
+          -1,
+          -1
+        ],
+        "Claw08_Hard": [
+          -1,
+          -1
+        ],
+        "Claw08_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw09": [
+          -1,
+          -1
+        ],
+        "Claw09_Hard": [
+          -1,
+          -1
+        ],
+        "Claw09_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw10": [
+          -1,
+          -1
+        ],
+        "Claw10_Hard": [
+          -1,
+          -1
+        ],
+        "Claw10_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw11": [
+          -1,
+          -1
+        ],
+        "Claw11_Hard": [
+          -1,
+          -1
+        ],
+        "Claw11_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw12": [
+          -1,
+          -1
+        ],
+        "Claw12_Hard": [
+          -1,
+          -1
+        ],
+        "Claw12_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw13": [
+          -1,
+          -1
+        ],
+        "Claw13_Hard": [
+          -1,
+          -1
+        ],
+        "Claw13_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw14": [
+          -1,
+          -1
+        ],
+        "Claw14_Hard": [
+          -1,
+          -1
+        ],
+        "Claw14_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw15": [
+          -1,
+          -1
+        ],
+        "Claw15_Hard": [
+          -1,
+          -1
+        ],
+        "Claw15_VeryHard": [
+          -1,
+          -1
+        ],
+        "Claw16": [
+          -1,
+          -1
+        ],
+        "Claw16_Hard": [
+          -1,
+          -1
+        ],
+        "Claw16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 0.8,
         "Mage": 0.5,
@@ -390,12 +990,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "Dagger01": [
+          -1,
+          -1
+        ],
+        "Dagger01_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger01_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger02": [
+          -1,
+          -1
+        ],
+        "Dagger02_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger02_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger03": [
+          -1,
+          -1
+        ],
+        "Dagger03_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger03_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger04": [
+          -1,
+          -1
+        ],
+        "Dagger04_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger04_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger05": [
+          -1,
+          -1
+        ],
+        "Dagger05_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger05_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger06": [
+          -1,
+          -1
+        ],
+        "Dagger06_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger06_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger07": [
+          -1,
+          -1
+        ],
+        "Dagger07_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger07_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger08": [
+          -1,
+          -1
+        ],
+        "Dagger08_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger08_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger09": [
+          -1,
+          -1
+        ],
+        "Dagger09_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger09_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger10": [
+          -1,
+          -1
+        ],
+        "Dagger10_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger10_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger11": [
+          -1,
+          -1
+        ],
+        "Dagger11_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger11_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger12": [
+          -1,
+          -1
+        ],
+        "Dagger12_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger12_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger13": [
+          -1,
+          -1
+        ],
+        "Dagger13_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger13_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger14": [
+          -1,
+          -1
+        ],
+        "Dagger14_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger14_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger15": [
+          -1,
+          -1
+        ],
+        "Dagger15_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger15_VeryHard": [
+          -1,
+          -1
+        ],
+        "Dagger16": [
+          -1,
+          -1
+        ],
+        "Dagger16_Hard": [
+          -1,
+          -1
+        ],
+        "Dagger16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 0.8,
         "Mage": 0.5,
@@ -491,12 +1291,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "Longsword01": [
+          -1,
+          -1
+        ],
+        "Longsword01_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword01_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword02": [
+          -1,
+          -1
+        ],
+        "Longsword02_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword02_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword03": [
+          -1,
+          -1
+        ],
+        "Longsword03_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword03_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword04": [
+          -1,
+          -1
+        ],
+        "Longsword04_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword04_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword05": [
+          -1,
+          -1
+        ],
+        "Longsword05_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword05_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword06": [
+          -1,
+          -1
+        ],
+        "Longsword06_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword06_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword07": [
+          -1,
+          -1
+        ],
+        "Longsword07_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword07_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword08": [
+          -1,
+          -1
+        ],
+        "Longsword08_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword08_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword09": [
+          -1,
+          -1
+        ],
+        "Longsword09_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword09_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword10": [
+          -1,
+          -1
+        ],
+        "Longsword10_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword10_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword11": [
+          -1,
+          -1
+        ],
+        "Longsword11_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword11_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword12": [
+          -1,
+          -1
+        ],
+        "Longsword12_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword12_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword13": [
+          -1,
+          -1
+        ],
+        "Longsword13_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword13_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword14": [
+          -1,
+          -1
+        ],
+        "Longsword14_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword14_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword15": [
+          -1,
+          -1
+        ],
+        "Longsword15_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword15_VeryHard": [
+          -1,
+          -1
+        ],
+        "Longsword16": [
+          -1,
+          -1
+        ],
+        "Longsword16_Hard": [
+          -1,
+          -1
+        ],
+        "Longsword16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 1.0,
         "Mage": 1.0,
@@ -592,12 +1592,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "Shield01": [
+          -1,
+          -1
+        ],
+        "Shield01_Hard": [
+          -1,
+          -1
+        ],
+        "Shield01_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield02": [
+          -1,
+          -1
+        ],
+        "Shield02_Hard": [
+          -1,
+          -1
+        ],
+        "Shield02_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield03": [
+          -1,
+          -1
+        ],
+        "Shield03_Hard": [
+          -1,
+          -1
+        ],
+        "Shield03_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield04": [
+          -1,
+          -1
+        ],
+        "Shield04_Hard": [
+          -1,
+          -1
+        ],
+        "Shield04_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield05": [
+          -1,
+          -1
+        ],
+        "Shield05_Hard": [
+          -1,
+          -1
+        ],
+        "Shield05_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield06": [
+          -1,
+          -1
+        ],
+        "Shield06_Hard": [
+          -1,
+          -1
+        ],
+        "Shield06_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield07": [
+          -1,
+          -1
+        ],
+        "Shield07_Hard": [
+          -1,
+          -1
+        ],
+        "Shield07_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield08": [
+          -1,
+          -1
+        ],
+        "Shield08_Hard": [
+          -1,
+          -1
+        ],
+        "Shield08_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield09": [
+          -1,
+          -1
+        ],
+        "Shield09_Hard": [
+          -1,
+          -1
+        ],
+        "Shield09_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield10": [
+          -1,
+          -1
+        ],
+        "Shield10_Hard": [
+          -1,
+          -1
+        ],
+        "Shield10_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield11": [
+          -1,
+          -1
+        ],
+        "Shield11_Hard": [
+          -1,
+          -1
+        ],
+        "Shield11_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield12": [
+          -1,
+          -1
+        ],
+        "Shield12_Hard": [
+          -1,
+          -1
+        ],
+        "Shield12_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield13": [
+          -1,
+          -1
+        ],
+        "Shield13_Hard": [
+          -1,
+          -1
+        ],
+        "Shield13_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield14": [
+          -1,
+          -1
+        ],
+        "Shield14_Hard": [
+          -1,
+          -1
+        ],
+        "Shield14_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield15": [
+          -1,
+          -1
+        ],
+        "Shield15_Hard": [
+          -1,
+          -1
+        ],
+        "Shield15_VeryHard": [
+          -1,
+          -1
+        ],
+        "Shield16": [
+          -1,
+          -1
+        ],
+        "Shield16_Hard": [
+          -1,
+          -1
+        ],
+        "Shield16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 1.0,
         "Mage": 0.7,
@@ -693,38 +1893,287 @@
       "swoosh_sound_ids": [
         {
           "id": 478,
-          "status": "soundpack uid -> FireTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "478 sfx_mage_staff_elemental_earth: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 478,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_earth",
+            "uid": 31,
+            "files": [
+              {
+                "uid": 31,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         },
         {
           "id": 479,
-          "status": "soundpack uid -> EartheTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "479 sfx_mage_staff_elemental_fire: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 479,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_fire",
+            "uid": 29,
+            "files": [
+              {
+                "uid": 29,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         },
         {
           "id": 480,
-          "status": "soundpack uid -> WaterTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "480 sfx_mage_staff_elemental_ice: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 480,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_ice",
+            "uid": 30,
+            "files": [
+              {
+                "uid": 30,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         },
         {
           "id": 481,
-          "status": "soundpack uid -> AirTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "481 sfx_mage_staff_elemental_lightning: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 481,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_lightning",
+            "uid": 33,
+            "files": [
+              {
+                "uid": 33,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         },
         {
           "id": 482,
-          "status": "soundpack uid -> LightTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "482 sfx_mage_staff_elemental_wind: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 482,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_wind",
+            "uid": 32,
+            "files": [
+              {
+                "uid": 32,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "Staff01": [
+          479,
+          -1
+        ],
+        "Staff01_Hard": [
+          479,
+          -1
+        ],
+        "Staff01_VeryHard": [
+          479,
+          -1
+        ],
+        "Staff02": [
+          478,
+          -1
+        ],
+        "Staff02_Hard": [
+          478,
+          -1
+        ],
+        "Staff02_VeryHard": [
+          478,
+          -1
+        ],
+        "Staff03": [
+          482,
+          -1
+        ],
+        "Staff03_Hard": [
+          482,
+          -1
+        ],
+        "Staff03_VeryHard": [
+          482,
+          -1
+        ],
+        "Staff04": [
+          480,
+          -1
+        ],
+        "Staff04_Hard": [
+          480,
+          -1
+        ],
+        "Staff04_VeryHard": [
+          480,
+          -1
+        ],
+        "Staff05": [
+          478,
+          -1
+        ],
+        "Staff05_Hard": [
+          478,
+          -1
+        ],
+        "Staff05_VeryHard": [
+          478,
+          -1
+        ],
+        "Staff06": [
+          481,
+          -1
+        ],
+        "Staff06_Hard": [
+          481,
+          -1
+        ],
+        "Staff06_VeryHard": [
+          481,
+          -1
+        ],
+        "Staff07": [
+          480,
+          -1
+        ],
+        "Staff07_Hard": [
+          480,
+          -1
+        ],
+        "Staff07_VeryHard": [
+          480,
+          -1
+        ],
+        "Staff08": [
+          479,
+          -1
+        ],
+        "Staff08_Hard": [
+          479,
+          -1
+        ],
+        "Staff08_VeryHard": [
+          479,
+          -1
+        ],
+        "Staff09": [
+          481,
+          -1
+        ],
+        "Staff09_Hard": [
+          481,
+          -1
+        ],
+        "Staff09_VeryHard": [
+          481,
+          -1
+        ],
+        "Staff10": [
+          482,
+          -1
+        ],
+        "Staff10_Hard": [
+          482,
+          -1
+        ],
+        "Staff10_VeryHard": [
+          482,
+          -1
+        ],
+        "Staff11": [
+          478,
+          -1
+        ],
+        "Staff11_Hard": [
+          478,
+          -1
+        ],
+        "Staff11_VeryHard": [
+          478,
+          -1
+        ],
+        "Staff12": [
+          480,
+          -1
+        ],
+        "Staff12_Hard": [
+          480,
+          -1
+        ],
+        "Staff12_VeryHard": [
+          480,
+          -1
+        ],
+        "Staff13": [
+          479,
+          -1
+        ],
+        "Staff13_Hard": [
+          479,
+          -1
+        ],
+        "Staff13_VeryHard": [
+          479,
+          -1
+        ],
+        "Staff14": [
+          481,
+          -1
+        ],
+        "Staff14_Hard": [
+          481,
+          -1
+        ],
+        "Staff14_VeryHard": [
+          481,
+          -1
+        ],
+        "Staff15": [
+          478,
+          -1
+        ],
+        "Staff15_Hard": [
+          481,
+          -1
+        ],
+        "Staff15_VeryHard": [
+          478,
+          -1
+        ],
+        "Staff16": [
+          481,
+          -1
+        ],
+        "Staff16_Hard": [
+          482,
+          -1
+        ],
+        "Staff16_VeryHard": [
+          481,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 0.1,
         "Mage": 1.0,
@@ -820,12 +2269,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "TwoHandsAxe01": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe01_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe01_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe02": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe02_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe02_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe03": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe03_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe03_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe04": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe04_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe04_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe05": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe05_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe05_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe06": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe06_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe06_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe07": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe07_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe07_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe08": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe08_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe08_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe09": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe09_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe09_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe10": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe10_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe10_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe11": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe11_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe11_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe12": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe12_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe12_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe13": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe13_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe13_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe14": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe14_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe14_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe15": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe15_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe15_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe16": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe16_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsAxe16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 1.0,
         "Mage": 1.0,
@@ -921,12 +2570,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "TwoHandsMace01": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace01_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace01_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace02": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace02_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace02_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace03": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace03_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace03_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace04": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace04_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace04_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace05": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace05_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace05_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace06": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace06_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace06_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace07": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace07_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace07_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace08": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace08_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace08_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace09": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace09_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace09_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace10": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace10_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace10_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace11": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace11_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace11_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace12": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace12_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace12_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace13": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace13_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace13_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace14": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace14_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace14_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace15": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace15_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace15_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace16": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace16_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsMace16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 1.0,
         "Mage": 1.0,
@@ -1022,12 +2871,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "TwoHandsSword01": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword01_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword01_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword02": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword02_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword02_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword03": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword03_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword03_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword04": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword04_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword04_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword05": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword05_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword05_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword06": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword06_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword06_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword07": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword07_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword07_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword08": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword08_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword08_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword09": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword09_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword09_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword10": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword10_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword10_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword11": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword11_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword11_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword12": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword12_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword12_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword13": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword13_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword13_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword14": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword14_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword14_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword15": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword15_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword15_VeryHard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword16": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword16_Hard": [
+          -1,
+          -1
+        ],
+        "TwoHandsSword16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 1.0,
         "Mage": 1.0,
@@ -1123,38 +3172,287 @@
       "swoosh_sound_ids": [
         {
           "id": 478,
-          "status": "soundpack uid -> FireTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "478 sfx_mage_staff_elemental_earth: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 478,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_earth",
+            "uid": 31,
+            "files": [
+              {
+                "uid": 31,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         },
         {
           "id": 479,
-          "status": "soundpack uid -> EartheTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "479 sfx_mage_staff_elemental_fire: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 479,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_fire",
+            "uid": 29,
+            "files": [
+              {
+                "uid": 29,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         },
         {
           "id": 480,
-          "status": "soundpack uid -> WaterTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "480 sfx_mage_staff_elemental_ice: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 480,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_ice",
+            "uid": 30,
+            "files": [
+              {
+                "uid": 30,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         },
         {
           "id": 481,
-          "status": "soundpack uid -> AirTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "481 sfx_mage_staff_elemental_lightning: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 481,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_lightning",
+            "uid": 33,
+            "files": [
+              {
+                "uid": 33,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         },
         {
           "id": 482,
-          "status": "soundpack uid -> LightTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
-          "file_present": true,
-          "uid_namespace_check": "INFERENCE: label is music"
+          "status": "482 sfx_mage_staff_elemental_wind: sfx_mage_staff_elemental_thunder_22.wav",
+          "resolved": {
+            "id": 482,
+            "kind": "sound",
+            "name": "sfx_mage_staff_elemental_wind",
+            "uid": 32,
+            "files": [
+              {
+                "uid": 32,
+                "file": "sfx_mage_staff_elemental_thunder_22.wav",
+                "present": true
+              }
+            ]
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "Wand01": [
+          478,
+          -1
+        ],
+        "Wand01_Hard": [
+          478,
+          -1
+        ],
+        "Wand01_VeryHard": [
+          478,
+          -1
+        ],
+        "Wand02": [
+          479,
+          -1
+        ],
+        "Wand02_Hard": [
+          479,
+          -1
+        ],
+        "Wand02_VeryHard": [
+          479,
+          -1
+        ],
+        "Wand03": [
+          481,
+          -1
+        ],
+        "Wand03_Hard": [
+          481,
+          -1
+        ],
+        "Wand03_VeryHard": [
+          481,
+          -1
+        ],
+        "Wand04": [
+          482,
+          -1
+        ],
+        "Wand04_Hard": [
+          482,
+          -1
+        ],
+        "Wand04_VeryHard": [
+          482,
+          -1
+        ],
+        "Wand05": [
+          480,
+          -1
+        ],
+        "Wand05_Hard": [
+          480,
+          -1
+        ],
+        "Wand05_VeryHard": [
+          480,
+          -1
+        ],
+        "Wand06": [
+          482,
+          -1
+        ],
+        "Wand06_Hard": [
+          482,
+          -1
+        ],
+        "Wand06_VeryHard": [
+          482,
+          -1
+        ],
+        "Wand07": [
+          479,
+          -1
+        ],
+        "Wand07_Hard": [
+          479,
+          -1
+        ],
+        "Wand07_VeryHard": [
+          479,
+          -1
+        ],
+        "Wand08": [
+          478,
+          -1
+        ],
+        "Wand08_Hard": [
+          478,
+          -1
+        ],
+        "Wand08_VeryHard": [
+          478,
+          -1
+        ],
+        "Wand09": [
+          480,
+          -1
+        ],
+        "Wand09_Hard": [
+          480,
+          -1
+        ],
+        "Wand09_VeryHard": [
+          480,
+          -1
+        ],
+        "Wand10": [
+          481,
+          -1
+        ],
+        "Wand10_Hard": [
+          481,
+          -1
+        ],
+        "Wand10_VeryHard": [
+          481,
+          -1
+        ],
+        "Wand11": [
+          479,
+          -1
+        ],
+        "Wand11_Hard": [
+          479,
+          -1
+        ],
+        "Wand11_VeryHard": [
+          479,
+          -1
+        ],
+        "Wand12": [
+          481,
+          -1
+        ],
+        "Wand12_Hard": [
+          481,
+          -1
+        ],
+        "Wand12_VeryHard": [
+          481,
+          -1
+        ],
+        "Wand13": [
+          478,
+          -1
+        ],
+        "Wand13_Hard": [
+          478,
+          -1
+        ],
+        "Wand13_VeryHard": [
+          478,
+          -1
+        ],
+        "Wand14": [
+          480,
+          -1
+        ],
+        "Wand14_Hard": [
+          480,
+          -1
+        ],
+        "Wand14_VeryHard": [
+          480,
+          -1
+        ],
+        "Wand15": [
+          478,
+          -1
+        ],
+        "Wand15_Hard": [
+          482,
+          -1
+        ],
+        "Wand15_VeryHard": [
+          478,
+          -1
+        ],
+        "Wand16": [
+          482,
+          -1
+        ],
+        "Wand16_Hard": [
+          480,
+          -1
+        ],
+        "Wand16_VeryHard": [
+          482,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 0.1,
         "Mage": 1.0,
@@ -1250,12 +3548,212 @@
       "swoosh_sound_ids": [
         {
           "id": -1,
-          "status": "none"
+          "status": "none",
+          "resolved": {
+            "id": -1,
+            "kind": "none",
+            "name": null,
+            "files": []
+          }
         }
       ],
       "swoosh_fx_ids": [
         -1
       ],
+      "item_swoosh": {
+        "Warhammer01": [
+          -1,
+          -1
+        ],
+        "Warhammer01_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer01_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer02": [
+          -1,
+          -1
+        ],
+        "Warhammer02_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer02_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer03": [
+          -1,
+          -1
+        ],
+        "Warhammer03_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer03_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer04": [
+          -1,
+          -1
+        ],
+        "Warhammer04_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer04_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer05": [
+          -1,
+          -1
+        ],
+        "Warhammer05_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer05_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer06": [
+          -1,
+          -1
+        ],
+        "Warhammer06_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer06_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer07": [
+          -1,
+          -1
+        ],
+        "Warhammer07_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer07_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer08": [
+          -1,
+          -1
+        ],
+        "Warhammer08_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer08_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer09": [
+          -1,
+          -1
+        ],
+        "Warhammer09_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer09_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer10": [
+          -1,
+          -1
+        ],
+        "Warhammer10_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer10_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer11": [
+          -1,
+          -1
+        ],
+        "Warhammer11_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer11_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer12": [
+          -1,
+          -1
+        ],
+        "Warhammer12_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer12_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer13": [
+          -1,
+          -1
+        ],
+        "Warhammer13_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer13_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer14": [
+          -1,
+          -1
+        ],
+        "Warhammer14_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer14_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer15": [
+          -1,
+          -1
+        ],
+        "Warhammer15_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer15_VeryHard": [
+          -1,
+          -1
+        ],
+        "Warhammer16": [
+          -1,
+          -1
+        ],
+        "Warhammer16_Hard": [
+          -1,
+          -1
+        ],
+        "Warhammer16_VeryHard": [
+          -1,
+          -1
+        ]
+      },
       "class_equip_values_first_tier": {
         "Warrior": 1.0,
         "Mage": 1.0,
@@ -3076,12 +5574,48 @@
       "file_present": true
     },
     {
-      "id": "runtime_attack_sound",
+      "id": "session_audio_attack_sound",
+      "file": "windows-foundation/features/audio/runtime_session_audio_v1.cpp",
+      "pattern": "make_unique<RuntimeAttackSoundV1>",
+      "meaning": "RuntimeAttackSoundV1 (AnimStep/Swoosh sound ids) is constructed inside RuntimeSessionAudioV1::bind",
+      "hits": 1,
+      "first_line": 190,
+      "file_present": true
+    },
+    {
+      "id": "main_audio_bind",
       "file": "windows-foundation/main.cpp",
-      "pattern": "RuntimeAttackSound",
-      "meaning": "features/audio/runtime_attack_sound_v1 (also reads words 5/6): not constructed in main.cpp",
-      "hits": 0,
-      "first_line": null,
+      "pattern": "runtimeAudio->bind\\(combatSession",
+      "meaning": "main.cpp binds the session audio (and so the attack-sound observer) to the CombatSession; requires --audio",
+      "hits": 4,
+      "first_line": 4220,
+      "file_present": true
+    },
+    {
+      "id": "host_source_row_lookup",
+      "file": "windows-foundation/features/audio/runtime_audio_host_v1.cpp",
+      "pattern": "bindings\\(\\)\\.row\\(",
+      "meaning": "host resolves a source id through the 638-row Arrays::Sounds bindings (not the soundpack uid)",
+      "hits": 4,
+      "first_line": 166,
+      "file_present": true
+    },
+    {
+      "id": "swoosh_gate_v38",
+      "file": "windows-foundation/features/audio/runtime_attack_sound_v1.cpp",
+      "pattern": "audio_animation_swoosh_v38",
+      "meaning": "Swoosh item-override/fallback gate (_SetAnimStep 0x3ca884..0x3cab20)",
+      "hits": 2,
+      "first_line": 3,
+      "file_present": true
+    },
+    {
+      "id": "marker_sfx_prefix",
+      "file": "windows-foundation/features/audio/runtime_combat_audio_v1.cpp",
+      "pattern": "rfind\\(\"sfx_\",0\\)",
+      "meaning": "authored sfx_ clip event -> named Sounds lookup (CharAI._OnAnimEvent 0x3d4434)",
+      "hits": 1,
+      "first_line": 149,
       "file_present": true
     },
     {
@@ -3147,5 +5681,4152 @@
       "first_line": 638,
       "file_present": true
     }
-  ]
+  ],
+  "sound_model": {
+    "weapons": [
+      {
+        "label": "1H sword (Longsword)",
+        "family": "Longsword",
+        "stance": 0,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 248,
+            "sequence_name": "Human_Attack_00_1H",
+            "leaves": [
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 243,
+            "sequence_name": "Human_AttackStatic_00_1H",
+            "leaves": [
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "1H axe (BattleAxe)",
+        "family": "BattleAxe",
+        "stance": 0,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 248,
+            "sequence_name": "Human_Attack_00_1H",
+            "leaves": [
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 243,
+            "sequence_name": "Human_AttackStatic_00_1H",
+            "leaves": [
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "1H mace (Warhammer)",
+        "family": "Warhammer",
+        "stance": 0,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 248,
+            "sequence_name": "Human_Attack_00_1H",
+            "leaves": [
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 243,
+            "sequence_name": "Human_AttackStatic_00_1H",
+            "leaves": [
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "Dagger alone (main hand only)",
+        "family": "Dagger",
+        "stance": 0,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 248,
+            "sequence_name": "Human_Attack_00_1H",
+            "leaves": [
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 243,
+            "sequence_name": "Human_AttackStatic_00_1H",
+            "leaves": [
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "Claw alone (main hand only)",
+        "family": "Claw",
+        "stance": 0,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 248,
+            "sequence_name": "Human_Attack_00_1H",
+            "leaves": [
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 467,
+                "seq_name": "OneHandedAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 468,
+                "seq_name": "OneHandedAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 469,
+                "seq_name": "OneHandedAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 243,
+            "sequence_name": "Human_AttackStatic_00_1H",
+            "leaves": [
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 470,
+                "seq_name": "OneHandedAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 471,
+                "seq_name": "OneHandedAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 472,
+                "seq_name": "OneHandedAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "Dagger dual (main + non-shield off-hand)",
+        "family": "Dagger",
+        "stance": 2,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 250,
+            "sequence_name": "Human_Attack_02_Dual",
+            "leaves": [
+              {
+                "seq": 167,
+                "seq_name": "DualAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 167,
+                "seq_name": "DualAttack01",
+                "step": 1,
+                "step_sound": 598,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      598
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 167,
+                "seq_name": "DualAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 168,
+                "seq_name": "DualAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 168,
+                "seq_name": "DualAttack02",
+                "step": 1,
+                "step_sound": 598,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      598
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 168,
+                "seq_name": "DualAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 169,
+                "seq_name": "DualAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 169,
+                "seq_name": "DualAttack03",
+                "step": 1,
+                "step_sound": 599,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      599
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 169,
+                "seq_name": "DualAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 170,
+                "seq_name": "DualAttack04",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 170,
+                "seq_name": "DualAttack04",
+                "step": 1,
+                "step_sound": 599,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      599
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 170,
+                "seq_name": "DualAttack04",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 245,
+            "sequence_name": "Human_AttackStatic_02_Dual",
+            "leaves": [
+              {
+                "seq": 171,
+                "seq_name": "DualAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 171,
+                "seq_name": "DualAttackStatic01",
+                "step": 1,
+                "step_sound": 293,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      293
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 171,
+                "seq_name": "DualAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 172,
+                "seq_name": "DualAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 172,
+                "seq_name": "DualAttackStatic02",
+                "step": 1,
+                "step_sound": 293,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      293
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 172,
+                "seq_name": "DualAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 173,
+                "seq_name": "DualAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 173,
+                "seq_name": "DualAttackStatic03",
+                "step": 1,
+                "step_sound": 293,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      293
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 173,
+                "seq_name": "DualAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 174,
+                "seq_name": "DualAttackStatic04",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 174,
+                "seq_name": "DualAttackStatic04",
+                "step": 1,
+                "step_sound": 293,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      293
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 174,
+                "seq_name": "DualAttackStatic04",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "Claw dual (main + non-shield off-hand)",
+        "family": "Claw",
+        "stance": 2,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 250,
+            "sequence_name": "Human_Attack_02_Dual",
+            "leaves": [
+              {
+                "seq": 167,
+                "seq_name": "DualAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 167,
+                "seq_name": "DualAttack01",
+                "step": 1,
+                "step_sound": 598,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      598
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 167,
+                "seq_name": "DualAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 168,
+                "seq_name": "DualAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 168,
+                "seq_name": "DualAttack02",
+                "step": 1,
+                "step_sound": 598,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      598
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 168,
+                "seq_name": "DualAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 169,
+                "seq_name": "DualAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 169,
+                "seq_name": "DualAttack03",
+                "step": 1,
+                "step_sound": 599,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      599
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 169,
+                "seq_name": "DualAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 170,
+                "seq_name": "DualAttack04",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 170,
+                "seq_name": "DualAttack04",
+                "step": 1,
+                "step_sound": 599,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      599
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 170,
+                "seq_name": "DualAttack04",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 245,
+            "sequence_name": "Human_AttackStatic_02_Dual",
+            "leaves": [
+              {
+                "seq": 171,
+                "seq_name": "DualAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 171,
+                "seq_name": "DualAttackStatic01",
+                "step": 1,
+                "step_sound": 293,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      293
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 171,
+                "seq_name": "DualAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 172,
+                "seq_name": "DualAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 172,
+                "seq_name": "DualAttackStatic02",
+                "step": 1,
+                "step_sound": 293,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      293
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 172,
+                "seq_name": "DualAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 173,
+                "seq_name": "DualAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 173,
+                "seq_name": "DualAttackStatic03",
+                "step": 1,
+                "step_sound": 293,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      293
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 173,
+                "seq_name": "DualAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 174,
+                "seq_name": "DualAttackStatic04",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 174,
+                "seq_name": "DualAttackStatic04",
+                "step": 1,
+                "step_sound": 293,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      293
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 174,
+                "seq_name": "DualAttackStatic04",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "2H sword (TwoHandsSword)",
+        "family": "TwoHandsSword",
+        "stance": 1,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 249,
+            "sequence_name": "Human_Attack_01_2H",
+            "leaves": [
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 244,
+            "sequence_name": "Human_AttackStatic_01_2H",
+            "leaves": [
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "2H axe (TwoHandsAxe)",
+        "family": "TwoHandsAxe",
+        "stance": 1,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 249,
+            "sequence_name": "Human_Attack_01_2H",
+            "leaves": [
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 244,
+            "sequence_name": "Human_AttackStatic_01_2H",
+            "leaves": [
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "2H mace (TwoHandsMace)",
+        "family": "TwoHandsMace",
+        "stance": 1,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 249,
+            "sequence_name": "Human_Attack_01_2H",
+            "leaves": [
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 1,
+                "step_sound": 232,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      232
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 721,
+                "seq_name": "TwoHandedAttack01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 722,
+                "seq_name": "TwoHandedAttack02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 1,
+                "step_sound": 233,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      233
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 723,
+                "seq_name": "TwoHandedAttack03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 244,
+            "sequence_name": "Human_AttackStatic_01_2H",
+            "leaves": [
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 724,
+                "seq_name": "TwoHandedAttackStatic01",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 725,
+                "seq_name": "TwoHandedAttackStatic02",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 1,
+                "step_sound": 289,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": [
+                      289
+                    ]
+                  }
+                ]
+              },
+              {
+                "seq": 726,
+                "seq_name": "TwoHandedAttackStatic03",
+                "step": 2,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "Staff",
+        "family": "Staff",
+        "stance": 3,
+        "item_swoosh_pairs": [
+          [
+            478,
+            -1
+          ],
+          [
+            479,
+            -1
+          ],
+          [
+            480,
+            -1
+          ],
+          [
+            481,
+            -1
+          ],
+          [
+            482,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 251,
+            "sequence_name": "Human_Attack_03_Staff",
+            "leaves": [
+              {
+                "seq": 651,
+                "seq_name": "StaffAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": 478,
+                    "item_word6": -1,
+                    "ids": [
+                      478
+                    ]
+                  },
+                  {
+                    "item_word5": 479,
+                    "item_word6": -1,
+                    "ids": [
+                      479
+                    ]
+                  },
+                  {
+                    "item_word5": 480,
+                    "item_word6": -1,
+                    "ids": [
+                      480
+                    ]
+                  },
+                  {
+                    "item_word5": 481,
+                    "item_word6": -1,
+                    "ids": [
+                      481
+                    ]
+                  },
+                  {
+                    "item_word5": 482,
+                    "item_word6": -1,
+                    "ids": [
+                      482
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 246,
+            "sequence_name": "Human_AttackStatic_03_Staff",
+            "leaves": [
+              {
+                "seq": 654,
+                "seq_name": "StaffAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": 478,
+                    "item_word6": -1,
+                    "ids": [
+                      478
+                    ]
+                  },
+                  {
+                    "item_word5": 479,
+                    "item_word6": -1,
+                    "ids": [
+                      479
+                    ]
+                  },
+                  {
+                    "item_word5": 480,
+                    "item_word6": -1,
+                    "ids": [
+                      480
+                    ]
+                  },
+                  {
+                    "item_word5": 481,
+                    "item_word6": -1,
+                    "ids": [
+                      481
+                    ]
+                  },
+                  {
+                    "item_word5": 482,
+                    "item_word6": -1,
+                    "ids": [
+                      482
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "Wand",
+        "family": "Wand",
+        "stance": 3,
+        "item_swoosh_pairs": [
+          [
+            478,
+            -1
+          ],
+          [
+            479,
+            -1
+          ],
+          [
+            480,
+            -1
+          ],
+          [
+            481,
+            -1
+          ],
+          [
+            482,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 251,
+            "sequence_name": "Human_Attack_03_Staff",
+            "leaves": [
+              {
+                "seq": 651,
+                "seq_name": "StaffAttack01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": 478,
+                    "item_word6": -1,
+                    "ids": [
+                      478
+                    ]
+                  },
+                  {
+                    "item_word5": 479,
+                    "item_word6": -1,
+                    "ids": [
+                      479
+                    ]
+                  },
+                  {
+                    "item_word5": 480,
+                    "item_word6": -1,
+                    "ids": [
+                      480
+                    ]
+                  },
+                  {
+                    "item_word5": 481,
+                    "item_word6": -1,
+                    "ids": [
+                      481
+                    ]
+                  },
+                  {
+                    "item_word5": 482,
+                    "item_word6": -1,
+                    "ids": [
+                      482
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 246,
+            "sequence_name": "Human_AttackStatic_03_Staff",
+            "leaves": [
+              {
+                "seq": 654,
+                "seq_name": "StaffAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": true,
+                "variants": [
+                  {
+                    "item_word5": 478,
+                    "item_word6": -1,
+                    "ids": [
+                      478
+                    ]
+                  },
+                  {
+                    "item_word5": 479,
+                    "item_word6": -1,
+                    "ids": [
+                      479
+                    ]
+                  },
+                  {
+                    "item_word5": 480,
+                    "item_word6": -1,
+                    "ids": [
+                      480
+                    ]
+                  },
+                  {
+                    "item_word5": 481,
+                    "item_word6": -1,
+                    "ids": [
+                      481
+                    ]
+                  },
+                  {
+                    "item_word5": 482,
+                    "item_word6": -1,
+                    "ids": [
+                      482
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {}
+      },
+      {
+        "label": "Bow",
+        "family": "Bow",
+        "stance": 4,
+        "item_swoosh_pairs": [
+          [
+            -1,
+            -1
+          ]
+        ],
+        "states": {
+          "Attack": {
+            "sequence_id": 252,
+            "sequence_name": "Human_Attack_05_Bow",
+            "leaves": [
+              {
+                "seq": 94,
+                "seq_name": "BowAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 95,
+                "seq_name": "BowAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 96,
+                "seq_name": "BowAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          },
+          "AttackStatic": {
+            "sequence_id": 247,
+            "sequence_name": "Human_AttackStatic_05_Bow",
+            "leaves": [
+              {
+                "seq": 94,
+                "seq_name": "BowAttackStatic01",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 95,
+                "seq_name": "BowAttackStatic02",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              },
+              {
+                "seq": 96,
+                "seq_name": "BowAttackStatic03",
+                "step": 0,
+                "step_sound": -1,
+                "swoosh": false,
+                "variants": [
+                  {
+                    "item_word5": -1,
+                    "item_word6": -1,
+                    "ids": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sfx_markers": {
+          "sfx_sfx_mc_shoot_arrow": {
+            "clips": [
+              "prince_ranged_attack.bdae",
+              "prince_ranged_attack_02.bdae",
+              "prince_ranged_attack_03.bdae"
+            ],
+            "source_name": "sfx_mc_shoot_arrow",
+            "source_id": 491
+          }
+        }
+      }
+    ],
+    "ids_used": [
+      28,
+      29,
+      30,
+      31,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      232,
+      233,
+      289,
+      291,
+      292,
+      293,
+      478,
+      479,
+      480,
+      481,
+      482,
+      491,
+      598,
+      599
+    ],
+    "offhand_item_swoosh_pairs": {
+      "Shield": [
+        [
+          -1,
+          -1
+        ]
+      ],
+      "Dagger": [
+        [
+          -1,
+          -1
+        ]
+      ],
+      "Claw": [
+        [
+          -1,
+          -1
+        ]
+      ]
+    },
+    "block": {
+      "sequence_ids": [
+        253
+      ],
+      "leaves": [
+        [
+          {
+            "seq": 253,
+            "seq_name": "Human_BLOCK_00_1H",
+            "step": 0,
+            "sound": -1,
+            "swoosh": false,
+            "fx": -1,
+            "clip_index": 991
+          }
+        ]
+      ]
+    },
+    "bare_hand": {
+      "Attack+5": {
+        "id": 253,
+        "name": "Human_BLOCK_00_1H"
+      },
+      "AttackStatic+5": {
+        "id": 248,
+        "name": "Human_Attack_00_1H"
+      },
+      "UnarmedAttack_sequences": [
+        743,
+        744
+      ],
+      "player_tables_referencing_unarmed": [],
+      "all_char_tables_referencing_unarmed": []
+    },
+    "charsounds": [
+      {
+        "row": 0,
+        "name": "AAA_DONT_DELETE",
+        "flesh_flag": 0,
+        "metal_flag": 0,
+        "lists": {
+          "death": [],
+          "hit": [],
+          "impact1": [],
+          "impact2": []
+        }
+      },
+      {
+        "row": 1,
+        "name": "ArmoredHuman",
+        "flesh_flag": 0,
+        "metal_flag": 1,
+        "lists": {
+          "death": [
+            28
+          ],
+          "hit": [
+            29,
+            30,
+            31
+          ],
+          "impact1": [
+            120,
+            121,
+            122
+          ],
+          "impact2": [
+            117,
+            118,
+            119
+          ]
+        }
+      },
+      {
+        "row": 2,
+        "name": "Default",
+        "flesh_flag": 1,
+        "metal_flag": 0,
+        "lists": {
+          "death": [],
+          "hit": [],
+          "impact1": [],
+          "impact2": []
+        }
+      }
+    ],
+    "projectiles": [
+      {
+        "name": "BowProjectile",
+        "row": 10,
+        "impact_type1": -1,
+        "impact_default": 291,
+        "impact_type2_3": 292
+      },
+      {
+        "name": "ArrowDefault",
+        "row": 3,
+        "impact_type1": -1,
+        "impact_default": 291,
+        "impact_type2_3": 292
+      },
+      {
+        "name": "ArrowMagic",
+        "row": 5,
+        "impact_type1": -1,
+        "impact_default": 291,
+        "impact_type2_3": 292
+      },
+      {
+        "name": "ArrowPinShot",
+        "row": 6,
+        "impact_type1": -1,
+        "impact_default": 291,
+        "impact_type2_3": 292
+      },
+      {
+        "name": "FireWandProjectile",
+        "row": 20,
+        "impact_type1": -1,
+        "impact_default": -1,
+        "impact_type2_3": -1
+      },
+      {
+        "name": "EarthWandProjectile",
+        "row": 15,
+        "impact_type1": -1,
+        "impact_default": -1,
+        "impact_type2_3": -1
+      },
+      {
+        "name": "WaterWandProjectile",
+        "row": 38,
+        "impact_type1": -1,
+        "impact_default": -1,
+        "impact_type2_3": -1
+      },
+      {
+        "name": "AirWandProjectile",
+        "row": 2,
+        "impact_type1": -1,
+        "impact_default": -1,
+        "impact_type2_3": -1
+      },
+      {
+        "name": "LightningWandProjectile",
+        "row": 23,
+        "impact_type1": -1,
+        "impact_default": -1,
+        "impact_type2_3": -1
+      }
+    ],
+    "id_usage": {
+      "232": {
+        "name": "WeaponSwoosh1",
+        "anim_steps_any_sequence": 8,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "233": {
+        "name": "WeaponSwoosh2",
+        "anim_steps_any_sequence": 6,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "248": {
+        "name": "env_character_block",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "249": {
+        "name": "env_character_hurt",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "289": {
+        "name": "env_weapon_1h",
+        "anim_steps_any_sequence": 6,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "290": {
+        "name": "env_weapon_2h",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "293": {
+        "name": "env_weapon_dual",
+        "anim_steps_any_sequence": 4,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "294": {
+        "name": "env_weapon_staff",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "491": {
+        "name": "sfx_mc_shoot_arrow",
+        "anim_steps_any_sequence": 1,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "598": {
+        "name": "sfx_swoosh_dagger_1",
+        "anim_steps_any_sequence": 2,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "599": {
+        "name": "sfx_swoosh_dagger_2",
+        "anim_steps_any_sequence": 2,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "600": {
+        "name": "sfx_swoosh_staff_1",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "601": {
+        "name": "sfx_swoosh_staff_2",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "291": {
+        "name": "env_weapon_arrow_hit",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 7
+      },
+      "292": {
+        "name": "env_weapon_arrow_miss",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 0,
+        "charsounds_lists": 0,
+        "projectile_fields": 13
+      },
+      "478": {
+        "name": "sfx_mage_staff_elemental_earth",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 22,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "479": {
+        "name": "sfx_mage_staff_elemental_fire",
+        "anim_steps_any_sequence": 1,
+        "item_word5_any_item": 18,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "480": {
+        "name": "sfx_mage_staff_elemental_ice",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 19,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "481": {
+        "name": "sfx_mage_staff_elemental_lightning",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 21,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      },
+      "482": {
+        "name": "sfx_mage_staff_elemental_wind",
+        "anim_steps_any_sequence": 0,
+        "item_word5_any_item": 16,
+        "charsounds_lists": 0,
+        "projectile_fields": 0
+      }
+    },
+    "ids_resolved": {
+      "28": {
+        "id": 28,
+        "kind": "sound",
+        "name": "CharacterDie",
+        "uid": 50,
+        "files": [
+          {
+            "uid": 50,
+            "file": "sfx_character_death.wav",
+            "present": true
+          }
+        ]
+      },
+      "29": {
+        "id": 29,
+        "kind": "sound",
+        "name": "CharacterHurt1",
+        "uid": 38,
+        "files": [
+          {
+            "uid": 38,
+            "file": "sfx_character_hurt_1.wav",
+            "present": true
+          }
+        ]
+      },
+      "30": {
+        "id": 30,
+        "kind": "sound",
+        "name": "CharacterHurt2",
+        "uid": 39,
+        "files": [
+          {
+            "uid": 39,
+            "file": "sfx_character_hurt_2_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "31": {
+        "id": 31,
+        "kind": "sound",
+        "name": "CharacterHurt3",
+        "uid": 40,
+        "files": [
+          {
+            "uid": 40,
+            "file": "sfx_character_hurt_3_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "117": {
+        "id": 117,
+        "kind": "sound",
+        "name": "ImpactMetal1",
+        "uid": 41,
+        "files": [
+          {
+            "uid": 41,
+            "file": "sfx_impactl_metal_1_22.wav",
+            "present": false
+          }
+        ]
+      },
+      "118": {
+        "id": 118,
+        "kind": "sound",
+        "name": "ImpactMetal2",
+        "uid": 42,
+        "files": [
+          {
+            "uid": 42,
+            "file": "sfx_impact_metal_metal_2.wav",
+            "present": false
+          }
+        ]
+      },
+      "119": {
+        "id": 119,
+        "kind": "sound",
+        "name": "ImpactMetal3",
+        "uid": 43,
+        "files": [
+          {
+            "uid": 43,
+            "file": "sfx_impact_metal_3_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "120": {
+        "id": 120,
+        "kind": "sound",
+        "name": "ImpactMetalFlesh1",
+        "uid": 44,
+        "files": [
+          {
+            "uid": 44,
+            "file": "sfx_impact_metal_flesh_1_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "121": {
+        "id": 121,
+        "kind": "sound",
+        "name": "ImpactMetalFlesh2",
+        "uid": 45,
+        "files": [
+          {
+            "uid": 45,
+            "file": "sfx_impact_metal_flesh_2.wav",
+            "present": true
+          }
+        ]
+      },
+      "122": {
+        "id": 122,
+        "kind": "sound",
+        "name": "ImpactMetalFlesh3",
+        "uid": 46,
+        "files": [
+          {
+            "uid": 46,
+            "file": "sfx_impact_metal_flesh_3_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "232": {
+        "id": 232,
+        "kind": "sound",
+        "name": "WeaponSwoosh1",
+        "uid": 22,
+        "files": [
+          {
+            "uid": 22,
+            "file": "sfx_swoosh_sword_1_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "233": {
+        "id": 233,
+        "kind": "sound",
+        "name": "WeaponSwoosh2",
+        "uid": 23,
+        "files": [
+          {
+            "uid": 23,
+            "file": "sfx_swoosh_sword_2_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "289": {
+        "id": 289,
+        "kind": "event",
+        "name": "env_weapon_1h",
+        "uid": 6,
+        "event_label": "env_weapon_1h",
+        "event_type": "random",
+        "files": [
+          {
+            "uid": 22,
+            "file": "sfx_swoosh_sword_1_22.wav",
+            "present": true
+          },
+          {
+            "uid": 23,
+            "file": "sfx_swoosh_sword_2_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "291": {
+        "id": 291,
+        "kind": "event",
+        "name": "env_weapon_arrow_hit",
+        "uid": 10,
+        "event_label": "env_weapon_arrow_hit",
+        "event_type": "random",
+        "files": [
+          {
+            "uid": 53,
+            "file": "sfx_impact_arrow_flesh_1_22.wav",
+            "present": true
+          },
+          {
+            "uid": 54,
+            "file": "sfx_impact_arrow_flesh_2_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "292": {
+        "id": 292,
+        "kind": "event",
+        "name": "env_weapon_arrow_miss",
+        "uid": 11,
+        "event_label": "env_weapon_arrow_miss",
+        "event_type": "random",
+        "files": [
+          {
+            "uid": 56,
+            "file": "sfx_impact_arrow_object_1_22.wav",
+            "present": true
+          },
+          {
+            "uid": 57,
+            "file": "sfx_impact_arrow_object_2_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "293": {
+        "id": 293,
+        "kind": "event",
+        "name": "env_weapon_dual",
+        "uid": 8,
+        "event_label": "env_weapon_dual",
+        "event_type": "random",
+        "files": [
+          {
+            "uid": 24,
+            "file": "sfx_swoosh_dagger_1_22.wav",
+            "present": true
+          },
+          {
+            "uid": 25,
+            "file": "sfx_swoosh_dagger_2_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "478": {
+        "id": 478,
+        "kind": "sound",
+        "name": "sfx_mage_staff_elemental_earth",
+        "uid": 31,
+        "files": [
+          {
+            "uid": 31,
+            "file": "sfx_mage_staff_elemental_thunder_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "479": {
+        "id": 479,
+        "kind": "sound",
+        "name": "sfx_mage_staff_elemental_fire",
+        "uid": 29,
+        "files": [
+          {
+            "uid": 29,
+            "file": "sfx_mage_staff_elemental_thunder_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "480": {
+        "id": 480,
+        "kind": "sound",
+        "name": "sfx_mage_staff_elemental_ice",
+        "uid": 30,
+        "files": [
+          {
+            "uid": 30,
+            "file": "sfx_mage_staff_elemental_thunder_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "481": {
+        "id": 481,
+        "kind": "sound",
+        "name": "sfx_mage_staff_elemental_lightning",
+        "uid": 33,
+        "files": [
+          {
+            "uid": 33,
+            "file": "sfx_mage_staff_elemental_thunder_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "482": {
+        "id": 482,
+        "kind": "sound",
+        "name": "sfx_mage_staff_elemental_wind",
+        "uid": 32,
+        "files": [
+          {
+            "uid": 32,
+            "file": "sfx_mage_staff_elemental_thunder_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "491": {
+        "id": 491,
+        "kind": "sound",
+        "name": "sfx_mc_shoot_arrow",
+        "uid": 28,
+        "files": [
+          {
+            "uid": 28,
+            "file": "sfx_mc_shoot_arrow_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "598": {
+        "id": 598,
+        "kind": "sound",
+        "name": "sfx_swoosh_dagger_1",
+        "uid": 24,
+        "files": [
+          {
+            "uid": 24,
+            "file": "sfx_swoosh_dagger_1_22.wav",
+            "present": true
+          }
+        ]
+      },
+      "599": {
+        "id": 599,
+        "kind": "sound",
+        "name": "sfx_swoosh_dagger_2",
+        "uid": 25,
+        "files": [
+          {
+            "uid": 25,
+            "file": "sfx_swoosh_dagger_2_22.wav",
+            "present": true
+          }
+        ]
+      }
+    },
+    "ledger_check": {
+      "rows": 638,
+      "agree": 638,
+      "disagree": []
+    },
+    "claim_failures": []
+  }
 }
