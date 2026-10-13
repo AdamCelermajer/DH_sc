@@ -1,8 +1,128 @@
 {
   "act": "act_2_inferred",
-  "count": 552,
+  "count": 622,
   "kind": "script",
   "rows": [
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 3753,
+        "character_offset": 3753,
+        "element": "GameObject",
+        "element_index": 13,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "line": 162
+      },
+      "id": "91d7d84913e7c664cd47",
+      "kind": "script",
+      "name": "PlayerReturn1",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "91d7d84913e7c664cd47",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp:162:attribute@3753:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 4199,
+        "character_offset": 4199,
+        "element": "GameObject",
+        "element_index": 14,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "line": 180
+      },
+      "id": "c86a9e813a0cec2484ca",
+      "kind": "script",
+      "name": "PlayerReturn1",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "c86a9e813a0cec2484ca",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp:180:attribute@4199:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 4686,
+        "character_offset": 4686,
+        "element": "GameObject",
+        "element_index": 15,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "line": 199
+      },
+      "id": "bf12c6a6b4326ec3fdfb",
+      "kind": "script",
+      "name": "AssassinIntro",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "bf12c6a6b4326ec3fdfb",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp:199:attribute@4686:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 5335,
+        "character_offset": 5335,
+        "element": "GameObject",
+        "element_index": 17,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "line": 226
+      },
+      "id": "072384d74db37dbecf11",
+      "kind": "script",
+      "name": "Door_Teleport",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "072384d74db37dbecf11",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp:226:attribute@5335:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
     {
       "act": "act_2_inferred",
       "candidates": [],
@@ -1058,6 +1178,928 @@
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_straight_d_ew_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_straight_d_ew_01.mgp:74:attribute@2042:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 2809,
+        "character_offset": 2809,
+        "element": "GameObject",
+        "element_index": 8,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_01.mgp",
+        "line": 108
+      },
+      "id": "192097abe55db5269d01",
+      "kind": "script",
+      "name": "SlimeAmbush",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "192097abe55db5269d01",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_01.mgp:108:attribute@2809:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 2260,
+        "character_offset": 2260,
+        "element": "GameObject",
+        "element_index": 7,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_01.mgp",
+        "line": 87
+      },
+      "id": "ec2a9d0d3cee754cf1d4",
+      "kind": "script",
+      "name": "crypt2_deadend_n_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "ec2a9d0d3cee754cf1d4",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_01.mgp:87:attribute@2260:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 1726,
+        "character_offset": 1726,
+        "element": "GameObject",
+        "element_index": 5,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+        "line": 66
+      },
+      "id": "70946a556fb5d0114810",
+      "kind": "script",
+      "name": "crypt2_deadend_n_002_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "70946a556fb5d0114810",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp:66:attribute@1726:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 2193,
+        "character_offset": 2193,
+        "element": "GameObject",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+        "line": 84
+      },
+      "id": "1d71824783aa48dafa38",
+      "kind": "script",
+      "name": "crypt2_deadend_n_002_closedoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "1d71824783aa48dafa38",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp:84:attribute@2193:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 2969,
+        "character_offset": 2969,
+        "element": "GameObject",
+        "element_index": 7,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+        "line": 119
+      },
+      "id": "7230301a9a1d55a91585",
+      "kind": "script",
+      "name": "crypt2_boss_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "7230301a9a1d55a91585",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+        "C source edge 020_crypt_02.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp:119:attribute@2969:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 396,
+        "character_offset": 396,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_sew_01.mgp",
+        "line": 17
+      },
+      "id": "295e8aad66fae6c8dec7",
+      "kind": "script",
+      "name": "script_name",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "295e8aad66fae6c8dec7",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_sew_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_sew_01.mgp:17:attribute@396:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 1049,
+        "character_offset": 1049,
+        "element": "GameObject",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_sew_01.mgp",
+        "line": 42
+      },
+      "id": "18e179c396c399b38c88",
+      "kind": "script",
+      "name": "Tutorial_Shrine",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "18e179c396c399b38c88",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_sew_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_t_sew_01.mgp:42:attribute@1049:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptOff",
+        "byte_offset": 6350,
+        "character_offset": 6350,
+        "element": "GameObject",
+        "element_index": 15,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 226
+      },
+      "id": "61496cf0134699b1b18e",
+      "kind": "script",
+      "name": "SwitchOpen",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "61496cf0134699b1b18e",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:226:attribute@6350:scriptOff",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 6848,
+        "character_offset": 6848,
+        "element": "GameObject",
+        "element_index": 16,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 247
+      },
+      "id": "142bed4ab69fee0ecf56",
+      "kind": "script",
+      "name": "WalkingTutorial",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "142bed4ab69fee0ecf56",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:247:attribute@6848:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 10228,
+        "character_offset": 10228,
+        "element": "GameObject",
+        "element_index": 26,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 378
+      },
+      "id": "087f76951023b9528d4a",
+      "kind": "script",
+      "name": "SewerStart",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "087f76951023b9528d4a",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:378:attribute@10228:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 10729,
+        "character_offset": 10729,
+        "element": "GameObject",
+        "element_index": 27,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 398
+      },
+      "id": "761760d41d2f9972fd2a",
+      "kind": "script",
+      "name": "SwitchOpen",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "761760d41d2f9972fd2a",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:398:attribute@10729:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 540,
+        "character_offset": 540,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp",
+        "line": 22
+      },
+      "id": "f36b9197681fe330cc2d",
+      "kind": "script",
+      "name": "corner_ne_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "f36b9197681fe330cc2d",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp:22:attribute@540:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 6525,
+        "character_offset": 6525,
+        "element": "GameObject",
+        "element_index": 17,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp",
+        "line": 262
+      },
+      "id": "3f58d9fe58928f227d48",
+      "kind": "script",
+      "name": "corner_ne_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "3f58d9fe58928f227d48",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp:262:attribute@6525:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 434,
+        "character_offset": 434,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+        "line": 18
+      },
+      "id": "757ec17b8bfb6c216206",
+      "kind": "script",
+      "name": "corner_ne_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "757ec17b8bfb6c216206",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp:18:attribute@434:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 541,
+        "character_offset": 541,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp",
+        "line": 22
+      },
+      "id": "f497a524ebcddafd4166",
+      "kind": "script",
+      "name": "corner_ne_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "f497a524ebcddafd4166",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp:22:attribute@541:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 6063,
+        "character_offset": 6063,
+        "element": "GameObject",
+        "element_index": 17,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp",
+        "line": 246
+      },
+      "id": "a7d33283df250ffa3fc7",
+      "kind": "script",
+      "name": "corner_ne_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "a7d33283df250ffa3fc7",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp:246:attribute@6063:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 3462,
+        "character_offset": 3462,
+        "element": "GameObject",
+        "element_index": 7,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp",
+        "line": 125
+      },
+      "id": "60a760c281cc06729949",
+      "kind": "script",
+      "name": "corner_se_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "60a760c281cc06729949",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp:125:attribute@3462:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 4007,
+        "character_offset": 4007,
+        "element": "GameObject",
+        "element_index": 8,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp",
+        "line": 147
+      },
+      "id": "597a6336f16473ad09f6",
+      "kind": "script",
+      "name": "corner_se_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "597a6336f16473ad09f6",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp:147:attribute@4007:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 1335,
+        "character_offset": 1335,
+        "element": "GameObject",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_n_01.mgp",
+        "line": 52
+      },
+      "id": "4444406858744a0732d9",
+      "kind": "script",
+      "name": "crypt2_deadend_n_001_opendoor",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "4444406858744a0732d9",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_deadend_n_01.mgp:52:attribute@1335:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptOff",
+        "byte_offset": 2531,
+        "character_offset": 2531,
+        "element": "GameObject",
+        "element_index": 7,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "line": 103
+      },
+      "id": "8f5b78efe4b6e5a74b1a",
+      "kind": "script",
+      "name": "Gate2Open",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "8f5b78efe4b6e5a74b1a",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp:103:attribute@2531:scriptOff",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 8970,
+        "character_offset": 8970,
+        "element": "GameObject",
+        "element_index": 23,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "line": 352
+      },
+      "id": "2a419e34d1898cc37bb8",
+      "kind": "script",
+      "name": "GhostAmbush01",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "2a419e34d1898cc37bb8",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp:352:attribute@8970:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptOff",
+        "byte_offset": 2124,
+        "character_offset": 2124,
+        "element": "GameObject",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "line": 86
+      },
+      "id": "01fa1942a583a270c8c5",
+      "kind": "script",
+      "name": "Gate1Open",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "01fa1942a583a270c8c5",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp:86:attribute@2124:scriptOff",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptOff",
+        "byte_offset": 2500,
+        "character_offset": 2500,
+        "element": "GameObject",
+        "element_index": 7,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "line": 102
+      },
+      "id": "57907f92659c96b0c8aa",
+      "kind": "script",
+      "name": "Gate2Open",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "57907f92659c96b0c8aa",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp:102:attribute@2500:scriptOff",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptOff",
+        "byte_offset": 2093,
+        "character_offset": 2093,
+        "element": "GameObject",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "line": 85
+      },
+      "id": "1e8b83dd6bacafe5ce5e",
+      "kind": "script",
+      "name": "Gate1Open",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "1e8b83dd6bacafe5ce5e",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp:85:attribute@2093:scriptOff",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptOff",
+        "byte_offset": 2929,
+        "character_offset": 2929,
+        "element": "GameObject",
+        "element_index": 9,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "line": 121
+      },
+      "id": "065012756b0fe7ab4925",
+      "kind": "script",
+      "name": "Gate1Open",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "065012756b0fe7ab4925",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:121:attribute@2929:scriptOff",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptOff",
+        "byte_offset": 3336,
+        "character_offset": 3336,
+        "element": "GameObject",
+        "element_index": 10,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "line": 138
+      },
+      "id": "d31d5eb5fdac4563e466",
+      "kind": "script",
+      "name": "Gate2Open",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "d31d5eb5fdac4563e466",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:138:attribute@3336:scriptOff",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 10060,
+        "character_offset": 10060,
+        "element": "GameObject",
+        "element_index": 26,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "line": 391
+      },
+      "id": "a90463fd72d89cb5ea16",
+      "kind": "script",
+      "name": "GhostAmbush03",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "a90463fd72d89cb5ea16",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:391:attribute@10060:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 10514,
+        "character_offset": 10514,
+        "element": "GameObject",
+        "element_index": 27,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "line": 409
+      },
+      "id": "790dd24ecb11e9a8f311",
+      "kind": "script",
+      "name": "GhostAmbush04",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "790dd24ecb11e9a8f311",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp:409:attribute@10514:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 2958,
+        "character_offset": 2958,
+        "element": "GameObject",
+        "element_index": 5,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_ns_01.mgp",
+        "line": 108
+      },
+      "id": "776a34950656db310810",
+      "kind": "script",
+      "name": "GhostAmbushHallway",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "776a34950656db310810",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_ns_01.mgp:108:attribute@2958:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 405,
+        "character_offset": 405,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp",
+        "line": 17
+      },
+      "id": "5c241b2103b1a748ee2d",
+      "kind": "script",
+      "name": "script_name",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5c241b2103b1a748ee2d",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp:17:attribute@405:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 1571,
+        "character_offset": 1571,
+        "element": "GameObject",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp",
+        "line": 63
+      },
+      "id": "1af1223e337c503a4bc1",
+      "kind": "script",
+      "name": "Tutorial_Shrine",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "1af1223e337c503a4bc1",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp:63:attribute@1571:script",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -4238,6 +5280,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp:24:attribute@583:script",
@@ -4268,9 +5311,76 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp:64:attribute@1562:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 583,
+        "character_offset": 583,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "line": 24
+      },
+      "id": "45ecd1d0b742b1473c7c",
+      "kind": "script",
+      "name": "TeleportTo_Level10bModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "45ecd1d0b742b1473c7c",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C source edge 019_light_house_02.rule.xml -> 019_light_house_03.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_03.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp:24:attribute@583:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 8522,
+        "character_offset": 8522,
+        "element": "GameObject",
+        "element_index": 23,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "line": 309
+      },
+      "id": "2ffee1e6da558ce848e3",
+      "kind": "script",
+      "name": "script_name",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "2ffee1e6da558ce848e3",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C source edge 019_light_house_02.rule.xml -> 019_light_house_03.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_03.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp:309:attribute@8522:script",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -4298,6 +5408,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp:24:attribute@587:script",
@@ -4328,6 +5439,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp:463:attribute@12873:script",
@@ -4358,6 +5470,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp:86:attribute@2097:script",
@@ -4388,6 +5501,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp:24:attribute@582:script",
@@ -4418,6 +5532,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp:86:attribute@2086:script",
@@ -4448,6 +5563,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp:24:attribute@578:script",
@@ -4478,6 +5594,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp:455:attribute@12398:script",
@@ -4508,6 +5625,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp:64:attribute@1557:script",
@@ -4538,6 +5656,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp:24:attribute@582:script",
@@ -4568,6 +5687,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp:86:attribute@2086:script",
@@ -4598,6 +5718,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp:24:attribute@582:script",
@@ -4628,6 +5749,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp:494:attribute@13611:script",
@@ -4658,6 +5780,7 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp:24:attribute@578:script",
@@ -4688,9 +5811,97 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp:64:attribute@1557:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 582,
+        "character_offset": 582,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+        "line": 24
+      },
+      "id": "1580526beef85762da7a",
+      "kind": "script",
+      "name": "TeleportTo_Level4bModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "1580526beef85762da7a",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp:24:attribute@582:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 14867,
+        "character_offset": 14867,
+        "element": "GameObject",
+        "element_index": 35,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+        "line": 526
+      },
+      "id": "ec5ae4adb14eb8e950f8",
+      "kind": "script",
+      "name": "script_name",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "ec5ae4adb14eb8e950f8",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp:526:attribute@14867:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 2086,
+        "character_offset": 2086,
+        "element": "GameObject",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+        "line": 86
+      },
+      "id": "b3c04ba535f57cdd2ad8",
+      "kind": "script",
+      "name": "TeleportTo_Level6aModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "b3c04ba535f57cdd2ad8",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp:86:attribute@2086:script",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -4718,7 +5929,9 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp:24:attribute@582:script",
@@ -4749,10 +5962,479 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp:430:attribute@11687:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 1636,
+        "character_offset": 1636,
+        "element": "GameObject",
+        "element_index": 5,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "line": 68
+      },
+      "id": "05a459ab746f182dae4e",
+      "kind": "script",
+      "name": "TeleportTo_Level8aModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "05a459ab746f182dae4e",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "C source edge 019_light_house_02.rule.xml -> 019_light_house_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp:68:attribute@1636:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 582,
+        "character_offset": 582,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "line": 24
+      },
+      "id": "b5eff366c01ed38c580e",
+      "kind": "script",
+      "name": "TeleportTo_Level7bModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "b5eff366c01ed38c580e",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp:24:attribute@582:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 12679,
+        "character_offset": 12679,
+        "element": "GameObject",
+        "element_index": 31,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "line": 455
+      },
+      "id": "5c437aa9ced81e3329b4",
+      "kind": "script",
+      "name": "TeleportTo_Level9aModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5c437aa9ced81e3329b4",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp:455:attribute@12679:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 12947,
+        "character_offset": 12947,
+        "element": "GameObject",
+        "element_index": 32,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "line": 466
+      },
+      "id": "80ceed522e7959cf48f2",
+      "kind": "script",
+      "name": "script_name",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "80ceed522e7959cf48f2",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp:466:attribute@12947:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 582,
+        "character_offset": 582,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "line": 24
+      },
+      "id": "e95a92ac1c32ef23b435",
+      "kind": "script",
+      "name": "TeleportTo_Level8bModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "e95a92ac1c32ef23b435",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp:24:attribute@582:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 10908,
+        "character_offset": 10908,
+        "element": "GameObject",
+        "element_index": 26,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "line": 387
+      },
+      "id": "ac638efe850b2763fc3a",
+      "kind": "script",
+      "name": "script_name",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "ac638efe850b2763fc3a",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp:387:attribute@10908:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 11539,
+        "character_offset": 11539,
+        "element": "GameObject",
+        "element_index": 27,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "line": 412
+      },
+      "id": "5a00a1b6188d8e4d7a8f",
+      "kind": "script",
+      "name": "TeleportTo_Level10aModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5a00a1b6188d8e4d7a8f",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp:412:attribute@11539:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 578,
+        "character_offset": 578,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+        "line": 24
+      },
+      "id": "3f55432adba156c47166",
+      "kind": "script",
+      "name": "TeleportTo_Level10aModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "3f55432adba156c47166",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp:24:attribute@578:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 1558,
+        "character_offset": 1558,
+        "element": "GameObject",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+        "line": 64
+      },
+      "id": "74e2d4e5ce1978097859",
+      "kind": "script",
+      "name": "TeleportTo_Level8bModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "74e2d4e5ce1978097859",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp:64:attribute@1558:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 582,
+        "character_offset": 582,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+        "line": 24
+      },
+      "id": "719e6e2cf71762fec603",
+      "kind": "script",
+      "name": "TeleportTo_Level8bModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "719e6e2cf71762fec603",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp:24:attribute@582:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 7729,
+        "character_offset": 7729,
+        "element": "GameObject",
+        "element_index": 19,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+        "line": 285
+      },
+      "id": "0d664b31ffa838f6c4bd",
+      "kind": "script",
+      "name": "TeleportTo_Level10aModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "0d664b31ffa838f6c4bd",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp:285:attribute@7729:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 582,
+        "character_offset": 582,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+        "line": 24
+      },
+      "id": "5b713ececb196e86398a",
+      "kind": "script",
+      "name": "TeleportTo_Level9bModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5b713ececb196e86398a",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp:24:attribute@582:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 11007,
+        "character_offset": 11007,
+        "element": "GameObject",
+        "element_index": 26,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+        "line": 405
+      },
+      "id": "b8de5b0b615045f0d061",
+      "kind": "script",
+      "name": "TeleportTo_EndModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "b8de5b0b615045f0d061",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp:405:attribute@11007:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 582,
+        "character_offset": 582,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+        "line": 24
+      },
+      "id": "5b803551794c8a4b1d30",
+      "kind": "script",
+      "name": "TeleportTo_Level9bModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5b803551794c8a4b1d30",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp:24:attribute@582:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 2090,
+        "character_offset": 2090,
+        "element": "GameObject",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+        "line": 86
+      },
+      "id": "6dd5e6195924b166b1f1",
+      "kind": "script",
+      "name": "TeleportTo_EndModule",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "6dd5e6195924b166b1f1",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp:86:attribute@2090:script",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -4780,7 +6462,9 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp:33:attribute@830:script",
@@ -4811,7 +6495,9 @@
       "rule": "XML_ATTRIBUTE",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp:51:attribute@1287:script",
@@ -5331,6 +7017,94 @@
       "confidence": "PROVEN",
       "context": {
         "attribute": "script",
+        "byte_offset": 1131,
+        "character_offset": 1131,
+        "element": "GameObject",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_t_merchant_sew_01.mgp",
+        "line": 43
+      },
+      "id": "6d7718006c9bd52e52a3",
+      "kind": "script",
+      "name": "Epic_hello",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "6d7718006c9bd52e52a3",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 006_basement.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_t_merchant_sew_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_t_merchant_sew_01.mgp:43:attribute@1131:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 4089,
+        "character_offset": 4089,
+        "element": "GameObject",
+        "element_index": 9,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/deadend_rootden_w__01.mgp",
+        "line": 160
+      },
+      "id": "f9e1c7bdbdfbac17bb3d",
+      "kind": "script",
+      "name": "Epic_hello",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "f9e1c7bdbdfbac17bb3d",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 004_root_den.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/deadend_rootden_w__01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/deadend_rootden_w__01.mgp:160:attribute@4089:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 1762,
+        "character_offset": 1762,
+        "element": "GameObject",
+        "element_index": 5,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+        "line": 66
+      },
+      "id": "0e6e348a256071a467b0",
+      "kind": "script",
+      "name": "enterLocation_RootDen",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "0e6e348a256071a467b0",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 004_root_den.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+        "C source edge 004_root_den.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp:66:attribute@1762:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
         "byte_offset": 3333,
         "character_offset": 3333,
         "element": "GameObject",
@@ -5720,6 +7494,155 @@
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp:82:attribute@2164:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 3877,
+        "character_offset": 3877,
+        "element": "GameObject",
+        "element_index": 9,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_03.mgp",
+        "line": 137
+      },
+      "id": "2c61796ca6a924ddb957",
+      "kind": "script",
+      "name": "script_name",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "2c61796ca6a924ddb957",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_corner_ne_03.mgp:137:attribute@3877:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 3867,
+        "character_offset": 3867,
+        "element": "GameObject",
+        "element_index": 11,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "line": 158
+      },
+      "id": "9907d650b12997b2b189",
+      "kind": "script",
+      "name": "eddie_hide",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "9907d650b12997b2b189",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp:158:attribute@3867:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 7868,
+        "character_offset": 7868,
+        "element": "GameObject",
+        "element_index": 22,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "line": 321
+      },
+      "id": "7ca23f80c0df93e58fad",
+      "kind": "script",
+      "name": "open_edward_gate",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "7ca23f80c0df93e58fad",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp:321:attribute@7868:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 2014,
+        "character_offset": 2014,
+        "element": "GameObject",
+        "element_index": 5,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "line": 84
+      },
+      "id": "c30fda2ed00ebc5a0854",
+      "kind": "script",
+      "name": "edward_intro",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "c30fda2ed00ebc5a0854",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp:84:attribute@2014:script",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "script",
+        "byte_offset": 426,
+        "character_offset": 426,
+        "element": "GameObject",
+        "element_index": 1,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+        "line": 18
+      },
+      "id": "137197a614a8fe46d80e",
+      "kind": "script",
+      "name": "ReneHide",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "137197a614a8fe46d80e",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp:18:attribute@426:script",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -7681,6 +9604,59 @@
         "CharacterProperties row 138 Edward (0347a6a75b182724aedb); membership act_2_inferred -> AI"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=138].AI",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AI",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 13,
+        "table": "character_properties#group0"
+      },
+      "id": "8cbcd9efed7301ea5dba",
+      "kind": "script",
+      "name": "1",
+      "reason": null,
+      "reference_id": "8cbcd9efed7301ea5dba",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "AttackDelay": 800,
+              "CombatBeat": -1,
+              "CombatMusic": -1,
+              "DelayedLoad": 0,
+              "Flags": 5,
+              "InteractRadius": 250.0,
+              "LeashDistance": 1500.0,
+              "MeleeRadius": 500.0,
+              "OnAggroSFX": -1,
+              "Script": "Assassin1",
+              "SelfFX": -1,
+              "Trophy": -1,
+              "Type": 4,
+              "ViewRadius": 3000.0,
+              "ViewRadiusNoAggro": 1500.0
+            },
+            "index": 1,
+            "name": "Assassin1",
+            "table": "ai#group0"
+          },
+          "table": "ai#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AI",
+      "scope_reasons": [
+        "CharacterProperties row 13 Assassin (b8d200d97507f568654f); membership act_2_inferred -> AI"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=13].AI",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -10914,6 +12890,218 @@
         "CharacterProperties row 260 King (89309ecba5b72e7de55d); membership act_2_inferred -> AI"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=260].AI",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AI",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 266,
+        "table": "character_properties#group0"
+      },
+      "id": "b8621945a78824302518",
+      "kind": "script",
+      "name": "19",
+      "reason": null,
+      "reference_id": "b8621945a78824302518",
+      "resolves_to": [
+        {
+          "index": 19,
+          "source_row": {
+            "fields": {
+              "AttackDelay": 800,
+              "CombatBeat": -1,
+              "CombatMusic": -1,
+              "DelayedLoad": 0,
+              "Flags": 5,
+              "InteractRadius": 250.0,
+              "LeashDistance": 1500.0,
+              "MeleeRadius": 650.0,
+              "OnAggroSFX": -1,
+              "Script": "Emissary",
+              "SelfFX": -1,
+              "Trophy": -1,
+              "Type": 4,
+              "ViewRadius": 3500.0,
+              "ViewRadiusNoAggro": 4000.0
+            },
+            "index": 19,
+            "name": "Emissary",
+            "table": "ai#group0"
+          },
+          "table": "ai#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AI",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> AI"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].AI",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AI",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 268,
+        "table": "character_properties#group0"
+      },
+      "id": "1a8d1858cf24750865cd",
+      "kind": "script",
+      "name": "68",
+      "reason": null,
+      "reference_id": "1a8d1858cf24750865cd",
+      "resolves_to": [
+        {
+          "index": 68,
+          "source_row": {
+            "fields": {
+              "AttackDelay": 800,
+              "CombatBeat": -1,
+              "CombatMusic": -1,
+              "DelayedLoad": 1,
+              "Flags": 1,
+              "InteractRadius": 250.0,
+              "LeashDistance": 1500.0,
+              "MeleeRadius": 120.0,
+              "OnAggroSFX": -1,
+              "Script": "monster",
+              "SelfFX": -1,
+              "Trophy": -1,
+              "Type": 4,
+              "ViewRadius": 1500.0,
+              "ViewRadiusNoAggro": 1500.0
+            },
+            "index": 68,
+            "name": "Ugly_Dog",
+            "table": "ai#group0"
+          },
+          "table": "ai#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AI",
+      "scope_reasons": [
+        "CharacterProperties row 268 Lighthouse_Ghost_Champion (2770426a1d30696ab79f); membership act_2_inferred -> AI"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=268].AI",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AI",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 270,
+        "table": "character_properties#group0"
+      },
+      "id": "7e33cfb73e6b47897200",
+      "kind": "script",
+      "name": "68",
+      "reason": null,
+      "reference_id": "7e33cfb73e6b47897200",
+      "resolves_to": [
+        {
+          "index": 68,
+          "source_row": {
+            "fields": {
+              "AttackDelay": 800,
+              "CombatBeat": -1,
+              "CombatMusic": -1,
+              "DelayedLoad": 1,
+              "Flags": 1,
+              "InteractRadius": 250.0,
+              "LeashDistance": 1500.0,
+              "MeleeRadius": 120.0,
+              "OnAggroSFX": -1,
+              "Script": "monster",
+              "SelfFX": -1,
+              "Trophy": -1,
+              "Type": 4,
+              "ViewRadius": 1500.0,
+              "ViewRadiusNoAggro": 1500.0
+            },
+            "index": 68,
+            "name": "Ugly_Dog",
+            "table": "ai#group0"
+          },
+          "table": "ai#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AI",
+      "scope_reasons": [
+        "CharacterProperties row 270 Lighthouse_Ghost_dark (ed89241ac39f8a4efc08); membership act_2_inferred -> AI"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=270].AI",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AI",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 271,
+        "table": "character_properties#group0"
+      },
+      "id": "893ba9423de3b7c09a17",
+      "kind": "script",
+      "name": "68",
+      "reason": null,
+      "reference_id": "893ba9423de3b7c09a17",
+      "resolves_to": [
+        {
+          "index": 68,
+          "source_row": {
+            "fields": {
+              "AttackDelay": 800,
+              "CombatBeat": -1,
+              "CombatMusic": -1,
+              "DelayedLoad": 1,
+              "Flags": 1,
+              "InteractRadius": 250.0,
+              "LeashDistance": 1500.0,
+              "MeleeRadius": 120.0,
+              "OnAggroSFX": -1,
+              "Script": "monster",
+              "SelfFX": -1,
+              "Trophy": -1,
+              "Type": 4,
+              "ViewRadius": 1500.0,
+              "ViewRadiusNoAggro": 1500.0
+            },
+            "index": 68,
+            "name": "Ugly_Dog",
+            "table": "ai#group0"
+          },
+          "table": "ai#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AI",
+      "scope_reasons": [
+        "CharacterProperties row 271 Lighthouse_Ghost_dark_RE (1379e0295ad7eeb698b4); membership act_2_inferred -> AI"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=271].AI",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -15681,6 +17869,36 @@
       "confidence": "PROVEN",
       "context": {
         "attribute": "scriptFile",
+        "byte_offset": 273,
+        "character_offset": 273,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 8
+      },
+      "id": "26cf84dfe2bb767473f3",
+      "kind": "script",
+      "name": "data\\pydata\\scripts\\008_gothicus_castle_01.pyscript",
+      "reason": "FILE_MISSING",
+      "reason_code": "FILE_MISSING",
+      "reference_id": "26cf84dfe2bb767473f3",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:8:attribute@273:scriptFile",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptFile",
         "byte_offset": 272,
         "character_offset": 272,
         "element": "rules",
@@ -16061,6 +18279,36 @@
         "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml"
       ],
       "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml:8:attribute@278:scriptFile",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "scriptFile",
+        "byte_offset": 278,
+        "character_offset": 278,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 8
+      },
+      "id": "8f9347eca3b609ff13e0",
+      "kind": "script",
+      "name": "data\\pydata\\scripts\\019_light_house_01.pyscript",
+      "reason": "FILE_MISSING",
+      "reason_code": "FILE_MISSING",
+      "reference_id": "8f9347eca3b609ff13e0",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:8:attribute@278:scriptFile",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"

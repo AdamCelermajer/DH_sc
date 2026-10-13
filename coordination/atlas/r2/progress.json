@@ -73,19 +73,19 @@
         },
         {
           "global_call_sites": 128,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "SetTargetListCharacterFilter",
           "path": "r2/natives/SetTargetListCharacterFilter.md",
-          "sha256": "7303489363fe57882e420560b6eb39d5b86ea0fe06e3710e8f6b1e3daff4a2aa",
-          "status": "TODO"
+          "sha256": "941063d09f3ef8762650d54113025238804fc0c99343e4d29259f2f0f289bb7f",
+          "status": "DONE"
         },
         {
           "global_call_sites": 127,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "SetTargetListObjectFilter",
           "path": "r2/natives/SetTargetListObjectFilter.md",
-          "sha256": "4d818291732a4c7cf6167f823294e74c6ee0f5faebc031ba8c686ae952042367",
-          "status": "TODO"
+          "sha256": "a789c476127a74c8fe7225b57101493e982a5a82a2d2341a9713b662430ac750",
+          "status": "DONE"
         },
         {
           "global_call_sites": 106,
@@ -97,11 +97,11 @@
         },
         {
           "global_call_sites": 725,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "Trace",
           "path": "r2/natives/Trace.md",
-          "sha256": "223540afc07e378f22a39e83b9eff349a849173524fbbb61535db3b816aa5cb6",
-          "status": "TODO"
+          "sha256": "1870e696429d66c7711347bb69ccfc54bdf8dff52d975d80002cc1e46dd0bb8e",
+          "status": "DONE"
         },
         {
           "global_call_sites": 85,
@@ -113,11 +113,11 @@
         },
         {
           "global_call_sites": 83,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "PopTargetList",
           "path": "r2/natives/PopTargetList.md",
-          "sha256": "744584829b6f74dd4d59dccff6faf499548da1c52a2afeb3ea4709b06000c3e7",
-          "status": "TODO"
+          "sha256": "7ea2f734d44fd2f9b0dbc863d0c3038f975e456d23bf086cd2b8e84e0275d391",
+          "status": "DONE"
         },
         {
           "global_call_sites": 49,
@@ -193,11 +193,11 @@
         },
         {
           "global_call_sites": 15,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetHostPlayerDifficulty",
           "path": "r2/natives/GetHostPlayerDifficulty.md",
-          "sha256": "5fd3693137a6b2be3c3169ad9f432a5ceafcce5ec5504136ddcec2e4bf444494",
-          "status": "TODO"
+          "sha256": "a5f9c81f2aaf632619df76d0b164d8433d6c9d1a188266104ced6fda3ee1efb6",
+          "status": "DONE"
         },
         {
           "global_call_sites": 17,
@@ -241,19 +241,19 @@
         },
         {
           "global_call_sites": 15,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetHostPlayerLevel",
           "path": "r2/natives/GetHostPlayerLevel.md",
-          "sha256": "04f838bf1cc171ab700c0df7b2fed5e5927effe861131e38ab0bf3d3141ac254",
-          "status": "TODO"
+          "sha256": "9347970d6574f15fcaeb8404bd2307e0555cedbbb30d8546ea690c496beba78e",
+          "status": "DONE"
         },
         {
           "global_call_sites": 14,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "GetCurrentLevelRange",
           "path": "r2/natives/GetCurrentLevelRange.md",
-          "sha256": "336ae25937c8acce7788ae1f601dcca0a8e4e05a5ae629fce219f50a1df5a76b",
-          "status": "TODO"
+          "sha256": "87e8bf2b25f6dd58bb386835af476eb6c31c0f01d632e28522446d18b8369811",
+          "status": "DONE"
         },
         {
           "global_call_sites": 20,
@@ -321,11 +321,11 @@
         },
         {
           "global_call_sites": 15,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetCurrentSpellInfo",
           "path": "r2/natives/GetCurrentSpellInfo.md",
-          "sha256": "0a32be6fd3117ea6e73a5cb9373df78fdcdb142533d30229ea5f76e6db824f28",
-          "status": "TODO"
+          "sha256": "b2a2e0f4bb8ef0260a5cf4663be30cbe7a0c20a68a72f66f233b11c25f19f328",
+          "status": "DONE"
         },
         {
           "global_call_sites": 21,
@@ -369,11 +369,11 @@
         },
         {
           "global_call_sites": 32,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "HasPath",
           "path": "r2/natives/HasPath.md",
-          "sha256": "e5bac866d858e65dfb4c1b966b88c951fff4947f96e3f027a057d01bbe3ee791",
-          "status": "TODO"
+          "sha256": "e1c10d04d6c476e7c358caeb1f6b5882158f310d30b6c8ceca488984713a7c28",
+          "status": "DONE"
         },
         {
           "global_call_sites": 7,
@@ -393,11 +393,11 @@
         },
         {
           "global_call_sites": 9,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetTargetListSize",
           "path": "r2/natives/GetTargetListSize.md",
-          "sha256": "bd704a8b454c0ddd60a8452b82ed2bb2060a5857f6844da9db851650a7adc002",
-          "status": "TODO"
+          "sha256": "61cebc8686e447775db74d68ea6b49cb97fc4c0e26c4ec9c26868f65eebff049",
+          "status": "DONE"
         },
         {
           "global_call_sites": 9,
@@ -465,11 +465,11 @@
         },
         {
           "global_call_sites": 9,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "HasMaster",
           "path": "r2/natives/HasMaster.md",
-          "sha256": "498b346f08b9d80adc5b4e6589c6d75c352c3b9f423d03c257cc277e1d8b1cdb",
-          "status": "TODO"
+          "sha256": "f6eb04c1b270fdc97464ea738822fd33bf2350aec48c0ffb4c74d3273090e9f8",
+          "status": "DONE"
         },
         {
           "global_call_sites": 5,
@@ -553,19 +553,19 @@
         },
         {
           "global_call_sites": 2,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "target:GetMaster",
           "path": "r2/natives/target_GetMaster.md",
-          "sha256": "31757b486e0fe685f5b61e88c8102f6ae8d39232a66b84863bb3a581e6e49a15",
-          "status": "TODO"
+          "sha256": "9a4c8ab89509fd6fbb66bc718db697eeed0017117214e261fe20f37e22cf0f76",
+          "status": "DONE"
         },
         {
           "global_call_sites": 2,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "target:HasMaster",
           "path": "r2/natives/target_HasMaster.md",
-          "sha256": "59f37251cb9c95d48d9312332ad21e63b22caf745c385a725a3820ce8a7f2c60",
-          "status": "TODO"
+          "sha256": "b565b189ec6e8109f6687530783f55caace2600c407361b731dd3ccea4143064",
+          "status": "DONE"
         },
         {
           "global_call_sites": 14,
@@ -785,11 +785,11 @@
         },
         {
           "global_call_sites": 8,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "HasBow",
           "path": "r2/natives/HasBow.md",
-          "sha256": "91b123454cc3b9bdd7ab524f459d3df82aa595d2c0cd760cb5f3399377532e40",
-          "status": "TODO"
+          "sha256": "d8564c2340443567238dd0f3986fc1f26e4db5ddfea82f3284a3dc71c218bdbd",
+          "status": "DONE"
         },
         {
           "global_call_sites": 16,
@@ -817,11 +817,11 @@
         },
         {
           "global_call_sites": 5,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "GetInt",
           "path": "r2/natives/GetInt.md",
-          "sha256": "044c790e27bedeb8850395d85ba33070576b54c71df0b926b006aa75f8313c5b",
-          "status": "TODO"
+          "sha256": "69d02e7adee1750311bcc4f9ed185c64fb72d9f91c4134640d44239f896824af",
+          "status": "DONE"
         },
         {
           "global_call_sites": 5,
@@ -833,11 +833,11 @@
         },
         {
           "global_call_sites": 18,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "SetInt",
           "path": "r2/natives/SetInt.md",
-          "sha256": "97ee83323ce5cc9dbfe482e72dca2466dc098387e2926e767c590b2f90c26ed3",
-          "status": "TODO"
+          "sha256": "45f334596d9c6caad3f944713721112586ef4f27037f71db1a25376e05565a0c",
+          "status": "DONE"
         },
         {
           "global_call_sites": 7,
@@ -945,11 +945,11 @@
         },
         {
           "global_call_sites": 3,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetHostPlayer",
           "path": "r2/natives/GetHostPlayer.md",
-          "sha256": "aaf803099906b77ae83d4ab52fd5e23768b7d61872c9ab62d7f38995194061e7",
-          "status": "TODO"
+          "sha256": "b3244a72697c13fd62c53c5f3938dd1d73de62d058f135b8ec37f1c69626ce73",
+          "status": "DONE"
         },
         {
           "global_call_sites": 3,
@@ -1041,19 +1041,19 @@
         },
         {
           "global_call_sites": 5,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetCurrentEquippedFaeryLevel",
           "path": "r2/natives/GetCurrentEquippedFaeryLevel.md",
-          "sha256": "f48c3b2fce64a2ffcbf7cb6cbe2eba6e20b0d206aec846898c98c9c100ddff17",
-          "status": "TODO"
+          "sha256": "7c0be2f0bec6599b98b555a235e0fff03a0b5123d661a2eadfc19dc747202f6a",
+          "status": "DONE"
         },
         {
           "global_call_sites": 5,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetMaster",
           "path": "r2/natives/GetMaster.md",
-          "sha256": "061bbf64a975db19552d27512fec8f9436b8af5ab2d5330cc6f79cc0222c4262",
-          "status": "TODO"
+          "sha256": "f3930c2a5d380355653df0b3a2493b088132a43083a69528c88a6df871351707",
+          "status": "DONE"
         },
         {
           "global_call_sites": 5,
@@ -1113,11 +1113,11 @@
         },
         {
           "global_call_sites": 3,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "target:GetCharAIFlags",
           "path": "r2/natives/target_GetCharAIFlags.md",
-          "sha256": "f6ec1701f0193073e3ab9940de7de52f983c1043b433c8737518465c3e87c9c9",
-          "status": "TODO"
+          "sha256": "ae9cd3857c03369c67766431d33de7aa7dd1eb213d162f9d6426a8b9158922ff",
+          "status": "DONE"
         },
         {
           "global_call_sites": 3,
@@ -1129,19 +1129,19 @@
         },
         {
           "global_call_sites": 2,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetNumPlayers",
           "path": "r2/natives/GetNumPlayers.md",
-          "sha256": "f351c4629b67034c2401f6803a5b6e5c36e175754fb0a10668205e9166433c84",
-          "status": "TODO"
+          "sha256": "1989bbee1f1c220c91b4b7a8cd3ea292a6490ed048462b59c0606702a8647758",
+          "status": "DONE"
         },
         {
           "global_call_sites": 2,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "HasShield",
           "path": "r2/natives/HasShield.md",
-          "sha256": "3a9d46f6c8d6ff8758083dc0ed4a34fa333162f7c5df6d1f0e9973799f70d0cc",
-          "status": "TODO"
+          "sha256": "a94339ab3cb17692262b374686b3ec698244e06b4ed0ad57dc82c12782e2d278",
+          "status": "DONE"
         },
         {
           "global_call_sites": 2,
@@ -1297,11 +1297,11 @@
         },
         {
           "global_call_sites": 1,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "IsMasterHostPlayer",
           "path": "r2/natives/IsMasterHostPlayer.md",
-          "sha256": "c1050cb47e7d1a43168cc4497a0a44c006c492250edcdb37581839ba27e7ff34",
-          "status": "TODO"
+          "sha256": "52698260476cd62ef7b7dafaee210bcc1b3621d79e65996fd896ef44f0117438",
+          "status": "DONE"
         },
         {
           "global_call_sites": 1,
@@ -1345,11 +1345,11 @@
         },
         {
           "global_call_sites": 1,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "SetGameType",
           "path": "r2/natives/SetGameType.md",
-          "sha256": "7ce2254be282d025c78390c734ef38ce1bff88446c038e1f01b24ce14d6ba8c2",
-          "status": "TODO"
+          "sha256": "83b8cdd85565c369bf6ad6ac1fafc396a1062606db5c2faf92ae9050bd3b642b",
+          "status": "DONE"
         },
         {
           "global_call_sites": 1,
@@ -1449,19 +1449,19 @@
         },
         {
           "global_call_sites": 1,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "attacker:GetAttackRatingBonus",
           "path": "r2/natives/attacker_GetAttackRatingBonus.md",
-          "sha256": "c64c0f6778190bd8b7ffcbe31a7d2598b80041d01eb66a27541673c541620a6d",
-          "status": "TODO"
+          "sha256": "8bea184609e47c7a1423830e0eff77af6205c292408700d5687544acf42d5654",
+          "status": "DONE"
         },
         {
           "global_call_sites": 1,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "attacker:GetDamageBonus",
           "path": "r2/natives/attacker_GetDamageBonus.md",
-          "sha256": "296aa0609abd115b54bc2440f965364c39366926d8dc1d0e43d9dacb7e64bc04",
-          "status": "TODO"
+          "sha256": "89e8fff7eabcf33fff0e338e198922bb163691582f4d42a9165a5314a3629857",
+          "status": "DONE"
         },
         {
           "global_call_sites": 1,
@@ -1473,11 +1473,11 @@
         },
         {
           "global_call_sites": 1,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "attacker:GetHitCount",
           "path": "r2/natives/attacker_GetHitCount.md",
-          "sha256": "6b7b2e287f09d2b19b7a60042532f218ce34307826368c34034117c743bd7b16",
-          "status": "TODO"
+          "sha256": "3aa427c78fbdcb4dd6648da89162acf7b6d944dd6df0ea8a4a853c2288ce2cc8",
+          "status": "DONE"
         },
         {
           "global_call_sites": 1,
@@ -1505,11 +1505,11 @@
         },
         {
           "global_call_sites": 1,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "defender:HasShield",
           "path": "r2/natives/defender_HasShield.md",
-          "sha256": "2cc45a4ef91f7473d46354b426706ada8a89aacbe01d61e117e5b6f7db4a9b66",
-          "status": "TODO"
+          "sha256": "948ed70b4d523bdeba54075c089640193394fc6bd3fe8f6fdebf0ac16e670817",
+          "status": "DONE"
         },
         {
           "global_call_sites": 1,
@@ -1937,19 +1937,19 @@
         },
         {
           "global_call_sites": 256,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "AddToVFTable",
           "path": "r2/natives/AddToVFTable.md",
-          "sha256": "34768e90575a982c30bf26ce4d370d14dcfcf15415272ead4c4d3dc87a70b4e8",
-          "status": "TODO"
+          "sha256": "80fc8ca78fe49f80aee1b22138e69ed76cccd0b26d65ffe8ce0f41844a1c774b",
+          "status": "DONE"
         },
         {
           "global_call_sites": 2,
-          "known_answers": 0,
+          "known_answers": 3,
           "name": "BitAnd",
           "path": "r2/natives/BitAnd.md",
-          "sha256": "907eda7532299a8b88da275982e1930b669beeb926778a5355b9b4124f9c5ca5",
-          "status": "TODO"
+          "sha256": "048cee4493f9d0e358e3083c4a6688267238d6be2e85735976339fcf5a924c04",
+          "status": "DONE"
         },
         {
           "global_call_sites": 73,
@@ -1993,35 +1993,35 @@
         },
         {
           "global_call_sites": 42,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetState",
           "path": "r2/natives/GetState.md",
-          "sha256": "12bb23e3088db5520c65d69e89d12d80f362cccc3ed174f280e32423b7e8673e",
-          "status": "TODO"
+          "sha256": "b63fe0acc0d7c932fbcb563f1f3634fb263c46b7e8f156d5a9cef51040a5c0b2",
+          "status": "DONE"
         },
         {
           "global_call_sites": 2,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetStateTime",
           "path": "r2/natives/GetStateTime.md",
-          "sha256": "598ddfc2f689864d0346ee855c40c7abaeb6f22fb39cd0d77f3c3b5cd1068fbb",
-          "status": "TODO"
+          "sha256": "daf1542c307ecc0b3c14d2ff335953ee366caa9a14247d35db365c523a138b41",
+          "status": "DONE"
         },
         {
           "global_call_sites": 99,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "GetTarget",
           "path": "r2/natives/GetTarget.md",
-          "sha256": "5e0ec65a939cb9dfa67a492c023315268f535436384d4db8a3ea0f8b01d72d96",
-          "status": "TODO"
+          "sha256": "85ececc49d8ae10639f08359ed8f6656f82b17abdfbd10015bc0da0574d9c1f5",
+          "status": "DONE"
         },
         {
           "global_call_sites": 57,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "HasTarget",
           "path": "r2/natives/HasTarget.md",
-          "sha256": "d20eeeec0d4c23e07016cf10fd68d9418126e699807acbc8af27521452ef531d",
-          "status": "TODO"
+          "sha256": "e974448af50e13f5870148428ddc9477de2adbfc9f881290ffd927b9a985cdfb",
+          "status": "DONE"
         },
         {
           "global_call_sites": 29,
@@ -2137,11 +2137,11 @@
         },
         {
           "global_call_sites": 6,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "object:GetState",
           "path": "r2/natives/object_GetState.md",
-          "sha256": "497fbe66f5cc01f115ae8a17732aa420343f0f08238b795568e8a7315995e68b",
-          "status": "TODO"
+          "sha256": "55753c929cba99775943f8c6352a4bd6a32ce3b97a7485786e3c655198945d75",
+          "status": "DONE"
         },
         {
           "global_call_sites": 5,
@@ -2169,11 +2169,11 @@
         },
         {
           "global_call_sites": 1,
-          "known_answers": 0,
+          "known_answers": 2,
           "name": "target:GetState",
           "path": "r2/natives/target_GetState.md",
-          "sha256": "e95edecdfc6aabd50c4bfdfe4ae6e35cc72fb630afdb2067f0da66c87193c7e8",
-          "status": "TODO"
+          "sha256": "ccec38316579aea3b607b514257425d299b7850e132f0f5737e7cfde04baf286",
+          "status": "DONE"
         },
         {
           "global_call_sites": 5,
@@ -2185,7 +2185,7 @@
         }
       ],
       "phase": "CONTRACT_SPEC_GENERATION",
-      "processed": 134,
+      "processed": 170,
       "schema": "atlas-r2-package-progress-v1",
       "scope_files": [
         "r2/natives/scope.json",
@@ -2193,9 +2193,9 @@
         "r2/natives/INDEX.md"
       ],
       "status_counts": {
-        "DONE": 117,
+        "DONE": 153,
         "NOT-NEEDED": 4,
-        "TODO": 137,
+        "TODO": 101,
         "UNRESOLVED": 13
       },
       "total": 271
@@ -6328,8 +6328,8 @@
       "act_reference_pairs": 33378,
       "before_after_metrics": {
         "after_source_unresolved_by_act": {
-          "act_1": 696,
-          "act_2_inferred": 2995
+          "act_1": 1976,
+          "act_2_inferred": 4571
         },
         "already_staged_by_act": {
           "act_1": 499,
@@ -6356,7 +6356,7 @@
             "total": 152
           },
           "act_1:model": {
-            "after_source_unresolved": 450,
+            "after_source_unresolved": 1695,
             "already_staged": 324,
             "before_source_unresolved": 1279,
             "staging_ready": 0,
@@ -6377,7 +6377,7 @@
             "total": 21
           },
           "act_1:script": {
-            "after_source_unresolved": 2,
+            "after_source_unresolved": 37,
             "already_staged": 35,
             "before_source_unresolved": 42,
             "staging_ready": 38,
@@ -6405,7 +6405,7 @@
             "total": 451
           },
           "act_2_inferred:model": {
-            "after_source_unresolved": 1668,
+            "after_source_unresolved": 2913,
             "already_staged": 425,
             "before_source_unresolved": 2516,
             "staging_ready": 111,
@@ -6426,7 +6426,7 @@
             "total": 46
           },
           "act_2_inferred:script": {
-            "after_source_unresolved": 37,
+            "after_source_unresolved": 368,
             "already_staged": 35,
             "before_source_unresolved": 373,
             "staging_ready": 38,
@@ -6554,7 +6554,7 @@
             "total": 1420
           },
           "act_1:model component": {
-            "after_source_unresolved": 0,
+            "after_source_unresolved": 1245,
             "already_staged": 0,
             "before_source_unresolved": 1245,
             "staging_ready": 0,
@@ -6589,7 +6589,7 @@
             "total": 53
           },
           "act_1:script": {
-            "after_source_unresolved": 2,
+            "after_source_unresolved": 37,
             "already_staged": 35,
             "before_source_unresolved": 42,
             "staging_ready": 38,
@@ -6757,7 +6757,7 @@
             "total": 2512
           },
           "act_2_inferred:model component": {
-            "after_source_unresolved": 0,
+            "after_source_unresolved": 1245,
             "already_staged": 0,
             "before_source_unresolved": 1245,
             "staging_ready": 0,
@@ -6792,7 +6792,7 @@
             "total": 408
           },
           "act_2_inferred:script": {
-            "after_source_unresolved": 37,
+            "after_source_unresolved": 368,
             "already_staged": 35,
             "before_source_unresolved": 373,
             "staging_ready": 38,
@@ -7126,16 +7126,17 @@
         "r2/staging/scope/act_2_inferred/symbolic_reference-cc85b6.json",
         "r2/staging/scope/act_2_inferred/texture-8ab5cb.json"
       ],
+      "scope_fingerprint": "b085d27b98a870ea384ee511bce8238285b9893e6046d96bf7f2b54283466d85",
       "selection_files": [
         "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
         "r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json"
       ],
       "shared_reference_sites_across_acts": 5948,
       "status_counts": {
-        "NOT_NEEDED": 28025,
+        "NOT_NEEDED": 25169,
         "ORIGINAL_EXISTS_NOT_STAGED": 318,
         "RESOLVED_STAGED": 1344,
-        "UNRESOLVED": 3691
+        "UNRESOLVED": 6547
       },
       "total": 33378,
       "unique_reference_sites": 27430
@@ -11873,9 +11874,9 @@
       "total": 671
     }
   },
-  "percent": 99.48728406210854,
-  "phase": "NATIVE CONTRACT AUDIT AND STAGING REFINEMENT IN PROGRESS",
-  "processed": 34151,
+  "percent": 99.59215777667725,
+  "phase": "STAGING LEDGER VERIFIED; NATIVE AND DOSSIER AUDITS IN PROGRESS",
+  "processed": 34187,
   "questions_processed": 7,
   "questions_total": 7,
   "schema": "atlas-r2-progress-v1",

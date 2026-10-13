@@ -134,7 +134,7 @@ def retention_check(ctx):
         if (row.get('row_type'),row.get('id')) not in c:
             errors.append('initial dossier work row missing: '+str(row.get('id')))
     for row in c.values():
-        if row.get('state') in ('NOT-NEEDED','UNRESOLVED') and not row.get('reason'):
+        if row.get('state') in ('NOT-NEEDED','UNRESOLVED') and not (row.get('reason') or row.get('resolution_reason')):
             errors.append('dossier terminal disposition lacks reason: '+str(row.get('id')))
     baseline=read_json(ctx.out/'r2/tracked-size-baseline.json',{})
     for row in baseline.get('oversized_round1_files',[]):

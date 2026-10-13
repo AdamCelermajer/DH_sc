@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 45,
+  "count": 46,
   "kind": "projectile",
   "rows": [
     {
@@ -719,6 +719,66 @@
         "CharacterProperties row 231 IH_Statue (8cc85841cb4984d659c9); membership act_2_inferred -> RangeProjectileID"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=231].RangeProjectileID",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "RangeProjectileID",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 266,
+        "table": "character_properties#group0"
+      },
+      "id": "a49fe485343b4a1d7902",
+      "kind": "projectile",
+      "name": "22",
+      "reason": null,
+      "reference_id": "a49fe485343b4a1d7902",
+      "resolves_to": [
+        {
+          "index": 22,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "Dedicated": 0,
+                "DisappearOnHit": 1,
+                "ExpireFX": -1,
+                "ExpireSFX": -1,
+                "FriendlyFire": 0,
+                "ImpactFX": 243,
+                "ImpactSFX": -1,
+                "IsLaser": 0,
+                "IsMagic": 1,
+                "MaxDistance": -1082130432,
+                "MaxRotation": 1135869952,
+                "Model": 3,
+                "ObjectImpactFX": -1,
+                "ObjectImpactSFX": -1,
+                "StayOnFloor": 0,
+                "TargetLock": 0,
+                "TimeBetweenHit": 1000,
+                "Timer": 4000,
+                "Velocity": 1109131264,
+                "VelocityDamping": 0
+              }
+            },
+            "index": 22,
+            "name": "LightningMastery",
+            "table": "projectiles#group0"
+          },
+          "table": "projectiles#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> RangeProjectileID"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].RangeProjectileID",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"

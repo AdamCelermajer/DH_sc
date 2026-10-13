@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 289,
+  "count": 294,
   "kind": "anim",
   "rows": [
     {
@@ -2091,6 +2091,91 @@
         "CharacterProperties row 138 Edward (0347a6a75b182724aedb); membership act_2_inferred -> AnimTable"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=138].AnimTable",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AnimTable",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 13,
+        "table": "character_properties#group0"
+      },
+      "id": "a84883472a88540b39e1",
+      "kind": "anim",
+      "name": "0",
+      "reason": null,
+      "reference_id": "a84883472a88540b39e1",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "Attack": 45,
+              "AttackStatic": -1,
+              "Blocking": 46,
+              "DeadlyGreatKB": 46,
+              "Despawn": 293,
+              "DespawnGreatKB": 293,
+              "Died": 43,
+              "Dodging": 46,
+              "GreatKnockedBack": 46,
+              "Idle": 44,
+              "IdleFromOOC": -1,
+              "IdleOOC": -1,
+              "IdleSneak": -1,
+              "IdleToOOC": -1,
+              "Injured": 46,
+              "Interact": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "KnockedBack": 46,
+              "LiftDrop": -1,
+              "LiftIdle": -1,
+              "LiftMove": -1,
+              "Limbus": -1,
+              "MenuIdle": -1,
+              "MenuOnSelect": -1,
+              "PreSpawn": -1,
+              "Revived": -1,
+              "Reviving": -1,
+              "Run": -1,
+              "Run180": -1,
+              "RunSneak": -1,
+              "Scared": 282,
+              "Spawn": 48,
+              "Spells": [],
+              "Stunned": 310,
+              "Template": 311,
+              "Walk": 282,
+              "Walk180": -1,
+              "WalkSneak": -1
+            },
+            "index": 0,
+            "name": "Assassin",
+            "table": "character_animations"
+          },
+          "table": "character_animations",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AnimTable",
+      "scope_reasons": [
+        "CharacterProperties row 13 Assassin (b8d200d97507f568654f); membership act_2_inferred -> AnimTable"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=13].AnimTable",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -7276,6 +7361,346 @@
         "CharacterProperties row 260 King (89309ecba5b72e7de55d); membership act_2_inferred -> AnimTable"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=260].AnimTable",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AnimTable",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 266,
+        "table": "character_properties#group0"
+      },
+      "id": "16e91eec6a07520aa6ea",
+      "kind": "anim",
+      "name": "22",
+      "reason": null,
+      "reference_id": "16e91eec6a07520aa6ea",
+      "resolves_to": [
+        {
+          "index": 22,
+          "source_row": {
+            "fields": {
+              "Attack": 185,
+              "AttackStatic": -1,
+              "Blocking": -1,
+              "DeadlyGreatKB": 188,
+              "Despawn": 186,
+              "DespawnGreatKB": 187,
+              "Died": 188,
+              "Dodging": -1,
+              "GreatKnockedBack": 190,
+              "Idle": 189,
+              "IdleFromOOC": -1,
+              "IdleOOC": -1,
+              "IdleSneak": -1,
+              "IdleToOOC": -1,
+              "Injured": 190,
+              "Interact": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "KnockedBack": 190,
+              "LiftDrop": -1,
+              "LiftIdle": -1,
+              "LiftMove": -1,
+              "Limbus": -1,
+              "MenuIdle": -1,
+              "MenuOnSelect": -1,
+              "PreSpawn": -1,
+              "Revived": -1,
+              "Reviving": -1,
+              "Run": -1,
+              "Run180": -1,
+              "RunSneak": -1,
+              "Scared": -1,
+              "Spawn": 192,
+              "Spells": [],
+              "Stunned": 190,
+              "Template": 193,
+              "Walk": -1,
+              "Walk180": -1,
+              "WalkSneak": -1
+            },
+            "index": 22,
+            "name": "Emissary",
+            "table": "character_animations"
+          },
+          "table": "character_animations",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AnimTable",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> AnimTable"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].AnimTable",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AnimTable",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 268,
+        "table": "character_properties#group0"
+      },
+      "id": "4f56f345b3d5067bdbc7",
+      "kind": "anim",
+      "name": "24",
+      "reason": null,
+      "reference_id": "4f56f345b3d5067bdbc7",
+      "resolves_to": [
+        {
+          "index": 24,
+          "source_row": {
+            "fields": {
+              "Attack": 204,
+              "AttackStatic": -1,
+              "Blocking": 211,
+              "DeadlyGreatKB": 205,
+              "Despawn": 206,
+              "DespawnGreatKB": 207,
+              "Died": 208,
+              "Dodging": 211,
+              "GreatKnockedBack": 209,
+              "Idle": 210,
+              "IdleFromOOC": -1,
+              "IdleOOC": -1,
+              "IdleSneak": -1,
+              "IdleToOOC": -1,
+              "Injured": 211,
+              "Interact": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "KnockedBack": 212,
+              "LiftDrop": -1,
+              "LiftIdle": -1,
+              "LiftMove": -1,
+              "Limbus": -1,
+              "MenuIdle": -1,
+              "MenuOnSelect": -1,
+              "PreSpawn": -1,
+              "Revived": -1,
+              "Reviving": -1,
+              "Run": -1,
+              "Run180": -1,
+              "RunSneak": -1,
+              "Scared": 216,
+              "Spawn": 213,
+              "Spells": [],
+              "Stunned": 214,
+              "Template": 215,
+              "Walk": 216,
+              "Walk180": -1,
+              "WalkSneak": -1
+            },
+            "index": 24,
+            "name": "Ghost",
+            "table": "character_animations"
+          },
+          "table": "character_animations",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AnimTable",
+      "scope_reasons": [
+        "CharacterProperties row 268 Lighthouse_Ghost_Champion (2770426a1d30696ab79f); membership act_2_inferred -> AnimTable"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=268].AnimTable",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AnimTable",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 270,
+        "table": "character_properties#group0"
+      },
+      "id": "7562a98e014c2a58e4da",
+      "kind": "anim",
+      "name": "24",
+      "reason": null,
+      "reference_id": "7562a98e014c2a58e4da",
+      "resolves_to": [
+        {
+          "index": 24,
+          "source_row": {
+            "fields": {
+              "Attack": 204,
+              "AttackStatic": -1,
+              "Blocking": 211,
+              "DeadlyGreatKB": 205,
+              "Despawn": 206,
+              "DespawnGreatKB": 207,
+              "Died": 208,
+              "Dodging": 211,
+              "GreatKnockedBack": 209,
+              "Idle": 210,
+              "IdleFromOOC": -1,
+              "IdleOOC": -1,
+              "IdleSneak": -1,
+              "IdleToOOC": -1,
+              "Injured": 211,
+              "Interact": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "KnockedBack": 212,
+              "LiftDrop": -1,
+              "LiftIdle": -1,
+              "LiftMove": -1,
+              "Limbus": -1,
+              "MenuIdle": -1,
+              "MenuOnSelect": -1,
+              "PreSpawn": -1,
+              "Revived": -1,
+              "Reviving": -1,
+              "Run": -1,
+              "Run180": -1,
+              "RunSneak": -1,
+              "Scared": 216,
+              "Spawn": 213,
+              "Spells": [],
+              "Stunned": 214,
+              "Template": 215,
+              "Walk": 216,
+              "Walk180": -1,
+              "WalkSneak": -1
+            },
+            "index": 24,
+            "name": "Ghost",
+            "table": "character_animations"
+          },
+          "table": "character_animations",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AnimTable",
+      "scope_reasons": [
+        "CharacterProperties row 270 Lighthouse_Ghost_dark (ed89241ac39f8a4efc08); membership act_2_inferred -> AnimTable"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=270].AnimTable",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AnimTable",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 271,
+        "table": "character_properties#group0"
+      },
+      "id": "ed4417ed45569c0d3cc3",
+      "kind": "anim",
+      "name": "24",
+      "reason": null,
+      "reference_id": "ed4417ed45569c0d3cc3",
+      "resolves_to": [
+        {
+          "index": 24,
+          "source_row": {
+            "fields": {
+              "Attack": 204,
+              "AttackStatic": -1,
+              "Blocking": 211,
+              "DeadlyGreatKB": 205,
+              "Despawn": 206,
+              "DespawnGreatKB": 207,
+              "Died": 208,
+              "Dodging": 211,
+              "GreatKnockedBack": 209,
+              "Idle": 210,
+              "IdleFromOOC": -1,
+              "IdleOOC": -1,
+              "IdleSneak": -1,
+              "IdleToOOC": -1,
+              "Injured": 211,
+              "Interact": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "KnockedBack": 212,
+              "LiftDrop": -1,
+              "LiftIdle": -1,
+              "LiftMove": -1,
+              "Limbus": -1,
+              "MenuIdle": -1,
+              "MenuOnSelect": -1,
+              "PreSpawn": -1,
+              "Revived": -1,
+              "Reviving": -1,
+              "Run": -1,
+              "Run180": -1,
+              "RunSneak": -1,
+              "Scared": 216,
+              "Spawn": 213,
+              "Spells": [],
+              "Stunned": 214,
+              "Template": 215,
+              "Walk": 216,
+              "Walk180": -1,
+              "WalkSneak": -1
+            },
+            "index": 24,
+            "name": "Ghost",
+            "table": "character_animations"
+          },
+          "table": "character_animations",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AnimTable",
+      "scope_reasons": [
+        "CharacterProperties row 271 Lighthouse_Ghost_dark_RE (1379e0295ad7eeb698b4); membership act_2_inferred -> AnimTable"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=271].AnimTable",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"

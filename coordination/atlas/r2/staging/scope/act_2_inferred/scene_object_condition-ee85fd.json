@@ -1,8 +1,825 @@
 {
   "act": "act_2_inferred",
-  "count": 355,
+  "count": 408,
   "kind": "scene_object_condition",
   "rows": [
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3857b6d1c717e89b69da",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3857b6d1c717e89b69da",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 030_el_air.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp",
+        "C source edge 030_el_air.rule.xml -> 009a_abbey.mlx via .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp[GameObject#7]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "800e249b0a7b46906a96",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "800e249b0a7b46906a96",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 014_el_earth.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+        "C source edge 014_el_earth.rule.xml -> 009a_abbey.mlx via .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp[GameObject#6]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "920c3bab74408db3345f",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "920c3bab74408db3345f",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 032_el_fire.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp",
+        "C source edge 032_el_fire.rule.xml -> 009a_abbey.mlx via .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp[GameObject#7]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5f0f948abe0fdea1795a",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5f0f948abe0fdea1795a",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 010_el_lightning.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp",
+        "C source edge 010_el_lightning.rule.xml -> 009a_abbey.mlx via .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp[GameObject#10]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9eff19fe1a36c13a73b9",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9eff19fe1a36c13a73b9",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 024_el_water.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+        "C source edge 024_el_water.rule.xml -> 009a_abbey.mlx via .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp[GameObject#8]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6adc4823cc42bc537aad",
+          "index": 19,
+          "name": "IsAfter_GothicusAssassin",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "453fcc5eb88ed36b4efc",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_GothicusAssassin",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "453fcc5eb88ed36b4efc",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6adc4823cc42bc537aad",
+          "index": 19,
+          "name": "IsAfter_GothicusAssassin",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp[GameObject#13]=_prim_TriggerZone_return02.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6adc4823cc42bc537aad",
+          "index": 19,
+          "name": "IsAfter_GothicusAssassin",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9b8c55598ea6bf3404b1",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_GothicusAssassin",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9b8c55598ea6bf3404b1",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6adc4823cc42bc537aad",
+          "index": 19,
+          "name": "IsAfter_GothicusAssassin",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp[GameObject#13]=_prim_TriggerZone_return02.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3c650bb63756c97f4a2e",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3c650bb63756c97f4a2e",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp[GameObject#10]=_prim_NPC_PriestGood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "64f7dbf2583a546cfb5f",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "64f7dbf2583a546cfb5f",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp[GameObject#10]=_prim_NPC_PriestGood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7e840f3f61f5ea97e130",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusEscape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7e840f3f61f5ea97e130",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp[GameObject#12]=_prim_NPC_Edward.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a35002476c06a45fc64a",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusEscape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a35002476c06a45fc64a",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp[GameObject#12]=_prim_NPC_Edward.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1a28bf8a3d169444d62e",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusEscape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1a28bf8a3d169444d62e",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp[GameObject#1]=_prim_King.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3702f463a340862f67f8",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusEscape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3702f463a340862f67f8",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp[GameObject#1]=_prim_King.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
     {
       "act": "act_2_inferred",
       "candidates": [
@@ -4553,6 +5370,1166 @@
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_kings_chamber_s_01.mgp[GameObject#15]=_prim_TriggerZone_spawnDKs.activate_cond",
       "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_kings_chamber_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ef18f7e4d1c573a90783",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ef18f7e4d1c573a90783",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+        "C source edge 020_crypt_02.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp[GameObject#10]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "31e6aa0b74f02b531bb4",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "31e6aa0b74f02b531bb4",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 020_crypt_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+        "C source edge 020_crypt_02.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp[GameObject#9]=_prim_NPC_priestgood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bceefdd49cb83c902f3b",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusEscape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bceefdd49cb83c902f3b",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp[GameObject#15]=_prim_TriggerZone_WalkTuto.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fdbf6f97a3ed6ca2f3e8",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusEscape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fdbf6f97a3ed6ca2f3e8",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp[GameObject#15]=_prim_TriggerZone_WalkTuto.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 10,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "e7dd3bea70eefaa2aff2",
+          "index": 11,
+          "name": "IsAfter_DWGoToGothicus",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2a11bd8deffccc29e24c",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_DWGoToGothicus",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2a11bd8deffccc29e24c",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 10,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "e7dd3bea70eefaa2aff2",
+          "index": 11,
+          "name": "IsAfter_DWGoToGothicus",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp[GameObject#25]=_prim_TriggerZone.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 10,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "e7dd3bea70eefaa2aff2",
+          "index": 11,
+          "name": "IsAfter_DWGoToGothicus",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fa23f957b9d2f2087716",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_DWGoToGothicus",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fa23f957b9d2f2087716",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 10,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "e7dd3bea70eefaa2aff2",
+          "index": 11,
+          "name": "IsAfter_DWGoToGothicus",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp[GameObject#25]=_prim_TriggerZone.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "11a98194a8975f291b12",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "11a98194a8975f291b12",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp[GameObject#2]=_prim_NPC_WanderingPriest.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bfee20bc4d82ea0017c8",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bfee20bc4d82ea0017c8",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp[GameObject#2]=_prim_NPC_WanderingPriest.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "604ce0595fb9dd52d7c7",
+          "index": 59,
+          "name": "IsBefore_GothicusAssassin",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "67b1ad56ddb4d3d22d54",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusAssassin",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "67b1ad56ddb4d3d22d54",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "604ce0595fb9dd52d7c7",
+          "index": 59,
+          "name": "IsBefore_GothicusAssassin",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#0]=_prim_ExitLevelZone_toGraveyard01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "604ce0595fb9dd52d7c7",
+          "index": 59,
+          "name": "IsBefore_GothicusAssassin",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "71486d6c3634e39213f1",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusAssassin",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "71486d6c3634e39213f1",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "604ce0595fb9dd52d7c7",
+          "index": 59,
+          "name": "IsBefore_GothicusAssassin",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#0]=_prim_ExitLevelZone_toGraveyard01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "47e27d580f8d056e1cb7",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "47e27d580f8d056e1cb7",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#18]=_prim_Monster_BigSkel.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cf365756ecc746f1b913",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cf365756ecc746f1b913",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#18]=_prim_Monster_BigSkel.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "865d16a5bafb9efa3415",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "865d16a5bafb9efa3415",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#19]=_prim_Monster_BigSkel01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9bd5f0c531c2d555efb0",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9bd5f0c531c2d555efb0",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "6b294be09fba2fb66843",
+          "index": 58,
+          "name": "IsBefore_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#19]=_prim_Monster_BigSkel01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 2,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "0ecf7533229f434ba850",
+          "index": 18,
+          "name": "IsAfter_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0254d6d98fd628c3be82",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0254d6d98fd628c3be82",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 2,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "0ecf7533229f434ba850",
+          "index": 18,
+          "name": "IsAfter_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#26]=_prim_ExitLevelZone_toGothicus2.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 2,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "0ecf7533229f434ba850",
+          "index": 18,
+          "name": "IsAfter_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a66657171c7093a5258c",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_Gothicus2Survivors",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a66657171c7093a5258c",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 27,
+                "Op": 2,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "0ecf7533229f434ba850",
+          "index": 18,
+          "name": "IsAfter_Gothicus2Survivors",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#26]=_prim_ExitLevelZone_toGothicus2.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ad9ae680fe0eefaf1629",
+          "index": 78,
+          "name": "IsBetween_Gothicuses",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b4a72f05d18bdcc0c6de",
+      "kind": "scene_object_condition",
+      "name": "IsBetween_Gothicuses",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b4a72f05d18bdcc0c6de",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ad9ae680fe0eefaf1629",
+          "index": 78,
+          "name": "IsBetween_Gothicuses",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#2]=_prim_Door_reddoor.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ad9ae680fe0eefaf1629",
+          "index": 78,
+          "name": "IsBetween_Gothicuses",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d75ef5851d812993b8cd",
+      "kind": "scene_object_condition",
+      "name": "IsBetween_Gothicuses",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d75ef5851d812993b8cd",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 0,
+                "State": 13
+              },
+              {
+                "Argument": 27,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ad9ae680fe0eefaf1629",
+          "index": 78,
+          "name": "IsBetween_Gothicuses",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp[GameObject#2]=_prim_Door_reddoor.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6b4bd225a3e88bf5242f",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_GothicusEscape",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6b4bd225a3e88bf5242f",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 25,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "c53bb945a53b24d6b977",
+          "index": 60,
+          "name": "IsBefore_GothicusEscape",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp[GameObject#3]=_prim_TriggerZone_ShrineTuto.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -18200,6 +20177,126 @@
           "fields": {
             "Stubs": [
               {
+                "Argument": 36,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "dd7f3e8ac3423b128a4c",
+          "index": 65,
+          "name": "IsBefore_Lighthouse_to_Abbey",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "21d0b3101d1dacd18cb5",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Lighthouse_to_Abbey",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "21d0b3101d1dacd18cb5",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 36,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "dd7f3e8ac3423b128a4c",
+          "index": 65,
+          "name": "IsBefore_Lighthouse_to_Abbey",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp[GameObject#14]=_prim_EmPortal.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 36,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "dd7f3e8ac3423b128a4c",
+          "index": 65,
+          "name": "IsBefore_Lighthouse_to_Abbey",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "eb54d5f60265d89688bd",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_Lighthouse_to_Abbey",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "eb54d5f60265d89688bd",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 36,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "dd7f3e8ac3423b128a4c",
+          "index": 65,
+          "name": "IsBefore_Lighthouse_to_Abbey",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp[GameObject#14]=_prim_EmPortal.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
                 "Argument": 33,
                 "Op": 1,
                 "State": 13
@@ -18244,7 +20341,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp[GameObject#21]=_prim_Assassin.activate_cond",
@@ -18304,7 +20403,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp[GameObject#21]=_prim_Assassin.activate_cond",
@@ -18364,7 +20465,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp[GameObject#21]=_prim_Assassin.activate_cond",
@@ -18424,7 +20527,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp[GameObject#30]=_prim_ExitLevelZone_toLH2.activate_cond",
@@ -18484,7 +20589,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp[GameObject#30]=_prim_ExitLevelZone_toLH2.activate_cond",
@@ -18544,7 +20651,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp[GameObject#30]=_prim_ExitLevelZone_toLH2.activate_cond",
@@ -18614,7 +20723,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp[GameObject#17]=_prim_NPC_Eddie.activate_cond",
@@ -18684,7 +20795,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp[GameObject#17]=_prim_NPC_Eddie.activate_cond",
@@ -18754,7 +20867,9 @@
       "rule": "SCENE_OBJECT_CONDITION",
       "scope_reasons": [
         "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "C source edge 019_light_house_01.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
         "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp[GameObject#17]=_prim_NPC_Eddie.activate_cond",
@@ -19374,6 +21489,378 @@
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp[GameObject#9]=_prim_NPC_quest_03.activate_cond",
       "source_file": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "efe6bb15517d74373cde",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "efe6bb15517d74373cde",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 006_basement.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+        "C source edge 006_basement.rule.xml -> 005_infectedvillage.mlx via .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp[GameObject#7]=_prim_NPC.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "905eb12ed8f5c393e619",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "905eb12ed8f5c393e619",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 006_basement.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+        "C source edge 006_basement.rule.xml -> 005_infectedvillage.mlx via .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp[GameObject#8]=_prim_NPC01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 28,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "253b3dcdb265df82b66d",
+          "index": 61,
+          "name": "IsBefore_IV_Secret_Basement",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "abaf4db19b2ac9fb7ad6",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_IV_Secret_Basement",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "abaf4db19b2ac9fb7ad6",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 28,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "253b3dcdb265df82b66d",
+          "index": 61,
+          "name": "IsBefore_IV_Secret_Basement",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 006_basement.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp[GameObject#0]=_prim_NPC_madwoman.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 28,
+                "Op": 2,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4d58a7f54e46b42f174f",
+          "index": 21,
+          "name": "IsAfter_IV_Secret_Basement",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e6775f4189a6ae7c9ef2",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_IV_Secret_Basement",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e6775f4189a6ae7c9ef2",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 28,
+                "Op": 2,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4d58a7f54e46b42f174f",
+          "index": 21,
+          "name": "IsAfter_IV_Secret_Basement",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 006_basement.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp[GameObject#4]=_prim_Madwoman.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_obj_n_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7d156f1df1962c4dde49",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7d156f1df1962c4dde49",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 004_root_den.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+        "C source edge 004_root_den.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp[GameObject#12]=_prim_NPC_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "caa86d59ee646b2996be",
+      "kind": "scene_object_condition",
+      "name": "RENE_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "caa86d59ee646b2996be",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 8,
+                "Op": 1,
+                "State": 13
+              }
+            ],
+            "Type": 0
+          },
+          "id": "ab59d8e0d61fe0300591",
+          "index": 115,
+          "name": "RENE_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 004_root_den.rule.xml .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+        "C source edge 004_root_den.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp[GameObject#13]=_prim_NPC_PriestGood.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -20606,6 +23093,843 @@
       ],
       "site": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp[GameObject#4]=_prim_TriggerZone_001.deactivate_cond",
       "source_file": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5ea7c9a29c9ac1bbc639",
+      "kind": "scene_object_condition",
+      "name": "IsDuring_WT_BrotherBattle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5ea7c9a29c9ac1bbc639",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#0]=_prim_Monster_Edward1.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 61,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "b2a3c5108c713bb15db0",
+          "index": 77,
+          "name": "IsBefore_WT_to_IcyHub",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "46c07d6cc8d5ac38163d",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_WT_to_IcyHub",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "46c07d6cc8d5ac38163d",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 61,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "b2a3c5108c713bb15db0",
+          "index": 77,
+          "name": "IsBefore_WT_to_IcyHub",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#10]=_prim_TriggerZone_EddieHideBackup.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "576f384c7cde5bd470a7",
+      "kind": "scene_object_condition",
+      "name": "IsDuring_WT_BrotherBattle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "576f384c7cde5bd470a7",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#11]=_prim_King.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "475d1be74e747c12371c",
+          "index": 39,
+          "name": "IsAfter_WT_Balrog",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "01616e4e425b7768986f",
+      "kind": "scene_object_condition",
+      "name": "IsAfter_WT_Balrog",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "01616e4e425b7768986f",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "475d1be74e747c12371c",
+          "index": 39,
+          "name": "IsAfter_WT_Balrog",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#12]=_prim_ExitLevelZone.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f2caa02fbbdb3d89896d",
+      "kind": "scene_object_condition",
+      "name": "IsDuring_WT_BrotherBattle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f2caa02fbbdb3d89896d",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#18]=_prim_Monster_Skeletor_01.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 0,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4888d8fb6e391f1937df",
+          "index": 3,
+          "name": "Eddie_Skeletons",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "28b68650ea199211e3b3",
+      "kind": "scene_object_condition",
+      "name": "Eddie_Skeletons",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "28b68650ea199211e3b3",
+      "reference_kind": "object_deactivation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 0,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4888d8fb6e391f1937df",
+          "index": 3,
+          "name": "Eddie_Skeletons",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#18]=_prim_Monster_Skeletor_01.deactivate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0db3c5357a0d9c2e2857",
+      "kind": "scene_object_condition",
+      "name": "IsDuring_WT_BrotherBattle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0db3c5357a0d9c2e2857",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#19]=_prim_Monster_Skeletor_02.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 0,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4888d8fb6e391f1937df",
+          "index": 3,
+          "name": "Eddie_Skeletons",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "49b7067d09b7b75b7e6b",
+      "kind": "scene_object_condition",
+      "name": "Eddie_Skeletons",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "49b7067d09b7b75b7e6b",
+      "reference_kind": "object_deactivation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 0,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4888d8fb6e391f1937df",
+          "index": 3,
+          "name": "Eddie_Skeletons",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#19]=_prim_Monster_Skeletor_02.deactivate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dab5ad2b94a0b26eb6c5",
+      "kind": "scene_object_condition",
+      "name": "IsDuring_WT_BrotherBattle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dab5ad2b94a0b26eb6c5",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#20]=_prim_Monster_Skeletor_03.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 0,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4888d8fb6e391f1937df",
+          "index": 3,
+          "name": "Eddie_Skeletons",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3f0ee7a64487f51d176e",
+      "kind": "scene_object_condition",
+      "name": "Eddie_Skeletons",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3f0ee7a64487f51d176e",
+      "reference_kind": "object_deactivation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 0,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4888d8fb6e391f1937df",
+          "index": 3,
+          "name": "Eddie_Skeletons",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#20]=_prim_Monster_Skeletor_03.deactivate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "081d8f4ac6fb294b70a7",
+      "kind": "scene_object_condition",
+      "name": "EDWARD_FOLLOW",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "081d8f4ac6fb294b70a7",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 59,
+                "Op": 2,
+                "State": 6
+              },
+              {
+                "Argument": 24,
+                "Op": 1,
+                "State": 6
+              }
+            ],
+            "Type": 0
+          },
+          "id": "4b5ebdf35b18e26e17fd",
+          "index": 2,
+          "name": "EDWARD_FOLLOW",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#2]=_prim_Eddie.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "b0e60765f329d37ca63d",
+          "index": 76,
+          "name": "IsBefore_WT_EdwardDead",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dda747dd4253ec792b18",
+      "kind": "scene_object_condition",
+      "name": "IsBefore_WT_EdwardDead",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dda747dd4253ec792b18",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 12
+              }
+            ],
+            "Type": 0
+          },
+          "id": "b0e60765f329d37ca63d",
+          "index": 76,
+          "name": "IsBefore_WT_EdwardDead",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#4]=_prim_TriggerZone_EdwardBossFightIntro.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "115ad08835e049b0a00e",
+      "kind": "scene_object_condition",
+      "name": "IsDuring_WT_BrotherBattle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "115ad08835e049b0a00e",
+      "reference_kind": "object_activation_condition",
+      "resolves_to": [
+        {
+          "fields": {
+            "Stubs": [
+              {
+                "Argument": 60,
+                "Op": 1,
+                "State": 13
+              },
+              {
+                "Argument": 60,
+                "Op": 2,
+                "State": 3
+              }
+            ],
+            "Type": 0
+          },
+          "id": "40904c972560e0787fc1",
+          "index": 102,
+          "name": "IsDuring_WT_BrotherBattle",
+          "table": "v2conditions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "SCENE_OBJECT_CONDITION",
+      "scope_reasons": [
+        "C module source 023_watertemple.rule.xml .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "C source edge 023_watertemple.rule.xml -> 022_swamp2.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp[GameObject#8]=_prim_BadRene.activate_cond",
+      "source_file": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"

@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 6,
+  "count": 7,
   "kind": "level_name_candidate",
   "rows": [
     {
@@ -73,6 +73,43 @@
         "campaign 2e1304ff2c8ed98caa94 HG2_boss_levelchange command[0] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[46]=HG2_boss_levelchange/command[0]=Script_ChangeLevel/field@16",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "c25f173ca6d3419d5bf0",
+          "index": 4,
+          "name": "DARKWOOD",
+          "table": "levels#group1",
+          "type": "levels"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "94d9749814d563ff0ca4",
+      "kind": "level_name_candidate",
+      "name": "DARKWOOD",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "94d9749814d563ff0ca4",
+      "reference_kind": "destination_level",
+      "resolves_to": [
+        {
+          "id": "c25f173ca6d3419d5bf0",
+          "index": 4,
+          "name": "DARKWOOD",
+          "table": "levels#group1",
+          "type": "levels"
+        }
+      ],
+      "rule": "Script_ChangeLevel source field role plus exact levels#group1 row-name match",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[31] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[31]=Script_ChangeLevel/field@16",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"

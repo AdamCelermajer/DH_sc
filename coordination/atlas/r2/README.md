@@ -4,8 +4,8 @@ Source contracts, a staging ledger, and per-scene reconstruction dossiers. Origi
 
 | Package | Work rows | Processed | States |
 | --- | --- | --- | --- |
-| A | 271 | 134 | {"DONE": 117, "NOT-NEEDED": 4, "TODO": 137, "UNRESOLVED": 13} |
-| B | 33378 | 33378 | {"NOT_NEEDED": 28025, "ORIGINAL_EXISTS_NOT_STAGED": 318, "RESOLVED_STAGED": 1344, "UNRESOLVED": 3691} |
+| A | 271 | 170 | {"DONE": 153, "NOT-NEEDED": 4, "TODO": 101, "UNRESOLVED": 13} |
+| B | 33378 | 33378 | {"NOT_NEEDED": 25169, "ORIGINAL_EXISTS_NOT_STAGED": 318, "RESOLVED_STAGED": 1344, "UNRESOLVED": 6547} |
 | C | 671 | 632 | {"DONE": 617, "NOT-NEEDED": 11, "TODO": 39, "UNRESOLVED": 4} |
 
 Processed includes explicit UNRESOLVED and NOT-NEEDED dispositions. TODO means investigation remains. Contract completion does not establish Windows gameplay parity.
@@ -16,8 +16,8 @@ Package B covers 33,378 act/reference pairs, 27,430 distinct source IDs, and 5,9
 
 | Act label | Before source unresolved | After source unresolved | Ready reference pairs | Already staged pairs |
 | --- | --- | --- | --- | --- |
-| act_1 | 1787 | 696 | 82 | 499 |
-| act_2_inferred | 6527 | 2995 | 236 | 845 |
+| act_1 | 1787 | 1976 | 82 | 499 |
+| act_2_inferred | 6527 | 4571 | 236 | 845 |
 
 Before/after counts concern source classification, not successfully loaded game content. Selected physical paths are deduplicated across groups and base destinations.
 
@@ -30,7 +30,7 @@ Selections were checked by the original staging script, stopping before its firs
 
 | Unresolved reason | Reference pairs |
 | --- | --- |
-| OTHER | 1926 |
+| OTHER | 4782 |
 | Serialized/file-like text is present, but its consumer role is not proven; matching files are diagnostic candidates only. | 832 |
 | NAME_NO_FILE | 795 |
 | No exact, proven file mapping or typed non-resource rule applies; the source site remains unresolved. | 70 |

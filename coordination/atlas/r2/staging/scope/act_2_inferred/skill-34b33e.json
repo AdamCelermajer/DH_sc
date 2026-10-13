@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 16,
+  "count": 18,
   "kind": "skill",
   "rows": [
     {
@@ -40,6 +40,47 @@
         "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=110].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 13,
+        "table": "character_properties#group0"
+      },
+      "id": "6ddb190672d9f707af1e",
+      "kind": "skill",
+      "name": "0",
+      "reason": null,
+      "reference_id": "6ddb190672d9f707af1e",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                3
+              ]
+            },
+            "index": 0,
+            "name": "Assassin",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 13 Assassin (b8d200d97507f568654f); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=13].SkillTree",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -165,6 +206,50 @@
         "CharacterProperties row 171 Flaminite (fc0f9c7f5e537c94cf66); membership act_2_inferred -> SkillTree"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=171].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 266,
+        "table": "character_properties#group0"
+      },
+      "id": "7e2619a9bb3dd9c4c722",
+      "kind": "skill",
+      "name": "9",
+      "reason": null,
+      "reference_id": "7e2619a9bb3dd9c4c722",
+      "resolves_to": [
+        {
+          "index": 9,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                37,
+                38,
+                37,
+                38
+              ]
+            },
+            "index": 9,
+            "name": "Emissary",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].SkillTree",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"

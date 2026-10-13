@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 231,
+  "count": 236,
   "kind": "faction",
   "rows": [
     {
@@ -6361,6 +6361,86 @@
       "context": {
         "field": "AIFaction",
         "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 13,
+        "table": "character_properties#group0"
+      },
+      "id": "1d9c729f68650f5a8506",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "1d9c729f68650f5a8506",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 13 Assassin (b8d200d97507f568654f); membership act_2_inferred -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=13].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
         "index": 146,
         "table": "character_properties#group0"
       },
@@ -9998,6 +10078,326 @@
         "CharacterProperties row 260 King (89309ecba5b72e7de55d); membership act_2_inferred -> AIFaction"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=260].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 266,
+        "table": "character_properties#group0"
+      },
+      "id": "356198a9cf17242c59ce",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "356198a9cf17242c59ce",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 268,
+        "table": "character_properties#group0"
+      },
+      "id": "a69d4946a9cb68ece630",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "a69d4946a9cb68ece630",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 268 Lighthouse_Ghost_Champion (2770426a1d30696ab79f); membership act_2_inferred -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=268].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 270,
+        "table": "character_properties#group0"
+      },
+      "id": "761700a4f5c6c6192507",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "761700a4f5c6c6192507",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 270 Lighthouse_Ghost_dark (ed89241ac39f8a4efc08); membership act_2_inferred -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=270].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 271,
+        "table": "character_properties#group0"
+      },
+      "id": "98ddc4d3789ace81d6ec",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "98ddc4d3789ace81d6ec",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 271 Lighthouse_Ghost_dark_RE (1379e0295ad7eeb698b4); membership act_2_inferred -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=271].AIFaction",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"

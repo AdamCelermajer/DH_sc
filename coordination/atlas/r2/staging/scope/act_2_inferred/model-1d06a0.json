@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 2448,
+  "count": 2512,
   "kind": "model",
   "rows": [
     {
@@ -1100,6 +1100,45 @@
         "CharacterProperties row 138 Edward (0347a6a75b182724aedb); membership act_2_inferred -> ModelFile"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=138].ModelFile",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "ModelFile",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 13,
+        "table": "character_properties#group0"
+      },
+      "id": "cb518817e4e1943c8f6d",
+      "kind": "model",
+      "name": "0",
+      "reason": null,
+      "reference_id": "cb518817e4e1943c8f6d",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/characters/npcs/assassin.bdae"
+            },
+            "index": 0,
+            "name": "assassin",
+            "table": "character_models_dictionary#group0"
+          },
+          "table": "character_models_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field ModelFile",
+      "scope_reasons": [
+        "CharacterProperties row 13 Assassin (b8d200d97507f568654f); membership act_2_inferred -> ModelFile"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=13].ModelFile",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -3479,6 +3518,162 @@
         "CharacterProperties row 260 King (89309ecba5b72e7de55d); membership act_2_inferred -> ModelFile"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=260].ModelFile",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "ModelFile",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 266,
+        "table": "character_properties#group0"
+      },
+      "id": "efad16864a5539646655",
+      "kind": "model",
+      "name": "59",
+      "reason": null,
+      "reference_id": "efad16864a5539646655",
+      "resolves_to": [
+        {
+          "index": 59,
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/characters/lighthouse/lighthouse.bdae"
+            },
+            "index": 59,
+            "name": "lighthouse",
+            "table": "character_models_dictionary#group0"
+          },
+          "table": "character_models_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field ModelFile",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> ModelFile"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].ModelFile",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "ModelFile",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 268,
+        "table": "character_properties#group0"
+      },
+      "id": "abe8478b8c1ad86f8bfd",
+      "kind": "model",
+      "name": "44",
+      "reason": null,
+      "reference_id": "abe8478b8c1ad86f8bfd",
+      "resolves_to": [
+        {
+          "index": 44,
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/characters/ghost/ghost.bdae"
+            },
+            "index": 44,
+            "name": "ghost",
+            "table": "character_models_dictionary#group0"
+          },
+          "table": "character_models_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field ModelFile",
+      "scope_reasons": [
+        "CharacterProperties row 268 Lighthouse_Ghost_Champion (2770426a1d30696ab79f); membership act_2_inferred -> ModelFile"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=268].ModelFile",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "ModelFile",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 270,
+        "table": "character_properties#group0"
+      },
+      "id": "d0d5de12fc9995d85f08",
+      "kind": "model",
+      "name": "44",
+      "reason": null,
+      "reference_id": "d0d5de12fc9995d85f08",
+      "resolves_to": [
+        {
+          "index": 44,
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/characters/ghost/ghost.bdae"
+            },
+            "index": 44,
+            "name": "ghost",
+            "table": "character_models_dictionary#group0"
+          },
+          "table": "character_models_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field ModelFile",
+      "scope_reasons": [
+        "CharacterProperties row 270 Lighthouse_Ghost_dark (ed89241ac39f8a4efc08); membership act_2_inferred -> ModelFile"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=270].ModelFile",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "ModelFile",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 271,
+        "table": "character_properties#group0"
+      },
+      "id": "6250f8f212e7c0ae3ad6",
+      "kind": "model",
+      "name": "44",
+      "reason": null,
+      "reference_id": "6250f8f212e7c0ae3ad6",
+      "resolves_to": [
+        {
+          "index": 44,
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/characters/ghost/ghost.bdae"
+            },
+            "index": 44,
+            "name": "ghost",
+            "table": "character_models_dictionary#group0"
+          },
+          "table": "character_models_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field ModelFile",
+      "scope_reasons": [
+        "CharacterProperties row 271 Lighthouse_Ghost_dark_RE (1379e0295ad7eeb698b4); membership act_2_inferred -> ModelFile"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=271].ModelFile",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -69896,6 +70091,786 @@
       "act": "act_2_inferred",
       "candidates": [
         {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_deadend_n_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004481.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 799,
+        "character_offset": 799,
+        "element": "elem",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 24
+      },
+      "id": "9c8c80430d53aad998a4",
+      "kind": "model",
+      "name": "gc01_deadend_n_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "9c8c80430d53aad998a4",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:24:attribute@799:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_deadend_n_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005652.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 832,
+        "character_offset": 832,
+        "element": "elem",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 24
+      },
+      "id": "cc19950459f07cac65b6",
+      "kind": "model",
+      "name": "gc01_deadend_n_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "cc19950459f07cac65b6",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:24:attribute@832:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_t_new_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002636.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 939,
+        "character_offset": 939,
+        "element": "elem",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 28
+      },
+      "id": "f24c9f5b56b3a05325ec",
+      "kind": "model",
+      "name": "gc01_t_new_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "f24c9f5b56b3a05325ec",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:28:attribute@939:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_t_new_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001436.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 968,
+        "character_offset": 968,
+        "element": "elem",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 28
+      },
+      "id": "5d2d55a9462047d2937f",
+      "kind": "model",
+      "name": "gc01_t_new_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "5d2d55a9462047d2937f",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:28:attribute@968:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002463.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1083,
+        "character_offset": 1083,
+        "element": "elem",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 32
+      },
+      "id": "4e448e90598fedba36ba",
+      "kind": "model",
+      "name": "gc01_entrance_ns_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "4e448e90598fedba36ba",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:32:attribute@1083:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_entrance_ns_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000507.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1118,
+        "character_offset": 1118,
+        "element": "elem",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 32
+      },
+      "id": "5d676d6a3be468d24795",
+      "kind": "model",
+      "name": "gc01_entrance_ns_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "5d676d6a3be468d24795",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:32:attribute@1118:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001168.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1180,
+        "character_offset": 1180,
+        "element": "elem",
+        "element_index": 7,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 33
+      },
+      "id": "7a0f3ef6358ce566c755",
+      "kind": "model",
+      "name": "gc01_kingroom_s_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "7a0f3ef6358ce566c755",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:33:attribute@1180:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_kingroom_s_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005278.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1214,
+        "character_offset": 1214,
+        "element": "elem",
+        "element_index": 7,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 33
+      },
+      "id": "2fc8b7e85a816b9ece08",
+      "kind": "model",
+      "name": "gc01_kingroom_s_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "2fc8b7e85a816b9ece08",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:33:attribute@1214:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_objectiveroom_s_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004794.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1280,
+        "character_offset": 1280,
+        "element": "elem",
+        "element_index": 8,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 34
+      },
+      "id": "d93a4554ad2323a4631c",
+      "kind": "model",
+      "name": "gc01_objectiveroom_s_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "d93a4554ad2323a4631c",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:34:attribute@1280:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_objectiveroom_s_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005141.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1319,
+        "character_offset": 1319,
+        "element": "elem",
+        "element_index": 8,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 34
+      },
+      "id": "0fbe1977392c67a753b4",
+      "kind": "model",
+      "name": "gc01_objectiveroom_s_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "0fbe1977392c67a753b4",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:34:attribute@1319:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003893.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1431,
+        "character_offset": 1431,
+        "element": "elem",
+        "element_index": 10,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 38
+      },
+      "id": "bd79863823c6036f9139",
+      "kind": "model",
+      "name": "gc01_corner_se_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "bd79863823c6036f9139",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:38:attribute@1431:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/elemental_corner_se_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002889.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1464,
+        "character_offset": 1464,
+        "element": "elem",
+        "element_index": 10,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 38
+      },
+      "id": "d793eb2b3f57a999341e",
+      "kind": "model",
+      "name": "elemental_corner_se_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "d793eb2b3f57a999341e",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:38:attribute@1464:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003809.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1528,
+        "character_offset": 1528,
+        "element": "elem",
+        "element_index": 11,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 39
+      },
+      "id": "9424c8eb1836866eb674",
+      "kind": "model",
+      "name": "gc01_corner_wn_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "9424c8eb1836866eb674",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:39:attribute@1528:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/elemental_corner_wn_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001066.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1561,
+        "character_offset": 1561,
+        "element": "elem",
+        "element_index": 11,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 39
+      },
+      "id": "aa966ca9d01f9cb751ec",
+      "kind": "model",
+      "name": "elemental_corner_wn_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "aa966ca9d01f9cb751ec",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:39:attribute@1561:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_ws_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003970.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1625,
+        "character_offset": 1625,
+        "element": "elem",
+        "element_index": 12,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 40
+      },
+      "id": "5c8d7abf608cd97cf088",
+      "kind": "model",
+      "name": "gc01_corner_ws_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "5c8d7abf608cd97cf088",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:40:attribute@1625:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/gc01_corner_ws_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003042.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1658,
+        "character_offset": 1658,
+        "element": "elem",
+        "element_index": 12,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 40
+      },
+      "id": "b4d3040972622a58a749",
+      "kind": "model",
+      "name": "gc01_corner_ws_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "b4d3040972622a58a749",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:40:attribute@1658:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straighta_ns_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000190.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1720,
+        "character_offset": 1720,
+        "element": "elem",
+        "element_index": 13,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 41
+      },
+      "id": "554a3bd15650b4a92bd7",
+      "kind": "model",
+      "name": "gc01_straighta_ns_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "554a3bd15650b4a92bd7",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:41:attribute@1720:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002589.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1756,
+        "character_offset": 1756,
+        "element": "elem",
+        "element_index": 13,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 41
+      },
+      "id": "334f0ae5fe65b962cc39",
+      "kind": "model",
+      "name": "elemental_straighta_ns_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "334f0ae5fe65b962cc39",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:41:attribute@1756:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005845.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1826,
+        "character_offset": 1826,
+        "element": "elem",
+        "element_index": 14,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 42
+      },
+      "id": "21e03c866da26c533d54",
+      "kind": "model",
+      "name": "gc01_straightb_ew_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "21e03c866da26c533d54",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:42:attribute@1826:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000776.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1862,
+        "character_offset": 1862,
+        "element": "elem",
+        "element_index": 14,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 42
+      },
+      "id": "ba4c03f91c41cbef01c8",
+      "kind": "model",
+      "name": "elemental_straightb_ew_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "ba4c03f91c41cbef01c8",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:42:attribute@1862:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
           "path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_deadend_e_01.mgp",
           "source": "android"
         },
@@ -82586,6 +83561,1544 @@
         "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml"
       ],
       "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml:43:attribute@1729:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "skybox",
+        "byte_offset": 608,
+        "character_offset": 608,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 17
+      },
+      "id": "22aa8c7cbd8244bd5a43",
+      "kind": "model",
+      "name": "data/3D/skybox/skybox_wind.bdae",
+      "reason": null,
+      "reference_id": "22aa8c7cbd8244bd5a43",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1c02a6eebb4b7626fa79",
+              "path": ".local-inputs/assets-extra/android/data/3d/skybox/skybox_wind.bdae",
+              "sha256": "0cf0f38696c98711060cf1aa98e2555208cc51e6aabe486e73d6f34be49cb38a",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "2395ab5cf39ef3bda2681f90fd2ca5c9449871aa48d8b6a7121c47833e922e67",
+              "id": "f507d8f82f6d343ff0e0",
+              "logical_paths": [
+                "data/3d/skybox/skybox_wind.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000734.dat",
+              "sha256": "289174de17db81e7ad579a594bceb03aa42aaac8cbc3e90442f1a08f98327484",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/skybox/skybox_wind.bdae",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:17:attribute@608:skybox",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004089.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 849,
+        "character_offset": 849,
+        "element": "elem",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 25
+      },
+      "id": "f64e1ec437797e17a6c0",
+      "kind": "model",
+      "name": "lh01_startroom_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "f64e1ec437797e17a6c0",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:25:attribute@849:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_startroom_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001494.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 882,
+        "character_offset": 882,
+        "element": "elem",
+        "element_index": 2,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 25
+      },
+      "id": "b2391e24f0abff00c017",
+      "kind": "model",
+      "name": "lh01_startroom_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "b2391e24f0abff00c017",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:25:attribute@882:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv01_open_01_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002657.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1025,
+        "character_offset": 1025,
+        "element": "elem",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 29
+      },
+      "id": "48e40e4758513578ef20",
+      "kind": "model",
+      "name": "lh01_lv01_open_01_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "48e40e4758513578ef20",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:29:attribute@1025:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv01_open_01_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004765.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 989,
+        "character_offset": 989,
+        "element": "elem",
+        "element_index": 4,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 29
+      },
+      "id": "730abc6579ee1034d4b2",
+      "kind": "model",
+      "name": "lh01_lv01_open_01_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "730abc6579ee1034d4b2",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:29:attribute@989:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001326.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1136,
+        "character_offset": 1136,
+        "element": "elem",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 33
+      },
+      "id": "24a7f38d39145ccefdc5",
+      "kind": "model",
+      "name": "lh01_lv02_close_01_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "24a7f38d39145ccefdc5",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:33:attribute@1136:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv02_close_01_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001889.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1173,
+        "character_offset": 1173,
+        "element": "elem",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 33
+      },
+      "id": "cea8e4dd49d6e78354a2",
+      "kind": "model",
+      "name": "lh01_lv02_close_01_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "cea8e4dd49d6e78354a2",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:33:attribute@1173:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005622.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1284,
+        "character_offset": 1284,
+        "element": "elem",
+        "element_index": 8,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 37
+      },
+      "id": "ba228efe9f418177fe54",
+      "kind": "model",
+      "name": "lh01_lv03_open_03_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "ba228efe9f418177fe54",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:37:attribute@1284:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv03_open_03_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003147.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1320,
+        "character_offset": 1320,
+        "element": "elem",
+        "element_index": 8,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 37
+      },
+      "id": "428750d3854ee4e3cd18",
+      "kind": "model",
+      "name": "lh01_lv03_open_03_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "428750d3854ee4e3cd18",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:37:attribute@1320:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_01_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002817.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1430,
+        "character_offset": 1430,
+        "element": "elem",
+        "element_index": 10,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 41
+      },
+      "id": "e967648c1e9a7a68d32b",
+      "kind": "model",
+      "name": "lh01_lv04_open_01_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "e967648c1e9a7a68d32b",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:41:attribute@1430:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv04_open_01_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005751.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1466,
+        "character_offset": 1466,
+        "element": "elem",
+        "element_index": 10,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 41
+      },
+      "id": "e89c85fbb90f900e84a2",
+      "kind": "model",
+      "name": "lh01_lv04_open_01_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "e89c85fbb90f900e84a2",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:41:attribute@1466:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_close_01_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002728.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1527,
+        "character_offset": 1527,
+        "element": "elem",
+        "element_index": 11,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 42
+      },
+      "id": "8b2dacb876a89c4d1417",
+      "kind": "model",
+      "name": "lh01_lv04_close_01_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "8b2dacb876a89c4d1417",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:42:attribute@1527:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv04_close_01_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001238.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1564,
+        "character_offset": 1564,
+        "element": "elem",
+        "element_index": 11,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 42
+      },
+      "id": "781da8b1e6164db53e9c",
+      "kind": "model",
+      "name": "lh01_lv04_close_01_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "781da8b1e6164db53e9c",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:42:attribute@1564:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001752.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1625,
+        "character_offset": 1625,
+        "element": "elem",
+        "element_index": 12,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 43
+      },
+      "id": "fc001745524d9357b6ca",
+      "kind": "model",
+      "name": "lh01_lv04_open_03_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "fc001745524d9357b6ca",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:43:attribute@1625:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv04_open_03_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000551.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1661,
+        "character_offset": 1661,
+        "element": "elem",
+        "element_index": 12,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 43
+      },
+      "id": "7dd31e986f0db4288f60",
+      "kind": "model",
+      "name": "lh01_lv04_open_03_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "7dd31e986f0db4288f60",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:43:attribute@1661:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_01_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005800.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1771,
+        "character_offset": 1771,
+        "element": "elem",
+        "element_index": 14,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 47
+      },
+      "id": "ffd7fc7cedfaeadf67b7",
+      "kind": "model",
+      "name": "lh01_lv05_open_01_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "ffd7fc7cedfaeadf67b7",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:47:attribute@1771:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv05_open_01_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004534.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1807,
+        "character_offset": 1807,
+        "element": "elem",
+        "element_index": 14,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 47
+      },
+      "id": "576f8d1b8b395a3ff16c",
+      "kind": "model",
+      "name": "lh01_lv05_open_01_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "576f8d1b8b395a3ff16c",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:47:attribute@1807:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004309.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1868,
+        "character_offset": 1868,
+        "element": "elem",
+        "element_index": 15,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 48
+      },
+      "id": "bcaa994ec80c162d40d7",
+      "kind": "model",
+      "name": "lh01_lv05_close_01_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "bcaa994ec80c162d40d7",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:48:attribute@1868:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv05_close_01_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003306.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 1905,
+        "character_offset": 1905,
+        "element": "elem",
+        "element_index": 15,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 48
+      },
+      "id": "de18f34a037cd17d6020",
+      "kind": "model",
+      "name": "lh01_lv05_close_01_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "de18f34a037cd17d6020",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:48:attribute@1905:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001251.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 1966,
+        "character_offset": 1966,
+        "element": "elem",
+        "element_index": 16,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 49
+      },
+      "id": "0ecc68874cce4157ab13",
+      "kind": "model",
+      "name": "lh01_lv05_open_03_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "0ecc68874cce4157ab13",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:49:attribute@1966:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv05_open_03_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002355.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 2002,
+        "character_offset": 2002,
+        "element": "elem",
+        "element_index": 16,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 49
+      },
+      "id": "3bc9238a5f20815b84a0",
+      "kind": "model",
+      "name": "lh01_lv05_open_03_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "3bc9238a5f20815b84a0",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:49:attribute@2002:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004953.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 2113,
+        "character_offset": 2113,
+        "element": "elem",
+        "element_index": 18,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 53
+      },
+      "id": "6b6a554a6a2abe171266",
+      "kind": "model",
+      "name": "lh01_lv06_close_02_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "6b6a554a6a2abe171266",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:53:attribute@2113:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv06_close_02_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000588.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 2150,
+        "character_offset": 2150,
+        "element": "elem",
+        "element_index": 18,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 53
+      },
+      "id": "a321589969d7f387bfd2",
+      "kind": "model",
+      "name": "lh01_lv06_close_02_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "a321589969d7f387bfd2",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:53:attribute@2150:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002471.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 2261,
+        "character_offset": 2261,
+        "element": "elem",
+        "element_index": 20,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 57
+      },
+      "id": "9a7aa88c6c9931bb4e3a",
+      "kind": "model",
+      "name": "lh01_lv07_open_02_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "9a7aa88c6c9931bb4e3a",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:57:attribute@2261:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv07_open_02_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002390.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 2297,
+        "character_offset": 2297,
+        "element": "elem",
+        "element_index": 20,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 57
+      },
+      "id": "fdc9db6ba29675a17e5d",
+      "kind": "model",
+      "name": "lh01_lv07_open_02_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "fdc9db6ba29675a17e5d",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:57:attribute@2297:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv08_close_03_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003658.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 2408,
+        "character_offset": 2408,
+        "element": "elem",
+        "element_index": 22,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 61
+      },
+      "id": "29267b76d455f26b3aaa",
+      "kind": "model",
+      "name": "lh01_lv08_close_03_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "29267b76d455f26b3aaa",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:61:attribute@2408:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv08_close_03_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004596.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 2445,
+        "character_offset": 2445,
+        "element": "elem",
+        "element_index": 22,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 61
+      },
+      "id": "3ce93fe08389e32e5cb2",
+      "kind": "model",
+      "name": "lh01_lv08_close_03_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "3ce93fe08389e32e5cb2",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:61:attribute@2445:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_01_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file006036.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 2556,
+        "character_offset": 2556,
+        "element": "elem",
+        "element_index": 24,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 65
+      },
+      "id": "0aba0894c03ab43df6ad",
+      "kind": "model",
+      "name": "lh01_lv09_open_01_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "0aba0894c03ab43df6ad",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:65:attribute@2556:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv09_open_01_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002895.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 2592,
+        "character_offset": 2592,
+        "element": "elem",
+        "element_index": 24,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 65
+      },
+      "id": "fcbba2e1f7836946033d",
+      "kind": "model",
+      "name": "lh01_lv09_open_01_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "fcbba2e1f7836946033d",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:65:attribute@2592:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_close_01_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000230.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 2653,
+        "character_offset": 2653,
+        "element": "elem",
+        "element_index": 25,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 66
+      },
+      "id": "9734db2ae6daad4588ac",
+      "kind": "model",
+      "name": "lh01_lv09_close_01_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "9734db2ae6daad4588ac",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:66:attribute@2653:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv09_close_01_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005242.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 2690,
+        "character_offset": 2690,
+        "element": "elem",
+        "element_index": 25,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 66
+      },
+      "id": "d6ddb16053b4d207970d",
+      "kind": "model",
+      "name": "lh01_lv09_close_01_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "d6ddb16053b4d207970d",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:66:attribute@2690:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv09_open_03_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002568.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 2751,
+        "character_offset": 2751,
+        "element": "elem",
+        "element_index": 26,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 67
+      },
+      "id": "5e33af9cacd534a4a543",
+      "kind": "model",
+      "name": "lh01_lv09_open_03_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "5e33af9cacd534a4a543",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:67:attribute@2751:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv09_open_03_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002331.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 2787,
+        "character_offset": 2787,
+        "element": "elem",
+        "element_index": 26,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 67
+      },
+      "id": "6e2cb0954854ac92c2e5",
+      "kind": "model",
+      "name": "lh01_lv09_open_03_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "6e2cb0954854ac92c2e5",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:67:attribute@2787:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_open_02_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004070.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 2898,
+        "character_offset": 2898,
+        "element": "elem",
+        "element_index": 28,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 71
+      },
+      "id": "f2ea9f381ae0e6ee9835",
+      "kind": "model",
+      "name": "lh01_lv10_open_02_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "f2ea9f381ae0e6ee9835",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:71:attribute@2898:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv10_open_02_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000959.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 2934,
+        "character_offset": 2934,
+        "element": "elem",
+        "element_index": 28,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 71
+      },
+      "id": "a56217e958b59f90032f",
+      "kind": "model",
+      "name": "lh01_lv10_open_02_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "a56217e958b59f90032f",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:71:attribute@2934:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv10_close_03_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005492.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 2995,
+        "character_offset": 2995,
+        "element": "elem",
+        "element_index": 29,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 72
+      },
+      "id": "8728a2bdf903520e2832",
+      "kind": "model",
+      "name": "lh01_lv10_close_03_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "8728a2bdf903520e2832",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:72:attribute@2995:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_lv10_close_03_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004107.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 3032,
+        "character_offset": 3032,
+        "element": "elem",
+        "element_index": 29,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 72
+      },
+      "id": "41be7df8e6a5231812c6",
+      "kind": "model",
+      "name": "lh01_lv10_close_03_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "41be7df8e6a5231812c6",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:72:attribute@3032:visual",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004433.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "gameplay",
+        "byte_offset": 3141,
+        "character_offset": 3141,
+        "element": "elem",
+        "element_index": 31,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 76
+      },
+      "id": "ace9326addd8543d2058",
+      "kind": "model",
+      "name": "lh01_bossroom_01.mgp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "ace9326addd8543d2058",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:76:attribute@3141:gameplay",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mvp/lh01_bossroom_01.mvp",
+          "source": "android"
+        },
+        {
+          "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001879.dat",
+          "source": "ios-packed"
+        }
+      ],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "visual",
+        "byte_offset": 3173,
+        "character_offset": 3173,
+        "element": "elem",
+        "element_index": 31,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 76
+      },
+      "id": "5a6008c95f7dd1a248a9",
+      "kind": "model",
+      "name": "lh01_bossroom_01.mvp",
+      "reason": "NAME_NO_FILE",
+      "reason_code": "NAME_NO_FILE",
+      "reference_id": "5a6008c95f7dd1a248a9",
+      "resolves_to": [],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:76:attribute@3173:visual",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"

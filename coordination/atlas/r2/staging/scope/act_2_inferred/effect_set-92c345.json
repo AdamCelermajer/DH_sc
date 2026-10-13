@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 198,
+  "count": 203,
   "kind": "effect set",
   "rows": [
     {
@@ -1079,6 +1079,51 @@
         "CharacterProperties row 138 Edward (0347a6a75b182724aedb); membership act_2_inferred -> Effects"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=138].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 13,
+        "table": "character_properties#group0"
+      },
+      "id": "b665e27c4570f2d3e208",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "b665e27c4570f2d3e208",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 13 Assassin (b8d200d97507f568654f); membership act_2_inferred -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=13].Effects",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -3824,6 +3869,186 @@
         "CharacterProperties row 260 King (89309ecba5b72e7de55d); membership act_2_inferred -> Effects"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=260].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 266,
+        "table": "character_properties#group0"
+      },
+      "id": "2f1254dfbeaf550aa243",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "2f1254dfbeaf550aa243",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 266 Lighthouse_Emissary (48a468f30edbfe91f1e1); membership act_2_inferred -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=266].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 268,
+        "table": "character_properties#group0"
+      },
+      "id": "073e5f83215efe8f6730",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "073e5f83215efe8f6730",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 268 Lighthouse_Ghost_Champion (2770426a1d30696ab79f); membership act_2_inferred -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=268].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 270,
+        "table": "character_properties#group0"
+      },
+      "id": "3a123a29d39313f960f4",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "3a123a29d39313f960f4",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 270 Lighthouse_Ghost_dark (ed89241ac39f8a4efc08); membership act_2_inferred -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=270].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 271,
+        "table": "character_properties#group0"
+      },
+      "id": "d03a3f93661d50f69381",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "d03a3f93661d50f69381",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 271 Lighthouse_Ghost_dark_RE (1379e0295ad7eeb698b4); membership act_2_inferred -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=271].Effects",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"

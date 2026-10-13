@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 954,
+  "count": 1027,
   "kind": "dialog_text_string_id",
   "rows": [
     {
@@ -5669,6 +5669,741 @@
         "campaign 1ee09bcff06fac62bcc3 enterLocation_Infected command[0] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/005_infectedvillage_pyscripts.bin:script[5]=enterLocation_Infected/command[0]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a83de4f95bb6adce70e4",
+      "kind": "dialog_text_string_id",
+      "name": "262166",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "a83de4f95bb6adce70e4",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[11] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[11]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d53a0b697abf6763e9bd",
+      "kind": "dialog_text_string_id",
+      "name": "262167",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "d53a0b697abf6763e9bd",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[23] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[23]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "15a77812f4f4dd7aaa26",
+      "kind": "dialog_text_string_id",
+      "name": "262168",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "15a77812f4f4dd7aaa26",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[34] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[34]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "b5a7007144d6ec0219ab",
+      "kind": "dialog_text_string_id",
+      "name": "262169",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "b5a7007144d6ec0219ab",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[48] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[48]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "facf05aac145bdbd7e8e",
+      "kind": "dialog_text_string_id",
+      "name": "262170",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "facf05aac145bdbd7e8e",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[50] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[50]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "c55a5197bea2761805ac",
+      "kind": "dialog_text_string_id",
+      "name": "262171",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "c55a5197bea2761805ac",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[54] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[54]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8729f981abcbd11b87fd",
+      "kind": "dialog_text_string_id",
+      "name": "262172",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "8729f981abcbd11b87fd",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[57] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[57]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "74867b927999e81e1cc4",
+      "kind": "dialog_text_string_id",
+      "name": "262173",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "74867b927999e81e1cc4",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[60] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[60]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "1b8998d505671c1a962b",
+      "kind": "dialog_text_string_id",
+      "name": "262174",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "1b8998d505671c1a962b",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[62] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[62]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "b68d0c76822befa26aa4",
+      "kind": "dialog_text_string_id",
+      "name": "262175",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "b68d0c76822befa26aa4",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[3] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[3]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "7b9c97a2dca6ec5d7549",
+      "kind": "dialog_text_string_id",
+      "name": "262176",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "7b9c97a2dca6ec5d7549",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[5] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[5]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "568fd3959ac12a85d611",
+      "kind": "dialog_text_string_id",
+      "name": "262177",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "568fd3959ac12a85d611",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[7] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[7]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "f854f5db635fa5c01e89",
+      "kind": "dialog_text_string_id",
+      "name": "262178",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "f854f5db635fa5c01e89",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[9] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[9]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "48b952761dea851f686d",
+      "kind": "dialog_text_string_id",
+      "name": "262158",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "48b952761dea851f686d",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[100] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[100]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "9976c23c6a593948aecf",
+      "kind": "dialog_text_string_id",
+      "name": "262159",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "9976c23c6a593948aecf",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[108] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[108]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "1953761cbb9eae0b81d1",
+      "kind": "dialog_text_string_id",
+      "name": "262160",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "1953761cbb9eae0b81d1",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[116] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[116]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a9fd391bff9545f838b1",
+      "kind": "dialog_text_string_id",
+      "name": "262161",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "a9fd391bff9545f838b1",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[126] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[126]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "dc4aa26478d4bbb520e0",
+      "kind": "dialog_text_string_id",
+      "name": "262162",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "dc4aa26478d4bbb520e0",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[132] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[132]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "526a3430c3b01049e973",
+      "kind": "dialog_text_string_id",
+      "name": "262163",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "526a3430c3b01049e973",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[134] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[134]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e033380ed2c6dcf144cc",
+      "kind": "dialog_text_string_id",
+      "name": "262164",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "e033380ed2c6dcf144cc",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[136] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[136]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d4b2c4f60a454f116177",
+      "kind": "dialog_text_string_id",
+      "name": "262165",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "d4b2c4f60a454f116177",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[186] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[186]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3229639a24a3e7d07fb5",
+      "kind": "dialog_text_string_id",
+      "name": "262145",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "3229639a24a3e7d07fb5",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[36] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[36]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "394a346e56520ed294b5",
+      "kind": "dialog_text_string_id",
+      "name": "262146",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "394a346e56520ed294b5",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[44] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[44]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "9749f31f3308272bf7e2",
+      "kind": "dialog_text_string_id",
+      "name": "262147",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "9749f31f3308272bf7e2",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[49] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[49]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "7f953a651710882c1d0f",
+      "kind": "dialog_text_string_id",
+      "name": "262148",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "7f953a651710882c1d0f",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[51] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[51]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ae88c8954037592964ea",
+      "kind": "dialog_text_string_id",
+      "name": "262149",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "ae88c8954037592964ea",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[58] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[58]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "6131936b1774ca4552c4",
+      "kind": "dialog_text_string_id",
+      "name": "262150",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "6131936b1774ca4552c4",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[62] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[62]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "76273b207a2d50953caa",
+      "kind": "dialog_text_string_id",
+      "name": "262151",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "76273b207a2d50953caa",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[70] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[70]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d1671f77820358b19d72",
+      "kind": "dialog_text_string_id",
+      "name": "262152",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "d1671f77820358b19d72",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[72] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[72]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "9fa2d2c58b583df10f41",
+      "kind": "dialog_text_string_id",
+      "name": "262153",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "9fa2d2c58b583df10f41",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[74] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[74]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "25ca1f5f5ffb3458322f",
+      "kind": "dialog_text_string_id",
+      "name": "262154",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "25ca1f5f5ffb3458322f",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[81] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[81]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e38b3224704b934f9b43",
+      "kind": "dialog_text_string_id",
+      "name": "262155",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "e38b3224704b934f9b43",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[89] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[89]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2f2327754134ce72dd1a",
+      "kind": "dialog_text_string_id",
+      "name": "262156",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "2f2327754134ce72dd1a",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[91] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[91]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5b15f07a94a564aa5f97",
+      "kind": "dialog_text_string_id",
+      "name": "262157",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5b15f07a94a564aa5f97",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[93] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[93]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "bc4c100e2ac6f7cbcd47",
+      "kind": "dialog_text_string_id",
+      "name": "1704011",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "bc4c100e2ac6f7cbcd47",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 enterLocation_GothicusCastle01 command[0] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[9]=enterLocation_GothicusCastle01/command[0]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -11515,6 +12250,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "cc6d0b4340a7ad0c0ee6",
+      "kind": "dialog_text_string_id",
+      "name": "1638417",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "cc6d0b4340a7ad0c0ee6",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[17] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[17]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "a0201ea30100db1a1c9b",
       "kind": "dialog_text_string_id",
       "name": "1638418",
@@ -11526,6 +12282,27 @@
       "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
       "scope_reasons": [
         "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[19] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[19]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "c3d0130c0e976ebe9d3d",
+      "kind": "dialog_text_string_id",
+      "name": "1638418",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "c3d0130c0e976ebe9d3d",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[19] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[19]=Script_StartDialog/field@16",
       "state": "TODO",
@@ -11557,6 +12334,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "6ad33baaca68573c58c1",
+      "kind": "dialog_text_string_id",
+      "name": "1638419",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "6ad33baaca68573c58c1",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[22] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[22]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "1882c6d669a0add44f84",
       "kind": "dialog_text_string_id",
       "name": "1638420",
@@ -11578,6 +12376,48 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "8c44cd33b159a9a72ce3",
+      "kind": "dialog_text_string_id",
+      "name": "1638420",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "8c44cd33b159a9a72ce3",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[25] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[25]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "61c1298e2e4bcb4f4696",
+      "kind": "dialog_text_string_id",
+      "name": "1638421",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "61c1298e2e4bcb4f4696",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[34] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[34]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "64aed0839012b894223e",
       "kind": "dialog_text_string_id",
       "name": "1638421",
@@ -11591,6 +12431,27 @@
         "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[34] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[34]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4781ed6cba07e0f68240",
+      "kind": "dialog_text_string_id",
+      "name": "1638422",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "4781ed6cba07e0f68240",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[37] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[37]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -11641,6 +12502,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "5061b113427fb90cc0a4",
+      "kind": "dialog_text_string_id",
+      "name": "1638423",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5061b113427fb90cc0a4",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[40] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[40]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "9eb512a64ee793cd4dc4",
       "kind": "dialog_text_string_id",
       "name": "1638413",
@@ -11652,6 +12534,27 @@
       "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
       "scope_reasons": [
         "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[33] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[33]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a90603e70da90c0a7237",
+      "kind": "dialog_text_string_id",
+      "name": "1638413",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "a90603e70da90c0a7237",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[33] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[33]=Script_StartDialog/field@16",
       "state": "TODO",
@@ -11675,6 +12578,48 @@
         "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[36] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[36]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "cdfe8504e656d504b901",
+      "kind": "dialog_text_string_id",
+      "name": "1638414",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "cdfe8504e656d504b901",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[36] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[36]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e936c3e7bdacda18ed74",
+      "kind": "dialog_text_string_id",
+      "name": "1638415",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "e936c3e7bdacda18ed74",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[39] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[39]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -11725,6 +12670,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "d35ee51568f63e1c00fa",
+      "kind": "dialog_text_string_id",
+      "name": "1638416",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "d35ee51568f63e1c00fa",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[42] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[42]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "4f230b410885fc5c589f",
       "kind": "dialog_text_string_id",
       "name": "1638434",
@@ -11738,6 +12704,48 @@
         "campaign b2b7ec3332bd71af7ff0 Cultist_boss_defeated command[13] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[13]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "c2a4df0250063741b8d3",
+      "kind": "dialog_text_string_id",
+      "name": "1638434",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "c2a4df0250063741b8d3",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[13] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[13]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "0eac5205a44f0e7ecd2a",
+      "kind": "dialog_text_string_id",
+      "name": "1638435",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "0eac5205a44f0e7ecd2a",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[16] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[16]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -11788,6 +12796,48 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "d6e1276623ae899e0aab",
+      "kind": "dialog_text_string_id",
+      "name": "1638436",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "d6e1276623ae899e0aab",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[18] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[18]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "11ebd82b52dbd4e9d95e",
+      "kind": "dialog_text_string_id",
+      "name": "1638437",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "11ebd82b52dbd4e9d95e",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[21] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[21]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "cdfc5c6978f155035a8e",
       "kind": "dialog_text_string_id",
       "name": "1638437",
@@ -11822,6 +12872,48 @@
         "campaign b2b7ec3332bd71af7ff0 Cultist_boss_defeated command[23] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[23]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "b2d1e59bea6a1793d7aa",
+      "kind": "dialog_text_string_id",
+      "name": "1638438",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "b2d1e59bea6a1793d7aa",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[23] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[23]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e97018f4e949a7330f29",
+      "kind": "dialog_text_string_id",
+      "name": "1638439",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "e97018f4e949a7330f29",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[25] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[25]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -11872,6 +12964,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "e565e0e440276c82d147",
+      "kind": "dialog_text_string_id",
+      "name": "1638440",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "e565e0e440276c82d147",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[27] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[27]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "09781baf983d6cdb1260",
       "kind": "dialog_text_string_id",
       "name": "1638441",
@@ -11883,6 +12996,27 @@
       "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
       "scope_reasons": [
         "campaign b2b7ec3332bd71af7ff0 Cultist_boss_defeated command[30] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[30]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "66c82cd7b6550f07bf2f",
+      "kind": "dialog_text_string_id",
+      "name": "1638441",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "66c82cd7b6550f07bf2f",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[30] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[30]=Script_StartDialog/field@16",
       "state": "TODO",
@@ -11914,6 +13048,48 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "b1f141a25f256424702e",
+      "kind": "dialog_text_string_id",
+      "name": "1638424",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "b1f141a25f256424702e",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[10] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[10]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "05013a4554e06991891a",
+      "kind": "dialog_text_string_id",
+      "name": "1638425",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "05013a4554e06991891a",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[12] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[12]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "a9a9da884e6039ed8d6c",
       "kind": "dialog_text_string_id",
       "name": "1638425",
@@ -11935,6 +13111,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "0468234006d02b27ecf4",
+      "kind": "dialog_text_string_id",
+      "name": "1638426",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "0468234006d02b27ecf4",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[17] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[17]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "52c719656cf612bf8c11",
       "kind": "dialog_text_string_id",
       "name": "1638426",
@@ -11948,6 +13145,27 @@
         "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[17] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[17]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "020a9b379d1b6457fb21",
+      "kind": "dialog_text_string_id",
+      "name": "1638427",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "020a9b379d1b6457fb21",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[20] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[20]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -11998,6 +13216,48 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "3f30c7a59c68118bef21",
+      "kind": "dialog_text_string_id",
+      "name": "1638428",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "3f30c7a59c68118bef21",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[26] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[26]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5038a3de389d70cd74b7",
+      "kind": "dialog_text_string_id",
+      "name": "1638429",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5038a3de389d70cd74b7",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[28] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[28]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "deaa9b5b5af2bcd98e33",
       "kind": "dialog_text_string_id",
       "name": "1638429",
@@ -12011,6 +13271,27 @@
         "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[28] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[28]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "675a5f940b16f3a5181c",
+      "kind": "dialog_text_string_id",
+      "name": "1638430",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "675a5f940b16f3a5181c",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[30] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[30]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -12040,6 +13321,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "1363f122a79d04fdf589",
+      "kind": "dialog_text_string_id",
+      "name": "1638431",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "1363f122a79d04fdf589",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[35] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[35]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "85509143127a3814ff0e",
       "kind": "dialog_text_string_id",
       "name": "1638431",
@@ -12053,6 +13355,27 @@
         "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[35] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[35]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2fd5f5d97164e25bcfb1",
+      "kind": "dialog_text_string_id",
+      "name": "1638432",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "2fd5f5d97164e25bcfb1",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[37] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[37]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -12103,6 +13426,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "da5a91e690bbba7422c8",
+      "kind": "dialog_text_string_id",
+      "name": "1638433",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "da5a91e690bbba7422c8",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[43] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[43]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "5900adf2a6945d8acc67",
       "kind": "dialog_text_string_id",
       "name": "1704068",
@@ -12116,6 +13460,48 @@
         "campaign b2b7ec3332bd71af7ff0 enterLocation_LightHouse command[0] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[53]=enterLocation_LightHouse/command[0]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "66c104a7159eff719384",
+      "kind": "dialog_text_string_id",
+      "name": "1704068",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "66c104a7159eff719384",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e enterLocation_LightHouse command[0] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[53]=enterLocation_LightHouse/command[0]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "21ab45c85567bced9f63",
+      "kind": "dialog_text_string_id",
+      "name": "1704074",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "21ab45c85567bced9f63",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e enterLocation_LightHouse_Boss command[0] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[54]=enterLocation_LightHouse_Boss/command[0]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -12166,6 +13552,27 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "5cb28dcabbc46d6b113c",
+      "kind": "dialog_text_string_id",
+      "name": "1638401",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "5cb28dcabbc46d6b113c",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[18] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[18]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "12c4949ba2cfcc7e7a3d",
       "kind": "dialog_text_string_id",
       "name": "1638402",
@@ -12179,6 +13586,48 @@
         "campaign b2b7ec3332bd71af7ff0 Intro command[22] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[22]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "802293868eb440704eff",
+      "kind": "dialog_text_string_id",
+      "name": "1638402",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "802293868eb440704eff",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[22] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[22]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4326814fe8eac4d3d491",
+      "kind": "dialog_text_string_id",
+      "name": "1638403",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "4326814fe8eac4d3d491",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[25] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[25]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -12229,6 +13678,48 @@
       "act": "act_2_inferred",
       "candidates": [],
       "confidence": "PROVEN",
+      "id": "db001da6a877f3339590",
+      "kind": "dialog_text_string_id",
+      "name": "1638404",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "db001da6a877f3339590",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[28] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[28]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4f4761c410ee470cf634",
+      "kind": "dialog_text_string_id",
+      "name": "1638405",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "4f4761c410ee470cf634",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[31] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[31]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
       "id": "93f2dd172e7e820dc026",
       "kind": "dialog_text_string_id",
       "name": "1638405",
@@ -12242,6 +13733,27 @@
         "campaign b2b7ec3332bd71af7ff0 Intro command[31] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[31]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "7e9564dfa03375780c4b",
+      "kind": "dialog_text_string_id",
+      "name": "1638406",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "7e9564dfa03375780c4b",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[34] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[34]=Script_StartDialog/field@16",
       "state": "TODO",
       "status": "UNRESOLVED",
       "work_status": "TODO"
@@ -12282,6 +13794,27 @@
       "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
       "scope_reasons": [
         "campaign b2b7ec3332bd71af7ff0 Intro command[36] 16"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[36]=Script_StartDialog/field@16",
+      "state": "TODO",
+      "status": "UNRESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d0d074fbb631b71f3657",
+      "kind": "dialog_text_string_id",
+      "name": "1638407",
+      "reason": "OTHER",
+      "reason_code": "OTHER",
+      "reference_id": "d0d074fbb631b71f3657",
+      "reference_kind": "dialog_text_string_id",
+      "resolves_to": [],
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[36] 16"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[36]=Script_StartDialog/field@16",
       "state": "TODO",

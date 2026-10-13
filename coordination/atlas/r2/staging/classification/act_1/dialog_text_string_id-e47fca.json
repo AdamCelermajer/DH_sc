@@ -1,0 +1,2837 @@
+{
+  "act": "act_1",
+  "count": 123,
+  "kind": "dialog_text_string_id",
+  "rows": [
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031649",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "1ca9537e7314a0912f6f",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Camp_Intro command[12] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[0]=Camp_Intro/command[12]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031650",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "e8a8335faa6181d90c9d",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Camp_Intro command[14] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[0]=Camp_Intro/command[14]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031651",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "1cf1932bd9fa9765d094",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Camp_Intro command[16] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[0]=Camp_Intro/command[16]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031652",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "39f93da12cf4b0df4b0a",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Camp_Intro command[21] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[0]=Camp_Intro/command[21]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031653",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "3c75b9b22eb1b602948d",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Camp_Intro command[24] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[0]=Camp_Intro/command[24]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031656",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "d713b4e216c62fb83a5f",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizBlood_Activate command[10] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[12]=LizBlood_Activate/command[10]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031657",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "c7ea063b43127d0e6b84",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizBlood_Activate command[12] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[12]=LizBlood_Activate/command[12]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031654",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "27b858b84ef7aef2a6f2",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizBlood_Activate command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[12]=LizBlood_Activate/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031655",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "41556307a89fb8396f17",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizBlood_Activate command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[12]=LizBlood_Activate/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031658",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "4a940cab8ec6aadf6ebb",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizBlood_PostAccept command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[13]=LizBlood_PostAccept/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097217",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "0dfa5e653a9dbbc15df2",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[10] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[10]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097218",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "d659be9e6fedbf808622",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[12] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[12]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097219",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "dd7827862380ed4b8176",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[14] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[14]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097220",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "fe6ff933e44e3498189b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[16] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[16]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097221",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "a656907f3c86d395360b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[18] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[18]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097213",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "aca23de620c9408097e4",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[2] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[2]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097214",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "a23c9cbac8458ae1298b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097215",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "b35e817adb5a48853bd9",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097216",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "3b4d4e72d1e08fd209fa",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097191",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "c4171bee826895708b7c",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Movement_Tuto2 command[11] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[20]=Movement_Tuto2/command[11]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097188",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "cf67ecf3e6c7578d9c04",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Movement_Tuto2 command[5] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[20]=Movement_Tuto2/command[5]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097189",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "51a3232d24f5d4108be2",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Movement_Tuto2 command[7] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[20]=Movement_Tuto2/command[7]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097190",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "8c8f2cd003c8a1e7ff35",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Movement_Tuto2 command[9] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[20]=Movement_Tuto2/command[9]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "655365",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "5fdd5982461419f8f8b7",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp2_Intro command[10] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[24]=Swamp2_Intro/command[10]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "655366",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "b52774eea4e79cb324fe",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp2_Intro command[12] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[24]=Swamp2_Intro/command[12]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "655367",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "d4710a14b751e3cf70d6",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp2_Intro command[14] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[24]=Swamp2_Intro/command[14]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "655363",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "b93e8c3ab6fb87d195bb",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp2_Intro command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[24]=Swamp2_Intro/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "655364",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "7887a9f9e2e132aba2b8",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp2_Intro command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[24]=Swamp2_Intro/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031654",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "9c53671462e33ab45a8b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerB_a command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[25]=Swamp_Camp_PrisonerB_a/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031655",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "624a06a5ca28d09444e3",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerB_a command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[25]=Swamp_Camp_PrisonerB_a/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031656",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "5a7e39bb31e874dbde90",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerB_a command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[25]=Swamp_Camp_PrisonerB_a/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031658",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "ecde682fb1b64662f552",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerB_b command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[26]=Swamp_Camp_PrisonerB_b/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031659",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "0ed7ea8cf98d615ce249",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerC_a command[2] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[27]=Swamp_Camp_PrisonerC_a/command[2]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031660",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "82aefd7526b6fc63a70d",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerC_a command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[27]=Swamp_Camp_PrisonerC_a/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031661",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "39788be431d9ebd97095",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerC_b command[3] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[28]=Swamp_Camp_PrisonerC_b/command[3]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031662",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "584d129de26d60ccb754",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerC_b command[7] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[28]=Swamp_Camp_PrisonerC_b/command[7]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031663",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "c184ad1df3fdb0264a63",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerE_a command[2] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[29]=Swamp_Camp_PrisonerE_a/command[2]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031664",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "c81c0179fe0a99a855fe",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerE_a command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[29]=Swamp_Camp_PrisonerE_a/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031665",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "285fe11af80e7cfa5c15",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerE_a command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[29]=Swamp_Camp_PrisonerE_a/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031677",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "1910165ffa2ad14479af",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Door_Inspection_South command[3] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[2]=Door_Inspection_South/command[3]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031678",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "03f56c2d66904f98241b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Door_Inspection_South command[5] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[2]=Door_Inspection_South/command[5]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031679",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "889c99aa789511e10de8",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Door_Inspection_South command[7] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[2]=Door_Inspection_South/command[7]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031626",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "bb01aaeb091f6db32d1c",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[114] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[114]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031627",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "341d860a23260d41f9dc",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[121] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[121]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031628",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "9b8bb31baaf2dd96e711",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[126] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[126]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031629",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "67087af03f15f3987725",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[129] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[129]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031630",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "3fd11ae289c792f7a496",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[131] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[131]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031617",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "9bcc0bb8c4358fad519e",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[54] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[54]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031618",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "4be9a560cd5f8ca1151c",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[56] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[56]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031619",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "ff56c4700eeb0ef6b5fe",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[62] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[62]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031620",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "1707df8122b553d046c1",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[68] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[68]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031621",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "4d79e42cc85b1bfafed5",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[79] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[79]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031622",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "0446bd2260afb3438584",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[84] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[84]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031623",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "990f835f6054441aa9cd",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[89] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[89]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031624",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "94f33b9e731e1ff37548",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[93] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[93]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031625",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "ceb080f76d26b7a8c86f",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[96] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[96]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031633",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "7fcf70e45a041688feb0",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[34] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[34]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031634",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "76dfa1ff644b1eda12f6",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[38] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[38]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031635",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "c1a7cdaf7543f5f4ee97",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[45] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[45]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031636",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "03934ada16b91b0dfc5c",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[49] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[49]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031637",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "3d657782ab7d17417ae8",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[51] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[51]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031638",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "fcbfff19e2fecbe68bae",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[55] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[55]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031639",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "730f93abded79b63127e",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[62] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[62]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031640",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "af2249cbc10036ab3a27",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[66] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[66]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031641",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "38d5dde11441a0d0456a",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[68] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[68]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031642",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "375fe9acdc322741bff0",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[72] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[72]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031643",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "5a0e0fdcbd0bc75654fe",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[77] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[77]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031644",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "8e4d6501b46b92cadadc",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[85] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[85]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031693",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "d8aea0a288e8acaffd40",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[35] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[35]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031694",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "2b5e369b10a330c5c999",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[38] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[38]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031695",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "02669cd5efbacc84d776",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[65] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[65]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1966098",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "52913d1a0d315c6d52df",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[11] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[11]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1966099",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "cb3cbbac189b8e3673cd",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[13] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[13]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1966100",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "71339a6aa342f6e2df5d",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[16] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[16]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031617",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "6a9a26832e227db3a554",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[19] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[19]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031682",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "bda348ef32d76bf5ce6b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[21] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[21]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031683",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "46f611d4d602f70d9ce1",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[25] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[25]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1966096",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "6eca52c6f84c78797487",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1966097",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "139f59fbfb631fe05f81",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097260",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "4ef0efc85521cbc9c4d7",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[10] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[10]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031696",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "08298ed5692f82f0d0dd",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[13] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[13]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031697",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "2de182c943a5d483aad4",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[15] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[15]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031698",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "0387323ec4821e877f2f",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[17] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[17]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097256",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "690825f0674cba9f7389",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[2] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[2]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097257",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "fe560c55c377d8d02fa8",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097258",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "6b33b32202419eac48b9",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097259",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "674b6f6586102cc96e92",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097226",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "c95a6ce9489320708919",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 chest_tuto command[10] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[39]=chest_tuto/command[10]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097223",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "2fb7f3e91e6a4a15c3d3",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 chest_tuto command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[39]=chest_tuto/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097224",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "8a3d000ad213c9dfbe25",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 chest_tuto command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[39]=chest_tuto/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097225",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "2de1aecfbfbfb6409229",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 chest_tuto command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[39]=chest_tuto/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097187",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "2a1df43333163cc088cc",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_levelUp command[10] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[40]=cinematic_Tuto_levelUp/command[10]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097183",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "064b87efc1b201310fa1",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_levelUp command[2] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[40]=cinematic_Tuto_levelUp/command[2]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097184",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "56e860485d1c83861d86",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_levelUp command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[40]=cinematic_Tuto_levelUp/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097185",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "1e3b0384c6638accad3b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_levelUp command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[40]=cinematic_Tuto_levelUp/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097186",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "16b5c1c29369939727b2",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_levelUp command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[40]=cinematic_Tuto_levelUp/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097241",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "fdacbc5617b7dcc09c0b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_potionUse command[10] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[41]=cinematic_Tuto_potionUse/command[10]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097242",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "0592e515b68e4880f4da",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_potionUse command[12] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[41]=cinematic_Tuto_potionUse/command[12]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097237",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "78104d2588b4c2aa2e6e",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_potionUse command[2] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[41]=cinematic_Tuto_potionUse/command[2]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097238",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "a4cd020f6e453f4e70d0",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_potionUse command[4] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[41]=cinematic_Tuto_potionUse/command[4]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097239",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "bb7db3c97a79d5a387df",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_potionUse command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[41]=cinematic_Tuto_potionUse/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2097240",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "a661f8da7ab24a9d9cfd",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_potionUse command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[41]=cinematic_Tuto_potionUse/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703970",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "33c2bb13514f26069d43",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_MerchantCamp command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[42]=enterLocation_MerchantCamp/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703962",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "cb3435d3ed14954f52d7",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_North_Boardwalk command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[43]=enterLocation_North_Boardwalk/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703961",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "a94500f7adb12bbfadf6",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_South_Boardwalk command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[44]=enterLocation_South_Boardwalk/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703960",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "072b68dcdb8e1c134584",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_StartRoom command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[45]=enterLocation_StartRoom/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703958",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "743d84ea9561a43430c7",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_Swamp command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[46]=enterLocation_Swamp/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703958",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "7090765e98c15fc7d754",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_Swamp_EDWARD command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[47]=enterLocation_Swamp_EDWARD/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703969",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "8784a2313f1d75a6f7c4",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_Swamp_King command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[48]=enterLocation_Swamp_King/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703958",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "1f72552c7d0c7934e8a0",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_Swamp_RENE command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[49]=enterLocation_Swamp_RENE/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703971",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "d61a43257eae3436d1d8",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 enterLocation_To_Witch_Cave command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[51]=enterLocation_To_Witch_Cave/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703958",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "138e3ebc30843c80272b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 exitLocation_MerchantCamp command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[52]=exitLocation_MerchantCamp/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1966107",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "0794d14ba2e67f3ff2ef",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Return_Cinematic command[11] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[16]=Return_Cinematic/command[11]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1966108",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "6115771b9c7958898793",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Return_Cinematic command[13] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[16]=Return_Cinematic/command[13]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1966109",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "8260c0582978372033c3",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Return_Cinematic command[15] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[16]=Return_Cinematic/command[15]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1179680",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "09d26333cdc04a0d9401",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Epic_hello command[10] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[1]=Epic_hello/command[10]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1179677",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "ef478ddd6cf99ac2c274",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Epic_hello command[6] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[1]=Epic_hello/command[6]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1179679",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "13e4e4e021206325f399",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Epic_hello command[8] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[1]=Epic_hello/command[8]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703974",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "01f0ce97edf21d6bb745",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 enterLocation_SwampCave command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[21]=enterLocation_SwampCave/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "1703975",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "8ee5a22359fadd8da693",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 enterLocation_SwampCave_Inner_Den command[0] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[22]=enterLocation_SwampCave_Inner_Den/command[0]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031684",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "606970613980527d255b",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Intro_Witch command[28] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[3]=Intro_Witch/command[28]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031685",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "e27964162adb7dba3f2f",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Intro_Witch command[33] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[3]=Intro_Witch/command[33]=Script_StartDialog/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND"
+      },
+      "kind": "dialog_text_string_id",
+      "name": "2031686",
+      "port_candidates": [],
+      "reason": "Typed dialog/style string identifier is a lookup key; no independent media file path is encoded at this site.",
+      "reason_code": "OTHER",
+      "reference_id": "6f06029455572befdabb",
+      "reference_kind": "dialog_text_string_id",
+      "rule": "CAMPAIGN_TYPED_DIALOG_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Intro_Witch command[38] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[3]=Intro_Witch/command[38]=Script_StartDialog/field@16",
+      "source_candidates": []
+    }
+  ],
+  "schema": "atlas-r2-staging-classification-shard-v1"
+}

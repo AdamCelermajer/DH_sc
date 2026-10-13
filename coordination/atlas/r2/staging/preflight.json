@@ -1,0 +1,27 @@
+{
+  "checks": [
+    {
+      "boundary": "executed real stage_assets_v21_8.py main through all base/selection preflight checks, stopping before target.mkdir",
+      "passed": true,
+      "selection": "coordination/atlas/r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+      "stage_script": "coordination/v21.8/stage_assets_v21_8.py",
+      "stage_script_sha256": "10326BFE350D8A6620A797AEBBB0B0C431008AEAF655F0E66F004F78C185767F",
+      "target_created": false
+    },
+    {
+      "boundary": "executed real stage_assets_v21_8.py main through all base/selection preflight checks, stopping before target.mkdir",
+      "passed": true,
+      "selection": "coordination/atlas/r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json",
+      "stage_script": "coordination/v21.8/stage_assets_v21_8.py",
+      "stage_script_sha256": "10326BFE350D8A6620A797AEBBB0B0C431008AEAF655F0E66F004F78C185767F",
+      "target_created": false
+    }
+  ],
+  "mutated_staged_or_base": false,
+  "schema": "atlas-r2-stage-preflight-v1",
+  "selection_files": [
+    "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+    "r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json"
+  ],
+  "staged2_manifest": "windows-source-clock-v21.8-staged2/manifest.json"
+}

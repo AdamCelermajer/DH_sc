@@ -1,8 +1,236 @@
 {
   "act": "act_2_inferred",
-  "count": 182,
+  "count": 192,
   "kind": "data file",
   "rows": [
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 4178,
+        "character_offset": 4178,
+        "element": "GameObject",
+        "element_index": 10,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 149
+      },
+      "id": "3d1c9b759f4e7c32cb7f",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3d1c9b759f4e7c32cb7f",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:149:attribute@4178:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 4644,
+        "character_offset": 4644,
+        "element": "GameObject",
+        "element_index": 11,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 165
+      },
+      "id": "ee511e45343ad5e16851",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ee511e45343ad5e16851",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:165:attribute@4644:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 5082,
+        "character_offset": 5082,
+        "element": "GameObject",
+        "element_index": 12,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 180
+      },
+      "id": "f8321b7739b5411d43c5",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f8321b7739b5411d43c5",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:180:attribute@5082:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 5554,
+        "character_offset": 5554,
+        "element": "GameObject",
+        "element_index": 13,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 196
+      },
+      "id": "3e7e9393c04740a62252",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3e7e9393c04740a62252",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:196:attribute@5554:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 1681,
+        "character_offset": 1681,
+        "element": "GameObject",
+        "element_index": 5,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 68
+      },
+      "id": "b23e616ed7fbe1b36c43",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b23e616ed7fbe1b36c43",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:68:attribute@1681:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "charpropsname_pydata",
+        "byte_offset": 2153,
+        "character_offset": 2153,
+        "element": "GameObject",
+        "element_index": 6,
+        "file": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "line": 84
+      },
+      "id": "df431aad6435844e78b9",
+      "kind": "data file",
+      "name": "CharacterTable",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "df431aad6435844e78b9",
+      "reference_kind": "pydata_table",
+      "resolves_to": [
+        {
+          "name": "CharacterTable",
+          "schema_evidence": "The exact authored PyData selector is checked by the population consumer against Charater_Templates / CharacterTable before accessing the respective CharacterTemplateTableV78 / CharacterTable (port/windows-foundation/actor_population.cpp:61-80,144-170; port/level-world/reference/character-game-design/registered_names.inc). This resolves the table selector only, not an authored row ID.",
+          "table": "character_properties#group0",
+          "type": "table"
+        }
+      ],
+      "rule": "Exact charpropsname_pydata selector CharacterTable identifies the CharacterTable source table; the authored charpropsname remains a separate row key.",
+      "scope_reasons": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp:84:attribute@2153:charpropsname_pydata",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
     {
       "act": "act_2_inferred",
       "candidates": [],
@@ -1987,6 +2215,118 @@
       "confidence": "PROVEN",
       "context": {
         "attribute": "light_set",
+        "byte_offset": 487,
+        "character_offset": 487,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 15
+      },
+      "id": "9b87a8fe0019aca3eeeb",
+      "kind": "data file",
+      "name": "data/3D/Light/castle.lightset_xml",
+      "reason": null,
+      "reference_id": "9b87a8fe0019aca3eeeb",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "d6b7b22f7818477af191",
+              "path": ".local-inputs/assets-extra/android/data/3d/light/castle.lightset_xml",
+              "sha256": "93fdf83a89bcc189601ec4980d7cadd8cb32104ce5d2db6ba38a427fbc7dd040",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):xml-et-parse",
+              "decoded_sha256": "93fdf83a89bcc189601ec4980d7cadd8cb32104ce5d2db6ba38a427fbc7dd040",
+              "id": "04d40a7cba61127c5054",
+              "logical_paths": [
+                "data/3d/light/castle.lightset_xml"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000141.dat",
+              "sha256": "0b7d9efc621a8e69db04adec8b70a556864910bba00ffb79660885d9e8db7b9e",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/Light/castle.lightset_xml",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:15:attribute@487:light_set",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "fixed_light_set",
+        "byte_offset": 535,
+        "character_offset": 535,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "line": 16
+      },
+      "id": "1f84fe2131f3ec33f37c",
+      "kind": "data file",
+      "name": "data/3D/Light/castle_es1_1.lightset_xml",
+      "reason": null,
+      "reference_id": "1f84fe2131f3ec33f37c",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "e44d239b2f007e2c5b26",
+              "path": ".local-inputs/assets-extra/android/data/3d/light/castle_es1_1.lightset_xml",
+              "sha256": "25a3283aaa48e6daef951d3e908b10895313414acc521a0c4bf855ef47796cb8",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):xml-et-parse",
+              "decoded_sha256": "25a3283aaa48e6daef951d3e908b10895313414acc521a0c4bf855ef47796cb8",
+              "id": "2bb048dfd3eafd6982a8",
+              "logical_paths": [
+                "data/3d/light/castle_es1_1.lightset_xml"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005110.dat",
+              "sha256": "1d993b29dd46180e34252a25403e9915bbcfe98463ba07f1f0147553705b736a",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/Light/castle_es1_1.lightset_xml",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 008_gothicus_castle_01.rule.xml .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml:16:attribute@535:fixed_light_set",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "light_set",
         "byte_offset": 471,
         "character_offset": 471,
         "element": "rules",
@@ -3433,6 +3773,118 @@
         "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml"
       ],
       "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml:16:attribute@543:fixed_light_set",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "light_set",
+        "byte_offset": 490,
+        "character_offset": 490,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 15
+      },
+      "id": "89ecda5f125e7c0b547d",
+      "kind": "data file",
+      "name": "data/3D/Light/lighthousse.lightset_xml",
+      "reason": null,
+      "reference_id": "89ecda5f125e7c0b547d",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "88645d92e2a54d0f7cfb",
+              "path": ".local-inputs/assets-extra/android/data/3d/light/lighthousse.lightset_xml",
+              "sha256": "10c3a8c64795c37ce53ff1f05238400bd0c613edb22e2cec04b0b32e9e22b499",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):xml-et-parse",
+              "decoded_sha256": "10c3a8c64795c37ce53ff1f05238400bd0c613edb22e2cec04b0b32e9e22b499",
+              "id": "1e727d0f13cf18ab1608",
+              "logical_paths": [
+                "data/3d/light/lighthousse.lightset_xml"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002896.dat",
+              "sha256": "dd154245bd619be592ea767acc1516f058bc4d5f8c529ca20908e84996257633",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/Light/lighthousse.lightset_xml",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:15:attribute@490:light_set",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "attribute": "fixed_light_set",
+        "byte_offset": 543,
+        "character_offset": 543,
+        "element": "rules",
+        "element_index": 0,
+        "file": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "line": 16
+      },
+      "id": "4b9826e5b326f4bfae3e",
+      "kind": "data file",
+      "name": "data/3D/Light/lighthousse_es1_1.lightset_xml",
+      "reason": null,
+      "reference_id": "4b9826e5b326f4bfae3e",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "b2f20fdadf254cbb472f",
+              "path": ".local-inputs/assets-extra/android/data/3d/light/lighthousse_es1_1.lightset_xml",
+              "sha256": "6792695f7022af7024debf44d88c97137a4826232ee19499506ba862b7ff594a",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):xml-et-parse",
+              "decoded_sha256": "6792695f7022af7024debf44d88c97137a4826232ee19499506ba862b7ff594a",
+              "id": "4fe944ba28428988dcfa",
+              "logical_paths": [
+                "data/3d/light/lighthousse_es1_1.lightset_xml"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001381.dat",
+              "sha256": "73c786ca98b9a9d84628d670d82d1eff266b13facc0de98f1782b625b8f852cf",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/Light/lighthousse_es1_1.lightset_xml",
+          "type": "source asset file"
+        }
+      ],
+      "rule": "XML_ATTRIBUTE",
+      "scope_reasons": [
+        "C reached scene source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml",
+        "scene source .local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/scene/019_light_house_03.rule.xml:16:attribute@543:fixed_light_set",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"

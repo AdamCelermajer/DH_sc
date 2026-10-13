@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 246,
+  "count": 347,
   "kind": "animation_dictionary",
   "rows": [
     {
@@ -1627,6 +1627,3521 @@
         "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[99] 8"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[99]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "64e9f671040a7c33dbfe",
+          "index": 1095,
+          "name": "prince_rogue_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bf447bc28b554b7899ba",
+      "kind": "animation_dictionary",
+      "name": "prince_rogue_viciousstrike",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bf447bc28b554b7899ba",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "64e9f671040a7c33dbfe",
+          "index": 1095,
+          "name": "prince_rogue_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[37] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[37]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1033475292c5688fb607",
+          "index": 1089,
+          "name": "prince_rogue_pre_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6c1bf0b4bc0b19ec1acf",
+      "kind": "animation_dictionary",
+      "name": "prince_rogue_pre_viciousstrike",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6c1bf0b4bc0b19ec1acf",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "1033475292c5688fb607",
+          "index": 1089,
+          "name": "prince_rogue_pre_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[37] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[37]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "f90e1399cdfbb62f9b6f",
+          "index": 1037,
+          "name": "prince_idle_dual",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fe30facec7f82458a242",
+      "kind": "animation_dictionary",
+      "name": "prince_idle_dual",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fe30facec7f82458a242",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "f90e1399cdfbb62f9b6f",
+          "index": 1037,
+          "name": "prince_idle_dual",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[40] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[40]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "f90e1399cdfbb62f9b6f",
+          "index": 1037,
+          "name": "prince_idle_dual",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "54d5fc5058eff87e24b3",
+      "kind": "animation_dictionary",
+      "name": "prince_idle_dual",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "54d5fc5058eff87e24b3",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "f90e1399cdfbb62f9b6f",
+          "index": 1037,
+          "name": "prince_idle_dual",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[40] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[40]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3768381c988b6914fc85",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3768381c988b6914fc85",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[103] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[103]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f8dd5b7c646e0c31cd73",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f8dd5b7c646e0c31cd73",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[103] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[103]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bc70310089baa5dcec84",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bc70310089baa5dcec84",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[104] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[104]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b8f2e99a12c6eb9619fc",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b8f2e99a12c6eb9619fc",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[104] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[104]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6df170498f7cb4c9f5bd",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6df170498f7cb4c9f5bd",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[105] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[105]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "4917d556c97482181c2e",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4917d556c97482181c2e",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[105] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[105]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bba65909f0aac54fba66",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene08_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bba65909f0aac54fba66",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[106] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[106]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "40abdbe706e0fb81e7ed",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene08_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "40abdbe706e0fb81e7ed",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[106] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[106]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "396cfa87d28f727b9256",
+          "index": 256,
+          "name": "cs_king_intro_edward_scene11_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e58441b4b4996e90d943",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene11_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e58441b4b4996e90d943",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "396cfa87d28f727b9256",
+          "index": 256,
+          "name": "cs_king_intro_edward_scene11_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[111] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[111]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ee559902a5746005340d",
+          "index": 255,
+          "name": "cs_king_intro_edward_scene11",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ab1257545d99e62845b9",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene11",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ab1257545d99e62845b9",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ee559902a5746005340d",
+          "index": 255,
+          "name": "cs_king_intro_edward_scene11",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[111] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[111]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "93b76582aa002351aa9d",
+          "index": 274,
+          "name": "cs_king_intro_king_scene11_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dd744489051ac0127385",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_king_scene11_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dd744489051ac0127385",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "93b76582aa002351aa9d",
+          "index": 274,
+          "name": "cs_king_intro_king_scene11_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[112] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[112]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "fa21078f24f36f911415",
+          "index": 273,
+          "name": "cs_king_intro_king_scene11",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "82d1c48857f04bef2e0e",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_king_scene11",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "82d1c48857f04bef2e0e",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "fa21078f24f36f911415",
+          "index": 273,
+          "name": "cs_king_intro_king_scene11",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[112] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[112]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b8fe4cedbe89a43f967",
+          "index": 83,
+          "name": "cin_king_point_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7eaa6c8e39af085ee921",
+      "kind": "animation_dictionary",
+      "name": "cin_king_point_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7eaa6c8e39af085ee921",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b8fe4cedbe89a43f967",
+          "index": 83,
+          "name": "cin_king_point_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[119] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[119]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "908e2f58bebba78a8272",
+          "index": 275,
+          "name": "cs_king_intro_king_scene12",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f4a8311c318d1a830e3c",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_king_scene12",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f4a8311c318d1a830e3c",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "908e2f58bebba78a8272",
+          "index": 275,
+          "name": "cs_king_intro_king_scene12",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[119] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[119]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "61049e7005387f4a002b",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "61049e7005387f4a002b",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[122] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[122]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f72c9b486be8cdb03fea",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f72c9b486be8cdb03fea",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[122] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[122]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ea5a8f9214ef139da4d2",
+          "index": 257,
+          "name": "cs_king_intro_edward_scene12",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "31dc377fa7d9dc0d1f95",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene12",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "31dc377fa7d9dc0d1f95",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ea5a8f9214ef139da4d2",
+          "index": 257,
+          "name": "cs_king_intro_edward_scene12",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[123] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[123]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ea03986a421200909b63",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ea03986a421200909b63",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[129] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[129]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0c0fb8b372eaf0552490",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0c0fb8b372eaf0552490",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[129] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[129]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "8045a6fb54ca83886445",
+          "index": 259,
+          "name": "cs_king_intro_edward_scene13_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ce65e2b5e0874fc7dc08",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene13_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ce65e2b5e0874fc7dc08",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "8045a6fb54ca83886445",
+          "index": 259,
+          "name": "cs_king_intro_edward_scene13_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[130] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[130]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "8045a6fb54ca83886445",
+          "index": 259,
+          "name": "cs_king_intro_edward_scene13_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6429d71d43df61091d6a",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene13_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6429d71d43df61091d6a",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "8045a6fb54ca83886445",
+          "index": 259,
+          "name": "cs_king_intro_edward_scene13_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[130] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[130]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "857fcb0938e8918f76c5",
+          "index": 258,
+          "name": "cs_king_intro_edward_scene13_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "eb747cc73c48803afd2a",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene13_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "eb747cc73c48803afd2a",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "857fcb0938e8918f76c5",
+          "index": 258,
+          "name": "cs_king_intro_edward_scene13_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[138] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[138]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "857fcb0938e8918f76c5",
+          "index": 258,
+          "name": "cs_king_intro_edward_scene13_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dbab91e7bf04650dca07",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene13_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dbab91e7bf04650dca07",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "857fcb0938e8918f76c5",
+          "index": 258,
+          "name": "cs_king_intro_edward_scene13_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[138] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[138]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "dbf6e2c1bacdd5f94bc0",
+          "index": 265,
+          "name": "cs_king_intro_guard1_scene13_run",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "35d4f2a8c530cc7065ed",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_guard1_scene13_run",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "35d4f2a8c530cc7065ed",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "dbf6e2c1bacdd5f94bc0",
+          "index": 265,
+          "name": "cs_king_intro_guard1_scene13_run",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[148] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[148]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1ce5df2e1f5467f9e22f",
+          "index": 266,
+          "name": "cs_king_intro_guard2_scene13_run",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8e46c218904f667db58b",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_guard2_scene13_run",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8e46c218904f667db58b",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "1ce5df2e1f5467f9e22f",
+          "index": 266,
+          "name": "cs_king_intro_guard2_scene13_run",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[149] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[149]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1104290c526dc80dced5",
+          "index": 267,
+          "name": "cs_king_intro_guard3_scene13_run",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c30b7f93917dddc0a3ac",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_guard3_scene13_run",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c30b7f93917dddc0a3ac",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "1104290c526dc80dced5",
+          "index": 267,
+          "name": "cs_king_intro_guard3_scene13_run",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[150] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[150]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "dffad4c975d252e1d1e8",
+          "index": 268,
+          "name": "cs_king_intro_guard4_scene13_run",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "71346787b69df36916f7",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_guard4_scene13_run",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "71346787b69df36916f7",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "dffad4c975d252e1d1e8",
+          "index": 268,
+          "name": "cs_king_intro_guard4_scene13_run",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[151] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[151]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b8fe4cedbe89a43f967",
+          "index": 83,
+          "name": "cin_king_point_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7ddb30fe25e635bc93dc",
+      "kind": "animation_dictionary",
+      "name": "cin_king_point_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7ddb30fe25e635bc93dc",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b8fe4cedbe89a43f967",
+          "index": 83,
+          "name": "cin_king_point_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[193] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[193]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b8fe4cedbe89a43f967",
+          "index": 83,
+          "name": "cin_king_point_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3712537a91ad2499e1e9",
+      "kind": "animation_dictionary",
+      "name": "cin_king_point_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3712537a91ad2499e1e9",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b8fe4cedbe89a43f967",
+          "index": 83,
+          "name": "cin_king_point_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[193] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[193]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6c43d63d84348b0a8e1b",
+          "index": 283,
+          "name": "cs_king_intro_prince_scene02",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9413655d6be20ba6c7fd",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene02",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9413655d6be20ba6c7fd",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "6c43d63d84348b0a8e1b",
+          "index": 283,
+          "name": "cs_king_intro_prince_scene02",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[21] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[21]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "192aa33bc25c409737ba",
+          "index": 277,
+          "name": "cs_king_intro_priest_scene02",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b4a699076cd4ef8928b9",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene02",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b4a699076cd4ef8928b9",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "192aa33bc25c409737ba",
+          "index": 277,
+          "name": "cs_king_intro_priest_scene02",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[22] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[22]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "533b29fc3c4cc971df3c",
+          "index": 260,
+          "name": "cs_king_intro_faery_scene02",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "895f6574de35b9f575f8",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene02",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "895f6574de35b9f575f8",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "533b29fc3c4cc971df3c",
+          "index": 260,
+          "name": "cs_king_intro_faery_scene02",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[23] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[23]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "be0fedc2756f3ff0f4df",
+          "index": 284,
+          "name": "cs_king_intro_prince_scene03",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5f2b047eefe3227ee59f",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene03",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5f2b047eefe3227ee59f",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "be0fedc2756f3ff0f4df",
+          "index": 284,
+          "name": "cs_king_intro_prince_scene03",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[26] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[26]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a947611fab411dfe1128",
+          "index": 278,
+          "name": "cs_king_intro_priest_scene03",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "406f6ab8e72bedd7b586",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene03",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "406f6ab8e72bedd7b586",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "a947611fab411dfe1128",
+          "index": 278,
+          "name": "cs_king_intro_priest_scene03",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[27] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[27]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "c496145e29065169980f",
+          "index": 261,
+          "name": "cs_king_intro_faery_scene03",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "07eb2f9fef97c4761a18",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene03",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "07eb2f9fef97c4761a18",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "c496145e29065169980f",
+          "index": 261,
+          "name": "cs_king_intro_faery_scene03",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[28] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[28]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "f352383b3644b49d41da",
+          "index": 249,
+          "name": "cs_king_intro_edward_scene03_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "46fd41406a2368f9d656",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene03_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "46fd41406a2368f9d656",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "f352383b3644b49d41da",
+          "index": 249,
+          "name": "cs_king_intro_edward_scene03_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[29] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[29]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "f352383b3644b49d41da",
+          "index": 249,
+          "name": "cs_king_intro_edward_scene03_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "03bb497db3aaa5d7c77d",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene03_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "03bb497db3aaa5d7c77d",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "f352383b3644b49d41da",
+          "index": 249,
+          "name": "cs_king_intro_edward_scene03_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[29] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[29]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "8a43124d53c49e70f33c",
+          "index": 272,
+          "name": "cs_king_intro_king_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fb94c3444851b6a04d6e",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_king_scene05_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fb94c3444851b6a04d6e",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "8a43124d53c49e70f33c",
+          "index": 272,
+          "name": "cs_king_intro_king_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[30] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[30]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "17655a2aa68c30dbb52f",
+          "index": 271,
+          "name": "cs_king_intro_king_scene03",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "140e63ebf775299a9456",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_king_scene03",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "140e63ebf775299a9456",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "17655a2aa68c30dbb52f",
+          "index": 271,
+          "name": "cs_king_intro_king_scene03",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[30] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[30]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "38b2e2080c7a47fff5f0",
+          "index": 252,
+          "name": "cs_king_intro_edward_scene06_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2acb7f5b967c54bf21cc",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene06_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2acb7f5b967c54bf21cc",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "38b2e2080c7a47fff5f0",
+          "index": 252,
+          "name": "cs_king_intro_edward_scene06_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[33] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[33]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "38b2e2080c7a47fff5f0",
+          "index": 252,
+          "name": "cs_king_intro_edward_scene06_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "45955ca0e7789619eb02",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene06_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "45955ca0e7789619eb02",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "38b2e2080c7a47fff5f0",
+          "index": 252,
+          "name": "cs_king_intro_edward_scene06_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[33] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[33]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6647f9f142d0a9629975",
+          "index": 286,
+          "name": "cs_king_intro_prince_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "afc7919b03f9438b3b6c",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "afc7919b03f9438b3b6c",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "6647f9f142d0a9629975",
+          "index": 286,
+          "name": "cs_king_intro_prince_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[39] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[39]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9dc2b6a7283fd464f215",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9dc2b6a7283fd464f215",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[39] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[39]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0d1cc303d15d71c5f49a",
+          "index": 279,
+          "name": "cs_king_intro_priest_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fd5fe955da457148d23d",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene05_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fd5fe955da457148d23d",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "0d1cc303d15d71c5f49a",
+          "index": 279,
+          "name": "cs_king_intro_priest_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[40] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[40]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0d1cc303d15d71c5f49a",
+          "index": 279,
+          "name": "cs_king_intro_priest_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "83016956cf0079e24130",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene05_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "83016956cf0079e24130",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "0d1cc303d15d71c5f49a",
+          "index": 279,
+          "name": "cs_king_intro_priest_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[40] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[40]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "f7782466ba60e35de895",
+          "index": 262,
+          "name": "cs_king_intro_faery_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c48f8453f66d52ea60ba",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c48f8453f66d52ea60ba",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "f7782466ba60e35de895",
+          "index": 262,
+          "name": "cs_king_intro_faery_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[41] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[41]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "f7782466ba60e35de895",
+          "index": 262,
+          "name": "cs_king_intro_faery_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "34eec36a89e5cef0bc25",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "34eec36a89e5cef0bc25",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "f7782466ba60e35de895",
+          "index": 262,
+          "name": "cs_king_intro_faery_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[41] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[41]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "9d69bc37aced6693ffba",
+          "index": 251,
+          "name": "cs_king_intro_edward_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "af08c1c729cc5f52be5a",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene05_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "af08c1c729cc5f52be5a",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "9d69bc37aced6693ffba",
+          "index": 251,
+          "name": "cs_king_intro_edward_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[42] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[42]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "9d69bc37aced6693ffba",
+          "index": 251,
+          "name": "cs_king_intro_edward_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "16ad30c9489bac165738",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene05_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "16ad30c9489bac165738",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "9d69bc37aced6693ffba",
+          "index": 251,
+          "name": "cs_king_intro_edward_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[42] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[42]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "38b2e2080c7a47fff5f0",
+          "index": 252,
+          "name": "cs_king_intro_edward_scene06_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a2782f1a2785214ba14a",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene06_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a2782f1a2785214ba14a",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "38b2e2080c7a47fff5f0",
+          "index": 252,
+          "name": "cs_king_intro_edward_scene06_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[47] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[47]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "38b2e2080c7a47fff5f0",
+          "index": 252,
+          "name": "cs_king_intro_edward_scene06_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b006d71910d5a32e9e13",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene06_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b006d71910d5a32e9e13",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "38b2e2080c7a47fff5f0",
+          "index": 252,
+          "name": "cs_king_intro_edward_scene06_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[47] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[47]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2008f409eefd1fea3e94",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2008f409eefd1fea3e94",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[54] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[54]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "72054391b7b4332ae0a0",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "72054391b7b4332ae0a0",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[54] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[54]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b91c15e38458bec47f24",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b91c15e38458bec47f24",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[55] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[55]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e406e3667fb9b43805f7",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e406e3667fb9b43805f7",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[55] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[55]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f2e00782673fcecdc4cf",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f2e00782673fcecdc4cf",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[56] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[56]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6c81cb2a6544fb052655",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6c81cb2a6544fb052655",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[56] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[56]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6647f9f142d0a9629975",
+          "index": 286,
+          "name": "cs_king_intro_prince_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2c8f542f7c4ce6b8eefc",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2c8f542f7c4ce6b8eefc",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "6647f9f142d0a9629975",
+          "index": 286,
+          "name": "cs_king_intro_prince_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[60] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[60]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6647f9f142d0a9629975",
+          "index": 286,
+          "name": "cs_king_intro_prince_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1cce61e1feba705f9b13",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1cce61e1feba705f9b13",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "6647f9f142d0a9629975",
+          "index": 286,
+          "name": "cs_king_intro_prince_scene05_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[60] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[60]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d076f65312aa8b26936c",
+          "index": 281,
+          "name": "cs_king_intro_priest_scene07_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "55fb048f2abcfe7242f9",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene07_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "55fb048f2abcfe7242f9",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "d076f65312aa8b26936c",
+          "index": 281,
+          "name": "cs_king_intro_priest_scene07_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[61] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[61]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d076f65312aa8b26936c",
+          "index": 281,
+          "name": "cs_king_intro_priest_scene07_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "96c6c8fae672ad9f2794",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene07_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "96c6c8fae672ad9f2794",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "d076f65312aa8b26936c",
+          "index": 281,
+          "name": "cs_king_intro_priest_scene07_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[61] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[61]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "78c459140c4c136a4593",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "78c459140c4c136a4593",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[65] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[65]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "588251f467dd855eee4d",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "588251f467dd855eee4d",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[65] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[65]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6dda983b12928b91624c",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6dda983b12928b91624c",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[66] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[66]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a6170d1120f8c4bed0db",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a6170d1120f8c4bed0db",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[66] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[66]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b443a43100885a14d882",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b443a43100885a14d882",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[67] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[67]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8d5683315cbca80e6a07",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8d5683315cbca80e6a07",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[67] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[67]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "555c034ff2c552852c59",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene08_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "555c034ff2c552852c59",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[68] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[68]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "9c2e0c0873d9b1502733",
+          "index": 253,
+          "name": "cs_king_intro_edward_scene08",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5230604452c40875a7a8",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene08",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5230604452c40875a7a8",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "9c2e0c0873d9b1502733",
+          "index": 253,
+          "name": "cs_king_intro_edward_scene08",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[68] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[68]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "4a3099d51793cae1bcab",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4a3099d51793cae1bcab",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[77] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[77]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a8064cb17b5b7d3f5574",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a8064cb17b5b7d3f5574",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[77] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[77]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b7e70beca67d8aa9bba9",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b7e70beca67d8aa9bba9",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[78] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[78]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9405e42c8e2ba8db180c",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9405e42c8e2ba8db180c",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[78] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[78]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cbcb6a31ebe1e326560a",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cbcb6a31ebe1e326560a",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[79] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[79]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7531c0df19dfeaf5b98b",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7531c0df19dfeaf5b98b",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[79] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[79]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "741b864f85949c91e831",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "741b864f85949c91e831",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[84] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[84]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "82ea025be97b2f46d528",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "82ea025be97b2f46d528",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "2b763fa2d86ac0a0f65d",
+          "index": 288,
+          "name": "cs_king_intro_prince_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[84] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[84]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3cf5df07562043460dd3",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3cf5df07562043460dd3",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[85] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[85]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3e2c5bd647d64389f5e4",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3e2c5bd647d64389f5e4",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "447ebe60f395c7a2033a",
+          "index": 282,
+          "name": "cs_king_intro_priest_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[85] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[85]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "21b1a58af57b3efce41a",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "21b1a58af57b3efce41a",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[86] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[86]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cecf7ce9d82db7e861f2",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene08_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cecf7ce9d82db7e861f2",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "58e76ac2d91a2bf3bc20",
+          "index": 264,
+          "name": "cs_king_intro_faery_scene08_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[86] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[86]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "751d5bdaf8b75051e281",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene08_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "751d5bdaf8b75051e281",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[87] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[87]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dca2a75bf07fc55160be",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_edward_scene08_talk",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dca2a75bf07fc55160be",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "888f22333c1366b76e8c",
+          "index": 254,
+          "name": "cs_king_intro_edward_scene08_talk",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[87] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[87]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f581d6fdd50a88120f9a",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f581d6fdd50a88120f9a",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[96] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[96]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b94c0fe579e756397497",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_prince_scene05",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b94c0fe579e756397497",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "ce83a88527a938214b03",
+          "index": 285,
+          "name": "cs_king_intro_prince_scene05",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[96] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[96]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dd414b9717bee6163703",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dd414b9717bee6163703",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[97] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[97]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "36e39555cbb8387f2d65",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_priest_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "36e39555cbb8387f2d65",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "d0de46d13362b7ac7ef7",
+          "index": 280,
+          "name": "cs_king_intro_priest_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[97] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[97]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "71c0dd739fbcb07d8a00",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "71c0dd739fbcb07d8a00",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[98] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[98]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "99fcea24cc4caa561dbb",
+      "kind": "animation_dictionary",
+      "name": "cs_king_intro_faery_scene07_idle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "99fcea24cc4caa561dbb",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "68eaddce14abc654cdf7",
+          "index": 263,
+          "name": "cs_king_intro_faery_scene07_idle",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[98] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[98]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "64e9f671040a7c33dbfe",
+          "index": 1095,
+          "name": "prince_rogue_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fb17fa1b8b9ac8d18ab1",
+      "kind": "animation_dictionary",
+      "name": "prince_rogue_viciousstrike",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fb17fa1b8b9ac8d18ab1",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "64e9f671040a7c33dbfe",
+          "index": 1095,
+          "name": "prince_rogue_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 PlayerReturn1 command[4] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[6]=PlayerReturn1/command[4]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1033475292c5688fb607",
+          "index": 1089,
+          "name": "prince_rogue_pre_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b35082eabc7432e3403b",
+      "kind": "animation_dictionary",
+      "name": "prince_rogue_pre_viciousstrike",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b35082eabc7432e3403b",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "1033475292c5688fb607",
+          "index": 1089,
+          "name": "prince_rogue_pre_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 PlayerReturn1 command[4] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[6]=PlayerReturn1/command[4]=Script_PlayActorAnim/field@8",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -6667,6 +10182,80 @@
       "act": "act_2_inferred",
       "candidates": [
         {
+          "id": "64e9f671040a7c33dbfe",
+          "index": 1095,
+          "name": "prince_rogue_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "76b280a9db0b75e264ae",
+      "kind": "animation_dictionary",
+      "name": "prince_rogue_viciousstrike",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "76b280a9db0b75e264ae",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "64e9f671040a7c33dbfe",
+          "index": 1095,
+          "name": "prince_rogue_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[20] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[20]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1033475292c5688fb607",
+          "index": 1089,
+          "name": "prince_rogue_pre_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0609482b61968e2b568f",
+      "kind": "animation_dictionary",
+      "name": "prince_rogue_pre_viciousstrike",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0609482b61968e2b568f",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "1033475292c5688fb607",
+          "index": 1089,
+          "name": "prince_rogue_pre_viciousstrike",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[20] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[20]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
           "id": "1033475292c5688fb607",
           "index": 1089,
           "name": "prince_rogue_pre_viciousstrike",
@@ -6741,6 +10330,43 @@
       "act": "act_2_inferred",
       "candidates": [
         {
+          "id": "f90e1399cdfbb62f9b6f",
+          "index": 1037,
+          "name": "prince_idle_dual",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "25193390b371c97ec6e3",
+      "kind": "animation_dictionary",
+      "name": "prince_idle_dual",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "25193390b371c97ec6e3",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "f90e1399cdfbb62f9b6f",
+          "index": 1037,
+          "name": "prince_idle_dual",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[27] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[27]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
           "id": "e88f5fe4f250c0b855b3",
           "index": 996,
           "name": "prince_dodge",
@@ -6768,6 +10394,43 @@
       "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
       "scope_reasons": [
         "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[27] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[27]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "e88f5fe4f250c0b855b3",
+          "index": 996,
+          "name": "prince_dodge",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b867603144ab17fb1f99",
+      "kind": "animation_dictionary",
+      "name": "prince_dodge",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b867603144ab17fb1f99",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "e88f5fe4f250c0b855b3",
+          "index": 996,
+          "name": "prince_dodge",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[27] 8"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[27]=Script_PlayActorAnim/field@8",
       "state": "TODO",
@@ -6823,6 +10486,43 @@
         }
       ],
       "confidence": "PROVEN",
+      "id": "eed9eef7892cc953aa1d",
+      "kind": "animation_dictionary",
+      "name": "prince_menu_idle_rogue",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "eed9eef7892cc953aa1d",
+      "reference_kind": "chained_animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "1e780d13e004661cf0b8",
+          "index": 1067,
+          "name": "prince_menu_idle_rogue",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[28] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[28]=Script_PlayActorAnim/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1e780d13e004661cf0b8",
+          "index": 1067,
+          "name": "prince_menu_idle_rogue",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
       "id": "786944a718f973c47bb1",
       "kind": "animation_dictionary",
       "name": "prince_menu_idle_rogue",
@@ -6842,6 +10542,43 @@
       "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
       "scope_reasons": [
         "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[28] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[28]=Script_PlayActorAnim/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1e780d13e004661cf0b8",
+          "index": 1067,
+          "name": "prince_menu_idle_rogue",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b807d119d13a719a52b0",
+      "kind": "animation_dictionary",
+      "name": "prince_menu_idle_rogue",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b807d119d13a719a52b0",
+      "reference_kind": "animation_dictionary",
+      "resolves_to": [
+        {
+          "id": "1e780d13e004661cf0b8",
+          "index": 1067,
+          "name": "prince_menu_idle_rogue",
+          "table": "animations_dictionary#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[28] 8"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[28]=Script_PlayActorAnim/field@8",
       "state": "TODO",

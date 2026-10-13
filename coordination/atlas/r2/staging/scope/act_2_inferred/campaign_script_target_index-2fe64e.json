@@ -1,6 +1,6 @@
 {
   "act": "act_2_inferred",
-  "count": 480,
+  "count": 520,
   "kind": "campaign_script_target_index",
   "rows": [
     {
@@ -7822,6 +7822,382 @@
         }
       ],
       "confidence": "PROVEN",
+      "id": "98e50736e81fd3cb6a04",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "98e50736e81fd3cb6a04",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "479163672fc9dfc2319a",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "479163672fc9dfc2319a",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 AssassinIntro command[66] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[0]=AssassinIntro/command[66]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0b438efa57b482bdc988",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0b438efa57b482bdc988",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2c4bcb7ba7d6b78d21e0",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2c4bcb7ba7d6b78d21e0",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 ExitCinematic command[30] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[4]=ExitCinematic/command[30]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "93facb8e7ad883472567",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "93facb8e7ad883472567",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "788dffa1214e8038e20e",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "788dffa1214e8038e20e",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 KingCinematic command[195] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[5]=KingCinematic/command[195]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0e6f9e104d8ac1737ec4",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0e6f9e104d8ac1737ec4",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 PlayerReturn1 command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[6]=PlayerReturn1/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5c5e48d48ad9e448a185",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5c5e48d48ad9e448a185",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 9e69404bebff0e9a7211 PlayerReturn1 command[14] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin:script[6]=PlayerReturn1/command[14]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
       "id": "289b3ffa76f467b8ed07",
       "kind": "campaign_script_target_index",
       "name": "1",
@@ -13498,6 +13874,100 @@
         {
           "command_count": 8,
           "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b9b8a36196cf597b0024",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b9b8a36196cf597b0024",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b6a3a378666b59adefea",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b6a3a378666b59adefea",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_defeated command[52] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[52]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
           "id": "f2927738bd6aa0394cf0",
           "index": 3,
           "manager_script_index": 3,
@@ -13556,6 +14026,53 @@
         }
       ],
       "confidence": "PROVEN",
+      "id": "19ffc6b311cb3b6a23f3",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "19ffc6b311cb3b6a23f3",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
       "id": "a60a3ecbb6b779e33e13",
       "kind": "campaign_script_target_index",
       "name": "1",
@@ -13582,6 +14099,53 @@
         "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[0] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5ee47fac429dcf0cf4ae",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5ee47fac429dcf0cf4ae",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Assassin_intro command[56] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[56]=Script_ExecScript/field@12",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -13685,6 +14249,53 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "82978c751bea4ae57af7",
+          "index": 9,
+          "manager_script_index": 24,
+          "name": "TeleportToEndModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3a1cca4b539693c8cce0",
+      "kind": "campaign_script_target_index",
+      "name": "9",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3a1cca4b539693c8cce0",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "82978c751bea4ae57af7",
+          "index": 9,
+          "manager_script_index": 24,
+          "name": "TeleportToEndModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_EndModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[31]=TeleportTo_EndModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "f68fdf352d85d5a37d92",
           "index": 10,
           "manager_script_index": 25,
@@ -13723,6 +14334,100 @@
         "campaign b2b7ec3332bd71af7ff0 TeleportTo_EntryModule command[0] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[32]=TeleportTo_EntryModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "bf0941d40849f9e8ac6e",
+          "index": 10,
+          "manager_script_index": 25,
+          "name": "TeleportToEntryModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d407d7e085f2746f1512",
+      "kind": "campaign_script_target_index",
+      "name": "10",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d407d7e085f2746f1512",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "bf0941d40849f9e8ac6e",
+          "index": 10,
+          "manager_script_index": 25,
+          "name": "TeleportToEntryModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_EntryModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[32]=TeleportTo_EntryModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "1b8290f266a21c453aa2",
+          "index": 11,
+          "manager_script_index": 26,
+          "name": "TeleportToLevel10aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "48f523fcf239a19b7888",
+      "kind": "campaign_script_target_index",
+      "name": "11",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "48f523fcf239a19b7888",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "1b8290f266a21c453aa2",
+          "index": 11,
+          "manager_script_index": 26,
+          "name": "TeleportToLevel10aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level10aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[33]=TeleportTo_Level10aModule/command[0]=Script_ExecScript/field@12",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -13826,6 +14531,53 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "f2b07bbef08642c8472e",
+          "index": 12,
+          "manager_script_index": 27,
+          "name": "TeleportToLevel10bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cb72fadfb4176e2136d1",
+      "kind": "campaign_script_target_index",
+      "name": "12",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cb72fadfb4176e2136d1",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "f2b07bbef08642c8472e",
+          "index": 12,
+          "manager_script_index": 27,
+          "name": "TeleportToLevel10bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level10bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[34]=TeleportTo_Level10bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "2f888eced8953667e50b",
           "index": 13,
           "manager_script_index": 28,
@@ -13864,6 +14616,100 @@
         "campaign b2b7ec3332bd71af7ff0 TeleportTo_Level1aModule command[0] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[35]=TeleportTo_Level1aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "2ba4db10d127f71ede31",
+          "index": 13,
+          "manager_script_index": 28,
+          "name": "TeleportToLevel1aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cc6fb0e6cf8d20dc3d59",
+      "kind": "campaign_script_target_index",
+      "name": "13",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cc6fb0e6cf8d20dc3d59",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "2ba4db10d127f71ede31",
+          "index": 13,
+          "manager_script_index": 28,
+          "name": "TeleportToLevel1aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level1aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[35]=TeleportTo_Level1aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "bc41e601bd920d49d0cc",
+          "index": 14,
+          "manager_script_index": 29,
+          "name": "TeleportToLevel1bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3576c12fa014fcb70c49",
+      "kind": "campaign_script_target_index",
+      "name": "14",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3576c12fa014fcb70c49",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "bc41e601bd920d49d0cc",
+          "index": 14,
+          "manager_script_index": 29,
+          "name": "TeleportToLevel1bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level1bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[36]=TeleportTo_Level1bModule/command[0]=Script_ExecScript/field@12",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -13967,6 +14813,100 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "3b3ab57c790396629820",
+          "index": 15,
+          "manager_script_index": 30,
+          "name": "TeleportToLevel2aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c1e2970fd03d07b8f364",
+      "kind": "campaign_script_target_index",
+      "name": "15",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c1e2970fd03d07b8f364",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "3b3ab57c790396629820",
+          "index": 15,
+          "manager_script_index": 30,
+          "name": "TeleportToLevel2aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level2aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[37]=TeleportTo_Level2aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "ea159ef87ac7290dfb48",
+          "index": 16,
+          "manager_script_index": 31,
+          "name": "TeleportToLevel2bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5c8ef329f522bbc52d18",
+      "kind": "campaign_script_target_index",
+      "name": "16",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5c8ef329f522bbc52d18",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "ea159ef87ac7290dfb48",
+          "index": 16,
+          "manager_script_index": 31,
+          "name": "TeleportToLevel2bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level2bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[38]=TeleportTo_Level2bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "8d953b327af74457b435",
           "index": 16,
           "manager_script_index": 31,
@@ -14005,6 +14945,53 @@
         "campaign b2b7ec3332bd71af7ff0 TeleportTo_Level2bModule command[0] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[38]=TeleportTo_Level2bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "7bbb91075b7f6b40adf8",
+          "index": 17,
+          "manager_script_index": 32,
+          "name": "TeleportToLevel3aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "4dde35d1859f755cd235",
+      "kind": "campaign_script_target_index",
+      "name": "17",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4dde35d1859f755cd235",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "7bbb91075b7f6b40adf8",
+          "index": 17,
+          "manager_script_index": 32,
+          "name": "TeleportToLevel3aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level3aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[39]=TeleportTo_Level3aModule/command[0]=Script_ExecScript/field@12",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -14109,6 +15096,100 @@
         {
           "command_count": 8,
           "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "911c9ab264e9e02b3848",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "911c9ab264e9e02b3848",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8a539f7cc6d2f44cf3b5",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8a539f7cc6d2f44cf3b5",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_defeated command[38] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[38]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
           "id": "f2927738bd6aa0394cf0",
           "index": 3,
           "manager_script_index": 3,
@@ -14202,6 +15283,53 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "cab81370321d7695deb0",
+          "index": 18,
+          "manager_script_index": 33,
+          "name": "TeleportToLevel3bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bd62c521609277a91418",
+      "kind": "campaign_script_target_index",
+      "name": "18",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bd62c521609277a91418",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "cab81370321d7695deb0",
+          "index": 18,
+          "manager_script_index": 33,
+          "name": "TeleportToLevel3bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level3bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[40]=TeleportTo_Level3bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "ad358130205386e089e8",
           "index": 19,
           "manager_script_index": 34,
@@ -14240,6 +15368,100 @@
         "campaign b2b7ec3332bd71af7ff0 TeleportTo_Level4aModule command[0] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[41]=TeleportTo_Level4aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "803e44d0d7d979487a02",
+          "index": 19,
+          "manager_script_index": 34,
+          "name": "TeleportToLevel4aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8b5e4d2eac2c2fec99b7",
+      "kind": "campaign_script_target_index",
+      "name": "19",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8b5e4d2eac2c2fec99b7",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "803e44d0d7d979487a02",
+          "index": 19,
+          "manager_script_index": 34,
+          "name": "TeleportToLevel4aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level4aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[41]=TeleportTo_Level4aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "27f3d343f2f28ce70601",
+          "index": 20,
+          "manager_script_index": 35,
+          "name": "TeleportToLevel4bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "32281d23937223d246a7",
+      "kind": "campaign_script_target_index",
+      "name": "20",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "32281d23937223d246a7",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "27f3d343f2f28ce70601",
+          "index": 20,
+          "manager_script_index": 35,
+          "name": "TeleportToLevel4bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level4bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[42]=TeleportTo_Level4bModule/command[0]=Script_ExecScript/field@12",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -14343,6 +15565,100 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "8e75ac6353a2689b907c",
+          "index": 21,
+          "manager_script_index": 36,
+          "name": "TeleportToLevel5aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5a6bfdba0062d9b35a44",
+      "kind": "campaign_script_target_index",
+      "name": "21",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5a6bfdba0062d9b35a44",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "8e75ac6353a2689b907c",
+          "index": 21,
+          "manager_script_index": 36,
+          "name": "TeleportToLevel5aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level5aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[43]=TeleportTo_Level5aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "96b68561811b71977ed7",
+          "index": 22,
+          "manager_script_index": 37,
+          "name": "TeleportToLevel5bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c0b7fa69bc8cf80dfdf0",
+      "kind": "campaign_script_target_index",
+      "name": "22",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c0b7fa69bc8cf80dfdf0",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "96b68561811b71977ed7",
+          "index": 22,
+          "manager_script_index": 37,
+          "name": "TeleportToLevel5bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level5bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[44]=TeleportTo_Level5bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "71dd6f500bca147ca08e",
           "index": 22,
           "manager_script_index": 37,
@@ -14390,6 +15706,53 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "c619fc974a2bdecb8c37",
+          "index": 23,
+          "manager_script_index": 38,
+          "name": "TeleportToLevel6aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3f3dde7c0a14f80bd593",
+      "kind": "campaign_script_target_index",
+      "name": "23",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3f3dde7c0a14f80bd593",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "c619fc974a2bdecb8c37",
+          "index": 23,
+          "manager_script_index": 38,
+          "name": "TeleportToLevel6aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level6aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[45]=TeleportTo_Level6aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "d631cc26c8a16dfb4831",
           "index": 23,
           "manager_script_index": 38,
@@ -14428,6 +15791,53 @@
         "campaign b2b7ec3332bd71af7ff0 TeleportTo_Level6aModule command[0] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[45]=TeleportTo_Level6aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "7434ad4e8ada64acc454",
+          "index": 24,
+          "manager_script_index": 39,
+          "name": "TeleportToLevel6bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9bfeea195f88bd15d63a",
+      "kind": "campaign_script_target_index",
+      "name": "24",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9bfeea195f88bd15d63a",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "7434ad4e8ada64acc454",
+          "index": 24,
+          "manager_script_index": 39,
+          "name": "TeleportToLevel6bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level6bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[46]=TeleportTo_Level6bModule/command[0]=Script_ExecScript/field@12",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -14531,6 +15941,100 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "9c52b0ca88533978bdb3",
+          "index": 25,
+          "manager_script_index": 40,
+          "name": "TeleportToLevel7aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a5732eaa0d21eb000df1",
+      "kind": "campaign_script_target_index",
+      "name": "25",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a5732eaa0d21eb000df1",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "9c52b0ca88533978bdb3",
+          "index": 25,
+          "manager_script_index": 40,
+          "name": "TeleportToLevel7aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level7aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[47]=TeleportTo_Level7aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "ae6b5776daecd9e2eb1f",
+          "index": 26,
+          "manager_script_index": 41,
+          "name": "TeleportToLevel7bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6f41d98a48895068b3c3",
+      "kind": "campaign_script_target_index",
+      "name": "26",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6f41d98a48895068b3c3",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "ae6b5776daecd9e2eb1f",
+          "index": 26,
+          "manager_script_index": 41,
+          "name": "TeleportToLevel7bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level7bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[48]=TeleportTo_Level7bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "84b59cc321f49f1155bc",
           "index": 26,
           "manager_script_index": 41,
@@ -14624,6 +16128,53 @@
       "act": "act_2_inferred",
       "candidates": [
         {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "79275145111a725c51b6",
+          "index": 27,
+          "manager_script_index": 42,
+          "name": "TeleportToLevel8aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f0681e99c4c5bd3578cd",
+      "kind": "campaign_script_target_index",
+      "name": "27",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f0681e99c4c5bd3578cd",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "79275145111a725c51b6",
+          "index": 27,
+          "manager_script_index": 42,
+          "name": "TeleportToLevel8aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level8aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[49]=TeleportTo_Level8aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
           "command_count": 8,
           "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
           "id": "15aae244e2be74ba779f",
@@ -14663,6 +16214,100 @@
         "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[1] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[1]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "72b5cd3026b53feb0311",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "72b5cd3026b53feb0311",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[1] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[1]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a9ccf9c245966f3d2764",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a9ccf9c245966f3d2764",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Cultist_boss_intro command[52] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[52]=Script_ExecScript/field@12",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -14766,6 +16411,53 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "451b1aecb3f3a836b18f",
+          "index": 28,
+          "manager_script_index": 43,
+          "name": "TeleportToLevel8bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c1f06b18750874249d6b",
+      "kind": "campaign_script_target_index",
+      "name": "28",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c1f06b18750874249d6b",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "451b1aecb3f3a836b18f",
+          "index": 28,
+          "manager_script_index": 43,
+          "name": "TeleportToLevel8bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level8bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[50]=TeleportTo_Level8bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "c4e46656920669bfd313",
           "index": 29,
           "manager_script_index": 44,
@@ -14813,6 +16505,100 @@
       "candidates": [
         {
           "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "4a18ccc038a20027f856",
+          "index": 29,
+          "manager_script_index": 44,
+          "name": "TeleportToLevel9aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ea810fa0752004ad763a",
+      "kind": "campaign_script_target_index",
+      "name": "29",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ea810fa0752004ad763a",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "4a18ccc038a20027f856",
+          "index": 29,
+          "manager_script_index": 44,
+          "name": "TeleportToLevel9aModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level9aModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[51]=TeleportTo_Level9aModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "5efc49d80f1cf657a679",
+          "index": 30,
+          "manager_script_index": 45,
+          "name": "TeleportToLevel9bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0b1f6a3951367b065500",
+      "kind": "campaign_script_target_index",
+      "name": "30",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0b1f6a3951367b065500",
+      "reference_kind": "level_script_target",
+      "resolves_to": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
+          "id": "5efc49d80f1cf657a679",
+          "index": 30,
+          "manager_script_index": 45,
+          "name": "TeleportToLevel9bModule",
+          "scene": "019_light_house_03.rule.xml",
+          "scene_id": "7939d43105cf511cd73e",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+          "type": "campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e TeleportTo_Level9bModule command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[52]=TeleportTo_Level9bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "definition_evidence": "Exact decoded per-level script name/command pair; level loader appends this bank after the global scripts.",
           "id": "173907575031ac234b2a",
           "index": 30,
           "manager_script_index": 45,
@@ -14851,6 +16637,53 @@
         "campaign b2b7ec3332bd71af7ff0 TeleportTo_Level9bModule command[0] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[52]=TeleportTo_Level9bModule/command[0]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c1fb1fba5a2b1eab603b",
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c1fb1fba5a2b1eab603b",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "15aae244e2be74ba779f",
+          "index": 1,
+          "manager_script_index": 1,
+          "name": "BeginScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[0] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[0]=Script_ExecScript/field@12",
       "state": "TODO",
       "status": "RESOLVED",
       "work_status": "TODO"
@@ -14943,6 +16776,53 @@
       "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
       "scope_reasons": [
         "campaign b2b7ec3332bd71af7ff0 Intro command[54] 12"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[54]=Script_ExecScript/field@12",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "df8d3beac141e69ff18c",
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "df8d3beac141e69ff18c",
+      "reference_kind": "absolute_script_target",
+      "resolves_to": [
+        {
+          "command_count": 8,
+          "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+          "id": "f2927738bd6aa0394cf0",
+          "index": 3,
+          "manager_script_index": 3,
+          "name": "EndScriptedCutScene",
+          "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+          "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+          "type": "global_campaign_script"
+        }
+      ],
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 7939d43105cf511cd73e Intro command[54] 12"
       ],
       "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[54]=Script_ExecScript/field@12",
       "state": "TODO",

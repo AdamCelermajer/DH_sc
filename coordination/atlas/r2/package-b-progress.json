@@ -3,6 +3,7 @@
     "act2_edges": [
       {
         "activation_condition": "IsAfter_Swamp_Escape",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -32,6 +33,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -61,6 +63,7 @@
       },
       {
         "activation_condition": "IsAfter_Gothicus2Survivors",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -90,6 +93,7 @@
       },
       {
         "activation_condition": "IsAfter_Swamp_KillWitch2",
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -119,6 +123,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -147,6 +152,7 @@
         "target_scene_id": "6b2f662bc32e54797884"
       },
       {
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "command_index": 0,
         "confidence": "PROVEN",
@@ -176,6 +182,7 @@
         "target_scene_id": "a9e0f80e1d8689ad5593"
       },
       {
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "command_index": 0,
         "confidence": "PROVEN",
@@ -206,6 +213,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -240,6 +248,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -274,6 +283,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -308,6 +318,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -342,6 +353,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -376,6 +388,7 @@
       },
       {
         "activation_condition": "IsAfter_Kill_DarkQueen_A",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -410,6 +423,7 @@
       },
       {
         "activation_condition": "IsAfter_Abbey_Assassin",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -444,6 +458,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -478,6 +493,7 @@
       },
       {
         "activation_condition": "IsAfter_GothicusEscape",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -512,6 +528,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -546,6 +563,7 @@
       },
       {
         "activation_condition": "IsAfter_EDKillTroll",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -580,6 +598,67 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "bfa878abb23b6625c7ef",
+        "entrypoint_id": "2",
+        "fasttravel_id": "a18_DARKWOOD_ROOT_DEN_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+        "source_platform": "android",
+        "source_scene": "004_root_den.rule.xml",
+        "source_scene_id": "bf6ca7beefbed5a32c86",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "960882f17eb4b4693ada",
+        "entrypoint_id": "2",
+        "fasttravel_id": "a18_DARKWOOD_ROOT_DEN_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+        "source_platform": "android",
+        "source_scene": "004_root_den.rule.xml",
+        "source_scene_id": "bf6ca7beefbed5a32c86",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -614,6 +693,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -648,6 +728,367 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "72000495806502742b90",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a09_DARKWOOD_SECRET_BASEMENT_01",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+        "source_platform": "android",
+        "source_scene": "006_basement.rule.xml",
+        "source_scene_id": "b392eb001343a839de27",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_s_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "3a430a1cc24c6c3274f6",
+        "target_name": "INFECTED_VILLAGE_01",
+        "target_scene": "005_infectedvillage.mlx",
+        "target_scene_id": "1ee09bcff06fac62bcc3"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "32536a6127e3be86606b",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone02",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+        "source_platform": "android",
+        "source_scene": "006_basement.rule.xml",
+        "source_scene_id": "b392eb001343a839de27",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_w_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "3a430a1cc24c6c3274f6",
+        "target_name": "INFECTED_VILLAGE_01",
+        "target_scene": "005_infectedvillage.mlx",
+        "target_scene_id": "1ee09bcff06fac62bcc3"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a5aca6160b7c22b93d5b",
+        "entrypoint_id": "6",
+        "fasttravel_id": "a10_DARKWOOD_CRYPT_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toDW",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a5ec9ff1f41b599226bf",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_Castle",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e387673e7b88b085fde5",
+        "target_name": "GOTHICUS_CASTLE_01",
+        "target_scene": "008_gothicus_castle_01.rule.xml",
+        "target_scene_id": "9e69404bebff0e9a7211"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a52b96d2b0b2852ba8a8",
+        "entrypoint_id": "7",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_Darkwood",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": "IsBefore_GothicusAssassin",
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "c0ec2c7935a1c59d5148",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toGraveyard01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e387673e7b88b085fde5",
+        "target_name": "GOTHICUS_CASTLE_01",
+        "target_scene": "008_gothicus_castle_01.rule.xml",
+        "target_scene_id": "9e69404bebff0e9a7211"
+      },
+      {
+        "activation_condition": "IsAfter_Gothicus2Survivors",
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "6a539ae402e9bbf78bdb",
+        "entrypoint_id": "2",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toGothicus2",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "41bb0da2ea312e96237d",
+        "target_name": "GOTHICUS_CASTLE_02",
+        "target_scene": "021_gothicus_castle_02.rule.xml",
+        "target_scene_id": "2adb7adbe4e5653621e3"
+      },
+      {
+        "activation_condition": "IsBefore_GothicusEscape",
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "7bcb1ef474baac36212d",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toGraveyard01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e387673e7b88b085fde5",
+        "target_name": "GOTHICUS_CASTLE_01",
+        "target_scene": "008_gothicus_castle_01.rule.xml",
+        "target_scene_id": "9e69404bebff0e9a7211"
+      },
+      {
+        "activation_condition": "IsAfter_Gothicus2Survivors",
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "3020c9c6e072b2f878a9",
+        "entrypoint_id": "2",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toGothicus03",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "41bb0da2ea312e96237d",
+        "target_name": "GOTHICUS_CASTLE_02",
+        "target_scene": "021_gothicus_castle_02.rule.xml",
+        "target_scene_id": "2adb7adbe4e5653621e3"
+      },
+      {
+        "activation_condition": "IsBefore_GothicusEscape",
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "667f9e9651ad4dec1bfd",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toGraveyard01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e387673e7b88b085fde5",
+        "target_name": "GOTHICUS_CASTLE_01",
+        "target_scene": "008_gothicus_castle_01.rule.xml",
+        "target_scene_id": "9e69404bebff0e9a7211"
+      },
+      {
+        "activation_condition": "IsAfter_Gothicus2Survivors",
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "5d5760aa8fb477c8ba7c",
+        "entrypoint_id": "2",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toGothicus04",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "source_platform": "android",
+        "source_scene": "007_crypt_01.rule.xml",
+        "source_scene_id": "00f4beec573704987fff",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "41bb0da2ea312e96237d",
+        "target_name": "GOTHICUS_CASTLE_02",
+        "target_scene": "021_gothicus_castle_02.rule.xml",
+        "target_scene_id": "2adb7adbe4e5653621e3"
+      },
+      {
+        "association_confidence": "PROVEN",
+        "claim_scope": "authored_source",
+        "command_index": 31,
+        "confidence": "PROVEN",
+        "edge_id": "88df804ec3a3147a1dd5",
+        "evidence_relation": "destination_level",
+        "field_offset": 16,
+        "kind": "script_change_level",
+        "script_commands_source": null,
+        "script_index": 4,
+        "script_name": "ExitCinematic",
+        "script_names_source": null,
+        "source_reference_id": "94d9749814d563ff0ca4",
+        "source_scene": "008_gothicus_castle_01.rule.xml",
+        "source_scene_id": "9e69404bebff0e9a7211",
+        "source_site": "campaign-references.json:94d9749814d563ff0ca4",
+        "source_variants": [
+          {
+            "conditional_module_choice": null,
+            "platform": "android",
+            "source_path": "campaign-references.json:94d9749814d563ff0ca4"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -677,6 +1118,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -706,6 +1148,7 @@
       },
       {
         "activation_condition": "IsAfter_Lighthouse_to_Abbey",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -735,6 +1178,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -764,6 +1208,7 @@
       },
       {
         "activation_condition": "IsAfter_WindTemp",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -793,6 +1238,7 @@
       },
       {
         "activation_condition": "IsAfter_EDKillTroll",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -822,6 +1268,7 @@
       },
       {
         "activation_condition": "IsAfter_KillFlaminite",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -851,6 +1298,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -880,6 +1328,7 @@
       },
       {
         "activation_condition": "IsAfter_WT_Balrog",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -909,6 +1358,67 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "0aea8fa8c4e211a0788c",
+        "entrypoint_id": "5",
+        "fasttravel_id": "a17_ELEMENTAL_LIGHT",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_fromlightning",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_lightning.mgp",
+        "source_platform": "android",
+        "source_scene": "010_el_lightning.rule.xml",
+        "source_scene_id": "fa629399ded8e23c4fb7",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_lightning.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_lightning.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "048bebca5ba250809407",
+        "entrypoint_id": "5",
+        "fasttravel_id": "a17_ELEMENTAL_LIGHT",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_lightningstart",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp",
+        "source_platform": "android",
+        "source_scene": "010_el_lightning.rule.xml",
+        "source_scene_id": "fa629399ded8e23c4fb7",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_lightning_deadend_n_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -938,6 +1448,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -967,6 +1478,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -996,6 +1508,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1025,6 +1538,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1054,6 +1568,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1083,6 +1598,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1112,6 +1628,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1141,6 +1658,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1170,6 +1688,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1199,6 +1718,7 @@
       },
       {
         "activation_condition": "IsAfter_EDKillTroll",
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1228,6 +1748,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1257,6 +1778,67 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "8f3006ce4fc3e44a1357",
+        "entrypoint_id": "1",
+        "fasttravel_id": "a14_ELEMENTAL_EARTH",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_fromearthboss",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_earth.mgp",
+        "source_platform": "android",
+        "source_scene": "014_el_earth.rule.xml",
+        "source_scene_id": "87474d560b2e8c1f85b5",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_earth.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_earth.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "b666f18842b93faa7a94",
+        "entrypoint_id": "1",
+        "fasttravel_id": "a14_ELEMENTAL_EARTH",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+        "source_platform": "android",
+        "source_scene": "014_el_earth.rule.xml",
+        "source_scene_id": "87474d560b2e8c1f85b5",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1286,6 +1868,7 @@
       },
       {
         "activation_condition": "IsAfter_WindTemp",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1315,6 +1898,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1344,6 +1928,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1373,6 +1958,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1402,6 +1988,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1431,6 +2018,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1460,6 +2048,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1489,6 +2078,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1518,6 +2108,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1547,6 +2138,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1576,6 +2168,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1605,6 +2198,7 @@
       },
       {
         "activation_condition": "IsAfter_LighthouseAssassin",
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1634,6 +2228,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1663,6 +2258,277 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "9c8dcfd73869d4dbc21e",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toBoss",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_02.rule.xml",
+        "source_scene_id": "247b44fa30e0237397a6",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "1ed1c1f4c764bbe82bd1",
+        "target_name": "LIGHT_HOUSE_03",
+        "target_scene": "019_light_house_03.rule.xml",
+        "target_scene_id": "7939d43105cf511cd73e"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "6b87c0ff92c9a9c7e448",
+        "entrypoint_id": "42",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_02.rule.xml",
+        "source_scene_id": "247b44fa30e0237397a6",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0e8e5e75b55cb01c20a6",
+        "target_name": "LIGHT_HOUSE_01",
+        "target_scene": "019_light_house_01.rule.xml",
+        "target_scene_id": "b2b7ec3332bd71af7ff0"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "f1fccc32ee259f0b9955",
+        "entrypoint_id": "69",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_03.rule.xml",
+        "source_scene_id": "7939d43105cf511cd73e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_bossroom_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0b62b9f71487fc57a0dd",
+        "target_name": "LIGHT_HOUSE_02",
+        "target_scene": "019_light_house_02.rule.xml",
+        "target_scene_id": "247b44fa30e0237397a6"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "7c4cb07a76ff4ee4b351",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toBoss",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_03.rule.xml",
+        "source_scene_id": "7939d43105cf511cd73e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "1ed1c1f4c764bbe82bd1",
+        "target_name": "LIGHT_HOUSE_03",
+        "target_scene": "019_light_house_03.rule.xml",
+        "target_scene_id": "7939d43105cf511cd73e"
+      },
+      {
+        "activation_condition": "IsAfter_LighthouseAssassin",
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "dc7f4e6ca65bdb0e9051",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toLH2",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_03.rule.xml",
+        "source_scene_id": "7939d43105cf511cd73e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0b62b9f71487fc57a0dd",
+        "target_name": "LIGHT_HOUSE_02",
+        "target_scene": "019_light_house_02.rule.xml",
+        "target_scene_id": "247b44fa30e0237397a6"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "2a30ed8ad7e12d7c3ae2",
+        "entrypoint_id": "42",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_03.rule.xml",
+        "source_scene_id": "7939d43105cf511cd73e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0e8e5e75b55cb01c20a6",
+        "target_name": "LIGHT_HOUSE_01",
+        "target_scene": "019_light_house_01.rule.xml",
+        "target_scene_id": "b2b7ec3332bd71af7ff0"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "7151e7878f7a4bdb7248",
+        "entrypoint_id": "2",
+        "fasttravel_id": "a24_DESERT_LIGHT_HOUSE_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_03.rule.xml",
+        "source_scene_id": "7939d43105cf511cd73e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "e047ee9d50bf95547071",
+        "entrypoint_id": "7",
+        "fasttravel_id": "a11_DARKWOOD_CRYPT_02_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_levelstart",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+        "source_platform": "android",
+        "source_scene": "020_crypt_02.rule.xml",
+        "source_scene_id": "a763713c29120b2d03f7",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "d75d58422357edd78d60",
+        "entrypoint_id": "7",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_Darkwood",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+        "source_platform": "android",
+        "source_scene": "020_crypt_02.rule.xml",
+        "source_scene_id": "a763713c29120b2d03f7",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1692,6 +2558,7 @@
       },
       {
         "activation_condition": "IsAfter_Gothicus2Survivors",
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1721,6 +2588,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1750,6 +2618,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1779,6 +2648,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1808,6 +2678,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1837,6 +2708,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1866,6 +2738,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -1894,7 +2767,128 @@
         "target_scene_id": "6ee863765454d115924d"
       },
       {
+        "activation_condition": "IsAfter_WT_Balrog",
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "f31cddbb33f1beb28980",
+        "entrypoint_id": "1",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "source_platform": "android",
+        "source_scene": "023_watertemple.rule.xml",
+        "source_scene_id": "6add1b5bcc34b6249574",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "5bee753026c020f9458a",
+        "target_name": "SWAMP_02",
+        "target_scene": "022_swamp2.rule.xml",
+        "target_scene_id": "6ee863765454d115924d"
+      },
+      {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "72060542f6b6bc03b1a6",
+        "entrypoint_id": "1",
+        "fasttravel_id": "a03_SWAMP_WATER_TEMPLE_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_Swamp1",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+        "source_platform": "android",
+        "source_scene": "023_watertemple.rule.xml",
+        "source_scene_id": "6add1b5bcc34b6249574",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "5bee753026c020f9458a",
+        "target_name": "SWAMP_02",
+        "target_scene": "022_swamp2.rule.xml",
+        "target_scene_id": "6ee863765454d115924d"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "6d9dad0b4a94cdcd33a8",
+        "entrypoint_id": "2",
+        "fasttravel_id": "a15_ELEMENTAL_WATER",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_fromwaterboss",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_water.mgp",
+        "source_platform": "android",
+        "source_scene": "024_el_water.rule.xml",
+        "source_scene_id": "fc8f217aa6c8f4b41e89",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_water.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_water.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "8166b70c1f32486f99ee",
+        "entrypoint_id": "2",
+        "fasttravel_id": "a15_ELEMENTAL_WATER",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+        "source_platform": "android",
+        "source_scene": "024_el_water.rule.xml",
+        "source_scene_id": "fc8f217aa6c8f4b41e89",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_water_deadend_n_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1929,6 +2923,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1963,6 +2958,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -1997,6 +2993,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2031,6 +3028,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -2060,6 +3058,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -2089,6 +3088,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -2118,6 +3118,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -2147,6 +3148,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -2176,6 +3178,7 @@
       },
       {
         "activation_condition": "IsAfter_WindTemp",
+        "association_confidence": "LIKELY",
         "claim_scope": "authored_source",
         "conditional_module_choice": true,
         "confidence": "PROVEN",
@@ -2205,6 +3208,67 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "f0af5f0d2b2d1836189d",
+        "entrypoint_id": "3",
+        "fasttravel_id": "a16_ELEMENTAL_AIR",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_fromairboss01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_air.mgp",
+        "source_platform": "android",
+        "source_scene": "030_el_air.rule.xml",
+        "source_scene_id": "04afe51fc8b013539656",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_air.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_air.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "67a682bda85f73777b3c",
+        "entrypoint_id": "3",
+        "fasttravel_id": "a16_ELEMENTAL_AIR",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp",
+        "source_platform": "android",
+        "source_scene": "030_el_air.rule.xml",
+        "source_scene_id": "04afe51fc8b013539656",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_air_deadend_n_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2234,6 +3298,7 @@
       },
       {
         "activation_condition": "IsAfter_KillFlaminite",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2262,6 +3327,67 @@
         "target_scene_id": "145c9b75ecc0bcae66e0"
       },
       {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "75f7a64610f1d794ef5e",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a13_ELEMENTAL_FIRE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_fromfiree01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_fire.mgp",
+        "source_platform": "android",
+        "source_scene": "032_el_fire.rule.xml",
+        "source_scene_id": "1803d31bc622e52e4ca3",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_fire.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/boss_fire.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "association_confidence": "LIKELY",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "8bacf9317966083f3d28",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a13_ELEMENTAL_FIRE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp",
+        "source_platform": "android",
+        "source_scene": "032_el_fire.rule.xml",
+        "source_scene_id": "1803d31bc622e52e4ca3",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/el_fire_deadend_n.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "command_index": 9,
         "confidence": "PROVEN",
@@ -2291,6 +3417,7 @@
         "target_scene_id": "9fc3c1a42c6b469bbf26"
       },
       {
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "command_index": 27,
         "confidence": "PROVEN",
@@ -2321,6 +3448,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2355,6 +3483,7 @@
       },
       {
         "activation_condition": "IsAfter_MachineRoom",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2388,6 +3517,7 @@
         "target_scene_id": "f5c436de2b255f87b02f"
       },
       {
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "command_index": 0,
         "confidence": "PROVEN",
@@ -2417,6 +3547,7 @@
         "target_scene_id": "a9e0f80e1d8689ad5593"
       },
       {
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "command_index": 20,
         "confidence": "PROVEN",
@@ -2447,6 +3578,7 @@
       },
       {
         "activation_condition": null,
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2476,6 +3608,7 @@
       },
       {
         "activation_condition": "DarkTemple_Special",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2505,6 +3638,7 @@
       },
       {
         "activation_condition": "IsAfter_DarkTemple",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2534,6 +3668,7 @@
       },
       {
         "activation_condition": "IsAfter_FinalBoss",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2563,6 +3698,7 @@
       },
       {
         "activation_condition": "IsDuring_FinalBoss",
+        "association_confidence": "PROVEN",
         "claim_scope": "authored_source",
         "conditional_module_choice": false,
         "confidence": "PROVEN",
@@ -2591,6 +3727,48 @@
         "target_scene_id": "f5c436de2b255f87b02f"
       }
     ],
+    "act2_frontier": [
+      {
+        "claim_scope": "transition_scope_completeness",
+        "confidence": "GUESS",
+        "platform": "android",
+        "reason": "module_parse_failed",
+        "scene": "019_light_house_03.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+        "status": "TODO"
+      },
+      {
+        "claim_scope": "transition_scope_completeness",
+        "conditional": true,
+        "confidence": "GUESS",
+        "raw_path": "gc02_corner_ws_01.mgp",
+        "reason": "module_source_missing",
+        "rule_base": "data/3d/modules/castle",
+        "scene": "021_gothicus_castle_02.rule.xml",
+        "status": "TODO"
+      },
+      {
+        "claim_scope": "transition_scope_completeness",
+        "confidence": "GUESS",
+        "detail": "The scope follows authored TriggerZoneExitLevel.levelName values, direct and rule-candidate MGP includes, and serialized Script_ChangeLevel commands. Fast-travel menu membership, every Lua/native route, opaque rule conditions, and cross-platform differences are not yet proven closed.",
+        "evidence_to_acquire": [
+          "FastTravelDestination/LevelList source consumers",
+          "Lua/native level-loading call sites",
+          "iOS and original-cache exit-zone source variants"
+        ],
+        "reason": "other_transition_mechanisms_not_closed",
+        "status": "TODO"
+      },
+      {
+        "claim_scope": "transition_scope_completeness",
+        "confidence": "GUESS",
+        "detail": "No exact case-insensitive match was found in the explicit Android, Android original-cache, or extracted iOS data roots. The packed iOS logical-path index has not yet been joined for this filename; membership and any exit declarations remain unknown.",
+        "raw_path": "data/3d/modules/castle/mgp/gc02_corner_ws_01.mgp",
+        "reason": "possible_ios_only_source_candidate",
+        "scene": "021_gothicus_castle_02.rule.xml",
+        "status": "TODO"
+      }
+    ],
     "act2_levels": [
       "009_abbey.rule.xml",
       "007_crypt_01.rule.xml",
@@ -2610,9 +3788,11 @@
       "016_red_desert_cave_01.rule.xml",
       "023_watertemple.rule.xml",
       "022_swamp2.rule.xml",
+      "019_light_house_03.rule.xml",
       "029_wind_temple.rule.xml",
       "018_red_desert_cave_03.rule.xml",
       "014_el_earth.rule.xml",
+      "008_gothicus_castle_01.rule.xml",
       "027_icy_cavern_02.rule.xml",
       "037_machine_rooms_01.mlx",
       "022_swamp2_trollcave.rule.xml",
@@ -2647,9 +3827,11 @@
       "5d5bf670c8e428777dbe",
       "6add1b5bcc34b6249574",
       "6ee863765454d115924d",
+      "7939d43105cf511cd73e",
       "7bac2e2741f6bd3044a0",
       "7cb216ae991b0f5391f8",
       "87474d560b2e8c1f85b5",
+      "9e69404bebff0e9a7211",
       "9e6cb2d21b3bb5326d90",
       "9fc3c1a42c6b469bbf26",
       "a548290f261f5521bfe7",
@@ -2665,22 +3847,32 @@
       "fa629399ded8e23c4fb7",
       "fc8f217aa6c8f4b41e89"
     ],
-    "act2_scope_input": "r2/act2/scope.json",
+    "act2_scope_counts": {
+      "actor_candidates": 1900,
+      "edge_source_variants": 140,
+      "frontier_rows": 4,
+      "known_act1_backlink_levels": 2,
+      "levels": 39,
+      "module_source_variants": 465,
+      "source_edges": 121,
+      "unknown_act_membership_levels": 36
+    },
+    "act2_scope_input": "r2/act2/scope-current.json",
     "act2_source": "Traverse every statically authored TriggerZoneExitLevel.levelName in direct MGP modules and every procedural <elem gameplay> module candidate, recurse nested Module.mgp includes, and include decoded Script_ChangeLevel targets. Keep branch, conditional, duplicate, and return edges. Stop when no newly resolved scene remains; unresolved modules/targets and other transition mechanisms remain explicit TODO frontier rows.",
     "act2_uncertain_edges": [],
     "actor_rows": {
       "act_1": 21,
-      "act_2_inferred": 162
+      "act_2_inferred": 167
     },
     "campaign_rows": {
       "act_1": 1216,
-      "act_2_inferred": 5742
+      "act_2_inferred": 6806
     },
     "duplicate_input_rows": 47762,
     "duplicate_reference_ids_across_round1_inputs": 47762,
     "entity_profiles_reached": {
       "act_1": 1890,
-      "act_2_inferred": 2122
+      "act_2_inferred": 2166
     },
     "known_limits": [
       "Act membership remains inferred as recorded by the atlas / transition evidence.",
@@ -2688,13 +3880,832 @@
       "Player skills, faeries, and items are assigned to both acts because they are cross-act player resources.",
       "Only exact atlas entity/profile joins are followed; dynamic native-generated names remain explicit unresolved scope rows where indexed."
     ],
+    "reached_source_files_without_round1_reference_rows": [
+      ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_ws_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_deadend_n_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_objectiveroom_s_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straighta_ns_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_t_new_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_08_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_objdarkshrine_se__01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objdoorkey01_e__01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objdoorkey02_w__01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objmotherbat_sw__01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objredplant_e__01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_t_earthtemp_new__01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_t_earthtemp_nsw__01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_07.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_e_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/root_den/mgp/basement_deadend_n_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/corner_windtemp_ne_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/corner_windtemp_nw_02.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/corner_windtemp_sw_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/deadend_windtemp_e_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/deadend_windtemp_n_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/deadend_windtemp_s_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/deadend_windtemp_w_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/straight_windtemp_ew_01.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/t_windtemp_esw_02.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/t_windtemp_esw_03.mgp",
+      ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/t_windtemp_wne_01.mgp",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/005_infectedvillage_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/005_infectedvillage_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/008_gothicus_castle_01_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/011_earth_temple_01_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/011_earth_temple_01_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/012_earth_temple_02_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/012_earth_temple_02_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/015_red_desert_hub_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/015_red_desert_hub_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/016_red_desert_cave_01_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/016_red_desert_cave_01_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/017_red_desert_cave_02_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/017_red_desert_cave_02_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/018_red_desert_cave_03_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/018_red_desert_cave_03_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_troll_cave_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_troll_cave_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/025_icy_hub_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/025_icy_hub_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/026_icy_caverns_01_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/026_icy_caverns_01_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/027_icy_caverns_02_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/027_icy_caverns_02_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/037_machine_rooms_01_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/037_machine_rooms_01_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscriptnames.bin",
+      ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin",
+      ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_08_01.mgp",
+      ".local-inputs/assets-extra/android/original-cache/data/3d/modules/icy_hub/mgp/icyhub_07.mgp",
+      "campaign-references.json:4ab4349b602de01af564",
+      "campaign-references.json:60fdd3e8223d6f4d2cb8",
+      "campaign-references.json:70fc213bec399059ad1e",
+      "campaign-references.json:94d9749814d563ff0ca4",
+      "campaign-references.json:b3c39e41660691941615",
+      "campaign-references.json:bcd656b5cd03f718952f",
+      "campaign-references.json:e2ca883cfc0f5b3a8db4",
+      "pydata/levels_pyarray.bin"
+    ],
     "scene_module_source_files": {
       "act_1": 24,
-      "act_2_inferred": 376
+      "act_2_inferred": 540
     },
-    "schema": "atlas-r2-staging-scope-v1"
+    "schema": "atlas-r2-staging-scope-v1",
+    "source_parse_repairs": [
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "normalized_ForceBlock_case_variants",
+        "scene": "004_root_den.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/004_root_den.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "006_basement.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "normalized_ForceBlock_case_variants",
+        "scene": "006_basement.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "LIKELY",
+        "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
+        "repairs": "removed_source_surplus_ForceBlock_close",
+        "scene": "006_basement.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "007_crypt_01.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/007_crypt_01.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "010_el_lightning.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/010_el_lightning.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "014_el_earth.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/014_el_earth.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "normalized_ForceBlock_case_variants",
+        "scene": "019_light_house_02.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "LIKELY",
+        "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
+        "repairs": "removed_duplicate_trailing_root_closures",
+        "scene": "019_light_house_02.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "020_crypt_02.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "normalized_ForceBlock_case_variants",
+        "scene": "020_crypt_02.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "LIKELY",
+        "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
+        "repairs": "removed_source_surplus_ForceBlock_close",
+        "scene": "020_crypt_02.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "023_watertemple.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/023_watertemple.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "024_el_water.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/024_el_water.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "030_el_air.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/030_el_air.rule.xml",
+        "status": "DONE"
+      },
+      {
+        "claim_scope": "static_module_candidate_extraction",
+        "confidence": "PROVEN",
+        "confidence_note": "Lexical normalization preserves exact source attribute values.",
+        "repairs": "quoted_unquoted_boolean_attributes",
+        "scene": "032_el_fire.rule.xml",
+        "source": ".local-inputs/assets-extra/android/data/scene/032_el_fire.rule.xml",
+        "status": "DONE"
+      }
+    ]
   },
-  "act_reference_pairs": 28555,
+  "act_reference_pairs": 33378,
+  "before_after_metrics": {
+    "after_source_unresolved_by_act": {
+      "act_1": 1976,
+      "act_2_inferred": 4571
+    },
+    "already_staged_by_act": {
+      "act_1": 499,
+      "act_2_inferred": 845
+    },
+    "already_staged_definition": "RESOLVED_STAGED rows whose destination is in the frozen staged2 manifest.",
+    "before_source_unresolved_by_act": {
+      "act_1": 1787,
+      "act_2_inferred": 6527
+    },
+    "by_act_family": {
+      "act_1:anim": {
+        "after_source_unresolved": 35,
+        "already_staged": 1,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 472
+      },
+      "act_1:effect": {
+        "after_source_unresolved": 0,
+        "already_staged": 41,
+        "before_source_unresolved": 0,
+        "staging_ready": 32,
+        "total": 152
+      },
+      "act_1:model": {
+        "after_source_unresolved": 1695,
+        "already_staged": 324,
+        "before_source_unresolved": 1279,
+        "staging_ready": 0,
+        "total": 3732
+      },
+      "act_1:other/nonresource": {
+        "after_source_unresolved": 207,
+        "already_staged": 4,
+        "before_source_unresolved": 464,
+        "staging_ready": 0,
+        "total": 3034
+      },
+      "act_1:projectile": {
+        "after_source_unresolved": 0,
+        "already_staged": 5,
+        "before_source_unresolved": 0,
+        "staging_ready": 12,
+        "total": 21
+      },
+      "act_1:script": {
+        "after_source_unresolved": 37,
+        "already_staged": 35,
+        "before_source_unresolved": 42,
+        "staging_ready": 38,
+        "total": 145
+      },
+      "act_1:sound": {
+        "after_source_unresolved": 2,
+        "already_staged": 89,
+        "before_source_unresolved": 2,
+        "staging_ready": 0,
+        "total": 279
+      },
+      "act_2_inferred:anim": {
+        "after_source_unresolved": 35,
+        "already_staged": 1,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 743
+      },
+      "act_2_inferred:effect": {
+        "after_source_unresolved": 0,
+        "already_staged": 41,
+        "before_source_unresolved": 0,
+        "staging_ready": 32,
+        "total": 451
+      },
+      "act_2_inferred:model": {
+        "after_source_unresolved": 2913,
+        "already_staged": 425,
+        "before_source_unresolved": 2516,
+        "staging_ready": 111,
+        "total": 13920
+      },
+      "act_2_inferred:other/nonresource": {
+        "after_source_unresolved": 1246,
+        "already_staged": 31,
+        "before_source_unresolved": 3629,
+        "staging_ready": 43,
+        "total": 9032
+      },
+      "act_2_inferred:projectile": {
+        "after_source_unresolved": 0,
+        "already_staged": 5,
+        "before_source_unresolved": 0,
+        "staging_ready": 12,
+        "total": 46
+      },
+      "act_2_inferred:script": {
+        "after_source_unresolved": 368,
+        "already_staged": 35,
+        "before_source_unresolved": 373,
+        "staging_ready": 38,
+        "total": 622
+      },
+      "act_2_inferred:sound": {
+        "after_source_unresolved": 9,
+        "already_staged": 307,
+        "before_source_unresolved": 9,
+        "staging_ready": 0,
+        "total": 729
+      }
+    },
+    "by_act_kind": {
+      "act_1:actor_name_candidate": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 5,
+        "staging_ready": 0,
+        "total": 5
+      },
+      "act_1:anim": {
+        "after_source_unresolved": 35,
+        "already_staged": 1,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 148
+      },
+      "act_1:animated effect": {
+        "after_source_unresolved": 0,
+        "already_staged": 41,
+        "before_source_unresolved": 0,
+        "staging_ready": 32,
+        "total": 73
+      },
+      "act_1:animation event": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 102
+      },
+      "act_1:animation_dictionary": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 222
+      },
+      "act_1:campaign_script_target_index": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 55
+      },
+      "act_1:character": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 353
+      },
+      "act_1:class": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 97
+      },
+      "act_1:data file": {
+        "after_source_unresolved": 0,
+        "already_staged": 4,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 96
+      },
+      "act_1:dialog_style_id": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 123,
+        "staging_ready": 0,
+        "total": 123
+      },
+      "act_1:dialog_text_string_id": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 123,
+        "staging_ready": 0,
+        "total": 123
+      },
+      "act_1:effect set": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 57
+      },
+      "act_1:effect_set": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 22
+      },
+      "act_1:faction": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 90
+      },
+      "act_1:loot": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 16
+      },
+      "act_1:model": {
+        "after_source_unresolved": 30,
+        "already_staged": 30,
+        "before_source_unresolved": 30,
+        "staging_ready": 0,
+        "total": 1420
+      },
+      "act_1:model component": {
+        "after_source_unresolved": 1245,
+        "already_staged": 0,
+        "before_source_unresolved": 1245,
+        "staging_ready": 0,
+        "total": 1245
+      },
+      "act_1:named_reference": {
+        "after_source_unresolved": 15,
+        "already_staged": 0,
+        "before_source_unresolved": 15,
+        "staging_ready": 0,
+        "total": 744
+      },
+      "act_1:numeric_reference": {
+        "after_source_unresolved": 71,
+        "already_staged": 0,
+        "before_source_unresolved": 41,
+        "staging_ready": 0,
+        "total": 71
+      },
+      "act_1:projectile": {
+        "after_source_unresolved": 0,
+        "already_staged": 5,
+        "before_source_unresolved": 0,
+        "staging_ready": 12,
+        "total": 21
+      },
+      "act_1:scene_object_condition": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 53
+      },
+      "act_1:script": {
+        "after_source_unresolved": 37,
+        "already_staged": 35,
+        "before_source_unresolved": 42,
+        "staging_ready": 38,
+        "total": 145
+      },
+      "act_1:serialized_string": {
+        "after_source_unresolved": 99,
+        "already_staged": 0,
+        "before_source_unresolved": 134,
+        "staging_ready": 0,
+        "total": 646
+      },
+      "act_1:skill": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 3
+      },
+      "act_1:sound": {
+        "after_source_unresolved": 2,
+        "already_staged": 89,
+        "before_source_unresolved": 2,
+        "staging_ready": 0,
+        "total": 259
+      },
+      "act_1:source_sound_ordinal": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 20
+      },
+      "act_1:symbolic_reference": {
+        "after_source_unresolved": 22,
+        "already_staged": 0,
+        "before_source_unresolved": 23,
+        "staging_ready": 0,
+        "total": 912
+      },
+      "act_1:texture": {
+        "after_source_unresolved": 420,
+        "already_staged": 294,
+        "before_source_unresolved": 4,
+        "staging_ready": 0,
+        "total": 714
+      },
+      "act_2_inferred:actor_name_candidate": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 9,
+        "staging_ready": 0,
+        "total": 35
+      },
+      "act_2_inferred:anim": {
+        "after_source_unresolved": 35,
+        "already_staged": 1,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 294
+      },
+      "act_2_inferred:animated effect": {
+        "after_source_unresolved": 0,
+        "already_staged": 41,
+        "before_source_unresolved": 0,
+        "staging_ready": 32,
+        "total": 73
+      },
+      "act_2_inferred:animation event": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 102
+      },
+      "act_2_inferred:animation_dictionary": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 347
+      },
+      "act_2_inferred:campaign_script_target_index": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 520
+      },
+      "act_2_inferred:character": {
+        "after_source_unresolved": 484,
+        "already_staged": 0,
+        "before_source_unresolved": 503,
+        "staging_ready": 0,
+        "total": 9449
+      },
+      "act_2_inferred:class": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 166
+      },
+      "act_2_inferred:data file": {
+        "after_source_unresolved": 2,
+        "already_staged": 31,
+        "before_source_unresolved": 2,
+        "staging_ready": 43,
+        "total": 192
+      },
+      "act_2_inferred:dialog_style_id": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 1027,
+        "staging_ready": 0,
+        "total": 1027
+      },
+      "act_2_inferred:dialog_text_string_id": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 1027,
+        "staging_ready": 0,
+        "total": 1027
+      },
+      "act_2_inferred:effect set": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 203
+      },
+      "act_2_inferred:effect_set": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 175
+      },
+      "act_2_inferred:faction": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 236
+      },
+      "act_2_inferred:level_name_candidate": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 7
+      },
+      "act_2_inferred:loot": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 100
+      },
+      "act_2_inferred:model": {
+        "after_source_unresolved": 764,
+        "already_staged": 131,
+        "before_source_unresolved": 764,
+        "staging_ready": 111,
+        "total": 2512
+      },
+      "act_2_inferred:model component": {
+        "after_source_unresolved": 1245,
+        "already_staged": 0,
+        "before_source_unresolved": 1245,
+        "staging_ready": 0,
+        "total": 1245
+      },
+      "act_2_inferred:named_reference": {
+        "after_source_unresolved": 15,
+        "already_staged": 0,
+        "before_source_unresolved": 15,
+        "staging_ready": 0,
+        "total": 744
+      },
+      "act_2_inferred:numeric_reference": {
+        "after_source_unresolved": 71,
+        "already_staged": 0,
+        "before_source_unresolved": 41,
+        "staging_ready": 0,
+        "total": 71
+      },
+      "act_2_inferred:projectile": {
+        "after_source_unresolved": 0,
+        "already_staged": 5,
+        "before_source_unresolved": 0,
+        "staging_ready": 12,
+        "total": 46
+      },
+      "act_2_inferred:scene_object_condition": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 8,
+        "staging_ready": 0,
+        "total": 408
+      },
+      "act_2_inferred:script": {
+        "after_source_unresolved": 368,
+        "already_staged": 35,
+        "before_source_unresolved": 373,
+        "staging_ready": 38,
+        "total": 622
+      },
+      "act_2_inferred:serialized_string": {
+        "after_source_unresolved": 1136,
+        "already_staged": 0,
+        "before_source_unresolved": 1477,
+        "staging_ready": 0,
+        "total": 3569
+      },
+      "act_2_inferred:skill": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 18
+      },
+      "act_2_inferred:sound": {
+        "after_source_unresolved": 9,
+        "already_staged": 307,
+        "before_source_unresolved": 9,
+        "staging_ready": 0,
+        "total": 630
+      },
+      "act_2_inferred:source_sound_ordinal": {
+        "after_source_unresolved": 0,
+        "already_staged": 0,
+        "before_source_unresolved": 0,
+        "staging_ready": 0,
+        "total": 99
+      },
+      "act_2_inferred:symbolic_reference": {
+        "after_source_unresolved": 22,
+        "already_staged": 0,
+        "before_source_unresolved": 23,
+        "staging_ready": 0,
+        "total": 912
+      },
+      "act_2_inferred:texture": {
+        "after_source_unresolved": 420,
+        "already_staged": 294,
+        "before_source_unresolved": 4,
+        "staging_ready": 0,
+        "total": 714
+      }
+    },
+    "schema": "atlas-r2-staging-metrics-v1",
+    "source_unresolved_definition": "original status UNRESOLVED before classification; after means UNRESOLVED, AMBIGUOUS, PORT_RULE_ABSENT, or ABSENT_ALL_CORPORA.",
+    "staging_ready_by_act": {
+      "act_1": 82,
+      "act_2_inferred": 236
+    },
+    "staging_ready_definition": "ORIGINAL_EXISTS_NOT_STAGED rows with an exact source path, destination, hash, and selection entry."
+  },
+  "classification_files": [
+    "r2/staging/classification/act_1/actor_name_candidate-da6eea.json",
+    "r2/staging/classification/act_1/anim-ca317c.json",
+    "r2/staging/classification/act_1/animated_effect-c59995.json",
+    "r2/staging/classification/act_1/animation_dictionary-892f6c.json",
+    "r2/staging/classification/act_1/animation_event-861cc8.json",
+    "r2/staging/classification/act_1/campaign_script_target_index-2fe64e.json",
+    "r2/staging/classification/act_1/character-f0db3f.json",
+    "r2/staging/classification/act_1/class-8d767b.json",
+    "r2/staging/classification/act_1/data_file-249bd3.json",
+    "r2/staging/classification/act_1/dialog_style_id-57ff6a.json",
+    "r2/staging/classification/act_1/dialog_text_string_id-e47fca.json",
+    "r2/staging/classification/act_1/effect_set-5c0dfb.json",
+    "r2/staging/classification/act_1/effect_set-92c345.json",
+    "r2/staging/classification/act_1/faction-53763a.json",
+    "r2/staging/classification/act_1/loot-7a616a.json",
+    "r2/staging/classification/act_1/model-1d06a0.json",
+    "r2/staging/classification/act_1/model_component-092a85.json",
+    "r2/staging/classification/act_1/named_reference-9518a6.json",
+    "r2/staging/classification/act_1/numeric_reference-90a0bd.json",
+    "r2/staging/classification/act_1/projectile-ae3767.json",
+    "r2/staging/classification/act_1/scene_object_condition-ee85fd.json",
+    "r2/staging/classification/act_1/script-cb5346.json",
+    "r2/staging/classification/act_1/serialized_string-cad36c.json",
+    "r2/staging/classification/act_1/skill-34b33e.json",
+    "r2/staging/classification/act_1/sound-5e2e97.json",
+    "r2/staging/classification/act_1/source_sound_ordinal-8b4309.json",
+    "r2/staging/classification/act_1/symbolic_reference-cc85b6.json",
+    "r2/staging/classification/act_1/texture-8ab5cb.json",
+    "r2/staging/classification/act_2_inferred/actor_name_candidate-da6eea.json",
+    "r2/staging/classification/act_2_inferred/anim-ca317c.json",
+    "r2/staging/classification/act_2_inferred/animated_effect-c59995.json",
+    "r2/staging/classification/act_2_inferred/animation_dictionary-892f6c.json",
+    "r2/staging/classification/act_2_inferred/animation_event-861cc8.json",
+    "r2/staging/classification/act_2_inferred/campaign_script_target_index-2fe64e.json",
+    "r2/staging/classification/act_2_inferred/character-f0db3f.json",
+    "r2/staging/classification/act_2_inferred/class-8d767b.json",
+    "r2/staging/classification/act_2_inferred/data_file-249bd3.json",
+    "r2/staging/classification/act_2_inferred/dialog_style_id-57ff6a.json",
+    "r2/staging/classification/act_2_inferred/dialog_text_string_id-e47fca.json",
+    "r2/staging/classification/act_2_inferred/effect_set-5c0dfb.json",
+    "r2/staging/classification/act_2_inferred/effect_set-92c345.json",
+    "r2/staging/classification/act_2_inferred/faction-53763a.json",
+    "r2/staging/classification/act_2_inferred/level_name_candidate-ad3e4f.json",
+    "r2/staging/classification/act_2_inferred/loot-7a616a.json",
+    "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+    "r2/staging/classification/act_2_inferred/model_component-092a85.json",
+    "r2/staging/classification/act_2_inferred/named_reference-9518a6.json",
+    "r2/staging/classification/act_2_inferred/numeric_reference-90a0bd.json",
+    "r2/staging/classification/act_2_inferred/projectile-ae3767.json",
+    "r2/staging/classification/act_2_inferred/scene_object_condition-ee85fd.json",
+    "r2/staging/classification/act_2_inferred/script-cb5346.json",
+    "r2/staging/classification/act_2_inferred/serialized_string-cad36c.json",
+    "r2/staging/classification/act_2_inferred/skill-34b33e.json",
+    "r2/staging/classification/act_2_inferred/sound-5e2e97.json",
+    "r2/staging/classification/act_2_inferred/source_sound_ordinal-8b4309.json",
+    "r2/staging/classification/act_2_inferred/symbolic_reference-cc85b6.json",
+    "r2/staging/classification/act_2_inferred/texture-8ab5cb.json"
+  ],
   "counts_by_act_family": {
     "act_1": {
       "anim": 472,
@@ -2706,13 +4717,13 @@
       "sound": 279
     },
     "act_2_inferred": {
-      "anim": 637,
-      "effect": 408,
-      "model": 10379,
-      "other/nonresource": 8052,
-      "projectile": 45,
-      "script": 552,
-      "sound": 647
+      "anim": 743,
+      "effect": 451,
+      "model": 13920,
+      "other/nonresource": 9032,
+      "projectile": 46,
+      "script": 622,
+      "sound": 729
     }
   },
   "counts_by_act_kind": {
@@ -2748,40 +4759,112 @@
     },
     "act_2_inferred": {
       "actor_name_candidate": 35,
-      "anim": 289,
+      "anim": 294,
       "animated effect": 73,
       "animation event": 102,
-      "animation_dictionary": 246,
-      "campaign_script_target_index": 480,
-      "character": 5972,
-      "class": 161,
-      "data file": 182,
-      "dialog_style_id": 954,
-      "dialog_text_string_id": 954,
-      "effect set": 198,
-      "effect_set": 137,
-      "faction": 231,
-      "level_name_candidate": 6,
-      "loot": 95,
-      "model": 2448,
+      "animation_dictionary": 347,
+      "campaign_script_target_index": 520,
+      "character": 9449,
+      "class": 166,
+      "data file": 192,
+      "dialog_style_id": 1027,
+      "dialog_text_string_id": 1027,
+      "effect set": 203,
+      "effect_set": 175,
+      "faction": 236,
+      "level_name_candidate": 7,
+      "loot": 100,
+      "model": 2512,
       "model component": 1245,
       "named_reference": 744,
       "numeric_reference": 71,
-      "projectile": 45,
-      "scene_object_condition": 355,
-      "script": 552,
-      "serialized_string": 2856,
-      "skill": 16,
-      "sound": 573,
-      "source_sound_ordinal": 74,
+      "projectile": 46,
+      "scene_object_condition": 408,
+      "script": 622,
+      "serialized_string": 3569,
+      "skill": 18,
+      "sound": 630,
+      "source_sound_ordinal": 99,
       "symbolic_reference": 912,
       "texture": 714
     }
   },
+  "known_answers_preserved": {
+    "packed_limit": "Package B selections use extracted regular files only. Packed iOS .dat resources are not treated as stageable paths or as proven absent unless separately materialized and mapped.",
+    "passed": true,
+    "schema": "atlas-r2-staging-known-answers-v1",
+    "source": "data/check.json",
+    "tests": [
+      {
+        "count": 45,
+        "name": "45 sounds.xml filenames remain absent",
+        "names": [
+          "m_boss_hell_king.wav",
+          "m_combat_big_enemy.wav",
+          "m_cutscene_01.wav",
+          "m_level_cathedral.vxn",
+          "m_level_darkwood.vxn",
+          "m_level_gothicus.vxn",
+          "m_level_hell.vxn",
+          "m_level_icy_cliff.vxn",
+          "m_level_red_desert.vxn",
+          "m_level_swamp.vxn",
+          "m_title_intro.wav",
+          "m_title_loop.wav",
+          "sfx_assassin_bomb_throw.wav",
+          "sfx_assassin_knife_throw1.wav",
+          "sfx_assassin_laugh.wav",
+          "sfx_balrog_idle.wav",
+          "sfx_checkpoint_activated.wav",
+          "sfx_critical_hit.wav",
+          "sfx_cultitst_group_chant_loop",
+          "sfx_dark_queen_critical_hurt.wav",
+          "sfx_dark_queen_intimidate_1.wav",
+          "sfx_dark_queen_intimidate_2.wav",
+          "sfx_dark_queen_intimidate_3.wav",
+          "sfx_dark_queen_killed.wav",
+          "sfx_demon_attack.wav",
+          "sfx_demon_die.wav",
+          "sfx_demon_howl.wav",
+          "sfx_demon_hurt.wav",
+          "sfx_demon_rain_attack.wav",
+          "sfx_demon_spawn.wav",
+          "sfx_demon_steam_burst_attack",
+          "sfx_faerie_ice.wav",
+          "sfx_impact_metal_metal_2.wav",
+          "sfx_impactl_metal_1_22.wav",
+          "sfx_skill_mage_thunder_braid_add_2,wav",
+          "sfx_specter_attack_energyball_explosion",
+          "sfx_statue_attack.wav",
+          "sfx_statue_frost_attack.wav",
+          "sfx_statue_heat_attack.wav",
+          "sfx_trap_armed.wav",
+          "sfx_wolf_attack.wav",
+          "sfx_wolf_die.wav",
+          "sfx_wolf_howl.wav",
+          "sfx_wolf_hurt.wav",
+          "sfx_wolf_spawn.wav"
+        ],
+        "passed": true,
+        "source_detail": "xml_names=498, combined_source_missing=45, ios_only_missing=245; combined_missing_names=['m_boss_hell_king.wav', 'm_combat_big_enemy.wav', 'm_cutscene_01.wav', 'm_level_cathedral.vxn', 'm_level_darkwood.vxn', 'm_level_gothicus.vxn', 'm_level_hell.vxn', 'm_level_icy_cliff.vxn', 'm_level_red_desert.vxn', 'm_level_swamp.vxn', 'm_title_intro.wav', 'm_title_loop.wav', 'sfx_assassin_bomb_throw.wav', 'sfx_assassin_knife_throw1.wav', 'sfx_assassin_laugh.wav', 'sfx_balrog_idle.wav', 'sfx_checkpoint_activated.wav', 'sfx_critical_hit.wav', 'sfx_cultitst_group_chant_loop', 'sfx_dark_queen_critical_hurt.wav', 'sfx_dark_queen_intimidate_1.wav', 'sfx_dark_queen_intimidate_2.wav', 'sfx_dark_queen_intimidate_3.wav', 'sfx_dark_queen_killed.wav', 'sfx_demon_attack.wav', 'sfx_demon_die.wav', 'sfx_demon_howl.wav', 'sfx_demon_hurt.wav', 'sfx_demon_rain_attack.wav', 'sfx_demon_spawn.wav', 'sfx_demon_steam_burst_attack', 'sfx_faerie_ice.wav', 'sfx_impact_metal_metal_2.wav', 'sfx_impactl_metal_1_22.wav', 'sfx_skill_mage_thunder_braid_add_2,wav', 'sfx_specter_attack_energyball_explosion', 'sfx_statue_attack.wav', 'sfx_statue_frost_attack.wav', 'sfx_statue_heat_attack.wav', 'sfx_trap_armed.wav', 'sfx_wolf_attack.wav', 'sfx_wolf_die.wav', 'sfx_wolf_howl.wav', 'sfx_wolf_hurt.wav', 'sfx_wolf_spawn.wav']"
+      },
+      {
+        "name": "sfx_faerie_ice.wav absent from original data",
+        "passed": true,
+        "source_detail": "sfx_faerie_ice.wav present=False"
+      }
+    ]
+  },
   "package": "B-staging-gap-ledger",
-  "phase": "STEP0_SCOPE_ENUMERATION",
-  "processed": 0,
+  "phase": "CLASSIFIED_AND_PRECHECKED",
+  "preflight_count": 2,
+  "preflights_passed": 2,
+  "processed": 33378,
   "schema": "atlas-r2-package-progress-v1",
+  "scope_expansion": {
+    "added_pairs": 4823,
+    "path": "r2/staging/scope-expansion.json"
+  },
   "scope_files": [
     "r2/staging/scope/act_1/actor_name_candidate-da6eea.json",
     "r2/staging/scope/act_1/anim-ca317c.json",
@@ -2841,11 +4924,18 @@
     "r2/staging/scope/act_2_inferred/symbolic_reference-cc85b6.json",
     "r2/staging/scope/act_2_inferred/texture-8ab5cb.json"
   ],
-  "scope_policy": "One row per canonical source reference ID per act; no classification completed yet.",
+  "scope_fingerprint": "b085d27b98a870ea384ee511bce8238285b9893e6046d96bf7f2b54283466d85",
+  "selection_files": [
+    "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+    "r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json"
+  ],
   "shared_reference_sites_across_acts": 5948,
   "status_counts": {
-    "TODO": 28555
+    "NOT_NEEDED": 25169,
+    "ORIGINAL_EXISTS_NOT_STAGED": 318,
+    "RESOLVED_STAGED": 1344,
+    "UNRESOLVED": 6547
   },
-  "total": 28555,
-  "unique_reference_sites": 22607
+  "total": 33378,
+  "unique_reference_sites": 27430
 }
