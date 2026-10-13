@@ -55,6 +55,18 @@ public:
     // Source GameObject::Stop providers operate on this same POCharacter /
     // POFaerie owner. The BodyState is the canonical retained projection of
     // PhysicalObject+0x14 for its NativeBody, not a second body or registry.
+    // PhysicalObject::setLinearVelocity as GameObject::UpdateSubObjects calls it
+    // outside Stop (the position-from-physics drive and the zero-velocity hold).
+    // Same native setter and wake rule as the Stop wrapper below.
+    Status set_linear_velocity(const float xy[2]) noexcept;
+    // PhysicalObject::getPosition in game units (x100): the body position that
+    // GameObject::UpdateSubObjects compares against GameObject+0x160.
+    Status read_position(float xy[2]) const noexcept;
+    // The one retained native body, for the shared GameObject::Update runtime
+    // (dh2::actor::update_actor). Null until create(); never a second body.
+    physical::NativeBody* native_body() noexcept {
+        return body_.body ? &body_ : nullptr;
+    }
     Status stop_set_linear_velocity(const float xy[2]) noexcept;
     Status stop_set_angular_velocity(float value) noexcept;
     // Source GameObject::Stop ignores SetXForm's false return. This wrapper

@@ -5,6 +5,7 @@ set(DH2_NATIVE_RUNTIME_SOURCES)
 foreach(source IN ITEMS
     model_renderer.cpp mod_assets.cpp ghost_ai_owner.cpp native_debug_files.cpp
     native_character_list.cpp native_character_roster_transaction.cpp
+    native_faery_ai_frame_v1.cpp
     native_faery_combat_v1.cpp
     native_faery_hit_for_v1.cpp
     native_ghost_skills.cpp native_ghost_skill_update_v1.cpp native_character_skill_process_v1.cpp native_ghost_death_v1.cpp native_ghost_script_queries.cpp

@@ -178,6 +178,32 @@ struct GameplayRouteSnapshotV1 {
 };
 bool gameplay_route_snapshot(const std::array<float,3>&,
                              GameplayRouteSnapshotV1&,std::string&);
+// Read-only projection of the authored Faery companion (the Character linked
+// at Player+0x420, else the Level's first authored Faery) for the development
+// faery-follow probe. present=false when the Level has no authored Faery.
+struct GameplayFaerySnapshotV1 {
+ bool present=false;
+ std::uintptr_t identity=0;
+ // CharAI+0x50 master identity (0 = none) and whether it is the local Player.
+ std::uintptr_t master=0;
+ bool master_is_player=false;
+ // GameObject position (+0x160).
+ std::array<float,3> position{};
+ // CharStateMachine state (3 Idle, 4 Move) and v2Controller path state.
+ std::int32_t state=-1;
+ std::uint32_t path_segments=0;
+ bool moving=false;
+ // Planar distance to the local Player.
+ float player_distance=0.f;
+ // CharAI::_UpdateMaster events raised so far, indexed by event-18: died,
+ // revived, out of sight (follower.luac WarpBehind), in sight, out of range
+ // (MoveTo), ranged, close, melee range (Stop).
+ std::array<std::uint32_t,8> master_events{};
+ std::uint32_t ai_frames=0;
+ // Selected Faery (Save slot) of its VisualObject.
+ std::int32_t visual_faery_id=-1;
+};
+bool gameplay_faery_snapshot(GameplayFaerySnapshotV1&,std::string&);
 struct GameplayEnemyStateSnapshotV1 {
  std::string name;
  std::int32_t hp{},max_hp{};
