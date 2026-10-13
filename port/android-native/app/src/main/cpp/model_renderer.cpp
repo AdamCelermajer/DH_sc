@@ -41175,13 +41175,14 @@ std::int32_t faery_external_warp_behind(void* raw,std::uintptr_t identity,
   if(!actor||!actor->spawn_owner||!actor->spawn_owner->runtime_ready)return 1;
   angle=actor->spawn_owner->runtime.rotation.rotation[2];
  }
- // GameObject::GetLookAtVec(+0x393ae4) returns sin(rotation+372),
- // cos(rotation+372),0; WarpBehind reverses and normalizes it, then scales100.
- const float look_angle=angle+372.f;
- float x=std::sin(look_angle),y=std::cos(look_angle);
+ // GameObject::GetLookAtVec 0x393ae4 is {sin a,-cos a,0} for the master's
+ // rotation a (GameObject+372, radians). Character::_WarpBehind 0x3b8d98
+ // negates that vector, normalizes it, scales it by 100 and adds it to the
+ // master's GetTargetPosition, so the destination is (-sin a, cos a)*100 away.
+ float x=-std::sin(angle),y=std::cos(angle);
  const float length=std::sqrt(x*x+y*y);
  if(!(length>0.f)||!std::isfinite(length))return 1;
- position[0]-=x/length*100.f;position[1]-=y/length*100.f;
+ position[0]+=x/length*100.f;position[1]+=y/length*100.f;
  dh2::character::ControllerPointCommandServices16 services{
      owner,faery_external_warp_service};
  dh2::character_faery_controller_v1::Result command_result{};
