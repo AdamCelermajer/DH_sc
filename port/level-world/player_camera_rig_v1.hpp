@@ -77,6 +77,9 @@ public:
 
 private:
     scene::Scene scene_;
+    // The authored scene before any clip sampled it. Every clip's untracked
+    // channels fall back to it (the per-binding default record, see load_animation).
+    scene::Scene rest_scene_;
     animation::Player animation_;
     Projection projection_{};
     std::size_t root_=0,camera_=0,target_=0,up_vector_=0;
