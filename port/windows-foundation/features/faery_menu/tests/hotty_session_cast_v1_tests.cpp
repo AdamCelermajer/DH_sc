@@ -491,17 +491,17 @@ int main(int argc, char** argv) {
             check(apply_celest_source_use_v1(session, prepared, celest_targets,
                   character, clock, faery_tables, database.classes, &celest_fx_dispatch,
                   use, error), error);
-            check(use.source_use_complete && use.rolls.size() == 2 &&
-                  use.rolls[0].applied && use.rolls[1].applied &&
+            check(use.source_use_complete && use.rolls.size() == 1 &&
+                  use.rolls[0].applied &&
                   use.target_effects.size() == 1 &&
                   use.target_effects.front().target == 2 &&
                   use.target_effects.front().status == CelestEffectStatusV1::source_instance_created,
-                  "Celest Main dispatch did not follow both actual source result occurrences");
+                  "Celest Main dispatch did not follow the one actual source result occurrence");
             std::cout << "{\"validation\":\"PASS\",\"source_set_ids\":["
                       << celest_fx_ids.target_main << ',' << celest_fx_ids.player_pre
                       << "],\"source_names\":[\"Celest_Level_1_Main\",\"Celest_Level_1_Player\"]"
                       << ",\"same_session_factory\":true,\"player_pre_instance_created\":true"
-                      << ",\"target_results_applied_before_main\":2,\"target_main_instance_created\":true"
+                      << ",\"target_results_applied_before_main\":1,\"target_main_instance_created\":true"
                       << ",\"live_packets_or_gpu_claimed\":false}\n";
             return 0;
         }
@@ -780,16 +780,14 @@ int main(int argc, char** argv) {
               character, clock, faery_tables, database.classes, &celest_fx_dispatch,
               celest_use, error), error);
         check(celest_use.source_use_complete && celest_use.source_hits_applied &&
-              celest_use.rolls.size() == 2 && celest_use.rolls[0].applied &&
-              celest_use.rolls[1].applied &&
+              celest_use.rolls.size() == 1 && celest_use.rolls[0].applied &&
               celest_use.rolls[0].source_mask == 0x1005554Au &&
-              celest_use.rolls[1].source_mask == 0x1005554Au &&
               session.world()->random_state().calls > celest_rng_before.calls &&
               live_celest_target->health < celest_hp_before &&
               celest_use.target_effects.size() == 1 &&
               celest_use.target_effects.front().status == CelestEffectStatusV1::source_instance_created &&
               celest_use.target_effects.front().target == celest_targets.character_targets_in_source_order.front(),
-              "Celest did not apply both actual same-Session rolls then create the exact target Main source effect");
+              "Celest did not apply the one actual same-Session roll then create the exact target Main source effect");
         const auto celest_hp_after = live_celest_target->health;
         const auto celest_rng_after = session.world()->random_state();
         CelestSourceUseV1 duplicate_celest_use;
@@ -860,10 +858,9 @@ int main(int argc, char** argv) {
               celest_do_spell.name == "do_spell" && celest_do_spell.generation != 0 &&
               celest_completed && celest_completed->phase ==
                   dh::foundation::generic_skills::RuntimeSkillCastPhaseV1::completed &&
-              celest_completed->applied_results.size() == 2 &&
+              celest_completed->applied_results.size() == 1 &&
               celest_completed->celest_dead_target_calculations.empty() &&
               celest_completed->applied_results[0].source_mask == 0x1005554Au &&
-              celest_completed->applied_results[1].source_mask == 0x1005554Au &&
               live_celest_target->health < coordinator_hp_before &&
               session.world()->random_state().calls > coordinator_rng_before.calls &&
               celest_completed->detail.find("Celest_Level_1_Player") != std::string::npos)) {
@@ -881,14 +878,13 @@ int main(int argc, char** argv) {
               celest_do_spell.name == "do_spell" && celest_do_spell.generation != 0 &&
               celest_completed && celest_completed->phase ==
                   dh::foundation::generic_skills::RuntimeSkillCastPhaseV1::completed &&
-              celest_completed->applied_results.size() == 2 &&
+              celest_completed->applied_results.size() == 1 &&
               celest_completed->celest_dead_target_calculations.empty() &&
               celest_completed->applied_results[0].source_mask == 0x1005554Au &&
-              celest_completed->applied_results[1].source_mask == 0x1005554Au &&
               live_celest_target->health < coordinator_hp_before &&
               session.world()->random_state().calls > coordinator_rng_before.calls &&
               celest_completed->detail.find("Celest_Level_1_Player") != std::string::npos,
-              "Fresh Celest state7 do_spell coordinator path did not apply two same-session results and complete with non-veto FX diagnostic");
+              "Fresh Celest state7 do_spell coordinator path did not apply one same-session result per Character and complete with non-veto FX diagnostic");
         const auto coordinator_hp_after = live_celest_target->health;
         const auto coordinator_rng_after = session.world()->random_state();
         dh::foundation::generic_skills::RuntimeSkillCastReceiptV1 duplicate_celest_event;
@@ -987,10 +983,7 @@ int main(int argc, char** argv) {
         if (!(lethal_celest_use.source_use_complete &&
               lethal_celest_use.rolls.size() == 1 &&
               lethal_celest_use.rolls.front().target_died &&
-              lethal_celest_use.dead_target_calculations.size() == 1 &&
-              lethal_celest_use.dead_target_calculations.front().target == 2 &&
-              lethal_celest_use.dead_target_calculations.front().event_index == 1 &&
-              lethal_celest_use.dead_target_calculations.front().result.original.amount >= 0 &&
+              lethal_celest_use.dead_target_calculations.empty() &&
               !live_celest_target->alive() &&
               session.world()->random_state().calls > lethal_rng_before.calls)) {
             std::cerr << "Celest lethal prefix complete=" << lethal_celest_use.source_use_complete
@@ -1006,13 +999,10 @@ int main(int argc, char** argv) {
         check(lethal_celest_use.source_use_complete &&
               lethal_celest_use.rolls.size() == 1 &&
               lethal_celest_use.rolls.front().target_died &&
-              lethal_celest_use.dead_target_calculations.size() == 1 &&
-              lethal_celest_use.dead_target_calculations.front().target == 2 &&
-              lethal_celest_use.dead_target_calculations.front().event_index == 1 &&
-              lethal_celest_use.dead_target_calculations.front().result.original.amount >= 0 &&
+              lethal_celest_use.dead_target_calculations.empty() &&
               !live_celest_target->alive() &&
               session.world()->random_state().calls > lethal_rng_before.calls,
-              "Celest lethal first roll did not consume exactly one dead-target formula-only second occurrence");
+              "Celest lethal first roll applied exactly one source roll and no second (object-branch) occurrence");
         const auto lethal_hp_after = live_celest_target->health;
         const auto lethal_rng_after = session.world()->random_state();
         CombatSessionSourceHit duplicate_dead_calc;
@@ -1020,7 +1010,7 @@ int main(int argc, char** argv) {
         duplicate_dead_calc.target = 2;
         duplicate_dead_calc.binding_lease = session.actor_binding_lease();
         duplicate_dead_calc.generation = lethal_celest_prepared.cooldown_ready_at_ms;
-        duplicate_dead_calc.event_index = 1;
+        duplicate_dead_calc.event_index = 0;
         duplicate_dead_calc.mask = 0x1005554Au;
         duplicate_dead_calc.source_id = "faerie_celest";
         duplicate_dead_calc.marker_name = "SpellCombatRoll";

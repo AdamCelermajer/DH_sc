@@ -1,0 +1,4 @@
+Source Faery key=4 frame=250 slot=0 sequence=348 generation=1 phase=1 MP=18.5 diagnostic=Celest OnPre completed; waiting for retained state7 do_spell Use
+Faery cast sound uid=586 label=sfx_spell_lightning_small targets=2 frame=251 status=dispatched detail=
+Damage frame=275 target=6003394295803936768 marker=SpellCombatRoll removed=22.7148 dead=0 outcomes=0x0 srcmask=0x1005554a
+Damage frame=275 target=6003394295803936769 marker=SpellCombatRoll removed=27.5586 dead=0 outcomes=0x0 srcmask=0x1005554a

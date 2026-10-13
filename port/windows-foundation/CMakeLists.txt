@@ -941,7 +941,8 @@ add_library(foundation_runtime_enemy STATIC
   features/enemy_ai/runtime_enemy_navigation_v1.cpp
   features/enemy_ai/monster_decisions.cpp
   features/companions/follower_decision_v1.cpp features/companions/runtime_follower_controller_v1.cpp
-  features/companions/catch_up_buff_v1.cpp) # B077 FOLLOW; v20 GENERAL catch-up buff from the authored AI script
+  features/companions/catch_up_buff_v1.cpp
+  features/companions/runtime_faery_body_v1.cpp) # B077 FOLLOW; v20 GENERAL catch-up buff from the authored AI script; v21.8 faery body
 target_link_libraries(foundation_runtime_enemy PUBLIC foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_enemy)
 # B077 FOLLOW: pure follower decision tests (CharAI::_UpdateMaster events, follower.luac / rene.luac).
@@ -949,6 +950,10 @@ add_executable(follower_decision_v1_tests features/companions/follower_decision_
 add_test(NAME follower_decision_v1 COMMAND follower_decision_v1_tests)
 add_executable(catch_up_buff_v1_tests features/companions/catch_up_buff_v1_tests.cpp features/companions/catch_up_buff_v1.cpp)
 add_test(NAME catch_up_buff_v1 COMMAND catch_up_buff_v1_tests)
+# v21.8 item 8: the player's own faery body (equipped model, PlaceFaeryAndFollowers). Needs the staged v21.8 package for its asset part.
+add_executable(runtime_faery_body_v1_tests features/companions/runtime_faery_body_v1_tests.cpp)
+target_link_libraries(runtime_faery_body_v1_tests PRIVATE foundation_runtime_enemy)
+add_test(NAME runtime_faery_body_v1 COMMAND runtime_faery_body_v1_tests WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 
 # P16 SPAWN: generic spawn-character-from-template owner (pool, plan, placement,
 # clip policy) and its focused test over real CharacterTable/profile assets.

@@ -135,27 +135,29 @@ bool apply_celest_source_use_v1(
         return false;
     }
     if (targets.character_targets_in_source_order.size() >
-        (std::numeric_limits<std::uint32_t>::max() / 2u))
-        return fail(error, "Celest doubled source occurrence indices exceed bounds");
+        std::numeric_limits<std::uint32_t>::max())
+        return fail(error, "Celest source occurrence indices exceed bounds");
 
-    output.rolls.reserve(targets.character_targets_in_source_order.size() * 2);
+    output.rolls.reserve(targets.character_targets_in_source_order.size());
     output.dead_target_calculations.reserve(targets.character_targets_in_source_order.size());
     output.target_effects.reserve(targets.character_targets_in_source_order.size());
     output.target_effects_dispatched = true;
     const auto lease = session.actor_binding_lease();
     for (std::size_t i = 0; i < targets.character_targets_in_source_order.size(); ++i) {
         const auto target = targets.character_targets_in_source_order[i];
-        // The original Lua Character branch calls SpellCombatRoll twice, even
-        // when the first result is lethal. The shared Session API currently
-        // rejects that second calculation against its now-dead ActorState;
-        // retain and report the reached prefix rather than double-applying.
-        for (std::uint32_t roll = 0; roll < 2; ++roll) {
+        // v21.8 correction (IDA ObjectSearcher::TargetList::Search 0x4a2f34 stores
+        // `character != null` in the entry word GetTargetListTop returns as its
+        // 4th value, the Lua `gameobject`): a Character target takes the
+        // `if(gameobject)` branch = ONE SpellCombatRoll, target FX only when the
+        // returned damage is positive. The two-roll branch is the non-Character
+        // (breakable object) branch, which this Character host does not populate.
+        for (std::uint32_t roll = 0; roll < 1; ++roll) {
             CombatSessionSourceHit hit;
             hit.attacker = prepared.caster;
             hit.target = target;
             hit.binding_lease = lease;
             hit.generation = prepared.cooldown_ready_at_ms;
-            hit.event_index = static_cast<std::uint32_t>(i * 2u + roll);
+            hit.event_index = static_cast<std::uint32_t>(i + roll);
             hit.mask = 0x1005554Au;
             hit.source_id = "faerie_celest";
             hit.marker_name = "SpellCombatRoll";
@@ -219,7 +221,13 @@ bool apply_celest_source_use_v1(
 
         CelestEffectReceiptV1 effect;
         effect.target = target;
-        if (!optional_fx) {
+        const bool positive_return = !output.rolls.empty() &&
+            output.rolls.back().target == target &&
+            output.rolls.back().requested_damage > 0.0f;
+        if (!positive_return) {
+            // Lua: `if(dmg > 0) then target:PlayFX(Celest_Level_1_Main)`.
+            effect.status = CelestEffectStatusV1::source_branch_skipped;
+        } else if (!optional_fx) {
             effect.status = CelestEffectStatusV1::not_requested;
             effect.diagnostic = "Celest_Level_1_Main FX dispatch is not bound; source rolls remain applied";
             output.target_effects_dispatched = false;

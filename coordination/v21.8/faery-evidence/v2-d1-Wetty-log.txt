@@ -1,0 +1,6 @@
+Source Faery key=4 frame=250 slot=2 sequence=356 generation=1 phase=1 MP=18.5 diagnostic=Hotty OnPre completed; waiting for its distinct source Cast-state Use owner
+Faery cast sound uid=589 label=sfx_spell_water_small targets=2 frame=251 status=dispatched detail=
+Faery hit sound frame=275 targets=2 labels=sfx_faerie_ice
+Damage frame=275 target=6003394295803936768 marker=SpellCombatRoll removed=22.7148 dead=0 outcomes=0x0 srcmask=0x1005554a
+Damage frame=275 target=6003394295803936769 marker=SpellCombatRoll removed=27.5586 dead=0 outcomes=0x0 srcmask=0x1005554a
+Faery cast sound uid=-1 label=sfx_faerie_ice targets=2 frame=276 status=failed detail=label absent from the sounds table

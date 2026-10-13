@@ -1033,7 +1033,7 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         const auto diagnostic_start = active.receipt.detail.find("FX diagnostic:");
         if (diagnostic_start != std::string::npos)
             fx_diagnostics = active.receipt.detail.substr(diagnostic_start);
-        active.receipt.detail = "Celest source state7 do_spell completed its ordered two-roll result loop";
+        active.receipt.detail = "Celest source state7 do_spell completed its ordered one-roll-per-Character result loop";
         if (!fx_diagnostics.empty()) {
             active.receipt.detail += "; ";
             active.receipt.detail += fx_diagnostics;
