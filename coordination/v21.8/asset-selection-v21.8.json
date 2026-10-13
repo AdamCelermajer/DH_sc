@@ -143,6 +143,18 @@
       "3d/interface/spell_dh2_hurt_lightning.bdae",
       "3d/interface/spell_dh2_hurt_electric.bdae",
       "3d/interface/spell_dh2_hurt_simplified_chain_lightning.bdae"
+    ],
+    "mud_lord_boss_ai_fx": [
+      "scripts/ai/swampking_core.luac",
+      "scripts/skills/swamp_king_attack_1.luac",
+      "scripts/skills/swamp_king_attack_2.luac",
+      "scripts/skills/swamp_king_attack_3.luac",
+      "scripts/skills/swamp_king_attack_4.luac",
+      "scripts/skills/swampking_atk_spit.luac",
+      "3d/projectiles/elemental_bolt_water.bdae",
+      "3d/interface/fx_swampking_blue_shockwave.bdae",
+      "3d/interface/fx_swampking_attack_03_poisonspit.bdae",
+      "3d/interface/spell_dh2_hurt_steam.bdae"
     ]
   },
   "group_destinations": {
