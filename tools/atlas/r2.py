@@ -12,6 +12,30 @@ from common import read_json, write_json, markdown_table
 
 MAX_GENERATED_BYTES = 40_000_000
 PACKAGES = {'A': 'r2_natives', 'B': 'r2_staging', 'C': 'r2_act2'}
+INITIAL_SCOPE_COMMIT = 'a0fd3078'
+
+def initial_inventory(ctx):
+    """Keep the initial work identity compact and immutable across source repairs."""
+    dest=ctx.out/'r2/initial-inventory.json'
+    if dest.is_file():return read_json(dest)
+    def frozen(relative):
+        payload=subprocess.run(['git','show',INITIAL_SCOPE_COMMIT+':coordination/atlas/'+relative],
+                               cwd=ctx.root,capture_output=True,check=True).stdout
+        return json.loads(payload)
+    native=frozen('r2/natives/scope.json')
+    act2=frozen('r2/package-c-progress.json')
+    staging=frozen('r2/staging/scope-index.json')
+    b=[]
+    for rel in staging['files']:
+        shard=frozen(rel)
+        b.extend({'act':shard['act'],'reference_id':row['reference_id'],'state':'TODO'} for row in shard['rows'])
+    value={'schema':'atlas-r2-initial-inventory-v1','initial_commit':INITIAL_SCOPE_COMMIT,
+           'packages':{'A':[{'name':r['name'],'state':'TODO'} for r in native['native_rows']],
+                       'B':b,'C':act2['rows']},
+           'questions':[{'id':i,'state':'TODO'} for i in range(1,8)],
+           'rule':'Never drop initial work rows after a source repair; retain a terminal reason for retirements.'}
+    write_json(dest,value)
+    return value
 
 def package_progress(ctx, letter):
     candidates = [ctx.out/'r2'/f'package-{letter.lower()}-progress.json',
@@ -87,12 +111,96 @@ def seal_step0(ctx):
     size_recommendation(ctx)
     return progress(ctx,'STEP 0 ENUMERATED; ALL ROWS TODO')
 
+def retention_check(ctx):
+    """Original work rows survive repaired-source expansions and retirements."""
+    initial=initial_inventory(ctx)['packages']
+    current={k:package_progress(ctx,k) for k in PACKAGES}
+    errors=[]
+    a={r['name']:r for r in current['A'].get('page_manifest',[])}
+    for row in initial['A']:
+        if row['name'] not in a:errors.append('initial native missing: '+row['name'])
+    b={}
+    for rel in current['B'].get('classification_files',[]):
+        shard=read_json(ctx.out/rel,{})
+        for row in shard.get('rows',[]):
+            key=(shard.get('act'),row.get('reference_id'))
+            if key in b:errors.append('duplicate staging identity: '+str(key))
+            b[key]=row
+    for row in initial['B']:
+        if (row['act'],row['reference_id']) not in b:
+            errors.append('initial reference missing: '+row['act']+'/'+row['reference_id'])
+    c={(r.get('row_type'),r.get('id')):r for r in current['C'].get('rows',[])}
+    for row in initial['C']:
+        if (row.get('row_type'),row.get('id')) not in c:
+            errors.append('initial dossier work row missing: '+str(row.get('id')))
+    for row in c.values():
+        if row.get('state') in ('NOT-NEEDED','UNRESOLVED') and not row.get('reason'):
+            errors.append('dossier terminal disposition lacks reason: '+str(row.get('id')))
+    baseline=read_json(ctx.out/'r2/tracked-size-baseline.json',{})
+    for row in baseline.get('oversized_round1_files',[]):
+        path=ctx.root/row['path']
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=row['sha256']:
+            errors.append('old oversized generated file changed: '+row['path'])
+    return {'name':'immutable initial identities and unchanged round-1 oversized files','passed':not errors,'errors':errors}
+
+def report(ctx):
+    root=ctx.out/'r2'
+    packages={k:package_progress(ctx,k) for k in PACKAGES}
+    rows=[[k,d.get('total',0),d.get('processed',0),d.get('status_counts',{})] for k,d in packages.items()]
+    b=packages['B'];metrics=read_json(root/'staging/before-after-metrics.json',{})
+    selections=[]
+    for rel in b.get('selection_files',[]):
+        data=read_json(ctx.out/rel,{})
+        groups=data.get('groups',{})
+        count=sum(len(g) if isinstance(g,list) else len(g.get('files',[]))
+                  for g in (groups.values() if isinstance(groups,dict) else groups))
+        selections.append([f'[{Path(rel).name}]({Path(rel).relative_to("r2").as_posix()})',count])
+    gap_counts=Counter()
+    for rel in b.get('classification_files',[]):
+        for row in read_json(ctx.out/rel,{}).get('rows',[]):
+            if row.get('classification') in ('UNRESOLVED','AMBIGUOUS','ABSENT_ALL_CORPORA','PORT_RULE_ABSENT'):
+                gap_counts[row.get('reason_code') or row.get('reason') or 'unspecified']+=1
+    questions=read_json(root/'questions.json',{}).get('questions',[])
+    coverage=read_json(root/'act2/coverage.json',{}).get('counts',{})
+    blockers=read_json(root/'act2/blocker-reach.json',{}).get('blockers',[])[:12]
+    text=['# Original Data Atlas round 2','',
+          'Source contracts, a staging ledger, and per-scene reconstruction dossiers. Original Android and iOS inputs are complementary partial corpora. There is no iPhone binary or verified iOS native ID mapping. Native contracts use the Android library; platform/version uncertainty remains explicit.',
+          '',markdown_table(['Package','Work rows','Processed','States'],rows),
+          'Processed includes explicit UNRESOLVED and NOT-NEEDED dispositions. TODO means investigation remains. Contract completion does not establish Windows gameplay parity.',
+          '', '[Native contract index](natives/INDEX.md) · [Staging classifications and selections](staging/CLASSIFICATION-AND-SELECTIONS.md) · [Level dossiers](act2/dossier.md) · [Progress](PROGRESS-R2.md)',
+          '',f'Package B covers {b.get("act_reference_pairs",0):,} act/reference pairs, {b.get("unique_reference_sites",0):,} distinct source IDs, and {b.get("shared_reference_sites_across_acts",0):,} IDs shared across act labels. Typed non-file keys retain a staging-only disposition; their table/resource dependencies must still be followed.',
+          '',markdown_table(['Act label','Before source unresolved','After source unresolved','Ready reference pairs','Already staged pairs'],
+             [[act,metrics.get('before_source_unresolved_by_act',{}).get(act,0),metrics.get('after_source_unresolved_by_act',{}).get(act,0),metrics.get('staging_ready_by_act',{}).get(act,0),metrics.get('already_staged_by_act',{}).get(act,0)] for act in ('act_1','act_2_inferred')]),
+          'Before/after counts concern source classification, not successfully loaded game content. Selected physical paths are deduplicated across groups and base destinations.',
+          '',markdown_table(['Selection JSON','Physical files'],selections),
+          'Selections were checked by the original staging script, stopping before its first target-directory creation. Packed iOS .dat candidates need materialization/version review and are not offered as ready-to-copy files. [Preflight receipt](staging/preflight.json).',
+          '',markdown_table(['Unresolved reason','Reference pairs'],gap_counts.most_common()),
+          'Detailed per-kind metrics and referrer chains: [metrics](staging/before-after-metrics.json), [top 50 references](staging/top50-blocking-references.json). The global audio catalog checks preserve 45 absent sounds.xml filenames and absent sfx_faerie_ice.wav; these differ from scoped pair counts.',
+          '', '## Seven source questions','']
+    for q in questions:
+        text += [f'{q["id"]}. **{q["title"]}** — {q["state"]}. '+ ' '.join(c.get('text','') for c in q.get('claims',[])[:1]),'']
+    text += ['[Full answers, source addresses, evidence and behavioral cases](natives/QUESTIONS.md).',
+             '', '## Readiness and remaining gaps','',
+             f'The source-transition closure contains {coverage.get("scenes",0)} scenes and {coverage.get("source_edges",0)} edges. It includes later content and Act 1 backlinks; narrative act boundaries are INFERENCE. {coverage.get("unique_entity_rows",0)} distinct character rows have source-linked dossiers. Repairs to malformed source rule text are logged; original bytes were not changed.',
+             '',markdown_table(['Highest-reaching blocker','Affected scenes'],[[r.get('blocker'),r.get('blocked_scene_count')] for r in blockers]),
+             'The conservative playable-support metric is '+str(coverage.get('verified_playable_fraction',{}))+'. Its denominator counts required per-level capabilities. Zero verified support here means this static investigation supplied no integrated runtime/visual proof; it does not assert every existing port feature fails.',
+             '', '[Coverage and denominator](act2/coverage.md) · [Implementation ranking](act2/blocker-reach.md) · [Scope expansions and retained frontier records](act2/scope-expansion.json)',
+             '', '## Rebuild and verification','',
+             'Run `./tools/atlas/regen.ps1 --round2` from the atlas2 worktree. It rebuilds source indexes in ignored scratch storage, then regenerates round-2 artifacts. Run `./tools/atlas/atlas.ps1 check --round2` for scope, contract, classification, staging, evidence and original known-answer checks. A remaining TODO makes the final check fail.',
+             '', '[Check receipt](check.json) · [Immutable initial scope](STEP0.json) · [Tracked-file-size recommendation](TRACKED-FILE-SIZES.md)',
+             '', 'All new generated files must stay below 40,000,000 bytes. Existing oversized round-1 outputs are preserved. A separate cleanup should untrack or shard regenerable snapshots and address historical Git blobs before a future push. This round does not push or rewrite history.','']
+    (root/'README.md').write_text('\n'.join(text),encoding='utf-8',newline='\n')
+
 def check(ctx):
     import atlas
     base = atlas.audit(ctx,write_result=False)
     tests = [{'name':'original source audit and round-1 known answers','passed':base['passed']}]
     errors = list(base['errors'])
     for letter,name in PACKAGES.items():
+        current = package_progress(ctx,letter)
+        if (not current or current.get('processed',0)!=current.get('total',-1)
+                or current.get('status_counts',{}).get('TODO',0)):
+            errors.append(f'package {letter} still has unprocessed TODO scope rows')
         result = importlib.import_module(name).check(ctx)
         tests.append({'name':f'package {letter} coverage and evidence','passed':result.get('passed',False)})
         errors.extend(f'{letter}: {e}' for e in result.get('errors',[]))
@@ -105,6 +213,8 @@ def check(ctx):
                 if p.is_file() and p.stat().st_size>MAX_GENERATED_BYTES]
     tests.append({'name':'all new generated files below 40 MB','passed':not oversize})
     errors.extend('oversized new generated file: '+p for p in oversize)
+    retained=retention_check(ctx)
+    tests.append({'name':retained['name'],'passed':retained['passed']});errors.extend(retained['errors'])
     result = {'passed':not errors,'tests':tests,'errors':errors,'known_answers':base['known_answers']}
     write_json(ctx.out/'r2/check.json',result)
     return result
@@ -112,6 +222,7 @@ def check(ctx):
 def check_command(ctx):
     result = check(ctx)
     progress(ctx,'CHECK PASSED; EXPLICIT SEMANTIC GAPS REMAIN' if result['passed'] else 'CHECK FAILURES')
+    report(ctx)
     for t in result['tests']:print(('PASS' if t['passed'] else 'FAIL')+' '+t['name'],flush=True)
     for e in result['errors'][:40]:print('ERROR '+e,flush=True)
     return 0 if result['passed'] else 1
@@ -128,12 +239,21 @@ def regenerate(ctx):
     if not audited['passed']:raise RuntimeError('Scratch source atlas audit failed: '+str(audited['errors'][:10]))
     # Original ranking is a requested frozen input, not a mutable priority list.
     shutil.copy2(ctx.out/'README.md',source_ctx.out/'README.md')
+    initial_inventory(ctx)
+    # Frozen work identity is a generated historical input; current content
+    # still rebuilds from source. Keep the initial Act 2 scope for retirement
+    # dispositions when a malformed rule is recovered by the new parser.
+    for rel in ('STEP0.json','initial-inventory.json','act2/scope.json','act2/scope.md'):
+        source=ctx.out/'r2'/rel
+        if source.is_file():
+            target=source_ctx.out/'r2'/rel
+            target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,target)
     import r2_act2,r2_natives,r2_staging,r2_questions
     r2_act2.enumerate_scope(source_ctx)
+    r2_questions.run(source_ctx)
     r2_natives.run(source_ctx)
     r2_staging.run(source_ctx)
     r2_act2.run(source_ctx)
-    r2_questions.run(source_ctx)
     for p in (source_ctx.out/'r2').rglob('*'):
         if not p.is_file():continue
         if p.stat().st_size>MAX_GENERATED_BYTES:raise ValueError('Generated file exceeds 40 MB: '+str(p))

@@ -39,7 +39,7 @@ def contracts():
       {'id':2,'title':'SnS target-chance units and comparisons',
        'claims':[
          claim('The original _F_CalculateResult 0x3b2638 requests Random(100), then shifts the random integer left by 8 before the chance helper. Random uses seed modulo the positive bound, so the comparison domain is integers 0..99 multiplied by 256.',
-               evidence(body('003b2638'),'v12 << 8, 2'),evidence(body('00493780'),'Random::s_seed % this'),
+               evidence(body('003b2638'),'v12 << 8, 2'),evidence(body('003af6d8'),'Random::s_seed % this'),
                evidence('port/level-world/reference/character-dot-attack/original-functions.asm','003b2948: mov      r0, #0x64')),
          claim('Mode 2 stun and push use resolved SnS chance properties 184 and 183. If the raw chance is positive, the effective threshold is chance + 5*attacker_level_raw - defender_resistance_raw - 5*defender_level_raw; strict threshold > random_raw succeeds. Stun resistance is 138; push resistance is 136.',
                evidence(body('003b0fa0'),'PROPS_Get((int)a1 + 1376, 184)'),evidence(body('003b0d78'),'PROPS_Get((int)a1 + 1376, 183)'),evidence(body('003b0fa0'),'return Property > a3;')),
