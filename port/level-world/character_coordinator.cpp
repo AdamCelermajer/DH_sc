@@ -196,6 +196,11 @@ int Coordinator::event(std::uint32_t event_id, std::uint64_t payload) {
     if (source_state_handler_mask() && state.current >= 0 && state.current < 20 &&
         !source_state_registered(timers_.owner,
             static_cast<std::uint32_t>(state.current))) return -1;
+    // CharStateMachine::RaiseStateEvent clears the machine gate bit of timer
+    // events 0x2a/0x2b/0x2c before the current state sees them, whichever
+    // state (CSSkill and CSCast included) is current.
+    if (event_id >= 0x2au && event_id <= 0x2cu)
+        state.attack_gate &= ~(1u << (event_id - 0x2au));
     if ((state.current == 0 || state.current == 1) &&
         bindings_.spawn_facts) return spawn_event(event_id);
     // CSInteract registers event34 -> CSM_AfterInteraction. That callback
@@ -335,9 +340,12 @@ int Coordinator::transition(std::int32_t next, std::int32_t event_id,
     if((state.current>=8&&state.current<=11)||(next>=8&&next<=11)){
         if(!bindings_.combat_facts)return -1;
         const auto combat=bindings_.combat_facts(bindings_.context);
-        if(next==6&&state.current==11)
+        if((next==6&&state.current==11)||(state.current==6&&next>=8&&next<=11))
             return dh2_character_combat_skill_state_transition(&state,&facts,&combat,
                 bindings_.skill_projection,next,event_id,payload,&services);
+        if(state.current==7&&next>=8&&next<=11)
+            return dh2_character_combat_cast_state_transition(&state,&facts,&combat,
+                bindings_.cast_projection,next,event_id,payload,&services);
         return dh2_character_combat_state_transition(&state,&facts,&combat,next,
             event_id,payload,&services);
     }

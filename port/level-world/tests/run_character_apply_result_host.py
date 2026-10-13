@@ -194,7 +194,7 @@ def oracle(original,exe):
                 if mutation==10 and op==OP['dodge']:old.pointer(OUT+24,16)
                 if mutation==11 and op==OP['hurt']:old.pointer(OUT+24,128|64|32|256)
                 returned()
-            elif op==OP['push']:record(op,r[0]-0x4fc,r[2],w0=r[1],w1=r[3]);returned()
+            elif op==OP['push']:record(op,r[0]-0x4fc,r[2],w0=r[1],w2=r[3]);returned()
             elif op==OP['read_property']:
                 assert r[1]==ATT+0xff4;record(op,r[0]-0x560,w0=r[2]);value=inputs[20] if r[2] in (140,143,146) else inputs[20]^0x80000100
                 if mutation==12 and r[2]==140:old.pointer(OUT+28,word(OUT+28)|0x14000)

@@ -233,7 +233,9 @@ Status execute(const Arguments* args,const Globals* globals,const Services* serv
         }
         if(flags&0x10u){s=c.status(Operation::hurt,c.d,c.a,special);if(s!=Status::complete)return s;
             s=c.debug("isTracingChar_Attack");if(s!=Status::complete)return s;flags=attack->outcomes&0xffu;}
-        if(flags&0x80u){s=c.status(Operation::push,c.d,c.a,(attack->mask>>20)&1,special);if(s!=Status::complete)return s;
+        // SM_SetKnockBackState(sm,great,attacker,direct): word0 great, word1 unused, word2 direct
+        // (the same slot Stun/Fear carry theirs in), so special routes through _SetState(10).
+        if(flags&0x80u){s=c.status(Operation::push,c.d,c.a,(attack->mask>>20)&1,0,special);if(s!=Status::complete)return s;
             s=c.player_counter(c.d,222,49,true,"knocked_down_50_times");if(s!=Status::complete)return s;
             s=c.debug("isTracingChar_Attack");if(s!=Status::complete)return s;flags=attack->outcomes&0xffu;}
         if(flags&0x40u){s=c.invoke(Operation::read_property,c.a,reply,0,(attack->mask&0x1000u)?185u:140u);if(s!=Status::complete)return s;

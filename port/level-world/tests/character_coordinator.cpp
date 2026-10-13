@@ -687,6 +687,48 @@ int main() {
         check(bridged_machine.unbind_skill_state_callbacks(skill_bridge_error)&&
               !bridged_machine.skill_state_callbacks_bound(),
               "CSSkill projection could not be unbound after leaving state 6");
+        {
+            // A direct _SetState (F_ApplyResult special) leaves a running CSSkill for a
+            // combat reaction state through CSSkill::OnBlur; the timer gate bits of events
+            // 0x2a-0x2c are cleared by RaiseStateEvent whichever state is current.
+            SkillMachineBridgeFixture combat_bridge;
+            CoordinatorBindings combat_base{};
+            combat_base.context=&combat_bridge;
+            combat_base.facts=SkillMachineBridgeFixture::read_facts;
+            combat_base.services={&combat_bridge,SkillMachineBridgeFixture::state_service};
+            combat_base.combat_facts=[](void*){
+                CombatFacts combat{};combat.controller_present=1;combat.last_target_available=1;
+                return combat;};
+            combat_bridge.character.bind(combat_base);
+            dh2::character_ai_skill_machine_projection_v1::Projection combat_machine(
+                combat_bridge.character,combat_bridge.character.owner(),0x300000012ull);
+            std::string combat_error;
+            const Frozen::Services combat_callbacks{&combat_bridge,
+                                                    SkillMachineBridgeFixture::skill_service};
+            check(combat_machine.bind_skill_state_callbacks(0x300000013ull,0x300000014ull,
+                      &combat_bridge.ooi_intent,&combat_bridge.physical,combat_callbacks,
+                      combat_error),"combat CSSkill projection did not bind");
+            check(combat_bridge.character.transition(3)==1&&
+                  combat_bridge.character.event(0xc355)==1&&
+                  combat_bridge.character.state.current==6,"combat bridge did not enter CSSkill");
+            combat_bridge.character.state.attack_gate|=0x6u;
+            check(combat_bridge.character.event(0x2b)==0&&
+                  combat_bridge.character.state.current==6&&
+                  (combat_bridge.character.state.attack_gate&0x6u)==0x4u,
+                  "event 0x2b did not clear the stun gate bit while CSSkill was current");
+            combat_bridge.callback_events.clear();
+            check(combat_bridge.character.transition(10,50011,0x77)==1&&
+                  combat_bridge.character.state.current==10&&
+                  combat_bridge.character.state.flags==9025&&
+                  combat_bridge.character.state.controller_locked==1&&
+                  combat_bridge.callback_events==std::vector<std::uint32_t>({0x1f}),
+                  "direct _SetState did not leave CSSkill through OnBlur into CSKnockedBack");
+            check(combat_bridge.character.event(34)==1&&combat_bridge.character.state.current==3&&
+                  combat_bridge.character.state.controller_locked==0,
+                  "CSKnockedBack did not return to Idle on the sequence end");
+            check(combat_machine.unbind_skill_state_callbacks(combat_error),
+                  "combat CSSkill projection could not unbind after leaving state 6");
+        }
 
         Fixture movement;
         check(movement.character.transition(3) == 1 &&
