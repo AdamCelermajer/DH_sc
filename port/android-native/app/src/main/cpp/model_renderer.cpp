@@ -79,6 +79,8 @@
 #include "../../../../../level-world/character_interactive.hpp"
 #include "../../../../../../port/level-world/character_interact_v1.hpp"
 #include "../../../../../level-world/character_ai_relations.hpp"
+#include "../../../../../level-world/ais_default_collision_persist.hpp"
+#include "../../../../../level-world/ais_external_update.hpp"
 #include "../../../../../level-world/character_combat_queries.hpp"
 #include "../../../../../level-world/character_ai_attack.hpp"
 #include "../../../../../level-world/character_animation_ai.hpp"
@@ -10636,6 +10638,12 @@ void reset_native_application_clock_baseline() noexcept{
 }
 bool frozen=false,animation_failed=false,frozen_cursor_logged=false;int sampled_ms=0;
 unsigned native_actor_frames=0,native_physics_steps=0;
+// Application::GetDt of the frame being stepped (set by the physics provider
+// before PhysicalWorld::update, read by contact callbacks), and the Monster half
+// of POCharacter::onCollisionPersists (0x46ff6c) -> CharAI::OnCollisionPersist.
+std::uint32_t native_frame_dt_ms=0;
+void native_monster_collision_persist_v1(std::uintptr_t owner,std::uintptr_t peer,
+                                         bool instigator);
 std::vector<dh2::navigation::ObstacleEntry> live_obstacle_entries;
 std::vector<unsigned> live_obstacle_floors,live_workspace_floors;
 std::vector<dh2::navigation::PathSegment> live_path_segments,live_workspace_segments;
@@ -10788,6 +10796,25 @@ void BodyOwner::collision(void* raw,dh2::physical::ContactEvent event,void* othe
    if(status==dh2::world_object_character_identity_v1::Status::complete)
     prince_event(projected.character_event,projected.peer_game_object_identity);
   }
+ }
+ // POCharacter::onCollisionPersists raises Character event 0x39/0x3a for every
+ // Character body, Monsters included; CharAI::RaiseAIEvent hands it to the active
+ // AIS (AISDefault::OnCollisionPersist 0x3dc01c). Character peers only: the
+ // peer GameObject type 2/21 branch needs a non-Character identity producer.
+ if(!owner.is_player&&!owner.is_projectile&&!owner.world_item&&
+    event==dh2::physical::ContactEvent::persist&&other&&instigator<=1&&
+    owner.native&&owner.native->body){
+  auto& peer=*static_cast<BodyOwner*>(other);
+  std::uintptr_t owner_identity=0,peer_identity=0;
+  if(peer.native&&peer.native->body&&
+     dh2::world_object_character_identity_v1::resolve(&owner.character_identity,
+         owner.native->body,&owner_identity)==
+       dh2::world_object_character_identity_v1::Status::complete&&
+     dh2::world_object_character_identity_v1::resolve(&peer.character_identity,
+         peer.native->body,&peer_identity)==
+       dh2::world_object_character_identity_v1::Status::complete&&
+     owner_identity!=peer_identity)
+   native_monster_collision_persist_v1(owner_identity,peer_identity,instigator!=0);
  }
  if(owner.is_projectile) {
   if(event==dh2::physical::ContactEvent::add&&other)
@@ -12215,6 +12242,16 @@ dh2::character::TimerRouting SpawnOwner::timer_route(void* raw,
         dh2::character::Timer32& timer,std::uint32_t) {
  using Route=dh2::character::TimerRouting;
  auto* owner=static_cast<SpawnOwner*>(raw);
+ if(event==0x31) {
+  // Character::RaiseEvent -> CharAI::RaiseAIEvent case 49 (0x3cbc90) clears the
+  // CharAI paused byte +0x18 that AI_PauseUpdate set; the state machine never
+  // sees it.
+  if(!owner||&owner->character!=&coordinator||!owner->actor||
+     !owner->actor->native_ai||
+     owner->character.owner()!=owner->actor->identity)return Route::failed;
+  owner->actor->native_ai->state.paused_18=0;
+  return Route::delivered;
+ }
  if(event==0x35) {
   if(!owner||&owner->character!=&coordinator||!owner->actor||
      owner->character.owner()!=owner->actor->identity)return Route::failed;
@@ -17392,6 +17429,11 @@ void SpawnOwner::initialize_runtime(const ObjectGroup& group,
  runtime.rotation.rotation[2]=euler[2];runtime.rotation.heading_angle=euler[2];
  std::copy(actor->position.begin(),actor->position.end(),runtime.controller.position);
  std::copy(actor->position.begin(),actor->position.end(),runtime.controller.destination);
+ // Character::Character (0x3a9778) stores 1 into GameObject+0x1c4, the byte
+ // GameObject::UpdatePath (0x3940c0) tests before PFWorld::ValidateDirection:
+ // a Character's heading slides along floor boundaries instead of pushing into
+ // them. GameObject::GameObject (0x38c480) only defaults it to 0.
+ runtime.controller.validate_boundary=1;
  runtime.path.segments=nullptr;
  route_storage.assign(level.native_floor->graph.node_count+1,{});
  runtime.path.segments=route_storage.data();runtime.path.capacity=std::uint32_t(route_storage.size());
@@ -28262,6 +28304,80 @@ bool direct_monster_path_pending(ObjectActor& actor,unsigned dt_ms){
  return dt_ms&&actor.direct_path_ready&&level.native_floor&&
      actor.direct_path.count&&!actor.combat_state.dead&&actor.state!="Attack";
 }
+// Diagnostic only (DH2_TRACE_MONSTER_PATH=1): one line per Monster that has a
+// target or a route, every 30 Character updates and on every state/route change.
+bool monster_path_trace_enabled(){
+ static const bool enabled=[]{const char* v=std::getenv("DH2_TRACE_MONSTER_PATH");return v&&*v&&*v!='0';}();
+ return enabled;
+}
+void trace_monster_path(ObjectActor& actor,unsigned dt_ms){
+ const bool enabled=monster_path_trace_enabled();
+ if(!enabled||!actor.spawn_owner||!actor.native_ai||!actor.spawn_owner->runtime_ready)return;
+ struct Last{unsigned frame=0;int fsm=-99;std::uint32_t count=0;bool target=false;unsigned long long total_ms=0;
+             float ref_x=0.f,ref_y=0.f;unsigned long long ref_ms=0;};
+ static std::unordered_map<std::uint64_t,Last> last_by_actor;
+ const bool first_seen=last_by_actor.find(actor.identity)==last_by_actor.end();
+ auto& last=last_by_actor[actor.identity];
+ last.total_ms+=dt_ms;++last.frame;
+ auto& owner=*actor.spawn_owner;auto& runtime=owner.runtime;
+ if(first_seen){
+  const auto* props=native_actor_ai_props(actor);
+  if(props)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "MonsterPathTrace props | %s | script %s | type %d | view %.1f | view no aggro %.1f | leash %.1f | melee %.1f | home %.1f,%.1f | start %.1f,%.1f",
+     actor.name.c_str(),props->script.c_str(),props->type,props->view_radius,
+     props->view_radius_no_aggro,props->leash_distance,props->melee_radius,
+     actor.initial_position[0],actor.initial_position[1],actor.position[0],actor.position[1]);
+ }
+ const bool target=actor.native_ai->state.target_40!=0;
+ if(!target&&!runtime.path.count&&last.count==0&&!last.target&&owner.character.state.current!=4&&
+    actor.state!="Walk"&&!actor.direct_path.count)return;
+ const int fsm=owner.character.state.current;
+ // A Monster in its Move state that has not advanced for 1.5 s is walking in place.
+ if(fsm!=4){last.ref_x=actor.position[0];last.ref_y=actor.position[1];last.ref_ms=last.total_ms;}
+ else if(last.total_ms-last.ref_ms>=1500){
+  const float mx=actor.position[0]-last.ref_x,my=actor.position[1]-last.ref_y;
+  if(mx*mx+my*my<50.f*50.f)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+     "MonsterPathTrace STUCK | %s | moved %.1f in %llu ms | pos %.1f,%.1f | route %u | next %.1f,%.1f | dest %.1f,%.1f",
+     actor.name.c_str(),std::sqrt(mx*mx+my*my),last.total_ms-last.ref_ms,actor.position[0],
+     actor.position[1],runtime.path.count,
+     runtime.path.count?runtime.path.segments[0].target[0]:runtime.controller.destination[0],
+     runtime.path.count?runtime.path.segments[0].target[1]:runtime.controller.destination[1],
+     runtime.controller.destination[0],runtime.controller.destination[1]);
+  last.ref_x=actor.position[0];last.ref_y=actor.position[1];last.ref_ms=last.total_ms;
+ }
+ const bool changed=fsm!=last.fsm||runtime.path.count!=last.count||target!=last.target;
+ if(!changed&&last.frame%30!=0)return;
+ const bool route_changed=runtime.path.count!=last.count;
+ last.fsm=fsm;last.count=runtime.path.count;last.target=target;
+ if(route_changed){
+  // Full route dump (DH2_TRACE_MONSTER_PATH=2): every remaining segment's edge,
+  // node pair and source/target points, plus the Player-facing final target.
+  static const bool full=[]{const char* v=std::getenv("DH2_TRACE_MONSTER_PATH");return v&&*v=='2';}();
+  if(full)for(std::uint32_t i=0;i<runtime.path.count;++i){
+   const auto& segment=runtime.path.segments[i];
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "MonsterPathTrace seg | %s | pos %.1f,%.1f | seg %u/%u | edge %u | nodes %u->%u | src %.1f,%.1f | dst %.1f,%.1f | clearance %.1f",
+     actor.name.c_str(),actor.position[0],actor.position[1],i,runtime.path.count,segment.edge,
+     segment.from,segment.to,segment.source[0],segment.source[1],segment.target[0],segment.target[1],
+     segment.clearance);
+  }
+ }
+ const float dx=actor_position[0]-actor.position[0],dy=actor_position[1]-actor.position[1];
+ const auto* wp=runtime.path.count?runtime.path.segments[0].target:runtime.controller.destination;
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+   "MonsterPathTrace | %s | t %llu ms | fsm %d | anim %s | target %d | pos %.1f,%.1f | player dist %.1f | route %u (direct %u) | route end %.1f,%.1f | next %.1f,%.1f | dest %.1f,%.1f | heading %d dir %.2f,%.2f | at-dest %d | home %.1f,%.1f | search-fail cache %u",
+   actor.name.c_str(),last.total_ms,fsm,actor.state.c_str(),int(target),
+   actor.position[0],actor.position[1],std::sqrt(dx*dx+dy*dy),runtime.path.count,actor.direct_path.count,
+   runtime.path.target[0],runtime.path.target[1],wp[0],wp[1],
+   runtime.controller.destination[0],runtime.controller.destination[1],
+   int(runtime.controller.heading.active),runtime.controller.heading.direction[0],
+   runtime.controller.heading.direction[1],
+   int(dh2_nav_is_at_destination(&runtime.controller,&runtime.path)),
+   actor.initial_position[0],actor.initial_position[1],
+   level.native_floor?level.native_floor->route_world.failed_count:0u);
+}
 struct NativeAggroDelayContextV1 { ObjectActor* actor=nullptr; unsigned dt_ms=0; };
 std::int32_t native_aggro_delay_turn(void* raw,dh2::character_aggro_delay::State*,std::uint32_t* value){
  if(!raw||!value)return 1;
@@ -28685,10 +28801,52 @@ void update_enemy_acquisition(ObjectActor& actor,const dh2::data::AiProps* props
   throw std::runtime_error("Monster source CharAI candidate event dispatch failed: "+
       event_context.error);
 }
-// AISExternal::OnUpdate (0x3dce64) = AISDefault::OnUpdate, then LuaScript::Call
-// ("OnUpdate") when AISExternal::InitVCB (0x3dcec8) found OnUpdate in the script
-// VFTable (flag 0x1), then the state-table callbacks. CharAI::OnUpdate (0x3d1050)
-// reaches it through the CharAI::_Generic slot after _UpdateTarget/_Aggro.
+// The retained, initialized AISExternal of a Monster whose Character, CharAI and
+// AIS identities agree; null while any of them is missing or has been replaced.
+NativeMonsterInitialization* native_monster_active_ais(ObjectActor& actor){
+ if(!actor.native_ai||!actor.native_ai->initialization||!actor.spawn_owner)return nullptr;
+ auto& init=*actor.native_ai->initialization;
+ if(!init.initialized||!init.vm.ready()||init.ai!=actor.native_ai.get()||
+    init.owner!=actor.spawn_owner||
+    init.lifecycle.active!=actor.native_ai->state.active_ais_1c||
+    init.lifecycle.active!=init.ais.identity||
+    actor.spawn_owner->actor!=&actor||
+    actor.spawn_owner->character.owner()!=actor.identity)return nullptr;
+ return &init;
+}
+// CharAI::AI_PauseUpdate (0x3cb74c): CharAI+0x18 := 1, then CharTimers::TMR_Start
+// (duration, repeat 0, event 0x31, null) on the owner. The timer's expiry reaches
+// SpawnOwner::timer_route, which clears the byte (CharAI::RaiseAIEvent case 49).
+bool native_monster_pause_ai_update(ObjectActor& actor,std::uint32_t duration_ms){
+ if(!actor.native_ai||!actor.spawn_owner||
+    actor.spawn_owner->character.owner()!=actor.identity)return false;
+ actor.native_ai->state.paused_18=1;
+ if(monster_path_trace_enabled())
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+    "MonsterPathTrace AI pause | %s | %u ms | pos %.1f,%.1f | target %d | fsm %d",
+    actor.name.c_str(),unsigned(duration_ms),actor.position[0],actor.position[1],
+    int(actor.native_ai->state.target_40!=0),actor.spawn_owner->character.state.current);
+ return actor.spawn_owner->character.start_timer(duration_ms,0,0x31,0)>=0;
+}
+// v2Controller::Cmd_Stop (0x40559c): forced || (!blocked && !locked) -> Ctrl_Stop.
+// A closed controller gate is the source's silent no-op, not a failure.
+bool native_monster_controller_stop(ObjectActor& actor){
+ if(!actor.spawn_owner||!actor.spawn_owner->runtime_ready||
+    actor.spawn_owner->character.owner()!=actor.identity)return false;
+ auto& owner=*actor.spawn_owner;
+ const dh2::character::ControllerCommandState32 controller{
+  reinterpret_cast<std::uintptr_t>(&owner.character.state),actor.identity,
+  controller_global_blocked,owner.character.state.controller_locked,
+  owner.controller_forced,0};
+ return dh2_character_controller_character(&controller,
+     dh2::character::controller_stop,0,&owner.control_services)>=0;
+}
+// AISExternal::OnUpdate (0x3dce64) = AISDefault::OnUpdate (0x3dc798: the stuck
+// counter at AIS+0xbc above 199 resets, pauses CharAI for 1000 ms and sends
+// Cmd_Stop), then LuaScript::Call("OnUpdate") when AISExternal::InitVCB
+// (0x3dcec8) found OnUpdate in the script VFTable (flag 0x1), then the CharAIScript
+// state-table callbacks. CharAI::Update (0x3cfbfc) reaches it through the
+// CharAI::_Generic slot after _UpdateTarget/_Aggro.
 void update_external_ais_on_update(ObjectActor& actor){
   if(actor.source_room_zone_managed&&!actor.source_updates_enabled)return;
   if(actor.gated_spawn&&(!actor.spawn_owner||!actor.source_updates_enabled||
@@ -28696,19 +28854,146 @@ void update_external_ais_on_update(ObjectActor& actor){
   if(!enemy_ai_enabled||frozen||actor.combat_state.dead)return;
   const auto* props=native_actor_ai_props(actor);
   if(!native_character_classification(actor,dh2::character_ai_classification::Query::monster)||
-     !native_ai_monster_script(props)||!actor.native_ai||!actor.native_ai->initialization)return;
-  auto& init=*actor.native_ai->initialization;
-  if(!init.initialized||!init.vm.ready()||init.ai!=actor.native_ai.get()||
-     init.owner!=actor.spawn_owner||
-     init.lifecycle.active!=actor.native_ai->state.active_ais_1c||
-     !(init.ais.flags_b8&0x1u))return;
-  std::string error;
-  if(init.vm.dispatch(dh2::monster_external_script::Event::update,0,error)!=
-       dh2::monster_external_script::Status::complete)
+     !native_ai_monster_script(props))return;
+  auto* init=native_monster_active_ais(actor);
+  if(!init)return;
+  struct Context{ObjectActor* actor;NativeMonsterInitialization* init;} context{&actor,init};
+  dh2::ais_external_update::State state{init->ais.identity,actor.identity,
+      init->ais.flags_b8,init->ais.counter_bc};
+  const dh2::ais_external_update::Services services{&context,
+   [](void* raw,dh2::ais_external_update::State*,
+      const dh2::ais_external_update::Request* request)->std::int32_t{
+    using Operation=dh2::ais_external_update::Operation;
+    auto& value=*static_cast<Context*>(raw);
+    switch(request->operation){
+    case Operation::pause_character_ai:
+     return native_monster_pause_ai_update(*value.actor,request->argument)?0:1;
+    case Operation::stop_character_controller:
+     return native_monster_controller_stop(*value.actor)?0:1;
+    case Operation::call_ais_on_update:{
+     std::string error;
+     // LuaScript::Call reports a script error and the AIS keeps running.
+     if(value.init->vm.dispatch(dh2::monster_external_script::Event::update,0,error)!=
+          dh2::monster_external_script::Status::complete)
+      __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+        "Source AIS OnUpdate failed | %s | script %s | %s",value.actor->name.c_str(),
+        value.init->external_name.c_str(),error.c_str());
+     return 0;
+    }
+    case Operation::call_state_update:
+    case Operation::call_state_conditions:
+     return 0; // No CharAIScript state table is registered for external Monster scripts.
+    }
+    return 1;
+   }};
+  dh2::ais_external_update::Result report{};
+  const auto status=dh2::ais_external_update::update(&state,&services,&report);
+  init->ais.counter_bc=state.counter_bc;
+  if(status!=dh2::ais_external_update::Status::complete)
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
-     "Source AIS OnUpdate failed | %s | script %s | %s",actor.name.c_str(),
-     init.external_name.c_str(),error.c_str());
+     "Source AIS update failed | %s | status %d | phase %u",actor.name.c_str(),int(status),
+     unsigned(report.phase));
 }
+// POCharacter::onCollisionPersists (0x46ff6c) -> Character::RaiseEvent(0x39 when this
+// body is the instigator, else 0x3a) -> CharAI::RaiseAIEvent (0x3cbb34) -> CharAI::
+// OnCollisionPersist (0x3d0e14) -> AISDefault::OnCollisionPersist (0x3dc01c): a
+// Moving Monster bumping a Character other than its target counts the frame time
+// into AIS+0xbc (stuck detection, consumed by AISDefault::OnUpdate), may adopt an
+// enemy it bumps as its target, and so on (ais_default_collision_persist).
+namespace {
+void native_monster_collision_persist_v1(std::uintptr_t owner_identity,
+                                         std::uintptr_t peer_identity,bool instigator){
+ try {
+  auto* actor=native_char_ai_actor(owner_identity);
+  if(!actor||actor->kind!=1||actor->combat_state.dead||!enemy_ai_enabled||frozen)return;
+  if(actor->source_room_zone_managed&&!actor->source_updates_enabled)return;
+  const auto* props=native_actor_ai_props(*actor);
+  if(!props||!native_ai_monster_script(props)||
+     !native_character_classification(*actor,dh2::character_ai_classification::Query::monster))return;
+  auto* init=native_monster_active_ais(*actor);
+  if(!init)return;
+  auto& owner=*actor->spawn_owner;
+  // CharAI::RaiseAIEvent's default branch: with a blocked or locked, non-forced
+  // controller the event only reaches the state machine (which ignores 0x39/0x3a).
+  if(!owner.controller_forced&&(controller_global_blocked||owner.character.state.controller_locked))return;
+  namespace persist=dh2::ais_default_collision_persist;
+  struct Context{
+   ObjectActor* actor;NativeMonsterInitialization* init;
+   persist::OwnerFacts owner_facts;persist::Application application;
+  } context{actor,init,{},{}};
+  dh2::ais_external_update::State ais{init->ais.identity,actor->identity,
+      init->ais.flags_b8,init->ais.counter_bc};
+  persist::State state{&ais,init->ais.word_c0};
+  const persist::Services services{&context,
+   [](void* raw,persist::State*,const persist::Request* request,std::uint32_t* out)->std::int32_t{
+    auto& value=*static_cast<Context*>(raw);
+    switch(request->operation){
+    case persist::Operation::state_is_moving:{
+     // CharStateMachine::SM_IsMoving(false): CSMove (4) or state 19.
+     const int current=value.actor->spawn_owner->character.state.current;
+     *out=current==4||current==19;return 0;
+    }
+    case persist::Operation::is_character:{
+     const auto subject=request->subject;
+     const auto* other=native_char_ai_actor(subject);
+     *out=subject==prince_character.identity()||(other&&other->kind==1)||
+          native_faery_owner(subject)!=nullptr;
+     return 0;
+    }
+    case persist::Operation::is_player:
+     *out=request->subject==prince_character.identity();return 0;
+    case persist::Operation::is_enemy:{
+     std::uint32_t related=0;
+     if(!source_relation_for_ooi(request->subject,request->peer,
+          dh2::character_ai_relations::Relation::enemy,related))return 1;
+     *out=related;return 0;
+    }
+    case persist::Operation::set_target:
+     return NativeMonsterInitialization::set_target(value.init,request->subject,
+         request->peer)==0?0:1;
+    case persist::Operation::cancel_sneaking:
+     return 0; // Only a Player owner reaches Character::CancelSneaking.
+    case persist::Operation::frame_delta:
+     *out=native_frame_dt_ms;return 0;
+    }
+    return 1;
+   },
+   [](void* raw,persist::View view,std::uintptr_t id,const void** out)->std::int32_t{
+    auto& value=*static_cast<Context*>(raw);
+    switch(view){
+    case persist::View::owner:{
+     if(id!=value.actor->identity)return 1;
+     const auto& source=value.actor->native_ai->state;
+     // Character+0x408/+0x418 are CharAI target (+0x40) and master (+0x50);
+     // Character+0x3e0 is the CharAI paused byte (+0x18).
+     value.owner_facts={id,source.target_40,source.master_50,source.paused_18};
+     *out=&value.owner_facts;return 0;
+    }
+    case persist::View::application:
+     value.application={native_application.identity,native_physics_steps};
+     *out=&value.application;return 0;
+    case persist::View::peer:
+     return 1; // Non-Character peers are not routed here.
+    }
+    return 1;
+   }};
+  persist::Result result{};
+  const auto status=persist::persist(&state,peer_identity,instigator?1u:0u,&services,&result);
+  init->ais.counter_bc=ais.counter_bc;
+  init->ais.word_c0=state.frame_c0;
+  if(status!=persist::Status::complete){
+   static unsigned warned=0;
+   if(warned++<8)
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "Monster collision persist rejected | %s | status %d",actor->name.c_str(),int(status));
+  }
+ } catch(...) {
+  static unsigned warned=0;
+  if(warned++<8)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Monster collision persist threw");
+ }
+}
+} // namespace
 void update_enemy(ObjectActor& actor,int table,unsigned dt_ms){
   if(actor.source_room_zone_managed&&!actor.source_updates_enabled)return;
   if(actor.gated_spawn&&(!actor.spawn_owner||!actor.source_updates_enabled||
@@ -28951,7 +29236,13 @@ bool update_ais_monster_idle_home(ObjectActor& actor){
     ai.character_identity!=actor.identity||!ai.state.identity||
     ai.state.owner_04!=actor.identity)return false;
  const auto* props=native_actor_ai_props(actor);
- if(!props||props->script!="monster")return true;
+ // CharAI::SetScriptByName (0x3ceeb0) creates AISMonster only for the reserved
+ // "__monster__" script; a plain "monster" row runs AISExternal, whose OnUpdate
+ // (0x3dce64) is AISDefault::OnUpdate + the Lua OnUpdate + state callbacks and
+ // never walks the Monster home. monster.luac registers no OnUpdate, and no
+ // shipped AITable row names "__monster__", so original Monsters stay where
+ // they stopped after losing their target.
+ if(!props||props->script!="__monster__")return true;
 
  dh2::ais_monster_idle_home_v1::Request request{};
  request.character_state=owner.character.state.current;
@@ -28971,7 +29262,9 @@ bool update_ais_monster_idle_home(ObjectActor& actor){
            request.target_position);
  request.target_position_valid=owner.sampled_clip>=0&&actor.visible_80&&owner.source_visible&&
                                owner.visual.animated_node()>=0;
- request.melee_radius=props->melee_radius;
+ // AISMonster::OnUpdate compares against AITable row+0x1c (LeashDistance), not
+ // the row+0x20 MeleeRadius that CharAI::AI_GetMeleeRadius adds the weapon to.
+ request.leash_distance=props->leash_distance;
  if(dh2::ais_monster_idle_home_v1::request_home_move(request))
   direct_monster_move_to(actor,actor.initial_position.data());
  return true;
@@ -29360,14 +29653,20 @@ bool update_ordered_character_v1(void* raw,
     return false;
    }
   }
-  update_enemy(*actor,animation_table,context.dt_ms);
-  update_external_ais_on_update(*actor);
+  // CharAI::Update (0x3cfbfc) returns before _UpdateTarget/_Master/_Aggro/_Generic
+  // while CharAI+0x18 is set; AI_PauseUpdate (the AISDefault stuck detector) set
+  // it and a 0x31 timer clears it. CharTimers and the state machine still run.
+  const bool ai_paused=actor->native_ai&&actor->native_ai->state.paused_18!=0;
+  if(!ai_paused) {
+   update_enemy(*actor,animation_table,context.dt_ms);
+   update_external_ais_on_update(*actor);
+  }
   ++context.enemy_callbacks;
   // AISMonster::OnUpdate runs after AISDefault and before the Character FSM.
   // Reuse the retained source home point, current Character AABB and target
   // cache; Cmd_MoveTo only replaces this actor's existing route and is not a
   // second path/controller tick.
-  if(!update_ais_monster_idle_home(*actor)) {
+  if(!ai_paused&&!update_ais_monster_idle_home(*actor)) {
    context.error="AISMonster idle home-return source owner identity mismatch";
    return false;
   }
@@ -29417,6 +29716,7 @@ bool update_ordered_character_v1(void* raw,
     return false;
    }
   decay_character_reaction_gate_14fc(actor->reaction_gate_14fc,context.dt_ms);
+  trace_monster_path(*actor,context.dt_ms);
   if(spawn_owner) {
    std::string fx_error;
    if(!update_spawn_state_fx(*spawn_owner,fx_error)) {
@@ -44920,6 +45220,7 @@ int native_frame_physics_v1(void* raw,std::uint32_t dt_ms,float dt_seconds,
   std::string item_motion_error;
   if(!update_native_world_item_motion_before_step(item_motion_error))
    throw std::runtime_error(item_motion_error);
+  native_frame_dt_ms=dt_ms;
   actor_world.update(dt_ms);++native_physics_steps;
   sync_native_projectile_positions_after_step_v1(dt_ms);
   update_native_world_items_after_step(dt_ms);
@@ -50577,8 +50878,120 @@ Matrix source_map_camera_projection(int width,int height){
 //     loads the Lua file(s) (';'-separated, one chunk each) into the retained
 //     Player VM once and calls the global debug_main() at frame N (and every
 //     EVERY frames), logging its first result.
+//   DH2_DEBUG_PLACE_PLAYER_AT=X,Y,Z@N[;X,Y,Z@N...]  Script SetActorPosition of
+//     the Player (boss_probe_place_player) at actor frame N, one entry per frame.
 // Each use logs its result; nothing happens when the variables are unset.
+static void debug_player_place_probe(){
+ struct Placement{std::array<float,3> position;long frame;bool done;};
+ static std::vector<Placement> placements=[]{
+  std::vector<Placement> list;
+  const char* value=std::getenv("DH2_DEBUG_PLACE_PLAYER_AT");
+  if(!value)return list;
+  const std::string text(value);
+  for(std::size_t begin=0;begin<=text.size();){
+   auto end=text.find(';',begin);
+   if(end==std::string::npos)end=text.size();
+   float x=0.f,y=0.f,z=0.f;int frame=0;
+   if(end>begin&&std::sscanf(text.substr(begin,end-begin).c_str(),"%f,%f,%f@%d",&x,&y,&z,&frame)==4)
+    list.push_back({{x,y,z},long(frame),false});
+   begin=end+1;
+  }
+  return list;
+ }();
+ if(placements.empty()||!world_mode||!native_actor_ready)return;
+ const long frame=long(native_actor_frames);
+ for(auto& placement:placements){
+  if(placement.done||frame<placement.frame)continue;
+  placement.done=true;
+  std::string error;
+  const bool placed=boss_probe_place_player(placement.position,error);
+  __android_log_print(placed?ANDROID_LOG_INFO:ANDROID_LOG_ERROR,"DH2Native",
+      "Debug place Player | frame %ld | %.1f,%.1f,%.1f | %s | %s",frame,placement.position[0],
+      placement.position[1],placement.position[2],placed?"ok":"error",error.c_str());
+ }
+}
+static void debug_monster_roster_probe(){
+ static const bool enabled_trace=[]{const char* v=std::getenv("DH2_TRACE_MONSTER_PATH");return v&&*v&&*v!='0';}();
+ static bool dumped=false;
+ if(!enabled_trace||dumped||!world_mode||!native_actor_ready||native_actor_frames<30)return;
+ dumped=true;
+ for(auto& group:object_groups)for(auto& actor:group.instances){
+  if(actor.kind!=1)continue;
+  const auto* props=native_actor_ai_props(actor);
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+    "MonsterRoster | %s | pos %.1f,%.1f,%.1f | script %s | view %.0f | zone managed %d updates %d gated %d | room %d | state %s",
+    actor.name.c_str(),actor.position[0],actor.position[1],actor.position[2],
+    props?props->script.c_str():"?",props?props->view_radius:0.f,int(actor.source_room_zone_managed),
+    int(actor.source_updates_enabled),int(actor.gated_spawn),int(actor.room),actor.state.c_str());
+ }
+}
+// DH2_TRACE_NAV_MAP=X0,Y0,X1,Y1,STEP[,Z]: ASCII map of the selected-floor height
+// query ('#' floor, '.' none), north up, with monsters ('M') and the Player ('P').
+static void debug_nav_map_probe(){
+ static const char* spec=std::getenv("DH2_TRACE_NAV_MAP");
+ static bool dumped=false;
+ if(!spec||dumped||!world_mode||!native_actor_ready||native_actor_frames<30||!level.native_floor)return;
+ dumped=true;
+ float x0=0,y0=0,x1=0,y1=0,step=100,z=255;
+ if(std::sscanf(spec,"%f,%f,%f,%f,%f,%f",&x0,&y0,&x1,&y1,&step,&z)<5||step<=0)return;
+ for(float y=y1;y>=y0;y-=step){
+  std::string row;
+  for(float x=x0;x<=x1;x+=step){
+   char c='.';float h=0.f;const float point[3]{x,y,z};
+   if(dh2::floors::height(*level.native_floor,point,h))c='#';
+   const float half=step*0.5f;
+   if(std::fabs(actor_position[0]-x)<half&&std::fabs(actor_position[1]-y)<half)c='P';
+   else for(auto& group:object_groups){for(auto& actor:group.instances)
+     if(actor.kind==1&&std::fabs(actor.position[0]-x)<half&&std::fabs(actor.position[1]-y)<half)c='M';}
+   row.push_back(c);
+  }
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NavMap %7.0f | %s",y,row.c_str());
+ }
+}
+// DH2_TRACE_NAV_CANDIDATES=FRAME: at actor frame FRAME, for every updating
+// Monster list ring points (600..1400 units) on the selected floor, whether the
+// straight line to them leaves the floor ("blocked") and whether the shared
+// PFWorld::FindPath (limit 30) finds a route, so a Player placement behind a wall
+// that still has a path can be chosen for DH2_DEBUG_PLACE_PLAYER_AT.
+static void debug_nav_candidates_probe(){
+ static const long at=[]{const char* v=std::getenv("DH2_TRACE_NAV_CANDIDATES");return v?std::atol(v):0l;}();
+ static bool dumped=false;
+ if(!at||dumped||!world_mode||!native_actor_ready||!level.native_floor||long(native_actor_frames)<at)return;
+ dumped=true;
+ for(auto& group:object_groups)for(auto& actor:group.instances){
+  if(actor.kind!=1||!actor.source_updates_enabled||actor.gated_spawn)continue;
+  const auto* props=native_actor_ai_props(actor);
+  if(!props||props->script!="monster"||!initialize_direct_monster_path(actor))continue;
+  for(const float radius:{600.f,900.f,1200.f,1400.f})for(int step=0;step<16;++step){
+   const float angle=float(step)*0.39269908f;
+   const float point[3]{actor.position[0]+radius*std::cos(angle),actor.position[1]+radius*std::sin(angle),actor.position[2]};
+   float height=0.f;
+   if(!dh2::floors::height(*level.native_floor,point,height))continue;
+   bool blocked=false;
+   for(float t=40.f;t<radius&&!blocked;t+=40.f){
+    const float probe[3]{actor.position[0]+t*std::cos(angle),actor.position[1]+t*std::sin(angle),actor.position[2]};
+    float h=0.f;blocked=!dh2::floors::height(*level.native_floor,probe,h);
+   }
+   actor.direct_path.segments=actor.direct_route_storage.data();
+   actor.direct_path.capacity=std::uint32_t(actor.direct_route_storage.size());
+   if(actor.direct_path.count)dh2_nav_drop_path(&actor.direct_path);
+   std::copy(actor.position.begin(),actor.position.end(),actor.direct_path.position);
+   dh2::navigation::RouteResult route{};
+   const int status=dh2::floors::find_path(*level.native_floor,actor.direct_path,point,30,route);
+   const unsigned waypoints=actor.direct_path.count;
+   if(actor.direct_path.count)dh2_nav_drop_path(&actor.direct_path);
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "NavCandidate | %s | monster %.0f,%.0f | player %.0f,%.0f | radius %.0f | blocked %d | status %d found %d | waypoints %u",
+     actor.name.c_str(),actor.position[0],actor.position[1],point[0],point[1],radius,int(blocked),status,
+     int(route.found),waypoints);
+  }
+ }
+}
 static void debug_player_cast_probe(){
+ debug_player_place_probe();
+ debug_monster_roster_probe();
+ debug_nav_map_probe();
+ debug_nav_candidates_probe();
  struct Probe{long cast_frame=0,cast_every=0,skill_frame=0,skill_every=0;int skill_slot=0;};
  static const Probe probe=[]{
   Probe p;

@@ -29,7 +29,7 @@ dh2::ais_monster_idle_home_v1::Request base() {
     request.target_position[0] = 500.0f;
     request.target_position[1] = 500.0f;
     request.target_position[2] = 0.0f;
-    request.melee_radius = 10.0f;
+    request.leash_distance = 10.0f;
     return request;
 }
 }
@@ -59,11 +59,11 @@ int main() {
     request.target_position_valid = true;
     request.target_position[0] = 5.0f;
     request.target_position[1] = 5.0f;
-    require(!request_home_move(request), "cached source target within melee radius should suppress return");
+    require(!request_home_move(request), "cached source target within leash distance should suppress return");
     request.target_position_valid = false;
     require(request_home_move(request), "absent source target node must use GameObject position fallback");
 
-    request.melee_radius = -1.0f;
-    require(!request_home_move(request), "invalid melee radius must fail closed");
+    request.leash_distance = -1.0f;
+    require(!request_home_move(request), "invalid leash distance must fail closed");
     std::cout << "AISMonster idle home gate checks passed\n";
 }

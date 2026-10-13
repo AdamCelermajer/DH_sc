@@ -36,6 +36,17 @@ For a bounded normal-input scenario, run:
 
 The scenario follows waypoints returned by the shared selected-floor path query, sends ordinary `move_axis` input, then asks the shared combat owner to attack its nearest reachable enemy once. It does not teleport or force a target.
 
+## Monster path diagnostics
+
+These environment switches are inert unless set; they work on Android logcat and the desktop runtime alike.
+
+- `DH2_TRACE_MONSTER_PATH=1` logs, per Monster with a target or a route, `MonsterPathTrace` lines every 30 updates and on every state/route change (FSM state, target, distance to the Player, route length and end, next waypoint, heading, shared PFWorld failed-search cache size), `MonsterPathTrace STUCK` when a Monster stays in its Move state for 1.5 s without advancing 50 units, `MonsterPathTrace AI pause` when `AISDefault::OnUpdate` pauses a jammed Monster, and a one-time `MonsterRoster`/AIProps dump. `=2` also lists every route segment on each route change.
+- `DH2_DEBUG_PLACE_PLAYER_AT=X,Y,Z@FRAME[;...]` runs Script `SetActorPosition` on the Player at an actor frame.
+- `DH2_TRACE_NAV_MAP=X0,Y0,X1,Y1,STEP[,Z]` prints an ASCII map of the selected floor with Monster (`M`) and Player (`P`) markers at actor frame 30.
+- `DH2_TRACE_NAV_CANDIDATES=FRAME` lists, per updating Monster, ring points that are walkable, whether the straight line to them leaves the floor and whether the shared `FindPath` (limit 30) reaches them; use them with `DH2_DEBUG_PLACE_PLAYER_AT` to put the Player behind a wall.
+
+Example: `DH2_DEBUG_PLACE_PLAYER_AT="-6900,13000,255@40" DH2_TRACE_MONSTER_PATH=1 dh2_desktop_runtime --level-row 41 --frames 900`.
+
 ## Verified checkpoint
 
 The selected desktop runtime built successfully with MinGW-w64 after fixing a condition-table static API call. A bounded default launch rendered the original main-menu scene and controls for three frames, exited successfully, and produced a checked 1280x720 ANGLE framebuffer capture (2,764,816-byte PPM). The SWF logged missing optional core/title targets, but the main menu rendered. The physical-width source rule now selects the standard menu SWF at 1280 pixels. Its seven missing original textures are restored. After the entrance animation (60/120 frames), Start, Options and Info fit within the display; decorative artwork outside the authored stage still extends beyond the edge. An earlier bounded direct Crypt run created and assigned source campaign slot 0 through canonical save APIs and rendered the player and authored HUD.
