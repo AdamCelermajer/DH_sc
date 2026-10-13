@@ -113,8 +113,8 @@ Branch v21.8-mudlord2, exe for real runs `C:/dh218/mudlord2-after5.exe` (sha256 
 - A boss kill from ONE continuous run is NOT demonstrated. The kill -> banner -> Darkwood chain from the post-intro seed is re-confirmed with the new exe: run m3k1 (`[boss-ai] died`, `Quest banner kind=QUEST COMPLETED row=50` frame 4747, `character.world-003_darkwood.gsave` written, 0 Foundation errors).
 
 ## Tests and state
-- New/changed CTests: `runtime_swampking_damage_calibration_v1` (new, 72k checks), `follow_actor_aid_v1` (new), `b035_session_push_effect_v1` (state predicate), `runtime_player_locomotion_library_v1` (stances()). Targeted run (swampking x2, ranged_skill, follow_actor, b035_session_push, spawn_character): 6/6 pass. Full `ctest -j4` started with the llvm-mingw bin on PATH, log `C:/dh218/mudlord2-ctest-final2.log` (expected 189 = 187 + 2 new); check it. Without that PATH some tests fail with exit 0xc0000135 (missing DLL), an environment issue.
-- WIP commit: not fully verified (full CTest result not confirmed at commit time; docs/BUGS-AND-IMPLEMENTATION.md B158/B159/B035 rows not updated).
+- New/changed CTests: `runtime_swampking_damage_calibration_v1` (new, 72k checks), `follow_actor_aid_v1` (new), `b035_session_push_effect_v1` (state predicate), `runtime_player_locomotion_library_v1` (stances()). Targeted run (swampking x2, ranged_skill, follow_actor, b035_session_push, spawn_character): 6/6 pass. Full `ctest -j4` (llvm-mingw bin on PATH): 189/189 passed (log `C:/dh218/mudlord2-ctest-final2.log`). Without that PATH some tests fail with exit 0xc0000135 (missing DLL), an environment issue.
+- Full CTest 189/189 confirmed after the commit; docs/BUGS-AND-IMPLEMENTATION.md B158/B159/B035 rows not updated).
 
 ## Recipes
 - Build: `bash C:/dh218/mudlord2-build.sh` (needs `subst U:` to the worktree and the `.local-inputs` junction); `TARGET=<name>` for one target.
