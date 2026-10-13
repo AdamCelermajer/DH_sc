@@ -82,9 +82,9 @@ elf_address,symbol,status,source_file,notes
 0x50cd10,_ZNK6glitch5scene10CBatchMesh13getIndexRangeERjS2_PKNS1_8SSegmentE,reconstructed,glitch-scene-collada-gui/src/scene/CBatchMesh.cpp,member of the canonical class (engine unification wave u1-scene)
 0x50cd24,_ZN6glitch5scene10CBatchMesh4initEv,reconstructed,glitch-scene-collada-gui/src/scene/CBatchMesh.cpp,(empty) - member of the canonical class (engine unification wave u1-scene)
 0x50cd28,_ZNK6glitch5scene10CBatchMesh20saveSegmentExtraDataEPKvPNS_2io10IWriteFileEb,reconstructed,glitch-scene-collada-gui/src/scene/CBatchMesh.cpp,(empty) - member of the canonical class (engine unification wave u1-scene)
-0x50cd2c,_ZNK6glitch5scene15CBatchSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,member of the canonical class (engine unification wave u1-scene)
-0x50cd38,_ZN6glitch5scene15CBatchSceneNode20preRegisterSceneNodeEv,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,(empty) - member of the canonical class (engine unification wave u1-scene)
-0x50cd3c,_ZN6glitch5scene15CBatchSceneNode16isSegmentVisibleERKNS0_10CBatchMesh8SSegmentE,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,member of the canonical class (engine unification wave u1-scene)
+0x50cd2c,glitch::scene::CBatchSceneNode::getType() const,reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:117
+0x50cd38,glitch::scene::CBatchSceneNode::preRegisterSceneNode(),reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:140
+0x50cd3c,glitch::scene::CBatchSceneNode::isSegmentVisible(glitch::scene::CBatchMesh::SSegment const&),reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:143
 0x50cdb0,_ZN6glitch5scene15CBatchSceneNode18addVisibleSegmentsINS0_23SFrustumBoxIntersector3EEEvjT_,skipped,glitch-scene-collada-gui/src/recon/slice_00.cpp,culling pass for batch scene node; renderer session owns it
 0x50cf00,_ZN6glitch5scene13CBatchMeshExtIP10GameObjectE20loadSegmentExtraDataEPvPNS_2io9IReadFileEb,skipped,,gameplay: CBatchMeshExt instantiated over GameObject
 0x50cf04,_ZNK6glitch5scene13CBatchMeshExtIP10GameObjectE20saveSegmentExtraDataEPKvPNS_2io10IWriteFileENS_2os8E_ENDIANE,reconstructed,glitch-scene-collada-gui/src/recon/slice_00.cpp,empty body
@@ -750,42 +750,42 @@ elf_address,symbol,status,source_file,notes
 0x57cd48,_ZNK6glitch5scene10CBatchMesh4saveEPNS_2io10IWriteFileEPNS_5video12IVideoDriverENS_2os8E_ENDIANEbb,skipped,glitch-scene-collada-gui/src/scene/CBatchMesh.cpp,SKIPPED: the 2788-byte writer is not reconstructed; the stub reports failure
 0x57d98c,_ZN6glitch5scene10CBatchMesh10addSegmentEtjs,partial,glitch-scene-collada-gui/src/recon/slice_04.cpp,"r3a-w1 still partial: segment, buffer and material-technique layouts (CVertexStreams, CPrimitiveStream) are unmapped in the slice_04/05 stand-ins (layout request). addSegment: segment info vector and batch layout unmapped"
 0x57db94,_ZN6glitch5scene10CBatchMesh4loadEPNS_2io9IReadFileEPNS_5video12IVideoDriverEPNS2_11IFileSystemEPNS_7collada14CRootSceneNodeEPNSA_15CColladaFactoryE,skipped,glitch-scene-collada-gui/src/scene/CBatchMesh.cpp,SKIPPED: the 2412-byte reader of the batch file format is not reconstructed; the stub reports failure
-0x57e524,_ZNK6glitch5scene15CBatchSceneNode25getTransformedBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,Calls getBoundingBox() (vtable +0x30 of this): the box is not transformed
-0x57e538,_ZNK6glitch5scene15CBatchSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,The mesh's box (vtable +0x24 of the mesh at +0x130)
-0x57e554,_ZNK6glitch5scene15CBatchSceneNode16getMaterialCountEv,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,The mesh's buffer count (vtable +0x10 of the mesh)
-0x57e570,_ZNK6glitch5scene15CBatchSceneNode11getMaterialEj,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,The mesh's material at the index (vtable +0x18 of the mesh)
-0x57e594,_ZNK6glitch5scene15CBatchSceneNode7getMeshEv,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,The handle at +0x130 with a use added
-0x57e5b0,_ZN6glitch5scene15CBatchSceneNode7setMeshERKN5boost13intrusive_ptrINS0_5IMeshEEE,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,The original body is empty: the mesh handle is not stored
-0x57e5b4,_ZN6glitch5scene15CBatchSceneNode17computeMaxIndicesEj,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"partial: sums segment (end - begin) over the visible entries; entries are declared as 32-bit words but store segment pointers (host width conflict, layout request on visibleEntries); returns 0"
-0x57e604,_ZN6glitch5scene15CBatchSceneNode20clearVisibleSegmentsEv,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"partial: clears the visible entry counts; the mesh segment count (vtable slot +0x10 of the mesh, not named) and the entry layout are blocked; returns 0"
-0x57e650,_ZN6glitch5scene15CBatchSceneNode10updateInfoEjj,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"partial: per-batch counts, match and tick (glitch::os::Timer::TickCount not declared) and flag bits in the entries; entry layout blocked; returns 0"
-0x57e6f8,_ZNK6glitch5scene15CBatchSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"partial: the 236-byte writer (mesh file name, cache switch) is not reconstructed; base attributes written"
-0x57e800,_ZN6glitch5scene15CBatchSceneNode20registerSolidBatchesEv,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: solid batch registration not reconstructed (empty stub)
+0x57e524,glitch::scene::CBatchSceneNode::getTransformedBoundingBox() const,reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:99
+0x57e538,glitch::scene::CBatchSceneNode::getBoundingBox() const,reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:93
+0x57e554,glitch::scene::CBatchSceneNode::getMaterialCount() const,reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:111
+0x57e570,glitch::scene::CBatchSceneNode::getMaterial(unsigned int) const,reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:105
+0x57e594,glitch::scene::CBatchSceneNode::getMesh() const,reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:126
+0x57e5b0,glitch::scene::CBatchSceneNode::setMesh(boost::intrusive_ptr<glitch::scene::IMesh> const&),reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:122
+0x57e5b4,glitch::scene::CBatchSceneNode::computeMaxIndices(unsigned int),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:169
+0x57e604,glitch::scene::CBatchSceneNode::clearVisibleSegments(),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:177
+0x57e650,"glitch::scene::CBatchSceneNode::updateInfo(unsigned int, unsigned int)",partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:182
+0x57e6f8,"glitch::scene::CBatchSceneNode::serializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*) const",partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:69
+0x57e800,glitch::scene::CBatchSceneNode::registerSolidBatches(),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:202
 0x57e90c,_ZNK6glitch5scene10CBatchMesh16getSegmentCenterEPv,partial,glitch-scene-collada-gui/src/recon/slice_05.cpp,"r3a-w1 still partial: segment, buffer and material-technique layouts (CVertexStreams, CPrimitiveStream) are unmapped in the slice_04/05 stand-ins (layout request). CBatchMesh::getSegmentCenter: reads a segment table object with unmapped offsets; CVertexStreams::computeBoundingBox unmapped"
-0x57ea70,_ZN6glitch5scene15CBatchSceneNode26registerTransparentBatchesEv,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: transparent batch registration not reconstructed (empty stub)
-0x57ebec,_ZN6glitch5scene15CBatchSceneNode27invalidateVisibleIndexCacheEj,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: cache invalidation for one batch not reconstructed (entry layout blocked)
-0x57ed0c,_ZN6glitch5scene15CBatchSceneNode20setVisibleIndexCacheEb,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: records the switch; the cache arrays at +0x154 are not allocated or deleted
-0x57ed98,_ZN6glitch5scene15CBatchSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: the reader is not reconstructed; base attributes read
-0x57ee34,_ZN6glitch5scene15CBatchSceneNode11postCompileEv,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: 576-byte post-compile cache set-up not reconstructed (empty stub)
-0x57f074,_ZN6glitch5scene15CBatchSceneNode5setupEbPNS_5video12IVideoDriverE,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: setup (flag and driver forwarded to the mesh) not reconstructed (empty stub)
-0x57f0d4,_ZN6glitch5scene15CBatchSceneNodeC1EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEE,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,(C1 0x57faf8) The mesh handle is copied (a use is added); +0x134 and +0x138 are 2
-0x57f21c,_ZN6glitch5scene15CBatchSceneNode17renderBatchBBoxesEPNS_5video12IVideoDriverEj,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: debug draw of batch boxes not reconstructed (empty stub)
-0x57f344,_ZN6glitch5scene15CBatchSceneNodeD2Ev,skipped,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,virtual base thunk; forwards to base destructor chain
-0x57f3ec,_ZN6glitch5scene15CBatchSceneNodeD1Ev,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: the destructor does not delete the entry array or drop the object at +0x14c; the cache flag is cleared
-0x57f49c,_ZN6glitch5scene15CBatchSceneNodeD0Ev,skipped,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,D0 deleting destructor; compiler thunk
-0x57f4b8,_ZN6glitch5scene15CBatchSceneNode19onRegisterSceneNodeEv,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: the 588-byte registration with the scene manager is not reconstructed; the base result is returned
-0x57f704,_ZN6glitch5scene15CBatchSceneNode13updateIndicesEjRKN5boost13intrusive_ptrINS_5video7IBufferEEERKNS3_IKS5_EE,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: 352-byte index-buffer upload not reconstructed (empty stub)
-0x57f874,_ZN6glitch5scene15CBatchSceneNodeC1EiRN5boost13intrusive_ptrINS0_10CBatchMeshEEEb,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"(C1 0x57fd74) As above, with the byte at +0x148 set to the flag argument"
-0x57f9c0,_ZN6glitch5scene15CBatchSceneNodeC2Ei,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"(C1 0x57fc04) ISceneNode(id, position 0, rotation (0,0,0,1), scale 1); the mesh is a new CBatchMesh holding one use (the constructor increments its count after operator new(0x7c)); +0x134 is 0, +0x138 is 2; setAutomaticCulling(2)"
-0x57faf8,_ZN6glitch5scene15CBatchSceneNodeC2EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEE,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"C1 of (id, mesh): the mesh handle is copied; +0x134 and +0x138 are 2; setAutomaticCulling(2)"
-0x57fc04,_ZN6glitch5scene15CBatchSceneNodeC1Ei,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"C1 of (id): new CBatchMesh; +0x134 is 0, +0x138 is 2; setAutomaticCulling(2)"
-0x57fd74,_ZN6glitch5scene15CBatchSceneNodeC2EiRN5boost13intrusive_ptrINS0_10CBatchMeshEEEb,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"C1 of (id, mesh&, flag): as (id, mesh) with the flag at +0x148"
-0x57fe84,_ZN6glitch5scene15CBatchSceneNodeC1EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEEPNS0_13CSceneManagerE,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"(C1 0x57ffd4) As the (id, mesh) constructor, with the scene manager word (+0x110) stored directly (no setSceneManager walk)"
-0x57ffd4,_ZN6glitch5scene15CBatchSceneNodeC2EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEEPNS0_13CSceneManagerE,reconstructed,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"C1 of (id, mesh, manager): as (id, mesh) with the scene manager word"
-0x5800e8,_ZN6glitch5scene15CBatchSceneNode16renderSolidBatchEPNS_5video12IVideoDriverEj,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: draw of one solid batch through the driver not reconstructed (empty stub)
-0x5804f0,_ZN6glitch5scene15CBatchSceneNode21flushTransparentBatchEPNS_5video12IVideoDriverE,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: flush of the transparent batch queue not reconstructed (empty stub)
-0x5807a0,_ZN6glitch5scene15CBatchSceneNode24renderTransparentSegmentEPNS_5video12IVideoDriverERNS0_10CBatchMesh8SSegmentE,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,partial: draw of one transparent segment not reconstructed (empty stub)
-0x5808ac,_ZN6glitch5scene15CBatchSceneNode6renderEPv,partial,glitch-scene-collada-gui/src/scene/CBatchSceneNode.cpp,"partial: the 276-byte render (solid batches, transparent flush) is not reconstructed (empty stub)"
+0x57ea70,glitch::scene::CBatchSceneNode::registerTransparentBatches(),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:206
+0x57ebec,glitch::scene::CBatchSceneNode::invalidateVisibleIndexCache(unsigned int),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:210
+0x57ed0c,glitch::scene::CBatchSceneNode::setVisibleIndexCache(bool),reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:153
+0x57ed98,"glitch::scene::CBatchSceneNode::deserializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*)",partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:76
+0x57ee34,glitch::scene::CBatchSceneNode::postCompile(),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:136
+0x57f074,"glitch::scene::CBatchSceneNode::setup(bool, glitch::video::IVideoDriver*)",partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:132
+0x57f0d4,"glitch::scene::CBatchSceneNode::CBatchSceneNode(int, boost::intrusive_ptr<glitch::scene::CBatchMesh> const&)",reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:29
+0x57f21c,"glitch::scene::CBatchSceneNode::renderBatchBBoxes(glitch::video::IVideoDriver*, unsigned int)",partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:216
+0x57f344,glitch::scene::CBatchSceneNode::~CBatchSceneNode(),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:61
+0x57f3ec,glitch::scene::CBatchSceneNode::~CBatchSceneNode(),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:61
+0x57f49c,glitch::scene::CBatchSceneNode::~CBatchSceneNode(),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:61
+0x57f4b8,glitch::scene::CBatchSceneNode::onRegisterSceneNode(),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:82
+0x57f704,"glitch::scene::CBatchSceneNode::updateIndices(unsigned int, boost::intrusive_ptr<glitch::video::IBuffer> const&, boost::intrusive_ptr<glitch::video::IBuffer const> const&)",partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:148
+0x57f874,"glitch::scene::CBatchSceneNode::CBatchSceneNode(int, boost::intrusive_ptr<glitch::scene::CBatchMesh>&, bool)",reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:39
+0x57f9c0,glitch::scene::CBatchSceneNode::CBatchSceneNode(int),reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:19
+0x57faf8,"glitch::scene::CBatchSceneNode::CBatchSceneNode(int, boost::intrusive_ptr<glitch::scene::CBatchMesh> const&)",reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:29
+0x57fc04,glitch::scene::CBatchSceneNode::CBatchSceneNode(int),reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:19
+0x57fd74,"glitch::scene::CBatchSceneNode::CBatchSceneNode(int, boost::intrusive_ptr<glitch::scene::CBatchMesh>&, bool)",reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:39
+0x57fe84,"glitch::scene::CBatchSceneNode::CBatchSceneNode(int, boost::intrusive_ptr<glitch::scene::CBatchMesh> const&, glitch::scene::CSceneManager*)",reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:50
+0x57ffd4,"glitch::scene::CBatchSceneNode::CBatchSceneNode(int, boost::intrusive_ptr<glitch::scene::CBatchMesh> const&, glitch::scene::CSceneManager*)",reconstructed,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:50
+0x5800e8,"glitch::scene::CBatchSceneNode::renderSolidBatch(glitch::video::IVideoDriver*, unsigned int)",partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:223
+0x5804f0,glitch::scene::CBatchSceneNode::flushTransparentBatch(glitch::video::IVideoDriver*),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:230
+0x5807a0,"glitch::scene::CBatchSceneNode::renderTransparentSegment(glitch::video::IVideoDriver*, glitch::scene::CBatchMesh::SSegment&)",partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:236
+0x5808ac,glitch::scene::CBatchSceneNode::render(void*),partial,src/scene/CBatchSceneNode.cpp,src/scene/CBatchSceneNode.cpp:89
 0x580a20,_ZN6glitch5scene10IBillboardD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
 0x580a2c,_ZNK6glitch5scene19CBillboardSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_nodes.cpp,
 0x580a40,_ZN6glitch5scene19CBillboardSceneNode19onRegisterSceneNodeEv,reconstructed,glitch-scene-collada-gui/src/scene/CBillboardSceneNode.cpp,

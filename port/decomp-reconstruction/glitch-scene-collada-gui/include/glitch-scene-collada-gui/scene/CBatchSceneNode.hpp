@@ -74,6 +74,10 @@ public:
     void renderSolidBatch(video::IVideoDriver* driver, std::uint32_t batch);    // 0x5800e8
     void flushTransparentBatch(video::IVideoDriver* driver);                    // 0x5804f0
     void renderTransparentSegment(video::IVideoDriver* driver, CBatchMesh::SSegment& segment);  // 0x5807a0
+    // 0x50cdb0 (SFrustumBoxIntersector3), 0x50d198 (SUniverseIntersector), 0x50d2c0 (SBoxIntersector), 0x50d49c
+    // (SFrustumBoxIntersector): member templates over the intersector type; no bodies (not reconstructed).
+    template <typename Intersector>
+    void addVisibleSegments(std::uint32_t batch, Intersector intersector);
 
     boost::intrusive_ptr<CBatchMesh> mesh;                        // +0x130
     std::uint32_t unk_134 = 0;                                    // +0x134

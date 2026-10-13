@@ -151,9 +151,19 @@ void CBatchSceneNode::updateIndices(std::uint32_t /*batch*/, const boost::intrus
                                     const boost::intrusive_ptr<const video::IBuffer>& /*source*/) {}
 
 // 0x57ed0c _ZN6glitch5scene15CBatchSceneNode20setVisibleIndexCacheEb
-// PARTIAL: records the switch (+0x150); the original also allocates or deletes the cache arrays (+0x154).
+// Stores the switch (+0x150). Turning the cache on, from off, invalidates every batch when the mesh has batches (its batch
+// vector at +0x20 .. +0x24 of CBatchMesh, 20-byte records). Turning it off, from on, frees the cache array (+0x154).
 void CBatchSceneNode::setVisibleIndexCache(bool enabled) {
+    const bool was = visibleIndexCacheOn;
     visibleIndexCacheOn = enabled;
+    if (enabled) {
+        if (!was && mesh && !mesh->batches.empty()) {
+            invalidateVisibleIndexCache(0xFFFFFFFFu);
+        }
+    } else if (was) {
+        delete[] visibleIndexCache;
+        visibleIndexCache = nullptr;
+    }
 }
 
 // 0x57e5b4 _ZN6glitch5scene15CBatchSceneNode15computeMaxIndicesEj
@@ -170,12 +180,23 @@ std::int32_t CBatchSceneNode::computeMaxIndices(std::uint32_t batch) {
 std::int32_t CBatchSceneNode::clearVisibleSegments() { return 0; }
 
 // 0x57e650 _ZN6glitch5scene15CBatchSceneNode10updateInfoEjj
-// PARTIAL: records the per-batch count, match flag, tick (glitch::os::Timer::TickCount, not declared) and flag bits in the 20-byte entries;
-// the entry layout is blocked as above. Returns 0.
+// For the visible-entry records [batch, segment) (20 bytes each: count, match, tick, flags, first): sums the counts and, for each
+// non-empty record, sets flag bit 0 unless the match word equals the count. Returns the summed count.
+// PARTIAL: the original also stores glitch::os::Timer::TickCount (not declared) in the tick word; that store is skipped.
 std::int32_t CBatchSceneNode::updateInfo(std::uint32_t batch, std::uint32_t segment) {
-    (void)batch;
-    (void)segment;
-    return 0;
+    std::int32_t total = 0;
+    if (batch >= segment || !visibleEntries) {
+        return 0;
+    }
+    for (std::uint32_t i = batch; i < segment; ++i) {
+        std::uint32_t* record = visibleEntries + 5 * i;
+        const std::uint32_t count = record[0];
+        total += static_cast<std::int32_t>(count);
+        if (count) {
+            record[3] = (record[1] == count) ? record[3] : (record[3] | 1u);
+        }
+    }
+    return total;
 }
 
 // 0x57e800 _ZN6glitch5scene15CBatchSceneNode18registerSolidBatchesEv
