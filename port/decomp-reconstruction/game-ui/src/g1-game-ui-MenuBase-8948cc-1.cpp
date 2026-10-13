@@ -10,19 +10,17 @@
 //     Application singleton (Singleton<Application>::s_inst at 0x99f72c): +0x2c PyDataConstants,
 //     +0x34 StringManager, +0x4c SavegameManager, +0x54 MenuManager (MenuManager::GetInstance returns that field).
 //   - LC_API_ATOI_0 is atoi (its body at 0x30e094 is a bare atoi call) and LC_API_STRCMP_0 is strcmp.
-//   - The singleton is reached through ApplicationGetInstance() (dh2/global/ctrl_camera.hpp). The managers these
-//     handlers use (SavegameManager, ScriptManager, MultiMenuManager, DragAndDrop, Dragable, PlayerSavegame,
-//     LevelSavegame) are declared in their own headers. Calls on what is still not declared (StringManager,
-//     PyDataConstants, gameswf::as_value, the RenderFX methods Find, PlayAnim, SetMember and InvokeASCallback) are
-//     left out and marked PARTIAL, and the function returns what the original returns on that path. Nothing is guessed.
+//   - The singleton is reached through ApplicationGetInstance() (dh2/global/ctrl_camera.hpp).
 
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
 
+#include "gameswf/gameswf.h"
 #include "dh2/Application.hpp"
 #include "dh2/DragAndDrop.hpp"
 #include "dh2/Dragable.hpp"
+#include "dh2/GameSWFUtils.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/LevelSavegame.hpp"
 #include "dh2/MenuBase.hpp"
@@ -31,7 +29,10 @@
 #include "dh2/PlayerSavegame.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/ScriptManager.hpp"
+#include "dh2/StringManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "vendor-gameswf/as_value.hpp"
 
 // 0x4203e4 _ZN8MenuBase13FS_PopAllMenuEPKcS1_Pv
 // The original calls the virtual at vtable +0x38 of MenuManager::GetInstance()->m_multiMenuManager (+0xf4 of
@@ -42,12 +43,10 @@ bool MenuBase::FS_PopAllMenu(const char*, const char*, void*) {
 }
 
 // 0x42040c _ZN8MenuBase14FS_SetBtnImageEPKcS1_Pv
-// PARTIAL: args is "<movie>|<frame>". The original copies the movie name (the bytes before '|') into a 100-byte
-// buffer, calls RenderFX::Find on the menu's m_menu with it, and when that finds a character returns
-// GameSWFUtils::GotoFrame(found, frame), where frame is the text after '|'. RenderFX::Find and GameSWFUtils are not
-// declared in the tree, so the lookup is left out and the function returns false. A null args returns false here;
-// the original calls strchr on it.
-bool MenuBase::FS_SetBtnImage(const char*, const char* args, void*) {
+// args is "<movie>|<frame>". The movie name (the bytes before '|') is looked up with RenderFX::Find on the menu's RenderFX,
+// and GameSWFUtils::GotoFrame(found, frame text) runs on the result. The original passes the Find result on as a
+// character; the same pointer is used here (gameswf::character derives from as_object).
+bool MenuBase::FS_SetBtnImage(const char*, const char* args, void* menu) {
     if (!args) {
         return false;
     }
@@ -55,19 +54,21 @@ bool MenuBase::FS_SetBtnImage(const char*, const char* args, void*) {
     if (!bar) {
         return false;
     }
-    return false;  // PARTIAL: Find and GotoFrame not called (see above).
+    const std::string name(args, bar);
+    auto* target = reinterpret_cast<gameswf::character*>(static_cast<MenuBase*>(menu)->m_menu->Find(name.c_str()));
+    if (target == nullptr) {
+        return false;
+    }
+    return GameSWFUtils::GotoFrame(target, bar + 1) != 0;
 }
 
 // 0x4204bc _ZN8MenuBase14FS_LoadOptionsEPKcS1_Pv
-// PARTIAL: loadSettings(false) on the SavegameManager (+0x4c of the Application singleton), then
-// setLanguage(getLanguage()) on it. Both calls are made. The original returns setLanguage's int result, but
-// dh2/SavegameManager.hpp declares setLanguage void (its binary returns int; see that header), so the result is not
-// known and the function returns false.
+// loadSettings(false) on the SavegameManager (+0x4c of the Application singleton), then returns the int of
+// setLanguage(getLanguage()) (SavegameManager::setLanguage returns int in the binary, see SavegameManager.hpp).
 bool MenuBase::FS_LoadOptions(const char*, const char*, void*) {
     SavegameManager* savegame = ApplicationGetInstance().m_savegameManager;
     savegame->loadSettings(false);
-    savegame->setLanguage(savegame->getLanguage());
-    return false;  // PARTIAL: the original returns setLanguage's int result (see above).
+    return savegame->setLanguage(savegame->getLanguage()) != 0;
 }
 
 // 0x4204fc _ZN8MenuBase14FS_SaveOptionsEPKcS1_Pv
@@ -92,16 +93,17 @@ bool MenuBase::FS_SetSaveSlot(const char*, const char* args, void*) {
 }
 
 // 0x42057c _ZN8MenuBase14FS_SetLanguageEPKcS1_Pv
-// PARTIAL: a null or empty args returns false. Otherwise the original calls setLanguage(atoi(args)) on the
-// SavegameManager and tests its int result: zero returns false, nonzero calls ResetFonts on MenuManager::GetInstance()
-// and returns true. The call is made. dh2/SavegameManager.hpp declares setLanguage void, so the result is not known and
-// the ResetFonts branch is left out; the function returns false.
+// A null or empty args returns false. Otherwise setLanguage(atoi(args)) on the SavegameManager; a zero result returns
+// false, and a nonzero result calls ResetFonts on MenuManager::GetInstance() and returns true.
 bool MenuBase::FS_SetLanguage(const char*, const char* args, void*) {
     if (!args || !*args) {
         return false;
     }
-    ApplicationGetInstance().m_savegameManager->setLanguage(std::atoi(args));
-    return false;  // PARTIAL: the ResetFonts branch needs setLanguage's int result (see above).
+    if (ApplicationGetInstance().m_savegameManager->setLanguage(std::atoi(args)) == 0) {
+        return false;
+    }
+    MenuManager::GetInstance()->ResetFonts();
+    return true;
 }
 
 // 0x4205e0 _ZN8MenuBase12FS_SetOptionEPKcS1_Pv
@@ -116,39 +118,61 @@ bool MenuBase::FS_SetOption(const char*, const char* args, void*) {
 }
 
 // 0x420624 _ZN8MenuBase15FS_ToggleOptionEPKcS1_Pv
-// PARTIAL: the flow is rebuilt; the calls are not. With name = args + 7 (the same 7-byte prefix as FS_SetOption):
-//   SavegameManager::toggleOption(name); first = isOptionToggled(name); second = isOptionToggled(name);
-//   RenderFX::PlayAnim(m_menu, name, second ? "true" : "false", 0);
-//   RenderFX::SetMember(m_menu, "_root", "retval", value), where value is a 12-byte gameswf::as_value with byte 0 = 0,
-//     byte 1 = 1 and the bool first at +4;
-//   GameSWFUtils::PlayAnim(m_menu, name, "onToggleOption"); gameswf::as_value::drop_refs(value).
-// The as_value layout is not declared, and the RenderFX and GameSWFUtils methods are missing. Those calls are left
-// out. A null args returns false (the original tests it first). Otherwise returns true.
-bool MenuBase::FS_ToggleOption(const char*, const char* args, void*) {
+// With name = args + 7 (the same 7-byte prefix as FS_SetOption): toggleOption(name), then value = isOptionToggled(name).
+// The owning RenderFX plays "true" or "false" on the full args string, sets _root.retval to the boolean value, and
+// GameSWFUtils::PlayAnim runs "onToggleOption" on args. The original's isOptionToggled is read a second time for the
+// anim choice; the second read is kept as in the pseudocode.
+bool MenuBase::FS_ToggleOption(const char*, const char* args, void* menu) {
     if (!args) {
         return false;
     }
-    return true;  // PARTIAL: toggle, PlayAnim, SetMember and GameSWFUtils::PlayAnim not called (see above).
+    MenuFX* owner = static_cast<MenuBase*>(menu)->m_menu;
+    SavegameManager* savegame = ApplicationGetInstance().m_savegameManager;
+    savegame->toggleOption(args + 7);
+    const bool toggled = savegame->isOptionToggled(args + 7);
+    owner->PlayAnim(args, savegame->isOptionToggled(args + 7) ? "true" : "false", 0);
+    gameswf::as_value value;
+    value.set_bool(toggled);
+    owner->SetMember("_root", "retval", value);
+    GameSWFUtils::PlayAnim(owner, args, "onToggleOption");
+    return true;
+}
+
+// Shared tail of FS_DecOption and FS_IncOption: stores the new language, refreshes the fonts, and puts the localized
+// language name into the root movie's currentLanguageText callback argument.
+static void ApplyLanguageAndShowName(int language) {
+    SavegameManager* savegame = ApplicationGetInstance().m_savegameManager;
+    savegame->setLanguage(language);
+    MenuManager::GetInstance()->ResetFonts();
+    MenuFX* root = MenuManager::GetInstance()->GetRoot();
+    StringManager* strings = ApplicationGetInstance().m_stringManager;
+    const int constant = ApplicationGetInstance().m_pyDataConstants->getConstant("StrID", "GLOBAL_LANGUAGE_00");
+    const char* text = strings->getString(constant + language);
+    gameswf::as_value value;
+    value.set_string(text);
+    root->InvokeASCallback("_root.menu_language", "currentLanguageText", &value, 1);
 }
 
 // 0x420728 _ZN8MenuBase12FS_DecOptionEPKcS1_Pv
-// PARTIAL: the language step is rebuilt in the comments below; the calls are not. The original:
-//   lang = getLanguage() - 1; if (lang < 0) lang = 7; setLanguage(lang); MenuManager::GetInstance()->ResetFonts();
-//   root = menu manager's GetRoot();
-//   text = StringManager::getString(getConstant("StrID", "GLOBAL_LANGUAGE_00") + lang);
-//   value.set_string(text); RenderFX::InvokeASCallback(root, "_root.menu_language", "currentLanguageText", &value, 1);
-//   value.drop_refs(); then returns true.
-// The SavegameManager, PyDataConstants, StringManager, RenderFX and gameswf::as_value declarations are missing, so
-// all calls are left out. Returns true as in the original.
+// lang = getLanguage() - 1, wrapped to 7 when negative; then the shared language tail. Returns true.
 bool MenuBase::FS_DecOption(const char*, const char*, void*) {
-    return true;  // PARTIAL: language change and text update not performed (see above).
+    int lang = ApplicationGetInstance().m_savegameManager->getLanguage() - 1;
+    if (lang < 0) {
+        lang = 7;
+    }
+    ApplyLanguageAndShowName(lang);
+    return true;
 }
 
 // 0x420804 _ZN8MenuBase12FS_IncOptionEPKcS1_Pv
-// PARTIAL: the same flow as FS_DecOption with lang = getLanguage() + 1, and lang becomes 0 when it exceeds 7. The
-// calls are left out for the same reason. Returns true as in the original.
+// lang = getLanguage() + 1, wrapped to 0 when above 7; then the shared language tail. Returns true.
 bool MenuBase::FS_IncOption(const char*, const char*, void*) {
-    return true;  // PARTIAL: language change and text update not performed (see above).
+    int lang = ApplicationGetInstance().m_savegameManager->getLanguage() + 1;
+    if (lang > 7) {
+        lang = 0;
+    }
+    ApplyLanguageAndShowName(lang);
+    return true;
 }
 
 // 0x4208e4 _ZN8MenuBase25FS_ResetDraggablePositionEPKcS1_Pv
@@ -169,35 +193,43 @@ bool MenuBase::FS_ResetDraggablePosition(const char*, const char* args, void* me
 }
 
 // 0x420914 _ZN8MenuBase12FS_GetStringEPKcS1_Pv
-// PARTIAL: a null args returns false. Otherwise the original looks up StringManager::getString(atoi(args)) on the
-// Application's m_stringManager (+0x34), and when the string exists calls RenderFX::SetMember(m_menu, "_root",
-// "retval", string). It returns true either way. Both calls are left out because StringManager.hpp and the
-// three-string SetMember overload are not declared in the tree.
-bool MenuBase::FS_GetString(const char*, const char* args, void*) {
+// A null args returns false. Otherwise StringManager::getString(atoi(args)); when the string exists it is stored as
+// _root.retval on the owning RenderFX. Returns true either way.
+bool MenuBase::FS_GetString(const char*, const char* args, void* menu) {
     if (!args) {
         return false;
     }
-    return true;  // PARTIAL: lookup and SetMember not called (see above).
+    const char* text = ApplicationGetInstance().m_stringManager->getString(std::atoi(args));
+    if (text) {
+        static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", text);
+    }
+    return true;
 }
 
 // 0x420988 _ZN8MenuBase16FS_GetPlayerNameEPKcS1_Pv
-// PARTIAL: the original sets "_root.retval" on m_menu to the player name, or to "" when args is empty or the name is
-// empty or null, and returns true in all cases. The name comes from PlayerSavegame::SG_GetPlayerName(atoi(args)),
-// which takes the slot in r0 (checked in the assembly). PlayerSavegame.hpp and the SetMember overload are not in the
-// tree, so the calls are left out. Returns true.
-bool MenuBase::FS_GetPlayerName(const char*, const char*, void*) {
-    return true;  // PARTIAL: SetMember with the name or "" not called (see above).
+// Sets _root.retval on the owning RenderFX to the player name, or to "" when args is empty or the name is empty or
+// null, and returns true in all cases. The name comes from PlayerSavegame::SG_GetPlayerName(atoi(args)).
+bool MenuBase::FS_GetPlayerName(const char*, const char* args, void* menu) {
+    const char* name = nullptr;
+    if (args && *args) {
+        name = PlayerSavegame::SG_GetPlayerName(static_cast<std::uint32_t>(std::atoi(args)));
+    }
+    static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", (name && *name) ? name : "");
+    return true;
 }
 
 // 0x420a1c _ZN8MenuBase13FS_GetString2EPKcS1_Pv
-// PARTIAL: a null args returns false. Otherwise the original calls StringManager::getStringFromSymbol(args) and,
-// when the string is found, RenderFX::SetMember(m_menu, "_root", "retval", string). Returns true either way. Both
-// calls are left out because StringManager.hpp and the SetMember overload are not in the tree.
-bool MenuBase::FS_GetString2(const char*, const char* args, void*) {
+// A null args returns false. Otherwise StringManager::getStringFromSymbol(args) and, when the string is found, it is
+// stored as _root.retval on the owning RenderFX. Returns true either way.
+bool MenuBase::FS_GetString2(const char*, const char* args, void* menu) {
     if (!args) {
         return false;
     }
-    return true;  // PARTIAL: getStringFromSymbol and SetMember not called (see above).
+    const char* text = ApplicationGetInstance().m_stringManager->getStringFromSymbol(args);
+    if (text) {
+        static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", text);
+    }
+    return true;
 }
 
 // 0x420b48 _ZN8MenuBase13FS_EndLoadingEPKcS1_Pv

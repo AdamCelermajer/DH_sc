@@ -97,9 +97,10 @@ int SavegameManager::getLanguage() const {
     return kSettingsLanguage;
 }
 
-void SavegameManager::setLanguage(int language) {
+int SavegameManager::setLanguage(int language) {
     g_settingsCalls += 'T';
     g_setLanguageArg = language;
+    return 1;
 }
 
 void UpdateSavedValues() {

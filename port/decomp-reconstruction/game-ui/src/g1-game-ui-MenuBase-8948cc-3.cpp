@@ -23,7 +23,9 @@
 //   - The local Character (dh2/Character.hpp) and its ItemInventory and CharProperties bases compile together with
 //     PlayerManager.hpp and the pydata structs. The character handlers use its members directly.
 
+#include <array>
 #include <cstdint>
+#include <new>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -34,6 +36,9 @@
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/DragAndDrop.hpp"
+#include "dh2/GameSWFUtils.hpp"
+#include "dh2/ItemInventory.hpp"
+#include "dh2/SlideEventCharacter.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuCharacterSelect.hpp"
 #include "dh2/MenuManager.hpp"
@@ -44,6 +49,7 @@
 #include "gameswf/gameswf.h"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 namespace {
 
@@ -59,40 +65,48 @@ void TraceMenuBaseSwitch() {
 }  // namespace
 
 // 0x4219b8 _ZN8MenuBase14FS_AssignPointEPKcS1_Pv
-// PARTIAL: the original adds one point to the local Character's stat named by args: "Str" (IncStatStr), "Dex"
-// (IncStatDex), "End" (IncStatEnd) or "Eng" (IncStatNrg). Character.hpp cannot be included in this file: it conflicts
-// with PlayerManager.hpp over IStreamBase (see the notes above), so the increments are not made. The return value
-// follows the original: false without a local Character, and false for any name other than the four stats.
+// Adds one point to the local Character's stat named by args: "Str" (IncStatStr), "Dex" (IncStatDex), "End"
+// (IncStatEnd) or "Eng" (IncStatNrg). False without a local Character, and false for any other name.
 bool MenuBase::FS_AssignPoint(const char*, const char* args, void*) {
     Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayerCharacter();
     if (character == nullptr || args == nullptr) {
         return false;
     }
-    const bool isStat = std::strcmp(args, "Str") == 0 || std::strcmp(args, "Dex") == 0 ||
-                        std::strcmp(args, "End") == 0 || std::strcmp(args, "Eng") == 0;
-    return isStat;  // PARTIAL: the Character stat increment is not made (see above).
+    if (std::strcmp(args, "Str") == 0) {
+        character->IncStatStr();
+    } else if (std::strcmp(args, "Dex") == 0) {
+        character->IncStatDex();
+    } else if (std::strcmp(args, "End") == 0) {
+        character->IncStatEnd();
+    } else if (std::strcmp(args, "Eng") == 0) {
+        character->IncStatNrg();
+    } else {
+        return false;
+    }
+    return true;
 }
 
 // 0x421aac _ZN8MenuBase16FS_GetNumPotionsEPKcS1_Pv
-// PARTIAL: the original reads the local Character's potion count (ItemInventory base at Character +0x37c) and publishes
-// it as the number _root.retval of the menu. Character.hpp cannot be included here (IStreamBase conflict with
-// PlayerManager.hpp), and RenderFX::SetMember(as_value) is not declared, so nothing is read or published. Returns true
-// when a local Character exists, as in the original.
-bool MenuBase::FS_GetNumPotions(const char*, const char*, void*) {
+// Publishes the local Character's potion count (ItemInventory base, Character +0x37c) as the number _root.retval of the
+// menu, and returns true. Without a local Character it returns false and publishes nothing.
+bool MenuBase::FS_GetNumPotions(const char*, const char*, void* menu) {
     Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayerCharacter();
-    return character != nullptr;  // PARTIAL: the count is not read or published (see above).
+    if (character == nullptr) {
+        return false;
+    }
+    static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", character->ItemInventory::GetNumPotions());
+    return true;
 }
 
 // 0x421b58 _ZN8MenuBase12FS_GetOptionEPKcS1_Pv
-// PARTIAL: the original reads the savegame option named args + 7 (the 7 leading characters are skipped; the original
-// does not check the length of args) and publishes it as _root.retval. RenderFX::SetMember is not declared, so the
-// value is read and not published. A null args returns false. Otherwise returns true as in the original.
-bool MenuBase::FS_GetOption(const char*, const char* args, void*) {
+// Publishes the savegame option named args + 7 (the 7 leading characters are skipped; the original does not check the
+// length of args) as the number _root.retval. A null args returns false. Otherwise returns true.
+bool MenuBase::FS_GetOption(const char*, const char* args, void* menu) {
     if (args == nullptr) {
         return false;
     }
     const int value = ApplicationGetInstance().m_savegameManager->getOption(args + 7);
-    static_cast<void>(value);  // PARTIAL: _root.retval not set (see above).
+    static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", value);
     return true;
 }
 
@@ -118,23 +132,30 @@ bool MenuBase::FS_IncSkill(const char*, const char* args, void* menu) {
 }
 
 // 0x421fe0 _ZN8MenuBase6UpdateEv
-// PARTIAL: the original first releases the context when its proxy is dead (see GetCurrentMenuContext). It then calls
-// RenderFX::IsAnimOver(m_menu, context) and, when the animation is over, increments m_animOverCount (+0x78).
-// RenderFX::IsAnimOver is not declared in this tree, so the counter is not advanced.
-void MenuBase::Update() {}
+// Calls RenderFX::IsAnimOver(m_menu, context) on the current context and, when the animation is over, increments
+// m_animOverCount (+0x78).
+void MenuBase::Update() {
+    gameswf::character* context = GetCurrentMenuContext();
+    if (m_menu->IsAnimOver(context)) {
+        ++m_animOverCount;
+    }
+}
 
 // 0x42204c _ZNK8MenuBase21GetCurrentMenuContextEv
-// The original returns the cached context m_character while its proxy (+0x48) is alive. The alive test is
-// weak_proxy::is_alive (base/weak_ptr.h). When the proxy is dead the original also releases it and clears both members,
-// then returns null. Here a dead context returns null too, and the members are kept: every later call sees the same
-// dead proxy and returns null again. PARTIAL: the release of the proxy (count drop at +0x00 and free) and the clearing
-// of m_characterProxy and m_character are not made.
+// Returns the cached context m_character while its proxy (+0x48) is alive. The alive test is weak_proxy::is_alive
+// (base/weak_ptr.h). When the proxy is dead, the proxy is released (weak_proxy::drop_ref, which frees it at count zero),
+// both members are cleared, and null is returned. The original writes through this (the header declares it const), so
+// the members are written through a const_cast.
 gameswf::character* MenuBase::GetCurrentMenuContext() const {
-    if (m_character == nullptr || m_characterProxy == nullptr) {
-        return m_character;
+    if (m_character == nullptr) {
+        return nullptr;
     }
     if (!static_cast<weak_proxy*>(m_characterProxy)->is_alive()) {
-        return nullptr;  // PARTIAL: the proxy release and the member clear are not made (see above).
+        MenuBase* self = const_cast<MenuBase*>(this);
+        static_cast<weak_proxy*>(self->m_characterProxy)->drop_ref();
+        self->m_characterProxy = nullptr;
+        self->m_character = nullptr;
+        return nullptr;
     }
     return m_character;
 }
@@ -203,9 +224,7 @@ bool MenuBase::FS_SetDifficulty(const char*, const char* args, void* menu) {
 // 0x422304 _ZN8MenuBase12FS_StopMusicEPKcS1_Pv
 // Stops the music unless the main menu's context is on the menu stack. The context is taken through
 // GetCurrentMenuContext, so a dead proxy counts as no context, as in the original (which then stops the music).
-// Returns false when the context is on the stack, true otherwise. PARTIAL: VoxSoundManager::StopMusic(s_instance, 0) is
-// not called, since VoxSoundManager declares no StopMusic in vox-audio; the dead-proxy release of GetCurrentMenuContext
-// is also missing.
+// Returns false when the context is on the stack, true otherwise (after stopping the music).
 bool MenuBase::FS_StopMusic(const char*, const char*, void*) {
     MenuBase* mainMenu = MenuManager::GetInstance()->GetMenuByName("menu_MainMenu");
     if (mainMenu != nullptr) {
@@ -217,39 +236,59 @@ bool MenuBase::FS_StopMusic(const char*, const char*, void*) {
             }
         }
     }
-    return true;  // PARTIAL: VoxSoundManager::StopMusic not called (see above).
+    VoxSoundManager::s_instance->StopMusic(0);
+    return true;
 }
 
 // 0x4223bc _ZN8MenuBase10SetVisibleEb
-// Sets the visible flag (m_visible, +0x74) when the menu is valid (virtual IsValidMenu, slot +0x3c).
-// PARTIAL: before the flag is set, the original writes the same value to the flag byte at +0x9b of the context character.
-// The gameswf::character layout is not declared, so that write is not made, and a dead context is not released.
+// Sets the visible flag (m_visible, +0x74) when the menu is valid (virtual IsValidMenu, slot +0x3c). The original also
+// writes the flag to byte +0x9b of the context character (the menu's movie clip). That write is made here when a
+// context exists; with no context the original would write through a null pointer, so it is skipped.
 void MenuBase::SetVisible(bool visible) {
     if (IsValidMenu()) {
+        if (gameswf::character* context = GetCurrentMenuContext()) {
+            reinterpret_cast<std::uint8_t*>(context)[0x9b] = visible ? 1 : 0;
+        }
         m_visible = visible;
     }
 }
 
 // 0x422620 _ZN8MenuBase18RegisterSlideEventEv
-// PARTIAL: the original clears the slide events, then, for each character that RenderFX::FindCharacters(m_menu, context,
-// "slide_", 0) returns, appends a new SlideEventCharacter (44 bytes) to m_slideEvents. FindCharacters is not declared in
-// this tree, so no slide event is registered. The context is taken as alive (see GetCurrentMenuContext).
+// Clears the slide events, then, for each character RenderFX::FindCharacters(m_menu, context, "slide_", 0) returns,
+// appends a new SlideEventCharacter (44 bytes, from CustomAlloc like the original) to m_slideEvents. Nothing is added
+// when there is no live context.
 void MenuBase::RegisterSlideEvent() {
     ClearSlideEvents();
+    gameswf::character* context = GetCurrentMenuContext();
+    if (context == nullptr) {
+        return;
+    }
+    RenderFX::CharacterArray* found = m_menu->FindCharacters(context, "slide_", 0);
+    for (int i = 0; i < found->count; ++i) {
+        void* memory = CustomAlloc(0x2C);
+        m_slideEvents.push_back(new (memory) SlideEventCharacter(found->data[i]));
+    }
 }
 
 // 0x422824 _ZN8MenuBaseD1Ev
 // Complete-object destructor. Clears the slide events, then destroys the DragAndDrop (its destructor, then CustomFree).
 // The members that follow are released implicitly in reverse declaration order, as in the original: m_deadZones (+0xb8),
 // m_difficultyName (+0x9c), m_playerName (+0x80), the list at +0x6c, and the m_slideEvents storage at +0x60.
-// PARTIAL: the original's last step releases the two weak_ptr proxies of MenuFX::State (+0x50, then +0x48), which the
-// State destructor performs in this tree and which is partial there (MenuFX batch 0).
+// The original releases the two weak_ptr proxies of MenuFX::State inside this destructor, before the State base runs:
+// the saved-focus proxy (+0x50) first, then the character proxy (+0x48). Each release is weak_proxy::drop_ref. The State
+// destructor in MenuFX batch 0 releases nothing, so the releases are not repeated there.
 MenuBase::~MenuBase() {
     ClearSlideEvents();
     if (m_dragAndDrop != nullptr) {
         m_dragAndDrop->~DragAndDrop();
         CustomFree(m_dragAndDrop);
         m_dragAndDrop = nullptr;
+    }
+    if (m_savedFocusProxy != nullptr) {
+        static_cast<weak_proxy*>(m_savedFocusProxy)->drop_ref();
+    }
+    if (m_characterProxy != nullptr) {
+        static_cast<weak_proxy*>(m_characterProxy)->drop_ref();
     }
 }
 
@@ -319,13 +358,26 @@ void MenuBase::OnEvent(RenderFX::Event& e) {
 
 // 0x42331c _ZN8MenuBase17RegisterDeadZonesEv
 // Registers the dead zones of the menu once. Its flag (+0xb4) is set before the zones are read, as in the original.
-// PARTIAL: the original then takes RenderFX::FindCharacters(m_menu, context, "deadzone_", 0) and, for each character it
-// returns, appends GameSWFUtils::GetAbsoluteBoundingRect(character) (xmin, xmax, ymin, ymax) to m_deadZones. FindCharacters
-// is not declared in this tree, so no zone is added. The context is taken as alive (see GetCurrentMenuContext).
+// Takes RenderFX::FindCharacters(m_menu, context, "deadzone_", 0) and, for each character it returns, appends
+// GameSWFUtils::GetAbsoluteBoundingRect(character) (in the order xmin, xmax, ymin, ymax) to m_deadZones. The flag is set
+// only when a live context exists, as in the original.
 void MenuBase::RegisterDeadZones() {
-    if (m_deadZonesRegistered || m_character == nullptr) {
+    if (m_deadZonesRegistered) {
+        return;
+    }
+    gameswf::character* context = GetCurrentMenuContext();
+    if (context == nullptr) {
         return;
     }
     m_deadZonesRegistered = true;
-    TraceMenuBaseSwitch();
+    RenderFX::CharacterArray* found = m_menu->FindCharacters(context, "deadzone_", 0);
+    for (int i = 0; i < found->count; ++i) {
+        const std::array<float, 4> bounds = GameSWFUtils::GetAbsoluteBoundingRect(found->data[i]);
+        gameswf::rect zone;
+        zone.m_x_min = bounds[0];
+        zone.m_x_max = bounds[1];
+        zone.m_y_min = bounds[2];
+        zone.m_y_max = bounds[3];
+        m_deadZones.push_back(zone);
+    }
 }

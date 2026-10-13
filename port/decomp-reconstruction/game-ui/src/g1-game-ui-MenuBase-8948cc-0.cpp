@@ -16,6 +16,7 @@
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/v2Controller.hpp"
 #include "dh2/v2Controllable.hpp"
+#include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/member_names.hpp"
 
 // 0x41b3d0 _ZN8MenuBase11OnFSCommandEPKcS1_
@@ -122,11 +123,16 @@ bool MenuBase::FS_LoadLevel2(const char*, const char* args, void* menu) {
     if (!args || !*args) {
         return false;
     }
-    const int count = Arrays::LevelList::m_memberNames.size;
-    for (int i = 0; i < count; ++i) {
+    const std::uint32_t count = Arrays::LevelList::size;
+    if (count == 0) {
+        return false;
+    }
+    for (std::uint32_t i = 0; i < count; ++i) {
         if (std::strcmp(args, Arrays::LevelList::m_memberNames.names[i]) == 0) {
-            // The original calls MyFSCommand("LoadLevel", entry +0x20) on menu here. Not rebuilt (see above).
-            (void)menu;
+            // Each LevelList row is 72 bytes; the word at +0x20 is the level string the original passes on.
+            const std::uint8_t* row = Arrays::LevelList::members + 72 * i;
+            const char* level = *reinterpret_cast<const char* const*>(row + 32);
+            static_cast<MenuBase*>(menu)->MyFSCommand("LoadLevel", level);
             return true;
         }
     }
@@ -134,14 +140,13 @@ bool MenuBase::FS_LoadLevel2(const char*, const char* args, void* menu) {
 }
 
 // 0x41f640 _ZN8MenuBase17FS_SetPlayerClassEPKcS1_Pv
-// PARTIAL: the count is NameTable::size; the original reads the Arrays::CharacterTable::size global, which is
-// not declared in this tree. The search and the -1 result are as in the original. The result is stored in the
-// menu at +0x98 (unk_98 in MenuBase.hpp): the CharacterTable row index, or -1 when there is no match. The
+// The count is Arrays::CharacterTable::size, and the search runs over its member-name table. The result is stored in
+// the menu at +0x98 (unk_98 in MenuBase.hpp): the CharacterTable row index, or -1 when there is no match. The
 // function always returns true.
 bool MenuBase::FS_SetPlayerClass(const char*, const char* args, void* menu) {
     int index = -1;
-    const int count = Arrays::CharacterTable::m_memberNames.size;
-    for (int i = 0; i < count; ++i) {
+    const std::uint32_t count = Arrays::CharacterTable::size;
+    for (std::uint32_t i = 0; i < count; ++i) {
         if (std::strcmp(args, Arrays::CharacterTable::m_memberNames.names[i]) == 0) {
             index = i;
             break;

@@ -64,8 +64,7 @@ public:
     int getAutoReorientation() const;                                   // 0x46d4d8: "AutoOrientation" option when present, else m_autoOrientation
     int getLanguage() const;                                            // 0x46d514: "Language" option (device language when -1), else m_language
     // Binary returns int (0x46d104 ends in a returned value, tested for zero by callers). Kept void until the
-    // game-app/tests stub (g1-game-app-global-f216b6-8_test.cpp, "void SavegameManager::setLanguage") is updated.
-    void setLanguage(int language);                                     // 0x46d104: sets the "Language" option, refreshes item and character text, then switches the string pack
+    int setLanguage(int language);                                   // 0x46d104: sets the "Language" option, refreshes item and character text, then switches the string pack
 
 public:
     void _initSettings(bool languageOnly);                              // 0x46e47c: clears m_options; fills it from Arrays::GameOptionTable unless languageOnly; sets the 14 tutorial flags

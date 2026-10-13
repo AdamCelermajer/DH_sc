@@ -41,8 +41,11 @@
 #include "dh2/StateMachine.hpp"
 #include "dh2/StringManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "core-platform/w7_global_rem.hpp"
 #include "dh2/global/menu_base_fs.hpp"
+#include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/member_names.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "vendor-gameswf/as_value.hpp"
 
 namespace {
@@ -64,10 +67,9 @@ int FindSoundIndex(const char* name) {
 }  // namespace
 
 // 0x420cfc _ZN8MenuBase18FS_IsSaveSlotValidEPKcS1_Pv
-// PARTIAL: the original reads the slot from args (atoi), tests PlayerSavegame::SG_Exists on it, and stores the boolean
-// as _root.retval of the menu's RenderFX through RenderFX::SetMember(as_value), which is not declared. The boolean is
-// computed here and not published. A null args or slot -1 gives false, as in the original. Returns true.
-bool MenuBase::FS_IsSaveSlotValid(const char*, const char* args, void*) {
+// The original reads the slot from args (atoi), tests PlayerSavegame::SG_Exists on it, and publishes the boolean as
+// _root.retval of the menu's RenderFX. A null args or slot -1 publishes false. Returns true.
+bool MenuBase::FS_IsSaveSlotValid(const char*, const char* args, void* menu) {
     bool valid = false;
     if (args != nullptr) {
         const int slot = std::atoi(args);
@@ -75,17 +77,30 @@ bool MenuBase::FS_IsSaveSlotValid(const char*, const char* args, void*) {
             valid = PlayerSavegame::SG_Exists(static_cast<std::uint32_t>(slot)) != 0;
         }
     }
-    static_cast<void>(valid);  // PARTIAL: _root.retval not set (see above).
+    gameswf::as_value retval;
+    retval.set_bool(valid);
+    static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", retval);
     return true;
 }
 
 // 0x420d7c _ZN8MenuBase14FS_GetSaveSlotEPKcS1_Pv
-// PARTIAL: the original reads the current save slot (SavegameManager +0x08) and sets _root.retval to it when that slot
-// exists. Otherwise it sets _root.retval to the first existing slot among 1 to 4, or to "" when none exists. The
-// current slot is private (SavegameManager::m_lastSlot) and RenderFX::SetMember is not declared, so nothing is read or
-// set. Returns true as in the original.
-bool MenuBase::FS_GetSaveSlot(const char*, const char*, void*) {
-    return true;  // PARTIAL: see above.
+// The current slot (SavegameManager::m_lastSlot) is published as an int when it exists. Otherwise the first existing
+// slot among 1 to 4 is published, or "" when none exists. Returns true.
+bool MenuBase::FS_GetSaveSlot(const char*, const char*, void* menu) {
+    RenderFX* fx = static_cast<MenuBase*>(menu)->m_menu;
+    const std::int32_t current = ApplicationGetInstance().m_savegameManager->m_lastSlot;
+    if (current != -1 && PlayerSavegame::SG_Exists(static_cast<std::uint32_t>(current)) != 0) {
+        fx->SetMember("_root", "retval", current);
+        return true;
+    }
+    for (std::uint32_t slot = 1; slot != 5; ++slot) {
+        if (PlayerSavegame::SG_Exists(slot) != 0) {
+            fx->SetMember("_root", "retval", static_cast<int>(slot));
+            return true;
+        }
+    }
+    fx->SetMember("_root", "retval", "");
+    return true;
 }
 
 // 0x420e64 _ZN8MenuBase14FS_ContinueGameEPKcS1_Pv
@@ -132,7 +147,7 @@ bool MenuBase::FS_PlayMusic(const char*, const char* args, void*) {
     if (index == -1) {
         return false;
     }
-    static_cast<void>(index);  // PARTIAL: VoxSoundManager::PlayMusic not called (see above).
+    VoxSoundManager::s_instance->PlayMusic(index, true, false, 2000);
     return true;
 }
 
@@ -147,15 +162,15 @@ bool MenuBase::FS_PlaySoundFX(const char*, const char* args, void*) {
     if (index == -1) {
         return false;
     }
-    static_cast<void>(index);  // PARTIAL: VoxSoundManager::PlayMenu not called (see above).
+    VoxSoundManager::s_instance->PlayMenu(index, false, 0, 0);
     return true;
 }
 
 // 0x42121c _ZN8MenuBase12FS_SetFocusEPKcS1_Pv
-// PARTIAL: the original calls RenderFX::SetFocus(menu->m_menu, args, 0). RenderFX (placeholder header) declares no
-// SetFocus, so the call is left out. Returns true as in the original.
-bool MenuBase::FS_SetFocus(const char*, const char*, void*) {
-    return true;  // PARTIAL: RenderFX::SetFocus not called (see above).
+// RenderFX::SetFocus(menu->m_menu, args, 0). Returns true as in the original.
+bool MenuBase::FS_SetFocus(const char*, const char* args, void* menu) {
+    static_cast<MenuBase*>(menu)->m_menu->SetFocus(args, 0);
+    return true;
 }
 
 // 0x421234 _ZN8MenuBase12FS_PushStateEPKcS1_Pv
@@ -235,25 +250,42 @@ bool MenuBase::FS_PopMenu(const char*, const char* args, void* menu) {
 }
 
 // 0x42143c _ZN8MenuBase16FS_AutoEquipSlotEPKcS1_Pv
-// PARTIAL: the original reads the local player's Character (PlayerManager::GetLocalPlayer(0, true)->character_660) and
-// then unequips and re-equips equipment slots with the Character's virtuals: UnEquipItemFromSlot (+0x144) and
-// EquipSlotAuto (+0x140). "ALL" runs over every equipment slot, from the last down to 0 for the re-equip. Any other
-// args is parsed with atoi and handled as one slot. Neither the PlayerManager nor the Character header can be included
-// in this file (see the header comment), so nothing is equipped. A null or empty args returns false, as in the
-// original, and so does every other call here.
+// The local player's Character is read. A null Character or a null or empty args returns false. "ALL" unequips every
+// equipment slot (Character::UnEquipItemFromSlot, vtable +0x144) and then re-equips them from the last slot down to 0
+// (Character::EquipSlotAuto, vtable +0x140). Any other args is parsed with atoi and handled as one slot: unequip, then
+// re-equip. Returns true.
 bool MenuBase::FS_AutoEquipSlot(const char*, const char* args, void*) {
-    if (args == nullptr || *args == '\0') {
+    Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayerCharacter();
+    if (character == nullptr || args == nullptr || *args == '\0') {
         return false;
     }
-    return false;  // PARTIAL: the character path (see above).
+    if (std::strcmp(args, "ALL") != 0) {
+        const unsigned int slot = static_cast<unsigned int>(std::atoi(args));
+        character->UnEquipItemFromSlot(slot);
+        character->EquipSlotAuto(slot);
+        return true;
+    }
+    const int count = character->ItemInventory::GetNumEquipmentSlots();
+    for (int i = 0; i < count; ++i) {
+        character->UnEquipItemFromSlot(static_cast<unsigned int>(i));
+    }
+    for (int i = count - 1; i >= 0; --i) {
+        character->EquipSlotAuto(static_cast<unsigned int>(i));
+    }
+    return true;
 }
 
 // 0x421554 _ZN8MenuBase21FS_GetHasOffHandWeaponEPKcS1_Pv
-// PARTIAL: the original returns true when the local player has a Character, and sets _root.retval to that Character's
-// ItemInventory::HasOffHandWeapon through RenderFX::SetMember. The Character cannot be reached here (see the header
-// comment), so this returns false, which is the original's result when there is no Character.
-bool MenuBase::FS_GetHasOffHandWeapon(const char*, const char*, void*) {
-    return false;  // PARTIAL: see above.
+// As FS_GetHasMainHandWeapon, with ItemInventory::HasOffHandWeapon published as the boolean _root.retval.
+bool MenuBase::FS_GetHasOffHandWeapon(const char*, const char*, void* menu) {
+    Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayerCharacter();
+    if (character == nullptr) {
+        return false;
+    }
+    gameswf::as_value retval;
+    retval.set_bool(character->ItemInventory::HasOffHandWeapon());
+    static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", retval);
+    return true;
 }
 
 // 0x4215ec _ZN8MenuBase21FS_GetHasMainHandWeaponEPKcS1_Pv
@@ -331,10 +363,8 @@ bool MenuBase::FS_GetCharProperty(const char*, const char* args, void* menu) {
 }
 
 // 0x421980 _ZN8MenuBase17FS_GetPlayerClass2EPKcS1_Pv
-// PARTIAL: the original sets _root.retval to playerClassAsStr() through RenderFX::SetMember, which is not declared, so
-// the name is read and not published. Returns true as in the original.
-bool MenuBase::FS_GetPlayerClass2(const char*, const char*, void*) {
-    const char* className = playerClassAsStr();
-    static_cast<void>(className);  // PARTIAL: _root.retval not set (see above).
+// Sets _root.retval to playerClassAsStr(). Returns true.
+bool MenuBase::FS_GetPlayerClass2(const char*, const char*, void* menu) {
+    static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", playerClassAsStr());
     return true;
 }

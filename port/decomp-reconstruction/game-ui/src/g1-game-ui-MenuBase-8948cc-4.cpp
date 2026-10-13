@@ -31,6 +31,9 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/DialogMsg.hpp"
 #include "dh2/DragAndDrop.hpp"
+#include "dh2/GameSWFUtils.hpp"
+#include "dh2/SlideEventCharacter.hpp"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/GSInit.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/MenuBase.hpp"
@@ -64,12 +67,15 @@ bool NameIs(const char* name, const char* expected) {
 }  // namespace
 
 // 0x423d6c _ZNK8MenuBase15TestSlideEventsERN8RenderFX5EventE
-// PARTIAL: the original runs SlideEventCharacter::Test(entry, event, m_menu) over every entry of m_slideEvents (+0x60 begin,
-// +0x64 end), but only when the event type at RenderFX::Event +0x08 minus 4 is at most 1 (types 4 and 5). RenderFX::Event
-// is an incomplete type in this tree, so that test cannot be made and the loop is not run. Expected loop, once the
-// layout is declared: for each entry, entry->Test(event, m_menu).
+// Runs SlideEventCharacter::Test(entry, event, m_menu) over every entry of m_slideEvents (+0x60 begin, +0x64 end), but
+// only when the event type minus 4 is at most 1 (types 4 and 5, unsigned compare as in the original).
 void MenuBase::TestSlideEvents(RenderFX::Event& event) const {
-    static_cast<void>(event);  // PARTIAL: event type guard and slide loop not run (see above).
+    const unsigned int type = static_cast<unsigned int>(static_cast<int>(event.type));
+    if (type - 4u <= 1u) {
+        for (SlideEventCharacter* entry : m_slideEvents) {
+            entry->Test(event, m_menu);
+        }
+    }
 }
 
 // 0x423db8 _ZN8MenuBase20RegisterDragAndDropsEPFiPKN7gameswf9characterEE
@@ -91,32 +97,57 @@ void MenuBase::RegisterDragAndDrops(int (*filter)(const gameswf::character*)) {
 }
 
 // 0x424288 _ZN8MenuBase12FS_GotoFrameEPKcS1_Pv
-// args is "name|label". Without '|' the original returns 0, and so does this rebuild. With '|' it finds the character name in
-// the menu's RenderFX (RenderFX::Find, not declared) and then in the root of MenuManager (GetRoot, declared), and calls
-// GameSWFUtils::GotoFrame(character, label). The find and the GotoFrame are not made, so the result is false.
-// PARTIAL: see above. Only the '|' is located here: the original also copies both halves into 64-byte buffers, which this
-// rebuild does not do yet.
-bool MenuBase::FS_GotoFrame(const char*, const char* args, void*) {
+// args is "name|label" (or "name|anim"). FindMenuCharacter looks the name up in the menu's RenderFX and then in the root of
+// MenuManager, as the original does.
+namespace {
+
+gameswf::character* FindMenuCharacter(MenuFX* menu, const char* name) {
+    gameswf::as_object* found = menu->Find(name);
+    if (found == nullptr) {
+        found = MenuManager::GetInstance()->GetRoot()->Find(name);
+    }
+    return reinterpret_cast<gameswf::character*>(found);
+}
+
+}  // namespace
+
+// 0x424288 _ZN8MenuBase12FS_GotoFrameEPKcS1_Pv
+// Without '|' the original returns 0. With '|' it finds the character and calls GameSWFUtils::GotoFrame(character, label),
+// then returns true. A character that is not found returns false.
+bool MenuBase::FS_GotoFrame(const char*, const char* args, void* menu) {
     const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
     if (bar == nullptr) {
         return false;
     }
+    const std::string name(args, bar);
+    const std::string label(bar + 1);
     ReadMenuBaseTraceSwitch();
-    return false;  // PARTIAL: RenderFX::Find and GameSWFUtils::GotoFrame not called (see above).
+    gameswf::character* target = FindMenuCharacter(static_cast<MenuBase*>(menu)->m_menu, name.c_str());
+    if (target == nullptr) {
+        return false;
+    }
+    GameSWFUtils::GotoFrame(target, label.c_str());
+    return true;
 }
 
 // 0x4243e0 _ZN8MenuBase11FS_PlayAnimEPKcS1_Pv
-// The same "name|anim" split and lookups as FS_GotoFrame. The original then calls RenderFX::PlayAnim(menu, character, anim, 0),
-// which is not declared, so the result is false after the lookup. GameSWFUtils::PlayAnim (0x416fe0) takes a MenuFX and is a
-// different overload, so it is not substituted here.
-// PARTIAL: RenderFX::Find and RenderFX::PlayAnim not called (see above).
-bool MenuBase::FS_PlayAnim(const char*, const char* args, void*) {
+// The same "name|anim" split and lookup as FS_GotoFrame. The original then calls RenderFX::PlayAnim(menu, character, anim, 0)
+// and returns true.
+bool MenuBase::FS_PlayAnim(const char*, const char* args, void* menu) {
     const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
     if (bar == nullptr) {
         return false;
     }
+    const std::string name(args, bar);
+    const std::string anim(bar + 1);
     ReadMenuBaseTraceSwitch();
-    return false;  // PARTIAL: see above.
+    MenuFX* owner = static_cast<MenuBase*>(menu)->m_menu;
+    gameswf::character* target = FindMenuCharacter(owner, name.c_str());
+    if (target == nullptr) {
+        return false;
+    }
+    owner->PlayAnim(target, anim.c_str(), 0);
+    return true;
 }
 
 // 0x424540 _ZN8MenuBase11FS_SetText2EPKcS1_Pv
@@ -124,37 +155,44 @@ bool MenuBase::FS_PlayAnim(const char*, const char* args, void*) {
 // StringManager::getStringFromSymbol (declared). A null string returns 0. Otherwise the original finds the character by
 // name (RenderFX::Find, then the root) and calls RenderFX::FormatHTML(menu, character, "%s", text), which is not declared,
 // so the result is false here.
-// PARTIAL: RenderFX::Find and RenderFX::FormatHTML not called (see above).
-bool MenuBase::FS_SetText2(const char*, const char* args, void*) {
+bool MenuBase::FS_SetText2(const char*, const char* args, void* menu) {
     const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
     if (bar == nullptr) {
         return false;
     }
+    const std::string name(args, bar);
     ReadMenuBaseTraceSwitch();
     const char* text = ApplicationGetInstance().m_stringManager->getStringFromSymbol(bar + 1);
     if (text == nullptr) {
         return false;
     }
-    return false;  // PARTIAL: see above.
+    MenuFX* owner = static_cast<MenuBase*>(menu)->m_menu;
+    gameswf::character* target = FindMenuCharacter(owner, name.c_str());
+    if (target == nullptr) {
+        return false;
+    }
+    owner->FormatHTML(target, "%s", text);
+    return true;
 }
 
 // 0x424698 _ZN8MenuBase10FS_SetTextEPKcS1_Pv
 // args is "name|id", the id parsed with atoi. Without '|' the original returns 0. It reads the trace switch, then the string
 // StringManager::getString(id) (declared). A null string returns 0. Otherwise it calls RenderFX::FormatHTML(menu, name, "%s",
 // text), which is not declared, so the result is false here.
-// PARTIAL: RenderFX::FormatHTML not called (see above).
-bool MenuBase::FS_SetText(const char*, const char* args, void*) {
+bool MenuBase::FS_SetText(const char*, const char* args, void* menu) {
     const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
     if (bar == nullptr) {
         return false;
     }
+    const std::string name(args, bar);
     const int stringId = std::atoi(bar + 1);
     ReadMenuBaseTraceSwitch();
     const char* text = ApplicationGetInstance().m_stringManager->getString(stringId);
     if (text == nullptr) {
         return false;
     }
-    return false;  // PARTIAL: see above.
+    static_cast<MenuBase*>(menu)->m_menu->FormatHTML(name.c_str(), "%s", text);
+    return true;
 }
 
 // 0x4247c0 _ZN8MenuBase14FS_GetCharPropEPKcS1_Pv
@@ -182,15 +220,16 @@ bool MenuBase::FS_GetCharProp(const char*, const char* args, void*) {
 // null, or when args is empty. Otherwise it reads the trace switch, computes Level::SG_IsMapLocLocked(atoi(args)) and
 // publishes the boolean as _root.retval through RenderFX::SetMember(as_value), which is not declared. The original then
 // returns 1, so the return here is true.
-// PARTIAL: the _root.retval publish is not made (see above).
-bool MenuBase::FS_IsMapLocLocked(const char*, const char* args, void*) {
+bool MenuBase::FS_IsMapLocLocked(const char*, const char* args, void* menu) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level == nullptr || args == nullptr || *args == '\0') {
         return false;
     }
     const bool locked = level->SG_IsMapLocLocked(std::atoi(args));
     ReadMenuBaseTraceSwitch();
-    static_cast<void>(locked);  // PARTIAL: the boolean is not published (see above).
+    gameswf::as_value retval;
+    retval.set_bool(locked);
+    static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", retval);
     return true;
 }
 
@@ -201,7 +240,6 @@ bool MenuBase::FS_IsMapLocLocked(const char*, const char* args, void*) {
 // menu_Merchant, clears byte_99F818 for menu_VerificationLoading, then hides the menu and unregisters it from MenuManager.
 // The original then releases the cached character's weak proxy and calls RenderFX::InvokeASCallback(menu, character,
 // "onPop", nullptr, 0), which are not made here.
-// PARTIAL: the byte_99F818 clear (Application +0xec, unnamed in Application.hpp), the proxy release and the "onPop" callback.
 void MenuBase::Hide() {
     if (!IsValidMenu()) {
         return;
@@ -224,12 +262,11 @@ void MenuBase::Hide() {
         s_igmOpened = false;
     }
     if (NameIs(m_name, "menu_VerificationLoading")) {
-        // PARTIAL: byte_99F818 = 0 (Application +0xec, pad_ec[0]); the flag has no name in Application.hpp.
+        ApplicationGetInstance().unk_ec = false;  // byte_99F818 (Application +0xec)
     }
     SetVisible(false);
     MenuManager::GetInstance()->UnRegisterListener(this);
-    // PARTIAL: the weak proxy release (+0x48, +0x4c) and RenderFX::InvokeASCallback(m_menu, character, "onPop", nullptr, 0)
-    // are not made (see above).
+    m_menu->InvokeASCallback(GetCurrentMenuContext(), "onPop", nullptr, 0);
 }
 
 // 0x424ef0 _ZN8MenuBase19FS_GetParsedString2EPKcS1_Pv
@@ -265,9 +302,9 @@ void MenuBase::Show() {
         ProcessLocalization();
     }
     SetVisible(true);
-    // PARTIAL: the weak proxy release and the "onPush" callback are not made (see above).
+    m_menu->InvokeASCallback(GetCurrentMenuContext(), "onPush", nullptr, 0);
     m_animOverCount = 0;
-    // PARTIAL: byte_99F818 = (m_name == "menu_VerificationLoading") is not stored (see above).
+    ApplicationGetInstance().unk_ec = NameIs(m_name, "menu_VerificationLoading");  // byte_99F818 (Application +0xec)
     if (NameIs(m_name, "menu_language") || NameIs(m_name, "menu_splash")) {
         GSInit::s_inst.ClearLoadingScreen();
     }
@@ -278,7 +315,7 @@ void MenuBase::Show() {
         DebugCachedCharacter cache;
         cache.RefreshCache("option_Custom", m_menu, GetCurrentMenuContext());
         gameswf::character* optionCharacter = cache.GetChar();
-        static_cast<void>(optionCharacter);  // PARTIAL: the store at +0x9b is not made (see above).
+        reinterpret_cast<std::uint8_t*>(optionCharacter)[0x9b] = ApplicationGetInstance().IsLevelRunning() ? 1 : 0;
     }
     RegisterDeadZones();
 }
