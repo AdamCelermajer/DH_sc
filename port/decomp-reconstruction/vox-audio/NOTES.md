@@ -1,5 +1,24 @@
 # vox-audio notes
 
+## Vendored upstream (2026-10-13)
+
+Upstream sources are in `upstream/`. Each folder's README.md gives the URL, the SHA-256 of the archive, the version
+evidence and the DH2 changes (`// DH2:`).
+
+- `stb_vorbis-0.99996/`: stb_vorbis.c at its initial checkin (commit e2caccb811), the oldest revision, which matches the
+  binary's `stb_vorbis_*` function set. Compiled as C++ (the binary's symbols are C++-mangled). The DH2 changes read the
+  stream through `vox::StreamCursorInterface`, define `STB_VORBIS_NO_PUSHDATA_API`, turn off `extern "C"`, and compile
+  out the `fopen` filename entry points.
+- `libmpcdec-r475/`: the seven SV8-capable libmpcdec units of musepack_src_r475 (`mpc_demux.c`, `mpc_decoder.c`, ...).
+  `mpc_reader.c` is not used: vox's own reader (`src/mpc_reader.cpp`) is Gameloft code.
+- `include/vox-audio/vox/stb_vorbis_api.hpp`: `stb_vorbis_open_file` takes a non-const `stb_vorbis_alloc*`, which is
+  the binary's mangled signature (`...P16stb_vorbis_alloc`).
+
+Ledger: `ledger.d/vendor-2.csv` (68 rows): 58 name the vendored file (stb_vorbis 25, libmpcdec 33). Eight name matches are
+left as they are (body size outside the gate); two skipped rows keep their status.
+
+Not changed: `vox::tixml` (the sound-pack XML reader in `w10-xml`) is still the vox subset reader, not TinyXML.
+
 Status after wave 7. The ledger has 699 data rows: 452 reconstructed, 182 partial,
 65 skipped. Wave 7 added 68 rows (from 631 at the start of the wave). The queue has 1374
 functions: 699 ledgered, 675 remain. Of the 675, 237 are queue entries that are not

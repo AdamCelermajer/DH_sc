@@ -24,6 +24,7 @@
 #include <string>
 
 #include "core-platform/deps/game_types.hpp"  // Point3D<float>, the value type of one AddProperty instance
+#include "dh2/Point2D.hpp"
 #include "core-platform/memory.hpp"           // CustomAlloc, CustomFree, gAssertLevel
 #include "dh2/Property.hpp"
 #include "dh2/PropertyInstance.hpp"
@@ -59,6 +60,7 @@ template void PropertyMap::AddProperty<std::string>(const char* name, std::strin
 template void PropertyMap::AddProperty<bool>(const char* name, bool& member, bool defaultValue);                       // 0x33e4ac
 template void PropertyMap::AddProperty<Point3D<float>>(const char* name, Point3D<float>& member,
                                                        Point3D<float> defaultValue);                                  // 0x389894
+template void PropertyMap::AddProperty<Point2D<int>>(const char* name, Point2D<int>& member, Point2D<int> defaultValue);   // Character::DeclareProperties builds this by hand ("spawn_delay")
 template void PropertyMap::AddProperty<float>(const char* name, float& member, float defaultValue);                    // 0x39503c
 template void PropertyMap::AddProperty<int>(const char* name, int& member, int defaultValue);                          // 0x398878
 template void PropertyMap::AddProperty<std::string>(const char* name, std::string& member);                            // 0x33ef7c
@@ -116,7 +118,7 @@ void PropertyMap::SavePropertiesToXML(TiXmlElement* element, const char* name) {
         return;
     }
     const std::string elementName = name != nullptr ? name : "GameObject";
-    TiXmlElement* child = new TiXmlElement(elementName);
+    TiXmlElement* child = new TiXmlElement(elementName.c_str());
     for (const auto& entry : GetPropertyMap()) {
         Property* property = entry.second;
         if (property != nullptr) {

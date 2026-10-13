@@ -1,5 +1,4 @@
 #include "tinyxml-and-c-libs/tixml_dh.hpp"
-#include "tixml_upstream_stand_in.hpp"
 
 #include <cstdio>
 

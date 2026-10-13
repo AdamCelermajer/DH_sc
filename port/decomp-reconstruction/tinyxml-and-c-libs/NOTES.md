@@ -1,5 +1,27 @@
 # tinyxml-and-c-libs notes
 
+## Vendored upstream (2026-10-13)
+
+Upstream sources are in `upstream/`, one folder per library. Each folder's README.md gives the URL, the SHA-256 of the
+archive, the version evidence and the DH2 changes (`// DH2:`; host-build fixes `HOST-PORT:`).
+
+- `tinyxml-2.5.3/`: tinyxml.cpp, tinyxmlerror.cpp, tinyxmlparser.cpp, tinyxml.h. This is the one definition of the TiXml
+  classes. `tixml_dh.hpp` keeps only the game's `TiXmlPrinterDH`; the `tb/*.hpp` headers forward to tinyxml.h.
+- `freetype-2.3.7/`: the 24 single-object units the binary has, with their include closure, and `include/`. FreeType's
+  own zlib copy is not vendored (the DH2 build uses the system zlib, `FT_CONFIG_OPTION_SYSTEM_ZLIB`).
+- `libjpeg-6b/`: the 41 units the binary has, `jmemnobs.c` as the link stand-in for the Gameloft memory unit `jmemirr.c`,
+  and a hand-written `jconfig.h` (HOST-PORT).
+- `libtess-glu-9.0.0/`: the nine SGI libtess units, compiled as C++ because the binary's symbols are C++-mangled.
+
+Ledger: `ledger.d/vendor-2.csv` (1332 rows, merged by `merge_ledger.py`). 1225 rows name the vendored file in
+`source_file`: TinyXML 161, FreeType 784, libjpeg 229, libtess 51. The other rows keep their status with a note when
+the body size is outside the gate (99 rows in total, including the 8 jmemirr stand-ins) or when several C statics share
+the name (for example `emit_bits` in jchuff.c and jcphuff.c). zlib and libpng rows are not covered by this step and are
+unchanged.
+
+The "Status", "Libraries identified" and "Recommended vendoring" sections below predate this step. Where they say that
+TinyXML, FreeType, libjpeg or libtess is not vendored, they are superseded.
+
 ## Status (this session)
 
 Ledger: all 1846 queued functions have a row. 7 reconstructed, 1755 upstream, 8 partial, 76 skipped.

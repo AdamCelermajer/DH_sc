@@ -29,7 +29,7 @@ struct stb_vorbis_info {
 
 // 0x87e0c8 at the call site in DecoderStbVorbisCursor's constructor.
 stb_vorbis* stb_vorbis_open_file(vox::StreamCursorInterface* stream, int close_on_free, int* error,
-                                 const stb_vorbis_alloc* alloc);
+                                 stb_vorbis_alloc* alloc);  // non-const: the binary's name is ..P16stb_vorbis_alloc
 // Returned by value; the binary passes a hidden result pointer (0x876e2c).
 stb_vorbis_info stb_vorbis_get_info(stb_vorbis* f);
 unsigned int stb_vorbis_stream_length_in_samples(stb_vorbis* f);

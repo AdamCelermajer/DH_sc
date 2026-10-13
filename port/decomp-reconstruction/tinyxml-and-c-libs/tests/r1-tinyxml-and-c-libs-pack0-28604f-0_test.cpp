@@ -4,7 +4,6 @@
 #include "tinyxml-and-c-libs/ssencdec.hpp"
 #include "tinyxml-and-c-libs/tixml_dh.hpp"
 #include "tinyxml-and-c-libs/tb/tixml_text.hpp"
-#include "tixml_upstream_stand_in.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -141,9 +140,8 @@ static void checkVisitEnter() {
     // A single text child that is not CDATA: ">" and no line break, and the simple-text flag is set.
     {
         TiXmlPrinterDH p;
-        TiXmlText text(false);
         TiXmlElement para("p");
-        para.SetChildLinks(&text, &text);
+        para.LinkEndChild(new TiXmlText("t"));  // the element owns its children
         CHECK(p.VisitEnter(para, nullptr));
         CHECK(p.buffer == "<p\n>");
         CHECK(p.simpleTextPrint);
@@ -153,9 +151,10 @@ static void checkVisitEnter() {
     // A single CDATA text child: ">" and a line break, no simple-text flag.
     {
         TiXmlPrinterDH p;
-        TiXmlText cdata(true);
+        TiXmlText* cdata = new TiXmlText("t");
+        cdata->SetCDATA(true);
         TiXmlElement para("p");
-        para.SetChildLinks(&cdata, &cdata);
+        para.LinkEndChild(cdata);
         CHECK(p.VisitEnter(para, nullptr));
         CHECK(p.buffer == "<p\n>\n");
         CHECK(!p.simpleTextPrint);
@@ -164,10 +163,9 @@ static void checkVisitEnter() {
     // First and last child differ: a line break, no simple-text flag.
     {
         TiXmlPrinterDH p;
-        TiXmlText first(false);
-        TiXmlText last(false);
         TiXmlElement para("p");
-        para.SetChildLinks(&first, &last);
+        para.LinkEndChild(new TiXmlText("a"));
+        para.LinkEndChild(new TiXmlText("b"));
         CHECK(p.VisitEnter(para, nullptr));
         CHECK(p.buffer == "<p\n>\n");
         CHECK(!p.simpleTextPrint);
@@ -176,9 +174,8 @@ static void checkVisitEnter() {
     // A non-text child (ToText is null): a line break, no simple-text flag.
     {
         TiXmlPrinterDH p;
-        TiXmlElement child("c");
         TiXmlElement para("p");
-        para.SetChildLinks(&child, &child);
+        para.LinkEndChild(new TiXmlElement("c"));
         CHECK(p.VisitEnter(para, nullptr));
         CHECK(p.buffer == "<p\n>\n");
         CHECK(!p.simpleTextPrint);

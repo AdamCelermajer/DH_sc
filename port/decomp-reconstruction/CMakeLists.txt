@@ -34,16 +34,25 @@ set(DH2_VENDOR_CATEGORIES vendor-lua vendor-box2d vendor-gameswf)
 set(DH2_LUA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor-lua/upstream/lua-5.1.4/src)
 set(DH2_BOX2D_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor-box2d/upstream/box2d-2.0.1)
 set(DH2_GAMESWF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor-gameswf/upstream/gameswf-r1714)
+# Upstream libraries vendored from tinyxml-and-c-libs/upstream and vox-audio/upstream (see each README.md).
+set(DH2_TINYXML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/tinyxml-2.5.3)
+set(DH2_FREETYPE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/freetype-2.3.7)
+set(DH2_JPEG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/libjpeg-6b)
+set(DH2_TESS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tinyxml-and-c-libs/upstream/libtess-glu-9.0.0)
+set(DH2_MPC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vox-audio/upstream/libmpcdec-r475)
+set(DH2_STB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vox-audio/upstream/stb_vorbis-0.99996)
 
 set(DH2_ALL_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/game/include ${CMAKE_CURRENT_SOURCE_DIR}/shared/include)
 foreach(cat IN LISTS DH2_DECOMP_CATEGORIES DH2_VENDOR_CATEGORIES)
   list(APPEND DH2_ALL_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/${cat}/include)
 endforeach()
-set(DH2_VENDOR_INCLUDES ${DH2_LUA_DIR} ${DH2_BOX2D_DIR}/Include ${DH2_BOX2D_DIR}/Source ${DH2_GAMESWF_DIR})
+set(DH2_VENDOR_INCLUDES ${DH2_LUA_DIR} ${DH2_BOX2D_DIR}/Include ${DH2_BOX2D_DIR}/Source ${DH2_GAMESWF_DIR} ${DH2_TINYXML_DIR})
 
 # gameswf configuration as the DH2 build uses it; NOMINMAX keeps windows.h macros out of tu-testbed.
 add_compile_definitions(NOMINMAX TU_CONFIG_LINK_TO_JPEGLIB=0 TU_CONFIG_LINK_TO_LIBPNG=0
   TU_CONFIG_LINK_TO_FREETYPE=0 TU_CONFIG_LINK_TO_THREAD=0)
+# TinyXML 2.5.3 with std::string (the binary's TiXmlElement::SetAttribute takes std::string arguments).
+add_compile_definitions(TIXML_USE_STL)
 
 function(dh2_warnings target)
   if(MSVC)
@@ -109,6 +118,84 @@ if(NOT MSVC)
   endif()
 endif()
 
+# Upstream libraries vendored from tinyxml-and-c-libs/upstream and vox-audio/upstream. Each is one static library built
+# from the units the binary contains (its DWARF compile units). The versions, URLs and SHA-256 are in each README.md.
+# DH2 changes are marked // DH2: in the sources, host-build fixes HOST-PORT:.
+
+# TinyXML 2.5.3: tinyxml.cpp, tinyxmlerror.cpp and tinyxmlparser.cpp (tinystr.cpp has no body with TIXML_USE_STL).
+add_library(dh2_vendor_tinyxml STATIC
+  ${DH2_TINYXML_DIR}/tinyxml.cpp ${DH2_TINYXML_DIR}/tinyxmlerror.cpp ${DH2_TINYXML_DIR}/tinyxmlparser.cpp)
+target_include_directories(dh2_vendor_tinyxml SYSTEM PUBLIC ${DH2_TINYXML_DIR})
+if(NOT MSVC)
+  target_compile_options(dh2_vendor_tinyxml PRIVATE -w)
+endif()
+
+# FreeType 2.3.7: the 24 units of the single-object build (each unit #includes the sources of its module). The DH2 build
+# uses the system zlib for ftgzip (FT_CONFIG_OPTION_SYSTEM_ZLIB in config/ftoption.h, DH2).
+set(DH2_FREETYPE_UNITS base/ftbase base/ftbitmap base/ftdebug gzip/ftgzip base/ftinit lzw/ftlzw base/ftsynth
+  base/ftsystem autofit/autofit bdf/bdf cff/cff pcf/pcf pfr/pfr psaux/psaux pshinter/pshinter psnames/psmodule
+  raster/raster sfnt/sfnt smooth/smooth truetype/truetype type1/type1 cid/type1cid type42/type42 winfonts/winfnt)
+set(freetype_srcs)
+foreach(u IN LISTS DH2_FREETYPE_UNITS)
+  list(APPEND freetype_srcs ${DH2_FREETYPE_DIR}/src/${u}.c)
+endforeach()
+add_library(dh2_vendor_freetype STATIC ${freetype_srcs})
+target_include_directories(dh2_vendor_freetype SYSTEM PUBLIC ${DH2_FREETYPE_DIR}/include)
+target_compile_definitions(dh2_vendor_freetype PRIVATE FT2_BUILD_LIBRARY)
+target_link_libraries(dh2_vendor_freetype PRIVATE dh2_vendor_zlib)
+if(NOT MSVC)
+  target_compile_options(dh2_vendor_freetype PRIVATE -w)
+endif()
+
+# libjpeg 6b: the 42 units of the binary's build. jdatasrc.c and jdatadst.c are not in it (its own source manager is).
+# jmemnobs.c stands in for the Gameloft memory unit (jmemirr.c, not upstream); see libjpeg-6b/README.md.
+set(DH2_JPEG_UNITS jcapimin jcapistd jccoefct jccolor jcdctmgr jchuff jcinit jcmainct jcmarker jcmaster jcomapi
+  jcparam jcphuff jcprepct jcsample jdapimin jdapistd jdcoefct jdcolor jddctmgr jdhuff jdinput jdmainct jdmarker
+  jdmaster jdmerge jdphuff jdpostct jdsample jerror jfdctflt jfdctfst jfdctint jidctflt jidctfst jidctint jidctred
+  jmemmgr jquant1 jquant2 jutils jmemnobs)
+set(jpeg_srcs)
+foreach(u IN LISTS DH2_JPEG_UNITS)
+  list(APPEND jpeg_srcs ${DH2_JPEG_DIR}/${u}.c)
+endforeach()
+add_library(dh2_vendor_jpeg STATIC ${jpeg_srcs})
+target_include_directories(dh2_vendor_jpeg SYSTEM PUBLIC ${DH2_JPEG_DIR})
+if(NOT MSVC)
+  target_compile_options(dh2_vendor_jpeg PRIVATE -w)
+endif()
+
+# SGI libtess (GLU tessellator, glu-9.0.0 src/libtess): the nine units of the binary, compiled as C++ because the binary's
+# symbols are C++-mangled. memalloc.c is not in the binary (see libtess-glu-9.0.0/README.md).
+set(tess_srcs)
+foreach(u IN ITEMS dict geom mesh normal priorityq render sweep tess tessmono)
+  list(APPEND tess_srcs ${DH2_TESS_DIR}/src/libtess/${u}.c)
+endforeach()
+set_source_files_properties(${tess_srcs} PROPERTIES LANGUAGE CXX)
+add_library(dh2_vendor_libtess STATIC ${tess_srcs})
+target_include_directories(dh2_vendor_libtess SYSTEM PUBLIC ${DH2_TESS_DIR}/include)
+target_include_directories(dh2_vendor_libtess PRIVATE ${DH2_TESS_DIR}/src/include ${DH2_TESS_DIR}/src/libtess)
+if(NOT MSVC)
+  target_compile_options(dh2_vendor_libtess PRIVATE -w)
+endif()
+
+# libmpcdec (Musepack r475, libmpcdec): the seven units of the binary's SV8 build. mpc_reader.c is not used: the vox
+# reader (vox-audio/src/mpc_reader.cpp) is Gameloft's.
+set(mpc_srcs)
+foreach(u IN ITEMS mpc_bits_reader mpc_decoder mpc_demux huffman requant streaminfo synth_filter)
+  list(APPEND mpc_srcs ${DH2_MPC_DIR}/libmpcdec/${u}.c)
+endforeach()
+add_library(dh2_vendor_mpc STATIC ${mpc_srcs})
+target_include_directories(dh2_vendor_mpc PRIVATE ${DH2_MPC_DIR}/include ${DH2_MPC_DIR}/libmpcdec)
+if(NOT MSVC)
+  target_compile_options(dh2_vendor_mpc PRIVATE -w)
+endif()
+
+# stb_vorbis 0.99996 (2014 initial checkin): compiled as C++ like the binary (its symbols are C++-mangled).
+add_library(dh2_vendor_stb_vorbis STATIC ${DH2_STB_DIR}/stb_vorbis.c)
+set_source_files_properties(${DH2_STB_DIR}/stb_vorbis.c PROPERTIES LANGUAGE CXX)
+if(NOT MSVC)
+  target_compile_options(dh2_vendor_stb_vorbis PRIVATE -w)
+endif()
+
 # Engine, library and vendor-addition categories: one static library each.
 set(DH2_LIBS)
 foreach(cat IN LISTS DH2_DECOMP_CATEGORIES DH2_VENDOR_CATEGORIES)
@@ -142,7 +229,8 @@ if(game_srcs)
   dh2_warnings(dh2_game)
   list(APPEND DH2_LIBS dh2_game)
 endif()
-list(APPEND DH2_LIBS dh2_vendor_lua dh2_vendor_box2d dh2_vendor_gameswf)
+list(APPEND DH2_LIBS dh2_vendor_lua dh2_vendor_box2d dh2_vendor_gameswf dh2_vendor_tinyxml dh2_vendor_freetype
+  dh2_vendor_jpeg dh2_vendor_libtess dh2_vendor_mpc dh2_vendor_stb_vorbis)
 if(NOT DH2_SYSTEM_ZLIB)
   list(APPEND DH2_LIBS dh2_vendor_zlib)
 endif()

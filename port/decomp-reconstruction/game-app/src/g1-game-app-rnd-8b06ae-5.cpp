@@ -125,7 +125,7 @@ Rule* NewRuleForTag(Rule& parent, const char* tag) {
 // +0x34 pointer as the name that TiXmlElement::Value() returns. The node is a rule element, so the downcast is the same
 // unchecked read the original makes. The child is built by NewRuleForTag with this rule as its parent.
 Rule* Rule::NewRule(TiXmlNode* node) {
-    const char* tag = static_cast<const TiXmlElement*>(node)->Value().c_str();
+    const char* tag = static_cast<const TiXmlElement*>(node)->Value();
     return NewRuleForTag(*this, tag);
 }
 
