@@ -7261,6 +7261,11 @@ bool door_play_sound(void* raw,std::uintptr_t identity,bool opening,
  const auto id=opening?door->sound_open:door->sound_close;
  if(id<0) {error.clear();return true;}
  if(id>UINT16_MAX) {error="Door source sound id exceeds the spatial audio contract";return false;}
+ // Door::Open/Close call the void Play3D: a source row without retained PCM is
+ // silent, it must not fail the already-started door transition.
+ if(dh2::player_gameplay_audio::source_row_without_pcm(static_cast<std::uint16_t>(id))) {
+  error.clear();return true;
+ }
  auto* object=door->runtime->manager.find_by_identity(identity);
  const dh2::engine_audio::spatial_playback_contract_v1::Vec3 emitter{
      object->world_x,object->world_y,door->source.world.position[2]};
@@ -33502,6 +33507,24 @@ ProjectileStatus native_projectile_hit_v1(void* raw,
  } catch(...) {return ProjectileStatus::hook_failed;}
 }
 
+// Projectile::HandleImpactFX (0x3e4db0) ends in VoxSoundManager::Play3D at the
+// impact position; the sound row is chosen by ImpactType. Play3D is void, so a
+// row without retained PCM or a missing listener is silence.
+void native_projectile_play_impact_sound_v1(std::int32_t sound_row,
+    std::uintptr_t owner,float x,float y,float z) noexcept {
+ if(sound_row<0||sound_row>UINT16_MAX)return;
+ const dh2::engine_audio::spatial_playback_contract_v1::Vec3 emitter{x,y,z};
+ dh2::engine_audio::spatial_playback_contract_v1::Request request{};
+ auto& vox=dh2::engine_audio::native_level_listener_v1::process_vox_state();
+ const bool queued=dh2::engine_audio::native_level_listener_v1::make_spatial_request(
+      vox,static_cast<std::uint16_t>(sound_row),emitter,request)&&
+  dh2::player_gameplay_audio::enqueue_spatial_source_sound(
+      static_cast<std::uint16_t>(sound_row),owner,false,0,request);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Projectile impact sound | source Sounds row %d | %s",sound_row,
+     queued?"queued":"no retained PCM or listener");
+}
+
 ProjectileStatus native_projectile_handle_collision_fx_v1(void* raw,
     dh2::object_manager_runtime_owner_v1::GameObject& projectile,
     dh2::object_manager_runtime_owner_v1::GameObject& target,
@@ -33510,6 +33533,20 @@ ProjectileStatus native_projectile_handle_collision_fx_v1(void* raw,
  if(!context||!context->payload||
     context->payload->identity!=projectile.identity)
   return ProjectileStatus::hook_failed;
+ {
+  // Projectile::HandleImpactFX(GameObject*, Point2f) 0x3e4eec: a Character target
+  // is ImpactType 4 (ImpactSFX at its target position); any other object is type
+  // 3 (ObjectImpactSFX, ImpactSFX when unset) at the contact point.
+  const auto& row=context->payload->source_row;
+  dh2::skill_projectile_delivery_v1::Point3f at{};
+  if(native_skill_projectile_read_point_v1(nullptr,target.identity,&at)==0) {
+   const bool character=native_projectile_is_character_v1(nullptr,target);
+   const auto sound=character||row.object_impact_sfx==-1?row.impact_sfx
+                                                        :row.object_impact_sfx;
+   native_projectile_play_impact_sound_v1(sound,projectile.identity,
+       character?at.x:point.x,character?at.y:point.y,at.z);
+  }
+ }
  if(context->payload->source_row.impact_fx<0)return ProjectileStatus::ok;
  if(!native_fx_owner)return ProjectileStatus::hook_unavailable;
  try {
@@ -33583,6 +33620,15 @@ ProjectileStatus native_projectile_handle_expire_fx_v1(void* raw,
  const auto& payload=*context->payload;
  const auto effect_id=impact_type==1 ? payload.source_row.expire_fx
                                     : payload.source_row.impact_fx;
+ {
+  // HandleImpactFX 0x3e4db0: type 0 nothing, 1 ExpireSFX, 2/3 ObjectImpactSFX
+  // (ImpactSFX when unset), otherwise ImpactSFX.
+  const auto& row=payload.source_row;
+  const std::int32_t sound=impact_type==0?-1:impact_type==1?row.expire_sfx:
+      (impact_type==2||impact_type==3)&&row.object_impact_sfx!=-1?
+          row.object_impact_sfx:row.impact_sfx;
+  native_projectile_play_impact_sound_v1(sound,payload.identity,point.x,point.y,point.z);
+ }
  if(effect_id<0)return ProjectileStatus::ok;
  if(!native_fx_owner)return ProjectileStatus::hook_unavailable;
  try {
@@ -43557,6 +43603,50 @@ void character_playback_event(void*,dh2::actor::BlendedPlayback& playback,const 
   if(prince_event(state_event,0)<0)throw std::runtime_error("Character sequence close failed");
  }
 }
+// CharAnimator::_SetAnimStep (0x3ca79c) sound for the live Player. A `Swoosh`
+// step plays the SwooshSoundFX of the first equipped item that has one (main
+// hand, then off hand: _PlayItemSwooshSFX 0x3c94b8) and then skips the authored
+// Sound; every other step, or a swoosh step with no item sound, runs
+// VoxSoundManager::Play3D(step.Sound, GetTargetPosition). Play3D is void and the
+// source ignores its result, so a missing listener/PCM is silent here as well.
+void prince_play_step_sound(const dh2::data::AnimationStep& authored_step){
+ if(!world_mode||!native_actor_ready||!prince_combat.savegame||
+    prince_combat.savegame->character()!=prince_character.identity())return;
+ float target[3]{};bool target_node=false;std::uint32_t node=UINT32_MAX;
+ std::string error;
+ if(!dh2::ui::resolve_scrolling_combat_target_node_v1(current_scene,target_node,node,
+      target,error))return;
+ const float* point=target_node&&prince_character.visibility_80()?
+     target:prince_runtime.subobjects.position;
+ const auto play=[&](std::int32_t sound){
+  if(sound<0||sound>UINT16_MAX)return;
+  const dh2::engine_audio::spatial_playback_contract_v1::Vec3 emitter{
+      point[0],point[1],point[2]};
+  dh2::engine_audio::spatial_playback_contract_v1::Request request{};
+  auto& vox=dh2::engine_audio::native_level_listener_v1::process_vox_state();
+  const bool queued=dh2::engine_audio::native_level_listener_v1::make_spatial_request(
+       vox,static_cast<std::uint16_t>(sound),emitter,request)&&
+      dh2::player_gameplay_audio::enqueue_spatial_source_sound(
+       static_cast<std::uint16_t>(sound),prince_character.identity(),false,0,request);
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "Player step sound | source Sounds row %d | swoosh step %d | %s",sound,
+      authored_step.swoosh?1:0,queued?"queued":"no retained PCM or listener");
+ };
+ bool item_swoosh=false;
+ if(authored_step.swoosh&&prince_combat.inventory){
+  const auto set=prince_combat.inventory->current_equipment();
+  if(set>=0&&set<2)
+   for(std::size_t slot=1;slot<=2&&!item_swoosh;++slot){
+    const auto* owned=prince_combat.inventory->equipment()[std::size_t(set)][slot];
+    if(!owned||!owned->item)continue;
+    const auto* definition=dh2::data::item(prince_combat.inventory->table(),owned->item->id);
+    if(!definition||definition->record.words[5]==-1)continue;
+    play(definition->record.words[5]);
+    item_swoosh=true;
+   }
+ }
+ if(!item_swoosh)play(authored_step.sound);
+}
 bool character_playback_frame_step(void*,dh2::actor::BlendedPlayback& playback,
                                    std::uint32_t slot,std::uint32_t step,std::uint32_t count){
  // CharAnimator::_SetAnimStep raises event 0x26 before resolving redirect.
@@ -43658,6 +43748,9 @@ bool character_playback_frame_step(void*,dh2::actor::BlendedPlayback& playback,
     }
   }
  }
+ // CharAnimator::_SetAnimStep plays the step Sound / item swoosh after the
+ // camera shake and before the step FX (source order); redirects never get here.
+ if(authored_step.redir!=1)prince_play_step_sound(authored_step);
  // Called only after the validated sequence step is stored and the selected
  // clip has installed its active blended slot. Event 0x26 remains a separate
  // selection notification; this is the playback path for the source skill
@@ -49809,6 +49902,9 @@ bool interact_source_destructible_container(std::uintptr_t target_identity,
    if(!c||!c->container||!c->container->owner.object||sound<0||sound>UINT16_MAX){
     callback_error="DestructibleContainer source hit sound facts are invalid";return false;
    }
+   // DestructibleContainer::Interact's Play3D is void: no retained PCM is silence.
+   if(dh2::player_gameplay_audio::source_row_without_pcm(
+        static_cast<std::uint16_t>(sound))){callback_error.clear();return true;}
    const auto* object=c->container->owner.object;
    const dh2::engine_audio::spatial_playback_contract_v1::Vec3 emitter{
        object->world_x,object->world_y,c->container->source.world.position[2]};

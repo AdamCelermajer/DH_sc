@@ -26,6 +26,7 @@ extern "C" {
 #include "authored_hud_edge_layout_v6.hpp"
 #include "textures.hpp"
 #include "original_menu_sound_data.hpp"
+#include "player_gameplay_audio.hpp"
 #include "swf_menu_sound.hpp"
 #include "swf_menu_navigation.hpp"
 #include "swf_menu_options.hpp"
@@ -2706,16 +2707,29 @@ struct OriginalUiSession::Impl {
             const auto& record=original_sounds[id];
             if(requested!=record.name)continue;
             if(!record.menu_backend){
-                // The authored gameplay movie invokes NativePlaySoundFX while
-                // opening item-detail pages (for example PickupWeapon). The
-                // Android build currently has only the five menu-effect
-                // assets/player; treating an unavailable optional effect as
-                // a failed SWF event aborts the whole page transition. Keep
-                // source navigation and state updates intact until a gameplay
-                // SoundFX owner is connected.
-                __android_log_print(ANDROID_LOG_INFO,tag,
-                    "Original SoundFX skipped | name %s | file %s | gameplay audio owner unavailable",
-                    record.name,record.file);
+                // The authored gameplay movie invokes NativePlaySoundFX for HUD,
+                // quest and item-detail cues (for example QuestNew, PickupWeapon).
+                // 0x43ae10 resolves the name in the SDD Sounds table and calls
+                // VoxSoundManager::PlayMenu: the shared gameplay audio queue
+                // carries it to the platform effect backend. A source row whose
+                // PCM is not in the supplied cache stays the original's silent
+                // no-op; it must never fail the SWF event or its page transition.
+                switch(dh2::player_gameplay_audio::enqueue_source_menu_sound(requested)){
+                case dh2::player_gameplay_audio::MenuSoundResultV1::queued:
+                    __android_log_print(ANDROID_LOG_INFO,tag,
+                        "Original SoundFX queued | name %s | file %s",record.name,record.file);
+                    break;
+                case dh2::player_gameplay_audio::MenuSoundResultV1::rejected:
+                    __android_log_print(ANDROID_LOG_WARN,tag,
+                        "Original SoundFX dropped | name %s | gameplay audio queue full",record.name);
+                    break;
+                case dh2::player_gameplay_audio::MenuSoundResultV1::unavailable:
+                case dh2::player_gameplay_audio::MenuSoundResultV1::unknown:
+                    __android_log_print(ANDROID_LOG_INFO,tag,
+                        "Original SoundFX skipped | name %s | file %s | no retained PCM for this source row",
+                        record.name,record.file);
+                    break;
+                }
                 return true;
             }
             self.menu_sounds.emplace_back(record.file);
@@ -3045,7 +3059,11 @@ struct OriginalUiSession::Impl {
             }
             return false;
         }
-        return self.runtime.revive_local_players(self.runtime.context,error);
+        if(!self.runtime.revive_local_players(self.runtime.context,error))return false;
+        // PlayerManager::ReviveLocalPlayers 0x37565c restores the SFX group gain
+        // to the saved VolumeFX option right after Level::LoadCheckpoint.
+        if(self.settings)self.queue_volumes();
+        return true;
     }
     static bool pop_above_menu(void* context,const char* name,std::string& error){
         auto& self=*static_cast<Impl*>(context);
@@ -3971,7 +3989,13 @@ bool OriginalUiSession::push_source_death_fade_menu(bool& pushed,std::string& er
     if(std::find(self.game_menu_stack.begin(),self.game_menu_stack.end(),
                  "menu_FadeToBlackScreen")!=self.game_menu_stack.end()){error.clear();return true;}
     if(!Impl::push_game_menu(&self,"menu_FadeToBlackScreen",error))return false;
-    pushed=true;error.clear();return true;
+    pushed=true;
+    // The same _HandleLocalDeaths branch then calls VoxSoundManager::SetSoundVolume(
+    // group 1 = SFX, 0): effects fall silent until ReviveLocalPlayers restores the
+    // saved option. Music keeps its own volume, so only the FX field drops to zero.
+    if(self.settings)
+        self.menu_audio.push_back("volume,"+std::to_string(self.settings->saved_option("VolumeMusic"))+",0");
+    error.clear();return true;
 }
 bool OriginalUiSession::pop_source_loading_menu(std::string& error){
     auto& self=*impl_;
