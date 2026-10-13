@@ -1484,6 +1484,7 @@ int main(int argc,char** argv) {
         struct OrdinarySkillManaPolicy {bool savedGodMana=false,actorDebugBypass=false;} skillManaPolicy;
         std::uint64_t skillHitLogGeneration=0;std::size_t skillHitLogCount=0; // v21.8 skills-a: per-hit damage log cursor
         int lastSkillPhase=-1;std::uint64_t lastSkillGeneration=0,lastSkillFxGeneration=0;
+        std::uint64_t lastSkillPresentationGeneration=0;std::size_t lastSkillPresentationCount=0; // v21.8 ES-API PlaySound/PlayFX cues
         const auto playerPolicy=options.combat.profiles.find(options.combat.playerProfileId);
         const bool sourcePlayerStanceEnabled=!options.meleeBindings.empty()&&playerPolicy!=options.combat.profiles.end()&&playerPolicy->second.retainedPhaseClock;
         dh2::data::ItemTable locomotionItems;
@@ -8970,6 +8971,27 @@ int main(int argc,char** argv) {
                         }
                     }
                     if(const auto* receipt=skillCastCoordinator->receipt(combatSession->player_id())) {
+                        // v21.8 ES-API: authored PlaySound / PlayFX cues (presentation only), each dispatched once in authored order.
+                        if(receipt->generation!=lastSkillPresentationGeneration){lastSkillPresentationGeneration=receipt->generation;lastSkillPresentationCount=0;}
+                        while(lastSkillPresentationCount<receipt->presentation_cues.size()) {
+                            const auto cue=receipt->presentation_cues[lastSkillPresentationCount++];
+                            std::string cueError;
+                            if(cue.kind==f::generic_skills::SkillPresentationCueV1::Kind::sound) {
+                                if(!runtimeAudio||!runtimeAudio->play_named_plain(cue.name.c_str(),cueError))std::cerr<<"Skill sound diagnostic: "<<cue.name<<' '<<cueError<<'\n';
+                                else std::cout<<"Source skill sound frame="<<drawn<<" skill="<<receipt->skill_name<<" name="<<cue.name<<'\n';
+                                continue;
+                            }
+                            const auto* owner=combatSession->actor(cue.actor);
+                            const auto setNames=sourceEffectsTables.borrow().set_names();
+                            const auto setFound=std::find(setNames.begin(),setNames.end(),cue.name);
+                            if(!owner||!sourceEffectsFactory)continue;
+                            if(setFound==setNames.end()){std::cerr<<"Skill FX diagnostic: AnimatedEffectTable row is absent: "<<cue.name<<'\n';continue;}
+                            const float at[3]={owner->transform.position[0],owner->transform.position[1],owner->transform.position[2]};
+                            std::uintptr_t created=0;std::string fxError;
+                            if(!sourceEffectsFactory->manager().play_set(std::int32_t(setFound-setNames.begin()),at,nullptr,0,&created,fxError))
+                                std::cerr<<"Skill FX diagnostic: "<<fxError<<'\n';
+                            else std::cout<<"Source skill presentation FX frame="<<drawn<<" skill="<<receipt->skill_name<<" name="<<cue.name<<" kind="<<(cue.kind==f::generic_skills::SkillPresentationCueV1::Kind::self_fx?"self":"target")<<" actor="<<cue.actor<<" created="<<created<<'\n';
+                        }
                         // v21.8 skills-a: one line per applied source hit (each hand and each marker volley), with the target's HP after it.
                         if(receipt->generation!=skillHitLogGeneration){skillHitLogGeneration=receipt->generation;skillHitLogCount=0;}
                         while(skillHitLogCount<receipt->applied_results.size()) {

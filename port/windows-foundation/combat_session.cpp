@@ -88,6 +88,7 @@ struct CombatSession::Impl {
     std::unique_ptr<PlayableActorWorld> world;
     std::unique_ptr<CombatSystem> combat;
     std::unique_ptr<ActorCombatRuntime> runtime;
+    std::vector<CombatSession::ScriptKillRecordV1> scriptKills; // v21.8 ES-API killer attribution
     ActorId player=invalid_actor_id;
     // A player target chosen through the public selection input remains sticky
     // across action teardown. This host-side intent is deliberately distinct
@@ -2289,8 +2290,19 @@ bool CombatSession::set_actor_original_state(ActorId id,std::int32_t state,std::
     entry.lifecycleOriginalState=state==3?std::optional<std::int32_t>{}:state;impl_->lifecycleRegistered=true;impl_->lifecycleActivity=true;return refresh_actor_combat_permissions(error);
 }
 bool CombatSession::script_kill_actor(ActorId id,std::string& error){
+    return script_kill_actor(id,invalid_actor_id,error);
+}
+bool CombatSession::script_kill_actor(ActorId id,ActorId killer,std::string& error){
     if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script kill actor is unavailable";return false;}
-    return impl_->runtime->kill(id,error);
+    const auto* actor=impl_->world->find_actor(id);
+    const bool was_alive=actor&&actor->alive();
+    if(!impl_->runtime->kill(id,error))return false;
+    if(was_alive&&actor&&!actor->alive())impl_->scriptKills.push_back(ScriptKillRecordV1{id,killer});
+    return true;
+}
+const std::vector<CombatSession::ScriptKillRecordV1>& CombatSession::script_kill_records()const noexcept{
+    static const std::vector<ScriptKillRecordV1> none;
+    return impl_?impl_->scriptKills:none;
 }
 bool CombatSession::script_death_event(ActorId id,std::string& error){
     if(!impl_||impl_->detached){error="Death event requires live session";return false;}

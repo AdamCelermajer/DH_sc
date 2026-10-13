@@ -3,6 +3,7 @@
 #include "../../../game-data/faery_tables.hpp"
 
 #include <cstddef>
+#include <optional>
 #include <cstdint>
 #include <string>
 #include <string_view>
@@ -48,6 +49,12 @@ struct FaeryAbilityV1 {
 // not match the registry, or its script is not registered.
 const FaeryAbilityV1* faery_ability_for_list_slot_v1(const dh2::data::FaeryTables::Borrow& tables,
                                                      std::int32_t list_id, std::int32_t slot);
+
+// v21.8 ES-API: GetEquippedFaeryElement (Character::_GetEquippedFaeryElement 0x3b6dc4) = Character::GetCharFaery(
+// current faery id)+8, i.e. word 2 of the faery record's scalar block (the Android presentation reads the same word as
+// `element`). `current_faery` is the slot in FaeryList[list_id]. nullopt when the list, slot or row is unresolved.
+std::optional<std::int32_t> equipped_faery_element_v1(const dh2::data::FaeryTables::Borrow& tables,
+                                                      std::int32_t list_id, std::int32_t current_faery);
 
 // The five authored faery scripts. Order is the table list order (slot 0..4).
 const std::vector<FaeryAbilityV1>& faery_ability_registry_v1();

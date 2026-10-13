@@ -892,6 +892,11 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
 
         active.target_query=target;
         active.receipt.target_order=request.object_targets?target.ordered_targets:target.ordered_character_targets;
+        // v21.8 ES-API: OnPre `PopTargetList` + `target:PlayFX(...)` for every popped Character (unconditional).
+        if (profile->pre_target_fx_name)
+            for (const auto victim : target.ordered_character_targets)
+                active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::target_fx,
+                                                            profile->pre_target_fx_name, victim});
         const bool mana_ok = prepare_skill_cast_mana_v1(*request.character, session, request.actor,
                 *request.characters, request.skills, *request.classes,
                 *request.property_rules, position, class_token, request.mana_policy,
@@ -1315,6 +1320,21 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         active.receipt.applied_results.clear();
         active.receipt.target_hit_fx_name.clear();
         active.receipt.target_hit_fx_targets.clear();
+    }
+    // v21.8 ES-API presentation, in authored order: PlaySound at Use, PlayFX on the caster, then the per-target PlayFX
+    // that the Lua runs for every popped Character (not gated by damage; rolls_combat does not gate it).
+    if (profile.use_sound_name)
+        active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::sound, profile.use_sound_name, invalid_actor_id});
+    if (profile.self_fx_name)
+        active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::self_fx, profile.self_fx_name, actor_id});
+    if (profile.target_fx_each_name) {
+        for (const auto victim : use_targets.ordered_character_targets) {
+            if (profile.target_fx_each_non_player_only) {
+                const auto* traits = session.world()->traits(victim);
+                if (!traits || traits->is_player) continue;
+            }
+            active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::target_fx, profile.target_fx_each_name, victim});
+        }
     }
     std::uint32_t event_index = active.next_event_index;
     // Legacy Character-only callers retain their exact target order.

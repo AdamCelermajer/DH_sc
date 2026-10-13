@@ -88,6 +88,9 @@ struct RuntimeSkillCastReceiptV1 {
     // targets whose SkillCombatRoll returned dmg > 0. Filled when Use is applied; the host plays the FX at each target.
     std::string target_hit_fx_name;
     std::vector<ActorId> target_hit_fx_targets;
+    // v21.8 ES-API: PlaySound / PlayFX cues in authored order (OnPre cues first, then each Use). Never cleared by a
+    // repeated volley, so the host dispatches only the cues appended since its last look at this generation.
+    std::vector<SkillPresentationCueV1> presentation_cues;
     // Formula-only Celest rolls against a target killed by the prior source
     // roll consume the exact RNG occurrence but do not apply a second hit.
     std::vector<faery_menu::CelestDeadTargetCalculationV1> celest_dead_target_calculations;

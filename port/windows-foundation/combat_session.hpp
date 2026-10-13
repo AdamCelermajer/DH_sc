@@ -483,7 +483,16 @@ public:
     // select from them through play_actor_source_sequence.
     const OriginalCombatVisualPlan* actor_source_plan(ActorId) const noexcept;
     const OriginalSequencePolicies* source_sequence_policies() const noexcept;
+    // v21.8 ES-API: Character::_Kill(killer) (0x3b7e40). Records (victim, killer) for each kill that took effect on a
+    // living actor; a repeated kill records nothing. Trophy/event-manager side effects of Character::Kill (0x3a5b18)
+    // are not modelled here.
+    struct ScriptKillRecordV1 {
+        ActorId victim = invalid_actor_id;
+        ActorId killer = invalid_actor_id;
+    };
     bool script_kill_actor(ActorId,std::string& error);
+    bool script_kill_actor(ActorId victim,ActorId killer,std::string& error);
+    const std::vector<ScriptKillRecordV1>& script_kill_records() const noexcept;
     bool script_death_event(ActorId,std::string& error);
     bool script_move_handoff(ActorId,std::string& error);
     bool script_put_idle(ActorId,std::string& error,bool wait_for_animation=false);

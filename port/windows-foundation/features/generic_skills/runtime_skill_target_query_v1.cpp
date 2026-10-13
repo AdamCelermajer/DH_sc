@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#include <functional>
 #include <map>
 #include <set>
 
@@ -415,6 +416,123 @@ bool look_at_bashdown_target_v1(CombatSession& session,
     query.look_at_heading_known = true;
     error.clear();
     return true;
+}
+
+// ---- v21.8 ES-API actor-side TargetList arms ----
+
+void SkillTargetListBackupsV1::backup(const std::string& name, std::vector<ActorId> ordered_targets) {
+    lists_[name] = std::move(ordered_targets);
+}
+
+std::vector<ActorId> SkillTargetListBackupsV1::get(const std::string& name) const {
+    const auto found = lists_.find(name);
+    return found == lists_.end() ? std::vector<ActorId>{} : found->second;
+}
+
+std::array<float, 3> relative_forward_search_origin_v1(const std::array<float, 3>& caster_position,
+                                                       const std::array<float, 3>& look, float forward) {
+    return {caster_position[0] + forward * look[0],
+            caster_position[1] + forward * look[1],
+            caster_position[2] + forward * look[2]};
+}
+
+namespace {
+// Shared range/cone/sort tail of the actor-side arms. Candidates are visited in the caller's order; `admit` is the
+// arm-specific population predicate (Player population or the stored backup list). Same distance and angle
+// arithmetic and heap as the Enemy path above (interaction radius of the candidate, radius of the caster).
+bool run_actor_arm_search_v1(
+    const PlayableActorWorld& world, ActorId caster_id,
+    const std::vector<ActorId>& candidates,
+    const std::function<bool(ActorId)>& admit,
+    float range, float cone_radians, SkillTargetSortV1 sort,
+    const std::optional<std::array<float, 3>>& origin,
+    SkillActorTargetQueryV1& output, std::string& error) {
+    output = {};
+    error.clear();
+    if (!std::isfinite(range) || range < 0.0f || !std::isfinite(cone_radians) ||
+        cone_radians < 0.0f || static_cast<unsigned>(sort) > 2u)
+        return fail(error, "Actor TargetListSearch range/cone/sort is invalid");
+    const auto* caster = world.find_actor(caster_id);
+    const auto* caster_properties = world.combat_properties(caster_id);
+    if (!caster || !caster_properties)
+        return fail(error, "Actor TargetListSearch requires a bound caster with its property sheet");
+    if (candidates.size() > 65536) return fail(error, "Actor TargetListSearch population exceeds TargetSearch bounds");
+    const float heading = caster->transform.rotation[2];
+    const float source_radius = world.target_radius(*caster);
+    if (!std::isfinite(heading) || !std::isfinite(source_radius) || source_radius < 0.0f)
+        return fail(error, "Actor TargetListSearch source facing or radius is invalid");
+    const float look[3] = {std::sin(heading), -std::cos(heading), 0.0f};
+    const float* origin_point = origin ? origin->data() : source_target_position(*caster);
+
+    std::set<ActorId> seen;
+    std::vector<Candidate> heap;
+    heap.reserve(candidates.size());
+    for (const auto id : candidates) {
+        if (id == invalid_actor_id || !seen.insert(id).second)
+            return fail(error, "Actor TargetListSearch candidate identity is invalid or duplicated");
+        if (id == caster_id) continue; // the searcher is never its own target
+        const auto* candidate = world.find_actor(id);
+        if (!candidate || !candidate->alive()) continue;
+        if (!admit(id)) continue;
+        const auto* candidate_properties = world.combat_properties(id);
+        if (!candidate_properties) return fail(error, "Actor TargetListSearch candidate property sheet is unavailable");
+        const auto* candidate_ai = dh2::data::ai_props(world.factions(), candidate_properties->sheets.resolved[1]);
+        if (!candidate_ai)
+            return fail(error, "Original Character interaction-radius AI row/fallback8 is unavailable");
+        const float* center = source_target_position(*candidate);
+        const float delta[3] = {source_sub(center[0], origin_point[0]),
+                                source_sub(center[1], origin_point[1]),
+                                source_sub(center[2], origin_point[2])};
+        const float distance = source_sub(source_sub(source_length(delta), candidate_ai->interact_radius), source_radius);
+        if (distance > range) continue;
+        const float angle = source_angle(delta, look);
+        if (cone_radians < 3.1415927410125732421875f && cone_radians < angle) continue;
+        source_push(heap, {id, distance, angle, 1u, static_cast<std::uint32_t>(sort)});
+    }
+
+    output.caster = caster_id;
+    output.source_character_order_preserved = sort == SkillTargetSortV1::source_order;
+    Candidate selected_candidate{};
+    while (!heap.empty()) {
+        const auto current = source_pop(heap);
+        if (output.ordered_character_targets.empty()) selected_candidate = current;
+        output.ordered_character_targets.push_back(current.id);
+    }
+    if (output.ordered_character_targets.empty()) {
+        output.status = SkillActorTargetQueryStatusV1::no_actor_target;
+        return true;
+    }
+    output.status = SkillActorTargetQueryStatusV1::selected_character;
+    output.selected = selected_candidate.id;
+    output.selected_distance = selected_candidate.distance;
+    output.selected_angle = selected_candidate.angle;
+    return true;
+}
+} // namespace
+
+bool query_player_character_targets_v1(
+    const PlayableActorWorld& world, ActorId caster,
+    const std::vector<ActorId>& authored_actor_order,
+    float range, float cone_radians, SkillTargetSortV1 sort,
+    const std::optional<std::array<float, 3>>& origin,
+    SkillActorTargetQueryV1& output, std::string& error) {
+    const auto admit = [&world](ActorId id) {
+        const auto* traits = world.traits(id);
+        return traits && traits->is_player;
+    };
+    return run_actor_arm_search_v1(world, caster, authored_actor_order, admit,
+                                   range, cone_radians, sort, origin, output, error);
+}
+
+bool query_backup_character_targets_v1(
+    const PlayableActorWorld& world, ActorId caster,
+    const std::vector<ActorId>& backup_order,
+    float range, float cone_radians, SkillTargetSortV1 sort,
+    const std::optional<std::array<float, 3>>& origin,
+    SkillActorTargetQueryV1& output, std::string& error) {
+    const auto admit = [](ActorId) { return true; };
+    return run_actor_arm_search_v1(world, caster, backup_order, admit,
+                                   range, cone_radians, sort, origin, output, error);
 }
 
 } // namespace dh::foundation::generic_skills

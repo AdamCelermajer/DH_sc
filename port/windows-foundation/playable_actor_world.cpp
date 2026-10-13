@@ -162,6 +162,28 @@ bool PlayableActorWorld::revive_actor(ActorId id,std::string& error) {
     }
     return update_combat_properties(id,std::move(next),PlayableActorTraits(*live_traits),error);
 }
+bool PlayableActorWorld::set_current_health(ActorId id,float health,std::string& error) {
+    auto* actor=find_actor(id);const auto* current=combat_properties(id);const auto* live_traits=traits(id);
+    if(!actor||!current||!live_traits){error="SetProp(HP) requires a bound actor with its source property sheet";return false;}
+    if(!std::isfinite(health)||std::fabs(health)>8388607.0f){error="SetProp(HP) value is not a finite x256 property value";return false;}
+    const auto raw=static_cast<std::int32_t>(std::lround(health*256.0f));
+    OriginalCombatProperties next=*current;
+    auto& resolved=next.sheets.resolved[36];
+    if(resolved<0){error="SetProp(HP) current-HP cell is the source no-pool sentinel";return false;}
+    // Saved cell moves with the resolved cell, as in revive_actor.
+    const auto bits=std::uint32_t(next.sheets.saved[36])+std::uint32_t(raw)-std::uint32_t(resolved);
+    std::memcpy(&next.sheets.saved[36],&bits,4);resolved=raw;
+    if(!update_combat_properties(id,std::move(next),PlayableActorTraits(*live_traits),error))return false;
+    actor->health=original_signed256(raw);
+    error.clear();return true;
+}
+bool PlayableActorWorld::current_health(ActorId id,float& health,float& maximum) const {
+    const auto* properties=combat_properties(id);
+    if(!properties)return false;
+    health=original_signed256(properties->sheets.resolved[36]);
+    maximum=original_signed256(properties->sheets.resolved[38]);
+    return true;
+}
 ActorState* PlayableActorWorld::find_actor(ActorId id) {
     auto found=actors_.find(id);return found==actors_.end()?nullptr:&found->second;
 }
