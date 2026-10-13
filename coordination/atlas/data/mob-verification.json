@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "scope": "Static source decoding and integrated generated lookup; no game/runtime certification.",
+  "tests": [
+    {
+      "detail": {
+        "bytes_consumed": 98,
+        "bytes_total": 11295,
+        "field_schema": "[i][i][i][i]bb",
+        "following_registered_tables_bytes": 11197,
+        "next_registered_table": "Listeners",
+        "next_registered_table_rows": 5,
+        "rows": 3,
+        "source": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin"
+      },
+      "name": "original CharSounds payload and boundary",
+      "passed": true
+    },
+    {
+      "detail": {
+        "loot_root": 229,
+        "scripts": [
+          "swampking_atk_spit.luac",
+          "swamp_king_attack_2.luac",
+          "swamp_king_attack_1.luac",
+          "swampking_core.luac",
+          "swamp_king_attack_4.luac"
+        ],
+        "terminal_item_entries": 58
+      },
+      "name": "joined original actor SwampKing",
+      "passed": true
+    },
+    {
+      "detail": {
+        "loot_root": 338,
+        "scripts": [
+          "witch_ranged_00.luac",
+          "witch.luac"
+        ],
+        "terminal_item_entries": 58
+      },
+      "name": "joined original actor Witch",
+      "passed": true
+    },
+    {
+      "detail": {
+        "loot_root": 230,
+        "scripts": [
+          "monster.luac"
+        ],
+        "terminal_item_entries": 30
+      },
+      "name": "joined original actor Swamp_LizadMan_Type1",
+      "passed": true
+    },
+    {
+      "detail": [
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_hurt.wav",
+        ".local-inputs/audio-v34/cache/m_level_swamp_sfx_swamp.vxn",
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_spit_water.wav",
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_intimidate_2.wav",
+        ".local-inputs/audio-v34/cache/m_boss_monster.wav",
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_submerge.wav",
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_spawn.wav",
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_intimidate_3.wav",
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_intimidate_1.wav",
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_attack.wav",
+        ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_spit_water_explosion.wav"
+      ],
+      "name": "Mud Lord animation audio comes from available iOS cache",
+      "passed": true
+    },
+    {
+      "detail": {
+        "joined_model_files": 10,
+        "resolved_texture_files": 8
+      },
+      "name": "model texture dependencies are included",
+      "passed": true
+    },
+    {
+      "detail": {
+        "cycles": 1,
+        "gaps": 1,
+        "nodes": 2,
+        "terminal_items": 0
+      },
+      "name": "loot cycles and dangling item list are visible",
+      "passed": true
+    },
+    {
+      "detail": "bounded reader rejects overrun",
+      "name": "truncated character sound bytes are rejected",
+      "passed": true
+    }
+  ]
+}

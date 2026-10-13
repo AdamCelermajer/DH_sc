@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "scope": "Static XML source identity only; no loader admission or runtime use asserted.",
+  "tests": [
+    {
+      "detail": null,
+      "name": "exact same-resource definition resolves with a typed target",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "stable reference ID and input ledger are preserved",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "annotations are idempotent",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "matching name in a foreign physical resource does not resolve",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "duplicate same-resource declarations remain ambiguous",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "missing exact declaration remains unresolved",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "Android selector disposition precedes coincident local declaration",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "unproven non-GameObject template labels remain unresolved",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "Android property-map proof does not classify iPad labels",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "charpropsname gate and char_template precedence are left to owner resolver",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "truncated XML cannot become an inferred declaration match",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "iPad packed XML reads go through validated package_index reader",
+      "passed": true
+    }
+  ]
+}

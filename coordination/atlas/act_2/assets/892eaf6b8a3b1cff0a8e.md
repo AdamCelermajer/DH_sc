@@ -1,0 +1,34 @@
+# 3d/modules/darkwood/mgp/darkwood_21_01.mgp
+
+Stable asset ID: `892eaf6b8a3b1cff0a8e`. Source: `.local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_21_01.mgp`.
+
+| Fact | Value |
+| --- | --- |
+| Source corpus | original-cache |
+| Relative path | 3d/modules/darkwood/mgp/darkwood_21_01.mgp |
+| Size bytes | 1392 |
+| SHA-256 | 00854ae630f47baddb43051045e45660c7e0707d0f6595a6b73965f17d33d9d4 |
+| Inventory status | ORPHAN |
+| Work status | DONE |
+| Act uses | act_2 |
+| Source-linked reference rows | 1 |
+| Actor dependency trails | 0 |
+| All inventory referrer IDs | 0 |
+
+
+## Source-linked reference and resolution rows
+
+| ID | Kind | Name | Site | Status | Work status | Confidence | Rule | Port status | Implementation | Reason | Resolved source path |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 05bf3c1afdb0e1231729 | model | data/iphone/3D/Modules/darkwood/mgp/Darkwood_21_01.mgp | .local-inputs/assets-extra/android/data/scene/003_darkwood.mlx:243:attribute@7881:mgp | RESOLVED | DONE | PROVEN | XML_ATTRIBUTE | UNKNOWN |  |  | data/iphone/3D/Modules/darkwood/mgp/Darkwood_21_01.mgp |
+
+
+Resolver metadata above is copied from the reference ledger. A resolved source path records a data link; it does not assert runtime use.
+
+## Actor table dependency trails
+
+| Actor | Act | Dependency path | Exact source row | Row status | Work status | Confidence | Schema evidence | Reference ID | Reference status | Reference work status | Resolver rule | Reason | Port status | Implementation | Resolved asset path |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+
+These trails follow exact actor field links and decoded table cells. Unresolved sound rows remain in the act gap ledger; no sound payload is inferred.

@@ -1,0 +1,122 @@
+{
+  "coverage": {
+    "actors": {
+      "statuses": {
+        "RESOLVED": 448
+      },
+      "total": 448
+    },
+    "assets": {
+      "statuses": {
+        "ORPHAN": 2432,
+        "REFERENCED": 10923
+      },
+      "total": 13355
+    },
+    "bosses": {
+      "statuses": {
+        "PROVEN": 59,
+        "UNRESOLVED": 6
+      },
+      "total": 65
+    },
+    "calls": {
+      "statuses": {
+        "DONE": 4170,
+        "UNRESOLVED": 3812
+      },
+      "total": 7982
+    },
+    "functions": {
+      "statuses": {
+        "DONE": 31,
+        "UNRESOLVED": 257
+      },
+      "total": 288
+    },
+    "levels": {
+      "statuses": {
+        "DONE": 91,
+        "INFERENCE": 6,
+        "RESOLVED": 78,
+        "UNRESOLVED": 15
+      },
+      "total": 190
+    },
+    "references": {
+      "statuses": {
+        "NOT-NEEDED": 10818,
+        "RESOLVED": 60872,
+        "UNRESOLVED": 24464
+      },
+      "total": 96154
+    },
+    "scripts": {
+      "statuses": {
+        "DONE": 4,
+        "UNRESOLVED": 215
+      },
+      "total": 219
+    },
+    "tables": {
+      "statuses": {
+        "RESOLVED": 8863
+      },
+      "total": 8863
+    }
+  },
+  "errors": [],
+  "known_answers": [
+    {
+      "detail": "Exact call-list fixture matches=True (46 names); code anchors verify source-specific skill slots, dive targetability, animation/state and timer parsing plus timer-trap parser. B159 supersedes the early B155 gaps for level scaling, damage calibration and AOE pushback: those are implemented and documented in mudlord3-report.md. Remaining documented gaps are MarkAsFlying, the camera-frustum awake latch, resetonhubchange, timer/culling differences, TimerTrap point-cloud bounds and projectile expiry; SetIsTargetable is a targeting gate, not a damage gate. Missing code anchors=[].",
+      "name": "swampking_core.luac",
+      "passed": true
+    },
+    {
+      "detail": "Exact call-list fixture matches=True (44 names); DoSkill count=1, only slot 0=True, 10s teleport delay=True. Production code anchors cover generic DoTeleport/FX/WarpTo and timer delay handling; full user-session integration is not asserted. Missing code anchors=[].",
+      "name": "witch.luac",
+      "passed": true
+    },
+    {
+      "detail": "rows=638, names=638, isEvent=63, ledger=638",
+      "name": "sound row index is the 638-row source table with 63 events",
+      "passed": true
+    },
+    {
+      "detail": "{\"rows\": 638, \"saved_rows\": 638, \"disagreement_count\": 0, \"disagreement_sample\": [], \"row11_balrog_killed\": \"RESOLVED\", \"row244_event\": \"RESOLVED\"}",
+      "name": "638 audio rows resolve from the union of supplied source corpora",
+      "passed": true
+    },
+    {
+      "detail": "xml_names=498, combined_source_missing=45, ios_only_missing=245; combined_missing_names=['m_boss_hell_king.wav', 'm_combat_big_enemy.wav', 'm_cutscene_01.wav', 'm_level_cathedral.vxn', 'm_level_darkwood.vxn', 'm_level_gothicus.vxn', 'm_level_hell.vxn', 'm_level_icy_cliff.vxn', 'm_level_red_desert.vxn', 'm_level_swamp.vxn', 'm_title_intro.wav', 'm_title_loop.wav', 'sfx_assassin_bomb_throw.wav', 'sfx_assassin_knife_throw1.wav', 'sfx_assassin_laugh.wav', 'sfx_balrog_idle.wav', 'sfx_checkpoint_activated.wav', 'sfx_critical_hit.wav', 'sfx_cultitst_group_chant_loop', 'sfx_dark_queen_critical_hurt.wav', 'sfx_dark_queen_intimidate_1.wav', 'sfx_dark_queen_intimidate_2.wav', 'sfx_dark_queen_intimidate_3.wav', 'sfx_dark_queen_killed.wav', 'sfx_demon_attack.wav', 'sfx_demon_die.wav', 'sfx_demon_howl.wav', 'sfx_demon_hurt.wav', 'sfx_demon_rain_attack.wav', 'sfx_demon_spawn.wav', 'sfx_demon_steam_burst_attack', 'sfx_faerie_ice.wav', 'sfx_impact_metal_metal_2.wav', 'sfx_impactl_metal_1_22.wav', 'sfx_skill_mage_thunder_braid_add_2,wav', 'sfx_specter_attack_energyball_explosion', 'sfx_statue_attack.wav', 'sfx_statue_frost_attack.wav', 'sfx_statue_heat_attack.wav', 'sfx_trap_armed.wav', 'sfx_wolf_attack.wav', 'sfx_wolf_die.wav', 'sfx_wolf_howl.wav', 'sfx_wolf_hurt.wav', 'sfx_wolf_spawn.wav']",
+      "name": "45 distinct sounds.xml filenames absent from the combined original corpus",
+      "passed": true
+    },
+    {
+      "detail": "ios_only_missing_distinct=245; iOS corpus is one source platform, not the complete Android/recovered-cache authority.",
+      "name": "iOS-only sound corpus gap retained as platform diagnostic",
+      "passed": true
+    },
+    {
+      "detail": "sfx_faerie_ice.wav present=False",
+      "name": "sfx_faerie_ice.wav is absent from original data",
+      "passed": true
+    },
+    {
+      "detail": "{\"expected\": {\"BashDown\": [347, \"skill_dh2_prince_warrior_bash_down.bdae\", 164, 190, 101], \"GroundSlam\": [350, \"skill_dh2_prince_warrior_crushing_blow.bdae\", 173, 185, 103], \"Charge\": [349, \"skill_dh2_prince_warrior_charge.bdae\", 172, 48, 102]}, \"actual\": {\"BashDown\": {\"skill_index\": 7, \"skill_anim\": 347, \"fx\": 164, \"sound\": 190, \"sound_uid\": 101, \"clip_present\": true, \"matrix_row_present\": true}, \"GroundSlam\": {\"skill_index\": 51, \"skill_anim\": 350, \"fx\": 173, \"sound\": 185, \"sound_uid\": 103, \"clip_present\": true, \"matrix_row_present\": true}, \"Charge\": {\"skill_index\": 13, \"skill_anim\": 349, \"fx\": 172, \"sound\": 48, \"sound_uid\": 102, \"clip_present\": true, \"matrix_row_present\": true}}}",
+      "name": "Knight BashDown, GroundSlam, and Charge source rows",
+      "passed": true
+    },
+    {
+      "detail": "{\"literal_calls\": [{\"site\": \"darkqueen1_core.luac:10\", \"status\": \"RESOLVED\", \"table\": \"effect_sets\", \"index\": 229, \"expected_table\": \"effect_sets\", \"expected_index\": 229}, {\"site\": \"flaminite_core.luac:67\", \"status\": \"RESOLVED\", \"table\": \"animations_dictionary#group0\", \"index\": 1144, \"expected_table\": \"animations_dictionary#group0\", \"expected_index\": 1144}, {\"site\": \"prince_mage_stone_escape.luac:30\", \"status\": \"RESOLVED\", \"table\": \"effect_sets\", \"index\": 229, \"expected_table\": \"effect_sets\", \"expected_index\": 229}], \"charpropsname\": {\"status\": \"RESOLVED\", \"table\": \"character_properties#group0\", \"index\": 360, \"port_status\": \"PARTIAL\"}, \"CharSoundsTable_group_scope\": {\"status\": \"RESOLVED\", \"table\": \"sounds#group0\", \"target_table\": \"sounds#group0\", \"index\": 2, \"source_row_table\": \"sounds#group0\", \"source_row_name\": \"Default\"}}",
+      "name": "literal PyData aliases and gated Swamp charpropsname source joins",
+      "passed": true
+    },
+    {
+      "detail": "{\"itemdrop_visual_rows\": 29, \"itemdrop_unresolved_symbols\": 29, \"skill_script_rows\": 124, \"scripts_with_exact_uri_assets\": 124, \"skill_icon_rows\": 74, \"icons_with_sprite79_frames\": 74}",
+      "name": "itemdrop scene tokens and SkillTable script/icon source targets",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

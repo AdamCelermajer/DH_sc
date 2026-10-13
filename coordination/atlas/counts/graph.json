@@ -1,0 +1,25 @@
+{
+  "by_category": {
+    "Actors": 464,
+    "Animations": 2328,
+    "Assets": 12204,
+    "Audio": 1279,
+    "Campaign": 13984,
+    "Effects": 639,
+    "Functions": 730,
+    "Items": 2405,
+    "Levels": 6891,
+    "References": 96166,
+    "Scripts": 11223,
+    "Skills": 163,
+    "Tables": 22951,
+    "Text": 42413,
+    "UI": 14827
+  },
+  "edges": 421316,
+  "nodes": 228667,
+  "profiles": 6852,
+  "reference_sites": 96154,
+  "scope": "All supplied corpus rows and files; evidence/inference/unknown distinctions are preserved.",
+  "unresolved_reference_sites": 24464
+}

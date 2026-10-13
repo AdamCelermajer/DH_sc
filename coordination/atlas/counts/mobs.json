@@ -1,0 +1,11 @@
+{
+  "fully_certified_profiles": 0,
+  "meaning": "Joined lookup coverage; none certifies every gameplay rule or dynamic dependency.",
+  "profiles": 448,
+  "roles": {
+    "BOSS_FLAGGED": 59,
+    "BOSS_NAME_CANDIDATE": 6,
+    "MOB_AI_TYPE_4": 218,
+    "OTHER_ACTOR": 165
+  }
+}

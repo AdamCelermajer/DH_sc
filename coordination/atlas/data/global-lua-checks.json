@@ -1,0 +1,360 @@
+{
+  "checks": [
+    {
+      "expected": null,
+      "name": "script-link resolver is deterministic and idempotent",
+      "observed": null,
+      "passed": true
+    },
+    {
+      "expected": null,
+      "name": "Lua-semantic resolver is deterministic and idempotent",
+      "observed": null,
+      "passed": true
+    },
+    {
+      "expected": null,
+      "name": "resolver inputs remain unchanged",
+      "observed": null,
+      "passed": true
+    },
+    {
+      "expected": "registered source cache path",
+      "name": "registered Android cache groups include exact Elemental.Water provenance",
+      "observed": ".local-inputs/assets-extra/android/data/pydata/design_pycst.bin",
+      "passed": true
+    },
+    {
+      "expected": "> 0",
+      "name": "global ClassTable consumer rows linked",
+      "observed": 222,
+      "passed": true
+    },
+    {
+      "expected": "> 0",
+      "name": "global ProjectileTable consumer rows linked",
+      "observed": 32,
+      "passed": true
+    },
+    {
+      "expected": "effect_sets",
+      "name": "global effect consumers linked; animation contract covered by exact fixture",
+      "observed": [
+        "None",
+        "animations_dictionary#group0",
+        "character_classes#group0",
+        "effect_sets",
+        "projectiles#group0"
+      ],
+      "passed": true
+    },
+    {
+      "expected": "all listed semantic classes",
+      "name": "global schema, constant, callback, and scalar classes present",
+      "observed": [
+        "None",
+        "callback_method",
+        "enum_constant",
+        "native_scalar_argument",
+        "skill_callback",
+        "skill_callback_table",
+        "table_field",
+        "table_row"
+      ],
+      "passed": true
+    },
+    {
+      "expected": [
+        "ai",
+        "skills",
+        "level"
+      ],
+      "name": "semantic examples span AI, skills, and level scripts",
+      "observed": [
+        "ai",
+        "level",
+        "objects",
+        "skills"
+      ],
+      "passed": true
+    },
+    {
+      "expected": "one PROVEN effect_sets row edge",
+      "name": "unique exact AnimatedEffectTable row resolves",
+      "observed": [
+        {
+          "confidence": "PROVEN",
+          "evidence": {
+            "api": "PlayFX",
+            "api_argument": 1,
+            "bindings": [
+              {
+                "expression": "GetPyOID(\"AnimatedEffectTable\", \"Fx\")",
+                "line": 1,
+                "source": ".local-inputs/assets-extra/android/data/scripts/check.lua",
+                "text": "local OID = GetPyOID(\"AnimatedEffectTable\", \"Fx\")",
+                "variable": "OID"
+              }
+            ],
+            "expected_namespace": "AnimatedEffectTable",
+            "native_consumer": "0x003923cc",
+            "status": "TRACED",
+            "table_source": ".local-inputs/test.bin",
+            "terminal": {
+              "kind": "pydata",
+              "name": "Fx",
+              "namespace": "AnimatedEffectTable"
+            }
+          },
+          "id": "script-link:6689d9673412efd91dcc",
+          "index": 7,
+          "name": "Fx",
+          "resolver": "script_links.v1",
+          "rule": "single Lua binding -> exact GetPyOID namespace/name -> native API argument namespace -> unique exact source table row",
+          "status": "PROVEN",
+          "table": "effect_sets",
+          "target_row_id": "row-fx",
+          "type": "table-row"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "expected": "one revalidated owned edge",
+      "name": "owned edge survives a chained resolved-reference rerun",
+      "observed": [
+        {
+          "confidence": "PROVEN",
+          "evidence": {
+            "api": "PlayFX",
+            "api_argument": 1,
+            "bindings": [
+              {
+                "expression": "GetPyOID(\"AnimatedEffectTable\", \"Fx\")",
+                "line": 1,
+                "source": ".local-inputs/assets-extra/android/data/scripts/check.lua",
+                "text": "local OID = GetPyOID(\"AnimatedEffectTable\", \"Fx\")",
+                "variable": "OID"
+              }
+            ],
+            "expected_namespace": "AnimatedEffectTable",
+            "native_consumer": "0x003923cc",
+            "status": "TRACED",
+            "table_source": ".local-inputs/test.bin",
+            "terminal": {
+              "kind": "pydata",
+              "name": "Fx",
+              "namespace": "AnimatedEffectTable"
+            }
+          },
+          "id": "script-link:6689d9673412efd91dcc",
+          "index": 7,
+          "name": "Fx",
+          "resolver": "script_links.v1",
+          "rule": "single Lua binding -> exact GetPyOID namespace/name -> native API argument namespace -> unique exact source table row",
+          "status": "PROVEN",
+          "table": "effect_sets",
+          "target_row_id": "row-fx",
+          "type": "table-row"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "expected": "stale edge removed",
+      "name": "owned edge is revalidated against duplicate rows",
+      "observed": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+      "passed": true
+    },
+    {
+      "expected": "original foreign edge retained",
+      "name": "foreign resolved annotation is preserved",
+      "observed": [
+        {
+          "id": "foreign-edge",
+          "resolver": "other_resolver",
+          "status": "PROVEN"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "expected": "PROVEN animation row edge",
+      "name": "unique exact AnimDict row resolves",
+      "observed": "PROVEN",
+      "passed": true
+    },
+    {
+      "expected": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+      "name": "missing exact row stays unresolved",
+      "observed": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+      "passed": true
+    },
+    {
+      "expected": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+      "name": "duplicate exact rows stay unresolved",
+      "observed": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+      "passed": true
+    },
+    {
+      "expected": "NAMESPACE_MISMATCH",
+      "name": "wrong namespace does not cross-link",
+      "observed": "NAMESPACE_MISMATCH",
+      "passed": true
+    },
+    {
+      "expected": "no resolver annotation",
+      "name": "wrong documented argument index is ignored",
+      "observed": null,
+      "passed": true
+    },
+    {
+      "expected": "no Android-derived annotation",
+      "name": "Android native contracts do not classify iOS calls",
+      "observed": null,
+      "passed": true
+    },
+    {
+      "expected": "MULTIPLE_WRITES",
+      "name": "branch assignment remains unknown",
+      "observed": "MULTIPLE_WRITES",
+      "passed": true
+    },
+    {
+      "expected": "MULTIPLE_WRITES",
+      "name": "function-local assignment remains unknown",
+      "observed": "MULTIPLE_WRITES",
+      "passed": true
+    },
+    {
+      "expected": "MULTIPLE_WRITES",
+      "name": "multiple assignment invalidates every LHS",
+      "observed": "MULTIPLE_WRITES",
+      "passed": true
+    },
+    {
+      "expected": "UNSUPPORTED_ESCAPED_GETPYOID_LITERAL",
+      "name": "escaped GetPyOID strings remain unknown",
+      "observed": "UNSUPPORTED_ESCAPED_GETPYOID_LITERAL",
+      "passed": true
+    },
+    {
+      "expected": "one PROVEN row edge",
+      "name": "explicit imported global alias resolves",
+      "observed": "PROVEN",
+      "passed": true
+    },
+    {
+      "expected": "no row edge",
+      "name": "imported local alias stays invisible",
+      "observed": "MISSING_OR_AMBIGUOUS_BINDING",
+      "passed": true
+    },
+    {
+      "expected": "no row edge",
+      "name": "imported local alias stays invisible",
+      "observed": "MISSING_OR_AMBIGUOUS_BINDING",
+      "passed": true
+    },
+    {
+      "expected": "no row edge",
+      "name": "imported local alias stays invisible",
+      "observed": "MISSING_OR_AMBIGUOUS_BINDING",
+      "passed": true
+    },
+    {
+      "expected": "no row edge",
+      "name": "imported local alias stays invisible",
+      "observed": "MISSING_OR_AMBIGUOUS_BINDING",
+      "passed": true
+    },
+    {
+      "expected": "tuple write recorded for each LHS",
+      "name": "both tuple-assignment names are invalidated",
+      "observed": {
+        "x": [
+          {
+            "line": 1,
+            "local_declared_in_file": true,
+            "multiple_lhs": false,
+            "rhs": "\"Fx\"",
+            "scope_depth": 0,
+            "source": "local x = \"Fx\"",
+            "whole_line_assignment": true
+          },
+          {
+            "line": 2,
+            "local_declared_in_file": true,
+            "multiple_lhs": true,
+            "rhs": "",
+            "scope_depth": 0,
+            "source": "x, y = \"Fx\", \"Fx\"",
+            "whole_line_assignment": false
+          }
+        ],
+        "y": [
+          {
+            "line": 2,
+            "local_declared_in_file": false,
+            "multiple_lhs": true,
+            "rhs": "",
+            "scope_depth": 0,
+            "source": "x, y = \"Fx\", \"Fx\"",
+            "whole_line_assignment": false
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "expected": "nested assignment is recorded but not admitted",
+      "name": "if scope is not admitted",
+      "observed": {
+        "line": 2,
+        "local_declared_in_file": false,
+        "multiple_lhs": false,
+        "rhs": "",
+        "scope_depth": 1,
+        "source": "X = \"Fx\"",
+        "whole_line_assignment": true
+      },
+      "passed": true
+    },
+    {
+      "expected": "nested assignment is recorded but not admitted",
+      "name": "function scope is not admitted",
+      "observed": {
+        "line": 2,
+        "local_declared_in_file": false,
+        "multiple_lhs": false,
+        "rhs": "",
+        "scope_depth": 1,
+        "source": "X = \"Fx\"",
+        "whole_line_assignment": true
+      },
+      "passed": true
+    },
+    {
+      "expected": "nested assignment is recorded but not admitted",
+      "name": "loop scope is not admitted",
+      "observed": {
+        "line": 2,
+        "local_declared_in_file": false,
+        "multiple_lhs": false,
+        "rhs": "",
+        "scope_depth": 1,
+        "source": "X = \"Fx\"",
+        "whole_line_assignment": true
+      },
+      "passed": true
+    }
+  ],
+  "counts": {
+    "calls": 7982,
+    "references": 96154,
+    "script_link_edges": 444,
+    "scripts": 219,
+    "semantic_resolutions": 3778
+  },
+  "passed": true
+}

@@ -1,0 +1,161 @@
+{
+  "passed": true,
+  "scope": "Private generated-data copies under tools/atlas/.runtime; original data and game source untouched.",
+  "tests": [
+    {
+      "errors": [],
+      "name": "unmodified generated atlas passes",
+      "passed": true
+    },
+    {
+      "name": "missing script row fails",
+      "observed": [
+        "call 1b51559d18eea429279f: script row absent",
+        "call d8eef35769be2031f0fc: script row absent"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing mob profile fails",
+      "observed": [
+        "mob profiles: missing, duplicate or stale actor profile"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing mob section fails",
+      "observed": [
+        "mob profiles: section coverage missing for AAA_DEFAULTS_DONT_DELETE"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing CharSounds reference fails",
+      "observed": [
+        "CharSounds source reference sites missing from ledger"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing function row fails",
+      "observed": [
+        "call c48f63e9952d635521e0: function row absent",
+        "call e9cd3f139a4f62ce907e: function row absent"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing XML/BRES reference site fails",
+      "observed": [
+        "missing XML/BRES reference site: .local-inputs/assets-extra/android/data/3d/animateddecors/swamp_door_ruins.bdae:event[0,0]@0xb8c",
+        "scene/rule and BDAE sites not merged into references.json: 1"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing row status fails",
+      "observed": [
+        "calls/1b51559d18eea429279f: no status"
+      ],
+      "passed": true
+    },
+    {
+      "name": "unresolved reference without reason fails",
+      "observed": [
+        "references/455fff7844383fc08b86: invalid/missing reason code"
+      ],
+      "passed": true
+    },
+    {
+      "name": "unresolved reference without candidates fails",
+      "observed": [
+        "references/455fff7844383fc08b86: missing candidates list (empty is permitted only with candidate_note)"
+      ],
+      "passed": true
+    },
+    {
+      "name": "unresolved function without candidates fails",
+      "observed": [
+        "functions/a1fff55eac5755d05eb5: unresolved without candidates list"
+      ],
+      "passed": true
+    },
+    {
+      "name": "nonexistent referenced id fails",
+      "observed": [
+        "reference 455fff7844383fc08b86: animation_sequences[999999] does not exist"
+      ],
+      "passed": true
+    },
+    {
+      "name": "nonexistent typed table target fails",
+      "observed": [
+        "reference 847458861dedcd321033: animation_sequences[999999] does not exist"
+      ],
+      "passed": true
+    },
+    {
+      "name": "nonexistent target path fails",
+      "observed": [
+        "reference 847458861dedcd321033: resolved target path does not exist: q:/data/iphone/3d/textures/atlas_missing_fixture.bdae"
+      ],
+      "passed": true
+    },
+    {
+      "name": "extra function row fails",
+      "observed": [
+        "functions: source coverage differs (missing=0, extra=1; missing_ids=[], extra_ids=['fixture-extra-function'])"
+      ],
+      "passed": true
+    },
+    {
+      "name": "paired script reference deletion fails",
+      "observed": [
+        "references: source coverage differs (missing=1, extra=0; missing_ids=['2c76b8d3cccc5faa6dbe'], extra_ids=[])"
+      ],
+      "passed": true
+    },
+    {
+      "name": "duplicate table source key fails",
+      "observed": [
+        "table row duplicate source key: ai_factions#group0[0]"
+      ],
+      "passed": true
+    },
+    {
+      "name": "stale table source key fails",
+      "observed": [
+        "stale source table row: fixture-stale-table"
+      ],
+      "passed": true
+    },
+    {
+      "name": "unreferenced file without ORPHAN fails",
+      "observed": [
+        "asset .local-inputs/assets-extra/android/data/3d/animateddecors/.nomedia: no referrer and not ORPHAN"
+      ],
+      "passed": true
+    },
+    {
+      "name": "fabricated referrer fails",
+      "observed": [
+        "asset .local-inputs/assets-extra/android/data/3d/animateddecors/candle_flame.bdae: unknown referrer fixture-nonexistent-referrer"
+      ],
+      "passed": true
+    },
+    {
+      "name": "unknown row status fails",
+      "observed": [
+        "calls/1b51559d18eea429279f: invalid status 'PASS'"
+      ],
+      "passed": true
+    },
+    {
+      "name": "unknown work status fails",
+      "observed": [
+        "assets/71668c2c5634390ed746: invalid work_status 'PASS'"
+      ],
+      "passed": true
+    }
+  ]
+}

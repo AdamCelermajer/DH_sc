@@ -1,0 +1,36 @@
+# 3d/interface/skill_dh2_monster_dark_queen1stform_die.bdae
+
+Stable asset ID: `872fee4d1ffae7a9dee4`. Source: `.local-inputs/assets-extra/android/data/3d/interface/skill_dh2_monster_dark_queen1stform_die.bdae`.
+
+| Fact | Value |
+| --- | --- |
+| Source corpus | android |
+| Relative path | 3d/interface/skill_dh2_monster_dark_queen1stform_die.bdae |
+| Size bytes | 26824 |
+| SHA-256 | 05007ce49d74e496704b8facf1b08169fc621809341925fe9931b496a14ea2a6 |
+| Inventory status | ORPHAN |
+| Work status | DONE |
+| Act uses | act_2 |
+| Source-linked reference rows | 1 |
+| Actor dependency trails | 2 |
+| All inventory referrer IDs | 0 |
+
+
+## Source-linked reference and resolution rows
+
+| ID | Kind | Name | Site | Status | Work status | Confidence | Rule | Port status | Implementation | Reason | Resolved source path |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| c396d390043530025665 | animated effect | 80 | pydata/effects_pyarray.bin[set=17,step=0].File | RESOLVED | DONE | PROVEN | EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp | UNKNOWN |  |  | data/3D/interface/skill_dh2_monster_dark_queen1stform_die.bdae |
+
+
+Resolver metadata above is copied from the reference ledger. A resolved source path records a data link; it does not assert runtime use.
+
+## Actor table dependency trails
+
+| Actor | Act | Dependency path | Exact source row | Row status | Work status | Confidence | Schema evidence | Reference ID | Reference status | Reference work status | Resolver rule | Reason | Port status | Implementation | Resolved asset path |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DarkQueenForm1 | act_2 | CharacterProperties[62].AnimTable -> character_animations[14 ] -> pydata/animations_pyarray.bin[character=14].DeadlyGreatKB[0] -> animation_sequences[482] -> pydata/animations_pyarray.bin[sequence=482,step=0].FX -> effect_sets[17] -> pydata/effects_pyarray.bin[set=17,step=0].File | effect_sets[17] DarkQueen1Dying | RESOLVED | DONE | PROVEN | .local-inputs/assets-extra/android/data/pydata/effects_pyarraynames.bin | c396d390043530025665 | RESOLVED | DONE | EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp | None | UNKNOWN |  | .local-inputs/assets-extra/android/data/3d/interface/skill_dh2_monster_dark_queen1stform_die.bdae |
+| DarkQueenForm1 | act_2 | CharacterProperties[62].AnimTable -> character_animations[14 ] -> pydata/animations_pyarray.bin[character=14].DeadlyGreatKB[0] -> animation_sequences[482] -> pydata/animations_pyarray.bin[sequence=482,step=0].FX -> effect_sets[17] -> pydata/effects_pyarray.bin[set=17,step=0].File | effect_sets[17] DarkQueen1Dying | RESOLVED | DONE | PROVEN | .local-inputs/assets-extra/android/data/pydata/effects_pyarraynames.bin | c396d390043530025665 | RESOLVED | DONE | EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp | None | UNKNOWN |  | data/3D/interface/skill_dh2_monster_dark_queen1stform_die.bdae |
+
+
+These trails follow exact actor field links and decoded table cells. Unresolved sound rows remain in the act gap ledger; no sound payload is inferred.

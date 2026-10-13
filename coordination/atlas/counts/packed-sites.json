@@ -1,0 +1,61 @@
+{
+  "bdae_files": 2901,
+  "decoded_by_suffix": {
+    ".bdae": 2901,
+    ".lightset_xml": 40,
+    ".luac": 217,
+    ".mgp": 628,
+    ".mgx": 250,
+    ".mlx": 400,
+    ".mvp": 596,
+    ".mvx": 253,
+    ".xml": 24
+  },
+  "eligible_asset_files": 5329,
+  "eligible_by_suffix": {
+    ".bdae": 2901,
+    ".lightset_xml": 40,
+    ".luac": 219,
+    ".mgp": 629,
+    ".mgx": 250,
+    ".mlx": 400,
+    ".mvp": 598,
+    ".mvx": 253,
+    ".xml": 39
+  },
+  "gaps": 20,
+  "package_asset_rows": 6157,
+  "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+  "processed_by_suffix": {
+    ".bdae": 2901,
+    ".lightset_xml": 40,
+    ".luac": 217,
+    ".mgp": 628,
+    ".mgx": 250,
+    ".mlx": 400,
+    ".mvp": 596,
+    ".mvx": 253,
+    ".xml": 24
+  },
+  "references": 26951,
+  "references_by_kind": {
+    "animation event": 521,
+    "character": 12192,
+    "data file": 296,
+    "model": 5375,
+    "named_reference": 1925,
+    "script": 464,
+    "sound": 339,
+    "texture": 5839
+  },
+  "script_bytecode_files": 0,
+  "script_call_nodes": 442,
+  "script_calls": 7827,
+  "script_files": 217,
+  "script_literals": 7491,
+  "script_nodes": 442,
+  "script_plaintext_files": 217,
+  "script_records": 217,
+  "source": "ios-package",
+  "xml_files": 2191
+}

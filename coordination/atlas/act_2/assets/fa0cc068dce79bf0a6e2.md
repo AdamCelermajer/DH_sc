@@ -1,0 +1,34 @@
+# file001789.dat
+
+Stable asset ID: `fa0cc068dce79bf0a6e2`. Source: `.local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001789.dat`.
+
+| Fact | Value |
+| --- | --- |
+| Source corpus | ios-packed |
+| Relative path | file001789.dat |
+| Size bytes | 258 |
+| SHA-256 | 11d0ca02fbd77a45f0e482253cc94386dbc5f4fbd559911c4c7b01c2e199af1c |
+| Inventory status | ORPHAN |
+| Work status | DONE |
+| Act uses | act_2 |
+| Source-linked reference rows | 1 |
+| Actor dependency trails | 0 |
+| All inventory referrer IDs | 0 |
+
+
+## Source-linked reference and resolution rows
+
+| ID | Kind | Name | Site | Status | Work status | Confidence | Rule | Port status | Implementation | Reason | Resolved source path |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| c0e89353d7ec10e0b184 | model | data/iphone/3D/Modules/darkwood/mvp/Darkwood_04_01.mvp | .local-inputs/assets-extra/android/data/scene/003_darkwood.mlx:90:attribute@2782:mvp | RESOLVED | DONE | PROVEN | XML_ATTRIBUTE | UNKNOWN |  |  | data/iphone/3D/Modules/darkwood/mvp/Darkwood_04_01.mvp |
+
+
+Resolver metadata above is copied from the reference ledger. A resolved source path records a data link; it does not assert runtime use.
+
+## Actor table dependency trails
+
+| Actor | Act | Dependency path | Exact source row | Row status | Work status | Confidence | Schema evidence | Reference ID | Reference status | Reference work status | Resolver rule | Reason | Port status | Implementation | Resolved asset path |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+
+These trails follow exact actor field links and decoded table cells. Unresolved sound rows remain in the act gap ledger; no sound payload is inferred.

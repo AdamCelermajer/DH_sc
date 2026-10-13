@@ -1,0 +1,75 @@
+{
+  "calls": {
+    "by_mode": {
+      "global": 6166,
+      "imported_script_function": 832,
+      "local_function": 257,
+      "lua_builtin": 137,
+      "object_method": 498,
+      "qualified_function": 8,
+      "script_function": 84
+    },
+    "done": 4170,
+    "engine_candidates": 6672,
+    "port_status": {
+      "MISSING": 919,
+      "PARTIAL": 4915,
+      "PORTED": 2148
+    },
+    "total": 7982,
+    "unresolved": 3812
+  },
+  "engine_call_sites": 6672,
+  "engine_function_names": 288,
+  "engine_function_rows": {
+    "done": 31,
+    "total": 288,
+    "unresolved": 257
+  },
+  "known_answer_tests": {
+    "swampking_core.luac": "STATIC_SOURCE_ASSERTIONS_PASS",
+    "witch.luac": "STATIC_SOURCE_ASSERTIONS_PASS"
+  },
+  "native_addresses": 498,
+  "native_binding_matches": 271,
+  "port_status_candidates": {
+    "MISSING": 67,
+    "PARTIAL": 174,
+    "PORTED": 47
+  },
+  "script_file_format_counts": {
+    "lua-source": 219
+  },
+  "script_lines": 27037,
+  "script_readiness": {
+    "missing": 919,
+    "partial": 4083,
+    "ported": 1670,
+    "unknown": 0
+  },
+  "script_references": {
+    "by_kind": {
+      "named_reference": 1939,
+      "numeric_reference": 294,
+      "script": 3,
+      "sound": 3,
+      "symbolic_reference": 2544
+    },
+    "statuses": {
+      "NOT-NEEDED": 2852,
+      "RESOLVED": 1384,
+      "UNRESOLVED": 547
+    },
+    "todo": 0,
+    "total": 4783
+  },
+  "script_rows": {
+    "done": 4,
+    "total": 219,
+    "unresolved": 215
+  },
+  "scripts": 219,
+  "scripts_by_platform": {
+    "android": 219
+  }
+}

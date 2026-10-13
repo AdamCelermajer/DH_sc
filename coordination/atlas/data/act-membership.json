@@ -1,0 +1,2130 @@
+{
+  "actor_assignment_gap": "Serialized Script_SpawnCharacter targets are recorded as authored object names; exact table-name matches and task-evidence Act 1 boss rows are linked. Other actor placement, branch execution, and runtime spawn conditions remain unresolved.",
+  "actor_assignments": [
+    {
+      "act": "unplaced",
+      "actor": "SKYGUARDIAN",
+      "actor_id": "e0068a13716136a1af28",
+      "command_index": 54,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "029_wind_temple.rule.xml",
+      "scene_id": "7bac2e2741f6bd3044a0",
+      "script_index": 2,
+      "script_name": "Boss_intro",
+      "status": "INFERENCE",
+      "target_name": "SKYGUARDIAN",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "SKYGUARDIAN",
+      "actor_id": "e0068a13716136a1af28",
+      "command_index": 54,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "x29_wind_temple_backup.mlx",
+      "scene_id": "8d794c0b2238c1f4d70a",
+      "script_index": 2,
+      "script_name": "Boss_intro",
+      "status": "INFERENCE",
+      "target_name": "SKYGUARDIAN",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "Madruk_A",
+      "actor_id": "6049d17d9d924ff5b265",
+      "command_index": 0,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "038_dark_temple.mlx",
+      "scene_id": "f5c436de2b255f87b02f",
+      "script_index": 5,
+      "script_name": "end_MadrukPhase1",
+      "status": "INFERENCE",
+      "target_name": "Madruk_A",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "Madruk_A",
+      "actor_id": "6049d17d9d924ff5b265",
+      "command_index": 0,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "039_dark_temple_bossroom_01.mlx",
+      "scene_id": "0995df95dc10822639cb",
+      "script_index": 4,
+      "script_name": "end_MadrukPhase1",
+      "status": "INFERENCE",
+      "target_name": "Madruk_A",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "MadrukTorso",
+      "actor_id": "e90cdf184470499d5d8c",
+      "command_index": 4,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "038_dark_temple.mlx",
+      "scene_id": "f5c436de2b255f87b02f",
+      "script_index": 6,
+      "script_name": "end_MadrukPhase2",
+      "status": "INFERENCE",
+      "target_name": "MadrukTorso",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "actor": "MadrukTorso",
+      "actor_id": "e90cdf184470499d5d8c",
+      "command_index": 4,
+      "field_offset": 12,
+      "reason": "Exact name argument to original Script_SpawnCharacter command; branch execution and runtime spawn are not asserted.",
+      "scene": "039_dark_temple_bossroom_01.mlx",
+      "scene_id": "0995df95dc10822639cb",
+      "script_index": 5,
+      "script_name": "end_MadrukPhase2",
+      "status": "INFERENCE",
+      "target_name": "MadrukTorso",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "975fcd941392ad6a19b5",
+      "actor_name": "DW_Cherub_RE",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "89d6b10973db87e6eecd",
+      "actor_name": "DW_Merchant",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "f53bda09f68d2994b795",
+      "actor_name": "DW_Statue",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "78dd4d9c682bce11db47",
+      "actor_name": "DarkQueenForm1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "fc65221a5384c667d68a",
+      "actor_name": "DefaultFairy",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "fc65221a5384c667d68a",
+      "actor_name": "DefaultFairy",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "7f5c6e2c8a53c2377084",
+      "actor_name": "DoorCultists2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "f27f53abe71e3c84009f",
+      "actor_name": "DummyLightningFaery",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "0347a6a75b182724aedb",
+      "actor_name": "Edward",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "182ca511b74b336a5f8d",
+      "actor_name": "Epic_merchant_swamp",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_epic_n_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "0ce60473126f02b88205",
+      "actor_name": "GCV_BanditHunt_a",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "d1d82769d268bd1c1cda",
+      "actor_name": "GCV_DemonChild",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "3d70d1909e15ec342d55",
+      "actor_name": "GCV_GUARD_P1_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "8991f970a2c80d37c726",
+      "actor_name": "GCV_GUARD_P1_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "343c6d75393048f7e8a5",
+      "actor_name": "GCV_GUARD_P2_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "1f16b65ee2bf288f4f2f",
+      "actor_name": "GCV_GUARD_P2_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "13fba2b932a50175954d",
+      "actor_name": "GCV_GUARD_P4_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "a734c77ee707acd6a8cc",
+      "actor_name": "GCV_P1_004",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "31b254353b819892de3f",
+      "actor_name": "GCV_P1_005",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "e58e430b7903795b0b43",
+      "actor_name": "GCV_P1_008",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "6b75456a861372fca2ad",
+      "actor_name": "GCV_P2_005",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "3aa76c37955db412f61b",
+      "actor_name": "GCV_P3_001",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "6898a1a8a3dfad8e4ea4",
+      "actor_name": "GCV_P3_003",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "40e3da4a9eb3f8df88a8",
+      "actor_name": "GCV_P3_004",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "75959bb3cf8f697f3de2",
+      "actor_name": "GCV_P4_002",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "f619aeb1bb817eeb2fa4",
+      "actor_name": "HellMan_DW_final",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "7aeb4a2b7aed1df5a462",
+      "actor_name": "HellMan_quest_1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "9c2e07ae3973d6568b2c",
+      "actor_name": "IcyHub_StillStatue",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "89309ecba5b72e7de55d",
+      "actor_name": "King",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "b35c45d342195815c1ba",
+      "actor_name": "NPCmerchantCamp",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "9ec6aeb5ab0c12d7a056",
+      "actor_name": "Prisonier",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "01ed68f07c7770cccd16",
+      "actor_name": "Prisonier2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "d7a08ef42384b8eec32f",
+      "actor_name": "ReneHG",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "c052441fdd99de0663f8",
+      "actor_name": "Slime",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "debe3161f75f83cfc4a0",
+      "actor_name": "SwampKing",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "85e3752f001d5903f863",
+      "actor_name": "Swamp_ActorTroll",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "4857e9afd486029389df",
+      "actor_name": "Swamp_LizadMan_Type1",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "32a6018452d04659b538",
+      "actor_name": "Swamp_LizadMan_Type2",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "d247470ac9c21be0bc4e",
+      "actor_name": "Swamp_LizadMan_Type3",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "947922c76e6510899ab0",
+      "actor_name": "Swamp_MerchantCamp_NPC_A",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "72fca2c25f55b40c4d82",
+      "actor_name": "Swamp_MerchantCamp_NPC_B",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "21318615b56fef370891",
+      "actor_name": "Swamp_MerchantCamp_NPC_C",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "b298df8fe9d963b41e6c",
+      "actor_name": "Swamp_MovieMoth",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "a2c77cc142e62db476d1",
+      "actor_name": "Swamp_SnackMan",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "5aa52bd105935c0a1b76",
+      "actor_name": "Troll",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "2845e42f9cfb1f916815",
+      "actor_name": "WanderingEddie",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "2845e42f9cfb1f916815",
+      "actor_name": "WanderingEddie",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "893b2e8fb38716fa20a8",
+      "actor_name": "WanderingPriest",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor_id": "893b2e8fb38716fa20a8",
+      "actor_name": "WanderingPriest",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "003_darkwood.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "493d2e115ad25e84db5e",
+      "actor_name": "Witch",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "ffced55104feb850c42e",
+      "actor_name": "zKill5Lizman_Post",
+      "candidate_type": "conditional_or_static_module_character",
+      "confidence": "LIKELY",
+      "reason": "Original MGP GameObject gametype=Character and template/CharacterProperties fields; level load, procedural choice and spawn/script conditions are not evaluated.",
+      "scene": "001_swamp.mlx",
+      "source": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "debe3161f75f83cfc4a0",
+      "actor_name": "SwampKing",
+      "candidate_type": "handoff_encounter_link",
+      "confidence": "LIKELY",
+      "reason": "B155 links CharacterTable SwampKing (row 358) to the Mud Lord encounter and Darkwood transition.",
+      "source": "coordination/v21.7/B155-B156-HANDOFF.md",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "actor_id": "493d2e115ad25e84db5e",
+      "actor_name": "Witch",
+      "candidate_type": "handoff_encounter_link",
+      "confidence": "LIKELY",
+      "reason": "B156 identifies the Witch encounter in the Witch Cave progression.",
+      "source": "coordination/v21.7/B155-B156-HANDOFF.md",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    }
+  ],
+  "boundary_policy": "All act boundaries are INFERENCE until owner confirmation.",
+  "boundary_rows": [
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "LIKELY",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "candidates": [],
+      "confidence": "GUESS",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_3",
+      "candidates": [],
+      "confidence": "GUESS",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_4",
+      "candidates": [],
+      "confidence": "GUESS",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_5",
+      "candidates": [],
+      "confidence": "GUESS",
+      "evidence": [
+        "pydata/levels_pyarray.bin ordered fast-travel rows and LevelName rows",
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: swamp + Witch Cave -> Mud Lord -> Darkwood scope",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 quest completion and 003_darkwood.mlx transition"
+      ],
+      "label": "INFERENCE",
+      "reason": "No authored act marker is decoded; this navigation bucket is an explicit assumption awaiting owner confirmation.",
+      "reason_code": "OTHER",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    }
+  ],
+  "inferences": [
+    {
+      "act": "act_1",
+      "confidence": "LIKELY",
+      "evidence": [
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: Act 1 is Swamp + Witch Cave and ends at the Darkwood load",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 documents Mud Lord completion and 003_darkwood.mlx transition"
+      ],
+      "level_stems": [
+        "001_swamp",
+        "002_swamp_witchcave.rule"
+      ],
+      "note": "Only explicit task scope or the directly documented post-boss load is included; all other scenes remain unplaced."
+    },
+    {
+      "act": "act_2",
+      "confidence": "LIKELY",
+      "evidence": [
+        "coordination/v21.8/ATLAS-CODEX-PROMPT.md: Act 1 is Swamp + Witch Cave and ends at the Darkwood load",
+        "coordination/v21.7/B155-B156-HANDOFF.md: B155 documents Mud Lord completion and 003_darkwood.mlx transition"
+      ],
+      "level_stems": [
+        "003_darkwood"
+      ],
+      "note": "Only explicit task scope or the directly documented post-boss load is included; all other scenes remain unplaced."
+    },
+    {
+      "act": "act_3",
+      "confidence": "GUESS",
+      "evidence": [],
+      "level_stems": [],
+      "note": "No unique transition-chain evidence assigns a scene to this act; generated page is intentionally empty."
+    },
+    {
+      "act": "act_4",
+      "confidence": "GUESS",
+      "evidence": [],
+      "level_stems": [],
+      "note": "No unique transition-chain evidence assigns a scene to this act; generated page is intentionally empty."
+    },
+    {
+      "act": "act_5",
+      "confidence": "GUESS",
+      "evidence": [],
+      "level_stems": [],
+      "note": "No unique transition-chain evidence assigns a scene to this act; generated page is intentionally empty."
+    }
+  ],
+  "level_rows": [
+    {
+      "act": "act_1",
+      "confidence": "LIKELY",
+      "evidence": [
+        "task-directed Act 1: Swamp opening level"
+      ],
+      "reason": "Explicit task/handoff progression link; act placement remains INFERENCE.",
+      "scene": "001_swamp.mlx",
+      "scene_id": "6b2f662bc32e54797884",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_1",
+      "confidence": "LIKELY",
+      "evidence": [
+        "task-directed Act 1: Witch Cave"
+      ],
+      "reason": "Explicit task/handoff progression link; act placement remains INFERENCE.",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "scene_id": "f6ed60ebabd20b89aaf1",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "confidence": "LIKELY",
+      "evidence": [
+        "B155 handoff: post-Mud-Lord transition loads 003_darkwood.mlx"
+      ],
+      "reason": "Explicit task/handoff progression link; act placement remains INFERENCE.",
+      "scene": "003_darkwood.mlx",
+      "scene_id": "2e1304ff2c8ed98caa94",
+      "status": "INFERENCE",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "005_infectedvillage.mlx",
+      "scene_id": "1ee09bcff06fac62bcc3",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "009_abbey.rule.xml",
+      "scene_id": "00d6b04d855fccf54bfd",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "009a_abbey.mlx",
+      "scene_id": "b5c805e540ccbf63b432",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "011_earth_temple_01.rule.xml",
+      "scene_id": "dedfd7d9431f2172275e",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "scene_id": "3ccb758ba39eee28aa87",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "013_earth_temple_03.rule.xml",
+      "scene_id": "45fe61c5ea04fd4f4dea",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "015_red_desert_hub.mlx",
+      "scene_id": "145c9b75ecc0bcae66e0",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "016_red_desert_cave_01.rule.xml",
+      "scene_id": "5d5bf670c8e428777dbe",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "017_red_desert_cave_02.rule.xml",
+      "scene_id": "1670cdc190d298717e82",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "018_red_desert_cave_03.rule.xml",
+      "scene_id": "7cb216ae991b0f5391f8",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "019_light_house_01.rule.xml",
+      "scene_id": "b2b7ec3332bd71af7ff0",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "scene_id": "2adb7adbe4e5653621e3",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "022_swamp2.rule.xml",
+      "scene_id": "6ee863765454d115924d",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "022_swamp2_trollcave.rule.xml",
+      "scene_id": "a548290f261f5521bfe7",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "025_icy_hub.mlx",
+      "scene_id": "4a600b19f18959411fdf",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "026_icy_cavern_01.rule.xml",
+      "scene_id": "283f20b8e682c7f9b20a",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "scene_id": "9e6cb2d21b3bb5326d90",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "028_icy_cavern_03.rule.xml",
+      "scene_id": "b1af54e0aba90d48aa2d",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "029_wind_temple.rule.xml",
+      "scene_id": "7bac2e2741f6bd3044a0",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "031_firetemple.mlx",
+      "scene_id": "bf01948063f214749992",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "033_voidmaze_01.rule.xml",
+      "scene_id": "4f80125fe47e002ef26d",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "034_voidmaze_02.rule.xml",
+      "scene_id": "300f7146ce3acdd727cd",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "035_voidmaze_03.rule.xml",
+      "scene_id": "7a26952703674a362230",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "036_underworld_hub.mlx",
+      "scene_id": "a9e0f80e1d8689ad5593",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "037_machine_rooms_01.mlx",
+      "scene_id": "9fc3c1a42c6b469bbf26",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "038_dark_temple.mlx",
+      "scene_id": "f5c436de2b255f87b02f",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "039_dark_temple_bossroom_01.mlx",
+      "scene_id": "0995df95dc10822639cb",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "050_earth_temple_demo.rule.xml",
+      "scene_id": "fd53aaa9131257ea80de",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "100_debug_cowardtest.mlx",
+      "scene_id": "2b95c86de2810d99273c",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "101_debug_machineroomtestmultiplayer.mlx",
+      "scene_id": "7f02f2f3599c6e77d903",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "102_debug_questtest.rule.xml",
+      "scene_id": "41e35674cc46db663570",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "103_debug_darktemple_test.mlx",
+      "scene_id": "32cc037c38dc940741df",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "104_debug_abbey.mlx",
+      "scene_id": "5564aaf6d2711af026ea",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "105_debug_alphatestlevel.mlx",
+      "scene_id": "7549a4dc0be0fb283d8b",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "106_debug_crypt1.mlx",
+      "scene_id": "ecaa33d30ea6ab5007d0",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "107_debug_crypt2.mlx",
+      "scene_id": "3f11e1b9bef0c1a1bf7b",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "108_debug_firetemple.mlx",
+      "scene_id": "bdd536b8cd7347b0d394",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "109_debug_moveactor.mlx",
+      "scene_id": "85c82ab578b23aabbfec",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "110_debug_soundtest_01.mlx",
+      "scene_id": "2d1324cdb8cbf0da1aae",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "111_debug_soundtest_02.mlx",
+      "scene_id": "073fffd57582bf9fc178",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "112_debug_spawn.mlx",
+      "scene_id": "200071d8f6c5f0091064",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "113_debug_spiderquituelefps.mlx",
+      "scene_id": "d57da54ea45891497206",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "114_debug_swampcave.mlx",
+      "scene_id": "463f0824126152797b3d",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "115_debug_dh1_oldcatacombs.mlx",
+      "scene_id": "cbc04ec13bdec43dc856",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "116_debug_dk_test.mlx",
+      "scene_id": "c61060f54503836b39a9",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "117_debug_modulespleindecrap.mlx",
+      "scene_id": "56f9731481b8fafb12f7",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "118_debug_mvps_for_alex.mlx",
+      "scene_id": "2b597160b531677c6f6d",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "119_debug_respawntest.mlx",
+      "scene_id": "1d4ea70eb225808c49c7",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "120_debug_snaketest.mlx",
+      "scene_id": "7ff2951f63037d6375fc",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "121_debug_test2.rule.xml",
+      "scene_id": "202d08c35c552739478a",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "122_debug_test.rule.xml",
+      "scene_id": "267d20b120521bc744bb",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "123_debug_testbleh.mlx",
+      "scene_id": "02cd547da170996e8c85",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "124_debug_soundtest_all.mlx",
+      "scene_id": "a23e03f83e706cdedecd",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "125_debug_icyhub_mvps.mlx",
+      "scene_id": "1b91a85161042bd186d7",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "125_randomforalexb.rule.xml",
+      "scene_id": "41293d5d381cf6d037a0",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "126_debug_darkqueen.mlx",
+      "scene_id": "17fe413b1c5583810205",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "127_debug_flaminite.mlx",
+      "scene_id": "e316b9817b863124de37",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "128_debug_dragon_skygardian.mlx",
+      "scene_id": "3f00d959fb031f6afac0",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "129_debug_roottroll.mlx",
+      "scene_id": "a3b0b8484244a6650239",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "130_debug_lighthouse_emissary.mlx",
+      "scene_id": "5900ff42af92c397bf6c",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x02_swamp_witchcave_backup.mlx",
+      "scene_id": "3742542e206449711b75",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x04_root_den_backup.mlx",
+      "scene_id": "c780a0b84ef165d698a4",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x06_basement_backup.mlx",
+      "scene_id": "7dd7c101641a22a2e543",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x07_crypt_backup.mlx",
+      "scene_id": "26bf5aad63cc6496713f",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x08_gothicus_castle_01_backup.mlx",
+      "scene_id": "bfc9316b8279529b2326",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x09_abbey_backup.mlx",
+      "scene_id": "a6cc28ba6c5d289eba86",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x10_el_lightning_backup.mlx",
+      "scene_id": "fb581f471dc28f4e274c",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x11_earth_temple_01_backup.mlx",
+      "scene_id": "07e6db8f453fa41eb30c",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x12_earth_temple_02_backup.mlx",
+      "scene_id": "f3fd6d83c28f71706b13",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x13_earth_temple_03_backup.mlx",
+      "scene_id": "a097760b1763d94fcde9",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x14_el_earth_backup.mlx",
+      "scene_id": "f345bc65f7f354a06cb0",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x16_red_desert_cave_01_backup.mlx",
+      "scene_id": "2b1bba770721c9463e4a",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x17_red_desert_cave_02_backup.mlx",
+      "scene_id": "93d8a0e33402b68f38fe",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x18_red_desert_cave_03_backup.mlx",
+      "scene_id": "4669a8bda2faf6857e1f",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x19_light_house_01_backup.mlx",
+      "scene_id": "08ee89e498537a6a1f2e",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x19_light_house_02_backup.mlx",
+      "scene_id": "bbdef3758c29a44ca2a7",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x19_light_house_03_backup.mlx",
+      "scene_id": "f0716baf00a5f1d47789",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x20_crypt_02_backup.mlx",
+      "scene_id": "a9bcc1a61f26a2c76fc0",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x21_gothicus_castle_02_backup.mlx",
+      "scene_id": "d9dd538044cee571458d",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x22_swamp2_backup.mlx",
+      "scene_id": "77031c97df24c6984920",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x22_swamp2_trollcave_backup.mlx",
+      "scene_id": "bab670a6b1873aa5e604",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x23_watertemple_backup.mlx",
+      "scene_id": "a78fe8f2252b11b3891e",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x24_el_water_backup.mlx",
+      "scene_id": "d4ad36e62a1d1d8b9d42",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x26_icy_cavern_01_backup.mlx",
+      "scene_id": "6e7b0753de61a6519211",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x27_icy_cavern_02_backup.mlx",
+      "scene_id": "d37e6aa495d131b2690b",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x28_icy_cavern_03_backup.mlx",
+      "scene_id": "bf502e4ef117819e5cfe",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x29_wind_temple_backup.mlx",
+      "scene_id": "8d794c0b2238c1f4d70a",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x30_el_air_backup.mlx",
+      "scene_id": "8d804614e73f81fa1b92",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x32_el_fire_backup.mlx",
+      "scene_id": "83ac3269ecd9f93efc34",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    },
+    {
+      "act": "unplaced",
+      "confidence": "GUESS",
+      "evidence": [
+        "No unique source-backed transition-chain assignment."
+      ],
+      "reason": "No unique source LevelName/fast-travel link established, or scene is debug/backup/demo.",
+      "scene": "x50_earth_temple_demo_backup.mlx",
+      "scene_id": "4a64f870b4755d38e4ca",
+      "status": "UNRESOLVED",
+      "work_status": "DONE"
+    }
+  ],
+  "schema": "atlas-act-membership-v1"
+}

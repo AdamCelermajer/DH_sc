@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "tests": [
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "exact iPad name pair resolves to its own stored group/ordinal",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "original nested GetPyOID namespace and name literals retain IDs with source roles",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "known nested GetPyCst pair removes duplicate raw-name gaps",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "unresolved nested provider remains an explicit linked gap",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "duplicate exact names remain ambiguous source candidates",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "a unique global match without family evidence stays unresolved",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "a real repeated-evidence family tie is explicitly ambiguous",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "bad declared name-group count blocks the source family",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "header-adjusted bounded pycst decode records the stored value only",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "unknown stored constant stays unresolved",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "wrong-platform source asset cannot resolve through iPad data",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "dynamic provider operand remains unresolved",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "stable IDs and deep-copy output make resolution idempotent",
+      "passed": true
+    },
+    {
+      "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+      "name": "constant parser rejects trailing and truncated bytes",
+      "passed": true
+    }
+  ]
+}

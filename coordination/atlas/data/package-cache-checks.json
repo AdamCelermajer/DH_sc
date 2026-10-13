@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "tests": [
+    {
+      "name": "exact matching original maps are admitted",
+      "passed": true
+    },
+    {
+      "name": "same-size pack-map mutation is rejected",
+      "passed": true
+    },
+    {
+      "name": "same-size transcription mutation is rejected",
+      "passed": true
+    },
+    {
+      "name": "callers cannot alter the validated package map",
+      "passed": true
+    }
+  ]
+}

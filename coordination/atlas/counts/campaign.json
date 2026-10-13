@@ -1,0 +1,18 @@
+{
+  "by_source": {
+    "android": 65
+  },
+  "candidate_string_references": 9208,
+  "category": "SERIALIZED LEVEL CAMPAIGN SCRIPTS",
+  "commands": 12610,
+  "decode_failures": 0,
+  "decoded_script_files": 65,
+  "missing_pairs": 2,
+  "notes": [
+    "Commands are decoded source records and are not executed.",
+    "Exact table-name matches are candidate references; unknown field semantics retain UNRESOLVED disposition."
+  ],
+  "script_file_rows": 67,
+  "scripts": 1278,
+  "work_status": "DONE"
+}

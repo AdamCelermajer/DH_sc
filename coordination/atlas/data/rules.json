@@ -1,0 +1,170 @@
+[
+  {
+    "confidence": "PROVEN",
+    "evidence": "port/game-data/animation_tables.cpp Reader::strings and load_animation_tables; port/game-data/effects_tables.cpp Reader::names.",
+    "id": "pydata-name-blocks",
+    "rule": "PyData name blocks are count-prefixed lists of length-prefixed UTF-8 strings; row index is zero-based in serialized order.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "items-discovery/sdd_dungeon_hunter_2_iphone_pyarray.bin and names; port/engine-audio/reference/source-bindings-v38/ledger.json source_id/event/target; audio-v34/cache/sounds.xml; coordination/v21.8/ATLAS-CODEX-PROMPT.md and user clarification that Android/recovered-cache and iOS are both partial sources.",
+    "id": "audio-row-index",
+    "rule": "Sound id indexes the 638-row sdd_dungeon_hunter_2_iphone table. Ordinary rows resolve to the sounds.xml filename; isEvent rows expand member filenames. File existence is checked across the partial Android/recovered-cache and iOS corpora; a file in any included source corpus resolves the row.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "coordination/atlas/data/platform-comparison.json; coordination/v21.8/ATLAS-CODEX-PROMPT.md; user clarification 2026-10-13.",
+    "id": "asset-platform-availability",
+    "rule": "Asset presence is recorded per actual source corpus and resolved paths retain their source labels and content hashes. Platform availability differences are diagnostics, not substitutions or grounds to suppress a match from another included original corpus.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "tools/atlas/references.py _resolve_file; actual source path inventory; port/windows-foundation/asset_catalog.cpp:15 and :165 normalize port lookup case.",
+    "id": "path-case-resolution",
+    "rule": "Atlas lookup policy: compare a data URI with actual source file paths using exact case first, then case-insensitive comparison, preserving ambiguous candidates. This policy alone does not prove original native case semantics. Similar basenames remain candidates, never resolved targets.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "ida-apk-export-2026-10-07/libraries/classes.dex/pseudocode-all.c PyDataArrays constructor/GetOID/GetPyOID wrappers; port/android-native/app/src/main/cpp/source_process_array_registration_v101.hpp; exact Android names streams.",
+    "id": "pydata-literal-oid",
+    "rule": "A literal GetPyOID(tableAlias,rowName) resolves only through a proven PyDataArrays public alias and an exact case-sensitive source names-stream match; GetPyStruct names a struct member and is not treated as a row lookup without a matching native field schema.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "native GetCharPropertiesId 0x3b3d38; canonical_property_declarations_v1.inc:68; canonical_character_family_v4.cpp:40-47; port/windows-foundation/actor_population.cpp:144-170.",
+    "id": "character-charpropsname",
+    "rule": "An authored charpropsname on a gametype=\"Character\" record conditionally identifies an exact CharacterTable row when char_template does not take precedence. This is a source relationship, not proof that the actor spawned at runtime.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "GetCharSoundsId 0x3a3294 and GetCharSounds 0x3a32d0; source_process_array_registration_v101.hpp:113-114; tools/atlas/table_payloads.py and mob_sounds.py.",
+    "id": "character-sounds-table-group",
+    "rule": "CharacterTable.Sounds indexes the first registered sounds-array group exposed as CharSoundsTable (sounds#group0). Source rows are decoded; producer-specific state and SDD joins are documented separately. Sounds_bak is a distinct later registration group.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "port/game-data/skill_tables.cpp SkillTable.Script string field; supplied original data/scripts/skills files and exact logical-path comparison in tools/atlas/references.py.",
+    "id": "skill-script-uri",
+    "rule": "SkillTable.Script is a stem, not a path. Resolve it only to an exact data/scripts/skills/<stem>.luac logical-path match and retain all source variants for that URI; basename-only matches are not resolutions.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "Original skill presenter mapping in tools/atlas/entity_profiles.py; port/windows-foundation/features/skill_ui/source_skill_art.json label/frame extraction; original SWF asset hash.",
+    "id": "skill-icon-swf-symbol",
+    "rule": "A nonempty SkillTable.SkillIcon is a SWF symbol label, not a standalone image file. Resolve it to the exact label/frame in sprite 79 of dqcharmenu_droid.swf; retain the SWF asset identity and hash. Missing labels or SWF assets remain unresolved.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "port/game-data/loot_audiovisual_v8.cpp:10; recovered ItemObject::InitOnce 0x3ece80; tools/atlas/entity_profiles.py resolve_item_resources and source-scene receipts.",
+    "id": "itemdrop-visual-token",
+    "rule": "LootAudioVisual.Visual is a scene-node token passed to the fixed itemdrops.bdae template, not a physical file path. Preserve the token and template asset candidates, but leave its node match unresolved unless an independently parsed source scene receipt proves the exact binding.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "LIKELY",
+    "evidence": "port/game-data/level_tables.cpp:63; port/windows-foundation/features/transitions/level_transitions_v1.cpp:113.",
+    "id": "level-scene-prefix",
+    "rule": "The decoded Levels.LevelFile is a bare scene filename. The Windows transition consumer prepends data/scene/; the atlas looks up scene/<LevelFile> within each included data root. Original native loader behavior beyond the recovered table schema remains unconfirmed.",
+    "status": "INFERENCE"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "port/game-data/skill_tables.cpp signed_word and Skill Anim field; Projectiles registered source descriptor and signed row fields; exact source pyarray bytes.",
+    "id": "signed-reference-sentinels",
+    "rule": "Typed signed table-index fields use signed 32-bit values; negative values such as -1 mean no reference and are omitted from reference rows, never reinterpreted as large unsigned IDs.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "CharAI::_OnAnimEvent 0x3d4434; resource-semantics-report.md; original 638-row SDD array and sounds.xml.",
+    "id": "bdae-sound-prefix",
+    "rule": "BDAE named-sound events strip exactly one leading sfx_ before an exact source Sounds-member lookup. The SDD row UID or event members then identify sounds.xml filenames. Duplicate XML labels alone do not override the source row; missing members remain explicit.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "Native count-prefixed names streams plus exact decoded schemas in port/game-data/animation_tables.cpp, effects_tables.cpp, skill_tables.cpp, and data.cpp.",
+    "id": "unsupported-pyarray",
+    "rule": "An undecoded PyData payload retains its proven table name and local row index with terminal UNRESOLVED/OTHER disposition; its fields remain unknown pending a recovered parser or native schema. No fields are inferred from adjacent bytes.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "tools/atlas/lua_semantics.py; lua-semantics-report.md; Android LuaScript native consumers and registered 224-member schema.",
+    "id": "lua-semantic-token-roles",
+    "rule": "Exact Android GetPyCst namespace/member pairs resolve through the original ai_pycst cache; GetPyStruct CharacterProperties members resolve in their own registered schema namespace. Proven callback keys, scalar playback parameters and duplicate nested lexical mentions retain source evidence with NOT-NEEDED resource disposition. Dynamic and unknown values remain unresolved.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "tools/atlas/script_links.py and lua_semantics.py; script-links-report.md and lua-semantics-report.md.",
+    "id": "lua-proven-binding-outcome",
+    "rule": "A symbolic Lua reference with one revalidated PROVEN constant-flow target adopts that exact source row as its canonical resolution. The row ID, namespace, index and native API admission must all agree; a sound-name lookup does not establish that its downstream audio file exists.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "CharAI::StepCreateScript 0x3cf04c, SetScriptByName 0x3ceeb0, LuaManager::AddFile 0x37b23c; file-semantics-report.md.",
+    "id": "ai-script-source-uri",
+    "rule": "An external AITable.Script bare stem identifies data/scripts/ai/<stem>.luac under the recovered Android loader rule. Exact logical URI receipts from either partial source cache are retained, with platform identity and native equivalence kept separate. Builtin names and unsupported authored path spellings are outside this subset.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "LIKELY",
+    "evidence": "SceneManager::SetMaterialRimLightEffects 0x359d08 / 0x35a188; file-semantics-report.md; tools/atlas/file_semantics.py.",
+    "id": "bdae-texture-logical-uri",
+    "rule": "A captured BDAE material texture basename can be associated with the exact indexed data/3d/textures/<basename> resource. The recovered RimLight consumer proves this URI construction; association of an arbitrary raw BDAE string with that consumer remains LIKELY and does not establish runtime material use.",
+    "status": "INFERENCE"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "Character::_DoSkill 0x3b8bd8, GetCharSkill 0x3bc784, AI_BeginSkill 0x3d86bc; skill-slot-links-report.md.",
+    "id": "actor-lua-skill-slot",
+    "rule": "A literal global Android DoSkill argument is a zero-based receiver skill-list slot. Join only exact declared AI.Script consumers through each actor SkillTree and SkillList entries. A common target is resolved; divergent targets are ambiguous and incomplete lists remain unresolved. Runtime active/usability gates remain separate.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "PropertyMap::SetTemplate 0x513fec and LoadTemplate 0x51419c; xml-semantics-report.md.",
+    "id": "android-object-template-selector",
+    "rule": "Android GameObject._templateName is an internal property-map label, not a file URI or actor row. A coincident same-file Template name does not establish external loading; inheritance remains unsupported/unverified. iPad consumers are separate unknowns.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "SafeGetCharPropsTemplateId 0x3b36ec, GetCharPropertiesId 0x3b3d38, Character InitPost; character-template-semantics-report.md.",
+    "id": "character-template-source-fields",
+    "rule": "A Character char_template is an authored template name; char_template_pydata is a separate table selector. Exact gated Android names link to their own CharacterTemplate rows. iPad names and selectors link only to validated iPad source streams with native IDs unverified. Cached IDs, player/non-player selection and spawn gates do not become runtime execution claims.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "LIKELY",
+    "evidence": "ios-semantics-report.md; exact package map, validated names groups and stored constant bytes.",
+    "id": "ipad-provider-source-association",
+    "rule": "Exact iPad GetPyOID pairs can identify a likely source names-stream family through repeated unique source evidence; GetPyCst pairs record stored constants. Source positions and serialized values are not native API IDs. Android ordinals are never borrowed for these source links.",
+    "status": "INFERENCE"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "CharAI::_OnAnimEvent 0x3d4434 and source consumer handoffs; resource-semantics-report.md.",
+    "id": "animation-event-dispatch",
+    "rule": "Known Android animation event strings link to their original dispatcher role with state/caller gates preserved. Unknown markers retain a reason. iPad payload strings can only have likely associations to Android handler evidence. Named sfx_ events strip one exact prefix, then follow the source SDD member/event and full sounds URI across both caches.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "entity-native-report.md; data/entity-native.json and data/resource-attributions.json.",
+    "id": "entity-native-and-resource-attribution",
+    "rule": "Entity Lua membership, native handler evidence, port readiness and runtime execution are separate facts. Resource ownership requires a proven resolved field edge; candidates, source-table membership, decoder use and orphans retain distinct explanations. Packed media preserves its physical transport path and likely logical alias.",
+    "status": "PROVEN"
+  }
+]

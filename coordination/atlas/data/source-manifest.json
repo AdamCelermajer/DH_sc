@@ -1,0 +1,73 @@
+{
+  "additional_binary_found": {
+    "magic": "cefaedfe",
+    "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/dungeonhunter2iPad",
+    "platform": "iPad",
+    "size": 7940368,
+    "use": "discovery reported to owner; not used as native semantic evidence"
+  },
+  "asset_digest": "4a66d391465067924cee8900eb794f2169a6b475f0ce7200962266b158511070",
+  "audio_authority": [
+    ".local-inputs/assets-extra/ios/data/sounds",
+    ".local-inputs/audio-v34/cache"
+  ],
+  "cache_path_note": "Owner clarified both partial Android/recovered and iOS caches must be used; assets present in either can resolve. Supplemental cache: assets-extra/android/original-cache/data.",
+  "corpora": [
+    {
+      "files": 6040,
+      "label": "android",
+      "path": ".local-inputs/assets-extra/android/data"
+    },
+    {
+      "files": 256,
+      "label": "ios",
+      "path": ".local-inputs/assets-extra/ios/data"
+    },
+    {
+      "files": 152,
+      "label": "original-cache",
+      "path": ".local-inputs/assets-extra/android/original-cache/data"
+    },
+    {
+      "files": 18,
+      "label": "android-extra",
+      "path": ".local-inputs/assets-extra/android/3d"
+    },
+    {
+      "files": 265,
+      "label": "audio-cache",
+      "path": ".local-inputs/audio-v34/cache"
+    },
+    {
+      "files": 6157,
+      "label": "ios-packed",
+      "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data"
+    },
+    {
+      "files": 50,
+      "label": "ios-glive",
+      "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/GLIVE_RES"
+    },
+    {
+      "files": 28,
+      "label": "ios-app-resources",
+      "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app"
+    },
+    {
+      "files": 387,
+      "label": "port-runtime-original-cache",
+      "path": ".repo/port/android-native/app/src/main/assets/original-cache/data"
+    }
+  ],
+  "native_authority": "Android APK/ELF IDA export. No iPhone binary is assumed.",
+  "native_evidence_files": [
+    {
+      "path": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
+      "sha256": "d968883dcc818bad35e5b55507380aa0a438f3b39862f5e1b15c659a9c63bd90",
+      "size": 36186600
+    }
+  ],
+  "runtime": "Private CPython 3.12 under tools/atlas/.runtime, bootstrapped from Codex app dependency bundle; never global Python.",
+  "sound_table_authority": ".local-inputs/items-discovery/sdd_dungeon_hunter_2_iphone_pyarray.bin",
+  "source_commit": "64afbdc5"
+}

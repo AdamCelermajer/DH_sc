@@ -1,0 +1,1434 @@
+# Original Data Atlas progress
+
+Phase: **COVERAGE VERIFIED; MOB SEMANTICS PARTIAL**. Processed rows: **127,564/127,564 (100.00%)**.
+
+**Mob/boss semantics remain PARTIAL.** Joined profiles cover every character row, but unresolved Lua expressions, native contracts and runtime conditions remain. Resume with the named profile gaps in [mob profiles](general/mobs/index.md); root owns further source investigation.
+
+Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported != runtime verified.
+
+| Category | Rows | Processed | TODO | States |
+| --- | --- | --- | --- | --- |
+| scripts | 219 | 219 | 0 | {"UNRESOLVED": 215, "DONE": 4} |
+| functions | 288 | 288 | 0 | {"UNRESOLVED": 257, "DONE": 31} |
+| calls | 7982 | 7982 | 0 | {"DONE": 4170, "UNRESOLVED": 3812} |
+| references | 96154 | 96154 | 0 | {"DONE": 96154} |
+| assets | 13355 | 13355 | 0 | {"DONE": 13355} |
+| levels | 190 | 190 | 0 | {"DONE": 175, "UNRESOLVED": 15} |
+| actors | 448 | 448 | 0 | {"DONE": 448} |
+| bosses | 65 | 65 | 0 | {"DONE": 65} |
+| tables | 8863 | 8863 | 0 | {"DONE": 8863} |
+
+
+## Inventory category counts
+
+### assets
+
+```json
+{
+  "asset_files": 13355,
+  "by_source": {
+    "android": 6040,
+    "android-extra": 18,
+    "audio-cache": 265,
+    "ios": 256,
+    "ios-app-resources": 28,
+    "ios-glive": 50,
+    "ios-packed": 6157,
+    "original-cache": 152,
+    "port-runtime-original-cache": 387,
+    "sound-table": 2
+  }
+}
+```
+
+### campaign
+
+```json
+{
+  "by_source": {
+    "android": 65
+  },
+  "candidate_string_references": 9208,
+  "category": "SERIALIZED LEVEL CAMPAIGN SCRIPTS",
+  "commands": 12610,
+  "decode_failures": 0,
+  "decoded_script_files": 65,
+  "missing_pairs": 2,
+  "notes": [
+    "Commands are decoded source records and are not executed.",
+    "Exact table-name matches are candidate references; unknown field semantics retain UNRESOLVED disposition."
+  ],
+  "script_file_rows": 67,
+  "scripts": 1278,
+  "work_status": "DONE"
+}
+```
+
+### character-sounds
+
+```json
+{
+  "bytes_consumed": 98,
+  "bytes_total": 11295,
+  "field_schema": "[i][i][i][i]bb",
+  "following_registered_tables_bytes": 11197,
+  "next_registered_table": "Listeners",
+  "next_registered_table_rows": 5,
+  "rows": 3,
+  "source": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin"
+}
+```
+
+### enrichment
+
+```json
+{
+  "actor_skill_slot_joins": 40,
+  "campaign_relations": 9129,
+  "character_template_references": {
+    "char_template": {
+      "RESOLVED": 4162,
+      "UNRESOLVED": 38
+    },
+    "char_template_pydata": {
+      "RESOLVED": 4185,
+      "UNRESOLVED": 15
+    },
+    "charpropsname_pydata": {
+      "RESOLVED": 344
+    }
+  },
+  "file_path_joins": 4396,
+  "ios_source_associations": 1962,
+  "non_resource_reference_sites": 10818,
+  "payload_gaps": [],
+  "payloads": {
+    "decoded_by_table": {
+      "camera_animation_sets": 3,
+      "character_classes": 260,
+      "character_properties": 7,
+      "character_templates": 121,
+      "common": 2,
+      "common_text": 9,
+      "design": 20,
+      "dialogs": 55,
+      "fonts": 7,
+      "game_objects": 156,
+      "help_pages": 25,
+      "item_powers_monopoly": 43,
+      "loot_table": 51,
+      "sounds": 223,
+      "spawn_groups": 1,
+      "trophies": 69,
+      "v2conditions": 118,
+      "v2eventmanager": 66,
+      "v2quests": 64,
+      "worldmap": 16
+    },
+    "decoded_rows": 1316,
+    "families_attempted": 20,
+    "newly_resolved_rows": 1313,
+    "pre_resolved_enrichments": 3,
+    "references": 367,
+    "resolved_rows": 1316,
+    "unresolved_rows": 0
+  },
+  "resource_roles": {
+    "annotated_references": 1699,
+    "by_role": {
+      "animation_event": 846,
+      "named_animation_sound": 44,
+      "unresolved_event_marker": 196,
+      "unresolved_sound_label": 44,
+      "xml_sound_label": 569
+    },
+    "by_status": {
+      "RESOLVED": 1457,
+      "UNRESOLVED": 242
+    },
+    "missing_sound_members": 2,
+    "native_event_targets": 846,
+    "source_sound_targets": 613
+  },
+  "semantic_reference_statuses": {
+    "NOT-NEEDED": 10818,
+    "RESOLVED": 60872,
+    "UNRESOLVED": 24464
+  },
+  "symbolic_edges": 444,
+  "xml_source_associations": {
+    "annotated_references": 14767,
+    "by_attribute": {
+      "_templateName": 14767
+    },
+    "by_status": {
+      "NOT-NEEDED": 7130,
+      "UNRESOLVED": 7637
+    },
+    "unique_xml_template_targets": 0
+  }
+}
+```
+
+### entity-native
+
+```json
+{
+  "entity_native": {
+    "actors": 448,
+    "addresses_with_decompilation_snippets": 498,
+    "addresses_without_decompilation_snippets": 0,
+    "calls": 7982,
+    "entities_with_native_functions": 648,
+    "entity_kinds": {
+      "actor": 448,
+      "animated_effect": 284,
+      "animation_clip": 1447,
+      "animation_sequence": 785,
+      "character_animation": 80,
+      "effect_set": 276,
+      "faery": 16,
+      "faery_list": 4,
+      "item": 1322,
+      "item_power": 937,
+      "item_power_list": 121,
+      "level": 190,
+      "monopoly_item_power": 43,
+      "projectile": 41,
+      "projectile_model": 28,
+      "script": 219,
+      "skill": 127,
+      "skill_list": 36,
+      "sound": 638
+    },
+    "entity_rows": 7042,
+    "entity_script_association_status": {
+      "NO_SCRIPT_ASSOCIATION_IN_AVAILABLE_SOURCE_JOIN": 6188,
+      "SCRIPT_LINK_UNRESOLVED": 203,
+      "SOURCE_SCRIPT_ASSOCIATION_FOUND": 651
+    },
+    "entity_script_links": 1829,
+    "entity_unresolved_script_links": 212,
+    "functions_with_addresses": 271,
+    "functions_without_addresses": 17,
+    "items": 1322,
+    "levels": 190,
+    "lua_calls_with_source_excerpt": 7982,
+    "lua_calls_without_source_excerpt": 0,
+    "native_function_ledger_rows": 288,
+    "profiles": 6404,
+    "scripts": 219,
+    "skills": 127
+  },
+  "resource_attributions": {
+    "byte_status": {
+      "BYTES_PRESENT": 6334
+    },
+    "candidate_paths_with_source_gap_notes": 83,
+    "candidate_paths_without_source_match": 0,
+    "candidate_resource_path_edges": 108,
+    "candidate_resource_path_evidence": {
+      "UNRESOLVED|PROVEN|UNRESOLVED": 108
+    },
+    "confirmed_file_missing_resource_paths": 83,
+    "file_associations": {
+      "AUTHORED_RESOURCE_PATH_ASSOCIATION": 2227,
+      "DECODER_JOIN_ASSOCIATION_ONLY": 6,
+      "ORPHAN_IN_EXTRACTED_CORPUS": 82,
+      "PACKED_LOGICAL_PATH_CANDIDATE": 2901,
+      "SOURCE_DECODER_CONSUMER_ONLY": 1118
+    },
+    "file_types": {
+      "sound_file": 514,
+      "visual_resource_file": 5820
+    },
+    "missing_resource_path_edges": 83,
+    "owner_candidate_edges": 0,
+    "packed_logical_media_files": 2901,
+    "packed_logical_media_types": {
+      "visual_resource_file": 2901
+    },
+    "platform_unknown_files": 0,
+    "platform_unknown_profiles": 115,
+    "profile_associations": {
+      "DECLARED_OWNER_ASSOCIATION": 1096,
+      "SHARED_TABLE_ASSOCIATION_ONLY": 82,
+      "SOURCE_TABLE_ASSOCIATION_ONLY": 2401
+    },
+    "profiles_with_owner_candidates": 0,
+    "proven_owner_profiles": 1096,
+    "resource_files": 6334,
+    "resource_profile_kinds": {
+      "animated_effect": 284,
+      "animation_clip": 1447,
+      "animation_sequence": 785,
+      "character_animation": 80,
+      "effect_set": 276,
+      "projectile": 41,
+      "projectile_model": 28,
+      "sound": 638
+    },
+    "resource_profiles": 3579
+  }
+}
+```
+
+### graph
+
+```json
+{
+  "by_category": {
+    "Actors": 464,
+    "Animations": 2328,
+    "Assets": 12204,
+    "Audio": 1279,
+    "Campaign": 13984,
+    "Effects": 639,
+    "Functions": 730,
+    "Items": 2405,
+    "Levels": 6891,
+    "References": 96166,
+    "Scripts": 11223,
+    "Skills": 163,
+    "Tables": 22951,
+    "Text": 42413,
+    "UI": 14827
+  },
+  "edges": 421316,
+  "nodes": 228667,
+  "profiles": 6852,
+  "reference_sites": 96154,
+  "scope": "All supplied corpus rows and files; evidence/inference/unknown distinctions are preserved.",
+  "unresolved_reference_sites": 24464
+}
+```
+
+### item-resources
+
+```json
+{
+  "derived_edges": 5338,
+  "items": 1322,
+  "skill_icon_rows": 127
+}
+```
+
+### mobs
+
+```json
+{
+  "fully_certified_profiles": 0,
+  "meaning": "Joined lookup coverage; none certifies every gameplay rule or dynamic dependency.",
+  "profiles": 448,
+  "roles": {
+    "BOSS_FLAGGED": 59,
+    "BOSS_NAME_CANDIDATE": 6,
+    "MOB_AI_TYPE_4": 218,
+    "OTHER_ACTOR": 165
+  }
+}
+```
+
+### packed-sites
+
+```json
+{
+  "bdae_files": 2901,
+  "decoded_by_suffix": {
+    ".bdae": 2901,
+    ".lightset_xml": 40,
+    ".luac": 217,
+    ".mgp": 628,
+    ".mgx": 250,
+    ".mlx": 400,
+    ".mvp": 596,
+    ".mvx": 253,
+    ".xml": 24
+  },
+  "eligible_asset_files": 5329,
+  "eligible_by_suffix": {
+    ".bdae": 2901,
+    ".lightset_xml": 40,
+    ".luac": 219,
+    ".mgp": 629,
+    ".mgx": 250,
+    ".mlx": 400,
+    ".mvp": 598,
+    ".mvx": 253,
+    ".xml": 39
+  },
+  "gaps": 20,
+  "package_asset_rows": 6157,
+  "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+  "processed_by_suffix": {
+    ".bdae": 2901,
+    ".lightset_xml": 40,
+    ".luac": 217,
+    ".mgp": 628,
+    ".mgx": 250,
+    ".mlx": 400,
+    ".mvp": 596,
+    ".mvx": 253,
+    ".xml": 24
+  },
+  "references": 26951,
+  "references_by_kind": {
+    "animation event": 521,
+    "character": 12192,
+    "data file": 296,
+    "model": 5375,
+    "named_reference": 1925,
+    "script": 464,
+    "sound": 339,
+    "texture": 5839
+  },
+  "script_bytecode_files": 0,
+  "script_call_nodes": 442,
+  "script_calls": 7827,
+  "script_files": 217,
+  "script_literals": 7491,
+  "script_nodes": 442,
+  "script_plaintext_files": 217,
+  "script_records": 217,
+  "source": "ios-package",
+  "xml_files": 2191
+}
+```
+
+### platforms
+
+```json
+{
+  "availability": {
+    "ANDROID_OR_RECOVERED_ONLY": 6653,
+    "BOTH": 24,
+    "IOS_ONLY": 6467
+  },
+  "by_format": {
+    ".bar": {
+      "IOS_ONLY": 1
+    },
+    ".bdae": {
+      "ANDROID_OR_RECOVERED_ONLY": 2889,
+      "BOTH": 3,
+      "IOS_ONLY": 1
+    },
+    ".bin": {
+      "ANDROID_OR_RECOVERED_ONLY": 219
+    },
+    ".dat": {
+      "IOS_ONLY": 6147
+    },
+    ".english": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".fnt": {
+      "ANDROID_OR_RECOVERED_ONLY": 1
+    },
+    ".french": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".german": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".italian": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".japanese": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".key": {
+      "IOS_ONLY": 1
+    },
+    ".korean": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".lightset_xml": {
+      "ANDROID_OR_RECOVERED_ONLY": 40
+    },
+    ".luac": {
+      "ANDROID_OR_RECOVERED_ONLY": 219
+    },
+    ".mgp": {
+      "ANDROID_OR_RECOVERED_ONLY": 629
+    },
+    ".mgx": {
+      "ANDROID_OR_RECOVERED_ONLY": 250
+    },
+    ".mlx": {
+      "ANDROID_OR_RECOVERED_ONLY": 400
+    },
+    ".mov": {
+      "IOS_ONLY": 3
+    },
+    ".mvp": {
+      "ANDROID_OR_RECOVERED_ONLY": 598
+    },
+    ".mvx": {
+      "ANDROID_OR_RECOVERED_ONLY": 253
+    },
+    ".png": {
+      "IOS_ONLY": 51
+    },
+    ".sc": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".spanish": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".srt": {
+      "IOS_ONLY": 8
+    },
+    ".state": {
+      "ANDROID_OR_RECOVERED_ONLY": 1
+    },
+    ".strings": {
+      "IOS_ONLY": 8
+    },
+    ".swf": {
+      "ANDROID_OR_RECOVERED_ONLY": 30
+    },
+    ".symbols": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".tga": {
+      "ANDROID_OR_RECOVERED_ONLY": 242
+    },
+    ".ttf": {
+      "BOTH": 7
+    },
+    ".txt": {
+      "ANDROID_OR_RECOVERED_ONLY": 23,
+      "IOS_ONLY": 6
+    },
+    ".vxn": {
+      "ANDROID_OR_RECOVERED_ONLY": 3,
+      "BOTH": 14
+    },
+    ".wav": {
+      "ANDROID_OR_RECOVERED_ONLY": 244,
+      "IOS_ONLY": 239
+    },
+    ".xml": {
+      "ANDROID_OR_RECOVERED_ONLY": 41,
+      "IOS_ONLY": 2
+    },
+    "extensionless": {
+      "ANDROID_OR_RECOVERED_ONLY": 238
+    }
+  },
+  "case_variant_paths": 1,
+  "differing_content": 16,
+  "identical_content_different_name_groups": 0,
+  "logical_by_format": {
+    ".bdae": {
+      "BOTH": 2892,
+      "IOS_ONLY": 9
+    },
+    ".bin": {
+      "ANDROID_OR_RECOVERED_ONLY": 4,
+      "BOTH": 215
+    },
+    ".english": {
+      "BOTH": 37
+    },
+    ".fnt": {
+      "BOTH": 1
+    },
+    ".french": {
+      "BOTH": 37
+    },
+    ".german": {
+      "BOTH": 37
+    },
+    ".italian": {
+      "BOTH": 37
+    },
+    ".japanese": {
+      "BOTH": 37
+    },
+    ".korean": {
+      "BOTH": 37
+    },
+    ".lightset_xml": {
+      "BOTH": 40
+    },
+    ".luac": {
+      "BOTH": 219
+    },
+    ".mgp": {
+      "BOTH": 629
+    },
+    ".mgx": {
+      "BOTH": 250
+    },
+    ".mlx": {
+      "BOTH": 400
+    },
+    ".mvp": {
+      "BOTH": 598
+    },
+    ".mvx": {
+      "BOTH": 253
+    },
+    ".pak": {
+      "IOS_ONLY": 1
+    },
+    ".sc": {
+      "BOTH": 37
+    },
+    ".spanish": {
+      "BOTH": 37
+    },
+    ".state": {
+      "BOTH": 1
+    },
+    ".swf": {
+      "ANDROID_OR_RECOVERED_ONLY": 23,
+      "BOTH": 7
+    },
+    ".symbols": {
+      "BOTH": 37
+    },
+    ".tga": {
+      "ANDROID_OR_RECOVERED_ONLY": 9,
+      "BOTH": 233
+    },
+    ".ttf": {
+      "ANDROID_OR_RECOVERED_ONLY": 7
+    },
+    ".tweaker_xml": {
+      "IOS_ONLY": 2
+    },
+    ".txt": {
+      "BOTH": 22
+    },
+    ".vxn": {
+      "IOS_ONLY": 14
+    },
+    ".wav": {
+      "IOS_ONLY": 239
+    },
+    ".xml": {
+      "BOTH": 39
+    },
+    ".zip": {
+      "IOS_ONLY": 1
+    },
+    "extensionless": {
+      "ANDROID_OR_RECOVERED_ONLY": 237
+    }
+  },
+  "logical_uri_availability": {
+    "ANDROID_OR_RECOVERED_ONLY": 280,
+    "BOTH": 6132,
+    "IOS_ONLY": 266
+  },
+  "logical_uri_groups": 6678,
+  "paths": 13144,
+  "policy": "Use both supplied partial caches, as clarified by the owner; record the platform of every resolution."
+}
+```
+
+### references
+
+```json
+{
+  "inventory_only": false,
+  "reference_todo": 0,
+  "reference_work_todo": 0,
+  "references": 96154,
+  "references_by_kind": {
+    "actor_name_candidate": 46,
+    "anim": 4429,
+    "animated effect": 553,
+    "animation event": 1042,
+    "animation_dictionary": 854,
+    "campaign_script_target_index": 1004,
+    "character": 25391,
+    "class": 511,
+    "data file": 698,
+    "dialog_style_id": 1812,
+    "dialog_text_string_id": 1812,
+    "effect set": 575,
+    "effect_set": 370,
+    "faction": 519,
+    "faery": 29,
+    "global_campaign_operand": 37,
+    "item": 2178,
+    "item power": 3643,
+    "level": 84,
+    "level_name_candidate": 9,
+    "loot": 1141,
+    "model": 13397,
+    "model component": 1245,
+    "named_reference": 3864,
+    "numeric_reference": 294,
+    "projectile": 150,
+    "quest": 154,
+    "scene_object_condition": 472,
+    "script": 1628,
+    "serialized_string": 7727,
+    "skill": 268,
+    "sound": 4754,
+    "source_sound_ordinal": 202,
+    "symbolic_reference": 3574,
+    "texture": 11688
+  },
+  "sound_ledger_rows": 638,
+  "table_rows_todo": 0,
+  "table_rows_unresolved": 0,
+  "table_rows_work_todo": 0,
+  "tables": 8863
+}
+```
+
+### scripts
+
+```json
+{
+  "calls": {
+    "by_mode": {
+      "global": 6166,
+      "imported_script_function": 832,
+      "local_function": 257,
+      "lua_builtin": 137,
+      "object_method": 498,
+      "qualified_function": 8,
+      "script_function": 84
+    },
+    "done": 4170,
+    "engine_candidates": 6672,
+    "port_status": {
+      "MISSING": 919,
+      "PARTIAL": 4915,
+      "PORTED": 2148
+    },
+    "total": 7982,
+    "unresolved": 3812
+  },
+  "engine_call_sites": 6672,
+  "engine_function_names": 288,
+  "engine_function_rows": {
+    "done": 31,
+    "total": 288,
+    "unresolved": 257
+  },
+  "known_answer_tests": {
+    "swampking_core.luac": "STATIC_SOURCE_ASSERTIONS_PASS",
+    "witch.luac": "STATIC_SOURCE_ASSERTIONS_PASS"
+  },
+  "native_addresses": 498,
+  "native_binding_matches": 271,
+  "port_status_candidates": {
+    "MISSING": 67,
+    "PARTIAL": 174,
+    "PORTED": 47
+  },
+  "script_file_format_counts": {
+    "lua-source": 219
+  },
+  "script_lines": 27037,
+  "script_readiness": {
+    "missing": 919,
+    "partial": 4083,
+    "ported": 1670,
+    "unknown": 0
+  },
+  "script_references": {
+    "by_kind": {
+      "named_reference": 1939,
+      "numeric_reference": 294,
+      "script": 3,
+      "sound": 3,
+      "symbolic_reference": 2544
+    },
+    "statuses": {
+      "NOT-NEEDED": 2852,
+      "RESOLVED": 1384,
+      "UNRESOLVED": 547
+    },
+    "todo": 0,
+    "total": 4783
+  },
+  "script_rows": {
+    "done": 4,
+    "total": 219,
+    "unresolved": 215
+  },
+  "scripts": 219,
+  "scripts_by_platform": {
+    "android": 219
+  }
+}
+```
+
+### sites
+
+```json
+{
+  "by_kind": {
+    "animation event": 521,
+    "character": 13199,
+    "data file": 328,
+    "model": 6013,
+    "script": 506,
+    "sound": 2690,
+    "texture": 5849
+  },
+  "event_decode_errors": [],
+  "reference_sites": 29106,
+  "source_files": {
+    "bdae": 2919,
+    "xml": 2337
+  }
+}
+```
+
+### table-sites
+
+```json
+{
+  "by_kind": {
+    "anim": 1894,
+    "animated effect": 284,
+    "class": 298,
+    "effect set": 449,
+    "faction": 519,
+    "faery": 29,
+    "item": 2178,
+    "item power": 3643,
+    "level": 84,
+    "loot": 1141,
+    "model": 2006,
+    "model component": 1245,
+    "projectile": 110,
+    "script": 531,
+    "skill": 55,
+    "sound": 601
+  },
+  "by_table": {
+    "ai#group0": 76,
+    "ai_factions#group0": 16,
+    "animations_dictionary#group0": 1447,
+    "character_models_dictionary#group0": 116,
+    "character_properties#group0": 448,
+    "character_properties#group1": 3,
+    "character_properties#group2": 4,
+    "effects_dictionary#group0": 284,
+    "faeries#group0": 4,
+    "faeries#group1": 16,
+    "game_objects_dictionary#group0": 85,
+    "item_powers#group0": 121,
+    "item_powers#group1": 937,
+    "levels#group0": 33,
+    "levels#group1": 51,
+    "loot_audiovisual#group0": 29,
+    "loot_table#group0": 1,
+    "loot_table#group1": 3,
+    "loot_table#group2": 186,
+    "loot_table#group3": 1322,
+    "loot_table#group4": 9,
+    "loot_table#group5": 339,
+    "projectiles_dictionary#group0": 28
+  },
+  "consumption": [
+    {
+      "consumed": 401412,
+      "partial": true,
+      "size": 401608,
+      "suffix": 196,
+      "table": "character_properties"
+    },
+    {
+      "consumed": 5366,
+      "partial": false,
+      "size": 5366,
+      "suffix": 0,
+      "table": "character_models_dictionary"
+    },
+    {
+      "consumed": 104357,
+      "partial": false,
+      "size": 104357,
+      "suffix": 0,
+      "table": "animations_dictionary"
+    },
+    {
+      "consumed": 16770,
+      "partial": false,
+      "size": 16770,
+      "suffix": 0,
+      "table": "effects_dictionary"
+    },
+    {
+      "consumed": 1557,
+      "partial": false,
+      "size": 1557,
+      "suffix": 0,
+      "table": "projectiles_dictionary"
+    },
+    {
+      "consumed": 4144,
+      "partial": false,
+      "size": 4144,
+      "suffix": 0,
+      "table": "game_objects_dictionary"
+    },
+    {
+      "consumed": 5071,
+      "partial": false,
+      "size": 5071,
+      "suffix": 0,
+      "table": "ai"
+    },
+    {
+      "consumed": 636,
+      "partial": false,
+      "size": 636,
+      "suffix": 0,
+      "table": "ai_factions"
+    },
+    {
+      "consumed": 699,
+      "partial": false,
+      "size": 699,
+      "suffix": 0,
+      "table": "faeries"
+    },
+    {
+      "consumed": 282872,
+      "partial": true,
+      "size": 284104,
+      "suffix": 1232,
+      "table": "loot_table"
+    },
+    {
+      "consumed": 54443,
+      "partial": false,
+      "size": 54443,
+      "suffix": 0,
+      "table": "item_powers"
+    },
+    {
+      "consumed": 1022,
+      "partial": false,
+      "size": 1022,
+      "suffix": 0,
+      "table": "loot_audiovisual"
+    },
+    {
+      "consumed": 5574,
+      "partial": false,
+      "size": 5574,
+      "suffix": 0,
+      "table": "levels"
+    }
+  ],
+  "decode_errors": [],
+  "reference_cells": 15067,
+  "rows": 5558
+}
+```
+
+### ui-text
+
+```json
+{
+  "aliases": 58705,
+  "gaps": 344,
+  "ios7_swf_movies": 7,
+  "localization_files": 333,
+  "localization_rows": 41546,
+  "resources_by_kind": {
+    "font-resource": 8,
+    "localization-file": 333,
+    "localization-row": 41546,
+    "swf-action-block": 10445,
+    "swf-edit-text": 1585,
+    "swf-font": 63,
+    "swf-movie": 37,
+    "swf-script-carrier": 342,
+    "swf-shape": 6105,
+    "swf-sprite": 6685,
+    "swf-texture": 162,
+    "table-row": 1913,
+    "texture-resource": 6
+  },
+  "script_inventory": {
+    "avm1_action_blocks": 10445,
+    "avm1_by_tag": {
+      "12": 10098,
+      "59": 347
+    },
+    "avm1_malformed_opaque": 0,
+    "avm1_opcode_indexed": 10445,
+    "avm1_records": 370902,
+    "avm2_by_tag": {},
+    "avm2_bytecode_blocks": 0,
+    "opaque_carriers_by_tag": {
+      "26": 342
+    },
+    "opaque_script_carriers": 342
+  },
+  "source_consumer": "HudTextV1::id decodes StringConfig then indexes common_text sheet/ordinal; InfoHUDManager FastUpdate 41e064 reads the eligible target name ID through StringManager and writes enemy.enemy_name.text; Faery page text is authored GAMEPLAYMENUS_FAERY_* symbol lookup, so Faery table Name/Description are retained as rows but not asserted as that page display source.",
+  "swf_movies": 37,
+  "swf_reports": {
+    "data/menus/dqcharmenu.swf": {
+      "exports": 23,
+      "imports": 0,
+      "symbols": 777,
+      "tags": 925,
+      "version": 9
+    },
+    "data/menus/dqcharmenu_droid.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 798,
+      "tags": 940,
+      "version": 8
+    },
+    "data/menus/dqcharmenu_i9000.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 798,
+      "tags": 940,
+      "version": 8
+    },
+    "data/menus/dqhud.swf": {
+      "exports": 588,
+      "imports": 0,
+      "symbols": 784,
+      "tags": 1447,
+      "version": 7
+    },
+    "data/menus/dqhud_droid.swf": {
+      "exports": 32,
+      "imports": 0,
+      "symbols": 778,
+      "tags": 931,
+      "version": 8
+    },
+    "data/menus/dqhud_i9000.swf": {
+      "exports": 32,
+      "imports": 0,
+      "symbols": 778,
+      "tags": 931,
+      "version": 8
+    },
+    "data/menus/dqhud_jp.swf": {
+      "exports": 5,
+      "imports": 0,
+      "symbols": 364,
+      "tags": 436,
+      "version": 8
+    },
+    "data/menus/dqhud_jp_droid.swf": {
+      "exports": 5,
+      "imports": 0,
+      "symbols": 364,
+      "tags": 436,
+      "version": 8
+    },
+    "data/menus/dqhud_jp_i9000.swf": {
+      "exports": 5,
+      "imports": 0,
+      "symbols": 364,
+      "tags": 436,
+      "version": 8
+    },
+    "data/menus/dqmenus.swf": {
+      "exports": 1201,
+      "imports": 0,
+      "symbols": 509,
+      "tags": 1755,
+      "version": 7
+    },
+    "data/menus/dqmenus2.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 42,
+      "tags": 52,
+      "version": 8
+    },
+    "data/menus/dqmenus2_droid.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 42,
+      "tags": 52,
+      "version": 8
+    },
+    "data/menus/dqmenus2_i9000.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 42,
+      "tags": 52,
+      "version": 8
+    },
+    "data/menus/dqmenus_droid.swf": {
+      "exports": 10,
+      "imports": 0,
+      "symbols": 522,
+      "tags": 618,
+      "version": 8
+    },
+    "data/menus/dqmenus_i9000.swf": {
+      "exports": 10,
+      "imports": 0,
+      "symbols": 518,
+      "tags": 614,
+      "version": 8
+    },
+    "data/menus/dqmenus_i9000_htc.swf": {
+      "exports": 10,
+      "imports": 0,
+      "symbols": 518,
+      "tags": 614,
+      "version": 8
+    },
+    "data/menus/dqmenus_i9000_lg.swf": {
+      "exports": 10,
+      "imports": 0,
+      "symbols": 518,
+      "tags": 614,
+      "version": 8
+    },
+    "data/menus/dqmenus_jp.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 508,
+      "tags": 609,
+      "version": 8
+    },
+    "data/menus/dqmenus_jp_droid.swf": {
+      "exports": 7,
+      "imports": 0,
+      "symbols": 573,
+      "tags": 732,
+      "version": 8
+    },
+    "data/menus/dqmenus_jp_i9000.swf": {
+      "exports": 7,
+      "imports": 0,
+      "symbols": 573,
+      "tags": 731,
+      "version": 8
+    },
+    "data/menus/dqmenus_kor.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 506,
+      "tags": 607,
+      "version": 8
+    },
+    "data/menus/dqmenusapple.swf": {
+      "exports": 9,
+      "imports": 0,
+      "symbols": 493,
+      "tags": 600,
+      "version": 8
+    },
+    "data/menus/dqshared.swf": {
+      "exports": 18,
+      "imports": 0,
+      "symbols": 152,
+      "tags": 212,
+      "version": 8
+    },
+    "data/menus/dqshared_droid.swf": {
+      "exports": 14,
+      "imports": 0,
+      "symbols": 151,
+      "tags": 208,
+      "version": 8
+    },
+    "data/menus/dqshared_i9000.swf": {
+      "exports": 14,
+      "imports": 0,
+      "symbols": 151,
+      "tags": 208,
+      "version": 8
+    },
+    "data/menus/dqsharedsssss.swf": {
+      "exports": 18,
+      "imports": 0,
+      "symbols": 152,
+      "tags": 212,
+      "version": 8
+    },
+    "data/menus/key.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 87,
+      "tags": 101,
+      "version": 10
+    },
+    "data/menus/loadanims.swf": {
+      "exports": 1,
+      "imports": 0,
+      "symbols": 5,
+      "tags": 13,
+      "version": 8
+    },
+    "data/menus/loadanims_droid.swf": {
+      "exports": 1,
+      "imports": 0,
+      "symbols": 4,
+      "tags": 11,
+      "version": 8
+    },
+    "data/menus/loadanims_i9000.swf": {
+      "exports": 1,
+      "imports": 0,
+      "symbols": 4,
+      "tags": 11,
+      "version": 8
+    },
+    "ios7/data/menus/dqcharmenu.swf": {
+      "exports": 23,
+      "imports": 0,
+      "symbols": 801,
+      "tags": 950,
+      "version": 8
+    },
+    "ios7/data/menus/dqhud.swf": {
+      "exports": 40,
+      "imports": 0,
+      "symbols": 790,
+      "tags": 952,
+      "version": 8
+    },
+    "ios7/data/menus/dqmenus.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 442,
+      "tags": 533,
+      "version": 8
+    },
+    "ios7/data/menus/dqmenus2.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 42,
+      "tags": 52,
+      "version": 8
+    },
+    "ios7/data/menus/dqmenusapple.swf": {
+      "exports": 9,
+      "imports": 0,
+      "symbols": 493,
+      "tags": 600,
+      "version": 8
+    },
+    "ios7/data/menus/dqshared.swf": {
+      "exports": 19,
+      "imports": 0,
+      "symbols": 153,
+      "tags": 215,
+      "version": 8
+    },
+    "ios7/data/menus/loadanims.swf": {
+      "exports": 1,
+      "imports": 0,
+      "symbols": 4,
+      "tags": 11,
+      "version": 8
+    }
+  }
+}
+```
+
+### views
+
+```json
+{
+  "actor_act_membership_rows": {
+    "processed": 448,
+    "states": {
+      "INFERENCE": 48,
+      "UNRESOLVED": 400
+    },
+    "todo": 0,
+    "total": 448
+  },
+  "boundary_rows": {
+    "label": "INFERENCE",
+    "processed": 5,
+    "todo": 0,
+    "total": 5,
+    "unresolved": 5
+  },
+  "category": "ACT-ORGANISED GENERATED VIEWS",
+  "inventory": {
+    "asset_reference_rows": {
+      "processed": 96154,
+      "states": {
+        "NOT-NEEDED": 10818,
+        "RESOLVED": 60872,
+        "UNRESOLVED": 24464
+      },
+      "todo": 0,
+      "total": 96154
+    },
+    "backup_scene_rows": {
+      "processed": 30,
+      "states": {
+        "DONE": 30
+      },
+      "todo": 0,
+      "total": 30
+    },
+    "boss_candidate_actor_rows": {
+      "definition": "BOSS/MIDBOSS name markers or explicitly named encounter actors; candidates only",
+      "processed": 65,
+      "states": {
+        "PROVEN": 59,
+        "UNRESOLVED": 6
+      },
+      "todo": 0,
+      "total": 65
+    },
+    "boss_flag_actor_rows": {
+      "rule": "CharacterProperties.AI -> AI.Flags bit 4; native HUD predicate at port/level-world/canonical_character_hud_v62.cpp:14.",
+      "status": "PROVEN",
+      "total": 59
+    },
+    "campaign_numeric_references": {
+      "processed": 1426,
+      "states": {
+        "RESOLVED": 1426
+      },
+      "todo": 0,
+      "total": 1426
+    },
+    "campaign_scene_rows": {
+      "processed": 43,
+      "states": {
+        "DONE": 30,
+        "UNRESOLVED": 13
+      },
+      "todo": 0,
+      "total": 43
+    },
+    "campaign_string_references": {
+      "processed": 7782,
+      "states": {
+        "UNRESOLVED": 7782
+      },
+      "todo": 0,
+      "total": 7782
+    },
+    "character_properties_actor_rows": {
+      "processed": 448,
+      "states": {
+        "RESOLVED": 448
+      },
+      "todo": 0,
+      "total": 448
+    },
+    "debug_scene_rows": {
+      "processed": 32,
+      "states": {
+        "DONE": 30,
+        "UNRESOLVED": 2
+      },
+      "todo": 0,
+      "total": 32
+    },
+    "demo_scene_rows": {
+      "processed": 1,
+      "states": {
+        "DONE": 1
+      },
+      "todo": 0,
+      "total": 1
+    },
+    "dialogue_rows": {
+      "processed": 55,
+      "states": {
+        "RESOLVED": 55
+      },
+      "todo": 0,
+      "total": 55
+    },
+    "levels_table_rows": {
+      "processed": 84,
+      "states": {
+        "RESOLVED": 84
+      },
+      "todo": 0,
+      "total": 84
+    },
+    "mob_actor_rows_ai_type_4": {
+      "rule": "CharacterProperties AI row Type == 4; this is an AI category count, not a runtime spawn count.",
+      "status": "DONE",
+      "total": 283
+    },
+    "module_character_candidates": {
+      "note": "Authored MGP candidates; conditional/random module selection and actor scripts are not executed.",
+      "status": "INFERENCE",
+      "total": 3437
+    },
+    "scene_level_rows": {
+      "processed": 106,
+      "states": {
+        "DONE": 91,
+        "UNRESOLVED": 15
+      },
+      "todo": 0,
+      "total": 106
+    },
+    "script_reference_rows": {
+      "processed": 4783,
+      "states": {
+        "NOT-NEEDED": 2852,
+        "RESOLVED": 1384,
+        "UNRESOLVED": 547
+      },
+      "todo": 0,
+      "total": 4783
+    },
+    "serialized_campaign_script_files": {
+      "by_source": {
+        "android": 65
+      },
+      "candidate_string_references": 9208,
+      "commands": 12610,
+      "decode_failures": 0,
+      "decoded": 65,
+      "missing_pairs": 2,
+      "scripts": 1278,
+      "states": {
+        "DONE": 65,
+        "UNRESOLVED": 2
+      },
+      "total": 67
+    },
+    "source_script_rows": {
+      "processed": 219,
+      "states": {
+        "DONE": 4,
+        "UNRESOLVED": 215
+      },
+      "todo": 0,
+      "total": 219
+    },
+    "supplemental_name_marked_boss_candidates": {
+      "rule": "Preserves all 26 name-marker candidates as notes; classification relies on the AI flag predicate where available.",
+      "status": "DONE",
+      "total": 26
+    }
+  },
+  "notes": [
+    "Counts are inventory, not completion claims.",
+    "INFERENCE rows represent generated navigation/candidate memberships, not confirmed boundaries or runtime spawns.",
+    "59 rows match the source-proven AI.Flags bit-4 HUD marker; 6 name-only candidates remain supplemental, and encounter placement is not inferred from the marker."
+  ],
+  "work_status": "DONE"
+}
+```
+
+## Resume
+
+Run `powershell -NoProfile -ExecutionPolicy Bypass -File tools/atlas/regen.ps1` from this worktree.
+Use `atlas.ps1 check` to validate current files. Read the category reports for evidence and unresolved ownership.
+The inventory checkpoint preserves TODO before resolution. Later regeneration replaces the generated rows deterministically.

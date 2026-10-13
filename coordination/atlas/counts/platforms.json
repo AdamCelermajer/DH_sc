@@ -1,0 +1,230 @@
+{
+  "availability": {
+    "ANDROID_OR_RECOVERED_ONLY": 6653,
+    "BOTH": 24,
+    "IOS_ONLY": 6467
+  },
+  "by_format": {
+    ".bar": {
+      "IOS_ONLY": 1
+    },
+    ".bdae": {
+      "ANDROID_OR_RECOVERED_ONLY": 2889,
+      "BOTH": 3,
+      "IOS_ONLY": 1
+    },
+    ".bin": {
+      "ANDROID_OR_RECOVERED_ONLY": 219
+    },
+    ".dat": {
+      "IOS_ONLY": 6147
+    },
+    ".english": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".fnt": {
+      "ANDROID_OR_RECOVERED_ONLY": 1
+    },
+    ".french": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".german": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".italian": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".japanese": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".key": {
+      "IOS_ONLY": 1
+    },
+    ".korean": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".lightset_xml": {
+      "ANDROID_OR_RECOVERED_ONLY": 40
+    },
+    ".luac": {
+      "ANDROID_OR_RECOVERED_ONLY": 219
+    },
+    ".mgp": {
+      "ANDROID_OR_RECOVERED_ONLY": 629
+    },
+    ".mgx": {
+      "ANDROID_OR_RECOVERED_ONLY": 250
+    },
+    ".mlx": {
+      "ANDROID_OR_RECOVERED_ONLY": 400
+    },
+    ".mov": {
+      "IOS_ONLY": 3
+    },
+    ".mvp": {
+      "ANDROID_OR_RECOVERED_ONLY": 598
+    },
+    ".mvx": {
+      "ANDROID_OR_RECOVERED_ONLY": 253
+    },
+    ".png": {
+      "IOS_ONLY": 51
+    },
+    ".sc": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".spanish": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".srt": {
+      "IOS_ONLY": 8
+    },
+    ".state": {
+      "ANDROID_OR_RECOVERED_ONLY": 1
+    },
+    ".strings": {
+      "IOS_ONLY": 8
+    },
+    ".swf": {
+      "ANDROID_OR_RECOVERED_ONLY": 30
+    },
+    ".symbols": {
+      "ANDROID_OR_RECOVERED_ONLY": 37
+    },
+    ".tga": {
+      "ANDROID_OR_RECOVERED_ONLY": 242
+    },
+    ".ttf": {
+      "BOTH": 7
+    },
+    ".txt": {
+      "ANDROID_OR_RECOVERED_ONLY": 23,
+      "IOS_ONLY": 6
+    },
+    ".vxn": {
+      "ANDROID_OR_RECOVERED_ONLY": 3,
+      "BOTH": 14
+    },
+    ".wav": {
+      "ANDROID_OR_RECOVERED_ONLY": 244,
+      "IOS_ONLY": 239
+    },
+    ".xml": {
+      "ANDROID_OR_RECOVERED_ONLY": 41,
+      "IOS_ONLY": 2
+    },
+    "extensionless": {
+      "ANDROID_OR_RECOVERED_ONLY": 238
+    }
+  },
+  "case_variant_paths": 1,
+  "differing_content": 16,
+  "identical_content_different_name_groups": 0,
+  "logical_by_format": {
+    ".bdae": {
+      "BOTH": 2892,
+      "IOS_ONLY": 9
+    },
+    ".bin": {
+      "ANDROID_OR_RECOVERED_ONLY": 4,
+      "BOTH": 215
+    },
+    ".english": {
+      "BOTH": 37
+    },
+    ".fnt": {
+      "BOTH": 1
+    },
+    ".french": {
+      "BOTH": 37
+    },
+    ".german": {
+      "BOTH": 37
+    },
+    ".italian": {
+      "BOTH": 37
+    },
+    ".japanese": {
+      "BOTH": 37
+    },
+    ".korean": {
+      "BOTH": 37
+    },
+    ".lightset_xml": {
+      "BOTH": 40
+    },
+    ".luac": {
+      "BOTH": 219
+    },
+    ".mgp": {
+      "BOTH": 629
+    },
+    ".mgx": {
+      "BOTH": 250
+    },
+    ".mlx": {
+      "BOTH": 400
+    },
+    ".mvp": {
+      "BOTH": 598
+    },
+    ".mvx": {
+      "BOTH": 253
+    },
+    ".pak": {
+      "IOS_ONLY": 1
+    },
+    ".sc": {
+      "BOTH": 37
+    },
+    ".spanish": {
+      "BOTH": 37
+    },
+    ".state": {
+      "BOTH": 1
+    },
+    ".swf": {
+      "ANDROID_OR_RECOVERED_ONLY": 23,
+      "BOTH": 7
+    },
+    ".symbols": {
+      "BOTH": 37
+    },
+    ".tga": {
+      "ANDROID_OR_RECOVERED_ONLY": 9,
+      "BOTH": 233
+    },
+    ".ttf": {
+      "ANDROID_OR_RECOVERED_ONLY": 7
+    },
+    ".tweaker_xml": {
+      "IOS_ONLY": 2
+    },
+    ".txt": {
+      "BOTH": 22
+    },
+    ".vxn": {
+      "IOS_ONLY": 14
+    },
+    ".wav": {
+      "IOS_ONLY": 239
+    },
+    ".xml": {
+      "BOTH": 39
+    },
+    ".zip": {
+      "IOS_ONLY": 1
+    },
+    "extensionless": {
+      "ANDROID_OR_RECOVERED_ONLY": 237
+    }
+  },
+  "logical_uri_availability": {
+    "ANDROID_OR_RECOVERED_ONLY": 280,
+    "BOTH": 6132,
+    "IOS_ONLY": 266
+  },
+  "logical_uri_groups": 6678,
+  "paths": 13144,
+  "policy": "Use both supplied partial caches, as clarified by the owner; record the platform of every resolution."
+}

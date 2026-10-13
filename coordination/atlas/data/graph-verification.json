@@ -1,0 +1,104 @@
+{
+  "passed": true,
+  "scope": "Read-only focused graph checks; graph is loaded once and failure fixtures are in memory.",
+  "tests": [
+    {
+      "name": "valid small graph passes",
+      "observed": [],
+      "passed": true
+    },
+    {
+      "name": "duplicate node IDs rejected",
+      "observed": [
+        "graph: duplicate typed node IDs"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing source node rejected",
+      "observed": [
+        "graph: missing tables entities (1)",
+        "graph: dangling relationship e2"
+      ],
+      "passed": true
+    },
+    {
+      "name": "dangling relationship rejected",
+      "observed": [
+        "graph: dangling relationship e1",
+        "graph: reference has no source owner r"
+      ],
+      "passed": true
+    },
+    {
+      "name": "duplicate relationship IDs rejected",
+      "observed": [
+        "graph: duplicate relationship IDs"
+      ],
+      "passed": true
+    },
+    {
+      "name": "reference without source owner rejected",
+      "observed": [
+        "graph: reference has no source owner r"
+      ],
+      "passed": true
+    },
+    {
+      "name": "resolved reference without target rejected",
+      "observed": [
+        "graph: resolved reference has no target r"
+      ],
+      "passed": true
+    },
+    {
+      "name": "actor without profile rejected",
+      "observed": [
+        "graph: missing entity profile owner"
+      ],
+      "passed": true
+    },
+    {
+      "name": "Mud Lord reaches authored script, animation, effects, audio and loot",
+      "observed": [],
+      "passed": true
+    },
+    {
+      "name": "Knight skill BashDown reaches script, animation, effect and audio",
+      "observed": [],
+      "passed": true
+    },
+    {
+      "name": "Knight skill GroundSlam reaches script, animation, effect and audio",
+      "observed": [],
+      "passed": true
+    },
+    {
+      "name": "Knight skill Charge reaches script, animation, effect and audio",
+      "observed": [],
+      "passed": true
+    },
+    {
+      "name": "Bow item reaches audiovisual data, sound and model asset",
+      "observed": [],
+      "passed": true
+    },
+    {
+      "name": "Potion0 reaches audiovisual data, sound and visual asset",
+      "observed": [],
+      "passed": true
+    },
+    {
+      "name": "Bow01 reaches its authored weapon model and audiovisual data",
+      "observed": [],
+      "passed": true
+    },
+    {
+      "expected_links": 3788,
+      "missing_links": 0,
+      "name": "all explicit item resource links reach graph targets",
+      "observed": [],
+      "passed": true
+    }
+  ]
+}

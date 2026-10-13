@@ -1,0 +1,1366 @@
+{
+  "passed": true,
+  "suites": {
+    "character_template_checks": {
+      "passed": true,
+      "scope": "Source identity and table-selector links only; no runtime spawn or visual behavior asserted.",
+      "tests": [
+        {
+          "detail": null,
+          "name": "authored char_template resolves to exact Android template row",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "stable IDs and caller input are preserved",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "resolution is idempotent",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "char_template_pydata resolves as a table selector, never as the template row key",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "char_template precedence blocks the competing CharacterTable selector",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "non-Character gametype is rejected",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "missing source selector gate stays unresolved",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "reference spelling must equal the exact source key",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "unregistered PyData alias does not select a row",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "iPad exact source-name link is scoped to its names stream, with native ID unverified",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "iPad table alias is a source-scoped table target, not an Android table node",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "iPad CharacterTable table alias uses its own names-only group zero",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "unknown platform cannot borrow the iPad names group",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "CharacterTable selector resolves only for direct charpropsname path",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "duplicate table names remain ambiguous",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "missing exact table row remains unresolved",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "exact source XML element attributes, not unrelated reference context, gate the link",
+          "passed": true
+        }
+      ]
+    },
+    "entity_native_checks": {
+      "passed": true,
+      "samples": {
+        "Bow": {
+          "id": "entity:loot_table#group3:127",
+          "native_function_ids": [],
+          "no_script_association_reason": "No direct Lua script link was found in this entity/profile join; native engine behavior may be separate.",
+          "script_association_status": "NO_SCRIPT_ASSOCIATION_IN_AVAILABLE_SOURCE_JOIN",
+          "script_ids": [],
+          "unresolved_script_links": []
+        },
+        "Knight": {
+          "id": "c5b2c404a0b0905d028a",
+          "native_function_ids": [
+            "08a34a258195184437db",
+            "09356c4f538053b2fdde",
+            "1531141809c2023e4115",
+            "1a1bbda728ae09a3cb6d",
+            "1a57b77f4aea48ea0e78",
+            "1d8f9214d44dbfdab233",
+            "65c2269fc5b1efa9c9ae",
+            "68c100374e94b349cc86",
+            "6cefbf80881bce92fa7f",
+            "715ca7811b1f5a9a35b8",
+            "7a0452b73f82e8a4b85b",
+            "7df9bdce40bcc9b80a56",
+            "7f6c9732197731eb090e",
+            "8b2f937fb861f53a62c5",
+            "927a023a48bde0d9f507",
+            "ac001076d29a23615ef9",
+            "ac7964093c21a0ffe1ba",
+            "b62d28705f7fd9d983ba",
+            "c02aff8b4b8c859bd912",
+            "c546c459f3a08331edb0",
+            "c859082891d7300637a9",
+            "c88e08a07fee1cea9e70",
+            "c9a85a2b6a2b5c50ae16",
+            "cc7376ad6da462cc72a9",
+            "cfb21c95dfbc053cf7e7",
+            "df0a08eeec4c08b9122d",
+            "e32a96c26c513f2a6467",
+            "e5ccff747e7c51d8a2e5",
+            "fad84e75bac88b05058f"
+          ],
+          "no_script_association_reason": null,
+          "script_association_status": "SOURCE_SCRIPT_ASSOCIATION_FOUND",
+          "script_ids": [
+            "1e1c75689f5f7142f338",
+            "537f15c188ae028ccf3a",
+            "5d3f2725d4b96f8fc62a",
+            "86a21e3b2029a73f0d7a",
+            "a58a061529bc1e722018",
+            "d77592c5a5b1e53e715d",
+            "e8d8ebc86beec8289809",
+            "f1f752cd7ac1c7941b26"
+          ],
+          "unresolved_script_links": [
+            {
+              "association": "ACTOR_AI_SCRIPT_FIELD",
+              "authored_value": "__player__",
+              "script_id": null,
+              "status": "SCRIPT_NOT_FOUND"
+            }
+          ]
+        },
+        "Mud Lord": {
+          "id": "debe3161f75f83cfc4a0",
+          "native_function_ids": [
+            "0475840796394a5d15ac",
+            "04bbc1b0620bafc48513",
+            "08a34a258195184437db",
+            "09356c4f538053b2fdde",
+            "0ca4ecf80c9552f95665",
+            "1531141809c2023e4115",
+            "15f6373a7f3104dc67a6",
+            "171a44bcbbc27511a562",
+            "1a1bbda728ae09a3cb6d",
+            "1a57b77f4aea48ea0e78",
+            "1c82a10bcea96a97985e",
+            "1d268b9932dd0a182f54",
+            "22585a813434e0ab4439",
+            "288bb8b956bf16222f08",
+            "2b1d9cd51f7040057199",
+            "2d4a8675129f567e43b1",
+            "2da30fbc48804a5342ee",
+            "30495185df5ed2fa5810",
+            "319892c47cf825e5d437",
+            "39139f1e81abbb60af2c",
+            "39ca384b24293669f15e",
+            "44ea10a68ad9d9a053ff",
+            "4521866fef28ea0d7264",
+            "65c2269fc5b1efa9c9ae",
+            "68aadc7660a8bf8b62c1",
+            "68c100374e94b349cc86",
+            "6cefbf80881bce92fa7f",
+            "71364299af08fdc47245",
+            "715ca7811b1f5a9a35b8",
+            "717c3c6dd572a853c2a1",
+            "7a0452b73f82e8a4b85b",
+            "7a9e389eeb6d33b3e907",
+            "7df9bdce40bcc9b80a56",
+            "7f6c9732197731eb090e",
+            "7fd86003472f2fc57ac8",
+            "88ab8743f2c6607e4814",
+            "8b2f937fb861f53a62c5",
+            "99c0c85b2ea2d6107dc6",
+            "9cf977183583319b456d",
+            "a6850f6e44d0ed586050",
+            "ac001076d29a23615ef9",
+            "ac7964093c21a0ffe1ba",
+            "c546c459f3a08331edb0",
+            "cfb21c95dfbc053cf7e7",
+            "d5ecb244a6f3308b38fd",
+            "df0a08eeec4c08b9122d",
+            "e29edbe1bf6a6986fbfc",
+            "e4c425b377a223cdfdf8",
+            "e5ccff747e7c51d8a2e5",
+            "eaca0171005d2d8dd390",
+            "ebda0f41776f41d7eb90",
+            "eed4eaf63ace6a583ea4",
+            "fda316ef3b1ac08ab1d4"
+          ],
+          "no_script_association_reason": null,
+          "script_association_status": "SOURCE_SCRIPT_ASSOCIATION_FOUND",
+          "script_ids": [
+            "16d9803cce805b7bb594",
+            "303e6d54f82ad51eaffe",
+            "4eb619adb4e423f91af7",
+            "b5c5143fad064d823aed",
+            "ee7f57cdbc81aa10fa30"
+          ],
+          "unresolved_script_links": []
+        },
+        "Witch": {
+          "id": "493d2e115ad25e84db5e",
+          "native_function_ids": [
+            "0475840796394a5d15ac",
+            "04bbc1b0620bafc48513",
+            "08a34a258195184437db",
+            "09356c4f538053b2fdde",
+            "1531141809c2023e4115",
+            "15f6373a7f3104dc67a6",
+            "171a44bcbbc27511a562",
+            "1a1bbda728ae09a3cb6d",
+            "1a57b77f4aea48ea0e78",
+            "1c82a10bcea96a97985e",
+            "21a4cf3a5e07e55c4a72",
+            "263746b879ca8d68419c",
+            "2b1d9cd51f7040057199",
+            "2da30fbc48804a5342ee",
+            "4521866fef28ea0d7264",
+            "578ab08d5df066761a33",
+            "620f0329c9c106ae9675",
+            "65c2269fc5b1efa9c9ae",
+            "68c100374e94b349cc86",
+            "6cefbf80881bce92fa7f",
+            "715ca7811b1f5a9a35b8",
+            "717c3c6dd572a853c2a1",
+            "7a0452b73f82e8a4b85b",
+            "7df9bdce40bcc9b80a56",
+            "7f6c9732197731eb090e",
+            "7fd86003472f2fc57ac8",
+            "88ab8743f2c6607e4814",
+            "99c0c85b2ea2d6107dc6",
+            "9c9328f8e110d8fc4fa8",
+            "9cabbf83ec0c49db0efe",
+            "ac001076d29a23615ef9",
+            "ac7964093c21a0ffe1ba",
+            "c546c459f3a08331edb0",
+            "cc7376ad6da462cc72a9",
+            "cfb21c95dfbc053cf7e7",
+            "d5ecb244a6f3308b38fd",
+            "df0a08eeec4c08b9122d",
+            "e29edbe1bf6a6986fbfc",
+            "e4c425b377a223cdfdf8",
+            "e5af32034bea80351b21",
+            "e5ccff747e7c51d8a2e5",
+            "eaca0171005d2d8dd390",
+            "ebda0f41776f41d7eb90",
+            "ed2b7c2e26fb52f28904",
+            "fda316ef3b1ac08ab1d4",
+            "fdcafc255e7bb862a402"
+          ],
+          "no_script_association_reason": null,
+          "script_association_status": "SOURCE_SCRIPT_ASSOCIATION_FOUND",
+          "script_ids": [
+            "1ecf36c4a51dbd458ca6",
+            "3203985b477e7b93794c"
+          ],
+          "unresolved_script_links": []
+        }
+      },
+      "scope": "Static index coverage and dangling-link checks; no original runtime certification.",
+      "tests": [
+        {
+          "detail": {
+            "actual": 448,
+            "expected": 448
+          },
+          "name": "global actors coverage",
+          "passed": true
+        },
+        {
+          "detail": {
+            "actual": 127,
+            "expected": 127
+          },
+          "name": "global skills coverage",
+          "passed": true
+        },
+        {
+          "detail": {
+            "actual": 1322,
+            "expected": 1322
+          },
+          "name": "global items coverage",
+          "passed": true
+        },
+        {
+          "detail": {
+            "actual": 190,
+            "expected": 190
+          },
+          "name": "global levels coverage",
+          "passed": true
+        },
+        {
+          "detail": {
+            "actual": 6404,
+            "expected": 6404
+          },
+          "name": "global profiles coverage",
+          "passed": true
+        },
+        {
+          "detail": {
+            "actual": 219,
+            "expected": 219
+          },
+          "name": "global scripts coverage",
+          "passed": true
+        },
+        {
+          "detail": {
+            "actual": 288,
+            "expected": 288
+          },
+          "name": "global native_function_ledger_rows coverage",
+          "passed": true
+        },
+        {
+          "detail": {
+            "rows": 7042
+          },
+          "name": "entity dictionary keys match row IDs",
+          "passed": true
+        },
+        {
+          "detail": {
+            "rows": 219
+          },
+          "name": "script dictionary keys match row IDs",
+          "passed": true
+        },
+        {
+          "detail": {
+            "rows": 288
+          },
+          "name": "function dictionary keys match row IDs",
+          "passed": true
+        },
+        {
+          "detail": {
+            "dangling_call_ids": [],
+            "dangling_function_ids": [],
+            "other_dangling_ids": []
+          },
+          "name": "all call/function references resolve",
+          "passed": true
+        },
+        {
+          "detail": {
+            "count": 0,
+            "missing": []
+          },
+          "name": "entities without a script link state the source gap",
+          "passed": true
+        },
+        {
+          "detail": {
+            "count": 0,
+            "issues": []
+          },
+          "name": "every available ledger handler/address is retained",
+          "passed": true
+        },
+        {
+          "detail": {
+            "count": 0,
+            "missing": []
+          },
+          "name": "available native addresses retain decompilation path, line, and snippet",
+          "passed": true
+        },
+        {
+          "detail": {
+            "bad": [],
+            "count": 0
+          },
+          "name": "native source lines point into the named decompilation files",
+          "passed": true
+        },
+        {
+          "detail": {
+            "count": 0,
+            "missing": []
+          },
+          "name": "available Lua call sites retain a source excerpt",
+          "passed": true
+        },
+        {
+          "detail": {
+            "expected": 3579,
+            "indexed": 3579,
+            "missing": [],
+            "unexpected": []
+          },
+          "name": "resource profile attribution is exhaustive",
+          "passed": true
+        },
+        {
+          "detail": {
+            "bad_candidates": [],
+            "bad_owners": [],
+            "candidate_reason_missing": [],
+            "candidate_source_gap_missing": [],
+            "missing_association_note": []
+          },
+          "name": "only resolved/proven profile edges are declared owners",
+          "passed": true
+        },
+        {
+          "detail": {
+            "actual": 83,
+            "count_field": 83,
+            "expected": 83,
+            "malformed": [],
+            "missing_rows": [],
+            "unexpected_rows": []
+          },
+          "name": "confirmed missing resource paths match FILE_MISSING references and absent source paths",
+          "passed": true
+        },
+        {
+          "detail": {
+            "expected": 6334,
+            "indexed": 6334,
+            "missing": [],
+            "missing_association_note": [],
+            "unexpected": [],
+            "untyped": []
+          },
+          "name": "resource file attribution is exhaustive and typed",
+          "passed": true
+        },
+        {
+          "detail": {
+            "errors": [],
+            "expected_files": 2901,
+            "indexed_candidates": 2901
+          },
+          "name": "packed logical media paths retain transport/provenance as candidates",
+          "passed": true
+        },
+        {
+          "detail": {
+            "count": 0,
+            "incorrect": []
+          },
+          "name": "packed likely aliases never become exact path owners",
+          "passed": true
+        },
+        {
+          "detail": {
+            "file_claims": [],
+            "profile_claims": []
+          },
+          "name": "runtime claims remain explicitly unproven",
+          "passed": true
+        },
+        {
+          "detail": {
+            "id": "493d2e115ad25e84db5e",
+            "native_function_ids": [
+              "0475840796394a5d15ac",
+              "04bbc1b0620bafc48513",
+              "08a34a258195184437db",
+              "09356c4f538053b2fdde",
+              "1531141809c2023e4115",
+              "15f6373a7f3104dc67a6",
+              "171a44bcbbc27511a562",
+              "1a1bbda728ae09a3cb6d",
+              "1a57b77f4aea48ea0e78",
+              "1c82a10bcea96a97985e",
+              "21a4cf3a5e07e55c4a72",
+              "263746b879ca8d68419c",
+              "2b1d9cd51f7040057199",
+              "2da30fbc48804a5342ee",
+              "4521866fef28ea0d7264",
+              "578ab08d5df066761a33",
+              "620f0329c9c106ae9675",
+              "65c2269fc5b1efa9c9ae",
+              "68c100374e94b349cc86",
+              "6cefbf80881bce92fa7f",
+              "715ca7811b1f5a9a35b8",
+              "717c3c6dd572a853c2a1",
+              "7a0452b73f82e8a4b85b",
+              "7df9bdce40bcc9b80a56",
+              "7f6c9732197731eb090e",
+              "7fd86003472f2fc57ac8",
+              "88ab8743f2c6607e4814",
+              "99c0c85b2ea2d6107dc6",
+              "9c9328f8e110d8fc4fa8",
+              "9cabbf83ec0c49db0efe",
+              "ac001076d29a23615ef9",
+              "ac7964093c21a0ffe1ba",
+              "c546c459f3a08331edb0",
+              "cc7376ad6da462cc72a9",
+              "cfb21c95dfbc053cf7e7",
+              "d5ecb244a6f3308b38fd",
+              "df0a08eeec4c08b9122d",
+              "e29edbe1bf6a6986fbfc",
+              "e4c425b377a223cdfdf8",
+              "e5af32034bea80351b21",
+              "e5ccff747e7c51d8a2e5",
+              "eaca0171005d2d8dd390",
+              "ebda0f41776f41d7eb90",
+              "ed2b7c2e26fb52f28904",
+              "fda316ef3b1ac08ab1d4",
+              "fdcafc255e7bb862a402"
+            ],
+            "no_script_association_reason": null,
+            "script_association_status": "SOURCE_SCRIPT_ASSOCIATION_FOUND",
+            "script_ids": [
+              "1ecf36c4a51dbd458ca6",
+              "3203985b477e7b93794c"
+            ],
+            "unresolved_script_links": []
+          },
+          "name": "sample entity mapping: Witch",
+          "passed": true
+        },
+        {
+          "detail": {
+            "id": "c5b2c404a0b0905d028a",
+            "native_function_ids": [
+              "08a34a258195184437db",
+              "09356c4f538053b2fdde",
+              "1531141809c2023e4115",
+              "1a1bbda728ae09a3cb6d",
+              "1a57b77f4aea48ea0e78",
+              "1d8f9214d44dbfdab233",
+              "65c2269fc5b1efa9c9ae",
+              "68c100374e94b349cc86",
+              "6cefbf80881bce92fa7f",
+              "715ca7811b1f5a9a35b8",
+              "7a0452b73f82e8a4b85b",
+              "7df9bdce40bcc9b80a56",
+              "7f6c9732197731eb090e",
+              "8b2f937fb861f53a62c5",
+              "927a023a48bde0d9f507",
+              "ac001076d29a23615ef9",
+              "ac7964093c21a0ffe1ba",
+              "b62d28705f7fd9d983ba",
+              "c02aff8b4b8c859bd912",
+              "c546c459f3a08331edb0",
+              "c859082891d7300637a9",
+              "c88e08a07fee1cea9e70",
+              "c9a85a2b6a2b5c50ae16",
+              "cc7376ad6da462cc72a9",
+              "cfb21c95dfbc053cf7e7",
+              "df0a08eeec4c08b9122d",
+              "e32a96c26c513f2a6467",
+              "e5ccff747e7c51d8a2e5",
+              "fad84e75bac88b05058f"
+            ],
+            "no_script_association_reason": null,
+            "script_association_status": "SOURCE_SCRIPT_ASSOCIATION_FOUND",
+            "script_ids": [
+              "1e1c75689f5f7142f338",
+              "537f15c188ae028ccf3a",
+              "5d3f2725d4b96f8fc62a",
+              "86a21e3b2029a73f0d7a",
+              "a58a061529bc1e722018",
+              "d77592c5a5b1e53e715d",
+              "e8d8ebc86beec8289809",
+              "f1f752cd7ac1c7941b26"
+            ],
+            "unresolved_script_links": [
+              {
+                "association": "ACTOR_AI_SCRIPT_FIELD",
+                "authored_value": "__player__",
+                "script_id": null,
+                "status": "SCRIPT_NOT_FOUND"
+              }
+            ]
+          },
+          "name": "sample entity mapping: Knight",
+          "passed": true
+        },
+        {
+          "detail": {
+            "id": "entity:loot_table#group3:127",
+            "native_function_ids": [],
+            "no_script_association_reason": "No direct Lua script link was found in this entity/profile join; native engine behavior may be separate.",
+            "script_association_status": "NO_SCRIPT_ASSOCIATION_IN_AVAILABLE_SOURCE_JOIN",
+            "script_ids": [],
+            "unresolved_script_links": []
+          },
+          "name": "sample entity mapping: Bow",
+          "passed": true
+        },
+        {
+          "detail": {
+            "id": "debe3161f75f83cfc4a0",
+            "native_function_ids": [
+              "0475840796394a5d15ac",
+              "04bbc1b0620bafc48513",
+              "08a34a258195184437db",
+              "09356c4f538053b2fdde",
+              "0ca4ecf80c9552f95665",
+              "1531141809c2023e4115",
+              "15f6373a7f3104dc67a6",
+              "171a44bcbbc27511a562",
+              "1a1bbda728ae09a3cb6d",
+              "1a57b77f4aea48ea0e78",
+              "1c82a10bcea96a97985e",
+              "1d268b9932dd0a182f54",
+              "22585a813434e0ab4439",
+              "288bb8b956bf16222f08",
+              "2b1d9cd51f7040057199",
+              "2d4a8675129f567e43b1",
+              "2da30fbc48804a5342ee",
+              "30495185df5ed2fa5810",
+              "319892c47cf825e5d437",
+              "39139f1e81abbb60af2c",
+              "39ca384b24293669f15e",
+              "44ea10a68ad9d9a053ff",
+              "4521866fef28ea0d7264",
+              "65c2269fc5b1efa9c9ae",
+              "68aadc7660a8bf8b62c1",
+              "68c100374e94b349cc86",
+              "6cefbf80881bce92fa7f",
+              "71364299af08fdc47245",
+              "715ca7811b1f5a9a35b8",
+              "717c3c6dd572a853c2a1",
+              "7a0452b73f82e8a4b85b",
+              "7a9e389eeb6d33b3e907",
+              "7df9bdce40bcc9b80a56",
+              "7f6c9732197731eb090e",
+              "7fd86003472f2fc57ac8",
+              "88ab8743f2c6607e4814",
+              "8b2f937fb861f53a62c5",
+              "99c0c85b2ea2d6107dc6",
+              "9cf977183583319b456d",
+              "a6850f6e44d0ed586050",
+              "ac001076d29a23615ef9",
+              "ac7964093c21a0ffe1ba",
+              "c546c459f3a08331edb0",
+              "cfb21c95dfbc053cf7e7",
+              "d5ecb244a6f3308b38fd",
+              "df0a08eeec4c08b9122d",
+              "e29edbe1bf6a6986fbfc",
+              "e4c425b377a223cdfdf8",
+              "e5ccff747e7c51d8a2e5",
+              "eaca0171005d2d8dd390",
+              "ebda0f41776f41d7eb90",
+              "eed4eaf63ace6a583ea4",
+              "fda316ef3b1ac08ab1d4"
+            ],
+            "no_script_association_reason": null,
+            "script_association_status": "SOURCE_SCRIPT_ASSOCIATION_FOUND",
+            "script_ids": [
+              "16d9803cce805b7bb594",
+              "303e6d54f82ad51eaffe",
+              "4eb619adb4e423f91af7",
+              "b5c5143fad064d823aed",
+              "ee7f57cdbc81aa10fa30"
+            ],
+            "unresolved_script_links": []
+          },
+          "name": "sample entity mapping: Mud Lord",
+          "passed": true
+        }
+      ]
+    },
+    "global_lua_checks": {
+      "checks": [
+        {
+          "expected": null,
+          "name": "script-link resolver is deterministic and idempotent",
+          "observed": null,
+          "passed": true
+        },
+        {
+          "expected": null,
+          "name": "Lua-semantic resolver is deterministic and idempotent",
+          "observed": null,
+          "passed": true
+        },
+        {
+          "expected": null,
+          "name": "resolver inputs remain unchanged",
+          "observed": null,
+          "passed": true
+        },
+        {
+          "expected": "registered source cache path",
+          "name": "registered Android cache groups include exact Elemental.Water provenance",
+          "observed": ".local-inputs/assets-extra/android/data/pydata/design_pycst.bin",
+          "passed": true
+        },
+        {
+          "expected": "> 0",
+          "name": "global ClassTable consumer rows linked",
+          "observed": 222,
+          "passed": true
+        },
+        {
+          "expected": "> 0",
+          "name": "global ProjectileTable consumer rows linked",
+          "observed": 32,
+          "passed": true
+        },
+        {
+          "expected": "effect_sets",
+          "name": "global effect consumers linked; animation contract covered by exact fixture",
+          "observed": [
+            "None",
+            "animations_dictionary#group0",
+            "character_classes#group0",
+            "effect_sets",
+            "projectiles#group0"
+          ],
+          "passed": true
+        },
+        {
+          "expected": "all listed semantic classes",
+          "name": "global schema, constant, callback, and scalar classes present",
+          "observed": [
+            "None",
+            "callback_method",
+            "enum_constant",
+            "native_scalar_argument",
+            "skill_callback",
+            "skill_callback_table",
+            "table_field",
+            "table_row"
+          ],
+          "passed": true
+        },
+        {
+          "expected": [
+            "ai",
+            "skills",
+            "level"
+          ],
+          "name": "semantic examples span AI, skills, and level scripts",
+          "observed": [
+            "ai",
+            "level",
+            "objects",
+            "skills"
+          ],
+          "passed": true
+        },
+        {
+          "expected": "one PROVEN effect_sets row edge",
+          "name": "unique exact AnimatedEffectTable row resolves",
+          "observed": [
+            {
+              "confidence": "PROVEN",
+              "evidence": {
+                "api": "PlayFX",
+                "api_argument": 1,
+                "bindings": [
+                  {
+                    "expression": "GetPyOID(\"AnimatedEffectTable\", \"Fx\")",
+                    "line": 1,
+                    "source": ".local-inputs/assets-extra/android/data/scripts/check.lua",
+                    "text": "local OID = GetPyOID(\"AnimatedEffectTable\", \"Fx\")",
+                    "variable": "OID"
+                  }
+                ],
+                "expected_namespace": "AnimatedEffectTable",
+                "native_consumer": "0x003923cc",
+                "status": "TRACED",
+                "table_source": ".local-inputs/test.bin",
+                "terminal": {
+                  "kind": "pydata",
+                  "name": "Fx",
+                  "namespace": "AnimatedEffectTable"
+                }
+              },
+              "id": "script-link:6689d9673412efd91dcc",
+              "index": 7,
+              "name": "Fx",
+              "resolver": "script_links.v1",
+              "rule": "single Lua binding -> exact GetPyOID namespace/name -> native API argument namespace -> unique exact source table row",
+              "status": "PROVEN",
+              "table": "effect_sets",
+              "target_row_id": "row-fx",
+              "type": "table-row"
+            }
+          ],
+          "passed": true
+        },
+        {
+          "expected": "one revalidated owned edge",
+          "name": "owned edge survives a chained resolved-reference rerun",
+          "observed": [
+            {
+              "confidence": "PROVEN",
+              "evidence": {
+                "api": "PlayFX",
+                "api_argument": 1,
+                "bindings": [
+                  {
+                    "expression": "GetPyOID(\"AnimatedEffectTable\", \"Fx\")",
+                    "line": 1,
+                    "source": ".local-inputs/assets-extra/android/data/scripts/check.lua",
+                    "text": "local OID = GetPyOID(\"AnimatedEffectTable\", \"Fx\")",
+                    "variable": "OID"
+                  }
+                ],
+                "expected_namespace": "AnimatedEffectTable",
+                "native_consumer": "0x003923cc",
+                "status": "TRACED",
+                "table_source": ".local-inputs/test.bin",
+                "terminal": {
+                  "kind": "pydata",
+                  "name": "Fx",
+                  "namespace": "AnimatedEffectTable"
+                }
+              },
+              "id": "script-link:6689d9673412efd91dcc",
+              "index": 7,
+              "name": "Fx",
+              "resolver": "script_links.v1",
+              "rule": "single Lua binding -> exact GetPyOID namespace/name -> native API argument namespace -> unique exact source table row",
+              "status": "PROVEN",
+              "table": "effect_sets",
+              "target_row_id": "row-fx",
+              "type": "table-row"
+            }
+          ],
+          "passed": true
+        },
+        {
+          "expected": "stale edge removed",
+          "name": "owned edge is revalidated against duplicate rows",
+          "observed": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+          "passed": true
+        },
+        {
+          "expected": "original foreign edge retained",
+          "name": "foreign resolved annotation is preserved",
+          "observed": [
+            {
+              "id": "foreign-edge",
+              "resolver": "other_resolver",
+              "status": "PROVEN"
+            }
+          ],
+          "passed": true
+        },
+        {
+          "expected": "PROVEN animation row edge",
+          "name": "unique exact AnimDict row resolves",
+          "observed": "PROVEN",
+          "passed": true
+        },
+        {
+          "expected": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+          "name": "missing exact row stays unresolved",
+          "observed": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+          "passed": true
+        },
+        {
+          "expected": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+          "name": "duplicate exact rows stay unresolved",
+          "observed": "NO_EXACT_OR_AMBIGUOUS_TABLE_ROW",
+          "passed": true
+        },
+        {
+          "expected": "NAMESPACE_MISMATCH",
+          "name": "wrong namespace does not cross-link",
+          "observed": "NAMESPACE_MISMATCH",
+          "passed": true
+        },
+        {
+          "expected": "no resolver annotation",
+          "name": "wrong documented argument index is ignored",
+          "observed": null,
+          "passed": true
+        },
+        {
+          "expected": "no Android-derived annotation",
+          "name": "Android native contracts do not classify iOS calls",
+          "observed": null,
+          "passed": true
+        },
+        {
+          "expected": "MULTIPLE_WRITES",
+          "name": "branch assignment remains unknown",
+          "observed": "MULTIPLE_WRITES",
+          "passed": true
+        },
+        {
+          "expected": "MULTIPLE_WRITES",
+          "name": "function-local assignment remains unknown",
+          "observed": "MULTIPLE_WRITES",
+          "passed": true
+        },
+        {
+          "expected": "MULTIPLE_WRITES",
+          "name": "multiple assignment invalidates every LHS",
+          "observed": "MULTIPLE_WRITES",
+          "passed": true
+        },
+        {
+          "expected": "UNSUPPORTED_ESCAPED_GETPYOID_LITERAL",
+          "name": "escaped GetPyOID strings remain unknown",
+          "observed": "UNSUPPORTED_ESCAPED_GETPYOID_LITERAL",
+          "passed": true
+        },
+        {
+          "expected": "one PROVEN row edge",
+          "name": "explicit imported global alias resolves",
+          "observed": "PROVEN",
+          "passed": true
+        },
+        {
+          "expected": "no row edge",
+          "name": "imported local alias stays invisible",
+          "observed": "MISSING_OR_AMBIGUOUS_BINDING",
+          "passed": true
+        },
+        {
+          "expected": "no row edge",
+          "name": "imported local alias stays invisible",
+          "observed": "MISSING_OR_AMBIGUOUS_BINDING",
+          "passed": true
+        },
+        {
+          "expected": "no row edge",
+          "name": "imported local alias stays invisible",
+          "observed": "MISSING_OR_AMBIGUOUS_BINDING",
+          "passed": true
+        },
+        {
+          "expected": "no row edge",
+          "name": "imported local alias stays invisible",
+          "observed": "MISSING_OR_AMBIGUOUS_BINDING",
+          "passed": true
+        },
+        {
+          "expected": "tuple write recorded for each LHS",
+          "name": "both tuple-assignment names are invalidated",
+          "observed": {
+            "x": [
+              {
+                "line": 1,
+                "local_declared_in_file": true,
+                "multiple_lhs": false,
+                "rhs": "\"Fx\"",
+                "scope_depth": 0,
+                "source": "local x = \"Fx\"",
+                "whole_line_assignment": true
+              },
+              {
+                "line": 2,
+                "local_declared_in_file": true,
+                "multiple_lhs": true,
+                "rhs": "",
+                "scope_depth": 0,
+                "source": "x, y = \"Fx\", \"Fx\"",
+                "whole_line_assignment": false
+              }
+            ],
+            "y": [
+              {
+                "line": 2,
+                "local_declared_in_file": false,
+                "multiple_lhs": true,
+                "rhs": "",
+                "scope_depth": 0,
+                "source": "x, y = \"Fx\", \"Fx\"",
+                "whole_line_assignment": false
+              }
+            ]
+          },
+          "passed": true
+        },
+        {
+          "expected": "nested assignment is recorded but not admitted",
+          "name": "if scope is not admitted",
+          "observed": {
+            "line": 2,
+            "local_declared_in_file": false,
+            "multiple_lhs": false,
+            "rhs": "",
+            "scope_depth": 1,
+            "source": "X = \"Fx\"",
+            "whole_line_assignment": true
+          },
+          "passed": true
+        },
+        {
+          "expected": "nested assignment is recorded but not admitted",
+          "name": "function scope is not admitted",
+          "observed": {
+            "line": 2,
+            "local_declared_in_file": false,
+            "multiple_lhs": false,
+            "rhs": "",
+            "scope_depth": 1,
+            "source": "X = \"Fx\"",
+            "whole_line_assignment": true
+          },
+          "passed": true
+        },
+        {
+          "expected": "nested assignment is recorded but not admitted",
+          "name": "loop scope is not admitted",
+          "observed": {
+            "line": 2,
+            "local_declared_in_file": false,
+            "multiple_lhs": false,
+            "rhs": "",
+            "scope_depth": 1,
+            "source": "X = \"Fx\"",
+            "whole_line_assignment": true
+          },
+          "passed": true
+        }
+      ],
+      "counts": {
+        "calls": 7982,
+        "references": 96154,
+        "script_link_edges": 444,
+        "scripts": 219,
+        "semantic_resolutions": 3778
+      },
+      "passed": true
+    },
+    "ios_semantics_checks": {
+      "passed": true,
+      "tests": [
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "exact iPad name pair resolves to its own stored group/ordinal",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "original nested GetPyOID namespace and name literals retain IDs with source roles",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "known nested GetPyCst pair removes duplicate raw-name gaps",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "unresolved nested provider remains an explicit linked gap",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "duplicate exact names remain ambiguous source candidates",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "a unique global match without family evidence stays unresolved",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "a real repeated-evidence family tie is explicitly ambiguous",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "bad declared name-group count blocks the source family",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "header-adjusted bounded pycst decode records the stored value only",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "unknown stored constant stays unresolved",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "wrong-platform source asset cannot resolve through iPad data",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "dynamic provider operand remains unresolved",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "stable IDs and deep-copy output make resolution idempotent",
+          "passed": true
+        },
+        {
+          "detail": "Temporary mapped iPad pack fixture; no source or game files changed.",
+          "name": "constant parser rejects trailing and truncated bytes",
+          "passed": true
+        }
+      ]
+    },
+    "package_cache_checks": {
+      "passed": true,
+      "tests": [
+        {
+          "name": "exact matching original maps are admitted",
+          "passed": true
+        },
+        {
+          "name": "same-size pack-map mutation is rejected",
+          "passed": true
+        },
+        {
+          "name": "same-size transcription mutation is rejected",
+          "passed": true
+        },
+        {
+          "name": "callers cannot alter the validated package map",
+          "passed": true
+        }
+      ]
+    },
+    "platform_graph_checks": {
+      "passed": true,
+      "tests": [
+        {
+          "name": "iPad source names cannot resolve to Android rows",
+          "passed": true
+        },
+        {
+          "name": "iPad namespaces are scoped to their package source",
+          "passed": true
+        },
+        {
+          "name": "iPad namespace points to indexed source bytes",
+          "passed": true
+        },
+        {
+          "name": "registered struct fields never become missing gameplay table rows",
+          "passed": true
+        },
+        {
+          "detail": {
+            "Android_leaks": [],
+            "missing": [],
+            "rows": 5301
+          },
+          "name": "all generated iPad source associations have only scoped graph targets",
+          "passed": true
+        }
+      ]
+    },
+    "resource_semantics_checks": {
+      "check_count": 23,
+      "checks": [
+        {
+          "detail": null,
+          "name": "input refs remain untouched",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "stable IDs and idempotent output",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "do_skill keeps both state admission branches",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "do_spell state gate retained",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "attack main/offhand remain distinct",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "ev_ prefix resolves through AIS virtual",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "an_ camera callback is not treated as a file URI",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "unknown callback retains explicit reason",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "BRES sound maps exact suffix to source SDD row",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "physical sound path retains Android/iOS union",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "only one leading event prefix is removed",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "catalog-known missing file stays unresolved",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "source random event retains both exact member files",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "XML member label matches source name exactly",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "XML label case mismatch is not normalized",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "XML sfx-looking label is not prefix-stripped",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "iOS bare sound label keeps Android row inference explicit",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "duplicate exact XML sound labels remain ambiguous",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "iOS event association states Android inference only",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "unknown source platform keeps Android event evidence likely only",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "unknown source platform sound association is not proven",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "case-only physical path stays missing with diagnostic candidate",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "generated corpus rows have terminal source semantic evidence",
+          "passed": true
+        }
+      ],
+      "failed": [],
+      "passed": true
+    },
+    "xml_semantics_checks": {
+      "passed": true,
+      "scope": "Static XML source identity only; no loader admission or runtime use asserted.",
+      "tests": [
+        {
+          "detail": null,
+          "name": "exact same-resource definition resolves with a typed target",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "stable reference ID and input ledger are preserved",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "annotations are idempotent",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "matching name in a foreign physical resource does not resolve",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "duplicate same-resource declarations remain ambiguous",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "missing exact declaration remains unresolved",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "Android selector disposition precedes coincident local declaration",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "unproven non-GameObject template labels remain unresolved",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "Android property-map proof does not classify iPad labels",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "charpropsname gate and char_template precedence are left to owner resolver",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "truncated XML cannot become an inferred declaration match",
+          "passed": true
+        },
+        {
+          "detail": null,
+          "name": "iPad packed XML reads go through validated package_index reader",
+          "passed": true
+        }
+      ]
+    }
+  }
+}
