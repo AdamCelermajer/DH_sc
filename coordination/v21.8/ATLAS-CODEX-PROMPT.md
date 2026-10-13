@@ -15,6 +15,15 @@ WHY: most of our lost time was a reference to an animation / sound / effect that
 resolves, and Lua boss/level scripts calling engine functions we did not know were unported. The atlas must make both answerable.
 
 SOURCES (read-only):
+- EXPLICIT SOURCE ROOTS (compare them, do not treat one as complete):
+  * ANDROID data: .local-inputs/assets-extra/android/data (3d, scene, scripts, pydata) and .local-inputs/assets-extra/android/original-cache/data (3d, scene)
+  * ANDROID APK analysis pack: .local-inputs/ida-apk-export-2026-10-07/ (HANDOFF-TO-MAIN-SESSION.txt, apk-inventory.json, databases/libDungeonHunter2.so.i64 and
+    libStormGLOFT.so.i64 = the IDA databases of the native code, classes.dex)
+  * iPHONE data: .local-inputs/assets-extra/ios/data (3d, sounds). THE ONLY AUDIO FILES LIVE HERE (239 .wav + 14 .vxn level-music banks, e.g.
+    m_level_darkwood_sfx_*.vxn); the Android dump has no audio files, so every sound reference must be resolved against the iOS sounds folder.
+  * iPhone pyarray tables: .local-inputs/items-discovery/sdd_dungeon_hunter_2_iphone_pyarray.bin (+ pyarraynames.bin) = the 638-row sound array
+  * There is NO iPhone app binary (IPA/Mach-O) in the repo; only the APK/native Android code is available for IDA. If you find one, say so.
+  * Compare android vs ios for every asset kind: files present on one side only, differing contents, differing names/case, and record it in RULES.md.
 - .local-inputs/assets-extra/android/data/ : 3d (~5.5k files: .bdae models/clips), scene (levels *.mlx, *.rule.xml), scripts (ai/, level/, objects/,
   skills/ *.luac, ~226), pydata (*_pyarray.bin + *_pyarraynames.bin tables); also assets-extra/ios and original-cache (compare platforms)
 - sounds.xml, the 638-row sdd_dungeon_hunter_2_iphone_pyarray.bin (row index; isEvent -> random member, else the sounds.xml filename) and every audio file
