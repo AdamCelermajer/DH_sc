@@ -20,7 +20,7 @@ void check(bool condition, const std::string& message) {
 
 int main(int argc, char** argv) {
     try {
-        check(argc == 2, "Supply staged source asset root");
+        check(argc == 2 || argc == 3, "Supply staged source asset root (and optionally the staged package root for the skill models)");
         AssetCatalog assets(argv[1]);
         unsigned fake_texture = 100;
         unsigned decoded_textures = 0;
@@ -157,6 +157,28 @@ int main(int argc, char** argv) {
         check(!renderer->submit({unsupported}, error) && !error.empty(),
               "Unknown projectile source URI crossed renderer submission");
 
+        // v21.8 magewire: the skill projectile models (ChainLightning, Cyclone) are enrolled as well when the staged package
+        // root is supplied as argv[2]; an unknown URI is never enrolled.
+        if (argc >= 3) {
+            AssetCatalog skillAssets(argv[2]);
+            RuntimeSessionProjectileRenderServicesV1 skillServices;
+            skillServices.material = [](const RuntimeSessionProjectileMaterialRequestV1&, Material&, std::string&) { return true; };
+            skillServices.submit = [](std::shared_ptr<const RuntimeSessionProjectileRenderFrameV1>, std::string&) { return true; };
+            std::unique_ptr<RuntimeSessionProjectileRenderV1> skillRenderer;
+            check(RuntimeSessionProjectileRenderV1::load(skillAssets, std::move(skillServices), skillRenderer, error), error);
+            for (const char* uri : {"data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+                                    "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae"}) {
+                std::array<float, 3> low{}, high{};
+                check(skillRenderer->source_projectile_bounds_v1(uri, low, high, error),
+                      std::string("Skill projectile AABB not enrolled: ") + uri + " " + error);
+                check(high[0] > low[0] && high[1] > low[1] && high[2] >= low[2], "Skill projectile AABB is empty");
+            }
+        }
+        {
+            std::array<float, 3> low{}, high{};
+            check(!renderer->source_projectile_bounds_v1("data/3D/projectiles/unclassified-source.bdae", low, high, error),
+                  "Unknown projectile URI received an AABB");
+        }
         std::cout << "PASS actual Mage projectile OriginalScene packet; materials=";
         for (const auto& value : source_materials) std::cout << value << ',';
         std::cout << " textures=";

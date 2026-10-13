@@ -9,6 +9,9 @@
 namespace dh::foundation::effects {
 namespace {
 constexpr const char* kFireBoltUri = "data/3D/projectiles/elemental_bolt_fire.bdae";
+// v21.8 magewire: the skill projectile models (ProjectileTable rows SimplifiedChainLightning / Tornado).
+constexpr const char* kChainLightningUri = "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae";
+constexpr const char* kTornadoUri = "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae";
 
 bool fail(std::string& error, const char* reason) {
     error = reason;
@@ -56,32 +59,24 @@ struct RuntimeSessionProjectileRenderV1::SourceV1 {
 
 RuntimeSessionProjectileRenderV1::RuntimeSessionProjectileRenderV1(
     RuntimeSessionProjectileRenderServicesV1 services,
-    std::shared_ptr<SourceV1> source)
-    : services_(std::move(services)), source_(std::move(source)) {}
+    std::map<std::string, std::shared_ptr<SourceV1>> sources)
+    : services_(std::move(services)), sources_(std::move(sources)) {}
 
-bool RuntimeSessionProjectileRenderV1::load(
-    AssetCatalog& assets, RuntimeSessionProjectileRenderServicesV1 services,
-    std::unique_ptr<RuntimeSessionProjectileRenderV1>& output,
+bool RuntimeSessionProjectileRenderV1::load_source(
+    AssetCatalog& assets, const char* uri, std::shared_ptr<SourceV1>& output,
     std::string& error) {
-    error.clear();
     output.reset();
-    if (!services.material)
-        return fail(error, "Projectile renderer requires the original material/pass binder");
-    if (!services.submit)
-        return fail(error, "Projectile renderer requires the current RenderQueue submit callback");
-    try {
-        auto source = std::make_shared<SourceV1>();
-        source->bytes = read_content(assets, kFireBoltUri);
-        if (dh2_bres_open(&source->image, source->bytes.data(), source->bytes.size()) !=
-            dh2::resources::BresError::ok)
-            return fail(error, "Actual elemental_bolt_fire BRES is invalid");
-        if (!dh2::scene::load(source->image, source->scene, error)) return false;
-        if (!decode_original_scene(source->bytes, source->decoded, error)) return false;
-        if (source->decoded.mesh.vertices.empty() || source->decoded.mesh.indices.empty() ||
-            source->decoded.mesh.ranges.size() != source->decoded.materials.size())
-            return fail(error, "Actual elemental_bolt_fire OriginalScene geometry/material rows are incomplete");
-
-        source->source_material_indices.reserve(source->decoded.materials.size());
+    auto source = std::make_shared<SourceV1>();
+    source->bytes = read_content(assets, uri);
+    if (dh2_bres_open(&source->image, source->bytes.data(), source->bytes.size()) !=
+        dh2::resources::BresError::ok)
+        return fail(error, "Actual projectile BRES is invalid");
+    if (!dh2::scene::load(source->image, source->scene, error)) return false;
+    if (!decode_original_scene(source->bytes, source->decoded, error)) return false;
+    if (source->decoded.mesh.vertices.empty() || source->decoded.mesh.indices.empty() ||
+        source->decoded.mesh.ranges.size() != source->decoded.materials.size())
+        return fail(error, "Actual projectile OriginalScene geometry/material rows are incomplete");
+    source->source_material_indices.reserve(source->decoded.materials.size());
         for (const auto& projected : source->decoded.materials) {
             std::uint32_t match = 0;
             unsigned count = 0;
@@ -94,8 +89,37 @@ bool RuntimeSessionProjectileRenderV1::load(
                 return fail(error, "OriginalScene material no longer matches its exact BRES material identity");
             source->source_material_indices.push_back(match);
         }
-        output.reset(new RuntimeSessionProjectileRenderV1(std::move(services),
-                                                           std::move(source)));
+    output = std::move(source);
+    error.clear();
+    return true;
+}
+
+bool RuntimeSessionProjectileRenderV1::load(
+    AssetCatalog& assets, RuntimeSessionProjectileRenderServicesV1 services,
+    std::unique_ptr<RuntimeSessionProjectileRenderV1>& output,
+    std::string& error) {
+    error.clear();
+    output.reset();
+    if (!services.material)
+        return fail(error, "Projectile renderer requires the original material/pass binder");
+    if (!services.submit)
+        return fail(error, "Projectile renderer requires the current RenderQueue submit callback");
+    try {
+        std::map<std::string, std::shared_ptr<SourceV1>> sources;
+        std::shared_ptr<SourceV1> fire;
+        if (!load_source(assets, kFireBoltUri, fire, error)) return false;
+        sources.emplace(kFireBoltUri, std::move(fire));
+        // The skill projectiles are optional for the staff attack: when a package lacks their BDAE, their contact and draw
+        // report the missing source explicitly (no AABB enrolled / unresolved model) instead of failing the whole renderer.
+        for (const char* uri : {kChainLightningUri, kTornadoUri}) {
+            std::shared_ptr<SourceV1> optional;
+            std::string optional_error;
+            try {
+                if (load_source(assets, uri, optional, optional_error)) sources.emplace(uri, std::move(optional));
+            } catch (const std::exception&) {
+            }
+        }
+        output.reset(new RuntimeSessionProjectileRenderV1(std::move(services), std::move(sources)));
         error.clear();
         return true;
     } catch (const std::exception& exception) {
@@ -116,24 +140,26 @@ bool RuntimeSessionProjectileRenderV1::prepare(
                 visual.source_row < 0 || visual.source_model < 0 ||
                 !finite(visual.position) || !std::isfinite(visual.yaw_radians))
                 return fail(error, "Projectile renderer received an invalid live visual packet");
-            if (visual.model_uri != kFireBoltUri) {
+            const auto found = sources_.find(visual.model_uri);
+            if (found == sources_.end() || !found->second) {
                 frame->renderer_ready = false;
                 frame->unresolved.push_back({visual.projectile_id, visual.model_uri,
                     "No OriginalScene projectile adapter is enrolled for this source URI"});
                 continue;
             }
+            const auto& source = found->second;
 
-            auto mesh = std::make_shared<Mesh>(source_->decoded.mesh);
+            auto mesh = std::make_shared<Mesh>(source->decoded.mesh);
             bool pass_ready = true;
             for (std::size_t range_index = 0; range_index < mesh->ranges.size(); ++range_index) {
-                const auto material_index = source_->source_material_indices.at(range_index);
-                const auto& source_material = source_->scene.materials.at(material_index);
+                const auto material_index = source->source_material_indices.at(range_index);
+                const auto& source_material = source->scene.materials.at(material_index);
                 RuntimeSessionProjectileMaterialRequestV1 request;
                 request.resource_uri = visual.model_uri;
                 request.range_index = static_cast<std::uint32_t>(range_index);
-                request.authored_material = &source_->decoded.materials.at(range_index);
+                request.authored_material = &source->decoded.materials.at(range_index);
                 request.source_material = &source_material;
-                request.source_image = &source_->image;
+                request.source_image = &source->image;
                 auto& material = mesh->ranges[range_index].material;
                 if (!services_.material(request, material, error)) return false;
                 if (!material.sourcePass) pass_ready = false;
@@ -153,7 +179,7 @@ bool RuntimeSessionProjectileRenderV1::prepare(
             draw.mesh = mesh.get();
             draw.mesh_lease = mesh;
             draw.source_pass_ready = pass_ready;
-            draw.source_retention = source_;
+            draw.source_retention = source;
             frame->draws.push_back(std::move(draw));
         }
     } catch (const std::exception& exception) {
@@ -178,20 +204,22 @@ bool RuntimeSessionProjectileRenderV1::submit(
 bool RuntimeSessionProjectileRenderV1::source_projectile_bounds_v1(
     const std::string& model_uri, std::array<float, 3>& minimum,
     std::array<float, 3>& maximum, std::string& error) const {
-    if (model_uri != kFireBoltUri)
+    const auto found = sources_.find(model_uri);
+    if (found == sources_.end() || !found->second)
         return fail(error, "No authored projectile AABB is enrolled for this source URI");
-    if (!source_ || source_->decoded.mesh.vertices.empty() ||
-        !std::isfinite(source_->decoded.minimum.x) ||
-        !std::isfinite(source_->decoded.minimum.y) ||
-        !std::isfinite(source_->decoded.maximum.x) ||
-        !std::isfinite(source_->decoded.maximum.y) ||
-        source_->decoded.minimum.x > source_->decoded.maximum.x ||
-        source_->decoded.minimum.y > source_->decoded.maximum.y)
+    const auto& source = found->second;
+    if (source->decoded.mesh.vertices.empty() ||
+        !std::isfinite(source->decoded.minimum.x) ||
+        !std::isfinite(source->decoded.minimum.y) ||
+        !std::isfinite(source->decoded.maximum.x) ||
+        !std::isfinite(source->decoded.maximum.y) ||
+        source->decoded.minimum.x > source->decoded.maximum.x ||
+        source->decoded.minimum.y > source->decoded.maximum.y)
         return fail(error, "Actual projectile BDAE absolute bounds are unavailable");
-    minimum = {source_->decoded.minimum.x, source_->decoded.minimum.y,
-               source_->decoded.minimum.z};
-    maximum = {source_->decoded.maximum.x, source_->decoded.maximum.y,
-               source_->decoded.maximum.z};
+    minimum = {source->decoded.minimum.x, source->decoded.minimum.y,
+               source->decoded.minimum.z};
+    maximum = {source->decoded.maximum.x, source->decoded.maximum.y,
+               source->decoded.maximum.z};
     error.clear();
     return true;
 }

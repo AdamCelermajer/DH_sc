@@ -7,7 +7,9 @@
 #include "../../../scene-materials/scene.hpp"
 #include "../../../engine-resources/resources.hpp"
 
+#include <map>
 #include <memory>
+#include <string>
 
 namespace dh::foundation::effects {
 
@@ -78,10 +80,12 @@ public:
 
 private:
     struct SourceV1;
+    // One source per model URI (elemental_bolt_fire = staff bolt; the skill projectiles are optional).
     RuntimeSessionProjectileRenderV1(RuntimeSessionProjectileRenderServicesV1,
-                                     std::shared_ptr<SourceV1>);
+                                     std::map<std::string, std::shared_ptr<SourceV1>>);
+    static bool load_source(AssetCatalog&, const char* uri, std::shared_ptr<SourceV1>&, std::string& error);
     RuntimeSessionProjectileRenderServicesV1 services_;
-    std::shared_ptr<SourceV1> source_;
+    std::map<std::string, std::shared_ptr<SourceV1>> sources_;
 };
 
 } // namespace dh::foundation::effects

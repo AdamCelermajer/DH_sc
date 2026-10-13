@@ -51,6 +51,7 @@
 #include "features/generic_skills/runtime_skill_animation_bank_v1.hpp"
 #include "features/generic_skills/runtime_skill_cast_coordinator_v1.hpp"
 #include "features/generic_skills/runtime_skill_cast_prepare_v1.hpp"
+#include "features/generic_skills/runtime_mage_skill_owner_v1.hpp"
 #include "features/generic_skills/pc_gameplay_hud_v1.hpp"
 #include "features/campaign_host/campaign_host.hpp" // P16 HOST
 #include "features/campaign_host/actor_clip_manifest.hpp" // P16 OPENING: scripted actor clip names (PlayActorAnim)
@@ -2829,6 +2830,7 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::effects::RuntimeSessionProjectileV1> playerProjectiles;
         std::unique_ptr<f::effects::RuntimeSessionProjectileRenderV1> playerProjectileRender; // only supplies the authored BDAE bounds
         std::unique_ptr<f::effects::RuntimeSessionProjectileContactBodiesV1> playerProjectileContacts;
+        std::unique_ptr<f::generic_skills::RuntimeMageSkillOwnerV1> mageSkillOwner; // v21.8 magewire: ChainLightning/Cyclone/StoneEscape external owner
         std::uint64_t playerProjectileStepFrame=0;
         f::OriginalActorCollisionFilter nativeCollisionFilter;
         struct NativeBodyContext {
@@ -3605,9 +3607,48 @@ int main(int argc,char** argv) {
         std::uint64_t playerProjectileOccurrence=0;
         std::int64_t playerProjectileClockMs=0;
         std::map<std::uint64_t,std::int64_t> playerProjectileBirthMs;
-        auto launchPlayerRangedProjectile=[&](const f::RetainedAnimationEvent& marker,std::string& e)->bool {
+        // v21.8 magewire: one physical contact sensor per accepted projectile (source Projectile::SetInfo PhysicalObject).
+        // Shared by the staff attack and the skill owner (ChainLightning / Cyclone / StoneEscape projectiles).
+        auto registerPlayerProjectileSensor=[&](std::uint64_t id,std::string& e)->bool {
+            {
+                if(!(options.sourceNativeBodies&&sourcePhysicalFrameEnabled&&nativeWorld->backend()))
+                    std::cout<<"Mage projectile id="<<id<<" has no physical contact owner (needs --original-native-bodies and the source physical frame)\n";
+                else {
+                    if(!playerProjectileRender) {
+                        f::effects::RuntimeSessionProjectileRenderServicesV1 renderServices;
+                        renderServices.material=[](const f::effects::RuntimeSessionProjectileMaterialRequestV1&,f::Material&,std::string& re){re="Projectile contact bounds provider does not bind materials";return false;};
+                        renderServices.submit=[](std::shared_ptr<const f::effects::RuntimeSessionProjectileRenderFrameV1>,std::string& re){re="Projectile contact bounds provider does not draw";return false;};
+                        f::AssetCatalog& boundsAssets=playerProjectileSourceCatalog?*playerProjectileSourceCatalog:assets;
+                        if(!f::effects::RuntimeSessionProjectileRenderV1::load(boundsAssets,std::move(renderServices),playerProjectileRender,e))return false;
+                    }
+                    if(!playerProjectileContacts) {
+                        f::effects::RuntimeSessionProjectileContactServicesV1 contactServices;
+                        contactServices.resolve_peer_actor=[&](void* context,f::ActorId& actor,bool& recognized,std::string&){
+                            std::string unresolved;recognized=false;actor=f::invalid_actor_id;
+                            if(!nativeBodies.resolve_physical_actor(context,actor,unresolved)||actor==f::invalid_actor_id){actor=f::invalid_actor_id;return true;} // non-Session peer
+                            recognized=true;return true;
+                        };
+                        // Source byte +0x80 of the peer; the same owner the actor collision filter reads (player 1, placed actors their `enabled`).
+                        contactServices.peer_visible=[&](f::ActorId peer,bool& visible,std::string& ve){
+                            if(peer==combatSession->player_id()){visible=true;return true;}
+                            for(const auto& a:population.actors())if(a.definition.stableId==peer){visible=a.enabled!=0;return true;}
+                            ve="Projectile peer visibility owner unavailable";return false;
+                        };
+                        contactServices.source_no_collisions=[&](bool& disabled,std::string&){disabled=physicsDebug.at("MP_NoCollisions");return true;};
+                        playerProjectileContacts=std::make_unique<f::effects::RuntimeSessionProjectileContactBodiesV1>(*combatSession,*playerProjectiles,*nativeWorld,std::move(contactServices));
+                    }
+                    std::uintptr_t identity=0;
+                    if(!playerProjectileContacts->register_projectile(id,*playerProjectileRender,identity,e))return false;
+                    {f::effects::RuntimeSessionProjectileBodyPlanV1 plan;std::string planError;bool found=false;
+                     for(const auto& visual:playerProjectiles->visuals())if(visual.projectile_id==id&&f::effects::runtime_session_projectile_body_plan_v1(*playerProjectileRender,visual,false,plan,planError))found=true;
+                     std::cout<<"Mage projectile id="<<id<<" sensor registered in the actor NativeWorld radiusGameUnits="<<(found?plan.radius*100.f:-1.f)<<" category="<<plan.category_bits<<" mask="<<plan.mask_bits<<"\n";}
+                }
+            }
+            e.clear();return true;
+        };
+        // The executor and its tables are built on first use (the staff attack or a skill owner: ChainLightning/Cyclone/StoneEscape).
+        auto ensurePlayerProjectiles=[&](std::string& e)->bool {
             if(!combatSession){e="Player projectile requires a live CombatSession";return false;}
-            const auto player=combatSession->player_id();
             if(!playerProjectileTables){
                 // The staged package carries only part of the PyData set; the executor's ordered loader needs the complete
                 // set, supplied explicitly by --projectile-source-assets (default: the live asset root).
@@ -3652,6 +3693,13 @@ int main(int argc,char** argv) {
                 if(!playerProjectiles->synchronize_session_binding(e))return false;
                 playerProjectileSession=combatSession.get();
             }
+            return true;
+        };
+        auto launchPlayerRangedProjectile=[&](const f::RetainedAnimationEvent& marker,std::string& e)->bool {
+            if(!combatSession){e="Player projectile requires a live CombatSession";return false;}
+            const auto player=combatSession->player_id();
+            if(!ensurePlayerProjectiles(e))return false;
+            const auto& itemTable=preparedRuntimeLootSource.loot.items();
             // Live source inventory: the equipped main hand is the only borrowed instance (same shape as the source equip set).
             const auto mainId=dh2::data::item_id(itemTable,options.combat.mainItemId);
             if(mainId<0){e="Player main hand item is absent from the source item table";return false;}
@@ -3684,41 +3732,7 @@ int main(int argc,char** argv) {
                      <<" model="<<selection.projectile.model_uri<<" occurrence="<<request.occurrence<<" heading="<<heading<<" target="<<owner->target_id;
             if(const auto* aimed=combatSession->actor(owner->target_id))std::cout<<" targetPos="<<aimed->transform.position[0]<<','<<aimed->transform.position[1]<<" aimErrorDeg="<<(std::acos(std::clamp(((aimed->transform.position[0]-owner->transform.position[0])*request.pose.forward[0]+(aimed->transform.position[1]-owner->transform.position[1])*request.pose.forward[1])/std::max(1e-3f,std::hypot(aimed->transform.position[0]-owner->transform.position[0],aimed->transform.position[1]-owner->transform.position[1])),-1.f,1.f))*57.29578f);
             std::cout<<'\n';
-            // Physical contact: a real sensor in the same NativeWorld as the actor bodies (source Projectile::SetInfo PhysicalObject).
-            if(accepted) {
-                if(!(options.sourceNativeBodies&&sourcePhysicalFrameEnabled&&nativeWorld->backend()))
-                    std::cout<<"Mage projectile id="<<id<<" has no physical contact owner (needs --original-native-bodies and the source physical frame)\n";
-                else {
-                    if(!playerProjectileRender) {
-                        f::effects::RuntimeSessionProjectileRenderServicesV1 renderServices;
-                        renderServices.material=[](const f::effects::RuntimeSessionProjectileMaterialRequestV1&,f::Material&,std::string& re){re="Projectile contact bounds provider does not bind materials";return false;};
-                        renderServices.submit=[](std::shared_ptr<const f::effects::RuntimeSessionProjectileRenderFrameV1>,std::string& re){re="Projectile contact bounds provider does not draw";return false;};
-                        f::AssetCatalog& boundsAssets=playerProjectileSourceCatalog?*playerProjectileSourceCatalog:assets;
-                        if(!f::effects::RuntimeSessionProjectileRenderV1::load(boundsAssets,std::move(renderServices),playerProjectileRender,e))return false;
-                    }
-                    if(!playerProjectileContacts) {
-                        f::effects::RuntimeSessionProjectileContactServicesV1 contactServices;
-                        contactServices.resolve_peer_actor=[&](void* context,f::ActorId& actor,bool& recognized,std::string&){
-                            std::string unresolved;recognized=false;actor=f::invalid_actor_id;
-                            if(!nativeBodies.resolve_physical_actor(context,actor,unresolved)||actor==f::invalid_actor_id){actor=f::invalid_actor_id;return true;} // non-Session peer
-                            recognized=true;return true;
-                        };
-                        // Source byte +0x80 of the peer; the same owner the actor collision filter reads (player 1, placed actors their `enabled`).
-                        contactServices.peer_visible=[&](f::ActorId peer,bool& visible,std::string& ve){
-                            if(peer==combatSession->player_id()){visible=true;return true;}
-                            for(const auto& a:population.actors())if(a.definition.stableId==peer){visible=a.enabled!=0;return true;}
-                            ve="Projectile peer visibility owner unavailable";return false;
-                        };
-                        contactServices.source_no_collisions=[&](bool& disabled,std::string&){disabled=physicsDebug.at("MP_NoCollisions");return true;};
-                        playerProjectileContacts=std::make_unique<f::effects::RuntimeSessionProjectileContactBodiesV1>(*combatSession,*playerProjectiles,*nativeWorld,std::move(contactServices));
-                    }
-                    std::uintptr_t identity=0;
-                    if(!playerProjectileContacts->register_projectile(id,*playerProjectileRender,identity,e))return false;
-                    {f::effects::RuntimeSessionProjectileBodyPlanV1 plan;std::string planError;bool found=false;
-                     for(const auto& visual:playerProjectiles->visuals())if(visual.projectile_id==id&&f::effects::runtime_session_projectile_body_plan_v1(*playerProjectileRender,visual,false,plan,planError))found=true;
-                     std::cout<<"Mage projectile id="<<id<<" sensor registered in the actor NativeWorld radiusGameUnits="<<(found?plan.radius*100.f:-1.f)<<" category="<<plan.category_bits<<" mask="<<plan.mask_bits<<"\n";}
-                }
-            }
+            if(accepted&&!registerPlayerProjectileSensor(id,e))return false;
             e.clear();return true;
         };
         const void* embeddedSceneFxOwner=nullptr;
@@ -6805,7 +6819,7 @@ int main(int argc,char** argv) {
             bindContainerLoot();
             bindQuestRuntime(false);
             bindSourcePresentations();
-            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
+            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();if(mageSkillOwner)mageSkillOwner->reset();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
             faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
             if(restored)scriptRoutes.clear();
             if(options.combatText)combatText.clear_for_reload();
@@ -8014,7 +8028,7 @@ int main(int argc,char** argv) {
                     bindContainerLoot();
                     bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: restore shows no bind banners)
                     bindSourcePresentations();
-                    skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
+                    skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();if(mageSkillOwner)mageSkillOwner->reset();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
                     traceState("restore-after");
                     std::cout<<"Restored live checkpoint frame="<<drawn<<" HP="<<player->health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
@@ -8406,6 +8420,53 @@ int main(int argc,char** argv) {
                                 };
                                 timedBuffs=std::make_unique<f::generic_skills::RuntimeTimedBuffOwnerV1>(std::move(buffBindings));
                             }
+                            // v21.8 magewire: external owner for ChainLightning / Cyclone / StoneEscape (their OnPre/OnSkill bodies run
+                            // on the shared projectile executor, the NativeWorld sensor and the source FX/audio owners).
+                            if(!mageSkillOwner) {
+                                f::generic_skills::RuntimeMageSkillServicesV1 mageServices;
+                                mageServices.projectiles=[&]()->f::effects::RuntimeSessionProjectileV1* {
+                                    std::string e;
+                                    if(!ensurePlayerProjectiles(e)) {std::cout<<"Mage skill projectile executor unavailable: "<<e<<'\n';return nullptr;}
+                                    return playerProjectiles.get();
+                                };
+                                mageServices.projectile_tables=[&]()->std::shared_ptr<const dh2::android_ui::SourceProcessArraysV101> {
+                                    std::string e;
+                                    if(!ensurePlayerProjectiles(e)) {std::cout<<"Mage skill projectile tables unavailable: "<<e<<'\n';return nullptr;}
+                                    return playerProjectileTables;
+                                };
+                                mageServices.projectile_launched=[&](std::uint64_t projectileId,bool wantsContacts,std::string& e)->bool {
+                                    return !wantsContacts||registerPlayerProjectileSensor(projectileId,e);
+                                };
+                                mageServices.play_effect=[&](const std::string& name,const std::array<float,3>& at,std::string& e)->bool {
+                                    const auto fxTables=sourceEffectsTables.borrow();
+                                    if(!fxTables){e="EffectsTables are not loaded";return false;}
+                                    const auto& names=fxTables.set_names();const auto found=std::find(names.begin(),names.end(),name);
+                                    if(found==names.end()){e="EffectsTables set absent: "+name;return false;}
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    std::uintptr_t created=0;const float point[3]={at[0],at[1],at[2]};
+                                    return sourceEffectsFactory->manager().play_set(std::int32_t(found-names.begin()),point,nullptr,0,&created,e);
+                                };
+                                mageServices.stop_effect=[&](const std::string& name,std::string& e)->bool {
+                                    const auto fxTables=sourceEffectsTables.borrow();
+                                    if(!fxTables){e="EffectsTables are not loaded";return false;}
+                                    const auto& names=fxTables.set_names();const auto found=std::find(names.begin(),names.end(),name);
+                                    if(found==names.end()){e="EffectsTables set absent: "+name;return false;}
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    return sourceEffectsFactory->manager().drop_set_by_id_v117(std::int32_t(found-names.begin()),e);
+                                };
+                                mageServices.play_sound=[&](const std::string& name,std::string& e)->bool {
+                                    if(!runtimeAudio){e="no audio runtime";return false;}
+                                    return runtimeAudio->play_named_plain(name.c_str(),e);
+                                };
+                                // WarpTo / carried displacement: the same actor verb the Script teleport uses (camera follow for the player).
+                                mageServices.move_actor=[&](f::ActorId actor,const std::array<float,3>& position,bool,std::string& e)->bool {
+                                    if(!hostServices.actor_verbs.teleport) {e="actor teleport verb unavailable";return false;}
+                                    return hostServices.actor_verbs.teleport(actor,position,e);
+                                };
+                                mageServices.trace=[&](const std::string& line){std::cout<<line<<'\n';};
+                                mageSkillOwner=std::make_unique<f::generic_skills::RuntimeMageSkillOwnerV1>(std::move(mageServices));
+                            }
+                            request.external_owner=mageSkillOwner.get();
                             request.timed_buffs=timedBuffs.get();
                             skillCastCoordinator->begin_skill_cast_v1(request,*combatSession,receipt,castError);
                             if(motor)motor->setFacingRadians(combatSession->actor(request.actor)->transform.rotation[2]);
@@ -8674,6 +8735,11 @@ int main(int argc,char** argv) {
                     }
                     (void)playerProjectiles->take_results(); // the same receipts are carried by the impacts above
                     playerProjectileClockMs+=std::int64_t(gameplayDt*1000);
+                }
+                if(mageSkillOwner&&!gameplayPaused&&combatSession) {
+                    // Statue timers and tornado ticks run on the gameplay clock after the session and projectile executor updates.
+                    std::string mageError;
+                    if(!mageSkillOwner->advance(*combatSession,gameplayDt*1000.0,mageError))std::cerr<<"Mage skill owner advance: "<<mageError<<'\n';
                 }
                 // P16 SPACEBTN: the OOI candidates that are not combat actors are re-registered each frame from their owners:
                 // containers (source GetInteractionType: openable 0, destructible 8; broken destructibles are not candidates)
