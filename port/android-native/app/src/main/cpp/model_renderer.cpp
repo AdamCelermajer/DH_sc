@@ -50165,7 +50165,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
            actor.source_global_87=census->is_global?1:0;
            if(!actor.source_activate_condition.empty()||!actor.source_deactivate_condition.empty())
             __android_log_print(ANDROID_LOG_INFO,"DH2Native",
-                "DBGCOND Character %s | activate '%s' | deactivate '%s'",actor.name.c_str(),
+                "Character activation conditions | %s | activate '%s' | deactivate '%s'",actor.name.c_str(),
                 actor.source_activate_condition.c_str(),actor.source_deactivate_condition.c_str());
           }
           // Level::Level resets Module::s_moduleId to zero; each authored
