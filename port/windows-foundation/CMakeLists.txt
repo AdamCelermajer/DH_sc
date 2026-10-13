@@ -277,6 +277,7 @@ add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/pc_cooldown_frame_v1.cpp
   features/generic_skills/runtime_skill_cast_prepare_v1.cpp
   features/generic_skills/runtime_skill_target_query_v1.cpp
+  features/generic_skills/runtime_mage_skill_owner_v1.cpp
   features/generic_skills/runtime_skill_activation_v1.cpp
   features/generic_skills/runtime_skill_activation_session_v1.cpp
   features/generic_skills/runtime_skill_animation_bank_v1.cpp
@@ -390,6 +391,26 @@ target_link_libraries(foundation_runtime_effects PUBLIC foundation_runtime_equip
 target_include_directories(foundation_runtime_effects PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_effects)
+
+# v21.8 mage: shared ranged/projectile executor (runtime_session_projectile_*), previously unlinked.
+add_library(foundation_runtime_session_projectile STATIC
+  features/effects/runtime_session_projectile_v1.cpp
+  features/effects/runtime_session_projectile_contacts_v1.cpp
+  features/effects/runtime_session_projectile_frame_v1.cpp
+  features/effects/runtime_session_projectile_render_v1.cpp
+  features/effects/runtime_source_projectile_v1.cpp
+  ../android-native/app/src/main/cpp/source_process_arrays_v101.cpp
+  ../game-data/combat_events.cpp)
+target_link_libraries(foundation_runtime_session_projectile PUBLIC foundation_data)
+add_executable(runtime_session_projectile_v1_tests features/effects/runtime_session_projectile_v1_tests.cpp)
+target_link_libraries(runtime_session_projectile_v1_tests PRIVATE foundation_runtime_session_projectile)
+add_test(NAME runtime_session_projectile_v1 COMMAND runtime_session_projectile_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
+add_executable(runtime_session_projectile_render_v1_tests features/effects/runtime_session_projectile_render_v1_tests.cpp)
+target_link_libraries(runtime_session_projectile_render_v1_tests PRIVATE foundation_runtime_session_projectile)
+target_link_libraries(dh-foundation PRIVATE foundation_runtime_session_projectile)
+add_test(NAME runtime_session_projectile_render_v1 COMMAND runtime_session_projectile_render_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
 
 target_link_libraries(dh-foundation PRIVATE foundation_data ${DH2_PLATFORM_LIBRARIES})
 add_library(foundation_frontend STATIC
@@ -1152,6 +1173,12 @@ add_test(NAME combat_session_incoming_receiver COMMAND combat_session_incoming_r
 add_executable(combat_session_source_attack_bank_tests tests/combat_session_source_attack_bank_tests.cpp)
 target_link_libraries(combat_session_source_attack_bank_tests PRIVATE foundation_runtime_equipment_menu)
 add_test(NAME combat_session_source_attack_bank COMMAND combat_session_source_attack_bank_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
+
+# v21.8 mage: ranged (Staff01) player attack at the session level: far-target LookAt/begin, queued state-5 markers, no melee hit.
+add_executable(combat_session_ranged_attack_tests tests/combat_session_ranged_attack_tests.cpp)
+target_link_libraries(combat_session_ranged_attack_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME combat_session_ranged_attack COMMAND combat_session_ranged_attack_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
 
 add_executable(playable_actor_physics_frame_tests tests/playable_actor_physics_frame_tests.cpp)

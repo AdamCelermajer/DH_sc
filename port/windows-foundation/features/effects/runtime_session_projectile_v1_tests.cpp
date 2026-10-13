@@ -28,27 +28,10 @@ void check(bool ok, const std::string& message) {
 
 std::shared_ptr<dh2::android_ui::SourceProcessArraysV101> load_arrays(
     const AssetCatalog& assets) {
-    auto tables = std::make_shared<dh2::android_ui::SourceProcessArraysV101>();
-    bool complete = false;
+    // v21.8 mage: the shared executor loader (promoted from this test's former copy).
     std::string error;
-    while (!complete) {
-        const auto reader = [&](const std::string& uri,
-                                std::vector<std::uint8_t>& bytes,
-                                std::string& read_error) {
-            if (uri.rfind("data/", 0) != 0) {
-                read_error = "unexpected source array URI: " + uri;
-                return false;
-            }
-            try {
-                bytes = assets.read(std::filesystem::path("original-cache") / uri);
-                return true;
-            } catch (const std::exception& e) {
-                read_error = e.what();
-                return false;
-            }
-        };
-        check(tables->load_stage(reader, complete, error), error);
-    }
+    auto tables = load_runtime_session_projectile_tables_v1(assets, error);
+    check(tables != nullptr, error);
     return tables;
 }
 
@@ -554,8 +537,25 @@ void run(const std::filesystem::path& root) {
     physical_bindings.debug_switch = [](const char*, bool& out, std::string&) {
         out = false; return true;
     };
-    physical_bindings.filter = [](void*, const auto&, const auto&, bool& out,
-                                  std::string&) { out = true; return true; };
+    // v21.8 mage: like the production actor filter, a peer that is not a registered actor body must be a registered
+    // projectile sensor. The NativeWorld consults this filter while the sensor is being created (the target overlaps
+    // the launch point), so the source identity has to resolve before the world sees the new body.
+    RuntimeSessionProjectileContactBodiesV1* sensor_registry = nullptr;
+    unsigned sensor_peer_filter_calls = 0;
+    physical_bindings.filter = [&](void* peer, const auto&, const auto&, bool& out,
+                                   std::string& filter_error) {
+        ActorId peer_actor = invalid_actor_id;
+        std::string ignored;
+        if (!actor_bodies.resolve_physical_actor(peer, peer_actor, ignored)) {
+            std::uint64_t projectile = 0;
+            if (!sensor_registry || !sensor_registry->resolve_source_identity(
+                    reinterpret_cast<std::uintptr_t>(peer), projectile, filter_error))
+                return false;
+            ++sensor_peer_filter_calls;
+        }
+        out = true;
+        return true;
+    };
     physical_bindings.contact = [](auto, void*, unsigned, std::string&) {
         return true;
     };
@@ -616,6 +616,7 @@ void run(const std::filesystem::path& root) {
     RuntimeSessionProjectileContactBodiesV1 projectile_bodies(
         *session, runtime, *contact_world, std::move(contact_services));
     std::uintptr_t source_identity = 0;
+    sensor_registry = &projectile_bodies;
     check(projectile_bodies.register_projectile(id, *renderer, source_identity,
                                                  error), error);
     std::uint64_t identity_id = 0;
@@ -624,6 +625,8 @@ void run(const std::filesystem::path& root) {
                                                      error) && identity_id == id &&
           no_collision_queries == 1,
           "Registered projectile source identity lost its exact runtime ID");
+    check(sensor_peer_filter_calls >= 1,
+          "Actor filter was not consulted for the overlapping sensor during creation");
     b2Body* projectile_body = nullptr;
     for (auto* body = contact_world->backend()->GetBodyList(); body;
          body = body->GetNext()) {
@@ -669,7 +672,98 @@ void run(const std::filesystem::path& root) {
           !projectile_bodies.resolve_source_identity(source_identity,
                                                       identity_id, error),
           "Projectile sensor removal retained a stale source identity");
-    check(actor_bodies.clear(error), error);
+    // v21.8 mage: skill projectile (Lua SpawnSkillProjectile) over the same NativeWorld sensor bridge: delayed_check/
+    // delayed callbacks, a rejecting delayed_check, target lock steering and the expiry callback.
+    {
+        const auto* projectile_group = tables->group("ProjectileTable");
+        check(projectile_group != nullptr, "ProjectileTable group missing");
+        const auto row_of = [&](const char* name) {
+            for (std::size_t row = 0; row < projectile_group->names.size(); ++row)
+                if (projectile_group->names[row] == name) return std::int32_t(row);
+            check(false, std::string("ProjectileTable row missing: ") + name);
+            return std::int32_t(-1);
+        };
+        const auto chain_row = row_of("SimplifiedChainLightning");
+        const RuntimeSessionProjectileBoundsV1 bounds = [&](const std::string&, std::array<float, 3>& minimum,
+            std::array<float, 3>& maximum, std::string& bounds_error) {
+            return renderer->source_projectile_bounds_v1(
+                "data/3D/projectiles/elemental_bolt_fire.bdae", minimum, maximum, bounds_error);
+        };
+        unsigned checks = 0, delayed = 0;
+        ActorId delayed_peer = invalid_actor_id;
+        bool delayed_expired = true, accept_hit = true;
+        RuntimeSessionSkillProjectileLaunchV1 skill;
+        skill.owner = 1; skill.generation = 60; skill.occurrence = 1; skill.row = chain_row;
+        skill.origin = live_target->transform.position;
+        skill.forward = {0.0f, 1.0f, 0.0f};
+        skill.explicit_target = 2;
+        skill.check = [&](const RuntimeSessionSkillProjectileEventV1& event, bool& accept, std::string&) {
+            ++checks;
+            check(event.peer == 2 && !event.expired && event.owner == 1 && event.source_row == chain_row,
+                  "Skill delayed_check lost its peer/owner/row");
+            accept = accept_hit;
+            return true;
+        };
+        skill.delayed = [&](const RuntimeSessionSkillProjectileEventV1& event, std::string&) {
+            ++delayed;
+            delayed_peer = event.peer;
+            delayed_expired = event.expired;
+            return true;
+        };
+        std::uint64_t skill_id = 0, replay_id = 0;
+        check(runtime.launch_skill(tables, skill, skill_id, error) && skill_id != 0, error);
+        check(runtime.launch_skill(tables, skill, replay_id, error) && replay_id == skill_id,
+              "Skill projectile replay of the same occurrence created a second record");
+        std::uintptr_t skill_identity = 0;
+        check(projectile_bodies.register_projectile(skill_id, bounds, skill_identity, error), error);
+        bool skill_stepped = false;
+        check(actor_bodies.step_world(*contact_world, 20, 16, actor_lookup, skill_stepped, error), error);
+        check(projectile_bodies.after_world_step(20, error), error);
+        check(runtime.update(1010, 0, false, error), error);
+        check(projectile_bodies.after_runtime_update(error), error);
+        check(checks >= 1 && delayed == 1 && delayed_peer == 2 && !delayed_expired,
+              "Accepted skill collision did not reach delayed(target, projectile) exactly once");
+        const auto skill_impacts = runtime.take_impacts();
+        const auto skill_impact = std::find_if(skill_impacts.begin(), skill_impacts.end(),
+            [&](const auto& value) { return value.projectile_id == skill_id; });
+        check(skill_impact != skill_impacts.end() && skill_impact->kind == 4 && skill_impact->target == 2 &&
+              skill_impact->fx >= 0 && !skill_impact->result,
+              "Skill hit impact lost its consumed kind/FX or formed a melee result");
+        check(runtime.take_results().empty(), "Skill projectile produced a melee-style result");
+        check(projectile_bodies.size() == 0, "Consumed skill projectile kept its native sensor");
+
+        // A delayed_check that rejects leaves the projectile flying; its expiry runs delayed(nil, projectile).
+        accept_hit = false;
+        checks = 0;
+        delayed = 0;
+        skill.occurrence = 2;
+        check(runtime.launch_skill(tables, skill, skill_id, error), error);
+        check(projectile_bodies.register_projectile(skill_id, bounds, skill_identity, error), error);
+        check(actor_bodies.step_world(*contact_world, 21, 16, actor_lookup, skill_stepped, error), error);
+        check(projectile_bodies.after_world_step(21, error), error);
+        check(runtime.update(1011, 0, false, error), error);
+        check(projectile_bodies.after_runtime_update(error), error);
+        check(checks >= 1 && delayed == 0 && runtime.active_count() >= 1,
+              "Rejected delayed_check consumed the projectile or ran delayed");
+        check(runtime.update(1012, 5000, false, error), error);
+        check(projectile_bodies.after_runtime_update(error), error);
+        check(delayed == 1 && delayed_expired && delayed_peer == invalid_actor_id,
+              "Skill projectile expiry did not run delayed(nil, projectile)");
+        check(projectile_bodies.size() == 0, "Expired skill projectile kept its native sensor");
+        runtime.take_impacts();
+
+        // target_lock steering toward SetProjectileTarget (inference, see the executor).
+        skill.occurrence = 3;
+        skill.origin = {live_target->transform.position[0] - 500.0f, live_target->transform.position[1], 0.0f};
+        skill.forward = {0.0f, 1.0f, 0.0f};
+        check(runtime.launch_skill(tables, skill, skill_id, error), error);
+        check(runtime.update(1013, 16, false, error), error);
+        const auto steered = runtime.visuals();
+        const auto steered_visual = std::find_if(steered.begin(), steered.end(),
+            [&](const auto& value) { return value.projectile_id == skill_id; });
+        check(steered_visual != steered.end() && steered_visual->forward[0] > 0.99f,
+              "Target-locked skill projectile did not steer toward its SetProjectileTarget actor");
+    }    check(actor_bodies.clear(error), error);
 
     request.occurrence = 13;
     request.event.generation = 47;
@@ -687,10 +781,10 @@ void run(const std::filesystem::path& root) {
                                                  error), error);
     check(projectile_bodies.size() == 1 && stale_identity != 0,
           "Binding-renewal projectile did not own a native sensor");
-    check(runtime.update(1001, 0, false, error), error);
+    check(runtime.update(1101, 0, false, error), error);
     check(projectile_bodies.after_runtime_update(error), error);
     contact_world->update(16);
-    check(projectile_bodies.after_world_step(2, error), error);
+    check(projectile_bodies.after_world_step(22, error), error);
     const auto stepped_visuals = runtime.visuals();
     const auto stepped_visual = std::find_if(stepped_visuals.begin(),
         stepped_visuals.end(), [&](const auto& value) {
@@ -702,7 +796,7 @@ void run(const std::filesystem::path& root) {
           std::abs((stepped_visual->position[1] - request.pose.origin[1]) -
                    20.0f * 100.0f * 0.016f * stepped_visual->forward[1]) < 0.01f,
           "Native projectile velocity did not preserve source Box2D units/cadence");
-    check(runtime.update(1002, 1000, false, error), error);
+    check(runtime.update(1102, 1000, false, error), error);
     check(projectile_bodies.after_runtime_update(error), error);
     check(projectile_bodies.size() == 0 &&
           !projectile_bodies.resolve_source_identity(stale_identity,

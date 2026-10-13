@@ -448,7 +448,7 @@ void check_skill_use_profiles_v1(dh2::data::SkillTables::Borrow skills,
         check(std::find(classes.names.begin(), classes.names.end(), profile.class_token) != classes.names.end(),
               std::string("Use profile class token is absent from ClassTables: ") + profile.class_token);
     }
-    check(sizeof(kRuntimeSkillUseProfilesV1) / sizeof(kRuntimeSkillUseProfilesV1[0]) == 7, "Use profile table admitted-row count changed");
+    check(sizeof(kRuntimeSkillUseProfilesV1) / sizeof(kRuntimeSkillUseProfilesV1[0]) == 11, "Use profile table admitted-row count changed");
     check(find_skill_use_profile_v1("Quickness", "prince_rogue_quickness") != nullptr,
           "Quickness is admitted through its timed buff arm");
     check(find_skill_use_profile_v1("ViciousStrike", "prince_warrior_bashdown") == nullptr,

@@ -60,6 +60,9 @@ struct CombatSession::Impl {
         std::vector<OriginalCombatPhase> reactionChoices;
         std::unique_ptr<RetainedSequencePlayback> retained;
         std::vector<SourceCombatMarker> sourceEvents;
+        // v21.8 mage: ranged source projectile markers (state-5 projectile kind) queued for the caller.
+        bool rangedProjectileMarkers=false;
+        std::vector<RetainedAnimationEvent> projectileMarkers;
         const SourceCombatMarkerSink* sourceMarkerSink=nullptr;
         std::uint32_t sourceSerial=0;
         float sourceActorRate=1;
@@ -559,6 +562,7 @@ struct CombatSession::Impl {
                             self.animationDispatches[dispatchIndex].synchronous_source_hit=true;
                         } else entry.sourceEvents.push_back(std::move(marker));
                     }
+                    if(entry.rangedProjectileMarkers&&kind==OriginalNamedAnimationKind::projectile)entry.projectileMarkers.push_back(*bridge.event);
                     // AIS_ANIM_EVENT common source exit0x3d45a4 returns1, even
                     // unrecognized names. Numeric controller gates do not apply.
                     *result=1;return 0;
@@ -794,9 +798,11 @@ struct CombatSession::Impl {
     }
     bool turn(ActorId source,ActorId target,double dt,std::string& error){
         auto* a=world->find_actor(source);const auto* b=world->find_actor(target);
-        if(!a||!b||!a->alive()||a->action==CharacterAction::hurt||
-           !world->eligible_target(*a,*b)||!world->original_melee_in_range(source,target))return true;
         auto& entry=entries.at(source);
+        // v21.8 mage: CharAI::AI_DoRangeAttack (0x3d076c) does LookAt(target) and SM_SetAttackState without any melee-range
+        // gate (docs/ida-fidelity-audit-2026-10-11/weapon-range.md), so a ranged owner turns toward its target at any distance.
+        if(!a||!b||!a->alive()||a->action==CharacterAction::hurt||
+           !world->eligible_target(*a,*b)||(!entry.rangedProjectileMarkers&&!world->original_melee_in_range(source,target)))return true;
         // Admission and active-attack update can both request LookAt. They
         // share this frame's elapsed rotation budget rather than turning twice.
         if(updating&&dt>0&&entry.rotationUpdateSerial==updateSerial)return true;
@@ -908,7 +914,7 @@ struct CombatSession::Impl {
         if(target==invalid_actor_id){
             if(!entry.sourceCombo||entry.attack.geometry!=AttackGeometry::melee_radius)return true;
         }else if(!b||!entries.at(target).permission||!world->eligible_target(*a,*b)||
-                 !world->original_melee_in_range(source,target))return true;
+                 (!entry.rangedProjectileMarkers&&!world->original_melee_in_range(source,target)))return true; // ranged: AI_DoRangeAttack has no range gate
         if(!select_source_attack_for_request(source,error)||!runtime->begin(source,target,entries.at(source).attack,error))return false;
         return facts(source,error);
     }
@@ -1049,7 +1055,13 @@ struct CombatSession::Impl {
                 case attack_network_mode:{bool online=false;if(s.networkModeProvider&&!s.networkModeProvider(b.source,online,b.failure))return;
                     if(online){b.failure="Source combo online attack backend is unbound";return;}break;}
                 case attack_frontal_angle:b.failure="Actual source frontal-angle/search-heading provider unavailable";break;
-                case attack_range_redirect:b.failure="Original ranged action redirect is not bound for source combo";break;
+                case attack_range_redirect:
+                    // v21.8 mage: a ranged source owner (Staff01) redirects the melee command to its ranged attack. The
+                    // redirected command begins the same source attack (no melee search); the state-5 projectile marker
+                    // is queued for the projectile executor. Other owners keep the unbound rejection.
+                    if(!entry.rangedProjectileMarkers){b.failure="Original ranged action redirect is not bound for source combo";break;}
+                    if(!s.request(b.source,request->payload,b.failure))return;
+                    break;
                 default:b.failure="Original source combo service unavailable: "+std::to_string(request->service);break;
                 }
             }
@@ -1374,6 +1386,7 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             stage.entry.receiveDamage=policy.receiveDamage;
             stage.entry.reactionMinimalRandoms=policy.reactionMinimalRandoms;
             stage.entry.sourceCombo=policy.sourceCombo;stage.entry.sourceAttack.owner=id;stage.entry.sourceAttack.object_of_interest_type=-1;
+            stage.entry.rangedProjectileMarkers=policy.rangedProjectileMarkers;
             if(policy.sourceCombo){stage.entry.targetProjection.lastTarget=invalid_actor_id;stage.entry.targetProjection.lastTargetKnown=true;}
             stage.entry.sourceAttackStateSelection=policy.sourceAttackStateSelection;
             if(!stage.visual.load(assets,visualConfig,error)||!stage.visual.select(idle.clipName,true,error))throw std::runtime_error(error);
@@ -1479,9 +1492,10 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
                 auto& attack=stage.entry.attack;attack.id="actor-"+std::to_string(id)+(policy.sequenceAction?"/source-group":"/diagnostic-leaf");attack.animation_clip_id=policy.sequenceAction?actionAlias:action->clipName;
                 const auto sourceId="actor-"+std::to_string(id)+"/melee";
                 std::vector<std::pair<std::string,OriginalMeleeSource>> handSources;
-                if(policy.damageMarkerNames.empty())throw std::runtime_error("Source damage marker choice required: "+profileId);
+                if(policy.damageMarkerNames.empty()&&!policy.rangedProjectileMarkers)throw std::runtime_error("Source damage marker choice required: "+profileId);
                 const auto* markers=actionVisual.markers(attack.animation_clip_id,error);if(!markers)throw std::runtime_error(error);
-                for(const auto& marker:policy.damageMarkerNames){
+                // v21.8 mage: a ranged source attack has no melee damage marker; its projectile marker goes to the sink.
+                for(const auto& marker:policy.rangedProjectileMarkers?std::vector<std::string>{}:policy.damageMarkerNames){
                     if(std::none_of(markers->markers().begin(),markers->markers().end(),[&](const AnimationMarker& m){return m.name==marker;}))
                         throw std::runtime_error("Selected source phase has no damage marker: "+profileId+"/"+marker);
                     std::string markerSource=sourceId;
@@ -1495,11 +1509,12 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
                     }
                     attack.damage_markers.push_back({marker,markerSource});
                 }
+                attack.projectile_delivery=policy.rangedProjectileMarkers;
                 actor.attack_ids.push_back(attack.id);
                 if(!next->world->bind_actor(actor,props,stage.entry.traits,error))throw std::runtime_error(error);
                 if(policy.sourceMeleeHandMarkers){
                     for(const auto& hand:handSources)if(!next->world->bind_source(hand.first,hand.second,error))throw std::runtime_error(error);
-                }else if(!next->world->bind_source(sourceId,{policy.offHand,policy.alternate},error))throw std::runtime_error(error);
+                }else if(!policy.rangedProjectileMarkers&&!next->world->bind_source(sourceId,{policy.offHand,policy.alternate},error))throw std::runtime_error(error);
                 attack.maximum_range=next->world->melee_reach(id);
                 const auto* ai=dh2::data::ai_props(next->world->factions(),props.sheets.resolved[1]);
                 if(!ai||ai->attack_delay<0)throw std::runtime_error("Original AI AttackDelay unavailable/negative");
@@ -2012,6 +2027,11 @@ bool CombatSession::set_object_scene_flags(ObjectId id,std::uint32_t clear,std::
 const PlayableActorWorld* CombatSession::world()const noexcept{return impl_?impl_->world.get():nullptr;}
 const dh2::data::AiTables* CombatSession::original_ai_tables()const noexcept{return impl_&&impl_->world?&impl_->world->factions():nullptr;}
 std::int32_t CombatSession::original_actor_state(ActorId id)const noexcept{return impl_&&impl_->entries.count(id)?impl_->live_original_state(id):-1;}
+std::vector<RetainedAnimationEvent> CombatSession::take_projectile_markers(ActorId id){
+    if(!impl_||!impl_->entries.count(id))return {};
+    auto& markers=impl_->entries.at(id).projectileMarkers;
+    std::vector<RetainedAnimationEvent> out;out.swap(markers);return out;
+}
 bool CombatSession::borrow_rotation_turn(ActorId id,std::uint32_t*& out,std::string& error){
     if(!impl_||impl_->detached||!impl_->entries.count(id)||!impl_->world->find_actor(id)){error="Rotation turn borrow requires current shared actor/session";return false;}
     out=&impl_->entries.at(id).turnPositive;error.clear();return true;

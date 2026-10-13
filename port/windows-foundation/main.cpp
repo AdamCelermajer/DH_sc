@@ -119,6 +119,8 @@
 #endif
 #include "features/effects/runtime_effects_renderer_v1.hpp"
 #include "features/effects/embedded_scene_fx_v1.hpp"  // P17 FIREWALL: scene-owned authored FX
+#include "features/effects/runtime_session_projectile_v1.hpp" // v21.8 mage: shared ranged/projectile executor
+#include "features/effects/runtime_session_projectile_contacts_v1.hpp" // v21.8 mage: projectile NativeWorld contact bodies
 #include "features/effects/runtime_swing_fx_observer_v1.hpp"
 #include "features/effects/runtime_level_up_presentation_v1.hpp" // P15 LEVELUP (I026)
 #include "features/effects/celest_target_fx_dispatch_v1.hpp"
@@ -434,6 +436,7 @@ bool drawQuestBanner(const f::QuestBannerDisplayV1& display,f::HudGlyphFont& fon
 
 struct Options {
     fs::path assets, scene, level, profiles, save = "character.save", liveSave="gameplay.save", capture;
+    fs::path projectileSourceAssets; // v21.8 mage: asset root whose original-cache holds the complete source PyData set (projectile tables)
     std::vector<std::uint64_t> captureFrames; // P16 OPENING4 verification: extra captures at these drawn frames (<capture dir>/f<frame>.ppm)
     std::vector<int> conditionProbeFrames; // P17 CONDITIONS: --condition-probe FRAME prints every watched condition value
     std::set<std::string> activeConditions;
@@ -580,6 +583,7 @@ Options parse(int argc, char** argv) {
         const std::string arg=argv[i];
         auto value=[&]() -> std::string { if(++i>=argc) throw std::runtime_error("Missing value for "+arg); return argv[i]; };
         if(arg=="--assets") o.assets=value();
+        else if(arg=="--projectile-source-assets") o.projectileSourceAssets=value();
         else if(arg=="--scene") o.scene=value();
         else if(arg=="--level") o.level=value();
         else if(arg=="--profiles") o.profiles=value();
@@ -1460,8 +1464,8 @@ int main(int argc,char** argv) {
         // Original GameOption GOD_MANA defaults off; Character0x14F0 is
         // constructor-zero and only an explicit debug-console toggle changes it.
         struct OrdinarySkillManaPolicy {bool savedGodMana=false,actorDebugBypass=false;} skillManaPolicy;
-        int lastSkillPhase=-1;std::uint64_t lastSkillGeneration=0;
         std::uint64_t skillHitLogGeneration=0;std::size_t skillHitLogCount=0; // v21.8 skills-a: per-hit damage log cursor
+        int lastSkillPhase=-1;std::uint64_t lastSkillGeneration=0,lastSkillFxGeneration=0;
         const auto playerPolicy=options.combat.profiles.find(options.combat.playerProfileId);
         const bool sourcePlayerStanceEnabled=!options.meleeBindings.empty()&&playerPolicy!=options.combat.profiles.end()&&playerPolicy->second.retainedPhaseClock;
         dh2::data::ItemTable locomotionItems;
@@ -1763,7 +1767,9 @@ int main(int argc,char** argv) {
             options.character=skillVisualPlan.config;skillAnimationBank=std::move(bank);
             for(const auto& root:skillAnimationBank->class_skill_roots)if(!root.loaded)std::cerr<<"Source skill optional root unavailable "<<root.source_skill_name<<": "<<root.diagnostic<<'\n';
             std::cout<<"Source skill bank preloaded class="<<state.class_id<<" roots="<<skillAnimationBank->class_skill_roots.size()<<" faeryCast="<<skillAnimationBank->active_faery_cast_sequence.value_or(-1)<<'\n';
-            if(state.class_id=="RoguePlayerBase"&&locomotionLibrary) {
+            // v21.8 mage: MagePlayerBase joins the same source attack-bank path; its staff attack is ranged (no melee markers).
+            if((state.class_id=="RoguePlayerBase"||state.class_id=="MagePlayerBase")&&locomotionLibrary) {
+                const bool rangedStaff=state.class_id=="MagePlayerBase";
                 const std::string attackClipPrefix="player-source-attack/";
                 options.character.clips.erase(std::remove_if(options.character.clips.begin(),options.character.clips.end(),[&](const auto& clip){return clip.first.compare(0,attackClipPrefix.size(),attackClipPrefix)==0;}),options.character.clips.end());
                 const auto* sourceProfile=profiles.find(options.combat.playerProfileId);
@@ -1789,9 +1795,16 @@ int main(int argc,char** argv) {
                 policy.animationOnly=false;policy.receiveDamage=false;
                 policy.sourceAttackBank=attack.bank;policy.sourceAttackPolicies=attack.sequence_policies;
                 policy.sequenceAction=attack.static_selection;policy.sourceAttackStateSelection=true;
-                policy.sourceMeleeHandMarkers=true;policy.sourceCombo=true;
+                policy.sourceCombo=true;
+                if(rangedStaff) {
+                    // Staff01 (equipment_type 4/5) is a ranged source weapon: the state-5 projectile marker is queued for the
+                    // projectile executor; no melee hand/damage marker is bound.
+                    policy.rangedProjectileMarkers=true;policy.sourceMeleeHandMarkers=false;policy.damageMarkerNames.clear();
+                } else {
+                policy.sourceMeleeHandMarkers=true;
                 // B044: the offhand damage marker exists only for a selected dual phase (off slot filled).
                 policy.damageMarkerNames={"attack_mainhand"};if(hands.second>=0)policy.damageMarkerNames.push_back("attack_offhand");
+                }
                 std::cout<<"Source player melee bank class="<<state.class_id<<" stance="<<selected.stance<<" moving="<<attack.moving_sequence_id<<" static="<<attack.static_sequence_id<<" main="<<hands.first<<" off="<<hands.second<<"; current initial gear, later bank replacement remains explicit\n";
             }
         }
@@ -2104,7 +2117,7 @@ int main(int argc,char** argv) {
             if(equipmentStateInitialized&&!refreshPlayerMetadataOwner(error))
                 throw std::runtime_error("Selected player item metadata: "+error);
             skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();
-            lastSkillPhase=-1;lastSkillGeneration=0;
+            lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
             if(equipmentStateInitialized) {
                 options.combat.equippedItemIds.clear();options.combat.mainItemId.clear();options.combat.offItemId.clear();
                 options.combat.selectedPlayerGear.clear();
@@ -2811,6 +2824,12 @@ int main(int argc,char** argv) {
         };
         prepareBodyPlans();
         auto nativeWorld=std::make_shared<dh2::physical::NativeWorld>();
+        // v21.8 mage: player ranged projectiles (declared here so the native-body teardown below can retire their sensors first).
+        // Destruction order: contact bodies before the projectile store they reference.
+        std::unique_ptr<f::effects::RuntimeSessionProjectileV1> playerProjectiles;
+        std::unique_ptr<f::effects::RuntimeSessionProjectileRenderV1> playerProjectileRender; // only supplies the authored BDAE bounds
+        std::unique_ptr<f::effects::RuntimeSessionProjectileContactBodiesV1> playerProjectileContacts;
+        std::uint64_t playerProjectileStepFrame=0;
         f::OriginalActorCollisionFilter nativeCollisionFilter;
         struct NativeBodyContext {
             std::array<float,3> destination{};std::uintptr_t attached=0,visual=0;
@@ -2830,7 +2849,7 @@ int main(int argc,char** argv) {
         double sourcePhysicalFractionMs=0;
         f::PlayableActorBodies nativeBodies;
         const std::map<std::string,bool> physicsDebug{{"MP_NoCollisions",false},{"MP_NoPhysics",false}};
-        auto clearNativeBodies=[&]() {if(!nativeBodies.clear(error))throw std::runtime_error(error);nativeBodyContexts.clear();sourceContacts->owner.reset();sourceContacts->binding.reset();sourceContacts->controller.reset();sourceContacts->transitions.reset();sourcePhysicalFrameEnabled=false;sourcePhysicalFractionMs=0;};
+        auto clearNativeBodies=[&]() {if(playerProjectileContacts){std::string contactError;const bool cleared=playerProjectileContacts->clear(contactError);playerProjectileContacts.reset();if(!cleared)throw std::runtime_error("Projectile sensor teardown: "+contactError);}if(!nativeBodies.clear(error))throw std::runtime_error(error);nativeBodyContexts.clear();sourceContacts->owner.reset();sourceContacts->binding.reset();sourceContacts->controller.reset();sourceContacts->transitions.reset();sourcePhysicalFrameEnabled=false;sourcePhysicalFractionMs=0;};
         auto bindNativeActor=[&](f::ActorId id,std::string& e) {
             if(!options.sourceNativeBodies)return true;
             auto* actor=combatSession->actor(id);const auto* props=combatSession->world()->combat_properties(id);
@@ -2850,7 +2869,12 @@ int main(int argc,char** argv) {
             // This NativeWorld contains only these typed character body receivers.
             bindings.filter=[&,id](void* peer,const auto& own,const auto& other,bool& allowed,std::string& problem){
                 f::ActorId peerId=f::invalid_actor_id;
-                if(!nativeBodies.resolve_physical_actor(peer,peerId,problem))return false;
+                if(!nativeBodies.resolve_physical_actor(peer,peerId,problem)) {
+                    // v21.8 mage: a registered projectile sensor is a non-Character peer (peerId stays invalid, category/mask rules only).
+                    std::uint64_t projectileId=0;std::string identityError;
+                    if(!playerProjectileContacts||!playerProjectileContacts->resolve_source_identity(reinterpret_cast<std::uintptr_t>(peer),projectileId,identityError))return false;
+                    problem.clear();
+                }
                 return nativeCollisionFilter.test_one(id,peerId,own,other,allowed,problem);
             };
             bindings.contact=[&,id,contacts=sourceContacts](auto event,void* peer,unsigned side,std::string& problem){
@@ -3514,9 +3538,9 @@ int main(int argc,char** argv) {
                 std::cout<<"Source root constructor scopes root="<<currentSourceRoot<<" modules="<<sourceScopes->count()<<"; full Level initialization remains incomplete\n";
                 for(const auto& module:sourceScopes->modules().entries())std::cout<<"Source module scope id="<<module.runtimeId<<" occurrence="<<module.occurrence.hostOccurrence<<'\n';
             }
-            if(options.campaignTriggers) {
+            if(options.campaignTriggers||combatSession) { // v21.8 mage: the player FX anchor is needed by animation-step FX even without campaign scripts
                 std::size_t actorAnchors=0;
-                for(const auto& definition:population.definitions()) {
+                if(options.campaignTriggers)for(const auto& definition:population.definitions()) {
                     if(definition.name.empty())continue;
                     const f::ActorId object=definition.stableId;int module=-1;
                     if(!sourceObjects.module_context(object,module,error)) {error.clear();continue;}
@@ -3572,6 +3596,131 @@ int main(int argc,char** argv) {
         f::effects::EmbeddedSceneFxV1 rangedProjectileFx; // B154: in-flight skill projectiles (ProjectileDict model), own ID domain
         std::map<std::string,std::shared_ptr<const std::vector<std::uint8_t>>> rangedProjectileModels;std::set<std::string> rangedProjectileRefused;
         std::set<std::uint64_t> rangedProjectileFxLive;
+        // v21.8 mage: the player's ranged source projectiles (Staff01 state-5 marker) run through the shared session
+        // projectile executor. Contacts/damage are not bound in this build; any contact fails loudly (see services below).
+        const f::CombatSession* playerProjectileSession=nullptr;
+        std::unique_ptr<f::AssetCatalog> playerProjectileSourceCatalog; // --projectile-source-assets (PyData + projectile models)
+        std::shared_ptr<const dh2::android_ui::SourceProcessArraysV101> playerProjectileTables;
+        std::vector<dh2::character::CombatItemRecord164> playerProjectileItemRows;
+        std::uint64_t playerProjectileOccurrence=0;
+        std::int64_t playerProjectileClockMs=0;
+        std::map<std::uint64_t,std::int64_t> playerProjectileBirthMs;
+        auto launchPlayerRangedProjectile=[&](const f::RetainedAnimationEvent& marker,std::string& e)->bool {
+            if(!combatSession){e="Player projectile requires a live CombatSession";return false;}
+            const auto player=combatSession->player_id();
+            if(!playerProjectileTables){
+                // The staged package carries only part of the PyData set; the executor's ordered loader needs the complete
+                // set, supplied explicitly by --projectile-source-assets (default: the live asset root).
+                if(!options.projectileSourceAssets.empty()&&!playerProjectileSourceCatalog)playerProjectileSourceCatalog=std::make_unique<f::AssetCatalog>(options.projectileSourceAssets);
+                playerProjectileTables=f::effects::load_runtime_session_projectile_tables_v1(playerProjectileSourceCatalog?*playerProjectileSourceCatalog:assets,e);
+                if(!playerProjectileTables)return false;
+            }
+            const auto& itemTable=preparedRuntimeLootSource.loot.items();
+            if(playerProjectileItemRows.size()!=itemTable.rows.size()) {
+                playerProjectileItemRows.assign(itemTable.rows.size(),dh2::character::CombatItemRecord164{});
+                for(std::size_t i=0;i<itemTable.rows.size();++i)std::copy_n(itemTable.rows[i].record.words,41,playerProjectileItemRows[i].words);
+            }
+            if(playerProjectileSession!=combatSession.get()||!playerProjectiles) {
+                playerProjectiles.reset();
+                f::effects::RuntimeSessionProjectileServicesV1 services;
+                // Original Projectile::OnCollision gate (AI_IsEnemy). The owner (the player) has a CharAI, so the query is always made.
+                // Inference: a dead or untargetable peer is skipped here (the Session result requires an eligible target).
+                services.source_is_enemy=[&](f::ActorId owner,f::ActorId peer,bool& ownerHasAi,bool& enemy,std::string& se){
+                    const auto* ai=combatSession?combatSession->original_ai_tables():nullptr;
+                    const auto* a=combatSession?combatSession->actor(owner):nullptr;const auto* d=combatSession?combatSession->actor(peer):nullptr;
+                    const auto* ta=combatSession?combatSession->world()->traits(owner):nullptr;const auto* td=combatSession?combatSession->world()->traits(peer):nullptr;
+                    if(!ai||!a||!d||!ta||!td){se="Projectile AI_IsEnemy needs the live Session actors, traits and AI tables";return false;}
+                    ownerHasAi=true;
+                    enemy=dh2::data::ai_enemy(*ai,a->faction_id,d->faction_id,ta->is_player,td->is_player)&&d->alive()&&d->action!=f::CharacterAction::dead&&td->targetable;
+                    return true;
+                };
+                // _HandleProjectile calls the owner's CharAI::OnProjectileHit first. AISPlayer has no OnProjectileHit override,
+                // so the player's AIS runs AISDefault::OnProjectileHit (0x3dbefc, a single `bx lr`): a source no-op.
+                services.source_owner_on_projectile_hit=[](const f::effects::RuntimeSessionProjectileImpactCandidateV1&,std::string&){return true;};
+                services.source_hit_semantics=[&](const f::effects::RuntimeSessionProjectileImpactCandidateV1& candidate,f::CombatSessionSourceHit& hit,std::string& se){
+                    const auto& items=preparedRuntimeLootSource.loot.items();
+                    const auto mainItem=dh2::data::item_id(items,options.combat.mainItemId);
+                    if(mainItem<0){se="Projectile hit requires the equipped main hand in the source item table";return false;}
+                    const dh2::character::CombatItemInstance4 instance{mainItem};
+                    const dh2::character::CombatItemInstance4* reference=&instance;
+                    const dh2::character::CombatEquipSet8 set{&reference};
+                    const dh2::character::CombatInventory16 inventory{&set,1,0};
+                    return f::effects::runtime_session_projectile_melee_hit_v1(playerProjectileTables,candidate,&inventory,playerProjectileItemRows.data(),
+                        std::uint32_t(playerProjectileItemRows.size()),hit,se);
+                };
+                playerProjectiles=std::make_unique<f::effects::RuntimeSessionProjectileV1>(*combatSession,std::move(services));
+                if(!playerProjectiles->synchronize_session_binding(e))return false;
+                playerProjectileSession=combatSession.get();
+            }
+            // Live source inventory: the equipped main hand is the only borrowed instance (same shape as the source equip set).
+            const auto mainId=dh2::data::item_id(itemTable,options.combat.mainItemId);
+            if(mainId<0){e="Player main hand item is absent from the source item table";return false;}
+            const dh2::character::CombatItemInstance4 instance{mainId};
+            const dh2::character::CombatItemInstance4* reference=&instance;
+            const dh2::character::CombatEquipSet8 set{&reference};
+            const dh2::character::CombatInventory16 inventory{&set,1,0};
+            dh2::character::CombatProperties896 properties{};
+            const auto* ownerProperties=combatSession->world()->combat_properties(player);
+            std::copy(ownerProperties->sheets.resolved.begin(),ownerProperties->sheets.resolved.end(),properties.words);
+            bool canRange=false;f::effects::RuntimeSourceRangeSelectionV1 selection;
+            if(!f::effects::runtime_source_range_selection_v1(playerProjectileTables,properties,&inventory,playerProjectileItemRows.data(),
+                    std::uint32_t(playerProjectileItemRows.size()),canRange,selection,e))return false;
+            if(!canRange){e="Equipped main hand has no ranged source selection";return false;}
+            const auto* owner=combatSession->actor(player);
+            if(!owner){e="Player actor is absent";return false;}
+            f::effects::RuntimeSessionProjectileLaunchV1 request;
+            request.owner=player;request.occurrence=++playerProjectileOccurrence;
+            request.event=marker;
+            request.source_event={5,0,0,1,selection.projectile.row};
+            request.current_properties=&properties;request.current_inventory=&inventory;
+            request.item_rows=playerProjectileItemRows.data();request.item_count=std::uint32_t(playerProjectileItemRows.size());
+            const float heading=owner->transform.rotation[2];
+            // Source look vector (same convention as enemy_ai::source_look_vector_v1); origin is the actor position.
+            request.pose={player,{owner->transform.position[0],owner->transform.position[1],owner->transform.position[2]},
+                          {std::sin(heading),-std::cos(heading),0.0f}};
+            bool accepted=false;std::uint64_t id=0;
+            if(!playerProjectiles->launch_state5(playerProjectileTables,request,accepted,id,e))return false;
+            std::cout<<"Mage projectile launch clockMs="<<playerProjectileClockMs<<" accepted="<<accepted<<" id="<<id<<" row="<<selection.projectile.row
+                     <<" model="<<selection.projectile.model_uri<<" occurrence="<<request.occurrence<<" heading="<<heading<<" target="<<owner->target_id;
+            if(const auto* aimed=combatSession->actor(owner->target_id))std::cout<<" targetPos="<<aimed->transform.position[0]<<','<<aimed->transform.position[1]<<" aimErrorDeg="<<(std::acos(std::clamp(((aimed->transform.position[0]-owner->transform.position[0])*request.pose.forward[0]+(aimed->transform.position[1]-owner->transform.position[1])*request.pose.forward[1])/std::max(1e-3f,std::hypot(aimed->transform.position[0]-owner->transform.position[0],aimed->transform.position[1]-owner->transform.position[1])),-1.f,1.f))*57.29578f);
+            std::cout<<'\n';
+            // Physical contact: a real sensor in the same NativeWorld as the actor bodies (source Projectile::SetInfo PhysicalObject).
+            if(accepted) {
+                if(!(options.sourceNativeBodies&&sourcePhysicalFrameEnabled&&nativeWorld->backend()))
+                    std::cout<<"Mage projectile id="<<id<<" has no physical contact owner (needs --original-native-bodies and the source physical frame)\n";
+                else {
+                    if(!playerProjectileRender) {
+                        f::effects::RuntimeSessionProjectileRenderServicesV1 renderServices;
+                        renderServices.material=[](const f::effects::RuntimeSessionProjectileMaterialRequestV1&,f::Material&,std::string& re){re="Projectile contact bounds provider does not bind materials";return false;};
+                        renderServices.submit=[](std::shared_ptr<const f::effects::RuntimeSessionProjectileRenderFrameV1>,std::string& re){re="Projectile contact bounds provider does not draw";return false;};
+                        f::AssetCatalog& boundsAssets=playerProjectileSourceCatalog?*playerProjectileSourceCatalog:assets;
+                        if(!f::effects::RuntimeSessionProjectileRenderV1::load(boundsAssets,std::move(renderServices),playerProjectileRender,e))return false;
+                    }
+                    if(!playerProjectileContacts) {
+                        f::effects::RuntimeSessionProjectileContactServicesV1 contactServices;
+                        contactServices.resolve_peer_actor=[&](void* context,f::ActorId& actor,bool& recognized,std::string&){
+                            std::string unresolved;recognized=false;actor=f::invalid_actor_id;
+                            if(!nativeBodies.resolve_physical_actor(context,actor,unresolved)||actor==f::invalid_actor_id){actor=f::invalid_actor_id;return true;} // non-Session peer
+                            recognized=true;return true;
+                        };
+                        // Source byte +0x80 of the peer; the same owner the actor collision filter reads (player 1, placed actors their `enabled`).
+                        contactServices.peer_visible=[&](f::ActorId peer,bool& visible,std::string& ve){
+                            if(peer==combatSession->player_id()){visible=true;return true;}
+                            for(const auto& a:population.actors())if(a.definition.stableId==peer){visible=a.enabled!=0;return true;}
+                            ve="Projectile peer visibility owner unavailable";return false;
+                        };
+                        contactServices.source_no_collisions=[&](bool& disabled,std::string&){disabled=physicsDebug.at("MP_NoCollisions");return true;};
+                        playerProjectileContacts=std::make_unique<f::effects::RuntimeSessionProjectileContactBodiesV1>(*combatSession,*playerProjectiles,*nativeWorld,std::move(contactServices));
+                    }
+                    std::uintptr_t identity=0;
+                    if(!playerProjectileContacts->register_projectile(id,*playerProjectileRender,identity,e))return false;
+                    {f::effects::RuntimeSessionProjectileBodyPlanV1 plan;std::string planError;bool found=false;
+                     for(const auto& visual:playerProjectiles->visuals())if(visual.projectile_id==id&&f::effects::runtime_session_projectile_body_plan_v1(*playerProjectileRender,visual,false,plan,planError))found=true;
+                     std::cout<<"Mage projectile id="<<id<<" sensor registered in the actor NativeWorld radiusGameUnits="<<(found?plan.radius*100.f:-1.f)<<" category="<<plan.category_bits<<" mask="<<plan.mask_bits<<"\n";}
+                }
+            }
+            e.clear();return true;
+        };
         const void* embeddedSceneFxOwner=nullptr;
         std::map<std::uint64_t,std::string> embeddedActorTried; // B105: current model offered for each actor
         dh2::data::EffectsTables sourceEffectsTables;
@@ -6195,6 +6344,8 @@ int main(int argc,char** argv) {
             bool stepped=false;
             if(!nativeBodies.step_world(*nativeWorld,session.update_serial(),dtMs,[&session](f::ActorId id){return session.actor(id);},stepped,e))return false;
             if(stepped)++sourcePhysicalSteps;
+            // v21.8 mage: projectile sensors published their overlaps during the Step above; publish native XY before the projectile update.
+            if(stepped&&playerProjectileContacts&&!playerProjectileContacts->after_world_step(++playerProjectileStepFrame,e))return false;
             for(auto& entry:nativeBodyContexts) {
                 auto& context=*entry.second;
                 if(context.attackTimerMs) {
@@ -6654,7 +6805,7 @@ int main(int argc,char** argv) {
             bindContainerLoot();
             bindQuestRuntime(false);
             bindSourcePresentations();
-            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
+            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
             faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
             if(restored)scriptRoutes.clear();
             if(options.combatText)combatText.clear_for_reload();
@@ -7863,7 +8014,7 @@ int main(int argc,char** argv) {
                     bindContainerLoot();
                     bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: restore shows no bind banners)
                     bindSourcePresentations();
-                    skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
+                    skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
                     traceState("restore-after");
                     std::cout<<"Restored live checkpoint frame="<<drawn<<" HP="<<player->health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
@@ -8489,6 +8640,41 @@ int main(int argc,char** argv) {
                 }
                 {DH_PROBE("combatSession.update");if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);}
                 if(stateTraceEnabled&&drawn%30==0)traceState("post-update");
+                // v21.8 mage: state-5 projectile markers of the ranged player attack go to the shared projectile executor.
+                if(playerProjectiles&&playerProjectileSession!=combatSession.get()){if(playerProjectileContacts){std::string contactError;const bool cleared=playerProjectileContacts->clear(contactError);playerProjectileContacts.reset();if(!cleared)throw std::runtime_error("Projectile sensor teardown: "+contactError);}playerProjectiles.reset();playerProjectileSession=nullptr;playerProjectileBirthMs.clear();}
+                if(combatSession&&!gameplayPaused) {
+                    for(const auto& marker:combatSession->take_projectile_markers(combatSession->player_id())) {
+                        std::cout<<"Mage projectile marker frame="<<drawn<<" name="<<marker.name<<" lag="<<marker.lag_ms<<'\n';
+                        std::string projectileError;
+                        // A refused launch leaves the authored attack animation running without a bolt; it is reported, not fatal.
+                        if(!launchPlayerRangedProjectile(marker,projectileError))std::cerr<<"Mage projectile launch refused: "<<projectileError<<'\n';
+                    }
+                }
+                if(playerProjectiles&&!gameplayPaused) {
+                    std::string projectileError;
+                    if(!playerProjectiles->update(drawn,std::int32_t(gameplayDt*1000),false,projectileError))throw std::runtime_error("Mage projectile update: "+projectileError);
+                    if(playerProjectileContacts&&!playerProjectileContacts->after_runtime_update(projectileError))throw std::runtime_error("Mage projectile contact: "+projectileError);
+                    // kind 0/4 = reached Character hit (4 = projectile consumed), 1 = timer/range expiry. FX set and sound row come from the
+                    // authored ProjectileTable row (impact_* for a hit, expire_* for an expiry).
+                    for(const auto& impact:playerProjectiles->take_impacts()) {
+                        std::cout<<"Mage projectile impact id="<<impact.projectile_id<<" kind="<<impact.kind<<" target="<<impact.target
+                                 <<" fx="<<impact.fx<<" sound="<<impact.sound<<" pos="<<impact.position[0]<<','<<impact.position[1]<<','<<impact.position[2];
+                        if(impact.result)std::cout<<" damage="<<impact.result->health_removed<<" requested="<<impact.result->requested_damage<<" applied="<<impact.result->applied<<" died="<<impact.result->target_died;
+                        std::cout<<'\n';
+                        if(impact.fx>=0&&sourceEffectsFactory) {
+                            std::uintptr_t created=0;const float at[3]={impact.position[0],impact.position[1],impact.position[2]};std::string fxError;
+                            if(!sourceEffectsFactory->manager().play_set(impact.fx,at,nullptr,0,&created,fxError))std::cerr<<"Mage projectile impact FX diagnostic: "<<fxError<<'\n';
+                            else std::cout<<"Mage projectile impact FX set="<<impact.fx<<" created="<<created<<'\n';
+                        }
+                        if(impact.sound>=0&&runtimeAudio) {
+                            std::string soundError;
+                            if(!runtimeAudio->script_play_plain(impact.sound,0,soundError))std::cerr<<"Mage projectile impact sound diagnostic: "<<soundError<<'\n';
+                            else std::cout<<"Mage projectile impact sound row="<<impact.sound<<" submitted\n";
+                        }
+                    }
+                    (void)playerProjectiles->take_results(); // the same receipts are carried by the impacts above
+                    playerProjectileClockMs+=std::int64_t(gameplayDt*1000);
+                }
                 // P16 SPACEBTN: the OOI candidates that are not combat actors are re-registered each frame from their owners:
                 // containers (source GetInteractionType: openable 0, destructible 8; broken destructibles are not candidates)
                 // and talk NPCs (type 3, Character so they queue with the characters, as in the source flag order).
@@ -8598,6 +8784,21 @@ int main(int argc,char** argv) {
                         lastSkillPhase=int(receipt->phase);lastSkillGeneration=receipt->generation;
                         const auto rng=combatSession->world()->random_state();
                         std::cout<<"Source skill lifecycle frame="<<drawn<<" generation="<<receipt->generation<<" phase="<<int(receipt->phase)<<" skill="<<receipt->skill_name<<" hits="<<receipt->applied_results.size()<<" MP="<<state.stats.resource<<" RNG="<<rng.seed<<'/'<<rng.calls<<" diagnostic="<<receipt->detail<<'\n';
+                        // v21.8 mage: authored per-target hit FX (Lua `target:PlayFX(elem_dmg_..)` for dmg > 0), played once at Use.
+                        if((receipt->phase==f::generic_skills::RuntimeSkillCastPhaseV1::use_applied||receipt->phase==f::generic_skills::RuntimeSkillCastPhaseV1::completed)&&!receipt->target_hit_fx_name.empty()&&sourceEffectsFactory&&lastSkillFxGeneration!=receipt->generation) {
+                            lastSkillFxGeneration=receipt->generation;
+                            const auto setNames=sourceEffectsTables.borrow().set_names();
+                            const auto setFound=std::find(setNames.begin(),setNames.end(),receipt->target_hit_fx_name);
+                            if(setFound==setNames.end())std::cerr<<"Skill target FX diagnostic: AnimatedEffectTable row is absent: "<<receipt->target_hit_fx_name<<'\n';
+                            else for(const auto target:receipt->target_hit_fx_targets) {
+                                const auto* hit=combatSession->actor(target);if(!hit)continue;
+                                const float at[3]={hit->transform.position[0],hit->transform.position[1],hit->transform.position[2]};
+                                std::uintptr_t created=0;std::string fxError;
+                                if(!sourceEffectsFactory->manager().play_set(std::int32_t(setFound-setNames.begin()),at,nullptr,0,&created,fxError))
+                                    std::cerr<<"Skill target FX diagnostic: "<<fxError<<'\n';
+                                else std::cout<<"Source skill target FX frame="<<drawn<<" skill="<<receipt->skill_name<<" name="<<receipt->target_hit_fx_name<<" set="<<(setFound-setNames.begin())<<" target="<<target<<" created="<<created<<'\n';
+                            }
+                        }
                     }
                     if(const auto* receipt=skillCastCoordinator->receipt(combatSession->player_id())) {
                         // v21.8 skills-a: one line per applied source hit (each hand and each marker volley), with the target's HP after it.
@@ -9080,17 +9281,26 @@ int main(int argc,char** argv) {
                     // B154: Projectile::SetInfo gives each skill projectile its ProjectileDict model; draw its authored FX
                     // resource at the projectile's current position and owner heading for as long as it flies.
                     rangedProjectileFx.begin_frame();
-                    if(rangedSkillMonsters||bossAiOwner||timerTraps->size()) { // B155: the boss AI's spit projectiles share the same presentation (own key domain)
+                    if(rangedSkillMonsters||bossAiOwner||timerTraps->size()||playerProjectiles) { // B155: the boss AI's spit projectiles share the same presentation (own key domain)
                         std::set<std::uint64_t> liveProjectiles;
                         std::vector<std::pair<std::uint64_t,f::enemy_ai::RangedProjectileV1>> drawnProjectiles;
                         if(rangedSkillMonsters)for(const auto& p:rangedSkillMonsters->projectiles())drawnProjectiles.push_back({0xB154,p});
                         if(bossAiOwner)for(const auto& p:bossAiOwner->projectiles())drawnProjectiles.push_back({0xB155,p});
+                        // v21.8 mage: the player's staff projectiles from the shared executor (own key domain 0xB156).
+                        if(playerProjectiles)for(const auto& v:playerProjectiles->visuals()) {
+                            f::enemy_ai::RangedProjectileV1 p;
+                            p.id=v.projectile_id;p.owner=v.owner;p.position=v.position;p.forward=v.forward;p.model_uri=v.model_uri;
+                            p.age_ms=playerProjectileClockMs-playerProjectileBirthMs.emplace(v.projectile_id,playerProjectileClockMs).first->second;
+                            drawnProjectiles.push_back({0xB156,p});
+                        }
                         for(const auto& [projectileDomain,projectile]:drawnProjectiles) {
                             if(projectile.model_uri.empty()||rangedProjectileRefused.count(projectile.model_uri))continue;
                             const auto key=(projectileDomain<<48)|projectile.id;liveProjectiles.insert(key);
                             if(!rangedProjectileFx.attached(key)) {
                                 auto& bytes=rangedProjectileModels[projectile.model_uri];
-                                if(!bytes){try{bytes=std::make_shared<const std::vector<std::uint8_t>>(f::read_content(assets,projectile.model_uri));}catch(const std::exception& problem){
+                                // v21.8 mage: player staff projectiles read their model from the projectile source root when one is given.
+                                const f::AssetCatalog& modelAssets=(projectileDomain==0xB156&&playerProjectileSourceCatalog)?*playerProjectileSourceCatalog:assets;
+                                if(!bytes){try{bytes=std::make_shared<const std::vector<std::uint8_t>>(f::read_content(modelAssets,projectile.model_uri));}catch(const std::exception& problem){
                                     std::cout<<"[ranged-skill] projectile model unavailable "<<projectile.model_uri<<": "<<problem.what()<<'\n';rangedProjectileRefused.insert(projectile.model_uri);continue;}}
                                 std::string reason;
                                 if(!rangedProjectileFx.attach(key,projectile.model_uri,bytes,*sourceEffectsFactory,reason)){

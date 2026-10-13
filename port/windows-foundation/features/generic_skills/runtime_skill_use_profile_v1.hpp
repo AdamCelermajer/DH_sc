@@ -68,6 +68,12 @@ struct RuntimeSkillUseProfileV1 {
     bool shield_variant;
     // Timed-buff arm, or nullptr for hit-rolling skills.
     const RuntimeSkillBuffProfileV1* buff;
+    // v21.8 mage: the Lua `target:PlayFX(GetPyOID("AnimatedEffectTable", NAME))` run for every Character target whose
+    // SkillCombatRoll returned dmg > 0 (ColdRay: elem_dmg_02_water). Presentation only; nullptr when the Lua has none.
+    const char* target_hit_fx_name = nullptr;
+    // v21.8 mage: the Lua OnPreSkill_/OnSkill_ bodies are executed by the host-supplied
+    // RuntimeSkillExternalOwnerV1 (skill projectiles / timers) instead of the generic SkillCombatRoll loop.
+    bool external_owner = false;
 };
 
 inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;
@@ -84,6 +90,9 @@ inline constexpr RuntimeSkillBuffProfileV1 kQuicknessBuffV1 = {
 //   ViciousStrike   prince_rogue_vicious_strike.luac    SEARCH_RANGE 300 + MaxAngleSearch + LookAt; OnSkill_ RANGE 160, ANGLE 180, character-only rolls; CLASS = _Stun; Post ClearTarget.
 //   Roundhouse      prince_rogue_roundhouse.luac        RANGE 220 FrontalFirst + LookAt; OnSkill_ pops the OnPre list (no re-search), objects rolled; Post ClearTarget.
 //   Quickness       prince_rogue_quickness.luac         no OnPre query, no cooldown; OnPre RemoveBuff + UseMana; OnSkill_ CreateBuff(BUFF_ID, bufftime, false, level, BUFF_FX) + ApplyBuff; Post ClearTarget.
+//   ColdRay         prince_mage_coldray.luac            RANGE 650 FrontalFirst + MaxAngleSearch backup + LookAt(top); OnSkill_ TargetListSearch(RANGE, ANGLE 90, "MaxAngleSearch"),
+//                                                       ApplyPropClass(Skill_Mage_ColdRay), SkillCombatRoll for every popped target (objects too); no SetSkillCooldown;
+//                                                       target:PlayFX(elem_dmg_02_water) per Character with dmg > 0 (presentation, see runtime_skill_use_fx); Post ClearTarget.
 inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesV1[] = {
     {"BashDown", "prince_warrior_bashdown", "Skill_Warrior_BashDown",
      160.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
@@ -127,6 +136,39 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesV1[] = {
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::frontal_first, false,
      false, true, false, &kQuicknessBuffV1},
+    // v21.8 mage. ANGLE 90 degrees -> 1.57079637 rad (same degree->radian convention as JumpKick 270 / Charge 120).
+    {"ColdRay", "prince_mage_coldray", "Skill_Mage_ColdRay",
+     650.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
+     false,
+     SkillUseTargetsV1::requery_at_use, 650.0f, false, 1.57079637050628662109375f,
+     SkillTargetSortV1::frontal_first, false,
+     true, true, false, nullptr, "elem_dmg_02_water"},
+    // prince_mage_chain_lightning.luac: OnPre TargetListSearch(RANGE 1000) FrontalFirst + LookAt(top); OnSkill_ pops the Pre
+    // list until the first Character, plays sfx_skill_mage_thunder_braid and SpawnSkillProjectile(SimplifiedChainLightning,
+    // self, target); the chain continues in delayed(). No SetSkillCooldown. Post ClearTarget.
+    {"ChainLightning", "prince_mage_chain_lightning", "Skill_Chain_Lightning",
+     1000.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
+     false,
+     SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
+     SkillTargetSortV1::frontal_first, false,
+     false, true, false, nullptr, nullptr, true},
+    // prince_mage_cyclone.luac: OnPre TargetListSearch(LOOK_AT_RANGE 1500, ANGLE 360) FrontalFirst + LookAt(top); OnSkill_
+    // CreateTornado() = SpawnSkillProjectile(Tornado) + a 500 ms tick timer. Post ClearTarget.
+    {"Cyclone", "prince_mage_cyclone", "Skill_Cyclone",
+     1500.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
+     false,
+     SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
+     SkillTargetSortV1::frontal_first, false,
+     false, true, false, nullptr, nullptr, true},
+    // prince_mage_stone_escape.luac: OnPre has no target query (PlayFX at the old position, TeleportTool projectile,
+    // UseMana); SetSkillCooldown is commented out in the Lua; OnSkill_ WarpTo + statue + 2200 ms explosion. The Lua
+    // registers no Post, so no ClearTarget.
+    {"StoneEscape", "prince_mage_stone_escape", "Skill_Mage_StoneEscape",
+     0.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, false,
+     false,
+     SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
+     SkillTargetSortV1::frontal_first, false,
+     false, false, false, nullptr, nullptr, true},
 };
 
 // Returns the profile whose SkillTable (name, script) pair matches exactly, or nullptr.

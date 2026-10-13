@@ -4,6 +4,7 @@
 #include "runtime_skill_target_query_v1.hpp"
 #include "runtime_skill_use_profile_v1.hpp"
 #include "runtime_timed_buff_v1.hpp"
+#include "runtime_skill_external_owner_v1.hpp"
 #include "runtime_skill_animation_bank_v1.hpp"
 #include "../../actor_population.hpp"
 #include "../../original_combat_visual_plan.hpp"
@@ -83,6 +84,10 @@ struct RuntimeSkillCastReceiptV1 {
     // Timed-buff arm (Quickness): the buff the Use call created, empty when the skill has no buff.
     std::string timed_buff_class;
     double timed_buff_duration_ms = 0.0;
+    // v21.8 mage: authored per-target hit FX (profile.target_hit_fx_name): the AnimatedEffectTable name and the Character
+    // targets whose SkillCombatRoll returned dmg > 0. Filled when Use is applied; the host plays the FX at each target.
+    std::string target_hit_fx_name;
+    std::vector<ActorId> target_hit_fx_targets;
     // Formula-only Celest rolls against a target killed by the prior source
     // roll consume the exact RNG occurrence but do not apply a second hit.
     std::vector<faery_menu::CelestDeadTargetCalculationV1> celest_dead_target_calculations;
@@ -131,6 +136,8 @@ struct RuntimeSkillCastRequestV1 {
     // before any mana/animation commit when this is null.
     TimedBuffSinkV1* timed_buffs = nullptr;
     RuntimeSkillFaerySpellArmV1* active_faery_spell = nullptr;
+    // v21.8 mage: executes the Pre/Use bodies of profile rows with `external_owner` (borrowed; the host owns it).
+    RuntimeSkillExternalOwnerV1* external_owner = nullptr;
 };
 
 // P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels,
@@ -212,6 +219,7 @@ private:
         // Data-driven source use profile (runtime_skill_use_profile_v1.hpp); never null once admitted.
         const RuntimeSkillUseProfileV1* use_profile = nullptr;
         std::string class_token;
+        RuntimeSkillExternalOwnerV1* external_owner = nullptr;
         std::vector<ActorId> population_order;
         std::vector<SkillTargetSourceFactsV1> target_facts;
         std::optional<bool> non_character_attackable_objects_absent;

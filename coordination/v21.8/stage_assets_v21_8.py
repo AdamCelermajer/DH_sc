@@ -59,6 +59,8 @@ def main():
     selection = json.loads(args.selection.read_text(encoding="utf-8-sig"))
     source_root = args.inputs / selection["source_root"]
     destination_root = selection["destination_root"].strip("/")
+    # Optional per-group destination roots (v21.8 mage: the complete PyData set belongs under assets/original-cache/data).
+    group_destinations = {name: value.strip("/") for name, value in selection.get("group_destinations", {}).items()}
     selected = []
     seen = set()
     for group, paths in selection["groups"].items():
@@ -100,7 +102,7 @@ def main():
             raise FileNotFoundError("Original file missing: " + str(src))
         if is_reparse(src):
             raise ValueError("Reparse point in original data: " + str(src))
-        dest_rel = destination_root + "/" + rel
+        dest_rel = group_destinations.get(group, destination_root) + "/" + rel
         if dest_rel.lower() in roster_keys:
             raise ValueError("Already in base package: " + dest_rel)
         additions.append((group, src, dest_rel))

@@ -190,9 +190,31 @@ void departure_cooldown() {
           "target invalidation departure failed");
 }
 }
+// v21.8 mage: a projectile-delivered attack binds no melee damage marker. It validates without markers,
+// rejects melee markers, and a marker occurrence never applies melee damage (the projectile executor owns the hit).
+void projectile_delivery_has_no_melee_damage() {
+    TestWorld world; CombatSystem combat(world); std::string error; DamageEvent event;
+    auto a = attack(); a.cooldown_seconds = 0; a.damage_markers.clear(); a.projectile_delivery = true;
+    check(validate_attack_definition(a, error), "projectile attack without melee markers rejected");
+    auto melee = a; melee.damage_markers = {{"main_hit", "fixture.main"}};
+    check(!validate_attack_definition(melee, error), "projectile attack with melee markers accepted");
+    check(combat.begin(1,2,a,1,error), "projectile attack begin failed");
+    const auto before = world.actors[2].health;
+    check(combat.consume_marker(1,marker("do_skill",1),event,error) && !event.applied, "projectile marker applied melee damage");
+    check(world.actors[2].health == before && world.resolutions == 0, "projectile marker resolved melee damage");
+    check(combat.finish(1,1), "projectile attack finish failed");
+    // AI_DoRangeAttack (0x3d076c) has no in-range gate: a far target (maximum_range is 2) does not block the begin,
+    // whereas a melee definition against the same far target is still refused.
+    world.actors[2].transform.position = {500,0,0};
+    check(combat.begin(1,2,a,2,error), "projectile attack refused a far target");
+    check(combat.finish(1,2), "far projectile attack finish failed");
+    auto farMelee = attack(); farMelee.cooldown_seconds = 0;
+    check(!combat.begin(1,2,farMelee,3,error), "melee attack accepted a far target");
+}
 int main() {
     try {
         authored_markers_shared_path(); lifecycle(); death_and_misses(); range_boundaries(); unavailable_damage(); departure_cooldown();
+        projectile_delivery_has_no_melee_damage();
         std::cout << "combat_system_tests: all checks passed (fixture data only)\n";
         return 0;
     } catch (const std::exception& e) {

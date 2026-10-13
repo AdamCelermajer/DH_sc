@@ -27,6 +27,9 @@ struct AttackDefinition {
     float maximum_range = 0.0f;
     double cooldown_seconds = 0.0;
     std::vector<DamageMarkerBinding> damage_markers;
+    // v21.8 mage: the attack's damage is delivered by a projectile (queued by the
+    // session for the projectile executor). No melee damage marker is required or consumed.
+    bool projectile_delivery = false;
     // Compatibility defaults to start. Recovered AI.AttackDelay must explicitly
     // select departure: CSAttack::OnBlur starts timer42 even on interruption.
     CooldownTiming cooldown_timing = CooldownTiming::attack_start;
