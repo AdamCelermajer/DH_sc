@@ -25086,7 +25086,11 @@ int native_level_script_object_lookup(void*,const char* exact_name,
     source.phase!=dh2::source_level_owner_v1::Phase::active||
     source.source_level_state!=38)return -1;
  auto& manager=source_level_owner.object_manager();
- const bool local_player=std::strcmp(exact_name,"LocalPlayer")==0;
+ // ObjectManager::GetObjectByName (0x34aca0): "Player" and "LocalPlayer" both
+ // resolve to PlayerManager::GetLocalPlayer's Character (Swamp_Intro's
+ // PlayActorAnim rows address the Prince as 'Player').
+ const bool local_player=std::strcmp(exact_name,"LocalPlayer")==0||
+     std::strcmp(exact_name,"Player")==0;
  const auto* object=local_player?
      manager.find_by_identity(source.player_character):
      manager.find_by_name(exact_name,-1);
@@ -25520,7 +25524,8 @@ int native_level_script_play_actor_animation(void*,
       resolved.identity);
   // "LocalPlayer" is ObjectManager's alias for the local Player Character, whose
   // own row carries the profile's object name.
-  const bool local_player_alias=std::strcmp(request->actor_name,"LocalPlayer")==0&&
+  const bool local_player_alias=(std::strcmp(request->actor_name,"LocalPlayer")==0||
+      std::strcmp(request->actor_name,"Player")==0)&&
       resolved.identity==active.player_character;
   if(!manager_object||manager_object->identity!=resolved.identity||
      manager_object->source_handle!=resolved.source_handle||
