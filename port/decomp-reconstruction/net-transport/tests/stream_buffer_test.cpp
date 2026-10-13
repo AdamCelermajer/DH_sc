@@ -1,5 +1,5 @@
 #include "net-transport/buffered_stream.hpp"
-#include "net-transport/stream_buffer.hpp"
+#include "dh2/StreamBuffer.hpp"
 
 #include <cstdio>
 #include <cstring>

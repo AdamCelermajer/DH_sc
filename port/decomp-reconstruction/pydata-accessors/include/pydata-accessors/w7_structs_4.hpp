@@ -5,8 +5,7 @@
 // (DeletingDestructor). The element array is the word at +0x10 (m_w4); its element stride is 16 and its
 // block starts 8 bytes before the first element (see the .cpp). No other field is touched by these rows,
 // so m_w1..m_w3 (+0x4..+0x8) are not declared. The element type is pydata::ArrayElement.
-// Name clash: member_names.hpp declares a name-table struct Structs::ItemPowerRef, so do not include
-// both headers in one translation unit (the same caveat as the Arrays w7 headers).
+// ItemPowerRef is the same class as the name table in member_names.hpp (m_dataNames and kCount are members of it).
 #include <cstdint>
 
 #include "pydata-accessors/w7_structs_3.hpp"  // ItemPowerRef (superset layout)

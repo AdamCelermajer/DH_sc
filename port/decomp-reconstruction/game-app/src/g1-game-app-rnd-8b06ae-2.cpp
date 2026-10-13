@@ -5,8 +5,8 @@
 // have identical bodies (the C1 and C2 variants). Each pair is one C++ definition, listed under both addresses.
 //
 // PARTIAL (the ledger notes repeat these):
-//   - Block::Block: the constructor stores &unk_956B24 into each side's unk_14. That object is not a C string (its first
-//     word is 4, then the pointer 0x8d4de0), so the field is left null here.
+//   - Block::Block: the constructor stores &unk_956B24 into each side's m_direction (+0x14), a default Direction object.
+//     Direction is only forward-declared in the tree and that object has no declaration, so the field is left null here.
 //   - MgxBlock::LoadFromXmlStream: needs the size (IFileStream vtable +0x08) and read (vtable +0x18) of the stream, neither
 //     declared in dh2 yet, and the TinyXML document and handle calls. It returns false.
 //   - MgxBlock::FromFilename: opens the .mgx file through the file system at dword_99F73C+0x34 (glitch IDevice +0x34), which
@@ -86,18 +86,16 @@ bool MgxBlock::LoadFromXmlStream(IFileStream* stream) {
 
 // 0x48ab34 rnd::Block::Block(void)
 // 0x48ac24 rnd::Block::Block(void)  (same body; one definition serves both)
-// PARTIAL: side unk_14 is left null. The original stores &unk_956B24 there (see the file header).
+// PARTIAL: side m_direction (+0x14) is left null. The original stores &unk_956B24 there (see the file header). The name
+// vector (+0x1c .. +0x27) is empty by the default constructor of Side, as the original zeroes it.
 Block::Block() {
-    unk_4c = 2960.0f;
-    unk_50 = 2960.0f;
-    m_width = 1;
-    m_height = 1;
-    unk_5c = 0;
+    m_unitWidth = 2960.0f;   // +0x4c
+    m_unitHeight = 2960.0f;  // +0x50
+    m_blockWidth = 1;        // +0x54
+    m_blockHeight = 1;       // +0x58
+    m_sideCount = 0;         // +0x5c
     for (Side& side : m_sides) {
-        side.unk_14 = nullptr;  // PARTIAL: the original stores &unk_956B24 here
-        side.unk_1c = nullptr;
-        side.unk_20 = nullptr;
-        side.unk_24 = nullptr;
+        side.m_direction = nullptr;  // +0x14 PARTIAL: the original stores &unk_956B24 here
     }
 }
 

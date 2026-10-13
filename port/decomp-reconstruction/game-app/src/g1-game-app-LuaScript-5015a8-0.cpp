@@ -1,19 +1,25 @@
-// Batch g1-game-app-LuaScript-5015a8-0 (LuaScript, part 1 of 3).
+// Batch g1-game-app-LuaScript-5015a8-0 (LuaScript, part 1 of 3). REDO pass: r2a-game-app-LuaScript-5015a8-0 completed
+// the bodies that waited on the sfc::script::lua headers (Arguments, ReturnValues, Value, Instance, Binder), which are
+// now in dh2/sfc/script/lua, and on dh2/Character.hpp, dh2/PlayerManager.hpp and dh2/global/IsMultiplayerGame.hpp.
 // Rebuilt from the Hex-Rays pseudocode and checked against the assembly (tools/decomp_asm.py).
 // The virtual-function table and the integer table are std::map (the original uses STLport rb-trees with
 // the same header layout), so the tree bookkeeping is the containers' own. Member offsets are recorded in
 // dh2/LuaScript.hpp.
 //
-// Not in the tree yet: the sfc::script::lua headers (Arguments, ReturnValues, Instance, Binder). The Lua
-// instance and binder are opaque bytes in LuaScript.hpp, so every body that calls into them is partial.
+// The Lua instance and binder are the real sfc::script::lua::Instance and Binder members (dh2/LuaScript.hpp).
+// Calls into the sfc wrapper use its declared signatures; those definitions come from the sfc::script::lua batch.
 #include "dh2/LuaScript.hpp"
 
 #include <string>
 
 #include "dh2/Application.hpp"
+#include "dh2/Character.hpp"  // the hosting player's Character, pushed as UserData* by _GetHostPlayer
 #include "dh2/Level.hpp"
 #include "dh2/LuaManager.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance(): the Singleton<Application>::s_inst object (0x99f72c)
+#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C: the PlayerManager global
+#include "dh2/sfc/script/lua/ReturnValues.hpp"
 #include "glitch-core-io/core/strings.hpp"
 
 // Number of Call() invocations that reached Lua. Data, not a function; defined here because the Call bodies
@@ -41,11 +47,10 @@ int LuaScript::Load(const char* file) {
 }
 
 // 0x37b5a0 LuaScript::BindFunction()
-// PARTIAL. The original runs, in this order: Instance::includeBase, includeMath, includeTable and includeString
-// on m_instance (+0x04), then Binder::bindFunction on m_binder (+0x10) once for each name below, and returns the
-// result of the last call (the pseudocode types it int; the header declares void). Each callback gets this
-// LuaScript as its void* argument. Waits on dh2/sfc/script/lua/Instance.hpp and dh2/sfc/script/lua/Binder.hpp,
-// neither of which is in the tree. Nothing is bound yet.
+// The original runs, in this order: Instance::includeBase, includeMath, includeTable and includeString on m_instance
+// (+0x04), then Binder::bindFunction on m_binder (+0x10) once for each name below. Each callback gets this LuaScript
+// as its void* argument. The original returns the result of the last bindFunction call; Binder::bindFunction is void in
+// dh2/sfc/script/lua/Binder.hpp, so no result is returned here. The callbacks have their own rows.
 // Binding table, in call order (name -> callback):
 //   "Include" -> _Include                 "Trace" -> _Trace                     "SetInt" -> _SetInt
 //   "GetInt" -> _GetInt                   "AddToVFTable" -> _AddToVFTable       "PushVFTable" -> _PushVFTable
@@ -61,7 +66,43 @@ int LuaScript::Load(const char* file) {
 //   "OnTargetDied" -> _IsPlayerCharacter  (the name is OnTargetDied in the original and the callback is _IsPlayerCharacter; kept as is)
 //   "PlayMusic" -> _PlayMusic             "PlaySound" -> _PlaySound             "StopSound" -> _StopSound
 void LuaScript::BindFunction() {
-    // PARTIAL: nothing is bound. See the table above.
+    m_instance.includeBase();
+    m_instance.includeMath();
+    m_instance.includeTable();
+    m_instance.includeString();
+    m_binder.bindFunction("Include", &LuaScript::_Include, this);
+    m_binder.bindFunction("Trace", &LuaScript::_Trace, this);
+    m_binder.bindFunction("SetInt", &LuaScript::_SetInt, this);
+    m_binder.bindFunction("GetInt", &LuaScript::_GetInt, this);
+    m_binder.bindFunction("AddToVFTable", &LuaScript::_AddToVFTable, this);
+    m_binder.bindFunction("PushVFTable", &LuaScript::_PushVFTable, this);
+    m_binder.bindFunction("PopVFTable", &LuaScript::_PopVFTable, this);
+    m_binder.bindFunction("ToFixed", &LuaScript::_ToFixed, this);
+    m_binder.bindFunction("FromFixed", &LuaScript::_FromFixed, this);
+    m_binder.bindFunction("MulFixed", &LuaScript::_MulFixed, this);
+    m_binder.bindFunction("DivFixed", &LuaScript::_DivFixed, this);
+    m_binder.bindFunction("Rand", &LuaScript::_Rand, this);
+    m_binder.bindFunction("RandF", &LuaScript::_RandF, this);
+    m_binder.bindFunction("BitNot", &LuaScript::_BitNot, this);
+    m_binder.bindFunction("BitAnd", &LuaScript::_BitAnd, this);
+    m_binder.bindFunction("BitOr", &LuaScript::_BitOr, this);
+    m_binder.bindFunction("BitXOr", &LuaScript::_BitXOr, this);
+    m_binder.bindFunction("GetPyCst", &LuaScript::_GetPyCst, this);
+    m_binder.bindFunction("GetPyStruct", &LuaScript::_GetPyStruct, this);
+    m_binder.bindFunction("GetPyOID", &LuaScript::_GetPyOID, this);
+    m_binder.bindFunction("CallPyScript", &LuaScript::_CallPyScript, this);
+    m_binder.bindFunction("GetNumPlayers", &LuaScript::_GetNumPlayers, this);
+    m_binder.bindFunction("GetHostPlayer", &LuaScript::_GetHostPlayer, this);
+    m_binder.bindFunction("GetHostPlayerLevel", &LuaScript::_GetHostPlayerLevel, this);
+    m_binder.bindFunction("GetHostPlayerDifficulty", &LuaScript::_GetHostPlayerDifficulty, this);
+    m_binder.bindFunction("GetCurrentLevelRange", &LuaScript::_GetCurrentLevelRange, this);
+    m_binder.bindFunction("GetGameObjectsByType", &LuaScript::_GetGameObjectsByType, this);
+    m_binder.bindFunction("SetGameType", &LuaScript::_SetGameType, this);
+    m_binder.bindFunction("GetGameScript", &LuaScript::_GetGameScript, this);
+    m_binder.bindFunction("OnTargetDied", &LuaScript::_IsPlayerCharacter, this);
+    m_binder.bindFunction("PlayMusic", &LuaScript::_PlayMusic, this);
+    m_binder.bindFunction("PlaySound", &LuaScript::_PlaySound, this);
+    m_binder.bindFunction("StopSound", &LuaScript::_StopSound, this);
 }
 
 // 0x37be00 LuaScript::_PushVFTable(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
@@ -75,11 +116,12 @@ void LuaScript::_PushVFTable(const sfc::script::lua::Arguments&, sfc::script::lu
 
 // 0x37c004 LuaScript::~LuaScript()  (D1, complete-object destructor)
 // 0x37bec0 LuaScript::~LuaScript()  (D2, base-object destructor)
-// PARTIAL. The two addresses have the same body and one C++ destructor covers both. The original empties unk_80
-// (+0x80), the string m_scriptDirectory (+0x68), m_vfTableSaved (+0x4c), m_vfTable (+0x34) and m_ints (+0x1c),
-// resets the Binder vptr at +0x10 to off_95B140, and calls sfc::script::lua::Instance::~Instance on m_instance
-// (+0x04). The containers and the string are destroyed by the compiler here. The ~Instance call is missing
-// (no Instance header in the tree; m_instance is opaque bytes).
+// The original empties unk_80 (+0x80), the string m_scriptDirectory (+0x68), m_vfTableSaved (+0x4c), m_vfTable (+0x34)
+// and m_ints (+0x1c), resets the Binder vptr at +0x10 and calls sfc::script::lua::Instance::~Instance on m_instance
+// (+0x04). The members are declared in the order m_instance, m_binder, m_ints, m_vfTable, m_vfTableSaved,
+// m_vfTableCollecting, pad, m_scriptDirectory, unk_80, so member destruction runs the same steps in the same order:
+// unk_80, m_scriptDirectory, m_vfTableSaved, m_vfTable, m_ints, m_binder (~Binder, empty) and m_instance (~Instance,
+// which closes the state it owns). Nothing is left for the body to do. One C++ destructor covers both addresses.
 LuaScript::~LuaScript() {}
 
 // 0x37c148 LuaScript::~LuaScript()  (D0, deleting destructor)
@@ -102,45 +144,54 @@ const char* LuaScript::_GetFuncName(const char* funcName) const {
 }
 
 // 0x37c390 LuaScript::Call(char const*, sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)
-// PARTIAL. The original clears the value vector of ret (ReturnValues +0x24), maps the name with _GetFuncName, runs
-// sfc::script::lua::Instance::pCall(m_instance, name, args, ret), increments s_numCalls and returns pCall's result.
-// Missing: the ReturnValues header, Instance::pCall. Done here: the name mapping and the counter. Returns 0 until
-// pCall is wired.
-int LuaScript::Call(const char* funcName, const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&) {
+// Clears the value vector of ret (ReturnValues +0x24), maps the name with _GetFuncName, runs
+// sfc::script::lua::Instance::pCall(m_instance, name, args, ret) and increments s_numCalls.
+// PARTIAL: the original returns the r0 left by pCall. dh2/sfc/script/lua/Instance.hpp declares pCall as void, so that
+// value is not recovered and 0 is returned here. No other effect is missing.
+int LuaScript::Call(const char* funcName, const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret) {
+    ret.m_valueList->clear();
     const char* const name = _GetFuncName(funcName);
-    (void)name;  // Instance::pCall(name, args, ret) is missing
+    m_instance.pCall(name, args, ret);
     ++s_numCalls;
-    return 0;
+    return 0;  // PARTIAL: the pCall result is not recovered (see above)
 }
 
 // 0x37c41c LuaScript::Call(char const*, sfc::script::lua::Arguments const&)
-// PARTIAL. The original builds a ReturnValues on the stack (40 bytes), calls the three-argument Call with it and
-// destroys it. There is no ReturnValues header in the tree, so the stack object cannot be declared and no call is made.
-void LuaScript::Call(const char*, const sfc::script::lua::Arguments&) {}
+// Builds a ReturnValues on the stack, calls the three-argument Call with it and destroys it. The result of that call
+// is discarded by this overload, so this body has no open part of its own.
+void LuaScript::Call(const char* funcName, const sfc::script::lua::Arguments& args) {
+    sfc::script::lua::ReturnValues ret;
+    Call(funcName, args, ret);
+}
 
 // 0x37c494 LuaScript::Call(char const*, sfc::script::lua::ReturnValues&)
-// PARTIAL. Same as the three-argument Call with no arguments: clears ret, maps the name, runs pCall, increments
-// s_numCalls and returns pCall's result. Missing: the ReturnValues header and Instance::pCall. Done here: the name
-// mapping and the counter. Returns 0 until pCall is wired.
-int LuaScript::Call(const char* funcName, sfc::script::lua::ReturnValues&) {
+// Clears the value vector of ret, maps the name with _GetFuncName, runs sfc::script::lua::Instance::pCall(m_instance,
+// name, ret) and increments s_numCalls. PARTIAL for the same reason as the three-argument Call: the pCall result is
+// not recovered (dh2/sfc/script/lua/Instance.hpp declares pCall as void), so 0 is returned.
+int LuaScript::Call(const char* funcName, sfc::script::lua::ReturnValues& ret) {
+    ret.m_valueList->clear();
     const char* const name = _GetFuncName(funcName);
-    (void)name;  // Instance::pCall(name, ret) is missing
+    m_instance.pCall(name, ret);
     ++s_numCalls;
-    return 0;
+    return 0;  // PARTIAL: the pCall result is not recovered (see above)
 }
 
 // 0x37c514 LuaScript::Call(char const*)
-// PARTIAL. Same as the two-argument Call: it needs a stack ReturnValues (see 0x37c41c), so no call is made.
-void LuaScript::Call(const char*) {}
+// Builds a ReturnValues on the stack and calls Call(name, ret) with it. The result is discarded by this overload.
+void LuaScript::Call(const char* funcName) {
+    sfc::script::lua::ReturnValues ret;
+    Call(funcName, ret);
+}
 
 // 0x37c584 LuaScript::LuaScript(bool)  (C1, complete-object constructor)
 // 0x37c674 LuaScript::LuaScript(bool)  (C2, base-object constructor)
-// PARTIAL. The two addresses have the same body and one C++ constructor covers both. The original order: vptr;
-// Instance::Instance on m_instance (+0x04); the Binder at +0x10 gets its vptr (off_95B140), its Instance pointer
-// (this+4) and 0; the maps, the string and unk_80 start empty; m_vfTableCollecting (+0x64) is cleared; and
-// BindFunction() runs when skipBindings is false. Missing here: the Instance constructor and the Binder setup
-// (m_instance and m_binder are opaque bytes until the sfc::script::lua headers exist). The rest is done.
+// One C++ constructor covers both. The members are constructed in declaration order, which matches the original:
+// m_instance (Instance::Instance, which creates and owns a Lua state), m_binder (its vptr), then the empty maps, the
+// string and unk_80. The body does the rest: the Binder's Instance pointer is &m_instance (this+4) and its state is
+// zero, m_vfTableCollecting (+0x64) is cleared, and BindFunction() runs when skipBindings is false.
 LuaScript::LuaScript(bool skipBindings) {
+    m_binder.m_instance = &m_instance;
+    m_binder.m_state = nullptr;
     m_vfTableCollecting = false;  // +0x64
     if (!skipBindings) {
         BindFunction();
@@ -149,9 +200,10 @@ LuaScript::LuaScript(bool skipBindings) {
 
 // 0x37c934 LuaScript::_GetGameScript(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
 // PARTIAL. The original takes the current level (Application::GetCurrentLevel on Singleton<Application>::s_inst) and,
-// when there is one, pushes Level::GetMPGameScript() (the const char* config field at +0x314) as a string into ret.
-// Missing: dh2/Level.hpp declares GetMPGameScript as int, but the original returns a const char*. Also missing:
-// ReturnValues::pushString (no dh2/sfc/script/lua/ReturnValues.hpp in the tree).
+// when there is one, pushes Level::GetMPGameScript() into ret as a string (the pseudocode casts the result to
+// const char*). Missing: dh2/Level.hpp declares GetMPGameScript() as int, but the original returns the const char*
+// config string at Level +0x314. Type request for Level.hpp: GetMPGameScript returns const char*. Nothing is pushed
+// until that is fixed.
 void LuaScript::_GetGameScript(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues& ret, void*) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level != nullptr) {
@@ -161,19 +213,18 @@ void LuaScript::_GetGameScript(const sfc::script::lua::Arguments&, sfc::script::
 }
 
 // 0x37ca60 LuaScript::_GetHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. The original calls PlayerManager::GetHostingPlayer on the PlayerManager global (dword_99F76C, see
-// dh2/global/IsMultiplayerGame.hpp), reads the pointer at PlayerInfo +0x660 (Hex-Rays *((UserData**)info + 408)) and
-// pushes it as a user-data value into ret. Missing: dh2/PlayerInfo.hpp (absent; PlayerInfo is incomplete in
-// dh2/PlayerManager.hpp) and ReturnValues::pushUserData (no ReturnValues header). Nothing is pushed.
-void LuaScript::_GetHostPlayer(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// Pushes the hosting player's Character as user data. The original reads the pointer at PlayerInfo +0x660
+// (Hex-Rays *((UserData**)info + 408)) and pushes it unchanged. PlayerInfo::unk_660 is the Character* at +0x660. The
+// UserData base of Character is at its offset 0 (GameObject is the primary base and ObjectBase holds the UserData), so
+// the implicit upcast passes the same pointer.
+void LuaScript::_GetHostPlayer(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues& ret, void*) {
+    ret.pushUserData(dword_99F76C->GetHostingPlayer()->unk_660);
+}
 
 // 0x37cb8c LuaScript::_GetHostPlayerDifficulty(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. The original pushes the current level's difficulty (Level +0x118, Level::m_difficulty) as an integer into
-// ret, or 0 when there is no current level. The level lookup and the difficulty are done here. Missing:
-// ReturnValues::pushInteger (no dh2/sfc/script/lua/ReturnValues.hpp in the tree), so nothing is pushed.
+// Pushes the current level's difficulty (Level +0x118, Level::m_difficulty) as an integer, or 0 when there is no
+// current level.
 void LuaScript::_GetHostPlayerDifficulty(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues& ret, void*) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
-    const int difficulty = level != nullptr ? level->m_difficulty : 0;
-    (void)ret;
-    (void)difficulty;  // ret.pushInteger(difficulty) is missing
+    ret.pushInteger(level != nullptr ? level->m_difficulty : 0);
 }

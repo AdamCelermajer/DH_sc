@@ -94,7 +94,7 @@ constexpr std::uint32_t kConstantsStringCap = 256;
 bool ReadPrefixedString(IStreamBase* stream, char* buf) {
     const std::uint32_t len = StreamReader::readAs<std::uint32_t>(stream);
     if (len >= kConstantsStringCap) return false;
-    if (len != 0 && (stream == nullptr || !stream->ReadBytes(buf, len))) return false;
+    if (len != 0 && (stream == nullptr || stream->read(buf, len) != len)) return false;
     buf[len] = '\0';
     return true;
 }

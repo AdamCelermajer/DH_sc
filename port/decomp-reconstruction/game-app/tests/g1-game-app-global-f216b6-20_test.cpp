@@ -42,6 +42,11 @@ int Application::GetSavedOption(const char* /*name*/) {
     return 0;
 }
 
+// Globals.cpp is not linked here. GetAccelerometerParams reads these words, so the test defines them (zero, as in Globals.cpp).
+std::uint32_t mAccelerometerX = 0;
+std::uint32_t mAccelerometerY = 0;
+std::uint32_t mAccelerometerZ = 0;
+
 namespace {
 
 void CheckInterpolate(const int* a1, const int* a2, const int* a3, const int* a4, int a5, int a6, int a7,

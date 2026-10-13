@@ -8,10 +8,14 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <new>
+#include <vector>
 
 #include "dh2/Application.hpp"
 #include "dh2/GSInit.hpp"
+#include "dh2/GSLevel.hpp"
 #include "dh2/GSLevelMap.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/StateMachine.hpp"
@@ -27,6 +31,11 @@ bool MenuBase::s_igmOpened = false;
 // Storage for GSInit::s_inst under its linker name. The thunk calls SwitchBackground on that object, and the
 // test's SwitchBackground stub never reads it, so raw storage under the same symbol is enough to link.
 alignas(16) unsigned char g_gsInitStorage[64] __asm__("_ZN6GSInit6s_instE");
+
+// GSLevel::s_level and GSLevel::s_gsLevel, read by GetCurrentLevel and IsLevelPaused (batch -0 source). Only their
+// addresses and the level pointer are used here, so raw storage under the linker names is enough.
+Level* g_gsLevelPtr __asm__("_ZN7GSLevel7s_levelE") = nullptr;
+alignas(16) unsigned char g_gsLevelStorage[256] __asm__("_ZN7GSLevel9s_gsLevelE");
 
 namespace {
 
@@ -223,6 +232,47 @@ void StateMachine::SwitchState(StateBase* state, bool owned) {
     g_lastSwitchMachine = this;
 }
 
+// IsLevelRunning and IsLevelPaused (batch -1 source) read the level pointer and the state stack. The stack is a
+// std::vector placed into the zeroed state-machine storage, so it is a valid empty vector.
+namespace {
+
+void TestLevelPaused() {
+    Application* app = ZeroedApp();
+    StateMachine* machine = reinterpret_cast<StateMachine*>(g_stateMachineStorage);
+    std::memset(g_stateMachineStorage, 0, sizeof g_stateMachineStorage);
+    new (&machine->m_stack) std::vector<StateMachine::StateInfo>();
+    app->m_stateMachine = machine;
+    alignas(Level) static unsigned char levelStorage[sizeof(Level)];
+    std::memset(levelStorage, 0, sizeof levelStorage);
+    alignas(StateBase) static unsigned char otherStorage[16];
+    MenuBase::s_igmOpened = false;
+
+    g_gsLevelPtr = nullptr;
+    Check(app->IsLevelPaused(false) == false, "IsLevelPaused is false with no level");
+    Check(app->IsLevelPaused(true) == false, "IsLevelPaused(ignore) is false with no level");
+
+    g_gsLevelPtr = reinterpret_cast<Level*>(levelStorage);
+    Check(app->IsLevelPaused(false) == true, "IsLevelPaused is true in a level with an empty stack");
+    Check(app->IsLevelPaused(true) == true, "IsLevelPaused(ignore) is true in a level with an empty stack");
+
+    machine->m_stack.push_back(StateMachine::StateInfo{&GSLevel::s_gsLevel, false});
+    Check(app->IsLevelPaused(true) == false, "IsLevelPaused(ignore) is false with GSLevel on top");
+    MenuBase::s_igmOpened = true;
+    Check(app->IsLevelPaused(false) == true, "IsLevelPaused is s_igmOpened with GSLevel on top (open)");
+    MenuBase::s_igmOpened = false;
+    Check(app->IsLevelPaused(false) == false, "IsLevelPaused is s_igmOpened with GSLevel on top (closed)");
+
+    machine->m_stack.back().state = reinterpret_cast<StateBase*>(otherStorage);
+    Check(app->IsLevelPaused(true) == true, "IsLevelPaused(ignore) is true with another state on top");
+    Check(app->IsLevelPaused(false) == true, "IsLevelPaused is true with another state on top");
+
+    g_gsLevelPtr = nullptr;
+    app->m_stateMachine = nullptr;
+    machine->m_stack.~vector();
+}
+
+}  // namespace
+
 int main() {
     TestVersionRetail();
     TestVersionIngame();
@@ -233,6 +283,7 @@ int main() {
     TestTitleString();
     TestSwitchGSInitBackground();
     TestLoadWorldMap();
+    TestLevelPaused();
     if (g_failures == 0) {
         std::printf("g1-game-app-Application-b291be-1 test: all checks passed\n");
         return 0;

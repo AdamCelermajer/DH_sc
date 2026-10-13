@@ -30,6 +30,7 @@
 
 #include "core-platform/deps/application.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "pydata-accessors/w7_arrays27.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 #include "pydata-accessors/w7_structs_3.hpp"
@@ -88,7 +89,7 @@ void ReadPropNames(IStreamBase* stream) {
     for (std::uint32_t i = 0; i < count; ++i) {
         const auto length = StreamReader::readAs<std::uint32_t>(stream);
         char* name = static_cast<char*>(std::malloc(static_cast<std::size_t>(length) + 1));
-        StreamReader::readStringEx(stream, name, length, 0);
+        StreamReader::readStringEx(stream, name, length);
         name[length] = '\0';
         CharProperties::s_propNames.push_back(name);
     }
@@ -159,11 +160,12 @@ int CharProperties::GetPropIDFromName(const char* name) {
 // class's deque, unless the class is already at maxStacks, in which case nullptr is returned.
 // The level is written to property 172 of the instance and of m_props, then the properties are reset and recalculated.
 //
-// PARTIAL: (1) the FX grab, VisualFXManager::GrabAnimFX on Singleton<VisualFXManager>::s_inst, needs a singleton accessor
-// that no header declares, so BuffDecl::m_fx stays null here. (2) The FX animation advance (AnimController slot +0x1c,
-// PlayClip) is not made: the original passes (size - 1, loop = true) and leaves its other two arguments unset at the call
-// site. (3) TMR_TimeLeft leaves its out values untouched when the timer is not active. The original then compares stack
-// values, and here both values are zeroed first.
+// The FX grab is made: a new class declaration with fxId != -1 and no FX yet takes one from
+// VisualFXManager::s_inst.GrabAnimFX(fxId, m_character).
+// PARTIAL: (1) The FX animation advance (AnimController slot +0x1c, AnimController::PlayClip) is not made. The original
+// passes (size - 1, loop = true) and leaves the other two arguments of PlayClip (unused, animIndex) unset at the call
+// site, so the call cannot be reproduced. (2) TMR_TimeLeft leaves its out values untouched when the timer is not
+// active. The original then compares stack values, and here both values are zeroed first.
 Structs::CharacterProperties* CharProperties::PROPS_AddBuff(int classId, unsigned int durationMs, int maxStacks,
                                                              unsigned int level, int fxId, const char* name) {
     if (maxStacks <= 0) {
@@ -213,8 +215,9 @@ Structs::CharacterProperties* CharProperties::PROPS_AddBuff(int classId, unsigne
         BuffDecl& decl = m_buffs[classId];
         decl.m_id = classId;
         decl.m_name.assign(name, std::strlen(name));
-        // PARTIAL: the original grabs decl.m_fx here when it is null and fxId != -1 (see the note above).
-        (void)fxId;
+        if (decl.m_fx == nullptr && fxId != -1) {
+            decl.m_fx = VisualFXManager::s_inst.GrabAnimFX(fxId, m_character);
+        }
         if (maxStacks <= static_cast<int>(decl.m_insts.size())) {
             return nullptr;
         }

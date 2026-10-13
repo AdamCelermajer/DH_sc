@@ -6,9 +6,9 @@
 // original 32-bit offset is in each comment. Freed pointers are void* or char* (the CustomFree argument).
 //
 // Bases come from structs_records.hpp (v2QuestReward, v2QuestObjective) and array_element.hpp
-// (LangSheet). Classes in this header are defined here; do not include member_names.hpp in the same
-// translation unit, because it declares the name-table structs Structs::v2Quest, Structs::v2Event and
-// Structs::LangSheetList (see the notes on this slice in the ledger).
+// (LangSheet). Classes in this header are defined here. Structs::v2Quest, Structs::v2Event and
+// Structs::LangSheetList also carry their PyData name tables (kCount, m_dataNames), so member_names.hpp
+// can share a translation unit with this header.
 //
 // "partial" methods are declared here with their stores; the base read call is not declared (no header
 // defines v2QuestReward::read or v2QuestObjective::read), so it is omitted (see the ledger notes).
@@ -18,6 +18,7 @@
 
 #include "pydata-accessors/array_element.hpp"
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "pydata-accessors/name_table.hpp"
 #include "pydata-accessors/structs_records.hpp"
 
 namespace Structs {
@@ -116,6 +117,8 @@ void DeletingDestructor(LangSheet* self);
 
 class LangSheetList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~LangSheetList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -288,6 +291,8 @@ void DeletingDestructor(v2QuestDestroyGameObject* self);
 // The element class of v2Event's table is v2QuestObjectiveStub (listing stride 44, vtable off_96A030).
 class v2Event {
 public:
+    static constexpr int kCount = 3;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~v2Event();
     virtual void finalize();
     virtual void read(IStreamBase* stream);  // partial: readStringEx 5th argument, see ledger
@@ -303,6 +308,8 @@ void DeletingDestructor(v2Event* self);
 // v2QuestObjectiveStub, then v2QuestRewardStub three times (Hex-Rays vtables of 0x504a94).
 class v2Quest {
 public:
+    static constexpr int kCount = 17;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~v2Quest();
     virtual void finalize();
     virtual void read(IStreamBase* stream);

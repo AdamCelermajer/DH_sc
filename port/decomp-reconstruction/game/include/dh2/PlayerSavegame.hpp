@@ -50,13 +50,13 @@ public:
     static const char* SG_GetCheckpointFilenameExtension();             // 0x463504
     static int SG_Exists(const char* name);                             // 0x463514
     static int SG_Delete(const char* name);                             // 0x46355c
-    int SG_GetSavefileName() const;                                     // 0x4635a4 Savefile name of m_savegame
+    const char* SG_GetSavefileName() const;                             // 0x4635a4 Savefile name of m_savegame (its std::string data pointer)
     int SG_Synchronize(bool online);                                    // 0x463654 Syncs m_unlockedDifficulty against the static difficulty
     static int SG_GetSlotFromFilename(const char* name);                // 0x4636a8
     int SG_Update(bool force);                                          // 0x4636c4 SG_TryQuestSync, then the quest update
     static void SG_GetFilename(std::uint32_t slot, std::string& name, bool checkpoint, bool multi);  // 0x463c84
-    static std::vector<std::string> SG_GetSavegameList(bool checkpoints);  // 0x46403c
-    static int SG_DeleteCheckpoint(std::uint32_t slot, bool checkpoint);   // 0x464a68
+    static std::vector<std::string> SG_GetSavegameList(bool sorted);      // 0x46403c the flag only enables the sort pass over the names
+    static int SG_DeleteCheckpoint(std::uint32_t slot, bool multi);       // 0x464a68 the flag picks the _multi or _single checkpoint name
     int SG_Save();                                                      // 0x464b2c Writes m_savegame unless m_saveBlocked is set
     static int SG_Delete(std::uint32_t slot);                           // 0x464ca0
     static int SG_Exists(std::uint32_t slot);                           // 0x464d5c
@@ -77,14 +77,14 @@ public:
     unsigned int SG_SetFaerieLevel(std::uint32_t id, int level, int difficulty);   // 0x46663c
     int SG_GetFaerieLevel(std::uint32_t id, int difficulty) const;     // 0x466700
     bool SG_IsFaerieUnlocked(std::uint32_t id, int difficulty) const;  // 0x467ce4
-    int SG_SetSkillLevel(std::uint32_t row, int level);                 // 0x4667c4
+    void SG_SetSkillLevel(std::uint32_t row, int level);                // 0x4667c4 (return is a leftover register, so void)
     int SG_GetSkillLevel(std::uint32_t row) const;                      // 0x4668dc
     int SG_GetSkillId(std::uint32_t row) const;                         // 0x466a08
-    int SG_SetMapLocState(int state, int location, int difficulty);     // 0x466b18
+    void SG_SetMapLocState(int location, int state, int difficulty);    // 0x466b18 (the first argument is the map location id; return is a leftover register, so void)
     int SG_GetMapLocState(int location, int difficulty) const;          // 0x466d10
     bool SG_IsMapLocSeen(int location, int difficulty) const;           // 0x466e30
     bool SG_IsMapLocLocked(int location, int difficulty) const;         // 0x467e58
-    int SG_SetLevelState(int state, int level, int difficulty);         // 0x466e48
+    void SG_SetLevelState(int level, int state, int difficulty);        // 0x466e48 writes m_levelStates[difficulty][level] = state
     int SG_GetLevelState(int level, int difficulty) const;              // 0x467040
     bool SG_IsLevelLocked(int level, int difficulty) const;             // 0x467f70
     void SG_SetSkillInSlot(int slot, std::uint32_t row);               // 0x4680a8

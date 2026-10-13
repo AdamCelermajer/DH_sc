@@ -26,7 +26,7 @@ void FinalizeStringField(std::uint32_t& len, char*& buf) {
 void ReadStringField(IStreamBase* stream, std::uint32_t len, char*& buf) {
     if (buf != nullptr) CustomFree(buf);
     buf = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(len) + 1, 1));
-    StreamReader::readStringEx(stream, buf, len, 0);
+    StreamReader::readStringEx(stream, buf, len);
     buf[len] = '\0';
 }
 

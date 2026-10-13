@@ -96,6 +96,18 @@ public:
     void FormatHTML(const char* name, const char* format, ...);           // 0x7a93bc
     void FormatHTML(gameswf::character* character, const char* format, ...);  // 0x7a947c
     int SendEvent(Event& event);                                          // 0x7abf34
+    // Declared for FlashAnimManager (batch g1-game-ui-FlashAnimManager-797a71-0). The return type of Find(name, context)
+    // is not in the symbol; it is typed character* because FlashAnimManager stores the result in a character slot.
+    gameswf::character* Find(const char* name, gameswf::character* context);  // 0x7a8a84, DepthSearch from context for name
+    void BeginDisplay();                                                  // 0x7a9afc, root->begin_display
+    void EndDisplay();                                                    // 0x7a9ac8, root->end_display
+    void SetPosition(gameswf::character* character, int x, int y);       // 0x7aa3f0
+    void GotoFrame(gameswf::character* character, int frame, bool flag);  // 0x7a7d34
+    int SetColorTransform(gameswf::character* character, unsigned int first, unsigned int second);  // 0x7a9dd0
+    // Declared for MenuDebugHUD (batch g1-game-ui-MenuDebugHUD-c7396f-0). The symbols carry no return type and the callers
+    // discard the result, so void is written.
+    void SetText(gameswf::character* character, const char* text, bool flag);  // 0x7a92e0 RenderFX::SetText(gameswf::character*, char const*, bool)
+    void FormatText(gameswf::character* character, const char* format, ...);   // 0x7a94dc RenderFX::FormatText(gameswf::character*, char const*, ...)
 
     // +0x3c: gameswf root pointer; +0x40: current context character; +0x58/+0x80/+0xa8/+0xd0:
     // RenderFX::Controller (4 of them, reset in MenuFX::Unload); +0x68: focus; +0xf8: flags word.

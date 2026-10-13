@@ -4,7 +4,9 @@
 // Declarations: dh2/global/GetNewScriptCmdImplInstance.hpp, dh2/global/condition_objective_factory.hpp,
 // dh2/global/script_character_callback.hpp, dh2/global/get_position.hpp.
 
+#include "core-platform/lc_api.hpp"
 #include "dh2/global/GetNewScriptCmdImplInstance.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/condition_objective_factory.hpp"
 #include "dh2/global/get_position.hpp"
 #include "dh2/global/script_character_callback.hpp"
@@ -12,6 +14,12 @@
 #include "dh2/Condition_IsEventInState.hpp"
 #include "dh2/Condition_IsLevelInState.hpp"
 #include "dh2/Condition_IsPlayerAtLevel.hpp"
+#include "dh2/Condition_IsPlayerInLevel.hpp"
+#include "dh2/Condition_IsQuestInState.hpp"
+#include "dh2/Condition_IsQuestStateHigher.hpp"
+#include "dh2/Condition_IsQuestStateLower.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/Script_CONSOLE.hpp"
 #include "dh2/Script_EnterCutSceneMode.hpp"
 #include "dh2/Script_ExecScript.hpp"
@@ -88,13 +96,27 @@ ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ExecScript>() {
 }
 
 // 0x4594a8 void Script_CharacterState_Callback(char const*, int, void (*)(ObjectBase*))
-// PARTIAL: empty body. The original does one of two things. When strcasecmp(name, "All") is non-zero, it resolves the
-// name through ObjectManager::GetObjectByName (0x34aca0) on the global manager dword_99F764, reads the ObjectHandle's
-// object with ObjectHandle::GetObject(false) (0x33fdc0), and calls the callback once with it. When the name is "All",
-// it walks the manager's object list (sentinel at manager +0x2c, node payload at node +0x08) and calls the callback for
-// each node. Waits on dh2/ObjectManager.hpp, which is not written yet, so neither the manager's fields nor its methods
-// can be named.
-void Script_CharacterState_Callback(const char* /*name*/, int /*arg*/, void (* /*callback*/)(ObjectBase*)) {}
+// PARTIAL. The original does one of two things. When LC_API_STRCASECMP(name, "All") is non-zero (the original's
+// strcasecmp against "All", tail-called through LC_API_STRCASECMP_0), it resolves the name through
+// ObjectManager::GetObjectByName(name, flags, active = false, type = null) on the global manager dword_99F764, reads the
+// ObjectHandle's object with ObjectHandle::GetObject(false), and calls the callback once with it. The Hex-Rays call passes
+// nullptr and 0 for the last two arguments, which are the bool active and the type string of the header signature.
+// When the name is "All", it walks the list whose sentinel is at manager +0x2c (node payload at node +0x08) and calls the
+// callback for each payload. That list is walked as std::list<ObjectBase*> m_updateList, because that is the member the
+// header declares at +0x2c. The header describes m_updateList as the active update list, not the full object list that
+// the "All" meaning implies, so which list "All" walks is not confirmed. The Hex-Rays callback return value is not used
+// (the header signature returns void).
+void Script_CharacterState_Callback(const char* name, int arg, void (*callback)(ObjectBase*)) {
+    ObjectManager* manager = dword_99F764;
+    if (LC_API_STRCASECMP(name, "All") != 0) {
+        ObjectHandle handle = manager->GetObjectByName(name, arg, false, nullptr);
+        callback(handle.GetObject(false));
+        return;
+    }
+    for (ObjectBase* object : manager->m_updateList) {
+        callback(object);
+    }
+}
 
 // 0x4595c8 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayActorAnim>()
 // The original allocates 0x1c bytes, zeroes the fields, stores the vptr and then calls ObjectHandle::ObjectHandle on the
@@ -125,38 +147,45 @@ Condition* GetConditionImplInstance<Condition_IsLevelInState>() {
 }
 
 // 0x478a80 Condition* GetConditionImplInstance<Condition_IsPlayerInLevel>()
-// PARTIAL: stub returns nullptr. The original allocates 8 bytes, zeroes m_stub (+0x04), runs Condition::Condition and stores the
-// vptr. Waits on dh2/Condition_IsPlayerInLevel.hpp, which does not compile: its DBG_TraceDetailedConditionInformation is declared
-// int, but it overrides Condition::DBG_TraceDetailedConditionInformation, which returns std::size_t. The header is not owned by
-// this batch. Fix the return type there, then restore the body as new Condition_IsPlayerInLevel().
+// The original allocates 8 bytes, zeroes m_stub (+0x04, the v2ConditionStub row), runs Condition::Condition and stores the
+// vptr. The class adds no members. Condition's constructor is user-provided, so value-initialization does not zero m_stub,
+// and the explicit store below supplies the zero.
 template <>
 Condition* GetConditionImplInstance<Condition_IsPlayerInLevel>() {
-    return nullptr;
+    auto* cond = new Condition_IsPlayerInLevel();
+    cond->m_stub = nullptr;  // +0x04
+    return cond;
 }
 
 // 0x478acc Condition* GetConditionImplInstance<Condition_IsQuestStateHigher>()
-// PARTIAL: stub returns nullptr. The original allocates 12 bytes, runs Condition::Condition and sets m_comparator (+0x08) to
-// COMPARE_HIGHER (2). Waits on dh2/Condition_IsQuestInStateGeneric.hpp, which does not compile: its
-// DBG_TraceDetailedConditionInformation is declared int against the std::size_t base (see GetConditionImplInstance<Condition_IsPlayerInLevel>).
+// The original allocates 12 bytes, runs Condition::Condition and sets m_comparator (+0x08) to COMPARE_HIGHER (2). The
+// original does not store m_stub (+0x04) here, so the port does not either.
 template <>
 Condition* GetConditionImplInstance<Condition_IsQuestStateHigher>() {
-    return nullptr;
+    auto* cond = new Condition_IsQuestStateHigher();
+    cond->m_comparator = Condition_IsQuestInStateGeneric::COMPARE_HIGHER;  // +0x08
+    return cond;
 }
 
 // 0x478b14 Condition* GetConditionImplInstance<Condition_IsQuestStateLower>()
-// PARTIAL: stub returns nullptr. The original allocates 12 bytes, runs Condition::Condition and sets m_comparator (+0x08) to
-// COMPARE_LOWER (1). Waits on dh2/Condition_IsQuestInStateGeneric.hpp (same DBG return-type conflict as Condition_IsQuestStateHigher).
+// The original allocates 12 bytes, runs Condition::Condition and sets m_comparator (+0x08) to COMPARE_LOWER (1). As above,
+// m_stub (+0x04) is not stored.
 template <>
 Condition* GetConditionImplInstance<Condition_IsQuestStateLower>() {
-    return nullptr;
+    auto* cond = new Condition_IsQuestStateLower();
+    cond->m_comparator = Condition_IsQuestInStateGeneric::COMPARE_LOWER;  // +0x08
+    return cond;
 }
 
 // 0x478b5c Condition* GetConditionImplInstance<Condition_IsQuestInState>()
-// PARTIAL: stub returns nullptr. The original allocates 12 bytes, runs Condition::Condition and sets m_comparator (+0x08) to
-// COMPARE_EQUAL (0). Waits on dh2/Condition_IsQuestInStateGeneric.hpp (same DBG return-type conflict as Condition_IsQuestStateHigher).
+// The original allocates 12 bytes, runs Condition::Condition, stores 0 in m_comparator (+0x08, COMPARE_EQUAL) and stores
+// the vptr. The new-expression value-initializes the object (m_stub at +0x04 and m_comparator at +0x08 are zeroed) before
+// the implicit constructor runs; the explicit store keeps the comparator value visible here.
 template <>
 Condition* GetConditionImplInstance<Condition_IsQuestInState>() {
-    return nullptr;
+    auto* cond = new Condition_IsQuestInState();
+    cond->m_comparator = Condition_IsQuestInStateGeneric::COMPARE_EQUAL;
+    return cond;
 }
 
 // 0x47a3ac GetPosition()

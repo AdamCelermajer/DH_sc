@@ -13,6 +13,7 @@
 
 #include "pydata-accessors/array_strides.hpp"
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "read_bytes_stream.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_structs_1.hpp"
@@ -24,7 +25,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 // Byte stream over a fixed buffer.
-class VecStream : public IStreamBase {
+class VecStream : public ReadBytesStream {
 public:
     std::vector<unsigned char> bytes;
     std::size_t pos = 0;

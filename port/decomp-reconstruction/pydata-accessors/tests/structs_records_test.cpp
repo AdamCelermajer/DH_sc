@@ -1,6 +1,7 @@
 // Checks the generated Structs record classes: read decodes little-endian words at the
 // original offsets (base read first), finalize and the deleting destructor free the stored pointers.
 #include "pydata-accessors/structs_records.hpp"
+#include "read_bytes_stream.hpp"
 
 #include <cstdio>
 #include <cstdlib>
@@ -11,7 +12,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 // Hands out a fixed byte sequence to StreamReader::readAs.
-class ByteStream : public IStreamBase {
+class ByteStream : public ReadBytesStream {
 public:
     ByteStream(const unsigned char* data, std::size_t n) : data_(data), n_(n) {}
     bool ReadBytes(void* dst, std::size_t n) override {

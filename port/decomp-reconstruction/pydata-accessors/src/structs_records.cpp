@@ -64,8 +64,8 @@ void SimpleAnim::finalize() {
 
 // 0x4dbd6c _ZN7Structs10SimpleAnim4readEP11IStreamBase
 void SimpleAnim::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int16_t>(stream);  // +0x4
-    m_off6 = StreamReader::readAs<std::int16_t>(stream);  // +0x6
+    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
+    StreamReader::readAs<std::int16_t>(stream, &m_off6);  // +0x6
 }
 
 // 0x4c699c _ZN7Structs4AnimD2Ev
@@ -88,8 +88,8 @@ void Anim::finalize() {
 // 0x4dbe3c _ZN7Structs4Anim4readEP11IStreamBase
 void Anim::read(IStreamBase* stream) {
     SimpleAnim::read(stream);
-    m_w2 = StreamReader::readAs<std::int16_t>(stream);  // +0x8
-    m_off10 = StreamReader::readAs<std::int16_t>(stream);  // +0xa
+    StreamReader::readAs<std::int16_t>(stream, &m_w2);  // +0x8
+    StreamReader::readAs<std::int16_t>(stream, &m_off10);  // +0xa
 }
 
 // 0x4db614 _ZN7Structs8AnimStepD2Ev
@@ -945,30 +945,30 @@ void DesignSettings::finalize() {
 
 // 0x4ee0d0 _ZN7Structs14DesignSettings4readEP11IStreamBase
 void DesignSettings::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<float>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<float>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<float>(stream);  // +0xc
-    m_w4 = StreamReader::readAs<float>(stream);  // +0x10
+    StreamReader::readAs<float>(stream, &m_w1);  // +0x4
+    StreamReader::readAs<float>(stream, &m_w2);  // +0x8
+    StreamReader::readAs<float>(stream, &m_w3);  // +0xc
+    StreamReader::readAs<float>(stream, &m_w4);  // +0x10
     m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<float>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<float>(stream);  // +0x1c
-    m_w8 = StreamReader::readAs<float>(stream);  // +0x20
+    StreamReader::readAs<float>(stream, &m_w6);  // +0x18
+    StreamReader::readAs<float>(stream, &m_w7);  // +0x1c
+    StreamReader::readAs<float>(stream, &m_w8);  // +0x20
     m_w9 = StreamReader::readAs<std::int32_t>(stream);  // +0x24
     m_w10 = StreamReader::readAs<std::int32_t>(stream);  // +0x28
-    m_w11 = StreamReader::readAs<float>(stream);  // +0x2c
-    m_w12 = StreamReader::readAs<float>(stream);  // +0x30
-    m_w13 = StreamReader::readAs<float>(stream);  // +0x34
-    m_w14 = StreamReader::readAs<float>(stream);  // +0x38
-    m_w15 = StreamReader::readAs<float>(stream);  // +0x3c
-    m_w16 = StreamReader::readAs<float>(stream);  // +0x40
-    m_w17 = StreamReader::readAs<float>(stream);  // +0x44
-    m_w18 = StreamReader::readAs<float>(stream);  // +0x48
-    m_w19 = StreamReader::readAs<float>(stream);  // +0x4c
-    m_w20 = StreamReader::readAs<float>(stream);  // +0x50
-    m_w21 = StreamReader::readAs<float>(stream);  // +0x54
-    m_w22 = StreamReader::readAs<float>(stream);  // +0x58
-    m_w23 = StreamReader::readAs<float>(stream);  // +0x5c
-    m_w24 = StreamReader::readAs<float>(stream);  // +0x60
+    StreamReader::readAs<float>(stream, &m_w11);  // +0x2c
+    StreamReader::readAs<float>(stream, &m_w12);  // +0x30
+    StreamReader::readAs<float>(stream, &m_w13);  // +0x34
+    StreamReader::readAs<float>(stream, &m_w14);  // +0x38
+    StreamReader::readAs<float>(stream, &m_w15);  // +0x3c
+    StreamReader::readAs<float>(stream, &m_w16);  // +0x40
+    StreamReader::readAs<float>(stream, &m_w17);  // +0x44
+    StreamReader::readAs<float>(stream, &m_w18);  // +0x48
+    StreamReader::readAs<float>(stream, &m_w19);  // +0x4c
+    StreamReader::readAs<float>(stream, &m_w20);  // +0x50
+    StreamReader::readAs<float>(stream, &m_w21);  // +0x54
+    StreamReader::readAs<float>(stream, &m_w22);  // +0x58
+    StreamReader::readAs<float>(stream, &m_w23);  // +0x5c
+    StreamReader::readAs<float>(stream, &m_w24);  // +0x60
     m_w25 = StreamReader::readAs<std::int32_t>(stream);  // +0x64
     m_w26 = StreamReader::readAs<std::int32_t>(stream);  // +0x68
     m_w27 = StreamReader::readAs<std::int32_t>(stream);  // +0x6c
@@ -979,15 +979,15 @@ void DesignSettings::read(IStreamBase* stream) {
     m_w32 = StreamReader::readAs<std::int32_t>(stream);  // +0x80
     m_w33 = StreamReader::readAs<std::int32_t>(stream);  // +0x84
     m_w34 = StreamReader::readAs<std::int32_t>(stream);  // +0x88
-    m_w35 = StreamReader::readAs<float>(stream);  // +0x8c
-    m_w36 = StreamReader::readAs<float>(stream);  // +0x90
-    m_w37 = StreamReader::readAs<float>(stream);  // +0x94
-    m_w38 = StreamReader::readAs<float>(stream);  // +0x98
-    m_w39 = StreamReader::readAs<float>(stream);  // +0x9c
-    m_w40 = StreamReader::readAs<float>(stream);  // +0xa0
-    m_w41 = StreamReader::readAs<float>(stream);  // +0xa4
-    m_w42 = StreamReader::readAs<float>(stream);  // +0xa8
-    m_w43 = StreamReader::readAs<float>(stream);  // +0xac
+    StreamReader::readAs<float>(stream, &m_w35);  // +0x8c
+    StreamReader::readAs<float>(stream, &m_w36);  // +0x90
+    StreamReader::readAs<float>(stream, &m_w37);  // +0x94
+    StreamReader::readAs<float>(stream, &m_w38);  // +0x98
+    StreamReader::readAs<float>(stream, &m_w39);  // +0x9c
+    StreamReader::readAs<float>(stream, &m_w40);  // +0xa0
+    StreamReader::readAs<float>(stream, &m_w41);  // +0xa4
+    StreamReader::readAs<float>(stream, &m_w42);  // +0xa8
+    StreamReader::readAs<float>(stream, &m_w43);  // +0xac
 }
 
 // 0x4c6b7c _ZN7Structs10DialogStepD2Ev
@@ -1607,7 +1607,7 @@ void ItemPowerEntry::finalize() {
 // 0x4ed200 _ZN7Structs14ItemPowerEntry4readEP11IStreamBase
 void ItemPowerEntry::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int8_t>(stream);  // +0x8
+    StreamReader::readAs<std::int8_t>(stream, &m_w2);  // +0x8
 }
 
 // 0x4c62ac _ZN7Structs20LargePlantPropertiesD2Ev
@@ -1701,7 +1701,7 @@ void Listener::read(IStreamBase* stream) {
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
     m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    m_w5 = StreamReader::readAs<float>(stream);  // +0x14
+    StreamReader::readAs<float>(stream, &m_w5);  // +0x14
     m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
 }
 
@@ -1722,9 +1722,9 @@ void ListenerVector::finalize() {
 
 // 0x4dc180 _ZN7Structs14ListenerVector4readEP11IStreamBase
 void ListenerVector::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<float>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<float>(stream);  // +0x8
-    m_w3 = StreamReader::readAs<float>(stream);  // +0xc
+    StreamReader::readAs<float>(stream, &m_w1);  // +0x4
+    StreamReader::readAs<float>(stream, &m_w2);  // +0x8
+    StreamReader::readAs<float>(stream, &m_w3);  // +0xc
 }
 
 // 0x4c588c _ZN7Structs19LizardManPropertiesD2Ev
@@ -1964,8 +1964,8 @@ void NumProb::finalize() {
 
 // 0x4dbc9c _ZN7Structs7NumProb4readEP11IStreamBase
 void NumProb::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int16_t>(stream);  // +0x4
-    m_off6 = StreamReader::readAs<std::int16_t>(stream);  // +0x6
+    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
+    StreamReader::readAs<std::int16_t>(stream, &m_off6);  // +0x6
 }
 
 // 0x4c5748 _ZN7Structs16PlayerPropertiesD2Ev
@@ -2039,8 +2039,8 @@ void Projectile::read(IStreamBase* stream) {
     m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
     m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
     m_off29 = StreamReader::readAs<bool>(stream);  // +0x1d
-    m_w8 = StreamReader::readAs<float>(stream);  // +0x20
-    m_w9 = StreamReader::readAs<float>(stream);  // +0x24
+    StreamReader::readAs<float>(stream, &m_w8);  // +0x20
+    StreamReader::readAs<float>(stream, &m_w9);  // +0x24
     m_w10 = StreamReader::readAs<std::int32_t>(stream);  // +0x28
     m_w11 = StreamReader::readAs<std::int32_t>(stream);  // +0x2c
     m_w12 = StreamReader::readAs<std::int32_t>(stream);  // +0x30
@@ -2048,8 +2048,8 @@ void Projectile::read(IStreamBase* stream) {
     m_off53 = StreamReader::readAs<bool>(stream);  // +0x35
     m_w14 = StreamReader::readAs<std::int32_t>(stream);  // +0x38
     m_w15 = StreamReader::readAs<std::int32_t>(stream);  // +0x3c
-    m_w16 = StreamReader::readAs<float>(stream);  // +0x40
-    m_w17 = StreamReader::readAs<float>(stream);  // +0x44
+    StreamReader::readAs<float>(stream, &m_w16);  // +0x40
+    StreamReader::readAs<float>(stream, &m_w17);  // +0x44
 }
 
 // 0x4c6a08 _ZN7Structs4RectD2Ev
@@ -2092,16 +2092,16 @@ void RepeatableSprite::finalize() {
 
 // 0x4dbf10 _ZN7Structs16RepeatableSprite4readEP11IStreamBase
 void RepeatableSprite::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int16_t>(stream);  // +0x4
+    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
     m_off6 = StreamReader::readAs<bool>(stream);  // +0x6
-    m_w2 = StreamReader::readAs<std::int16_t>(stream);  // +0x8
+    StreamReader::readAs<std::int16_t>(stream, &m_w2);  // +0x8
     m_off10 = StreamReader::readAs<bool>(stream);  // +0xa
-    m_w3 = StreamReader::readAs<std::int16_t>(stream);  // +0xc
-    m_off14 = StreamReader::readAs<std::int16_t>(stream);  // +0xe
+    StreamReader::readAs<std::int16_t>(stream, &m_w3);  // +0xc
+    StreamReader::readAs<std::int16_t>(stream, &m_off14);  // +0xe
     m_w4 = StreamReader::readAs<bool>(stream);  // +0x10
-    m_off18 = StreamReader::readAs<std::int16_t>(stream);  // +0x12
+    StreamReader::readAs<std::int16_t>(stream, &m_off18);  // +0x12
     m_w5 = StreamReader::readAs<bool>(stream);  // +0x14
-    m_off22 = StreamReader::readAs<std::int16_t>(stream);  // +0x16
+    StreamReader::readAs<std::int16_t>(stream, &m_off22);  // +0x16
 }
 
 // 0x4c6534 _ZN7Structs25ResurrectingGodPropertiesD2Ev
@@ -2491,8 +2491,8 @@ void TileOffset::finalize() {
 
 // 0x4dbbcc _ZN7Structs10TileOffset4readEP11IStreamBase
 void TileOffset::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int16_t>(stream);  // +0x4
-    m_off6 = StreamReader::readAs<std::int16_t>(stream);  // +0x6
+    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
+    StreamReader::readAs<std::int16_t>(stream, &m_off6);  // +0x6
 }
 
 // 0x4c6bc4 _ZN7Structs12TriggerPlateD2Ev

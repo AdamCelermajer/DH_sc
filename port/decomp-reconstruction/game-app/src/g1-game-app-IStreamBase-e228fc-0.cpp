@@ -9,7 +9,8 @@
 // The original moves sizeof(T) bytes straight into the object. That is exact for the scalar types and for
 // Door::DoorStates, whose host and file sizes match. Point3D<float> and std::bitset<128> are decoded field by field from
 // their 32-bit file layout instead, so no host struct is copied (TRACK-B decision 2).
-// Structs::CharacterProperties is partial: see the two functions below it.
+// Structs::CharacterProperties is the 900-byte sheet: the vptr word (not stored), then 224 int32 words, encoded and
+// decoded one word at a time like the other records.
 #include "dh2/IStreamBase.hpp"
 
 #include <bitset>
@@ -21,13 +22,15 @@
 #include <string>
 
 #include "core-platform/deps/game_types.hpp"
+// net-transport's deps/byte_array.hpp (reached through dh2/Door.hpp) and pydata-accessors' deps/stream_reader.hpp both
+// define the engine stand-ins CustomFree and MemoryHintState (retired in the engine unification wave). dh2/Character.hpp
+// renames the net-transport copies the same way while the two are included together.
+#define CustomFree CustomFree_net_transport
+#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/Door.hpp"
-
-// Forward declaration only. The full record is pydata-accessors/structs_records.hpp, which cannot share a translation
-// unit with dh2/IStreamBase.hpp (see the partial functions below).
-namespace Structs {
-class CharacterProperties;
-}  // namespace Structs
+#undef CustomFree
+#undef MemoryHintState
+#include "pydata-accessors/structs_records.hpp"  // Structs::CharacterProperties
 
 // Global assert level (libDungeonHunter2.so gAssertLevel). core-platform/memory.hpp declares it too, but that header is
 // not included here, as in the other sources of this class.
@@ -117,8 +120,68 @@ void DecodeBits(const std::uint8_t* in, std::bitset<kBitsetBits>& bits) {
 }
 
 // Structs::CharacterProperties: 900 bytes in the original. +0x00 is the vtable pointer, then the 224 int32 properties
-// m_w1..m_w224 at +0x04 .. +0x383. Only the byte count is needed here (see the partial functions below).
+// m_w1..m_w224 at +0x04 .. +0x383. The original copies the whole object, vptr included; a host vptr is not file data,
+// so file bytes +0x00..+0x03 are written as zero and ignored on read, and each word is moved on its own.
 constexpr std::size_t kSheetFileSize = 900;
+constexpr std::size_t kSheetWords = 224;
+
+using Sheet = Structs::CharacterProperties;
+using SheetWord = std::int32_t Sheet::*;
+
+// The words in file order: word i is at file offset 4 + 4 * i.
+constexpr SheetWord kSheetWordMembers[kSheetWords] = {
+    &Sheet::m_w1, &Sheet::m_w2, &Sheet::m_w3, &Sheet::m_w4, &Sheet::m_w5, &Sheet::m_w6,
+    &Sheet::m_w7, &Sheet::m_w8, &Sheet::m_w9, &Sheet::m_w10, &Sheet::m_w11, &Sheet::m_w12,
+    &Sheet::m_w13, &Sheet::m_w14, &Sheet::m_w15, &Sheet::m_w16, &Sheet::m_w17, &Sheet::m_w18,
+    &Sheet::m_w19, &Sheet::m_w20, &Sheet::m_w21, &Sheet::m_w22, &Sheet::m_w23, &Sheet::m_w24,
+    &Sheet::m_w25, &Sheet::m_w26, &Sheet::m_w27, &Sheet::m_w28, &Sheet::m_w29, &Sheet::m_w30,
+    &Sheet::m_w31, &Sheet::m_w32, &Sheet::m_w33, &Sheet::m_w34, &Sheet::m_w35, &Sheet::m_w36,
+    &Sheet::m_w37, &Sheet::m_w38, &Sheet::m_w39, &Sheet::m_w40, &Sheet::m_w41, &Sheet::m_w42,
+    &Sheet::m_w43, &Sheet::m_w44, &Sheet::m_w45, &Sheet::m_w46, &Sheet::m_w47, &Sheet::m_w48,
+    &Sheet::m_w49, &Sheet::m_w50, &Sheet::m_w51, &Sheet::m_w52, &Sheet::m_w53, &Sheet::m_w54,
+    &Sheet::m_w55, &Sheet::m_w56, &Sheet::m_w57, &Sheet::m_w58, &Sheet::m_w59, &Sheet::m_w60,
+    &Sheet::m_w61, &Sheet::m_w62, &Sheet::m_w63, &Sheet::m_w64, &Sheet::m_w65, &Sheet::m_w66,
+    &Sheet::m_w67, &Sheet::m_w68, &Sheet::m_w69, &Sheet::m_w70, &Sheet::m_w71, &Sheet::m_w72,
+    &Sheet::m_w73, &Sheet::m_w74, &Sheet::m_w75, &Sheet::m_w76, &Sheet::m_w77, &Sheet::m_w78,
+    &Sheet::m_w79, &Sheet::m_w80, &Sheet::m_w81, &Sheet::m_w82, &Sheet::m_w83, &Sheet::m_w84,
+    &Sheet::m_w85, &Sheet::m_w86, &Sheet::m_w87, &Sheet::m_w88, &Sheet::m_w89, &Sheet::m_w90,
+    &Sheet::m_w91, &Sheet::m_w92, &Sheet::m_w93, &Sheet::m_w94, &Sheet::m_w95, &Sheet::m_w96,
+    &Sheet::m_w97, &Sheet::m_w98, &Sheet::m_w99, &Sheet::m_w100, &Sheet::m_w101, &Sheet::m_w102,
+    &Sheet::m_w103, &Sheet::m_w104, &Sheet::m_w105, &Sheet::m_w106, &Sheet::m_w107, &Sheet::m_w108,
+    &Sheet::m_w109, &Sheet::m_w110, &Sheet::m_w111, &Sheet::m_w112, &Sheet::m_w113, &Sheet::m_w114,
+    &Sheet::m_w115, &Sheet::m_w116, &Sheet::m_w117, &Sheet::m_w118, &Sheet::m_w119, &Sheet::m_w120,
+    &Sheet::m_w121, &Sheet::m_w122, &Sheet::m_w123, &Sheet::m_w124, &Sheet::m_w125, &Sheet::m_w126,
+    &Sheet::m_w127, &Sheet::m_w128, &Sheet::m_w129, &Sheet::m_w130, &Sheet::m_w131, &Sheet::m_w132,
+    &Sheet::m_w133, &Sheet::m_w134, &Sheet::m_w135, &Sheet::m_w136, &Sheet::m_w137, &Sheet::m_w138,
+    &Sheet::m_w139, &Sheet::m_w140, &Sheet::m_w141, &Sheet::m_w142, &Sheet::m_w143, &Sheet::m_w144,
+    &Sheet::m_w145, &Sheet::m_w146, &Sheet::m_w147, &Sheet::m_w148, &Sheet::m_w149, &Sheet::m_w150,
+    &Sheet::m_w151, &Sheet::m_w152, &Sheet::m_w153, &Sheet::m_w154, &Sheet::m_w155, &Sheet::m_w156,
+    &Sheet::m_w157, &Sheet::m_w158, &Sheet::m_w159, &Sheet::m_w160, &Sheet::m_w161, &Sheet::m_w162,
+    &Sheet::m_w163, &Sheet::m_w164, &Sheet::m_w165, &Sheet::m_w166, &Sheet::m_w167, &Sheet::m_w168,
+    &Sheet::m_w169, &Sheet::m_w170, &Sheet::m_w171, &Sheet::m_w172, &Sheet::m_w173, &Sheet::m_w174,
+    &Sheet::m_w175, &Sheet::m_w176, &Sheet::m_w177, &Sheet::m_w178, &Sheet::m_w179, &Sheet::m_w180,
+    &Sheet::m_w181, &Sheet::m_w182, &Sheet::m_w183, &Sheet::m_w184, &Sheet::m_w185, &Sheet::m_w186,
+    &Sheet::m_w187, &Sheet::m_w188, &Sheet::m_w189, &Sheet::m_w190, &Sheet::m_w191, &Sheet::m_w192,
+    &Sheet::m_w193, &Sheet::m_w194, &Sheet::m_w195, &Sheet::m_w196, &Sheet::m_w197, &Sheet::m_w198,
+    &Sheet::m_w199, &Sheet::m_w200, &Sheet::m_w201, &Sheet::m_w202, &Sheet::m_w203, &Sheet::m_w204,
+    &Sheet::m_w205, &Sheet::m_w206, &Sheet::m_w207, &Sheet::m_w208, &Sheet::m_w209, &Sheet::m_w210,
+    &Sheet::m_w211, &Sheet::m_w212, &Sheet::m_w213, &Sheet::m_w214, &Sheet::m_w215, &Sheet::m_w216,
+    &Sheet::m_w217, &Sheet::m_w218, &Sheet::m_w219, &Sheet::m_w220, &Sheet::m_w221, &Sheet::m_w222,
+    &Sheet::m_w223, &Sheet::m_w224,
+};
+
+void EncodeSheet(const Structs::CharacterProperties& sheet, std::uint8_t* out) {
+    PutU32(out, 0);
+    for (std::size_t i = 0; i < kSheetWords; ++i) {
+        PutU32(out + 4 + 4 * i, static_cast<std::uint32_t>(sheet.*kSheetWordMembers[i]));
+    }
+}
+
+void DecodeSheet(const std::uint8_t* in, Structs::CharacterProperties& sheet) {
+    for (std::size_t i = 0; i < kSheetWords; ++i) {
+        sheet.*kSheetWordMembers[i] = static_cast<std::int32_t>(GetU32(in + 4 + 4 * i));
+    }
+}
 
 }  // namespace
 
@@ -239,32 +302,31 @@ void IStreamBase::writeAs<unsigned char>(const unsigned char& value) {
 }
 
 // 0x3a3970 void IStreamBase::readAs<Structs::CharacterProperties>(Structs::CharacterProperties&)
-// Partial. The 900-byte sheet is read and the count checked, so the stream position and the ASSERT match the original.
-// The 224 property words are not stored and the sheet keeps its current values. Decoding them needs the Structs record
-// header (pydata-accessors/structs_records.hpp). That header includes pydata-accessors/deps/stream_reader.hpp, which
-// defines a second global class IStreamBase, so it cannot share a translation unit with dh2/IStreamBase.hpp. Layout
-// request: one IStreamBase for the engine stand-ins, then decode m_w1..m_w224 at +0x04 .. +0x383.
+// read() is vtable +0x18 and gets (object, 900, 0). ASSERT bytesRead == sizeof(T) at line 69. The words start from the
+// sheet's current values, so a short read keeps them, as the original's direct read does. Then the 224 words are
+// decoded. The vptr word of the file image is skipped (see kSheetFileSize).
 template <>
 void IStreamBase::readAs<Structs::CharacterProperties>(Structs::CharacterProperties& value) {
     std::uint8_t file[kSheetFileSize];
+    EncodeSheet(value, file);
     const std::uint64_t got = read(file, kSheetFileSize);
     if (got != kSheetFileSize) {
         ReportIStreamAssert("bytesRead == sizeof(T)", kReadAssertLine);
     }
-    (void)value;
+    DecodeSheet(file, value);
 }
 
 // 0x3a3ad0 void IStreamBase::writeAs<Structs::CharacterProperties>(Structs::CharacterProperties const&)
-// Partial. The 900-byte sheet is written, so the stream layout matches the original, but every word is written as zero.
-// The properties are not encoded until the layout request in readAs above is resolved.
+// write() is vtable +0x1c and gets (object, 900, 0). ASSERT bytesWritten == sizeof(T) at line 77. The file image is
+// the vptr word (zero here) followed by the 224 words.
 template <>
 void IStreamBase::writeAs<Structs::CharacterProperties>(const Structs::CharacterProperties& value) {
-    std::uint8_t file[kSheetFileSize] = {};
+    std::uint8_t file[kSheetFileSize];
+    EncodeSheet(value, file);
     const std::uint64_t written = write(file, kSheetFileSize);
     if (written != kSheetFileSize) {
         ReportIStreamAssert("bytesWritten == sizeof(T)", kWriteAssertLine);
     }
-    (void)value;
 }
 
 // 0x3a3a20 void IStreamBase::readAs<Point3D<float> >(Point3D<float>&)

@@ -1,4 +1,4 @@
-// Batch g1-game-app-LuaScript-5015a8-1 (LuaScript, part 2 of 3).
+// Batch g1-game-app-LuaScript-5015a8-1 (LuaScript, part 2 of 3), redo r2a-game-app-LuaScript-5015a8-1.
 // Declarations are in dh2/LuaScript.hpp.
 //
 // Binding argument order. The Hex-Rays listing names the first parameter `this` and types the third as
@@ -7,14 +7,59 @@
 // the result (MOV R6, R1 ... MOV R0, R6 before pushInteger), and the third is the LuaScript (a3+0x34 is
 // m_vfTable). The header's static signature (args, ret, self) follows that use.
 //
-// Status of this batch:
-//   reconstructed: SetInt, GetInt (member), _PopVFTable, _Trace.
-//   partial: every binding that reads a Lua argument or pushes a result. sfc::script::lua::Arguments, Value
-//     and ReturnValues have no headers in this tree (LuaScript.hpp only forward-declares them), so those
-//     bodies are not written. Each partial note lists what the original does and what is missing.
+// Status of the bindings whose bodies are below (redo): reconstructed: _GetInt, _ToFixed, _BitOr, _BitAnd,
+// _AddToVFTable. partial: _PlayMusic, _PlaySound, _StopSound, because VoxSoundManager declares none of the calls
+// they make in this tree. The other bindings in this file belong to other batches and keep their own notes.
+#include <cmath>
+#include <cstddef>
+#include <cstdint>
+#include <limits>
+
+#include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/LuaScript.hpp"
+// PlayerManager pulls in net-transport, whose deps/byte_array.hpp also defines CustomFree, which pydata's stream_reader.hpp
+// defines too (the same workaround as dh2/Character.hpp). The renames cover only the net-transport include.
+#define CustomFree CustomFree_net_transport
+#define MemoryHintState MemoryHintState_net_transport
+#include "dh2/PlayerManager.hpp"
+#undef CustomFree
+#undef MemoryHintState
+#include "dh2/Random.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C: the PlayerManager global
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/sfc/script/lua/ReturnValues.hpp"
+#include "dh2/sfc/script/lua/Value.hpp"
 
 #include "glitch-core-io/core/strings.hpp"
+#include "pydata-accessors/member_names.hpp"
+
+namespace {
+
+// Value::m_type tags (Value.hpp): 3 is a number, 4 is a string.
+constexpr int kLuaTypeNumber = 3;
+constexpr int kLuaTypeString = 4;
+
+// Float-to-int32 as the ARM target converts it: out-of-range values saturate and NaN gives 0. The same rule is
+// luascript_g1::FloatToInt32 in g1-game-app-LuaScript-5015a8-2.cpp.
+int ToInt32(float value) {
+    if (std::isnan(value)) return 0;
+    if (value >= 2147483648.0f) return std::numeric_limits<int>::max();
+    if (value <= -2147483648.0f) return std::numeric_limits<int>::min();
+    return static_cast<int>(value);
+}
+
+// Arrays::Sounds id of the name in args[0] (-1 when absent). The sound bindings start with this lookup.
+int SoundIdOf(const sfc::script::lua::Arguments& args) {
+    return Arrays::GetMemberIDByString<Arrays::Sounds>(args[0].getString());
+}
+
+// Number of values in an argument list: the original's (end - begin) / 112 over std::vector<Value>.
+std::size_t ArgCount(const sfc::script::lua::Arguments& args) {
+    return args.m_values->size();
+}
+
+}  // namespace
 
 // 0x37d990 LuaScript::SetInt(char const*, int)
 // The original hashes the name with glitch::core::hashString, finds or inserts the entry keyed by that hash in
@@ -66,129 +111,235 @@ void LuaScript::_Trace([[maybe_unused]] const sfc::script::lua::Arguments& args,
                        [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
 
 // 0x37cbd8 LuaScript::_GetNumPlayers(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. The original pushes one integer: the PlayerManager at the global dword_99F76C, field
-// +0x6c4 (Hex-Rays *(dword_99F76C + 1732)), which is PlayerManager::m_numCharacters. It does not call
-// PlayerManager::GetNumPlayers. Missing: ReturnValues::pushInteger (no header in this tree). The global
-// dword_99F76C is declared in dh2/global/IsMultiplayerGame.hpp and is not used here yet.
-void LuaScript::_GetNumPlayers([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                               [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// Pushes one integer: PlayerManager::m_numCharacters (+0x6c4, Hex-Rays *(dword_99F76C + 1732)) of the PlayerManager
+// global. It does not call PlayerManager::GetNumPlayers.
+void LuaScript::_GetNumPlayers(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues& ret, void*) {
+    ret.pushInteger(dword_99F76C->m_numCharacters);
+}
 
 // 0x37cc00 LuaScript::_GetHostPlayerLevel(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. The original pushes the integer at +0x330 of the hosting player:
-// *((_DWORD*)PlayerManager::GetHostingPlayer(dword_99F76C) + 204). Missing: the PlayerInfo layout (dh2/PlayerInfo.hpp
-// does not exist; layout request for +0x330 int) and ReturnValues::pushInteger.
-void LuaScript::_GetHostPlayerLevel([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                                    [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// Pushes the integer at PlayerInfo +0x330 of the hosting player (Hex-Rays *((_DWORD*)GetHostingPlayer(dword_99F76C) + 204)).
+// That offset is the value of PlayerInfo::m_characterLevel (block at +0x310, value at block +0x20), read with GetValue().
+void LuaScript::_GetHostPlayerLevel(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues& ret, void*) {
+    ret.pushInteger(dword_99F76C->GetHostingPlayer()->m_characterLevel.GetValue());
+}
 
 // 0x37ddc8 LuaScript::_IsPlayerCharacter(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. The original compares the local player's character with the pointer in the first argument:
-// PlayerManager::GetLocalPlayer(dword_99F76C, 0, true)->character_660 (PlayerInfo +0x660) == Value::getPointer(args[0]),
-// then pushBoolean(ret, result). Missing: dh2/PlayerInfo.hpp (character_660 at +0x660), the Arguments and Value
-// accessors (Arguments::operator[], Value::getPointer) and ReturnValues::pushBoolean.
-void LuaScript::_IsPlayerCharacter([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                                   [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// Pushes whether the local player's Character is the pointer in the first argument. The local player is read first
+// (PlayerManager::GetLocalPlayer(0, true), then its Character at PlayerInfo +0x660, PlayerInfo::unk_660), and args[0]
+// after it, so an empty argument list throws std::out_of_range from Arguments::operator[], as the original does.
+void LuaScript::_IsPlayerCharacter(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void*) {
+    PlayerInfo* const localPlayer = dword_99F76C->GetLocalPlayer(0, true);
+    Character* const character = localPlayer->unk_660;
+    ret.pushBoolean(character == args[0].getPointer());
+}
 
 // 0x37de5c LuaScript::_SetInt(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. With more than one argument, the original calls SetInt on the LuaScript (third parameter)
-// with name = Value::getString(args[0]) and value = (int)Value::getNumber(args[1]). With fewer, nothing happens.
-// Missing: the Arguments and Value accessors. The Hex-Rays prototype returns a Value pointer (args[0] on the early
-// path); the header declares the binding void, so no value is returned.
-void LuaScript::_SetInt([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                        [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// With more than one argument, calls SetInt on the LuaScript passed as the third parameter, with name =
+// args[0] as a string and value = (int)args[1]. With fewer, nothing happens. The Hex-Rays prototype returns a Value
+// pointer (args[0] on the early path); the header declares the binding void, so no value is returned.
+void LuaScript::_SetInt(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues&, void* self) {
+    if (ArgCount(args) > 1) {
+        const char* const name = args[0].getString();
+        const int value = ToInt32(args[1].getNumber());
+        static_cast<LuaScript*>(self)->SetInt(name, value);
+    }
+}
 
 // 0x37df30 LuaScript::_Rand(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. With more than one argument: min = (int)Value::getNumber(args[0]),
-// max = (int)Value::getNumber(args[1]), then pushInteger(ret, Random::GetRandom(max - min, false) + min).
-// The GetRandom call is the clone at 0x37bc2c, which advances Random::s_seed (the ordinary stream) and counts the
-// ordinary draw, so the synchronized flag is false. The original also calls Arguments::operator[](1) with its
-// result discarded when args[0] is a number (asm: MOV R1,#1, BL operator[]); its effect is not recovered.
-// Missing: the Arguments and Value accessors, ReturnValues::pushInteger.
-void LuaScript::_Rand([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                      [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// With more than one argument: min = (int)args[0], max = (int)args[1], then pushes Random::GetRandom(max - min, false)
+// + min as an integer. The GetRandom call is the ordinary-stream clone at 0x37bc2c, so the synced flag is false. The
+// original also calls Arguments::operator[](1) with its result discarded when args[0] is a number (asm: MOV R1,#1,
+// BL operator[]). That call can only throw when the list is too short, which the count check above excludes, so it
+// has no effect and is not repeated. The integer arithmetic wraps as on the 32-bit target.
+void LuaScript::_Rand(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void*) {
+    if (ArgCount(args) > 1) {
+        const int min = ToInt32(args[0].getNumber());
+        const int max = ToInt32(args[1].getNumber());
+        const int span = static_cast<int>(static_cast<std::uint32_t>(max) - static_cast<std::uint32_t>(min));
+        const std::uint32_t draw = Random::GetRandom(span, false);
+        ret.pushInteger(static_cast<int>(draw + static_cast<std::uint32_t>(min)));
+    }
+}
 
 // 0x37e068 LuaScript::_DivFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. With more than one argument: a = (int)Value::getNumber(args[0]),
-// b = (int)Value::getNumber(args[1]), then pushInteger(ret, a / (b >> 8)). The divide is __aeabi_idiv (asm), not an
-// SDIV instruction, so the divisor-zero result comes from the runtime's __aeabi_idiv0, which is not recovered.
-// Missing: the Arguments and Value accessors, ReturnValues::pushInteger, the zero-divisor result.
-void LuaScript::_DivFixed([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                          [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// PARTIAL. With more than one argument: a = (int)args[0], b = (int)args[1] >> 8, then pushes a / b as an integer. The
+// divide is __aeabi_idiv (asm), not an SDIV instruction, so a zero divisor goes to the runtime's __aeabi_idiv0, whose
+// result is not recovered. For b == 0 nothing is pushed here (the missing result). INT_MIN / -1 wraps as on the target.
+void LuaScript::_DivFixed(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void*) {
+    if (ArgCount(args) > 1) {
+        const int a = ToInt32(args[0].getNumber());
+        const int b = ToInt32(args[1].getNumber()) >> 8;
+        if (b != 0) {
+            ret.pushInteger(static_cast<int>(static_cast<std::int64_t>(a) / b));
+        }
+        // PARTIAL: for b == 0 the __aeabi_idiv0 result is not pushed (not recovered).
+    }
+}
 
 // 0x37e1a4 LuaScript::_MulFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. With more than one argument: a = (int)Value::getNumber(args[0]),
-// b = (int)Value::getNumber(args[1]), then pushInteger(ret, (a * b) >> 8) with a 32-bit product (wrapping) and an
-// arithmetic shift. Missing: the Arguments and Value accessors, ReturnValues::pushInteger.
-void LuaScript::_MulFixed([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                          [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// With more than one argument: a = (int)args[0], b = (int)args[1], then pushes (a * b) >> 8 as an integer. The product
+// is a 32-bit wrapping multiply and the shift is arithmetic.
+void LuaScript::_MulFixed(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void*) {
+    if (ArgCount(args) > 1) {
+        const int a = ToInt32(args[0].getNumber());
+        const int b = ToInt32(args[1].getNumber());
+        const int product = static_cast<int>(static_cast<std::uint32_t>(a) * static_cast<std::uint32_t>(b));
+        ret.pushInteger(product >> 8);
+    }
+}
 
 // 0x37e2d8 LuaScript::_RandF(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. With more than one argument: lo = Value::getNumber(args[0]) (float),
-// hi = Value::getNumber(args[1]) (float), then pushNumber(ret, lo + (float)(int)Random::GetRandom((int)(hi - lo), false)).
-// The GetRandom call is the same ordinary-stream clone as _Rand (0x37bc2c). Missing: the Arguments and Value
-// accessors, ReturnValues::pushNumber.
-void LuaScript::_RandF([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                       [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// With more than one argument: lo = args[0] and hi = args[1] as floats, then pushes lo + (float)(int)GetRandom(
+// (int)(hi - lo), false) as a number. The GetRandom call is the ordinary-stream clone at 0x37bc2c, as in _Rand.
+void LuaScript::_RandF(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void*) {
+    if (ArgCount(args) > 1) {
+        const float lo = args[0].getNumber();
+        const float hi = args[1].getNumber();
+        const int span = ToInt32(hi - lo);
+        const int draw = static_cast<int>(Random::GetRandom(span, false));
+        ret.pushNumber(lo + static_cast<float>(draw));
+    }
+}
 
 // 0x37e420 LuaScript::_PlayMusic(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. id = Arrays::GetMemberIDByString<Arrays::Sounds>(Value::getString(args[0])) (declared in
-// pydata-accessors/member_names.hpp). When id != -1: VoxSoundManager::PlayMusic(s_instance, id, 1, 0,
-// (int)Value::getNumber(args[1])). Then level = Application::GetCurrentLevel(Singleton<Application>::s_inst); when
-// the level is non-null and id == level +0x11c (Level::m_musicSoundId), the music state is set to "ambient" when the
-// VoxSoundManager byte at +0x31 is set and to "combat" otherwise. Missing: the Arguments and Value accessors;
-// VoxSoundManager declarations for s_instance, PlayMusic and SetMusicState, and the byte at +0x31 (layout
-// request); a declaration for Singleton<Application>::s_inst (dword_99F72C), which no header declares yet.
-void LuaScript::_PlayMusic([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                           [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// PARTIAL (redo). Written: the sound id is Arrays::GetMemberIDByString<Arrays::Sounds>(args[0] string), and the
+// binding returns when it is -1. args[1] is read as the number the original passes on (it throws std::out_of_range
+// when there is no second argument, as the original does). The current level comes from
+// Application::GetCurrentLevel, and its music id (Level +0x11c, m_musicSoundId) is compared with the id.
+// Missing: VoxSoundManager::PlayMusic(s_instance, id, 1, 0, volume), and when the ids match, SetMusicState("ambient")
+// or SetMusicState("combat") chosen by the byte at VoxSoundManager +0x31. vox-audio/include/vox-audio/vox/sound_manager.hpp
+// declares only SetIPodShuffle, UpdateIPodAsync and ConvertVisual3DToSound3D, so there is no s_instance, PlayMusic or
+// SetMusicState to call (layout request: VoxSoundManager declarations and the +0x31 byte).
+void LuaScript::_PlayMusic(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                           void* /*self*/) {
+    const int soundId = SoundIdOf(args);
+    if (soundId == -1) {
+        return;
+    }
+    [[maybe_unused]] const int volume = ToInt32(args[1].getNumber());
+    // PARTIAL: VoxSoundManager::PlayMusic(VoxSoundManager::s_instance, soundId, 1, 0, volume) is not written.
+    const Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level != nullptr && soundId == level->m_musicSoundId) {
+        // PARTIAL: VoxSoundManager::SetMusicState("ambient" or "combat") is not written (see above).
+    }
+}
 
 // 0x37e578 LuaScript::_PlaySound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. The original reads args[3] first and throws std::out_of_range (vector) when there are fewer
-// than four. If Value::getBool(args[3]) is set, VoxSoundManager::StopMusic(s_instance, false) runs. Then
-// id = Arrays::GetMemberIDByString<Arrays::Sounds>(Value::getString(args[0])); when id != -1,
-// VoxSoundManager::Play(s_instance, id, Value::getBool(args[1]), (int)Value::getNumber(args[2]), 0, 0).
-// Missing: the Arguments and Value accessors; VoxSoundManager declarations for s_instance, StopMusic and Play.
-void LuaScript::_PlaySound([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                           [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// PARTIAL (redo). Written: args[3] is read first, which throws std::out_of_range when there are fewer than four
+// arguments, as the original does. The sound id is Arrays::GetMemberIDByString<Arrays::Sounds>(args[0] string). When
+// it is not -1, args[1] is read as a bool and args[2] as a number: the two values the original passes to Play.
+// Missing: VoxSoundManager::StopMusic(s_instance, false), which runs when args[3] is true, and
+// VoxSoundManager::Play(s_instance, id, flag, value, 0, 0). The VoxSoundManager declarations are absent (see 0x37e420).
+void LuaScript::_PlaySound(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                           void* /*self*/) {
+    if (args[3].getBool()) {
+        // PARTIAL: VoxSoundManager::StopMusic(VoxSoundManager::s_instance, false) is not written.
+    }
+    const int soundId = SoundIdOf(args);
+    if (soundId == -1) {
+        return;
+    }
+    [[maybe_unused]] const bool flag = args[1].getBool();
+    [[maybe_unused]] const int value = ToInt32(args[2].getNumber());
+    // PARTIAL: VoxSoundManager::Play(VoxSoundManager::s_instance, soundId, flag, value, 0, 0) is not written.
+}
 
 // 0x37e730 LuaScript::_StopSound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. id = Arrays::GetMemberIDByString<Arrays::Sounds>(Value::getString(args[0])); when id != -1,
-// VoxSoundManager::Stop(s_instance, id, (int)Value::getNumber(args[1]), ...). The Hex-Rays prototype passes three
-// more stack arguments to Stop (its a5..a7), which are not recovered. Missing: the Arguments and Value accessors;
-// the VoxSoundManager::Stop declaration and its remaining parameters.
-void LuaScript::_StopSound([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                           [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// PARTIAL (redo). Written: the sound id is Arrays::GetMemberIDByString<Arrays::Sounds>(args[0] string). When it is not
+// -1, args[1] is read as a number, and the original passes its int value on to Stop.
+// Missing: VoxSoundManager::Stop(s_instance, id, value, a5, a6, a7). The Hex-Rays prototype passes three stack arguments
+// that are not recovered, and the VoxSoundManager::Stop declaration is absent (see 0x37e420).
+void LuaScript::_StopSound(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                           void* /*self*/) {
+    const int soundId = SoundIdOf(args);
+    if (soundId == -1) {
+        return;
+    }
+    [[maybe_unused]] const int value = ToInt32(args[1].getNumber());
+    // PARTIAL: VoxSoundManager::Stop(VoxSoundManager::s_instance, soundId, value, ...) is not written.
+}
 
 // 0x37e814 LuaScript::_BitOr(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. Needs two or more arguments. Every argument must be a number (type tag 3); the first
-// non-number argument ends the function without a result. When all are numbers, the result is the OR of
-// (int)Value::getNumber over all of them, pushed with pushInteger. With one argument or none, nothing is pushed.
-// Missing: the Arguments and Value accessors (including the type tag at Value +4), ReturnValues::pushInteger.
-void LuaScript::_BitOr([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                       [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// Needs two or more arguments, all of them numbers (Value::m_type 3). The original leaves its loop at the first
+// non-number, and with fewer than two arguments it never enters the loop, so nothing is pushed in those cases. When
+// every argument is a number, the result is the OR of (int)getNumber over all of them, pushed with pushInteger.
+void LuaScript::_BitOr(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                       void* /*self*/) {
+    const unsigned int count = static_cast<unsigned int>(args.m_values->size());
+    if (count < 2) {
+        return;
+    }
+    for (unsigned int i = 0; i < count; ++i) {
+        if (args[i].m_type != kLuaTypeNumber) {
+            return;
+        }
+    }
+    int result = ToInt32(args[0].getNumber());
+    for (unsigned int i = 1; i < count; ++i) {
+        result |= ToInt32(args[i].getNumber());
+    }
+    ret.pushInteger(result);
+}
 
 // 0x37e9ec LuaScript::_BitAnd(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. Same argument rules as _BitOr (two or more numbers, otherwise no result). The result is the
-// AND of (int)Value::getNumber over all arguments, pushed with pushInteger.
-// Missing: the Arguments and Value accessors, ReturnValues::pushInteger.
-void LuaScript::_BitAnd([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                        [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// Same argument rules as _BitOr (two or more arguments, all numbers, otherwise nothing is pushed). The result is the
+// AND of (int)getNumber over all of them, pushed with pushInteger.
+void LuaScript::_BitAnd(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                        void* /*self*/) {
+    const unsigned int count = static_cast<unsigned int>(args.m_values->size());
+    if (count < 2) {
+        return;
+    }
+    for (unsigned int i = 0; i < count; ++i) {
+        if (args[i].m_type != kLuaTypeNumber) {
+            return;
+        }
+    }
+    int result = ToInt32(args[0].getNumber());
+    for (unsigned int i = 1; i < count; ++i) {
+        result &= ToInt32(args[i].getNumber());
+    }
+    ret.pushInteger(result);
+}
 
 // 0x37ebc4 LuaScript::_ToFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. With at least one argument: pushInteger(ret, (int)Value::getNumber(args[0]) << 8).
-// Missing: the Arguments and Value accessors, ReturnValues::pushInteger.
-void LuaScript::_ToFixed([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                         [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// With one or more arguments, pushes (int)getNumber(args[0]) << 8. The shift is done on the unsigned value, which gives
+// the wrapping result the ARM code produces (a left shift of a negative int is undefined in C++17).
+void LuaScript::_ToFixed(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                         void* /*self*/) {
+    if (args.m_values->empty()) {
+        return;
+    }
+    const int value = ToInt32(args[0].getNumber());
+    ret.pushInteger(static_cast<int>(static_cast<unsigned int>(value) << 8));
+}
 
 // 0x37ec14 LuaScript::_GetInt(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. With at least one argument: pushInteger(ret, LuaScript::GetInt(self, Value::getString(args[0]))).
-// The member GetInt above is reconstructed. Missing: the Arguments and Value accessors, ReturnValues::pushInteger.
-void LuaScript::_GetInt([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                        [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// With one or more arguments, pushes the script-side integer named by args[0]: LuaScript::GetInt on the self object
+// (the member is reconstructed above). Nothing is pushed without an argument.
+void LuaScript::_GetInt(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* self) {
+    if (args.m_values->empty()) {
+        return;
+    }
+    const LuaScript* script = static_cast<const LuaScript*>(self);
+    ret.pushInteger(script->GetInt(args[0].getString()));
+}
 
 // 0x37ec70 LuaScript::_AddToVFTable(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Not written. Needs two arguments of string type (tag 4 at Value +4 for args[0] and args[1]); otherwise it
-// returns. key = glitch::core::hashString(Value::getString(args[0])). When self->m_vfTableCollecting is set and key is
-// not in m_vfTableSaved, the current value is saved first: m_vfTableSaved[key] = m_vfTable[key] (operator[] inserts an
-// empty string when the key is absent). Then m_vfTable[key] = Value::getString(args[1]). _PopVFTable above undoes the
-// saved entries. Missing: the Arguments and Value accessors (Arguments::operator[], Value::getString, the type tag).
-void LuaScript::_AddToVFTable([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                              [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* self) {}
+// Needs two arguments, both strings (Value::m_type 4), otherwise it returns. key = glitch::core::hashString(args[0]).
+// When m_vfTableCollecting is set and the key is not yet in m_vfTableSaved, the current override is saved first:
+// m_vfTableSaved[key] = m_vfTable[key] (operator[] inserts an empty string for an absent key). Then
+// m_vfTable[key] = args[1]. _PopVFTable above restores the saved entries.
+void LuaScript::_AddToVFTable(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                              void* self) {
+    if (args.m_values->size() <= 1 || args[0].m_type != kLuaTypeString || args[1].m_type != kLuaTypeString) {
+        return;
+    }
+    LuaScript* script = static_cast<LuaScript*>(self);
+    const unsigned int key = glitch::core::hashString(args[0].getString());
+    if (script->m_vfTableCollecting && script->m_vfTableSaved.find(key) == script->m_vfTableSaved.end()) {
+        script->m_vfTableSaved[key] = script->m_vfTable[key];
+    }
+    script->m_vfTable[key] = args[1].getString();
+}

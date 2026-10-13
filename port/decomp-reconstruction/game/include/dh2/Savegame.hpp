@@ -32,17 +32,19 @@ public:
     // A queued file operation. Original 32-bit size 0x20 (32); the list node adds two links (node size 40).
     class Job {
     public:
-        Job(const Job& other);                                          // 0x3145e0 (C1)
+        // Default: the static s_currentJob starts zeroed (.bss). The original has no constructor symbol for it.
+        Job() = default;
+        Job(const Job& other);                                          // 0x3145e0 (C1): empty name, then copy(other)
         ~Job();                                                         // 0x313c90 (D1)
         void finish();                                                  // 0x313720: deletes the stream when owned, then clears the job
         // 0x313cdc: releases the job's own stream when owned, then takes other's stream, name, kind and owned flag.
-        // The original clears other's owned flag, so the stream moves to the copy.
+        // The original clears other's owned flag, so the stream moves to the copy. That is why m_ownsStream is mutable.
         void copy(const Job& other);
 
-        IStreamBase* m_stream;                                          // +0x00 file stream; deleted through its virtual dtor when m_ownsStream is set
+        IStreamBase* m_stream = nullptr;                                // +0x00 file stream; deleted through its virtual dtor when m_ownsStream is set
         std::string m_filename;                                         // +0x04 file name (24 bytes, compared by AddJob)
-        uint8_t unk_1c;                                                 // +0x1c job kind: AddJob drops a queued job with the same name and kind
-        bool m_ownsStream;                                              // +0x1d the job deletes m_stream when it is released
+        uint8_t m_kind = 0;                                             // +0x1c job kind: 0 writes the slot file, nonzero backs it up; AddJob drops a queued job with the same name and kind
+        mutable bool m_ownsStream = false;                              // +0x1d the job deletes m_stream when it is released; copies move it from the source
         uint8_t pad_1e[2];                                              // +0x1e
     };
 

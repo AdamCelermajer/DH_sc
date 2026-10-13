@@ -3,6 +3,7 @@
 // stores the 224 words at +0x4 .. +0x380. For the same stream, a forwarder must leave every
 // word the same as the base does.
 #include "pydata-accessors/structs_records.hpp"
+#include "read_bytes_stream.hpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -13,7 +14,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 // Hands out a fixed byte sequence to StreamReader::readAs and reports how far it was read.
-class ByteStream : public IStreamBase {
+class ByteStream : public ReadBytesStream {
 public:
     ByteStream(const unsigned char* data, std::size_t n) : data_(data), n_(n) {}
     bool ReadBytes(void* dst, std::size_t n) override {

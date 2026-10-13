@@ -7,16 +7,14 @@
 // kept (TraceScriptCmd): DebugSwitches::GetInstance() loads the switch file on first use, and GetSwitch stores a
 // missing key as false, so the lookup has side effects.
 //
-// PARTIAL, for a shared reason. A command's argument record (ScriptCmdImpl::m_args) is a polymorphic object whose
-// class is not declared anywhere in the tree. Its fields (the cue id, the slot, the duration, the character name)
-// are only known by their offsets in the listing, and reading them would need pointer arithmetic on raw offsets.
-// The layout request is in the ledger notes. Each partial body keeps the parts that do not depend on the record.
-//   - Script_StopSound::Execute also needs VoxSoundManager::s_instance, Stop and StopMusic. The vox-audio header
-//     declares none of them.
-//   - Script_UnEquipHands, Script_UnEquipItemFromSlot and Script_UnlockCharacter resolve their character by name
-//     through ObjectManager::GetObjectByName on the ObjectManager global dword_99F764, which has no accessor in the
-//     tree. The character-side work is in the [[maybe_unused]] helpers below, ready for the lookup.
-//   - Script_Wait::Execute does not copy the duration (record +0x08) into m_duration.
+// The command data is the Structs::<Name> record of pydata-accessors/script_cmd.hpp, which ScriptCmdImpl::m_args points
+// to. The record fields are read by their 4-byte word index (m_wN at offset 4*N, as in g1-game-app-pack7).
+// The ObjectManager global dword_99F764 is Application +0x38 (dh2/global/Globals.hpp), read as
+// ApplicationGetInstance().m_objectManager.
+//
+// PARTIAL where a dependency is still missing:
+//   - Script_StopSound::Execute needs VoxSoundManager::s_instance, Stop and StopMusic. The vox-audio header
+//     declares none of them (a header this batch does not own). The record is read, the calls are missing.
 //   - Script_WaitCamera::IsBlocking needs the byte at +0x84 of the level's camera (CameraLevel, no header in the tree).
 //   - Script_WaitDialog::IsBlocking needs Level::hasActiveDialog. dh2/Level.hpp cannot be included in the same
 //     translation unit as dh2/Character.hpp, which this file needs for the TestChar* predicates: both headers define a
@@ -37,12 +35,17 @@
 #include "dh2/TestCharPropId.hpp"
 #include "dh2/TestCharTemplate.hpp"
 
+#include <cstring>
 #include <string>
+
+#include "pydata-accessors/script_cmd.hpp"
 
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/ScriptCmdImpl.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
@@ -55,10 +58,15 @@ void TraceScriptCmd() {
     (void)DebugSwitches::GetInstance()->GetSwitch(std::string("isTracingScriptCmd"));
 }
 
+// The ObjectManager global dword_99F764 (Application +0x38), used by the name lookups of these commands.
+ObjectManager* ObjectManagerOf() {
+    return ApplicationGetInstance().m_objectManager;
+}
+
 // The equipment part of Script_UnEquipHands::Execute (0x45ded0), for a resolved character. It stores the item index
 // of the item in hand 1 at +0x14f4 and of the item in hand 2 at +0x14f8, then unequips slots 1 and 2 through the
 // Character virtual UnEquipItemFromSlot (vtable byte +0x144). The inventory is the ItemInventory base at +0x37c.
-[[maybe_unused]] void UnEquipBothHands(Character& character) {
+void UnEquipBothHands(Character& character) {
     ItemInstance* hand1 = character.ItemInventory::GetEquippedItem(1);
     character.unk_14f4 = character.ItemInventory::GetItemIndex(hand1);
     ItemInstance* hand2 = character.ItemInventory::GetEquippedItem(2);
@@ -69,12 +77,12 @@ void TraceScriptCmd() {
 
 // The per-character part of Script_UnlockCharacter::Execute (0x45dc80): clears the flag at +0x08 of the character's
 // controller. The controller is the v2Controllable::m_controller at +0x378 of the character.
-[[maybe_unused]] void UnlockCharacterController(Character& character) {
+void UnlockCharacterController(Character& character) {
     character.v2Controllable::m_controller->m_blocked = false;
 }
 
 // The "All" branch of Script_UnlockCharacter::Execute: clears the global controller block.
-[[maybe_unused]] void UnlockAllControllers() {
+void UnlockAllControllers() {
     v2Controller::s_blocked = false;
 }
 
@@ -86,14 +94,17 @@ bool Script_StopSound::IsBlocking() const {
 }
 
 // 0x45fe2c Script_StopSound::Execute(bool, int)
-// PARTIAL. Only the isTracingScriptCmd read is rebuilt. Missing: the record's cue id (+0x08, int), the flag at +0x0c
-// (nonzero selects VoxSoundManager::StopMusic(cue)), and the second argument at +0x10 for VoxSoundManager::Stop(
-// s_instance, +0x10, cue) on the sound path. VoxSoundManager::s_instance, Stop and StopMusic are not declared in
-// vox-audio/include/vox-audio/vox/sound_manager.hpp.
+// PARTIAL. The trace and the record are read: the cue id (m_w2, +0x08), the music flag (m_w3, +0x0c) and the second
+// argument (m_w4, +0x10). The original calls VoxSoundManager::StopMusic(s_instance, cue) when the flag is set, and
+// VoxSoundManager::Stop(s_instance, +0x10, cue) otherwise. VoxSoundManager::s_instance, Stop and StopMusic are not
+// declared in vox-audio/include/vox-audio/vox/sound_manager.hpp, so both calls are missing here.
 void Script_StopSound::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
+    const Structs::StopSound* record = static_cast<const Structs::StopSound*>(m_args);
     TraceScriptCmd();
+    // Missing: record->m_w3 ? StopMusic(s_instance, record->m_w2) : Stop(s_instance, record->m_w4, record->m_w2).
+    (void)record;
 }
 
 // 0x455800 Script_UnEquipHands::IsBlocking() const
@@ -102,14 +113,19 @@ bool Script_UnEquipHands::IsBlocking() const {
 }
 
 // 0x45ded0 Script_UnEquipHands::Execute(bool, int)
-// PARTIAL. Only the isTracingScriptCmd read is rebuilt. Missing: the character name (record +0x0c, const char*) and the
-// lookup ObjectManager::GetObjectByName(name, module, false, nullptr) on the ObjectManager global dword_99F764, which
-// has no accessor in the tree. When the handle resolves to a Character, the original calls UnEquipBothHands on it
-// (see the helper above).
+// The record name (m_w3, +0x0c) is looked up with ObjectManager::GetObjectByName(name, module, false, nullptr). When the
+// handle resolves to a Character, UnEquipBothHands runs on it.
 void Script_UnEquipHands::Execute(bool skipping, int module) {
     (void)skipping;
-    (void)module;
+    const Structs::UnEquipHands* record = static_cast<const Structs::UnEquipHands*>(m_args);
     TraceScriptCmd();
+    ObjectHandle handle = ObjectManagerOf()->GetObjectByName(record->m_w3, module, false, nullptr);
+    if (handle.GetObject(false) != nullptr) {
+        Character* character = static_cast<Character*>(handle);
+        if (character != nullptr) {
+            UnEquipBothHands(*character);
+        }
+    }
 }
 
 // 0x4557f8 Script_UnEquipItemFromSlot::IsBlocking() const
@@ -118,14 +134,20 @@ bool Script_UnEquipItemFromSlot::IsBlocking() const {
 }
 
 // 0x45da8c Script_UnEquipItemFromSlot::Execute(bool, int)
-// PARTIAL. Only the isTracingScriptCmd read is rebuilt. Missing: the slot (record +0x08, int) and the character name
-// (record +0x10, const char*), and the lookup ObjectManager::GetObjectByName(name, module, false, nullptr) on the
-// ObjectManager global dword_99F764. When the handle resolves to a Character, the original calls its virtual
-// UnEquipItemFromSlot(slot) (vtable byte +0x144, Character::UnEquipItemFromSlot).
+// The record name (m_w4, +0x10) is looked up with ObjectManager::GetObjectByName(name, module, false, nullptr). When the
+// handle resolves to a Character, its virtual UnEquipItemFromSlot runs with the record slot (m_w2, +0x08), vtable byte
+// +0x144.
 void Script_UnEquipItemFromSlot::Execute(bool skipping, int module) {
     (void)skipping;
-    (void)module;
+    const Structs::UnEquipItemFromSlot* record = static_cast<const Structs::UnEquipItemFromSlot*>(m_args);
     TraceScriptCmd();
+    ObjectHandle handle = ObjectManagerOf()->GetObjectByName(record->m_w4, module, false, nullptr);
+    if (handle.GetObject(false) != nullptr) {
+        Character* character = static_cast<Character*>(handle);
+        if (character != nullptr) {
+            character->UnEquipItemFromSlot(static_cast<unsigned int>(record->m_w2));
+        }
+    }
 }
 
 // 0x45574c Script_UnlockCharacter::IsBlocking() const
@@ -134,14 +156,25 @@ bool Script_UnlockCharacter::IsBlocking() const {
 }
 
 // 0x45dc80 Script_UnlockCharacter::Execute(bool, int)
-// PARTIAL. Only the isTracingScriptCmd read is rebuilt. Missing: the character name (record +0x0c, const char*), which
-// selects the branch: "All" clears v2Controller::s_blocked (UnlockAllControllers), any other name is looked up through
-// ObjectManager::GetObjectByName on the ObjectManager global dword_99F764, and a resolved Character has its controller
-// flag cleared (UnlockCharacterController).
+// The record name (m_w3, +0x0c) selects the branch. LC_API_STRCMP_0 is strcmp, so the name "All" (case-sensitive) clears
+// v2Controller::s_blocked (UnlockAllControllers). Any other name is looked up with ObjectManager::GetObjectByName, and a
+// resolved Character has its controller flag cleared (UnlockCharacterController).
 void Script_UnlockCharacter::Execute(bool skipping, int module) {
     (void)skipping;
-    (void)module;
+    const Structs::UnlockCharacter* record = static_cast<const Structs::UnlockCharacter*>(m_args);
     TraceScriptCmd();
+    const char* name = record->m_w3;
+    if (std::strcmp(name, "All") != 0) {
+        ObjectHandle handle = ObjectManagerOf()->GetObjectByName(name, module, false, nullptr);
+        if (handle.GetObject(false) != nullptr) {
+            Character* character = static_cast<Character*>(handle);
+            if (character != nullptr) {
+                UnlockCharacterController(*character);
+            }
+        }
+    } else {
+        UnlockAllControllers();
+    }
 }
 
 // 0x455754 Script_Wait::IsBlocking() const
@@ -156,13 +189,15 @@ void Script_Wait::Update() {
 }
 
 // 0x45c438 Script_Wait::Execute(bool, int)
-// PARTIAL. The elapsed counter is reset and the trace is read. Missing: m_duration is copied from the record's int at
-// +0x08 (record type not declared), so m_duration keeps its previous value here.
+// The record is read first (as the original loads m_args before the trace). The elapsed counter is reset, and the
+// duration (Structs::Wait m_w2, the int at +0x08) is copied into m_duration.
 void Script_Wait::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
+    const Structs::Wait* record = static_cast<const Structs::Wait*>(m_args);
     TraceScriptCmd();
     m_elapsed = 0;
+    m_duration = record->m_w2;
 }
 
 // 0x45932c Script_WaitCamera::IsBlocking() const

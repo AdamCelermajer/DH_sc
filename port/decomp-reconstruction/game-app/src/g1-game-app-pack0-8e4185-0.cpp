@@ -14,19 +14,26 @@
 #include <cstring>
 #include <ctime>
 
-#include "core-platform/memory.hpp"            // CustomFree, gAssertLevel
 #include "dh2/ByteArray.hpp"
 #include "dh2/DebugCachedCharacter.hpp"
 #include "dh2/Gamepad.hpp"
 #include "dh2/GamepadTweaker.hpp"
 #include "dh2/IDataReloader.hpp"
 #include "dh2/Point3D.hpp"
-#include "dh2/global/runtime_support.hpp"     // operator new[](std::size_t, MemoryHintState)
-#include "dh2/global/Vec3f_Origin.hpp"        // Point3D<float> Vec3f_Origin (0x99f854)
 
-namespace glitch {
-class IDevice;
-}  // namespace glitch
+// Declarations from core-platform/memory.hpp (CustomFree, gAssertLevel, MemoryHintState and the tagged operator
+// new[]). That header is not included here: its glitch core types clash with the glitch-shared types that
+// CTweakable.hpp brings in, so the four declarations are repeated with the same signatures and names.
+enum MemoryHintState : int {
+    MHS_UNRECOVERED = 0,
+};
+extern int gAssertLevel;
+void CustomFree(void* p);
+void* operator new[](std::size_t size, MemoryHintState hint);   // 0x31056c, defined in game-app's global unit
+
+// Point3D<float> Vec3f_Origin (0x99f854). Declared here, not through dh2/global/Vec3f_Origin.hpp, because that header
+// includes core-platform/deps/game_types.hpp, whose Point3D clashes with dh2/Point3D.hpp.
+extern Point3D<float> Vec3f_Origin;
 
 // Globals owned by other units. The definitions are in the platform layer and the device setup.
 extern const char* RES_PATH;                  // STT_OBJECT, 4 bytes, .data: a pointer to the resource root
@@ -184,7 +191,7 @@ namespace {
 
 // The proxy word at +0x28 names a live character when it is set and its weak_proxy is alive.
 bool WeakCacheAlive(const DebugCachedCharacter& cache) {
-    const gameswf::weak_proxy* proxy = cache.m_characterProxy.get_proxy();
+    const weak_proxy* proxy = cache.m_characterProxy.get_proxy();
     return proxy != nullptr && proxy->is_alive();
 }
 

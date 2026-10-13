@@ -15,8 +15,13 @@
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance()
 #include "dh2/Application.hpp"
 #include "dh2/GSKeyboard.hpp"
+#include "dh2/HUDMinimap.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/MenuCharMenu_Map.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/OnScreenKeyboard.hpp"
+#include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/ScriptManager.hpp"
@@ -110,35 +115,35 @@ void NativeShowMinimapLegend(const gameswf::fn_call& call) {
 }
 
 // 0x43aa84 NativeResetMapZoom(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original calls MenuCharMenu_Map::ResetZoom() on MenuCharMenu_Map::GetInstance(). Waits on
-// dh2/MenuCharMenu_Map.hpp, which does not exist yet.
-void NativeResetMapZoom(const gameswf::fn_call& call) {
-    (void)call;
+// Reconstructed. MenuCharMenu_Map::ResetZoom() on MenuCharMenu_Map::GetInstance(), a static getter that takes no
+// argument (the Hex-Rays argument is the leftover r0).
+void NativeResetMapZoom(const gameswf::fn_call& /*call*/) {
+    MenuCharMenu_Map::GetInstance()->ResetZoom();
 }
 
 // 0x43aa94 NativeHideMinimap(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original calls HUDMinimap::GetInstance() (static), then the virtual at vtable +0x10, which
-// tools/decomp_vtable.py names HUDMinimap::Hide(). Waits on dh2/HUDMinimap.hpp, which does not exist yet.
-void NativeHideMinimap(const gameswf::fn_call& call) {
-    (void)call;
+// Reconstructed. HUDMinimap::GetInstance() (static), then the virtual Hide() (vtable +0x10, dh2/HUDMinimap.hpp).
+void NativeHideMinimap(const gameswf::fn_call& /*call*/) {
+    HUDMinimap::GetInstance()->Hide();
 }
 
 // 0x43aaac NativeShowMinimap(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original calls HUDMinimap::GetInstance() (static), then the virtual at vtable +0x0c, which
-// tools/decomp_vtable.py names HUDMinimap::Show(). Waits on dh2/HUDMinimap.hpp, which does not exist yet.
-void NativeShowMinimap(const gameswf::fn_call& call) {
-    (void)call;
+// Reconstructed. HUDMinimap::GetInstance() (static), then the virtual Show() (vtable +0x0c, dh2/HUDMinimap.hpp).
+void NativeShowMinimap(const gameswf::fn_call& /*call*/) {
+    HUDMinimap::GetInstance()->Show();
 }
 
 // 0x43aac4 AssignSaveSlotToPlayer(int,int)
-// PARTIAL: the original stores slot in SavegameManager::m_lastSlot (+0x08, dword_99F778), gets the local player with
-// PlayerManager::GetLocalPlayer(localPlayerId, false) (dword_99F76C), then stores slot in the record at result[1].unknown_000.
-// Both stores are missing: m_lastSlot is private in dh2/SavegameManager.hpp with no setter, and the layout of the record
-// (Hex-Rays DH2_PlayerInfoCharacterPrefix, element 1 after the returned player) is not recovered.
-// The return type is PlayerInfo*, as GetLocalPlayer returns it.
+// Reconstructed (asm 0x43aac4 checked). Stores slot in SavegameManager::m_lastSlot (+0x08 of the SavegameManager at
+// Application +0x4c), gets the local player with PlayerManager::GetLocalPlayer(localPlayerId, false) (Application +0x40),
+// then stores slot in that player's PlayerInfo +0x664 (unk_664; asm "STR R4, [R0,#0x664]"). The Hex-Rays element
+// DH2_PlayerInfoCharacterPrefix[1].unknown_000 is this same word. The return is the player, as GetLocalPlayer returns it.
 PlayerInfo* AssignSaveSlotToPlayer(int slot, int localPlayerId) {
-    (void)slot;
-    return ApplicationGetInstance().m_playerManager->GetLocalPlayer(localPlayerId, false);
+    Application& app = ApplicationGetInstance();
+    app.m_savegameManager->m_lastSlot = slot;
+    PlayerInfo* player = app.m_playerManager->GetLocalPlayer(localPlayerId, false);
+    player->unk_664 = slot;
+    return player;
 }
 
 // 0x43ab00 NativeEndLoading(gameswf::fn_call const&)
@@ -160,24 +165,25 @@ void NativeSetLevelPause(const gameswf::fn_call& call) {
 }
 
 // 0x43ab98 NativeAwayFromHud(gameswf::fn_call const&)
-// PARTIAL: when a current level exists, its in-game view flag (Level +0x198, m_isInGameView) is cleared and the zoom
-// finger map is reset. The original then returns MultiMenuManager::ResetUpdateCursor(MenuManager::m_multiMenuManager,
-// +0xf4 of dword_99F780). dh2/MultiMenuManager.hpp does not exist yet, so that call is missing.
+// Reconstructed (asm 0x43ab98 checked: the last call is a tail call). When a current level exists, its in-game view
+// flag (Level +0x198, m_isInGameView) is cleared, the zoom finger map is reset (Application +0x50), and
+// MultiMenuManager::ResetUpdateCursor() runs on the MenuManager's MultiMenuManager (MenuManager +0xf4). The level comes
+// from Application::GetCurrentLevel(), which has its own row.
 void NativeAwayFromHud(const gameswf::fn_call& /*call*/) {
     Application& app = ApplicationGetInstance();
     Level* level = app.GetCurrentLevel();
     if (level != nullptr) {
         level->m_isInGameView = false;
         app.m_zoomHandler->ResetFingerMap();
-        // Missing: MultiMenuManager::ResetUpdateCursor(app.m_menuManager->m_multiMenuManager).
+        app.m_menuManager->m_multiMenuManager->ResetUpdateCursor();
     }
 }
 
 // 0x43abe8 NativeDebugConsole(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original calls the virtual at vtable +0x38 on MenuManager::m_multiMenuManager (+0xf4) with
-// argument 0, takes the result as a GSConsole*, and calls GSConsole::Toggle(). tools/decomp_vtable.py names +0x38
-// MultiMenuManager::PopMenu(bool), which does not fit a GSConsole* result, so the slot is not confirmed. Waits on
-// dh2/MultiMenuManager.hpp.
+// PARTIAL: stub, no body. Asm 0x43abe8 (checked): it calls the virtual at vtable +0x38 of MenuManager::m_multiMenuManager
+// (+0xf4) with (this, 0), and passes the call's r0 as the this pointer of GSConsole::Toggle(). The slot is named
+// MultiMenuManager::PopMenu(bool) in dh2/MultiMenuManager.hpp, which returns void, so the GSConsole* result is not
+// confirmed. Missing: the real return type of that slot, or a second method that returns the console.
 void NativeDebugConsole(const gameswf::fn_call& call) {
     (void)call;
 }

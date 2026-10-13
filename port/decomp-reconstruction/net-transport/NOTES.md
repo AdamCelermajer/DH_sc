@@ -347,3 +347,11 @@ removed, because the templates are abstract.
   +0x130; manager +0x170). `net_player_manager_deps.hpp` keeps only the COnline stand-in. Still open: the two CEventQueueBase
   subobjects of the manager (+0x04, +0x180) that CNetPlayerInfo::Update posts to, AddPlayer, GetPlayerName, the constructor,
   Update(int) and ProcessEvents; CBluetoothNetRoomInfo can now use the real NetStruct base (not done here).
+
+## Track B game/engine type unification (u2-gametypes)
+
+- `StreamBuffer` and `IStreamBase` are defined once, in `game/include/dh2/StreamBuffer.hpp` and
+  `game/include/dh2/IStreamBase.hpp`. `include/net-transport/stream_buffer.hpp` and `deps/i_stream_base.hpp` only
+  include them. The member functions stay in `src/stream_buffer.cpp`.
+- The stand-in declared `size(int)` as a pure slot of `IStreamBase`. The vtables show it is a slot `StreamBuffer`
+  adds at +0x34 (`_ZTV11IStreamBase` is 60 bytes, `_ZTV12StreamBuffer` 64). The members are public (Track B decision 9).

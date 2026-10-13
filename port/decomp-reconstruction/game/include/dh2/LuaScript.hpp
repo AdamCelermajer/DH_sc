@@ -2,9 +2,8 @@
 // Original size 0x98 (operator new(152)); Level embeds one at +0x44 (m_script), LuaManager owns the others.
 // Vtable: slots +0x00/+0x04 are the destructors, nothing else is virtual.
 // The sfc::script::lua::Instance (+0x04, 12 bytes) and sfc::script::lua::Binder (+0x10, 12 bytes: vptr,
-// Instance*, 0) are vendored script-library types without a header in this tree yet; they are held as
-// opaque storage with the original size until their headers exist (Binder is constructed with the
-// Instance pointer at +0x14 and the call-site passes &m_instance / &m_binder).
+// Instance*, lua_State*) are the script-library types of dh2/sfc/script/lua. Binder's Instance pointer is set
+// to &m_instance in the constructor.
 // STLport maps/sets below are 24 bytes each in the original (color byte, parent, left, right, node count, pad).
 #pragma once
 
@@ -12,6 +11,9 @@
 #include <map>
 #include <set>
 #include <string>
+
+#include "dh2/sfc/script/lua/Binder.hpp"
+#include "dh2/sfc/script/lua/Instance.hpp"
 
 namespace sfc { namespace script { namespace lua {
 class Arguments;
@@ -77,8 +79,8 @@ public:
 
     // ---- members (original 32-bit offsets) ----
     // +0x00 vptr
-    alignas(void*) uint8_t m_instance[12];             // +0x04 sfc::script::lua::Instance (includeBase/Math/Table/String called in BindFunction)
-    alignas(void*) uint8_t m_binder[12];               // +0x10 sfc::script::lua::Binder (vptr off_95b140, Instance* = &m_instance, 0)
+    sfc::script::lua::Instance m_instance;             // +0x04 the Lua state (includeBase/Math/Table/String called in BindFunction); its dtor closes the state
+    sfc::script::lua::Binder m_binder;                 // +0x10 publishes the callbacks (Instance* = &m_instance, m_state zero)
     mutable std::map<uint32_t, int> m_ints;            // +0x1c name hash -> value (GetInt/SetInt); original map is 24 bytes; mutable because const GetInt inserts absent names
     std::map<uint32_t, std::string> m_vfTable;         // +0x34 function name hash -> overriding name (IsInVFTable, _GetFuncName)
     std::map<uint32_t, std::string> m_vfTableSaved;    // +0x4c entries of m_vfTable replaced while collecting; _PopVFTable restores them

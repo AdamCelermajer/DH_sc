@@ -8,6 +8,7 @@
 #include <cstdint>
 
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "pydata-accessors/name_table.hpp"
 #include "pydata-accessors/script_cmd.hpp"
 
 namespace Structs {
@@ -23,6 +24,8 @@ public:
 
 class AIProps {
 public:
+    static constexpr int kCount = 15;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~AIProps();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -84,6 +87,8 @@ public:
 
 class CharacterProperties {
 public:
+    static constexpr int kCount = 224;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~CharacterProperties();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -360,6 +365,8 @@ public:
 
 class CamAnimSet {
 public:
+    static constexpr int kCount = 5;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~CamAnimSet();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -373,6 +380,8 @@ public:
 
 class CharAnim {
 public:
+    static constexpr int kCount = 37;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~CharAnim();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -419,6 +428,8 @@ public:
 
 class CharEffect {
 public:
+    static constexpr int kCount = 5;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~CharEffect();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -604,6 +615,8 @@ public:
 
 class DesignSettings {
 public:
+    static constexpr int kCount = 43;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~DesignSettings();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -679,6 +692,8 @@ public:
 
 class Faery {
 public:
+    static constexpr int kCount = 7;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Faery();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -694,6 +709,8 @@ public:
 
 class FaeryList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~FaeryList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -703,6 +720,8 @@ public:
 
 class FastTravelDestination {
 public:
+    static constexpr int kCount = 5;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~FastTravelDestination();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -723,6 +742,8 @@ public:
 
 class FontColorDef {
 public:
+    static constexpr int kCount = 2;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~FontColorDef();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -739,6 +760,8 @@ public:
 
 class GameDifficulty {
 public:
+    static constexpr int kCount = 5;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~GameDifficulty();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -751,6 +774,8 @@ public:
 
 class GameObjectDamage {
 public:
+    static constexpr int kCount = 5;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~GameObjectDamage();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -777,6 +802,8 @@ public:
 
 class GameOption {
 public:
+    static constexpr int kCount = 7;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~GameOption();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -847,6 +874,8 @@ public:
 
 class HelpPage {
 public:
+    static constexpr int kCount = 2;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~HelpPage();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -856,6 +885,8 @@ public:
 
 class HintPage {
 public:
+    static constexpr int kCount = 2;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~HintPage();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -872,6 +903,8 @@ public:
 
 class Inventory {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Inventory();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -929,6 +962,8 @@ public:
 
 class LevelDeclaration {
 public:
+    static constexpr int kCount = 15;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~LevelDeclaration();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -953,6 +988,8 @@ public:
 
 class LiftableObject {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~LiftableObject();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -961,6 +998,8 @@ public:
 
 class Listener {
 public:
+    static constexpr int kCount = 6;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Listener();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1090,6 +1129,8 @@ public:
 
 class Projectile {
 public:
+    static constexpr int kCount = 20;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Projectile();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1117,6 +1158,8 @@ public:
 
 class Rect {
 public:
+    static constexpr int kCount = 4;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Rect();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1173,6 +1216,8 @@ public:
 
 class Skill {
 public:
+    static constexpr int kCount = 15;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Skill();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1198,6 +1243,8 @@ public:
 
 class SkillList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~SkillList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1228,6 +1275,8 @@ public:
 
 class SoundAutoGen {
 public:
+    static constexpr int kCount = 2;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~SoundAutoGen();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1237,6 +1286,8 @@ public:
 
 class SoundBank {
 public:
+    static constexpr int kCount = 2;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~SoundBank();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1296,6 +1347,8 @@ public:
 
 class TriggerPlate {
 public:
+    static constexpr int kCount = 7;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~TriggerPlate();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1324,6 +1377,8 @@ public:
 
 class Trophy {
 public:
+    static constexpr int kCount = 7;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Trophy();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1359,6 +1414,8 @@ public:
 
 class WldMapLocation {
 public:
+    static constexpr int kCount = 3;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~WldMapLocation();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -1370,6 +1427,8 @@ public:
 
 class WorldMapLocker {
 public:
+    static constexpr int kCount = 2;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~WorldMapLocker();
     virtual void finalize();
     virtual void read(IStreamBase* stream);

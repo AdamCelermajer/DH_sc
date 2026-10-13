@@ -9,7 +9,8 @@
 //     argument in the assembly. The pseudocode passes the native's fn_call pointer through r0 by accident.
 //     MenuManager::GetHUDRoot() is a member call on the instance.
 //   - Application::IsOnlineGame() (0x320668) is *(GetOnline() + 5), the byte that the natives read as GetOnline()+5.
-//   - gameswf::as_value::set_bool is not in the tree, so every native that sets its result is PARTIAL.
+//   - gameswf::as_value::set_bool is declared in vendor-gameswf, but the full fn_call (gameswf_environment.h) does not
+//     build in the tree, so every native that sets its result through fn_call is PARTIAL.
 //   - The natives return void (see dh2/global/native_app.hpp).
 //   - The globals SHARP_DEVICES, HTC_DEVICES, NO_IGP and JAPANESE_BUILD are declared extern here. Their definitions
 //     belong to the globals batch.
@@ -24,7 +25,9 @@
 #include "dh2/DialogMsg.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuFX.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/ZoomHandler.hpp"
 #include "dh2/global/app_helpers.hpp"
@@ -90,29 +93,27 @@ void NativeLaunchIGP(const gameswf::fn_call& call) {
 }
 
 // 0x439c68 NativeSetLockZoom(bool)
-// PARTIAL: the original stores the flag as one byte at +0x86 of the bound camera. The camera is ZoomHandler::m_camera
-// (+0x20) of Singleton<Application>::s_inst.m_zoomHandler (+0x50, the global dword_99f77c). The store is missing
-// because CameraLevel has no declaration in the tree (dh2/CameraLevel.hpp is absent). Layout request:
-// "CameraLevel +0x86 byte, the zoom lock flag written by NativeSetLockZoom".
+// Stores the flag as one byte at +0x86 of the bound camera (CameraLevel::m_zoomLocked; asm STRBNE R0,[R3,#0x86]). The
+// camera is ZoomHandler::m_camera (+0x20) of Singleton<Application>::s_inst.m_zoomHandler (+0x50, the global
+// dword_99f77c). The original stores only when the camera is non-null. It reads the zoom handler without a test; the
+// port also guards that read (the original would fault on a null zoom handler).
 void NativeSetLockZoom(bool locked) {
     ZoomHandler* zoomHandler = ApplicationGetInstance().m_zoomHandler;
     CameraLevel* camera = zoomHandler != nullptr ? zoomHandler->m_camera : nullptr;
     if (camera != nullptr) {
-        // Missing: *(camera + 0x86) = locked, see above.
+        camera->m_zoomLocked = locked;
     }
-    (void)camera;
-    (void)locked;
 }
 
 // 0x439c94 NativeUnlockZoom(gameswf::fn_call const&)
-// PARTIAL: forwards to NativeSetLockZoom(false) (asm: MOV R0,#0; B NativeSetLockZoom). The target is partial.
+// Forwards to NativeSetLockZoom(false) (asm: MOV R0,#0; B NativeSetLockZoom). Reconstructed.
 void NativeUnlockZoom(const gameswf::fn_call& call) {
     (void)call;
     NativeSetLockZoom(false);
 }
 
 // 0x439c9c NativeLockZoom(gameswf::fn_call const&)
-// PARTIAL: forwards to NativeSetLockZoom(true). The target is partial.
+// Forwards to NativeSetLockZoom(true). Reconstructed.
 void NativeLockZoom(const gameswf::fn_call& call) {
     (void)call;
     NativeSetLockZoom(true);
@@ -137,12 +138,11 @@ void NativeGCInvite(const gameswf::fn_call& call) {
 }
 
 // 0x439dd8 NativePopAllMenus(gameswf::fn_call const&)
-// PARTIAL: the original calls the virtual at vtable +0x38 (PopMenu) of MenuManager::GetInstance()->m_multiMenuManager
-// (+0xf4 of MenuManager) with argument 1, that is MultiMenuManager::PopMenu(true). The call is missing because
-// MultiMenuManager is not declared (dh2/MultiMenuManager.hpp is absent). Layout request: "MultiMenuManager virtual
-// PopMenu(bool) at vtable +0x38".
+// Calls the virtual at vtable +0x38 (PopMenu(bool)) of MenuManager::GetInstance()->m_multiMenuManager (+0xf4 of
+// MenuManager) with argument 1: MultiMenuManager::PopMenu(true). The int result is the leftover r0 and is not returned.
 void NativePopAllMenus(const gameswf::fn_call& call) {
     (void)call;
+    MenuManager::GetInstance()->m_multiMenuManager->PopMenu(true);
 }
 
 // 0x439dfc NativeBeginCustom(gameswf::fn_call const&)
@@ -169,7 +169,10 @@ void NativeIsBluetoothWifiEnabled(const gameswf::fn_call& call) {
 }
 
 // 0x439ec8 NativeIsJapaneseVersion(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to the JAPANESE_BUILD byte (nonzero is true). set_bool is not in the tree.
+// PARTIAL: the original sets the result to the JAPANESE_BUILD byte (nonzero is true) through the fn_call's result
+// as_value* (fn_call +0x00). as_value::set_bool is declared in vendor-gameswf/include/vendor-gameswf/as_value.hpp, but
+// the full fn_call (upstream gameswf_environment.h) does not build in the tree, so the result pointer is not reachable.
+// The value is computed and discarded.
 void NativeIsJapaneseVersion(const gameswf::fn_call& call) {
     (void)call;
     const bool japaneseBuild = JAPANESE_BUILD;

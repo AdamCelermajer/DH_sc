@@ -3,10 +3,10 @@
 // offsets in comments are the original 32-bit ones (dh2/GSConsole.hpp, dh2/Application.hpp).
 //
 // Status of each address is in game-app/ledger.d/g1-game-app-GSConsole-adb367-0.csv. In short:
-//   reconstructed  the constructors, the D1/D2 destructors and Draw.
-//   partial        Ctor, Dtor, Update, Draw2D and Toggle. Each PARTIAL comment names the missing piece:
-//                  Console::open_ (private), Console::Update(double) (not declared), the IDevice +0x18
-//                  object (not modelled), and the top of StateMachine::m_stack (private).
+//   reconstructed  the constructors, the D1/D2 destructors, Draw and Toggle.
+//   partial        Ctor, Dtor, Update and Draw2D. Each PARTIAL comment names the missing piece:
+//                  Console::open_ (private), Console::Update(double) (not declared), and the IDevice +0x18
+//                  object (not modelled).
 //   skipped        the deleting destructor D0, which the compiler emits.
 //
 // The globals the original reads are fields of Singleton<Application>::s_inst (0x99f72c), reached through
@@ -104,14 +104,11 @@ void GSConsole::Ctor(const StateMachine*) {
 }
 
 // 0x3833e4 GSConsole::Toggle(void)
-// PARTIAL. The original reads sm = Application::m_stateMachine (+0x18, the global dword_99F744). When sm is null
-// it reports ASSERT(sm) at level 1 (fprintf at line 26) and at level 2 stores to address 0, and then it
-// dereferences sm (+0x10) on the next line. Those paths all end in a crash, so this rebuild aborts. That part
-// is written in full. The branch that follows is missing: it needs the top of the state stack, and
-// StateMachine::m_stack (begin +0x0c, end +0x10, 8-byte StateInfo) is private in dh2/StateMachine.hpp. The
-// original pops (PopState(sm, nullptr)) when the stack is not empty and its top state is &GSConsole::s_inst,
-// and pushes (PushState(sm, &GSConsole::s_inst, false)) otherwise. Layout request: a public top-state accessor
-// on StateMachine (nullptr when empty).
+// The original reads sm = Application::m_stateMachine (+0x18, the global dword_99F744). When sm is null it reports
+// ASSERT(sm) at level 1 (fprintf at line 26) and at level 2 stores to address 0, and then it dereferences sm. Those
+// paths all end in a crash, so this rebuild aborts. Otherwise the top of the state stack decides: when the stack is
+// not empty and its top state (the last StateInfo, m_stack.back().state) is &GSConsole::s_inst, the state is popped
+// (PopState(nullptr) pops the top), and when it is not, the state is pushed with owned = false.
 void GSConsole::Toggle() {
     StateMachine* machine = ApplicationGetInstance().m_stateMachine;
     if (machine == nullptr) {
@@ -121,5 +118,10 @@ void GSConsole::Toggle() {
         // Level 2 writes to address 0, levels 0 and 1 dereference the null machine: the original crashes here.
         std::abort();
     }
-    // Missing: the push/pop decision on machine->m_stack (see the comment above).
+    const bool onTop = !machine->m_stack.empty() && machine->m_stack.back().state == &GSConsole::s_inst;
+    if (onTop) {
+        machine->PopState(nullptr);
+    } else {
+        machine->PushState(&GSConsole::s_inst, false);
+    }
 }

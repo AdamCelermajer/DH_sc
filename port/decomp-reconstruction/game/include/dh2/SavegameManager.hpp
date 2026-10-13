@@ -41,7 +41,7 @@ public:
     static int __saveTutorials(IStreamBase* stream, void* user);        // 0x46c798: writes 14 bytes from m_tutorials
     static int __loadLanguageAndOrientation(IStreamBase* stream, void* user);  // 0x46c7b8: "Language" and "AutoOrientation" entries, else the device language
     static int __saveOptions(IStreamBase* stream, void* user);          // 0x46ca78: count, then each option's name and value in map order
-    static int __loadOptions(IStreamBase* stream, void* user);          // 0x46d8f4: count, then each name and value, stored into the matching option
+    static void __loadOptions(IStreamBase* stream, void* user);         // 0x46d8f4: count, then each name and value, stored into the matching option (void: asm leaves r0 unset on every path, and Savegame::SectionCallback is void)
 
     // Settings file.
     void saveSettings();                                                // 0x46cb34: when m_settings exists and m_saveBlocked is clear, writes the options and tutorials

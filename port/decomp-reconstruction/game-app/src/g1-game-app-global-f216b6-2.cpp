@@ -18,130 +18,150 @@
 #include "dh2/global/CombatFormulas.hpp"
 
 #include "dh2/Character.hpp"
+#include "dh2/AnimatedDecor.hpp"
+#include "dh2/Billboard.hpp"
+#include "dh2/CheckpointZone.hpp"
+#include "dh2/ColBox.hpp"
+#include "dh2/Decor.hpp"
+#include "dh2/Dummy.hpp"
+#include "dh2/Floor.hpp"
+#include "dh2/LightPoint.hpp"
+#include "dh2/Module.hpp"
+#include "dh2/QuestMoveInZone.hpp"
+#include "dh2/RoomZone.hpp"
+#include "dh2/TriggerObject.hpp"
+#include "dh2/TriggerPlate.hpp"
+#include "dh2/TriggerTrap.hpp"
+#include "dh2/TriggerZone.hpp"
+#include "dh2/TriggerZoneExitLevel.hpp"
 
 // ---------------------------------------------------------------------------------------------------------------
-// Object factories. PARTIAL stubs: none of the class headers exists in game/include/dh2 yet (AnimatedDecor.hpp is
-// present but includes the absent dh2/Decor.hpp). Each original is operator new(size, hint 0), then the class
-// constructor with the GO_IDS shown; replace the stub with that call when the header lands. The GameObject classes
-// (ColBox, Floor, Dummy, Decor, AnimatedDecor) have no separate constructor in the pseudocode: the asm calls
-// GameObject(GO_IDS 20) and then writes the class's vtables and members inline, so their stubs wait on the class header
-// that holds that code.
+// Object factories (<global>). Each original is operator new(size, hint 0), then the class constructor with the GO_IDS
+// shown (read from the asm). The host build calls the C++ new, so the allocation sizes are not written. The GameObject
+// classes (ColBox, Floor, Dummy, Decor, AnimatedDecor) call GameObject(GO_IDS 20) and write their vtables and members
+// inline: there is no standalone constructor symbol, so each class constructor declared in its header carries that
+// inline body in the class's own source.
+// Redo pass (r2a-game-app-global-f216b6-1): the bodies below replace the stubs. Each constructor is declared in its
+// dh2 header; the constructor definitions are not in the tree yet, so the link needs them.
 // ---------------------------------------------------------------------------------------------------------------
 
 // 0x340e7c ObjectBase* GetNewInstance<TriggerTrap>()
-// Original: operator new(1028), then TriggerTrap(GO_IDS 15). PARTIAL: waits on dh2/TriggerTrap.hpp.
+// Asm: operator new(1028, hint 0), then TriggerTrap::TriggerTrap(GO_IDS 15).
 template <>
 ObjectBase* GetNewInstance<TriggerTrap>() {
-    return nullptr;
+    return new TriggerTrap(static_cast<ObjectBase::GO_IDS>(15));
 }
 
 // 0x340ea0 ObjectBase* GetNewInstance<TriggerZoneExitLevel>()
-// Original: operator new(2080), then TriggerZoneExitLevel(GO_IDS 14). PARTIAL: waits on dh2/TriggerZoneExitLevel.hpp.
+// Asm: operator new(2080, hint 0), then TriggerZoneExitLevel::TriggerZoneExitLevel(GO_IDS 14).
 template <>
 ObjectBase* GetNewInstance<TriggerZoneExitLevel>() {
-    return nullptr;
+    return new TriggerZoneExitLevel(static_cast<ObjectBase::GO_IDS>(14));
 }
 
 // 0x340ec4 ObjectBase* GetNewInstance<TriggerZone>()
-// Original: operator new(2008), then TriggerZone(GO_IDS 20). PARTIAL: waits on dh2/TriggerZone.hpp.
+// Asm: operator new(2008, hint 0), then TriggerZone::TriggerZone(GO_IDS 20).
 template <>
 ObjectBase* GetNewInstance<TriggerZone>() {
-    return nullptr;
+    return new TriggerZone(static_cast<ObjectBase::GO_IDS>(20));
 }
 
 // 0x340ee8 ObjectBase* GetNewInstance<TriggerPlate>()
-// Original: operator new(1920), then TriggerPlate(GO_IDS 18). PARTIAL: waits on dh2/TriggerPlate.hpp.
+// Asm: operator new(1920, hint 0), then TriggerPlate::TriggerPlate(GO_IDS 18).
 template <>
 ObjectBase* GetNewInstance<TriggerPlate>() {
-    return nullptr;
+    return new TriggerPlate(static_cast<ObjectBase::GO_IDS>(18));
 }
 
 // 0x340f0c ObjectBase* GetNewInstance<TriggerObject>()
-// Original: operator new(1936), then TriggerObject() with no GO_IDS. PARTIAL: waits on dh2/TriggerObject.hpp.
+// Asm: operator new(1936, hint 0), then TriggerObject::TriggerObject(void). No GO_IDS argument.
 template <>
 ObjectBase* GetNewInstance<TriggerObject>() {
-    return nullptr;
+    return new TriggerObject();
 }
 
 // 0x340f2c ObjectBase* GetNewInstance<CheckpointZone>()
-// Original: operator new(928), then CheckpointZone(GO_IDS 12). PARTIAL: waits on dh2/CheckpointZone.hpp.
+// Asm: operator new(928, hint 0), then CheckpointZone::CheckpointZone(GO_IDS 12).
 template <>
 ObjectBase* GetNewInstance<CheckpointZone>() {
-    return nullptr;
+    return new CheckpointZone(static_cast<ObjectBase::GO_IDS>(12));
 }
 
 // 0x340f50 ObjectBase* GetNewInstance<QuestMoveInZone>()
-// Original: operator new(904), then QuestMoveInZone(GO_IDS 20). PARTIAL: waits on dh2/QuestMoveInZone.hpp.
+// Asm: operator new(904, hint 0), then QuestMoveInZone::QuestMoveInZone(GO_IDS 20).
 template <>
 ObjectBase* GetNewInstance<QuestMoveInZone>() {
-    return nullptr;
+    return new QuestMoveInZone(static_cast<ObjectBase::GO_IDS>(20));
 }
 
 // 0x340f74 ObjectBase* GetNewInstance<RoomZone>()
-// Original: operator new(924), then RoomZone(GO_IDS 11). PARTIAL: waits on dh2/RoomZone.hpp.
+// Asm: operator new(924, hint 0), then RoomZone::RoomZone(GO_IDS 11).
 template <>
 ObjectBase* GetNewInstance<RoomZone>() {
-    return nullptr;
+    return new RoomZone(static_cast<ObjectBase::GO_IDS>(11));
 }
 
 // 0x340f98 ObjectBase* GetNewInstance<Module>()
-// Original: operator new(1052), then Module(GO_IDS 5). The Hex-Rays listing shows Module(v0) with no id. PARTIAL: waits on dh2/Module.hpp.
+// Asm: operator new(1052, hint 0), then Module::Module(GO_IDS 5) (MOV R1,#5 before the BL; the Hex-Rays listing drops it).
 template <>
 ObjectBase* GetNewInstance<Module>() {
-    return nullptr;
+    return new Module(static_cast<ObjectBase::GO_IDS>(5));
 }
 
 // 0x340fbc ObjectBase* GetNewInstance<Billboard>()
-// Original: operator new(380), then Billboard(GO_IDS 20). PARTIAL: waits on dh2/Billboard.hpp.
+// Asm: operator new(380, hint 0), then Billboard::Billboard(GO_IDS 20).
 template <>
 ObjectBase* GetNewInstance<Billboard>() {
-    return nullptr;
+    return new Billboard(static_cast<ObjectBase::GO_IDS>(20));
 }
 
 // 0x340fe0 ObjectBase* GetNewInstance<ColBox>()
-// Original: operator new(896), GameObject(GO_IDS 20), then the ColBox vtables, m_static (+0x84) = 1 and the
-// members at +0x374, +0x378 and +0x37c set to 0. PARTIAL: waits on dh2/ColBox.hpp for its constructor.
+// Asm: operator new(896, hint 0), GameObject::GameObject(GO_IDS 20), then the ColBox vtables, m_static (+0x84) = 1 and
+// the box at +0x374 zeroed, all inline. The constructor is ColBox::ColBox(GO_IDS) in dh2/ColBox.hpp.
 template <>
 ObjectBase* GetNewInstance<ColBox>() {
-    return nullptr;
+    return new ColBox(static_cast<ObjectBase::GO_IDS>(20));
 }
 
 // 0x34104c ObjectBase* GetNewInstance<Floor>()
-// Original: operator new(884), GameObject(GO_IDS 20), then m_static (+0x84) = 1 and the Floor vtables. PARTIAL: waits on dh2/Floor.hpp.
+// Asm: operator new(884, hint 0), GameObject::GameObject(GO_IDS 20), then m_static (+0x84) = 1 and the Floor vtables,
+// inline. The constructor is Floor::Floor(GO_IDS) in dh2/Floor.hpp.
 template <>
 ObjectBase* GetNewInstance<Floor>() {
-    return nullptr;
+    return new Floor(static_cast<ObjectBase::GO_IDS>(20));
 }
 
 // 0x3410a4 ObjectBase* GetNewInstance<Dummy>()
-// Original: operator new(884), GameObject(GO_IDS 20), then m_static (+0x84) = 1 and the Dummy vtables. PARTIAL: waits on dh2/Dummy.hpp.
+// Asm: operator new(884, hint 0), GameObject::GameObject(GO_IDS 20), then m_static (+0x84) = 1 and the Dummy vtables,
+// inline. The constructor is Dummy::Dummy(GO_IDS) in dh2/Dummy.hpp.
 template <>
 ObjectBase* GetNewInstance<Dummy>() {
-    return nullptr;
+    return new Dummy(static_cast<ObjectBase::GO_IDS>(20));
 }
 
 // 0x3410fc ObjectBase* GetNewInstance<Decor>()
-// Original: operator new(888), GameObject(GO_IDS 20), then +0x84 = 1, +0x375 = 1, the Decor vtables and +0x376 = 1.
-// PARTIAL: waits on dh2/Decor.hpp.
+// Asm: operator new(888, hint 0), GameObject::GameObject(GO_IDS 20), then m_static (+0x84) = 1, m_floorMapPending (+0x375)
+// = 1, m_isSolid (+0x376) = 1 and the Decor vtables, inline. The constructor is Decor::Decor(GO_IDS) in dh2/Decor.hpp.
 template <>
 ObjectBase* GetNewInstance<Decor>() {
-    return nullptr;
+    return new Decor(static_cast<ObjectBase::GO_IDS>(20));
 }
 
 // 0x34115c ObjectBase* GetNewInstance<LightPoint>()
-// Original: operator new(436), then LightPoint() with no GO_IDS. PARTIAL: waits on dh2/LightPoint.hpp.
+// Asm: operator new(436, hint 0), then LightPoint::LightPoint(void). No GO_IDS argument.
 template <>
 ObjectBase* GetNewInstance<LightPoint>() {
-    return nullptr;
+    return new LightPoint();
 }
 
 // 0x342600 ObjectBase* GetNewInstance<AnimatedDecor>()
-// Original: operator new(916), GameObject(GO_IDS 20), then the AnimatedDecor vtables, an empty string at +0x37c
-// (a 16-byte block, first byte 0), m_static (+0x84) = 1, +0x375 set and cleared again, and +0x376 = 1. PARTIAL: waits on
-// dh2/AnimatedDecor.hpp compiling, which needs dh2/Decor.hpp (absent).
+// Asm: operator new(916, hint 0), GameObject::GameObject(GO_IDS 20), then the AnimatedDecor vtables (the Decor-shaped
+// slots at +0x04 and +0x24 included), the empty string at +0x37c, m_static (+0x84) = 1, m_floorMapPending (+0x375) set
+// to 1 and then cleared to 0, and m_isSolid (+0x376) = 1, all inline. The Decor constructor is not called. The
+// constructor is AnimatedDecor::AnimatedDecor(GO_IDS) in dh2/AnimatedDecor.hpp.
 template <>
 ObjectBase* GetNewInstance<AnimatedDecor>() {
-    return nullptr;
+    return new AnimatedDecor(static_cast<ObjectBase::GO_IDS>(20));
 }
 
 // ---------------------------------------------------------------------------------------------------------------

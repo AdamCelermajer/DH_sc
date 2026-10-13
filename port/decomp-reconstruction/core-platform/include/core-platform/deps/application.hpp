@@ -17,7 +17,7 @@ extern bool Is_In_Multiplayer_Mode;
 // File-open path used by the gameswf callbacks (owned by the application and
 // stream categories; declared here, defined there).
 struct FsFileHandle;
-struct IStreamBase;
+class IStreamBase;
 IStreamBase* ApplicationOpenStream(const char* name);  // Application file system slot +0x88
 void BufferedStreamFillBuffer(FsFileHandle* handle, IStreamBase* stream);  // BufferedStream::FillBuffer
 void ApplicationCloseStream(IStreamBase* stream);       // file system close slot +0x78

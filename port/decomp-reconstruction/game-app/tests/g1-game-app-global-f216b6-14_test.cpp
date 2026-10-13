@@ -1,6 +1,6 @@
-// Test for batch g1-game-app-global-f216b6-14. Checks the eleven reconstructed GetNewScriptCmdImplInstance<Script_*>()
+// Test for batch g1-game-app-global-f216b6-14. Checks the twelve reconstructed GetNewScriptCmdImplInstance<Script_*>()
 // factories: each returns a fresh command of its own class with m_cmdId = -1, unk_04 cleared and m_args null.
-// GetNewScriptCmdImplInstance<Script_DoTutorial>() is a PARTIAL stub (see the source) and is not tested. The eight
+// GetNewScriptCmdImplInstance<Script_DoTutorial>() is included (redo pass r2a-game-app-global-f216b6-6). The eight
 // gameswf natives of this batch are PARTIAL with empty bodies and are not linked here. Exit status 0 means every
 // check passed.
 //
@@ -12,6 +12,7 @@
 #include "dh2/ScriptCmdImpl.hpp"
 #include "dh2/global/GetNewScriptCmdImplInstance.hpp"
 #include "dh2/Script_BlockSaveGame.hpp"
+#include "dh2/Script_DoTutorial.hpp"
 #include "dh2/Script_EnqueueCharMenuTutorialMessage.hpp"
 #include "dh2/Script_EnqueueTutorialMessage.hpp"
 #include "dh2/Script_FlushMessages.hpp"
@@ -28,6 +29,8 @@
 void ScriptCmdImpl::Init() {}
 void ScriptCmdImpl::Update() {}
 
+void Script_DoTutorial::Execute(bool, int) {}
+bool Script_DoTutorial::IsBlocking() const { return false; }
 void Script_FlushMessages::Execute(bool, int) {}
 bool Script_FlushMessages::IsBlocking() const { return false; }
 void Script_LockTutorial::Execute(bool, int) {}
@@ -79,6 +82,7 @@ void CheckFactory(const char* name) {
 }  // namespace
 
 int main() {
+    CheckFactory<Script_DoTutorial>("Script_DoTutorial");
     CheckFactory<Script_FlushMessages>("Script_FlushMessages");
     CheckFactory<Script_LockTutorial>("Script_LockTutorial");
     CheckFactory<Script_SkipAllCharMenuTutorialMessages>("Script_SkipAllCharMenuTutorialMessages");

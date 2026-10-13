@@ -8,6 +8,7 @@
 #include "dh2/GSFlashMenu.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/StateMachine.hpp"
 #include "dh2/global/ctrl_camera.hpp"
@@ -48,14 +49,14 @@ void GSEndGame::Draw(const StateMachine* /*machine*/) {
 
 // 0x383fbc GSEndGame::Update(StateMachine*, double)
 // PARTIAL. The phase dispatch, the About menu checks, the MainMenu hand-over, the state switch and the final
-// MenuManager::Update are reconstructed. Three parts are not, each marked at its place in the body:
+// MenuManager::Update are reconstructed, and so is MultiMenuManager::PopMenu(true) (redo: dh2/MultiMenuManager.hpp exists).
+// Two parts are not, each marked at its place in the body:
 //   (a) phase 0: the test of COnline +0x05 (isOnlineGame_) and the online clean-up. COnline keeps that flag private
-//       with no getter, and CMatching::Destroy and the CMatching vtable slot +0x3c are not declared.
-//   (b) phase 2: the message queue flushes. dh2/MenuMessageManager.hpp declares the template, but no header declares
-//       the static instances the original reaches (Singleton<MenuMessageManager<T,N>>::s_inst), and dh2/Singleton.hpp
-//       is absent.
-//   (c) phase 2: MultiMenuManager::PopMenu(true), the virtual at vtable +0x38 of MenuManager +0xf4. dh2/MultiMenuManager.hpp
-//       is not in the tree.
+//       with no getter in net-session-online/c_online.hpp. CMatching::Destroy is not declared in
+//       net-session-online/c_matching_base.hpp, and the CMatching vtable slot +0x3c is not identified.
+//   (b) phase 2: the message queue flushes and drains. Singleton<MenuMessageManager<T,N>>::s_inst is not instantiated in
+//       game-app/src/Globals.cpp for these four instances, and MenuMessageManager<DialogMsg,1>::FlushEnqueuedMessages
+//       (the clone with queue 0) has no definition in the tree.
 // Update does not use its StateMachine argument or dt; the original reads only m_phase, the menu objects and Application.
 void GSEndGame::Update(StateMachine* /*machine*/, double /*dt*/) {
     if (m_phase == 1) {
@@ -84,14 +85,14 @@ void GSEndGame::Update(StateMachine* /*machine*/, double /*dt*/) {
     }
 
     // Phase 2, also reached from phase 1 when the About menu is hidden.
-    // PARTIAL (b): the original runs MenuMessageManager<DialogMsg,1>::FlushEnqueuedMessages(), drains the
-    // AchievementMsg queue, flushes DialogMsg again, then drains the StatusMsg and OnlineStatusMsg queues. Each drain
-    // is "while (end != begin) pop_front()" on the std::deque at +0x04 of the static MenuMessageManager object
-    // (begin at +0x04, end at +0x14, the m_queues[0] of dh2/MenuMessageManager.hpp). The three instances (ELF
-    // 0x99fbe0 AchievementMsg, 0x99fa8c StatusMsg, 0x99fb30 OnlineStatusMsg, the DialogMsg one through a clone) have
-    // no declared accessor, so the flushes and drains are left out.
-    // PARTIAL (c): the original calls MultiMenuManager::PopMenu(true) between the drains and the menu lookup. The
-    // class is not declared in the tree, so the call is left out.
+    // PARTIAL (b): the original runs MenuMessageManager<DialogMsg,1>::FlushEnqueuedMessages(0), drains the AchievementMsg
+    // queue, flushes DialogMsg again, then drains the StatusMsg and OnlineStatusMsg queues. Each drain is
+    // "while (!empty) pop_front()" on the std::deque at +0x04 of the static MenuMessageManager object (m_queues[0] of
+    // dh2/MenuMessageManager.hpp; ELF 0x99fbe0 AchievementMsg, 0x99fa8c StatusMsg, 0x99fb30 OnlineStatusMsg). Left out
+    // here: those instances are not instantiated in game-app/src/Globals.cpp, and the flush has no definition.
+    // The MultiMenuManager pop follows the drains in the original.
+    MultiMenuManager* multiMenus = MenuManager::GetInstance()->m_multiMenuManager;
+    multiMenus->PopMenu(true);                      // vtable +0x38 on MenuManager +0xf4; true keeps popping
     MenuBase* mainMenu = MenuManager::GetInstance()->GetMenuByName("menu_MainMenu");
     GSFlashMenu::s_inst.m_pendingMenu = mainMenu;   // GSFlashMenu +0x0c (ELF dword_9A247C)
     GSFlashMenu::s_inst.m_loadMainMenu = true;      // GSFlashMenu +0x29 (ELF byte_9A2499)

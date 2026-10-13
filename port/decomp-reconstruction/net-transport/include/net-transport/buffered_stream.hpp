@@ -8,7 +8,7 @@
 
 #include <memory>
 
-#include "net-transport/deps/i_stream_base.hpp"
+#include "dh2/IStreamBase.hpp"
 
 class BufferedStream {
 public:

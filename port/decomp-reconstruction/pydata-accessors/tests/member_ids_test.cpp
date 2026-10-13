@@ -1,5 +1,6 @@
 #include "pydata-accessors/member_names.hpp"
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "read_bytes_stream.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -34,7 +35,7 @@ int main() {
     CHECK(Structs::GetMemberIDByString<Structs::LangSheetList>("other") == -1);  // count is 1
 
     // readNames: count 2 (little-endian), then "abc" and "" (length-prefixed).
-    struct Bytes : IStreamBase {
+    struct Bytes : ReadBytesStream {
         const unsigned char* p; std::size_t left;
         bool ReadBytes(void* dst, std::size_t n) override {
             if (n > left) return false;

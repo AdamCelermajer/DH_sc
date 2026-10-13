@@ -2,9 +2,10 @@
 // returns zero. The factories covered are the script commands (Script_SetCameraClip, Script_PlayCamera, Script_SetCamera,
 // Script_CONSOLE, Script_ExitCutSceneMode, Script_EnterCutSceneMode, Script_ExecScript, Script_PlayActorAnim), the
 // conditions (Condition_IsEventInState, Condition_IsPlayerAtLevel, Condition_IsLevelInState) and the objectives
-// (Objective_GatherLoot, ObjectiveTemplate_KillCharacter over Objective_SavedQty, Objective_MoveInZone). The partial
-// factories (the quest-state conditions, Condition_IsPlayerInLevel) and Script_CharacterState_Callback are not covered.
-// Exit status 0 means every check passed.
+// (Objective_GatherLoot, ObjectiveTemplate_KillCharacter over Objective_SavedQty, Objective_MoveInZone) and Condition_IsQuestInState.
+// The redo pass (r2a-game-app-global-f216b6-6) adds Condition_IsPlayerInLevel, Condition_IsQuestStateHigher and
+// Condition_IsQuestStateLower, and the non-"All" path of Script_CharacterState_Callback. The "All" path walks a live
+// ObjectManager and is not covered. Exit status 0 means every check passed.
 //
 // The batch source is linked into this test (check_tu.sh --test), so every vtable, implicit constructor and destructor
 // it references must be defined here. The test-only stubs below stand in for the methods that other categories define.
@@ -13,17 +14,26 @@
 // are leaked, not deleted.
 #include <cstddef>
 #include <cstdio>
+#include <cstring>
 #include <string>
 
+#include "core-platform/lc_api.hpp"
 #include "dh2/global/GetNewScriptCmdImplInstance.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/condition_objective_factory.hpp"
 #include "dh2/global/get_position.hpp"
+#include "dh2/global/script_character_callback.hpp"
 
 #include "dh2/Condition.hpp"
 #include "dh2/Condition_IsEventInState.hpp"
 #include "dh2/Condition_IsLevelInState.hpp"
 #include "dh2/Condition_IsPlayerAtLevel.hpp"
+#include "dh2/Condition_IsPlayerInLevel.hpp"
+#include "dh2/Condition_IsQuestInState.hpp"
+#include "dh2/Condition_IsQuestStateHigher.hpp"
+#include "dh2/Condition_IsQuestStateLower.hpp"
 #include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/Objective.hpp"
 #include "dh2/ObjectiveTemplate_KillCharacter.hpp"
 #include "dh2/Objective_EventReceiver.hpp"
@@ -80,6 +90,36 @@ std::size_t Condition_IsPlayerAtLevel::DBG_TraceDetailedConditionInformation(__s
 Condition_IsLevelInState::~Condition_IsLevelInState() {}
 bool Condition_IsLevelInState::Eval() { return false; }
 std::size_t Condition_IsLevelInState::DBG_TraceDetailedConditionInformation(__sFILE*) { return 0; }
+Condition_IsQuestInStateGeneric::~Condition_IsQuestInStateGeneric() {}
+bool Condition_IsQuestInStateGeneric::Eval() { return false; }
+std::size_t Condition_IsQuestInStateGeneric::DBG_TraceDetailedConditionInformation(__sFILE*) { return 0; }
+Condition_IsQuestInState::~Condition_IsQuestInState() {}
+Condition_IsQuestStateHigher::~Condition_IsQuestStateHigher() {}
+Condition_IsQuestStateLower::~Condition_IsQuestStateLower() {}
+Condition_IsPlayerInLevel::~Condition_IsPlayerInLevel() {}
+bool Condition_IsPlayerInLevel::Eval() { return false; }
+std::size_t Condition_IsPlayerInLevel::DBG_TraceDetailedConditionInformation(__sFILE*) { return 0; }
+
+// The callback's lookup path (Script_CharacterState_Callback, non-"All" name). The stubs record what the callback passes.
+// The name compare is exact, which is enough for the names the test uses.
+ObjectManager* dword_99F764 = nullptr;
+int g_lookupCalls = 0;
+const char* g_lookupName = nullptr;
+int g_lookupFlags = 0;
+bool g_lookupActive = true;
+const char* g_lookupType = nullptr;
+int g_callbackCalls = 0;
+ObjectBase* g_callbackObject = nullptr;
+ObjectHandle ObjectManager::GetObjectByName(char const* name, int flags, bool active, char const* type) {
+    ++g_lookupCalls;
+    g_lookupName = name;
+    g_lookupFlags = flags;
+    g_lookupActive = active;
+    g_lookupType = type;
+    return ObjectHandle();
+}
+ObjectBase* ObjectHandle::GetObject(bool) { return nullptr; }
+int LC_API_STRCASECMP(const char* a, const char* b) { return std::strcmp(a, b); }
 
 Objective::Objective() {}
 Objective::~Objective() {}
@@ -197,6 +237,55 @@ void CheckConditionFactories() {
     CheckCondition<Condition_IsEventInState>("Condition_IsEventInState");
     CheckCondition<Condition_IsPlayerAtLevel>("Condition_IsPlayerAtLevel");
     CheckCondition<Condition_IsLevelInState>("Condition_IsLevelInState");
+    CheckCondition<Condition_IsQuestInState>("Condition_IsQuestInState");
+
+    Condition_IsQuestInState* quest = dynamic_cast<Condition_IsQuestInState*>(GetConditionImplInstance<Condition_IsQuestInState>());
+    if (quest != nullptr) {
+        Check(quest->m_comparator == Condition_IsQuestInStateGeneric::COMPARE_EQUAL, "Condition_IsQuestInState",
+              "m_comparator is COMPARE_EQUAL");
+    }
+
+    Condition_IsPlayerInLevel* inLevel =
+        dynamic_cast<Condition_IsPlayerInLevel*>(GetConditionImplInstance<Condition_IsPlayerInLevel>());
+    Check(inLevel != nullptr, "Condition_IsPlayerInLevel", "returns a condition of its own class");
+    if (inLevel != nullptr) {
+        Check(inLevel->m_stub == nullptr, "Condition_IsPlayerInLevel", "m_stub is zeroed");
+    }
+
+    Condition_IsQuestStateHigher* higher =
+        dynamic_cast<Condition_IsQuestStateHigher*>(GetConditionImplInstance<Condition_IsQuestStateHigher>());
+    Check(higher != nullptr, "Condition_IsQuestStateHigher", "returns a condition of its own class");
+    if (higher != nullptr) {
+        Check(higher->m_comparator == Condition_IsQuestInStateGeneric::COMPARE_HIGHER, "Condition_IsQuestStateHigher",
+              "m_comparator is COMPARE_HIGHER");
+    }
+
+    Condition_IsQuestStateLower* lower =
+        dynamic_cast<Condition_IsQuestStateLower*>(GetConditionImplInstance<Condition_IsQuestStateLower>());
+    Check(lower != nullptr, "Condition_IsQuestStateLower", "returns a condition of its own class");
+    if (lower != nullptr) {
+        Check(lower->m_comparator == Condition_IsQuestInStateGeneric::COMPARE_LOWER, "Condition_IsQuestStateLower",
+              "m_comparator is COMPARE_LOWER");
+    }
+}
+
+void RecordCallback(ObjectBase* object) {
+    ++g_callbackCalls;
+    g_callbackObject = object;
+}
+
+// Script_CharacterState_Callback with a name other than "All": one lookup with the arguments passed through (flags as
+// given, active false, no type), and one callback with the object the lookup handle returns (null in the stub).
+void CheckStateCallback() {
+    Script_CharacterState_Callback("Hero", 3, RecordCallback);
+    Check(g_lookupCalls == 1, "Script_CharacterState_Callback", "one lookup for a named target");
+    Check(g_lookupName != nullptr && std::strcmp(g_lookupName, "Hero") == 0, "Script_CharacterState_Callback",
+          "lookup name is the callback's name");
+    Check(g_lookupFlags == 3, "Script_CharacterState_Callback", "lookup flags are the callback's int argument");
+    Check(!g_lookupActive, "Script_CharacterState_Callback", "lookup active flag is false");
+    Check(g_lookupType == nullptr, "Script_CharacterState_Callback", "lookup type is null");
+    Check(g_callbackCalls == 1, "Script_CharacterState_Callback", "callback runs once");
+    Check(g_callbackObject == nullptr, "Script_CharacterState_Callback", "callback receives the handle's object");
 }
 
 void CheckObjectiveFactories() {
@@ -233,6 +322,7 @@ void CheckGetPosition() {
 int main() {
     CheckScriptFactories();
     CheckConditionFactories();
+    CheckStateCallback();
     CheckObjectiveFactories();
     CheckGetPosition();
 

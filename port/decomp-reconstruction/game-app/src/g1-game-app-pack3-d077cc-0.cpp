@@ -50,12 +50,12 @@ void POProjectile::onCollisionBegins(PhysicalBaseObject* other, const Point2D<fl
 }
 
 // 0x470520 POProjectile::onCollisionTest(PhysicalBaseObject*, short, ushort, ushort, short, ushort, ushort)
-// PARTIAL. Runs PhysicalObject::onCollisionTest with the same arguments. When it passes, the owner of this body is
+// Runs PhysicalObject::onCollisionTest with the same arguments. When it passes, the owner of this body is
 // looked up through its handle and accepted when its GO id is 9 (Projectile) or 10 (LaserTypeProjectile, GO_IDS 10).
 // For an accepted owner and a set other body, the owner's slot +0xd0 is called with the other body's owner and the
 // owner's position (m_position X and Y, +0x160 and +0x164). Always returns false (0).
-// Missing: LaserTypeProjectile has no header in the tree, so its base class is not confirmed. The id 10 call is
-// written through the Projectile type; the asm calls the same slot with the same signature for both ids.
+// LaserTypeProjectile.hpp now declares it as a Projectile subclass, so the id 10 call goes through the Projectile type:
+// slot +0xd0 is the virtual OnCollision, which the asm calls with the same signature for both ids.
 bool POProjectile::onCollisionTest(PhysicalBaseObject* other, short otherGroup, unsigned short otherCategory,
                                    unsigned short otherMask, short group, unsigned short category,
                                    unsigned short mask) {
@@ -140,10 +140,11 @@ bool POZone::onCollisionTest(PhysicalBaseObject* other, short otherGroup, unsign
 // Skipped: compiler-generated. It runs the D1 body and then CustomFree(this) (asm). A C++ delete of a POZone does
 // the same, so no body is written.
 
-// Deferred: not compiled in this file. The owner headers below do not compile yet, so including them would break
-// the game library. Their rows are partial and name the missing header.
-//   0x3b3824 POVillager::~POVillager() (D1): waits on dh2/POCharacter.hpp (absent; queued in game-app).
-//   0x3b43e0 POVillager::~POVillager() (D0): compiler-generated; its D1 waits on dh2/POCharacter.hpp.
-//   0x32f2b4 PlayerLightTweaker::PlayerLightTweaker(), 0x40dd7c GetIdsFromName, 0x40de48 onSetValue,
-//   0x40e4c4 ~PlayerLightTweaker() (D1): wait on glitch-debugger/CTweakable.hpp (absent; the base class).
+// Deferred to the redo pass (batch r2a-game-app-pack1-e4281c-0, game-app/src/r2a-game-app-pack1-e4281c-0.cpp):
+//   0x3b3824 POVillager::~POVillager() (D1) is written there now that dh2/POCharacter.hpp exists.
+//   0x40dd7c PlayerLightTweaker::GetIdsFromName is written there now that the CTweakable base header exists.
+// Still deferred here, and not compiled in this file:
+//   0x3b43e0 POVillager::~POVillager() (D0): compiler-generated; its D1 is in the pack1 file.
+//   0x32f2b4 PlayerLightTweaker::PlayerLightTweaker(), 0x40e4c4 ~PlayerLightTweaker() (D1) and 0x40de48 onSetValue:
+//   not in this file.
 //   0x40e518 ~PlayerLightTweaker() (D0): compiler-generated.

@@ -55,6 +55,7 @@ struct __sFILE;
 template <typename T> struct aabb;
 namespace sfc { namespace script { namespace lua { class Arguments; class ReturnValues; class Binder; } } }
 namespace Structs { class AIFactions; }  // element of Arrays::AIFactionTable (pydata w7_structs_5.hpp)
+namespace Structs { class CharSounds; }  // element of Arrays::CharSoundsTable (pydata w7_structs_2.hpp)
 
 class Character : public GameObject,            // +0x000
                   public v2Controllable,        // +0x374
@@ -206,7 +207,7 @@ public:
     int GetCharAnimTableId() const;                                     // 0x3a3228
     const Structs::CharAnim* GetCharAnimTable() const;                  // 0x3a3264 CharAnimTable row (160-byte listing stride)
     int GetCharSoundsId() const;                                        // 0x3a3294
-    const void* GetCharSounds() const;                                  // 0x3a32d0
+    const Structs::CharSounds* GetCharSounds() const;                   // 0x3a32d0 CharSoundsTable row (host element)
     int GetFXFootprint() const;                                         // 0x3a3300
     int GetFXBloodDeath() const;                                        // 0x3a3368
     int GetFXBlood() const;                                             // 0x3a33d0

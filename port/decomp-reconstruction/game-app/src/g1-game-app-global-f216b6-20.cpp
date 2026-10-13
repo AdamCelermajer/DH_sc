@@ -9,9 +9,13 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 
 #include "dh2/Application.hpp"
+#include "dh2/global/Globals.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
 namespace {
 
@@ -60,8 +64,10 @@ int IsVisibleMeshNode(glitch::scene::ISceneNode* node) {
 // PARTIAL: stub returns 0 and writes nothing. The original copies the world point into a three-word array, calls the
 // camera's virtual at vtable +0x18 as (out[2] words, camera, point array, 0), stores the two words of out as the
 // screen position, and returns the call's result. The camera is the scene manager's word at +0x2c, and the scene
-// manager is the word at +0x1c of the device (dword_99F73C, Singleton<Application>::s_inst.m_device). Neither the
-// device's +0x1c member nor the camera's virtual is declared (layout requests).
+// manager is the word at +0x1c of the device (dword_99F73C, Singleton<Application>::s_inst.m_device). Blocked: glitch::IDevice
+// (glitch-core-io/os/device.hpp) declares neither the +0x1c scene manager nor the +0x10 driver. The +0x2c camera is not the
+// engine CSceneManager's activeCamera (that field is at +0xe4), and CameraBase declares no virtual at +0x18 (layout requests:
+// IDevice +0x1c, the scene manager's +0x2c class and its slot +0x18).
 int GetScreenPosFromWorldPos(const glitch::core::vector3d<float>& worldPos,
                              glitch::core::position2d<int>& screenPos) {
     (void)worldPos;
@@ -95,13 +101,21 @@ int IsVisibleAndNotCulled(glitch::scene::ISceneNode* node) {
 }
 
 // 0x50f780 findSceneNodeRef(glitch::scene::ISceneNode*, char const*)
-// PARTIAL: stub returns nullptr. The original returns the node itself when its name, read through the node's
-// virtual at vtable +0x24, equals the given name (strcmp returns 0). Otherwise it walks the children list (sentinel at
-// node +0xf4) and returns the first non-null recursive result, else nullptr. Blocked: the name slot is not declared
-// (the engine header's getName sits at a different slot) and the children list layout (see GetNodePolyCount).
+// The original takes the node's name through its virtual at vtable +0x24 (ISceneNode::getName, slot 0x24 in the engine
+// header). When strcmp(name, the argument) is zero the node itself is returned. Otherwise it walks the child list (the
+// sentinel at node +0xf4, which is ISceneNode::children; a child is its sibling link minus 4) and returns the first
+// non-null recursive result, or null when no child matches. The children are read through the member, not through
+// getChildren(), so this translation unit needs no out-of-line engine symbol.
 glitch::scene::ISceneNode* findSceneNodeRef(glitch::scene::ISceneNode* root, const char* name) {
-    (void)root;
-    (void)name;
+    if (std::strcmp(root->getName(), name) == 0) {
+        return root;
+    }
+    for (auto it = root->children.begin(); it != root->children.end(); ++it) {
+        glitch::scene::ISceneNode* found = findSceneNodeRef(*it, name);
+        if (found != nullptr) {
+            return found;
+        }
+    }
     return nullptr;
 }
 
@@ -111,8 +125,10 @@ glitch::scene::ISceneNode* findSceneNodeRef(glitch::scene::ISceneNode* root, con
 // only a three-argument overload), reads three node properties through the virtuals at vtable +0x90, +0x98 and
 // +0xa0, allocates a 320-byte CMeshSceneNode and constructs it from (copied mesh, -1, the three properties). It then
 // calls the new node's virtual at vtable +0x28 with the result of the parent's virtual at +0x24 (the parent comes
-// from getParent), and returns the new node. Blocked on those virtuals, the CMeshSceneNode constructor and the
-// createMeshCopy overload.
+// from getParent), and returns the new node. The mesh, property and CMeshSceneNode declarations now exist in the engine
+// (scene/CMeshSceneNode.hpp, ISceneNode slots 0x90 to 0xa0). Still blocked: glitch::IDevice declares no +0x10 driver
+// (layout request), and the engine createMeshCopy overload takes (mesh, driver, flags) while the original passes one
+// more argument (0) after the flags.
 void* CopyMeshSceneNode(glitch::scene::IMeshSceneNode* node) {
     (void)node;
     return nullptr;
@@ -189,15 +205,16 @@ extern "C" void* GetNativeResourceBytes(const char* name, int argument, std::siz
 }
 
 // 0x532f14 GetAccelerometerParams(int*, int*, int*)
-// PARTIAL: stub writes nothing and returns 0. The original copies the words mAccelerometerX (ELF 0xa354f4),
-// mAccelerometerY (0xa354f8) and mAccelerometerZ (0xa354f0) into the three destinations and returns mAccelerometerY
-// in r0, a leftover of the copy. The globals' types and the callers' expectation of the return are not evidenced
-// (layout and global requests).
+// The original copies mAccelerometerX (ELF 0xa354f4) into the first destination, mAccelerometerY (0xa354f8) into the
+// second and mAccelerometerZ (0xa354f0) into the third, then returns mAccelerometerY (Hex-Rays: result = mAccelerometerY,
+// returned after the copies). The globals are 32-bit unsigned words (Globals.hpp, from the accesses); the destinations
+// are the signed words this header declares, and the conversions keep the bits.
 extern "C" int GetAccelerometerParams(std::int32_t* x, std::int32_t* y, std::int32_t* z) {
-    (void)x;
-    (void)y;
-    (void)z;
-    return 0;
+    *x = static_cast<std::int32_t>(mAccelerometerX);
+    const std::int32_t yWord = static_cast<std::int32_t>(mAccelerometerY);
+    *y = yWord;
+    *z = static_cast<std::int32_t>(mAccelerometerZ);
+    return yWord;
 }
 
 // 0x69f570 InterpolateColours(int const*, int const*, int const*, int const*, int, int, int, int*)

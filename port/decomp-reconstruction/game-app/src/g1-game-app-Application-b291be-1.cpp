@@ -9,6 +9,7 @@
 #include <cstring>
 
 #include "dh2/GSInit.hpp"
+#include "dh2/GSLevel.hpp"
 #include "dh2/GSLevelMap.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/SavegameManager.hpp"
@@ -21,6 +22,16 @@
 extern int gAssertLevel;
 
 namespace {
+
+// The state stack of a machine (StateMachine::m_stack, begin +0x0c, end +0x10). A null machine has no stack.
+bool StackNonEmpty(const StateMachine* machine) {
+    return machine != nullptr && !machine->m_stack.empty();
+}
+
+// The top state of the stack (end - 8 in the original), or nullptr when the stack is empty.
+const StateBase* StackTop(const StateMachine* machine) {
+    return StackNonEmpty(machine) ? machine->m_stack.back().state : nullptr;
+}
 
 // Source path of Application.cpp as the original's assert messages print it.
 constexpr const char* kApplicationSourceFile =
@@ -226,9 +237,8 @@ void Application::SwitchGSInitBackground() {
 }
 
 // 0x320f5c Application::IsLevelRunning()
-// PARTIAL: the level test depends on GetCurrentLevel(), which is a stub in batch g1-game-app-Application-b291be-0
-// (it returns nullptr), so this returns false until that getter reads GSLevel::s_level. When gAssertLevel is 2
-// the original stores through a null pointer (a deliberate crash); that is not reproduced (see
+// True when GetCurrentLevel() (GSLevel::s_level) is not null. PARTIAL only for the gAssertLevel 2 path: the original
+// stores through a null pointer there (dword_0 = 0, a deliberate crash), which is not reproduced (see
 // ReportNullStateMachine).
 bool Application::IsLevelRunning() {
     if (m_stateMachine == nullptr) {  // +0x18
@@ -238,29 +248,27 @@ bool Application::IsLevelRunning() {
 }
 
 // 0x321000 Application::IsLevelPaused(bool)
-// PARTIAL: the state stack is private in StateMachine (m_stack, begin +0x0c, end +0x10), and GSLevel::s_gsLevel
-// is only reachable through it. Both stack terms are stubbed to the normal in-level case: the stack is not
-// empty and its top state is &GSLevel::s_gsLevel. Under that stub the first branch returns false and the second
-// returns MenuBase::s_igmOpened once the level runs. The rest of the logic is the original's.
+// The level and state-stack tests are the original's: a running level whose state stack is non-empty and whose top
+// state is not &GSLevel::s_gsLevel counts as paused when ignoreIngameMenu is set. Otherwise a running level with an
+// empty stack or a non-GSLevel top is paused, and an in-level stack returns MenuBase::s_igmOpened.
+// PARTIAL only for the gAssertLevel 2 path of the m_stateMachine assertion (line 2028), as in IsLevelRunning.
 bool Application::IsLevelPaused(bool ignoreIngameMenu) {
     if (m_stateMachine == nullptr) {  // +0x18
         ReportNullStateMachine(2028);
     }
-    const bool stackNonEmpty = true;  // stub for (m_stack end - begin) >> 3 != 0
-    const bool topIsGSLevel = true;   // stub for *(m_stack end - 8) == &GSLevel::s_gsLevel
     if (ignoreIngameMenu) {
         if (!IsLevelRunning()) {
             return false;
         }
-        if (stackNonEmpty) {
-            return !topIsGSLevel;
+        if (StackNonEmpty(m_stateMachine)) {
+            return StackTop(m_stateMachine) != &GSLevel::s_gsLevel;
         }
         return true;
     }
     if (!IsLevelRunning()) {
         return false;
     }
-    if (!stackNonEmpty || !topIsGSLevel) {
+    if (!StackNonEmpty(m_stateMachine) || StackTop(m_stateMachine) != &GSLevel::s_gsLevel) {
         return true;
     }
     return MenuBase::s_igmOpened;

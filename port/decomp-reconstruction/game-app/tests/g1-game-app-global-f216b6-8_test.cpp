@@ -8,6 +8,7 @@
 
 #include "dh2/Application.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/MenuManager.hpp"
 #include "dh2/Quest.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
@@ -17,6 +18,7 @@
 namespace {
 
 int g_failures = 0;
+int g_resetFontsCalls = 0;
 int g_goToMainMenuCalls = 0;
 int g_lastGoToMainMenuEvent = -1;
 const Application* g_lastGoToMainMenuThis = nullptr;
@@ -52,6 +54,12 @@ const gameswf::fn_call& DummyCall() {
 SavegameManager* PlaceholderSavegame() {
     alignas(SavegameManager) static unsigned char storage[sizeof(SavegameManager)];
     return reinterpret_cast<SavegameManager*>(storage);
+}
+
+// The MenuManager stubs never read *this either.
+MenuManager* PlaceholderMenuManager() {
+    alignas(MenuManager) static unsigned char storage[sizeof(MenuManager)];
+    return reinterpret_cast<MenuManager*>(storage);
 }
 
 }  // namespace
@@ -96,6 +104,14 @@ void SavegameManager::setLanguage(int language) {
 
 void UpdateSavedValues() {
     g_settingsCalls += 'U';
+}
+
+MenuManager* MenuManager::GetInstance() {
+    return PlaceholderMenuManager();
+}
+
+void MenuManager::ResetFonts() {
+    ++g_resetFontsCalls;
 }
 
 namespace {
@@ -158,6 +174,15 @@ void TestSaveAndLoadSettings() {
     NativeSaveSettings(DummyCall());
     Check(g_settingsCalls == "SGT", "NativeSaveSettings saves, then re-applies the language");
     Check(g_setLanguageArg == kSettingsLanguage, "NativeSaveSettings passes the language back");
+    Check(g_resetFontsCalls == 0, "NativeSaveSettings does not reset the fonts when the save is not blocked");
+    // A blocked save clears the block and resets the fonts once, then saves as usual.
+    PlaceholderSavegame()->m_saveBlocked = true;
+    g_resetFontsCalls = 0;
+    g_settingsCalls.clear();
+    NativeSaveSettings(DummyCall());
+    Check(g_resetFontsCalls == 1, "NativeSaveSettings resets the fonts once when the save is blocked");
+    Check(PlaceholderSavegame()->m_saveBlocked == false, "NativeSaveSettings clears m_saveBlocked");
+    Check(g_settingsCalls == "SGT", "a blocked NativeSaveSettings still saves and re-applies the language");
     g_settingsCalls.clear();
     g_loadSettingsLanguageOnly = true;
     NativeLoadSettings(DummyCall());

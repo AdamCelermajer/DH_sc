@@ -50,6 +50,11 @@
 
 #include "dh2/global/native_gameswf_menus.hpp"
 
+#include "dh2/Character.hpp"
+#include "dh2/PlayerStatManager.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/global/native_app_bindings.hpp"
+
 // 0x440e5c NativeGetNextOnlineStatusMessage(gameswf::fn_call const&)
 // PARTIAL. No argument is read. If the OnlineStatusMsg queue is not empty (the deque object is at global dword_99FB34,
 // and its start and finish cur pointers are at 0x99FB34 and 0x99FB44), the result becomes the front element's text. The
@@ -108,13 +113,26 @@ void NativeGoToZone(const gameswf::fn_call& call) {
     (void)call;
 }
 
+// Body of NativeSkillGetEquipedSkillsIDs: the three equipped skill slots of the character (Character::SG_GetSkillInSlot).
+bool EquippedSkillIdsOfPlayer(int player, bool flag, int (&ids)[3]) {
+    Character* ch = NativeGetPlayerChar(player, flag);
+    if (!ch) {
+        return false;
+    }
+    for (int i = 0; i < 3; ++i) {
+        ids[i] = ch->SG_GetSkillInSlot(i);
+    }
+    return true;
+}
+
 // 0x4425a0 NativeSkillGetEquipedSkillsIDs(gameswf::fn_call const&)
 // PARTIAL. Needs two or three arguments. The top argument must be an object (tag 5) and the one below it a number (the
 // player index). With three arguments, the third from the top must be undefined or boolean (tag 0 or 1). Its to_bool is
 // the flag for NativeGetPlayerChar(index, flag). The top object (cast to as_array) gets the three equipped skill ids,
 // Character::SG_GetSkillInSlot(character, 0..2), each pushed as a number. Then the result is set to true. With no
-// character the result is left as it was. Missing: the argument accessors (count, tag, is_number, to_number, to_bool),
-// cast_to<as_array>, as_array::push, set_bool and drop_refs.
+// character the result is left as it was. The lookup is EquippedSkillIdsOfPlayer (native_gameswf_menus.hpp). Missing:
+// the argument accessors (count, tag, is_number, to_number, to_bool), cast_to<as_array>, as_array::push, set_bool and
+// drop_refs.
 void NativeSkillGetEquipedSkillsIDs(const gameswf::fn_call& call) {
     (void)call;
 }
@@ -170,13 +188,23 @@ void NativeStopMessage(const gameswf::fn_call& call) {
     (void)call;
 }
 
+// Body of NativeGetPlayerRanking: the seven stat names and values of the player, read from the PlayerStatManager
+// singleton in EStatType order (0..6).
+void RankingStatsOfPlayer(int player, std::string (&names)[7], int (&values)[7]) {
+    PlayerStatManager& stats = Singleton<PlayerStatManager>::s_inst;
+    for (int stat = 0; stat < 7; ++stat) {
+        const EStatType type = static_cast<EStatType>(stat);
+        names[stat] = stats.GetStatStr(type);
+        values[stat] = stats.GetStatValue(type, player);
+    }
+}
+
 // 0x44344c NativeGetPlayerRanking(gameswf::fn_call const&)
 // PARTIAL. The output object is the top argument when it has tag 5 (cast_to<as_object>). The player index is to_number of
-// the argument below it. For each of the seven stats 0..6, the original sets a property on the object. The property name
-// is PlayerStatManager::GetStatStr(stat), and the number is PlayerStatManager::GetStatValue(stat, player) on the
-// PlayerStatManager singleton. The temporary name is released after each stat. The result is the object (set_as_object).
-// Missing: the argument accessors, the as_object property setter (vtable slot +28, index 7), tu_string, the value setters,
-// set_as_object and drop_refs.
+// the argument below it. For each of the seven stats 0..6, the original sets a property on the object: the name is
+// PlayerStatManager::GetStatStr(stat) and the number is GetStatValue(stat, player), both read by RankingStatsOfPlayer
+// (native_gameswf_menus.hpp). The result is the object (set_as_object). Missing: the argument accessors, the as_object
+// property setter (vtable slot +28, index 7), tu_string, the value setters, set_as_object and drop_refs.
 void NativeGetPlayerRanking(const gameswf::fn_call& call) {
     (void)call;
 }

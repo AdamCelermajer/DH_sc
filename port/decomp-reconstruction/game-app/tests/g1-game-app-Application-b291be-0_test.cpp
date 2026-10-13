@@ -8,6 +8,12 @@
 // Defined by the globals batch in the original. The test defines it so the batch source links alone.
 int OPERATOR_PACKAGE_INGAME = 0;
 
+// GSLevel::s_level, GSLevel::s_gsLevel and GSInit::s_inst, read by the state and level queries of the batch source.
+// Only addresses are compared, so raw storage under the linker names is enough.
+Level* g_gsLevelPtr __asm__("_ZN7GSLevel7s_levelE") = nullptr;
+alignas(16) unsigned char g_gsLevelStorage[256] __asm__("_ZN7GSLevel9s_gsLevelE");
+alignas(16) unsigned char g_gsInitStorage[256] __asm__("_ZN6GSInit6s_instE");
+
 namespace {
 
 int g_failures = 0;

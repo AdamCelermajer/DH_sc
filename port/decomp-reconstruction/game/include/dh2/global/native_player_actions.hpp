@@ -47,7 +47,7 @@ void NativeLockCharacter(const gameswf::fn_call& call);        // 0x43eac0
 void UsePotionOnPlayer(int player);                                             // NativeUsePotion
 void SetCurrentQuestOfPlayer(int player, int quest);                            // NativeSetCurrentQuest
 void ResetStatsChangeOfPlayer(int player, int a, int b, int c, int d);          // NativeStatsRemoveAssign
-void TrainSkillOfPlayer(int player, int skill, bool flag);                      // NativeSkillsTrainSkill
+bool TrainSkillOfPlayer(int player, int skill, bool flag);                      // NativeSkillsTrainSkill (returns IncSkill's bool)
 void EquipSkillInSlotOfPlayer(int player, int slot, int skill);                 // NativeEquipSkill
 void PinchZoomBy(int amount);                                                   // NativePinchZoom
 bool GetEquippedItemInfo(int player, int slot, int* color, int* index, int* numPowers);  // NativeInvGetEquipedItem
@@ -77,3 +77,26 @@ inline AutoEquipAction ClassifyAutoEquipSlot(int slot, int numSlots) {
     }
     return slot == -1 ? AutoEquipAction::kEquipAll : AutoEquipAction::kNone;
 }
+
+// NativePinchZoom camera write (PinchZoomBy, 0x43d6f8): the zoom request grows by the amount times the zoom
+// sensitivity, in float arithmetic as the binary does it. PinchZoomBy writes it only when the camera's m_zoomLocked
+// (+0x86) is clear.
+inline float PinchZoomStep(float zoomCurrent, int amount, float sensitivity) {
+    const float step = static_cast<float>(amount) * sensitivity;
+    return step + zoomCurrent;
+}
+
+// NativeStartMultiplayerGame (0x43e308), after OnlineGameState +0x14 is set to 300. Mode 3 is GLLive. Any other mode
+// starts the game through NativeStartGame. In mode 3 the live game starts once: when the started byte (+0x28) is set
+// the native returns, and otherwise it calls CMatchingGLLive::StartGame and sets the byte.
+enum class MultiplayerStartAction { kStartGame, kNothing, kStartLiveGame };
+
+inline MultiplayerStartAction ClassifyMultiplayerStart(int mode, bool liveStarted) {
+    if (mode != 3) {
+        return MultiplayerStartAction::kStartGame;
+    }
+    return liveStarted ? MultiplayerStartAction::kNothing : MultiplayerStartAction::kStartLiveGame;
+}
+
+// Body of NativeHUDSkill (0x43e734) on the local player: the character is PlayerInfo +0x660 (PlayerInfo::unk_660).
+void HudSkillForLocalPlayer(int slot);

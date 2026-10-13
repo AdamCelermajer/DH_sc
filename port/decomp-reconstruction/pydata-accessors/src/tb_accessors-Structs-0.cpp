@@ -38,7 +38,7 @@ void ReadStringField(IStreamBase* stream, std::uint32_t len, void*& buf) {
     if (buf != nullptr) CustomFree(buf);
     buf = MemoryHintState(static_cast<std::size_t>(len) + 1, 1);
     char* const chars = static_cast<char*>(buf);
-    StreamReader::readStringEx(stream, chars, len, 0);
+    StreamReader::readStringEx(stream, chars, len);
     chars[len] = '\0';
 }
 
@@ -48,7 +48,7 @@ namespace Structs {
 
 // 0x4dbb5c Structs::Inventory::read(IStreamBase*)
 void Inventory::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int16_t>(stream);  // +0x4
+    StreamReader::readAs<std::int16_t>(stream, &m_w1);  // +0x4
 }
 
 // 0x4dc790 Structs::ItemListEntryList::read(IStreamBase*)
@@ -161,15 +161,15 @@ void ItemBase::read(IStreamBase* stream) {
     m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
     m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
     m_w7 = StreamReader::readAs<bool>(stream);  // +0x1c
-    m_w8 = StreamReader::readAs<float>(stream);  // +0x20
-    m_w9 = StreamReader::readAs<float>(stream);  // +0x24
-    m_w10 = StreamReader::readAs<float>(stream);  // +0x28
-    m_w11 = StreamReader::readAs<float>(stream);  // +0x2c
-    m_w12 = StreamReader::readAs<float>(stream);  // +0x30
-    m_w13 = StreamReader::readAs<float>(stream);  // +0x34
-    m_w14 = StreamReader::readAs<float>(stream);  // +0x38
-    m_w15 = StreamReader::readAs<float>(stream);  // +0x3c
-    m_w16 = StreamReader::readAs<float>(stream);  // +0x40
+    StreamReader::readAs<float>(stream, &m_w8);  // +0x20
+    StreamReader::readAs<float>(stream, &m_w9);  // +0x24
+    StreamReader::readAs<float>(stream, &m_w10);  // +0x28
+    StreamReader::readAs<float>(stream, &m_w11);  // +0x2c
+    StreamReader::readAs<float>(stream, &m_w12);  // +0x30
+    StreamReader::readAs<float>(stream, &m_w13);  // +0x34
+    StreamReader::readAs<float>(stream, &m_w14);  // +0x38
+    StreamReader::readAs<float>(stream, &m_w15);  // +0x3c
+    StreamReader::readAs<float>(stream, &m_w16);  // +0x40
 }
 
 // 0x4ec9f0 Structs::AnimStep::read(IStreamBase*)
@@ -185,15 +185,15 @@ void AnimStep::read(IStreamBase* stream) {
     ReadInt32Words(stream, m_w9, m_w8);  // +0x24
     m_w10 = StreamReader::readAs<std::int32_t>(stream);  // +0x28
     m_w11 = StreamReader::readAs<std::int32_t>(stream);  // +0x2c
-    m_w12 = StreamReader::readAs<float>(stream);  // +0x30
+    StreamReader::readAs<float>(stream, &m_w12);  // +0x30
     m_w13 = StreamReader::readAs<bool>(stream);  // +0x34
 }
 
 // 0x4ed280 Structs::ItemListEntry::read(IStreamBase*)
 void ItemListEntry::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
-    m_w2 = StreamReader::readAs<std::int16_t>(stream);  // +0x8
-    m_off10 = StreamReader::readAs<std::int8_t>(stream);  // +0xa
+    StreamReader::readAs<std::int16_t>(stream, &m_w2);  // +0x8
+    StreamReader::readAs<std::int8_t>(stream, &m_off10);  // +0xa
 }
 
 // 0x4ef05c Structs::CamAnimSet::read(IStreamBase*)

@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include "core-platform/deps/game_types.hpp"  // Point3D
-#include "net-transport/stream_buffer.hpp"    // StreamBuffer (embedded in LoadFileData)
+#include "dh2/StreamBuffer.hpp"    // StreamBuffer (embedded in LoadFileData)
 #include "dh2/EventManager.hpp"
 #include "dh2/LuaScript.hpp"
 

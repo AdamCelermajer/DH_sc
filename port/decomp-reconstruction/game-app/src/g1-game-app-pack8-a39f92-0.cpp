@@ -5,15 +5,26 @@
 //
 // Each Execute runs the isTracingScriptCmd probe first, subject to the skipping and music conditions in its pseudocode
 // (Script_PlaySound's probe is conditional on its record, so its stub omits it; the MoveActor asm was checked). Every
-// Execute also reads the command's argument record through ScriptCmdImpl::m_args (+0x0c). No class or layout for those records is declared in the tree, so the
-// Execute and Init bodies are PARTIAL: the probe is reproduced and the record fields are named in each note as a layout
-// request for the integrator.
+// Execute also reads the command's argument record through ScriptCmdImpl::m_args (+0x0c). The records are the pydata
+// Structs:: types (pydata-accessors/script_cmd.hpp). Where a record member or a sound, FX or table callee is still not
+// declared, the body is PARTIAL and the note names it.
 
+#include <cstdint>
 #include <string>
 
+#include "pydata-accessors/script_cmd.hpp"
+
+#include "dh2/AnimController.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/Door.hpp"
+#include "dh2/GameObject.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/ObjectBase.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/PFObject.hpp"
 #include "dh2/Script_MoveActor.hpp"
 #include "dh2/Script_OpenDoor.hpp"
@@ -24,6 +35,7 @@
 #include "dh2/Script_PlayEffect.hpp"
 #include "dh2/Script_PlayLevelMusic.hpp"
 #include "dh2/Script_PlaySound.hpp"
+#include "dh2/VisualObject.hpp"
 #include "dh2/v2Controller.hpp"
 
 namespace {
@@ -63,21 +75,62 @@ bool Script_MoveActor::IsBlocking() const {
 }
 
 // 0x45f0a8 void Script_MoveActor::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd trace probe. Missing: the rest of the body, which reads the argument record
-// (ScriptCmdImpl m_args +0x0c, no class in the tree). Layout request, Script_MoveActor argument record: +0x0c const char*
-// target name, +0x10 byte collision flag, +0x18 const char* actor name, +0x1c byte flag (copied to unk_10).
-// The body resolves the actor (Character) and the target (GameObject) with ApplicationGetInstance().m_objectManager,
-// GetObjectByName(name, module, false, nullptr). It stores the actor in m_actor (+0x14) and the actor's m_static in
-// m_wasStatic (+0x18). When both exist it sets the controller flag unk_009 (+0x09) to 1, calling DisableCollisions first
-// when the collision flag is set. Skipping goes straight to v2Controller::Cmd_WarpTo(&target->m_position), where the
-// position is GameObject m_position (+0x160), and then clears unk_009. Otherwise, when m_wasStatic is set and the flag is
-// clear, it clears unk_009 and returns. When m_wasStatic is set and the flag is set, it calls SetPhysicalObject(actor,
-// skipping, skipping) and stores skipping into the actor's m_static (asm 0x45f1e0..0x45f1fc reloads the entry skipping
-// slot). The source expression for those two values is not recovered, so that branch is not written. After that it calls
-// Cmd_MoveTo(target). If the actor's path is non-empty it clears unk_009 and returns. Otherwise it clears unk_10 and warps
-// as above. When either object is missing, it clears unk_10 and returns.
-void Script_MoveActor::Execute(bool /*skipping*/, int /*module*/) {
+// The trace probe, then the actor (record +0x18, Structs::MoveActor m_w6) and the target (record +0x0c, m_w3) are looked up with
+// ObjectManager::GetObjectByName(name, module, false, nullptr). The actor is stored in m_actor (+0x14), the record flag (+0x1c)
+// in unk_10 (+0x10), and the actor's m_static in m_wasStatic (+0x18). When both exist, the record's collision flag (+0x10)
+// disables the actor's collisions, and the controller flag +0x09 is set. Unless skipping, a static actor whose record flag is
+// clear returns at once. A static actor with the flag set is made non-static after SetPhysicalObject(null, false): the asm
+// (0x45f1e0) passes the entry skipping value, which is zero on this path, as both arguments. Then Cmd_MoveTo(target) runs, and
+// when the actor's path is non-empty the command returns. Otherwise unk_10 is cleared. The skipping path and that last case warp
+// with Cmd_WarpTo(target->m_position) (asm 0x45f274, target +0x160), then clear the flag. When either object is missing, unk_10
+// is cleared and nothing else happens.
+void Script_MoveActor::Execute(bool skipping, int module) {
+    const Structs::MoveActor* record = static_cast<const Structs::MoveActor*>(m_args);
     TraceScriptCmdSwitch();
+    ObjectManager* objects = ApplicationGetInstance().m_objectManager;
+
+    ObjectHandle actorHandle = objects->GetObjectByName(record->m_w6, module, false, nullptr);
+    Character* actor = nullptr;
+    if (actorHandle.GetObject(false) != nullptr) {
+        actor = static_cast<Character*>(actorHandle);
+    }
+    ObjectHandle targetHandle = objects->GetObjectByName(record->m_w3, module, false, nullptr);
+    GameObject* target = nullptr;
+    if (targetHandle.GetObject(false) != nullptr) {
+        target = static_cast<GameObject*>(targetHandle);
+    }
+
+    unk_10 = record->m_w7;
+    m_actor = actor;
+    m_wasStatic = actor != nullptr ? static_cast<std::uint8_t>(actor->m_static) : 0;
+    if (actor == nullptr || target == nullptr) {
+        unk_10 = false;
+        return;
+    }
+
+    v2Controller* controller = actor->m_controller;
+    if (record->m_w4) {
+        actor->DisableCollisions();
+    }
+    controller->unk_009 = true;
+    if (!skipping) {
+        if (m_wasStatic != 0) {
+            if (!record->m_w7) {
+                controller->unk_009 = false;
+                return;
+            }
+            actor->SetPhysicalObject(nullptr, false);
+            actor->m_static = false;
+        }
+        controller->Cmd_MoveTo(target);
+        if (!actor->m_pfObject.m_path.empty()) {
+            controller->unk_009 = false;
+            return;
+        }
+        unk_10 = false;
+    }
+    controller->Cmd_WarpTo(target->m_position);
+    controller->unk_009 = false;
 }
 
 // 0x455848 bool Script_OpenDoor::IsBlocking() const
@@ -92,45 +145,74 @@ bool Script_OpenDoor::IsBlocking() const {
 }
 
 // 0x45d75c void Script_OpenDoor::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd trace probe. Missing: the rest of the body, which reads the argument record
-// (ScriptCmdImpl m_args +0x0c, no class in the tree). Layout request, Script_OpenDoor argument record: +0x0c const char*
-// door name, +0x10 byte instant flag. The body then looks the door up with ApplicationGetInstance().m_objectManager,
-// GetObjectByName(name, module, false, nullptr). When the object's m_goId (ObjectBase +0xf4) equals 2, the Door is kept in
-// m_door, m_instant is set from the record, and Door::Open(skipping) runs. Otherwise m_door is cleared. The value 2 is read
-// from the pseudocode; the ObjectBase::GO_IDS enumerators are not recovered (the enum is empty in the tree).
-void Script_OpenDoor::Execute(bool /*skipping*/, int /*module*/) {
+// The trace probe, then the door named by the record (+0x0c, Structs::OpenDoor m_w3) is looked up with
+// ObjectManager::GetObjectByName(name, module, false, nullptr) and ObjectHandle::GetObject(false). When the object's m_goId is
+// GO_DOOR (2) it is stored in m_door, the record's instant flag (+0x10) is copied to m_instant, and Door::Open(skipping) runs.
+// Otherwise m_door is cleared and m_instant is left as it was.
+void Script_OpenDoor::Execute(bool skipping, int module) {
+    const Structs::OpenDoor* record = static_cast<const Structs::OpenDoor*>(m_args);
     TraceScriptCmdSwitch();
+    ObjectHandle doorHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectBase* object = doorHandle.GetObject(false);
+    if (object != nullptr && object->m_goId == ObjectBase::GO_DOOR) {
+        m_door = static_cast<Door*>(object);
+        m_instant = record->m_w4;
+        m_door->Open(skipping);
+    } else {
+        m_door = nullptr;
+    }
 }
 
 // 0x459628 bool Script_PlayActorAnim::IsBlocking() const
-// PARTIAL. Missing: the argument record (m_args +0x0c, no class in the tree). The original returns true when the record's
-// byte at +0x1c is set, the m_actor handle (+0x10) resolves, the resolved object's m_goId (+0xf4) is 0, and
-// (record +0x10) + 2 equals the actor's current animation: CharAnimator m_currentAnim (Character +0x4e8, CharAnimator +0x4c).
-// Returns false (not blocking) until the record is declared.
+// PARTIAL. True when the record's flag at +0x1c (Structs::PlayActorAnim m_w7) is set, the m_actor handle (+0x10) resolves to an
+// object whose m_goId (ObjectBase +0xf4) is 0, and (record +0x10, m_w4) + 2 equals that object's current animation: the
+// CharAnimator m_currentAnim (Character +0x4e8, the CharAnimator base at +0x49c, field +0x4c). Gap: ObjectBase::GO_IDS names only
+// GO_DOOR, so the cast to Character assumes that a goId of 0 is a Character. The tree does not confirm that.
 bool Script_PlayActorAnim::IsBlocking() const {
-    return false;
+    const Structs::PlayActorAnim* record = static_cast<const Structs::PlayActorAnim*>(m_args);
+    if (!record->m_w7) {
+        return false;
+    }
+    const ObjectBase* object = m_actor.GetObject(false);
+    if (object == nullptr || static_cast<std::int32_t>(object->m_goId) != 0) {
+        return false;
+    }
+    return record->m_w4 + 2 == static_cast<const Character*>(object)->m_currentAnim;
 }
 
 // 0x45a2ec void Script_PlayActorAnim::Init()
-// PARTIAL. Missing: the argument record (m_args +0x0c, no class in the tree). Layout request, Script_PlayActorAnim argument
-// record: +0x08 int dict id, +0x0c int dict id, +0x10 int anim index, +0x18 const char* actor name. The original resolves
-// the actor with GetObjectByName(name, -1, false, nullptr) on ApplicationGetInstance().m_objectManager, takes its Character,
-// and calls CharAnimator::ANIM_AddAnimDictToSet on the actor's CharAnimator (Character +0x49c) with +0x08 and then +0x0c.
-// Nothing is added until the record is declared.
-void Script_PlayActorAnim::Init() {}
+// Resolves the actor named by the record (+0x18, Structs::PlayActorAnim m_w6) with GetObjectByName(name, -1, false, nullptr).
+// When it is a Character, the record's two animation dictionaries (+0x08, then +0x0c) are added to its CharAnimator
+// (Character +0x49c) with ANIM_AddAnimDictToSet.
+void Script_PlayActorAnim::Init() {
+    const Structs::PlayActorAnim* record = static_cast<const Structs::PlayActorAnim*>(m_args);
+    ObjectHandle actorHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w6, -1, false, nullptr);
+    if (actorHandle.GetObject(false) == nullptr) {
+        return;
+    }
+    Character* actor = static_cast<Character*>(actorHandle);
+    if (actor == nullptr) {
+        return;
+    }
+    CharAnimator* animator = actor;
+    animator->ANIM_AddAnimDictToSet(record->m_w2);
+    animator->ANIM_AddAnimDictToSet(record->m_w3);
+}
 
 // 0x45e890 void Script_PlayActorAnim::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe, only when skipping is clear. Missing: the rest of the body, which reads the argument
-// record (m_args +0x0c, no class in the tree). Layout request, Script_PlayActorAnim argument record: as in Init above. The
-// body stores the resolved actor handle in m_actor (+0x10), stores record +0x08 at +0x08 of the struct that Arrays::AnimTable
-// row (anim + 2) points to at +0x0c, and record +0x0c at +0x08 of the struct that row (anim + 8) points to at +0x0c (rows are 20
-// bytes; pydata has no field accessor for this table), then calls CharStateMachine::SM_SetAnimState(anim + 2, false, true) on the
-// actor (Character +0x4fc).
-void Script_PlayActorAnim::Execute(bool skipping, int /*module*/) {
+// PARTIAL. When skipping is clear, the trace probe runs, then the actor named by the record (+0x18) is looked up with
+// GetObjectByName(name, module, false, nullptr) and stored in m_actor (+0x10). Not reproduced: the rest of the body. When the
+// actor is a Character, the original writes record +0x08 into the struct that the Arrays::AnimTable row (anim + 2) points to at
+// +0x0c, writes record +0x0c into the struct that row (anim + 8) points to, where anim is record +0x10, and then calls
+// CharStateMachine::SM_SetAnimState(anim + 2, false, true) on the actor (Character +0x4fc). Gap: pydata gives Arrays::AnimTable
+// only raw member bytes and no row accessor (rows are 20 bytes, with the pointer at row +0x0c).
+void Script_PlayActorAnim::Execute(bool skipping, int module) {
     if (skipping) {
         return;
     }
+    const Structs::PlayActorAnim* record = static_cast<const Structs::PlayActorAnim*>(m_args);
     TraceScriptCmdSwitch();
+    m_actor = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w6, module, false, nullptr);
 }
 
 // 0x45569c bool Script_PlayAnimById::IsBlocking() const
@@ -140,17 +222,29 @@ bool Script_PlayAnimById::IsBlocking() const {
 }
 
 // 0x45e24c void Script_PlayAnimById::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe, only when skipping is clear. Missing: the rest of the body, which reads the argument
-// record (m_args +0x0c, no class in the tree). Layout request, Script_PlayAnimById argument record: +0x08 int clip id,
-// +0x0c byte loop flag, +0x14 const char* object name. The body resolves the object with GetObjectByName(name, module, false,
-// nullptr) on ApplicationGetInstance().m_objectManager, takes its GameObject, and, when that has a visual object (GameObject
-// m_visualObject +0x2d8) with an animation controller (VisualObject m_animController +0x38), calls
-// AnimController::PlayClip(clip, loop, 0, 0) through virtual slot +0x1c (the unsigned clip overload).
-void Script_PlayAnimById::Execute(bool skipping, int /*module*/) {
+// When skipping is clear: the trace probe, then the object named by the record (+0x14, Structs::PlayAnimById m_w5) is looked up
+// with GetObjectByName(name, module, false, nullptr). When it resolves to a GameObject with a visual object (m_visualObject,
+// +0x2d8) that has an animation controller (VisualObject m_animController, +0x38), the clip id (record +0x08, m_w2) is played with
+// AnimController::PlayClip(clip, loop, 0, 0), where loop is record +0x0c (m_w3). That is the unsigned overload, virtual slot +0x1c.
+void Script_PlayAnimById::Execute(bool skipping, int module) {
     if (skipping) {
         return;
     }
+    const Structs::PlayAnimById* record = static_cast<const Structs::PlayAnimById*>(m_args);
     TraceScriptCmdSwitch();
+    ObjectHandle objectHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w5, module, false, nullptr);
+    if (objectHandle.GetObject(false) == nullptr) {
+        return;
+    }
+    GameObject* object = static_cast<GameObject*>(objectHandle);
+    if (object == nullptr || object->m_visualObject == nullptr) {
+        return;
+    }
+    AnimController* controller = object->m_visualObject->m_animController;
+    if (controller == nullptr) {
+        return;
+    }
+    (void)controller->PlayClip(static_cast<unsigned int>(record->m_w2), record->m_w3, 0, 0);
 }
 
 // 0x4556a4 bool Script_PlayAnimByName::IsBlocking() const
@@ -160,35 +254,65 @@ bool Script_PlayAnimByName::IsBlocking() const {
 }
 
 // 0x45e124 void Script_PlayAnimByName::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe, only when skipping is clear. Missing: the rest of the body, which reads the argument
-// record (m_args +0x0c, no class in the tree). Layout request, Script_PlayAnimByName argument record: +0x0c clip name (const char*,
-// inferred from the name overload at slot +0x20), +0x10 byte loop flag, +0x18 const char* object name. The body resolves the object as in Script_PlayAnimById and calls
-// the name overload AnimController::PlayClip(clip name, loop, 0, 0) through virtual slot +0x20 on the object's
-// animation controller (VisualObject m_animController +0x38, reached from GameObject m_visualObject +0x2d8).
-void Script_PlayAnimByName::Execute(bool skipping, int /*module*/) {
+// When skipping is clear: the trace probe, then the object named by the record (+0x18, Structs::PlayAnimByName m_w6) is looked up
+// as in Script_PlayAnimById. Its animation controller (VisualObject m_animController, +0x38, reached from GameObject m_visualObject
+// +0x2d8) plays the clip named by the record (+0x0c, m_w3) with AnimController::PlayClip(name, loop, 0, 0), where loop is record
+// +0x10 (m_w4). That is the name overload, virtual slot +0x20.
+void Script_PlayAnimByName::Execute(bool skipping, int module) {
     if (skipping) {
         return;
     }
+    const Structs::PlayAnimByName* record = static_cast<const Structs::PlayAnimByName*>(m_args);
     TraceScriptCmdSwitch();
+    ObjectHandle objectHandle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w6, module, false, nullptr);
+    if (objectHandle.GetObject(false) == nullptr) {
+        return;
+    }
+    GameObject* object = static_cast<GameObject*>(objectHandle);
+    if (object == nullptr || object->m_visualObject == nullptr) {
+        return;
+    }
+    AnimController* controller = object->m_visualObject->m_animController;
+    if (controller == nullptr) {
+        return;
+    }
+    (void)controller->PlayClip(record->m_w3, record->m_w4, 0, 0);
 }
 
 // 0x459370 bool Script_PlayCamera::IsBlocking() const
-// PARTIAL. Missing: the argument record (m_args +0x0c, no class in the tree) and CameraLevel, which is not declared (waits on
-// dh2/CameraLevel.hpp). The original returns the camera's busy byte (CameraLevel +0x84) when the record's byte at +0x0c is
-// set and the current level (ApplicationGetInstance().GetCurrentLevel()) and its camera (Level m_camera +0x128) exist.
-// Returns false (not blocking) until both are declared.
+// Blocks while the level camera is playing a clip. The record flag at +0x0c (Structs::PlayCamera m_w3) must be set, and the
+// current level and its camera (Level m_camera, +0x128) must exist. The result is the camera's busy flag (CameraLevel
+// m_zoomAnimActive, +0x84).
 bool Script_PlayCamera::IsBlocking() const {
-    return false;
+    const auto* args = static_cast<const Structs::PlayCamera*>(m_args);
+    if (!args->m_w3) {
+        return false;
+    }
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr || level->m_camera == nullptr) {
+        return false;
+    }
+    return level->m_camera->m_zoomAnimActive;
 }
 
 // 0x460110 void Script_PlayCamera::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe (unconditional). Missing: the rest of the body. Layout request, Script_PlayCamera
-// argument record: +0x08 int anim id, +0x0c byte flag (used by IsBlocking). The original takes the current level's camera
-// (Level m_camera +0x128) and calls CameraLevel::PlayAnim(camera, id, false, false). The id is the record's +0x08 value, or,
-// when skipping is set, field +0x10 of the Arrays::CamAnimSetTable row (rows are 28 bytes) selected by the camera's index
-// (CameraLevel +0x80). pydata has no accessor for that table, and CameraLevel is not declared (waits on dh2/CameraLevel.hpp).
-void Script_PlayCamera::Execute(bool /*skipping*/, int /*module*/) {
+// PARTIAL. The trace probe runs first. When the current level and its camera (Level m_camera, +0x128) exist and skipping is
+// clear, the clip is played with CameraLevel::PlayAnim(record m_w2 (+0x08), 0, false): the original passes 0 and 0 for
+// controllerArg and preserveZoom. When skipping is set, the clip id is field +0x10 of the Arrays::CamAnimSetTable row
+// camera->m_camTableIndex (CameraLevel +0x80, rows of 28 bytes). That table has no element type in the tree (pydata gives
+// Arrays::CamAnimSetTable only raw member bytes and declares no Structs::CamAnimSet), so the skipping branch makes no call.
+void Script_PlayCamera::Execute(bool skipping, int /*module*/) {
+    const auto* args = static_cast<const Structs::PlayCamera*>(m_args);
     TraceScriptCmdSwitch();
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr || level->m_camera == nullptr) {
+        return;
+    }
+    if (skipping) {
+        // PARTIAL: the clip id comes from Arrays::CamAnimSetTable (see above).
+        return;
+    }
+    level->m_camera->PlayAnim(args->m_w2, 0, false);
 }
 
 // 0x4556ac bool Script_PlayEffect::IsBlocking() const
@@ -199,16 +323,17 @@ bool Script_PlayEffect::IsBlocking() const {
 
 // 0x4598b4 void Script_PlayEffect::Init()
 // PARTIAL. The whole original body is one call: VisualFXManager::RegisterFXSetToLoad(&Singleton<VisualFXManager>::s_inst,
-// record +0x08). VisualFXManager is not declared (waits on dh2/VisualFXManager.hpp), and the argument record (m_args +0x0c,
-// no class in the tree) is not declared either, so nothing is registered here.
+// record +0x08). VisualFXManager::RegisterFXSetToLoad(int) and s_inst are declared (dh2/VisualFXManager.hpp). Missing: the FX
+// set id at record +0x08. pydata Structs::PlayEffect declares only m_w3 (+0x0c) and m_w8 (+0x20), so the id has no member and
+// nothing is registered here. Layout request, Structs::PlayEffect: m_w2 int at +0x08 (FX set id).
 void Script_PlayEffect::Init() {}
 
 // 0x45fa9c void Script_PlayEffect::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe, only when skipping is clear. Missing: the rest of the body, which reads the argument
-// record (m_args +0x0c, no class in the tree) and VisualFXManager, which is not declared (waits on dh2/VisualFXManager.hpp).
-// Layout request, Script_PlayEffect argument record: +0x08 int FX set id, +0x10 / +0x14 / +0x18 int position offsets (converted
-// to float, in that order), +0x20 const char* object name. The body resolves the object with GetObjectByName(name, module, false,
-// nullptr) and calls VisualFXManager::PlayAnimFXSet(FX set id, position, object, 0).
+// PARTIAL. Reproduced: the trace probe, only when skipping is clear. Missing: the record fields and the call. The original reads
+// the FX set id (record +0x08), the position offsets (+0x10, +0x14, +0x18, converted to float in that order) and the object
+// name (+0x20), resolves the object with GetObjectByName(name, module, false, nullptr), and calls
+// VisualFXManager::PlayAnimFXSet(id, position, object, nullptr), which is declared. Layout request, Structs::PlayEffect: m_w2 int
+// at +0x08, m_w4, m_w5 and m_w6 int at +0x10, +0x14 and +0x18, and m_w8 at +0x20 as const char* (it is uint32_t now).
 void Script_PlayEffect::Execute(bool skipping, int /*module*/) {
     if (skipping) {
         return;
@@ -223,13 +348,17 @@ bool Script_PlayLevelMusic::IsBlocking() const {
 }
 
 // 0x45fd20 void Script_PlayLevelMusic::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe (unconditional). Missing: the rest of the body. Layout request, Script_PlayLevelMusic
-// argument record: +0x08 int music argument. The original reads the current level (ApplicationGetInstance().GetCurrentLevel()),
-// calls VoxSoundManager::PlayMusic(level m_musicSoundId (+0x11c), 1, 0, record +0x08) on VoxSoundManager::s_instance, then sets
-// the music state to "ambient" or "combat" from the manager's ambient byte (+0x31). VoxSoundManager::PlayMusic, SetMusicState and
-// s_instance are not declared in vox-audio/include/vox-audio/vox/sound_manager.hpp, and the record is not declared.
+// PARTIAL. Reproduced: the trace probe (unconditional) and the current level lookup. Missing: the sound calls. The original
+// calls VoxSoundManager::PlayMusic(s_instance, level m_musicSoundId (+0x11c), 1, 0, record m_w2 (+0x08)), then
+// VoxSoundManager::SetMusicState(s_instance, "ambient" or "combat"), chosen by the manager's byte at +0x31. sound_manager.hpp
+// declares neither method nor VoxSoundManager::s_instance, so the calls are not rebuilt.
 void Script_PlayLevelMusic::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
+        return;
+    }
+    // PARTIAL: VoxSoundManager::PlayMusic and SetMusicState are not rebuilt (see above).
 }
 
 // 0x455650 bool Script_PlaySound::IsBlocking() const
@@ -239,9 +368,19 @@ bool Script_PlaySound::IsBlocking() const {
 }
 
 // 0x45fefc void Script_PlaySound::Execute(bool, int)
-// PARTIAL. The original runs the trace probe only when skipping is clear or the record's music byte (+0x0c) is set, then either
-// VoxSoundManager::PlayMusic(cue, flag, record +0x08 != 0, 2000) when that music byte is set, or VoxSoundManager::Play(cue,
-// byte +0x0d, record +0x08, byte +0x0c, byte +0x0c). Layout request, Script_PlaySound argument record: +0x08 int, +0x0c byte
-// music flag, +0x0d byte flag, +0x10 int cue id. The record is not declared, and VoxSoundManager::Play and PlayMusic are not
-// declared in vox-audio/include/vox-audio/vox/sound_manager.hpp, so the body is empty.
-void Script_PlaySound::Execute(bool /*skipping*/, int /*module*/) {}
+// PARTIAL. The trace probe runs only when skipping is clear or the record's music flag (Structs::PlaySound m_w3, +0x0c) is
+// set. Then the dispatch is rebuilt: with the music flag set, VoxSoundManager::PlayMusic(record m_w4 (+0x10), record m_off13
+// (+0x0d), record m_w2 != 0, 2000) on VoxSoundManager::s_instance; otherwise VoxSoundManager::Play(m_w4, m_off13, m_w2, m_w3,
+// m_w3). Those two calls are not rebuilt: VoxSoundManager::Play, PlayMusic and s_instance are not declared in
+// vox-audio/include/vox-audio/vox/sound_manager.hpp.
+void Script_PlaySound::Execute(bool skipping, int /*module*/) {
+    const auto* args = static_cast<const Structs::PlaySound*>(m_args);
+    if (!skipping || args->m_w3) {
+        TraceScriptCmdSwitch();
+    }
+    if (args->m_w3) {
+        // PARTIAL: VoxSoundManager::PlayMusic (see above).
+    } else {
+        // PARTIAL: VoxSoundManager::Play (see above).
+    }
+}

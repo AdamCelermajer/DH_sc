@@ -1,17 +1,19 @@
-// LuaScript Lua callbacks, batch g1-game-app-LuaScript-5015a8-2 (part 3 of 3).
+// LuaScript Lua callbacks, batch g1-game-app-LuaScript-5015a8-2 (part 3 of 3), redo r2a-game-app-LuaScript-5015a8-1.
 //
-// Every callback here takes sfc::script::lua::Arguments and sfc::script::lua::ReturnValues. Those types have no
-// header in this tree (no dh2/sfc/script/lua/Arguments.hpp, ReturnValues.hpp or Value.hpp), so the definitions
-// below are stubs and their ledger rows are partial. The value rules the callbacks apply are in luascript_g1 and
-// are tested by tests/g1-game-app-LuaScript-5015a8-2_test.cpp. When the sfc headers exist, each stub body is the
-// Hex-Rays logic described in its comment, written with those helpers.
+// Every callback here takes sfc::script::lua::Arguments and sfc::script::lua::ReturnValues (dh2/sfc/script/lua). The
+// value rules the callbacks apply are in luascript_g1 (below), and they are tested by
+// tests/g1-game-app-LuaScript-5015a8-2_test.cpp and tests/r2a-game-app-LuaScript-5015a8-1_test.cpp.
 //
 // The pydata and object globals the callbacks read are Application members, reached through ApplicationGetInstance()
-// (dh2/global/ctrl_camera.hpp; its definition is the integrator's). Singleton<Application>::s_inst is 0x99f72c:
+// (dh2/Application.hpp). Singleton<Application>::s_inst is 0x99f72c:
 //   dword_99F758 = s_inst +0x2c = Application::m_pyDataConstants (PyDataConstants, pydata-accessors w7_pydata12.hpp)
 //   dword_99F75C = s_inst +0x30 = Application::m_pyDataArrays    (PyDataArrays, pydata-accessors w7_pydata12.hpp)
 //   dword_99F764 = s_inst +0x38 = Application::m_objectManager   (ObjectManager, dh2/ObjectManager.hpp)
 // All three are declared in dh2/Application.hpp.
+//
+// Status of the callbacks below (redo): reconstructed: _FromFixed, _CallPyScript, _Include, _GetCurrentLevelRange,
+// _GetPyCst, _GetPyStruct, _GetPyOID, _BitXOr, _BitNot. partial: _GetGameObjectsByType (the object walk) and
+// _SetGameType (the store to Level +0x150).
 
 #include <cmath>
 #include <cstddef>
@@ -20,7 +22,17 @@
 #include <utility>
 #include <vector>
 
+#include "dh2/Application.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/LuaScript.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/sfc/script/lua/ReturnValues.hpp"
+#include "dh2/sfc/script/lua/Value.hpp"
+
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 
 namespace luascript_g1 {
 
@@ -112,89 +124,177 @@ bool IsValidGameType(unsigned value) {
 
 }  // namespace luascript_g1
 
+namespace {
+
+// Value::m_type tags (Value.hpp): 3 is a number, 4 is a string.
+constexpr int kLuaTypeNumber = 3;
+constexpr int kLuaTypeString = 4;
+
+}  // namespace
+
 // 0x37ee84 LuaScript::_FromFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp, ReturnValues.hpp and Value.hpp (none in this tree).
-// Hex-Rays: when args is not empty, push SplitFixed(args[0]).integer, then push SplitFixed(args[0]).scaled as a
-// number. Both pushes read args[0]; the pseudocode re-reads the first element for the second push.
-void LuaScript::_FromFixed(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// With one or more arguments: pushes SplitFixed(args[0]).integer (the value shifted right by 8), then
+// SplitFixed(args[0]).scaled as a number. The original reads args[0] again for the second push and gets the same value.
+void LuaScript::_FromFixed(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                           void* /*self*/) {
+    if (args.m_values->empty()) {
+        return;
+    }
+    const luascript_g1::FixedParts parts = luascript_g1::SplitFixed(args[0].getNumber());
+    ret.pushInteger(parts.integer);
+    ret.pushNumber(parts.scaled);
+}
 
 // 0x37ef3c LuaScript::_CallPyScript(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp and ReturnValues.hpp (none in this tree).
-// Hex-Rays: when args is not empty and args[0] is a string, id = ScriptManager::s_inst.GetIDFromName(name, true).
-// When id != -1 and IsScriptRunning(id) is false, call StartScript(id, -1, false). IsScriptRunning is not called
-// when id is -1. The pseudocode return value is discarded by the void signature.
-void LuaScript::_CallPyScript(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// With one or more arguments and a string args[0]: id = ScriptManager::s_inst.GetIDFromName(name, true). When id is not
+// -1 and the script is not running (IsScriptRunning(id) is false), StartScript(id, -1, false) runs. IsScriptRunning is
+// not called when id is -1. The original's int result is dropped by the void binding.
+void LuaScript::_CallPyScript(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                              void* /*self*/) {
+    if (args.m_values->empty() || args[0].m_type != kLuaTypeString) {
+        return;
+    }
+    const int id = ScriptManager::s_inst.GetIDFromName(args[0].getString(), true);
+    if (id == -1 || ScriptManager::s_inst.IsScriptRunning(id)) {
+        return;
+    }
+    ScriptManager::s_inst.StartScript(id, -1, false);
+}
 
 // 0x37efe4 LuaScript::_Include(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp and Value.hpp (none in this tree).
-// Hex-Rays: when args is not empty and args[0] is a string, the self pointer (the LuaScript) runs Load(name).
-// The pseudocode returns the Load result, which the void signature discards.
-void LuaScript::_Include(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// With one or more arguments and a string args[0]: the LuaScript (self) loads that file through Load. The original
+// returns Load's result, which the void binding drops.
+void LuaScript::_Include(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/, void* self) {
+    if (args.m_values->empty() || args[0].m_type != kLuaTypeString) {
+        return;
+    }
+    static_cast<LuaScript*>(self)->Load(args[0].getString());
+}
 
 // 0x37f03c LuaScript::_GetGameObjectsByType(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp and ReturnValues.hpp (none in this tree). The container is
-// declared: the walked list is ObjectManager::m_objectMap (+0x0c, std::map<int, ObjectListItem>, dh2/ObjectManager.hpp),
-// reached from dword_99F764 = s_inst +0x38 = Application::m_objectManager (dh2/Application.hpp). The walk reads the
-// object id at node +0x2c (asm only). ObjectListItem is forward-declared and has no layout yet, so the node offset
-// and whether it equals the map key are not checkable from a header.
-// Hex-Rays: skip = FloatToUInt32(args[1]) when args has more than one value and args[1] is a number, else 0.
-// When args[0] is a string, walk the object tree in order: header at +0x0c, leftmost node at +0x14, object id at
-// node +0x2c. A node with id 0 is skipped. Otherwise the id resolves to a GameObject, and a non-null GameObject whose
-// PropertyMap::GetThisClassName equals the name is a match. SelectTypeMatches(matches, skip) gives the objects to push
-// as userdata.
-void LuaScript::_GetGameObjectsByType(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// PARTIAL (redo). Written: the skip count is FloatToUInt32(args[1]) when there are two or more arguments and args[1] is a
+// number (0 otherwise), and the class name is args[0] when that is a string. Nothing is pushed without a string argument.
+// Missing: the object walk. The original walks ObjectManager::m_objectMap in tree order (the map header at +0x0c, the
+// leftmost node at +0x14) and reads each node's object id at node +0x2c. The mapped ObjectListItem has no layout in this
+// tree (layout request: ObjectListItem with the id field, and whether it equals the map key), and ObjectBase::GetHandle
+// takes no id here. Each object whose PropertyMap::GetThisClassName equals the name is pushed with pushUserData
+// (GameObject derives from sfc::script::lua::UserData). The window rule is luascript_g1::SelectTypeMatches.
+void LuaScript::_GetGameObjectsByType(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                                      void* /*self*/) {
+    [[maybe_unused]] unsigned int skip = 0;
+    if (args.m_values->size() > 1 && args[1].m_type == kLuaTypeNumber) {
+        skip = luascript_g1::FloatToUInt32(args[1].getNumber());
+    }
+    if (args.m_values->empty() || args[0].m_type != kLuaTypeString) {
+        return;
+    }
+    [[maybe_unused]] const char* className = args[0].getString();
+    // PARTIAL: the object walk is not written (see above).
+}
 
 // 0x37f1f0 LuaScript::_GetCurrentLevelRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp and ReturnValues.hpp (none in this tree), and on a typed row
-// accessor for Arrays::LevelList. pydata-accessors w7_arrays_00.hpp exposes only the raw Arrays::LevelList::members
-// table at a 72-byte stride, so each row must be decoded at the file stride into Structs::LevelDeclaration (fields
-// m_w12..m_w17, +0x30..+0x44, structs_records.hpp). The level index is Level::m_levelListIndex (+0x3c, dh2/Level.hpp).
-// Hex-Rays: level index = Application::GetCurrentLevel()->m_levelListIndex (Level +0x3c, no null check in the
-// original). When it is -1, push kNoLevelRange. Otherwise selector = LevelRangeSelector(args[0] is a number,
-// args[0]) and push the pair from LevelRangeFor when it has a value; other selectors push nothing.
-void LuaScript::_GetCurrentLevelRange(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// The current level's row in Arrays::LevelList is Level::m_levelListIndex (+0x3c). When it is -1, the binding pushes -1
+// twice. Otherwise the selector is the first argument truncated to int when it is a number (0 otherwise). The pair from
+// LevelRangeFor is pushed in order: selector 1 gives (m_w16, m_w13), 2 gives (m_w17, m_w14), 0 gives (m_w15, m_w12), and
+// any other selector pushes nothing. The row fields are the Structs::LevelDeclaration members (+0x30..+0x44 in the 32-bit
+// layout), read through the typed element pointer the pydata port uses. Like the original, the current level is not
+// null-checked.
+void LuaScript::_GetCurrentLevelRange(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                                      void* /*self*/) {
+    const int levelIndex = ApplicationGetInstance().GetCurrentLevel()->m_levelListIndex;
+    if (levelIndex == -1) {
+        ret.pushInteger(-1);
+        ret.pushInteger(-1);
+        return;
+    }
+    const bool firstIsNumber = !args.m_values->empty() && args[0].m_type == kLuaTypeNumber;
+    const float first = firstIsNumber ? args[0].getNumber() : 0.0f;
+    const int selector = luascript_g1::LevelRangeSelector(firstIsNumber, first);
+    const auto* rows =
+        static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
+    const Structs::LevelDeclaration& row = rows[levelIndex];
+    const auto range = luascript_g1::LevelRangeFor(selector, row.m_w12, row.m_w13, row.m_w14, row.m_w15, row.m_w16,
+                                                   row.m_w17);
+    if (range) {
+        ret.pushInteger(range->first);
+        ret.pushInteger(range->second);
+    }
+}
 
 // 0x37f354 LuaScript::_GetPyCst(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp, ReturnValues.hpp and Value.hpp (none in this tree).
-// The instance is dword_99F758 = s_inst +0x2c = Application::m_pyDataConstants (dh2/Application.hpp), reached through
-// ApplicationGetInstance() (dh2/global/ctrl_camera.hpp). The class PyDataConstants is in pydata-accessors w7_pydata12.hpp.
-// Hex-Rays: when args has at least two values and both are strings, push as an integer
-// PyDataConstants::getConstant(instance, args[0], args[1]).
-void LuaScript::_GetPyCst(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// With two or more arguments and both of the first two strings: pushes PyDataConstants::getConstant(args[0], args[1])
+// through Application::m_pyDataConstants. Nothing is pushed otherwise.
+void LuaScript::_GetPyCst(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                          void* /*self*/) {
+    if (args.m_values->size() <= 1 || args[0].m_type != kLuaTypeString || args[1].m_type != kLuaTypeString) {
+        return;
+    }
+    PyDataConstants* constants = ApplicationGetInstance().m_pyDataConstants;
+    ret.pushInteger(constants->getConstant(args[0].getString(), args[1].getString()));
+}
 
 // 0x37f4a8 LuaScript::_GetPyStruct(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp, ReturnValues.hpp and Value.hpp (none in this tree).
-// The instance is dword_99F75C = s_inst +0x30 = Application::m_pyDataArrays (dh2/Application.hpp), reached through
-// ApplicationGetInstance() (dh2/global/ctrl_camera.hpp). The class PyDataArrays is in pydata-accessors w7_pydata12.hpp.
-// Hex-Rays: when args has at least two values and both are strings, push as an integer
-// PyDataArrays::GetOID(instance, args[0], args[1]). The body is the same as _GetPyOID.
-void LuaScript::_GetPyStruct(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// Same binding as _GetPyOID: with two or more arguments and both of the first two strings, pushes
+// PyDataArrays::GetOID(args[0], args[1]) through Application::m_pyDataArrays. The original calls GetOID here too.
+void LuaScript::_GetPyStruct(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                             void* /*self*/) {
+    if (args.m_values->size() <= 1 || args[0].m_type != kLuaTypeString || args[1].m_type != kLuaTypeString) {
+        return;
+    }
+    PyDataArrays* arrays = ApplicationGetInstance().m_pyDataArrays;
+    ret.pushInteger(arrays->GetOID(args[0].getString(), args[1].getString()));
+}
 
 // 0x37f5fc LuaScript::_GetPyOID(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp, ReturnValues.hpp and Value.hpp (none in this tree).
-// The instance is dword_99F75C = s_inst +0x30 = Application::m_pyDataArrays (dh2/Application.hpp), reached through
-// ApplicationGetInstance() (dh2/global/ctrl_camera.hpp).
-// Hex-Rays: when args has at least two values and both are strings, push as an integer
-// PyDataArrays::GetOID(instance, args[0], args[1]). The body matches _GetPyStruct.
-void LuaScript::_GetPyOID(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// Same body as _GetPyStruct: PyDataArrays::GetOID(args[0], args[1]) pushed as an integer, with the same guards.
+void LuaScript::_GetPyOID(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                          void* /*self*/) {
+    if (args.m_values->size() <= 1 || args[0].m_type != kLuaTypeString || args[1].m_type != kLuaTypeString) {
+        return;
+    }
+    PyDataArrays* arrays = ApplicationGetInstance().m_pyDataArrays;
+    ret.pushInteger(arrays->GetOID(args[0].getString(), args[1].getString()));
+}
 
 // 0x37f750 LuaScript::_BitXOr(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp, ReturnValues.hpp and Value.hpp (none in this tree).
-// Hex-Rays: when args has exactly two values and both are numbers, push BitXOr(args[0], args[1]) as an integer.
-void LuaScript::_BitXOr(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// Exactly two arguments, both numbers: pushes luascript_g1::BitXOr(args[0], args[1]) as an integer.
+void LuaScript::_BitXOr(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                        void* /*self*/) {
+    if (args.m_values->size() != 2 || args[0].m_type != kLuaTypeNumber || args[1].m_type != kLuaTypeNumber) {
+        return;
+    }
+    ret.pushInteger(luascript_g1::BitXOr(args[0].getNumber(), args[1].getNumber()));
+}
 
 // 0x37f814 LuaScript::_BitNot(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp, ReturnValues.hpp and Value.hpp (none in this tree).
-// Hex-Rays: when args has exactly one value and it is a number, push BitNot(args[0]) as an integer.
-void LuaScript::_BitNot(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// Exactly one argument, a number: pushes luascript_g1::BitNot(args[0]) as an integer.
+void LuaScript::_BitNot(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                        void* /*self*/) {
+    if (args.m_values->size() != 1 || args[0].m_type != kLuaTypeNumber) {
+        return;
+    }
+    ret.pushInteger(luascript_g1::BitNot(args[0].getNumber()));
+}
 
 // 0x37f878 LuaScript::_SetGameType(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// partial: waits on dh2/sfc/script/lua/Arguments.hpp and Value.hpp (none in this tree). The store needs a layout
-// request: Level +0x150 must be an int game type, but Level.hpp declares it as void* unk_150 (asm: STR R4,[R5,#0x150]).
-// Hex-Rays: when args is not empty and args[0] is a number, gt = FloatToUInt32(args[0]). When IsValidGameType(gt)
-// holds, level = Application::GetCurrentLevel(). If level is non-null, value = FloatToUInt32(args[0]) again (the
-// same argument). If value is valid, store it as the level's game type at +0x150. Otherwise, when gAssertLevel == 2,
-// the original writes through a null pointer to crash (std::abort() here). When gAssertLevel == 1 it prints
-// "ASSERT(gt < Constants::GameTypes::COUNT) FAILED: <Level.h>:494" to stderr. In every other case the out-of-range
-// value is stored. The second read cannot differ from the first, so the out-of-range path is unreachable.
-void LuaScript::_SetGameType(const sfc::script::lua::Arguments&, sfc::script::lua::ReturnValues&, void*) {}
+// PARTIAL (redo). Written: with a number args[0], gt = FloatToUInt32(args[0]). When gt is a valid game type (0..3) and
+// the current level exists, the original stores gt at Level +0x150. The original's second read of args[0] yields the same
+// value, so its gAssertLevel branches (the ASSERT print and the null write at gAssertLevel 2) cannot run; they are not
+// written. Missing: the store itself. Level::unk_150 is declared void* in dh2/Level.hpp (retyping it to int needs
+// Level-7c7f5d-2.cpp changed first), so there is no int member at +0x150 to write (layout request: Level +0x150 int game
+// type, asm STR R4,[R5,#0x150]).
+void LuaScript::_SetGameType(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                             void* /*self*/) {
+    if (args.m_values->empty() || args[0].m_type != kLuaTypeNumber) {
+        return;
+    }
+    const unsigned int gameType = luascript_g1::FloatToUInt32(args[0].getNumber());
+    if (!luascript_g1::IsValidGameType(gameType)) {
+        return;
+    }
+    const Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
+        return;
+    }
+    // PARTIAL: the store of gameType at Level +0x150 is not written (see above).
+}

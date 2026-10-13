@@ -24,7 +24,7 @@ namespace {
 void ReadBuffer(IStreamBase* stream, char*& buf, std::uint32_t length) {
     if (buf != nullptr) CustomFree(buf);
     buf = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(length) + 1, 1));
-    StreamReader::readStringEx(stream, buf, length, 0);
+    StreamReader::readStringEx(stream, buf, length);
     buf[length] = '\0';
 }
 
@@ -436,7 +436,7 @@ void AnimFX::read(IStreamBase* stream) {
     m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
     m_w8 = StreamReader::readAs<bool>(stream);  // +0x20
     m_off33 = StreamReader::readAs<bool>(stream);  // +0x21
-    m_w9 = StreamReader::readAs<float>(stream);  // +0x24
+    StreamReader::readAs<float>(stream, &m_w9);  // +0x24
     m_w10 = StreamReader::readAs<std::uint32_t>(stream);  // +0x28
     ReadBuffer(stream, m_w11, m_w10);  // +0x2c, length +0x28
 }

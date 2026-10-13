@@ -39,6 +39,10 @@ extern bool InExitConfirmation;                        // 0x9a5c18
 // compared with 17 by Script_LockTutorial (script_command_globals.hpp declares the same global).
 extern int lastOpenMenuID;                             // 0x9f63fc
 
+// .bss, 1 byte: cheat switch. The cheat block of SavegameManager::toggleOption (LevelUp, GiveGold) runs only while it is set.
+// Definition belongs to the globals batch (Globals.cpp); none in the tree yet.
+extern bool handle_cheats_inGame;                      // 0x9f640a
+
 // .data, 1 byte, initial value 1: orientation flag, set by the orientation code in the globals batch.
 extern bool isScreenOriented;                          // 0x99b100
 

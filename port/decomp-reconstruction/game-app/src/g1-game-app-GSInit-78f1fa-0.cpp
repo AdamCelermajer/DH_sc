@@ -27,6 +27,7 @@
 #include "dh2/TrophyManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "glitch-core-io/os/logging.hpp"
+#include "glitch-video/texture.hpp"          // glitch::video::ITexture, complete for the counted intrusive_ptr release
 #include "pydata-accessors/w7_pydata12.hpp"
 
 extern bool videoDone;               // ELF videoDone, 1-byte .bss. Set by the intro movie callback.
@@ -185,8 +186,12 @@ void GSInit::Update(StateMachine*, double) {
             return;
 
         case 4:
-            // PARTIAL: the conditional loadSettings(false) is missing. The original calls it only when
-            // SavegameManager::m_optionsLoaded (+0x28) is clear, and that field is private. The step advances either way.
+            // The original calls loadSettings(false) only when SavegameManager::m_optionsLoaded (+0x28) is clear, and
+            // the step advances either way (asm: both paths store step + 1). m_optionsLoaded is public in
+            // dh2/SavegameManager.hpp.
+            if (!app.m_savegameManager->m_optionsLoaded) {
+                app.m_savegameManager->loadSettings(false);
+            }
             ++m_step;
             return;
 
@@ -294,8 +299,9 @@ void GSInit::Update(StateMachine*, double) {
             // (net-session-online/game_center.hpp) names +0x0e as resultFlag_, cleared by its reports, so the
             // meaning of this write is not established.
             if (app.IsInternetAccessEnabled()) {
-                // PARTIAL: byte_99FC31 = 1 (unnamed global) is not written, and CXPlayerManager::Init() on
-                // Singleton<CXPlayerManager>::s_inst is not called: there is no Singleton<T> accessor.
+                // PARTIAL: byte_99FC31 = 1 is not written, and so CXPlayerManager::Init() on
+                // Singleton<CXPlayerManager>::s_inst is not called either. The byte is +0x05 of that instance
+                // (flag05_, private in net-session-online/cxplayer_manager.hpp; layout request: a public member or setter).
             }
             if (USE_NATIVE_DRM_GAME) {
                 // PARTIAL: ALicenseCheck_ValidateLicense(0) is missing: not declared in the tree.

@@ -10,6 +10,7 @@
 
 #include "dh2/DebugCachedCharacter.hpp"
 
+class Character;
 class MenuFX;
 
 class InfoHUDManager {
@@ -29,7 +30,7 @@ public:
     void applyOneTimeValues();                                          // 0x41d728
     void initCachedChars();                                             // 0x41d880
 
-    std::int32_t unk_00;                                                // +0x00 written from m_cachesReady in Update
+    Character* m_lastEnemy;                                             // +0x00 the enemy shown on the enemy bar: FastUpdate compares and stores it, Update clears it on a cache rebuild
     bool m_cachesReady;                                                 // +0x04 set at the end of initCachedChars
     uint8_t pad_05[3];                                                  // +0x05 .. +0x07
     std::int32_t m_slowUpdateTimer;                                     // +0x08 ms until the next SlowUpdate, -1 at construction

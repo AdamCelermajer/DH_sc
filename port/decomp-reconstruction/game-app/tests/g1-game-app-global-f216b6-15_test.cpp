@@ -1,7 +1,9 @@
-// Test for batch g1-game-app-global-f216b6-15. Checks the 15 GetNewScriptCmdImplInstance<Script_*>() factories
-// defined by the batch: each returns a fresh command of its own class with m_cmdId = -1, unk_04 cleared and
-// m_args null. The trigger-plate and door factories also clear their own members (m_triggerPlate, m_door,
-// m_instant). Exit status 0 means every check passed.
+// Test for batch g1-game-app-global-f216b6-15. Checks the 20 GetNewScriptCmdImplInstance<Script_*>() factories
+// defined in this source: each returns a fresh command of its own class with m_cmdId = -1, unk_04 cleared and
+// m_args null. The trigger-plate, projectile-trap, door and loot factories also clear their own members (m_triggerPlate,
+// m_plate, m_trap, m_door, m_instant). The five factories added by the redo pass (r2a-game-app-global-f216b6-6:
+// DeactivateTriggerPlate, DeactivateProjectileTrap, ActivateProjectileTrap, CloseDoor, DropLoot) are included. Exit
+// status 0 means every check passed.
 //
 // This test links only the batch source, so the functions the vtables reference and that other batches
 // define (ScriptCmdImpl::Init and Update, and Execute and IsBlocking of each command) are stubbed below.
@@ -10,11 +12,16 @@
 
 #include "dh2/ScriptCmdImpl.hpp"
 #include "dh2/global/GetNewScriptCmdImplInstance.hpp"
+#include "dh2/Script_ActivateProjectileTrap.hpp"
 #include "dh2/Script_ActivateTriggerPlate.hpp"
 #include "dh2/Script_AutoEquip.hpp"
 #include "dh2/Script_AwardEndGameTrophies.hpp"
 #include "dh2/Script_AwardTrophy.hpp"
 #include "dh2/Script_ChangeLevel.hpp"
+#include "dh2/Script_CloseDoor.hpp"
+#include "dh2/Script_DeactivateProjectileTrap.hpp"
+#include "dh2/Script_DeactivateTriggerPlate.hpp"
+#include "dh2/Script_DropLoot.hpp"
 #include "dh2/Script_EndGame.hpp"
 #include "dh2/Script_OpenDoor.hpp"
 #include "dh2/Script_ReEquipHands.hpp"
@@ -60,6 +67,16 @@ void Script_UnEquipItemFromSlot::Execute(bool, int) {}
 bool Script_UnEquipItemFromSlot::IsBlocking() const { return false; }
 void Script_AutoEquip::Execute(bool, int) {}
 bool Script_AutoEquip::IsBlocking() const { return false; }
+void Script_DeactivateTriggerPlate::Execute(bool, int) {}
+bool Script_DeactivateTriggerPlate::IsBlocking() const { return false; }
+void Script_DeactivateProjectileTrap::Execute(bool, int) {}
+bool Script_DeactivateProjectileTrap::IsBlocking() const { return false; }
+void Script_ActivateProjectileTrap::Execute(bool, int) {}
+bool Script_ActivateProjectileTrap::IsBlocking() const { return false; }
+void Script_CloseDoor::Execute(bool, int) {}
+bool Script_CloseDoor::IsBlocking() const { return false; }
+void Script_DropLoot::Execute(bool, int) {}
+bool Script_DropLoot::IsBlocking() const { return false; }
 
 namespace {
 
@@ -115,6 +132,23 @@ int main() {
         if (door->m_door != nullptr) Fail("Script_OpenDoor::m_door");
         if (door->m_instant) Fail("Script_OpenDoor::m_instant");
     }
+    if (Script_DeactivateTriggerPlate* plate = CheckFactory<Script_DeactivateTriggerPlate>(
+            "GetNewScriptCmdImplInstance<Script_DeactivateTriggerPlate>")) {
+        if (plate->m_plate != nullptr) Fail("Script_DeactivateTriggerPlate::m_plate");
+    }
+    if (Script_DeactivateProjectileTrap* trap = CheckFactory<Script_DeactivateProjectileTrap>(
+            "GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap>")) {
+        if (trap->m_trap != nullptr) Fail("Script_DeactivateProjectileTrap::m_trap");
+    }
+    if (Script_ActivateProjectileTrap* trap = CheckFactory<Script_ActivateProjectileTrap>(
+            "GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>")) {
+        if (trap->m_trap != nullptr) Fail("Script_ActivateProjectileTrap::m_trap");
+    }
+    if (Script_CloseDoor* door = CheckFactory<Script_CloseDoor>("GetNewScriptCmdImplInstance<Script_CloseDoor>")) {
+        if (door->m_door != nullptr) Fail("Script_CloseDoor::m_door");
+        if (door->m_instant) Fail("Script_CloseDoor::m_instant");
+    }
+    CheckFactory<Script_DropLoot>("GetNewScriptCmdImplInstance<Script_DropLoot>");
 
     if (g_failures != 0) {
         std::printf("%d check(s) failed\n", g_failures);

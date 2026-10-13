@@ -6,13 +6,11 @@
 // Rebuilt from the Hex-Rays pseudocode. The IsBlocking bodies and Script_EmptyImpl::Execute were checked against the
 // assembly (tools/decomp_asm.py). Status per function is in the ledger rows.
 //
-// The Execute bodies marked PARTIAL share three gaps, each named again at its place below:
-//   (a) the command's argument record, ScriptCmdImpl::m_args (void*). No type for the record is declared in the tree,
-//       so the names, ids and flags the original reads from it cannot be named.
-//   (b) the local player's character, PlayerManager::GetLocalPlayer(...)->character_660. PlayerInfo has no header
-//       (dh2/PlayerInfo.hpp is absent), so its character_660 member cannot be read.
-//   (c) the online flag *(GetOnline() + 5). COnline::isOnlineGame_ is private with no getter. The globals
-//       lastOpenMenuID (ELF 0x9f63fc) and m_updateJobThread2 are not declared.
+// The argument records are the Structs::<Name> classes of pydata-accessors/include/pydata-accessors/script_cmd.hpp
+// (member m_wN is the word at offset 4*N). The local player's character is PlayerInfo::unk_660 (+0x660, the name
+// character_660 in the listings). The Execute bodies still marked PARTIAL share these gaps, each named at its place below:
+//   (c) the online flag *(GetOnline() + 5). COnline::isOnlineGame_ is private with no getter, so Application::IsOnlineGame()
+//       stands in for it. That method is a stub that returns false (g1-game-app-Application-b291be-1.cpp).
 //   (d) dh2/Level.hpp and dh2/Character.hpp cannot be included in one translation unit: each pulls in an IStreamBase
 //       with a different definition. Script_BlockSaveGame needs Level, the trophy helper needs Character, so the level
 //       block of Script_BlockSaveGame is left out. The Arrays declarations below repeat the ones in
@@ -28,13 +26,31 @@
 #include "dh2/Script_DropLoot.hpp"
 #include "dh2/Script_EmptyImpl.hpp"
 
+#include <cstdint>
 #include <string>
 
+#include "pydata-accessors/script_cmd.hpp"
+
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/Door.hpp"
+#include "dh2/GameObject.hpp"
+#include "dh2/ObjectBase.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/Quest.hpp"
+#include "dh2/SavegameManager.hpp"
+#include "dh2/ScriptManager.hpp"
 #include "dh2/TrophyManager.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/script_command_globals.hpp"
+#include "net-transport/update_job_thread.hpp"
 
 // Declarations of Arrays::TrophyTable and Arrays::GetMemberIDByString from pydata-accessors/member_names.hpp. The
 // definitions stay there. The header itself is not included because it cannot share a translation unit with
@@ -59,10 +75,9 @@ void TraceScriptCmd() {
     (void)ReadScriptSwitch("isTracingScriptCmd");
 }
 
-// The unlocks of Script_AwardEndGameTrophies::Execute for one character, in the original's order. The character lookup
-// is the part that is missing (see Script_AwardEndGameTrophies::Execute), so nothing calls this yet. It is complete
-// otherwise: the class trophies, the quest completion walk and the three stat checks.
-[[maybe_unused]] void UnlockEndGameTrophies(Character* character) {
+// The unlocks of Script_AwardEndGameTrophies::Execute for one character, in the original's order: the class trophies, the
+// quest completion walk and the three stat checks. Script_AwardEndGameTrophies::Execute passes it the local player's character.
+void UnlockEndGameTrophies(Character* character) {
     TrophyManager* trophies = TrophyManager::s_instance;
     const auto unlock = [trophies](const char* name) {
         trophies->UnlockTrophy(Arrays::GetMemberIDByString<Arrays::TrophyTable>(name));
@@ -164,11 +179,12 @@ bool Script_AwardEndGameTrophies::IsBlocking() const {
 }
 
 // 0x459b04 Script_AwardEndGameTrophies::Execute(bool, int)
-// PARTIAL. The original starts with PlayerManager::GetLocalPlayer(dword_99F76C, 0, true)->character_660, and every unlock
-// is for that character. Gap (b): PlayerInfo is not declared (dh2/PlayerInfo.hpp is absent), so the character cannot be
-// read. The unlock logic is complete in UnlockEndGameTrophies above. When the lookup exists, Execute passes the character
-// to that helper. Until then Execute does nothing. Waits on dh2/PlayerInfo.hpp (PlayerInfo +0x660 Character* character_660).
+// Every unlock is for the local player's character: PlayerManager::GetLocalPlayer(0, true)->character_660 (PlayerInfo
+// +0x660, named unk_660 in dh2/PlayerInfo.hpp). The unlocks run in UnlockEndGameTrophies above, in the original's order.
+// No trace probe and no argument record are read.
 void Script_AwardEndGameTrophies::Execute(bool /*skipping*/, int /*module*/) {
+    Character* character = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    UnlockEndGameTrophies(character);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -182,11 +198,13 @@ bool Script_AwardTrophy::IsBlocking() const {
 }
 
 // 0x4593c4 Script_AwardTrophy::Execute(bool, int)
-// PARTIAL. The original reads the argument record from m_args (+0x0c). When the record is present it unlocks the trophy
-// whose id is the int at record +0x08, through TrophyManager::s_instance->UnlockTrophy(id). Gap (a): the record type is
-// not declared (m_args is void*). Layout request: Script_AwardTrophy argument record +0x08 int trophy id. Until then
-// Execute does nothing.
+// Unlocks the trophy whose id is the record's +0x08 word (Structs::AwardTrophy m_w2) through
+// TrophyManager::s_instance->UnlockTrophy(id). Does nothing when the command has no record.
 void Script_AwardTrophy::Execute(bool /*skipping*/, int /*module*/) {
+    const Structs::AwardTrophy* record = static_cast<const Structs::AwardTrophy*>(m_args);
+    if (record != nullptr) {
+        TrophyManager::s_instance->UnlockTrophy(record->m_w2);
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -226,10 +244,9 @@ bool Script_CONSOLE::IsBlocking() const {
 // the record's text is non-null, the original queues a bottom-bubble dialog: DialogMsg("Console Text", text,
 // PyDataConstants::getConstant("DialogStyles", "BottomBubbleAvatarLeft"), -1), enqueued with
 // MenuMessageManager<DialogMsg,1>::EnqueueMessage(msg, 1). Not reproduced:
-//   (a) the text, at argument record +0x0c (char*). Gap (a): the record type is not declared. Layout request: Script_CONSOLE
-//       argument record +0x0c char* console text.
+//   (a) the text, at argument record +0x0c (Structs::CONSOLE m_w3, char*). The record now exists, so only the dialog is missing.
 //   (b) the enqueue. The listing passes no singleton for the receiver, and dh2/MenuMessageManager.hpp declares
-//       EnqueueMessage(message, queue, flag) with a third bool the listing does not pass. Neither is settled here.
+//       EnqueueMessage(message, queue, flag) as a member with a third bool the listing does not pass. Neither is settled here.
 void Script_CONSOLE::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmd();
     const bool displayAsDialog = ReadScriptSwitch("DisplayScriptConsoleAsDialog");
@@ -250,14 +267,14 @@ bool Script_ChangeLevel::IsBlocking() const {
 
 // 0x45cba0 Script_ChangeLevel::Execute(bool, int)
 // PARTIAL. Reproduced: the isTracingScriptCmd probe only. Not reproduced, and each gap is named:
-//   - the local player's character, read first for the difficulty and for every later Character call (SG_GetGameDifficulty,
-//     SG_SetLevelId, SG_Save, SG_GetSlot). Gap (b): PlayerInfo is not declared.
-//   - the arguments: the entry point name (record +0x08, char*) and the level name (record +0x10, char*). Gap (a): the record
-//     type is not declared.
+//   - the local player's character (PlayerManager::GetLocalPlayer(0, true)->unk_660), read first for the difficulty and for
+//     every later Character call (SG_GetGameDifficulty, SG_SetLevelId, SG_Save, SG_GetSlot).
+//   - the record: Structs::ChangeLevel has m_w2 (int32, +0x08) and m_w4 (char*, +0x10). The listing reads +0x08 as a const char*
+//     entry point name, and the record declares it int32. Not settled here.
 //   - Level::SG_SaveAllPlayer(false) on the current level and the difficulty copied from Level +0x118 (m_difficulty). They run
 //     after the character read above, so they are left out with it.
-//   - the online test *(GetOnline() + 5) and the hosting player's character (PlayerInfo +0x660). Gap (c): COnline::isOnlineGame_
-//     is private with no getter.
+//   - the online test *(GetOnline() + 5) and the hosting player's character (PlayerInfo +0x660). Gap (c): Application::IsOnlineGame
+//     is a stub that returns false, so the hosting branch is not written.
 //   - the level list search and the level name lookup. Arrays::LevelList is declared twice in the tree, once in
 //     pydata-accessors/member_names.hpp (m_memberNames) and once in pydata-accessors/w7_arrays_00.hpp (members, size). Which one
 //     is right is not settled.
@@ -283,15 +300,22 @@ bool Script_CloseDoor::IsBlocking() const {
 }
 
 // 0x45d650 Script_CloseDoor::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd probe. Not reproduced: the lookup and the close. The original reads the door
-// name (argument record +0x0c, char*) and the instant flag (+0x10, bool) from m_args. Gap (a): the record type is not
-// declared. Layout request: Script_CloseDoor argument record +0x0c char* door name, +0x10 bool instant. The original then
-// calls ObjectManager::GetObjectByName(name, module, false, nullptr) on the object manager (Application +0x38, the global
-// dword_99F764) and ObjectHandle::GetObject(false). When the object's m_goId is 2 it stores the object in m_door, copies
-// the instant flag to m_instant and calls Door::Close(skipping) on it. Otherwise m_door is cleared. Until the record exists
-// m_door stays null and the command never blocks.
-void Script_CloseDoor::Execute(bool /*skipping*/, int /*module*/) {
+// The isTracingScriptCmd probe, then the door named by the record (+0x0c, Structs::CloseDoor m_w3) is looked up with
+// ObjectManager::GetObjectByName(name, module, false, nullptr) and ObjectHandle::GetObject(false). When the object's m_goId
+// is GO_DOOR (2) it is stored in m_door, the record's instant flag (+0x10) is copied to m_instant, and Door::Close(skipping)
+// runs. Otherwise m_door is cleared and m_instant is left as it was.
+void Script_CloseDoor::Execute(bool skipping, int module) {
     TraceScriptCmd();
+    const Structs::CloseDoor* record = static_cast<const Structs::CloseDoor*>(m_args);
+    ObjectHandle doorHandle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectBase* object = doorHandle.GetObject(false);
+    if (object != nullptr && object->m_goId == ObjectBase::GO_DOOR) {
+        m_door = static_cast<Door*>(object);
+        m_instant = record->m_w4;
+        m_door->Close(skipping);
+    } else {
+        m_door = nullptr;
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -305,14 +329,23 @@ bool Script_DeactivateTriggerPlate::IsBlocking() const {
 }
 
 // 0x45d0e0 Script_DeactivateTriggerPlate::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd probe. Not reproduced: the lookup and the switch-off. The original reads the
-// object name (argument record +0x0c, char*). Gap (a): the record type is not declared. Layout request: Script_DeactivateTriggerPlate
-// argument record +0x0c char* object name. It then resolves the name with ObjectManager::GetObjectByName(name, module, false,
-// nullptr) and ObjectHandle::GetObject(false). When the object's m_goId is 18 it stores the object in m_plate and writes 0 to the
-// byte at +0x779 of the object. Otherwise m_plate is cleared. Gap (d): the byte at +0x779 is not declared in ObjectBase.hpp or
-// GameObject.hpp. Layout request: ObjectBase +0x779 uint8_t, cleared for a type-18 object (its name is not recovered).
-void Script_DeactivateTriggerPlate::Execute(bool /*skipping*/, int /*module*/) {
+// PARTIAL. The isTracingScriptCmd probe, then the object named by the record (+0x0c, Structs::DeactivateTriggerPlate m_w3) is
+// looked up with ObjectManager::GetObjectByName(name, module, false, nullptr) and ObjectHandle::GetObject(false). When the
+// object's m_goId is 18 it is stored in m_plate. Otherwise m_plate is cleared. Missing: the original then writes 0 to the byte
+// at +0x779 of that object. The byte is not declared in ObjectBase.hpp or GameObject.hpp (layout request: ObjectBase +0x779
+// uint8_t, cleared for a type-18 object, name not recovered). The value 18 is the numeric m_goId; ObjectBase::GO_IDS names only
+// GO_DOOR, so the 18 is not named.
+void Script_DeactivateTriggerPlate::Execute(bool /*skipping*/, int module) {
     TraceScriptCmd();
+    const Structs::DeactivateTriggerPlate* record = static_cast<const Structs::DeactivateTriggerPlate*>(m_args);
+    ObjectHandle plateHandle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectBase* object = plateHandle.GetObject(false);
+    if (object != nullptr && static_cast<std::int32_t>(object->m_goId) == 18) {
+        m_plate = static_cast<GameObject*>(object);
+        // Not reproduced: the byte at +0x779 of the object is cleared here (see the comment above).
+    } else {
+        m_plate = nullptr;
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -326,19 +359,43 @@ bool Script_DoTutorial::IsBlocking() const {
 }
 
 // 0x460950 Script_DoTutorial::Execute(bool, int)
-// PARTIAL. Not reproduced. The original reads the tutorial script name (argument record +0x0c, char*) and the tutorial index
-// (+0x10, int). Gap (a): the record type is not declared. Layout request: Script_DoTutorial argument record +0x0c char* script
-// name, +0x10 int tutorial index. It then runs the tutorial only when all of these hold, in this order:
-//   - the local character is set (PlayerManager::GetLocalPlayer(dword_99F76C, 0, false)->character_660). Gap (b): PlayerInfo is
-//     not declared.
+// PARTIAL, for the online gate only. The tutorial script name (record +0x0c, Structs::DoTutorial m_w3) and index (+0x10,
+// m_w4) are read from the record. It runs the tutorial only when all of these hold, in this order:
+//   - the local player's character is set (PlayerManager::GetLocalPlayer(0, false)->unk_660).
 //   - Character::SG_GetGameDifficulty() is 0.
-//   - SavegameManager m_tutorials[index] (+0x29) is set. The savegame manager is Application +0x4c (dword_99F778).
-//   - the online flag *(GetOnline() + 5) is clear. Gap (c): COnline::isOnlineGame_ is private with no getter.
+//   - SavegameManager m_tutorials[index] (+0x29) is set. The savegame manager is dword_99F778 (Application +0x4c).
+//   - the online flag *(GetOnline() + 5) is clear. Gap (c): Application::IsOnlineGame() stands in for it and is a stub that
+//     returns false, so the offline path is what runs until COnline exposes isOnlineGame_.
 // Then it starts the script ScriptManager::GetIDFromName(name, true) when that is not -1 (StartScript(id, -1, true)), clears
 // m_tutorials[index], and calls SavegameManager::saveSettings() when lastOpenMenuID is 17, otherwise
-// updateJob_thread::Start2(m_updateJobThread2). Gap (c): lastOpenMenuID (ELF 0x9f63fc) is not declared. The job thread
-// header dh2/updateJob_thread.hpp is absent and m_updateJobThread2 is not declared.
+// m_updateJobThread2->Start2().
 void Script_DoTutorial::Execute(bool /*skipping*/, int /*module*/) {
+    const Structs::DoTutorial* record = static_cast<const Structs::DoTutorial*>(m_args);
+    if (record == nullptr) {
+        return;
+    }
+    Character* character = dword_99F76C->GetLocalPlayer(0, false)->unk_660;
+    if (character == nullptr || character->SG_GetGameDifficulty() != 0) {
+        return;
+    }
+    SavegameManager* savegame = dword_99F778;
+    const std::int32_t index = record->m_w4;
+    if (savegame->m_tutorials[index] == 0) {
+        return;
+    }
+    if (ApplicationGetInstance().IsOnlineGame()) {
+        return;
+    }
+    const int scriptId = ScriptManager::s_inst.GetIDFromName(record->m_w3, true);
+    if (scriptId != -1) {
+        ScriptManager::s_inst.StartScript(scriptId, -1, true);
+    }
+    savegame->m_tutorials[index] = 0;
+    if (lastOpenMenuID == 17) {
+        savegame->saveSettings();
+    } else {
+        (void)m_updateJobThread2->Start2();
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -352,14 +409,26 @@ bool Script_DropLoot::IsBlocking() const {
 }
 
 // 0x45e374 Script_DropLoot::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd probe. Not reproduced: the loot drop. The original reads two object names from
-// the argument record: the character (+0x0c) and the loot source (+0x14), both char*. Gap (a): the record type is not declared.
-// Layout request: Script_DropLoot argument record +0x0c char* character name, +0x14 char* loot source name. It resolves each
-// name with ObjectManager::GetObjectByName(name, module, false, nullptr) and ObjectHandle::GetObject(false). When the character
-// handle resolves it calls Character::DropLoot(source) with the source as GameObject*, which is null when the second name does
-// not resolve.
-void Script_DropLoot::Execute(bool /*skipping*/, int /*module*/) {
+// The isTracingScriptCmd probe, then two objects are looked up by name with ObjectManager::GetObjectByName(name, module, false,
+// nullptr): the character (record +0x0c, Structs::DropLoot m_w3) and the loot source (record +0x14, m_w5). Each is resolved with
+// ObjectHandle::GetObject(false). When the character resolves, Character::DropLoot(source) runs. The source is passed as a
+// GameObject*, and it is null when its name does not resolve.
+void Script_DropLoot::Execute(bool /*skipping*/, int module) {
     TraceScriptCmd();
+    const Structs::DropLoot* record = static_cast<const Structs::DropLoot*>(m_args);
+    ObjectHandle characterHandle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    Character* character = nullptr;
+    if (characterHandle.GetObject(false) != nullptr) {
+        character = static_cast<Character*>(characterHandle);
+    }
+    ObjectHandle sourceHandle = dword_99F764->GetObjectByName(record->m_w5, module, false, nullptr);
+    GameObject* source = nullptr;
+    if (sourceHandle.GetObject(false) != nullptr) {
+        source = static_cast<GameObject*>(sourceHandle);
+    }
+    if (character != nullptr) {
+        character->DropLoot(source);
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

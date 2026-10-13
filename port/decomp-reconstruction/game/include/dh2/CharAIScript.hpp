@@ -94,6 +94,7 @@ public:
     virtual void OnCollisionPersist(GameObject* other, bool flag) = 0;  // slot 48
     virtual void OnCollisionEnd(GameObject* other, bool flag) = 0;      // slot 49
     virtual void OnCollisionResult(GameObject* other, bool flag) = 0;   // slot 50
+    virtual int InitVCB() = 0;                                          // slot 51 (AISDefault::InitVCB, 0x3dc7d8, implements it; CharAI::StepInitScript and SetSkillsAndSpells call it)
 
     // Script setup and Lua bindings. SetCharacter stores the owner, then calls its createBindings
     // (virtual slot +0x0c) with the Binder at +0x10, then sets the script directory to "data/scripts/ai/".

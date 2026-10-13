@@ -13,30 +13,35 @@
 //     + 0x38, the global dword_99F764).
 //
 // Partial bodies (see the notes in the ledger):
-//   - Script_RestartLevel, Script_SaveGame and Script_SetCameraClip need dh2/Level.hpp (Level::Restart, SG_BlockLevel,
-//     QuickSave, m_camera). That header cannot be included in the same translation unit as
-//     pydata-accessors/script_cmd.hpp: Level.hpp pulls net-transport/deps/i_stream_base.hpp, and pydata's
-//     deps/stream_reader.hpp defines a second class IStreamBase, so the TU does not compile. This file needs the
-//     pydata records for the other commands, so Level.hpp is left out until the two IStreamBase stand-ins are merged.
-//   - Script_SaveGame::Execute and the three player moves of Script_SetActorPosition need the local player's character,
-//     PlayerInfo +0x660 (Character*), and PlayerInfo has no declaration in the tree.
-//   - Script_SetCameraClip::Execute also needs CameraLevel (only forward-declared), the camera sub-object at CameraLevel
-//     +0x08 with its clip setters at vtable +0x130 and +0x134, and LevelConfig +0x294 and +0x298 (default near and far).
+//   - Script_RestartLevel is outside the batch that rebuilt Script_SaveGame and Script_SetCameraClip, and its body is still
+//     the trace probe only. dh2/Level.hpp (Level::Restart) is now included here: the IStreamBase clash between Level.hpp and
+//     pydata's stream_reader.hpp no longer stops this translation unit from compiling.
+//   - Script_SaveGame, Script_SetActorPosition and Script_SetCameraClip use the declared Level, CameraLevel, LevelConfig,
+//     PlayerInfo (unk_660, the character at +0x660) and PlayerManager (dword_99F76C) members.
 
+#include <cstdint>
 #include <string>
 
+#include "core-platform/deps/game_types.hpp"  // Point3D
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
 #include "pydata-accessors/script_cmd.hpp"
 
 #include "dh2/Application.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/CharAI.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/LevelConfig.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/ScriptCmdImpl.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/Script_PutCharacterInIdle.hpp"
 #include "dh2/Script_PutCharacterInLimbus.hpp"
 #include "dh2/Script_ReEquipHands.hpp"
@@ -173,15 +178,23 @@ bool Script_SaveGame::IsBlocking() const {
 }
 
 // 0x45c994 Script_SaveGame::Execute(bool, int)
-// PARTIAL. The original clears the current level's save block and quick-saves it (Level::SG_BlockLevel(false), then
+// The original clears the current level's save block and quick-saves it (Level::SG_BlockLevel(false), then
 // Level::QuickSave(false)). Then it gets the local player's character (PlayerManager::GetLocalPlayer(0, true), the
 // PlayerInfo at +0x660, character_660), and when that is set clears its save block (Character::SG_Block(false)) and
-// saves it (Character::SG_Save). Nothing is rebuilt: the level calls need dh2/Level.hpp, which this translation unit
-// cannot include, and PlayerInfo has no declaration in the tree.
+// saves it (Character::SG_Save).
 void Script_SaveGame::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
-    // PARTIAL: Level::SG_BlockLevel(level, false), Level::QuickSave(level, false), then the local player's
-    // character_660 (PlayerInfo +0x660): Character::SG_Block(character, false) and Character::SG_Save(character).
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level != nullptr) {
+        level->SG_BlockLevel(false);
+        level->QuickSave(false);
+    }
+    PlayerInfo* player = dword_99F76C->GetLocalPlayer(0, true);
+    Character* character = player->unk_660;
+    if (character != nullptr) {
+        character->SG_Block(false);
+        character->SG_Save();
+    }
 }
 
 // ---- Script_SetActorMaster ----
@@ -214,13 +227,29 @@ bool Script_SetActorPosition::IsBlocking() const {
     return false;
 }
 
+namespace {
+
+// Moves the character of player friendlyId (PlayerInfo unk_660, +0x660) to pos: GameObject::SetPosition(pos, true) and
+// ForceUpdatePosition. A player with no character is skipped. The original reads the player through
+// PlayerManager::GetPlayer(n, false), which returns the null record rather than null.
+void MovePlayerCharacter(int friendlyId, const Point3D<float>& pos) {
+    PlayerInfo* player = dword_99F76C->GetPlayer(friendlyId, false);
+    GameObject* object = player->unk_660;
+    if (object != nullptr) {
+        object->SetPosition(pos, true);
+        object->ForceUpdatePosition();
+    }
+}
+
+}  // namespace
+
 // 0x45e5c8 Script_SetActorPosition::Execute(bool, int)
-// PARTIAL. Resolves the actor (record m_w5, the name at +0x14) and the reference object (record m_w3, the name at +0x0c).
-// When both resolve, the actor's handle is checked: when it is a character, its CharStateMachine is set to idle with
-// flag false and, when Character::IsPlayer() is true, the three player characters are moved (player 1 to the reference
-// position minus 200 on x, player 2 plus 200 on x, player 3 minus 200 on y). Then the actor is moved to the reference
-// position (GameObject::m_position, +0x160, SetPosition with setDestination true) and ForceUpdatePosition is called.
-// The player moves are not rebuilt: they need PlayerInfo +0x660 (character_660), which is not declared.
+// Resolves the actor (record m_w5, the name at +0x14) and the reference object (record m_w3, the name at +0x0c). When both
+// resolve, the actor's handle is checked: when it is a character, its CharStateMachine is set to idle with flag false and,
+// when Character::IsPlayer() is true, the three player characters are moved (player 1 to the reference position minus 200 on
+// x, player 2 plus 200 on x, player 3 minus 200 on y). Then the actor is moved to the reference position (GameObject m_position,
+// +0x160, SetPosition with setDestination true) and ForceUpdatePosition is called. The original also adds 0.0 to each
+// component that a player move does not change; that changes only the sign of a -0.0 and is not written here.
 void Script_SetActorPosition::Execute(bool /*skipping*/, int module) {
     auto* args = static_cast<Structs::SetActorPosition*>(m_args);
     TraceScriptCmdSwitch();
@@ -238,7 +267,16 @@ void Script_SetActorPosition::Execute(bool /*skipping*/, int module) {
         CharStateMachine& machine = *character;
         machine.SM_SetIdleState(false);
         if (character->IsPlayer()) {
-            // PARTIAL: the three player moves are not rebuilt (PlayerInfo +0x660 is not declared).
+            // Each player's position is read from the reference object again, as the original does.
+            Point3D<float> pos = reference->m_position;
+            pos.X -= 200.0f;
+            MovePlayerCharacter(1, pos);
+            pos = reference->m_position;
+            pos.X += 200.0f;
+            MovePlayerCharacter(2, pos);
+            pos = reference->m_position;
+            pos.Y -= 200.0f;
+            MovePlayerCharacter(3, pos);
         }
     }
     target->SetPosition(reference->m_position, true);
@@ -264,14 +302,35 @@ bool Script_SetCameraClip::IsBlocking() const {
 }
 
 // 0x45c670 Script_SetCameraClip::Execute(bool, int)
-// PARTIAL. The original reads the record's near value (m_w3, +0x0c) and far value (m_w2, +0x08), then sets the clip planes
-// on the current level's camera. Nothing is rebuilt. Missing:
-//   - dh2/Level.hpp (Level::m_camera, +0x128) cannot be included in this translation unit (see the header comment).
-//   - CameraLevel is only forward-declared in dh2/Level.hpp. The camera sub-object at CameraLevel +0x08 and its clip
-//     setters (vtable +0x130 for near, +0x134 for far) are not declared.
-//   - LevelConfig is not declared. A value of -2 selects the config's default near (+0x294) or far (+0x298) plane, and
-//     the original asserts "m_levelConfig != 0" (Level.h:476) when the config is null.
+// The original reads the record's near value (m_w3, +0x0c) and far value (m_w2, +0x08), then sets the clip planes on the
+// current level's camera node (CameraBase m_camera, +0x08, a glitch ICameraSceneNode): setNearValue (vtable +0x130) and
+// setFarValue (vtable +0x134). A value above zero is set as it is. The value -2 selects the LevelConfig default: m_cameraZnear
+// (+0x294) for near and m_cameraZfar (+0x298) for far. Level::GetLevelConfig() performs the original's inlined
+// "m_levelConfig != 0" check (Level.h:476).
 void Script_SetCameraClip::Execute(bool /*skipping*/, int /*module*/) {
+    const auto* args = static_cast<const Structs::SetCameraClip*>(m_args);
     TraceScriptCmdSwitch();
-    // PARTIAL: clip-plane calls not rebuilt (see the comment above).
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
+        return;
+    }
+    CameraLevel* camera = level->m_camera;
+    if (camera == nullptr) {
+        return;
+    }
+    glitch::scene::ICameraSceneNode* node = camera->m_camera;
+    const std::int32_t nearValue = args->m_w3;
+    const std::int32_t farValue = args->m_w2;
+    if (nearValue > 0) {
+        node->setNearValue(static_cast<float>(nearValue));
+    } else if (nearValue == -2) {
+        node->setNearValue(static_cast<float>(level->GetLevelConfig()->m_cameraZnear));
+    }
+    if (farValue > 0) {
+        node->setFarValue(static_cast<float>(farValue));
+        return;
+    }
+    if (farValue == -2) {
+        node->setFarValue(static_cast<float>(level->GetLevelConfig()->m_cameraZfar));
+    }
 }

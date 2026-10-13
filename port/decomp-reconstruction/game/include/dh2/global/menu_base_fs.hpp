@@ -5,3 +5,6 @@
 
 // 0x4218e4 _Z16playerClassAsStrv: name of the current player class, no arguments
 const char* playerClassAsStr();
+
+// 0x41f834 _Z18playerClassAsStrIDi: string id of the player class classId (used with StringManager::getString)
+int playerClassAsStrID(int classId);

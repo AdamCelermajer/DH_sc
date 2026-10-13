@@ -9,17 +9,29 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 #include "dh2/CameraLevel.hpp"
 #include "dh2/EvTouchScreenMove.hpp"
 #include "dh2/EvTouchScreenPress.hpp"
 #include "dh2/EventManager.hpp"
+#include "dh2/MenuCharMenu_Map.hpp"
 #include "dh2/ZoomHandler.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
 
 // The EventManager instance that ZoomHandler attaches to (dword_99F740). The test owns it.
 EventManager* dword_99F740 = nullptr;
+
+// The map test (MapAcceptsTouch) runs only for a press on a camera with the object-position flag, and no check here makes
+// that press. These stubs abort, so a check that reaches the map test stops the test instead of passing silently.
+MenuCharMenu_Map* MenuCharMenu_Map::GetInstance() {
+    std::abort();
+}
+
+bool MenuCharMenu_Map::IsPointInsideRenderZone(int /*x*/, int /*y*/) {
+    std::abort();
+}
 
 namespace {
 

@@ -2,6 +2,7 @@
 // (one string buffer, freed then read; read twice on one object), CloseDoor and MoveActor, plus
 // the destructors that free them.
 #include "pydata-accessors/script_cmd.hpp"
+#include "read_bytes_stream.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -11,7 +12,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 // Serves a fixed byte sequence; ReadBytes fails once it runs out.
-class ByteStream : public IStreamBase {
+class ByteStream : public ReadBytesStream {
 public:
     explicit ByteStream(std::vector<unsigned char> bytes) : m_bytes(std::move(bytes)) {}
     bool ReadBytes(void* dst, std::size_t n) override {

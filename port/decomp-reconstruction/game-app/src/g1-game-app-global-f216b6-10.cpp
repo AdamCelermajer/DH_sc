@@ -18,10 +18,13 @@
 #include "dh2/global/native_player_actions.hpp"
 
 #include "dh2/Application.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/CharProperties.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/PlayerSavegame.hpp"
 #include "dh2/TrophyManager.hpp"
 #include "dh2/ZoomHandler.hpp"
@@ -111,21 +114,19 @@ void ResetStatsChangeOfPlayer(int player, int a, int b, int c, int d) {
 }
 
 // 0x43d548 NativeSkillsTrainSkill(gameswf::fn_call const&)
-// PARTIAL: arguments 0 (skill), 1 (player) and, when there are three, 2 (flag) are not read. The result is not set.
-// The original sets a bool (IncSkill's result) when the flag is set, otherwise a number (CharProperties
-// PROPS_GetInt(157, false)). Character::IncSkill is declared void in dh2/Character.hpp, but the binary uses its
-// return value (layout request: IncSkill returns a bool).
+// PARTIAL: arguments 0 (skill), 1 (player) and, when there are three, 2 (flag) are not read, because gameswf::fn_call
+// has no definition in the tree. The result is not set either. The original sets a bool (IncSkill's result) when the
+// flag is set, otherwise a number (CharProperties PROPS_GetInt(157, false)) with as_value::set_double. The bool
+// return of Character::IncSkill is declared now (dh2/Character.hpp), and TrainSkillOfPlayer returns it.
 void NativeSkillsTrainSkill(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// Body of NativeSkillsTrainSkill: Character::IncSkill(skill, flag) on the player's character. Its return value
-// is not used here, see NativeSkillsTrainSkill.
-void TrainSkillOfPlayer(int player, int skill, bool flag) {
+// Body of NativeSkillsTrainSkill: Character::IncSkill(skill, flag) on the player's character. It returns the bool that
+// IncSkill returns (false when there is no character). The native does not store it yet, see NativeSkillsTrainSkill.
+bool TrainSkillOfPlayer(int player, int skill, bool flag) {
     Character* ch = NativeGetPlayerChar(player, false);
-    if (ch) {
-        ch->IncSkill(skill, flag);
-    }
+    return ch ? ch->IncSkill(skill, flag) : false;
 }
 
 // 0x43d63c NativeEquipSkill(gameswf::fn_call const&)
@@ -143,15 +144,16 @@ void EquipSkillInSlotOfPlayer(int player, int slot, int skill) {
 }
 
 // 0x43d6f8 NativePinchZoom(gameswf::fn_call const&)
-// PARTIAL: argument 0 (the pinch amount) is not read. The camera write is left out: CameraLevel is only
-// forward-declared, and the original reads its byte at +0x86 and its float at +0x88.
+// PARTIAL: argument 0 (the pinch amount) is not read, because the gameswf argument accessors are not usable (see the
+// header comment; vendor-gameswf/include/vendor-gameswf/as_value.hpp does not compile). PinchZoomBy, the body, makes
+// the camera write (CameraLevel +0x88 from ZoomHandler::m_sensitivity, guarded by +0x86).
 void NativePinchZoom(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// Body of NativePinchZoom. Runs only when the DPad option is set, and only with a bound camera. The original then
-// adds (float)amount * ZoomHandler::m_sensitivity to the camera zoom when its byte at +0x86 is clear. That write is
-// PARTIAL (see NativePinchZoom).
+// Body of NativePinchZoom. Runs only when the DPad option is set, and only with a bound camera. Then the zoom request
+// (CameraLevel::m_zoomCurrent, +0x88) grows by amount times ZoomHandler::m_sensitivity, unless the camera is locked
+// (m_zoomLocked, +0x86). The original's float arithmetic is PinchZoomStep (native_player_actions.hpp).
 void PinchZoomBy(int amount) {
     Application& app = ApplicationGetInstance();
     if (!app.GetSavedOption("DPad")) {
@@ -161,7 +163,10 @@ void PinchZoomBy(int amount) {
     if (!zoom || !zoom->m_camera) {
         return;
     }
-    (void)amount;  // PARTIAL: camera write not made (see NativePinchZoom).
+    CameraLevel* camera = zoom->m_camera;
+    if (!camera->m_zoomLocked) {
+        camera->m_zoomCurrent = PinchZoomStep(camera->m_zoomCurrent, amount, zoom->m_sensitivity);
+    }
 }
 
 // 0x43d790 NativeInvGetEquipedItem(gameswf::fn_call const&)
@@ -324,8 +329,10 @@ void NativeStartGame(const gameswf::fn_call& call) {
 //   - mode == 3 and the byte at +0x28 is set: returns, with nothing else done.
 //   - mode == 3 and the byte at +0x28 is clear: calls CMatchingGLLive::StartGame on CMatching::Get(), then sets
 //     +0x28 to 1.
-// Missing: the OnlineGameState fields +0x14 (stateMachine_ is private, with no setter), +0x28 and +0x34 (not
-// declared), and the CMatching/CMatchingGLLive accessors. OnlineGameState and CMatching have no header yet.
+// The branch is ClassifyMultiplayerStart (native_player_actions.hpp). Missing: the OnlineGameState fields +0x14
+// (stateMachine_ is private, with no setter), +0x28 and +0x34 (not declared in net-session-online/online_game_state.hpp;
+// layout request), and the CMatching::Get() call with CMatchingGLLive::StartGame. The CMatching and CMatchingGLLive
+// headers are present now, so only the OnlineGameState fields and the mode read block the body.
 void NativeStartMultiplayerGame(const gameswf::fn_call& call) {
     (void)call;
 }
@@ -372,9 +379,8 @@ void EquipItemInSlotOfPlayer(int player, int item, int slot) {
 }
 
 // 0x43e734 NativeHUDSkill(gameswf::fn_call const&)
-// PARTIAL: argument 0 (slot, a number) is not read. The original takes the local player's character from
-// PlayerInfo +0x660. PlayerInfo is incomplete (PlayerManager::GetLocalPlayer returns it), so the character is not
-// reached (layout request: PlayerInfo::m_character at +0x660).
+// PARTIAL: argument 0 (slot, a number) is not read. The local player's character is PlayerInfo +0x660 (unk_660 in
+// dh2/PlayerInfo.hpp, now declared), and HudSkillForLocalPlayer makes the call once the slot is read.
 void NativeHUDSkill(const gameswf::fn_call& call) {
     (void)call;
 }
@@ -391,6 +397,17 @@ void HudSkillOnCharacter(Character* ch, int slot) {
     }
     ch->m_controller->Cmd_BeginSkill(static_cast<unsigned int>(skill));
     ch->m_controller->Cmd_EndSkill(static_cast<unsigned int>(skill));
+}
+
+// Body of NativeHUDSkill for the local player. The original takes GetLocalPlayer(0, true) (PlayerManager on
+// Application +0x40) and its character at PlayerInfo +0x660 (PlayerInfo::unk_660), then calls HudSkillOnCharacter. The
+// original does not test the player pointer; the null test here is a guard that cannot change a reachable result.
+void HudSkillForLocalPlayer(int slot) {
+    PlayerInfo* local = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true);
+    if (!local) {
+        return;
+    }
+    HudSkillOnCharacter(local->unk_660, slot);
 }
 
 // 0x43e830 NativeMoveCharacter(gameswf::fn_call const&)

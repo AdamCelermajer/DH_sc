@@ -8,11 +8,14 @@
 #include <cstdint>
 
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "pydata-accessors/name_table.hpp"
 
 namespace Structs {
 
 class ItemPowerEntryList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ItemPowerEntryList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -23,6 +26,8 @@ void DeletingDestructor(ItemPowerEntryList* self);
 
 class TriggerTrap {
 public:
+    static constexpr int kCount = 5;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~TriggerTrap();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -37,6 +42,8 @@ void DeletingDestructor(TriggerTrap* self);
 
 class TriggerObject {
 public:
+    static constexpr int kCount = 4;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~TriggerObject();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -50,6 +57,8 @@ void DeletingDestructor(TriggerObject* self);
 
 class TimerTrap {
 public:
+    static constexpr int kCount = 6;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~TimerTrap();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -65,6 +74,8 @@ void DeletingDestructor(TimerTrap* self);
 
 class ProjectileTrap {
 public:
+    static constexpr int kCount = 8;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ProjectileTrap();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -82,6 +93,8 @@ void DeletingDestructor(ProjectileTrap* self);
 
 class OpenableContainer {
 public:
+    static constexpr int kCount = 8;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~OpenableContainer();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -99,6 +112,8 @@ void DeletingDestructor(OpenableContainer* self);
 
 class ExplosiveTrap {
 public:
+    static constexpr int kCount = 4;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ExplosiveTrap();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -112,6 +127,8 @@ void DeletingDestructor(ExplosiveTrap* self);
 
 class Door {
 public:
+    static constexpr int kCount = 4;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Door();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -125,6 +142,8 @@ void DeletingDestructor(Door* self);
 
 class DestructibleContainer {
 public:
+    static constexpr int kCount = 15;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~DestructibleContainer();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -159,6 +178,8 @@ void DeletingDestructor(FaerySpellList* self);
 
 class FootstepEffect {
 public:
+    static constexpr int kCount = 4;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~FootstepEffect();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -195,6 +216,8 @@ void DeletingDestructor(AnimFX* self);
 
 class AnimFXTpl {
 public:
+    static constexpr int kCount = 4;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~AnimFXTpl();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -208,6 +231,8 @@ void DeletingDestructor(AnimFXTpl* self);
 
 class DialogStepList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~DialogStepList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -239,6 +264,8 @@ void DeletingDestructor(DialogCondition* self);
 
 class DialogActor {
 public:
+    static constexpr int kCount = 3;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~DialogActor();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -251,6 +278,8 @@ void DeletingDestructor(DialogActor* self);
 
 class ColladaFile {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ColladaFile();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -261,6 +290,8 @@ void DeletingDestructor(ColladaFile* self);
 
 class CharTemplate {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~CharTemplate();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -271,6 +302,8 @@ void DeletingDestructor(CharTemplate* self);
 
 class StatListList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~StatListList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -281,6 +314,8 @@ void DeletingDestructor(StatListList* self);
 
 class StatAutoAssignTargetList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~StatAutoAssignTargetList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -291,6 +326,8 @@ void DeletingDestructor(StatAutoAssignTargetList* self);
 
 class ClassFuncList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ClassFuncList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -301,6 +338,8 @@ void DeletingDestructor(ClassFuncList* self);
 
 class AnimTpl {
 public:
+    static constexpr int kCount = 3;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~AnimTpl();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -313,6 +352,8 @@ void DeletingDestructor(AnimTpl* self);
 
 class AIFactions {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~AIFactions();
     virtual void finalize();
     virtual void read(IStreamBase* stream);

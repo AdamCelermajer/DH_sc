@@ -24,6 +24,7 @@
 
 #include "dh2/ScriptCmdImpl.hpp"
 #include "dh2/Script_BlockSaveGame.hpp"
+#include "dh2/Script_DoTutorial.hpp"
 #include "dh2/Script_EnqueueCharMenuTutorialMessage.hpp"
 #include "dh2/Script_EnqueueTutorialMessage.hpp"
 #include "dh2/Script_FlushMessages.hpp"
@@ -159,13 +160,11 @@ ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_FlushMessages>() {
 }
 
 // 0x45775c ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DoTutorial>()
-// PARTIAL: stub returns nullptr. The original is NewScriptCmd<Script_DoTutorial>(). dh2/Script_DoTutorial.hpp does not
-// compile: line 14 marks ~Script_DoTutorial() override, but ScriptCmdImpl's destructor is not virtual (GCC: "marked
-// 'override', but does not override"). That header is read-only for this batch. Dropping the override on that line
-// clears it; then this body becomes return NewScriptCmd<Script_DoTutorial>() and the include can be added.
+// Asm and Hex-Rays: operator new(0x10), vtable, +0x04 = 0, +0x08 = -1, +0x0c = 0. The class adds no fields that the
+// factory writes. The header's 64-byte allocation note does not match the asm (layout request: Script_DoTutorial.hpp).
 template <>
 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DoTutorial>() {
-    return nullptr;
+    return NewScriptCmd<Script_DoTutorial>();
 }
 
 // 0x4577a4 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockTutorial>()

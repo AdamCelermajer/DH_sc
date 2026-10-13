@@ -12,9 +12,11 @@
 // (0x313a90), which readString calls, is in the other batch of this class.
 #include "dh2/StreamReader.hpp"
 
+#include <cstddef>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <vector>
 
 #include "dh2/IStreamBase.hpp"
 
@@ -84,14 +86,22 @@ bool StreamReader::writeString(IStreamBase* stream, const char* src, std::uint64
 }
 
 // 0x317548 bool StreamReader::writeString(IStreamBase*, wchar_t const*, unsigned long long)
-// PARTIAL. The prefix is the low word of len, as in the char form. The characters are 4 * len bytes (asm: LSL #2 on
-// both words), so this assumes the original's 4-byte wchar_t (ARM, Android). On a host where wchar_t is 2 bytes
-// (MinGW, MSVC on Windows) the bytes written are not the 32-bit units the stream layout wants. A per-unit copy or a
-// 32-bit overload fixes it; that is an integrator decision.
+// The prefix is the low word of len, as in the char form. The characters are 4 * len bytes (asm: LSL #2 on both
+// words): each character is one 32-bit unit of the stream (TRACK-B decision 2, the file layout is 32-bit, field by
+// field). On the original's 4-byte wchar_t the units are the characters' own bytes, so the stream bytes are the same.
+// On a host with a 2-byte wchar_t the character is widened to its 32-bit unit before it is written.
 bool StreamReader::writeString(IStreamBase* stream, const wchar_t* src, std::uint64_t len) {
     const std::uint32_t prefix = static_cast<std::uint32_t>(len);
     stream->write(&prefix, sizeof(prefix));
-    stream->write(src, len * 4);
+    if constexpr (sizeof(wchar_t) == sizeof(std::uint32_t)) {
+        stream->write(src, len * 4);
+    } else {
+        std::vector<std::uint32_t> units(static_cast<std::size_t>(len));
+        for (std::size_t i = 0; i < units.size(); ++i) {
+            units[i] = static_cast<std::uint32_t>(src[i]);
+        }
+        stream->write(units.data(), len * 4);
+    }
     return true;
 }
 
@@ -103,14 +113,24 @@ bool StreamReader::writeStringEx(IStreamBase* stream, const char* src, std::uint
 }
 
 // 0x31763c bool StreamReader::readString(IStreamBase*, wchar_t*, unsigned long long)
-// PARTIAL, same caveat as writeString(wchar_t): the transfer is 4 * count bytes and the terminator is a 4-byte zero,
-// which match the original's 4-byte wchar_t. On a host with a 2-byte wchar_t the stream's 32-bit units do not land in
-// the wchar_t elements. The length is read by readAs<unsigned int> (0x313a90, the other batch of this class).
-// read() gets (dst, 4 * count); the count is clamped (ReadStringCount); dst[count] is zeroed; returns len > length.
+// The length is read by readAs<unsigned int> (0x313a90, the other batch of this class). read() gets 4 * count bytes,
+// the count is clamped (ReadStringCount), dst[count] is a 4-byte zero, and the result is len > length. On a 4-byte
+// wchar_t the bytes go straight into dst, as in the original. On a host with a 2-byte wchar_t the 32-bit units are read
+// into a buffer and each one is narrowed into its wchar_t element (TRACK-B decision 2). A short read there leaves the
+// unread units zero, where the original leaves the unread bytes of dst as they were.
 bool StreamReader::readString(IStreamBase* stream, wchar_t* dst, std::uint64_t len) {
     const std::uint32_t length = readAs<unsigned int>(stream);
     const std::uint32_t count = ReadStringCount(length, len);
-    stream->read(dst, static_cast<std::uint64_t>(count) * 4);
+    const std::uint64_t bytes = static_cast<std::uint64_t>(count) * 4;
+    if constexpr (sizeof(wchar_t) == sizeof(std::uint32_t)) {
+        stream->read(dst, bytes);
+    } else {
+        std::vector<std::uint32_t> units(count, 0u);
+        stream->read(units.data(), bytes);
+        for (std::uint32_t i = 0; i < count; ++i) {
+            dst[i] = static_cast<wchar_t>(units[i]);
+        }
+    }
     dst[count] = L'\0';
     return len > length;
 }

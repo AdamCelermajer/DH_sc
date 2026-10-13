@@ -1,35 +1,14 @@
 #pragma once
-// Minimal stand-ins for the engine's stream and allocator, used only by the
-// reconstructed name-table readers. Multi-byte values are read little-endian
-// (matching the original ARM targets and Windows hosts).
+// IStreamBase and StreamReader are defined once, in the game headers (dh2/IStreamBase.hpp and dh2/StreamReader.hpp);
+// this header includes them so the pydata includes keep working. The readers decode through the virtual read slot
+// (little-endian values, as in the original).
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
 
-class IStreamBase {
-public:
-    virtual ~IStreamBase() = default;
-    // Reads exactly n bytes into dst. Returns false at end of stream.
-    virtual bool ReadBytes(void* dst, std::size_t n) = 0;
-};
-
-class StreamReader {
-public:
-    // Original StreamReader::readAs<T>(IStreamBase*): one little-endian value.
-    template <class T>
-    static T readAs(IStreamBase* stream) {
-        unsigned char bytes[sizeof(T)] = {};
-        if (stream) stream->ReadBytes(bytes, sizeof(T));
-        T value{};
-        std::memcpy(&value, bytes, sizeof(T));
-        return value;
-    }
-    // Original StreamReader::readStringEx(stream, dst, len, 0): raw bytes, no terminator.
-    static void readStringEx(IStreamBase* stream, char* dst, std::uint64_t len, int) {
-        if (stream && len) stream->ReadBytes(dst, static_cast<std::size_t>(len));
-    }
-};
+#include "dh2/IStreamBase.hpp"
+#include "dh2/StreamReader.hpp"
 
 // Original MemoryHintState(size, hint): allocation (new[] in the original). Some pseudocode calls
 // pass only the size; the hint then defaults to 0 here (the original's value is not in the listing).

@@ -330,12 +330,14 @@ bool ScriptManager::ExecuteAllScripts() {
 
 // 0x4604c0 ScriptManager::SkipScript(int, bool)
 // PARTIAL. Two steps are not reconstructed:
-//  - MenuMessageManager<DialogMsg,1>::FlushEnqueuedMessages(): the asm calls the clone on the DialogMsg manager singleton
-//    (ipa-cloned, so no arguments show). The header's member takes a queue index, and the tree has no singleton accessor
-//    or queue value for it, so the flush is skipped.
-//  - The online send. When GetOnline()->isOnlineGame_ (COnline +0x05, private, no public getter) is set and fromRemote is
-//    false, the original builds a "CMsgScriptCmd" with CMessage::CreateMessage, sets its fields (+0x50 flag 1, +0x54 script
-//    id, +0x58 -1) and sends it with CMessaging::Get()->SendMsg. The CMsgScriptCmd header does not exist, so it is skipped.
+//  - MenuMessageManager<DialogMsg,1>::FlushEnqueuedMessages(): the asm calls clone 0x460474 with no arguments. That clone
+//    takes no queue and pops the DialogMsg manager's deque at singleton +0x04 until it is empty. The header's member
+//    takes a queue index (clone 0x3f9018 is the StatusMsg form), so the queue value of this clone is not in the tree and
+//    the flush is skipped. Not guessed as queue 0.
+//  - The online send. When GetOnline()->isOnlineGame_ (COnline +0x05, private; c_online.hpp has SetIsOnlineGame only, no
+//    getter) is set and fromRemote is false, the original builds a "CMsgScriptCmd" with CMessage::CreateMessage, sets its
+//    fields (+0x50 flag 1, +0x54 script id, +0x58 -1) and sends it with CMessaging::Get()->SendMsg. The CMsgScriptCmd type
+//    is declared now (net-session-online c_msg_fixed.hpp); the send waits on the flag getter, the same blocker as StartScript.
 // The tracing switch and the skip request are reconstructed.
 void ScriptManager::SkipScript(int id, bool fromRemote) {
     static_cast<void>(fromRemote);

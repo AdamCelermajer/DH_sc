@@ -9,20 +9,26 @@
 // Debug trace: each original Execute opens with the inlined DebugSwitches read of "isTracingScriptCmd" (see
 // ReadTracingScriptCmdSwitch). Execute bodies that the trace is not part of (the empty ones) do not call it.
 //
-// IStreamBase: dh2/PlayerManager.hpp (through net-transport deps/i_stream_base.hpp) and dh2/Character.hpp (through
-// CharProperties.hpp and pydata-accessors deps/stream_reader.hpp) both define class IStreamBase, so no translation unit
-// can include both. The Execute bodies that reach the local player's Character through PlayerManager are PARTIAL for
-// this reason. PlayerManager::GetLocalPlayerCharacter (0x330794) is GetLocalPlayer(0, true)->character_660.
+// IStreamBase: an earlier note said dh2/PlayerManager.hpp and dh2/Character.hpp could not share a translation unit. That
+// clash is gone: the pydata records, Character, PlayerManager, Level and CameraLevel compile together now. The bodies below
+// that need only the level camera or the message queue are rebuilt. The bodies still waiting on the local player's Character
+// are left as they were. PlayerManager::GetLocalPlayerCharacter (0x330794) is GetLocalPlayer(0, true)->character_660.
+
+#include <deque>
 
 #include "core-platform/lc_api.hpp"
 #include "pydata-accessors/script_cmd.hpp"
 
 #include "dh2/Application.hpp"
+#include "dh2/CameraLevel.hpp"
+#include "dh2/CharMenuTutorialMsg.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MenuMessageManager.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/Script_SetCameraTarget.hpp"
@@ -53,19 +59,19 @@ void ReadTracingScriptCmdSwitch() {
 }  // namespace
 
 // 0x4592cc Script_SetCameraTarget::IsBlocking() const
-// PARTIAL: the record's flag (+0x14) is tested, and the level's camera is the object whose transition counter (+0x20,
-// an int, blocking while positive) the original reads. Level::m_camera (+0x128) is a CameraLevel*, and no header
-// declares CameraLevel (CameraBase.hpp only names it), so the counter cannot be read. The body returns false after the
-// level test; the counter test is missing.
+// Blocks while the level camera's transition counter (CameraTarget m_transitionRemainingMs, +0x20) is positive. The record's
+// flag (+0x14, Structs::SetCameraTarget m_w5) must be set, and the current level and its camera (Level m_camera, +0x128) must
+// exist.
 bool Script_SetCameraTarget::IsBlocking() const {
     const auto* args = static_cast<const Structs::SetCameraTarget*>(m_args);
     if (!args->m_w5) {
         return false;
     }
-    if (ApplicationGetInstance().GetCurrentLevel() == nullptr) {
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr || level->m_camera == nullptr) {
         return false;
     }
-    return false;  // PARTIAL: camera +0x20 > 0 is missing (CameraLevel has no header).
+    return level->m_camera->m_transitionRemainingMs > 0;
 }
 
 // 0x460004 Script_SetCameraTarget::Execute(bool, int)
@@ -243,11 +249,13 @@ bool Script_SkipAllCharMenuTutorialMessages::IsBlocking() const {
 }
 
 // 0x460428 Script_SkipAllCharMenuTutorialMessages::Execute(bool, int)
-// PARTIAL: the original pops the front of the character-menu tutorial queue until the queue is empty
-// (while dword_99FBC8 != dword_99FBB8, std::deque<CharMenuTutorialMsg>::pop_front(&dword_99FBB8)). The deque is not
-// declared in the tree: its start and finish cursors are the globals dword_99FBB8 and dword_99FBC8, and no singleton
-// ties them to a MenuMessageManager<CharMenuTutorialMsg, 1>. The body is empty until the queue has a declaration.
-void Script_SkipAllCharMenuTutorialMessages::Execute(bool skipping, int module) {
-    (void)skipping;
-    (void)module;
+// Empties the character-menu tutorial queue: while dword_99FBC8 != dword_99FBB8 (the finish and start cursors), the original
+// pops the front. Those cursors are the deque m_queues[0] of Singleton<MenuMessageManager<CharMenuTutorialMsg,1>>::s_inst
+// (instance 0x99fbb4, deque 0x99fbb8), so the body pops until the deque is empty. The static s_inst has no definition in the
+// tree yet; the integrator supplies it with the other message-manager statics.
+void Script_SkipAllCharMenuTutorialMessages::Execute(bool /*skipping*/, int /*module*/) {
+    std::deque<CharMenuTutorialMsg>& queue = MenuMessageManager<CharMenuTutorialMsg, 1>::s_inst.m_queues[0];
+    while (!queue.empty()) {
+        queue.pop_front();
+    }
 }

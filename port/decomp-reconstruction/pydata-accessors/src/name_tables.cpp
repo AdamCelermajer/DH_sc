@@ -23,7 +23,7 @@ void ReadNameTable(NameTable& table, IStreamBase* stream) {
         const std::uint32_t len = StreamReader::readAs<std::uint32_t>(stream);
         char* buf = static_cast<char*>(MemoryHintState(len + 1, 1));
         table.names[i] = buf;
-        StreamReader::readStringEx(stream, buf, len, 0);
+        StreamReader::readStringEx(stream, buf, len);
         buf[len] = 0;
     }
 }

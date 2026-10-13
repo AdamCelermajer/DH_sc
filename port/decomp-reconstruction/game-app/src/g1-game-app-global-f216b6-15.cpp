@@ -10,19 +10,24 @@
 // listing (64, 68, 72) and the "allocation" sizes in some Script_*.hpp comments do not match the asm; the asm
 // is the authority. The host allocates sizeof(T) and does not use the hint.
 //
-// Not defined here yet (PARTIAL, see each one):
-//   - Script_DeactivateTriggerPlate, Script_CloseDoor, Script_DropLoot: their headers do not compile, because
-//     ~X() is marked override and ScriptCmdImpl's destructor is not virtual.
-//   - Script_DeactivateProjectileTrap, Script_ActivateProjectileTrap: dh2/Script_<Name>.hpp does not exist yet.
+// Redo pass (r2a-game-app-global-f216b6-6): the trigger-plate, projectile-trap, close-door and drop-loot factories are
+// defined here now. Their headers compile, and the headers for the projectile traps exist. The layout of those classes
+// is still pending: Script_CloseDoor's pad_18[0x30] lies past the 0x18-byte allocation, and Script_DropLoot's pad_10
+// lies past the 0x10-byte allocation (layout requests in the ledger notes of r2a-game-app-global-f216b6-6).
 
 #include "dh2/global/GetNewScriptCmdImplInstance.hpp"
 
 #include "dh2/ScriptCmdImpl.hpp"
+#include "dh2/Script_ActivateProjectileTrap.hpp"
 #include "dh2/Script_ActivateTriggerPlate.hpp"
 #include "dh2/Script_AutoEquip.hpp"
 #include "dh2/Script_AwardEndGameTrophies.hpp"
 #include "dh2/Script_AwardTrophy.hpp"
 #include "dh2/Script_ChangeLevel.hpp"
+#include "dh2/Script_CloseDoor.hpp"
+#include "dh2/Script_DeactivateProjectileTrap.hpp"
+#include "dh2/Script_DeactivateTriggerPlate.hpp"
+#include "dh2/Script_DropLoot.hpp"
 #include "dh2/Script_EndGame.hpp"
 #include "dh2/Script_OpenDoor.hpp"
 #include "dh2/Script_ReEquipHands.hpp"
@@ -106,10 +111,17 @@ ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SpawnContainer>() {
 }
 
 // 0x457cb4 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateTriggerPlate>()
-// PARTIAL, not defined here: dh2/Script_DeactivateTriggerPlate.hpp does not compile (its ~Script_DeactivateTriggerPlate()
-// is marked override, but ScriptCmdImpl's destructor is not virtual). Once that header is fixed, the body is:
-// new Script_DeactivateTriggerPlate() with +0x10 (m_plate) = 0, +0x04 = 0, +0x08 = -1, +0x0c = 0.
-// Asm: MOV R0,#0x14 (allocates 0x14), vtable _ZTV29Script_DeactivateTriggerPlate.
+// Asm: MOV R0,#0x14 (allocates 0x14); vtable _ZTV29Script_DeactivateTriggerPlate; +0x10 (m_plate) = 0 in addition to the
+// common stores.
+template <>
+ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateTriggerPlate>() {
+    Script_DeactivateTriggerPlate* cmd = new Script_DeactivateTriggerPlate();
+    cmd->m_plate = nullptr;      // +0x10
+    cmd->unk_04 = false;         // +0x04
+    cmd->m_cmdId = -1;           // +0x08
+    cmd->m_args = nullptr;       // +0x0c
+    return cmd;
+}
 
 // 0x457d00 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateTriggerPlate>()
 // Asm: MOV R0,#0x14 (allocates 0x14); vtable _ZTV27Script_ActivateTriggerPlate; +0x10 (m_triggerPlate) = 0 in
@@ -125,19 +137,44 @@ ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateTriggerPlate>() {
 }
 
 // 0x457d4c ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap>()
-// PARTIAL, not defined here: dh2/Script_DeactivateProjectileTrap.hpp does not exist yet. Asm: MOV R0,#0x14
-// (allocates 0x14); vtable _ZTV31Script_DeactivateProjectileTrap; +0x10 = 0 in addition to the common stores
-// (+0x04 = 0, +0x08 = -1, +0x0c = 0). The +0x10 member's name is not known yet.
+// Asm: MOV R0,#0x14 (allocates 0x14); vtable _ZTV31Script_DeactivateProjectileTrap; +0x10 (m_trap) = 0 in addition to the
+// common stores (+0x04 = 0, +0x08 = -1, +0x0c = 0).
+template <>
+ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap>() {
+    Script_DeactivateProjectileTrap* cmd = new Script_DeactivateProjectileTrap();
+    cmd->m_trap = nullptr;       // +0x10
+    cmd->unk_04 = false;         // +0x04
+    cmd->m_cmdId = -1;           // +0x08
+    cmd->m_args = nullptr;       // +0x0c
+    return cmd;
+}
 
 // 0x457d98 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>()
-// PARTIAL, not defined here: dh2/Script_ActivateProjectileTrap.hpp does not exist yet. Asm: MOV R0,#0x14
-// (allocates 0x14); vtable _ZTV29Script_ActivateProjectileTrap; +0x10 = 0 in addition to the common stores.
-// The +0x10 member's name is not known yet.
+// Asm: MOV R0,#0x14 (allocates 0x14); vtable _ZTV29Script_ActivateProjectileTrap; +0x10 (m_trap) = 0 in addition to the
+// common stores.
+template <>
+ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>() {
+    Script_ActivateProjectileTrap* cmd = new Script_ActivateProjectileTrap();
+    cmd->m_trap = nullptr;       // +0x10
+    cmd->unk_04 = false;         // +0x04
+    cmd->m_cmdId = -1;           // +0x08
+    cmd->m_args = nullptr;       // +0x0c
+    return cmd;
+}
 
 // 0x457de4 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CloseDoor>()
-// PARTIAL, not defined here: dh2/Script_CloseDoor.hpp does not compile (~Script_CloseDoor() is marked override,
-// but ScriptCmdImpl's destructor is not virtual). Once that header is fixed, the body is: new Script_CloseDoor()
-// with +0x10 (m_door) = 0, +0x14 (m_instant) = 0, and the common stores. Asm: MOV R0,#0x18 (allocates 0x18).
+// Asm: MOV R0,#0x18 (allocates 0x18); vtable _ZTV16Script_CloseDoor; +0x10 (m_door) = 0, +0x14 (m_instant) = 0 in addition
+// to the common stores. The Hex-Rays order is the same (+0x14, +0x04, vptr, +0x08, +0x0c, +0x10).
+template <>
+ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CloseDoor>() {
+    Script_CloseDoor* cmd = new Script_CloseDoor();
+    cmd->m_door = nullptr;       // +0x10
+    cmd->m_instant = false;      // +0x14
+    cmd->unk_04 = false;         // +0x04
+    cmd->m_cmdId = -1;           // +0x08
+    cmd->m_args = nullptr;       // +0x0c
+    return cmd;
+}
 
 // 0x457e34 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_OpenDoor>()
 // Asm: MOV R0,#0x18 (allocates 0x18); vtable _ZTV15Script_OpenDoor; +0x10 (m_door) = 0 and +0x14 (m_instant) = 0
@@ -189,6 +226,8 @@ ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AutoEquip>() {
 }
 
 // 0x457fec ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DropLoot>()
-// PARTIAL, not defined here: dh2/Script_DropLoot.hpp does not compile (~Script_DropLoot() is marked override, but
-// ScriptCmdImpl's destructor is not virtual). Once that header is fixed, the body is NewScriptCmd<Script_DropLoot>().
-// Asm: MOV R0,#0x10; vtable _ZTV15Script_DropLoot.
+// Asm: MOV R0,#0x10; vtable _ZTV15Script_DropLoot. The common stores only.
+template <>
+ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DropLoot>() {
+    return NewScriptCmd<Script_DropLoot>();
+}

@@ -1,8 +1,7 @@
 // Test for batch g1-game-app-IStreamBase-e228fc-0 (IStreamBase, part 1 of 2).
 // Runs the typed helpers of this batch, the string writeAs and the seek wrappers against an in-memory stream, and checks
 // the file bytes they produce. Returns non-zero on failure.
-// Not covered: the Structs::CharacterProperties helpers (partial; the record header cannot share a translation unit with
-// dh2/IStreamBase.hpp), and the deleting destructor (compiler-generated). The part 2 helpers are not linked here.
+// Not covered: the deleting destructor (compiler-generated). The part 2 helpers are not linked here.
 #include "dh2/IStreamBase.hpp"
 
 #include <algorithm>
@@ -15,10 +14,25 @@
 #include <vector>
 
 #include "core-platform/deps/game_types.hpp"
+// net-transport's deps/byte_array.hpp (through dh2/Door.hpp) and pydata's deps/stream_reader.hpp both define CustomFree
+// and MemoryHintState; rename the net-transport copies while the two are included together (as dh2/Character.hpp does).
+#define CustomFree CustomFree_net_transport
+#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/Door.hpp"
+#undef CustomFree
+#undef MemoryHintState
+#include "pydata-accessors/structs_records.hpp"
 
 // The source file reads this global; the test provides it (gAssertLevel 0 keeps ASSERT silent).
 int gAssertLevel = 0;
+
+// Out-of-line virtuals of Structs::CharacterProperties (pydata-accessors/src/structs_records.cpp, not linked here).
+// Only the vtable is needed.
+namespace Structs {
+CharacterProperties::~CharacterProperties() {}
+void CharacterProperties::finalize() {}
+void CharacterProperties::read(IStreamBase*) {}
+}  // namespace Structs
 
 namespace {
 
@@ -159,6 +173,47 @@ void TestPoint3DBytesAndRoundTrip() {
     EXPECT(s.cursor == 12);
 }
 
+// Structs::CharacterProperties: the 900-byte sheet. File bytes +0x00..+0x03 are the vptr word (written as zero), then the
+// 224 int32 words m_w1..m_w224 at +0x04, little-endian.
+void TestCharacterPropertiesRoundTrip() {
+    MemoryStream s;
+    Structs::CharacterProperties sheet;
+    sheet.m_w1 = 0x01020304;
+    sheet.m_w2 = -2;
+    sheet.m_w100 = 100;
+    sheet.m_w224 = static_cast<std::int32_t>(0x80000001u);
+    s.writeAs(sheet);
+    EXPECT(s.bytes.size() == 900);
+    EXPECT(s.cursor == 900);
+    EXPECT(s.bytes[0] == 0 && s.bytes[1] == 0 && s.bytes[2] == 0 && s.bytes[3] == 0);
+    EXPECT(s.bytes[4] == 0x04 && s.bytes[5] == 0x03 && s.bytes[6] == 0x02 && s.bytes[7] == 0x01);  // m_w1 at +0x04
+    EXPECT(s.bytes[8] == 0xFE && s.bytes[9] == 0xFF && s.bytes[10] == 0xFF && s.bytes[11] == 0xFF);  // m_w2 at +0x08
+    EXPECT(s.bytes[4 + 4 * 99] == 100 && s.bytes[4 + 4 * 99 + 1] == 0);                              // m_w100
+    EXPECT(s.bytes[896] == 0x01 && s.bytes[897] == 0 && s.bytes[898] == 0 && s.bytes[899] == 0x80);  // m_w224 at +0x380
+    EXPECT(s.bytes[12] == 0 && s.bytes[13] == 0);                                                    // m_w3 untouched
+
+    s.seek(0);
+    Structs::CharacterProperties back;
+    back.m_w3 = 77;  // overwritten by the file
+    s.readAs(back);
+    EXPECT(s.cursor == 900);
+    EXPECT(back.m_w1 == 0x01020304 && back.m_w2 == -2 && back.m_w3 == 0 && back.m_w100 == 100);
+    EXPECT(back.m_w224 == static_cast<std::int32_t>(0x80000001u));
+}
+
+void TestCharacterPropertiesShortReadKeepsWords() {
+    // Eight bytes arrive (the vptr word and m_w1): the other words keep their values, as the original's direct read does.
+    MemoryStream s;
+    Load(s, {0, 0, 0, 0, 9, 0, 0, 0});
+    Structs::CharacterProperties sheet;
+    sheet.m_w1 = 1;
+    sheet.m_w2 = 42;
+    sheet.m_w224 = 7;
+    s.readAs(sheet);
+    EXPECT(s.cursor == 8);
+    EXPECT(sheet.m_w1 == 9 && sheet.m_w2 == 42 && sheet.m_w224 == 7);
+}
+
 void TestBitsetBitOrder() {
     MemoryStream s;
     std::bitset<128> bits;
@@ -232,6 +287,8 @@ int main() {
     TestBoolAndUnsignedChar();
     TestDoorStatesRoundTrip();
     TestPoint3DBytesAndRoundTrip();
+    TestCharacterPropertiesRoundTrip();
+    TestCharacterPropertiesShortReadKeepsWords();
     TestBitsetBitOrder();
     TestBitsetShortReadKeepsBits();
     TestWriteString();

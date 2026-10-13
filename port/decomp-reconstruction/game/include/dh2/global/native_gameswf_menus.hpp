@@ -9,6 +9,7 @@
 
 #include <cstddef>
 #include <cstring>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -71,3 +72,12 @@ void NativeGetStringFromID(const gameswf::fn_call& call);
 void NativeGetMultiplayerGameRooms(const gameswf::fn_call& call);
 // 0x445a10 NativeGetSkillDetails(gameswf::fn_call const&)
 void NativeGetSkillDetails(const gameswf::fn_call& call);
+
+// NativeSkillGetEquipedSkillsIDs (0x4425a0): the character from NativeGetPlayerChar(player, flag). When it exists,
+// ids[i] is Character::SG_GetSkillInSlot(i) for the three slots 0..2 and the result is true. Otherwise the result is
+// false and ids is left alone.
+bool EquippedSkillIdsOfPlayer(int player, bool flag, int (&ids)[3]);
+
+// NativeGetPlayerRanking (0x44344c): for stats 0..6, names[stat] is PlayerStatManager::GetStatStr(stat) and
+// values[stat] is PlayerStatManager::GetStatValue(stat, player), read from the PlayerStatManager singleton.
+void RankingStatsOfPlayer(int player, std::string (&names)[7], int (&values)[7]);

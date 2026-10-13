@@ -2,10 +2,9 @@
 // Each returns the singleton instance of one CharState subclass, Singleton<T>::s_inst, as a CharState*.
 // The primary template is declared but not defined; every instance is an explicit specialization, declared
 // here so that callers never fall back to an implicit instantiation.
-// The classes are forward-declared on purpose: the CS* headers do not compile against dh2/CharState.hpp yet
-// (their OnInit/OnFocus/OnBlur/OnUpdate/OnEvent overrides have no base slot), so these declarations do not
-// pull them in. Hex-Rays prints the return type of GetNewState<CSLiftingMove> as int*; the demangled symbol
-// (CharState*) is the one used here.
+// The classes are forward-declared here so that this header stays light. The .cpp files that define the factories
+// include the CS* headers they need (dh2/CSIdle.hpp and so on; they compile against dh2/CharState.hpp). Hex-Rays prints
+// the return type of GetNewState<CSLiftingMove> as int*; the demangled symbol (CharState*) is the one used here.
 #pragma once
 
 class CharState;

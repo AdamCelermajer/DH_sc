@@ -29,4 +29,8 @@ public:
     // is "StartDialog" (Script_StartDialogID::Execute). The element count is not recovered (the next symbol is at
     // 0x999838), so the bound stays open; the definition goes in the DialogMsg source.
     static const char* s_StartFuncName[];
+
+    // Skip function name of the DialogMsg queue (ELF _ZN9DialogMsg14s_SkipFuncNameE, a pointer). When it is set, the
+    // skip step invokes it on the queue (MenuBase::FS_StopDialog). The definition goes in the DialogMsg source.
+    static const char* s_SkipFuncName;
 };

@@ -70,6 +70,8 @@ CMessage* GetNewInstance<CMsgControllerAction>(bool withSerial) {
 // has no CMsgMenuReady(bool) constructor, so this uses the default constructor, then SetProperties(),
 // which makes the same type-name and sendMode_ stores. Missing: the serial gate of the base constructor.
 // Layout request: add explicit CMsgMenuReady(bool) : CMessage("CMsgMenuReady", withSerial) to c_msg_fixed.hpp.
+// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
+// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
 template <>
 CMessage* GetNewInstance<CMsgMenuReady>([[maybe_unused]] bool withSerial) {
     auto* msg = new CMsgMenuReady();
@@ -83,6 +85,8 @@ CMessage* GetNewInstance<CMsgMenuReady>([[maybe_unused]] bool withSerial) {
 // and SetProperties() makes the same stores. Missing: the bool, and CMsgAttackResult(bool) is not declared
 // by this class. c_msg_attack_result.hpp declares a second CMsgAttackResult with that constructor, and the
 // two cannot be in one translation unit. The duplicate must be merged before this is complete.
+// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
+// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
 template <>
 CMessage* GetNewInstance<CMsgAttackResult>([[maybe_unused]] bool withSerial) {
     auto* msg = new CMsgAttackResult();
@@ -107,6 +111,8 @@ CMessage* GetNewInstance<CMsgDropLoot>(bool withSerial) {
 // SetProperties() makes those stores. Missing: the bool. Layout request: add the CMsgAskResendAttributes(bool)
 // constructor to c_msg_fixed.hpp. The original allocates 0x54 bytes (a 4-byte payload at +0x50), while the
 // header's payload is 1 byte; check the payload size against the binary.
+// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
+// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
 template <>
 CMessage* GetNewInstance<CMsgAskResendAttributes>([[maybe_unused]] bool withSerial) {
     auto* msg = new CMsgAskResendAttributes();
@@ -117,6 +123,8 @@ CMessage* GetNewInstance<CMsgAskResendAttributes>([[maybe_unused]] bool withSeri
 // 0x328da8 CMessage* GetNewInstance<CMsgIsHost>(bool)
 // PARTIAL: same shape as CMsgMenuReady (sendMode_ = 0, flag32_ = 1). Missing: the bool, see CMsgMenuReady.
 // Layout request: add an explicit CMsgIsHost(bool) constructor to c_msg_fixed.hpp.
+// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
+// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
 template <>
 CMessage* GetNewInstance<CMsgIsHost>([[maybe_unused]] bool withSerial) {
     auto* msg = new CMsgIsHost();
@@ -134,6 +142,8 @@ CMessage* GetNewInstance<CMsgQuestsSync>(bool withSerial) {
 // PARTIAL: same shape as CMsgMenuReady (reliable_ = 1 at +0x30, sendMode_ = 1, flag32_ = 1). SetProperties()
 // makes those stores. Missing: the bool. Layout request: add an explicit CMsgGlobalDeath(bool) constructor to
 // c_msg_fixed.hpp.
+// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
+// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
 template <>
 CMessage* GetNewInstance<CMsgGlobalDeath>([[maybe_unused]] bool withSerial) {
     auto* msg = new CMsgGlobalDeath();
@@ -146,6 +156,8 @@ CMessage* GetNewInstance<CMsgGlobalDeath>([[maybe_unused]] bool withSerial) {
 // c_msg_fixed.hpp each declare a CMsgRaisedEvent, so they cannot be in one translation unit. This uses the
 // c_msg_fixed.hpp class (allocation size 0x64 matches its 80 + 20 bytes), default constructor, then
 // SetProperties() (0x327a0c). The constructor body at 0x329630 is not mirrored, and the bool is dropped.
+// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
+// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
 template <>
 CMessage* GetNewInstance<CMsgRaisedEvent>([[maybe_unused]] bool withSerial) {
     auto* msg = new CMsgRaisedEvent();
@@ -157,6 +169,8 @@ CMessage* GetNewInstance<CMsgRaisedEvent>([[maybe_unused]] bool withSerial) {
 // PARTIAL: same shape as CMsgMenuReady (flag32_ = 1, includeLocalMember_ = 0 at +0x33, sendMode_ = 1).
 // SetProperties() makes those stores. Missing: the bool. Layout request: add an explicit CMsgStartGame(bool)
 // constructor to c_msg_fixed.hpp.
+// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
+// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
 template <>
 CMessage* GetNewInstance<CMsgStartGame>([[maybe_unused]] bool withSerial) {
     auto* msg = new CMsgStartGame();

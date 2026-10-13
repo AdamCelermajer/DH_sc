@@ -6,6 +6,7 @@
 
 #include "dh2/LuaScript.hpp"
 #include "glitch-core-io/core/strings.hpp"
+#include "luascript_link_stubs.hpp"  // sfc, Application, ScriptManager and player symbols the bindings in the source reference
 
 // Stand-in for glitch::core::hashString (0x37c164). Deterministic and collision-free for the names used here; the real
 // hash is not reproduced in this test.

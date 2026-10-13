@@ -18,20 +18,28 @@
 
 // ---- link-only stubs (the batch source references these; the tested paths do not call the aborting ones) ----
 
+// Constructors and destructors of the polymorphic engine classes are given as no-op aliases under their mangled
+// C1/D1 names. A C++ definition would write a vtable pointer and need the class's vtable, which is not linked here.
+extern "C" {
+void NoopCtorOneArg(void*) {}
+void NoopCtorRef(void*, void*) {}
+void NoopCtorGoIds(void*, int) {}
+void NoopDtor(void*) {}
+}
+extern "C" void _ZN11LevelConfigC1EN10ObjectBase6GO_IDSE(void*, int) __attribute__((alias("NoopCtorGoIds")));
+extern "C" void _ZN3rnd8RootRuleC1ERNS_15RandomGeneratorE(void*, void*) __attribute__((alias("NoopCtorRef")));
+extern "C" void _ZN3rnd8RootRule4ImplC1ERKS0_(void*, void*) __attribute__((alias("NoopCtorRef")));
+extern "C" void _ZN3rnd8RootRule4ImplD1Ev(void*) __attribute__((alias("NoopDtor")));
+extern "C" void _ZN3rnd8RootRuleD1Ev(void*) __attribute__((alias("NoopDtor")));
+
 namespace rnd {
 void Tile::Unspawn() { std::abort(); }
-void Tile::Print() { std::abort(); }
-RootRule::RootRule(RandomGenerator&) {}
-RootRule::~RootRule() {}
 void RootRule::Unload() {}
-RootRule::Impl::Impl(const RootRule&) {}
-RootRule::Impl::~Impl() {}
 bool RootRule::Impl::Generate(Array2d<Tile*>&) { return false; }   // no placement: Generate reports failure
 void RoomPool::LoadFromXml(TiXmlNode*) { std::abort(); }
 void ListRule::LoadFromXml(TiXmlNode*) { std::abort(); }
 }  // namespace rnd
 
-LevelConfig::LevelConfig(ObjectBase::GO_IDS) {}
 void PropertyMap::InitProperties() {}
 void PropertyMap::LoadDefaultProperties() {}
 

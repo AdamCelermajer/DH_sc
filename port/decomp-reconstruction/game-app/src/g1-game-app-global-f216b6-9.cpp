@@ -8,17 +8,23 @@
 //     array whose base is **(fn_call +0x0c). fn_call +0x10 is the argument count. The as_value accessors (to_number,
 //     to_string, to_xstring, to_bool, set_double) are not in the tree, so a native that reads an argument or stores
 //     its result is PARTIAL and its body is left out (see the rows and native_app_bindings.hpp).
-//   - The PlayerManager instance is dword_99F76C (extern in dh2/global/IsMultiplayerGame.hpp). PlayerInfo (the
-//     GetLocalPlayer and GetRemotePlayer result, with character_660 at +0x660) has no header. Every native that
-//     looks up a player character is PARTIAL.
+//   - The PlayerManager is Application +0x40 (dword_99F76C, extern in dh2/global/IsMultiplayerGame.hpp). PlayerInfo
+//     (dh2/PlayerInfo.hpp) is the GetLocalPlayer and GetRemotePlayer result; its character is unk_660 at +0x660.
+//     NativeGetPlayerChar and NativeHUDSpell use it and are reconstructed.
 //   - The helpers PickHintPageOffset and CreditMovementValue hold the arithmetic of 0x43cb24 and 0x43ccec. They
 //     reference no other symbol, so the test links them alone.
 
 #include <cstdint>
 
+#include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/Quest.hpp"
+#include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/native_app_bindings.hpp"
 #include "dh2/global/quest_predicates.hpp"
+#include "dh2/v2Controller.hpp"
 
 // 0x43b4f0 IsNonDebugQuestClosedQuest(Quest const*)
 // Hex-Rays reads the state (+0x00) first, then calls IsNonDebugQuest. When that is true, the result is state > 12,
@@ -65,26 +71,33 @@ void NativeConectionType(const gameswf::fn_call& call) {
 }
 
 // 0x43c388 NativeGetPlayerChar(int, bool)
-// PARTIAL: stub returns nullptr. The original returns nullptr when the index is negative or not below
-// PlayerManager::GetNumPlayers() of the PlayerManager instance (dword_99F76C). For a remote index it returns the
-// character_660 (+0x660) of PlayerManager::GetRemotePlayer(index, false). Otherwise it returns the character_660 of
-// PlayerManager::GetLocalPlayer(index, false). Waits on dh2/PlayerInfo.hpp (layout request: PlayerInfo +0x660
-// Character* character_660, Hex-Rays *(player + 1632)). The bounds check is left out because it would reference
-// dword_99F76C, which the single-file test cannot link.
+// Reconstructed (asm 0x43c388 checked). The PlayerManager is Application +0x40 (dword_99F76C). It returns nullptr when
+// the index is negative or not below PlayerManager::GetNumPlayers(). Otherwise it returns the character at PlayerInfo
+// +0x660 of PlayerManager::GetRemotePlayer(index, false) when remote, or of PlayerManager::GetLocalPlayer(index, false).
+// The +0x660 field is PlayerInfo::unk_660 (Hex-Rays *(player + 1632)); its name in the header is unk_660.
 Character* NativeGetPlayerChar(int playerIndex, bool remote) {
-    (void)playerIndex;
-    (void)remote;
-    return nullptr;
+    PlayerManager* players = ApplicationGetInstance().m_playerManager;
+    if (playerIndex < 0 || playerIndex >= players->GetNumPlayers()) {
+        return nullptr;
+    }
+    if (remote) {
+        return players->GetRemotePlayer(playerIndex, false)->unk_660;
+    }
+    return players->GetLocalPlayer(playerIndex, false)->unk_660;
 }
 
 // 0x43cabc NativeHUDSpell(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original takes the local player's character (PlayerManager::GetLocalPlayer(0, true)
-// on the PlayerManager instance dword_99F76C, character_660 at PlayerInfo +0x660). When the character is set and
-// Character::CTRLIsAllowed() holds, it calls v2Controller::Cmd_BeginCast(false) and then Cmd_EndCast(false) on the
-// character's controller (v2Controllable::m_controller, Character +0x378). Both calls and CTRLIsAllowed are declared
-// (dh2/v2Controller.hpp, dh2/Character.hpp). Waits on dh2/PlayerInfo.hpp.
-void NativeHUDSpell(const gameswf::fn_call& call) {
-    (void)call;
+// Reconstructed (asm 0x43cabc checked). The local player 0 (PlayerManager::GetLocalPlayer(0, true)) gives its character
+// (PlayerInfo +0x660). When the character is set and Character::CTRLIsAllowed() holds, the character's controller
+// (Character +0x378, v2Controllable::m_controller) runs Cmd_BeginCast(false) and then Cmd_EndCast(false). The player
+// pointer is not tested for null, as in the asm (LDR R4, [R0,#0x660]). The argument is not read.
+void NativeHUDSpell(const gameswf::fn_call& /*call*/) {
+    PlayerInfo* localPlayer = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true);
+    Character* character = localPlayer->unk_660;
+    if (character != nullptr && character->CTRLIsAllowed()) {
+        character->m_controller->Cmd_BeginCast(false);
+        character->m_controller->Cmd_EndCast(false);
+    }
 }
 
 // 0x43cb24 NativeGetLoadingTipStrID(gameswf::fn_call const&)

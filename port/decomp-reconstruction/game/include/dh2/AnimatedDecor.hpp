@@ -17,8 +17,12 @@ class ITimelineController;
 
 class AnimatedDecor : public Decor {
 public:
+    // No standalone constructor symbol: GetNewInstance<AnimatedDecor> (0x342600) runs GameObject(id) with GO id 20, then
+    // writes the vtables, the empty m_startAnim, m_floorMapPending = 0, m_isSolid = 1 and m_static = 1 inline.
+    explicit AnimatedDecor(GO_IDS id);
+
     // Overrides of the GameObject slots, in vtable order.
-    ~AnimatedDecor() override;                                          // slot 0/1: 0x389098 (D1), 0x38910c (D0)
+    ~AnimatedDecor() override;                                         // slot 0/1: 0x389098 (D1), 0x38910c (D0)
     void DeclareProperties() override;                                  // slot 0x18: 0x389dd4 adds the "startanim" property
     void InitPost() override;                                           // slot 0x1c: 0x389128
     bool IsAnimated() const override;                                   // slot 0x80: 0x3883dc true

@@ -1,4 +1,4 @@
-#include "net-transport/stream_buffer.hpp"
+#include "dh2/StreamBuffer.hpp"
 
 #include <algorithm>
 

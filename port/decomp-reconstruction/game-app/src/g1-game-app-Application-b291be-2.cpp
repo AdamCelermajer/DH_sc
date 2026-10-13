@@ -7,9 +7,11 @@
 // Most bodies here are PARTIAL: each one's note says which part of the original is not written and why.
 #include "dh2/Application.hpp"
 
+#include <list>
 #include <new>
 
 #include "core-platform/debug_out.hpp"
+#include "core-platform/device.hpp"
 #include "core-platform/memory.hpp"
 #include "core-platform/perf_counters.hpp"
 #include "core-platform/touch_screen_base.hpp"
@@ -17,27 +19,31 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/EventManager.hpp"
 #include "dh2/GSFlashMenu.hpp"
+#include "dh2/GSLevel.hpp"
 #include "dh2/IEventReceiver.hpp"
 #include "dh2/InputManager.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/LuaManager.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/Point2D.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerStatManager.hpp"
 #include "dh2/SavegameManager.hpp"
+#include "dh2/Singleton.hpp"
 #include "dh2/StateMachine.hpp"
 #include "dh2/StringManager.hpp"
+#include "dh2/TrophyManager.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_online.hpp"
 #include "net-transport/update_job_thread.hpp"
 
-// File-scope job threads #2..#4 of the original (m_updateJobThread0 is the member at +0x04). Their
-// definitions belong to the globals batch; the constructor below stores into them.
-extern updateJob_thread* m_updateJobThread1;
-extern updateJob_thread* m_updateJobThread2;
-extern updateJob_thread* m_updateJobThread3;
-extern updateJob_thread* m_updateJobThread4;
-// ELF .bss global set to 1 by the constructor. Its width is not established (the store is 32-bit).
-extern int FirstTime;
+// The file-scope job threads #2..#4 (m_updateJobThread1..4) and the first-run flag FirstTime are declared in
+// dh2/global/Globals.hpp (definitions in game-app/src/Globals.cpp). m_updateJobThread0 is the member at +0x04.
+// FirstTime is a bool: the constructor stores it with a byte store (STRB, asm 0x32d980).
 
 namespace {
 
@@ -58,14 +64,14 @@ void WriteDebugSwitch(const char* name, bool value) {
 }  // namespace
 
 // 0x321164 Application::_CheckGamepad()
-// PARTIAL: only the no-gamepad exit is written. The rest reads the first connected Gamepad: about 40 controls,
-// each a value float, a minimum and a maximum (the threshold is (min + max + 1.0) * 0.5) and a latch byte at
-// the control's byte offset +16 (the latch is written by the event consumer, not here). It raises EvGamepad
-// events (vtable 0x95b470: type 7, action id, pressed flag, player 0, 1.0f) and EvKeyboard events (vtable
-// 0x95b440) on m_eventManager, toggles the console when the console button is pressed (m_console non-null), and
-// closes the character menu on the menu button. Waits on a Gamepad layout header (dh2/Gamepad.hpp is not declared)
-// and on the EvGamepad and EvKeyboard event headers (dh2/EvGamepad.hpp, dh2/EvKeyboard.hpp are not declared).
-// The original keeps a function-static last-time value for the auto-repeat of the stick buttons.
+// PARTIAL: only the no-gamepad exit is written. The rest reads the first connected Gamepad. Its control table is now
+// declared (dh2/Gamepad.hpp, Gamepad::m_buttons[k]): the value is Channel::previous (+0x18+0x20k), the minimum
+// previous_minimum (+0x20+0x20k), the maximum previous_maximum (+0x24+0x20k) and the pressed latch
+// previous_above_threshold (+0x28+0x20k), with threshold (min + max + 1.0) * 0.5. The body is still not written
+// because every branch raises an event: EvKeyboard (vtable 0x95b440, forward-declared only in dh2/v2EmuController.hpp)
+// and EvGamepad (vtable 0x95b470, no header) are not declared, so the raises cannot be built without a stand-in.
+// It also toggles the console when m_console is set and closes the character menu on the menu button. The original
+// keeps a function-static last-time value (Application::_CheckGamepad()::last_time, .bss) for the stick auto-repeat.
 void Application::_CheckGamepad() {
     InputManager* input = InputManager::GetInstance();
     Gamepad* pad = input->GetFirstConnectedGamepad();
@@ -76,26 +82,26 @@ void Application::_CheckGamepad() {
 }
 
 // 0x322924 Application::Pause()
-// PARTIAL: VoxSoundManager::s_instance, IsMusicPlaying and PauseAllSounds are not declared, so no sound is paused
-// and musicPlaying is taken as false (the m_resumeMusic latch stays clear). m_pauseTime (+0xa0) should take the
-// device time from the IDevice timer (device +0x10, timer at device +0x20, virtual getRealTime at slot +0x0c);
-// the timer interface is not declared, so m_pauseTime keeps its value. The menu_Ingame lookup result belongs in
-// GSFlashMenu::s_inst +0x0c (not declared) and is only looked up here. The SavegameManager::saveSettings call is
-// gated on a byte at SavegameManager +0x28 whose name is not established, so it is not written.
+// PARTIAL: the music and sound pause is not written. VoxSoundManager (s_instance, IsMusicPlaying, PauseAllSounds) has
+// no declaration in the tree, so musicPlaying is taken as false and the m_resumeMusic latch never sets. m_pauseTime
+// (+0xa0) should take the device timer read (IDevice +0x20, virtual getRealTime at slot +0x0c); IDevice declares no
+// timer, so m_pauseTime keeps its value. The menu_Ingame lookup result belongs in GSFlashMenu::s_inst +0x0c, which is
+// not declared, so the lookup is made and discarded.
+// The menu lookups use m_menuManager (dword_99F780 is s_inst +0x54). The save-settings gate is the byte at
+// SavegameManager +0x28, which is SavegameManager::m_optionsLoaded (set at the end of a full loadSettings).
 void Application::Pause() {
-    const bool musicPlaying = false;  // PARTIAL, see above
-    m_resumeMusic = false;
-
-    m_pauseMenuPushed = false;
+    const bool musicPlaying = false;  // PARTIAL: VoxSoundManager is not declared, see above
+    m_resumeMusic = false;            // +0xa6
+    m_pauseMenuPushed = false;        // +0xa5
 
     Level* level = GetCurrentLevel();
     if (level != nullptr && level->m_loadStep == 38 && level->m_isLoaded) {
         level->SG_SavePlayer(0, false);
         if (level->m_isInGameView) {
             if (!MenuBase::s_igmOpened) {
-                MenuBase* fadeToBlack = MenuManager::GetInstance()->GetMenuByName("menu_FadeToBlackScreen");
+                MenuBase* fadeToBlack = m_menuManager->GetMenuByName("menu_FadeToBlackScreen");
                 if (!fadeToBlack->IsVisible()) {
-                    MenuManager::GetInstance()->PopMenu("menu_FadeFromBlackScreen");
+                    m_menuManager->PopMenu("menu_FadeFromBlackScreen");
                     m_pauseMenuPushed = true;
                     // PARTIAL: the result is stored in GSFlashMenu::s_inst +0x0c (not declared).
                     (void)MenuManager::GetInstance()->GetMenuByName("menu_Ingame");
@@ -108,7 +114,11 @@ void Application::Pause() {
         }
     }
 
-    m_paused = true;
+    if (m_savegameManager != nullptr && m_savegameManager->m_optionsLoaded) {  // byte +0x28
+        m_savegameManager->saveSettings();
+    }
+
+    m_paused = true;  // +0xa4
     if (m_stateMachine != nullptr) {
         m_stateMachine->Sleep();
     }
@@ -221,8 +231,10 @@ void Application::RemoveUnderlayNode(glitch::scene::ISceneNode* node) {
 }
 
 // 0x3270c8 Application::AddUnderlayNode(glitch::scene::ISceneNode*)
-// PARTIAL: the original forwards to UnderlaySceneNode::AddUnderlayNode(m_underlayNode, node) when the underlay exists.
-// That member function is not declared (UnderlaySceneNode has no header), so nothing is forwarded.
+// PARTIAL: the original forwards to UnderlaySceneNode::AddUnderlayNode(m_underlayNode, node) when the underlay exists
+// (declared in dh2/UnderlaySceneNode.hpp). That header cannot be included in this translation unit: it brings glitch
+// scene types that redefine the glitch_core types of core-platform/deps/glitch_core.hpp. So nothing is forwarded.
+// The original returns the callee's R0 (the callee returns void), which the void header does not carry.
 void Application::AddUnderlayNode(glitch::scene::ISceneNode* node) {
     if (m_underlayNode == nullptr) {
         return;
@@ -232,14 +244,19 @@ void Application::AddUnderlayNode(glitch::scene::ISceneNode* node) {
 }
 
 // 0x328f40 Application::ResetTouch()
-// PARTIAL: the original asks m_touchScreen (vtable slot +0x4c) for the list of touch slots that are still down,
-// calls touchEnded(Point2D(-1, -1), slot) for each entry (vtable slot +0x28), then frees the list nodes. The slot
-// +0x4c accessor is not declared in core-platform/touch_screen_base.hpp, so no touch is ended here.
+// Ends every touch that is still down. The touch screen's list of active touch ids (getTouchIDList, vtable slot +0x4c)
+// is walked in order, and touchEnded (vtable slot +0x28) is called for each id with the point (-1, -1). The list is then
+// freed (the std::list destructor). getTouchIDList is virtual in the original, but core-platform declares it non-virtual;
+// no class in the tree overrides it, so the direct call reaches TouchScreenBase::getTouchIDList.
 void Application::ResetTouch() {
     if (m_touchScreen == nullptr) {
         return;
     }
-    // PARTIAL: see above.
+    const std::list<long> touchIds = m_touchScreen->getTouchIDList();  // +0x4c
+    for (const long slot : touchIds) {
+        const Point2D<short> endPoint{-1, -1};
+        m_touchScreen->touchEnded(endPoint, slot);  // vtable +0x28
+    }
 }
 
 // 0x328fe0 Application::Resume()
@@ -306,43 +323,70 @@ void Application::_Draw() {
 }
 
 // 0x32bdc8 Application::LoadLevel(...)
-// PARTIAL: written: the unk_ab (+0xab) reset and the statub bar hide. Not written: the GameCenter flag, the temp_* staging
-// globals, the savegame and seed setup (PlayerSavegame difficulty slot, DebugSwitches "DontUsePlayerSeed", timer seed),
-// the online start-game message (CMessaging / CMatching and Arrays::LevelList), the save of the finished level
-// (Level::SG_SaveLocalPlayer, Level::QuickSave, Level::ResetIsLoaded, and the GSLevel::LoadLevel switch), and the
-// PlayerStatManager reset and PlayerManager::Update tail. None of those types or globals is declared in the tree yet.
+// PARTIAL. Written: the unk_ab (+0xab) reset and the statub bar hide; then the original's two paths.
+//   A running level (its m_loadStep must be 38, else the function returns): when the level is not in its game view,
+//   MultiMenuManager::PopMenu(true) runs (the m_menuManager +0xf4 object, vtable +0x38). Then m_inTransition (+0x145)
+//   is set, SendGLHiScore runs, m_levelChange (+0xf0) is set, SG_SaveLocalPlayer(true), QuickSave(true) and ResetIsLoaded
+//   run. The switch argument fromSubId is the level's m_levelListSubId (+0x40), read as a full word.
+//   No level: the player manager's unk_71b (+0x71b) is set, and fromSubId is -1.
+// Then the switch: GSLevel::LoadLevel with the arguments, PlayerStatManager::s_inst.Reset(), PlayerManager unk_6c9 = 0
+// and PlayerManager::Update.
+// Not written: (a) the savegame setup, which the original runs before the switch when isRemotelyTriggered is false.
+// It needs the PlayerSavegame difficulty seed, DebugSwitches "DontUsePlayerSeed", the device timer for the seed
+// (IDevice declares no timer) and the online start-game message (CMessaging and CMatching are not declared). The
+// switch below takes the caller's seed and syncedSeed in that case. (b) The GameCenter flag (GCSingleton<GameCenter>
+// +0x14, not declared) and the temp_* staging globals (not declared).
 void Application::LoadLevel(const char* name, int entryPointId, uint32_t savegameSlot, bool resume, bool useSpawnPoint,
                             int difficulty, bool isRemotelyTriggered, uint32_t seed, uint32_t syncedSeed) {
+    // PARTIAL: the GameCenter flag and the temp_* staging globals are not written, see above.
     unk_ab = false;
-    Level* level = GetCurrentLevel();
     ShowStatubBar(false);
-    (void)level;
-    (void)name;
-    (void)entryPointId;
-    (void)savegameSlot;
-    (void)resume;
-    (void)useSpawnPoint;
-    (void)difficulty;
+
+    int fromSubId = -1;
+    Level* level = GetCurrentLevel();
+    if (level != nullptr) {
+        if (level->m_loadStep != 38) {
+            return;
+        }
+        if (!level->m_isInGameView) {
+            m_menuManager->m_multiMenuManager->PopMenu(true);  // +0xf4 MultiMenuManager, vtable +0x38
+        }
+        level->m_inTransition = true;                 // +0x145
+        SendGLHiScore();
+        fromSubId = level->m_levelListSubId;          // +0x40
+        level->m_levelChange = true;                  // +0xf0
+        level->SG_SaveLocalPlayer(true);
+        level->QuickSave(true);
+        level->ResetIsLoaded();
+    } else {
+        m_playerManager->unk_71b = true;  // +0x71b
+    }
+
+    // PARTIAL: when isRemotelyTriggered is false the original runs the savegame setup here, see above. It is not written.
     (void)isRemotelyTriggered;
-    (void)seed;
-    (void)syncedSeed;
-    // PARTIAL: the rest of the body is not written, see above.
+
+    GSLevel::LoadLevel(name, entryPointId, savegameSlot, seed, syncedSeed, resume, useSpawnPoint, fromSubId, difficulty);
+    PlayerStatManager::s_inst.Reset();
+    m_playerManager->unk_6c9 = 0;  // +0x6c9
+    m_playerManager->Update();
 }
 
 // 0x32c1f4 Application::GoToMainMenu(GoToMainMenuEvent)
-// PARTIAL: written: the level save (with m_inTransition set, +0x145), the menu reset, the switch to the main menu
-// state, the hi-score send, the removal of all players, the statub bar, and the event latch (unk_ab, m_goToMainMenuEvent).
-// Not written: the else branch of the level save makes a virtual call on the MenuManager at +0xf4 with argument 1
-// (its slot is not declared); the two multiplayer globals (Is_In_Multiplayer_IGM, Is_In_Multiplayer_Mode) are not
-// declared; the GSFlashMenu field writes (+0x0c menu pointer, +0x29 flag) are not declared; TrophyManager::
-// UnlockTrophiesGLLive is not declared; and the online sign-out block (CSignIn, CMatching, COnline, OnlineSingleton,
-// GCSingleton) is not declared.
+// PARTIAL: written: the level save (the else branch calls MultiMenuManager::PopMenu(true) at vtable +0x38, then
+// m_inTransition (+0x145) is set and the level quick-saved), the menu reset, the switch to the main menu state, the
+// hi-score send, the TrophyManager unlock, the removal of all players, the statub bar, and the event latch (unk_ab,
+// m_goToMainMenuEvent). Not written: the two multiplayer globals (Is_In_Multiplayer_IGM, Is_In_Multiplayer_Mode, not
+// declared, cleared first in the original); the GSFlashMenu field writes (+0x0c menu pointer, +0x29 flag: the menu lookup
+// is made and discarded); and the online sign-out block, gated on the online byte (CSignIn, CMatching and
+// GCSingleton<GameCenter> are not declared; COnline::SetIsOnlineGame and the OnlineSingleton state reset are declared
+// but sit behind that block).
 void Application::GoToMainMenu(GoToMainMenuEvent event) {
     Level* level = GetCurrentLevel();
     if (level != nullptr && level->m_loadStep == 38) {
-        // PARTIAL: the else branch of the original (virtual call on MenuManager +0xf4) is not written; both branches
-        // below set m_inTransition and quick-save the level.
-        level->m_inTransition = true;
+        if (!level->m_isInGameView) {
+            m_menuManager->m_multiMenuManager->PopMenu(true);  // +0xf4 MultiMenuManager, vtable +0x38
+        }
+        level->m_inTransition = true;  // +0x145
         level->QuickSave(false);
         level->SG_SaveLocalPlayer(false);
     }
@@ -356,7 +400,7 @@ void Application::GoToMainMenu(GoToMainMenuEvent event) {
     m_stateMachine->SwitchState(&GSFlashMenu::s_inst, false);
     _DEBUG_OUT("*************************GoToMainMenu::222222");
     SendGLHiScore();
-    // PARTIAL: TrophyManager::UnlockTrophiesGLLive is not declared, not called.
+    TrophyManager::s_instance->UnlockTrophiesGLLive();
     _DEBUG_OUT("*************************GoToMainMenu::3333333");
     if (m_playerManager != nullptr) {
         m_playerManager->RemoveAllPlayers();
@@ -424,34 +468,78 @@ void Application::_Update(int dtMs) {
 }
 
 // 0x32ccc4 Application::Update()
-// PARTIAL: written: the paused exit, the unk_7a clear, the touch event processing, the delta update, the update and
-// the draw. Not written: the online packet receive and the online update block (GetOnline, COnline, COnlineImpl and
-// OnlineSingleton are not declared), the device tick gate that returns early when the frame time exceeds 2000 ms
-// (device timer not declared), the reload timer for DataReloaderManager::checkFiles (its 4000 ms period is kept in a
-// function static), the PerfCounters FPS update (Singleton<PerfCounters> not declared), the online send, and the frame
-// pacing based on Device::IsHighPerformance (static averages in function statics, not written).
+// PARTIAL: the device-timer steps are not written. The original reads the device timer (IDevice +0x20 object, virtual
+// getRealTime at slot +0x0c). It returns through ComputeDt when more than 2000 ms have passed since m_lastTickTime (+0x70),
+// runs the DataReloaderManager::checkFiles timer (4000 ms, the function static reloadtimer in .bss) and stores the timer
+// into m_lastTickTime. IDevice declares no timer, so that gate, the reload timer and the store are missing, and every
+// frame runs the steps below. Also not written: the online update block (COnlineImpl::Update is not declared, and the
+// byte that gates the block is private in COnline, see IsOnlineGame). The frame pacing calls the device's vtable slot
+// +0x10 with no argument, which IDevice does not declare; those calls are marked below.
 void Application::Update() {
     if (m_paused) {
         return;
     }
+    if (IsOnlineGame()) {  // *(GetOnline() + 5)
+        GetOnline()->ReceivePackets();
+    }
     unk_7a = false;
-    // PARTIAL: the online and device-timer steps are not written, see above.
+    // PARTIAL: the device-timer steps and the online update block, see above.
     if (m_touchScreen != nullptr) {
         m_touchScreen->ProcessEvents();
     }
     ComputeDt();
+    // The original converts +0x8c as an unsigned int for both the FPS value and the counter update.
+    const float frameTimeMs = static_cast<float>(static_cast<unsigned int>(m_dt));
+    const float fps = 1000.0f / frameTimeMs;
+    Singleton<PerfCounters>::s_inst.Update(frameTimeMs);
     _Update(m_dt);
     _Draw();
+    Singleton<PerfCounters>::s_inst.SetCounterValue("FPS", fps, 0.0f, 60.0f);
+    if (IsOnlineGame()) {
+        GetOnline()->SendPackets();
+    }
+
+    // Frame pacing, high-performance devices only. The three averages are function statics in the original (.bss, zero).
+    if (!Device::IsHighPerformance()) {
+        return;
+    }
+    static int avgFrameRate = 0;
+    static int avgFrameCount = 0;
+    static int avgSleepTime = 0;
+    ++avgFrameCount;
+    avgFrameRate += m_dt;
+    if (avgFrameCount == 10) {
+        const int v13 = avgFrameRate / 10 - avgSleepTime;
+        int v14 = 0;
+        if (v13 > 15) {
+            if (v13 > 32) {
+                v14 = v13 > 49 ? 5 : 50 - v13;
+            } else {
+                v14 = 33 - v13;
+            }
+        } else {
+            v14 = 16 - v13;
+        }
+        avgFrameRate = 0;
+        avgFrameCount = 0;
+        avgSleepTime = v14 > 4 ? v14 : 5;
+        // PARTIAL: the original calls the device's vtable slot +0x10 here (no argument), not declared in IDevice.
+        return;
+    }
+    // PARTIAL: when avgSleepTime is above 0 the original calls the same device slot here, not declared in IDevice.
 }
 
 // 0x32d79c Application::Application()
 // 0x32d980 Application::Application()
 // The two addresses are the complete-object and base-object variants of one constructor; one definition serves both.
-// PARTIAL: the member stores from the constructor are written. Not written: the FirstTime global (its width is not
-// established in the tree), and the job threads' pointer stores are declared extern above (their definitions belong to
-// the globals batch). The std::string members (+0xbc, +0xd4) are empty by default construction, which is what the
-// original's zero stores produce. The members at +0x54 (m_menuManager) and +0x58..+0x68 (tweakers) are not set here,
-// as in the original.
+// Every store of the original is written, in its order: the vptr is the compiler's, FirstTime is the bool of
+// dh2/global/Globals.hpp (STRB), and the job threads are created in the order of the original (CustomAlloc(0x10), then
+// updateJob_thread(n), then the pointer store). The std::string members (+0xbc, +0xd4) are constructed empty. The original
+// allocates a 16-byte buffer for each and writes a terminating zero, which is the same empty string. The std::list
+// sentinel at +0x08 is the default construction of m_eventReceivers. Not set, as in the original: m_menuManager (+0x54),
+// the tweakers (+0x58..+0x68), m_lastTickTime (+0x70), m_orientation (+0x80), m_dt..m_timeScale (+0x8c..+0x98),
+// m_underlayNode (+0xb8), unk_ec (+0xec) and the pad bytes. They are zero, because Application is constructed in the
+// zeroed .bss storage of Singleton<Application>::s_inst.
 Application::Application() {
     unk_6c = 30;
     m_dtFactor = 1.0f;

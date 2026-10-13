@@ -3,7 +3,11 @@
 // Member offsets are the original 32-bit ones, recorded in dh2/Application.hpp and dh2/Level.hpp.
 #include "dh2/Application.hpp"
 
+#include "dh2/GSInit.hpp"
+#include "dh2/GSLevel.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/StateBase.hpp"
+#include "dh2/StateMachine.hpp"
 
 namespace {
 
@@ -21,11 +25,19 @@ extern int OPERATOR_PACKAGE_INGAME;
 // declaration.
 
 // 0x31f504 Application::IsInitFinish()
-// PARTIAL: stubbed to false. The original returns true when the state stack is non-empty, its top
-// state is not null and is not &GSInit::s_inst. StateMachine::m_stack is private in
-// dh2/StateMachine.hpp (begin +0x0c, end +0x10, 8-byte StateInfo), so the stack cannot be read yet.
+// True when the state stack holds a state, its top state is not null and is not &GSInit::s_inst. The stack is
+// StateMachine::m_stack (begin +0x0c, end +0x10, 8-byte StateInfo); the top entry is end - 8, which is back().
+// The original reads m_stateMachine without a check. A null machine gives false here.
 bool Application::IsInitFinish() {
-    return false;
+    if (m_stateMachine == nullptr) {
+        return false;
+    }
+    const std::vector<StateMachine::StateInfo>& stack = m_stateMachine->m_stack;
+    if (stack.empty()) {
+        return false;
+    }
+    const StateBase* top = stack.back().state;
+    return top != nullptr && top != &GSInit::s_inst;
 }
 
 // 0x31f554 Application::IsInIGPOrGameCenter()
@@ -43,10 +55,9 @@ void Application::CleanGlitch() {
 }
 
 // 0x31f594 Application::GetCurrentLevel() const
-// PARTIAL: stubbed to nullptr. The original returns GSLevel::s_level (a Level* in .bss, ELF
-// _ZN7GSLevel7s_levelE). dh2/GSLevel.hpp does not exist yet, so the global is not declared.
+// Returns GSLevel::s_level, the Level owned by the current GSLevel state (null outside a level).
 Level* Application::GetCurrentLevel() const {
-    return nullptr;
+    return GSLevel::s_level;
 }
 
 // 0x31f5b4 Application::IsLevelLoaded()
@@ -69,13 +80,16 @@ bool Application::IsInLevelTransition() {
 }
 
 // 0x31f5fc Application::IsInActionPhase() const
-// PARTIAL: the original is true only when the state stack holds more than 7 bytes, its top state is
-// &GSLevel::s_gsLevel and the current level has m_loadStep == 38. The stack is private in
-// dh2/StateMachine.hpp and dh2/GSLevel.hpp does not exist yet, so the top-state term is stubbed to
-// false. The level term is written as in the original.
+// True when the state stack holds a state whose top is &GSLevel::s_gsLevel and the current level has
+// m_loadStep == 38. The original's stack test is "more than 7 bytes", which is one StateInfo or more.
+// A null state machine gives false here (the original would dereference it).
 bool Application::IsInActionPhase() const {
     const Level* level = GetCurrentLevel();
-    const bool topIsGSLevel = false;  // stub: stack top == &GSLevel::s_gsLevel
+    if (m_stateMachine == nullptr) {
+        return false;
+    }
+    const std::vector<StateMachine::StateInfo>& stack = m_stateMachine->m_stack;
+    const bool topIsGSLevel = !stack.empty() && stack.back().state == &GSLevel::s_gsLevel;
     return topIsGSLevel && level != nullptr && level->m_loadStep == kLevelLoadStepDone;
 }
 

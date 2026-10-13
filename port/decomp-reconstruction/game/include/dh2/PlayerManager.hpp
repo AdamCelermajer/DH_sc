@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "dh2/PlayerInfo.hpp"
-#include "net-transport/stream_buffer.hpp"
+#include "dh2/StreamBuffer.hpp"
 
 class Character;
 class PlayerSavegame;
@@ -112,7 +112,7 @@ public:
     float unk_6d4;                                                      // +0x6d4 initial position X, written by InitialSetup (Point3D<float>, three words); zeroed by the ctor
     float unk_6d8;                                                      // +0x6d8 initial position Y, written by InitialSetup
     float unk_6dc;                                                      // +0x6dc initial position Z, written by InitialSetup
-    StreamBuffer m_questSyncBuffer;                                     // +0x6e0 quest sync packet buffer. Its 32-bit size is not recovered (the next member is at +0x710).
+    StreamBuffer m_questSyncBuffer;                                     // +0x6e0 quest sync packet buffer (0x30 bytes in the original: the next member is at +0x710).
     bool m_questSyncBuffered;                                           // +0x710 set when a sync message is written, cleared by ReceiveQuestSync and ClearQuestSyncBuffer
     bool m_localDeathPending;                                           // +0x711 set by _HandleLocalDeaths, cleared when the revive runs
     uint8_t pad_712[2];                                                 // +0x712

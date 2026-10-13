@@ -2,6 +2,7 @@
 // the Update phase dispatch, the hand-over to GSFlashMenu and Draw. The engine symbols the batch calls (MenuManager,
 // MenuBase, COnline, StateBase, StateMachine, PlayerManager, the Application object and the GSFlashMenu::s_inst object)
 // are stubbed here, so the test links without the engine. Exit status 0 means every check passed.
+#include <cstddef>
 #include <cstdio>
 #include <cstring>
 
@@ -10,6 +11,7 @@
 #include "dh2/GSFlashMenu.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/StateMachine.hpp"
 #include "dh2/global/ctrl_camera.hpp"
@@ -29,7 +31,8 @@ int g_removeAllCount = 0;     // PlayerManager::RemoveAllPlayers
 bool g_aboutVisible = false;
 int g_aboutTag = 0;           // address stands in for the "menu_About" MenuBase
 int g_mainTag = 0;            // address stands in for the "menu_MainMenu" MenuBase
-int g_managerTag = 0;         // address stands in for the MenuManager singleton
+// The MenuManager singleton is raw storage: the batch reads its m_multiMenuManager and calls stubbed non-virtual members.
+alignas(MenuManager) unsigned char g_managerBuf[sizeof(MenuManager)] = {};
 int g_machineTag = 0;         // address stands in for the StateMachine the Application owns
 int g_playerTag = 0;          // address stands in for the PlayerManager the Application owns
 
@@ -40,7 +43,12 @@ void Check(bool ok, const char* what) {
     }
 }
 
+namespace fakemmm {
+extern int g_popBoolCount;  // defined with the fake MultiMenuManager below
+}  // namespace fakemmm
+
 void ResetCounters() {
+    fakemmm::g_popBoolCount = 0;
     g_pushCount = 0;
     g_updateCount = 0;
     g_lastUpdateArg = -1;
@@ -59,6 +67,45 @@ void ResetPending() {
 // The Application object the batch reaches through ApplicationGetInstance(). Only its two pointer members are used.
 Application g_application;
 
+// MultiMenuManager is not constructed here. The batch calls its virtuals through the object's vtable, so the test points a
+// MultiMenuManager-sized object at a table of its own. Each slot index comes from the member-function pointer: under the
+// Itanium C++ ABI the first word of a virtual member-function pointer is the vtable offset plus one.
+namespace fakemmm {
+
+int g_popBoolCount = 0;                // MultiMenuManager::PopMenu(bool) calls
+bool g_lastPopBool = false;
+
+template <typename Fn>
+std::size_t VtableSlot(Fn fn) {
+    struct Raw {
+        std::ptrdiff_t ptr;
+        std::ptrdiff_t adj;
+    };
+    static_assert(sizeof(Fn) == sizeof(Raw), "member-function pointer is not two words");
+    Raw raw;
+    std::memcpy(&raw, &fn, sizeof raw);
+    return static_cast<std::size_t>(raw.ptr - 1) / sizeof(void*);
+}
+
+void FakePopBool(void*, bool repeat) {
+    ++g_popBoolCount;
+    g_lastPopBool = repeat;
+}
+
+void* g_vtable[32] = {};
+alignas(MultiMenuManager) unsigned char g_object[sizeof(MultiMenuManager)] = {};
+
+// Points the object at the fake table and returns it. Called once, before the object is used.
+MultiMenuManager* Install() {
+    using PopBoolFn = void (MultiMenuManager::*)(bool);
+    const PopBoolFn popBool = &MultiMenuManager::PopMenu;
+    g_vtable[VtableSlot(popBool)] = reinterpret_cast<void*>(&FakePopBool);
+    *reinterpret_cast<void***>(g_object) = g_vtable;
+    return reinterpret_cast<MultiMenuManager*>(g_object);
+}
+
+}  // namespace fakemmm
+
 }  // namespace
 
 // ---- stubs for the engine symbols the batch references ----
@@ -74,7 +121,7 @@ Application& ApplicationGetInstance() {
 }
 
 MenuManager* MenuManager::GetInstance() {
-    return reinterpret_cast<MenuManager*>(&g_managerTag);
+    return reinterpret_cast<MenuManager*>(g_managerBuf);
 }
 
 void MenuManager::PushMenu(const char* name) {
@@ -144,6 +191,7 @@ GSFlashMenu GSFlashMenu::s_inst;
 int main() {
     g_application.m_stateMachine = reinterpret_cast<StateMachine*>(&g_machineTag);
     g_application.m_playerManager = reinterpret_cast<PlayerManager*>(&g_playerTag);
+    reinterpret_cast<MenuManager*>(g_managerBuf)->m_multiMenuManager = fakemmm::Install();
 
     // Constructor, Ctor and Dtor.
     {
@@ -225,6 +273,7 @@ int main() {
               "phase 2 switches to GSFlashMenu::s_inst, not owned");
         Check(g_removeAllCount == 1, "phase 2 removes all players");
         Check(g_updateCount == 1 && g_lastUpdateArg == 0, "phase 2 ends with MenuManager::Update(false)");
+        Check(fakemmm::g_popBoolCount == 1 && fakemmm::g_lastPopBool, "phase 2 pops the multi-menu stack with PopMenu(true)");
     }
 
     // Any other phase: only MenuManager::Update(false) runs.
@@ -240,6 +289,7 @@ int main() {
         Check(GSFlashMenu::s_inst.m_pendingMenu == nullptr && !GSFlashMenu::s_inst.m_loadMainMenu,
               "other phases leave the main-menu hand-over alone");
         Check(g_switchCount == 0 && g_removeAllCount == 0, "other phases do not switch state");
+        Check(fakemmm::g_popBoolCount == 0, "other phases do not pop the multi-menu stack");
     }
 
     // Draw: MenuManager::Draw(false) once, no state change.

@@ -78,7 +78,7 @@ public:
 
     // Saving and loading. The state is the first int of the record, then the accept and end objectives' data
     // and the ObjectiveList data.
-    int _saveQuestData(IStreamBase* stream);                                    // 0x47f734
+    void _saveQuestData(IStreamBase* stream);                                   // 0x47f734: the tail call ObjectiveList::_saveData returns void, so the result is residue
     int _loadQuestData(IStreamBase* stream, bool flag);                         // 0x47f78c: flag is not read by the body; sets m_needsReinit for a volatile state
     void Synchronize(const Quest* source, bool primaryOnly);                    // 0x4802b4: primaryOnly true copies only for a primary quest whose source state is above 11, then ReInit and Compile; false copies state, stamp and m_needsReinit
 

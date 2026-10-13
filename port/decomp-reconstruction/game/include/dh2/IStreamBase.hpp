@@ -1,9 +1,15 @@
-// IStreamBase: abstract stream interface. StreamBuffer (net-transport) is its concrete implementation, and
-// the save, level and network code read and write fields through readAs<T> and writeAs<T>.
-// Original 32-bit vtable (_ZTV11IStreamBase, 60 bytes, 13 slots after the header): the two destructors,
-// nine pure virtuals, and the non-pure seekWrite and tellWrite. Slot names follow the StreamBuffer
-// overrides in net-transport. The original object size is not recovered; class-facts records one
-// operator new(12) for a stream.
+// IStreamBase: abstract stream interface, the one definition for every category (net-transport, pydata-accessors and
+// the game). StreamBuffer (dh2/StreamBuffer.hpp) is its concrete implementation, and the save, level and network code
+// read and write fields through readAs<T> and writeAs<T>.
+// Original 32-bit vtable (_ZTV11IStreamBase, 60 bytes, 13 slots after the 8-byte header): the two destructors,
+// nine pure virtuals, and the non-pure seekWrite and tellWrite. Slot names follow the StreamBuffer overrides.
+// StreamBuffer adds one slot of its own, size(int) at +0x34; it is not part of this interface.
+// The object is the vptr and nothing else: the only code that stores this vtable is the destructor pair (off_95B020
+// at 0x316404 / 0x316798), and StreamBuffer's constructor (0x3173f8) puts its first member at +0x08 straight after the
+// vptr. The original size is 4; the header reserves nothing after the vptr.
+// Return types: size(), peek, read, write and tell return unsigned long long in the original (r0:r1; size() is the
+// zero-extended 32-bit count). size() keeps std::uint32_t here, as every override in the tree declares it; the count
+// is lossless below 4 GiB.
 // Reconstructed from libDungeonHunter2.so pseudocode (dtor 0x316404 D1, 0x316798 D0).
 #pragma once
 
@@ -35,6 +41,5 @@ public:
     void readAs(std::string& value);                                    // 0x461da8
     void writeAs(const std::string& value);                             // 0x461668
 
-    // +0x00 vptr (implicit).
-    std::uint8_t pad_04[8];                                             // +0x04 .. +0x0b. Not touched by the code recovered here.
+    // +0x00 vptr (implicit). No data members.
 };

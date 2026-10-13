@@ -7,6 +7,8 @@
 #include <utility>
 #include <vector>
 
+#include "luascript_link_stubs.hpp"  // sfc, Application, ScriptManager and pydata symbols the bindings in the source reference
+
 namespace luascript_g1 {
 int FloatToInt32(float value);
 unsigned FloatToUInt32(float value);

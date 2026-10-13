@@ -21,6 +21,7 @@
 #include "core-platform/w7_global_rem.hpp"  // UpdateSavedValues (0x43a8f0)
 #include "dh2/Application.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/MenuManager.hpp"
 #include "dh2/Quest.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
@@ -153,14 +154,16 @@ void NativeReviveAllPlayers(const gameswf::fn_call& call) {
 }
 
 // 0x43b278 NativeSaveSettings(gameswf::fn_call const&)
-// PARTIAL: the original reads the SavegameManager at Application +0x4c. When its byte +0x37 is set, it clears the byte
-// and calls MenuManager::ResetFonts() on MenuManager::GetInstance(). That branch is left out: the byte is private in
-// dh2/SavegameManager.hpp (named m_saveBlocked there, which does not match the clear-and-reset use here). The rest is
-// written: saveSettings(), then setLanguage(getLanguage()).
+// Reconstructed. The SavegameManager at Application +0x4c is read first. When its byte +0x37 (m_saveBlocked, public in
+// dh2/SavegameManager.hpp) is set, the byte is cleared and MenuManager::ResetFonts() runs on MenuManager::GetInstance().
+// Then saveSettings(), and setLanguage(getLanguage()). The argument is not read.
 void NativeSaveSettings(const gameswf::fn_call& call) {
     (void)call;
     SavegameManager* savegame = ApplicationGetInstance().m_savegameManager;
-    // PARTIAL: the byte +0x37 branch (clear it, MenuManager::ResetFonts) is left out, see above.
+    if (savegame->m_saveBlocked) {
+        savegame->m_saveBlocked = false;
+        MenuManager::GetInstance()->ResetFonts();
+    }
     savegame->saveSettings();
     savegame->setLanguage(savegame->getLanguage());
 }

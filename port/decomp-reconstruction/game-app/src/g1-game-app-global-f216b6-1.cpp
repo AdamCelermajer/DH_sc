@@ -124,6 +124,8 @@ CMessage* GetNewInstance<CMsgSpawnObject>(bool withSerial) {
 // which makes the same type-name, sendMode_, flag32_, reliable_ and includeLocalMember_ stores. Missing: the
 // serial gate of the base constructor. Layout request: add an explicit CMsgScriptCmd(bool) constructor
 // (CMessage("CMsgScriptCmd", withSerial)) to net-session-online/include/net-session-online/c_msg_fixed.hpp.
+// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
+// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
 template <>
 CMessage* GetNewInstance<CMsgScriptCmd>([[maybe_unused]] bool withSerial) {
     auto* msg = new CMsgScriptCmd();

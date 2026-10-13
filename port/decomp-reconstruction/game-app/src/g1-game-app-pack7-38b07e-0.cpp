@@ -10,10 +10,10 @@
 //   - Complete: Script_HideFlash::Init, Script_HideFlash::IsBlocking, Script_KillActor::Execute,
 //     Script_LockCharacter::Execute, Script_MarkCharacterAsScripted::Set, Unset and Execute, and every other IsBlocking
 //     in this batch (each returns false).
-//   - PARTIAL: Script_HideFlash::Execute (the HUD branch), Script_IncFaeryLevel::Execute (the online gate and the
-//     player's character), Script_LeaveSafeZone::Execute (the safe-zone music call), Script_LockTutorial::Execute (the
-//     tutorial clear) and Script_LookActor::Execute (the loop over local players). Each reproduces what its layout allows
-//     and names the missing part in its comment.
+//   - Complete in batch r2a-game-app-pack2-5b248a-0: Script_LockTutorial::Execute and Script_LookActor::Execute.
+//   - PARTIAL: Script_HideFlash::Execute (the HUD branch), Script_IncFaeryLevel::Execute (the online gate, which is the
+//     Application::IsOnlineGame stub) and Script_LeaveSafeZone::Execute (the safe-zone music call). Each reproduces what its
+//     layout allows and names the missing part in its comment.
 
 #include <cstdint>
 
@@ -30,6 +30,8 @@
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/Script_HideFlash.hpp"
 #include "dh2/Script_IncFaeryLevel.hpp"
@@ -41,6 +43,8 @@
 #include "dh2/Script_MarkCharacterAsScripted.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/script_character_callback.hpp"
 #include "dh2/global/script_command_globals.hpp"
@@ -59,6 +63,16 @@ void TraceScriptCmdSwitch() {
 // The ObjectManager of the Application singleton (Application +0x38, the original's global dword_99F764).
 ObjectManager* ObjectManagerOf() {
     return ApplicationGetInstance().m_objectManager;
+}
+
+// The faery increment of Script_IncFaeryLevel, applied to the character of local player 0 (PlayerManager::GetLocalPlayer(0,
+// true), PlayerInfo +0x660, named unk_660 in dh2/PlayerInfo.hpp). The original calls Character::IncFaeryLevel on it and
+// skips the call when the player has no character.
+void IncFaeryLevelOfLocalPlayer(unsigned int amount) {
+    Character* character = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    if (character != nullptr) {
+        character->IncFaeryLevel(amount);
+    }
 }
 
 }  // namespace
@@ -106,13 +120,20 @@ bool Script_HideFlash::IsBlocking() const {
 }
 
 // 0x45f5cc Script_IncFaeryLevel::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe. Missing: the rest of the command. The original reads the increment from the record
-// (+0x08), then the online gate (GetOnline() + 0x05, COnline::isOnlineGame_, which is private with no getter). Offline, or
-// online while this client is hosting (PlayerManager::IsLocalPlayerHosting with the PlayerManager flag at +0x719 clear),
-// it takes the local player 0's character (PlayerManager::GetLocalPlayer(0, true), PlayerInfo +0x660 character_660) and
-// calls Character::IncFaeryLevel on it. dh2/PlayerInfo.hpp is not written and COnline's flag is not exposed.
+// PARTIAL, for the online gate only. After the trace probe, the increment is read from the record (+0x08, Structs::IncFaeryLevel
+// m_w2). The online gate is *(GetOnline() + 0x05), COnline::isOnlineGame_, which is private with no getter. Application::
+// IsOnlineGame() stands in for it, and it is a stub that returns false, so the offline branch runs until COnline exposes the
+// flag. Offline, the local player 0's character gets the increment. Online, it gets it only while this client is hosting
+// (PlayerManager::IsLocalPlayerHosting) and the PlayerManager flag at +0x719 (m_hostChanged) is clear.
 void Script_IncFaeryLevel::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
+    if (!ApplicationGetInstance().IsOnlineGame()) {
+        IncFaeryLevelOfLocalPlayer(static_cast<const Structs::IncFaeryLevel*>(m_args)->m_w2);
+        return;
+    }
+    if (dword_99F76C->IsLocalPlayerHosting() != 0 && !dword_99F76C->m_hostChanged) {
+        IncFaeryLevelOfLocalPlayer(static_cast<const Structs::IncFaeryLevel*>(m_args)->m_w2);
+    }
 }
 
 // 0x455774 Script_IncFaeryLevel::IsBlocking() const
@@ -191,15 +212,16 @@ bool Script_LockCharacter::IsBlocking() const {
 }
 
 // 0x45925c Script_LockTutorial::Execute(bool, int)
-// PARTIAL. Reproduced: the record guard (m_args non-null), and the tail. When lastOpenMenuID is 17 the savegame manager
-// (Application +0x4c) saves its settings; otherwise the job thread m_updateJobThread1 is started (updateJob_thread::Start2).
-// Missing: the first step, which clears SavegameManager::m_tutorials[id] (the byte at +0x29, id = record +0x08) before the
-// tail. m_tutorials is private in dh2/SavegameManager.hpp.
+// Clears SavegameManager::m_tutorials[id] (the byte at +0x29, id = record +0x08, Structs::LockTutorial m_w2). Then, when
+// lastOpenMenuID is 17, the savegame manager saves its settings (dword_99F778, Application +0x4c); otherwise the job thread
+// m_updateJobThread1 is started (updateJob_thread::Start2). Does nothing when the command has no record. No trace probe.
 void Script_LockTutorial::Execute(bool /*skipping*/, int /*module*/) {
-    if (m_args == nullptr) {
+    const Structs::LockTutorial* record = static_cast<const Structs::LockTutorial*>(m_args);
+    if (record == nullptr) {
         return;
     }
-    SavegameManager* savegame = ApplicationGetInstance().m_savegameManager;
+    SavegameManager* savegame = dword_99F778;
+    savegame->m_tutorials[record->m_w2] = 0;
     if (lastOpenMenuID == 17) {
         savegame->saveSettings();
     } else {
@@ -214,11 +236,12 @@ bool Script_LockTutorial::IsBlocking() const {
 }
 
 // 0x45ec50 Script_LookActor::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe, the looker lookup (record +0x14, flags = module), the target lookup (record +0x0c;
-// the name "HighestThreatPlayer" passes the looker name in the type argument), the test that the looker is a player
-// (Character::IsPlayer) with a current level, the looker's controller flag at +0x09 around v2Controller::Cmd_LookAt, and the
-// final lookup. Missing: the loop inside the player test, which turns the characters of local players 1..3
-// (PlayerManager::GetPlayer(i, false), PlayerInfo +0x660 character_660) to the target. dh2/PlayerInfo.hpp is not written.
+// The trace probe, then the looker is looked up by name (record +0x14, Structs::LookActor m_w5, flags = module) and the target
+// by name (record +0x0c, m_w3). The target name "HighestThreatPlayer" passes the looker name as the type argument, as the asm
+// shows; any other name passes no type. When the looker is a Character, the target resolves, the looker is a player
+// (Character::IsPlayer) and a level is current, the characters of local players 1..3 (PlayerManager::GetPlayer(i, false),
+// PlayerInfo +0x660, unk_660) each get their controller's flag at +0x09 set around v2Controller::Cmd_LookAt(target). Then the
+// looker's own controller does the same. Nothing is written back to the command.
 void Script_LookActor::Execute(bool /*skipping*/, int module) {
     const Structs::LookActor* record = static_cast<const Structs::LookActor*>(m_args);
     TraceScriptCmdSwitch();
@@ -244,7 +267,15 @@ void Script_LookActor::Execute(bool /*skipping*/, int module) {
 
     if (looker != nullptr && target.GetObject(false) != nullptr) {
         if (looker->IsPlayer() && ApplicationGetInstance().GetCurrentLevel() != nullptr) {
-            // PARTIAL: the loop over local players 1..3 is not written (see the comment above).
+            for (int i = 1; i != 4; ++i) {
+                Character* player = dword_99F76C->GetPlayer(i, false)->unk_660;
+                if (player != nullptr) {
+                    v2Controller* playerController = player->m_controller;
+                    playerController->unk_009 = true;
+                    playerController->Cmd_LookAt(targetObject);
+                    playerController->unk_009 = false;
+                }
+            }
         }
         v2Controller* controller = looker->m_controller;
         controller->unk_009 = true;

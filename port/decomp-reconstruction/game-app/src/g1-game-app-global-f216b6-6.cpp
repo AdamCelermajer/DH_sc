@@ -18,7 +18,9 @@
 #include "core-platform/debug_out.hpp"
 #include "core-platform/device.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "dh2/global/native_app_hud_level.hpp"  // nativeOpenGLive (0x532b20)
 #include "dh2/global/native_online_gc.hpp"
 #include "net-session-online/online_game_state.hpp"
 #include "net-session-online/tb/online_singleton.hpp"
@@ -105,9 +107,11 @@ void NativeEnableBluetooth(const gameswf::fn_call& call) {
 // PARTIAL: when GetOnline()->isOnlineGame_ is set and OnlineGameState +0x34 == 3, the original takes argument 0
 // as a tu_string (gameswf to_tu_string), gets the CMatchingGLLive, and sends a GL friend invite to the name. The
 // name is the long-string pointer at +0x0c when the first byte is -1, otherwise the inline text at +1.
-// Missing: COnline::isOnlineGame_ getter, OnlineGameState +0x34, to_tu_string, and a CMatchingGLLive accessor.
-// CMatching::Get() is the stand-in CMatching, and CMatchingGLLive is not derived from it in the tree.
-// CMatchingGLLive::SendGLFriendInvite(const char*) is declared in net-session-online/c_matching_gl_live.hpp.
+// Missing: the COnline flag (COnline::isOnlineGame_ is private with no getter; Application::IsOnlineGame is a stub),
+// OnlineGameState +0x34 (not declared), and the argument accessors (fn_call is incomplete in the tree, so argument 0
+// cannot be read). CMatching::Get() is static with no argument, and CMatchingGLLive derives from CMatching, so the
+// cast to CMatchingGLLive is available. CMatchingGLLive::SendGLFriendInvite(const char*) is public in
+// net-session-online/c_matching_gl_live.hpp.
 void NativeAddFriend(const gameswf::fn_call& call) {
     (void)call;
 }
@@ -167,8 +171,9 @@ void NativeMultiplayerBack(const gameswf::fn_call& call) {
 // 0x43a450 NativeShowLeaderboard(gameswf::fn_call const&)
 // PARTIAL: the original traces the call, then, when the Wi-Fi check passes, reads the command string (argument
 // 0, gameswf to_string) and runs init, next, prev or my_rank. The branches read the GLXPlayerLeaderboard at
-// CMatching::Get() + 0x671c (decimal 26396), a field the CMatching stand-in does not declare, and write the .bss
-// globals leaderboardcount and leader (no declaration in the tree). Only the trace and the Wi-Fi guard are written.
+// CMatching::Get() + 0x671c (decimal 26396): that is CMatchingGLLive::glxLeaderboard_, a private member, so the branches
+// are not reachable. The .bss globals leaderboardcount and leader are declared in dh2/global/Globals.hpp. The argument
+// (to_string) needs the complete fn_call, which the tree does not have. Only the trace and the Wi-Fi guard are written.
 void NativeShowLeaderboard(const gameswf::fn_call& call) {
     (void)call;
     _DEBUG_OUT("XSocket::Run(): Connecting... \n");
@@ -179,17 +184,22 @@ void NativeShowLeaderboard(const gameswf::fn_call& call) {
 }
 
 // 0x43a6a4 NativeLaunchTwitter(gameswf::fn_call const&)
-// PARTIAL: the original returns SavegameManager::getLanguage(Application +0x4c). It does not launch Twitter; the
-// name is the only evidence for that. dh2/SavegameManager.hpp does not exist yet, so the call is left out.
+// The original returns SavegameManager::getLanguage() of the savegame manager (Application +0x4c, the global
+// dword_99F778). It does not launch Twitter; the name is the only evidence for that. getLanguage() is const and has no
+// side effect. A native returns void, so the int result is dropped, as in the other natives.
 void NativeLaunchTwitter(const gameswf::fn_call& call) {
     (void)call;
+    (void)ApplicationGetInstance().m_savegameManager->getLanguage();
 }
 
 // 0x43a6c4 NativeGCAchievements(gameswf::fn_call const&)
-// PARTIAL: the original converts argument 0 with to_string and discards it, reads SavegameManager::getLanguage(),
-// then calls nativeOpenGLive(region) with region = NativeGCAchievementsOpenGLiveId(language) (declared in
-// dh2/global/native_online_gc.hpp and tested). Missing: to_string, the SavegameManager accessor, and nativeOpenGLive
-// (0x532b20). nativeOpenGLive is a JNI bridge to the Android Java side and has no declaration in the tree.
+// PARTIAL: the original converts argument 0 with to_string and discards it. Argument 0 is not read here, because
+// gameswf::fn_call has no definition in the tree (no arg() accessor). The rest is written: the language is
+// SavegameManager::getLanguage() on Application +0x4c, and nativeOpenGLive(region) is called with
+// region = NativeGCAchievementsOpenGLiveId(language) (dh2/global/native_online_gc.hpp, tested). nativeOpenGLive
+// (0x532b20) is the Android JNI bridge, declared in dh2/global/native_app_hud_level.hpp and not defined in the tree.
 void NativeGCAchievements(const gameswf::fn_call& call) {
     (void)call;
+    const int language = ApplicationGetInstance().m_savegameManager->getLanguage();
+    nativeOpenGLive(NativeGCAchievementsOpenGLiveId(language));
 }

@@ -16,6 +16,7 @@
 #include "dh2/GS_InterruptLoading.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance(): the Application singleton (Singleton<Application>::s_inst)
+#include "glitch-video/texture.hpp"    // glitch::video::ITexture, complete for the counted intrusive_ptr release in Dtor
 
 // Globals the original reads or writes. Their definitions belong to the globals batch (Width_Screen, JAVA_SOUNDS and
 // Resume_Sound_Interrupt are not defined in this tree yet).

@@ -7,6 +7,7 @@
 #include <cstdint>
 
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "pydata-accessors/name_table.hpp"
 #include "pydata-accessors/structs_records.hpp"
 
 namespace Structs {
@@ -23,6 +24,8 @@ namespace Structs {
 
 class ItemAudioVisual {
 public:
+    static constexpr int kCount = 3;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ItemAudioVisual();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -34,6 +37,8 @@ public:
 
 class ItemBonusAttrList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ItemBonusAttrList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -44,6 +49,8 @@ public:
 // Element table at m_w4: header words at m_w4-8 (stride) and m_w4-4 (count), elements from m_w4.
 class ItemPowerRef {
 public:
+    static constexpr int kCount = 8;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ItemPowerRef();
     virtual void finalize();
     virtual void read(IStreamBase* stream);

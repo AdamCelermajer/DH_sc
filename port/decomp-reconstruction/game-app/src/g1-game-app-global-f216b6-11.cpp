@@ -28,7 +28,10 @@
 #include <cstring>
 #include <string>
 
+#include "core-platform/device.hpp"
+#include "core-platform/deps/application.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/PlayerSavegame.hpp"
 #include "dh2/global/native_stats_inventory_merchant.hpp"
 
 // 0x440080 GetQuestFunctor(char const*)
@@ -119,11 +122,15 @@ void NativeInvTransmuteItem(const gameswf::fn_call& call) {
     (void)call;
 }
 
+// Body of NativeGetSaveIDsListSize: the number of entries of PlayerSavegame::SG_GetSavegameList(false). The original
+// divides the byte span of its vector by the 32-bit entry size (24 bytes); the host vector gives the count directly.
+int SaveGameIdsCount() {
+    return static_cast<int>(PlayerSavegame::SG_GetSavegameList(false).size());
+}
+
 // 0x43f5c8 NativeGetSaveIDsListSize(gameswf::fn_call const&)
-// PARTIAL. Takes no arguments. The original fills a std::vector<std::string> with PlayerSavegame::SG_GetSavegameList
-// (the vector and a false flag), sets the result to the number of entries, and destroys the vector. The original's
-// 32-bit entry is 24 bytes, so the count is the byte span divided by 24. Missing: PlayerSavegame.hpp (no header yet
-// declares SG_GetSavegameList) and set_double.
+// PARTIAL. Takes no arguments. The result is the number of entries (SaveGameIdsCount). Missing: set_double. The gameswf
+// value setters are declared in vendor-gameswf/include/vendor-gameswf/as_value.hpp, but that header does not compile.
 void NativeGetSaveIDsListSize(const gameswf::fn_call& call) {
     (void)call;
 }
@@ -146,8 +153,10 @@ void NativeCreateSaveSlot(const gameswf::fn_call& call) {
 // 0x43fa58 NativeGetLoadingProgress(gameswf::fn_call const&)
 // PARTIAL. Takes no arguments. When Application::GetCurrentLevel() is set, the result is Level::m_loadProgressPercent
 // (Level +0x30). Otherwise a local OnlineGameState is constructed and destroyed, and the result is 0 when the online
-// state at OnlineSingleton<OnlineGameState>::GetInstance() +0x34 is 3, and 100 for any other value. Missing: the
-// OnlineGameState +0x34 field and set_double.
+// state at OnlineSingleton<OnlineGameState>::GetInstance() +0x34 is 3, and 100 for any other value. The mapping is
+// LoadingProgressPercent (native_stats_inventory_merchant.hpp). Missing: the OnlineGameState +0x34 field (not declared
+// in net-session-online/online_game_state.hpp; layout request) and set_double. The level part is declared
+// (Level::m_loadProgressPercent, dh2/Level.hpp).
 void NativeGetLoadingProgress(const gameswf::fn_call& call) {
     (void)call;
 }
@@ -235,11 +244,18 @@ void NativeMerchantBuyItem(const gameswf::fn_call& call) {
 // 0x440c84 NativeHasPushNotification(gameswf::fn_call const&)
 // PARTIAL. Takes no arguments. The gate is Device::IsHighPerformance() || Is_In_Multiplayer_Mode || SHARP_DEVICES ||
 // HTC_DEVICES. When the gate is open, the result is (byte_99F83A || byte_99F81A || the GameCenter singleton's byte
-// +0x15, the start gate). Otherwise the result is false. Missing: the globals Is_In_Multiplayer_Mode, SHARP_DEVICES,
-// HTC_DEVICES, byte_99F83A and byte_99F81A (no declarations), the GameCenter +0x15 byte (game_center.hpp has only the
-// StartGateForTest accessor), and set_bool.
+// +0x15, the start gate). Otherwise the result is false. The gate is PushNotificationGate and the result is
+// PushNotificationResult (native_stats_inventory_merchant.hpp). Missing: the two globals byte_99F83A and byte_99F81A (no
+// names in the tree; the original tests them with no other use), the GameCenter +0x15 byte (game_center.hpp has only
+// the StartGateForTest accessor; layout request), and set_bool.
 void NativeHasPushNotification(const gameswf::fn_call& call) {
     (void)call;
+}
+
+// The start gate of NativeHasPushNotification. The original passes Device::IsHighPerformance() (the call takes the
+// fn_call pointer in the pseudocode, but the function is static with no argument) and tests the three globals.
+bool PushNotificationGate() {
+    return Device::IsHighPerformance() || Is_In_Multiplayer_Mode || SHARP_DEVICES || HTC_DEVICES;
 }
 
 // 0x440d3c NativeGLXPlayerSignin(gameswf::fn_call const&)

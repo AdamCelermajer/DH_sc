@@ -523,3 +523,23 @@ Eight workers re-derived the 99 partial rows of the pydata-accessors queue from 
   BuildAndReadTable<StatAutoAssignTarget>.
 - ScriptCmd and Arrays read rows: bodies match Hex-Rays; partial because ElementVtable<X>
   is not defined for several element classes, and the two StatList tables lack finalize.
+
+## Track B game/engine type unification (u2-gametypes)
+
+- `IStreamBase` and `StreamReader` are no longer defined here. `deps/stream_reader.hpp` includes `dh2/IStreamBase.hpp`
+  and `dh2/StreamReader.hpp` (the game headers are the one definition) and still carries the `MemoryHintState` and
+  `CustomFree` stand-ins, which the core unification wave owns. The pydata code therefore calls the real stream
+  interface: `IStreamBase::read(void*, uint64)` instead of the old `ReadBytes(void*, size_t)`.
+- `StreamReader` has the forms the binary has. The value read `readAs<T>(stream)` exists for int, unsigned int,
+  unsigned char and bool; float, short and signed char use the out-parameter form `readAs<T>(stream, &member)`, as the
+  Hex-Rays bodies do. `readStringEx(stream, dst, len)` takes the 64-bit length as one argument (the old trailing `0`
+  was its high word).
+- The tests derive their streams from `tests/read_bytes_stream.hpp` (`ReadBytesStream`), which turns the old
+  `ReadBytes(dst, n)` form into the real `read` slot: a failed `ReadBytes` reads 0 bytes.
+- The Structs name tables are members of the record classes: every record that `member_names.hpp` used to list as a
+  separate `struct Structs::X { kCount; m_dataNames; }` now declares `static constexpr int kCount` and
+  `static pydata::NameTable m_dataNames` itself (67 classes, in `structs_records.hpp` and `w7_structs_1/2/3/5.hpp`).
+  `NameTable` and its three functions moved to `name_table.hpp`. `member_names.hpp` includes the record headers, so
+  it can share a translation unit with `dh2/Character.hpp`, `dh2/PlayerManager.hpp` and `dh2/Level.hpp`. The
+  `Arrays::X` name-table structs in `member_names.hpp` still overlap the `w7_arrays_*.hpp` classes: do not include
+  those together.

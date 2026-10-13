@@ -17,13 +17,14 @@
 #include <vector>
 
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "read_bytes_stream.hpp"
 #include "pydata-accessors/element_table.hpp"
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 // A stream over a fixed byte buffer; counts what was consumed.
-class BufferStream : public IStreamBase {
+class BufferStream : public ReadBytesStream {
 public:
     std::vector<unsigned char> bytes;
     std::size_t pos = 0;
@@ -56,7 +57,7 @@ private:
 // every element differs from its neighbours and string lengths and element counts stay small), a 2-byte read the
 // same value as an int16, a 1-byte read alternates 0/1, and longer reads (string bodies) are filled with letters.
 // `first_count` answers the very first 4-byte read, which is the table's count word.
-class CounterStream : public IStreamBase {
+class CounterStream : public ReadBytesStream {
 public:
     explicit CounterStream(std::uint32_t first_count, bool has_count = true)
         : first_count_(first_count), pending_count_(has_count) {}

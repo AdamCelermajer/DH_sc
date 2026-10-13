@@ -18,10 +18,19 @@
 #include "dh2/Script_StartDialogID.hpp"
 #include "dh2/Script_StopActor.hpp"
 #include "dh2/Script_StopEffect.hpp"
+#include "dh2/VisualFXManager.hpp"
 
 // Test-only link stubs for slots defined in other batches. The test never calls them.
 void ScriptCmdImpl::Init() {}
 void ScriptCmdImpl::Update() {}
+
+// The FX singleton and its DropAnimatedFXSetByID, which Script_StopEffect::Execute references. The test never runs Execute.
+VisualFXManager::VisualFXManager() {}
+VisualFXManager::~VisualFXManager() {}
+VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
+VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
+VisualFXManager VisualFXManager::s_inst;
+void VisualFXManager::DropAnimatedFXSetByID(int /*effectTableId*/) {}
 
 namespace {
 

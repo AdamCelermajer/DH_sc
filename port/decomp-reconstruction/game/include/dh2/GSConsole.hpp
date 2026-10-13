@@ -3,8 +3,9 @@
 // and toggles it. Static instance: GSConsole::s_inst (0x9a244c, .bss, 4 bytes).
 // Original 32-bit size 0x4 (4): the StateBase vtable pointer only (the ctor writes nothing else).
 // Reconstructed from libDungeonHunter2.so pseudocode (ctor 0x383274, vtable _ZTV9GSConsole).
-// Partial: Ctor, Dtor, Update, Draw2D and Toggle wait on members that are not declared yet (layout requests
-// in game-app/ledger.d/g1-game-app-GSConsole-adb367-0.csv). Pause, Resume, Sleep and WakeUp are inherited
+// Partial: Ctor, Dtor, Update and Draw2D wait on members that are not declared yet (layout requests in
+// game-app/ledger.d/g1-game-app-GSConsole-adb367-0.csv and game-app/ledger.d/r2a-game-app-pack0-e3ab88-0.csv).
+// Toggle is reconstructed (redo: StateMachine::m_stack is public). Pause, Resume, Sleep and WakeUp are inherited
 // StateBase slots +0x10, +0x14, +0x24 and +0x28 and are not redeclared here.
 #pragma once
 

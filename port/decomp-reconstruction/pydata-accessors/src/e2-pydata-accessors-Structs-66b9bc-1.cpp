@@ -28,7 +28,7 @@ void FastTravelDestination::read(IStreamBase* stream) {
     if (m_w4 != nullptr) CustomFree(m_w4);
     char* text = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1));
     m_w4 = text;  // +0x10
-    StreamReader::readStringEx(stream, text, m_w3, 0);
+    StreamReader::readStringEx(stream, text, m_w3);
     text[m_w3] = '\0';
     m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
     m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
@@ -82,13 +82,13 @@ void v2QuestObjectiveStub::read(IStreamBase* stream) {
     if (m_w5 != nullptr) CustomFree(m_w5);
     char* first = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w4) + 1, 1));
     m_w5 = first;  // +0x14
-    StreamReader::readStringEx(stream, first, m_w4, 0);
+    StreamReader::readStringEx(stream, first, m_w4);
     first[m_w4] = '\0';
     m_w6 = StreamReader::readAs<std::uint32_t>(stream);  // +0x18, length of m_w7
     if (m_w7 != nullptr) CustomFree(m_w7);
     char* second = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w6) + 1, 1));
     m_w7 = second;  // +0x1c
-    StreamReader::readStringEx(stream, second, m_w6, 0);
+    StreamReader::readStringEx(stream, second, m_w6);
     second[m_w6] = '\0';
     m_w8 = StreamReader::readAs<std::int32_t>(stream);  // +0x20
     m_w9 = StreamReader::readAs<std::int32_t>(stream);  // +0x24
@@ -166,7 +166,7 @@ void Faery::read(IStreamBase* stream) {
     if (m_w6 != nullptr) CustomFree(m_w6);
     char* text = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w5) + 1, 1));
     m_w6 = text;  // +0x18
-    StreamReader::readStringEx(stream, text, m_w5, 0);
+    StreamReader::readStringEx(stream, text, m_w5);
     text[m_w5] = '\0';
     m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
     m_w8 = StreamReader::readAs<std::int32_t>(stream);  // +0x20
@@ -179,21 +179,21 @@ void AIProps::read(IStreamBase* stream) {
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
     m_w4 = StreamReader::readAs<bool>(stream);  // +0x10, one byte
     m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
-    m_w6 = StreamReader::readAs<float>(stream);  // +0x18
-    m_w7 = StreamReader::readAs<float>(stream);  // +0x1c
-    m_w8 = StreamReader::readAs<float>(stream);  // +0x20
+    StreamReader::readAs<float>(stream, &m_w6);  // +0x18
+    StreamReader::readAs<float>(stream, &m_w7);  // +0x1c
+    StreamReader::readAs<float>(stream, &m_w8);  // +0x20
     m_w9 = StreamReader::readAs<std::int32_t>(stream);  // +0x24
     m_w10 = StreamReader::readAs<std::uint32_t>(stream);  // +0x28, length of m_w11
     if (m_w11 != nullptr) CustomFree(m_w11);
     char* text = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(m_w10) + 1, 1));
     m_w11 = text;  // +0x2c
-    StreamReader::readStringEx(stream, text, m_w10, 0);
+    StreamReader::readStringEx(stream, text, m_w10);
     text[m_w10] = '\0';
     m_w12 = StreamReader::readAs<std::int32_t>(stream);  // +0x30
     m_w13 = StreamReader::readAs<std::int32_t>(stream);  // +0x34
     m_w14 = StreamReader::readAs<std::int32_t>(stream);  // +0x38
-    m_w15 = StreamReader::readAs<float>(stream);  // +0x3c
-    m_w16 = StreamReader::readAs<float>(stream);  // +0x40
+    StreamReader::readAs<float>(stream, &m_w15);  // +0x3c
+    StreamReader::readAs<float>(stream, &m_w16);  // +0x40
 }
 
 }  // namespace Structs

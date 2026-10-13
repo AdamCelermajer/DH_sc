@@ -12,6 +12,7 @@
 #include "dh2/global/GetNewScriptCmdImplInstance.hpp"
 
 #include "dh2/ScriptCmdImpl.hpp"
+#include "dh2/Script_EmptyImpl.hpp"
 #include "dh2/Script_EnterSafeZone.hpp"
 #include "dh2/Script_HideFlash.hpp"
 #include "dh2/Script_LeaveSafeZone.hpp"
@@ -179,15 +180,12 @@ ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StartDialog>() {
 }
 
 // 0x458ab8 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EmptyImpl>()
-// PARTIAL: stub returns nullptr, the same convention as the GetNewState<CS*> stubs. The original allocates 0x10
-// bytes (asm: MOV R0,#0x10), sets unk_04 = 0, m_cmdId = -1 and m_args = 0, and sets the vtable pointer.
-// Waits on dh2/Script_EmptyImpl.hpp, which does not compile: `~Script_EmptyImpl() override;` is ill-formed because
-// ScriptCmdImpl's destructor is not virtual. This file therefore does not include that header. Layout request
-// (owner header Script_EmptyImpl.hpp): drop `override` from the destructor, and make the pad_10[0x30] a 0x10 object.
-// Then replace this stub with `return NewScriptCmd<Script_EmptyImpl>();` and include the header.
+// The original allocates 0x10 bytes (asm: MOV R0,#0x10), sets unk_04 = 0, m_cmdId = -1 and m_args = 0, and sets the vtable
+// pointer. Layout request (owner header Script_EmptyImpl.hpp): its pad_10[0x30] is not in the original 0x10-byte object,
+// so it should be removed. The factory does not depend on it.
 template <>
 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EmptyImpl>() {
-    return nullptr;
+    return NewScriptCmd<Script_EmptyImpl>();
 }
 
 // 0x458b00 ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetCameraTarget>()

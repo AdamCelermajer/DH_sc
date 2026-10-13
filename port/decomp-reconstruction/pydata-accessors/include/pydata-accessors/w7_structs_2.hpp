@@ -8,6 +8,7 @@
 
 #include "pydata-accessors/array_element.hpp"
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "pydata-accessors/name_table.hpp"
 #include "pydata-accessors/script_cmd.hpp"
 #include "pydata-accessors/structs_records.hpp"
 
@@ -27,6 +28,8 @@ void DeletingDestructor(v2QuestAutomatic* self);
 
 class v2CondAnd {
 public:
+    static constexpr int kCount = 2;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~v2CondAnd();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -39,6 +42,8 @@ void DeletingDestructor(v2CondAnd* self);
 
 class SpawnGroup {
 public:
+    static constexpr int kCount = 3;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~SpawnGroup();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -52,6 +57,8 @@ void DeletingDestructor(SpawnGroup* self);
 
 class CharSounds {
 public:
+    static constexpr int kCount = 6;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~CharSounds();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -71,6 +78,8 @@ void DeletingDestructor(CharSounds* self);
 
 class Sound {
 public:
+    static constexpr int kCount = 9;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Sound();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -90,6 +99,8 @@ void DeletingDestructor(Sound* self);
 
 class SoundGroup {
 public:
+    static constexpr int kCount = 2;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~SoundGroup();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -131,6 +142,8 @@ void DeletingDestructor(SceneFile* self);
 
 class ItemTypeListList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ItemTypeListList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -142,6 +155,8 @@ void DeletingDestructor(ItemTypeListList* self);
 
 class Merchant {
 public:
+    static constexpr int kCount = 3;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Merchant();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -155,6 +170,8 @@ void DeletingDestructor(Merchant* self);
 
 class TileOffsetList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~TileOffsetList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -166,6 +183,8 @@ void DeletingDestructor(TileOffsetList* self);
 
 class NumProbList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~NumProbList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -177,6 +196,8 @@ void DeletingDestructor(NumProbList* self);
 
 class ItemListEntryList {
 public:
+    static constexpr int kCount = 1;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~ItemListEntryList();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -188,6 +209,8 @@ void DeletingDestructor(ItemListEntryList* self);
 
 class Loot {
 public:
+    static constexpr int kCount = 5;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     virtual ~Loot();
     virtual void finalize();
     virtual void read(IStreamBase* stream);
@@ -469,6 +492,8 @@ public:
 
 class Item : public ItemBase {
 public:
+    static constexpr int kCount = 38;  // member names: the PyData name table of the class (member_names.hpp)
+    static pydata::NameTable m_dataNames;
     void finalize() override;
     void read(IStreamBase* stream) override;
     std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize

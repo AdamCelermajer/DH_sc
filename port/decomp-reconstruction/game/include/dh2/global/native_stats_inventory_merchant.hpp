@@ -75,3 +75,26 @@ void NativeMerchantBuyItem(const gameswf::fn_call& call);
 void NativeHasPushNotification(const gameswf::fn_call& call);
 // 0x440d3c NativeGLXPlayerSignin(gameswf::fn_call const&)
 void NativeGLXPlayerSignin(const gameswf::fn_call& call);
+
+// NativeGetLoadingProgress (0x43fa58): with a level, its m_loadProgressPercent (Level +0x30). Without one, 0 when the
+// online state's mode (+0x34) is 3 and 100 otherwise. The native passes the level state and the mode it reads.
+inline int LoadingProgressPercent(bool hasLevel, int levelPercent, int onlineMode) {
+    if (hasLevel) {
+        return levelPercent;
+    }
+    return onlineMode == 3 ? 0 : 100;
+}
+
+// NativeHasPushNotification (0x440c84): the result is the gate (Device::IsHighPerformance, Is_In_Multiplayer_Mode,
+// SHARP_DEVICES or HTC_DEVICES) AND (byte_99F83A or byte_99F81A or the GameCenter byte at +0x15). The two globals and
+// the GameCenter byte are not named in the tree, so the caller passes them.
+inline bool PushNotificationResult(bool gate, bool flagA, bool flagB, bool gameCenterFlag) {
+    return gate && (flagA || flagB || gameCenterFlag);
+}
+
+// NativeGetSaveIDsListSize (0x43f5c8): the number of save games PlayerSavegame::SG_GetSavegameList(false) lists.
+int SaveGameIdsCount();
+
+// The start gate of NativeHasPushNotification: Device::IsHighPerformance() || Is_In_Multiplayer_Mode || SHARP_DEVICES ||
+// HTC_DEVICES (game-app/src, 0x440c84).
+bool PushNotificationGate();

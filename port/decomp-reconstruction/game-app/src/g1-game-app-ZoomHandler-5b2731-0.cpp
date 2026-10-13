@@ -5,8 +5,7 @@
 //   - The bound camera is m_camera (+0x20). The touch paths return 0 at once unless the camera's m_useObjectPosition
 //     flag (CameraLevel +0x85) is set. The mouse path checks that flag per press. The map camera is the one that sets it.
 //   - MapAcceptsTouch: MenuCharMenu_Map::GetInstance() takes a point when its unk_1e4 (+0x1e4) is clear and
-//     IsPointInsideRenderZone holds. It is a PARTIAL stub here (MenuCharMenu_Map.hpp conflicts with CameraLevel.hpp on
-//     Point3D). The two functions that call it are PARTIAL for that reason.
+//     IsPointInsideRenderZone holds. Both headers now use the one Point3D of dh2/Point3D.hpp, so the test is written.
 //   - Mouse events are glitch::SEvent with EventType 1 (mouse input). EMOUSE_INPUT_EVENT: 0 left down, 3 left up,
 //     6 moved, 7 wheel. Touch events are IEvent with id 4 (EvTouchScreenPress) or 5 (EvTouchScreenMove).
 //   - The finger map is std::map<long, TouchData> keyed by the touch id. The pinch uses the first two entries in key
@@ -27,17 +26,17 @@
 #include "dh2/EvTouchScreenPress.hpp"
 #include "dh2/EventManager.hpp"
 #include "dh2/IEvent.hpp"
+#include "dh2/MenuCharMenu_Map.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"  // dword_99F740, the EventManager instance
 
 namespace {
 
-// PARTIAL: the original's map test is not written. It is MenuCharMenu_Map::GetInstance() with unk_1e4 (+0x1e4) clear,
-// and IsPointInsideRenderZone(x, y). dh2/MenuCharMenu_Map.hpp cannot share this translation unit with
-// dh2/CameraLevel.hpp yet: both define Point3D (core-platform/deps/game_types.hpp and dh2/Point3D.hpp). Until the two
-// are unified, the test answers false, so the touch is not recorded and the mouse pan does not start on a camera that
-// uses the object position. Integrator: replace this body with the map test.
-bool MapAcceptsTouch(int, int) {
-    return false;
+// The map test of the touch and mouse paths: MenuCharMenu_Map::GetInstance() with unk_1e4 (+0x1e4) clear, and
+// IsPointInsideRenderZone(x, y). The original's other alternative, a clear camera flag, is tested by the callers
+// (the touch paths return first; the mouse path tests the flag before it calls this).
+bool MapAcceptsTouch(int x, int y) {
+    MenuCharMenu_Map* map = MenuCharMenu_Map::GetInstance();
+    return !map->unk_1e4 && map->IsPointInsideRenderZone(x, y);
 }
 
 }  // namespace
@@ -78,8 +77,8 @@ void ZoomHandler::ResetZoom() {
 }
 
 // 0x382040 ZoomHandler::onEvent(glitch::SEvent const&)
-// PARTIAL: the left-button-down pan start on a camera that uses the object position depends on the map test
-// (MapAcceptsTouch, a stub here). The rest is written.
+// The left-button-down pan start on a camera that uses the object position takes its map test from MapAcceptsTouch
+// (above).
 // The mouse path: the wheel zooms the camera at any time (no pan state needed). Left button down starts a pan, moves
 // pan while it is active, and left button up ends it. The pan is in camera units of 50 per pixel.
 bool ZoomHandler::onEvent(const glitch::SEvent& event) {
@@ -131,10 +130,9 @@ bool ZoomHandler::onEvent(const glitch::SEvent& event) {
 }
 
 // 0x382bdc ZoomHandler::onEvent(IEvent const*, EventManager const*)
-// PARTIAL: the press-down branch's map test (MapAcceptsTouch, a stub here) is not written, so a press is not recorded.
-// Release and move are written in full, and move works on whatever fingers are recorded.
-// The touch path. Press (4) and release record or erase the touch. Move (5) pans the camera for one finger, or zooms
-// it by the change of the distance between the first two fingers. The return value says the touch was used.
+// The touch path. Press (4) records the touch when MapAcceptsTouch takes the point, and release erases it. Move (5)
+// pans the camera for one finger, or zooms it by the change of the distance between the first two fingers. The
+// return value says the touch was used.
 bool ZoomHandler::onEvent(const IEvent* event, const EventManager* manager) {
     (void)manager;
     CameraLevel* camera = m_camera;     // +0x20

@@ -2,6 +2,7 @@
 // fields at the original offsets, base reads come first, length-prefixed strings are NUL-terminated, and
 // element arrays hold one element per record in file order.
 #include "pydata-accessors/structs_records.hpp"
+#include "read_bytes_stream.hpp"
 #include "pydata-accessors/w7_structs_1.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 
@@ -21,7 +22,7 @@ void Loot::finalize() {}
 }  // namespace Structs
 
 // Hands out a fixed byte sequence to StreamReader::readAs and readStringEx.
-class ByteStream : public IStreamBase {
+class ByteStream : public ReadBytesStream {
 public:
     explicit ByteStream(const std::vector<unsigned char>& data) : data_(data) {}
     bool ReadBytes(void* dst, std::size_t n) override {

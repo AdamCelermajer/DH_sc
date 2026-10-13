@@ -1,7 +1,7 @@
 // Test for batch g1-game-app-global-f216b6-17. Checks the GetNewScriptCmdImplInstance<Script_*>() factories:
 // each returns a fresh command of its own class with unk_04 cleared, m_cmdId = -1 and m_args null, and the
 // class members that the original factories clear (Script_Wait: m_elapsed and m_duration; Script_HideFlash and
-// Script_ShowFlash: m_menu). Script_EmptyImpl is not covered: its factory is a partial stub (see the source).
+// Script_ShowFlash: m_menu). Script_EmptyImpl is covered too (redo pass r2a-game-app-global-f216b6-6).
 // Exit status 0 means every check passed.
 //
 // This test links only the batch source, so the functions the vtables reference and that other batches define
@@ -11,6 +11,7 @@
 
 #include "dh2/ScriptCmdImpl.hpp"
 #include "dh2/global/GetNewScriptCmdImplInstance.hpp"
+#include "dh2/Script_EmptyImpl.hpp"
 #include "dh2/Script_EnterSafeZone.hpp"
 #include "dh2/Script_HideFlash.hpp"
 #include "dh2/Script_LeaveSafeZone.hpp"
@@ -36,6 +37,8 @@ void ScriptCmdImpl::Init() {}
 void ScriptCmdImpl::Update() {}
 
 void Script_Wait::Update() {}
+void Script_EmptyImpl::Execute(bool, int) {}
+bool Script_EmptyImpl::IsBlocking() const { return false; }
 void Script_Wait::Execute(bool, int) {}
 bool Script_Wait::IsBlocking() const { return false; }
 void Script_UnlockCharacter::Execute(bool, int) {}
@@ -105,6 +108,7 @@ T* CheckCommon(const char* name) {
 }
 
 void CheckSimple() {
+    CheckCommon<Script_EmptyImpl>("Script_EmptyImpl");
     CheckCommon<Script_UnlockCharacter>("Script_UnlockCharacter");
     CheckCommon<Script_LockCharacter>("Script_LockCharacter");
     CheckCommon<Script_StopEffect>("Script_StopEffect");

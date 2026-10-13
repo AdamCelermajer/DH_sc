@@ -16,9 +16,19 @@
 #include <cstdint>
 #include <string>
 
+#include "dh2/CSAttack.hpp"
+#include "dh2/CSCast.hpp"
+#include "dh2/CSDespawn.hpp"
+#include "dh2/CSIdle.hpp"
+#include "dh2/CSLimbus.hpp"
+#include "dh2/CSMove.hpp"
+#include "dh2/CSScared.hpp"
+#include "dh2/CSSkill.hpp"
+#include "dh2/CSSpawn.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/Random.hpp"
+#include "dh2/Singleton.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_02.hpp"
 
@@ -389,66 +399,62 @@ float GetLevelScaledXP(float xp, Character* other, Character* self) {
 }
 
 // 0x3c0454 CharState* GetNewState<CSLimbus>()
-// PARTIAL: stub returns nullptr. The original returns &Singleton<CSLimbus>::s_inst (ELF
-// _ZN9SingletonI8CSLimbusE6s_instE, .bss). Waits on dh2/Singleton.hpp: no header declares the Singleton<T>
-// template yet (the same blocker as GetNewState<CSStunned> in batch -4).
+// Asm: LDR from the GOT slot of _ZN9SingletonI8CSLimbusE6s_instE, then returned. Returns &Singleton<CSLimbus>::s_inst.
+// Link needs an explicit instantiation of Singleton<CSLimbus> in game-app/src/Globals.cpp (not added here; the CS*
+// instances are held back there, and the CSLimbus destructor chain is now defined in game-character).
 template <>
 CharState* GetNewState<CSLimbus>() {
-    return nullptr;
+    return &Singleton<CSLimbus>::s_inst;
 }
 
 // 0x3c0470 CharState* GetNewState<CSSpawn>()
-// PARTIAL: stub returns nullptr. Original: &Singleton<CSSpawn>::s_inst. Waits on dh2/Singleton.hpp.
+// Asm: returns &Singleton<CSSpawn>::s_inst (GOT slot of _ZN9SingletonI7CSSpawnE6s_instE). Link needs the Globals.cpp
+// instantiation noted under GetNewState<CSLimbus>.
 template <>
 CharState* GetNewState<CSSpawn>() {
-    return nullptr;
+    return &Singleton<CSSpawn>::s_inst;
 }
 
 // 0x3c048c CharState* GetNewState<CSDespawn>()
-// PARTIAL: stub returns nullptr. Original: &Singleton<CSDespawn>::s_inst. Waits on dh2/Singleton.hpp.
+// Asm: returns &Singleton<CSDespawn>::s_inst (GOT slot of _ZN9SingletonI9CSDespawnE6s_instE). Link needs the Globals.cpp
+// instantiation noted under GetNewState<CSLimbus>.
 template <>
 CharState* GetNewState<CSDespawn>() {
-    return nullptr;
+    return &Singleton<CSDespawn>::s_inst;
 }
 
 // 0x3c04a8 CharState* GetNewState<CSIdle>()
-// PARTIAL: stub returns nullptr. Original: &Singleton<CSIdle>::s_inst. Waits on dh2/Singleton.hpp.
 template <>
 CharState* GetNewState<CSIdle>() {
-    return nullptr;
+    return &Singleton<CSIdle>::s_inst;
 }
 
 // 0x3c04c4 CharState* GetNewState<CSMove>()
-// PARTIAL: stub returns nullptr. Original: &Singleton<CSMove>::s_inst. Waits on dh2/Singleton.hpp.
 template <>
 CharState* GetNewState<CSMove>() {
-    return nullptr;
+    return &Singleton<CSMove>::s_inst;
 }
 
 // 0x3c04e0 CharState* GetNewState<CSAttack>()
-// PARTIAL: stub returns nullptr. Original: &Singleton<CSAttack>::s_inst. Waits on dh2/Singleton.hpp.
 template <>
 CharState* GetNewState<CSAttack>() {
-    return nullptr;
+    return &Singleton<CSAttack>::s_inst;
 }
 
 // 0x3c04fc CharState* GetNewState<CSSkill>()
-// PARTIAL: stub returns nullptr. Original: &Singleton<CSSkill>::s_inst. Waits on dh2/Singleton.hpp.
 template <>
 CharState* GetNewState<CSSkill>() {
-    return nullptr;
+    return &Singleton<CSSkill>::s_inst;
 }
 
 // 0x3c0518 CharState* GetNewState<CSCast>()
-// PARTIAL: stub returns nullptr. Original: &Singleton<CSCast>::s_inst. Waits on dh2/Singleton.hpp.
 template <>
 CharState* GetNewState<CSCast>() {
-    return nullptr;
+    return &Singleton<CSCast>::s_inst;
 }
 
 // 0x3c0534 CharState* GetNewState<CSScared>()
-// PARTIAL: stub returns nullptr. Original: &Singleton<CSScared>::s_inst. Waits on dh2/Singleton.hpp.
 template <>
 CharState* GetNewState<CSScared>() {
-    return nullptr;
+    return &Singleton<CSScared>::s_inst;
 }

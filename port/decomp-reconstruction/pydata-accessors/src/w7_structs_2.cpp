@@ -38,7 +38,7 @@ void ReadStringField(IStreamBase* stream, void*& slot, std::uint32_t len) {
     if (slot != nullptr) CustomFree(slot);
     auto* buf = static_cast<char*>(MemoryHintState(std::size_t{len} + 1, 1));
     slot = buf;
-    StreamReader::readStringEx(stream, buf, len, 0);
+    StreamReader::readStringEx(stream, buf, len);
     buf[len] = 0;
 }
 
@@ -441,7 +441,7 @@ void ItemTypeListList::read(IStreamBase* stream) {
     auto* bytes = static_cast<std::int8_t*>(MemoryHintState(m_w1, 1));
     m_w2 = bytes;
     for (std::uint32_t i = 0; i < m_w1; ++i) {
-        bytes[i] = StreamReader::readAs<std::int8_t>(stream);
+        StreamReader::readAs<std::int8_t>(stream, &bytes[i]);
     }
 }
 

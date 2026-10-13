@@ -49,7 +49,7 @@ void ItemAudioVisual::read(IStreamBase* stream) {
     // PARTIAL: the listing passes a 5th, 64-bit argument to readStringEx (high word 1, low word undefined in
     // the listing), and returns the readStringEx result as a bool. The stand-in readStringEx takes four
     // arguments and returns void, so neither is passed or returned.
-    StreamReader::readStringEx(stream, static_cast<char*>(m_w4), m_w3, 0);
+    StreamReader::readStringEx(stream, static_cast<char*>(m_w4), m_w3);
     static_cast<char*>(m_w4)[m_w3] = 0;
 }
 
@@ -100,7 +100,7 @@ void ItemPowerRef::finalize() {
 // stride 16 (Structs::ListingStride::AttrBonusEntry), kept in the stride word; the host elements are
 // sizeof(AttrBonusEntry) and reached through the typed pointer.
 void ItemPowerRef::read(IStreamBase* stream) {
-    m_w1 = StreamReader::readAs<std::int8_t>(stream);   // +0x4
+    StreamReader::readAs<std::int8_t>(stream, &m_w1);   // +0x4
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream); // +0xc
     pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);     // +0x10 (old table)

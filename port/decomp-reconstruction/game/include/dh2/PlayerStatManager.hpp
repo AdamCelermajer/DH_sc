@@ -35,12 +35,12 @@ public:
     void DecrementStat(EStatType stat, int playerId);                   // 0x3790f8 forwards to IncreaseStat
     void SetStatValue(EStatType stat, int value, int playerId, bool flag);  // 0x379104 empty
     void ResetStatValue(EStatType stat, int playerId);                  // 0x379108 forwards to SetStatValue
-    int ResetAllStatValues(int playerId);                               // 0x37912c resets stats 0..6 for playerId
+    void ResetAllStatValues(int playerId);                              // 0x37912c resets stats 0..6 for playerId (Hex-Rays returns the leftover R0; no callers)
     int GetStatValue(EStatType stat, int playerId) const;               // 0x379824 PlayerManager's player record at stat * 40 + 1384
-    std::string GetStatStr(EStatType stat);                             // 0x3795c8 "killer", "striker", ..., "xp", or ""
-    int Invoke(EStatType stat, int value, int playerId) const;          // 0x3796c4 onRankChange callback into the HUD
+    static std::string GetStatStr(EStatType stat);                      // 0x3795c8 "killer", "striker", ..., "xp", or ""; static: no this (asm: stat in R1, sret in R0)
+    int Invoke(EStatType stat, int playerId, int rankIndex) const;      // 0x3796c4 onRankChange callback into the HUD; playerId is the internal id (GetPlayerByInternalID), rankIndex the 4th callback argument
     int Invoke(const std::string& name) const;                          // 0x379568 InvokeASCallback on the HUD root
-    int* GetRanking(EStatType stat, bool sort) const;                   // 0x379ac4 (stat, player) pairs, sorted when sort is set
+    int* GetRanking(EStatType stat, bool sort) const;                   // 0x379ac4 (value, player index) pairs in one static buffer shared by all stats; sorted when sort is set, else the last result
     int UpdateRanking(EStatType stat) const;                            // 0x379d18 Invokes the HUD for each player
     int GetLeader(EStatType stat) const;                                // 0x379dfc
     int GetNumLeadingStats(int playerId) const;                         // 0x379e10
