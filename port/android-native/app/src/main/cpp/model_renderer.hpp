@@ -199,6 +199,10 @@ bool boss_probe_start_level_script(const std::string& name,std::string&);
 // object as the owner (the call a Character script reaches through SummonTimerTrap).
 bool boss_probe_summon_timer_trap(const std::string& owner_name,const std::string& trap_name,
                                   const std::array<float,3>& position,std::string& message);
+// Development probe: the local Player's GameObject::_Summon of a CharacterTable
+// member (for example RisenZombie) at an absolute point.
+bool boss_probe_summon_character(const std::string& character_name,
+                                 const std::array<float,3>& position,std::string& message);
 // Development check: dropped world items (ItemManager projections) and the
 // one nearest the Player.
 struct GameplayWorldItemSnapshotV1 {

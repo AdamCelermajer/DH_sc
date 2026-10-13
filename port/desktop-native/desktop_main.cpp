@@ -96,6 +96,9 @@ struct Options {
     // --boss-summon-trap NAME: once the fight is running, the boss owns a TimerTraps
     // member NAME (for example SwampkingSteamCloud) summoned at the Player's feet.
     std::string boss_summon_trap;
+    // --boss-summon-ally NAME: once the fight is running, the Player summons the
+    // CharacterTable member NAME (for example RisenZombie) beside itself.
+    std::string boss_summon_ally;
     // --boss-refill: development fixture that tops the Player's HP back up to Max_HP
     // once per second so hazards with long lifetimes (TimerTrap clouds) can be observed.
     bool boss_refill = false;
@@ -164,6 +167,7 @@ Options parse(int argc, char** argv) {
             options.boss_refill_hp = std::stoi(value("--boss-refill-hp"));
         }
         else if (arg == "--boss-summon-trap") options.boss_summon_trap = value("--boss-summon-trap");
+        else if (arg == "--boss-summon-ally") options.boss_summon_ally = value("--boss-summon-ally");
         else if (arg == "--boss-intro") options.boss_intro_script = value("--boss-intro");
         else if (arg == "--boss-trigger") {
             const auto text = value("--boss-trigger");
@@ -974,7 +978,7 @@ private:
     BossPhase bf_phase_ = BossPhase::spawn;
     std::uint64_t bf_phase_frame_ = 0, bf_done_frame_ = 0;
     bool bf_ever_initialized_ = false, bf_ever_targeted_ = false, bf_boss_died_ = false,
-         bf_trap_summoned_ = false;
+         bf_trap_summoned_ = false, bf_ally_summoned_ = false;
     unsigned bf_refills_ = 0;
     double bf_player_hp_start_ = -1.0, bf_player_hp_min_ = 1e9, bf_boss_hp_start_ = -1.0,
            bf_boss_hp_min_ = 1e9;
@@ -1216,6 +1220,20 @@ private:
                 if (frame_ % 600 == 0 || bf_refills_++ == 0)
                     plog(fmt("boss refill | frame %llu | %s | HP %d/%d", (unsigned long long)frame_,
                              result.c_str(), vitals[0] / 256, vitals[1] / 256));
+            }
+            if (!options_.boss_summon_ally.empty() && !bf_ally_summoned_ && have_pose_ &&
+                frame_ - bf_phase_frame_ >= 120) {
+                bf_ally_summoned_ = true;
+                std::string message;
+                const bool ok = model_renderer::boss_probe_summon_character(
+                    options_.boss_summon_ally,
+                    {pose_.player_position[0] + 220.0f, pose_.player_position[1],
+                     pose_.player_position[2]},
+                    message);
+                plog(fmt("boss ally | frame %llu | Player summons %s near %s | %s%s",
+                         (unsigned long long)frame_, options_.boss_summon_ally.c_str(),
+                         vec_text(pose_.player_position).c_str(), ok ? "" : "ERROR ", message.c_str()));
+                if (!ok) failure_ = "boss-fight: summoning the ally failed: " + message;
             }
             if (!options_.boss_summon_trap.empty() && !bf_trap_summoned_ && have_pose_ &&
                 frame_ - bf_phase_frame_ >= 120) {
@@ -2760,8 +2778,15 @@ int main(int argc, char** argv) {
             // dialogs that wait for the player's taps). Flush its dialogs like those
             // taps would so the probe is not parked behind the script until the bound.
             // boss-natural: the boss intro cutscene waits for the player's dialog taps.
-            if ((options.skill_matrix_scenario || options.boss_natural) && gameplay &&
-                rendered_frames % 20 == 0 &&
+            // Every Level TriggerZone is a live ObjectManager object now, so the walking
+            // scenarios cross the authored LizardMan_Intro / CombatTuto scripts too; they
+            // lock the controllers behind dialogs the player taps through. The
+            // tutorial-potion scenario keeps its own hold-then-flush proof above once
+            // cinematic_Tuto_potionUse has started; before that it taps these too.
+            if ((options.skill_matrix_scenario || options.boss_natural ||
+                 ((options.movement_attack_scenario || options.movement_defend_scenario) &&
+                  (!options.tutorial_potion_scenario || !tutorial_verified_frame))) &&
+                gameplay && rendered_frames % 20 == 0 &&
                 model_renderer::script_controllers_blocked() &&
                 !original_ui.flush_source_messages(ui_error))
                 throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);
