@@ -2166,6 +2166,10 @@ int main(int argc, char** argv) {
         std::int32_t scenario_target_initial_hp = 0;
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
+        // A fresh SWAMP profile starts Swamp_Escape's lifecycle (Swamp_Intro, then Movement_Tuto):
+        // scenarios begin once those cutscenes are over, the budget does not count them.
+        bool intro_released = false, intro_holding = false;
+        std::uint64_t intro_held_frames = 0;
         unsigned scenario_kills = 0;
         unsigned scenario_pickups = 0, scenario_loot_frames = 0;
         std::int32_t scenario_last_item_count = -1;
@@ -2350,10 +2354,41 @@ int main(int argc, char** argv) {
             }
             return_to_authored_menu();
             sync_text_input();
+            intro_holding = false;
+            if (gameplay && options.level_row == 41 && !intro_released &&
+                (options.movement_attack_scenario || options.movement_defend_scenario ||
+                 options.movement_kill_scenario || options.skill_kill_scenario ||
+                 options.tutorial_potion_scenario || options.probe_scenario())) {
+                bool finished = false;
+                std::uintptr_t player_identity = 0;
+                std::vector<model_renderer::UiQuestReadV1> quest_rows;
+                if (rendered_frames >= 4 &&
+                    model_renderer::ui_player_identity(player_identity, ui_error) &&
+                    model_renderer::ui_player_quest_rows(player_identity, quest_rows, ui_error, nullptr) &&
+                    quest_rows.size() > 50 && quest_rows[50].state >= 6 &&
+                    !model_renderer::script_controllers_blocked() &&
+                    !model_renderer::tutorial_script_running("Swamp_Intro") &&
+                    !model_renderer::tutorial_script_running("Movement_Tuto") &&
+                    !model_renderer::tutorial_script_running("Movement_Tuto2"))
+                    finished = true;
+                if (finished || intro_held_frames >= 9000) {
+                    intro_released = true;
+                    std::cout << "Scenario intro released | frame " << rendered_frames << " | held "
+                              << intro_held_frames << " frames | "
+                              << (finished ? "Swamp_Escape active, cutscenes over" : "hold timed out") << std::endl;
+                } else {
+                    intro_holding = true;
+                    ++intro_held_frames;
+                    ++options.frames;
+                    if (rendered_frames % 20 == 0 && model_renderer::script_controllers_blocked() &&
+                        !original_ui.flush_source_messages(ui_error))
+                        throw std::runtime_error("Intro dialog flush failed: " + ui_error);
+                }
+            }
             if (gameplay && options.faery_follow_scenario && !options.capture_series.empty() && rendered_frames == 20)
                 copy_level_saves(options.runtime, options.capture_series, "entry");
-            if (gameplay && options.probe_scenario() && rendered_frames >= 2) {
-                probe_runner.tick(rendered_frames, SDL_GetTicks64());
+            if (gameplay && options.probe_scenario() && rendered_frames >= 2 && !intro_holding) {
+                probe_runner.tick(rendered_frames - intro_held_frames, SDL_GetTicks64());
                 int tap_action = -1;
                 if (probe_runner.take_tap(tap_action)) {
                     // Centre of the authored HUD faery button on the 1280x720 reference layout.
@@ -2860,7 +2895,7 @@ int main(int argc, char** argv) {
                 }
             }
             if (gameplay && (options.movement_attack_scenario || options.movement_defend_scenario || options.fixed_cultist_scenario ||
-                             options.fixed_cultist_kill_scenario) && !scenario_started) {
+                             options.fixed_cultist_kill_scenario) && !scenario_started && !intro_holding) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
                 model_renderer::move_axis(0.0f, 0.0f);

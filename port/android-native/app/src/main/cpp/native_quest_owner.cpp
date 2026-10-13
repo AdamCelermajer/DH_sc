@@ -2,6 +2,7 @@
 #include "native_quest_cursor.hpp"
 #include "quest_instance_v1.hpp"
 #include "quest_condition_factory_v1.hpp"
+#include "quest_condition_eval_v1.hpp"
 #include "quest_objective_factory_v1.hpp"
 #include "quest_reward_factory_v1.hpp"
 #include "quest_reward_execution_v1.hpp"
@@ -33,6 +34,7 @@ namespace r=data::quest_reward_list_v1;
 namespace rf=data::quest_reward_factory_v1;
 namespace re=data::quest_reward_execution_v1;
 namespace qu=data::quest_update_completed_v1;
+namespace ce=data::quest_condition_eval_v1;
 namespace qc=data::quest_compile_v1;
 namespace og=level_world::open_game_object_objective_v1;
 namespace {
@@ -902,6 +904,303 @@ bool Owner::update_gameplay_log(std::uint32_t log,std::uint32_t difficulty,
  completed_out=std::move(completed_values);
  error.clear();return true;
 }
+bool Owner::update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
+ const QuestLifecycleServicesV1& services,
+ std::vector<QuestLifecycleResultV1>& out,std::string& error){
+ out.clear();
+ if(log>1||difficulty>2||impl_->busy||impl_->closed||!impl_->save){
+  error="Quest lifecycle requires the open canonical Save/QEST owner";return false;
+ }
+ if(!services.current_level_index||!services.script_exists||
+    !services.save_for_state_transition||!services.announce_new_quest||
+    !services.scripts.script_is_running||!services.scripts.start_script||
+    !services.scripts.application_time_valid||!services.objectives.difficulty||
+    !services.objectives.objective_member){
+  error="Quest lifecycle requires the Level's script, save, message and Objective providers";
+  return false;
+ }
+ auto& store=log?impl_->save->source_quest_log_118():impl_->save->source_quest_log_b8();
+ const auto& quests=store.quests[difficulty];
+ // Registration and marker virtuals reach the Level through the same
+ // Objective member provider CompileQuests uses.
+ const auto* previous_services=impl_->active_compile_services;
+ impl_->active_compile_services=&services.objectives;
+ struct RestoreServices{Impl& impl;const QuestCompileServicesV1* previous;
+  ~RestoreServices(){impl.active_compile_services=previous;}} restore{*impl_,previous_services};
+ std::int32_t primary_priority=0;
+ if(impl_->constant("v2QuestPriority","Primary",&primary_priority)){
+  error="Quest lifecycle could not resolve v2QuestPriority.Primary";return false;
+ }
+
+ // ConditionList::Eval (0x478704): every child's virtual Eval must hold; an
+ // empty list is true. Condition kinds 0..3 evaluate through the recovered
+ // condition kernel against this Save's quest vector and the current Level.
+ struct EvalContext {
+  Impl* impl=nullptr;const QuestLifecycleServicesV1* services=nullptr;
+  const logs::QuestSavegame* store=nullptr;std::uint32_t difficulty=0;
+  std::uintptr_t character_660=0;
+  ce::PlayerRef player{};ce::QuestStateRef quest{};ce::LevelRef level{};
+  std::int32_t level_index=-1;std::string error;
+ } context{};
+ context.impl=impl_.get();context.services=&services;
+ context.store=&store;context.difficulty=difficulty;
+ const ce::Services eval_services{&context,
+  [](void*,std::uintptr_t* application)->std::int32_t{*application=1;return 0;},
+  [](void*,std::uintptr_t,std::uintptr_t* manager)->std::int32_t{*manager=2;return 0;},
+  [](void* raw,std::uintptr_t,std::int32_t ordinal,std::uint32_t require_character,
+     ce::PlayerRef** player)->std::int32_t{
+   auto& self=*static_cast<EvalContext*>(raw);
+   const auto character=self.impl->save->character();
+   if(ordinal!=0||(require_character&&!character))return 1;
+   self.character_660=character;self.player={1,&self.character_660};
+   *player=&self.player;return 0;
+  },
+  [](void* raw,std::uintptr_t character,std::int32_t quest_id,std::int32_t quest_difficulty,
+     ce::QuestStateRef** quest)->std::int32_t{
+   auto& self=*static_cast<EvalContext*>(raw);
+   // Character::SG_GetQuestByID(id,-1) selects the current difficulty.
+   if(character!=self.impl->save->character()||
+      (quest_difficulty!=-1&&quest_difficulty!=std::int32_t(self.difficulty)))return 1;
+   *quest=nullptr;
+   const auto& vector=self.store->quests[self.difficulty];
+   if(quest_id<0||std::size_t(quest_id)>=vector.size())return 0;
+   auto* instance=self.impl->resolve(vector[std::size_t(quest_id)]);
+   if(!instance)return 1;
+   self.quest={instance->record().ref.identity,&instance->record().state_0};
+   *quest=&self.quest;return 0;
+  },
+  [](void* raw,std::uintptr_t,ce::LevelRef** level)->std::int32_t{
+   auto& self=*static_cast<EvalContext*>(raw);
+   if(!self.services->current_level_index(self.services->context,self.level_index,
+        self.error))return 1;
+   self.level={1,&self.level_index};*level=&self.level;return 0;
+  }};
+ const auto condition_record=[&](const c::ConditionRef* ref)->cf::Record*{
+  if(!ref||!ref->identity)return nullptr;
+  const auto found=impl_->conditions.find(ref->identity);
+  return found==impl_->conditions.end()||&found->second->ref!=ref?nullptr:found->second.get();
+ };
+ const auto conditions_supported=[&](instance::Instance& quest)->bool{
+  auto& list=quest.conditions();
+  if(list.count_0<=0)return true;
+  if(!list.children_4||std::uint64_t(std::uint32_t(list.count_0))>list.children_4->slots.size())
+   return false;
+  for(std::int32_t index=0;index<list.count_0;++index){
+   const auto* record=condition_record(list.children_4->slots[std::size_t(index)]);
+   if(!record)return false;
+   switch(record->dispatch_0){
+   case cf::Dispatch::quest_in_state:case cf::Dispatch::quest_state_lower:
+   case cf::Dispatch::quest_state_higher:case cf::Dispatch::player_in_level:break;
+   default:return false;
+   }
+  }
+  return true;
+ };
+ const auto eval_conditions=[&](instance::Instance& quest,bool& value)->bool{
+  value=true;
+  auto& list=quest.conditions();
+  for(std::int32_t index=0;index<list.count_0;++index){
+   auto* record=condition_record(list.children_4->slots[std::size_t(index)]);
+   if(!record){error="ConditionList::Eval lost its canonical Condition";return false;}
+   ce::Runtime runtime(*record,eval_services);ce::Result evaluated;
+   context.error.clear();
+   if(runtime.evaluate(&evaluated)!=ce::Status::complete){
+    error="Condition::Eval failed at operation "+std::to_string(unsigned(evaluated.last_operation))+
+          (context.error.empty()?"":" | "+context.error);
+    return false;
+   }
+   if(!evaluated.value){value=false;return true;}
+  }
+  return true;
+ };
+ // Quest::GetScriptIDFromID (0x47fa80): v2QuestScripts[slot] is "Module.Name";
+ // the ScriptManager name is the text after the first '.', and a string
+ // without one (or an empty one) is no script.
+ const auto slot_script=[&](instance::Instance& quest,std::uint32_t slot,
+                            std::string& name)->bool{
+  name.clear();
+  const auto* definition=impl_->definitions.record(*quest.record().py_data_68);
+  if(!definition||slot>=14){error="Quest script slot is outside the source row";return false;}
+  const auto& span=definition->scripts[slot];
+  if(!span.size)return true;
+  data::quest_table_bindings_v1::Span bytes{};
+  if(!impl_->definitions.bytes(span,&bytes,error)||!bytes.data||!bytes.size){
+   if(error.empty())error="Quest source script span is invalid";
+   return false;
+  }
+  std::string source(reinterpret_cast<const char*>(bytes.data),bytes.size);
+  const auto nul=source.find('\0');if(nul!=std::string::npos)source.resize(nul);
+  const auto dot=source.find('.');
+  if(dot!=std::string::npos&&dot+1!=source.size())name=source.substr(dot+1);
+  return true;
+ };
+ const auto script_present=[&](instance::Instance& quest,std::uint32_t slot,bool& present)->bool{
+  std::string name;present=false;
+  if(!slot_script(quest,slot,name))return false;
+  if(name.empty())return true;
+  return services.script_exists(services.context,name,present,error);
+ };
+ // Quest::TestIsScriptRunning (0x47fde4).
+ const auto script_running=[&](instance::Instance& quest,std::uint32_t slot,bool& running)->bool{
+  std::string name;running=false;
+  if(!slot_script(quest,slot,name))return false;
+  if(name.empty())return true;
+  if(!services.scripts.script_is_running(services.scripts.context,name,running,error)){
+   if(error.empty())error="Quest::TestIsScriptRunning ScriptManager query failed";
+   return false;
+  }
+  return true;
+ };
+ // Quest::ExecScript (0x47ff20): ScriptManager::StartScript(id,-1,true).
+ const auto exec_script=[&](instance::Instance& quest,std::uint32_t slot)->bool{
+  std::string name;
+  if(!slot_script(quest,slot,name))return false;
+  if(name.empty())return true;
+  if(!services.scripts.start_script(services.scripts.context,name,-1,true,error)){
+   if(error.empty())error="Quest::ExecScript could not start its ScriptManager script";
+   return false;
+  }
+  return true;
+ };
+
+ // Quest::SetState (0x480c78) for the states this lifecycle owns, entered from
+ // 0..5 (never leaving Active, whose Unregister belongs to update_active).
+ const auto set_state=[&](instance::Instance& quest,std::int32_t next)->bool{
+  auto& record=quest.record();
+  if(next<0||next>13)return true;
+  const auto old=record.state_0;
+  record.state_0=next;
+  if(old!=next)record.word_4=services.scripts.application_time;
+  else if(!record.byte_64)return true;
+  else record.word_4=services.scripts.application_time;
+  if(old==6){
+   error="Quest lifecycle cannot leave the Active state";return false;
+  }
+  // Leaving Available/Completed calls the accept/end Objective's virtual+28;
+  // the base and Automatic kinds admitted here implement it as a no-op.
+  if(scalar::is_volatile_state(next)&&!record.byte_64){
+   // Quest::HandleSaveInStateTransitonIfNeeded (0x47fb74).
+   bool save=false,first=false,second=false;
+   switch(next){
+   case 2:if(!script_present(quest,11,first)||!script_present(quest,1,second))return false;
+    save=first||second;break;
+   case 4:if(!script_present(quest,6,first))return false;save=first;break;
+   case 5:if(!script_present(quest,10,first)||!script_present(quest,0,second))return false;
+    save=first||second;break;
+   default:break;
+   }
+   if(save&&!services.save_for_state_transition(services.context,error))return false;
+  }
+  switch(record.state_0){
+  case 0:return true;
+  case 1:return exec_script(quest,9);
+  case 2:return exec_script(quest,11); // accept InstallObjectiveMarker: base no-op
+  case 3:return exec_script(quest,old==6?4:1); // accept Register: no-op
+  case 4:return exec_script(quest,6);  // accept RemoveObjectiveMarker: base no-op
+  case 5:{
+   const auto* definition=impl_->definitions.record(*record.py_data_68);
+   auto* runtime=impl_->resolve_compile_quest(&record.ref);
+   if(!definition||!runtime){error="Quest::SetState(PreActive) lost its canonical compile runtime";return false;}
+   qc::Result installed;
+   if(runtime->install_markers(definition->priority,5,&installed)!=qc::Status::complete){
+    if(error.empty())error="ObjectiveList::InstallObjectiveMarkers stopped at operation "+
+        std::to_string(unsigned(installed.last_operation));
+    return false;
+   }
+   return exec_script(quest,10);
+  }
+  case 6:{
+   if(!exec_script(quest,0))return false;
+   auto* runtime=impl_->resolve_compile_quest(&record.ref);
+   if(!runtime){error="Quest::SetState(Active) lost its canonical compile runtime";return false;}
+   qc::Result registered;
+   if(runtime->register_objectives(&registered)!=qc::Status::complete){
+    if(error.empty())error="ObjectiveList::Register stopped at operation "+
+        std::to_string(unsigned(registered.last_operation));
+    return false;
+   }
+   const auto* definition=impl_->definitions.record(*record.py_data_68);
+   if(!definition){error="Quest::SetState(Active) lost its retained Quest row";return false;}
+   if(!services.announce_new_quest(services.context,definition->ids[0],error))return false;
+   // Character::SG_SetCurrentQuest / SG_SetCurrentPrimaryQuest (difficulty -1).
+   store.word_2c[difficulty]=record.fields.row_8;
+   if(definition->priority==primary_priority)store.word_38[difficulty]=record.fields.row_8;
+   return true;
+  }
+  default:
+   error="Quest lifecycle reached an unowned Quest::SetState state";return false;
+  }
+ };
+
+ for(const auto* ref:quests){
+  if(!ref){error="Quest lifecycle found a null canonical Quest entry";return false;}
+  auto* quest=impl_->resolve(ref);
+  if(!quest||!quest->record().py_data_68||
+     impl_->definitions.resolve(quest->record().py_data_68->identity)!=
+       quest->record().py_data_68){
+   error="Quest lifecycle could not resolve a published Quest";return false;
+  }
+  auto& record=quest->record();
+  QuestLifecycleResultV1 result;result.quest_identity=record.ref.identity;
+  result.quest_id=record.fields.row_8;
+  result.prior_state=result.new_state=record.state_0;
+  if(record.state_0<0||record.state_0>5)continue;
+  const auto* accept=impl_->resolve_compile_objective(record.action_18);
+  if(!accept||(accept->dispatch_0!=of::Dispatch::base&&
+               accept->dispatch_0!=of::Dispatch::automatic&&
+               accept->dispatch_0!=of::Dispatch::event_receiver)){
+   result.outcome=QuestLifecycleOutcomeV1::unsupported;
+   result.reason="accept Objective kind has no InstallObjectiveMarker/Register owner";
+   out.push_back(std::move(result));continue;
+  }
+  if(!conditions_supported(*quest)){
+   result.outcome=QuestLifecycleOutcomeV1::unsupported;
+   result.reason="ConditionList holds a Condition kind the kernel does not evaluate";
+   out.push_back(std::move(result));continue;
+  }
+  // Quest::Update (0x481818): a Quest loaded in a volatile state re-enters it.
+  if(record.byte_64&&record.state_0>=2){
+   if(!set_state(*quest,record.state_0))return false;
+   record.byte_64=0;
+  }
+  bool running=false,holds=false;
+  if(record.state_0==0){ // UpdateLocked 0x4817b4
+   if(!eval_conditions(*quest,holds))return false;
+   if(holds&&!set_state(*quest,1))return false;
+  }
+  if(record.state_0==1){ // UpdatePostLocked 0x4813e4
+   if(!script_running(*quest,9,running))return false;
+   if(!running&&!set_state(*quest,2))return false;
+  }
+  if(record.state_0==2){ // UpdatePreAvailable 0x481380
+   if(!script_running(*quest,11,running))return false;
+   if(!running&&!set_state(*quest,3))return false;
+  }
+  if(record.state_0==3){ // UpdateAvailable 0x481700
+   if(!eval_conditions(*quest,holds))return false;
+   if(!holds){if(!set_state(*quest,0))return false;}
+   else{
+    if(!script_running(*quest,1,running))return false;
+    // The accept Objective's done byte (+0x14) is set by its Compile.
+    if(accept->done_14&&!running&&!set_state(*quest,4))return false;
+   }
+  }
+  if(record.state_0==4){ // UpdatePostAvailable 0x48131c
+   if(!script_running(*quest,6,running))return false;
+   if(!running&&!set_state(*quest,5))return false;
+  }
+  if(record.state_0==5){ // UpdatePreActive 0x4815d4 (offline)
+   if(!script_running(*quest,10,running))return false;
+   if(!running&&!set_state(*quest,6))return false;
+  }
+  result.new_state=record.state_0;
+  if(result.new_state!=result.prior_state){
+   result.outcome=QuestLifecycleOutcomeV1::advanced;
+   out.push_back(std::move(result));
+  }
+ }
+ error.clear();return true;
+}
 bool Owner::has_state_in_log(std::uint32_t log,std::uint32_t difficulty,
  std::int32_t state,bool& found,std::string& error) const{
  found=false;
@@ -935,10 +1234,9 @@ bool Owner::gameplay_log_states_supported(std::uint32_t log,
   auto* quest=impl_->resolve(ref);
   if(!quest){error="QuestSavegame::UpdateQuests state audit found a foreign Quest";return false;}
   const auto state=quest->record().state_0;
-  // State 0 (Locked) only runs Quest::UpdateLocked 0x4817b4: ConditionList::Eval
-  // then SetState(PostLocked). Neither SG_Update path evaluates those unlock
-  // conditions yet, so a Locked quest stays unchanged here as it does per frame.
-  if(state!=0&&state!=6&&state!=12){
+  // States 0..5 (Locked .. PreActive) run through update_lifecycle, 6 through
+  // update_active and 12 through update_completed.
+  if((state<0||state>6)&&state!=12){
    error="Character::SG_Update(true) reached an unowned Quest::Update state "+
          std::to_string(state);
    return false;

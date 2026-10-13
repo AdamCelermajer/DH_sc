@@ -1021,6 +1021,11 @@ int main() {
                   awaiting.character.state.current_animation==21&&
                   awaiting.character.event(0x22)==0&&awaiting.character.state.current==14,
                   "CSSpawn -> CSAnim did not run CSSpawn::OnBlur then CSAnim::OnFocus");
+            // Script_PutCharacterInLimbus on that actor while CSAnim plays (SM_SetLimbusState
+            // -> _SetState(0)): CSAnim::OnBlur is empty, CSLimbus::OnFocus clears the flags.
+            check(awaiting.character.transition(0,-1,0)==1&&awaiting.character.state.current==0&&
+                  awaiting.character.state.flags==0,
+                  "CSAnim -> CSLimbus did not run CSLimbus::OnFocus");
             // CSSkill (6) <-> CSAnim (14) through the same skill callback projection.
             SkillFixture skill;
             check(skill.character.transition(3)==1&&skill.character.event(0xc355)==1&&

@@ -38961,11 +38961,29 @@ public:
  bool melee_radius(bool owner_ai,std::uintptr_t identity,float& radius) override {
   if(owner_ai) {
    // The Faery owns no ItemInventory: AI_GetMeleeRadius is the AITable row.
-   return dh2::character::player_attack_melee_radius_v1::query(nullptr,
+   const bool ok=dh2::character::player_attack_melee_radius_v1::query(nullptr,
        &actor_ai_tables,ai_id(),&radius)==
        dh2::character::player_attack_melee_radius_v1::Status::complete;
+   trace_range_term("Faery AI_GetMeleeRadius (owner)",ok,radius);
+   return ok;
   }
-  if(identity==prince_character.identity())return player_melee_radius_v1(radius);
+  if(identity==prince_character.identity()) {
+   const bool ok=player_melee_radius_v1(radius);
+   trace_range_term("Player Character::GetInteractionRadius (master)",ok,radius);
+   if(faery_trace_enabled()) {
+    static bool row_traced=false;
+    const auto* props=dh2::data::ai_props(actor_ai_tables,
+        prince_combat.properties.resolved[1]);
+    if(!row_traced&&props) {
+     row_traced=true;
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+         "Faery trace range term | Player AITable row %d melee %.1f (weapon reach %.1f)",
+         int(prince_combat.properties.resolved[1]),props->melee_radius,
+         radius-props->melee_radius);
+    }
+   }
+   return ok;
+  }
   auto* actor=native_char_ai_actor(identity);
   if(!actor||actor->kind!=1)return false;
   std::string error;
@@ -39112,6 +39130,14 @@ public:
  }
 
 private:
+ // DH2_TRACE_FAERY=1: the first AI_IsInInteractionRange terms the follower asks for.
+ static void trace_range_term(const char* what,bool ok,float radius) {
+  static unsigned traced=0;
+  if(!faery_trace_enabled()||traced>=8)return;
+  ++traced;
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "Faery trace range term | %s | %s | %.1f",what,ok?"ok":"unavailable",radius);
+ }
  std::int32_t ai_id() const {
   auto id=owner_.properties.resolved.size()>1?owner_.properties.resolved[1]:-1;
   if(id<0||std::size_t(id)>=actor_ai_tables.rows.size())id=8; // GetCharAIId fallback
@@ -43906,6 +43932,8 @@ bool native_level_quest_frame_context_current(
  NativeLevelQuestFrameContextV1&,std::string&);
 bool native_level_quest_start_script(void*,const std::string&,
  std::int32_t,bool,std::string&);
+bool native_level_update_quest_lifecycle(NativeLevelQuestFrameContextV1&,
+ const dh2::native::quests::QuestCompileServicesV1&,std::string&);
 
 bool native_level_quest_character_caches(void* raw,
  std::uintptr_t event_owner,std::uintptr_t level_identity,
@@ -44403,6 +44431,14 @@ bool native_level_compile_quests_for_swamp(
    error=scope.compile_context.callback_error+" | "+error;
   return false;
  }
+ // Quest::Update's lifecycle states follow CompileQuests inside the same
+ // QuestSavegame::UpdateQuests (0x46bb58) pass.
+ if(!native_level_update_quest_lifecycle(*scope.compile_context.frame,
+       compile_services,error)){
+  if(!scope.compile_context.callback_error.empty())
+   error=scope.compile_context.callback_error+" | "+error;
+  return false;
+ }
  error.clear();return true;
 }
 struct NativeLevelQuestRewardContextV1 {
@@ -44452,6 +44488,82 @@ bool native_level_quest_start_script(void* raw,const std::string& name,
  }
  return native_level_script_session.start_script(name,argument,check_running,
                                         native_host.online,error);
+}
+// Quest::Update for v2QuestState 0..5 (Locked .. PreActive) and the entry of
+// Active, between CompileQuests and the Active/Closed dispatchers of
+// QuestSavegame::UpdateQuests.
+bool native_level_update_quest_lifecycle(NativeLevelQuestFrameContextV1& frame,
+ const dh2::native::quests::QuestCompileServicesV1& objectives,std::string& error){
+ if(native_host.online||native_save_difficulty<0||native_save_difficulty>2){
+  error="Quest lifecycle supports only the offline Save log and difficulty";return false;
+ }
+ if(!native_level_quest_frame_context_current(frame,error))return false;
+ if(!native_level_script_session_is_current()){
+  error="Current Level ScriptManager session is stale or unbound for this source Level";
+  return false;
+ }
+ dh2::native::quests::QuestLifecycleServicesV1 services{};
+ services.context=&frame;
+ services.current_level_index=[](void* raw,std::int32_t& index,std::string& failure)->bool{
+  auto* context=static_cast<NativeLevelQuestFrameContextV1*>(raw);
+  if(!context||!native_level_quest_frame_context_current(*context,failure))return false;
+  if(actor_level_fields.level_list_index_3c<0){
+   failure="Condition_PlayerInLevel has no current Level list index";return false;
+  }
+  index=actor_level_fields.level_list_index_3c;return true;
+ };
+ services.script_exists=[](void* raw,const std::string& name,bool& present,
+                           std::string& failure)->bool{
+  auto* context=static_cast<NativeLevelQuestFrameContextV1*>(raw);
+  if(!context||!native_level_quest_frame_context_current(*context,failure))return false;
+  return native_level_script_session.script_exists(name,present,failure);
+ };
+ services.save_for_state_transition=[](void* raw,std::string& failure)->bool{
+  auto* context=static_cast<NativeLevelQuestFrameContextV1*>(raw);
+  if(!context||!native_level_quest_frame_context_current(*context,failure))return false;
+  return native_level_script_save_game(failure);
+ };
+ services.announce_new_quest=[](void*,std::int32_t name_string_id,
+                                std::string& failure)->bool{
+  // MenuMessageManager<DialogMsg,1>::EnqueueMessage cannot fail in the source;
+  // an unavailable HUD session only loses the banner, never the quest state.
+  if(!native_gameplay_ui||
+     !native_gameplay_ui->enqueue_source_new_quest_message(name_string_id,failure)) {
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Quest::SetState(Active) new-quest DialogMsg was not queued | name string %d | %s",
+       name_string_id,failure.c_str());
+   failure.clear();
+  }
+  return true;
+ };
+ services.scripts={&frame,native_level_quest_script_running,
+     static_cast<std::int32_t>(frame.application_time_ms),true,
+     native_level_quest_start_script};
+ services.objectives=objectives;
+ std::vector<dh2::native::quests::QuestLifecycleResultV1> results;
+ if(!prince_combat.quests->update_lifecycle(0,std::uint32_t(native_save_difficulty),
+       services,results,error))return false;
+ static std::set<std::uintptr_t> reported_unsupported;
+ std::string newly_unsupported,unsupported_reason;
+ unsigned newly_unsupported_count=0;
+ for(const auto& result:results) {
+  if(result.outcome==dh2::native::quests::QuestLifecycleOutcomeV1::advanced) {
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Quest lifecycle | quest %d | state %d -> %d | time %u",
+       result.quest_id,result.prior_state,
+       result.new_state,frame.application_time_ms);
+  } else if(result.outcome==dh2::native::quests::QuestLifecycleOutcomeV1::unsupported&&
+            reported_unsupported.insert(result.quest_identity).second) {
+   ++newly_unsupported_count;
+   newly_unsupported+=(newly_unsupported.empty()?"":",")+std::to_string(result.quest_id);
+   unsupported_reason=result.reason;
+  }
+ }
+ if(newly_unsupported_count)
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "Quest lifecycle | %u quest(s) keep their state (last reason: %s) | ids %s",
+      newly_unsupported_count,unsupported_reason.c_str(),newly_unsupported.c_str());
+ return true;
 }
 dh2::data::quest_reward_execution_v1::CharacterRef* native_level_quest_reward_character(
  void* raw,std::uintptr_t identity){
