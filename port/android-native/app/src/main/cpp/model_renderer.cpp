@@ -366,6 +366,21 @@ std::string runtime_root;
 dh2::native::trophies::OwnerV1 app_trophy_runtime;
 dh2::native::level_savegame_publisher_v1::Publisher level_savegame_publisher;
 std::uint32_t level_savegame_player_load_generation=0;
+// Level::Level 0x3f3128 argument a9 (Application::LoadLevel 0x32bdc8 passes the
+// hub +0x40 of the Level it is leaving, or -1 when no Level is current). It
+// decides Level +0xF3 below. A transition sets it just before the destination
+// loads; every other start keeps -1.
+std::int32_t native_level_previous_hub=-1;
+// Level +0xF3: while set, Character::Deserialize 0x3a6210 returns before
+// reading any Monster row (NPCs, followers and the Faery still restore). The
+// constructor sets it for a transition between hub-0 Levels or into a Level of
+// another non-zero hub; Level::_LoadProcess step 33 clears it after
+// LevelSavegame::Load. LoadCheckpoint therefore always sees it clear.
+bool native_level_monster_rows_ignored_f3=false;
+// Level +0xF2 (Level::Level a8: Application::LoadLevel's useSpawnPoint). While it
+// is set Character::Deserialize places the local Player at its initial
+// position (+0x1450, the SpawnPoint) instead of the saved one.
+bool native_level_use_spawn_point_f2=false;
 void* item_text_services_context=nullptr;
 model_renderer::ItemTextServicesFactoryV5 item_text_services_factory=nullptr;
 struct Draw{GLuint vertices=0,indices=0,diffuse=0,alpha=0;GLsizei count=0;unsigned node=0;dh2::scene::Material material;
@@ -454,6 +469,22 @@ bool native_level_save_commit_source_noncharacter_v1(void*,
     const dh2::object_manager_runtime_owner_v1::GameObject&,
     const dh2::level_savegame_player_load_v1::SourceNoncharacterDeserializeState&,
     std::string&);
+bool native_level_save_classify_direct_character_restore_v1(void*,
+    const dh2::object_manager_runtime_owner_v1::GameObject&,
+    const dh2::level_savegame_player_load_v1::FactoryDeserializeState&,
+    dh2::level_savegame_player_load_v1::DirectCharacterDisposition*,std::string&);
+bool native_level_save_prepare_direct_character_restore_v1(void*,
+    const dh2::object_manager_runtime_owner_v1::GameObject&,
+    const dh2::level_savegame_player_load_v1::FactoryDeserializeState&,
+    std::string&);
+bool native_level_save_commit_direct_character_restore_v1(void*,
+    const dh2::object_manager_runtime_owner_v1::GameObject&,
+    const dh2::level_savegame_player_load_v1::FactoryDeserializeState&,
+    std::string&);
+// Character::Revive 0x3a59ac for a direct source Character: dead byte, alive
+// state and Kill episode (the HP/MP init, physical object and Idle transition
+// belong to the caller's source path).
+void revive_direct_actor_core_v1(ObjectActor&);
 bool complete_player_enemy_kill(ObjectActor&,std::uintptr_t killer);
 bool raise_actor_kill_objective_events(ObjectActor&,std::uintptr_t killer,std::string& error);
 void decay_character_reaction_gate_14fc(float& gate,
@@ -1365,6 +1396,8 @@ struct NativeLevelTransitionRenderContextV1 {
  GeneratedWorldPayload payload{};
  std::uintptr_t old_gslevel=0,old_level=0,old_level_savegame=0;
  std::uintptr_t old_object_manager=0,old_player_manager=0;
+ // Level +0x40 of the Level being left (Application::LoadLevel's v30).
+ std::int32_t old_hub=-1;
  // PlayerInfo and campaign metadata are the persistent side of a source
  // Level transition. The old PlayerSave/QEST owners are destroyed with the
  // old Character; the destination must rebind fresh transient owners to this
@@ -3108,6 +3141,32 @@ bool native_level_save_read_object_facts_v1(void* raw,
   });
   return found==sources.end()?nullptr:&*found;
  };
+
+ // ProjectileManager::_Create 0x3e693c spawns every pooled Projectile and
+ // LaserTypeProjectile through ObjectManager::Spawn, so they are keyed
+ // ObjectManager rows (Projectile_000, LTProjectile_000...). ObjectBase::ObjectBase
+ // 0x33f310 initializes the +0x28 save byte to 0 and Projectile::Projectile
+ // 0x3e5e40 never raises it; LevelSavegame::__SaveObjects 0x462d84 writes only
+ // objects with +0x28 set, so a projectile row is visited and skipped. The facts
+ // report that gate; they are not a Character or any serializable class.
+ if(!record&&active_crypt_level_projection&&
+    active_crypt_level_projection->projectile_owner&&
+    active_crypt_level_projection->projectile_owner->find(row.identity)) {
+  dh2::level_savegame_owner_v1::Object facts{};
+  facts.identity=row.identity;
+  facts.name=row.name;
+  facts.manager_key=row.name;
+  facts.type_word=row.live_fields.module_id_64?
+      *row.live_fields.module_id_64:row.module_id_64;
+  facts.enabled=0;
+  facts.is_character=0;
+  facts.is_player=0;
+  facts.is_local_player=0;
+  facts.source_flag_129=0;
+  *output=std::move(facts);
+  error.clear();
+  return false;
+ }
 
  // TriggerZoneExitLevel is a non-Character GameObject in this same keyed
  // ObjectManager. Its inherited Trigger virtual serializer is dispatched by
@@ -7508,7 +7567,7 @@ bool native_level_save_classify_source_noncharacter_v1(void*,
  auto* runtime=source_door_init_runtime;
  if(!runtime||saved.is_character||saved.identity!=row.identity||
     saved.type_word!=row.module_id_64||row.module_id_64<0) {
-  error.clear();return false;
+  error="no active source-class owner for this ObjectManager row";return false;
  }
  const auto active=source_level_owner.snapshot();
  const auto source_row_matches=[&](const auto& source) {
@@ -7533,14 +7592,17 @@ bool native_level_save_classify_source_noncharacter_v1(void*,
      !row.visible_80_ready||!row.serialized_flag_8a_ready||
      !row.trigger_save_state_ready||!row.condition_tested_ac_ready||
      !row.condition_tested_d0_ready||row.spawn_probability_result_270!=-2) {
-   error.clear();return false;
+   error="TriggerZoneExitLevel row lacks its exact canonical owners or InitPost receipts";
+   return false;
   }
-  // GameObject::Deserialize resets the two embedded ConditionData tested
-  // bytes. With empty authored conditions the source lists are null and the
-  // reset to false is exact; a VisualObject would also receive SyncVisibility.
-  if(!(*found)->source.activate_condition.empty()||
-     !(*found)->source.deactivate_condition.empty()||row.visual_object_2d8) {
-   error.clear();return false;
+  // GameObject::Deserialize resets the two embedded ConditionData tested bytes.
+  // (ConditionData::SetAsTested 0x33dd24 is one byte store, so authored
+  // conditions change nothing; a VisualObject would also receive SyncVisibility.)
+  // Trigger::Deserialize skips its two ints only when Level +0xF3 and the
+  // Trigger's +0x3b0 byte are both set; that byte is constructor-zero here.
+  if(row.visual_object_2d8) {
+   error="TriggerZoneExitLevel with a VisualObject: GameObject::Deserialize's SyncVisibility is not bound";
+   return false;
   }
   *kind=Kind::trigger;*supported=true;error.clear();return false;
  }
@@ -7555,24 +7617,53 @@ bool native_level_save_classify_source_noncharacter_v1(void*,
      active.phase!=dh2::source_level_owner_v1::Phase::active||
      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
      runtime->manager.find_by_identity(row.identity)!=&row||
-     active.checkpoint_load_in_progress!=1||
      !row.object_init_post_ready||!row.save_facts_ready||
      !row.visible_80_ready||!row.serialized_flag_8a_ready||
-     !row.condition_tested_ac_ready||!row.condition_tested_d0_ready||
-     (*found)->data_id<0||(*found)->network_id!=-1) {
-   error.clear();return false;
+     !row.condition_tested_ac_ready||!row.condition_tested_d0_ready) {
+   error="DestructibleContainer row lacks its exact canonical owners or InitPost receipts";
+   return false;
   }
-  // KeepPhysics=false returns before any bytes are consumed during checkpoint
-  // loading. keep_solid=true enters the concrete Container serializer and is
-  // admitted only after the ordered InitFinal/body owner is ready.
-  if((*found)->properties.keep_solid&&
-     (!(*found)->owner.init_final_ready||!(*found)->navigation_object_ready||
-      !(*found)->visibility_sync_ready||
-      ((*found)->condition_enabled&&row.container_state_394!=3&&
-       row.container_state_394!=4&&!(*found)->body))) {
-   error.clear();return false;
+  // Container::Deserialize 0x39f6f0: `if(KeepPhysics() || (!Level+0xF3 &&
+  // !Level+0xF4))` reads the row; otherwise it returns before consuming any
+  // byte (a hub-0 transition, or a checkpoint reload, leaves a breakable
+  // container exactly as the freshly constructed Level has it).
+  if(!(*found)->properties.keep_solid&&
+     (native_level_monster_rows_ignored_f3||active.checkpoint_load_in_progress==1)) {
+   *kind=Kind::skipped_by_source;error.clear();return false;
+  }
+  // keep_solid=true and the ordinary entry load enter the concrete Container
+  // serializer and are admitted only after the ordered InitFinal/owner readiness.
+  if(!(*found)->owner.init_final_ready||!(*found)->navigation_object_ready||
+     !(*found)->visibility_sync_ready) {
+   error="DestructibleContainer InitFinal/navigation/visibility owners are not ready";
+   return false;
   }
   *kind=Kind::container;*supported=true;error.clear();return false;
+ }
+ {
+  const auto zone=std::find_if(runtime->source_move_in_zones.begin(),
+      runtime->source_move_in_zones.end(),[&](const auto& candidate) {
+       return candidate&&candidate->object==&row&&
+           candidate->source.gametype=="QuestMoveInZone"&&
+           source_row_matches(candidate->source);
+      });
+  if(zone!=runtime->source_move_in_zones.end()) {
+   // QuestMoveInZone has no Deserialize override: GameObject::Deserialize reads
+   // the two ObjectBase bytes and the +0x270 assertion word, resets both
+   // ConditionData tested bytes and syncs a VisualObject if one exists. The
+   // per-frame zone reconcile re-attaches or detaches its sensor from +0x8a.
+   if(active.phase!=dh2::source_level_owner_v1::Phase::active||
+      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
+      runtime->manager.find_by_identity(row.identity)!=&row||
+      !row.object_init_post_ready||!row.save_facts_ready||
+      !row.visible_80_ready||!row.serialized_flag_8a_ready||
+      !row.condition_tested_ac_ready||!row.condition_tested_d0_ready||
+      row.visual_object_2d8) {
+    error="QuestMoveInZone row lacks its exact canonical owners, InitPost receipts or has a VisualObject";
+    return false;
+   }
+   *kind=Kind::game_object;*supported=true;error.clear();return false;
+  }
  }
  auto* door=source_door_for(*runtime,row.identity);
  if(!door||active.phase!=dh2::source_level_owner_v1::Phase::active||
@@ -7588,7 +7679,8 @@ bool native_level_save_classify_source_noncharacter_v1(void*,
     !row.object_init_post_ready||!row.save_facts_ready||
     !row.visible_80_ready||!row.serialized_flag_8a_ready||
     !row.condition_tested_ac_ready||!row.condition_tested_d0_ready) {
-  error.clear();return false;
+  error="no Door/Container/Trigger/QuestMoveInZone class owner answers this row";
+  return false;
  }
  // ObjectBase::Deserialize unconditionally writes tested=false to both
  // embedded ConditionData objects. Their exact tested bytes are retained on
@@ -7597,7 +7689,7 @@ bool native_level_save_classify_source_noncharacter_v1(void*,
  const bool visual_link=(door->visual&&door->visual_identity&&
       row.visual_object_2d8==door->visual_identity)||
      (!door->visual&&!door->visual_identity&&!row.visual_object_2d8);
- if(!visual_link) {error.clear();return false;}
+ if(!visual_link) {error="Door visual link differs from its canonical row";return false;}
  *kind=Kind::door;*supported=true;error.clear();return false;
 }
 
@@ -7611,6 +7703,29 @@ bool native_level_save_prepare_source_noncharacter_v1(void*,
  auto* door=runtime?source_door_for(*runtime,row.identity):nullptr;
  auto* current=runtime?runtime->manager.find_by_identity(row.identity):nullptr;
  const auto& base=state.game_object;
+ if(state.kind==Kind::game_object) {
+  SourceMoveInZone* zone=nullptr;
+  if(runtime)for(auto& candidate:runtime->source_move_in_zones)
+   if(candidate&&candidate->object==&row&&
+      candidate->source.gametype=="QuestMoveInZone")zone=candidate.get();
+  if(!runtime||!zone||current!=&row||
+     active.phase!=dh2::source_level_owner_v1::Phase::active||
+     active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
+     base.object_base_flag_80>1||base.object_base_flag_8a>1||
+     !row.object_init_post_ready||!row.save_facts_ready||
+     !row.visible_80_ready||!row.serialized_flag_8a_ready||
+     !row.condition_tested_ac_ready||!row.condition_tested_d0_ready||
+     row.visual_object_2d8||
+     row.source_handle!=zone->source.source_handle||
+     row.source_module_index!=zone->source.module_index||
+     row.source_record!=zone->source.source_record||
+     row.module_id_64!=zone->source.source_module_id||
+     row.name!=zone->source.name||!row.source_provenance_ready) {
+   error="QuestMoveInZone Deserialize preflight lacks its exact canonical row, InitPost receipts or no-visual receiver";
+   return true;
+  }
+  error.clear();return false;
+ }
  if(state.kind==Kind::trigger) {
   SourceExitLevelZone* exit=nullptr;
   if(runtime)for(auto& candidate:runtime->source_exit_level_zones)
@@ -7620,7 +7735,6 @@ bool native_level_save_prepare_source_noncharacter_v1(void*,
      active.phase!=dh2::source_level_owner_v1::Phase::active||
      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
      base.object_base_flag_80>1||base.object_base_flag_8a>1||
-     base.game_object_word_270!=row.spawn_probability_result_270||
      row.spawn_probability_result_270!=-2||!row.exit_level.definition_ready||
      !row.object_init_post_ready||!row.save_facts_ready||
      !row.visible_80_ready||!row.serialized_flag_8a_ready||
@@ -7628,16 +7742,13 @@ bool native_level_save_prepare_source_noncharacter_v1(void*,
      !row.condition_tested_d0_ready||
      state.trigger.game_object.object_base_flag_80!=base.object_base_flag_80||
      state.trigger.game_object.object_base_flag_8a!=base.object_base_flag_8a||
-     state.trigger.game_object.game_object_word_270!=base.game_object_word_270||
      row.source_handle!=exit->source.source_handle||
      row.source_module_index!=exit->source.module_index||
      row.source_record!=exit->source.source_record||
      row.module_id_64!=exit->source.source_module_id||
      row.name!=exit->source.name||!row.source_provenance_ready||
-     row.visual_object_2d8||
-     !exit->source.activate_condition.empty()||
-     !exit->source.deactivate_condition.empty()) {
-   error="TriggerZoneExitLevel Deserialize preflight lacks its exact canonical row, InitPost cache, or conditionless/no-visual receivers";
+     row.visual_object_2d8) {
+   error="TriggerZoneExitLevel Deserialize preflight lacks its exact canonical row, InitPost cache, or no-visual receiver";
    return true;
   }
   error.clear();return false;
@@ -7650,42 +7761,32 @@ bool native_level_save_prepare_source_noncharacter_v1(void*,
   if(!runtime||!container||current!=&row||
      active.phase!=dh2::source_level_owner_v1::Phase::active||
      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
-     active.checkpoint_load_in_progress!=1||
      !row.container_state_ready||!row.object_init_post_ready||
      !row.save_facts_ready||!row.visible_80_ready||
      !row.serialized_flag_8a_ready||
-     container->data_id<0||container->network_id!=-1||
      row.source_handle!=container->source.source_handle||
      row.source_module_index!=container->source.module_index||
      row.source_record!=container->source.source_record||
      row.module_id_64!=container->source.source_module_id||
      row.name!=container->source.name||!row.source_provenance_ready) {
-   error="Container Deserialize preflight lost its Level+0xf4 or exact source owner";
+   error="Container Deserialize preflight lost its exact source owner";
    return true;
   }
-  if(container->properties.keep_solid) {
-   if(!row.condition_tested_ac_ready||!row.condition_tested_d0_ready||
-      !container->owner.init_final_ready||!container->navigation_object_ready||
-      !container->visibility_sync_ready||state.container.state_394>4||
-      state.game_object.object_base_flag_80>1||
-      state.game_object.object_base_flag_8a>1||
-      state.game_object.game_object_word_270!=row.spawn_probability_result_270||
-      state.container.game_object.object_base_flag_80!=
-          state.game_object.object_base_flag_80||
-      state.container.game_object.object_base_flag_8a!=
-          state.game_object.object_base_flag_8a||
-      state.container.game_object.game_object_word_270!=
-          state.game_object.game_object_word_270||
-      row.spawn_probability_result_270!=-2||!container->visual||
-      row.visual_object_2d8!=container->visual_identity||
-      (container->condition_enabled&&state.container.state_394!=3&&
-       state.container.state_394!=4&&!container->body)) {
-    error="Container Deserialize preflight lacks its exact body, visual or phase receipts";
-    return true;
-   }
-  } else {
-   // KeepPhysics=false is the proven source early return for checkpoint loads.
-   error.clear();return false;
+  if(!row.condition_tested_ac_ready||!row.condition_tested_d0_ready||
+     !container->owner.init_final_ready||!container->navigation_object_ready||
+     !container->visibility_sync_ready||state.container.state_394>4||
+     state.game_object.object_base_flag_80>1||
+     state.game_object.object_base_flag_8a>1||
+     state.container.game_object.object_base_flag_80!=
+         state.game_object.object_base_flag_80||
+     state.container.game_object.object_base_flag_8a!=
+         state.game_object.object_base_flag_8a||
+     row.spawn_probability_result_270!=-2||!container->visual||
+     row.visual_object_2d8!=container->visual_identity||
+     (container->properties.keep_solid&&container->condition_enabled&&
+      state.container.state_394!=3&&state.container.state_394!=4&&!container->body)) {
+   error="Container Deserialize preflight lacks its exact body, visual or phase receipts";
+   return true;
   }
   // The state enum was a raw byte in this wire record; the source SetState
   // switch accepts 0..4. Commit performs no writes until all providers pass.
@@ -7695,7 +7796,6 @@ bool native_level_save_prepare_source_noncharacter_v1(void*,
     active.phase!=dh2::source_level_owner_v1::Phase::active||
     active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
     base.object_base_flag_80>1||base.object_base_flag_8a>1||
-    base.game_object_word_270!=row.spawn_probability_result_270||
     row.spawn_probability_result_270!=-2||state.door_state_3a8<0||
     state.door_state_3a8>3||!row.door.definition_ready||
     !row.object_init_post_ready||!row.save_facts_ready||
@@ -7735,7 +7835,11 @@ bool native_level_save_commit_source_noncharacter_v1(void* context,
   if(!runtime||!container||current!=&row) {
    error="Container Deserialize commit lost its canonical row";return true;
   }
-  if(!container->properties.keep_solid) {error.clear();return false;}
+  // Container::Deserialize 0x39f6f0 reaches this body for a KeepPhysics container
+  // and, when neither Level +0xF3 nor +0xF4 is set, for every other container
+  // (classify reported the skipped rows). SetPhysicalObject(nullptr,0) on a
+  // destroyed non-KeepPhysics container is a no-op here: no source Container
+  // PhysicalObject is installed for these imported rows.
   // GameObject::Deserialize updates its same-row base bytes, clears both
   // ConditionData tested receipts, then synchronizes the borrowed VisualObject.
   current->visible_80=state.game_object.object_base_flag_80;
@@ -7775,6 +7879,27 @@ bool native_level_save_commit_source_noncharacter_v1(void* context,
   container->owner.enabled_8a=state.game_object.object_base_flag_8a;
   container->owner.zoning_enabled_2ee=row.zoning_enabled_2ee;
   container->visibility_sync_ready=1;
+  error.clear();return false;
+ }
+ if(state.kind==Kind::game_object) {
+  auto* current=runtime?runtime->manager.find_by_identity(row.identity):nullptr;
+  if(!runtime||current!=&row) {
+   error="QuestMoveInZone Deserialize commit lost its canonical row";
+   return true;
+  }
+  // ObjectBase::Deserialize: +0x80 and +0x8a, then both tested bytes false.
+  // GameObject::Deserialize's +0x270 compare is a source assertion only.
+  if(runtime->manager.publish_condition_tested(row.identity,0,0)!=
+       dh2::object_manager_runtime_owner_v1::Status::ok) {
+   error="QuestMoveInZone Deserialize could not reset its same-row ConditionData tested bytes";
+   return true;
+  }
+  current->visible_80=state.game_object.object_base_flag_80;
+  current->serialized_flag_8a=state.game_object.object_base_flag_8a;
+  if(current->live_fields.visible_80)
+   *current->live_fields.visible_80=state.game_object.object_base_flag_80;
+  if(current->live_fields.serialized_flag_8a)
+   *current->live_fields.serialized_flag_8a=state.game_object.object_base_flag_8a;
   error.clear();return false;
  }
  if(state.kind==Kind::trigger) {
@@ -9517,47 +9642,73 @@ bool native_level_save_support_factory_character_restore_v1(void* raw,
  float position[3]{},rotation[3]{};
  std::memcpy(position,state.position.data(),sizeof(position));
  std::memcpy(rotation,state.rotation.data(),sizeof(rotation));
- if(!facts||active.phase!=dh2::source_level_owner_v1::Phase::active||
-    active.generation!=facts->level_generation||!owner||owner->record!=&record||
-    owner->identity!=record.character.identity||!ai||!owner->native_ai||
-    &owner->native_ai->state!=ai||!record.coordinator||
-    !record.coordinator->bound()||record.coordinator->owner()!=record.character.identity||
-    state.object_base_flag_80>1||state.object_base_flag_8a>1||state.dead!=0||
-    state.state_machine_state!=3||state.game_object_word_270!=
-       record.game_object.spawn_probability_result_270||
-    !std::all_of(std::begin(position),std::end(position),[](float v){return std::isfinite(v);})||
-    !std::all_of(std::begin(rotation),std::end(rotation),[](float v){return std::isfinite(v);})||
-    !owner->properties_ready||!record.init_post_complete()||
-    !record.init_final_complete()||!record.pofaerie_physical||
-    !record.pofaerie_physical->created()||
-    !owner->buffs||owner->buffs->character_identity()!=record.character.identity||
+ const char* unsupported=nullptr;
+ const auto fail_if=[&](bool condition,const char* why) {
+  if(!unsupported&&condition)unsupported=why;
+ };
+ fail_if(!facts||active.phase!=dh2::source_level_owner_v1::Phase::active||
+    active.generation!=facts->level_generation,"no active Level generation owner");
+ fail_if(!owner||owner->record!=&record||owner->identity!=record.character.identity,
+    "no authored Faery owner on this Record");
+ fail_if(!ai||!owner||!owner->native_ai||&owner->native_ai->state!=ai,
+    "Faery CharAI owner differs");
+ fail_if(!record.coordinator,"Faery Record has no Coordinator");
+ fail_if(record.coordinator&&!record.coordinator->bound(),"Faery Coordinator is not bound");
+ fail_if(record.coordinator&&record.coordinator->owner()!=record.character.identity,
+    "Faery Coordinator owner differs");
+ fail_if(state.object_base_flag_80>1||state.object_base_flag_8a>1,
+    "ObjectBase bytes are not booleans");
+ // Character::Deserialize reads the dead byte and state; the supported closure
+ // is the alive Idle row. GameObject::Deserialize's +0x270 compare is only a
+ // source assertion (spawnProbRolled == m_spawnProbRolled) and gates nothing.
+ // A saved state outside 0..0x11 (the unfocused -1 a Faery has before its first
+ // Update) takes Character::Deserialize's alive branch: SM_SetIdleState(false).
+ fail_if(state.dead!=0||(state.state_machine_state!=3&&state.state_machine_state!=-1),
+    "saved Faery is not alive and Idle");
+ fail_if(!std::all_of(std::begin(position),std::end(position),[](float v){return std::isfinite(v);})||
+    !std::all_of(std::begin(rotation),std::end(rotation),[](float v){return std::isfinite(v);}),
+    "saved Faery vectors are not finite");
+ fail_if(!owner||!owner->properties_ready||!record.init_post_complete()||
+    !record.init_final_complete(),"Faery InitPost/InitFinal are incomplete");
+ fail_if(!record.pofaerie_physical||!record.pofaerie_physical->created(),
+    "Faery POFaerie body is not created");
+ fail_if(!owner||!owner->buffs||owner->buffs->character_identity()!=record.character.identity||
     owner->buff_properties.base!=owner->properties.base.data()||
     owner->buff_properties.saved!=owner->properties.saved.data()||
-    owner->buff_properties.resolved!=owner->properties.resolved.data()||
-    !existing_buff_fx_owner_supported||
-    !dh2::character_faery_visual_facade_v1::ready(
-       record.faery_visual,record.character.identity)||
-    !record.serialized_constructor_fields_ready||
-    record.serialized_dead_1449!=0||record.faery_visual.visible!=bool(state.object_base_flag_80)||
-    (record.coordinator->state.current!=3&&record.coordinator->state.current!=4&&
-     record.coordinator->state.current!=5)||!record.source_external_ais||
-    !record.source_external_ais->ready()||!owner->external_skills||
-    !owner->external_skills->prepared()||
-    record.external_lifecycle.owner!=record.character.identity||
+    owner->buff_properties.resolved!=owner->properties.resolved.data(),
+    "Faery buff owner is not attached to its property sheets");
+ fail_if(!existing_buff_fx_owner_supported,"Faery buff FX teardown is unbound");
+ fail_if(!dh2::character_faery_visual_facade_v1::ready(
+       record.faery_visual,record.character.identity),"Faery visual facade is not ready");
+ fail_if(!record.serialized_constructor_fields_ready,"Faery constructor save fields are not ready");
+ fail_if(record.serialized_dead_1449!=0,"live Faery is dead");
+ fail_if(record.faery_visual.visible!=bool(state.object_base_flag_80),
+    "saved Faery visibility differs from the live Faery (SetVisible is not part of this closure)");
+ fail_if(record.coordinator&&record.coordinator->state.current!=3&&
+    record.coordinator->state.current!=4&&record.coordinator->state.current!=5,
+    "live Faery is not in Idle/Move/Attack");
+ fail_if(!record.source_external_ais||!record.source_external_ais->ready()||
+    !owner||!owner->external_skills||!owner->external_skills->prepared(),
+    "Faery AIS VM/skills are not published");
+ fail_if(!ai||record.external_lifecycle.owner!=record.character.identity||
     record.external_lifecycle.active!=record.external_ais.identity||
     record.external_lifecycle.pending!=record.external_ais.identity||
     !record.external_ais.identity||ai->active_ais_1c!=record.external_ais.identity||
     ai->alternate_ais_20!=record.external_ais.identity||
     record.external_lifecycle.timer33!=static_cast<std::int32_t>(ai->word_10)||
-    record.external_lifecycle.timer34!=static_cast<std::int32_t>(ai->word_14)) {
-  error.clear();return false;
+    record.external_lifecycle.timer34!=static_cast<std::int32_t>(ai->word_14),
+    "Faery AIS lifecycle does not match its CharAI");
+ if(unsupported) {
+  error=unsupported;return false;
  }
  const auto group_identity=ai->group_info_identity;
- if(bool(state.has_group_info_tail)!=bool(group_identity)) {error.clear();return false;}
+ if(bool(state.has_group_info_tail)!=bool(group_identity)) {error="GroupInfo tail presence differs";return false;}
  if(state.has_group_info_tail) {
   dh2::character_group_info_owner_v1::Tail current{};
   if(!source_char_ai.groups.owns(group_identity)||
-     !source_char_ai.groups.read_tail(group_identity,&current)) {error.clear();return false;}
+     !source_char_ai.groups.read_tail(group_identity,&current)) {
+   error="GroupInfo pointer is not owned by the active source Level";return false;
+  }
  }
  const auto manager=&source_level_owner.object_manager();
  auto* row=manager->find_by_source_handle(record.source_handle);
@@ -9565,9 +9716,18 @@ bool native_level_save_support_factory_character_restore_v1(void* raw,
     manager->find_by_identity(record.character.identity)!=row||
     row->visible_80!=record.game_object.visible_80||
     record.game_object.visible_80>1||record.game_object.serialized_flag_8a>1) {
-  error.clear();return false;
+  error="Faery ObjectManager row differs from its GameObject";return false;
  }
  *supported=true;error.clear();return false;
+}
+bool native_level_save_defers_factory_character_restore_v1(void*,
+        const dh2::character_runtime_factory_v1::Record& record) {
+ // An authored Faery's Coordinator and AIS are published by its delayed
+ // LoadNInit in the first Character::Update. The source reaches the Load after
+ // Level::_LoadProcess step 32's ObjectManager::Update; this port loads before
+ // the first frame, and PlaceFaeryAndFollowers overwrites the restored pose.
+ return native_faery_owner(record.character.identity)&&
+     (!record.coordinator||!record.coordinator->bound());
 }
 bool native_level_save_prepare_factory_character_restore_v1(void* raw,
         const dh2::character_runtime_factory_v1::Record& record,
@@ -9785,6 +9945,14 @@ bool native_level_save_commit_player_identity_v1(void* raw,std::uintptr_t identi
  }
  if(!native_player_deserialize_script_lifecycle_v1(error))return true;
  if(!native_player_deserialize_clear_target_v1(error))return true;
+ // Character::Deserialize ends with SetPosition(+0x1450)/SetRotation(+0x145c) when
+ // Level +0xF2 (useSpawnPoint) is set and with the saved pose otherwise. The
+ // Level-entry Load follows _LoadPlayer, so the SpawnPoint pose already stands;
+ // a checkpoint reload keeps applying the saved (entry-time) pose.
+ if(source_level_owner.snapshot().checkpoint_load_in_progress!=1&&
+    native_level_use_spawn_point_f2){
+  error.clear();return false;
+ }
  if(prince_body.body){
   const dh2::physical::TransformRequest transform{{position[0]*.01f,
       position[1]*.01f},rotation[2],1};
@@ -9837,6 +10005,8 @@ bool native_level_save_apply_player_image_v1(
  dh2::level_savegame_player_load_v1::CommitServices commit{
      &facts,nullptr,nullptr,&native_level_save_prepare_player_identity_v1,
      &native_level_save_commit_player_identity_v1};
+ commit.defers_factory_character_restore=
+     &native_level_save_defers_factory_character_restore_v1;
  commit.supports_factory_character_restore=
      &native_level_save_support_factory_character_restore_v1;
  commit.prepare_factory_character_restore=
@@ -9849,6 +10019,12 @@ bool native_level_save_apply_player_image_v1(
      &native_level_save_prepare_source_noncharacter_v1;
  commit.commit_source_noncharacter_restore=
      &native_level_save_commit_source_noncharacter_v1;
+ commit.classify_direct_character_restore=
+     &native_level_save_classify_direct_character_restore_v1;
+ commit.prepare_direct_character_restore=
+     &native_level_save_prepare_direct_character_restore_v1;
+ commit.commit_direct_character_restore=
+     &native_level_save_commit_direct_character_restore_v1;
  dh2::level_savegame_player_load_v1::Result result{};
  const auto status=dh2::level_savegame_player_load_v1::load_player(
      image.data(),image.size(),source_level_owner.object_manager(),
@@ -9880,6 +10056,20 @@ bool native_level_save_apply_player_image_v1(
       checkpoint?"level image unaffected":"source image preserved",
       unsigned(checkpoint),unsigned(lifecycle_status),lifecycle_error.c_str());
  }
+ dh2::level_savegame_player_load_v1::FactoryLifecycleResult direct_lifecycle{};
+ std::string direct_error;
+ const auto direct_status=
+     dh2::level_savegame_player_load_v1::restore_direct_character_rows(
+         image.data(),image.size(),source_level_owner.object_manager(),
+         *active_crypt_room_runtime->character_factory,&source_facts,&commit,
+         &direct_lifecycle,direct_error);
+ if(direct_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only){
+  protect_level_image();
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "LevelSavegame direct Character restore incomplete; %s | checkpoint %u | status %u | %s",
+      checkpoint?"level image unaffected":"source image preserved",
+      unsigned(checkpoint),unsigned(direct_status),direct_error.c_str());
+ }
  dh2::level_savegame_player_load_v1::FactoryLifecycleResult noncharacter_lifecycle{};
  std::string noncharacter_error;
  const auto noncharacter_status=
@@ -9894,27 +10084,50 @@ bool native_level_save_apply_player_image_v1(
       checkpoint?"level image unaffected":"source image preserved",
       unsigned(checkpoint),unsigned(noncharacter_status),noncharacter_error.c_str());
  }
- const auto applied_rows=std::uint64_t(lifecycle.rows_fully_applied)+
-                         std::uint64_t(noncharacter_lifecycle.rows_fully_applied);
- if(applied_rows>result.unapplied_object_rows){
+ // Row accounting follows LevelSavegame::__LoadObjects 0x461e90: a row is
+ // applied, skipped by the source (no ObjectManager object answers its key and
+ // type, or Character::Deserialize returns early for it) or, only in this port,
+ // unsupported -- an object answers but its Deserialize closure is not bound.
+ // Only unsupported rows keep the loaded image protected from replacement.
+ const std::uint64_t applied_rows=std::uint64_t(lifecycle.rows_fully_applied)+
+     direct_lifecycle.rows_fully_applied+noncharacter_lifecycle.rows_fully_applied;
+ const std::uint64_t skipped_rows=std::uint64_t(lifecycle.rows_skipped_by_source)+
+     direct_lifecycle.rows_skipped_by_source+noncharacter_lifecycle.rows_skipped_by_source;
+ const std::uint64_t deferred_rows=lifecycle.rows_deferred;
+ const std::uint64_t unsupported_rows=std::uint64_t(lifecycle.rows_unsupported)+
+     direct_lifecycle.rows_unsupported+noncharacter_lifecycle.rows_unsupported;
+ const std::uint64_t parsed_rows=result.object_rows>0?result.object_rows-1u:0u;
+ const std::uint64_t answered_rows=applied_rows+skipped_rows+deferred_rows+unsupported_rows;
+ if(answered_rows>parsed_rows){
   protect_level_image();
   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
-      "LevelSavegame restore row accounting exceeded the parsed non-Player row count | parsed %u | applied %llu",
-      result.unapplied_object_rows,static_cast<unsigned long long>(applied_rows));
- }else{
-  result.unapplied_object_rows-=static_cast<std::uint32_t>(applied_rows);
+      "LevelSavegame restore row accounting exceeded the parsed non-Player row count | parsed %llu | applied %llu | skipped %llu | unsupported %llu",
+      static_cast<unsigned long long>(parsed_rows),static_cast<unsigned long long>(applied_rows),
+      static_cast<unsigned long long>(skipped_rows),static_cast<unsigned long long>(unsupported_rows));
  }
- const bool rows_incomplete=result.unapplied_object_rows||
+ const std::uint64_t unanswered_rows=answered_rows>parsed_rows?0u:parsed_rows-answered_rows;
+ result.unapplied_object_rows=static_cast<std::uint32_t>(unsupported_rows);
+ const bool rows_incomplete=unsupported_rows||
     lifecycle_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only||
+    direct_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only||
     noncharacter_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only;
  if(rows_incomplete)protect_level_image();
+ std::size_t detail_logged=0;
+ for(const auto* detail_set:{&lifecycle.unsupported_detail,&direct_lifecycle.unsupported_detail,
+                             &noncharacter_lifecycle.unsupported_detail})
+  for(const auto& detail:*detail_set){
+   if(detail_logged++>=24)break;
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "LevelSavegame row not applied | checkpoint %u | %s",unsigned(checkpoint),detail.c_str());
+  }
  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
-     "Source LevelSavegame rows applied | checkpoint %u | generation %u | manager rows %u | Player identity %p | Player payload bytes %u | unapplied rows %u | restored Character rows %u | restored non-Character rows %u | replacement protected %u",
+     "Source LevelSavegame rows applied | checkpoint %u | generation %u | manager rows %u | Player identity %p | Player payload bytes %u | unapplied rows %u | restored Character rows %u | restored direct Character rows %u | restored non-Character rows %u | skipped by source %u | deferred %u | no live object %llu | replacement protected %u",
      unsigned(checkpoint),
      active.generation,result.object_rows,reinterpret_cast<void*>(result.identity),
      result.payload_bytes,result.unapplied_object_rows,
-     lifecycle.rows_fully_applied,
+     lifecycle.rows_fully_applied,direct_lifecycle.rows_fully_applied,
      noncharacter_lifecycle.rows_fully_applied,
+     unsigned(skipped_rows),unsigned(deferred_rows),static_cast<unsigned long long>(unanswered_rows),
      unsigned(!checkpoint&&rows_incomplete));
  error.clear();return true;
 }
@@ -16183,7 +16396,10 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
  case reset_controller_lock:state->controller_locked=0;break; // Full CharAI/controller ownership remains external.
  case restore_limbus_position:case restore_limbus_rotation:break; // Authored pose retained by this stationary slice.
  case revive_character: {
-  if(actor.combat_state.dead)throw std::runtime_error("Complete dead-character revival is not bound");
+  // CSLimbus::OnBlur / CSSPreSpawn::OnBlur reach Character::Revive. A Character
+  // that Character::Deserialize left in Limbus carries the dead byte (the
+  // source treats a Limbus Character as dead), so its respawn clears it here.
+  if(actor.combat_state.dead)revive_direct_actor_core_v1(actor);
   auto properties=dh2::data::property_view(actor_property_rules,actor.properties);
   dh2::data::VitalsChange hp,mp;
   if(dh2_vitals_initialize(&properties,&hp,&mp))throw std::runtime_error("Spawn HP/MP initialization failed");
@@ -38511,6 +38727,402 @@ bool native_group_ctrl_kill_player(ObjectActor& victim,std::uintptr_t killer,
  }
  error.clear();return true;
 }
+// ---------------------------------------------------------------------------
+// Character::Deserialize 0x3a6210 for the record-less direct Characters (the
+// static MGP Monsters, NPCs and followers). The Faery and the Player have their
+// own providers above; everything else that CharacterList owns without a factory
+// Record is an ObjectActor with a SpawnOwner/Coordinator and a CharAI.
+// ---------------------------------------------------------------------------
+void revive_direct_actor_core_v1(ObjectActor& actor) {
+ if(!actor.combat_state.dead)return;
+ // Character::Revive writes +0x1448 = 1 and the dead byte (+0x1449) = 0 before
+ // _InitHpMp. The Kill episode (loot, credit, death completion) is over: a second
+ // kill of the revived Character runs it again.
+ actor.combat_state.dead=0;
+ actor.combat_state.low_health_armed=1;
+ actor.combat_state.combo_hits=0;
+ actor.combat_state.push_death=0;
+ actor.combat_state.lifecycle=0;
+ actor.pending_death=false;
+ actor.loot_dropped=false;actor.loot_terminally_skipped=false;
+ actor.loot_retry_pending=false;actor.loot_retry_delay_frames=0;
+ actor.loot_killer_identity=0;actor.kill_sequence={};
+ if(actor.spawn_owner)actor.spawn_owner->death_completion_sent=false;
+}
+
+namespace {
+struct NativeLevelSaveDirectScriptContextV1 {
+ ObjectActor* actor{};
+ NativeMonsterInitialization* init{};
+};
+// The AI_ScriptCleanUp 0x3cfd7c / AI_ScriptInit 0x3cfde4 lifecycle services of a
+// direct Monster. Timer, design-tick, dead and AIS init services are the ones
+// NativeMonsterInitialization already binds for InitScriptProcess; the cleanup
+// pair and AIS::OnTerminate are the additional services Deserialize reaches.
+void native_level_save_direct_script_invoke_v1(void* raw,
+        dh2::character::ScriptLifecycleState64* state,
+        const dh2::character::ScriptLifecycleRequest32* request,
+        dh2::character::ScriptLifecycleResponse16* response) {
+ using namespace dh2::character;
+ auto* context=static_cast<NativeLevelSaveDirectScriptContextV1*>(raw);
+ if(!context||!context->actor||!context->init||!state||!request||!response)
+  throw std::runtime_error("direct Character AIS lifecycle owner is missing");
+ auto& actor=*context->actor;auto& init=*context->init;
+ if(state!=&init.lifecycle||!init.ai||!init.owner||init.owner->actor!=&actor||
+    init.ai->character_identity!=actor.identity||!init.vm.ready()||
+    state->owner!=actor.identity)
+  throw std::runtime_error("direct Character AIS lifecycle no longer matches its same-actor owners");
+ switch(request->service) {
+  case script_timer_stop:
+   // AI_ScriptCleanUp stops both timer fields unconditionally; -1 is the
+   // "no timer" sentinel and CharTimers::TMR_Stop ignores it.
+   if(static_cast<std::int32_t>(request->argument0)!=-1&&
+      init.owner->character.stop_timer(request->argument0)<0)
+    throw std::runtime_error("direct Character timer stop failed");
+   return;
+  case script_skill_cleanup:
+  case script_spell_cleanup: {
+   dh2::native::ghost_skill_update_v1::CleanupResult result{};
+   std::string failure;
+   const auto list=request->service==script_skill_cleanup?
+       dh2::character_ai_set_skills_and_spells::List::skill:
+       dh2::character_ai_set_skills_and_spells::List::faery;
+   if(init.skills.prepared()&&
+      dh2::native::ghost_skill_update_v1::cleanup_list(init.vm,init.skills,
+          actor.identity,list,result,failure))
+    throw std::runtime_error(failure.empty()?"direct Character skill cleanup failed":failure);
+   response->word=result.callbacks;
+   return;
+  }
+  case script_ais_terminate: {
+   std::string failure;
+   if(init.vm.dispatch(dh2::monster_external_script::Event::terminate,0,failure)!=
+       dh2::monster_external_script::Status::complete)
+    throw std::runtime_error(failure.empty()?"direct Character AIS::OnTerminate failed":failure);
+   return;
+  }
+  default:
+   NativeMonsterInitialization::lifecycle_service(&init,state,request,response);
+   return;
+ }
+}
+
+// CharAI::AI_SetTarget(nullptr,false) + AI_SyncLastTarget on a direct Character.
+bool native_level_save_clear_direct_target_v1(ObjectActor& actor,std::string& error) {
+ auto* ai=actor.native_ai.get();
+ if(!ai||!actor.spawn_owner){error="direct Character target clear lost its CharAI owner";return false;}
+ if(ai->initialization) {
+  if(NativeMonsterInitialization::set_target(ai->initialization.get(),
+        actor.identity,0)!=0) {
+   error="direct Character AI_SetTarget(nullptr) failed";return false;
+  }
+ } else {
+  auto& owner=*actor.spawn_owner;
+  if(owner.target_owner.identity!=actor.identity||
+     actor_ai_tables.rows.size()>static_cast<std::size_t>(INT32_MAX)) {
+   error="direct Character target owner differs";return false;
+  }
+  owner.target_owner.character_ai_id=actor.properties.resolved.size()>1?
+      actor.properties.resolved[1]:-1;
+  const dh2::character::set_target::Services target_services{
+      nullptr,static_cast<std::int32_t>(actor_ai_tables.rows.size()),
+      [](void*,const dh2::character::set_target::Request* request,
+         dh2::character::set_target::Response* response)->std::int32_t {
+       using namespace dh2::character::set_target;
+       if(!request||!response||!native_debug)return 1;
+       *response={};
+       if(request->operation==debug_switches_load)
+        return native_debug->runtime().load(native_debug->globals(),
+            native_debug->services())==dh2::debug_switches::Status::complete?0:1;
+       if(request->operation!=debug_switch_lookup)return 1;
+       const char* key=request->key==trace_target_changes?"IsTracingCharAITarget":
+           request->key==trace_target_details?"isTracingCharAITarget":nullptr;
+       if(!key)return 1;
+       std::uint8_t value=0;
+       if(native_debug->runtime().get_switch(key,native_debug->globals(),
+            native_debug->services(),value)!=dh2::debug_switches::Status::complete)return 1;
+       response->word=value;return 0;
+      }};
+  if(dh2::character_clear_target_v1::clear(&ai->state,&owner.target_owner,
+       actor.identity,&target_services)!=
+       dh2::character_clear_target_v1::Status::complete) {
+   error="direct Character AI_SetTarget(nullptr) failed";return false;
+  }
+ }
+ ai->state.last_target_44=ai->state.target_40;
+ actor.combat_target=-1;actor.target_alive=actor.target_sight=0;
+ actor.target_seeking=false;
+ return true;
+}
+
+// GameObject::SetRotation for a direct Character, in degrees (the unit the
+// retained ObjectActor transform and its Save row use).
+bool native_level_save_set_direct_rotation_v1(ObjectActor& actor,
+        const float* degrees,std::string& error) {
+ if(!actor.spawn_owner||!actor.spawn_owner->runtime_ready){
+  error="direct Character rotation lost its runtime owner";return false;
+ }
+ auto& owner=*actor.spawn_owner;
+ constexpr float radians=3.14159265358979323846f/180.f;
+ for(std::size_t i=0;i<3;++i) {
+  actor.rotation_degrees[i]=degrees[i];
+  owner.runtime.rotation.rotation[i]=degrees[i]*radians;
+ }
+ const float euler[]{owner.runtime.rotation.rotation[0],
+                     owner.runtime.rotation.rotation[1],
+                     owner.runtime.rotation.rotation[2]};
+ std::string visual_error;
+ if(!owner.visual.set_rotation(euler)||
+    !owner.visual.update_world(owner.scene,visual_error)) {
+  error="direct Character rotation could not update its visual: "+visual_error;
+  return false;
+ }
+ owner.runtime.rotation.heading_angle=euler[2];
+ owner.runtime.subobjects.rotation=euler[2];
+ sync_search_projection(actor);
+ return true;
+}
+
+bool native_level_save_direct_vectors_finite_v1(
+        const dh2::level_savegame_player_load_v1::FactoryDeserializeState& state) {
+ float values[12]{};
+ std::memcpy(values,state.position.data(),12);
+ std::memcpy(values+3,state.rotation.data(),12);
+ std::memcpy(values+6,state.vector_1468.data(),12);
+ std::memcpy(values+9,state.vector_1474.data(),12);
+ return std::all_of(std::begin(values),std::end(values),
+     [](float value){return std::isfinite(value);});
+}
+}
+
+bool native_level_save_classify_direct_character_restore_v1(void* raw,
+        const dh2::object_manager_runtime_owner_v1::GameObject& row,
+        const dh2::level_savegame_player_load_v1::FactoryDeserializeState& state,
+        dh2::level_savegame_player_load_v1::DirectCharacterDisposition* disposition,
+        std::string& reason) {
+ using Disposition=dh2::level_savegame_player_load_v1::DirectCharacterDisposition;
+ if(!raw||!disposition){reason="direct Character admission requires its context";return true;}
+ *disposition=Disposition::unsupported;reason.clear();
+ auto& context=*static_cast<NativeLevelSaveObjectFactsContextV1*>(raw);
+ ObjectActor* actor=nullptr;
+ dh2::object_manager_runtime_owner_v1::GameObject* manager_row=nullptr;
+ std::string failure;
+ if(!native_level_save_direct_actor_v1(context,row.identity,actor,manager_row,failure)) {
+  reason=failure;return false;
+ }
+ std::uint32_t monster=0;
+ if(!native_character_classification_for_identity(row.identity,
+       dh2::character_ai_classification::Query::monster,monster)) {
+  reason="Character::IsMonster classification is unavailable";return false;
+ }
+ // Character::Deserialize returns before reading a Monster row while Level
+ // +0xF3 is set; __LoadObjects seeks to the end of the row.
+ if(monster&&native_level_monster_rows_ignored_f3) {
+  *disposition=Disposition::skipped_by_source;return false;
+ }
+ auto& owner=*actor->spawn_owner;
+ const auto saved_state=state.state_machine_state;
+ const auto current_state=owner.character.state.current;
+ if(saved_state<-1||saved_state>=20||current_state<-1||current_state>=20) {
+  reason="Character state is outside the source machine range";return false;
+ }
+ // GameObject::Deserialize 0x38b91c reads +0x270 and only asserts it equals the
+ // live spawn-probability cache (the roll is re-made on every Level load), so
+ // it is not an admission gate.
+ if(state.object_base_flag_80!=actor->visible_80||
+    state.object_base_flag_8a!=std::uint8_t(owner.source_enabled)) {
+  reason="ObjectBase visible/enabled bytes differ from the live Character (SetVisible/Enabled providers are not part of this closure)";
+  return false;
+ }
+ if(!native_level_save_direct_vectors_finite_v1(state)) {
+  reason="Character::Deserialize vectors are not finite";return false;
+ }
+ const bool limbus_family=saved_state==0||saved_state==2||saved_state==12;
+ if(saved_state==1||saved_state==17) {
+  if(current_state!=1&&current_state!=17) {
+   reason="CharStateMachine::SM_SetPreSpawnState has no bound provider";return false;
+  }
+ } else if(!limbus_family&&state.dead) {
+  reason="a dead Character in a live state needs CharAI::AI_SetDead (unbound)";return false;
+ }
+ const auto* ai=actor->native_ai.get();
+ if(!ai||bool(state.has_group_info_tail)!=bool(ai->state.group_info_identity)) {
+  reason="GroupInfo tail presence differs from the live CharAI";return false;
+ }
+ if(state.has_group_info_tail) {
+  dh2::character_group_info_owner_v1::Tail tail{};
+  if(!source_char_ai.groups.owns(ai->state.group_info_identity)||
+     !source_char_ai.groups.read_tail(ai->state.group_info_identity,&tail)) {
+   reason="GroupInfo pointer is not owned by the active source Level";return false;
+  }
+ }
+ if(!owner.buffs||owner.buffs->character_identity()!=actor->identity) {
+  reason="Character::Deserialize PROPS_RemoveAllBuffs lacks this Character's buff owner";
+  return false;
+ }
+ *disposition=Disposition::apply;
+ return false;
+}
+
+bool native_level_save_prepare_direct_character_restore_v1(void* raw,
+        const dh2::object_manager_runtime_owner_v1::GameObject& row,
+        const dh2::level_savegame_player_load_v1::FactoryDeserializeState& state,
+        std::string& error) {
+ using Disposition=dh2::level_savegame_player_load_v1::DirectCharacterDisposition;
+ Disposition disposition{Disposition::unsupported};
+ if(native_level_save_classify_direct_character_restore_v1(raw,row,state,
+      &disposition,error))return true;
+ if(disposition!=Disposition::apply) {
+  if(error.empty())error="direct Character restore is no longer admitted";
+  return true;
+ }
+ error.clear();return false;
+}
+
+bool native_level_save_commit_direct_character_restore_v1(void* raw,
+        const dh2::object_manager_runtime_owner_v1::GameObject& const_row,
+        const dh2::level_savegame_player_load_v1::FactoryDeserializeState& state,
+        std::string& error) {
+ if(native_level_save_prepare_direct_character_restore_v1(raw,const_row,state,error))
+  return true;
+ auto& context=*static_cast<NativeLevelSaveObjectFactsContextV1*>(raw);
+ ObjectActor* actor_ptr=nullptr;
+ dh2::object_manager_runtime_owner_v1::GameObject* manager_row=nullptr;
+ if(!native_level_save_direct_actor_v1(context,const_row.identity,actor_ptr,manager_row,error))
+  return true;
+ auto& actor=*actor_ptr;auto& owner=*actor.spawn_owner;auto& ai=*actor.native_ai;
+ try {
+  std::uint32_t monster=0;
+  if(!native_character_classification_for_identity(actor.identity,
+        dh2::character_ai_classification::Query::monster,monster)) {
+   error="Character::IsMonster classification is unavailable";return true;
+  }
+  // CharProperties::PROPS_RemoveAllBuffs runs before GameObject::Deserialize.
+  dh2::character_player_buffs_v1::Result cleared_buffs{};
+  if(owner.buffs->remove_all(&cleared_buffs)!=
+       dh2::character_player_buffs_v1::Status::complete) {
+   error="direct Character CharProperties::PROPS_RemoveAllBuffs failed";return true;
+  }
+  // GameObject::Deserialize: the two ObjectBase bytes were admitted equal to the
+  // live bytes; it also resets both embedded ConditionData tested bytes.
+  if(manager_row->condition_tested_ac_ready&&manager_row->condition_tested_d0_ready&&
+     source_level_owner.object_manager().publish_condition_tested(actor.identity,0,0)!=
+       dh2::object_manager_runtime_owner_v1::Status::ok) {
+   error="direct Character Deserialize could not reset its ConditionData tested bytes";
+   return true;
+  }
+  // Both CharacterProperties images are read wholesale (HP/MP included).
+  actor.properties.saved=state.properties.saved;
+  actor.properties.resolved=state.properties.resolved;
+  if(auto* construction=actor.source_character_construction.get()) {
+   std::memcpy(construction->source.quick_save_position_1468.data(),
+               state.vector_1468.data(),12);
+   std::memcpy(construction->source.revive_position_1474.data(),
+               state.vector_1474.data(),12);
+  }
+  if(state.has_group_info_tail) {
+   const dh2::character_group_info_owner_v1::Tail tail{state.group_word_36,
+       state.group_flag_40,state.group_flag_41};
+   if(!source_char_ai.groups.write_tail(ai.state.group_info_identity,tail)) {
+    error="direct Character GroupInfo owner rejected the Deserialize tail";return true;
+   }
+  }
+  // A dead Character whose saved row is alive is revived first (Character::Revive
+  // runs _InitHpMp, so the revived HP/MP are the maxima, not the saved image).
+  const bool saved_dead=state.dead!=0;
+  const bool revived=actor.combat_state.dead&&!saved_dead;
+  if(revived) {
+   revive_direct_actor_core_v1(actor);
+   auto properties=dh2::data::property_view(actor_property_rules,actor.properties);
+   dh2::data::VitalsChange hp,mp;
+   if(dh2_vitals_initialize(&properties,&hp,&mp)) {
+    error="direct Character Revive _InitHpMp failed";return true;
+   }
+   if(!owner.body.body) {
+    owner.create_body();owner.character.state.body_present=1;
+   }
+  } else if(!actor.combat_state.dead&&saved_dead) {
+   // CharProperties::PROPS_Set(36, 0): the saved image already carries it.
+   actor.properties.resolved[36]=0;
+  }
+  actor.combat_state.dead=saved_dead?1u:0u;
+  // CharAI::AI_ScriptCleanUp then AI_ScriptInit (monster AIS only: NPC/follower
+  // Characters without a published Lua VM have neither timers nor AIS callbacks).
+  auto* init=ai.initialization.get();
+  if(init&&init->initialized&&init->owner.get()==&owner&&init->ai==&ai&&
+     init->vm.ready()&&init->lifecycle.active&&
+     init->lifecycle.active==init->lifecycle.pending&&
+     init->lifecycle.active==init->ais.identity&&
+     ai.state.active_ais_1c==init->ais.identity) {
+   NativeLevelSaveDirectScriptContextV1 script_context{&actor,init};
+   const dh2::character::ScriptLifecycleServices16 script_services{
+       &script_context,&native_level_save_direct_script_invoke_v1};
+   if(dh2_character_script_lifecycle(&init->lifecycle,
+        dh2::character::script_cleanup,0,&script_services)!=1||
+      dh2_character_script_lifecycle(&init->lifecycle,
+        dh2::character::script_ai_script_init,0,&script_services)!=1) {
+    error="Character::Deserialize CharAI cleanup/init lifecycle failed";return true;
+   }
+   ai.state.word_10=std::uint32_t(init->lifecycle.timer33);
+   ai.state.word_14=std::uint32_t(init->lifecycle.timer34);
+  }
+  // The source state switch. Dead/Despawn/Limbus rows return to Limbus (a
+  // Limbus Character is dead); every live state returns to Idle.
+  const auto saved_state=state.state_machine_state;
+  auto& character=owner.character;
+  if(saved_state==0||saved_state==2||saved_state==12) {
+   if(character.state.current!=0) {
+    const auto current=character.state.current;
+    if(current!=-1&&current!=1&&current!=3&&current!=17&&
+       character.set_idle_state(false)<0) {
+     error="direct Character could not leave its current state for Limbus";return true;
+    }
+    if(character.spawn_transition(0)!=1) {
+     error="direct Character CharStateMachine::SM_SetLimbusState was rejected";return true;
+    }
+    actor.state="Limbus";
+   }
+   actor.combat_state.dead=1;
+  } else if(saved_state!=1&&saved_state!=17) {
+   if(!owner.body.body) {
+    owner.create_body();character.state.body_present=1;
+   }
+   const auto current=character.state.current;
+   const int idle=(current==0||current==1||current==17)?
+       character.spawn_transition(3):character.set_idle_state(false);
+   if(idle<0) {
+    error="direct Character CharStateMachine::SM_SetIdleState(false) was rejected";
+    return true;
+   }
+  }
+  // CharAI::AI_SetTarget(nullptr,false) + AI_SyncLastTarget.
+  if(!native_level_save_clear_direct_target_v1(actor,error))return true;
+  // Monsters return to the Character's initial position/rotation (+0x1450 and
+  // +0x145c); every other Character takes the saved vectors.
+  float position[3]{},rotation[3]{};
+  if(monster) {
+   std::copy(actor.initial_position.begin(),actor.initial_position.end(),position);
+   if(owner.interaction_restore_rotation_ready)
+    std::copy(owner.interaction_restore_rotation_145c.begin(),
+              owner.interaction_restore_rotation_145c.end(),rotation);
+   else std::copy(actor.rotation_degrees.begin(),actor.rotation_degrees.end(),rotation);
+  } else {
+   std::memcpy(position,state.position.data(),12);
+   std::memcpy(rotation,state.rotation.data(),12);
+  }
+  if(!move_direct_actor_v1(actor,position)) {
+   error="direct Character GameObject::SetPosition failed";return true;
+  }
+  if(!native_level_save_set_direct_rotation_v1(actor,rotation,error))return true;
+  error.clear();return false;
+ } catch(const std::exception& exception) {
+  error=std::string("direct Character Deserialize failed: ")+exception.what();
+  return true;
+ } catch(...) {
+  error="direct Character Deserialize failed";return true;
+ }
+}
+
 void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip){
  // NativeHUDSkill's source completion callback is CharAI::_OnAnimEvent
  // -> _SkillEvent -> CharAISkillScript::OnSkill, reached only by the authored
@@ -44047,6 +44659,20 @@ std::vector<dh2::world::EntryPoint> entrypoints;
          *prince_combat.savegame,prince_combat.properties,
          restore?prince_combat.inventory.get():nullptr,error))
       throw std::runtime_error("Native reconstructed Character owner bind: "+error);
+    if(!restore&&native_host.metadata_ready_for_slot(selected_record->save_slot_664)){
+      // PlayerManager::RemoveCharacter resets an active PlayerInfo's class to -1;
+      // PlayerInfo::Prepare re-reads class (+0x360) from the selected Save while
+      // the PlayerInfo has no Character (player_metadata_prepare_v1). A transition
+      // destination is that case, and the next RemoveCharacter (the next Level
+      // exit) requires the class member to be set again.
+      auto* class_member=selected_record->at(0x360);
+      const auto class_value=native_host.metadata->save().class_id();
+      if(class_member&&class_member->constructed&&
+         class_member->header.value!=class_value&&
+         dh2::player_info_record_v1::set_character_scalar(*selected_record,0x360,
+            class_value,0)!=dh2::player_info_record_v1::Status::complete)
+        throw std::runtime_error("PlayerInfo::Prepare class re-publication failed after a Level transition");
+    }
     if(!restore){
       if(!prince_combat.inventory_loot_tables)
         throw std::runtime_error("Native Character V4 inventory has no retained LootTable snapshot");
@@ -44176,6 +44802,24 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     // floor-height provider. Publish and bind the completed Level/Save/QEST
     // chain before any fresh direct static Monster is initialized.
     actor_level_fields=candidate_level_fields;actor_level_file=candidate_level_file;actor_level_fields_ready=true;
+    if(!restore){
+      // Level::Level 0x3f3128: with a previous Level (a9 != -1) and a LevelList
+      // row, +0xF3 is set when both hubs are 0 or when the destination hub is
+      // non-zero and differs from the previous one.
+      const std::int32_t previous_hub=native_level_previous_hub;
+      native_level_previous_hub=-1;
+      const std::int32_t hub=actor_level_fields.hub_40;
+      native_level_monster_rows_ignored_f3=
+          actor_level_fields.level_list_index_3c!=-1&&previous_hub!=-1&&
+          (!(previous_hub|hub)||(previous_hub!=hub&&hub));
+      native_level_use_spawn_point_f2=
+          active_native_start_plan&&active_native_start_plan->load_spawn_flag!=0;
+      __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+          "Level constructor +0xF3/+0xF2 | previous hub %d | hub %d | ordinal %d | Monster rows ignored on load %u | use spawn point %u",
+          previous_hub,hub,actor_level_fields.level_list_index_3c,
+          unsigned(native_level_monster_rows_ignored_f3),
+          unsigned(native_level_use_spawn_point_f2));
+    }
     if(!source_level_owner.publish_projection(&level))
       throw std::runtime_error("Source-level lifecycle rejected completed scene projection before Character initialization");
     if(actor_level_fields_ready&&prince_combat.savegame&&prince_combat.quests&&
@@ -44238,17 +44882,12 @@ std::vector<dh2::world::EntryPoint> entrypoints;
        active_level_assets.generated_crypt_layout)
       initialize_gated_characters(assets,false,false,true);
     if(!ensure_native_world_items(error))throw std::runtime_error("World item runtime restore failed: "+error);
-    if(!native_level_save_load_player_v1(error))
-      __android_log_print(ANDROID_LOG_WARN,"DH2Native",
-          "Source LevelSavegame Player load was not applied | %s",error.c_str());
     actor_level_kill_loot_gate=0; // Both source Level constructors initialize +0x150 to zero; no setter is currently bound.
     std::int32_t source_ranges[6]{};
     for(unsigned mode=0;mode<3;++mode){const float difficulty=static_cast<float>(mode);std::uint32_t count=0;
       if(native_current_level_range(&difficulty,source_ranges+2*mode,&count)||count!=2)throw std::runtime_error("Owned native Level range source callback failed");}
     __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Level fields | ordinal %d | hub %d | random %u | difficulty %d | file %s | source ranges %d %d / %d %d / %d %d | viewport owner; GSLevel stack pending",actor_level_fields.level_list_index_3c,actor_level_fields.hub_40,unsigned(actor_level_fields.is_random_e8),actor_level_fields.difficulty_118,actor_level_file.c_str(),source_ranges[0],source_ranges[1],source_ranges[2],source_ranges[3],source_ranges[4],source_ranges[5]);
     initialize_native_player_skills(assets,restore);
-    if(!place_authored_faeries(error))
-      throw std::runtime_error("Source Level Faery placement failed: "+error);
     // Character::InitPost calls _InitSkillsSlots after SG_Load(4), initial
     // equipment and property recalculation. Its source map gate is the Save's
     // empty slot map. InitPost 0x3b51b0/0x3b54d4 uses IsLocalPlayer after
@@ -44336,6 +44975,19 @@ std::vector<dh2::world::EntryPoint> entrypoints;
         throw std::runtime_error("SpawnPoint script "+native_spawn_script_name+" start failed: "+script_error);
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","SpawnPoint script started | %s | check-running 0 | offline | runs in the level script update",native_spawn_script_name.c_str());
     }
+    // Level::_LoadProcess step 33 (0x3f7e44) runs LevelSavegame::Load after every
+    // Character's InitPost/InitFinal (the Monster AIS VMs finish in
+    // initialize_native_monster_scripts) and before step 37's
+    // PlaceFaeryAndFollowers, which therefore moves the Faery the Load just
+    // restored. The Player row's Character::Deserialize also needs the retained
+    // PlayerSkills owner, so the load cannot run any earlier in this port.
+    if(!native_level_save_load_player_v1(error))
+      __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+          "Source LevelSavegame Player load was not applied | %s",error.c_str());
+    // Step 33 writes Level +0xF3 = 0 right after the Load.
+    native_level_monster_rows_ignored_f3=false;
+    if(!place_authored_faeries(error))
+      throw std::runtime_error("Source Level Faery placement failed: "+error);
     build_search_world();
     const char* display_level=level_assets.name=="GOTHICUS_CRYPT_01"?"Crypt":level_assets.name.c_str();
     char report[256];std::snprintf(report,sizeof(report),"%s | %u rooms | %u monsters | %u scenery objects\n%u triangles. Drag the movement control to walk.",display_level,level.rooms,monsters,decors,triangles+586+object_triangles);
@@ -44601,6 +45253,7 @@ std::string transition_level(const std::string& destination_name,
     }
     if(!prepare_native_transition_runtime_v1(*self,error))return false;
     self->old_gslevel=source.source_gslevel;self->old_level=source.source_level;
+    self->old_hub=actor_level_fields_ready?actor_level_fields.hub_40:-1;
     self->old_level_savegame=source.source_level_savegame;
     self->old_object_manager=source.object_manager_identity;
     self->old_player_manager=native_host.registry.manager_identity;
@@ -44861,6 +45514,7 @@ std::string transition_level(const std::string& destination_name,
     plan.seed=selected.seed;plan.synchronized_seed=selected.synchronized_seed;
     active_native_start_plan=plan;active_level_assets=ctx->runtime;
     menu_gameplay_slot=selected.player_slot;native_save_difficulty=selected.difficulty;
+    native_level_previous_hub=ctx->old_hub;
     const auto result=load_world(ctx->payload.dwld_v1.data(),ctx->payload.dwld_v1.size(),
         ctx->assets,ctx->payload.spwn_v1.empty()?nullptr:ctx->payload.spwn_v1.data(),
         ctx->payload.spwn_v1.size());
@@ -44936,6 +45590,53 @@ std::string transition_level(const std::string& destination_name,
     return ctx&&ctx->ui&&ctx->ui->source_loading_menu_visible(visible,failure);
    };
    if(!native_host_player_manager_transition_ready()){
+    const auto& pm=native_host.player_manager_update;
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+        "PlayerManager state-38 preflight inputs | online %u | registry_owner %u | manager match %u | created known %u | remove flag known %u | local deaths %d | counted==Player %u | remove ready %u | owners ready %u | level state %d | flag144 %u",
+        unsigned(native_host.online),unsigned(bool(native_host.registry_owner)),
+        unsigned(pm.manager_identity==native_host.registry.manager_identity),
+        unsigned(pm.created_character_count_known),unsigned(pm.remove_flag_6c9_known),
+        int(pm.local_death_count_6c4),
+        unsigned(pm.counted_player_character==prince_character.identity()),
+        unsigned(native_host_player_manager_remove_ready(38,1)),
+        unsigned(native_host_player_manager_owners_ready()),
+        source.source_level_state,unsigned(source.transition_flag_144));
+    {
+     auto* projection=native_host.host_projection();
+     auto* record=native_host.record_for(projection);
+     auto* manager=active_crypt_room_runtime?&active_crypt_room_runtime->manager:nullptr;
+     auto* object=manager?manager->find_by_identity(prince_character.identity()):nullptr;
+     auto* cls=record?record->at(dh2::player_info_record_v1::character_class):nullptr;
+     std::size_t roster=0;
+     const bool listed=native_characters.contains_identity(prince_character.identity(),&roster);
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+         "PlayerManager remove-ready inputs | ctx %u | old_level %u | old_manager %u | old_pm %u | record %u | local_66c %d | cls %u | object %u | handle %d | go_ids ready %u/%d | deleted_81 %d | listed %u/%zu | save %u",
+         unsigned(native_level_transition_context!=nullptr),
+         unsigned(native_level_transition_context&&native_level_transition_context->old_level==source.source_level),
+         unsigned(native_level_transition_context&&native_level_transition_context->old_object_manager==source.object_manager_identity),
+         unsigned(native_level_transition_context&&native_level_transition_context->old_player_manager==native_host.registry.manager_identity),
+         unsigned(record!=nullptr),record?int(record->local_66c):-1,
+         unsigned(cls&&cls->constructed),unsigned(object!=nullptr),object?int(object->source_handle):-1,
+         object?unsigned(object->go_ids_0f4_ready):0u,object?int(object->go_ids_0f4):-1,
+         int(prince_character.deleted_81()),unsigned(listed),roster,
+         unsigned(prince_combat.savegame&&prince_combat.savegame->character()==prince_character.identity()));
+     std::uint32_t linked=0,unconstructed=0,foreign=0;
+     for(std::uint32_t i=0;native_host.registry.entries&&i<native_host.registry.entry_count;++i){
+      auto* candidate=native_host.registry.entries[i];
+      auto* candidate_record=candidate?native_host.record_for(candidate):nullptr;
+      if(!candidate||!candidate_record||!candidate_record->constructed){++unconstructed;continue;}
+      if(candidate_record->character_660){
+       if(candidate_record->character_660!=prince_character.identity())++foreign;else ++linked;
+      }
+     }
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+         "PlayerManager remove-ready registry | entries %u | linked %u | unconstructed %u | foreign %u | services %u | manager match %u | object name %zu | cls kind %d header %d",
+         unsigned(native_host.registry.entry_count),linked,unconstructed,foreign,
+         unsigned(dh2::player_manager_remove_character_v1::services_ready(player_remove_services())),
+         unsigned(manager&&source.object_manager_identity==reinterpret_cast<std::uintptr_t>(manager)),
+         object?object->name.size():std::size_t(0),
+         cls?int(cls->kind):-1,cls?int(cls->header.value):-2);
+    }
     error="Application::LoadLevel held before ResetIsLoaded: PlayerManager::Update state-38 preflight is not source-complete";
     return false;
    }
