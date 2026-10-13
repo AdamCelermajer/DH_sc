@@ -24,4 +24,9 @@ public:
     std::string m_text;                                                 // +0x18 the text, after ParsePlayerName
     int m_style;                                                        // +0x30 DialogStyles id
     std::string m_actorName;                                            // +0x34 actor name, empty when none
+
+    // Name table of the DialogMsg queue: ELF _ZN9DialogMsg15s_StartFuncNameE at 0x999830, pointer values, element 0
+    // is "StartDialog" (Script_StartDialogID::Execute). The element count is not recovered (the next symbol is at
+    // 0x999838), so the bound stays open; the definition goes in the DialogMsg source.
+    static const char* s_StartFuncName[];
 };

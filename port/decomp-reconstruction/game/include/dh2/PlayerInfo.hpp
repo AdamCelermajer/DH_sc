@@ -19,14 +19,16 @@
 #include "net-transport/tb/net_struct_int.hpp"
 #include "net-transport/tb/net_struct_string.hpp"
 
+class Character;
+
 class PlayerInfo : public CNetPlayerInfo {
 public:
     PlayerInfo();                                                       // 0x37418c (C1), 0x374cc0 (C2)
     ~PlayerInfo() override;                                             // slot 0: 0x371294 (D1); slot 1: 0x371670 (D0, deleting); 0x37168c (D2)
-    // The copy constructor and assignment copy the NetStruct base's member pointers. CNetPlayerInfo deletes its
-    // own copy (cnet_player_info.hpp), so these are declared only; the bodies are not written.
-    PlayerInfo(const PlayerInfo& other);                                // 0x3777d0 (C1)
-    PlayerInfo& operator=(const PlayerInfo& other);                     // 0x378808
+    // Deleted, as CNetPlayerInfo's copy is (cnet_player_info.hpp). Both originals start by copying the NetStruct base
+    // with memcpy (CNetPlayerInfo 0x377448 and 0x378708), which would declare the source's blocks. Ledger: skipped.
+    PlayerInfo(const PlayerInfo& other) = delete;                       // 0x3777d0 (C1)
+    PlayerInfo& operator=(const PlayerInfo& other) = delete;            // 0x378808
 
     // Factory: operator new(0x688), then the C1 constructor. Delete calls the object's virtual deleting destructor.
     static PlayerInfo* Create();                                        // 0x374ca0
@@ -85,14 +87,15 @@ public:
     NetStructInt<16u> unk_638;                                          // +0x638 block 0x28; ends at +0x660
 
     // Plain fields after the members. The values are the ones Reset writes.
-    void* unk_660;                                                      // +0x660 pointer-sized, Reset writes 0; the class is not recovered
-    std::int32_t unk_664;                                               // +0x664 Reset writes -1
-    std::int32_t unk_668;                                               // +0x668 Reset writes -1
-    std::uint8_t unk_66c;                                               // +0x66c Reset writes 1
+    // Names below are evidence-based suggestions; the member names are kept because sources use them.
+    Character* unk_660;                                                 // +0x660 the player's Character, Reset writes 0. name: character_660 (PlayerManager::GetLocalPlayerCharacter 0x330794 returns ->character_660)
+    std::int32_t unk_664;                                               // +0x664 Reset writes -1. name: m_saveSlot (candidate; NativeStartGame reads the save slot here)
+    std::int32_t unk_668;                                               // +0x668 Reset writes -1. name: m_playerId (candidate; PlayerIdForCharacter reads the id from the record)
+    std::uint8_t unk_66c;                                               // +0x66c Reset writes 1. name not recovered: v2NetController::Update returns early unless this byte is 1
     std::uint8_t pad_66d[3];                                            // +0x66d
-    std::int32_t unk_670;                                               // +0x670 Reset writes -1
+    std::int32_t unk_670;                                               // +0x670 Reset writes -1. name: m_statPlayerId (candidate; _GiveXP passes it as the playerId of PlayerStatManager::IncreaseStat)
     std::int32_t unk_674;                                               // +0x674 Reset writes -1
-    std::int32_t unk_678;                                               // +0x678 Reset writes -1
+    std::int32_t unk_678;                                               // +0x678 Reset writes -1. name: m_playerNumber (candidate; NativeGetPlayerInfos and the multiplayer highlight read it)
     std::int32_t unk_67c;                                               // +0x67c Reset writes -1
     void* unk_680;                                                      // +0x680 loading info object: Reset writes 0; ~PlayerInfo calls its virtual deleting destructor (vtable slot 1)
     std::uint32_t unk_684;                                              // +0x684 Reset writes 0

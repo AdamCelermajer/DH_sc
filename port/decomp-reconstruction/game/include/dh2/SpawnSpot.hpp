@@ -23,7 +23,7 @@ public:
     bool IsUpdatable() const override;                                  // slot 14 (+0x38): 0x3ea6e4, false
     bool IsAnimated() const override;                                   // slot 32 (+0x80): 0x3ea6f4, false
     bool IsInteractive(GameObject* other) const override;               // slot 34 (+0x88): 0x3ea6fc, false
-    bool IsZonable() const override;                                    // slot 49 (+0xc4): 0x3ea6ec, false
+    bool IsZonable() const override;                                    // slot 49 (+0xc4): 0x3ea6ec, true
 
     // Places an object on this spot: copies m_position and m_rotation to it.
     void PlaceObject(GameObject* object);                               // 0x3ea704

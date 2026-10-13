@@ -1,7 +1,8 @@
 // Script_CloseDoor: script command that closes a named Door and reports it as blocking while the
 // door is open or opening (Door states 1 and 3). Execute(bool, int) looks up the door by name from the command data
 // (ScriptCmd m_w3 at +0x0c of the data record), keeps the handle, and calls Door::Close.
-// Original 32-bit size 0x48 (72). Allocated by GetNewScriptCmdImplInstance<Script_CloseDoor>.
+// Allocated by GetNewScriptCmdImplInstance<Script_CloseDoor> (0x457de4, operator new(0x18), asm verified). The 0x48 size
+// that an earlier note gave is not supported by the factory; pad_18 below lies past the 0x18 allocation (integrator to drop it).
 // Reconstructed from libDungeonHunter2.so pseudocode (Execute 0x45d650, IsBlocking 0x455884).
 #pragma once
 

@@ -31,6 +31,7 @@ class PlayerLightTweaker;
 class GamepadTweaker;
 class updateJob_thread;
 class UnderlaySceneNode;
+class SceneManager;
 enum GoToMainMenuEvent : int;  // values not recovered (3 = connection lost, see _Update)
 
 namespace glitch {
@@ -127,7 +128,7 @@ public:
     glitch::IDevice* m_device;                         // +0x10 reference counted
     EventManager* m_eventManager;                      // +0x14
     StateMachine* m_stateMachine;                      // +0x18 asserted non-null by IsLevelRunning ("m_stateMachine")
-    void* unk_1c;                                      // +0x1c owned object, deleted in Quit
+    SceneManager* unk_1c;                              // +0x1c scene manager (GetSpecificNode 0x4709dc/0x470a18, DBG_DrawCircle); name m_scene (rename suggestion); the source has no delete for it
     TouchScreenBase* m_touchScreen;                    // +0x20 TouchScreenWin32 (operator new(0x1b8))
     AccelerometerBase* m_accelerometer;                // +0x24 updated in _Update
     DataReloaderManager* m_dataReloaderManager;        // +0x28 passed to PyDataConstants/PyDataArrays
@@ -175,12 +176,16 @@ public:
     bool unk_b4;                                       // +0xb4 1
     uint8_t pad_b5[3];
     UnderlaySceneNode* m_underlayNode;                 // +0xb8 dropped in Quit
-    std::string m_uncompiledData;                      // +0xbc non-empty when running from uncompiled data
+    std::string m_uncompiledData;                      // +0xbc non-empty when running from uncompiled data; IsUsingUncompiledData (0x320678) reads begin/end words at +0xcc/+0xd0 of this container, not yet identified
     std::string unk_d4;                                // +0xd4 constructed empty, only freed in the destructor
-    uint8_t pad_ec[1];
+    bool unk_ec;                                       // +0xec byte_99F818: set by MenuBase::Show, cleared by MenuBase::Hide for menu_VerificationLoading
     bool unk_ed;                                       // +0xed 0
     bool unk_ee;                                       // +0xee 0
     uint8_t pad_ef[0x1f];
     bool unk_10e;                                      // +0x10e 0
     bool unk_10f;                                      // +0x10f 1
 };
+
+// The process-wide instance, Singleton<Application>::s_inst (0x99f72c, 272 bytes). Same declaration as
+// dh2/global/ctrl_camera.hpp; the definition comes at integration.
+Application& ApplicationGetInstance();

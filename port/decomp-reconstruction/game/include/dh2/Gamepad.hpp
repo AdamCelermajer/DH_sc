@@ -40,6 +40,10 @@ public:
     static uint8_t s_vibration;                                         // Gamepad::s_vibration
 
     // InputDevice occupies +0x00 .. +0x0b.
+    // The threshold groups. Control k's value, lo, hi and pressed flag are at original +0x18+0x20k, +0x20+0x20k,
+    // +0x24+0x20k and +0x28+0x20k, which are m_buttons[k].previous, previous_minimum, previous_maximum and
+    // previous_above_threshold. GSTest reads k=0 (+0x18..+0x28). Control 182 is k=22 (+0x2d8..+0x2e8). The 26
+    // flagged groups are k = 0..6, 8, 10..15, 19, 22..24, 37..44.
     Channel m_buttons[45];                                              // +0x0c .. +0x5ab, the threshold channels (ids not recovered)
     Channel m_axes[9];                                                  // +0x5ac .. +0x6cb; axes 0..7 form four (x, y) stick pairs
     Point3D<float> m_firstVectors[4];                                   // +0x6cc .. +0x6fb stick direction of the current press, zeroed once the press is over 200 clock ticks old

@@ -53,7 +53,7 @@ public:
     static AssetManager* GetAssetManager();                             // 0x50a564, singleton; s_wireFrame is file-scope, not a member
 
     void ToggleWireFrame();                                             // 0x50a4c4
-    int loadSceneNode(const char* first, const char* second, bool flag, int option);      // 0x50a504
+    glitch::scene::ISceneNode* loadSceneNode(const char* first, const char* second, bool flag, int option);  // 0x50a504: returns SceneManager::LoadScene's node (null on failure)
     void preloadSceneNode(const char* first, const char* second, bool flag, int option);  // 0x50a540
     int getFirstAsset(std::string& name);                               // 0x50b020
     int getNextAsset(std::string& name);                                // 0x50addc

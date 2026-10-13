@@ -63,8 +63,8 @@ public:
     int SG_Load(int loadMode);                                          // 0x465430 returns the _LoadVolatileQuestsLog result
     void SG_LoadCheckpoint(int loadMode);                               // 0x465450
     void SG_SaveCheckpoint();                                           // 0x466184
-    std::uint32_t SG_GetNextFreeSlot();                                 // 0x4660c8
-    std::string SG_GetPlayerName(std::uint32_t slot);                   // 0x468470 Reads the name of another slot through a temporary PlayerSavegame
+    static std::uint32_t SG_GetNextFreeSlot();                          // 0x4660c8 no receiver: reads only statics (asm: no this use)
+    static const char* SG_GetPlayerName(std::uint32_t slot);            // 0x468470 slot in r0 only; name text of another slot through a temporary PlayerSavegame
 
     // ---- fast travel, faeries, skills, map and level states ----
     void SG_UnlockAllFastTravels();                                     // 0x466384
@@ -163,7 +163,7 @@ public:
     Character* m_player;                                                // +0x10 owning Character (debug string _this->m_player)
     bool m_questSynced;                                                 // +0x14 quest sync state, stored by SG_TryQuestSync and SG_UnpackQuestSync
     uint8_t pad_15[3];                                                  // +0x15
-    std::string m_name;                                                 // +0x18 player name (24 bytes in the original)
+    std::string m_name;                                                 // +0x18 player name (24 bytes in the original). The word at +0x2c inside it is the name text pointer that Character::SG_GetPlayerName (0x3bb7e8) reads; the reconstruction uses m_name.c_str()
     std::int32_t m_playerLevel;                                         // +0x30 saved by __SavePlayerLevel
     std::int32_t m_playerClass;                                         // +0x34 class index; -1 until set
     std::uint32_t m_saveDate;                                           // +0x38 save date, written by SG_SetSaveDate
@@ -171,7 +171,7 @@ public:
     std::int32_t m_levelEntryPoint[3];                                  // +0x40 one entry point per difficulty
     bool m_useSpawnPoint[3];                                            // +0x4c one spawn-point flag per difficulty
     uint8_t pad_4f[1];                                                  // +0x4f
-    std::int32_t unk_50[3];                                             // +0x50 saved with the level name, never written by these functions
+    std::int32_t unk_50[3];                                             // +0x50 name: m_levelIds. Level id per difficulty, written by Character::SG_SetLevelId (0x3bb854) at +0x50 + 4*difficulty (-1 selects m_difficultyLevel); not written by these functions
     std::int32_t m_seeds[3];                                            // +0x5c seeds, written by SG_GenerateSeeds
     std::int32_t* m_levelStates[3];                                     // +0x68 per difficulty, LevelList::size entries (_InitLevelStates)
     std::int32_t* m_worldMapStates[3];                                  // +0x74 per difficulty, WorldMap::size entries (_InitLevelStates)

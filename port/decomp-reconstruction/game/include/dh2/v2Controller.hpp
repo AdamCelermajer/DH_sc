@@ -56,7 +56,8 @@ public:
     // Object occupies +0x00 .. +0x0f (16 bytes); the vptr is at +0x00.
     v2Controllable* m_controllable;                                     // +0x04 the object the Cmd_* methods drive
     bool m_blocked;                                                     // +0x08 per-controller block, read by every Cmd_*
-    bool unk_009;                                                       // +0x09 when set, Cmd_* run even while blocked
+    bool unk_009;                                                       // +0x09 when set, Cmd_* run even while blocked (name: m_bypassBlock;
+                                                                        //       gate is unk_009 || (!s_blocked && !m_blocked), as in game-anim v2Controller-227be4-1)
     bool unk_00a;                                                       // +0x0a written 0 by every ctor; read by the online branches of Cmd_BeginSkill, Cmd_EndSkill, Cmd_UseOOI, Cmd_Attack
     uint8_t pad_00b[1];                                                 // +0x0b
     Character* m_character;                                             // +0x0c Character that skill and potion input acts on

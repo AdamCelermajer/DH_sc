@@ -21,6 +21,8 @@ public:
     // vptr                                                   // +0x00
     AnchorType m_type;                                        // +0x04
     GameObject* m_go;                                         // +0x08  asserted non-null in the ctor
+    // Not retyped to Point3D<float>: dh2/Point3D.hpp and core-platform/deps/game_types.hpp both define Point3D, so
+    // including dh2/Point3D.hpp here breaks game-world GameObject-5d2019-6.cpp. Decision for the integrator.
     glitch::core::vector3d<float> m_position;                 // +0x0c  copied from GameObject +0x160..+0x168
     bool m_enabled;                                           // +0x18  set true in the ctor; role is unconfirmed
 };

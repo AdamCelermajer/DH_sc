@@ -20,6 +20,8 @@ class AnimationSet;
 class AnimSetManager {
 public:
     AnimSetManager();                                                        // 0x475364 / 0x4753b4
+    // Singleton<AnimSetManager>::s_inst: the instance is the object itself (CharAnimator::ANIM_AddAnimDictToSet 0x3c9b14 takes its address).
+    static AnimSetManager s_inst;
     virtual ~AnimSetManager();                                               // slot 0/1: 0x4756a8 (D1), 0x475728 (D2), 0x47570c (D0)
 
     bool Exists(int setId) const;                                            // 0x475404

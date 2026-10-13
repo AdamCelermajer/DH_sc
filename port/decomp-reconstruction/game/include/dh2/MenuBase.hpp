@@ -151,7 +151,7 @@ public:
     bool m_deleteOnUnload;                                    // +0x7d  MenuManager deletes the menu on unload when set
     uint8_t pad_7e[2];                                        // +0x7e
     std::string m_playerName;                                 // +0x80  set by FS_SetPlayerName ("Bobb" for a null argument)
-    uint32_t unk_98;                                          // +0x98  written by FS_SetPlayerClass: CharacterTable row index, -1 when none
+    int32_t unk_98;                                           // +0x98  name: m_characterTableRow. Written by FS_SetPlayerClass (0x41f640): CharacterTable row index, -1 when none (signed)
     std::string m_difficultyName;                             // +0x9c  set by FS_SetDifficulty
     bool m_deadZonesRegistered;                               // +0xb4  guard in RegisterDeadZones
     uint8_t pad_b5[3];                                        // +0xb5

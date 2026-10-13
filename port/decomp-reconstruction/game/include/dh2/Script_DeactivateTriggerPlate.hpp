@@ -22,4 +22,10 @@ public:
     // ScriptCmdImpl occupies +0x00 .. +0x0f (base layout pending, see open_questions).
     GameObject* m_plate;                                                // +0x10 trigger plate found by name, null when type is not 18
     uint8_t pad_14[0x30];                                               // +0x14 .. +0x43, nothing recovered
+
+    // The argument object held in ScriptCmdImpl::m_args (+0x0c). Execute (0x45d0e0) reads the object name at +0x0c.
+    struct Args {
+        uint8_t pad_00[0x0c];                                           // +0x00 .. +0x0b, the vptr and the stream header, not recovered
+        const char* objectName;                                         // +0x0c
+    };
 };

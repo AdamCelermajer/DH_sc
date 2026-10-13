@@ -92,7 +92,7 @@ public:
     uint32_t m_stateFlags;                        // +0x24 bit10 scare flag, bit11 stun flag (set by SM_SetScare/StunState a3)
     int m_pendingAnim;                            // +0x28 -1 = none; consumed by SM_SetAnim
     uint32_t m_statusFlags;                       // +0x2c bit1 stunned, bit2 scared (cleared on events 0x2a/0x2b/0x2c)
-    uint32_t unk_30;                              // +0x30
+    uint32_t unk_30;                              // +0x30 name: m_walkSpeedBits (CSMove::UpdateType 0x3c0f18 stores PROPS_GetWalkSpeed here, Character +0x52c)
     bool m_limbusFlag;                            // +0x34 SM_SetLimbusState arg
     uint8_t pad_35[3];                            // +0x35
     int m_deadAnim;                               // +0x38 SM_SetDeadState second anim
@@ -100,7 +100,7 @@ public:
     uint8_t pad_3d;                               // +0x3d
     bool m_deadFlag;                              // +0x3e SM_SetDeadState arg
     bool m_deadAltAnim;                           // +0x3f selects the alternate CharAnimTable dead anim
-    uint32_t unk_40;                              // +0x40
+    uint32_t unk_40;                              // +0x40 name: m_moveType (CSMove::UpdateType 0x3c0f18 stores the move type here, Character +0x53c)
     bool m_animLoop;                              // +0x44 SM_SetAnimState arg
     bool m_animFlag;                              // +0x45 SM_SetAnimState arg
     uint8_t pad_46[2];                            // +0x46

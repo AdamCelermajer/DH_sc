@@ -30,7 +30,7 @@ public:
     void* m_owner;                          // +0x00 owning GameObject (PFWorld::InitObject stores it)
     std::uint32_t m_flags;                  // +0x04 bit0 static, bit1 moving, bit2 registered obstacle, bit3 collisions enabled; 8 initially
     float m_radius;                         // +0x08 1.0f initially, set from the object extents
-    float m_floorHeight;                    // +0x0c output of PFWorld::GetFloorHeightAt
+    float m_floorHeight;                    // +0x0c output of PFWorld::GetFloorHeightAt. Projectile::OnExpire 0x3e5078 reads GameObject +0x1d4 (this word) as a PFRoom*; the type is not settled, so it stays float (the ctor writes 0.0f)
     PFFloor* m_floor;                       // +0x10
     std::uint32_t m_moveFlags;              // +0x14 bit0 flying, bit1 swimming; 2 initially
     Point3D<float> m_pos;                   // +0x18

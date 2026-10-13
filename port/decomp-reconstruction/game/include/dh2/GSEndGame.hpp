@@ -21,4 +21,6 @@ public:
     void Draw(const StateMachine* machine) override;                // slot 0x1c: 0x383618 MenuManager::Draw(0)
 
     int m_phase;                                                    // +0x04 step counter: 0 shows menu_About, 1 waits for it to close, 2 switches state
+
+    static GSEndGame s_inst;                                        // GSEndGame::s_inst (ELF 0x9a245c, 8 bytes), the object Script_EndGame switches to
 };

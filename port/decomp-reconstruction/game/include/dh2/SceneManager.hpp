@@ -51,6 +51,9 @@ public:
     glitch::scene::CEmptySceneNode* m_nodeMapRoot;                  // +0x28c created by AddNodeToMap on first use, dropped and emptied by clear()
     bool m_screenshotRequested;                                     // +0x290 drawAll clears it and, when the ToggleGamepadScreenShot switch is on, writes screenshot_<time>.tga
     uint8_t m_lightSetManager[0x1a4];                               // +0x294 LightSetManager (dh2/LightSetManager.hpp, 420 bytes), updated by drawAll and reset by clear(). The byte at +0x432 that EnableFog writes falls inside this span
+    // The LightBase* vector at SceneManager +0x424 (begin +0x424, end +0x428, cap +0x42c; appended to by
+    // LightBase::InitPost 0x40b0c0 for automatic lights) is LightSetManager::unk_190 (LightSetManager +0x190), inside
+    // this span. No SceneManager member is added for it. Suggested name for unk_190: m_automaticLights.
     glitch::IReferenceCounted* unk_438;                             // +0x438 reference-counted object, dropped and cleared by clear()
     bool unk_43c;                                                   // +0x43c cleared by the ctor
     int m_registerCounter;                                          // +0x440 incremented by _registerSceneNodes, reset when the nodes are registered

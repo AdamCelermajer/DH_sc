@@ -54,7 +54,12 @@ public:
 
     // Primary vptr is implicit at +0x00. The glitch::collada::CSceneNodeAnimatorSet base sub-object covers
     // +0x04 .. +0x57; its layout belongs to glitch-scene-collada-gui and is not reproduced here.
-    uint8_t pad_04[0x54];                                                  // +0x04 .. +0x57 engine base sub-object
+    uint8_t pad_04[0x4c];                                                  // +0x04 .. +0x4f engine base sub-object
+    // glitch::collada::CSceneNodeAnimatorSet::currentAnimation (collada_scene_accessors.hpp:169). The computeAnimationValues
+    // body stores it from the current Animation's +0x20 (asm 0x367368 writes [this,#0x50]). Named here until the engine
+    // base is declared; then this member and pad_54 are removed.
+    std::int32_t currentAnimation = 0;                                     // +0x50
+    uint8_t pad_54[4];                                                     // +0x54 .. +0x57 engine base sub-object
     AnimApplicator m_applicator;                                           // +0x58 owner is this. 0x3c bytes.
     boost::intrusive_ptr<AnimationSet> m_animationSet;                     // +0x94 counted reference, raw pointer in the original
     Animation* m_currentAnimation;                                         // +0x98 counted through the Animation's use counter (+0x24)

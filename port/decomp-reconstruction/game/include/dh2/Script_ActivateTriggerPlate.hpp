@@ -1,5 +1,5 @@
 // Script_ActivateTriggerPlate: script command that finds the named trigger plate and, when its
-// m_goId is 18, keeps a pointer to it and sets a flag byte on it (ObjectBase +0x779, not declared
+// m_goId is 18, keeps a pointer to it and sets a flag byte on it (TriggerPlate +0x779, TriggerPlate::m_enabled in dh2/TriggerPlate.hpp; not declared
 // here). Original 32-bit size 0x14 (20), allocated by GetNewScriptCmdImplInstance at 0x457d00.
 // Reconstructed from libDungeonHunter2.so pseudocode and assembly.
 #pragma once

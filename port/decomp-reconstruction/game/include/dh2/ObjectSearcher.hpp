@@ -152,7 +152,7 @@ public:
         GameObject* m_refObject;                    // +0x2c
         Character* m_refCharacter;                  // +0x30 m_refObject when it is a Character
         int m_filterMask;                           // +0x34 constructor argument a3
-        int m_arg3;                                 // +0x38 constructor argument a4
+        int m_arg3;                                 // +0x38 constructor argument a4. Name candidate: m_objectFilter (GameObject::_SetTargetListObjectFilter, 0x390624, stores its Lua number here)
         std::map<std::string, BackupObjectList> m_backups;  // +0x3c (the original map is 0x18 bytes, ends at +0x54)
     };
 };

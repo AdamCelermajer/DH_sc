@@ -40,7 +40,7 @@ public:
     bool IsStackable() const;                                           // 0x3f9e58
     bool IsEquippable() const;                                          // 0x3f9e68
     int GetNumPowers() const;                                           // 0x3f9e80
-    int GetIconName() const;                                            // 0x3f9e94 icon name id from the row at +0x08
+    const char* GetIconName() const;                                    // 0x3f9e94 icon name string buffer from the row at +0x08 (ItemBase m_w2)
     const std::uint8_t* GetPower(unsigned int idx) const;               // 0x3f9ec4 Arrays::ItemPowerTable row (40 bytes); pydata row type not declared here
     const char* GetPowerDesc(unsigned int idx) const;                   // 0x3f9f88
     int GetPowerId(unsigned int idx) const;                             // 0x3fa038
@@ -53,9 +53,9 @@ public:
     void AddPower(int powerId, int variant);                            // 0x3fbc60 variant 1 and 2 pick the _Hard and _VeryHard powers, -1 for none
     void UpdateLocalization();                                          // 0x3fc1b4
 
-    int GetFontDef(int powerCount);                                     // 0x3fa5cc
+    static int GetFontDef(int powerCount);                              // 0x3fa5cc static: the count arrives in r0, this is not read
     int GetFontDef() const;                                             // 0x3fa6cc
-    int GetColor(int powerCount);                                       // 0x3fa6dc
+    static int GetColor(int powerCount);                                // 0x3fa6dc static (same as GetFontDef(int))
     int GetColor() const;                                               // 0x3fa710
 
 public:
@@ -76,6 +76,6 @@ public:
     std::uint8_t pad_5a[2];                                             // +0x5a
     std::vector<PowerInfo> m_powers;                                    // +0x5c begin, +0x60 end, +0x64 capacity (12 bytes in the original)
     bool unk_68;                                                        // +0x68 set to 1 by the constructor; Split copies it to the new instance. Track A calls it identified (unconfirmed)
-    bool unk_69;                                                        // +0x69 set to 0 by the constructor. Track A calls it buyback (unconfirmed)
+    bool unk_69;                                                        // +0x69 name: m_buyback (ItemBuyback reads it, game-app f216b6-12). Set to 0 by the constructor
     std::uint8_t pad_6a[2];                                             // +0x6a
 };

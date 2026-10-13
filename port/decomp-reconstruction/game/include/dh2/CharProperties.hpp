@@ -141,6 +141,13 @@ public:
     Structs::CharacterProperties m_savedProps;    // +0x38c properties with type bit 0x20 (PROPS_Add/Set write here)
     Structs::CharacterProperties m_gearProps;     // +0x710 equipment contribution (ResetGearsProperties)
     Structs::CharacterProperties m_props;         // +0xa94 final computed sheet (what PROPS_Get reads)
+    // Named sheet words, read by the layers above as sheet members (a member cannot overlap a sheet). Sheet word m_wN
+    // sits at sheet offset +4N (m_baseProps starts at CharProperties +0x08, m_props at +0xa94):
+    //   m_baseProps.m_w13..m_w15 (+0x3c..+0x44): GameObject scale inputs (Character::InitPost)
+    //   m_baseProps.m_w18 (+0x50): GetFXScale and GetFXScaleValue
+    //   m_props.m_w8 (+0xab4): CharEffectTable row; m_w9 (+0xab8): CharSoundsTable row; m_w10 (+0xabc): GetLoot
+    //   m_props.m_w17 (+0xad8): SetRelativeAABB percent; m_w30 (+0xb0c): faery list index
+    //   m_props.m_w203 (+0xdc0), m_props.m_w204 (+0xdc4): equip flags read by ItemInventory::IsItemEquippable
     std::map<int, BuffDecl> m_buffs;              // +0xe18 keyed by class id (STLport map: header 0xe18..0xe27, count +0xe28)
     uint8_t pad_e2c[4];                           // +0xe2c untouched
     uint32_t unk_e30;                             // +0xe30 ctor 0

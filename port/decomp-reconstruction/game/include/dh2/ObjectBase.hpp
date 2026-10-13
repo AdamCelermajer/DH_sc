@@ -19,7 +19,9 @@ class ObjectBase : public sfc::script::lua::UserData,   // +0x00
                    public PropertyMap,                  // +0x04 (size 0x20)
                    public ISerializable {               // +0x24
 public:
-    enum GO_IDS : std::int32_t { };         // values unknown; callers pass 0
+    // GO_DOOR: GetNewInstance<Door> passes 2 (global/object_factory.hpp, 0x340824) and Script_OpenDoor selects a
+    // Door when m_goId == 2. Other values are not named; callers pass 0.
+    enum GO_IDS : std::int32_t { GO_DOOR = 2 };
 
     explicit ObjectBase(GO_IDS id);         // 0x33f15c / 0x33f310
     ~ObjectBase() override;                 // 0x33e840 (D1) / 0x33e998 (D2, same body); deleting D0 at 0x33e97c is compiler generated
@@ -62,7 +64,7 @@ public:
     ObjectHandle* m_handle;                 // +0x2c heap ObjectHandle (operator new(12)), m_handle->m_cached = this
     std::string m_name;                     // +0x30 property "name"
     std::string m_gameType;                 // +0x48 property "gametype"
-    std::uint8_t m_facultative;             // +0x60 property "facultative", default 1
+    bool m_facultative;                     // +0x60 property "facultative", default 1 (one byte; bool& for the property table)
     std::uint8_t pad_61[3];
     std::int32_t unk_64;                    // +0x64 -1
     std::string m_roomName;                 // +0x68 property "roomname"
@@ -90,7 +92,8 @@ public:
     std::uint8_t pad_f9[3];
     std::int32_t unk_fc;                    // +0xfc 0
     NetStruct* m_netStruct;                 // +0x100 (Resend / SetEnabled in ObjectManager)
-    std::int32_t unk_104;                   // +0x104 0
+    NetStruct* unk_104;                     // +0x104 0; the incoming net struct pointer (name: m_netIn). The derived ctors store
+                                            //       &their member here: Door 0x3e8274 (this+0x540), Trigger 0x398f44 (this+0x570)
     std::int32_t unk_108;                   // +0x108 -1, compared with a peer id in ObjectManager
     std::uint8_t unk_10c;                   // +0x10c 0; with m_facultative makes GameObject::InitPost skip the visual on low-end devices
     std::uint8_t pad_10d[3];

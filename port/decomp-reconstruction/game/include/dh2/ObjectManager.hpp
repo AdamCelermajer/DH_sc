@@ -53,8 +53,8 @@ public:
 
     // Registration and lookup. Object handles are returned by value (sret).
     ObjectHandle Add(ObjectBase* object, char const* name, char const* type, int flags, bool active);  // 0x34b270
-    ObjectHandle GetNewObject(char const* name, char const* type, int flags, bool active);             // 0x34b520
-    ObjectHandle Spawn(char const* name, char const* type, bool active, bool silent);                  // 0x34b724
+    ObjectHandle GetNewObject(char const* type, char const* name, int flags, bool active);             // 0x34b520
+    ObjectHandle Spawn(char const* type, char const* name, bool active, bool silent);                  // 0x34b724; arg 1 is the type ("Character" in the callers), arg 2 the instance name. Bool order not confirmed
     ObjectHandle GetObjectByName(char const* name, int flags, bool active, char const* type);          // 0x34aca0
     ObjectHandle GetHighestThreatPlayer(char const* name, int flags, bool active);                     // 0x34b064
     ObjectHandle GetObjectByPtr(ObjectBase* object);                                                   // 0x340c54
@@ -111,13 +111,13 @@ public:
     std::int32_t unk_50;                                                                               // +0x50
     std::int32_t unk_54;                                                                               // +0x54
     std::int32_t unk_58;                                                                               // +0x58
-    std::int32_t unk_5c;                                                                               // +0x5c
+    std::int32_t unk_5c;                                                                               // +0x5c incremented once per Character::Update (dword_99F764->unk_5c); name not recovered
     std::list<Character*> m_characters;                                                                // +0x60 CharacterList (Add publishes Character* here)
     std::list<std::int32_t> unk_68;                                                                    // +0x68 freed node by node in the dtor
     std::list<Character*> unk_70;                                                                      // +0x70
     std::int32_t m_generation;                                                                         // +0x78 ObjectManager generation (ObjectHandle cache key)
     std::int32_t unk_7c;                                                                               // +0x7c
-    std::list<RoomZone*> m_roomZones;                                                                  // +0x80 RoomZone list (freed node by node in the dtor)
+    std::list<std::list<GameObject*>*> m_roomZones;                                                                  // +0x80 room object lists: each element is a std::list<GameObject*>* (AddRoomObjects 0x3427a0); name kept, see rename_suggestions
     std::list<GameObject*> m_noRoomObjects;                                                            // +0x88 no-room list (AddNoRoomObject pushes here)
     std::list<GameObject*> unk_90;                                                                     // +0x90
     std::map<int, std::list<int>> unk_98;                                                              // +0x98 header, root, count (20 bytes)

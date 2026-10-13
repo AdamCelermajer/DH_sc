@@ -53,7 +53,10 @@ public:
     bool m_zoomAnimActive;                                              // +0x84 set by a successful PlayAnim, cleared by __Callback
     bool m_useObjectPosition;                                           // +0x85 target the object's position (GameObject +0x160) instead of its camera anchor; the map camera sets it
                                                                         //       (the offset is then rotated 45 degrees)
-    bool m_zoomLocked;                                                  // +0x86 HandleZoom skips the clamp while set (NativeSetLockZoom)
+                                                                        //       also the map-mode flag of v2Controllable::Ctrl_Zoom (0x404e98: step -0.25 when set,
+                                                                        //       -0.03 when clear) and of Ctrl_TranslateMapCam (0x404fec: pans only when set)
+    bool m_zoomLocked;                                                  // +0x86 HandleZoom skips the clamp while set (NativeSetLockZoom); Ctrl_Zoom and
+                                                                        //       Ctrl_TranslateMapCam also return at once while it is set
     uint8_t pad_87[1];                                                  // +0x87
     float m_zoomCurrent;                                                // +0x88 zoom request, 0 initially; clamped to the design range by HandleZoom (ZoomHandler +136)
     float m_zoomTarget;                                                 // +0x8c zoom ceiling, 1 initially; reset to 1 by PlayAnim (ZoomHandler +140)

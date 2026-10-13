@@ -6,6 +6,7 @@
 #pragma once
 
 #include <cstdint>
+#include <deque>
 #include <string>
 
 class CharMenuTutorialMsg {
@@ -16,4 +17,13 @@ public:
     int m_stringId;                                                     // +0x00 string table id of the tutorial text
     std::string m_frame;                                                // +0x04 menu frame name (24 bytes at 32-bit)
     std::string m_menu;                                                 // +0x1c menu name (24 bytes at 32-bit)
+
+    // Statics (no per-object storage). The two function-name pointers are 4-byte .bss symbols in the original.
+    static const char* s_StartFuncName;                                 // 0x9a54b0 (symbol CharMenuTutorialMsg::s_StartFuncName)
+    static const char* s_SkipFuncName;                                  // 0x9a54b4 (symbol CharMenuTutorialMsg::s_SkipFuncName), read by Script_SkipCharMenuTutorialMessage::Execute 0x4603d0
+    // Tutorial queue global (no symbol; Hex-Rays dword_99FBB8). std::deque::pop_front is called on &dword_99FBB8, so
+    // the deque object is at 0x99fbb8, and dword_99FBC8 (0x10 later) is the other word of the empty test.
+    // Pushed by Script_EnqueueCharMenuTutorialMessage::Execute 0x460b1c,
+    // read by NativeGetCharMenuTutorialMessage 0x44c7a0, popped by Script_SkipCharMenuTutorialMessage 0x4603d0.
+    static std::deque<CharMenuTutorialMsg> s_queue;
 };

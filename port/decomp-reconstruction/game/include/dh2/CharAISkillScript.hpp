@@ -18,8 +18,8 @@ public:
     virtual ~CharAISkillScript();                                       // 0x3cc238 (D1), 0x3cc448 (D0)
 
     float GetCooldown();                                                // 0x3da3d0
-    int SpawnProjectile(unsigned int projectileId, float angle);        // 0x3da494
-    int SpawnProjectile(unsigned int projectileId, bool flag);          // 0x3da510
+    Projectile* SpawnProjectile(unsigned int projectileId, float angle);  // 0x3da494 (Hex-Rays types the result int; ProjectileManager::Spawn returns Projectile*)
+    Projectile* SpawnProjectile(unsigned int projectileId, bool flag);   // 0x3da510
     void OnPostSkill();                                                 // 0x3da6c0
     int OnSkill();                                                      // 0x3da794
     bool OnPreSkill();                                                  // 0x3da8b8
@@ -38,5 +38,5 @@ public:
     const char* m_scriptName;                                           // +0x08 skill script name (pushed into the Lua arguments)
     uint8_t pad_0c[8];                                                  // +0x0c sfc::script::lua::Arguments, embedded (8 bytes at 32-bit). Its type is not declared here.
     unsigned int m_skillIndex;                                          // +0x14 skill index, pushed into the Lua arguments
-    int m_lastSkillId;                                                  // +0x18 last skill id, -1 until a skill runs
+    int m_cooldownTimerId;                                              // +0x18 CharTimers slot of the skill cooldown, -1 = none (ctor). GetCooldown reads it; Character::_SetSpellCooldownTimerId writes it
 };

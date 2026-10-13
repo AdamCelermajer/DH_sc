@@ -40,7 +40,7 @@ public:
                       const Point3D<float>& position, const Point3D<float>& destination,
                       const Character* owner);                          // 0x3eacd0 places a pooled item object for the inventory item at itemIndex
     void Flush();                                                       // 0x3eb6bc empties m_categories
-    void PreCache();                                                    // 0x3eb6e4 builds one category per row, fills each slot and DeSpawns it
+    int PreCache();                                                     // 0x3eb6e4 builds one category per row, fills each slot and DeSpawns it; returns the category count (int in the binary)
 
     // +0x00 vptr (not declared: the vtable pointer is the first word of every virtual class)
     std::vector<CategoryInfo> m_categories;                             // +0x04 one entry per Arrays::ItemAudioVisualTable row (begin, end, end of storage: 12 bytes in the original)

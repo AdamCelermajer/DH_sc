@@ -2,7 +2,7 @@
 // counter and copies the duration from its data record (ScriptCmdImpl::m_args, record +0x08). Update adds
 // Application's frame delta to the counter each frame, and IsBlocking holds while the counter is below the
 // duration.
-// Original 32-bit size not recovered; members end at +0x18, so the object is at least that large.
+// Original 32-bit size 0x18 (GetNewScriptCmdImplInstance<Script_Wait> 0x4585e0 news 0x18); members end at +0x18.
 // Reconstructed from libDungeonHunter2.so pseudocode and assembly (Update 0x4597b4, IsBlocking 0x455754,
 // Execute 0x45c438).
 #pragma once

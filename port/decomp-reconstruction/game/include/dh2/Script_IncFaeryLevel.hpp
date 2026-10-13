@@ -1,7 +1,7 @@
 // Script_IncFaeryLevel: script command that raises the local player's Character faery level by the
 // amount in its data record. Execute reads the record from the command's m_args (ScriptCmdImpl +0x0c)
 // and calls Character::IncFaeryLevel on the offline local player's character. Blocking is never set.
-// Original allocation 64 bytes (GetNewScriptCmdImplInstance<Script_IncFaeryLevel>). No members of its
+// Original allocation 16 bytes (GetNewScriptCmdImplInstance<Script_IncFaeryLevel>). No members of its
 // own were recovered: ScriptCmdImpl occupies +0x00 .. +0x0f and the rest is unused.
 // Argument record (m_args): +0x08 int, the level increment.
 // Reconstructed from libDungeonHunter2.so pseudocode (Execute 0x45f5cc, IsBlocking 0x455774).

@@ -20,5 +20,6 @@ public:
     void OnEvent(int eventId, Character* character, CharStateMachine* machine, int event, void* data) override;  // slot 0x18: 0x3c0004
 
     // Non-virtual helper, not a vtable slot. Shared update used by OnUpdate and by CSLiftingIdle.
-    int IdleCommonUpdate(int eventId, Character* character, CharStateMachine* machine);  // 0x3c0b78
+    // static: the original never reads a this. OnUpdate passes eventId in the first argument register. Returns nothing here (see the source row).
+    static void IdleCommonUpdate(int eventId, Character* character, CharStateMachine* machine);  // 0x3c0b78
 };

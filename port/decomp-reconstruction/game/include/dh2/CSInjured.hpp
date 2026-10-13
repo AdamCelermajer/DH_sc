@@ -1,5 +1,5 @@
-// CSInjured: Injured character state. Focus and blur go through the focus GameObject that the Character
-// holds at +0x408 (blur fails closed when that projection is missing).
+// CSInjured: Injured character state. Focus sets the injured state flags and cancels sneaking. Blur orders the
+// controller (Character +0x378) to look at CharAI::m_target (Character +0x408); blur has no null check (asm 0x3c4ba4).
 // Stateless: the object holds no data, only the vtable pointer. Original 32-bit size 0x4 (vptr only).
 // Reconstructed from libDungeonHunter2.so pseudocode and the vtable (36 bytes).
 #pragma once

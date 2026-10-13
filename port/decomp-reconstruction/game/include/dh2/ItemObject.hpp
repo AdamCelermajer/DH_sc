@@ -56,6 +56,8 @@ public:
     static void DropAndAwardLoot(ItemInventory& inventory, const GameObject* dropper, const GameObject* killer, int unk_arg);  // 0x3ec8a0
     static void DropInventory(ItemInventory& inventory, const GameObject* dropper, const GameObject* killer, const Character* owner);  // 0x3ec974
     static void GetInventoryToDrop(ItemInventory& inventory, int lootTableId, const GameObject* dropper, int unk_arg);  // 0x3ecae4 adds the loot table rows to inventory
+    // 0x3ecba0 and 0x3eccc8 are static (the loot table id arrives in r0). Both take an ItemInventory* after lootTableId
+    // (Container::DoOpen passes the container), which the two declarations below omit. Not corrected here: integrator decision.
     static void DropLootTable(int lootTableId, const GameObject* dropper, const GameObject* killer, int fixedNumPowers, bool unk_flag);  // 0x3ecba0
     static void DropLootTable(int lootTableId, const GameObject* dropper, const GameObject* killer, const Character* owner, int unk_arg);  // 0x3eccc8
     static void _OnItemCollected(Projectile* projectile, void* user);  // 0x3ebc0c decrements s_numProjectiles

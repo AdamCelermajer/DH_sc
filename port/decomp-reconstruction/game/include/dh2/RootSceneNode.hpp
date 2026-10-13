@@ -69,9 +69,11 @@ public:
     glitch::scene::ISceneNode* m_animRootAlt;                       // +0x1f4 GetAnimRoot(true), reference-counted (dropped by the destructor)
     glitch::scene::CEmptySceneNode* m_displacementNode;             // +0x1f8 created by _EnableDisplacement (336 bytes), owns the displacement
     std::uint32_t m_lastAnimTime;                                   // +0x1fc the time last passed to onAnimate
-    bool m_cullBeforeUpdate;                                        // +0x200 set by the ctor; IsVisibleFastTest reads it as a gate before the game object culling test
+    bool m_cullBeforeUpdate;                                        // +0x200 set by the ctor; IsVisibleFastTest reads it as a gate before the game object culling test.
+                                                                    //       AnimatedFX::SetVisible (0x492ef0) also stores the visible flag at this byte (VisualObject m_node + 512).
     ObjectBase* m_object;                                           // +0x204 game object this root belongs to; its bounds are read by onAnimate
-    bool unk_208;                                                   // +0x208 set by the ctor; onAnimate calls slot 0xb8 with 1 when it is set, then clears it
+    bool unk_208;                                                   // +0x208 set by the ctor; onAnimate calls slot 0xb8 with 1 when it is set, then clears it.
+                                                                    //       VisualObject::ForceUpdatePosition (0x470bd0) also stores 1 here (m_node + 520).
     bool m_visibleRequested;                                        // +0x209 set by setVisible; onAnimate applies it and clears it
     bool unk_20a;                                                   // +0x20a set by onAnimate when the animation was skipped
     uint8_t pad_20b[1];                                             // +0x20b

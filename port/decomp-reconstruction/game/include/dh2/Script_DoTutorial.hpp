@@ -19,4 +19,12 @@ public:
 
     // ScriptCmdImpl occupies +0x00 .. +0x0f (base layout pending, see open_questions).
     uint8_t pad_10[0x30];                                               // +0x10 .. +0x3f, nothing recovered
+
+    // The argument object held in ScriptCmdImpl::m_args (+0x0c). Execute (0x460950) reads the script name at
+    // +0x0c and the tutorial index at +0x10 (SavegameManager m_tutorials is indexed by it, +0x29 base).
+    struct Args {
+        uint8_t pad_00[0x0c];                                           // +0x00 .. +0x0b, the vptr and the stream header, not recovered
+        const char* scriptName;                                         // +0x0c
+        int tutorialIndex;                                              // +0x10
+    };
 };

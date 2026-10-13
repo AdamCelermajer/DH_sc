@@ -148,4 +148,8 @@ public:
     std::vector<std::pair<ExitDirection, glitch::core::vector3d<float>>> m_exitPositions;  // +0x84 exit nodes, 16 bytes each
     float m_verticalTolerance;                                              // +0x90 100.0f from the ctor, the vertical tolerance of ValidatePosition
     bool unk_94;                                                            // +0x94 false from the ctor; when set, ValidatePosition's height test passes
+
+    // The instance, Singleton<PFWorld>::s_inst (0x9a26d8, IDA list_globals). Callers in the sources pass it as the
+    // object of PFWorld::InitObject, FlagFloorAsDeadEnd, GetFloorHeightAt and DropPath. The definition comes at integration.
+    static PFWorld s_inst;
 };

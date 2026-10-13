@@ -48,7 +48,9 @@ public:
 
     // Primary vptr is implicit at +0x00. The glitch::collada::CSceneNodeAnimator base sub-object covers
     // +0x04 .. +0x57; its layout belongs to glitch-scene-collada-gui and is not reproduced here.
-    uint8_t pad_04[0x54];                                                  // +0x04 .. +0x57 engine base sub-object
+    uint8_t pad_04[0x54];                                                  // +0x04 .. +0x57 engine base sub-object. Base candidate: glitch::collada::ISceneNodeAnimator
+                                                                           //       (collada_misc.hpp: length +0x14, eventsTrack +0x18, eventCallback +0x1c, eventUserData +0x20
+                                                                           //       match). scene_node_animator.hpp CSceneNodeAnimator has no vptr and does not fit. Replacing this pad with the base is a delete.
     AnimApplicator m_applicator;                                           // +0x58 owner is this (ctor 0x366490 passes this). 0x3c bytes.
                                                                            //       _HandleAnimEnding writes m_applicator.unk_10 (+0x68) and m_callbackPending (+0x88).
     glitch::IReferenceCounted m_refSecondary;                              // +0x94 secondary IReferenceCounted sub-object (vptr, count = 1 from the ctor)

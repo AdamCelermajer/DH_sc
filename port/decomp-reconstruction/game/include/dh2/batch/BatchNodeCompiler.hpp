@@ -3,7 +3,8 @@
 // _MapMeshNode records the scene-node-to-object map that the segment callback reads. Free and Trim release
 // the per-compile state. The class itself is not polymorphic. Its only vtable is the nested
 // SGameObjectLinkedCallback, embedded at +0x04.
-// Original 32-bit size not recorded (no operator new site in class-facts; the compiler is embedded in its owner).
+// Original 32-bit size 0x38 (56), from the operator new(56) site in Level::_LoadBatchInit (0x3f240c). That site writes
+// the fields inline (no constructor symbol exists): m_compiled 0, the list and map empty, the callback vptr, m_batchNode null.
 // Reconstructed from libDungeonHunter2.so pseudocode (dtor 0x3f1a48, Free 0x3f1868, _MapMeshNode 0x3f5dcc,
 // MakeNoBatchVisible 0x50cfa8, Trim 0x50dbbc, Compile 0x50dc84, callback 0x3ef180 / 0x3ef394 / 0x3efe58).
 #pragma once
@@ -16,8 +17,8 @@ class GameObject;
 
 namespace glitch {
 namespace scene {
-struct CBatchMesh;
-struct CSceneManager;
+class CBatchMesh;
+class CSceneManager;
 struct SCompileInfo;
 class ISceneNode;
 }  // namespace scene
@@ -33,7 +34,7 @@ public:
     // below are relative to the callback, so the callback's +0x04 is the compiler's +0x08 and its +0x08 is the compiler's +0x0c.
     class SGameObjectLinkedCallback {
     public:
-        // Complete and deleting dtors. Both are empty bodies. Slots 0x00 (0x3ef180) and 0x04 (0x3ef394).
+        // Complete dtor (slot 0x00, 0x3ef180) has an empty body. Deleting dtor (slot 0x04, 0x3ef394) stores the vptr and frees the object.
         virtual ~SGameObjectLinkedCallback();
         // Looks up the current rendered node in the owner's m_nodeObjects and writes the GameObject* (or null)
         // into the segment. Then it sets the visible byte of that object. Slot 0x08: 0x3efe58.
@@ -44,7 +45,8 @@ public:
         BatchNodeCompiler* m_compiler;                                  // +0x08 (BatchNodeCompiler +0x0c), owner of m_nodeObjects
     };
 
-    // Destroys the state, then runs Free. Non-virtual: the class has no vtable of its own. 0x3f1a48.
+    // Runs Free, erases m_nodeObjects, releases the m_gameObjects storage and resets the callback vptr. Non-virtual: the
+    // class has no vtable of its own. 0x3f1a48.
     ~BatchNodeCompiler();
 
     // Drops the batch node reference, resets m_nodeObjects and the per-compile vector. 0x3f1868.
@@ -64,7 +66,7 @@ public:
     bool m_compiled;                                                    // +0x00 set to 1 at the end of Compile
     SGameObjectLinkedCallback m_linkedCallback;                         // +0x04 segment callback (vptr, m_sceneManager, m_compiler)
     std::vector<GameObject*> m_gameObjects;                             // +0x10 begin, +0x14 end, +0x18 capacity; objects with a mesh
-    std::map<const glitch::scene::ISceneNode*, GameObject*> m_nodeObjects;  // +0x1c header (color, root, leftmost, rightmost), +0x2c count
+    std::map<const glitch::scene::ISceneNode*, GameObject*> m_nodeObjects;  // +0x1c header: color byte, root +0x20, leftmost +0x24, rightmost +0x28; +0x2c count
     uint8_t pad_30[4];                                                  // +0x30 not touched by the methods above
     GOBatchSceneNode* m_batchNode;                                      // +0x34 batch node, created by Compile on first use, dropped by Free
 };

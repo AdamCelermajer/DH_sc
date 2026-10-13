@@ -25,5 +25,7 @@ public:
 
     // Vptr at +0x00.
     std::int32_t m_offset;                                              // +0x04 byte offset of the member in the owning object
-    std::string m_name;                                                 // +0x08 property name (24 bytes in the original)
+    std::string m_name;                                                 // +0x08 property name (24 bytes in the original). PropertyMap::SavePropertiesToXML (0x5134f0)
+                                                                        //       reads a char* at +0x1c as the attribute name; +0x1c lies inside this string, so the
+                                                                        //       string layout must be confirmed before SetAttribute is wired (no member can sit at +0x1c).
 };

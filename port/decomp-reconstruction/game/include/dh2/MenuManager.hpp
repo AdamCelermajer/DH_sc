@@ -114,5 +114,5 @@ public:
     uint32_t unk_104;                                         // +0x104
     int32_t m_actionIconType;                                 // +0x108  starts at -1, drives FillActionIcon in Update
     uint32_t unk_10c;                                         // +0x10c  zeroed in the ctor
-    bool unk_110;                                             // +0x110  gates touch events in onEvent
+    bool unk_110;                                             // +0x110  gates touch events in onEvent; name: m_multitouch (NativeSetMultitouch stores to_bool(arg 0) here, game-app global-f216b6-6.cpp)
 };

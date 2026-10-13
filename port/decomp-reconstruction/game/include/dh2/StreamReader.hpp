@@ -48,9 +48,10 @@ public:
 };
 
 // Explicit specializations, declared at namespace scope so every translation unit that uses one sees it. Definitions:
-// game-app/src/g1-game-app-StreamReader-cab859-0.cpp (part 1) and -1.cpp (part 2). The value read unsigned int
-// (0x313a90) is defined by its own batch of this class.
+// game-app/src/g1-game-app-StreamReader-cab859-0.cpp (part 1) and -1.cpp (part 2). The value reads unsigned int
+// (0x313a90) and unsigned char (0x3365a4) are defined in game-app/src/g1-game-app-pack13-4d9327-0.cpp.
 template <> unsigned int StreamReader::readAs<unsigned int>(IStreamBase* stream);
+template <> unsigned char StreamReader::readAs<unsigned char>(IStreamBase* stream);
 template <> int StreamReader::readAs<int>(IStreamBase* stream);
 template <> bool StreamReader::readAs<bool>(IStreamBase* stream);
 template <> void StreamReader::readAs<int>(IStreamBase* stream, int* value);

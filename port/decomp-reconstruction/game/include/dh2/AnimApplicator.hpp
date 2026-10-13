@@ -39,7 +39,9 @@ public:
     glitch::collada::ISceneNodeAnimator* m_animator;                         // +0x04 clip source, given to the constructor
     glitch::scene::ISceneNode* m_refNode;                                    // +0x08 reference node, reference counted by SetRefNode
     int m_refClip;                                                           // +0x0c clip of the reference node's animator, -1 until SetRefNode finds it
-    int unk_10;                                                              // +0x10 zero in the ctor, never touched by these methods
+    int unk_10;                                                              // +0x10 zero in the ctor, never touched by these methods. Written with the remaining clip time by
+                                                                             //       Animator::_HandleAnimEnding (0x366224) and AnimatorSet::_HandleAnimEnding (0x3672c8); read by the
+                                                                             //       blended controller's jumpTo (BlendedAnimSetController). Name candidate: m_remainingTime
     unsigned int m_time;                                                     // +0x14 time of the last pose, compared against the argument
     glitch::core::vector3d<float> m_prevPos;                                 // +0x18 .. +0x20 position of the last pose
     glitch::core::vector3d<float> m_delta;                                   // +0x24 .. +0x2c delta from the previous pose

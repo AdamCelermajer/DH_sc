@@ -9,8 +9,17 @@
 #include <cstdint>
 #include <string>
 
-// Stat kinds 0..6 (killer, striker, controller, defender, looter, support, xp). Underlying type not yet confirmed.
-enum EStatType : std::uint32_t;
+// Stat kinds, in GetStatStr order (0x3795c8: "killer", "striker", "controller", "defender", "looter", "support", "xp").
+// Underlying type not yet confirmed. The enumerator names are derived from those strings.
+enum EStatType : std::uint32_t {
+    STAT_KILLER = 0,
+    STAT_STRIKER = 1,
+    STAT_CONTROLLER = 2,
+    STAT_DEFENDER = 3,
+    STAT_LOOTER = 4,
+    STAT_SUPPORT = 5,
+    STAT_XP = 6,
+};
 
 class PlayerStatManager {
 public:
@@ -35,6 +44,10 @@ public:
     int UpdateRanking(EStatType stat) const;                            // 0x379d18 Invokes the HUD for each player
     int GetLeader(EStatType stat) const;                                // 0x379dfc
     int GetNumLeadingStats(int playerId) const;                         // 0x379e10
+
+    // Singleton<PlayerStatManager>::s_inst: the call sites pass &Singleton<PlayerStatManager>::s_inst as this
+    // (Character::F_ApplyResult overload at 0x3b10b4, IncrementStat and IncreaseStat calls). Declared only; no definition yet.
+    static PlayerStatManager s_inst;
 
     // No data members: the vptr at +0x00 is the whole object.
 };

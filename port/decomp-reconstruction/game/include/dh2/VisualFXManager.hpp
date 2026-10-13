@@ -143,4 +143,7 @@ public:
     VectorSet<int> m_fxToLoad;                                          // +0x10 .. +0x1b EffectDict rows to load, filled by RegisterFXToLoad
     std::vector<AnimFXSetInfo> m_animFXSets;                            // +0x1c .. +0x27 one AnimFXSetInfo per AnimatedEffectTable row
     std::vector<AnimatedFXInfo> m_animatedFXPools;                      // +0x28 .. +0x33 one AnimatedFXInfo per EffectDict row (begin +0x28, end +0x2c, capacity +0x30)
+    // Singleton<VisualFXManager>::s_inst (ELF 0x9a1cf0): the instance is the object itself, callers take its address.
+    // Defined by the integrator; no translation unit defines it yet.
+    static VisualFXManager s_inst;
 };

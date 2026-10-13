@@ -70,5 +70,9 @@ public:
     void OnCollisionResult(GameObject* other, bool flag) override;      // slot 50: 0x3dbf68
     virtual int InitVCB();                                                    // slot 51: 0x3dc7d8 sets the callback mask bits (OnTargetHit 0x800, OnTargetMissed 0x1000)
 
+    // Static collision counter (ELF AISDefault::s_collisionCount, 4 bytes in .bss at 0x9a2c20). OnCollisionBegin adds one
+    // and OnCollisionEnd subtracts one; the pseudocode shows no other type information, so it is declared int.
+    static int s_collisionCount;
+
     // Lays out as the base: CharAIScript occupies +0x00 .. +0xc3 and AISDefault has no members of its own.
 };

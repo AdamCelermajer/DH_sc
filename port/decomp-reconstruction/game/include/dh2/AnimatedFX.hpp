@@ -9,6 +9,7 @@
 
 class VisualObject;
 class AnimController;
+class GameObject;
 template <typename T> struct Point3D;
 namespace glitch {
 namespace collada {
@@ -59,18 +60,18 @@ public:
     float m_speed;                                                           // +0x20 SetSpeed, default 1.0f
     bool unk_24;                                                             // +0x24 visibility flag, true in the ctor; SetVisible stores it, Update tests it
     uint8_t pad_25[3];                                                       // +0x25
-    int unk_28;                                                              // +0x28 owner GameObject* (SyncIrrData and Update read it); int until the layout request is applied
+    GameObject* unk_28;                                                      // +0x28 owner GameObject* (name m_owner: SyncIrrData 0x492aa0, SetEndPoint 0x492560, Update 0x492f68); AddMultiplayerHighlight stores the owning Character
     VisualObject* m_visual;                                                  // +0x2c the FX visual, deleted by the destructor
     bool unk_30;                                                             // +0x30 SetAnimFX rotateWithOwner: SyncIrrData takes the rotation from the owner
     bool unk_31;                                                             // +0x31 SetAnimFX rotateWithOwnerOnPush: SyncIrrData(push) takes the rotation from the owner; gates the setData walk
     bool unk_32;                                                             // +0x32 SetAnimFX scaleWithOwner; cleared by SetScale before the scaling is applied
     uint8_t pad_33[1];                                                       // +0x33
-    int unk_34;                                                              // +0x34 zero in the ctor
-    int unk_38;                                                              // +0x38 zero in the ctor
-    int unk_3c;                                                              // +0x3c zero in the ctor
-    int unk_40;                                                              // +0x40 zero in the ctor
-    int unk_44;                                                              // +0x44 zero in the ctor
-    int unk_48;                                                              // +0x48 zero in the ctor
-    bool unk_4c;                                                             // +0x4c zero in the ctor
+    int unk_34;                                                              // +0x34 float bit pattern: x of the position offset (Vec3f_Origin copy; SyncIrrData adds it); name pending
+    int unk_38;                                                              // +0x38 float bit pattern: y of the position offset; name pending
+    int unk_3c;                                                              // +0x3c float bit pattern: z of the position offset; name pending
+    int unk_40;                                                              // +0x40 float bit pattern: rotation x (CopyFloatBits in SetRotation); Point3D<float> m_rotation (rename suggestion)
+    int unk_44;                                                              // +0x44 float bit pattern: rotation y; part of m_rotation
+    int unk_48;                                                              // +0x48 float bit pattern: rotation z; part of m_rotation
+    bool unk_4c;                                                             // +0x4c m_rotationSet (rename suggestion): SetRotation sets it, SyncIrrData tests it
     void* m_setData;                                                         // +0x50 VisualFXManager::AnimFXSetData* stored by SetAnimFX; Update tests it for non-null
 };

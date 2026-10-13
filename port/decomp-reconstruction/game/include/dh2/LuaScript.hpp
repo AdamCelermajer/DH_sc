@@ -84,7 +84,7 @@ public:
     std::map<uint32_t, std::string> m_vfTableSaved;    // +0x4c entries of m_vfTable replaced while collecting; _PopVFTable restores them
     bool m_vfTableCollecting;                          // +0x64 set by _PushVFTable, cleared by _PopVFTable
     uint8_t pad_65[3];
-    std::string m_scriptDirectory;                     // +0x68 "data/scripts/" (written by Level's constructor)
+    std::string m_scriptDirectory;                     // +0x68 script directory prefix, assigned from the second argument of GameObject::LoadExternalScript (0x38ef60, "data/scripts/objects/" in Container); the name is confirmed
     std::set<std::string> unk_80;                      // +0x80 string set, only cleared in the destructor
     // original size 0x98 (the last 4 bytes are alignment)
 };

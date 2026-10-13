@@ -1,5 +1,5 @@
 // GameObject: ObjectBase with a world position, AABB, path-finding state, a visual object and a
-// physical object. Original size 0x374 (ObjectBase 0x120 + 0x254).
+// physical object. Original size at least 0x378 (ObjectBase 0x120 + 0x258; the int at +0x374 is the last member recovered).
 // Vtable pointers at +0x00, +0x04 and +0x24 as in ObjectBase.
 #pragma once
 
@@ -221,5 +221,6 @@ public:
     std::string m_idleSound;                // +0x358 property "idle_sound"
     std::int16_t m_idleSoundId;             // +0x370 index into Arrays::Sounds, -1 = none
     std::uint8_t m_idleSoundPlaying;        // +0x372
-    std::uint8_t m_idleSoundMuted;          // +0x373 set by Disabled(), cleared by Enabled()
+    std::uint8_t m_idleSoundMuted;          // +0x373 set by Disabled(), cleared by Enabled(). Door::Opened (0x3e7788) and Door::Closed (0x3e7598) also store a byte here (STRB +0x373)
+    std::int32_t m_entryPointId;            // +0x374 compared with Level::m_entryPointId (Level::_LoadPlayer 0x3f0018, Level::GetSpawnPoint)
 };

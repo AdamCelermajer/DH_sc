@@ -15,7 +15,7 @@ class Character;
 class AISPlayer : public AISDefault {
 public:
     // Virtual hooks, in vtable slot order. Only the overrides are listed here. The rest are inherited from AISDefault.
-    ~AISPlayer() override;                                              // slot 0/1: 0x3dd99c (base object, D1), 0x3dda18 (deleting, D0); the complete-object dtor is 0x3de100 (D2)
+    ~AISPlayer() override;                                              // slot 0/1: 0x3dd99c (complete object, D1), 0x3dda18 (deleting, D0); 0x3de100 (D2, base object) is a second copy
     void OnTargetDied() override;                                       // slot 16: 0x3dd84c
     void OnEnemySpotted(Character* c) override;                         // slot 13: 0x3dda34
     void OnAggro(Character* c) override;                                // slot 14: 0x3ddb70

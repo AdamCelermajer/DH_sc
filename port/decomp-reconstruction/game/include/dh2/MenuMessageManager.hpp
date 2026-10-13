@@ -39,4 +39,6 @@ public:
 
     // +0x00 is the vptr (implicit). One std::deque per queue index, 40 bytes each at 32-bit.
     std::deque<T> m_queues[N];                                          // +0x04
+    // Singleton<MenuMessageManager<T, N>>::s_inst: the instance is the object itself (its queue deques sit at +0x04).
+    static MenuMessageManager s_inst;
 };

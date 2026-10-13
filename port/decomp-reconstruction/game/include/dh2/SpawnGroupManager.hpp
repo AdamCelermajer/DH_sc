@@ -22,11 +22,13 @@ public:
         SpawnSpot* spot;                                                 // +0x08
     };
 
-    // Value of m_groups, 12 bytes at 32-bit. The first two words are the sentinel of the group's list,
-    // stored inline: an empty list has both links pointing back at this GroupInfo.
+    // Value of m_groups, 12 bytes at 32-bit. The first two words are the group's list links. The original closes the
+    // list with a sentinel inside these two words (an empty list points both links back at this GroupInfo). The port
+    // ends the list with nullptr instead, so an empty list has both links null. Entry order, back insertion and
+    // removal are the same in both forms.
     struct GroupInfo {
-        SpawnEntry* m_spotsFirst;                                        // +0x00 sentinel next, first entry
-        SpawnEntry* m_spotsLast;                                         // +0x04 sentinel prev, last entry
+        SpawnEntry* m_spotsFirst;                                        // +0x00 first entry (sentinel next), null when empty
+        SpawnEntry* m_spotsLast;                                         // +0x04 last entry (sentinel prev), null when empty
         // +0x08 countdown in ms, ticked by update(). On expiry it is reset to the group's interval
         // (Arrays::SpawnGroups member +0x08), or to 1000 when no spot in the group is ready.
         int m_timer;                                                     // +0x08

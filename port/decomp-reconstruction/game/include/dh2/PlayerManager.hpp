@@ -11,10 +11,10 @@
 #include <map>
 #include <vector>
 
+#include "dh2/PlayerInfo.hpp"
 #include "net-transport/stream_buffer.hpp"
 
 class Character;
-class PlayerInfo;
 class PlayerSavegame;
 template <typename T> struct Point3D;
 
@@ -62,12 +62,12 @@ public:
     PlayerInfo* GetPlayerByCharacter(const Character* character, bool flag); // 0x36eea8
     int IsLocalPlayer(const Character* character);                      // 0x36effc
     int IsLocalPlayerHosting();                                         // 0x36f074
-    int _AttachControllerToPlayerCharacter(int internalId);             // 0x36f0dc
-    int PostInitCharacters();                                           // 0x36f2bc
-    int _UpdateJoiningController(int controllerId, int internalId);     // 0x36f4b4
+    void _AttachControllerToPlayerCharacter(int internalId);            // 0x36f0dc (the binary's return value is a leftover register, so void)
+    void PostInitCharacters();                                          // 0x36f2bc (return is a leftover register, so void)
+    void _UpdateJoiningController(int controllerId, int internalId);    // 0x36f4b4 (return is a leftover register on the last path, so void)
     void _PackInventory(PlayerInfo& info);                              // 0x370020
-    int ResetCharacterDeathTimer();                                     // 0x370c9c
-    int ClearLoadingInfo();                                             // 0x370e00
+    void ResetCharacterDeathTimer();                                    // 0x370c9c (return is the leftover of PlayerInfo::SetCharacterDeathTimer, so void)
+    void ClearLoadingInfo();                                            // 0x370e00 (return is the leftover of PlayerInfo::ClearLoadingInfo, so void)
     void _AttachLightToPlayerCharacter(int internalId);                 // 0x371050
     int _CheckOnlineTransition();                                       // 0x37193c
     void RemoveCharacter(Character* character);                         // 0x371d80
@@ -91,8 +91,11 @@ public:
     unsigned int _CheckLocalControllers();                              // 0x378c80
     int Update();                                                       // 0x378fb4
 
+    // Static counter of the characters RemoveCharacter has renamed to "<name>_Deleted_<n>" (ELF .bss, zero at start).
+    static int s_deletedPlayerCharacterCounter;                         // PlayerManager::s_deletedPlayerCharacterCounter
+
     // Object layout. The vptr sits at +0x00.
-    uint8_t pad_008[0x688];                                             // +0x008 PlayerInfo, the null record. Lookups return this+8 when no player matches. PlayerInfo.hpp not written yet; replace with a PlayerInfo member once it exists.
+    PlayerInfo m_nullPlayer;                                            // +0x008 PlayerInfo, the null record. Lookups return this+8 when no player matches (GetPlayerByInternalID and the _GetInternalID* helpers).
     std::map<int, PlayerInfo> m_players;                                // +0x690 player records keyed by internal id. 32-bit _Rb_tree header: root at +0x694, leftmost +0x698, rightmost +0x69c, node count +0x6a0.
     uint8_t pad_6a4[4];                                                 // +0x6a4
     std::vector<int> m_playerIdList;                                    // +0x6a8 PlayerIdList (12 bytes at 32-bit). GetNumPlayers reads its size.
@@ -106,9 +109,9 @@ public:
     int m_readyToRollTimer;                                             // +0x6cc countdown, -1 when idle
     bool m_initialSetupDone;                                            // +0x6d0 set by InitialSetup
     uint8_t pad_6d1[3];                                                 // +0x6d1
-    int32_t unk_6d4;                                                    // +0x6d4 zeroed by the ctor
-    int32_t unk_6d8;                                                    // +0x6d8 zeroed by the ctor
-    int32_t unk_6dc;                                                    // +0x6dc zeroed by the ctor
+    float unk_6d4;                                                      // +0x6d4 initial position X, written by InitialSetup (Point3D<float>, three words); zeroed by the ctor
+    float unk_6d8;                                                      // +0x6d8 initial position Y, written by InitialSetup
+    float unk_6dc;                                                      // +0x6dc initial position Z, written by InitialSetup
     StreamBuffer m_questSyncBuffer;                                     // +0x6e0 quest sync packet buffer. Its 32-bit size is not recovered (the next member is at +0x710).
     bool m_questSyncBuffered;                                           // +0x710 set when a sync message is written, cleared by ReceiveQuestSync and ClearQuestSyncBuffer
     bool m_localDeathPending;                                           // +0x711 set by _HandleLocalDeaths, cleared when the revive runs

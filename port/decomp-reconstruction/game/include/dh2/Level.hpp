@@ -163,7 +163,8 @@ public:
     uint8_t pad_146[2];
     int m_startScriptId;                               // +0x148 -1; ScriptManager::StartScript each Update when set
     rnd::RandomGenerator* m_randomGenerator;           // +0x14c operator new(400), only during GenerateRandomLevel
-    void* unk_150;                                     // +0x150 0
+    void* unk_150;                                     // +0x150 0; game type 0..3 per LuaScript::_SetGameType (0x37f878), which
+                                                       //       range-checks the value. Retype to int needs Level-7c7f5d-2.cpp (unk_150 = nullptr) changed first
     mutable GameObject* m_mpReferee;                   // +0x154 cached by GetMPReferee (written from const GetMPReferee)
     batch::BatchNodeCompiler* m_batchNodeCompiler;     // +0x158 operator new(56) in _LoadBatchInit
     batch::BatchNodeCompiler* m_batchNodeCompiler2;    // +0x15c
@@ -171,7 +172,7 @@ public:
     bool unk_16c;                                      // +0x16c 0
     uint8_t pad_16d[0x1f];
     int m_objectModuleId;                              // +0x18c -1; SetObjectModuleId, passed to ObjectManager::LoadFromXML
-    uint8_t pad_190[4];
+    uint8_t pad_190[4];                                // +0x190 flag bytes indexed by the HUD index (asm 0x43dafc stores at +0x190 + index); name unknown
     GameEventManager* m_gameEventManager;              // +0x194 created at load step 6
     bool m_isInGameView;                               // +0x198 Application::IsCurrentlyInGameView
     uint8_t pad_199[3];

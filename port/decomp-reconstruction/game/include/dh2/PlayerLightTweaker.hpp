@@ -19,6 +19,8 @@ class PlayerLightTweaker : public glitch::debugger::CTweakable {
 public:
     PlayerLightTweaker();                                           // 0x32f2b4 (ctor, 1068 bytes)
     ~PlayerLightTweaker() override;                                 // +0x00/+0x04 0x40e4c4 (D1), 0x40e518 (D0)
+    // Names of the four light tweakers, in the order Application::PostInit (0x32f7e8) creates them. Contents not recovered.
+    static const char* const TWEAKER_NAMES[4];
 
     // Vtable slots +0x08 .. +0x10 come from CTweakable (getInstanceName, getXML, writeValues).
     // Slot +0x14 is overridden here.
@@ -35,9 +37,9 @@ public:
     glitch::video::SColor m_diffuseColor[5];                        // +0xcc  "m_diffuseColor[i]"
     glitch::video::SColor m_specularColor[5];                       // +0xe0  "m_specularColor[i]"
     glitch::video::SColor m_fogColor;                               // +0xf4  "m_fogColor", copied to the global parameters
-    // +0xf8: an int named "m_lightType" is mapped here (SMapping type 2). The ctor also stores a heap block
+    // +0xf8: std::string m_lightType, assigned TWEAKER_NAMES[i] by Application::PostInit (0x32f7e8). The ctor maps "m_lightType" to it with SMapping kind 2 (kind not named in the canonical CTweakable.hpp). The ctor also stores a heap block
     // pointer in the 0x108/0x10c words; the layout of that string member is not recovered.
-    int m_lightType;                                                // +0xf8
+    std::string m_lightType;                                                // +0xf8
     uint8_t pad_fc[20];                                             // +0xfc .. +0x10f
     float m_fogStart;                                               // +0x110  "m_fogStart", fog start distance
     float m_fogEnd;                                                 // +0x114  "m_fogEnd", fog end distance

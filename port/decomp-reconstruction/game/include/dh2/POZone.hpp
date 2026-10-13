@@ -2,7 +2,9 @@
 // and each collision callback forwards to the matching virtual of that Zone: OnCollision (slot +0xc8),
 // OnCollisionBegins (+0xcc), OnCollisionPersists (+0xd0) and OnCollisionEnds (+0xd4).
 // Original 32-bit size 0x28 (40) as far as the evidence shows: no members of its own, so the object
-// is a PhysicalObject with the POZone vtable pointer. No constructor symbol is recovered.
+// is a PhysicalObject with the POZone vtable pointer. No constructor symbol is recovered (no _ZN6POZoneC* in the ELF). The Zone sites (0x397594, 0x39771c) build a
+// PhysicalObject inline and store _ZTV6POZone+8 (0x969018). Door::InitPost (0x3e7da8) builds the same PhysicalObject
+// arguments but stores _ZTV7PODecor+8 (0x968f88), so it is a PODecor, not a POZone.
 // Reconstructed from libDungeonHunter2.so pseudocode (dtors 0x470728 / 0x4709a0, callbacks 0x470840 ..).
 #pragma once
 

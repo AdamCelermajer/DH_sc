@@ -1,7 +1,8 @@
 // Script_SetWorldMapLocationState: script command that sets a world-map location state on the local
 // Player's Character through Character::SG_SetMapLocState. Execute reads the command data (m_args at
 // +0x0c of the base): +0x08 location index (I32), +0x0c state value (I32).
-// Original 32-bit size 0x40 (64). Allocated by GetNewScriptCmdImplInstance<Script_SetWorldMapLocationState>.
+// Original 32-bit size 0x10 (16): GetNewScriptCmdImplInstance<Script_SetWorldMapLocationState> (0x457bdc) passes
+// MOV R0,#0x10 to operator new. The pad_10 member below overshoots that size and is kept (members are not removed).
 // Reconstructed from libDungeonHunter2.so pseudocode (Execute 0x45ce78, IsBlocking 0x4558ec).
 #pragma once
 

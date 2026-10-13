@@ -1,7 +1,8 @@
 // Script_SetFaeryState: script command that sets one faery's state on the local Player's savegame,
 // through Character::SetFaeryState. Execute reads the command data (m_args at +0x0c of the base):
 // +0x08 faery index (I32), +0x0c state (I32).
-// Original 32-bit size 0x40 (64). Allocated by GetNewScriptCmdImplInstance<Script_SetFaeryState>.
+// Original 32-bit size 0x10 (16, the ScriptCmdImpl size). GetNewScriptCmdImplInstance<Script_SetFaeryState> (0x458598)
+// allocates operator new(0x10). The pad_10 member below is not in the original object (not recovered; kept).
 // Reconstructed from libDungeonHunter2.so pseudocode (Execute 0x45f6c8, IsBlocking 0x45576c).
 #pragma once
 

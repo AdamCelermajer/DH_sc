@@ -42,6 +42,7 @@
 #include "dh2/CharAnimator.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/CharProperties.hpp"
+#include "core-platform/timer_util.hpp"  // TimerUtil (m_timerUtil, GetImmunityTimer); the class lives in core-platform
 
 class IStreamBase;
 class IFileStream;
@@ -304,8 +305,15 @@ public:
     const void* GetCharFaery(int faeryId) const;                        // 0x3aeac0
 
     // ---- combat ----
-    void F_ApplyScrollingCombatTextGold(Character* target, int gold);   // 0x3aef68
-    void F_ApplyScrollingCombatTextXP(Character* target, int styleId, int colorId, int unusedArg);  // 0x3af0c8
+    // Binary check (0x3aef68, 0x3af0c8, call sites in Update 0x3abe98): the first explicit argument is the AMOUNT
+    // (gold, or xp >> 8), which Hex-Rays types Character* only because it is compared with the -1 sentinel of
+    // m_pendingGoldText / m_pendingXPText. The gold body reads that amount (StringManager::parse) and never reads the
+    // second int (Update passes a register, v11, that the listing never sets). The XP body passes the amount to
+    // StringManager::parse, styleId and colorId to FlashAnimManager::PlayScrollingCombatText, and never reads unusedArg.
+    // Parameter type and name of the first argument are therefore wrong here (rename candidate: amount, type int). Not
+    // retyped: the definitions in game-character/src/g1-game-character-Character-ee9946-8.cpp use Character* target.
+    void F_ApplyScrollingCombatTextGold(Character* target, int gold);   // 0x3aef68 (target: the gold amount, see above)
+    void F_ApplyScrollingCombatTextXP(Character* target, int styleId, int colorId, int unusedArg);  // 0x3af0c8 (target: the xp amount, see above)
     static void F_ApplyScrollingCombatText(const AttackResult& result, GameObject* attacker, Character* target);  // 0x3af1fc
     static void F_ApplyScrollingCombatText(const AttackResult& result, Character* attacker, Character* target);   // 0x3af77c
     static void F_ApplyCombatSound(const AttackResult& result, GameObject* attacker, Character* target);          // 0x3afd38
@@ -529,16 +537,17 @@ public:
     std::uint8_t m_needsNetPlacement;       // +0x1396 1; InterpretIncomingNetStruct repositions once, then clears
     std::int8_t unk_1397;                   // +0x1397 -1
     std::string m_charTemplate;             // +0x1398 property "char_template" (24 bytes in the original)
-    std::string m_charPropsName;            // +0x13b0 property "charpropsname"
+    std::string m_charPropsName;            // +0x13b0 property "charpropsname". Decision open: the 32-bit const char* CharacterTable name that
+                                            //   _CompileAnimSet (0x3c9b7c) reads at +0x13c4 falls inside this string (string size or a separate pointer)
     std::int16_t m_charPropsId;             // +0x13c8 row of Arrays::CharacterTable, -1 = unresolved (SafeGetCharPropsId)
     std::int16_t m_charPropsTemplateId;     // +0x13ca row of Arrays::Charater_Templates, -1 = unresolved
     std::string m_aiState;                  // +0x13cc property "ai_state" ("Limbus", "PreSpawn")
-    std::uint8_t m_aiStateVisible;          // +0x13e4 property "ai_state_visible", default 1
+    bool m_aiStateVisible;                  // +0x13e4 property "ai_state_visible", default 1; PropertyMap::AddProperty<bool> (DeclareProperties 0x3a9fe4)
     std::uint8_t pad_13e5[3];
     std::string m_startingWaypoint;         // +0x13e8 property "starting_waypoint"
     std::string m_charGroup;                // +0x1400 property "char_group"
     std::string m_charGroupRole;            // +0x1418 property "char_group_role"
-    std::uint8_t m_autoSpawn;               // +0x1430 property "auto_spawn", default 1; returned by CSM_Spawn
+    bool m_autoSpawn;                       // +0x1430 property "auto_spawn", default 1; returned by CSM_Spawn; AddProperty<bool> (DeclareProperties 0x3a9fe4)
     std::uint8_t pad_1431[3];
     std::int32_t m_spawnDelay;              // +0x1434 property "spawn_delay" (type not confirmed)
     std::int32_t unk_1438;                  // +0x1438 0
@@ -559,7 +568,8 @@ public:
     AnimatedFX* m_selfFX;                   // +0x1484 per-AI-row FX (merchant marker); DisableSelfFX
     std::int32_t m_selfFXBaseId;            // +0x1488 FX id base, row offset +0x30 of Arrays::AITable is added
     AnimatedFX* m_stateFX;                  // +0x148c stun / fear / slow FX; DisableStateFX
-    std::int32_t m_stateFXId;               // +0x1490 FX id currently shown by m_stateFX
+    std::int32_t m_stateFXId;               // +0x1490 state category 0/1/3/4 of m_stateFX, NOT an FX id (ee9946-3 compares it with the chosen category).
+                                            //   rename candidate: m_stateFXState (rename not applied: game-character sources use m_stateFXId)
     AnimatedFX** m_targetCircleFX;          // +0x1494 array of 9 FX (operator new[](36)), ground circles for objects of interest
     std::int32_t m_targetCircleIndex;       // +0x1498 visible entry of m_targetCircleFX, -1 = none
     AnimatedFX* m_cursorFX;                 // +0x149c local-player FX from Arrays::DesignSettingsTable +0x88
@@ -577,9 +587,11 @@ public:
     std::uint8_t pad_14c9;
     std::int16_t m_spotTargetFXId;          // +0x14ca AnimatedFX id, -1 = none
     AnimatedFX* m_spotTargetFX;             // +0x14cc UpdateSpotTarget
-    std::int16_t unk_14d0;                  // +0x14d0 0
+    std::uint16_t unk_14d0;                 // +0x14d0 0; read as an unsigned 16-bit word by GetHitCount (0x3b6cc8). Retyped from int16 (every
+                                            //   current use is a cast or an assignment). rename candidate: m_hitCount (rename not applied)
     std::uint8_t pad_14d2[2];
-    std::int32_t unk_14d4;                  // +0x14d4 0
+    std::int32_t unk_14d4;                  // +0x14d4 0; Kill (0x3a5b18) reads it as a Character* redirect of an aggro target (*(Character**)(target+0x14d4)).
+                                            //   Kept int32: a pointer here changes host layout. rename candidate: m_aggroRedirect (type decision open)
     std::int32_t unk_14d8;                  // +0x14d8 0
     std::uint8_t unk_14dc;                  // +0x14dc 0
     std::uint8_t pad_14dd[3];

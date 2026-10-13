@@ -63,6 +63,8 @@ public:
     bool hasOption(const char* name) const;                             // 0x46d4a8
     int getAutoReorientation() const;                                   // 0x46d4d8: "AutoOrientation" option when present, else m_autoOrientation
     int getLanguage() const;                                            // 0x46d514: "Language" option (device language when -1), else m_language
+    // Binary returns int (0x46d104 ends in a returned value, tested for zero by callers). Kept void until the
+    // game-app/tests stub (g1-game-app-global-f216b6-8_test.cpp, "void SavegameManager::setLanguage") is updated.
     void setLanguage(int language);                                     // 0x46d104: sets the "Language" option, refreshes item and character text, then switches the string pack
 
 public:
@@ -76,6 +78,7 @@ public:
     std::map<std::string, _GameOption, std::less<>> m_options;          // +0x10
     uint8_t pad_24[4];                                                  // +0x24
     bool m_optionsLoaded;                                               // +0x28 set at the end of a full loadSettings
+    // +0x2b is m_tutorials[2]. Name candidate: cinematic_Tuto_faery (SetFaeryState sets this byte to start that cinematic script).
     uint8_t m_tutorials[14];                                            // +0x29 tutorial flags, all set to 1 by _initSettings, saved and loaded as 14 bytes
     bool m_saveBlocked;                                                 // +0x37 saveSettings skips the write while set; loadSettings sets it when the language is still -1
     std::int32_t m_language;                                            // +0x38 language index, -1 until one is loaded

@@ -42,7 +42,7 @@ public:
 
     // Virtual overrides in vtable order. Slots +0x00 and +0x04 are the destructors (above).
     bool onEvent(const IEvent* event, const EventManager* manager) override;  // slot +0x08: 0x418258
-    float OnEvent(RenderFX::Event& event);                              // slot +0x0c: 0x418d28
+    virtual float OnEvent(RenderFX::Event& event);                              // slot +0x0c: 0x418d28
     // Slot +0x10 in the primary vtable, and the glitch::IEventReceiver slot in the secondary one (thunk at +0x24).
     // The glitch stand-in declares no onEvent slot yet, so this is not marked override.
     bool onEvent(const glitch::SEvent& event);                          // slot +0x10: 0x418250, returns false

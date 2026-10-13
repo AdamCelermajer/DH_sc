@@ -5,7 +5,8 @@
 // Reward_Loot it does not copy the record pointer to +0x14, and Give reads the record through +0x0c.
 // Adds no data members to Reward: the layout is Reward's. The vtable (_ZTV18Reward_ConsumeLoot, 28 bytes) holds the
 // two destructor slots, Give, Compile and DBG_TraceDetailedRewardInformation, in the order Reward declares them.
-// Original 32-bit size not recovered: class-facts has no operator new size for this class.
+// Original allocation 0x14 bytes: GetRewardImplInstance<Reward_ConsumeLoot> (0x482d80, operator new(0x14), asm verified). That is one word
+// short of Reward's 0x18 footprint, so the base word at +0x14 (m_compiledStub) lies past the allocation. The source factory still uses sizeof.
 // Reconstructed from libDungeonHunter2.so pseudocode (dtors 0x482a08 D1 / 0x48380c D0, Compile 0x4828d0,
 // Give 0x483034, DBG_TraceDetailedRewardInformation 0x482f4c). The derived constructor is not in the queue.
 #pragma once

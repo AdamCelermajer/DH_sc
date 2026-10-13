@@ -37,7 +37,7 @@ public:
         std::vector<Character*> m_masterLeaders;  // +0x00 role 2
         std::vector<Character*> m_leaders;        // +0x0c role 1
         std::vector<Character*> m_members;        // +0x18 roles 0 and 3
-        int m_allMembersDead;                     // +0x24 -1 until evaluated (role 3)
+        int m_allMembersDead;                     // +0x24 role 3 state (name: m_allMembersDead; suggested m_memberState): -1 unevaluated, 0 a member alive, 1 all members dead, 2 all members in limbus (OnDied 0x3d2628, CanRespawn 0x3d2a34)
         bool m_leadersDead;                       // +0x28
         bool m_triggered;                         // +0x29
         uint8_t pad_2a[2];                        // +0x2a
