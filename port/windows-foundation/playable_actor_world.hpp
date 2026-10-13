@@ -59,6 +59,12 @@ public:
     // owners (CalcManaCost/UseMana, cast-prepare vitals check), potions and saves read. Reviving only the ActorState
     // left the sheet at the pre-death value, so every later skill cast was rejected (B083). One owner updates both.
     bool revive_actor(ActorId, std::string& error);
+    // v21.8 ES-API: Character::_SetProp(CharacterProperties.HP) (PROPS_Set 0x3b7eac) and _GetPropHP (0x3b6cd8). The write
+    // sets the source current-HP cell 36 (x256 raw) with revive's saved-cell bookkeeping and mirrors ActorState::health.
+    // It never kills: the authored Lua calls Kill() explicitly when it wants a death (HolyWeapon).
+    bool set_current_health(ActorId, float health, std::string& error);
+    // Current and maximum HP from the source sheet (cells 36 and 38), in property units.
+    bool current_health(ActorId, float& health, float& maximum) const;
     ActorState* find_actor(ActorId) override;
     const ActorState* find_actor(ActorId) const;
     const std::map<ActorId, ActorState>& actors() const noexcept { return actors_; }

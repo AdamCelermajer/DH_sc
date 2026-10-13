@@ -553,9 +553,13 @@ void run_scripted_kill_retirement(const char* root){
     Fixture f(root);unsigned deathEntries=0;
     f.session.set_step_entry_observer([&](const CombatSessionStepEntry& step){if(step.actor==2&&step.role==CombatSessionStepRole::death)++deathEntries;});
     const auto rng=f.session.world()->random_state();const float playerHealth=f.session.actor(1)->health;
-    check(f.session.script_kill_actor(2,f.error),f.error);
+    // v21.8 ES-API: Assassination's target:Kill(GetSelf()) attributes the kill to the caster (actor 1).
+    check(f.session.script_kill_actor(2,1,f.error),f.error);
     check(!f.session.actor(2)->alive()&&deathEntries==1,"Scripted kill did not enter Died once");
+    check(f.session.script_kill_records().size()==1&&f.session.script_kill_records()[0].victim==2&&f.session.script_kill_records()[0].killer==1,
+          "Scripted kill did not record its victim and killer");
     check(f.session.script_kill_actor(2,f.error)&&deathEntries==1,"Duplicate kill re-entered Died");
+    check(f.session.script_kill_records().size()==1,"Duplicate kill recorded a second killer attribution");
     f.session.set_actor_combat_permission_provider([](ActorId id){return id!=2;});
     check(f.session.refresh_actor_combat_permissions(f.error),f.error);
     check(f.session.owns_pose(2),"Permission loss before End34 released active Died");

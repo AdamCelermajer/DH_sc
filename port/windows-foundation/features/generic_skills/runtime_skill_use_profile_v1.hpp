@@ -86,6 +86,13 @@ struct RuntimeSkillUseProfileV1 {
     // Lua constant cooldown written by OnPreSkill_ (SetSkillCooldown(COOLDOWN)) that overrides the
     // class projection of SnS_Cooldown. 0 = use the projected class value (default for every row).
     float fixed_cooldown_ms = 0.0f;
+    // v21.8 ES-API presentation arms (authored PlaySound / PlayFX). nullptr / false = the Lua has no such call.
+    // Recorded on the cast receipt in authored order; the host dispatches them (see SkillPresentationCueV1).
+    const char* use_sound_name = nullptr;        // PlaySound(name, false, 0, false) at Use, before the target loop
+    const char* self_fx_name = nullptr;          // PlayFX(name) on the caster at Use
+    const char* target_fx_each_name = nullptr;   // target:PlayFX(name) for EVERY Character target at Use (no dmg gate)
+    bool target_fx_each_non_player_only = false; // Eclipse: that PlayFX sits under `if not target:IsPlayer()`
+    const char* pre_target_fx_name = nullptr;    // target:PlayFX(name) for every Character target popped at OnPre
 };
 
 inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;

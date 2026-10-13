@@ -51,6 +51,16 @@ const FaeryAbilityV1* faery_ability_for_list_slot_v1(const dh2::data::FaeryTable
     return entry;
 }
 
+std::optional<std::int32_t> equipped_faery_element_v1(const dh2::data::FaeryTables::Borrow& tables,
+                                                      std::int32_t list_id, std::int32_t current_faery) {
+    if (!tables || list_id < 0 || static_cast<std::size_t>(list_id) >= tables.lists().size()) return std::nullopt;
+    const auto& list = tables.lists()[static_cast<std::size_t>(list_id)];
+    if (current_faery < 0 || static_cast<std::size_t>(current_faery) >= list.size()) return std::nullopt;
+    const auto row_id = list[static_cast<std::size_t>(current_faery)];
+    if (row_id < 0 || static_cast<std::size_t>(row_id) >= tables.faeries().size()) return std::nullopt;
+    return static_cast<std::int32_t>(tables.faeries()[static_cast<std::size_t>(row_id)].scalar.words[2]);
+}
+
 namespace {
 std::string tier_of(std::size_t target_count) {
     if (target_count > 0 && target_count < 3) return "small";

@@ -1386,3 +1386,10 @@ add_test(NAME menu_text_layout_v1 COMMAND menu_text_layout_v1_tests)
 add_executable(playable_world_selection_suppression_tests features/combat/playable_world_selection_suppression_tests.cpp)
 target_link_libraries(playable_world_selection_suppression_tests PRIVATE foundation_data)
 add_test(NAME playable_world_selection_suppression COMMAND playable_world_selection_suppression_tests)
+# v21.8 ES-API: actor-side TargetList arms (Player filter, named backups, relative origin) and live HP write, synthetic world.
+add_executable(runtime_skill_actor_api_v1_tests
+  features/generic_skills/runtime_skill_actor_api_v1_tests.cpp
+  features/generic_skills/runtime_skill_target_query_v1.cpp
+  ../level-world/character_path_commands.cpp)
+target_link_libraries(runtime_skill_actor_api_v1_tests PRIVATE foundation_data)
+add_test(NAME runtime_skill_actor_api_v1 COMMAND runtime_skill_actor_api_v1_tests)
