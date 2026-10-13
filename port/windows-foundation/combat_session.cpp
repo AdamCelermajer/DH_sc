@@ -100,6 +100,7 @@ struct CombatSession::Impl {
     std::vector<DamageEvent> events;
     std::vector<DamageEvent> pendingSourceHits;
     CombatSession::CombatResultObserver combatResultObserver; // v21.8 es-passive
+    CombatSession::StatusOutcomeObserver statusOutcomeObserver; // v21.8 es-status
     struct SourceHitBatch {
         std::uint64_t generation=0;
         std::set<std::pair<ActorId,std::uint32_t>> delivered;
@@ -1879,6 +1880,14 @@ bool CombatSession::apply_source_result(const CombatSessionSourceHit& hit,
         // v21.8 es-passive: attacker leech of the source hit (Leech_HP 132 / Leech_MP 133 from the calculation).
         if(auto* attackerState=s.world->find_actor(hit.attacker))apply_attacker_leech_v1(*attackerState,result.original.hp_leech,result.original.mp_leech);
         s.pendingSourceHits.push_back(receipt);
+        // v21.8 es-status: F_ApplyResult status tail (the roll's formula sheet is the stun/scare duration source).
+        if(s.statusOutcomeObserver){
+            StatusOutcomeEventV1 status;
+            status.attacker=hit.attacker;status.target=hit.target;
+            status.outcomes=result.original.outcomes;status.mask=result.original.mask;
+            status.attacker_sheet=slowSheet;
+            s.statusOutcomeObserver(status);
+        }
     }
     return applied;
 }
@@ -1887,6 +1896,9 @@ void CombatSession::set_combat_result_observer(CombatResultObserver observer){
 }
 bool CombatSession::has_combat_result_observer() const noexcept{
     return impl_&&bool(impl_->combatResultObserver);
+}
+void CombatSession::set_status_outcome_observer(StatusOutcomeObserver observer){
+    if(impl_)impl_->statusOutcomeObserver=std::move(observer);
 }
 void CombatSession::clear_retained_frame_audio_observer(){if(impl_)impl_->retainedFrameAudioObserver={};}
 const std::vector<RetainedFrameAudioObserverDiagnostic>& CombatSession::retained_frame_audio_diagnostics()const noexcept{

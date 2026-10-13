@@ -124,4 +124,10 @@ private:
     std::vector<std::string> log_;
 };
 
+// The F_ApplyResult stun/scare tail for one defender, without knockback (0x80 is the Push consumer's job in this port).
+// Returns the plan that was handed to the owner. Boss immunity is applied inside the owner.
+StatusOutcomePlanV1 apply_status_outcome_without_knockback_v1(StatusStateOwnerV1& owner, ActorId target,
+    std::uint32_t outcomes, std::uint32_t mask,
+    const std::function<std::int32_t(int)>& attacker_property, BossFlagsV1 flags);
+
 } // namespace dh::foundation::status_states

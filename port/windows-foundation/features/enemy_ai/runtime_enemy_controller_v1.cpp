@@ -408,6 +408,19 @@ bool RuntimeEnemyControllerV1::update(CombatSession& session, double dt, std::st
             state.preferred_target = owner->target_id;
             state.preferred_target_known = owner->target_id == invalid_actor_id;
         }
+        // v21.8 es-status: a stunned, scared or knocked-back monster takes no decision for the duration (no approach, no
+        // attack request). The first blocked frame stops its current route once; the decision state is kept.
+        if (services_.can_act && !services_.can_act(*owner)) {
+            ++report_.status_blocked_ticks;
+            if (!state.status_blocked && services_.stop) {
+                std::string stop_error;
+                if (!services_.stop(session, *owner, stop_error))
+                    return fail(error, stop_error.empty() ? "Enemy stop failed for a status-blocked monster" : stop_error.c_str());
+            }
+            state.status_blocked = true;
+            continue;
+        }
+        state.status_blocked = false;
         const ActorId tracked_id = owner->target_id;
         const bool had_target = tracked_id != invalid_actor_id;
         state.aggroed = had_target;

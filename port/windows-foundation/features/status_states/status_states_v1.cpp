@@ -241,4 +241,13 @@ std::vector<std::string> StatusStateOwnerV1::take_log() {
     return out;
 }
 
+StatusOutcomePlanV1 apply_status_outcome_without_knockback_v1(StatusStateOwnerV1& owner, ActorId target,
+    std::uint32_t outcomes, std::uint32_t mask,
+    const std::function<std::int32_t(int)>& attacker_property, BossFlagsV1 flags) {
+    StatusOutcomePlanV1 plan = status_outcome_plan_v1(outcomes, mask, attacker_property);
+    plan.knockback = false;
+    owner.apply_outcome(target, plan, flags, true);
+    return plan;
+}
+
 } // namespace dh::foundation::status_states
