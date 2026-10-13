@@ -322,7 +322,7 @@ bool load_impl(const Assets& assets,scene::Scene& out_scene,animation::Player& o
 }
 
 bool Rig::load(const Assets& assets,std::string& error) {
-    error.clear();loaded_=false;scene_={};animation_=animation::Player{};projection_={};
+    error.clear();loaded_=false;scene_={};rest_scene_={};animation_=animation::Player{};projection_={};
     root_=camera_=target_=up_vector_=0;up_from_camera_=false;default_target_distance_=0.0f;
     try{
         scene::Scene candidate_scene;animation::Player candidate_idle;Projection candidate_projection{};
@@ -330,19 +330,28 @@ bool Rig::load(const Assets& assets,std::string& error) {
         float default_target_distance=0.0f;
         if(!load_impl(assets,candidate_scene,candidate_idle,candidate_projection,
                       root,camera,target,up,up_from_camera,default_target_distance,error))return false;
+        rest_scene_=candidate_scene;
         scene_=std::move(candidate_scene);animation_=std::move(candidate_idle);projection_=candidate_projection;
         root_=root;camera_=camera;target_=target;up_vector_=up;
         up_from_camera_=up_from_camera;default_target_distance_=default_target_distance;
         loaded_=true;return true;
     }
-    catch(const std::exception& e){error=e.what();loaded_=false;scene_={};animation_=animation::Player{};return false;}
+    catch(const std::exception& e){error=e.what();loaded_=false;scene_={};rest_scene_={};animation_=animation::Player{};return false;}
 }
 
 bool Rig::load_animation(const std::uint8_t* bytes,std::size_t size,std::string& error) {
     error.clear();
     if(!loaded_){error="Camera scene must be loaded before selecting an animation";return false;}
+    // glitch::collada::CSceneNodeAnimatorSet::applyAnimationValues (0x65f424) writes
+    // the clip row's default record (BRES track default = the authored rest value;
+    // camera_template.bdae lists all of them) into every set binding the selected
+    // clip has no track for, before it applies the clip's own tracks. A node an
+    // earlier clip animated therefore returns to its authored pose when the next
+    // clip does not animate it (cs_swamp_intro animates PlayerCamera_Default-node,
+    // camera_idle does not). Start every clip from the authored scene, not from the
+    // pose the previous clip left behind.
     animation::Player candidate;
-    if(!candidate.load(bytes,size,scene_,error))return false;
+    if(!candidate.load(bytes,size,rest_scene_,error))return false;
     // The native scene sampler consumes node position/quaternion/scale tracks;
     // camera BDAEs can also contain non-transform channels that this sampler
     // intentionally skips. A nonzero unbound count is different: it means a

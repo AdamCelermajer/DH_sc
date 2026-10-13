@@ -44,5 +44,6 @@ with tempfile.TemporaryDirectory(prefix="dh2-camera-multiclip-") as temp:
         str(exe), str(camera_root / "cameratests.bdae"),
         str(common / "camera_idle.bdae"), str(common / "cam_shake_horiz.bdae"),
         str(common / "camera_crithit_0.bdae"),
+        str(camera_root / "animations" / "cs_swamp_intro" / "cs_swamp_intro_camera_scene18.bdae"),
     ], check=True)
-print("PASS: one Camera rig/playback owner switches through source Idle, Shake, and Crit clips")
+print("PASS: one Camera rig/playback owner switches through source Idle, Shake, Crit and cutscene clips and restores the idle pose")
