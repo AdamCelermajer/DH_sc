@@ -12,14 +12,14 @@
     "References": 95136,
     "Scripts": 11223,
     "Skills": 163,
-    "Tables": 22814,
+    "Tables": 22888,
     "Text": 42413,
     "UI": 14827
   },
-  "edges": 397899,
-  "nodes": 227364,
+  "edges": 407505,
+  "nodes": 227438,
   "profiles": 6852,
   "reference_sites": 95124,
   "scope": "All supplied corpus rows and files; evidence/inference/unknown distinctions are preserved.",
-  "unresolved_reference_sites": 50536
+  "unresolved_reference_sites": 42955
 }

@@ -65,6 +65,13 @@ class Builder:
         result=[]
         key=mobs.target_key(target)
         if key in self.table_ids:result.append(self.table_ids[key])
+        if target.get('type')=='table-field':
+            # A registered struct field is its own namespace, not a PyData row
+            # with the same ordinal or a claim about the returned runtime ID.
+            namespace=target.get('table')
+            result.append(self.node('schema-field:'+stable_id('android',namespace,target.get('name')),
+                str(namespace)+'.'+str(target.get('name')),'Tables','schema_field',
+                platform='android',status='RESOLVED',confidence='PROVEN',fields=target))
         if target.get('type')=='native-string-member' and target.get('namespace')=='Sounds':
             rows=[r for r in self.index.tables if r['table']=='sdd_dungeon_hunter_2_iphone' and r['name']==target.get('name')]
             if len(rows)==1:result.append('table:'+rows[0]['id'])
@@ -232,7 +239,10 @@ class Builder:
                       fields={'context':ref.get('context'),'candidates':[
                           {k:v for k,v in candidate.items() if k in ('id','name','path','table','index','source','label','status')}
                           if isinstance(candidate,dict) else candidate for candidate in ref.get('candidates') or []],
-                              'symbolic_trace':ref.get('symbolic_trace'),'field_semantics':ref.get('field_semantics')})
+                              'symbolic_trace':ref.get('symbolic_trace'),'field_semantics':ref.get('field_semantics'),
+                              'semantic_resolution':ref.get('semantic_resolution'),
+                              'resolution_evidence':ref.get('resolution_evidence'),
+                              'file_resolution':ref.get('file_resolution')})
             context=ref.get('context') or {}
             owner=self.row_owner.get(ref['id']) or self.script_sites.get(context.get('script'))
             if ref.get('source_definition_id'):
@@ -263,7 +273,7 @@ class Builder:
             self.ref_targets[ref['id']]=sorted(set(targets))
             for derived in ref.get('derived_edges') or []:
                 for target in self.targets(derived.get('target') or derived):
-                    self.edge(rid,target,'static_binding',status='INFERENCE',confidence=derived.get('confidence','LIKELY'),
+                    self.edge(rid,target,'static_binding',status=derived.get('status','INFERENCE'),confidence=derived.get('confidence','LIKELY'),
                               reference_id=ref['id'],rule=derived.get('rule') or derived.get('evidence'),site=ref.get('site'))
 
     def add_table_rules(self):

@@ -55,6 +55,14 @@ def run(ctx):
     write_json(ctx.out/'data/packed-sites.json',packed)
     write_json(ctx.out/'counts/packed-sites.json',packed['coverage'])
     refs=list(by_id.values())
+    # Final semantic joins see the complete source union, while native Lua
+    # contracts remain scoped to the Android call/script ledgers.
+    import lua_semantics,file_semantics,skill_slots
+    calls=read_json(ctx.out/'data/calls.json',[])
+    scripts=read_json(ctx.out/'data/scripts.json',[])
+    refs=lua_semantics.resolve(ctx,refs,tables,calls,scripts)
+    refs=file_semantics.resolve(ctx,refs,tables,assets)
+    refs=skill_slots.resolve(ctx,refs,tables,calls,scripts)
     # Update target snapshots so callers see the same payload as the canonical row.
     table_index={(r['table'],r['index']):r for r in tables}
     for ref in refs:
@@ -73,7 +81,11 @@ def run(ctx):
     write_json(ctx.out/'data/payload-references.json',decoded['references'])
     write_json(ctx.out/'data/campaign-relations.json',relations)
     write_json(ctx.out/'data/enrichment.json',{'payloads':decoded['coverage'],'payload_gaps':decoded['gaps'],
-        'symbolic_edges':sum(len(r.get('derived_edges',[])) for r in refs),'campaign_relations':len(relations)})
+        'symbolic_edges':sum(len(r.get('derived_edges',[])) for r in refs),'campaign_relations':len(relations),
+        'semantic_reference_statuses':dict(Counter(r['status'] for r in refs)),
+        'non_resource_reference_sites':sum(r['status']=='NOT-NEEDED' for r in refs),
+        'file_path_joins':sum(bool(r.get('file_resolution')) for r in refs),
+        'actor_skill_slot_joins':sum((r.get('semantic_resolution') or {}).get('resolver')=='skill_slots.v1' for r in refs)})
     counts=read_json(ctx.out/'counts/references.json',{})
     counts.update(references=len(refs),table_rows_unresolved=sum(r['status']=='UNRESOLVED' for r in tables),
                   references_by_kind=dict(Counter(r.get('kind','') for r in refs)))

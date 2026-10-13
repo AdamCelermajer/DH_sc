@@ -1,5 +1,8 @@
 {
+  "actor_skill_slot_joins": 40,
   "campaign_relations": 9129,
+  "file_path_joins": 4396,
+  "non_resource_reference_sites": 2485,
   "payload_gaps": [],
   "payloads": {
     "decoded_by_table": {
@@ -31,6 +34,12 @@
     "references": 367,
     "resolved_rows": 1316,
     "unresolved_rows": 0
+  },
+  "semantic_reference_statuses": {
+    "AMBIGUOUS": 2,
+    "NOT-NEEDED": 2485,
+    "RESOLVED": 49682,
+    "UNRESOLVED": 42955
   },
   "symbolic_edges": 190
 }

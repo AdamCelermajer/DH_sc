@@ -60,6 +60,7 @@
 | 3d/interface/swoosh_prince_1hand_combo_03.bdae | 6ef63481382913ac92ba | act_1, act_2 | [detail](assets/6ef63481382913ac92ba.md) |
 | 3d/projectiles/elemental_bolt_fire.bdae | 75eb749e6ecd2fc0f475 | act_1, act_2 | [detail](assets/75eb749e6ecd2fc0f475.md) |
 | 3d/projectiles/elemental_bolt_lightning.bdae | fb70df094ad0a9c05898 | act_1, act_2 | [detail](assets/fb70df094ad0a9c05898.md) |
+| file000164.dat | faa3efea812cd75a179c | act_1, act_2 | [detail](assets/faa3efea812cd75a179c.md) |
 | file000649.dat | 84b03f153a5c5471f957 | act_1, act_2 | [detail](assets/84b03f153a5c5471f957.md) |
 | file000998.dat | bc5dd8af0d0678614dc9 | act_1, act_2 | [detail](assets/bc5dd8af0d0678614dc9.md) |
 | file001267.dat | 49394bc1a260dfe0c3d1 | act_1, act_2 | [detail](assets/49394bc1a260dfe0c3d1.md) |
@@ -68,9 +69,11 @@
 | file002959.dat | acdc642eb11f61db584e | act_1, act_2 | [detail](assets/acdc642eb11f61db584e.md) |
 | file003443.dat | 812e7670eb8de71fbece | act_1, act_2 | [detail](assets/812e7670eb8de71fbece.md) |
 | file003550.dat | a1336fc596a1c8ddf24f | act_1, act_2 | [detail](assets/a1336fc596a1c8ddf24f.md) |
+| file003646.dat | 8bab32a5d838672bf26a | act_1, act_2 | [detail](assets/8bab32a5d838672bf26a.md) |
 | file004099.dat | 445e23a525acd3d1bced | act_1, act_2 | [detail](assets/445e23a525acd3d1bced.md) |
 | file004197.dat | 7f193be689d9f012d5b4 | act_1, act_2 | [detail](assets/7f193be689d9f012d5b4.md) |
 | file004264.dat | 1f96e51c93da562545d8 | act_1, act_2 | [detail](assets/1f96e51c93da562545d8.md) |
+| file004763.dat | fd6d6b3573aff98f84de | act_1, act_2 | [detail](assets/fd6d6b3573aff98f84de.md) |
 | file004789.dat | b313ea7f97440192784b | act_1, act_2 | [detail](assets/b313ea7f97440192784b.md) |
 | file005633.dat | 72f8a11ae7dd39339e8f | act_1, act_2 | [detail](assets/72f8a11ae7dd39339e8f.md) |
 | file005793.dat | 575437701bb20a32bbba | act_1, act_2 | [detail](assets/575437701bb20a32bbba.md) |

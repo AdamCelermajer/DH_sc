@@ -24,7 +24,7 @@ STATUS_ENUMS = {
     'scripts': {'TODO', 'DONE', 'UNRESOLVED'},
     'functions': {'TODO', 'DONE', 'UNRESOLVED'},
     'calls': {'TODO', 'DONE', 'UNRESOLVED'},
-    'references': {'TODO', 'RESOLVED', 'AMBIGUOUS', 'UNRESOLVED'},
+    'references': {'TODO', 'RESOLVED', 'AMBIGUOUS', 'UNRESOLVED', 'NOT-NEEDED'},
     'assets': {'TODO', 'REFERENCED', 'ORPHAN'},
     'levels': {'TODO', 'DONE', 'RESOLVED', 'INFERENCE', 'UNRESOLVED'},
     'actors': {'TODO', 'RESOLVED', 'UNRESOLVED'},
@@ -271,7 +271,7 @@ def sync_projections(ctx):
         for r in rr:
             mapped=ledger.get(r['id'])
             if mapped:
-                for field in ('status','work_status','reason','reason_code','candidate_note','candidates','resolves_to','port_status','implementation','confidence'):
+                for field in ('status','work_status','reason','reason_code','candidate_note','candidates','resolves_to','port_status','implementation','confidence','symbolic_trace','derived_edges','semantic_resolution','resolution_evidence','file_resolution','reference_kind','referenced_table','referenced_index','rule'):
                     if field in mapped:r[field]=mapped[field]
         write_json(ctx.out/'data'/f'{name}.json',rr)
     counts=read_json(ctx.out/'counts/scripts.json',{})
@@ -646,6 +646,13 @@ def main():
         if inventory_only:return 0
     check=audit(ctx)
     if a.command=='regen' and check['passed']:
+        import semantic_checks
+        semantic_verification=semantic_checks.run(ctx)
+        write_json(ctx.out/'data/semantic-verification.json',semantic_verification)
+        if not semantic_verification['passed']:
+            check['passed']=False
+            check['errors'].append('source semantic lookup checks failed; see data/semantic-verification.json')
+            write_json(ctx.out/'data/check.json',check)
         import graph_checks
         graph_verification=graph_checks.run(ctx)
         write_json(ctx.out/'data/graph-verification.json',graph_verification)

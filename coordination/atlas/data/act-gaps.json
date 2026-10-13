@@ -9,7 +9,7 @@
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1749
+      "unresolved_source_references": 1736
     },
     {
       "act": "act_2",
@@ -20,7 +20,7 @@
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1049
+      "unresolved_source_references": 1043
     },
     {
       "act": "act_3",
@@ -57,7 +57,7 @@
     }
   ],
   "ranking_scope": "Act 2+ only. Campaign engine command rows include native kind, factory/reader address, descriptor source, port status, and current anchors; unresolved source rows include resolver metadata.",
-  "shared_asset_count": 82,
+  "shared_asset_count": 85,
   "shared_rule": "A stable asset ID is shared only when its source-linked references occur in at least two explicitly assigned acts.",
   "status": "DONE",
   "top20_acts_2_plus": [
@@ -306,25 +306,6 @@
     },
     {
       "act": "act_2",
-      "actor": "DW_Cherub_RE",
-      "actor_id": "975fcd941392ad6a19b5",
-      "category": "unresolved_actor_table_dependency",
-      "confidence": "PROVEN",
-      "dependency": "CharacterProperties[55].AI -> ai#group0[7 ]",
-      "field": "Script",
-      "implementation": "port/game-data/ai.cpp:22",
-      "index": 7,
-      "port_status": "PARTIAL",
-      "priority": 2,
-      "reason": "OTHER",
-      "reference_id": "2190ee2635ae1012a5c4",
-      "rule": "CharAI::SetScriptByName; scripts/ai/<name>.luac or native __policy__",
-      "status": "UNRESOLVED",
-      "table": "ai#group0",
-      "work_status": "DONE"
-    },
-    {
-      "act": "act_2",
       "actor": "DW_Merchant",
       "actor_id": "89d6b10973db87e6eecd",
       "category": "unresolved_actor_table_dependency",
@@ -435,6 +416,25 @@
       "rule": "port/game-data/loot_audiovisual_v8.cpp:10; field Visual",
       "status": "UNRESOLVED",
       "table": "loot_audiovisual#group0",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor": "DW_Merchant",
+      "actor_id": "89d6b10973db87e6eecd",
+      "category": "unresolved_actor_table_dependency",
+      "confidence": "PROVEN",
+      "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[0].ItemListID -> loot_table#group2[176 ] -> List[2].Item -> loot_table#group3[1292 ]",
+      "field": "ModularModule",
+      "implementation": "port/game-data/items.cpp:43",
+      "index": 1292,
+      "port_status": "PARTIAL",
+      "priority": 2,
+      "reason": "OTHER",
+      "reference_id": "9593a42715c34b34682a",
+      "rule": "Item metadata stores a named modular node/icon; a matching file name alone is insufficient to prove its consumer.",
+      "status": "UNRESOLVED",
+      "table": "loot_table#group3",
       "work_status": "DONE"
     }
   ]

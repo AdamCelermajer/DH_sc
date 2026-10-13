@@ -21,8 +21,9 @@
       "processed": 95124,
       "states": {
         "AMBIGUOUS": 2,
-        "RESOLVED": 44586,
-        "UNRESOLVED": 50536
+        "NOT-NEEDED": 2485,
+        "RESOLVED": 49682,
+        "UNRESOLVED": 42955
       },
       "todo": 0,
       "total": 95124
@@ -138,8 +139,9 @@
     "script_reference_rows": {
       "processed": 4783,
       "states": {
-        "RESOLVED": 424,
-        "UNRESOLVED": 4359
+        "NOT-NEEDED": 2485,
+        "RESOLVED": 1130,
+        "UNRESOLVED": 1168
       },
       "todo": 0,
       "total": 4783

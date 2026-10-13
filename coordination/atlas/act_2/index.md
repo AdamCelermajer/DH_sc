@@ -699,6 +699,7 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/statue/animations/child_post_stunned.bdae | 36a9df7a23e10b03b4e2 | ORPHAN | [details](assets/36a9df7a23e10b03b4e2.md) |
 | file001053.dat | 37e0f64371a27f81b0a3 | ORPHAN | [details](assets/37e0f64371a27f81b0a3.md) |
 | 3d/modules/darkwood/mvp/darkwood_13_01.mvp | 37eda52bd631e4378098 | ORPHAN | [details](assets/37eda52bd631e4378098.md) |
+| file002998.dat | 385bc5da1d4b2f118712 | ORPHAN | [details](assets/385bc5da1d4b2f118712.md) |
 | 3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae | 39c00cf2fb0a0d7ec0ed | ORPHAN | [details](assets/39c00cf2fb0a0d7ec0ed.md) |
 | file003653.dat | 39dcde38573c4f0aca9d | ORPHAN | [details](assets/39dcde38573c4f0aca9d.md) |
 | 3d/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae | 3a72b29e6bbdbc64068b | ORPHAN | [details](assets/3a72b29e6bbdbc64068b.md) |
@@ -800,6 +801,7 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/modules/darkwood/mgp/darkwood_21_01.mgp | 892eaf6b8a3b1cff0a8e | ORPHAN | [details](assets/892eaf6b8a3b1cff0a8e.md) |
 | 3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae | 8ac719dcc31a99b4c960 | ORPHAN | [details](assets/8ac719dcc31a99b4c960.md) |
 | 3d/modules/darkwood/mvp/darkwood_29_01.mvp | 8b1faa093da383a3f8d7 | ORPHAN | [details](assets/8b1faa093da383a3f8d7.md) |
+| file003646.dat | 8bab32a5d838672bf26a | ORPHAN | [details](assets/8bab32a5d838672bf26a.md) |
 | 3d/characters/statue/animations/child_dying.bdae | 8be65fdaf3c4c1868dfe | ORPHAN | [details](assets/8be65fdaf3c4c1868dfe.md) |
 | 3d/modules/darkwood/mvp/darkwood_09_01.mvp | 8c91e583bc8ef243b4ab | ORPHAN | [details](assets/8c91e583bc8ef243b4ab.md) |
 | 3d/characters/prince/animations/prince_hurt_01.bdae | 8c922b02e66e80603f0c | ORPHAN | [details](assets/8c922b02e66e80603f0c.md) |
@@ -904,6 +906,7 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/faeries/animations/faeries_celeste_idle.bdae | d19f2af2ea4e9fa8e5f5 | ORPHAN | [details](assets/d19f2af2ea4e9fa8e5f5.md) |
 | 3d/modules/darkwood/mgp/darkwood_11_01.mgp | d1ba73fed5b3929a0142 | ORPHAN | [details](assets/d1ba73fed5b3929a0142.md) |
 | 3d/modules/darkwood/mvp/darkwood_09_01.mvp | d20e517eef55890bc46f | ORPHAN | [details](assets/d20e517eef55890bc46f.md) |
+| file004255.dat | d247966d5d764d252919 | ORPHAN | [details](assets/d247966d5d764d252919.md) |
 | 3d/modules/darkwood/mvp/darkwood_23_01.mvp | d2eb2205b9c7c88836cf | ORPHAN | [details](assets/d2eb2205b9c7c88836cf.md) |
 | 3d/characters/statue/animations/statue_hurt.bdae | d35792209db13e50fec1 | ORPHAN | [details](assets/d35792209db13e50fec1.md) |
 | file001157.dat | d53219191b1c6f49fafc | ORPHAN | [details](assets/d53219191b1c6f49fafc.md) |
@@ -957,8 +960,10 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/dark_queen/animations/dark_queen1stform_idle.bdae | fa14f24f06827c174759 | ORPHAN | [details](assets/fa14f24f06827c174759.md) |
 | 3d/modules/darkwood/mvp/darkwood_06_01.mvp | fa661e68395e64f5f2c8 | ORPHAN | [details](assets/fa661e68395e64f5f2c8.md) |
 | 3d/characters/statue/animations/child_great_pushback_dying.bdae | fa8966be49829764d862 | ORPHAN | [details](assets/fa8966be49829764d862.md) |
+| file000164.dat | faa3efea812cd75a179c | ORPHAN | [details](assets/faa3efea812cd75a179c.md) |
 | 3d/projectiles/elemental_bolt_lightning.bdae | fb70df094ad0a9c05898 | ORPHAN | [details](assets/fb70df094ad0a9c05898.md) |
 | 3d/modules/darkwood/mgp/darkwood_19_01.mgp | fc82e572022ba09ff5f7 | ORPHAN | [details](assets/fc82e572022ba09ff5f7.md) |
+| file004763.dat | fd6d6b3573aff98f84de | ORPHAN | [details](assets/fd6d6b3573aff98f84de.md) |
 | 3d/characters/statue/animations/child_attack_02.bdae | fe426ca313cc1522d3e4 | ORPHAN | [details](assets/fe426ca313cc1522d3e4.md) |
 | 3d/characters/statue/animations/child_pre_attack_02.bdae | fe8a7e1b22057a3f0876 | ORPHAN | [details](assets/fe8a7e1b22057a3f0876.md) |
 | 3d/modules/darkwood/mgp/darkwood_10_01.mgp | ff2e455187276eb34055 | ORPHAN | [details](assets/ff2e455187276eb34055.md) |

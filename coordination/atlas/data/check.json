@@ -8,8 +8,8 @@
     },
     "assets": {
       "statuses": {
-        "ORPHAN": 2461,
-        "REFERENCED": 10894
+        "ORPHAN": 2455,
+        "REFERENCED": 10900
       },
       "total": 13355
     },
@@ -46,8 +46,9 @@
     "references": {
       "statuses": {
         "AMBIGUOUS": 2,
-        "RESOLVED": 44586,
-        "UNRESOLVED": 50536
+        "NOT-NEEDED": 2485,
+        "RESOLVED": 49682,
+        "UNRESOLVED": 42955
       },
       "total": 95124
     },

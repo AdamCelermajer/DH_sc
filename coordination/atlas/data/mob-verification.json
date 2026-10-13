@@ -57,8 +57,10 @@
     {
       "detail": [
         ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_hurt.wav",
+        ".local-inputs/audio-v34/cache/m_level_swamp_sfx_swamp.vxn",
         ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_spit_water.wav",
         ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_intimidate_2.wav",
+        ".local-inputs/audio-v34/cache/m_boss_monster.wav",
         ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_submerge.wav",
         ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_spawn.wav",
         ".local-inputs/assets-extra/ios/data/sounds/sfx_serpent_intimidate_3.wav",

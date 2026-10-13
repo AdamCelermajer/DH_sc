@@ -56,8 +56,9 @@
       "symbolic_reference": 2544
     },
     "statuses": {
-      "RESOLVED": 424,
-      "UNRESOLVED": 4359
+      "NOT-NEEDED": 2485,
+      "RESOLVED": 1130,
+      "UNRESOLVED": 1168
     },
     "todo": 0,
     "total": 4783

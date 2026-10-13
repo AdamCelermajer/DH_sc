@@ -83,7 +83,10 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
 
 ```json
 {
+  "actor_skill_slot_joins": 40,
   "campaign_relations": 9129,
+  "file_path_joins": 4396,
+  "non_resource_reference_sites": 2485,
   "payload_gaps": [],
   "payloads": {
     "decoded_by_table": {
@@ -116,6 +119,12 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
     "resolved_rows": 1316,
     "unresolved_rows": 0
   },
+  "semantic_reference_statuses": {
+    "AMBIGUOUS": 2,
+    "NOT-NEEDED": 2485,
+    "RESOLVED": 49682,
+    "UNRESOLVED": 42955
+  },
   "symbolic_edges": 190
 }
 ```
@@ -137,16 +146,16 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
     "References": 95136,
     "Scripts": 11223,
     "Skills": 163,
-    "Tables": 22814,
+    "Tables": 22888,
     "Text": 42413,
     "UI": 14827
   },
-  "edges": 397899,
-  "nodes": 227364,
+  "edges": 407505,
+  "nodes": 227438,
   "profiles": 6852,
   "reference_sites": 95124,
   "scope": "All supplied corpus rows and files; evidence/inference/unknown distinctions are preserved.",
-  "unresolved_reference_sites": 50536
+  "unresolved_reference_sites": 42955
 }
 ```
 
@@ -591,8 +600,9 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
       "symbolic_reference": 2544
     },
     "statuses": {
-      "RESOLVED": 424,
-      "UNRESOLVED": 4359
+      "NOT-NEEDED": 2485,
+      "RESOLVED": 1130,
+      "UNRESOLVED": 1168
     },
     "todo": 0,
     "total": 4783
@@ -1109,8 +1119,9 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
       "processed": 95124,
       "states": {
         "AMBIGUOUS": 2,
-        "RESOLVED": 44586,
-        "UNRESOLVED": 50536
+        "NOT-NEEDED": 2485,
+        "RESOLVED": 49682,
+        "UNRESOLVED": 42955
       },
       "todo": 0,
       "total": 95124
@@ -1226,8 +1237,9 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
     "script_reference_rows": {
       "processed": 4783,
       "states": {
-        "RESOLVED": 424,
-        "UNRESOLVED": 4359
+        "NOT-NEEDED": 2485,
+        "RESOLVED": 1130,
+        "UNRESOLVED": 1168
       },
       "todo": 0,
       "total": 4783

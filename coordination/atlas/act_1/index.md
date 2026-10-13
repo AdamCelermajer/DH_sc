@@ -660,10 +660,12 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/troll/animations/troll_swamp_post_stunned.bdae | 121657178733fe5110f9 | ORPHAN | [details](assets/121657178733fe5110f9.md) |
 | sounds/sfx_cave_troll_hurt_1.wav | 12812f19739640ab220b | ORPHAN | [details](assets/12812f19739640ab220b.md) |
 | 3d/characters/troll/animations/troll_swamp_pre_attack_02.bdae | 13d76f12f0cf6869778e | ORPHAN | [details](assets/13d76f12f0cf6869778e.md) |
+| file006069.dat | 142d476efb5ea7a5208b | ORPHAN | [details](assets/142d476efb5ea7a5208b.md) |
 | 3d/light/swamp.lightset_xml | 156acd3b4f47a6b75b0b | ORPHAN | [details](assets/156acd3b4f47a6b75b0b.md) |
 | 3d/characters/troll/animations/troll_swamp_hurt_02.bdae | 1681cd79b6ce71024413 | ORPHAN | [details](assets/1681cd79b6ce71024413.md) |
 | 3d/light/swamp_es_1_1.lightset_xml | 17633716271761562097 | ORPHAN | [details](assets/17633716271761562097.md) |
 | 3d/characters/faeries/animations/faeries_template_anim.bdae | 178c6c68d9774e8c39b8 | ORPHAN | [details](assets/178c6c68d9774e8c39b8.md) |
+| file002400.dat | 1812a197cec76bac5275 | ORPHAN | [details](assets/1812a197cec76bac5275.md) |
 | sounds/sfx_serpent_hurt.wav | 182e24a7925d7192abd3 | ORPHAN | [details](assets/182e24a7925d7192abd3.md) |
 | 3d/characters/lizardman/animations/big_lizardman_post_stunned.bdae | 18df1469651583377015 | ORPHAN | [details](assets/18df1469651583377015.md) |
 | 3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae | 1966428b9a95dc571e28 | ORPHAN | [details](assets/1966428b9a95dc571e28.md) |
@@ -813,6 +815,7 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | file004483.dat | 893d0f6bafd863bfe775 | ORPHAN | [details](assets/893d0f6bafd863bfe775.md) |
 | 3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae | 8ac719dcc31a99b4c960 | ORPHAN | [details](assets/8ac719dcc31a99b4c960.md) |
 | scripts/skills/swamp_king_attack_4.luac | 8b1bb575f95b9b800d82 | ORPHAN | [details](assets/8b1bb575f95b9b800d82.md) |
+| file003646.dat | 8bab32a5d838672bf26a | ORPHAN | [details](assets/8bab32a5d838672bf26a.md) |
 | sounds/sfx_serpent_intimidate_3.wav | 8c0bbf905eb6430903e3 | ORPHAN | [details](assets/8c0bbf905eb6430903e3.md) |
 | 3d/characters/prince/animations/prince_hurt_01.bdae | 8c922b02e66e80603f0c | ORPHAN | [details](assets/8c922b02e66e80603f0c.md) |
 | sounds/sfx_witch_attack.wav | 8d764229cb2134e830cb | ORPHAN | [details](assets/8d764229cb2134e830cb.md) |
@@ -979,10 +982,12 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/witch/animations/witch_great_pushback_despawn.bdae | f95adf5cd318efd5bb55 | ORPHAN | [details](assets/f95adf5cd318efd5bb55.md) |
 | 3d/characters/slime/animations/slime_great_pushback_dying.bdae | f9a1bfb14f0c79ca4f15 | ORPHAN | [details](assets/f9a1bfb14f0c79ca4f15.md) |
 | 3d/characters/troll/animations/troll_swamp_dying.bdae | fa0e4801705d8813a874 | ORPHAN | [details](assets/fa0e4801705d8813a874.md) |
+| file000164.dat | faa3efea812cd75a179c | ORPHAN | [details](assets/faa3efea812cd75a179c.md) |
 | 3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp | fabdd1c61198236a383e | ORPHAN | [details](assets/fabdd1c61198236a383e.md) |
 | sounds/sfx_lizardman_die.wav | fae8a4bdb397ddf0ee09 | ORPHAN | [details](assets/fae8a4bdb397ddf0ee09.md) |
 | 3d/projectiles/elemental_bolt_lightning.bdae | fb70df094ad0a9c05898 | ORPHAN | [details](assets/fb70df094ad0a9c05898.md) |
 | 3d/characters/lizardman/animations/lizardman_pre_attack_01.bdae | fbed3d4e318ff8f1fddc | ORPHAN | [details](assets/fbed3d4e318ff8f1fddc.md) |
+| file004763.dat | fd6d6b3573aff98f84de | ORPHAN | [details](assets/fd6d6b3573aff98f84de.md) |
 | 3d/characters/lizardman/animations/lizardman_template_anim.bdae | fddb5cfb6b454c4af561 | ORPHAN | [details](assets/fddb5cfb6b454c4af561.md) |
 | 3d/characters/lizardman/animations/big_lizardman_pre_stunned.bdae | fddffcbe16a885f5e0dc | ORPHAN | [details](assets/fddffcbe16a885f5e0dc.md) |
 | 3d/projectiles/elemental_bolt_water.bdae | fe63b7413559061dd3d1 | ORPHAN | [details](assets/fe63b7413559061dd3d1.md) |

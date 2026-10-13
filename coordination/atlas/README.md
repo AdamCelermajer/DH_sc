@@ -34,8 +34,8 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | scripts | 219 | {"UNRESOLVED": 215, "DONE": 4} |
 | functions | 288 | {"UNRESOLVED": 257, "DONE": 31} |
 | calls | 7982 | {"DONE": 4170, "UNRESOLVED": 3812} |
-| references | 95124 | {"UNRESOLVED": 50536, "RESOLVED": 44586, "AMBIGUOUS": 2} |
-| assets | 13355 | {"ORPHAN": 2461, "REFERENCED": 10894} |
+| references | 95124 | {"UNRESOLVED": 42955, "RESOLVED": 49682, "AMBIGUOUS": 2, "NOT-NEEDED": 2485} |
+| assets | 13355 | {"ORPHAN": 2455, "REFERENCED": 10900} |
 | levels | 190 | {"DONE": 91, "UNRESOLVED": 15, "RESOLVED": 78, "INFERENCE": 6} |
 | actors | 448 | {"RESOLVED": 448} |
 | bosses | 65 | {"PROVEN": 59, "UNRESOLVED": 6} |
@@ -68,18 +68,18 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | loot | 1141 | 1141 | 0 | 0 | {} | {"PARTIAL": 1141} |
 | model | 13397 | 11097 | 0 | 2300 | {"NAME_NO_FILE": 1991, "FILE_MISSING": 280, "OTHER": 29} | {"UNKNOWN": 11388, "PARTIAL": 2009} |
 | model component | 1245 | 0 | 0 | 1245 | {"OTHER": 1245} | {"PARTIAL": 1245} |
-| named_reference | 3864 | 0 | 0 | 3864 | {"OTHER": 3861, "FILE_MISSING": 3} | {"UNKNOWN": 3864} |
-| numeric_reference | 294 | 0 | 0 | 294 | {"OTHER": 279, "FILE_MISSING": 15} | {"UNKNOWN": 294} |
+| named_reference | 3864 | 46 | 0 | 2032 | {"OTHER": 2029, "FILE_MISSING": 3} | {"UNKNOWN": 3864} |
+| numeric_reference | 294 | 17 | 0 | 212 | {"OTHER": 198, "FILE_MISSING": 14} | {"UNKNOWN": 294} |
 | projectile | 150 | 150 | 0 | 0 | {} | {"PARTIAL": 110, "UNKNOWN": 40} |
 | quest | 154 | 154 | 0 | 0 | {} | {"PARTIAL": 154} |
 | scene_object_condition | 472 | 462 | 0 | 10 | {"OTHER": 10} | {"UNKNOWN": 472} |
-| script | 1628 | 621 | 0 | 1007 | {"OTHER": 910, "FILE_MISSING": 97} | {"UNKNOWN": 1097, "PARTIAL": 531} |
+| script | 1628 | 681 | 0 | 947 | {"OTHER": 850, "FILE_MISSING": 97} | {"UNKNOWN": 1097, "PARTIAL": 531} |
 | serialized_string | 7727 | 4133 | 0 | 3594 | {"OTHER": 3594} | {"UNKNOWN": 7727} |
 | skill | 268 | 268 | 0 | 0 | {} | {"PARTIAL": 55, "UNKNOWN": 213} |
 | sound | 4754 | 2988 | 2 | 1764 | {"OTHER": 391, "FILE_MISSING": 395, "NAME_NO_FILE": 978} | {"UNKNOWN": 4140, "PARTIAL": 614} |
 | source_sound_ordinal | 202 | 202 | 0 | 0 | {} | {"PARTIAL": 202} |
-| symbolic_reference | 2544 | 424 | 0 | 2120 | {"OTHER": 2105, "NAME_NO_FILE": 4, "FILE_MISSING": 11} | {"UNKNOWN": 2544} |
-| texture | 11688 | 6856 | 0 | 4832 | {"FILE_MISSING": 492, "NAME_NO_FILE": 4340} | {"UNKNOWN": 11688} |
+| symbolic_reference | 2544 | 1067 | 0 | 843 | {"OTHER": 828, "NAME_NO_FILE": 4, "FILE_MISSING": 11} | {"UNKNOWN": 2544} |
+| texture | 11688 | 11186 | 0 | 502 | {"FILE_MISSING": 492, "NAME_NO_FILE": 10} | {"UNKNOWN": 11688} |
 
 ## Asset consumers and orphans
 
@@ -91,7 +91,7 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | ios | 256 | 254 | 2 |
 | ios-app-resources | 28 | 0 | 28 |
 | ios-glive | 50 | 0 | 50 |
-| ios-packed | 6157 | 5101 | 1056 |
+| ios-packed | 6157 | 5107 | 1050 |
 | original-cache | 152 | 112 | 40 |
 | port-runtime-original-cache | 387 | 1 | 386 |
 | sound-table | 2 | 2 | 0 |
@@ -441,7 +441,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1749
+      "unresolved_source_references": 1736
     },
     {
       "act": "act_2",
@@ -452,7 +452,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1049
+      "unresolved_source_references": 1043
     },
     {
       "act": "act_3",
@@ -489,7 +489,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
     }
   ],
   "ranking_scope": "Act 2+ only. Campaign engine command rows include native kind, factory/reader address, descriptor source, port status, and current anchors; unresolved source rows include resolver metadata.",
-  "shared_asset_count": 82,
+  "shared_asset_count": 85,
   "shared_rule": "A stable asset ID is shared only when its source-linked references occur in at least two explicitly assigned acts.",
   "status": "DONE",
   "top20_acts_2_plus": [
@@ -738,25 +738,6 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
     },
     {
       "act": "act_2",
-      "actor": "DW_Cherub_RE",
-      "actor_id": "975fcd941392ad6a19b5",
-      "category": "unresolved_actor_table_dependency",
-      "confidence": "PROVEN",
-      "dependency": "CharacterProperties[55].AI -> ai#group0[7 ]",
-      "field": "Script",
-      "implementation": "port/game-data/ai.cpp:22",
-      "index": 7,
-      "port_status": "PARTIAL",
-      "priority": 2,
-      "reason": "OTHER",
-      "reference_id": "2190ee2635ae1012a5c4",
-      "rule": "CharAI::SetScriptByName; scripts/ai/<name>.luac or native __policy__",
-      "status": "UNRESOLVED",
-      "table": "ai#group0",
-      "work_status": "DONE"
-    },
-    {
-      "act": "act_2",
       "actor": "DW_Merchant",
       "actor_id": "89d6b10973db87e6eecd",
       "category": "unresolved_actor_table_dependency",
@@ -867,6 +848,25 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "rule": "port/game-data/loot_audiovisual_v8.cpp:10; field Visual",
       "status": "UNRESOLVED",
       "table": "loot_audiovisual#group0",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor": "DW_Merchant",
+      "actor_id": "89d6b10973db87e6eecd",
+      "category": "unresolved_actor_table_dependency",
+      "confidence": "PROVEN",
+      "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[0].ItemListID -> loot_table#group2[176 ] -> List[2].Item -> loot_table#group3[1292 ]",
+      "field": "ModularModule",
+      "implementation": "port/game-data/items.cpp:43",
+      "index": 1292,
+      "port_status": "PARTIAL",
+      "priority": 2,
+      "reason": "OTHER",
+      "reference_id": "9593a42715c34b34682a",
+      "rule": "Item metadata stores a named modular node/icon; a matching file name alone is insufficient to prove its consumer.",
+      "status": "UNRESOLVED",
+      "table": "loot_table#group3",
       "work_status": "DONE"
     }
   ]
