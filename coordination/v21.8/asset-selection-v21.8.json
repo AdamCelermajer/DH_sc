@@ -144,18 +144,6 @@
       "3d/interface/swoosh_prince_2hand_combo_01.bdae",
       "3d/interface/swoosh_prince_2hand_combo_02.bdae"
     ],
-    "mud_lord_ai_and_fx": [
-      "scripts/ai/swampking_core.luac",
-      "scripts/skills/swamp_king_attack_1.luac",
-      "scripts/skills/swamp_king_attack_2.luac",
-      "scripts/skills/swamp_king_attack_3.luac",
-      "scripts/skills/swamp_king_attack_4.luac",
-      "scripts/skills/swampking_atk_spit.luac",
-      "3d/interface/fx_swampking_attack_03_poisonspit.bdae",
-      "3d/interface/fx_swampking_blue_shockwave.bdae",
-      "3d/interface/spell_dh2_hurt_steam.bdae",
-      "3d/projectiles/elemental_bolt_water.bdae"
-    ],
     "mage_hurt_fx": [
       "3d/interface/spell_dh2_hurt_water.bdae",
       "3d/interface/spell_dh2_hurt_earth.bdae",
