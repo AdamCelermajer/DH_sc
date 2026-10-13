@@ -2,11 +2,13 @@
 // argv[1] = package assets (original-cache tables, compiled level banks), argv[2] = Android data root holding the authored
 // AI/skill scripts and the ProjectileTable (assets-extra/android).
 #include "runtime_swampking_core_ai_v1.hpp"
+#include "runtime_timer_trap_v1.hpp"
 #include "../campaign_host/actor_clip_manifest.hpp"
 #include "../../content_paths.hpp"
 #include "../../original_actor_properties.hpp"
 #include "../../original_campaign_runtime.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -152,6 +154,27 @@ void definition(const std::string& package, const std::string& extra) {
           properties.classes.names[std::size_t(king.skills[2].aoe_class_id)] == "SwampKingSkillPoisonAttackAOE", "class ids");
     check(king.dive_anim_id == 1320 && king.intimidate_anim_id == 1329 && king.dive_anim_path.find("swampking_dive.bdae") != std::string::npos,
           "PlayAnim AnimDict ids");
+    // AOE pushback evidence (documented gap: the Session does not yet turn outcome bit 0x80 into SM_SetKnockBackState, F_ApplyResult
+    // 0x3b10b4): SkillTable flags of SwampKingAttack4 add the "great knockback" bit 0x100000 over the bites, and its class row carries
+    // the larger SnS_Push_Target_Chance (158 vs 108).
+    check((king.skills[3].skill_flags & 0x100000u) && !(king.skills[0].skill_flags & 0x100000u) && !(king.skills[1].skill_flags & 0x100000u),
+          "only the emerge AOE (SwampKingAttack4) carries the great-knockback skill flag");
+    {
+        OriginalActorProperties actor;
+        OriginalActorPropertyOptions options;
+        options.level_raw = 512;
+        check(resolve_original_actor_properties(properties.characters, properties.classes, "SwampKing", options, actor, error), error);
+        dh2::data::PropertyRules rules;
+        check(dh2::data::load_property_rules(properties.characters, rules, error), error);
+        const auto push = [&](int slot) {
+            dh2::data::PropertySheet sheet{};
+            check(enemy_ai::ranged_skill_formula_sheet_v1(properties.characters, properties.classes, rules, actor.sheets.resolved,
+                                                          king.skills[std::size_t(slot)].class_id, 0, sheet, error), error);
+            return sheet[183] / 256; // SnS_Push_Target_Chance
+        };
+        check(push(0) == 108 && push(1) == 108 && push(3) == 158, "class SnS_Push_Target_Chance: bites 108, emerge AOE 158");
+        check(actor.max_health == 900 && actor.level_raw == 512, "SwampKing at level 2 has 900 HP (dynamic level scales the class stats)");
+    }
     SwampkingCoreDefinitionV1 other;
     check(derive_swampking_core_v1(sources, "Witch", supported, other, reason) && !supported, "the witch (witch.luac) is not this boss shape");
     check(derive_swampking_core_v1(sources, "Swamp_LizadMan_Type1", supported, other, reason) && !supported, "a melee lizard is not this boss shape");
@@ -176,6 +199,45 @@ void definition(const std::string& package, const std::string& extra) {
 }
 } // namespace
 
+
+// TimerTrap (SummonTimerTrap 0x390c50 / TimerTrap::Create 0x39d724 / TimerTrap::SpecificUpdate 0x39d688) over the real tables.
+void timer_traps(const std::string& extra) {
+    const AssetCatalog assets(extra);
+    const auto rec = read_content(assets, "data/game_objects_pyarray.bin"), nam = read_content(assets, "data/game_objects_pyarraynames.bin");
+    std::vector<TimerTrapRowV1> traps;
+    std::vector<GameObjectDamagerRowV1> damagers;
+    std::string error;
+    check(load_timer_trap_tables_v1({rec.data(), rec.size()}, {nam.data(), nam.size()}, traps, damagers, error), "game_objects tables: " + error);
+    const auto trap = std::find_if(traps.begin(), traps.end(), [](const auto& r) { return r.name == "SwampkingSteamCloud"; });
+    check(trap != traps.end() && trap->delay_ms == 1000 && trap->script == "swampking_trap" && trap->visual >= 0, "SwampkingSteamCloud row: Delay 1000, swampking_trap");
+    const auto damager = std::find_if(damagers.begin(), damagers.end(), [](const auto& r) { return r.name == "Level01Damage"; });
+    // F_GOAttack 0x3b061c reads: +4 immunity-timer slot (-1: none), +8 immunity ms, +12 max, +16 min; damage = rand(min..max) << 8.
+    check(damager != damagers.end() && damager->min == 5 && damager->max == 10 && damager->damage == -1 && damager->immunity_delay == 0, "Level01Damage 5..10, no immunity slot");
+    const auto script_text = read_file(extra + "/data/scripts/objects/swampking_trap.luac");
+    TimerTrapScriptV1 script;
+    check(parse_timer_trap_script_v1(script_text, script, error), "swampking_trap.luac: " + error);
+    check(script.count_event == "inccounter" && script.counter_limit == 5 && script.damage_damager == "Level01Damage" && script.damage_element == "Water",
+          "trap script: inccounter / COUNTER_DELAY 5 / Level01Damage / Water");
+    TimerTrapModelV1 model;
+    check(load_timer_trap_model_v1(assets, "data/3D/GameObjects/go_trap_swampking_steam_cloud.bdae", model, error), "trap model: " + error);
+    check(model.activate_end > model.activate_start && model.remove_end > model.remove_start, "trap model clips");
+    int counts = 0;
+    for (const auto& event : model.events) counts += event.first == "inccounter" && event.second >= model.activate_start && event.second <= model.activate_end;
+    check(counts == 1, "one inccounter marker inside the activate clip");
+
+    TimerTrapDefinitionV1 def{*trap, script, model};
+    RuntimeTimerTrapsV1 owner;
+    owner.spawn(def, {10, 20, 30});
+    check(owner.size() == 1, "spawned");
+    int steps = 0;
+    while (owner.size() && steps < 60000) { owner.update(10); ++steps; }
+    // Activate every Delay (1 s): the counter reaches COUNTER_DELAY after 6 activations (inccounter 1..5 increment, the 6th removes).
+    const auto log = owner.take_log();
+    int activations = 0;
+    for (const auto& line : log) if (line.find("Remove() after") != std::string::npos) activations = std::stoi(line.substr(line.find("after ") + 6));
+    check(owner.size() == 0 && activations == 6, "the cloud activates 6 times then removes itself (video: ~7.6 s of mist)");
+    check(steps * 10 >= 6000 && steps * 10 < 12000, "trap lifetime ~7-9 s");
+}
 int main(int argc, char** argv) {
     try {
         check(argc == 3, "usage: runtime_swampking_core_ai_v1_tests <package assets> <android data root>");
@@ -183,6 +245,7 @@ int main(int argc, char** argv) {
         ai_script(argv[2]);
         skill_scripts(argv[2]);
         definition(argv[1], argv[2]);
+        timer_traps(argv[2]);
         std::cout << "runtime_swampking_core_ai_v1 tests passed (" << checks << " checks)\n";
         return 0;
     } catch (const std::exception& failure) {

@@ -1526,6 +1526,24 @@ int main(int argc,char** argv) {
         // (features/bosses/runtime_swampking_core_ai_v1); their SkillTree Anim roots join the derived bank and the PlayAnim clips
         // join the visual. Without the authored scripts the actor stays the incoming-only receiver above.
         std::map<std::string,std::optional<f::bosses::SwampkingCoreDefinitionV1>> bossDefinitionsByProfile;
+        // B155: swampking_OnInit (swampking_core.luac, identical to monster_OnInit) dynamic level: GetHostPlayerLevel clamped to the
+        // current LevelList row range (GetCurrentLevelRange(difficulty), 0x37f1f0) or else the row's own LevelMin/LevelMax, plus
+        // LevelOffset, then Character::_SetLevel (0x3b73a4: property 19, RecalcProperties, RegenHP/MP). The policy's initial
+        // property level plays that role (refill_vitals gives the regen).
+        const auto applySourceDynamicLevel=[&](const std::string& id,f::CombatSessionProfile& policy) {
+
+            const auto* levels=loadMetadataLevels(assets);
+            f::spawn::CurrentLevelRangeV1 range;
+            if(levels)range=f::spawn::current_level_range_v1(*levels,f::menu_metadata::find_level_row(*levels,options.level.generic_string()),
+                                                              frontendStarted?state.current_difficulty:0);
+            std::int32_t level=-1;std::string levelError;
+            if(!f::spawn::spawn_level_raw_v1(derivedTables.properties.characters,id,frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw,range,level,levelError))
+                throw std::runtime_error("Boss dynamic level: "+levelError);
+            if(level>=0)policy.propertyOptions.level_raw=level;
+            std::cout<<"[boss-ai] dynamic level profile="<<id<<" host_level="<<(frontendStarted?state.stats.level:actorProperties.level_raw/256)
+                     <<" current_range="<<(range.returned?std::to_string(range.minimum)+".."+std::to_string(range.maximum):std::string("none"))
+                     <<" level_raw="<<level<<'\n';
+        };
         const auto bossDefinition=[&](const std::string& id)->const f::bosses::SwampkingCoreDefinitionV1*{
             const auto known=bossDefinitionsByProfile.find(id);
             if(known!=bossDefinitionsByProfile.end())return known->second?&*known->second:nullptr;
@@ -2145,15 +2163,21 @@ int main(int argc,char** argv) {
                 // below (targetable, AI after the script puts it in Idle) instead of the animation-only presentation.
                 // B155: a placed Monster row (AI Type 4) that a script also hands to the AI (PutCharacterInIdle/KillActor by name) is a
                 // gameplay actor although no script spawns it (the Swamp King after Swamp_Serpent_Intro).
+                // Restricted to rows that have a recovered AI owner (the swampking_core boss shape): other placed Monster rows named by
+                // PutCharacterInIdle/KillActor (for example the Darkwood Dark Queen, edwardboss...) keep the existing prop admission until
+                // their own AI owner exists. A missing derivation table is not fatal here (the actor stays a prop).
                 const bool scriptIdledMonster=campaignRetained&&scriptIdledActors.count(placed.definition.name)&&[&]{
                     if(!derivedTablesLoaded) {
-                        if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))
-                            throw std::runtime_error("Script idled actor tables: "+error);
+                        std::string tablesError;
+                        if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,tablesError)) {
+                            std::cout<<"[campaign] script-idled actor "<<placed.definition.name<<" stays a prop: derivation tables unavailable ("<<tablesError<<")\n";
+                            return false;
+                        }
                         derivedTablesLoaded=true;
                     }
                     const auto aiProperty=authoredProfile->raw_properties.find("AI");
                     const auto* sourceAi=aiProperty==authoredProfile->raw_properties.end()?nullptr:dh2::data::ai_props(derivedTables.ai,std::int32_t(aiProperty->second.raw));
-                    return sourceAi&&sourceAi->type==4;
+                    return sourceAi&&sourceAi->type==4&&bossDefinition(id)!=nullptr;
                 }();
                 if(scriptIdledMonster&&scriptVisualOnlyProfiles.count(id)&&!scriptGameplayActors.count(placed.definition.name))
                     std::cout<<"[campaign] script-idled placed monster admitted as a gameplay actor name="<<placed.definition.name<<" profile="<<id<<'\n';
@@ -2193,6 +2217,7 @@ int main(int argc,char** argv) {
                         if(!f::enemy_ai::derive_ranged_skill_monster_policy_v1(derivedTables,id,derivedPolicy,error))throw std::runtime_error("Ranged skill monster policy: "+error);
                         rangedSkillMonsterDefinition(id);
                         if(const auto* boss=bossDefinition(id)) { // B155: the PlayAnim (AnimDict) clips of the boss AI
+                            applySourceDynamicLevel(id,derivedPolicy);
                             // The AI script calls MarkAsFlying(true) (PFObject flying mask) and only moves the actor by SetActorPosition
                             // to waypoints above the water floor (z 0 over a -114 floor). The port has no PF flying admission, so the
                             // clips' root translation stays in model space instead of PF-clamped world motion (it snapped him back).
@@ -3235,12 +3260,14 @@ int main(int argc,char** argv) {
         hostServices.actor_verbs.put_limbus=[&](f::ActorId id,std::string& e){return actorLifecycle.put_limbus(id,e);};
         // B155: live campaign lifecycle actors in Limbus (the Swamp King's intro lizards after Swamp_Serpent_Intro) are saved in
         // campaign_limbus_v1 so a Continue/checkpoint reload restores them in Limbus instead of standing Idle in the boss room.
+        std::vector<f::ActorId> lastLoggedLimbus;
         hostServices.live_limbus_actors=[&](std::vector<f::ActorId>& ids,std::string& e){
             ids.clear();
             std::size_t limbusRecords=0;
             for(const auto id:actorLifecycle.idle_baseline_ids()){const auto* life=actorLifecycle.status(id);const auto* live=combatSession?combatSession->actor(id):nullptr;
                 if(life&&life->state==0){++limbusRecords;if(live&&!live->is_dead())ids.push_back(id);}}
-            if(limbusRecords)std::cout<<"[campaign] live Limbus actors saved count="<<ids.size()<<" limbusRecords="<<limbusRecords<<'\n';
+            // Logged only when the saved set changed (saves with no Limbus actor stay silent and unchanged).
+            if(ids!=lastLoggedLimbus){lastLoggedLimbus=ids;if(!ids.empty())std::cout<<"[campaign] live Limbus actors saved count="<<ids.size()<<" limbusRecords="<<limbusRecords<<'\n';}
             e.clear();return true;};
         struct ScriptRoute {std::array<float,3> goal;bool ignore_collisions=false;};
         std::map<f::ActorId,ScriptRoute> scriptRoutes;
@@ -3323,6 +3350,11 @@ int main(int argc,char** argv) {
                 if(placed==population.actors().end())continue;
                 const bool limbus=actor->source_limbus;
                 const bool liveLimbus=!limbus&&!actor->is_dead()&&savedLiveLimbus.count(id);
+                {const auto* restoredTraits=combatSession->world()->traits(id);
+                 const int savedState=combatSession->original_actor_state(id);
+                 if(!f::OriginalActorLifecycle::idle_preset_restorable(limbus||liveLimbus,!actor->is_dead(),actor->source_physical_present,savedState,placed->enabled,restoredTraits&&restoredTraits->targetable)) {
+                    std::cout<<"Lifecycle Idle restore skipped actor="<<placed->definition.name<<" dead="<<actor->is_dead()<<" physical="<<(actor->source_physical_present?int(*actor->source_physical_present):-1)<<" session_state="<<savedState<<" targetable="<<(restoredTraits&&restoredTraits->targetable)<<'\n';
+                    continue;}}
                 if(!actorLifecycle.restore_idle_or_limbus(id,*actor,placed->enabled&&!liveLimbus,limbus||liveLimbus,e))return false;
                 const bool physical=actor->source_physical_present?*actor->source_physical_present:placed->enabled;
                 lifecyclePhysical[id]=physical&&!limbus&&!liveLimbus;lifecycleCollisions[id]=placed->enabled&&!limbus&&!liveLimbus;lifecycleFlags[id]=actorLifecycle.status(id)->flags;lifecycleIdleSuppressed[id]=false;
@@ -3709,7 +3741,6 @@ int main(int argc,char** argv) {
         if(options.retainHiddenActors||lifecycleEnabled) {
             combatSession->set_actor_combat_permission_provider([&](f::ActorId id){
                 if(id==combatSession->player_id())return true;
-                if(bossAiOwner&&bossAiOwner->untargetable(id))return false; // B155: SetIsTargetable(false) (submerged boss)
                 if(actorLifecycle.status(id))return actorLifecycle.combat_enabled(id)&&lifecyclePhysical[id]&&lifecycleCollisions[id];
                 const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
                 return placed!=population.actors().end()&&placed->enabled;
@@ -4836,9 +4867,13 @@ int main(int argc,char** argv) {
                          <<" activate="<<(hasEnable?(enableValue?(*enableValue?"true":"false"):"?"):"none")
                          <<" deactivate="<<(hasDisable?(disableValue?(*disableValue?"true":"false"):"?"):"none")
                          <<" tested="<<latch.enable_tested<<latch.disable_tested<<" enabled="<<(enabled?"true":"false")<<'\n';
-            // B155: a lifecycle actor in Limbus stays hidden: CSLimbus::OnFocus 0x3c2e58 clears its flags328, a different owner than
-            // the ObjectBase enable bit TestEnableCondition sets, so a re-tested activate_cond does not show it again.
-            if(enabled&&!placed.enabled){const auto* life=actorLifecycle.status(placed.definition.stableId);if(life&&life->state==0){e.clear();return true;}}
+            // B155: an Idle-preset lifecycle actor that a script put in Limbus (the Swamp King's intro lizards) stays hidden:
+            // CSLimbus::OnFocus 0x3c2e58 clears its flags328 and hides it, a different owner than the ObjectBase enable bit that
+            // TestEnableCondition 0x33e6d4 (SetEnable) sets, so a re-tested activate_cond does not show it again. Preset PreSpawn/Limbus
+            // actors (script-spawned) are not touched: their activation path is unchanged.
+            if(enabled&&!placed.enabled){const auto* life=actorLifecycle.status(placed.definition.stableId);
+                if(life&&life->state==0){const auto idleIds=actorLifecycle.idle_baseline_ids();
+                    if(std::find(idleIds.begin(),idleIds.end(),placed.definition.stableId)!=idleIds.end()){e.clear();return true;}}}
             if(enabled!=placed.enabled)return setCharacterSourceEnabled(placed.definition.stableId,enabled,e);
             e.clear();return true;
         };

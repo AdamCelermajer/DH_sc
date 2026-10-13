@@ -9,8 +9,15 @@
 // the object script's OnAnimEvent; swampking_trap.luac counts "inccounter" and calls Remove() (the "remove" clip, then the
 // object is deleted) once the counter reached COUNTER_DELAY. While active, TriggerTrap::Update 0x39eedc damages the
 // occupants of the trap zone through the script's OnDamageRoll -> DealDamages(victim, GameObjectDamager, Elemental).
-// The zone is the bounds of the model's _colzone particle-emitter node (Zone::InitPost 0x39771c); the port has no
-// decoder for point-cloud emitter bounds, so this owner does not apply the trap damage (reported as a gap).
+// The zone: Zone::InitPost 0x39771c looks for the model node "_colzone" (here _colzone_GL_pcloud) and, when SearchByType finds
+// exactly one mesh node under it, builds a CTriangleSelector from its mesh; Zone::IsInside 0x3970c8 then tests the vertical
+// +-100 segment through the victim against that selector. B155 decode (IDA + the BRES): the node is a glitch particle-cloud
+// emitter (SEmitter: EmitterType 0 = box 5 x 350 x 350, particle type 3 = billboards, 30/s) and createParticleSystem
+// 0x634c64 only attaches a particle mesh for types 1/2/7 and geometry references, so (inference, not run in the original) this emitter has no mesh: the selector is
+// empty and IsInside never reports a victim. Video 19:14-19:28 (56 frames at 4 fps, red HP bar pixel extent) shows the hero's
+// HP bar unchanged while he stands in the mist for all 6 activations, which a 5..10 per activation Level01Damage would have
+// visibly reduced. This owner therefore keeps the mist visual-only on purpose; the damage rule above is recorded for traps whose
+// _colzone does have a mesh (not decoded, so not modelled here).
 #include "../../asset_catalog.hpp"
 #include "../../../game-data/data.hpp"
 

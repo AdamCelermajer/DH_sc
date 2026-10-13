@@ -640,9 +640,11 @@ bool RuntimeSwampkingCoreAiV1::set_position(CombatSession& session, ActorId id, 
 bool RuntimeSwampkingCoreAiV1::play_anim(CombatSession& session, ActorId id, const SwampkingCoreDefinitionV1& def, ActorRuntime& r,
                                          bool dive, std::string& error) {
     // Character::_PlayAnim 0x3ba388 -> SM_SetAnimState: state 14 (CSAnim) without admission; the current skill is left.
+    // The Session admits a skill departure only to Idle3 (or Dead12) under its Runtime transition handler; the CSAnim14 entry then
+    // follows through play_actor_clip's own accepted source_program transition (Idle3 -> 14). Never ask for 14 directly.
     if (r.cast.active) {
         bool departed = false;
-        if (!session.cancel_actor_source_sequence(id, session.actor_binding_lease(), r.cast.generation, 14, departed, error)) return false;
+        if (!session.cancel_actor_source_sequence(id, session.actor_binding_lease(), r.cast.generation, 3, departed, error)) return false;
         r.cast.active = false;
     }
     if (!services_.play_clip) return fail(error, "Boss PlayAnim requires the scripted clip owner");
@@ -665,8 +667,13 @@ bool RuntimeSwampkingCoreAiV1::play_anim(CombatSession& session, ActorId id, con
 
 bool RuntimeSwampkingCoreAiV1::dive_state(CombatSession& session, ActorId id, const SwampkingCoreDefinitionV1& def, ActorRuntime& r,
                                           std::string& error) {
-    // SetSwampkingInDiveState.
+    // SetSwampkingInDiveState. The repeating dive-pattern timer (INDIVEPATTERN) calls it with no idle guard in the script; a
+    // dead (or retired) boss has no CSAnim to enter, so the host drops the call there (the original CharTimers die with it).
     if (r.sk == ScriptState::dive) return true;
+    {
+        const auto* self = session.world()->find_actor(id);
+        if (!self || !self->alive() || self->action == CharacterAction::dead) return true;
+    }
     r.sk = ScriptState::dive;
     // ClearAggro(target): the aggro table only; the target stays.
     r.dive_anim = true;
@@ -1303,12 +1310,16 @@ bool RuntimeSwampkingCoreAiV1::update(CombatSession& session, double dt, bool ai
         projectiles_.clear();
         lease_ = lease;
         lease_known_ = true;
+        targetability_changed_ = true; // the script state (and so SetIsTargetable) starts again; hosts re-read the permission
+        for (const auto& pair : definitions_) world->set_selection_suppressed(pair.first, false);
     }
     for (const auto& pair : definitions_) {
         if (!world->find_actor(pair.first)) continue;
         auto& runtime = actors_[pair.first];
         const bool before = runtime.targetable;
         if (!tick_actor(session, pair.first, pair.second, runtime, dt, ai, error)) return false;
+        // SetIsTargetable (Character+1045) is read by IsInteractive, i.e. target selection only: it never gates damage.
+        world->set_selection_suppressed(pair.first, !runtime.targetable);
         if (runtime.targetable != before) {
             targetability_changed_ = true;
             log("SetIsTargetable(" + std::string(runtime.targetable ? "true" : "false") + ") actor=" + std::to_string(pair.first));

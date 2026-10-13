@@ -8,11 +8,13 @@ bool SourceWorldObjects::load(const std::vector<ActorDefinition>& definitions,st
         if(d.stableId==invalid_actor_id||!staged.emplace(d.stableId,d).second){error="Invalid or duplicate source world object identity";return false;}
         for(float f:d.placement)if(!std::isfinite(f)){error="Nonfinite source world object placement";return false;}
     }
+    declaredModules_.clear();
+    for(const auto& declaration:module_child_occurrences(definitions))declaredModules_.insert(declaration.second);
     objects_=std::move(staged);modules_.clear();error.clear();return true;
 }
 bool SourceWorldObjects::bind_module(const std::string& occurrence,int id,std::string& error){
     if(occurrence.empty()||id<0){error="Source module binding requires an occurrence and original nonnegative ID";return false;}
-    bool exists=false;for(const auto& item:objects_)exists|=item.second.moduleName==occurrence;
+    bool exists=declaredModules_.count(occurrence)!=0;for(const auto& item:objects_)exists|=item.second.moduleName==occurrence;
     if(!exists){error="Unknown source module occurrence";return false;}
     const auto previous=modules_.find(occurrence);
     if(previous!=modules_.end()&&previous->second!=id){error="Source module occurrence already has a different runtime ID";return false;}

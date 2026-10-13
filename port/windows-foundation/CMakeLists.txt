@@ -1263,3 +1263,7 @@ add_test(NAME merchant_shop_v1 COMMAND merchant_shop_v1_tests)
 add_executable(menu_text_layout_v1_tests features/character_menu/menu_text_layout_v1_tests.cpp)
 target_link_libraries(menu_text_layout_v1_tests PRIVATE foundation_runtime_skills_menu)
 add_test(NAME menu_text_layout_v1 COMMAND menu_text_layout_v1_tests)
+# B155: SetIsTargetable only suppresses target selection, never a damage roll (PlayableActorWorld::damage_eligible).
+add_executable(playable_world_selection_suppression_tests features/combat/playable_world_selection_suppression_tests.cpp)
+target_link_libraries(playable_world_selection_suppression_tests PRIVATE foundation_data)
+add_test(NAME playable_world_selection_suppression COMMAND playable_world_selection_suppression_tests)

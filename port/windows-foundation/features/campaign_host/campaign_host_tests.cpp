@@ -660,6 +660,31 @@ void aborted_scene_repair_stamp_roundtrip(const std::string& directory) {
     check(fourth.host->applied_repairs().empty(),"no stamp in a legacy world");
 }
 
+// B155 review: the campaign_limbus_v1 component is written only when a live Limbus actor exists (or to overwrite a stale one), so
+// saves with no Limbus actor stay byte-identical to the earlier builds.
+void limbus_component_only_when_needed(const std::string& directory) {
+    const ObjectId lifecycleId = 0x43414d504c494650ull;
+    std::vector<ActorId> live;
+    Rig rig(directory, {}, {}, [&](CampaignHostServices& services) {
+        services.live_limbus_actors = [&](std::vector<ActorId>& ids, std::string&) { ids = live; return true; };
+    });
+    dh2::data::AiTables ai{};dh2::data::CombatRandom random{1,0};
+    std::string error;
+    check(load_original_ai_tables(AssetCatalog(directory),"original-cache/data/pydata/",ai,error),"source AI tables: "+error);
+    PlayableActorWorld world(ai,random);
+    check(rig.host->bind_lifecycle_object(world,error),error);
+    check(rig.host->persist_lifecycle(world,error),error);
+    const auto& components = [&]() -> const auto& { return world.find_object(lifecycleId)->state_components; };
+    check(components().count("campaign_lifecycle_v1")==1&&components().count("campaign_limbus_v1")==0,"no Limbus component while no actor is in Limbus");
+    live = {7, 9};
+    check(rig.host->persist_lifecycle(world,error)&&components().count("campaign_limbus_v1")==1,"Limbus component written for live Limbus actors");
+    std::set<ActorId> read;
+    check(CampaignHost::read_live_limbus_actors(world,read,error)&&read==std::set<ActorId>({7,9}),"Limbus component round-trips");
+    live.clear();
+    check(rig.host->persist_lifecycle(world,error)&&components().count("campaign_limbus_v1")==1,"a stale component is overwritten");
+    check(CampaignHost::read_live_limbus_actors(world,read,error)&&read.empty(),"the overwritten component is empty");
+}
+
 void scripted_clip_deferred_until_unset(const std::string& directory) {
     int finishes=0,plays=0;
     Rig rig(directory, {}, {}, [&](CampaignHostServices& services) {
@@ -726,6 +751,7 @@ int main(int argc, char** argv) {
         scripted_clip_completion(argv[1]);
         scripted_clip_deferred_until_unset(argv[1]);
         aborted_scene_repair_stamp_roundtrip(argv[1]); // B145
+        limbus_component_only_when_needed(argv[1]); // B155
         std::cout << "campaign_host tests passed\n";
         return 0;
     } catch (const std::exception& e) {

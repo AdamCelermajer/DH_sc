@@ -917,11 +917,16 @@ bool CampaignHost::persist_lifecycle(PlayableActorWorld& world, std::string& err
     if (services_.live_limbus_actors) { // B155: separate component, so an older build still reads the lifecycle component
         std::vector<ActorId> ids;
         if (!services_.live_limbus_actors(ids, error)) return false;
-        std::vector<std::uint8_t> limbus;
-        put_u32(limbus, kCampaignLimbusVersion);
-        put_u32(limbus, static_cast<std::uint32_t>(ids.size()));
-        for (const auto id : ids) { put_u32(limbus, static_cast<std::uint32_t>(id)); put_u32(limbus, static_cast<std::uint32_t>(id >> 32)); }
-        if (!world.set_object_component(kCampaignLifecycleObjectId, kCampaignLimbusComponent, std::move(limbus), error)) return false;
+        // Saves stay byte-identical when nothing is in Limbus: an empty set is written only to overwrite a stale component.
+        const WorldObject* lifecycle_object = world.find_object(kCampaignLifecycleObjectId);
+        const bool had_component = lifecycle_object && lifecycle_object->state_components.count(kCampaignLimbusComponent) != 0;
+        if (!ids.empty() || had_component) {
+            std::vector<std::uint8_t> limbus;
+            put_u32(limbus, kCampaignLimbusVersion);
+            put_u32(limbus, static_cast<std::uint32_t>(ids.size()));
+            for (const auto id : ids) { put_u32(limbus, static_cast<std::uint32_t>(id)); put_u32(limbus, static_cast<std::uint32_t>(id >> 32)); }
+            if (!world.set_object_component(kCampaignLifecycleObjectId, kCampaignLimbusComponent, std::move(limbus), error)) return false;
+        }
     }
     if (applied_repairs_.empty()) return true; // B145: no component, so saves that never needed a repair are unchanged
     std::vector<std::uint8_t> repairs;

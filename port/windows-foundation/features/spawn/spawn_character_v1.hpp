@@ -21,6 +21,7 @@
 #include "../../actor_definitions.hpp"
 #include "../../../game-data/character_templates_v78.hpp"
 #include "../../../game-data/data.hpp"
+#include "../../../game-data/level_tables.hpp"
 
 #include <array>
 #include <cstdint>
@@ -94,6 +95,20 @@ bool spawn_candidate_profiles_v1(const std::string& name, const dh2::data::Chara
 // (resolve_runtime_monster_level_v1). Rows with LevelMax == 0 are not scaled.
 bool spawn_level_raw_v1(const dh2::data::CharacterTable& characters, const std::string& row_name,
                         std::int32_t host_level_raw, std::int32_t& level_raw, std::string& error);
+
+// B155: LuaScript::_GetCurrentLevelRange (0x37f1f0) integer pair for the current LevelList row and the host difficulty
+// (first value = row+60+4*difficulty, second = row+48+4*difficulty, i.e. LevelRangeRow24 minimum[d], maximum[d]);
+// -1,-1 when the level has no LevelList row. monster.luac / swampking_core.luac OnInit use it in place of the character
+// row's own LevelMin/LevelMax whenever its second value is > -1.
+struct CurrentLevelRangeV1 {
+    bool returned = false;
+    std::int32_t minimum = -1, maximum = -1; // whole levels (not fixed point)
+};
+// Reads LevelRangeRow24 (row words 12..17: maximum[3] then minimum[3]) of the LevelList row.
+CurrentLevelRangeV1 current_level_range_v1(const dh2::data::LevelTables& levels, std::int32_t level_row, std::int32_t difficulty);
+bool spawn_level_raw_v1(const dh2::data::CharacterTable& characters, const std::string& row_name,
+                        std::int32_t host_level_raw, const CurrentLevelRangeV1& current_range,
+                        std::int32_t& level_raw, std::string& error);
 
 // ---------------------------------------------------------------------------
 // Pool of admitted slots. Slots exist before the CombatSession is built, so

@@ -165,6 +165,9 @@ const ActorState* PlayableActorWorld::find_actor(ActorId id) const {
     auto found=actors_.find(id);return found==actors_.end()?nullptr:&found->second;
 }
 bool PlayableActorWorld::eligible_target(const ActorState& attacker,const ActorState& victim) const {
+    return !selectionSuppressed_.count(victim.id)&&damage_eligible(attacker,victim);
+}
+bool PlayableActorWorld::damage_eligible(const ActorState& attacker,const ActorState& victim) const {
     const auto a=bindings_.find(attacker.id),d=bindings_.find(victim.id);
     const auto* live_a=find_actor(attacker.id);const auto* live_d=find_actor(victim.id);
     if(a==bindings_.end()||d==bindings_.end()||!live_a||!live_d||attacker.id==victim.id||
@@ -219,7 +222,7 @@ bool PlayableActorWorld::resolve_source_result(const std::string& source,
     OriginalMeleeResolution& output,std::string& error,
     const dh2::data::PropertySheet* attacker_formula_sheet) {
     const auto* a=find_actor(attacker);const auto* d=find_actor(victim);
-    if(source.empty()||marker.empty()||!a||!d||!eligible_target(*a,*d)){
+    if(source.empty()||marker.empty()||!a||!d||!damage_eligible(*a,*d)){
         error="Source result identity/target eligibility rejected";return false;
     }
     return calculate_source_result(source,attacker,victim,marker,mask,category,element,direct_amount,output,error,attacker_formula_sheet);

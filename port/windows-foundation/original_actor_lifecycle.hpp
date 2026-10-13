@@ -82,6 +82,16 @@ public:
     // Focus flag values) from the kept authored facts and replays no effect. Requires a kept non-preset baseline and no record.
     std::vector<ActorId> idle_baseline_ids() const;
     bool restore_idle_or_limbus(ActorId,ActorState&,bool enabled,bool limbus,std::string& error);
+    // Admission for the re-registration above (the review of B155 narrowed it): a Limbus record always qualifies; an Idle record only
+    // for a live actor whose saved session state is Idle3 and whose physical body is present. A dead or spawning actor keeps no
+    // record (forcing it to Idle3 would be wrong). A bodiless actor qualifies only when it is a presentation prop (not targetable
+    // anyway, such as the intro lizards a script puts in Limbus); a bodiless TARGETABLE actor would become untargetable, so it keeps none.
+    static bool idle_preset_restorable(bool limbus, bool alive, std::optional<bool> physical_present, int session_state, bool enabled, bool targetable) noexcept {
+        if (limbus) return true;
+        if (!alive || session_state != 3) return false;
+        if (physical_present && !*physical_present) return !targetable;
+        return physical_present ? true : enabled;
+    }
 private:
     struct Record { ActorState* actor=nullptr;OriginalLifecycleFacts facts;OriginalLifecycleStatus status; };
     std::map<ActorId,Record> records_;

@@ -61,6 +61,11 @@ struct SourceRootScopes::Impl {
             loadState->bytes=read_content(assets,uri);
             dh2::world::CanonicalPropertySourceServicesV1 sourceProperties;
             sourceProperties.position_rotation_default=&dh2::world::canonical_vec3_origin_v1();
+            // B155 (Darkwood): PropertyMap::LoadTemplate (0x51419c, PropertyMapTemplates.cpp:9) is only ASSERT(false). Its two
+            // branches test gAssertLevel (0x99f914 .bss) == 2 (deliberate NULL store) and == 1 (fprintf to stderr); nothing in
+            // the shipped library ever writes gAssertLevel, so it stays 0 and LoadTemplate returns without reading any file.
+            // Levels whose XML carries _templateName (003_darkwood.mlx) therefore load exactly as with the default descriptors.
+            sourceProperties.load_template_assertion=+[](void*,std::string& e){e.clear();return true;};
             properties=std::make_shared<dh2::world::CanonicalPropertyMapV1>(sourceProperties);
             auto debugSwitch=options.debugSwitch;
             if(debugSwitch) {
@@ -126,6 +131,14 @@ struct SourceRootScopes::Impl {
                 for(const auto& definition:definitions)
                     if(definition.moduleName.rfind(prefix,0)==0&&definition.moduleName.find('/',1)==std::string::npos)
                         scopes.insert(definition.moduleName);
+                if(scopes.empty()) {
+                    // A Module whose mgp/mvp declare no GameObject (Darkwood_08_01 and similar are an empty <Module/>) has no child
+                    // occurrence. The original still constructs the Module and its room; the host key is the same
+                    // "/<name>#<module ordinal>" ActorDefinition derives for the declaration's child scope (ordinal = Module declarations
+                    // staged before it, any depth), so the association stays unique and deterministic.
+                    for(const auto& declaration:module_child_occurrences(definitions))
+                        if(declaration.first->name==*name&&declaration.first->moduleName.empty())scopes.insert(declaration.second);
+                }
                 if(scopes.size()!=1){e="Source Module requires explicit unique declaration occurrence association: "+*name+" matches "+std::to_string(scopes.size())+" declaration hosts";return false;}
                 host=*scopes.begin();return true;
             };

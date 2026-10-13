@@ -64,6 +64,16 @@ int main(){try{
    check(restored.restore_idle_or_limbus(78,plainAgain,true,true,e)&&restored.status(78)->state==0&&!restored.status(78)->enabled&&log.empty(),"A saved Limbus actor restores at Limbus0");
    check(restored.put_idle(78,e)&&restored.status(78)->state==3,"A restored Limbus actor can be put back in Idle: "+e);
    restored.remove(78);expected=&newer;}
+  // B155 review: only a live, Idle3, physically present actor (or any Limbus record) is re-registered after a restore.
+  {using L=OriginalActorLifecycle;const std::optional<bool> present=true,absent=false,unknown;
+   check(L::idle_preset_restorable(false,true,present,3,true,true),"A live Idle3 actor with its body is re-registered");
+   check(L::idle_preset_restorable(false,true,unknown,3,true,true)&&!L::idle_preset_restorable(false,true,unknown,3,false,true),"Unknown physical presence follows the placed enable flag");
+   check(!L::idle_preset_restorable(false,true,absent,3,true,true),"A bodiless targetable actor keeps no record (it would become untargetable)");
+   check(L::idle_preset_restorable(false,true,absent,3,true,false),"A bodiless presentation prop (intro lizard) is re-registered so a script can put it in Limbus");
+   check(!L::idle_preset_restorable(false,false,present,3,true,true),"A dead actor keeps no record");
+   check(!L::idle_preset_restorable(false,true,present,1,true,true)&&!L::idle_preset_restorable(false,true,present,17,true,true)&&!L::idle_preset_restorable(false,true,present,12,true,true),
+         "Spawn/PreSpawn/Dead saved states are not forced to Idle3");
+   check(L::idle_preset_restorable(true,false,absent,12,false,false),"A Limbus record always qualifies");}
   // B145: anchor check against the preserved authored baseline (first axis-by-axis tolerance, no baseline = false).
   {ActorState probe=newer;probe.transform.position=facts.initial_transform.position;
    check(restored.at_pre_spawn_anchor(probe),"Actor on its authored anchor");

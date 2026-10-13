@@ -156,8 +156,25 @@ bool spawn_candidate_profiles_v1(const std::string& name, const dh2::data::Chara
     return true;
 }
 
+CurrentLevelRangeV1 current_level_range_v1(const dh2::data::LevelTables& levels, std::int32_t level_row, std::int32_t difficulty) {
+    CurrentLevelRangeV1 range;
+    range.returned = true;
+    if (level_row < 0 || static_cast<std::size_t>(level_row) >= levels.levels.size()) return range; // source: no row pushes -1,-1
+    const auto d = difficulty == 1 || difficulty == 2 ? difficulty : 0; // any other difficulty takes the case-0 words
+    const auto& words = levels.levels[static_cast<std::size_t>(level_row)].scalar.words;
+    range.maximum = static_cast<std::int32_t>(words[12 + d]);
+    range.minimum = static_cast<std::int32_t>(words[15 + d]);
+    return range;
+}
+
 bool spawn_level_raw_v1(const dh2::data::CharacterTable& characters, const std::string& row_name,
                         std::int32_t host_level_raw, std::int32_t& level_raw, std::string& error) {
+    return spawn_level_raw_v1(characters, row_name, host_level_raw, CurrentLevelRangeV1{}, level_raw, error);
+}
+
+bool spawn_level_raw_v1(const dh2::data::CharacterTable& characters, const std::string& row_name,
+                        std::int32_t host_level_raw, const CurrentLevelRangeV1& current_range,
+                        std::int32_t& level_raw, std::string& error) {
     level_raw = -1;
     std::size_t row = 0;
     if (!row_index(characters, row_name, row)) {
@@ -176,7 +193,9 @@ bool spawn_level_raw_v1(const dh2::data::CharacterTable& characters, const std::
     inputs.monster_level_min = static_cast<float>(field(characters, row_name, "LevelMin")) / 256.0f;
     inputs.monster_level_offset = static_cast<float>(field(characters, row_name, "LevelOffset")) / 256.0f;
     inputs.host_player_level = static_cast<float>(host_level_raw) / 256.0f;
-    inputs.current_range_values_returned = false;
+    inputs.current_range_values_returned = current_range.returned;
+    inputs.current_range_min = static_cast<float>(current_range.minimum);
+    inputs.current_range_max = static_cast<float>(current_range.maximum);
     enemy_ai::RuntimeMonsterLevelDecisionV1 decision;
     if (!enemy_ai::resolve_runtime_monster_level_v1(inputs, decision, error)) return false;
     if (!decision.calls_set_level) {

@@ -133,6 +133,42 @@ int main(int argc, char** argv) {
         require(!unscaled.empty(), "a row without LevelMax must exist");
         require(spawn_level_raw_v1(f.characters, unscaled, 768, level, f.error) && level == -1, "unscaled row keeps base level");
 
+        // --- B155: the Mud Lord (SwampKing, LevelMin 5 / LevelMax 6) runs swampking_OnInit's dynamic level ---
+        const std::string mudlord = "SwampKing";
+        require(spawn_level_raw_v1(f.characters, mudlord, 256, level, f.error) && level == 5 * 256, "Mud Lord host 1 clamps up to LevelMin 5");
+        require(spawn_level_raw_v1(f.characters, mudlord, 5 * 256, level, f.error) && level == 5 * 256, "Mud Lord host 5 -> 5");
+        require(spawn_level_raw_v1(f.characters, mudlord, 6 * 256, level, f.error) && level == 6 * 256, "Mud Lord host 6 -> 6");
+        require(spawn_level_raw_v1(f.characters, mudlord, 12 * 256, level, f.error) && level == 6 * 256, "Mud Lord host 12 clamps down to LevelMax 6");
+        // LuaScript::_GetCurrentLevelRange (0x37f1f0): minimum[d] = row word 15+d, maximum[d] = word 12+d of the 72-byte LevelList row.
+        dh2::data::LevelTables levels;
+        levels.levels.resize(2);
+        auto& words = levels.levels[1].scalar.words;
+        words[12] = 3; words[13] = 7; words[14] = 9;   // maximum normal / hard / very hard
+        words[15] = 2; words[16] = 4; words[17] = 8;   // minimum normal / hard / very hard
+        auto range = current_level_range_v1(levels, 1, 0);
+        require(range.returned && range.minimum == 2 && range.maximum == 3, "difficulty 0 range");
+        range = current_level_range_v1(levels, 1, 1);
+        require(range.minimum == 4 && range.maximum == 7, "difficulty 1 range");
+        range = current_level_range_v1(levels, 1, 2);
+        require(range.minimum == 8 && range.maximum == 9, "difficulty 2 range");
+        range = current_level_range_v1(levels, 1, 3);
+        require(range.minimum == 2 && range.maximum == 3, "any other difficulty takes the case-0 words");
+        range = current_level_range_v1(levels, -1, 0);
+        require(range.returned && range.minimum == -1 && range.maximum == -1, "no LevelList row pushes -1,-1");
+        range = current_level_range_v1(levels, 2, 0);
+        require(range.minimum == -1 && range.maximum == -1, "row outside the table pushes -1,-1");
+        // A returned range with maximum > -1 replaces the row's own LevelMin/LevelMax (swampking_core.luac / monster.luac).
+        range = current_level_range_v1(levels, 1, 0);
+        require(spawn_level_raw_v1(f.characters, mudlord, 12 * 256, range, level, f.error) && level == 3 * 256, "Mud Lord host 12 clamps to the level range maximum 3");
+        require(spawn_level_raw_v1(f.characters, mudlord, 256, range, level, f.error) && level == 2 * 256, "Mud Lord host 1 clamps to the level range minimum 2");
+        range = current_level_range_v1(levels, 0, 0); // an all-zero row: maximum 0 > -1 is still a range (clamps to 0)
+        require(range.maximum == 0, "zero row");
+        range = current_level_range_v1(levels, -1, 0);
+        require(spawn_level_raw_v1(f.characters, mudlord, 12 * 256, range, level, f.error) && level == 6 * 256, "range -1,-1 falls back to the row's LevelMax");
+        range.minimum = 1; range.maximum = 4; // 001_swamp.mlx, Normal (checked against the real LevelList in menu_metadata_v1_tests)
+        require(spawn_level_raw_v1(f.characters, mudlord, 12 * 256, range, level, f.error) && level == 4 * 256, "swamp Mud Lord at host 12 -> 4 (level range 1..4 beats LevelMin/LevelMax 5..6)");
+        require(spawn_level_raw_v1(f.characters, mudlord, 3 * 256, range, level, f.error) && level == 3 * 256, "swamp Mud Lord at host 3 -> 3");
+
         // --- pool: unique IDs, capacity, release, declarations ---
         SpawnPoolV1 pool;
         require(pool.reserve(lizard, 2, 256, f.error), f.error);
