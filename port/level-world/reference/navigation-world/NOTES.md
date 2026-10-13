@@ -38,7 +38,10 @@ path-validity predicates still check floor object bit 1.
 Failed `(source node, target node, expansion limit)` triples are retained and
 searched from the end; a matching triple returns failure without another graph
 search. A newly failed search appends a triple and clears the supplied output
-list. A successful output longer than one edge drops its last edge when that
+list. `SearchFailCache::add` (`0x52a504`) first empties a cache that already
+holds more than ten triples (`size > 0xA`), so the original keeps at most 11
+and re-searches an older failed pair once the cache has turned over; the native
+cache applies the same rule and never fills its bounded storage. A successful output longer than one edge drops its last edge when that
 edge's source is any of the target triangle's midpoint nodes. External output
 prefixes, absent objects/output, direct coordinates and cache contents are
 included in the differential comparison.
