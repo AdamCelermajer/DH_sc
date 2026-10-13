@@ -21895,6 +21895,10 @@ struct PlayerEquipmentNativeV1 {
    }catch(...){release(next,textures);throw;}
    release(equipment_draws,equipment_images);equipment_draws=std::move(next);
    equipment_images=std::move(textures);draw_part=std::move(mapping);
+   {std::string list;for(const auto& part:views)
+     list+=" ["+std::to_string(part.category)+"/"+std::to_string(part.module)+"/w"+std::to_string(part.weapon_slot)+"]";
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Player equipment views | %zu |%s | draws %zu",
+        views.size(),list.c_str(),equipment_draws.size());}
   }else{
    for(std::size_t i=0;i<equipment_draws.size();++i){auto& draw=equipment_draws[i];
     const auto& part=views.at(draw_part.at(i));
@@ -21917,6 +21921,22 @@ struct PlayerEquipmentNativeV1 {
   return true;
  }
 };
+// One-line report of the Player's equipped Items (both sets), used to compare the
+// equipment a Level starts with against what the profile saved.
+void log_player_equipment(const char* when){
+ if(!prince_combat.inventory)return;
+ const auto& inventory=*prince_combat.inventory;
+ std::string text;
+ for(std::size_t set=0;set<2;++set)for(unsigned slot=0;slot<9;++slot){
+  const auto* cell=inventory.equipment()[set][slot];
+  if(!cell||!cell->item)continue;
+  const auto* row=dh2::data::item(inventory.table(),cell->item->id);
+  text+=" s"+std::to_string(set)+"/"+std::to_string(slot)+"="+std::to_string(cell->item->id)+
+        "("+(row?row->name:std::string("?"))+")";
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","Player equipment | %s | set %d | items %zu |%s",
+     when,inventory.current_equipment(),inventory.items().size(),text.empty()?" none":text.c_str());
+}
 void clear_player_equipment_native(bool gl_context){
  if(gl_context)release(equipment_draws,equipment_images);
  else{equipment_draws.clear();equipment_images.clear();}
@@ -21935,7 +21955,8 @@ bool initialize_player_equipment_native(AAssetManager* assets,
     "Native player equipment connected | visual %016llx | canonical V4 %016llx | views %zu",
     static_cast<unsigned long long>(player_equipment_native->visual_identity),
     static_cast<unsigned long long>(reinterpret_cast<std::uintptr_t>(prince_combat.inventory.get())),
-    player_equipment_native->parts.size());return true;
+    player_equipment_native->parts.size());
+ log_player_equipment(restore?"level restore":"level entry");return true;
 }
 std::array<float,3> cross(const std::array<float,3>& a,const std::array<float,3>& b){return {a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]};}
 void normalize(std::array<float,3>& a){float n=std::sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);for(float& x:a)x/=n;}
@@ -25669,7 +25690,12 @@ bool native_script_set_visible(std::uintptr_t identity,bool visible,bool disable
 // current set's slots 1 and 2 (-1 when empty), then calls UnEquipItemFromSlot(1)
 // and (2). ReEquip calls EquipItemToSlot(slot, saved index) for each saved index
 // that is not -1. Both route through the Player's canonical V4 inventory and V6
-// equipment services, and the saved indices live on PlayerCombat.
+// equipment services, and the saved indices live on PlayerCombat. Neither saves:
+// Character::UnEquipItemFromSlot 0x3a9eb0 / EquipItemToSlot 0x3a9f30 only run
+// UpdateGearsProperties, INV_CheckItemsRequirements, INV_UpdateSkin and
+// ValidateHPMP. The hand scripts therefore must not SaveGame: a profile written
+// while the intro has the hands empty would reload without the weapon, since
+// the original Script_SaveGame is blocked by Script_BlockSaveGame in that window.
 static bool native_player_hand_services_ready(std::string& error){
  if(!player_equipment_native||!player_equipment_native->services||!prince_combat.inventory||
     &player_equipment_native->services->inventory()!=prince_combat.inventory.get()||
@@ -25696,7 +25722,7 @@ static int native_player_unequip_hands(){
  for(std::uint32_t slot=1;slot<=2;++slot){
   if(!player_equipment_native->services->unequip(slot,error))return -1;
  }
- return persist_after_inventory_mutation(prince_character.identity(),error)?1:-1;
+ return 1;
 }
 static int native_player_reequip_hands(){
  std::string error;
@@ -25708,7 +25734,7 @@ static int native_player_reequip_hands(){
   if(saved<0||std::size_t(saved)>=inventory.items().size())return -1;
   if(!player_equipment_native->services->equip(slot,static_cast<std::uint32_t>(saved),error))return -1;
  }
- return persist_after_inventory_mutation(prince_character.identity(),error)?1:-1;
+ return 1;
 }
 namespace {
 // Original tutorial cinematics (cinematic_Tuto_*). They are ordinary per-Level
