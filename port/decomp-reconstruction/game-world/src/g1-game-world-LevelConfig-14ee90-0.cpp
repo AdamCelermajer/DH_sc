@@ -5,8 +5,8 @@
 // the deleting destructor (D0, compiler generated), InitPost, the constructor (C2, with C1 the same body) and
 // DeclareProperties.
 //
-// PARTIAL: DeclareProperties does not register "dfog_colors" (+0x204). Its SimpleTypeProperty constructor has no
-// definition in src (see that function).
+// DeclareProperties registers "dfog_colors" (+0x204) through a SimpleTypeProperty<std::vector<Point3D<float>>> built from
+// the constructor defined in this file.
 //
 // Calls into other units: PropertyMap::AddProperty (game-items-save PropertyMap-ab4ea6-0.cpp), ObjectBase (game-world
 // ObjectBase-670ee4-*.cpp), DebugSwitches (dh2/DebugSwitches.hpp), Color255To01 (core-platform misc_util.cpp),
@@ -15,11 +15,16 @@
 #include "dh2/LevelConfig.hpp"
 
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "core-platform/misc_util.hpp"  // Color255To01(Point3D<float>&)
 #include "dh2/Application.hpp"          // Application::GetCurrentLevel
 #include "dh2/DebugSwitches.hpp"        // DebugSwitches::s_inst, load, GetSwitch
 #include "dh2/Level.hpp"                // Level::SetLevelConfig
+#include "dh2/Point3D.hpp"
+#include "dh2/Property.hpp"
+#include "dh2/SimpleTypeProperty.hpp"
 #include "dh2/global/ctrl_camera.hpp"   // Application& ApplicationGetInstance()
 
 // 0x3ef184 LevelConfig::Update()
@@ -103,6 +108,15 @@ LevelConfig::LevelConfig(ObjectBase::GO_IDS id) : ObjectBase(id) {
     unk_29c = false;                          // +0x29c InitPost guard
 }
 
+// The constructor of SimpleTypeProperty<std::vector<Point3D<float>>> (object, name, field, default). The other slots of this
+// instantiation are defined in game-items-save (cdc6b3-2); the constructor is not, so it is defined here. Property(name, begin,
+// end) keeps the offset end - begin, so the object is the PropertyMap base and the field is the vector.
+template <>
+SimpleTypeProperty<std::vector<Point3D<float>>>::SimpleTypeProperty(void* object, const char* name,
+                                                                    std::vector<Point3D<float>>* field,
+                                                                    std::vector<Point3D<float>> defaultValue)
+    : Property(name, object, field), m_defaultValue(std::move(defaultValue)) {}
+
 // 0x3f4b9c LevelConfig::DeclareProperties()
 // Registers the properties in the original order, each with its member and default: camera, music, fog and colour, sun,
 // shadow, the names and light sets, the dfog distances, and the vertex and index buffer sizes. The "gametype" and
@@ -110,7 +124,7 @@ LevelConfig::LevelConfig(ObjectBase::GO_IDS id) : ObjectBase(id) {
 // stores: 1132396544 is 255.0f, 1065353216 is 1.0f, -915135488 is -1000000.0f, 1128792064 is 200.0f and 1120403456 is
 // 100.0f.
 //
-// PARTIAL: "dfog_colors" (std::vector<Point3D<float>>, +0x204, offset 512 from the PropertyMap base) is not registered.
+// "dfog_colors" (std::vector<Point3D<float>>, +0x204, offset 512 from the PropertyMap base) is registered after rim_light_file.
 // The original builds a SimpleTypeProperty<std::vector<Point3D<float>>> with operator new(44), sets its name and offset,
 // copies an empty vector as the default, and passes it to PropertyMap::AddProperty(name, Property*). dh2/SimpleTypeProperty.hpp
 // declares the (object, name, field, default) constructor for that type, but no definition exists in src. The only
@@ -145,7 +159,13 @@ void LevelConfig::DeclareProperties() {
     AddProperty<std::string>("fixed_light_set", m_fixedLightSet, std::string());
     AddProperty<std::string>("mp_script", m_mpScript, std::string());
     AddProperty<std::string>("rim_light_file", m_rimLightFile, std::string("char_rim_light.tga"));
-    // PARTIAL: "dfog_colors" is not registered here (see above).
+    {
+        // dfog_colors (+0x204): operator new(44), the name, the offset from the PropertyMap base (+0x200), the empty default.
+        auto* dfog = new SimpleTypeProperty<std::vector<Point3D<float>>>(static_cast<PropertyMap*>(this), "dfog_colors",
+                                                                         &m_dfogColors, std::vector<Point3D<float>>());
+        Property* property = dfog;
+        AddProperty("dfog_colors", property);
+    }
     AddProperty<float>("dfog_change_min_dist", m_dfogChangeMinDist, 200.0f);
     AddProperty<float>("dfog_blend_dist", m_dfogBlendDist, 100.0f);
     AddProperty<int>("prog_vertex_buffer_size", m_progVertexBufferSize, 5242880);

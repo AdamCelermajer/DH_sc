@@ -43,6 +43,72 @@ void CTerrainSceneNode::getCurrentLODOfPatches(std::vector<std::int32_t>& lods) 
     }
 }
 
+// Node base and virtual bodies of the canonical class. The constructor, destructor, render, the material forwards, the
+// clone, the attribute slots and the registration are PARTIAL (see the ledger.d/scene3-CTerrainSceneNode.csv rows).
+
+// Default node. Not an original constructor.
+CTerrainSceneNode::CTerrainSceneNode(int id)
+    : ISceneNode(id, core::vector3d<float>{0.0f, 0.0f, 0.0f}, core::quaternion(), core::vector3d<float>{1.0f, 1.0f, 1.0f}) {}
+
+// 0x6d127c (D2) and 0x6d132c (D1). PARTIAL: the base destruction is the ISceneNode destructor only.
+CTerrainSceneNode::~CTerrainSceneNode() {}
+
+// 0x6d176c. PARTIAL: the render path and the render buffer are not reconstructed; does nothing.
+void CTerrainSceneNode::render(void* renderContext) {
+    (void)renderContext;
+}
+
+// 0x6d0074. PARTIAL: forwards to the holder at +0x1ac, not declared; returns an empty pointer.
+boost::intrusive_ptr<video::CMaterial> CTerrainSceneNode::getMaterial(std::uint32_t index) const {
+    (void)index;
+    return {};
+}
+
+// 0x6d0098. PARTIAL: forwards to the holder at +0x1ac, not declared; returns 0.
+std::uint32_t CTerrainSceneNode::getMaterialCount() const {
+    return 0;
+}
+
+// 0x6d5518. PARTIAL: the node copy is not reconstructed; returns nullptr.
+ISceneNode* CTerrainSceneNode::clone() {
+    return nullptr;
+}
+
+// 0x6d083c. PARTIAL: the ISceneNode base serialization is not reconstructed; does nothing.
+void CTerrainSceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const {
+    (void)attributes;
+    (void)options;
+}
+
+// 0x6d5268. PARTIAL: the base read and the terrain attributes are not reconstructed; does nothing.
+void CTerrainSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) {
+    (void)attributes;
+    (void)options;
+}
+
+// 0x6d3544. PARTIAL: returns the ISceneNode base registration result.
+int CTerrainSceneNode::onRegisterSceneNode() {
+    return ISceneNode::onRegisterSceneNode();
+}
+
+// 0x6d2ec0. Stores the position at +0x134 and sets the dirty byte +0x1bf. PARTIAL: applyTransformation is not called.
+void CTerrainSceneNode::setPosition(const core::vector3d<float>& value) {
+    position = value;
+    unk_1bf = 1;
+}
+
+// 0x6d2ef0. Stores the quaternion at +0x140 and sets the dirty byte +0x1bf. PARTIAL: applyTransformation is not called.
+void CTerrainSceneNode::setRotation(const core::quaternion& value) {
+    rotation = value;
+    unk_1bf = 1;
+}
+
+// 0x6d2f28. Stores the scale at +0x15c and sets the dirty byte +0x1bf. PARTIAL: applyTransformation is not called.
+void CTerrainSceneNode::setScale(const core::vector3d<float>& value) {
+    scale = value;
+    unk_1bf = 1;
+}
+
 // PARTIAL rows of this batch (no body written; the ledger notes give the reason per row):
 //   0x6d0074 getMaterial(uint) const          forwards to the holder at +0x1ac (vtable slot 6, sret); holder type not declared.
 //   0x6d0098 getMaterialCount() const         forwards to the holder at +0x1ac (vtable slot 4); holder type not declared.

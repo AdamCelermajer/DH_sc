@@ -23,11 +23,11 @@ includes_for() {  # one include set for every folder: own include dir first, the
   for c in "${engine[@]}" vendor-lua vendor-box2d vendor-gameswf; do
     [[ -d $dr/$c/include ]] && echo "-I$dr/$c/include"
   done
-  for d in -DNOMINMAX -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_THREAD=0; do
+  for d in -DNOMINMAX -DTIXML_USE_STL -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_THREAD=0; do
     echo "$d"
   done
   for v in vendor-lua/upstream/lua-5.1.4/src vendor-box2d/upstream/box2d-2.0.1/Include \
-           vendor-box2d/upstream/box2d-2.0.1/Source vendor-gameswf/upstream/gameswf-r1714; do
+           vendor-box2d/upstream/box2d-2.0.1/Source vendor-gameswf/upstream/gameswf-r1714 tinyxml-and-c-libs/upstream/tinyxml-2.5.3; do
     echo "-isystem"
     cygpath -m "$dr/$v" 2>/dev/null || echo "$dr/$v"
   done

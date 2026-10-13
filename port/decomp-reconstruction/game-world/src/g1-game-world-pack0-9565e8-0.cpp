@@ -106,7 +106,7 @@ void CheckpointZone::OnCollisionBegins(GameObject* other) {
     if (character->IsPlayer() && character == localCharacter) {
         // The original calls the save when the zone's position is not the character's m_savedPoint (+0x1468).
         // The save is made at m_position (+0x160) with usePosition false.
-        if (!(m_position == character->m_savedPoint) && level != nullptr) {
+        if (!(m_position == character->m_savedPoint)) {
             level->CheckpointSave(m_position, false);
         }
     }

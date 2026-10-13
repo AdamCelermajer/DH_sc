@@ -32,7 +32,7 @@ int main() {
     CHECK(amsh.loopMode && amsh.renderFromIdentity);
 
     CTerrainSceneNode terrain;
-    CHECK(tagIs(terrain.getType(), "terr"));
+    CHECK(tagIs(static_cast<std::uint32_t>(terrain.getType()), "terr"));
     terrain.position.X = 1.0f;
     CHECK(terrain.getPosition().X == 1.0f);
     CHECK(&terrain.getScale() == &terrain.scale);

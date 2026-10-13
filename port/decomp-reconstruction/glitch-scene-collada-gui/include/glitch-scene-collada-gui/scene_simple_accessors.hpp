@@ -12,6 +12,7 @@
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CMesh.hpp"
+#include "glitch-scene-collada-gui/scene/CTerrainSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
 #include "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp"
 #include "glitch-scene-collada-gui/scene/scene_types.hpp"
@@ -165,58 +166,6 @@ public:
 // and scene/CDummyTransformationSceneNode.hpp.
 
 // CSkyBoxSceneNode: canonical class in scene/CSkyBoxSceneNode.hpp.
-
-// One terrain patch record, stride 0x38. The LOD word is the first field and the
-// bounding box follows it; the rest of the record is not mapped.
-struct STerrainPatch {
-    std::int32_t lod = 0;                    // +0x00
-    core::aabbox3d<float> boundingBox;       // +0x04
-};
-
-// The 32-bit layout evidence of the earlier layouts/scene_members.hpp put the patch container at +0x178 / +0x17c and a material
-// holder at +0x1ac; the members below follow the bodies of the accessors instead, so those two are not repeated.
-class CTerrainSceneNode {
-public:
-    // 0x6d00b4 _ZNK6glitch5scene17CTerrainSceneNode8getScaleEv
-    const core::vector3d<float>& getScale() const;
-    // 0x6d00bc _ZNK6glitch5scene17CTerrainSceneNode11getRotationEv
-    const core::vector3d<float>& getRotation() const;
-    // 0x6d00c4 _ZNK6glitch5scene17CTerrainSceneNode11getPositionEv
-    const core::vector3d<float>& getPosition() const;
-    // 0x6d00cc _ZNK6glitch5scene17CTerrainSceneNode7getTypeEv (tag "terr")
-    std::uint32_t getType() const;
-    // 0x6d01e8 _ZNK6glitch5scene17CTerrainSceneNode14getBoundingBoxEv
-    const core::aabbox3d<float>& getBoundingBox() const;
-
-    core::vector3d<float> position;     // +0x134
-    core::vector3d<float> rotation;     // +0x140
-    core::vector3d<float> scale;        // +0x15c
-    // The patch grid is row-major: index = row * patchesPerSide + column.
-    // 0x6d01c4 _ZN6glitch5scene17CTerrainSceneNode16setRotationPivotERKNS_4core8vector3dIfEE
-    void setRotationPivot(const core::vector3d<float>& pivot);
-    // 0x6d0200 _ZNK6glitch5scene17CTerrainSceneNode14getBoundingBoxEii
-    const core::aabbox3d<float>& getBoundingBox(std::int32_t row, std::int32_t column) const;
-    // 0x6d021c _ZN6glitch5scene17CTerrainSceneNode13setLODOfPatchEiii
-    void setLODOfPatch(std::int32_t row, std::int32_t column, std::int32_t lod);
-    // 0x6d03f0 _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesEi
-    void setCurrentLODOfPatches(std::int32_t lod);
-    // 0x6d042c _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesERKSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
-    void setCurrentLODOfPatches(const std::vector<std::int32_t>& lods);
-    // 0x6d21ac _ZNK6glitch5scene17CTerrainSceneNode22getCurrentLODOfPatchesERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
-    void getCurrentLODOfPatches(std::vector<std::int32_t>& lods) const;
-    // 0x6d0238 _ZN6glitch5scene17CTerrainSceneNode19overrideLODDistanceEid
-    // Returns 1 when the index is inside the LOD table (the squared distance is stored), else 0.
-    std::int32_t overrideLODDistance(std::int32_t index, double distance);
-
-    core::aabbox3d<float> boundingBox;  // +0x184
-    core::vector3d<float> rotationPivot;  // +0x150
-    std::uint8_t rotationPivotFlag = 0;   // +0x1be (cleared by setRotationPivot)
-    std::uint8_t lodDistanceOverridden = 0;  // +0x1bd (set to 1 by overrideLODDistance)
-    std::int32_t lodDistanceCount = 0;       // +0x180 (entries of the squared LOD distance table)
-    std::vector<double> lodDistanceSquared;  // +0x19c (squared LOD distances, lodDistanceCount entries)
-    std::int32_t patchesPerSide = 0;      // +0x17c
-    std::vector<STerrainPatch> patches;   // +0x1a8, patchesPerSide squared entries
-};
 
 class CShadowVolumeSceneNode {
 public:

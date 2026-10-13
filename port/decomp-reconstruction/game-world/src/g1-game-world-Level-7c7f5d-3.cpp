@@ -11,6 +11,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <set>
 #include <string>
 
 #include "core-platform/device.hpp"               // Device::IsFixedPipeline (static)
@@ -33,7 +34,10 @@
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuDebug.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/VisualObject.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/Random.hpp"
@@ -120,14 +124,29 @@ void Level::_LoadLightSet() {
 }
 
 // 0x3f55a4 Level::_FlushMeshes()
-// PARTIAL: the walk is not reconstructed, so the function does nothing yet. For each node of ObjectManager::m_objectMap
-// (+0x0c) whose ObjectListItem flag (node +0x2c) is set, the original takes the object handle, converts it to a
-// GameObject and, when the GameObject's m_visualObject (+0x2d8) is set, calls VisualObject::FlushMeshes and collects the
-// returned name into a std::set. It then releases the removable buffer of the glitch collada CResFile of each name
-// (CResFileManager::Inst->get(name, 0) and releaseRemovableBuffer(1)). Waits on dh2/ObjectListItem.hpp (not written: the
-// flag, the handle and the object pointer are not declared) and on the CResFileManager and CResFile accessors, which the
-// glitch-scene-collada-gui headers do not declare.
+// For each entry of ObjectManager::m_objectMap (in key order) whose object (ObjectListItem +0x18, node +0x2c) is set,
+// the handle is resolved to a GameObject, and when that GameObject's m_visualObject (+0x2d8) is set,
+// VisualObject::FlushMeshes is called on it and the returned model name is inserted into a set. Then, in set order,
+// CResFileManager::Inst->get(name, false) and releaseRemovableBuffer(1) run on each non-null result. The set is
+// destroyed at the end. The disassembly walks the two trees in order; that is std::map and std::set iteration here.
 void Level::_FlushMeshes() {
+    std::set<std::string> names;
+    for (const auto& entry : dword_99F764->m_objectMap) {
+        if (entry.second.m_object == nullptr) {
+            continue;
+        }
+        ObjectHandle handle(entry.second.m_object);
+        GameObject* object = handle;
+        if (object != nullptr && object->m_visualObject != nullptr) {
+            names.insert(object->m_visualObject->FlushMeshes());
+        }
+    }
+    for (const std::string& name : names) {
+        glitch::collada::CResFile* file = glitch::collada::CResFileManager::Inst->get(name.c_str(), false);
+        if (file != nullptr) {
+            file->releaseRemovableBuffer(1);
+        }
+    }
 }
 
 // 0x3f5ea0 Level::_LoadBatchMap()

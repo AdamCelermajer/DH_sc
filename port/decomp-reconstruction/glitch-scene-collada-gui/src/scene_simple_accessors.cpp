@@ -7,7 +7,6 @@ namespace glitch::scene {
 namespace {
 // Four-character type tags, stored as the little-endian words the original returns.
 constexpr std::uint32_t kTagSkyBox = 0x5f796b73;      // "sky_"
-constexpr std::uint32_t kTagTerrain = 0x72726574;     // "terr"
 constexpr std::uint32_t kTagShadowVolume = 0x77646873;  // "shdw"
 constexpr std::uint32_t kTagAnimatedMesh = 0x68736d61;  // "amsh"
 constexpr std::uint32_t kTagParticleSystem = 0x6c637470;  // "ptcl"
@@ -56,13 +55,13 @@ std::uint32_t IParticleSpinAffector::getType() const { return 6; }
 const core::vector3d<float>& CTerrainSceneNode::getScale() const { return scale; }
 
 // 0x6d00bc _ZNK6glitch5scene17CTerrainSceneNode11getRotationEv
-const core::vector3d<float>& CTerrainSceneNode::getRotation() const { return rotation; }
+const core::quaternion& CTerrainSceneNode::getRotation() const { return rotation; }
 
 // 0x6d00c4 _ZNK6glitch5scene17CTerrainSceneNode11getPositionEv
 const core::vector3d<float>& CTerrainSceneNode::getPosition() const { return position; }
 
 // 0x6d00cc _ZNK6glitch5scene17CTerrainSceneNode7getTypeEv
-std::uint32_t CTerrainSceneNode::getType() const { return kTagTerrain; }
+E_SCENE_NODE_TYPE CTerrainSceneNode::getType() const { return ESNT_TERRAIN; }
 
 // 0x6d01e8 _ZNK6glitch5scene17CTerrainSceneNode14getBoundingBoxEv
 const core::aabbox3d<float>& CTerrainSceneNode::getBoundingBox() const { return boundingBox; }

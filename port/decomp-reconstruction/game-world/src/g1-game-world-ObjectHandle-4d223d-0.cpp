@@ -1,7 +1,6 @@
 // Batch g1-game-world-ObjectHandle-4d223d-0 (part 1 of 1): the ObjectHandle constructors, GetObject and its const
 // thunk, the GameObject and Character conversions, and the Container* conversion.
-// Declarations come from dh2/ObjectHandle.hpp. The one partial function is GetObject: its id-map lookup waits on the
-// ObjectListItem layout.
+// Declarations come from dh2/ObjectHandle.hpp. GetObject resolves through ObjectManager's id map (dh2/ObjectListItem.hpp).
 //
 // Layout facts used here (original 32-bit offsets):
 //   ObjectHandle +0x00 m_id          object id, the key of ObjectManager's id map
@@ -66,22 +65,20 @@ ObjectHandle::ObjectHandle(ObjectBase* object) : ObjectHandle() {
 }
 
 // 0x33fdc0 _ZN12ObjectHandle9GetObjectEb
-// PARTIAL. The original resolves the handle in two steps. An id of 0 gives null. Otherwise it reads the cached pointer,
-// and when that is null or the handle's generation differs from ObjectManager's generation (+0x78) it looks the id up
-// in dword_99F764->m_objectMap (operator[] on the id, then ObjectListItem +0x18 is the object) and stores the result
-// with the current generation into the handle.
-// Reconstructed here: the id-0 case, the cache hit (cached pointer and matching generation), and the assert.
-// NOT made: the id-map lookup and the cache refresh. ObjectListItem has no header yet (waits on dh2/ObjectListItem.hpp
-// and layout request "ObjectListItem +0x18 ObjectBase* m_object"), so a miss returns null and the cache is left as it is.
-// The assert reports ObjectHandle.cpp:49 for the unresolved "obj" when assertFound is set.
+// Resolves the handle. An id of 0 gives null. Otherwise, when the cached pointer is null or the handle's generation
+// differs from ObjectManager's generation (+0x78), the id is looked up in dword_99F764->m_objectMap (operator[] on the
+// id, inserting if absent; ObjectListItem +0x18 is the object), and the result and the current generation are stored
+// into the handle. The assert reports ObjectHandle.cpp:49 for the unresolved "obj" when assertFound is set.
+// The map lookup and the cache refresh follow the disassembly (STMIB R6,{R4,R8}: m_cached and m_generation).
 ObjectBase* ObjectHandle::GetObject(bool assertFound) {
     ObjectBase* object = nullptr;
     if (m_id != 0) {
         const std::uint32_t generation = static_cast<std::uint32_t>(dword_99F764->m_generation);  // ObjectManager +0x78
         object = m_cached;
         if (object == nullptr || m_generation != generation) {
-            // PARTIAL: the id-map lookup and the refresh of m_cached and m_generation are not made.
-            object = nullptr;
+            object = dword_99F764->m_objectMap[static_cast<std::int32_t>(m_id)].m_object;
+            m_cached = object;
+            m_generation = generation;
         }
     }
     if (assertFound && object == nullptr) {
