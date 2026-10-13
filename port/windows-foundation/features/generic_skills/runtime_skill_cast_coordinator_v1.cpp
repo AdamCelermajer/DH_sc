@@ -21,14 +21,34 @@ bool fail(std::string& error, const char* message) {
 // P15 FAERYSOUND (B050): original OnPreSkill_ PlaySound3D labels. Called after the
 // UseMana/cooldown prefix is committed, for every cast (empty target list included).
 [[maybe_unused]] void request_faery_pre_sound(const RuntimeSkillFaeryPreSoundSinkV1& sink, CombatSession& session,
-                             ActorId caster, bool hotty, std::size_t target_count) {
+                             ActorId caster, bool hotty, std::size_t target_count,
+                             const faery_menu::FaeryAbilityV1* ability = nullptr) {
     if (!sink) return;
     RuntimeSkillFaeryPreSoundV1 request;
     request.caster = caster;
     request.target_count = target_count;
     if (const auto* actor = session.actor(caster))
         request.position = {actor->transform.position[0], actor->transform.position[1], actor->transform.position[2]};
-    request.labels = faery_menu::faery_pre_sound_labels_v1(hotty, target_count);
+    // v21.8: registry-keyed labels for strike Faeries; Celest keeps its own table.
+    request.labels = ability ? faery_menu::faery_strike_pre_sound_labels_v1(*ability, target_count)
+                             : faery_menu::faery_pre_sound_labels_v1(hotty, target_count);
+    sink(request);
+}
+
+// v21.8: post-hit PlaySound after the source target loop (Rocky, Wetty, Windy).
+// Delivered with hit_phase=true so the host can keep it separate from the 3D Pre cue.
+void request_faery_hit_sound(const RuntimeSkillFaeryPreSoundSinkV1& sink, CombatSession& session,
+                             ActorId caster, const faery_menu::FaeryAbilityV1& ability,
+                             std::size_t target_count) {
+    auto labels = faery_menu::faery_strike_hit_sound_labels_v1(ability);
+    if (!sink || labels.empty()) return;
+    RuntimeSkillFaeryPreSoundV1 request;
+    request.caster = caster;
+    request.target_count = target_count;
+    request.hit_phase = true;
+    if (const auto* actor = session.actor(caster))
+        request.position = {actor->transform.position[0], actor->transform.position[1], actor->transform.position[2]};
+    request.labels = std::move(labels);
     sink(request);
 }
 
@@ -167,18 +187,16 @@ bool resolve_current_faery_script(
     const auto& row = tables.faeries()[static_cast<std::size_t>(row_id)];
     if (row.scalar.words[8] != static_cast<std::uint32_t>(slot))
         return fail(error, "NativeHUDSpell source Faery row type does not match the current Save slot");
-    if (row.script == "faerie_hotty") {
-        if (tables.faery_names()[static_cast<std::size_t>(row_id)] != "Hotty")
-            return fail(error, "Hotty gameplay script row differs from the source class FaeryList");
-        script = RuntimeSkillFaeryScriptV1::hotty;
-    } else if (row.script == "faerie_celest") {
-        if (tables.faery_names()[static_cast<std::size_t>(row_id)] != "Celest")
-            return fail(error, "Celest script row identity differs from the recovered Faery table");
-        script = RuntimeSkillFaeryScriptV1::celest;
-    } else {
-        error = "Current source Faery script is unsupported; no Hotty/Celest substitution is permitted";
+    // v21.8: dispatch from the faery ability registry keyed by the authored script.
+    // Strike Faeries (Hotty, Rocky, Wetty, Windy) share the Hotty-shaped arm.
+    const auto* entry = faery_menu::find_faery_ability_by_script_v1(row.script);
+    if (!entry || tables.faery_names()[static_cast<std::size_t>(row_id)] != std::string(entry->faery_name)) {
+        error = "Current source Faery script is not in the faery ability registry; no substitution is permitted";
         return false;
     }
+    script = entry->kind == faery_menu::FaeryAbilityKindV1::celest_lightning
+        ? RuntimeSkillFaeryScriptV1::celest
+        : RuntimeSkillFaeryScriptV1::hotty;
     error.clear();
     return true;
 }
@@ -610,6 +628,9 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         active.receipt.faery_slot = active.hotty_prepared.faery_slot;
         active.receipt.faery_record_id = active.hotty_prepared.faery_record_id;
         active.receipt.spell_type = active.hotty_prepared.source_spell_type;
+        // v21.8: the receipt names the selected registry Faery script (Hotty, Rocky, Wetty or Windy).
+        if (active.hotty_prepared.ability)
+            active.receipt.skill_name = std::string(active.hotty_prepared.ability->script);
         active.receipt.target_order = active.hotty_prepared.character_targets;
         if (active.hotty_prepared.status == faery_menu::HottyPrepareStatusV1::rejected) {
             active.receipt.phase = RuntimeSkillCastPhaseV1::rejected;
@@ -628,7 +649,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         }
         // P15 FAERYSOUND: Hotty OnPreSkill_ sound (tier label, or mage staff fire when empty).
         request_faery_pre_sound(faery_pre_sound_sink_, session, request.actor, true,
-                                active.hotty_prepared.character_targets.size());
+                                active.hotty_prepared.character_targets.size(),
+                                active.hotty_prepared.ability);
         if (active.hotty_effect_dispatch) {
             std::string fx_error;
             if (!active.hotty_effect_dispatch->dispatch_player_pre(
@@ -1061,6 +1083,10 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         }
         active.use_delivered = true;
         active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;
+        if (active.hotty_prepared.ability)
+            request_faery_hit_sound(faery_pre_sound_sink_, session, active.hotty_prepared.caster,
+                                    *active.hotty_prepared.ability,
+                                    active.hotty_targets.character_targets_in_source_order.size());
         // Keep retained FX diagnostics (Player_Pre / target FX) after the Use summary.
         std::string hotty_fx_diagnostics;
         const auto hotty_diagnostic_start = active.receipt.detail.find("FX diagnostic:");

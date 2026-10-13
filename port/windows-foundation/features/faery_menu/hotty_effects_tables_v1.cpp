@@ -31,16 +31,32 @@ bool find_set(const dh2::data::EffectsTables::Borrow& tables,
 }
 }
 
-bool resolve_hotty_effect_ids_v1(dh2::data::EffectsTables::Borrow tables,
+bool resolve_faery_effect_ids_v1(dh2::data::EffectsTables::Borrow tables,
+                                 const FaeryAbilityV1& ability,
                                  HottyEffectIdsV1& output,
                                  std::string& error) {
     output = {};
     HottyEffectIdsV1 next;
-    if (!find_set(tables, "Hotty_Level_1_Player_Pre", next.player_pre, error) ||
-        !find_set(tables, "Hotty_Level_1_Target", next.character_target, error))
+    const std::string pre(ability.player_pre_fx), target(ability.target_fx);
+    if (!find_set(tables, pre.c_str(), next.player_pre, error) ||
+        !find_set(tables, target.c_str(), next.character_target, error))
         return false;
+    next.player_pre_name = ability.player_pre_fx;
+    next.character_target_name = ability.target_fx;
     output = next;
     error.clear();
     return true;
+}
+
+bool resolve_hotty_effect_ids_v1(dh2::data::EffectsTables::Borrow tables,
+                                 HottyEffectIdsV1& output,
+                                 std::string& error) {
+    const auto* hotty = find_faery_ability_by_script_v1("faerie_hotty");
+    if (!hotty) {
+        output = {};
+        error = "Hotty is missing from the faery ability registry";
+        return false;
+    }
+    return resolve_faery_effect_ids_v1(tables, *hotty, output, error);
 }
 } // namespace dh::foundation::faery_menu

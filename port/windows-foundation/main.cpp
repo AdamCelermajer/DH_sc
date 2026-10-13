@@ -120,6 +120,9 @@
 #include "features/effects/runtime_swing_fx_observer_v1.hpp"
 #include "features/effects/runtime_level_up_presentation_v1.hpp" // P15 LEVELUP (I026)
 #include "features/effects/celest_target_fx_dispatch_v1.hpp"
+// v21.8 item 8: registry-keyed strike Faery FX (Hotty, Rocky, Wetty, Windy).
+#include "features/faery_menu/faery_ability_registry_v1.hpp"
+#include "features/faery_menu/hotty_effects_v1.hpp"
 #include "features/platform_input/semantic_input.hpp"
 #include "features/combat_text/combat_text.hpp"
 #include "features/combat_text/combat_text_live.hpp"
@@ -526,6 +529,7 @@ struct Options {
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
     int faeryPageFrame=-1; // P14 FAERY
+    std::string testFaery; // v21.8 item 8: --test-faery=<Celest|Rocky|Wetty|Windy|Hotty|0..4> equips and unlocks that slot in memory
     int mapPageFrame=-1; // P16 MAP: --map-page-frame=N opens the character menu on the Map tab
     std::string mapCameraRoot; // P16 MAPFIX: --map-camera-root=DIR, fallback asset root for data/3D/camera/minimapcameras.bdae
     bool mapLegend=false; float mapZoom=1; // P16 MAP diagnostics: --map-legend shows the legend, --map-zoom=Z sets the zoom at selection
@@ -677,6 +681,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--skills-page-frame") o.skillsPageFrame=std::stoi(value());
         else if(arg=="--equipment-page-frame") o.equipmentPageFrame=std::stoi(value());
         else if(arg=="--faery-page-frame") o.faeryPageFrame=std::stoi(value()); // P14 FAERY
+        else if(arg=="--test-faery") o.testFaery=value(); // v21.8 item 8: test-only equip/unlock of one faery
+        else if(arg.rfind("--test-faery=",0)==0) o.testFaery=arg.substr(std::string("--test-faery=").size());
         else if(arg=="--map-page-frame") o.mapPageFrame=std::stoi(value()); // P16 MAP
         else if(arg=="--map-legend") o.mapLegend=true; // P16 MAP diagnostic
         else if(arg=="--map-zoom") o.mapZoom=std::stof(value()); // P16 MAP diagnostic
@@ -2949,6 +2955,16 @@ int main(int argc,char** argv) {
         if(proceduralSessionSeed) f::procedural::record_session_seed(state,proceduralDifficulty,*proceduralSessionSeed);
         // P14 FAERY: legacy slots without Faery rows get creation-equivalent zero rows at first use, so Swamp_Intro can unlock Celest.
         if(f::faery_menu::ensure_source_faery_rows_v1(state)) std::cout<<"Legacy save Faery rows initialized to creation zeros\n";
+        // v21.8 item 8: --test-faery equips one registry Faery for real-run tests (in memory; unlock is forced, not a campaign event).
+        if(!options.testFaery.empty()) {
+            std::int32_t testSlot=-1;
+            if(!f::faery_menu::faery_slot_from_test_argument_v1(options.testFaery,testSlot)||!state.source_faery_state_known)
+                throw std::runtime_error("--test-faery="+options.testFaery+" needs a known Faery save state and a name (Celest/Rocky/Wetty/Windy/Hotty) or slot 0..4");
+            auto& difficultyFaery=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())];
+            difficultyFaery.faeries[std::size_t(testSlot)].state=1;
+            difficultyFaery.current_faery=testSlot;
+            std::cout<<"Test Faery equipped slot="<<testSlot<<" argument="<<options.testFaery<<" state=unlocked (forced by --test-faery)\n";
+        }
         if(!options.characterName.empty())state.name=options.characterName;
         if(combatSession) {
             auto* player=combatSession->actor(combatSession->player_id());player->persistent_character_id=state.id;
@@ -3530,6 +3546,9 @@ int main(int argc,char** argv) {
         });
         std::shared_ptr<f::effects::RuntimeSwingFxObserverV1> sourceSwingFx;
         std::unique_ptr<f::effects::CelestTargetFxDispatchV1> celestEffects;
+        // v21.8: one Hotty-shaped FX dispatcher per registry strike Faery (keyed by SpellScript).
+        struct StrikeFaeryFxV1 {f::faery_menu::HottyEffectIdsV1 ids; std::unique_ptr<f::faery_menu::HottyRuntimeEffectsDispatchV1> dispatch;};
+        std::map<std::string,StrikeFaeryFxV1> strikeEffects;
         f::Camera sourceEffectsCamera;
         struct SourceEffectsCameraContext {
             std::function<bool(const dh2::scene::Scene&,float*,float*,std::string&)> sample;
@@ -3552,7 +3571,7 @@ int main(int argc,char** argv) {
             sourceSwingFx.reset();
             std::string e;
             if(!sourceEffectsRenderer.finish_and_drain(e))throw std::runtime_error("FX queue drain: "+e);
-            celestEffects.reset();
+            celestEffects.reset();strikeEffects.clear();
             if(sourceEffectsFactory)sourceEffectsFactory->clear_original_textures();
             embeddedSceneFx.clear();embeddedActorFx.clear();rangedProjectileFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
             sourceEffectsFactory.reset();
@@ -3585,6 +3604,20 @@ int main(int argc,char** argv) {
                 celestEffects=std::make_unique<f::effects::CelestTargetFxDispatchV1>(*sourceEffectsFactory,sourceEffectsTables.borrow(),ids);
                 std::cout<<"Source Celest FX bound player="<<combatSession->player_id()<<" PlayerSet="<<ids.player_pre<<" MainSet="<<ids.target_main<<" particleInput=source-white\n";
             } catch(const std::exception& problem) {std::cerr<<"Source Celest FX bind diagnostic: "<<problem.what()<<'\n';}
+            // v21.8: strike Faery FX per registry entry. A missing AnimatedEffectTable row is logged and that Faery's FX stays unbound.
+            if(!sourceEffectsFactory)return;
+            for(const auto& entry:f::faery_menu::faery_ability_registry_v1()) {
+                if(entry.kind!=f::faery_menu::FaeryAbilityKindV1::strike)continue;
+                std::string fxError;
+                StrikeFaeryFxV1 fx;
+                if(!f::faery_menu::resolve_faery_effect_ids_v1(sourceEffectsTables.borrow(),entry,fx.ids,fxError)) {
+                    std::cerr<<"Strike Faery FX bind diagnostic "<<entry.script<<": "<<fxError<<'\n';
+                    continue;
+                }
+                fx.dispatch=std::make_unique<f::faery_menu::HottyRuntimeEffectsDispatchV1>(*sourceEffectsFactory,sourceEffectsTables.borrow(),fx.ids);
+                std::cout<<"Source Faery FX bound script="<<entry.script<<" PlayerSet="<<fx.ids.player_pre<<" TargetSet="<<fx.ids.character_target<<'\n';
+                strikeEffects.emplace(std::string(entry.script),std::move(fx));
+            }
         };
         struct SourceMotionReceipt {std::uint64_t solves=0,accepted=0,clamped=0;};
         std::map<f::ActorId,SourceMotionReceipt> sourceMotionReceipts;
@@ -8087,7 +8120,9 @@ int main(int argc,char** argv) {
                 f::generic_skills::RuntimeSkillFaeryAnimationSlotV1 selected;
                 // P14 FAERY: Rocky/Wetty/Windy are selectable but have no spell; key 4 logs that instead of failing silently.
                 const auto currentFaery=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
-                if(state.source_faery_state_known&&!f::faery_menu::faery_slot_has_spell_v1(currentFaery)){selected.faery_slot=currentFaery;castError=f::faery_menu::faery_no_spell_message_v1(currentFaery);}
+                // v21.8: the gate is the registry entry for the actual FaeryList row (no slot-number rule).
+                const auto* castAbility=f::faery_menu::faery_ability_for_list_slot_v1(sourceFaeryTables,state.source_faery_list_id,currentFaery);
+                if(state.source_faery_state_known&&!castAbility){selected.faery_slot=currentFaery;castError=f::faery_menu::faery_no_spell_message_v1(currentFaery);}
                 else if(!sourceFaeryTables||!skillAnimationBank)castError="Current saved Faery has no initialized source tables/animation bank";
                 else if(f::generic_skills::resolve_runtime_faery_animation_slot_v1(state,f::faery_menu::active_faery_difficulty_v1(),*skillAnimationBank,selected,castError)) {
                     const auto* sequence=skillVisualPlan.sequence(selected.selection_state,0);
@@ -8117,6 +8152,11 @@ int main(int argc,char** argv) {
                             f::generic_skills::RuntimeSkillFaerySpellArmV1 arm;
                             arm.tables=&sourceFaeryTables;arm.difficulty=f::faery_menu::active_faery_difficulty_v1();arm.policy=&policy;arm.actor_order=&order;arm.source_facts=&facts;arm.targets=&targets;arm.cooldown_clock=&faeryCooldownClock;
                             arm.celest_effect_dispatch=celestEffects.get();
+                            // v21.8: the Faery's own registry FX dispatcher (Hotty/Rocky/Wetty/Windy).
+                            if(castAbility&&castAbility->kind==f::faery_menu::FaeryAbilityKindV1::strike) {
+                                const auto fx=strikeEffects.find(std::string(castAbility->script));
+                                if(fx!=strikeEffects.end()){arm.effect_dispatch=fx->second.dispatch.get();arm.effect_ids=fx->second.ids;}
+                            }
                             f::generic_skills::RuntimeSkillCastRequestV1 request;
                             request.dispatch=f::generic_skills::RuntimeSkillCastDispatchV1::native_hud_spell;request.actor=combatSession->player_id();request.character=&state;
                             request.classes=&properties.classes;request.property_rules=&menuSkillPropertyRules;request.characters=&properties.characters;request.skills=menuSourceOwner.skill_owner->borrow();
@@ -8124,6 +8164,8 @@ int main(int argc,char** argv) {
                             // P15 FAERYSOUND (B050): original OnPreSkill_ sounds are queued on the audio session
                             // (every cast, empty target list included) and submitted with this frame's device clock.
                             skillCastCoordinator->set_faery_pre_sound_sink([&](const f::generic_skills::RuntimeSkillFaeryPreSoundV1& pre) {
+                                // v21.8: post-hit cue (Rocky/Wetty/Windy). Logged separately; queued on the same path as Pre labels.
+                                if(pre.hit_phase)std::cout<<"Faery hit sound frame="<<drawn<<" targets="<<pre.target_count<<" labels="<<(pre.labels.empty()?std::string("none"):pre.labels.front())<<'\n';
                                 if(!runtimeAudio){std::cout<<"Faery cast sound frame="<<drawn<<" targets="<<pre.target_count<<" status=dropped detail=no audio session"<<std::endl;return;}
                                 runtimeAudio->queue_faery_pre_sounds(pre.caster,pre.position,pre.target_count,pre.labels);
                             });

@@ -11,6 +11,10 @@ namespace dh::foundation::faery_menu {
 struct HottyEffectIdsV1 {
     std::int32_t player_pre{-1};
     std::int32_t character_target{-1};
+    // v21.8: the exact AnimatedEffectTable names these IDs were resolved from
+    // (registry FX names for the selected strike Faery).
+    std::string_view player_pre_name{};
+    std::string_view character_target_name{};
 };
 
 enum class HottyEffectKindV1 : std::uint8_t {
@@ -43,6 +47,11 @@ private:
 // Resolve the exact original AnimatedEffectTable names. No ordinal constants
 // or synthesized effect rows are accepted.
 bool resolve_hotty_effect_ids_v1(dh2::data::EffectsTables::Borrow,
+                                 HottyEffectIdsV1&, std::string& error);
+
+// v21.8: same resolution for any registered strike Faery (its registry FX names).
+bool resolve_faery_effect_ids_v1(dh2::data::EffectsTables::Borrow,
+                                 const FaeryAbilityV1&,
                                  HottyEffectIdsV1&, std::string& error);
 
 // Directly dispatches source PlayFX through the same CombatSession Scene's

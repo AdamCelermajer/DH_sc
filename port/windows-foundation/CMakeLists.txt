@@ -284,6 +284,9 @@ add_library(foundation_runtime_skill_cast STATIC
   features/faery_menu/hotty_cast_session_v1.cpp
   features/faery_menu/hotty_character_cast_v1.cpp
   features/faery_menu/hotty_source_use_v1.cpp
+  # v21.8 item 8: strike-Faery FX (Hotty/Rocky/Wetty/Windy), previously not compiled.
+  features/faery_menu/hotty_effects_v1.cpp
+  features/faery_menu/hotty_effects_tables_v1.cpp
   features/faery_menu/celest_cast_v1.cpp
   features/faery_menu/celest_source_use_v1.cpp
   # Preview 14 FAERY: CharacterState-backed Faery character-menu page (not the legacy Save path).
@@ -293,6 +296,8 @@ add_library(foundation_runtime_skill_cast STATIC
   features/faery_menu/character_state_faery_v1.cpp
   # P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ sound labels.
   features/faery_menu/faery_cast_sound_v1.cpp
+  # v21.8 item 8: faery ability registry keyed by authored SpellScript.
+  features/faery_menu/faery_ability_registry_v1.cpp
   ../game-data/faery_tables.cpp
   ../level-world/character_path_commands.cpp)
 target_link_libraries(foundation_runtime_skill_cast PUBLIC foundation_runtime_skills_menu)
@@ -892,6 +897,10 @@ add_test(NAME character_state_page COMMAND character_state_page_tests
 add_executable(faery_cast_sound_v1_tests features/faery_menu/tests/faery_cast_sound_v1_tests.cpp)
 target_link_libraries(faery_cast_sound_v1_tests PRIVATE foundation_runtime_skill_cast)
 add_test(NAME faery_cast_sound_v1 COMMAND faery_cast_sound_v1_tests)
+# v21.8 item 8: faery ability registry (SpellScript-keyed) unit tests.
+add_executable(faery_ability_registry_v1_tests features/faery_menu/tests/faery_ability_registry_v1_tests.cpp)
+target_link_libraries(faery_ability_registry_v1_tests PRIVATE foundation_runtime_skill_cast)
+add_test(NAME faery_ability_registry_v1 COMMAND faery_ability_registry_v1_tests)
 
 target_sources(foundation_data PRIVATE features/combo_chain/source_combo_chain.cpp
   ../level-world/character_attack_animation_v1.cpp ../level-world/character_animation_ai.cpp
