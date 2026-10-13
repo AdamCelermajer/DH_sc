@@ -151,36 +151,10 @@ public final class MainActivity extends Activity {
         surface.setEGLConfigChooser(8,8,8,8,16,0);
         surface.setOnTouchListener(new View.OnTouchListener(){
             float x,y;
-            int pinchPointerA=-1,pinchPointerB=-1;
-            int panPointer=-1;
-            boolean swfPointerActive,gestureCancelled;
-            float previousPinchDistance;
-            float panLastX,panLastY,panRemainderX,panRemainderY;
-            private int pointerIndex(MotionEvent event,int pointerId){
-                for(int i=0;i<event.getPointerCount();i++)if(event.getPointerId(i)==pointerId)return i;
-                return -1;
-            }
-            private float pinchDistance(MotionEvent event,int first,int second){
-                int a=pointerIndex(event,first),b=pointerIndex(event,second);
-                if(a<0||b<0)return -1;
-                return CameraTouchGestureV1.drawableDistance(
-                        event.getX(a),event.getY(a),event.getX(b),event.getY(b));
-            }
-            private void endPinch(){pinchPointerA=pinchPointerB=-1;previousPinchDistance=0;}
-            private void beginPan(MotionEvent event,int index){
-                panPointer=event.getPointerId(index);panLastX=event.getX(index);panLastY=event.getY(index);
-                panRemainderX=panRemainderY=0;
-            }
-            private void updatePan(MotionEvent event){
-                int index=pointerIndex(event,panPointer);if(index<0)return;
-                panRemainderX+=CameraTouchGestureV1.drawableDelta(event.getX(index),panLastX);
-                panRemainderY+=CameraTouchGestureV1.drawableDelta(event.getY(index),panLastY);
-                panLastX=event.getX(index);panLastY=event.getY(index);
-                int dx=Math.round(panRemainderX),dy=Math.round(panRemainderY);
-                panRemainderX-=dx;panRemainderY-=dy;
-                if(dx!=0||dy!=0)surface.queueEvent(()->NativeBridge.cameraTouchPan(dx,dy));
-            }
-            private void endPan(){panPointer=-1;panRemainderX=panRemainderY=0;}
+            // Gameplay multi-touch: each Android pointer id owns one source finger index
+            // (MenuManager::onEvent accepts 0..3) so the HUD stick and attack button can be held together.
+            final GameplayTouchSlotsV1 slots=new GameplayTouchSlotsV1();
+            final float[] slotX=new float[GameplayTouchSlotsV1.SLOT_COUNT],slotY=new float[GameplayTouchSlotsV1.SLOT_COUNT];
             @Override public boolean onTouch(View view,MotionEvent event){
                 if("ui/original-main-menu".equals(loadedAsset)){
                     final int action=event.getActionMasked(),actionIndex=event.getActionIndex();
@@ -214,63 +188,30 @@ public final class MainActivity extends Activity {
                     return forwardUiTouch(view,px,py,forwardedAction,true);
                 }
                 if(!inspectionMode&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")){
+                    // Forward every pointer to the native HUD first. The HUD claims the fingers that land on the
+                    // stick, attack and skill buttons; native then pans/pinches the camera with the rest, as
+                    // MenuManager::onEvent precedes ZoomHandler::onEvent. Java no longer guesses ownership, so a
+                    // second finger can no longer cancel the finger that holds the movement stick.
                     final int action=event.getActionMasked();
                     if(action==MotionEvent.ACTION_DOWN){
-                        gestureCancelled=false;swfPointerActive=true;beginPan(event,0);
+                        // A gesture starts with no finger down; cancel any finger whose UP was lost so the native
+                        // HUD cannot keep the stick or attack button captured by a stale finger index.
+                        for(int slot=0;slot<GameplayTouchSlotsV1.SLOT_COUNT;slot++)
+                            if(slots.pointerIdAt(slot)>=0)queueGameplayPointer(slotX[slot],slotY[slot],3,slot);
+                        slots.clear();
+                        forwardGameplayPointer(view,slots,slotX,slotY,event,event.getActionIndex(),0);
+                    }else if(action==MotionEvent.ACTION_POINTER_DOWN){
+                        forwardGameplayPointer(view,slots,slotX,slotY,event,event.getActionIndex(),0);
+                    }else if(action==MotionEvent.ACTION_MOVE){
+                        for(int i=0;i<event.getPointerCount();i++)forwardGameplayPointer(view,slots,slotX,slotY,event,i,2);
+                    }else if(action==MotionEvent.ACTION_POINTER_UP||action==MotionEvent.ACTION_UP){
+                        forwardGameplayPointer(view,slots,slotX,slotY,event,event.getActionIndex(),1);
+                        if(action==MotionEvent.ACTION_UP)slots.clear();
+                    }else if(action==MotionEvent.ACTION_CANCEL){
+                        for(int i=0;i<event.getPointerCount();i++)forwardGameplayPointer(view,slots,slotX,slotY,event,i,3);
+                        slots.clear();
                     }
-                    if(action==MotionEvent.ACTION_POINTER_DOWN){
-                        if(event.getPointerCount()==2&&pinchPointerA<0){
-                            int added=event.getActionIndex();
-                            pinchPointerA=event.getPointerId(added==0?1:0);
-                            pinchPointerB=event.getPointerId(added);
-                            previousPinchDistance=pinchDistance(event,pinchPointerA,pinchPointerB);
-                            // A pinch takes ownership from the original SWF pointer.
-                            // Cancel it once and suppress this whole gesture until a fresh DOWN.
-                            if(swfPointerActive){
-                                int active=pointerIndex(event,panPointer);
-                                if(active<0)active=added==0?1:0;
-                                forwardUiTouch(view,event.getX(active),event.getY(active),MotionEvent.ACTION_CANCEL,false);
-                                swfPointerActive=false;
-                            }
-                            gestureCancelled=true;endPan();
-                        }else if(pinchPointerA<0){
-                            if(swfPointerActive){
-                                int active=pointerIndex(event,panPointer);
-                                if(active<0)active=0;
-                                forwardUiTouch(view,event.getX(active),event.getY(active),MotionEvent.ACTION_CANCEL,false);
-                                swfPointerActive=false;
-                            }
-                            gestureCancelled=true;endPan();
-                        }
-                    }else if(action==MotionEvent.ACTION_MOVE&&pinchPointerA>=0){
-                        float distance=pinchDistance(event,pinchPointerA,pinchPointerB);
-                        if(distance>=0&&previousPinchDistance>0){
-                            final float before=previousPinchDistance,after=distance;
-                            surface.queueEvent(()->NativeBridge.cameraPinchZoom(before,after));
-                            previousPinchDistance=distance;
-                        }
-                    }else if(action==MotionEvent.ACTION_MOVE&&!gestureCancelled&&pinchPointerA<0&&event.getPointerCount()==1&&panPointer>=0){
-                        updatePan(event);
-                    }else if(action==MotionEvent.ACTION_POINTER_UP){
-                        int lifted=event.getPointerId(event.getActionIndex());
-                        boolean endingPinch=pinchPointerA>=0&&(lifted==pinchPointerA||lifted==pinchPointerB);
-                        if(endingPinch)endPinch();
-                        int remaining=event.getPointerCount()-1;
-                        int resumedPan=CameraTouchGestureV1.resumedPanPointerIndex(
-                                endingPinch,event.getPointerCount(),event.getActionIndex());
-                        if(resumedPan>=0){
-                            // ZoomHandler returns to its one-pointer pan path after one finger lifts.
-                            // Keep the SWF touch canceled while restoring only the camera drag.
-                            beginPan(event,resumedPan);gestureCancelled=false;
-                        }else if(gestureCancelled||remaining!=1)endPan();
-                    }else if(action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_CANCEL){
-                        endPinch();endPan();gestureCancelled=false;
-                    }
-                    if(swfPointerActive&&(action==MotionEvent.ACTION_DOWN||action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_MOVE||action==MotionEvent.ACTION_CANCEL)){
-                        if(action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_CANCEL)swfPointerActive=false;
-                        return forwardUiTouch(view,event.getX(),event.getY(),action,false);
-                    }
-                    if(action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_CANCEL)gestureCancelled=false;
+                    if(action==MotionEvent.ACTION_UP)view.performClick();
                     return true;
                 }
                 if(event.getActionMasked()==MotionEvent.ACTION_DOWN){x=event.getX();y=event.getY();return true;}
@@ -548,6 +489,32 @@ public final class MainActivity extends Activity {
             // so touch remains in the same local-pixel space as rendered UI.
             if(surface!=null)surface.requestLayout();
         }
+    }
+    /** Forwards one gameplay pointer as {@code phase} (0 down, 2 move, 1 up, 3 cancel) on its source finger index. */
+    private void forwardGameplayPointer(View view,GameplayTouchSlotsV1 slots,float[] slotX,float[] slotY,
+                                        MotionEvent event,int index,int phase){
+        final int pointerId=event.getPointerId(index);
+        final int slot=phase==0?slots.down(pointerId):slots.slotOf(pointerId);
+        if(slot<0)return;
+        final float px=event.getX(index),py=event.getY(index);
+        // Android reports every pointer on each MOVE; the source only hears about fingers that moved.
+        if(phase==2&&px==slotX[slot]&&py==slotY[slot])return;
+        slotX[slot]=px;slotY[slot]=py;
+        if(phase==1||phase==3)slots.up(pointerId);
+        queueGameplayPointer(px,py,phase,slot);
+    }
+    private void queueGameplayPointer(float px,float py,int phase,int slot){
+        surface.queueEvent(()->{
+            String reply=NativeBridge.menuTouchPointer(px,py,phase,slot);
+            if("GAMEPLAY_MAIN_MENU_REQUESTED".equals(reply)){
+                movement.stop();
+                for(int i=0;i<assets.length;i++)if("ui/original-main-menu".equals(assets[i])){selected=i;break;}
+                surface.queueEvent(()->loadSelected(true));
+                return;
+            }
+            if(reply!=null&&!reply.isEmpty())
+                Log.w("DH2Native","Native UI touch failure | phase="+phase+" | finger="+slot+" | "+reply);
+        });
     }
     private boolean forwardUiTouch(View view,float x,float y,int action,boolean recoverMenuOnError){
         // Keep input in GLSurfaceView-local pixels. Native input bounds follow

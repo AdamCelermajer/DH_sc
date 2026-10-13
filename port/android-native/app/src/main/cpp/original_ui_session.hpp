@@ -122,6 +122,21 @@ public:
     bool menu_text_input_active() const noexcept;
     bool menu_key_event(std::uint32_t key_code,bool down,std::string&);
     bool camera_pan_allowed() const noexcept;
+    // True when the camera may consume finger `slot` (0..3): no menu owns the
+    // press (the map menu excepted) and the HUD gameplay layer is active.
+    bool camera_touch_allowed(std::uint32_t slot) const noexcept;
+    // One finger event of a multi-touch gesture. `slot` is the source finger
+    // index (0..3). The HUD/menus see it first through touch(); fingers they
+    // leave alone then drive the camera pan/pinch, as ZoomHandler does.
+    bool pointer(float x,float y,int action,std::uint32_t slot,std::string&);
+    // Development probe: camera gestures pointer() has handed to the CameraLevel
+    // (pans delivered / applied, pinch steps) since the session started.
+    void camera_gesture_counts(unsigned& pans_delivered,unsigned& pans_applied,unsigned& pinches) const noexcept;
+    // Development probe for desktop scenarios: centre (drawable pixels) of the
+    // area that accepts a press for authored HUD control `control`
+    // (ui::AuthoredHudControlV1 ordinal; 7 attack, 8 joystick), found with the
+    // same hit test touch() uses.
+    bool hud_control_screen_point(unsigned control,int width,int height,float& x,float& y,std::string&);
     // The live gameplay movie that owns StringManager text and AS callbacks.
     bool gameplay_text_ready() const noexcept;
     // Android system Back uses the same live gameplay menu owner as the

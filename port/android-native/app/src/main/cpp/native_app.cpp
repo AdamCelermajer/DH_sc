@@ -331,6 +331,15 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_menuTouch
  if(original_ui.consume_gameplay_main_menu_request())return result(env,"GAMEPLAY_MAIN_MENU_REQUESTED");
  return result(env,"");
 }
+// Multi-touch gameplay entry: `pointer` is the source finger index 0..3 that
+// MainActivity assigned to the MotionEvent pointer id. The HUD sees the finger
+// first, the gameplay camera only the fingers the HUD left alone.
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_menuTouchPointer(JNIEnv* env,jclass,jfloat x,jfloat y,jint action,jint pointer){
+ if(pointer<0)return result(env,"Menu touch failed: negative pointer index");
+ std::string error;if(!original_ui.pointer(x,y,action,static_cast<std::uint32_t>(pointer),error))return result(env,"Menu touch failed: "+error);
+ if(original_ui.consume_gameplay_main_menu_request())return result(env,"GAMEPLAY_MAIN_MENU_REQUESTED");
+ return result(env,"");
+}
 extern "C" JNIEXPORT jboolean JNICALL Java_com_example_dh2_NativeBridge_menuTextInputActive(JNIEnv*,jclass){
  return original_ui.menu_text_input_active()?JNI_TRUE:JNI_FALSE;
 }
