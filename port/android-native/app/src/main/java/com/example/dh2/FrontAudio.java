@@ -33,6 +33,11 @@ final class FrontAudio {
         ActiveEffect(MediaPlayer player,long owner,int soundId){this.player=player;this.owner=owner;this.soundId=soundId;}
     }
     private final HashSet<ActiveEffect> effects=new HashSet<>();
+    /**
+     * Native gameplay SFX engine state: 0 not tried yet, 1 open (it owns every
+     * effect voice), -1 unavailable (the MediaPlayer effect path below remains).
+     */
+    private int nativeSfx;
     private boolean requested, resumed=true, introReady, loopReady, started, focused, focusStateKnown;
     private boolean nativeAudioPaused, nativeMusicPaused;
     private ValueAnimator nativeMusicFade;
@@ -41,6 +46,9 @@ final class FrontAudio {
     private IntroCinematicView cinematic;
     private float musicVolume=1f,effectVolume=1f;
     void control(String command){
+        if(nativeSfx==1&&(command.equals("resume")||command.equals("pause-all")||
+                command.equals("resume-all")||command.startsWith("volume,")))
+            NativeBridge.sfxControl(command);
         if(command.equals("resume")){
             resumeSourceAudio();
             if(requested&&!started)startPrepared();
@@ -157,7 +165,55 @@ final class FrontAudio {
         }else{
             Log.e("DH2Front","Unsupported menu/gameplay effect asset: "+file);return;
         }
+        if(!file.startsWith("gameplay:")&&playNative("dh2fx,menu,"+file))return;
         startEffect(assetPath,0,-1,false,0,16384,16384);
+    }
+    /**
+     * Opens the native engine on first use. Output rate and burst size come from
+     * the platform so the OpenSL ES player can take the low-latency path.
+     */
+    private boolean nativeSfxReady(){
+        if(nativeSfx==0){
+            int rate=48000,burst=256;
+            try{
+                String sampleRate=audio.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE);
+                String framesPerBuffer=audio.getProperty(AudioManager.PROPERTY_OUTPUT_FRAMES_PER_BUFFER);
+                if(sampleRate!=null)rate=Integer.parseInt(sampleRate.trim());
+                if(framesPerBuffer!=null)burst=Integer.parseInt(framesPerBuffer.trim());
+            }catch(NumberFormatException e){Log.w("DH2Front","Output properties unavailable; using 48 kHz/256",e);}
+            if(rate<8000||rate>192000)rate=48000;
+            if(burst<16||burst>4096)burst=256;
+            int frames=burst;while(frames<384)frames+=burst;
+            try{nativeSfx=NativeBridge.sfxOpen(rate,frames,context.getAssets())?1:-1;}
+            catch(UnsatisfiedLinkError|RuntimeException e){Log.e("DH2Front","Native SFX engine setup failed",e);nativeSfx=-1;}
+            Log.i("DH2Front","Native SFX engine "+(nativeSfx==1?"open":"unavailable")+" | rate="+rate+" | buffer_frames="+frames);
+            if(nativeSfx==1){
+                NativeBridge.sfxSetActive(resumed&&focused);
+                // The saved options arrive at menu load, before the first effect.
+                NativeBridge.sfxControl("volume,"+Math.round(musicVolume*100)+","+Math.round(effectVolume*100));
+            }
+        }
+        return nativeSfx==1;
+    }
+    /** Starts one effect on the native engine; false means the Java fallback must handle it. */
+    private boolean playNative(String wire){
+        if(!nativeSfxReady())return false;
+        if(!resumed)return true;
+        if(!focused)focused=requestFocus();
+        if(!focused){Log.e("DH2Front","Effect audio focus unavailable: "+wire);return true;}
+        NativeBridge.sfxSetActive(true);
+        if(NativeBridge.sfxCommand(wire)<0){
+            // The engine reported itself unusable (dead output stream): hand every
+            // later effect, starting with this one, back to the Java path.
+            Log.e("DH2Front","Native SFX engine unusable; falling back to MediaPlayer effects");
+            nativeSfx=-1;NativeBridge.sfxClose();return false;
+        }
+        return true;
+    }
+    /** Releases the native engine (Activity destruction). */
+    void release(){
+        if(nativeSfx==1)NativeBridge.sfxClose();
+        nativeSfx=0;
     }
     private void gameplayMusicCommand(String command){
         String[] fields=command.split(",",-1);
@@ -285,15 +341,18 @@ final class FrontAudio {
                         leftQ14<0||leftQ14>16384||rightQ14<0||rightQ14>16384){
                     Log.e("DH2Front","Invalid native gameplay play command: "+command);return;
                 }
+                if(playNative(command))return;
                 startEffect("original-media/gameplay/"+fields[6],owner,soundId,looping,fadeMs,leftQ14,rightQ14);
             }else if(fields.length==5&&fields[0].equals("dh2fx")&&fields[1].equals("stop")){
                 long owner=Long.parseLong(fields[2]);
                 int soundId=Integer.parseInt(fields[3]),fadeMs=Integer.parseInt(fields[4]);
                 if(soundId<0||soundId>65535){Log.e("DH2Front","Invalid native gameplay stop command: "+command);return;}
+                if(nativeSfx==1)NativeBridge.sfxCommand(command);
                 stopSound(owner,soundId,fadeMs);
             }else if(fields.length==3&&fields[0].equals("dh2fx")&&fields[1].equals("stopAll")){
                 int fadeMs=Integer.parseInt(fields[2]);
                 if(fadeMs<0||fadeMs>60000){Log.e("DH2Front","Invalid native stop-all duration: "+command);return;}
+                if(nativeSfx==1)NativeBridge.sfxCommand(command);
                 if(fadeMs==0){
                     stopEffects();releaseGameplayMusic();releaseTitleMusic();
                     nativeAudioPaused=false;nativeMusicPaused=false;nativeMusicGain=1f;
@@ -428,6 +487,7 @@ final class FrontAudio {
     }
     private void updateEffectPlayback(){
         boolean allowed=resumed&&focused;
+        if(nativeSfx==1)NativeBridge.sfxSetActive(allowed);
         for(ActiveEffect effect:new ArrayList<>(effects)){
             if(!effect.prepared)continue;
             try{
@@ -479,7 +539,9 @@ final class FrontAudio {
         if(titlePlaybackAllowed()){intro.start();started=true;Log.i("DH2Front","Title music intro started | duration_ms="+intro.getDuration()+" | loop_ms="+loop.getDuration());}
     }
     void pause(){resumed=false;windowFocused=false;focusStateKnown=true;updateEffectPlayback();pauseGameplayMusic();if(cinematic!=null)cinematic.setAudioFocusGained(false);if(current!=null&&started&&current.isPlaying())current.pause();abandonFocus();}
-    void resume(){resumed=true;if(!requested&&cinematic==null&&gameplayMusic==null&&effects.isEmpty())return;
+    void resume(){resumed=true;if(!requested&&cinematic==null&&gameplayMusic==null&&effects.isEmpty()){
+            if(nativeSfx==1)NativeBridge.sfxSetActive(focused);
+            return;}
         // Android may reject an early focus request while the Activity is
         // resumed but its window is not yet foreground-focused. Defer the
         // initial request until onWindowFocusChanged(true) in that case.
@@ -503,6 +565,7 @@ final class FrontAudio {
         if(requested&&!started)startPrepared();
     }
     void stop(){requested=false;
+        if(nativeSfx==1)NativeBridge.sfxCommand("dh2fx,stopAll,0");
         stopEffects();
         releaseGameplayMusic();
         if(intro!=null){intro.release();intro=null;}if(loop!=null){loop.release();loop=null;}

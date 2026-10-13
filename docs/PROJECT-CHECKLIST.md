@@ -2,7 +2,13 @@
 
 Updated: 2026-10-13. Branch: `feature/desktop-gameplay-loop` (off `development`).
 
-Faery, skills and combat-status round (2026-10-13, latest):
+Fresh SWAMP profile round (2026-10-13, newest):
+- [x] The Faery HUD button was greyed on a fresh profile because Faery 0 is unlocked only by `Swamp_Intro`'s `SetFaeryState(0,1)` (`Character::SetFaeryState` 0x3ae7d4 -> `SG_SetFaerieState` 0x466588; `SG_IsFaerieUnlocked` 0x467ce4 reads that byte) and that cutscene never ran: it is the Available-state script (slot 1) of quest Swamp_Escape, and `Quest::Update` (0x481818) was only reconstructed for states Active/Closed. `NativeQuestOwner::update_lifecycle` now runs Locked -> PostLocked -> PreAvailable -> Available -> PostAvailable -> PreActive -> Active (`Quest::SetState` 0x480c78 entry effects: script slots 9/11/1/6/10/0, ObjectiveList InstallObjectiveMarkers/Register, QuickSave+SG_Save for volatile states, the new-quest DialogMsg, current-quest words) after CompileQuests, SWAMP only.
+- [ ] Quests whose accept Objective is TalkToNPC/MoveInZone (Swamp_KillFiveLizman/KillWitch/Moths and the other quest givers), or whose ConditionList holds a kind the kernel does not evaluate, keep their state: their accept InstallObjectiveMarker/Register virtuals have no owner yet. States PostActive..PostClosed (7..11, 13) of `Quest::Update` are still unowned (Swamp_Serpent_Defeated, the quest rewards of `UpdateCompleted`).
+- [x] Swamp_Intro's other prerequisites: `Script_PlayCamera` loads an AnimDict outside the CamAnimSet on demand (`AnimationSet::GetAnimation` 0x3660f4), the 18 `cs_swamp_intro` camera clips are staged from the original cache, animation tracks bind to scene nodes case-insensitively (`ISceneNode::getSceneNodeFromUID` 0x5985e4), and CSAnim -> Limbus is a Coordinator transition.
+- Faery follow distance: the original stops the follower at `dist(GetTargetPosition(faery), GetInteractionSpot(master)) - AI_GetMeleeRadius(faery) - master->GetInteractionRadius() <= InteractRadius` (`CharAI::AI_IsInInteractionRange` 0x3d4f98), i.e. 200 (AITable row 20 MeleeRadius, +0x20) + 200 (Player AITable row 44 MeleeRadius + equipped weapon reach 0) + 250 (row 20 InteractRadius, +0x18) = 650 units. The port evaluates the same terms (`DH2_TRACE_FAERY=1` logs them), so the distance is the original's.
+
+Faery, skills and combat-status round (2026-10-13):
 - [x] PORTAL_ROOM loads: Level::Level (0x3f3128) takes the first LevelList row whose LevelFile is a substring of the file name, so it resolves to row 4 (`29f3ccb2`).
 - [x] Nine more `_BACKUP` layouts staged (rows 16 24 25 27 30 31 39 49 50); absent module files load no records (Level::LoadFile 0x3f3b40); `DH2_FORCE_GENERATION_FAILURE=1` exercises the backup path (`29f3ccb2`).
 - [x] Dead monsters' AI timers count as retired at VM close (CharAI::AI_SetDead 0x3d6cdc); no more "Ghost timer owner mismatch" (`bac172ba`).
@@ -63,7 +69,7 @@ Static-level and level-transition round (2026-10-12):
 - [x] Android emulator verification (API 37/16 KiB) at `265b7af5`, verified note (not from a commit message): all 9 static levels start (rows 41 4 38 45 1 29 20 28 33); move-kill gives 6 kills plus death/revive; move-defend shows damage, death and revive.
 - [x] Knockback entry (SM_SetKnockBackState, GreatKnockedBack/KnockedBack) observed with forced rolls (`168bab64`, `b26a8a36`).
 - [ ] Spawn heading on the DWLD-start fallback.
-- [ ] Remaining level-script commands 19, 22/23, 27 and 51/52.
+- [x] Level-script commands 19, 22/23, 27 and 51/52 (`d9f552af`, `2e15ecad`, `12c6db61`): re-verified against Script_PlayAnimByName 0x45e124, Script_ShowFlash/HideFlash 0x45f8c8/0x45f78c, Script_SetFaeryState 0x45f6c8 and Script_UnEquipHands/ReEquipHands 0x45ded0/0x45d95c; each execution now logs. Open parts: see the script-command and CSAnim round below.
 - [ ] Save migration for profiles written before `4562ac61` (bad Level delta).
 
 Combat-loop and second-level round (2026-10-12, later):
@@ -83,6 +89,14 @@ Level revisit round (2026-10-13):
 - [x] Pooled `Projectile_NNN` ObjectManager rows report the `ObjectBase` +0x28 save gate (0) instead of failing the LevelSavegame Save.
 - [x] Desktop `--return-to-origin ENTRY [--return-delay N]` (A -> B -> A) and `--enemy-census-at N`.
 - [ ] Faery row at Level entry is deferred (its delayed LoadNInit has not run before the port's Load); PreSpawn/awaiting-spawn rows and Dead rows in a live state are unsupported; `AIS::OnRevived` Lua is not dispatched on revive.
+
+Script-command and CSAnim round (2026-10-13):
+- [x] CharStateMachine state 14 (CSAnim: OnInit 0x3c8b28, OnFocus 0x3c324c, OnUpdate 0x3c1a3c, OnEvent 0x3c1a14, OnBlur 0x3c2dd0) in the Character state kernel and the one Coordinator: `SM_SetAnimState` (0x3c1aa8) stores the pending AnimTable row and the two machine bytes, OnFocus plays the row through the ordinary `set_animation` service, event 34 / OnUpdate return to Idle per those bytes and `Character+0x1480`, events 50001/50005 leave to CSMove/CSSkill; entry from Idle/Move/Attack/Dead/Interact, combat reactions, CSSkill, CSCast and Limbus/Spawn/PreSpawn. Audit: `character_coordinator_audit`.
+- [x] `Character::_PlayAnim` (0x3ba388) for the Player and Monsters (rotating AA_LUA_PLAYANIM rows 15..24, `SM_SetAnimState(row, flag, false)`); `_RegisterAnim` on the Player loads any AnimDict outside the SetAnimationSet list into the retained bank (`ANIM_AddAnimDictToSet`) and rebuilds the one BlendedPlayback. `Script_PlayActorAnim` (45) for the Player and Monsters now runs through the same CSAnim state; `Script_MarkCharacterAsScripted` (32) stores `Character+0x1480` on each Coordinator; `LocalPlayer` is accepted as the Player alias.
+- [x] Scheduler: a leaf step without an AnimDict (the paired row of a one-clip PlayAnim/PlayActorAnim) is `CharAnimator::ANIM_Stop` (0x3c9924), which raises the closed event once, instead of an "Animation scheduler has no clip" abort; starting such a row is still rejected. `Script_PlayActorAnim::IsBlocking` follows the innermost selected row (`CharAnimator::_SetAnim` stores `+76` per layer).
+- [x] Desktop probes `--start-script NAME[@N]` and `--play-anim TARGET:DICT[:DICT2][:wait][@N]`.
+- [x] Faery `PlayActorAnim` joins both AnimDicts to the Faery's anim set (`ANIM_AddAnimDictToSet` 0x3c9b14, keyed by AnimDict id) and plays the row through the Faery Coordinator's CSAnim state; Swamp_Intro now runs to its `SetFaeryState(0,1)`.
+- [ ] `PlayAnimByName` drives AnimatedDecor VisualObjects only; `UnEquipHands`/`ReEquipHands` only the Player (every shipped script targets LocalPlayer); a blocking `ShowFlash`/`HideFlash` (MenuBase+120 after `RenderFX::IsAnimOver`) is reported unsupported; commands 18, 63, 65, 67, 68 are unbound and only reachable from scripts the port never starts (PlayerDeathScript, ShowUnlockedTrophies, the 039 boss-room endings).
 
 Desktop gameplay-loop round (2026-10-12):
 - [x] Restore the Windows desktop build (stray brace closed `model_renderer` early) and clear ~40 world-load/runtime gates; SWAMP and Crypt load and run on desktop.

@@ -2,6 +2,7 @@
 #include "angle_interpreter.hpp"
 #include "../engine-math/math.hpp"
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <cstring>
 #include <stdexcept>
@@ -28,6 +29,16 @@ extern "C" void dh2_animation_quaternion(float* out,const float* a,const float* 
 }
 namespace dh2::animation {
 namespace {
+// An animation track binds to its scene node through
+// glitch::scene::ISceneNode::getSceneNodeFromUID (0x5985e4), which compares the
+// UID with LC_API_STRCASECMP: `root_camera-node` reaches `Root_Camera-node`.
+bool same_node_uid(const std::string& node,const char* target){
+    const unsigned char* a=reinterpret_cast<const unsigned char*>(node.c_str());
+    const unsigned char* b=reinterpret_cast<const unsigned char*>(target);
+    for(;*a&&*b;++a,++b)
+        if(std::tolower(*a)!=std::tolower(*b))return false;
+    return *a==*b;
+}
 struct DefaultReader {
     const resources::BresView& image;
     const std::uint8_t* at(std::uint64_t offset,std::uint64_t size)const{
@@ -335,7 +346,7 @@ bool Player::load(const std::uint8_t* input,std::size_t size,const scene::Scene&
             if(dh2_animation_scales(&a)||dh2_animation_offsets(&a))
                 throw std::runtime_error("Track compression scales are not implemented");
             auto* target=dh2_animation_target(&a);if(!target)throw std::runtime_error("Missing animation target");
-            auto node=std::find_if(rest.begin(),rest.end(),[&](const scene::Node& n){return n.id==target;});
+            auto node=std::find_if(rest.begin(),rest.end(),[&](const scene::Node& n){return same_node_uid(n.id,target);});
             if(node==rest.end()&&policy==MissingTargets::reject)throw std::runtime_error(std::string("Unresolved animation target: ")+target);
             assets::Vector values{},times{};
             const unsigned components=type==5?4:3;

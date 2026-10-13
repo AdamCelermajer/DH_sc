@@ -44,6 +44,12 @@ final class NativeBridge {
     static native String backToHud();
     /** Sends UI input in GLSurfaceView-local physical pixels (top-left origin); action uses MotionEvent DOWN/UP/MOVE/CANCEL values. */
     static native String menuTouch(float x,float y,int action);
+    /**
+     * Gameplay multi-touch: one finger event in GLSurfaceView-local pixels.
+     * {@code pointer} is the source finger index 0..3 from {@link GameplayTouchSlotsV1};
+     * the HUD sees it before the camera pan/pinch, as MenuManager::onEvent precedes ZoomHandler.
+     */
+    static native String menuTouchPointer(float x,float y,int action,int pointer);
     /** True only while the retained authored front menu is on EnterName. */
     static native boolean menuTextInputActive();
     /** Delivers a GameSWF key code on the GL thread while EnterName is active. */
@@ -56,8 +62,21 @@ final class NativeBridge {
     /** Dispatches one deferred NativeGoToZone request on the GL owner thread. */
     static native String transitionLevel(String destination,double rawEntryPoint,
                                          android.content.res.AssetManager assets);
+    /** Returns (once) the first native frame-path failure, or an empty string. */
+    static native String consumeFrameError();
     static native String consumeMenuAudio();
     static native String consumeMenuSound();
+    /**
+     * Native gameplay SFX engine (OpenSL ES output + mixer consuming the shared
+     * queue's dh2fx commands). Returns false when no output could be opened; the
+     * caller then keeps its Java effect path. Commands return the engine
+     * Outcome ordinal, or -1 while the engine is not open.
+     */
+    static native boolean sfxOpen(int sampleRate,int bufferFrames,android.content.res.AssetManager assets);
+    static native int sfxCommand(String command);
+    static native int sfxControl(String control);
+    static native void sfxSetActive(boolean active);
+    static native void sfxClose();
     static native String loadTexture(byte[] encoded);
     static native String loadModel(byte[] encoded,android.content.res.AssetManager assets);
     static native String loadWorld(byte[] encoded,android.content.res.AssetManager assets);

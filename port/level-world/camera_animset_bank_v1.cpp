@@ -40,41 +40,31 @@ bool Owner::load(const camera_animset_v1::Selection& selection,ReadAsset reader,
     set_name_=selection.name;clips_=std::move(candidate);return true;
 }
 
-bool Owner::load_on_demand(camera_animset_v1::PlayRequest& request,ReadAsset reader,
-                           void* context,std::string& error) {
+bool Owner::append(const camera_animset_v1::Resource& resource,ReadAsset reader,
+                   void* context,std::string& error) {
     error.clear();
-    if(!request.present||request.resource.clip_id<0||request.resource.path.empty()||!reader){
-        error="On-demand camera clip request is invalid";return false;
+    if(set_name_.empty()||!reader||
+       resource.registration_order!=static_cast<std::int32_t>(clips_.size())||
+       resource.clip_id<0||resource.path.empty()||resource.path.size()>4096){
+        error="Camera AnimSet on-demand resource identity is invalid";return false;
     }
-    if(request.resource.registration_order>=0)return true;
-    const auto retained=std::find_if(clips_.begin(),clips_.end(),[&](const Clip& clip){
-        return clip.resource.clip_id==request.resource.clip_id&&
-               clip.resource.path==request.resource.path;
-    });
-    if(retained!=clips_.end()){
-        request.resource.registration_order=retained->resource.registration_order;
-        request.resource.slot=retained->resource.slot;
-        return true;
-    }
+    // The on-demand set stays bounded (the AnimSet holds a few cutscene cameras).
     constexpr std::size_t kMaxOnDemandClips=64;
     if(clips_.size()>=kMaxOnDemandClips){error="On-demand camera clip bank is full";return false;}
-    Clip clip;clip.resource=request.resource;
-    clip.resource.registration_order=static_cast<std::int32_t>(clips_.size());
-    if(!reader(context,clip.resource.path,clip.bdae,error)){
-        if(error.empty())error="Camera AnimDict BDAE read failed";
+    Clip clip;clip.resource=resource;
+    if(!reader(context,resource.path,clip.bdae,error)){
+        if(error.empty())error="Camera AnimSet BDAE resource read failed";
         return false;
     }
     if(clip.bdae.empty()||clip.bdae.size()>kMaxClipBytes){
-        error="Camera AnimDict BDAE size is outside the accepted range";return false;
+        error="Camera AnimSet BDAE size is outside the accepted range";return false;
     }
     resources::BresView bres{};
     if(dh2_bres_open(&bres,clip.bdae.data(),clip.bdae.size())!=resources::BresError::ok||
        dh2_bres_library_count(&bres,resources::Library::animation)==0){
-        error="Camera AnimDict resource is not a valid BRES animation";return false;
+        error="Camera AnimSet resource is not a valid BRES animation";return false;
     }
-    request.resource.registration_order=clip.resource.registration_order;
-    clips_.push_back(std::move(clip));
-    return true;
+    clips_.push_back(std::move(clip));return true;
 }
 
 void Owner::clear() noexcept {set_name_.clear();clips_.clear();}

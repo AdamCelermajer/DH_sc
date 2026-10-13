@@ -30,10 +30,16 @@ class AnimationScheduler {
  std::vector<AnimationFrame> stack;
  AnimationStep current;
  bool playing=false;
- void enter(const AnimationTables&,std::int32_t,AnimationRandom&,bool);
- void activate(const AnimationTables&,AnimationRandom&,bool);
- bool enter_with_services(const AnimationTables&,std::int32_t,std::size_t,AnimationRandom&,bool,const AnimationSelectionServices&);
- bool activate_with_services(const AnimationTables&,std::uint32_t,AnimationRandom&,bool,const AnimationSelectionServices&);
+ // allow_stop: a leaf step without an AnimDict (-1) reached while a sequence
+ // advances is CharAnimator::_SetAnimStep's ANIM_Stop branch (0x3ca93c ->
+ // 0x3c9924) instead of an error: the animator stops (root depth, pose kept) and
+ // the closed latch raises Character event 34 (scheduler event 0x22) once.
+ // activate/enter return false when that stop happened. Starting a sequence
+ // keeps rejecting such a step.
+ bool enter(const AnimationTables&,std::int32_t,AnimationRandom&,bool,bool allow_stop=false);
+ bool activate(const AnimationTables&,AnimationRandom&,bool,bool allow_stop=false);
+ bool enter_with_services(const AnimationTables&,std::int32_t,std::size_t,AnimationRandom&,bool,const AnimationSelectionServices&,bool allow_stop=false);
+ bool activate_with_services(const AnimationTables&,std::uint32_t,AnimationRandom&,bool,const AnimationSelectionServices&,bool allow_stop=false);
 public:
  bool start(const AnimationTables&,std::int32_t,AnimationRandom&,std::string&,bool random_enabled=true);
  // Live _SetAnim/_SetAnimStep order: frame metadata ->24 -> RNG -> stored

@@ -594,6 +594,22 @@ bool SpawnSession::script_is_running(const std::string& script_name,
     return script_is_running(id, running, error);
 }
 
+bool SpawnSession::script_exists(const std::string& script_name, bool& present,
+                                 std::string& error) const {
+    present = false;
+    if (!ready() || script_name.size() >= dh2_script_runtime::MAX_NAME_BYTES) {
+        error = "Crypt ScriptManager name query is unavailable or out of bounds";
+        return false;
+    }
+    const auto id = dh2_script_resolve_id(
+        impl_->scheduler.common_table, impl_->scheduler.level_table,
+        reinterpret_cast<const std::uint8_t*>(script_name.data()),
+        static_cast<std::uint32_t>(script_name.size()), 1);
+    present = id >= 0;
+    error.clear();
+    return true;
+}
+
 bool SpawnSession::start_script(const std::string& script_name,
                                 std::int32_t argument, bool check_running,
                                 bool online,

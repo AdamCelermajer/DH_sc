@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <map>
@@ -69,9 +70,24 @@ struct Options {
     std::uint64_t return_delay = 240;
     // --enemy-census-at N (repeatable): log the Monster census at rendered frame N.
     std::vector<std::uint64_t> census_frames;
+    // --start-script NAME[@N] (repeatable): start the named Level pyscript on the
+    // Level's ScriptManager at rendered frame N (default 200).
+    struct ScriptStart {std::string name; std::uint64_t frame;};
+    std::vector<ScriptStart> script_starts;
+    // --flush-dialogs: while a level script holds the controllers (LockCharacter
+    // "All"), flush its dialogs every 20 frames like the player's taps would, so
+    // an unattended run is not parked behind a cutscene such as Swamp_Intro.
+    bool flush_dialogs = false;
+    // --play-anim TARGET:DICT[:DICT2][:wait][@N] (repeatable): Character::
+    // _RegisterAnim/_PlayAnim on the Player ("player") or a named Monster.
+    struct PlayAnim {std::string target, dict, second; bool wait; std::uint64_t frame;};
+    std::vector<PlayAnim> play_anims;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
     bool skill_kill_scenario = false;
+    // touch-kill: move-kill, but the stick and the attack button are two fingers
+    // on the authored HUD (the Android MotionEvent entry), held together.
+    bool hud_touch_scenario = false;
     // Verification probes (faery-follow / faery-skill / skill-matrix). They use
     // only public renderer/UI entries and own no gameplay state.
     bool faery_follow_scenario = false;
@@ -134,6 +150,10 @@ struct Options {
                boss_fight_scenario;
     }
     bool tutorial_potion_scenario = false;
+    // first-kill-ui: move-kill on a fresh SWAMP profile where every dialog a script
+    // starts (tutorials, quest updates) is dismissed by a real touch on the
+    // authored DialogBox, never flushed from the queue.
+    bool first_kill_ui_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -219,9 +239,39 @@ Options parse(int argc, char** argv) {
         else if (arg == "--return-to-origin") options.return_entry = std::stoi(value("--return-to-origin"));
         else if (arg == "--return-delay") options.return_delay = std::stoull(value("--return-delay"));
         else if (arg == "--enemy-census-at") options.census_frames.push_back(std::stoull(value("--enemy-census-at")));
+        else if (arg == "--start-script") {
+            std::string spec = value("--start-script");
+            std::uint64_t frame = 200;
+            if (const auto at = spec.rfind('@'); at != std::string::npos) {
+                frame = std::stoull(spec.substr(at + 1));
+                spec.resize(at);
+            }
+            options.script_starts.push_back({spec, frame});
+        }
+        else if (arg == "--play-anim") {
+            std::string spec = value("--play-anim");
+            std::uint64_t frame = 200;
+            if (const auto at = spec.rfind('@'); at != std::string::npos) {
+                frame = std::stoull(spec.substr(at + 1));
+                spec.resize(at);
+            }
+            std::vector<std::string> parts;
+            for (std::size_t begin = 0;;) {
+                const auto colon = spec.find(':', begin);
+                parts.push_back(spec.substr(begin, colon == std::string::npos ? colon : colon - begin));
+                if (colon == std::string::npos) break;
+                begin = colon + 1;
+            }
+            bool wait = false;
+            if (!parts.empty() && parts.back() == "wait") {wait = true; parts.pop_back();}
+            if (parts.size() < 2 || parts.size() > 3)
+                throw std::runtime_error("--play-anim expects TARGET:DICT[:DICT2][:wait][@FRAME]");
+            options.play_anims.push_back({parts[0], parts[1], parts.size() == 3 ? parts[2] : std::string(), wait, frame});
+        }
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
+        else if (arg == "--flush-dialogs") options.flush_dialogs = true;
         else if (arg == "--hud-tap-xy") {
             const auto xy = value("--hud-tap-xy");
             const auto comma = xy.find(',');
@@ -241,8 +291,13 @@ Options parse(int argc, char** argv) {
             else if (scenario == "move-defend") options.movement_defend_scenario = true;
             else if (scenario == "tutorial-potion")
                 options.movement_defend_scenario = options.tutorial_potion_scenario = true;
+            else if (scenario == "first-kill-ui")
+                options.movement_attack_scenario = options.movement_kill_scenario =
+                    options.first_kill_ui_scenario = true;
             else if (scenario == "skill-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
+            else if (scenario == "touch-kill")
+                options.movement_attack_scenario = options.movement_kill_scenario = options.hud_touch_scenario = true;
             else if (scenario == "faery-follow") options.faery_follow_scenario = true;
             else if (scenario == "faery-skill") options.faery_skill_scenario = true;
             else if (scenario == "skill-matrix") options.skill_matrix_scenario = true;
@@ -274,12 +329,17 @@ Options parse(int argc, char** argv) {
                          "  --return-to-origin E  after --transition-to arrives, go back to the --level-row level at entry E (A -> B -> A) and log enemy censuses\n"
                          "  --return-delay N      frames to wait in the --transition-to destination before returning (default 240)\n"
                          "  --enemy-census-at N   log every materialized Monster and the dead ones at rendered frame N (repeatable)\n"
+                         "  --start-script NAME[@N] start the named Level pyscript (e.g. Swamp_Intro) on the Level ScriptManager at frame N (default 200)\n"
+                         "  --flush-dialogs     flush script dialogs every 20 frames while a script holds the controllers (unattended cutscenes)\n"
+                         "  --play-anim TARGET:DICT[:DICT2][:wait][@N] run Character::_RegisterAnim/_PlayAnim (AnimDict names) on 'player' or a Monster name at frame N\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
                          "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
                          "  --scenario tutorial-potion move-defend on SWAMP; verify HP <= half starts cinematic_Tuto_potionUse once\n"
+                         "  --scenario touch-kill  move-kill driven through the HUD: a held joystick finger steers, a second finger holds the attack button while the stick stays down\n"
+                         "  --scenario first-kill-ui move-kill on a fresh SWAMP profile; script dialogs are dismissed by touching the DialogBox (no flush); fails if the Player stays locked\n"
                          "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
                          "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
@@ -300,6 +360,10 @@ Options parse(int argc, char** argv) {
     if (options.tutorial_potion_scenario) {
         if (options.level_row < 0) options.level_row = 41;
         if (!frames_supplied) options.frames = 3000;
+    }
+    if (options.first_kill_ui_scenario) {
+        if (options.level_row < 0) options.level_row = 41;
+        if (!frames_supplied) options.frames = 4500;
     }
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
@@ -461,6 +525,79 @@ void print_combat_receipt_delta(const CombatReceiptSnapshot& before,
     std::cout << " (UI slots 0..9)\n";
 }
 
+// --scenario touch-kill: steering drives the authored HUD joystick finger through
+// this hook instead of calling move_axis. A (0, 0) request keeps the finger held.
+std::function<void(float, float)> g_scenario_axis;
+void scenario_move_axis(float x, float y) {
+    if (g_scenario_axis) g_scenario_axis(x, y);
+    else model_renderer::move_axis(x, y);
+}
+
+// The Android MotionEvent bridge hands each pointer to OriginalUiSession::pointer
+// with a source finger index. This drives the same entry: finger 0 holds the
+// authored joystick, finger 1 holds the authored attack button, both at once.
+struct HudTouchDriver {
+    static constexpr unsigned kAttackControl = 7;    // ui::AuthoredHudControlV1::attack
+    static constexpr unsigned kJoystickControl = 8;  // ui::AuthoredHudControlV1::joystick
+    static constexpr unsigned kStickFinger = 0, kAttackFinger = 1;
+    dh2::android_ui::OriginalUiSession* session = nullptr;
+    SDL_Window* window = nullptr;
+    bool stick_down = false, attack_down = false, camera_down = false;
+    float stick_x = 0, stick_y = 0, attack_x = 0, attack_y = 0, camera_x = 0, camera_y = 0;
+    unsigned camera_drags = 0;
+    static constexpr unsigned kCameraFinger = 2;
+    // A free finger on the world while fingers 0 and 1 hold the HUD: it alone pans the camera.
+    bool drag_camera_finger(std::string& error) {
+        int width = 1, height = 1;
+        size(width, height);
+        if (!camera_down) {
+            camera_x = 0.55f * float(width);
+            camera_y = 0.3f * float(height);
+            if (!session->pointer(camera_x, camera_y, 0, kCameraFinger, error)) return false;
+            camera_down = true;
+            return true;
+        }
+        camera_y += (camera_drags++ % 2 ? -1.0f : 1.0f) * 0.04f * float(height);
+        return session->pointer(camera_x, camera_y, 2, kCameraFinger, error);
+    }
+
+    void size(int& width, int& height) const { SDL_GetWindowSizeInPixels(window, &width, &height); }
+    bool drive_stick(float axis_x, float axis_y, std::string& error) {
+        if (axis_x == 0.0f && axis_y == 0.0f) return true;
+        int width = 1, height = 1;
+        size(width, height);
+        if (!stick_down) {
+            if (!session->hud_control_screen_point(kJoystickControl, width, height, stick_x, stick_y, error))
+                return false;
+            if (!session->pointer(stick_x, stick_y, 0, kStickFinger, error)) return false;
+            stick_down = true;
+            std::cout << "Scenario touch | finger 0 pressed the HUD joystick at " << stick_x << ',' << stick_y << '\n';
+        }
+        // MovementControl axes are x right, y up; screen y points down. 0.2 of the
+        // height is past the authored stick radius, so the drag is at full magnitude.
+        const float reach = 0.2f * float(height);
+        return session->pointer(stick_x + axis_x * reach, stick_y - axis_y * reach, 2, kStickFinger, error);
+    }
+    bool press_attack(std::string& error) {
+        int width = 1, height = 1;
+        size(width, height);
+        if (!session->hud_control_screen_point(kAttackControl, width, height, attack_x, attack_y, error))
+            return false;
+        if (!session->pointer(attack_x, attack_y, 0, kAttackFinger, error)) return false;
+        attack_down = true;
+        return true;
+    }
+    bool release_all(std::string& error) {
+        bool ok = true;
+        if (camera_down) ok = session->pointer(camera_x, camera_y, 1, kCameraFinger, error) && ok;
+        camera_down = false;
+        if (attack_down) ok = session->pointer(attack_x, attack_y, 1, kAttackFinger, error) && ok;
+        if (stick_down) ok = session->pointer(stick_x, stick_y, 1, kStickFinger, error) && ok;
+        attack_down = stick_down = false;
+        return ok;
+    }
+};
+
 bool steer_toward_nearest_enemy() {
     model_renderer::GameplayPoseSnapshotV1 pose;
     std::string error;
@@ -493,7 +630,7 @@ bool steer_toward_nearest_enemy() {
     if (!std::isfinite(distance))
         throw std::runtime_error("Selected-floor route produced a non-finite waypoint");
     if (distance <= 48.0f) {
-        model_renderer::move_axis(0.0f, 0.0f);
+        scenario_move_axis(0.0f, 0.0f);
         return true;
     }
     std::cout << "Scenario steering toward source enemy " << pose.enemy_index
@@ -503,7 +640,7 @@ bool steer_toward_nearest_enemy() {
     // move_axis accepts Android MovementControl screen axes. Invert its
     // recovered fixed +45-degree basis for this selected-floor world vector.
     constexpr float inverse_sqrt_two = 0.7071067811865475f;
-    model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
+    scenario_move_axis((dx + dy) * inverse_sqrt_two / distance,
                               (dy - dx) * inverse_sqrt_two / distance);
     return true;
 }
@@ -1949,14 +2086,23 @@ bool dispatch_touch(dh2::android_ui::OriginalUiSession& session, SDL_Window* win
     return session.touch(float(x) * sx, float(y) * sy, action, error);
 }
 
+// One SDL finger as a source finger index (slot 0..3): the HUD sees it first, then the camera,
+// exactly like a MotionEvent pointer on Android.
+struct DesktopFinger {
+    bool down = false;
+    SDL_TouchID touch = 0;
+    SDL_FingerID finger = 0;
+    float x = 0.0f, y = 0.0f;
+};
+
 bool dispatch_finger_touch(dh2::android_ui::OriginalUiSession& session, SDL_Window* window,
-                           float normalized_x, float normalized_y, int action,
+                           float normalized_x, float normalized_y, int action, unsigned slot,
                            std::string& error) {
     int width = 1, height = 1;
-    SDL_GetWindowSize(window, &width, &height);
-    const auto x = static_cast<int>(std::lround(std::clamp(normalized_x, 0.0f, 1.0f) * width));
-    const auto y = static_cast<int>(std::lround(std::clamp(normalized_y, 0.0f, 1.0f) * height));
-    return dispatch_touch(session, window, x, y, action, error);
+    SDL_GetWindowSizeInPixels(window, &width, &height);
+    const auto x = std::clamp(normalized_x, 0.0f, 1.0f) * float(width);
+    const auto y = std::clamp(normalized_y, 0.0f, 1.0f) * float(height);
+    return session.pointer(x, y, action, slot, error);
 }
 
 bool desktop_difficulty_count(void* context, std::uint32_t* count, std::string& error) {
@@ -2362,10 +2508,8 @@ int main(int argc, char** argv) {
         std::cout << "Authored menu: mouse/touch and name typing | Gameplay: WASD move, Space attack nearest reachable enemy, drag orbit, wheel zoom | Esc quit\n";
 
         std::array<bool, 4> keys{};
-        bool running = true, dragging = false, finger_down = false;
-        SDL_TouchID active_touch = 0;
-        SDL_FingerID active_finger = 0;
-        float finger_x = 0.0f, finger_y = 0.0f;
+        bool running = true, dragging = false;
+        std::array<DesktopFinger, 4> fingers{};
         bool text_input_started = false;
         std::uint64_t rendered_frames = 0;
         int mouse_x = 0, mouse_y = 0;
@@ -2381,6 +2525,10 @@ int main(int argc, char** argv) {
         std::int32_t scenario_target_initial_hp = 0;
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
+        // A fresh SWAMP profile starts Swamp_Escape's lifecycle (Swamp_Intro, then Movement_Tuto):
+        // scenarios begin once those cutscenes are over, the budget does not count them.
+        bool intro_released = false, intro_holding = false;
+        std::uint64_t intro_held_frames = 0;
         unsigned scenario_kills = 0;
         unsigned scenario_pickups = 0, scenario_loot_frames = 0;
         std::int32_t scenario_last_item_count = -1;
@@ -2392,9 +2540,21 @@ int main(int argc, char** argv) {
         std::int32_t scenario_skill_state = -1;
         unsigned scenario_skill_uses = 0;
         ProbeRunner probe_runner(options, scenario_player_died, scenario_revived);
+        // touch-kill: the stick (finger 0) and attack button (finger 1) are held together.
+        HudTouchDriver touch_driver;
+        touch_driver.session = &original_ui;
+        touch_driver.window = window;
+        bool touch_walk_attack_verified = false;
+        unsigned touch_hits = 0, touch_pans_before = 0;
+        std::int32_t touch_prev_state = -1, touch_state_before_press = -1;
+        std::int32_t touch_hit_enemy = -1, touch_hit_hp = 0;
         std::uint64_t tutorial_verified_frame = 0, tutorial_finished_frame = 0;
         std::int32_t tutorial_hp_start = 0, tutorial_hp_end = 0, tutorial_hp_last = 0, tutorial_hp_lowest = 0;
         std::uint64_t tutorial_lock_frame = 0, tutorial_unlock_frame = 0;
+        // first-kill-ui: touches that landed on a visible dialog, consecutive frames the
+        // controllers stayed blocked, and the longest such stretch.
+        unsigned dialog_taps = 0;
+        std::uint64_t blocked_streak = 0, blocked_longest = 0;
         unsigned tutorial_hp_drops = 0;
         std::array<float, 3> tutorial_position{};
         float tutorial_moved = 0.0f;
@@ -2485,10 +2645,13 @@ int main(int argc, char** argv) {
                 } else if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_FOCUS_LOST) {
                     if (dragging && !dispatch_touch(original_ui, window, mouse_x, mouse_y, 3, ui_error))
                         std::cerr << "HUD touch release on focus loss failed: " << ui_error << '\n';
-                    if (finger_down && !dispatch_finger_touch(original_ui, window, finger_x, finger_y, 3, ui_error))
-                        std::cerr << "Authored touch cancel on focus loss failed: " << ui_error << '\n';
+                    for (unsigned slot = 0; slot < fingers.size(); ++slot) {
+                        if (!fingers[slot].down) continue;
+                        if (!dispatch_finger_touch(original_ui, window, fingers[slot].x, fingers[slot].y, 3, slot, ui_error))
+                            std::cerr << "Authored touch cancel on focus loss failed: " << ui_error << '\n';
+                        fingers[slot].down = false;
+                    }
                     dragging = false;
-                    finger_down = false;
                     keys.fill(false);
                     if (gameplay) model_renderer::stop_movement();
                 } else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
@@ -2525,23 +2688,30 @@ int main(int argc, char** argv) {
                     if (!gameplay && original_ui.menu_text_input_active() &&
                         !send_menu_text(original_ui, event.text.text, ui_error))
                         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Menu text input failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERDOWN && !finger_down) {
-                    finger_down = true; active_touch = event.tfinger.touchId;
-                    active_finger = event.tfinger.fingerId;
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 0, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch down failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERMOTION && finger_down &&
-                           event.tfinger.touchId == active_touch && event.tfinger.fingerId == active_finger) {
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 2, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch move failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERUP && finger_down &&
-                           event.tfinger.touchId == active_touch && event.tfinger.fingerId == active_finger) {
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 1, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch up failed: %s", ui_error.c_str());
-                    finger_down = false;
+                } else if (event.type == SDL_FINGERDOWN || event.type == SDL_FINGERMOTION || event.type == SDL_FINGERUP) {
+                    // Up to four simultaneous fingers, each on its own source finger index.
+                    unsigned slot = unsigned(fingers.size());
+                    for (unsigned i = 0; i < fingers.size(); ++i)
+                        if (fingers[i].down && fingers[i].touch == event.tfinger.touchId &&
+                            fingers[i].finger == event.tfinger.fingerId) slot = i;
+                    if (event.type == SDL_FINGERDOWN && slot == fingers.size())
+                        for (unsigned i = 0; i < fingers.size() && slot == fingers.size(); ++i)
+                            if (!fingers[i].down) slot = i;
+                    if (slot < fingers.size()) {
+                        auto& finger = fingers[slot];
+                        const int action = event.type == SDL_FINGERDOWN ? 0 : event.type == SDL_FINGERMOTION ? 2 : 1;
+                        if (event.type == SDL_FINGERDOWN) {
+                            finger.down = true;
+                            finger.touch = event.tfinger.touchId;
+                            finger.finger = event.tfinger.fingerId;
+                        }
+                        finger.x = event.tfinger.x;
+                        finger.y = event.tfinger.y;
+                        if (!dispatch_finger_touch(original_ui, window, finger.x, finger.y, action, slot, ui_error))
+                            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch %s failed: %s",
+                                         action == 0 ? "down" : action == 2 ? "move" : "up", ui_error.c_str());
+                        if (event.type == SDL_FINGERUP) finger.down = false;
+                    }
                 } else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.which != SDL_TOUCH_MOUSEID &&
                            event.button.button == SDL_BUTTON_LEFT) {
                     dragging = true; mouse_x = event.button.x; mouse_y = event.button.y;
@@ -2565,10 +2735,41 @@ int main(int argc, char** argv) {
             }
             return_to_authored_menu();
             sync_text_input();
+            intro_holding = false;
+            if (gameplay && options.level_row == 41 && !intro_released &&
+                (options.movement_attack_scenario || options.movement_defend_scenario ||
+                 options.movement_kill_scenario || options.skill_kill_scenario ||
+                 options.tutorial_potion_scenario || options.probe_scenario())) {
+                bool finished = false;
+                std::uintptr_t player_identity = 0;
+                std::vector<model_renderer::UiQuestReadV1> quest_rows;
+                if (rendered_frames >= 4 &&
+                    model_renderer::ui_player_identity(player_identity, ui_error) &&
+                    model_renderer::ui_player_quest_rows(player_identity, quest_rows, ui_error, nullptr) &&
+                    quest_rows.size() > 50 && quest_rows[50].state >= 6 &&
+                    !model_renderer::script_controllers_blocked() &&
+                    !model_renderer::tutorial_script_running("Swamp_Intro") &&
+                    !model_renderer::tutorial_script_running("Movement_Tuto") &&
+                    !model_renderer::tutorial_script_running("Movement_Tuto2"))
+                    finished = true;
+                if (finished || intro_held_frames >= 9000) {
+                    intro_released = true;
+                    std::cout << "Scenario intro released | frame " << rendered_frames << " | held "
+                              << intro_held_frames << " frames | "
+                              << (finished ? "Swamp_Escape active, cutscenes over" : "hold timed out") << std::endl;
+                } else {
+                    intro_holding = true;
+                    ++intro_held_frames;
+                    ++options.frames;
+                    if (rendered_frames % 20 == 0 && model_renderer::script_controllers_blocked() &&
+                        !original_ui.flush_source_messages(ui_error))
+                        throw std::runtime_error("Intro dialog flush failed: " + ui_error);
+                }
+            }
             if (gameplay && options.faery_follow_scenario && !options.capture_series.empty() && rendered_frames == 20)
                 copy_level_saves(options.runtime, options.capture_series, "entry");
-            if (gameplay && options.probe_scenario() && rendered_frames >= 2) {
-                probe_runner.tick(rendered_frames, SDL_GetTicks64());
+            if (gameplay && options.probe_scenario() && rendered_frames >= 2 && !intro_holding) {
+                probe_runner.tick(rendered_frames - intro_held_frames, SDL_GetTicks64());
                 int tap_action = -1;
                 if (probe_runner.take_tap(tap_action)) {
                     // Centre of the authored HUD faery button on the 1280x720 reference layout.
@@ -2586,6 +2787,18 @@ int main(int argc, char** argv) {
                     running = false;
                 }
                 if (probe_runner.finished()) running = false;
+            }
+            // touch-kill: the attack must begin while the movement stick finger is still down.
+            // Sampled every frame so the one-frame walk -> attack edge cannot be missed.
+            if (options.hud_touch_scenario && scenario_started && touch_driver.attack_down &&
+                touch_driver.stick_down) {
+                const auto state = model_renderer::gameplay_player_state();
+                if (!touch_walk_attack_verified && touch_prev_state == 4 && state == 5) {
+                    touch_walk_attack_verified = true;
+                    std::cout << "Scenario walk-attack verified | Player state 4 -> 5 with the stick finger and the attack"
+                                 " finger both held | frame " << rendered_frames << '\n';
+                }
+                touch_prev_state = state;
             }
             // move-kill: steer to the nearest enemy and keep attacking it through the
             // normal player_attack() route until its source HP reaches zero.
@@ -2616,13 +2829,18 @@ int main(int argc, char** argv) {
                     std::cout << "Scenario kill verified | " << target.name << " HP " << target.hp
                               << '/' << target.max_hp << " dead " << target.dead << '\n';
                     ++scenario_kills;
+                    if (options.hud_touch_scenario && touch_driver.attack_down && touch_driver.stick_down) {
+                        ++touch_hits;
+                        std::cout << "Scenario touch hit verified | killing blow on " << target.name
+                                  << " with the stick finger and the attack finger both held\n";
+                    }
                     if (index == scenario_target_index) scenario_target_index = -1;
                 }
                 scenario_dead_baseline = true;
                 // After a kill, walk onto the nearest dropped item and verify
                 // the normal pickup removes it from the world.
                 model_renderer::GameplayWorldItemSnapshotV1 items;
-                const bool have_items = scenario_kills > 0 && scenario_pickups < 3 &&
+                const bool have_items = scenario_kills > 0 && scenario_pickups < 3 && !options.hud_touch_scenario &&
                     model_renderer::gameplay_world_item_snapshot(items, ui_error) && items.count > 0;
                 if (options.skill_kill_scenario) {
                     const auto state = model_renderer::gameplay_player_state();
@@ -2644,6 +2862,59 @@ int main(int argc, char** argv) {
                     constexpr float inverse_sqrt_two = 0.7071067811865475f;
                     model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
                                               (dy - dx) * inverse_sqrt_two / distance);
+                } else if (options.hud_touch_scenario && pose.enemy_index >= 0 && pose.enemy_hp > 0 &&
+                           pose.enemy_in_melee_range) {
+                    // The walking half of the device report: the stick finger stays down and keeps
+                    // pushing at the enemy while a second finger presses and holds the attack button.
+                    scenario_target_index = pose.enemy_index;
+                    {
+                        const float dx = pose.enemy_position[0] - pose.player_position[0];
+                        const float dy = pose.enemy_position[1] - pose.player_position[1];
+                        const float distance = std::max(std::hypot(dx, dy), 1.0f);
+                        constexpr float inverse_sqrt_two = 0.7071067811865475f;
+                        if (!touch_driver.drive_stick((dx + dy) * inverse_sqrt_two / distance,
+                                                      (dy - dx) * inverse_sqrt_two / distance, ui_error))
+                            throw std::runtime_error("touch-kill stick drag failed: " + ui_error);
+                    }
+                    if (!touch_driver.attack_down) {
+                        touch_state_before_press = model_renderer::gameplay_player_state();
+                        if (!touch_driver.press_attack(ui_error))
+                            throw std::runtime_error("touch-kill attack button press failed: " + ui_error);
+                        // The HUD attack press starts the attack inside the touch entry itself.
+                        const auto state_after_press = model_renderer::gameplay_player_state();
+                        std::cout << "Scenario touch | finger 1 pressed the HUD attack button at "
+                                  << touch_driver.attack_x << ',' << touch_driver.attack_y
+                                  << " | stick finger held " << touch_driver.stick_down
+                                  << " | Player state " << touch_state_before_press << " -> "
+                                  << state_after_press << '\n';
+                        if (!touch_walk_attack_verified && touch_driver.stick_down &&
+                            touch_state_before_press == 4 && state_after_press == 5) {
+                            touch_walk_attack_verified = true;
+                            std::cout << "Scenario walk-attack verified | the attack press took the Player from walking"
+                                         " (state 4) to attacking (state 5) while the stick finger stayed down\n";
+                        }
+                    }
+                    {
+                        // A third, free finger on the world pans the camera; the two HUD fingers never do.
+                        unsigned pans = 0, applied = 0, pinches = 0;
+                        if (!touch_driver.camera_down) {
+                            original_ui.camera_gesture_counts(pans, applied, pinches);
+                            touch_pans_before = pans;
+                        }
+                        if (!touch_driver.drag_camera_finger(ui_error))
+                            throw std::runtime_error("touch-kill free camera finger failed: " + ui_error);
+                    }
+                    if (touch_hit_enemy != pose.enemy_index) {
+                        touch_hit_enemy = pose.enemy_index;
+                        touch_hit_hp = pose.enemy_hp;
+                    } else if (pose.enemy_hp < touch_hit_hp) {
+                        ++touch_hits;
+                        std::cout << "Scenario touch hit verified | enemy " << pose.enemy_index << " HP "
+                                  << touch_hit_hp << " -> " << pose.enemy_hp << " | stick held "
+                                  << touch_driver.stick_down << " | attack held " << touch_driver.attack_down
+                                  << " | Player state " << model_renderer::gameplay_player_state() << '\n';
+                        touch_hit_hp = pose.enemy_hp;
+                    }
                 } else if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
                     keys.fill(false);update_movement(keys);model_renderer::stop_movement();
                     scenario_target_index = pose.enemy_index;
@@ -2773,6 +3044,32 @@ int main(int argc, char** argv) {
             }
             if (options.tutorial_potion_scenario && tutorial_finished_frame &&
                 rendered_frames >= tutorial_finished_frame + 60) running = false;
+            // first-kill-ui: a player taps the dialog box to read on. Press and release
+            // are separate frames so GameSWF sees both edges; the dialog queue is never
+            // flushed, so a dialog the UI cannot show or dismiss keeps the Player locked
+            // and fails the scenario below.
+            if (options.first_kill_ui_scenario && gameplay) {
+                const bool blocked_now = model_renderer::script_controllers_blocked();
+                blocked_streak = blocked_now ? blocked_streak + 1 : 0;
+                blocked_longest = std::max(blocked_longest, blocked_streak);
+                bool dialog_active = false;
+                if (!original_ui.source_dialog_active(dialog_active, ui_error))
+                    throw std::runtime_error("Dialog activity query failed: " + ui_error);
+                const auto phase = rendered_frames % 24;
+                if (dialog_active && (phase == 0 || phase == 6)) {
+                    int window_width = 1, window_height = 1;
+                    SDL_GetWindowSize(window, &window_width, &window_height);
+                    if (!dispatch_touch(original_ui, window, window_width / 2, window_height / 2,
+                                        phase == 0 ? 0 : 1, ui_error))
+                        throw std::runtime_error("Dialog tap failed: " + ui_error);
+                    if (phase == 6) {
+                        ++dialog_taps;
+                        if (dialog_taps == 1 || dialog_taps % 10 == 0)
+                            std::cout << "Scenario dialog tap " << dialog_taps << " | frame " << rendered_frames
+                                      << " | controllers blocked " << blocked_now << std::endl;
+                    }
+                }
+            }
             // skill-matrix applies real Character::LevelUp steps, which start the
             // authored Level Up tutorial script (LockCharacter "All", BlockSaveGame and
             // dialogs that wait for the player's taps). Flush its dialogs like those
@@ -2783,7 +3080,8 @@ int main(int argc, char** argv) {
             // lock the controllers behind dialogs the player taps through. The
             // tutorial-potion scenario keeps its own hold-then-flush proof above once
             // cinematic_Tuto_potionUse has started; before that it taps these too.
-            if ((options.skill_matrix_scenario || options.boss_natural ||
+            if ((options.skill_matrix_scenario || options.flush_dialogs ||
+                 options.boss_natural ||
                  ((options.movement_attack_scenario || options.movement_defend_scenario) &&
                   (!options.tutorial_potion_scenario || !tutorial_verified_frame))) &&
                 gameplay && rendered_frames % 20 == 0 &&
@@ -3005,6 +3303,18 @@ int main(int argc, char** argv) {
             if (gameplay && std::find(options.census_frames.begin(), options.census_frames.end(),
                                       rendered_frames) != options.census_frames.end())
                 enemy_census("requested");
+            if (gameplay) {
+                for (const auto& start : options.script_starts)
+                    if (rendered_frames == start.frame)
+                        plog("PROBE start-script " + start.name + " | frame " + std::to_string(rendered_frames) +
+                             " | " + model_renderer::debug_start_level_script(start.name));
+                for (const auto& anim : options.play_anims)
+                    if (rendered_frames == anim.frame)
+                        plog("PROBE play-anim " + anim.target + " " + anim.dict +
+                             (anim.second.empty() ? "" : "," + anim.second) +
+                             (anim.wait ? " wait" : "") + " | frame " + std::to_string(rendered_frames) + " | " +
+                             model_renderer::debug_character_play_anim(anim.target, anim.dict, anim.second, anim.wait));
+            }
             if (gameplay && options.return_entry >= 0) {
                 if (return_due_frame && !return_queued && rendered_frames == return_due_frame) {
                     return_queued = true;
@@ -3072,10 +3382,16 @@ int main(int argc, char** argv) {
                 }
             }
             if (gameplay && (options.movement_attack_scenario || options.movement_defend_scenario || options.fixed_cultist_scenario ||
-                             options.fixed_cultist_kill_scenario) && !scenario_started) {
+                             options.fixed_cultist_kill_scenario) && !scenario_started && !intro_holding) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
                 model_renderer::move_axis(0.0f, 0.0f);
+                if (options.hud_touch_scenario)
+                    g_scenario_axis = [&](float x, float y) {
+                        std::string stick_error;
+                        if (!touch_driver.drive_stick(x, y, stick_error))
+                            std::cout << "Scenario touch | stick not ready yet: " << stick_error << '\n';
+                    };
                 if (any_fixed_cultist_scenario) {
                     model_renderer::GameplayEnemyStateSnapshotV1 target_state;
                     if (!model_renderer::gameplay_enemy_state_snapshot(fixed_target_index, target_state, ui_error))
@@ -3185,6 +3501,29 @@ int main(int argc, char** argv) {
             if (fixed_attack_count == 0 || !fixed_target_identity)
                 throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
         }
+        if (options.first_kill_ui_scenario && gameplay) {
+            bool dialog_active = false;
+            if (!original_ui.source_dialog_active(dialog_active, ui_error))
+                throw std::runtime_error("Final dialog activity query failed: " + ui_error);
+            const bool blocked_at_end = model_renderer::script_controllers_blocked();
+            std::cout << "Scenario first-kill-ui | kills " << scenario_kills << " | dialog taps " << dialog_taps
+                      << " | longest controller lock " << blocked_longest << " frames | locked at end "
+                      << blocked_at_end << " | dialog active at end " << dialog_active
+                      << " | potionUse starts "
+                      << model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse")
+                      << " | levelUp starts "
+                      << model_renderer::tutorial_script_start_count("cinematic_Tuto_levelUp") << std::endl;
+            if (!scenario_kills)
+                throw std::runtime_error("first-kill-ui reached its frame bound without a verified kill");
+            if (blocked_at_end || dialog_active)
+                throw std::runtime_error("first-kill-ui ended with the Player still locked behind a dialog (freeze)");
+            if (model_renderer::tutorial_script_running("cinematic_Tuto_potionUse") ||
+                model_renderer::tutorial_script_running("cinematic_Tuto_levelUp"))
+                throw std::runtime_error("first-kill-ui ended with a tutorial cinematic still running (freeze)");
+            if ((model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse") ||
+                 model_renderer::tutorial_script_start_count("cinematic_Tuto_levelUp")) && !dialog_taps)
+                throw std::runtime_error("first-kill-ui finished a tutorial without any dialog touch");
+        }
         if (options.tutorial_potion_scenario && gameplay) {
             if (!tutorial_verified_frame)
                 throw std::runtime_error("tutorial-potion reached its frame bound without cinematic_Tuto_potionUse starting");
@@ -3203,6 +3542,25 @@ int main(int argc, char** argv) {
             if (scenario_player_died && !scenario_revived)
                 throw std::runtime_error("move-defend Player died but the death screen never revived the Player");
             std::cout << "Scenario move-defend complete\n";
+        }
+        if (options.hud_touch_scenario && gameplay) {
+            if (!touch_driver.release_all(ui_error))
+                throw std::runtime_error("touch-kill finger release failed: " + ui_error);
+            std::cout << "Scenario touch-kill | walk attack verified " << touch_walk_attack_verified
+                      << " | hits with both fingers held " << touch_hits << '\n';
+            unsigned pans = 0, applied = 0, pinches = 0;
+            original_ui.camera_gesture_counts(pans, applied, pinches);
+            std::cout << "Scenario touch-kill | camera pans before the free finger " << touch_pans_before
+                      << " | pans from the free finger: delivered " << pans - touch_pans_before
+                      << " applied " << applied << " | pinch steps " << pinches << '\n';
+            if (touch_pans_before)
+                throw std::runtime_error("touch-kill: a HUD finger (stick or attack) panned the camera");
+            if (pans == touch_pans_before)
+                throw std::runtime_error("touch-kill: the free finger never panned the camera");
+            if (!touch_walk_attack_verified)
+                throw std::runtime_error("touch-kill never started an attack while the movement stick finger was held");
+            if (!touch_hits)
+                throw std::runtime_error("touch-kill landed no hit while the movement stick finger was held");
         }
         if (options.movement_kill_scenario && gameplay) {
             if (!scenario_kills)

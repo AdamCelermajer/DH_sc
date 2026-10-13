@@ -82,12 +82,19 @@ inline bool ready(const CharacterVisual& visual, Identity character) noexcept {
     return visual.anim_set.character == character &&
         visual.anim_set.phase == character_anim_set_owner_v1::Phase::ready &&
         [&]() noexcept {
-            for (const auto& registration : visual.anim_set.registrations)
+            for (const auto& registration : visual.anim_set.registrations) {
                 if (registration.kind ==
                         character_anim_set_owner_v1::RegistrationKind::animation &&
                     registration.source_sequence_id == visual.clip_sequence &&
                     registration.animation_dictionary_id >= 0)
                     return true;
+                // A scripted AnimTable row (Script_PlayActorAnim) plays AnimDicts
+                // that CharAnimator::ANIM_AddAnimDictToSet put in the set.
+                if (registration.kind ==
+                        character_anim_set_owner_v1::RegistrationKind::added_dictionary &&
+                    registration.animation_dictionary_id >= 0)
+                    return true;
+            }
             return false;
         }();
 }

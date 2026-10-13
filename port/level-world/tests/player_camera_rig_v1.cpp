@@ -33,7 +33,7 @@ bool same_pose(const dh2::player_camera_rig_v1::Pose& a,
 
 int main(int argc,char** argv) {
     try {
-        if(argc!=3&&argc!=5){std::cerr<<"usage: player_camera_rig_v1_audit camera_scene.bdae camera_idle.bdae [camera_shake.bdae camera_crit.bdae]\n";return 2;}
+        if(argc!=3&&argc!=5&&argc!=6){std::cerr<<"usage: player_camera_rig_v1_audit camera_scene.bdae camera_idle.bdae [camera_shake.bdae camera_crit.bdae [cutscene_camera.bdae]]\n";return 2;}
         const auto camera=read(argv[1]),idle=read(argv[2]);
         dh2::player_camera_rig_v1::Rig rig;std::string error;
         require(rig.load({camera.data(),camera.size(),idle.data(),idle.size()},error),error.c_str());
@@ -134,7 +134,7 @@ int main(int argc,char** argv) {
         require(playback.current_time_ms()==rig.animation_end()&&playback.completed()&&
                 same_pose(terminal_pose,expected_terminal),
                 "Completed non-looping camera idle wrapped back to the beginning");
-        if(argc==5){
+        if(argc>=5){
             const std::vector<std::uint8_t> invalid_clip(8,0);
             require(!rig.load_animation(invalid_clip.data(),invalid_clip.size(),error)&&
                         rig.animation_start()==0&&rig.animation_end()==33&&
@@ -172,6 +172,28 @@ int main(int argc,char** argv) {
                             rig.animation_end()-rig.animation_start()+1),&playback_pose,error),error.c_str());
                 require(playback.current_time_ms()==rig.animation_end()&&playback.completed(),
                         "Selected camera effect did not complete at its source terminal time");
+            }
+            // CSceneNodeAnimatorSet::applyAnimationValues (0x65f424) writes each clip's default
+            // record into the bindings it has no track for: a clip that moved a node the idle clip
+            // does not animate (the camera node, by the effect clips and the cs_swamp_intro
+            // cutscene clips) must leave the authored idle pose behind once idle is selected again.
+            std::vector<std::string> restoring_clips{argv[3],argv[4]};
+            if(argc==6)restoring_clips.push_back(argv[5]);
+            for(const auto& path:restoring_clips){
+                const auto clip=read(path.c_str());
+                require(rig.load_animation(clip.data(),clip.size(),error),error.c_str());
+                dh2::player_camera_rig_v1::Pose clip_end{};
+                require(rig.sample(rig.animation_end(),&clip_end,error),error.c_str());
+                float moved=0.0f;
+                for(unsigned element=12;element<15;++element)
+                    moved+=std::abs(clip_end.camera[element]-first.camera[element]);
+                if(argc==6&&path==argv[5])
+                    require(moved>1.0f,"Cutscene clip did not move the camera node");
+                require(rig.load_animation(idle.data(),idle.size(),error),error.c_str());
+                dh2::player_camera_rig_v1::Pose restored{};
+                require(rig.sample(rig.animation_start(),&restored,error),error.c_str());
+                require(same_pose(restored,first),
+                        "Idle did not restore the authored pose after a previous camera clip");
             }
         }
         std::cout<<"camera rig loaded; tracks="<<rig.track_count()<<" range="
