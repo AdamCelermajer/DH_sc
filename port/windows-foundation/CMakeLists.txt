@@ -1089,6 +1089,10 @@ add_executable(runtime_skill_session_training_tests features/generic_skills/runt
 target_link_libraries(runtime_skill_session_training_tests PRIVATE foundation_runtime_skills_menu)
 add_test(NAME runtime_skill_session_training COMMAND runtime_skill_session_training_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# v21.8 skills-a: data-driven source skill use profiles (Knight/Rogue actives), transcribed from the original skill Lua.
+add_executable(runtime_skill_use_profile_v1_tests features/generic_skills/runtime_skill_use_profile_v1_tests.cpp)
+add_test(NAME runtime_skill_use_profile_v1 COMMAND runtime_skill_use_profile_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
 # Preview 14 Stats +/- route: spend, refuse at zero, failed-save rollback, recalc (features/character_menu/stat_training_v1).
 add_executable(stat_training_v1_tests features/character_menu/stat_training_v1_tests.cpp)
 target_link_libraries(stat_training_v1_tests PRIVATE foundation_runtime_skills_menu)

@@ -113,35 +113,19 @@ CombatSessionStateAnimationServices source_sequence_services(
 }
 
 bool source_supported_skill(const dh2::data::SkillTables::Borrow& tables,
-                            int table_id, RuntimeWarriorSkillBranchV1& branch,
+                            int table_id, const RuntimeSkillUseProfileV1*& profile,
                             std::string& token) {
+    profile = nullptr;
     if (!tables || table_id < 0 || std::size_t(table_id) >= tables.skills().size() ||
         std::size_t(table_id) >= tables.skill_names().size()) return false;
     const auto& skill = tables.skills()[std::size_t(table_id)];
     const auto& name = tables.skill_names()[std::size_t(table_id)];
-    // Exact SkillTable.Script and Lua CLASS_ID tokens, recovered from the
-    // matching cached source files; no user-facing/class-name fallback.
-    if (name == "BashDown" && skill.script == "prince_warrior_bashdown") {
-        branch = RuntimeWarriorSkillBranchV1::bashdown;
-        token = "Skill_Warrior_BashDown";
-        return true;
-    }
-    if (name == "GroundSlam" && skill.script == "prince_warrior_ground_slam") {
-        branch = RuntimeWarriorSkillBranchV1::ground_slam;
-        token = "Skill_Warrior_GroundSlam";
-        return true;
-    }
-    if (name == "Charge" && skill.script == "prince_warrior_charge") {
-        branch = RuntimeWarriorSkillBranchV1::charge;
-        token = "Skill_Warrior_Charge";
-        return true;
-    }
-    if (name == "JumpKick" && skill.script == "prince_rogue_jump_kick") {
-        branch = RuntimeWarriorSkillBranchV1::rogue_jump_kick;
-        token = "Skill_Rogue_JumpKick";
-        return true;
-    }
-    return false;
+    // Admission is by the exact SkillTable (name, script) pair of a row in
+    // kRuntimeSkillUseProfilesV1, transcribed from the original skill Lua.
+    profile = find_skill_use_profile_v1(name, skill.script);
+    if (!profile) return false;
+    token = profile->class_token;
+    return true;
 }
 
 #if !defined(DH_RUNTIME_SKILL_CAST_WARRIOR_ONLY_TEST)
@@ -702,8 +686,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     }
 
     std::string class_token;
-    RuntimeWarriorSkillBranchV1 branch = RuntimeWarriorSkillBranchV1::bashdown;
-    if (!source_supported_skill(request.skills, visual.skill_table_id, branch, class_token)) {
+    const RuntimeSkillUseProfileV1* profile = nullptr;
+    if (!source_supported_skill(request.skills, visual.skill_table_id, profile, class_token)) {
         output.actor = request.actor;
         output.source_slot = request.source_slot;
         output.saved_skill_row = saved_row;
@@ -717,8 +701,11 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         return true;
     }
     const auto& skill_row = request.skills.skills()[std::size_t(visual.skill_table_id)];
-    if (skill_row.scalar.words[7] & 0x00800000u)
-        return fail(error, "Paired-hand skill result requests are not supported by this source owner");
+    // Native _SkillCombatRoll (IDA 0x3b9fbc; audit docs/ida-fidelity-audit-2026-10-11/character3.md F2):
+    // mask 0x800000 needs the equipped-hand facts before any hit is formed.
+    const bool paired_hand = (skill_row.scalar.words[7] & 0x00800000u) != 0;
+    if (paired_hand && !request.hand_facts_known)
+        return fail(error, "Paired-hand skill result requires the equipped main/off-hand facts");
 
     // Borrow the live population enrollment order. Source Pre consumes it
     // after outgoing Blur, using the then-current heading and typed objects.
@@ -732,7 +719,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             *request.property_rules, current->sheets.resolved, class_token,
             visual.saved_rank, class_projection, cooldown_ms, projected_range,
             projected_range_growth, error)) return false;
-    if (cooldown_ms > 0.0) {
+    // Only the authored OnPre SetSkillCooldown owners start a source timer.
+    if (profile->sets_cooldown && cooldown_ms > 0.0) {
         if (!timer_clock_bound_) {
             timer_clock_bound_ = true;
             timer_binding_lease_ = session.actor_binding_lease();
@@ -780,7 +768,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     active.characters = request.characters;
     active.classes = request.classes;
     active.property_rules = request.property_rules;
-    const std::string use_class_token = branch == RuntimeWarriorSkillBranchV1::charge &&
+    const std::string use_class_token = profile->shield_variant &&
         current->facts.shield ? "Skill_Warrior_Charge_ShieldBonus" : class_token;
     active.source_class_id = static_cast<int>(std::find(request.classes->names.begin(),
         request.classes->names.end(), use_class_token) - request.classes->names.begin());
@@ -789,30 +777,22 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         return fail(error, "Authored skill CLASS_ID token is unavailable in source ClassTables");
     }
     active.row_mask = skill_row.scalar.words[7];
+    active.paired_hand = paired_hand;
+    active.has_main_hand = request.has_main_hand_weapon;
+    active.has_off_hand = request.has_off_hand_weapon;
     active.element = static_cast<std::int32_t>(skill_row.scalar.words[5]);
     active.category = current->facts.main_damage_class;
-    active.warrior_branch = branch;
-    active.source_post_clears_target =
-        branch == RuntimeWarriorSkillBranchV1::bashdown ||
-        branch == RuntimeWarriorSkillBranchV1::ground_slam ||
-        branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick;
+    active.use_profile = profile;
+    active.source_post_clears_target = profile->post_clear_target;
     active.class_token = class_token;
     active.population_order = order;
     active.target_facts = request.target_facts;
     active.non_character_attackable_objects_absent = request.non_character_attackable_objects_absent;
-    active.target_sort = branch == RuntimeWarriorSkillBranchV1::ground_slam
-        ? SkillTargetSortV1::closest_first
-        : branch == RuntimeWarriorSkillBranchV1::charge
-            ? SkillTargetSortV1::source_order : SkillTargetSortV1::frontal_first;
-    active.target_range = branch == RuntimeWarriorSkillBranchV1::bashdown ? 160.0f
-        : branch == RuntimeWarriorSkillBranchV1::ground_slam
-            ? static_cast<float>(projected_range)
-            : branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick ? 160.0f : 300.0f;
-    active.target_cone_radians = branch == RuntimeWarriorSkillBranchV1::charge
-        ? 2.09439510239319549f
-        : branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick
-            ? 4.71238898038468986f : 3.1415927410125732421875f;
-    active.cooldown_ms = cooldown_ms;
+    active.target_sort = profile->use_sort;
+    active.target_range = profile->use_range_from_temp_prop1
+        ? static_cast<float>(projected_range) : profile->use_range;
+    active.target_cone_radians = profile->use_cone_radians;
+    active.cooldown_ms = profile->sets_cooldown ? cooldown_ms : 0.0;
     if (request.object_targets) active.object_targets = *request.object_targets;
     // An admitted skill departs the swing (CSAttack::OnBlur/interrupt), so a
     // failed sequence start must not restore Attack with no attack owner.
@@ -843,7 +823,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     }
     active_[request.actor]=std::move(active);
     const auto downstream_focused=std::move(services.focused);
-    services.focused=[&,generation,downstream_focused](ActorId focused_actor,std::string& error){
+    services.focused=[&,generation,downstream_focused,profile](ActorId focused_actor,std::string& error){
         if(focused_actor!=request.actor)return fail(error,"Source Focus Pre reached a foreign actor");
         auto& active=active_.at(request.actor);
         if(active.receipt.generation!=generation)return fail(error,"Source Focus Pre occurrence is stale");
@@ -851,22 +831,15 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         SkillActorTargetQueryV1 target;
         target.caster = request.actor;
         target.status = SkillActorTargetQueryStatusV1::no_actor_target;
-        float pre_range = 0.0f;
-        bool pre_search = true;
-        if (branch == RuntimeWarriorSkillBranchV1::bashdown) pre_range = 160.0f;
-        else if (branch == RuntimeWarriorSkillBranchV1::charge) pre_range = 300.0f;
-        else if (branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) pre_range = 250.0f;
-        else pre_search = false; // GroundSlam's authored OnPre has no target query.
-        if (pre_search && !query_source_character_targets_v1(session, request.actor,
+        // pre_range == 0: the authored OnPre has no target query (GroundSlam).
+        if (profile->pre_range > 0.0f && !query_source_character_targets_v1(session, request.actor,
                 order, request.target_facts, request.non_character_attackable_objects_absent,
-                pre_range, 3.1415927410125732421875f,
-                SkillTargetSortV1::frontal_first, target, error, request.object_targets)) return false;
+                profile->pre_range, profile->pre_cone_radians,
+                profile->pre_sort, target, error, request.object_targets)) return false;
         if(target.status==SkillActorTargetQueryStatusV1::non_character_target_unknown)
             return fail(error,"Source Focus Pre target query lacks its typed AttackableOnly owner");
 
-        if ((branch == RuntimeWarriorSkillBranchV1::bashdown ||
-             branch == RuntimeWarriorSkillBranchV1::charge ||
-             branch == RuntimeWarriorSkillBranchV1::rogue_jump_kick) &&
+        if (profile->pre_look_at &&
             (target.status == SkillActorTargetQueryStatusV1::selected_character ||
              target.status == SkillActorTargetQueryStatusV1::selected_object) &&
             !look_at_bashdown_target_v1(session, target, error)) return false;
@@ -1087,18 +1060,16 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     if (!active.characters || !active.classes || !active.property_rules)
         return fail(error, "Skill Use lost its source Character/Class/PropertyRules borrower");
 
+    if (!active.use_profile)
+        return fail(error, "Skill Use has no admitted source use profile");
+    const auto& profile = *active.use_profile;
     SkillActorTargetQueryV1 use_targets = active.target_query;
-    if (active.warrior_branch != RuntimeWarriorSkillBranchV1::bashdown) {
-        const float range = active.warrior_branch == RuntimeWarriorSkillBranchV1::charge
-            ? 300.0f : active.target_range;
-        const auto sort = active.warrior_branch == RuntimeWarriorSkillBranchV1::ground_slam
-            ? SkillTargetSortV1::closest_first
-            : active.warrior_branch == RuntimeWarriorSkillBranchV1::charge
-                ? SkillTargetSortV1::source_order : SkillTargetSortV1::frontal_first;
+    if (profile.use_targets == SkillUseTargetsV1::requery_at_use) {
         if (!query_source_character_targets_v1(session, actor_id,
                 active.population_order, active.target_facts,
                 active.non_character_attackable_objects_absent,
-                range, active.target_cone_radians, sort, use_targets, error,
+                active.target_range, active.target_cone_radians, active.target_sort,
+                use_targets, error,
                 active.object_targets ? &*active.object_targets : nullptr)) {
             active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
             active.receipt.detail = "Source Use target query failed after the OnPre mana/cooldown prefix";
@@ -1125,7 +1096,7 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     // again at Use. GroundSlam/Charge/JumpKick perform their authored Use-time
     // search; JumpKick uses source range160/angle270 with MaxAngleSearch.
     // A complete empty Character subset remains an accepted empty Lua loop.
-    if (active.warrior_branch == RuntimeWarriorSkillBranchV1::bashdown) {
+    if (profile.use_targets == SkillUseTargetsV1::pre_selected_single) {
         if (use_targets.status == SkillActorTargetQueryStatusV1::selected_character) {
             use_targets.ordered_character_targets.assign(1, use_targets.selected);
             use_targets.ordered_targets.assign(1, use_targets.selected);
@@ -1142,7 +1113,7 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     }
     active.receipt.target_order = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
     const auto* use_class = active.class_token.c_str();
-    if (active.warrior_branch == RuntimeWarriorSkillBranchV1::charge && current->facts.shield)
+    if (profile.shield_variant && current->facts.shield)
         use_class = "Skill_Warrior_Charge_ShieldBonus";
     double ignored_cooldown = 0.0, ignored_range = 0.0, ignored_range_growth = 0.0;
     if (!source_skill_class_projection(*active.characters, *active.classes,
@@ -1154,7 +1125,7 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         output = active.receipt;
         return false;
     }
-    if (active.warrior_branch == RuntimeWarriorSkillBranchV1::ground_slam &&
+    if (profile.use_look_at &&
         use_targets.status == SkillActorTargetQueryStatusV1::selected_character &&
         !use_targets.ordered_character_targets.empty()) {
         use_targets.selected = use_targets.ordered_character_targets.front();
@@ -1172,6 +1143,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
     for (const auto target : ordered) {
         if (session.world()->find_object(target)) {
+            // Authored loops that guard SkillCombatRoll with IsCharacter() pop the object and skip it.
+            if (!profile.rolls_objects) continue;
             // _SkillCombatRoll3b9fbc: non-Character type8 -> vt152 Interact,
             // returns false; no Character result or combat RNG is fabricated.
             if (!active.object_targets || !active.object_targets->interact ||
@@ -1184,27 +1157,38 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             active.receipt.delivered_object_interactions.push_back(target);
             continue;
         }
-        CombatSessionSourceHit hit;
-        hit.attacker = actor_id;
-        hit.target = target;
-        hit.binding_lease = session.actor_binding_lease();
-        hit.generation = generation;
-        hit.event_index = event_index++;
-        hit.mask = active.row_mask | 0x08000000u; // Native SkillCombatRoll SkillAttack bit.
-        hit.source_id = active.receipt.skill_name;
-        hit.marker_name = "do_skill";
-        hit.category = current->facts.main_damage_class;
-        hit.element = active.element;
-        hit.direct_amount = 0;
-        hit.attacker_formula_sheet = &active.formula_sheet;
-        DamageEvent result;
-        if (!session.apply_source_result(hit, result, error)) {
-            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
-            active.receipt.detail = "Source SkillCombatRoll loop failed after its applied ordered hit prefix";
-            output = active.receipt;
-            return false;
+        // Native _SkillCombatRoll: a dual-wield row (mask 0x800000) attacks with the
+        // main hand when HasMainHandWeapon, then with the off hand (mask | 0x4000000)
+        // when HasOffHandWeapon. Other rows make one F_SkillAttack with the row mask.
+        std::vector<std::uint32_t> hand_masks;
+        if (!active.paired_hand) hand_masks.push_back(active.row_mask);
+        else {
+            if (active.has_main_hand) hand_masks.push_back(active.row_mask);
+            if (active.has_off_hand) hand_masks.push_back(active.row_mask | 0x04000000u);
         }
-        active.receipt.applied_results.push_back(std::move(result));
+        for (const auto hand_mask : hand_masks) {
+            CombatSessionSourceHit hit;
+            hit.attacker = actor_id;
+            hit.target = target;
+            hit.binding_lease = session.actor_binding_lease();
+            hit.generation = generation;
+            hit.event_index = event_index++;
+            hit.mask = hand_mask | 0x08000000u; // Native SkillCombatRoll SkillAttack bit.
+            hit.source_id = active.receipt.skill_name;
+            hit.marker_name = "do_skill";
+            hit.category = current->facts.main_damage_class;
+            hit.element = active.element;
+            hit.direct_amount = 0;
+            hit.attacker_formula_sheet = &active.formula_sheet;
+            DamageEvent result;
+            if (!session.apply_source_result(hit, result, error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source SkillCombatRoll loop failed after its applied ordered hit prefix";
+                output = active.receipt;
+                return false;
+            }
+            active.receipt.applied_results.push_back(std::move(result));
+        }
     }
     active.use_delivered = true;
     active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;
