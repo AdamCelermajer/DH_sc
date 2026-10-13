@@ -11407,10 +11407,18 @@ struct BodyOwner {
  std::uintptr_t projectile_identity=0;
  unsigned additions=0,results=0;
  explicit BodyOwner(bool player=false):is_player(player){services.context=this;services.test=test;services.contact=collision;services.velocity=velocity;}
+ // A QuestMoveInZone sensor is a level-owned POZone body, not a BodyOwner: its
+ // context is the sensor Owner, so reading it as BodyOwner is invalid. Its
+ // PhysicalObject contact is the shape filter Box2D passes as other_filter.
+ static bool is_move_in_zone_sensor_context(void* peer){
+  if(!peer||!active_crypt_room_runtime)return false;
+  for(const auto& zone:active_crypt_room_runtime->source_move_in_zones)
+   if(zone&&static_cast<void*>(&zone->sensor)==peer)return true;
+  return false;
+ }
  static unsigned test(void* a,void* b,const dh2::physical::Filter*,
                       const dh2::physical::Filter* other_filter){
   auto& owner=*static_cast<BodyOwner*>(a);
-  auto& peer=*static_cast<BodyOwner*>(b);
   if(!other_filter)return 0;
   if(owner.character_identity.body_token||owner.character_identity.game_object_identity){
    if(!owner.native||!owner.native->body)return 0;
@@ -11424,6 +11432,13 @@ struct BodyOwner {
        state,other_filter->category);
    if(gate!=dh2::character_physical_collision_gate_v1::Decision::delegate_generic)return 0;
   }
+  if(is_move_in_zone_sensor_context(b)){
+   const decltype(owner.contact) zone{1,0,1,1,
+       {std::int16_t(other_filter->group),std::uint16_t(other_filter->category),
+        std::uint16_t(other_filter->mask),1},{}};
+   return dh2_nav_can_collide(&owner.contact,&zone)==1;
+  }
+  auto& peer=*static_cast<BodyOwner*>(b);
   return dh2_nav_can_collide(&owner.contact,&peer.contact)==1;
  }
  static void collision(void*,dh2::physical::ContactEvent,void*,const float*,unsigned);
