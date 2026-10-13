@@ -287,6 +287,8 @@ struct OriginalUiSession::Impl {
     // StopDialog popped a DialogMsg and another one waits: the SWF StartDialog
     // callback is re-entered once the dispatch that popped it has unwound.
     bool dialog_start_pending=false;
+    // Same for StatusMsg: onStatusMessage is re-entered after the dispatch unwinds.
+    bool status_start_pending=false;
     bool source_cutscene_active=false;
     ui::AuthoredJoystickStateV1 authored_joystick{};
     bool authored_joystick_ready=false;
@@ -1050,6 +1052,12 @@ struct OriginalUiSession::Impl {
     }
     static bool flush_pending_dialog_start(Impl& self,std::string& error){
         error.clear();
+        if(self.status_start_pending){
+            self.status_start_pending=false;
+            if(self.source_status_messages.active()&&self.gameplay_hud&&self.gameplay_hud_bound&&
+               !self.gameplay_hud->notify_status_message(error))return false;
+            error.clear();
+        }
         if(!self.dialog_start_pending)return true;
         self.dialog_start_pending=false;
         if(!self.source_dialog_messages.active())return true;
@@ -1894,7 +1902,9 @@ struct OriginalUiSession::Impl {
             if(!self.gameplay_hud||!self.gameplay_hud_bound){
                 error="Queued StatusMsg has no retained authored HUD callback";return false;
             }
-            return self.gameplay_hud->notify_status_message(error);
+            // Called from inside the SWF's own dispatch: a nested action_script is
+            // refused as busy, so the next onStatusMessage runs once it unwound.
+            self.status_start_pending=true;error.clear();return true;
         }
         if(!std::strcmp(name,"NativeStopDialog")){
             // The authored menu_FastTravel dialog box (dqhud_droid.swf sprite 508,
@@ -3553,7 +3563,7 @@ struct OriginalUiSession::Impl {
         gameplay_hud_refresh={};
         source_status_messages.flush();
         // The SWF that shows and pops these messages is gone with the movie.
-        source_dialog_messages.flush();dialog_start_pending=false;dialog_touch_owned=false;
+        source_dialog_messages.flush();dialog_start_pending=false;status_start_pending=false;dialog_touch_owned=false;
         gameplay_character_button=0;gameplay_character_button_pressed.fill(false);
         launch_requests.clear();
         launch_delivered=false;
@@ -3882,7 +3892,7 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     // Flush only after the touch-dispatch lambda returns: its Dispatch RAII
     // guard must restore input_dispatch_movie/frames before DisplayRightHud
     // re-enters the authored SWF.
-    if(succeeded&&impl_->dialog_start_pending&&
+    if(succeeded&&(impl_->dialog_start_pending||impl_->status_start_pending)&&
        !Impl::flush_pending_dialog_start(*impl_,error))return false;
     if(succeeded&&impl_->gameplay_native_revive_pending&&
        !Impl::flush_deferred_native_revive(*impl_,error))return false;
@@ -4859,7 +4869,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
     auto& self=*impl_;
     try{
         const auto require=[&](bool ok,const char* operation){
-            if(!ok)throw std::runtime_error(error.empty()?operation:error);
+            if(!ok)throw std::runtime_error(error.empty()?operation:error+" | during: "+operation);
         };
         if(!self.loaded){self.driver_width=width;self.driver_height=height;require(self.load(error),"Gameplay UI load failed without a diagnostic");}
         require(self.viewport(width,height,error),"Gameplay UI viewport update failed without a diagnostic");
