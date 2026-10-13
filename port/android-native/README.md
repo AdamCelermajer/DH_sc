@@ -37,6 +37,26 @@ For supported asset, data, Lua, and level overrides, see the [native modding
 guide](MODDING.md). It distinguishes device-verified overrides from inputs
 that are only routed by the current source.
 
+## Gameplay sound effects
+
+Every gameplay sound (script `PlaySound`/`PlaySound3D`, combat and animation-step
+sounds, authored HUD `NativePlaySoundFX`) enters the single queue in
+`player_gameplay_audio.hpp`. On Android `FrontAudio` forwards its `dh2fx` commands
+to the native engine (`gameplay_sfx_engine_v1.hpp`): a software mixer that
+reproduces the original Vox priority banks, Sounds.xml loop flags, positional
+Q14 gains, fades, pause/resume and the FX volume option, output through an
+OpenSL ES buffer queue (`gameplay_sfx_android.cpp`; AAudio needs API 26 and the
+app supports 24). If the output cannot be opened the previous Java `MediaPlayer`
+path still plays the same queue. Music stays on `GameplayVxnMusic`.
+
+`tools/stage_gameplay_sfx.py --cache <cache.zip>` copies the Sounds.xml PCM sounds
+present in the supplied cache byte-exact into `assets/original-media/gameplay` and
+regenerates `gameplay_sfx_catalog_v1.hpp` and `sfx-catalog-provenance.json`
+(`--check` re-verifies them without the cache). Sounds whose files are not in the
+cache (most monster voices) stay unavailable and play nothing. Run
+`tests/run_gameplay_sfx_mixer_host.py` for the host check of the mixer, bank
+rules, queue consumer and every staged asset.
+
 ## Verification and scope
 
 Run focused host checks with the test runners in

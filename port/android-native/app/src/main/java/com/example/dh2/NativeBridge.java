@@ -66,6 +66,17 @@ final class NativeBridge {
     static native String consumeFrameError();
     static native String consumeMenuAudio();
     static native String consumeMenuSound();
+    /**
+     * Native gameplay SFX engine (OpenSL ES output + mixer consuming the shared
+     * queue's dh2fx commands). Returns false when no output could be opened; the
+     * caller then keeps its Java effect path. Commands return the engine
+     * Outcome ordinal, or -1 while the engine is not open.
+     */
+    static native boolean sfxOpen(int sampleRate,int bufferFrames,android.content.res.AssetManager assets);
+    static native int sfxCommand(String command);
+    static native int sfxControl(String control);
+    static native void sfxSetActive(boolean active);
+    static native void sfxClose();
     static native String loadTexture(byte[] encoded);
     static native String loadModel(byte[] encoded,android.content.res.AssetManager assets);
     static native String loadWorld(byte[] encoded,android.content.res.AssetManager assets);
