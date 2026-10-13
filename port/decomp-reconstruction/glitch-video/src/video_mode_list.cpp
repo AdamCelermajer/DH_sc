@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "glitch-core-io/core/sort.hpp"
+
 namespace glitch::video {
 
 // 0x6dab0c _ZN6glitch5video14CVideoModeListC1Ev
@@ -24,7 +26,8 @@ void CVideoModeList::setDesktop(int depth, const core::dimension2d<uint32_t>& re
 // (The deleting variant _ZN6glitch5video14CVideoModeListD0Ev is compiler generated.)
 
 // 0x6dae90 _ZN6glitch5video14CVideoModeList7addModeERKNS_4core11dimension2dIiEEi
-// Partial: the original's heapsort (glitch::core::heapsort on SVideoMode) is not ported.
+// Appends a mode unless the same resolution and depth are listed, then heapsorts the list
+// (SVideoMode operator<) when it holds more than one entry, as the original does.
 void CVideoModeList::addMode(const core::dimension2d<uint32_t>& resolution, uint32_t depth) {
     for (const SVideoMode& mode : m_modes) {
         if (mode.Resolution.Width == resolution.Width && mode.Resolution.Height == resolution.Height &&
@@ -33,6 +36,9 @@ void CVideoModeList::addMode(const core::dimension2d<uint32_t>& resolution, uint
         }
     }
     m_modes.push_back(SVideoMode{resolution, depth});
+    if (m_modes.size() > 1) {
+        glitch::core::heapsort(m_modes.data(), static_cast<int>(m_modes.size()));
+    }
 }
 
 // 0x6dab74 _ZNK6glitch5video14CVideoModeList17getVideoModeCountEv

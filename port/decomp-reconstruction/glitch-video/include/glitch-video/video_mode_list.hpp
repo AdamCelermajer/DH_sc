@@ -54,9 +54,8 @@ public:
                    uint32_t desktopDepth);
     ~CVideoModeList() override = default;  // 0x6dae50 (D1) / 0x6db0a4 (D0)
 
-    // 0x6dae90: appends a mode unless the same resolution and depth are already listed.
-    // Partial: the original heapsorts the list after an insert with an operator< on
-    // SVideoMode that is not recovered, so the list is only appended here.
+    // 0x6dae90: appends a mode unless the same resolution and depth are already listed, then
+    // heapsorts the list with operator< on SVideoMode.
     void addMode(const core::dimension2d<uint32_t>& resolution, uint32_t depth);
     // 0x6dab5c: sets the desktop depth (+0x1c) and resolution (+0x14).
     void setDesktop(int depth, const core::dimension2d<uint32_t>& resolution);

@@ -12,7 +12,7 @@ IShaderCode::IShaderCode(const char* name) : m_name(name) {
 
 // 0x6df690 _ZN6glitch5video15CGLSLShaderCodeC1EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE
 // 0x6df6e4 _ZN6glitch5video15CGLSLShaderCodeC2EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE
-// Partial: the driver is stored; the two fields after it are not identified and start at zero.
+// The driver is stored at +0x2c; the GL name (+0x30) and the compiled flag (+0x34) start at zero.
 CGLSLShaderCode::CGLSLShaderCode(CProgrammableGLDriver* driver)
     : IShaderCode(""), m_driver(driver) {}
 
