@@ -1,0 +1,2953 @@
+{
+  "generator": "coordination/v21.8/skill_static_check.py",
+  "inputs": {
+    "local_inputs": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs",
+    "skill_table": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\skill-tables\\skills_pyarray.bin",
+    "animations": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\assets-extra\\android\\data\\pydata\\animations_pyarray.bin",
+    "effects": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\assets-extra\\android\\data\\pydata\\effects_pyarray.bin",
+    "ledger": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.claude\\worktrees\\skillmatrix\\port\\engine-audio\\reference\\source-bindings-v38\\ledger.json",
+    "staged_assets_files": 3980,
+    "staged_sound_files": 501,
+    "skills_a_profile_header": "C:/Users/adamc/Desktop/workspace/DH_sc\\.claude\\worktrees\\skills-a\\port\\windows-foundation\\features\\generic_skills\\runtime_skill_use_profile_v1.hpp",
+    "base_cast_whitelist_checked": "port\\windows-foundation\\features\\generic_skills\\runtime_skill_cast_coordinator_v1.cpp"
+  },
+  "totals": {
+    "unique_skills": 72,
+    "active": 35,
+    "passive": 37,
+    "subclass_only": 48
+  },
+  "trees": [
+    {
+      "tree": "Knight",
+      "kind": "base",
+      "character_row": 263,
+      "skills": 8,
+      "active": 3,
+      "passive": 5,
+      "static_complete_active": 3,
+      "missing_assets": []
+    },
+    {
+      "tree": "Berserker",
+      "kind": "subclass of Knight",
+      "character_row": 264,
+      "skills": 16,
+      "active": 6,
+      "passive": 10,
+      "static_complete_active": 6,
+      "missing_assets": []
+    },
+    {
+      "tree": "Paladin",
+      "kind": "subclass of Knight",
+      "character_row": 265,
+      "skills": 16,
+      "active": 7,
+      "passive": 9,
+      "static_complete_active": 7,
+      "missing_assets": []
+    },
+    {
+      "tree": "Rogue",
+      "kind": "base",
+      "character_row": 325,
+      "skills": 8,
+      "active": 4,
+      "passive": 4,
+      "static_complete_active": 4,
+      "missing_assets": []
+    },
+    {
+      "tree": "Archer",
+      "kind": "subclass of Rogue",
+      "character_row": 326,
+      "skills": 16,
+      "active": 9,
+      "passive": 7,
+      "static_complete_active": 9,
+      "missing_assets": []
+    },
+    {
+      "tree": "Assassin",
+      "kind": "subclass of Rogue",
+      "character_row": 327,
+      "skills": 16,
+      "active": 8,
+      "passive": 8,
+      "static_complete_active": 7,
+      "missing_assets": [
+        "GrapplingHook"
+      ]
+    },
+    {
+      "tree": "Mage",
+      "kind": "base",
+      "character_row": 290,
+      "skills": 8,
+      "active": 4,
+      "passive": 4,
+      "static_complete_active": 3,
+      "missing_assets": [
+        "ChainLightning"
+      ]
+    },
+    {
+      "tree": "Illusionist",
+      "kind": "subclass of Mage",
+      "character_row": 291,
+      "skills": 16,
+      "active": 8,
+      "passive": 8,
+      "static_complete_active": 6,
+      "missing_assets": [
+        "ChainLightning",
+        "Figments"
+      ]
+    },
+    {
+      "tree": "Necromancer",
+      "kind": "subclass of Mage",
+      "character_row": 292,
+      "skills": 16,
+      "active": 8,
+      "passive": 8,
+      "static_complete_active": 7,
+      "missing_assets": [
+        "ChainLightning"
+      ]
+    }
+  ],
+  "flags": [
+    "ChainLightning: no resolved sound cue (step cues: 0, markers: 0)",
+    "Figments: no resolved sound cue (step cues: 0, markers: 0)",
+    "GrapplingHook: no resolved sound cue (step cues: 0, markers: 0)"
+  ],
+  "skills": [
+    {
+      "skill_id": 1,
+      "skill": "Acrobat",
+      "owner_tree": "Rogue",
+      "owner_kind": "base",
+      "shared_in": [
+        "Rogue",
+        "Archer",
+        "Assassin"
+      ],
+      "type": "passive",
+      "level": 3,
+      "script": "prince_rogue_acrobat",
+      "icon": "reflex",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 2,
+      "skill": "Ambidextrous",
+      "owner_tree": "Rogue",
+      "owner_kind": "base",
+      "shared_in": [
+        "Rogue",
+        "Archer",
+        "Assassin"
+      ],
+      "type": "passive",
+      "level": 0,
+      "script": "prince_rogue_ambidextrous",
+      "icon": "ambidextrous",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 4,
+      "skill": "Assassinate",
+      "owner_tree": "Assassin",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Assassin"
+      ],
+      "type": "passive",
+      "level": 12,
+      "script": "prince_assassin_assassinate",
+      "icon": "shadow_force",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 5,
+      "skill": "Assassination",
+      "owner_tree": "Assassin",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Assassin"
+      ],
+      "type": "active",
+      "level": 21,
+      "script": "prince_assassin_assassination",
+      "icon": "assassinate",
+      "anim_root": 517,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_assassin_assassination.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        142
+      ],
+      "fx_files": [
+        "skill_dh2_prince_rogue_assassin_assassination.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 547,
+          "uid": 142,
+          "source": "sfx_skill_rogue_ass_assasinate",
+          "file": "sfx_skill_rogue_ass_assassinate.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 7,
+      "skill": "BashDown",
+      "owner_tree": "Knight",
+      "owner_kind": "base",
+      "shared_in": [
+        "Knight",
+        "Berserker",
+        "Paladin"
+      ],
+      "type": "active",
+      "level": 0,
+      "script": "prince_warrior_bashdown",
+      "icon": "sword_explosion",
+      "anim_root": 347,
+      "moving_flag": 1,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        164
+      ],
+      "fx_files": [
+        "skill_dh2_prince_warrior_bash_down.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 190,
+          "uid": 101,
+          "source": "SlamSkill",
+          "file": "sfx_skill_warrior_headsplitter.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "target (OnPre range search 160) [skills-a profile]",
+      "port_status": "CAST in this branch (whitelist, runtime_skill_cast_coordinator_v1.cpp); skills-a profile row (runtime_skill_use_profile_v1.hpp, branch v21.8-skills-a; not merged here)",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "table moving flag=1"
+      ],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 8,
+      "skill": "Berserk",
+      "owner_tree": "Berserker",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Berserker"
+      ],
+      "type": "active",
+      "level": 18,
+      "script": "prince_berseeker_berserk",
+      "icon": "crippling_strike",
+      "anim_root": 339,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_berseker_bersek.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        165
+      ],
+      "fx_files": [
+        "skill_dh2_prince_warrior_berseker_berserk.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 557,
+          "uid": 108,
+          "source": "sfx_skill_warrior_bsk_crippling_strike",
+          "file": "sfx_skill_warrior_bsk_crippling_strike.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 9,
+      "skill": "Blindness",
+      "owner_tree": "Assassin",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Assassin"
+      ],
+      "type": "active",
+      "level": 15,
+      "script": "prince_assassin_blindness",
+      "icon": "concealing_cloud",
+      "anim_root": 518,
+      "moving_flag": 1,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_assassin_blindness.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        143
+      ],
+      "fx_files": [
+        "skill_dh2_prince_rogue_assassin_blindness.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 548,
+          "uid": 140,
+          "source": "sfx_skill_rogue_ass_concealing_cloud",
+          "file": "sfx_skill_rogue_ass_concealing_cloud.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "table moving flag=1"
+      ],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 10,
+      "skill": "BowMastery",
+      "owner_tree": "Archer",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Archer"
+      ],
+      "type": "passive",
+      "level": 12,
+      "script": "prince_archer_bowmastery",
+      "icon": "bow_mastery",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 11,
+      "skill": "CarrionEater",
+      "owner_tree": "Necromancer",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Necromancer"
+      ],
+      "type": "passive",
+      "level": 18,
+      "script": "prince_necromancer_carrioneater",
+      "icon": "souleater",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 12,
+      "skill": "ChainLightning",
+      "owner_tree": "Mage",
+      "owner_kind": "base",
+      "shared_in": [
+        "Mage",
+        "Illusionist",
+        "Necromancer"
+      ],
+      "type": "active",
+      "level": 9,
+      "script": "prince_mage_chain_lightning",
+      "icon": "thunder_braid",
+      "anim_root": 412,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_chain_bolt.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": false,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": false,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)",
+        "candidate only, not linked: sfx_skill_mage_thunder_braid (+_add_1/_add_2/_loop) present; caller unknown"
+      ],
+      "fx_paths": [],
+      "static_gaps": [
+        "sound"
+      ]
+    },
+    {
+      "skill_id": 13,
+      "skill": "Charge",
+      "owner_tree": "Knight",
+      "owner_kind": "base",
+      "shared_in": [
+        "Knight",
+        "Berserker",
+        "Paladin"
+      ],
+      "type": "active",
+      "level": 6,
+      "script": "prince_warrior_charge",
+      "icon": "fire_right",
+      "anim_root": 349,
+      "moving_flag": 1,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_charge.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        172
+      ],
+      "fx_files": [
+        "skill_dh2_prince_warrior_charge.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 48,
+          "uid": 102,
+          "source": "DashSkill",
+          "file": "sfx_skill_warrior_shield_rush.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "target (OnPre range search 300) [skills-a profile]",
+      "port_status": "CAST in this branch (whitelist, runtime_skill_cast_coordinator_v1.cpp); skills-a profile row (runtime_skill_use_profile_v1.hpp, branch v21.8-skills-a; not merged here)",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "table moving flag=1"
+      ],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_warrior_charge.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 14,
+      "skill": "ColdRay",
+      "owner_tree": "Mage",
+      "owner_kind": "base",
+      "shared_in": [
+        "Mage",
+        "Illusionist",
+        "Necromancer"
+      ],
+      "type": "active",
+      "level": 0,
+      "script": "prince_mage_coldray",
+      "icon": "cold_ray",
+      "anim_root": 413,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_cold_ray.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        150
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_cold_ray.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 228,
+          "uid": 113,
+          "source": "WaterMasterySkill",
+          "file": "sfx_skill_mage_cold_ray.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 15,
+      "skill": "CombatMaster",
+      "owner_tree": "Knight",
+      "owner_kind": "base",
+      "shared_in": [
+        "Knight",
+        "Berserker",
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 9,
+      "script": "prince_warrior_combat_master",
+      "icon": "master_of_arms",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 16,
+      "skill": "ComboMaster",
+      "owner_tree": "Rogue",
+      "owner_kind": "base",
+      "shared_in": [
+        "Rogue",
+        "Archer",
+        "Assassin"
+      ],
+      "type": "passive",
+      "level": 6,
+      "script": "prince_rogue_combomaster",
+      "icon": "pummel",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 17,
+      "skill": "Contaminate",
+      "owner_tree": "Assassin",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Assassin"
+      ],
+      "type": "passive",
+      "level": 18,
+      "script": "prince_assassin_contaminate",
+      "icon": "outbreak",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 18,
+      "skill": "Conversion",
+      "owner_tree": "Paladin",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 18,
+      "script": "prince_paladin_conversion",
+      "icon": "conversion",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 19,
+      "skill": "Cyclone",
+      "owner_tree": "Mage",
+      "owner_kind": "base",
+      "shared_in": [
+        "Mage",
+        "Illusionist",
+        "Necromancer"
+      ],
+      "type": "active",
+      "level": 6,
+      "script": "prince_mage_cyclone",
+      "icon": "storm_slave",
+      "anim_root": 414,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_cyclone.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        151
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_cyclone.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 537,
+          "uid": 120,
+          "source": "sfx_skill_mage_stormslave",
+          "file": "sfx_skill_mage_stormslave.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 26,
+      "skill": "DeathClaw",
+      "owner_tree": "Necromancer",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Necromancer"
+      ],
+      "type": "active",
+      "level": 21,
+      "script": "prince_necromancer_deathclaw",
+      "icon": "harrowing_grasp",
+      "anim_root": 415,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_necromancer_death_claw.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        156
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_necromancer_death_claw.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 533,
+          "uid": 126,
+          "source": "sfx_skill_mage_nec_harrowing_grasp",
+          "file": "sfx_skill_mage_nec_harrowing_grasp.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 27,
+      "skill": "Disciples",
+      "owner_tree": "Illusionist",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Illusionist"
+      ],
+      "type": "passive",
+      "level": 18,
+      "script": "prince_illusionist_disciples",
+      "icon": "hypnotic_gaze",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 28,
+      "skill": "DivineJudgement",
+      "owner_tree": "Paladin",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Paladin"
+      ],
+      "type": "active",
+      "level": 21,
+      "script": "prince_paladin_divine_judgement",
+      "icon": "condemnation",
+      "anim_root": 342,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        174
+      ],
+      "fx_files": [
+        "skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 559,
+          "uid": 107,
+          "source": "sfx_skill_warrior_pld_condemnation",
+          "file": "sfx_skill_warrior_pld_condemnation.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 30,
+      "skill": "Eclipse",
+      "owner_tree": "Illusionist",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Illusionist"
+      ],
+      "type": "active",
+      "level": 12,
+      "script": "prince_illusionist_eclipse",
+      "icon": "eclipse",
+      "anim_root": 416,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_illusionist_eclipse.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        152
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_illusionist_eclipse.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 528,
+          "uid": 121,
+          "source": "sfx_skill_mage_ilu_eclipse",
+          "file": "sfx_skill_mage_ilu_eclipse.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 36,
+      "skill": "ElementalMastery",
+      "owner_tree": "Mage",
+      "owner_kind": "base",
+      "shared_in": [
+        "Mage",
+        "Illusionist",
+        "Necromancer"
+      ],
+      "type": "passive",
+      "level": 6,
+      "script": "prince_mage_elemental_mastery",
+      "icon": "elemental_mastery",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 39,
+      "skill": "EnergyBalance",
+      "owner_tree": "Paladin",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 15,
+      "script": "prince_paladin_energy_balance",
+      "icon": "elemental_strength",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 41,
+      "skill": "ExplodingArrows",
+      "owner_tree": "Archer",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Archer"
+      ],
+      "type": "active",
+      "level": 21,
+      "script": "prince_archer_exploding_arrows",
+      "icon": "burst_shot",
+      "anim_root": 512,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_archer_exploding_arrows.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [
+        {
+          "name": "sfx_skill_rogue_arc_burst_shot",
+          "file": "sfx_skill_rogue_arc_burst_shot.wav",
+          "present": true
+        }
+      ],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)",
+        "sound from clip marker only (not a step cue)"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 42,
+      "skill": "FaeryBlood",
+      "owner_tree": "Mage",
+      "owner_kind": "base",
+      "shared_in": [
+        "Mage",
+        "Illusionist",
+        "Necromancer"
+      ],
+      "type": "passive",
+      "level": 9,
+      "script": "prince_mage_faeryblood",
+      "icon": "fairy_blood",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 44,
+      "skill": "FastMetabolism",
+      "owner_tree": "Knight",
+      "owner_kind": "base",
+      "shared_in": [
+        "Knight",
+        "Berserker",
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 3,
+      "script": "prince_warrior_fast_metabolism",
+      "icon": "inner_strength",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 45,
+      "skill": "Figments",
+      "owner_tree": "Illusionist",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Illusionist"
+      ],
+      "type": "active",
+      "level": 18,
+      "script": "prince_illusionist_figments",
+      "icon": "nightmare",
+      "anim_root": 417,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_illusionist_figments.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        147
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_illusionist_figments.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": false,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": false,
+      "runtime_verified": "",
+      "notes": [
+        "candidate only, not linked: sfx_skill_mage_ilu_nightmare present; no step or marker link"
+      ],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae"
+      ],
+      "static_gaps": [
+        "sound"
+      ]
+    },
+    {
+      "skill_id": 46,
+      "skill": "FindWeakness",
+      "owner_tree": "Rogue",
+      "owner_kind": "base",
+      "shared_in": [
+        "Rogue",
+        "Archer",
+        "Assassin"
+      ],
+      "type": "passive",
+      "level": 9,
+      "script": "prince_rogue_findweakness",
+      "icon": "discover_weakness",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 47,
+      "skill": "FireSkullRain",
+      "owner_tree": "Necromancer",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Necromancer"
+      ],
+      "type": "active",
+      "level": 15,
+      "script": "prince_necromancer_fireskullrain",
+      "icon": "reaperstorm",
+      "anim_root": 418,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        157
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 536,
+          "uid": 127,
+          "source": "sfx_skill_mage_nec_reaperstorm",
+          "file": "sfx_skill_mage_nec_reaperstorm.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "heuristic: FX name suggests projectile (skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae)",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 50,
+      "skill": "GrapplingHook",
+      "owner_tree": "Assassin",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Assassin"
+      ],
+      "type": "active",
+      "level": 12,
+      "script": "prince_assassin_grapling_hook",
+      "icon": "grappling_hook",
+      "anim_root": 519,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/npcs/animations/npc_assassin_throw_knife.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": false,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": false,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)",
+        "candidate only, not linked: sfx_skill_rogue_ass_throw_knife present; no step or marker link"
+      ],
+      "fx_paths": [],
+      "static_gaps": [
+        "sound"
+      ]
+    },
+    {
+      "skill_id": 51,
+      "skill": "GroundSlam",
+      "owner_tree": "Knight",
+      "owner_kind": "base",
+      "shared_in": [
+        "Knight",
+        "Berserker",
+        "Paladin"
+      ],
+      "type": "active",
+      "level": 3,
+      "script": "prince_warrior_ground_slam",
+      "icon": "ground_slam",
+      "anim_root": 350,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_crushing_blow.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        173
+      ],
+      "fx_files": [
+        "skill_dh2_prince_warrior_ground_slam.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 185,
+          "uid": 103,
+          "source": "ShockwaveSkill",
+          "file": "sfx_skill_warrior_earthstrike.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "area/use-time search, no OnPre target query [skills-a profile]",
+      "port_status": "CAST in this branch (whitelist, runtime_skill_cast_coordinator_v1.cpp); skills-a profile row (runtime_skill_use_profile_v1.hpp, branch v21.8-skills-a; not merged here)",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 52,
+      "skill": "GuardingAura",
+      "owner_tree": "Paladin",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Paladin"
+      ],
+      "type": "active",
+      "level": 18,
+      "script": "prince_paladin_guarding_aura",
+      "icon": "alastors_protection",
+      "anim_root": 343,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_paladin_guarding_aura.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [
+        {
+          "ordinal": 561,
+          "uid": 106,
+          "source": "sfx_skill_warrior_pld_spiritual_sight",
+          "file": "sfx_skill_warrior_pld_spiritual_sight.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 53,
+      "skill": "Hardiness",
+      "owner_tree": "Knight",
+      "owner_kind": "base",
+      "shared_in": [
+        "Knight",
+        "Berserker",
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 0,
+      "script": "prince_warrior_hardiness",
+      "icon": "battle_hardened",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 54,
+      "skill": "HolyWeapon",
+      "owner_tree": "Paladin",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 21,
+      "script": "prince_paladin_holy_weapon",
+      "icon": "spiritual_sight",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 55,
+      "skill": "Intimidation",
+      "owner_tree": "Berserker",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Berserker"
+      ],
+      "type": "active",
+      "level": 15,
+      "script": "prince_berseeker_warcry",
+      "icon": "bloodmoon_howl",
+      "anim_root": 340,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_berseker_intimidate.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        168
+      ],
+      "fx_files": [
+        "skill_dh2_prince_warrior_berseker_intimidate.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 554,
+          "uid": 109,
+          "source": "sfx_skill_warrior_bsk_bloodmoon_howl",
+          "file": "sfx_skill_warrior_bsk_bloodmoon_howl.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 56,
+      "skill": "JumpKick",
+      "owner_tree": "Rogue",
+      "owner_kind": "base",
+      "shared_in": [
+        "Rogue",
+        "Archer",
+        "Assassin"
+      ],
+      "type": "active",
+      "level": 0,
+      "script": "prince_rogue_jump_kick",
+      "icon": "heel_strike",
+      "anim_root": 521,
+      "moving_flag": 1,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_jump_kick.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        160
+      ],
+      "fx_files": [
+        "skill_dh2_prince_rogue_jump_kick.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 125,
+          "uid": 131,
+          "source": "JumpAttackSkill",
+          "file": "sfx_skill_rogue_heel_strike.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "target (OnPre range search 250) [skills-a profile]",
+      "port_status": "CAST in this branch (whitelist, runtime_skill_cast_coordinator_v1.cpp); skills-a profile row (runtime_skill_use_profile_v1.hpp, branch v21.8-skills-a; not merged here)",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "table moving flag=1"
+      ],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 57,
+      "skill": "KillingFrenzy",
+      "owner_tree": "Berserker",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Berserker"
+      ],
+      "type": "passive",
+      "level": 21,
+      "script": "prince_berseeker_killing_frenzy",
+      "icon": "swipe",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 58,
+      "skill": "KillingStreak",
+      "owner_tree": "Berserker",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Berserker"
+      ],
+      "type": "passive",
+      "level": 15,
+      "script": "prince_berseeker_killing_streak",
+      "icon": "bloodlust",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 59,
+      "skill": "Leadership",
+      "owner_tree": "Knight",
+      "owner_kind": "base",
+      "shared_in": [
+        "Knight",
+        "Berserker",
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 6,
+      "script": "prince_warrior_leadership",
+      "icon": "leadership",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 60,
+      "skill": "Leecher",
+      "owner_tree": "Necromancer",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Necromancer"
+      ],
+      "type": "passive",
+      "level": 12,
+      "script": "prince_necromancer_leecher",
+      "icon": "drainsphere",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 72,
+      "skill": "MagisShielding",
+      "owner_tree": "Mage",
+      "owner_kind": "base",
+      "shared_in": [
+        "Mage",
+        "Illusionist",
+        "Necromancer"
+      ],
+      "type": "passive",
+      "level": 3,
+      "script": "prince_mage_magi_shielding",
+      "icon": "ward_of_protection",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 73,
+      "skill": "Mesmerize",
+      "owner_tree": "Illusionist",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Illusionist"
+      ],
+      "type": "passive",
+      "level": 12,
+      "script": "prince_illusionist_mesmerize",
+      "icon": "charisma",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 74,
+      "skill": "Mirror",
+      "owner_tree": "Illusionist",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Illusionist"
+      ],
+      "type": "passive",
+      "level": 15,
+      "script": "prince_illusionist_mirror",
+      "icon": "retribution",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 75,
+      "skill": "MultiHitArrow",
+      "owner_tree": "Archer",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Archer"
+      ],
+      "type": "active",
+      "level": 18,
+      "script": "prince_archer_multihit",
+      "icon": "rain_of_arrows",
+      "anim_root": 513,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_archer_multi_hit.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [
+        {
+          "name": "sfx_skill_rogue_arc_rain_of_arrows",
+          "file": "sfx_skill_rogue_arc_rain_of_arrows.wav",
+          "present": true
+        }
+      ],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)",
+        "sound from clip marker only (not a step cue)"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 80,
+      "skill": "OffensiveAura",
+      "owner_tree": "Paladin",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Paladin"
+      ],
+      "type": "active",
+      "level": 12,
+      "script": "prince_paladin_offensive_aura",
+      "icon": "crusade",
+      "anim_root": 344,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_paladin_offensive_aura.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [
+        {
+          "ordinal": 560,
+          "uid": 105,
+          "source": "sfx_skill_warrior_pld_crusade",
+          "file": "sfx_skill_warrior_pld_crusade.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 81,
+      "skill": "Pestilence",
+      "owner_tree": "Necromancer",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Necromancer"
+      ],
+      "type": "active",
+      "level": 18,
+      "script": "prince_necromancer_pestilence",
+      "icon": "pestilence_breath",
+      "anim_root": 421,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_necromancer_pestilence.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        158
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_necromancer_pestilence.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 534,
+          "uid": 129,
+          "source": "sfx_skill_mage_nec_pestilence_breath",
+          "file": "sfx_skill_mage_nec_pestilence_breath.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 82,
+      "skill": "Petrify",
+      "owner_tree": "Illusionist",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Illusionist"
+      ],
+      "type": "passive",
+      "level": 21,
+      "script": "prince_illusionist_petrify",
+      "icon": "withering_touch",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 83,
+      "skill": "PinShot",
+      "owner_tree": "Archer",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Archer"
+      ],
+      "type": "active",
+      "level": 15,
+      "script": "prince_archer_pin_shot",
+      "icon": "maim_shot",
+      "anim_root": 514,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_archer_pinning_shot.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [
+        {
+          "name": "sfx_skill_rogue_arc_maim_shot",
+          "file": "sfx_skill_rogue_arc_maim_shot.wav",
+          "present": true
+        }
+      ],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)",
+        "sound from clip marker only (not a step cue)"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 84,
+      "skill": "PoisonArrows",
+      "owner_tree": "Archer",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Archer"
+      ],
+      "type": "active",
+      "level": 15,
+      "script": "prince_archer_poison_arrows",
+      "icon": "venom_shot",
+      "anim_root": 515,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_archer_poison_arrows.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [
+        {
+          "name": "sfx_skill_rogue_arc_venom_shot",
+          "file": "sfx_skill_rogue_arc_venom_shot.wav",
+          "present": true
+        }
+      ],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)",
+        "sound from clip marker only (not a step cue)"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 85,
+      "skill": "PoisonSting",
+      "owner_tree": "Assassin",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Assassin"
+      ],
+      "type": "active",
+      "level": 18,
+      "script": "prince_assassin_poison_sting",
+      "icon": "plague_edge",
+      "anim_root": 520,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        144
+      ],
+      "fx_files": [
+        "skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 549,
+          "uid": 141,
+          "source": "sfx_skill_rogue_ass_plague_edge",
+          "file": "sfx_skill_rogue_ass_plague_edge.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 86,
+      "skill": "PotionAddict",
+      "owner_tree": "Knight",
+      "owner_kind": "base",
+      "shared_in": [
+        "Knight",
+        "Berserker",
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 9,
+      "script": "prince_warrior_potion_addict",
+      "icon": "potion_capacity",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 87,
+      "skill": "Precision",
+      "owner_tree": "Archer",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Archer"
+      ],
+      "type": "passive",
+      "level": 21,
+      "script": "prince_archer_precision",
+      "icon": "eagle_eye",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 88,
+      "skill": "PurifyingAura",
+      "owner_tree": "Paladin",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Paladin"
+      ],
+      "type": "active",
+      "level": 15,
+      "script": "prince_paladin_purifying_aura",
+      "icon": "alastors_blessing",
+      "anim_root": 345,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_paladin_purifying_aura.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [
+        {
+          "ordinal": 558,
+          "uid": 104,
+          "source": "sfx_skill_warrior_pld_alastor_blessing",
+          "file": "sfx_skill_warrior_pld_alastor_blessing.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 89,
+      "skill": "Putrid",
+      "owner_tree": "Necromancer",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Necromancer"
+      ],
+      "type": "passive",
+      "level": 21,
+      "script": "prince_necromancer_putrid",
+      "icon": "putrid_touch",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 90,
+      "skill": "Quickness",
+      "owner_tree": "Rogue",
+      "owner_kind": "base",
+      "shared_in": [
+        "Rogue",
+        "Archer",
+        "Assassin"
+      ],
+      "type": "active",
+      "level": 6,
+      "script": "prince_rogue_quickness",
+      "icon": "featherfoot",
+      "anim_root": 524,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_quickness.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        161
+      ],
+      "fx_files": [
+        "skill_dh2_prince_rogue_quickness.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 552,
+          "uid": 132,
+          "source": "sfx_skill_rogue_featherfoot",
+          "file": "sfx_skill_rogue_featherfoot.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 91,
+      "skill": "Ravager",
+      "owner_tree": "Berserker",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Berserker"
+      ],
+      "type": "passive",
+      "level": 21,
+      "script": "prince_berseeker_ravager",
+      "icon": "unholy_strength",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 93,
+      "skill": "Rise",
+      "owner_tree": "Necromancer",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Necromancer"
+      ],
+      "type": "active",
+      "level": 12,
+      "script": "prince_necromancer_rise",
+      "icon": "raise",
+      "anim_root": 422,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_necromancer_rise.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        159
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_necromancer_rise.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 535,
+          "uid": 128,
+          "source": "sfx_skill_mage_nec_raise",
+          "file": "sfx_skill_mage_nec_raise.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 97,
+      "skill": "Roundhouse",
+      "owner_tree": "Rogue",
+      "owner_kind": "base",
+      "shared_in": [
+        "Rogue",
+        "Archer",
+        "Assassin"
+      ],
+      "type": "active",
+      "level": 9,
+      "script": "prince_rogue_roundhouse",
+      "icon": "desert_pinwheel",
+      "anim_root": 525,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_roundhouse.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        162
+      ],
+      "fx_files": [
+        "skill_dh2_prince_rogue_roundhouse.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [],
+      "sound_marker": [
+        {
+          "name": "sfx_skill_rogue_desert_pinwheel",
+          "file": "sfx_skill_rogue_desert_pinwheel.wav",
+          "present": true
+        }
+      ],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "target (OnPre range search 220) [skills-a profile]",
+      "port_status": "skills-a profile row (runtime_skill_use_profile_v1.hpp, branch v21.8-skills-a; not merged here)",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "sound from clip marker only (not a step cue)"
+      ],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 100,
+      "skill": "Shield",
+      "owner_tree": "Paladin",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Paladin"
+      ],
+      "type": "passive",
+      "level": 12,
+      "script": "prince_paladin_shield",
+      "icon": "spiritual_armor",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 101,
+      "skill": "SideStep",
+      "owner_tree": "Archer",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Archer"
+      ],
+      "type": "passive",
+      "level": 18,
+      "script": "prince_archer_sidestep",
+      "icon": "sidestep",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 103,
+      "skill": "StaffMaster",
+      "owner_tree": "Mage",
+      "owner_kind": "base",
+      "shared_in": [
+        "Mage",
+        "Illusionist",
+        "Necromancer"
+      ],
+      "type": "passive",
+      "level": 0,
+      "script": "prince_mage_staffmaster",
+      "icon": "wisardry",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 104,
+      "skill": "StoneEscape",
+      "owner_tree": "Mage",
+      "owner_kind": "base",
+      "shared_in": [
+        "Mage",
+        "Illusionist",
+        "Necromancer"
+      ],
+      "type": "active",
+      "level": 3,
+      "script": "prince_mage_stone_escape",
+      "icon": "doppleganger",
+      "anim_root": 423,
+      "moving_flag": 1,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_stone_escape.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [
+        {
+          "ordinal": 526,
+          "uid": 114,
+          "source": "sfx_skill_mage_doppelganger",
+          "file": "sfx_skill_mage_doppelganger.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)",
+        "table moving flag=1"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 105,
+      "skill": "Survival",
+      "owner_tree": "Berserker",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Berserker"
+      ],
+      "type": "passive",
+      "level": 12,
+      "script": "prince_berseeker_survival",
+      "icon": "berserker_rage",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 110,
+      "skill": "Terror",
+      "owner_tree": "Illusionist",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Illusionist"
+      ],
+      "type": "active",
+      "level": 15,
+      "script": "prince_illusionist_terror",
+      "icon": "terror",
+      "anim_root": 424,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_illusionist_terror.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        148
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_illusionist_terror.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 532,
+          "uid": 122,
+          "source": "sfx_skill_mage_ilu_terror",
+          "file": "sfx_skill_mage_ilu_terror.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 111,
+      "skill": "TimeControl",
+      "owner_tree": "Illusionist",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Illusionist"
+      ],
+      "type": "active",
+      "level": 21,
+      "script": "prince_illusionist_timecontrol",
+      "icon": "hold_time",
+      "anim_root": 425,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_mage_illusionist_time_control.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        149
+      ],
+      "fx_files": [
+        "skill_dh2_prince_mage_illusionist_time_control.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 529,
+          "uid": 124,
+          "source": "sfx_skill_mage_ilu_hold_time",
+          "file": "sfx_skill_mage_ilu_hold_time.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 112,
+      "skill": "Toughness",
+      "owner_tree": "Berserker",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Berserker"
+      ],
+      "type": "passive",
+      "level": 18,
+      "script": "prince_berseeker_toughness",
+      "icon": "toughness",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 113,
+      "skill": "TreasureHunter",
+      "owner_tree": "Assassin",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Assassin"
+      ],
+      "type": "passive",
+      "level": 15,
+      "script": "prince_assassin_treasure_hunter",
+      "icon": "treasure_hunter",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 114,
+      "skill": "ViciousStrike",
+      "owner_tree": "Rogue",
+      "owner_kind": "base",
+      "shared_in": [
+        "Rogue",
+        "Archer",
+        "Assassin"
+      ],
+      "type": "active",
+      "level": 3,
+      "script": "prince_rogue_vicious_strike",
+      "icon": "vicious_strike",
+      "anim_root": 528,
+      "moving_flag": 1,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_vicious_strike.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        163
+      ],
+      "fx_files": [
+        "skill_dh2_prince_rogue_vicious_strike.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 225,
+          "uid": 130,
+          "source": "ViciousStrikeSkill",
+          "file": "sfx_skill_rogue_vicious_strike.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "target (OnPre range search 300) [skills-a profile]",
+      "port_status": "skills-a profile row (runtime_skill_use_profile_v1.hpp, branch v21.8-skills-a; not merged here)",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "table moving flag=1"
+      ],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 115,
+      "skill": "Volley",
+      "owner_tree": "Archer",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Archer"
+      ],
+      "type": "active",
+      "level": 12,
+      "script": "prince_archer_volley",
+      "icon": "pierce_shot",
+      "anim_root": 516,
+      "moving_flag": 0,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_rogue_archer_volley.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [
+        {
+          "name": "sfx_skill_rogue_arc_pierce_shot",
+          "file": "sfx_skill_rogue_arc_pierce_shot.wav",
+          "present": true
+        }
+      ],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "no FX set in AnimTable (not counted as missing)",
+        "sound from clip marker only (not a step cue)"
+      ],
+      "fx_paths": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 116,
+      "skill": "WhirlingDrift",
+      "owner_tree": "Berserker",
+      "owner_kind": "subclass of Knight",
+      "shared_in": [
+        "Berserker"
+      ],
+      "type": "active",
+      "level": 12,
+      "script": "prince_berseeker_whirling_drift",
+      "icon": "annihilating_spin",
+      "anim_root": 341,
+      "moving_flag": 1,
+      "assignable": 1,
+      "anim_clips": [
+        "data/3D/characters/prince/animations/skill_dh2_prince_warrior_berseker_whirlwind.bdae"
+      ],
+      "anim_present": true,
+      "fx_sets": [
+        171
+      ],
+      "fx_files": [
+        "skill_dh2_prince_warrior_berseker_whirlwind.bdae"
+      ],
+      "fx_present": true,
+      "sound_cues": [
+        {
+          "ordinal": 553,
+          "uid": 112,
+          "source": "sfx_skill_warrior_bsk_annihilating_spin",
+          "file": "sfx_skill_warrior_bsk_annihilating_spin.wav",
+          "present": true
+        }
+      ],
+      "sound_marker": [],
+      "sound_present": true,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "unknown (player Lua not in package)",
+      "port_status": "missing: no cast path in this branch",
+      "static_ok": true,
+      "runtime_verified": "",
+      "notes": [
+        "table moving flag=1"
+      ],
+      "fx_paths": [
+        "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae"
+      ],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 125,
+      "skill": "Wrath",
+      "owner_tree": "Necromancer",
+      "owner_kind": "subclass of Mage",
+      "shared_in": [
+        "Necromancer"
+      ],
+      "type": "passive",
+      "level": 15,
+      "script": "prince_necromancer_wrath",
+      "icon": "spell_overdrive",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    },
+    {
+      "skill_id": 126,
+      "skill": "blade_defect",
+      "owner_tree": "Assassin",
+      "owner_kind": "subclass of Rogue",
+      "shared_in": [
+        "Assassin"
+      ],
+      "type": "passive",
+      "level": 21,
+      "script": "prince_assassin_blade_deflect",
+      "icon": "dagger_mastery",
+      "anim_root": -1,
+      "moving_flag": 0,
+      "assignable": 0,
+      "anim_clips": [],
+      "anim_present": null,
+      "fx_sets": [],
+      "fx_files": [],
+      "fx_present": null,
+      "sound_cues": [],
+      "sound_marker": [],
+      "sound_present": null,
+      "projectile": "none in AnimTable/FX",
+      "cast_mode": "n/a (passive)",
+      "port_status": "passive: no gameplay effect in code (rank/text only per matrix)",
+      "static_ok": null,
+      "runtime_verified": "",
+      "notes": [],
+      "static_gaps": []
+    }
+  ]
+}
