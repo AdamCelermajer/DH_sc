@@ -97,6 +97,7 @@ $sources = @(
     (Join-Path $PSScriptRoot 'source_text_v1.cpp'),
     (Join-Path $PSScriptRoot 'hotty_effects_v1.cpp'),
     (Join-Path $PSScriptRoot 'hotty_effects_tables_v1.cpp'),
+    (Join-Path $PSScriptRoot 'faery_ability_registry_v1.cpp'),
     (Join-Path $PSScriptRoot 'faery_cast_sound_v1.cpp'),  # P15 HOTTY: faery_pre_sound_labels_v1 (cast coordinator links it)
     (Join-Path $root 'port\windows-foundation\features\effects\runtime_source_fx_asset_v1.cpp'),  # P15 HOTTY: is_runtime_source_fx_uri_v1
     (Join-Path $root 'port\windows-foundation\features\effects\runtime_effects_factory_v1.cpp'),

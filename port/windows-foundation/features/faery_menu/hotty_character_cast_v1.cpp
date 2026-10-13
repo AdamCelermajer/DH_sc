@@ -57,7 +57,8 @@ bool apply_hotty_character_targets_v1(
         static_cast<std::size_t>(character.source_faery_list_id) >= tables.lists().size() ||
         static_cast<std::size_t>(character.source_faery_list_id) >= tables.list_names().size() ||
         prepared.difficulty < 0 || prepared.difficulty >= 3 ||
-        prepared.faery_slot != 4 || prepared.faery_record_id < 0 ||
+        !prepared.ability || prepared.faery_slot < 0 || prepared.faery_slot >= 5 ||
+        prepared.faery_record_id < 0 ||
         static_cast<std::size_t>(prepared.faery_record_id) >= tables.faeries().size() ||
         prepared.skill_level < 0 || prepared.skill_level > 1 ||
         prepared.source_spell_type < 0 || prepared.spell_class_id < 0)
@@ -66,15 +67,18 @@ bool apply_hotty_character_targets_v1(
     const auto& save = character.faery_by_difficulty[static_cast<std::size_t>(prepared.difficulty)];
     if (list.size() != 5 || save.current_faery != prepared.faery_slot ||
         list[static_cast<std::size_t>(prepared.faery_slot)] != prepared.faery_record_id ||
-        tables.faery_names()[static_cast<std::size_t>(prepared.faery_record_id)] != "Hotty" ||
-        tables.faeries()[static_cast<std::size_t>(prepared.faery_record_id)].script != "faerie_hotty" ||
+        !prepared.ability ||
+        tables.faery_names()[static_cast<std::size_t>(prepared.faery_record_id)] != std::string(prepared.ability->faery_name) ||
+        tables.faeries()[static_cast<std::size_t>(prepared.faery_record_id)].script != prepared.ability->script ||
         tables.faeries()[static_cast<std::size_t>(prepared.faery_record_id)].scalar.words[7] !=
             static_cast<std::uint32_t>(prepared.source_spell_type) ||
         std::min<std::int32_t>(save.faeries[static_cast<std::size_t>(prepared.faery_slot)].level, 1) !=
             prepared.skill_level)
         return fail(error, "Hotty SpellCombatRoll Faery selection/rank changed after preparation");
-    const auto base_class = std::find(classes.names.begin(), classes.names.end(), "Spell_Fire_1");
-    const auto expected_name = prepared.skill_level == 0 ? "Spell_Fire_1" : "Spell_Fire_2";
+    const std::string base_name(prepared.ability->spell_class);
+    const std::string rank_name = base_name.substr(0, base_name.size() - 1) + "2";
+    const auto base_class = std::find(classes.names.begin(), classes.names.end(), base_name);
+    const std::string expected_name = prepared.skill_level == 0 ? base_name : rank_name;
     const auto expected_class = base_class == classes.names.end() ? std::size_t(-1) :
         static_cast<std::size_t>(base_class - classes.names.begin()) +
             static_cast<std::size_t>(prepared.skill_level);
@@ -126,7 +130,7 @@ bool apply_hotty_character_targets_v1(
             return fail(error, "Hotty source target sequence exceeds event-index bounds");
         hit.event_index = event_index_base + static_cast<std::uint32_t>(i);
         hit.mask = 0x1005554Au;
-        hit.source_id = "faerie_hotty";
+        hit.source_id = std::string(prepared.ability->script);
         hit.marker_name = "SpellCombatRoll";
         hit.category = -1;
         hit.element = prepared.source_spell_type;

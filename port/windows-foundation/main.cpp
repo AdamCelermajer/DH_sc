@@ -122,6 +122,9 @@
 #include "features/effects/runtime_swing_fx_observer_v1.hpp"
 #include "features/effects/runtime_level_up_presentation_v1.hpp" // P15 LEVELUP (I026)
 #include "features/effects/celest_target_fx_dispatch_v1.hpp"
+// v21.8 item 8: registry-keyed strike Faery FX (Hotty, Rocky, Wetty, Windy).
+#include "features/faery_menu/faery_ability_registry_v1.hpp"
+#include "features/faery_menu/hotty_effects_v1.hpp"
 #include "features/platform_input/semantic_input.hpp"
 #include "features/combat_text/combat_text.hpp"
 #include "features/combat_text/combat_text_live.hpp"
@@ -131,6 +134,7 @@
 #include "features/bosses/runtime_swampking_core_ai_v1.hpp" // B155
 #include "features/bosses/runtime_timer_trap_v1.hpp" // B155
 #include "features/companions/runtime_follower_controller_v1.hpp" // B077 FOLLOW: script-driven companions (follower/attacking_follower/rene)
+#include "features/companions/runtime_faery_body_v1.hpp" // v21.8 item 8: the player's own faery body (equipped model, PlaceFaeryAndFollowers)
 #include "features/physics/runtime_session_contact_v1.hpp"
 #include "features/physics/session_actor_transition_v1.hpp"
 #include "features/audio/runtime_audio_host_v1.hpp"
@@ -529,6 +533,7 @@ struct Options {
     int skillsPageFrame=-1;
     int equipmentPageFrame=-1;
     int faeryPageFrame=-1; // P14 FAERY
+    std::string testFaery; // v21.8 item 8: --test-faery=<Celest|Rocky|Wetty|Windy|Hotty|0..4> equips and unlocks that slot in memory
     int mapPageFrame=-1; // P16 MAP: --map-page-frame=N opens the character menu on the Map tab
     std::string mapCameraRoot; // P16 MAPFIX: --map-camera-root=DIR, fallback asset root for data/3D/camera/minimapcameras.bdae
     bool mapLegend=false; float mapZoom=1; // P16 MAP diagnostics: --map-legend shows the legend, --map-zoom=Z sets the zoom at selection
@@ -681,6 +686,8 @@ Options parse(int argc, char** argv) {
         else if(arg=="--skills-page-frame") o.skillsPageFrame=std::stoi(value());
         else if(arg=="--equipment-page-frame") o.equipmentPageFrame=std::stoi(value());
         else if(arg=="--faery-page-frame") o.faeryPageFrame=std::stoi(value()); // P14 FAERY
+        else if(arg=="--test-faery") o.testFaery=value(); // v21.8 item 8: test-only equip/unlock of one faery
+        else if(arg.rfind("--test-faery=",0)==0) o.testFaery=arg.substr(std::string("--test-faery=").size());
         else if(arg=="--map-page-frame") o.mapPageFrame=std::stoi(value()); // P16 MAP
         else if(arg=="--map-legend") o.mapLegend=true; // P16 MAP diagnostic
         else if(arg=="--map-zoom") o.mapZoom=std::stof(value()); // P16 MAP diagnostic
@@ -2990,6 +2997,16 @@ int main(int argc,char** argv) {
         if(proceduralSessionSeed) f::procedural::record_session_seed(state,proceduralDifficulty,*proceduralSessionSeed);
         // P14 FAERY: legacy slots without Faery rows get creation-equivalent zero rows at first use, so Swamp_Intro can unlock Celest.
         if(f::faery_menu::ensure_source_faery_rows_v1(state)) std::cout<<"Legacy save Faery rows initialized to creation zeros\n";
+        // v21.8 item 8: --test-faery equips one registry Faery for real-run tests (in memory; unlock is forced, not a campaign event).
+        if(!options.testFaery.empty()) {
+            std::int32_t testSlot=-1;
+            if(!f::faery_menu::faery_slot_from_test_argument_v1(options.testFaery,testSlot)||!state.source_faery_state_known)
+                throw std::runtime_error("--test-faery="+options.testFaery+" needs a known Faery save state and a name (Celest/Rocky/Wetty/Windy/Hotty) or slot 0..4");
+            auto& difficultyFaery=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())];
+            difficultyFaery.faeries[std::size_t(testSlot)].state=1;
+            difficultyFaery.current_faery=testSlot;
+            std::cout<<"Test Faery equipped slot="<<testSlot<<" argument="<<options.testFaery<<" state=unlocked (forced by --test-faery)\n";
+        }
         if(!options.characterName.empty())state.name=options.characterName;
         if(combatSession) {
             auto* player=combatSession->actor(combatSession->player_id());player->persistent_character_id=state.id;
@@ -3571,6 +3588,9 @@ int main(int argc,char** argv) {
         });
         std::shared_ptr<f::effects::RuntimeSwingFxObserverV1> sourceSwingFx;
         std::unique_ptr<f::effects::CelestTargetFxDispatchV1> celestEffects;
+        // v21.8: one Hotty-shaped FX dispatcher per registry strike Faery (keyed by SpellScript).
+        struct StrikeFaeryFxV1 {f::faery_menu::HottyEffectIdsV1 ids; std::unique_ptr<f::faery_menu::HottyRuntimeEffectsDispatchV1> dispatch;};
+        std::map<std::string,StrikeFaeryFxV1> strikeEffects;
         f::Camera sourceEffectsCamera;
         struct SourceEffectsCameraContext {
             std::function<bool(const dh2::scene::Scene&,float*,float*,std::string&)> sample;
@@ -3593,7 +3613,7 @@ int main(int argc,char** argv) {
             sourceSwingFx.reset();
             std::string e;
             if(!sourceEffectsRenderer.finish_and_drain(e))throw std::runtime_error("FX queue drain: "+e);
-            celestEffects.reset();
+            celestEffects.reset();strikeEffects.clear();
             if(sourceEffectsFactory)sourceEffectsFactory->clear_original_textures();
             embeddedSceneFx.clear();embeddedActorFx.clear();rangedProjectileFx.clear();embeddedSceneFxOwner=nullptr;embeddedActorTried.clear(); // P17 FIREWALL: resources die with their factory
             sourceEffectsFactory.reset();
@@ -3626,6 +3646,20 @@ int main(int argc,char** argv) {
                 celestEffects=std::make_unique<f::effects::CelestTargetFxDispatchV1>(*sourceEffectsFactory,sourceEffectsTables.borrow(),ids);
                 std::cout<<"Source Celest FX bound player="<<combatSession->player_id()<<" PlayerSet="<<ids.player_pre<<" MainSet="<<ids.target_main<<" particleInput=source-white\n";
             } catch(const std::exception& problem) {std::cerr<<"Source Celest FX bind diagnostic: "<<problem.what()<<'\n';}
+            // v21.8: strike Faery FX per registry entry. A missing AnimatedEffectTable row is logged and that Faery's FX stays unbound.
+            if(!sourceEffectsFactory)return;
+            for(const auto& entry:f::faery_menu::faery_ability_registry_v1()) {
+                if(entry.kind!=f::faery_menu::FaeryAbilityKindV1::strike)continue;
+                std::string fxError;
+                StrikeFaeryFxV1 fx;
+                if(!f::faery_menu::resolve_faery_effect_ids_v1(sourceEffectsTables.borrow(),entry,fx.ids,fxError)) {
+                    std::cerr<<"Strike Faery FX bind diagnostic "<<entry.script<<": "<<fxError<<'\n';
+                    continue;
+                }
+                fx.dispatch=std::make_unique<f::faery_menu::HottyRuntimeEffectsDispatchV1>(*sourceEffectsFactory,sourceEffectsTables.borrow(),fx.ids);
+                std::cout<<"Source Faery FX bound script="<<entry.script<<" PlayerSet="<<fx.ids.player_pre<<" TargetSet="<<fx.ids.character_target<<'\n';
+                strikeEffects.emplace(std::string(entry.script),std::move(fx));
+            }
         };
         struct SourceMotionReceipt {std::uint64_t solves=0,accepted=0,clamped=0;};
         std::map<f::ActorId,SourceMotionReceipt> sourceMotionReceipts;
@@ -5685,6 +5719,14 @@ int main(int argc,char** argv) {
         std::shared_ptr<f::enemy_ai::RuntimeRangedSkillMonsterV1> rangedSkillMonsters; // B154
         std::shared_ptr<dh2::data::PropertyRules> rangedSkillRulesOwner;
         std::shared_ptr<f::companions::RuntimeFollowerControllerV1> followerController; // B077 FOLLOW
+        // v21.8 item 8: the player's own faery. Faerie-type actors (AI row Type 3) show the master's CURRENT faery model
+        // (Character::GetCharModelName) through a private body visual per model; `faeryShown` maps actor -> that body.
+        f::companions::RuntimeFaeryBodyV1 faeryBodies;
+        std::map<std::uint64_t,f::CharacterVisual*> faeryShown;
+        std::set<std::uint64_t> faerieActors;
+        bool faerieActorsScanned=false;
+        std::map<std::uint64_t,std::int32_t> faeryPlacedFor; // actor -> equipped slot + 1 it was last placed for
+        std::set<std::string> faeryBodyReported;
         std::shared_ptr<f::SourceNavigationWorldStorage> enemyNavigationWorld;
         // B159/B035: binds the Session's incoming-Push consumer (CombatSession hit-effect observer). Original: F_ApplyResult 0x3b10b4 calls
         // SM_SetKnockBackState(great = mask&0x100000) when the result carries outcome bit 0x80 and the defender is a Player in Idle
@@ -8226,7 +8268,9 @@ int main(int argc,char** argv) {
                 f::generic_skills::RuntimeSkillFaeryAnimationSlotV1 selected;
                 // P14 FAERY: Rocky/Wetty/Windy are selectable but have no spell; key 4 logs that instead of failing silently.
                 const auto currentFaery=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
-                if(state.source_faery_state_known&&!f::faery_menu::faery_slot_has_spell_v1(currentFaery)){selected.faery_slot=currentFaery;castError=f::faery_menu::faery_no_spell_message_v1(currentFaery);}
+                // v21.8: the gate is the registry entry for the actual FaeryList row (no slot-number rule).
+                const auto* castAbility=f::faery_menu::faery_ability_for_list_slot_v1(sourceFaeryTables,state.source_faery_list_id,currentFaery);
+                if(state.source_faery_state_known&&!castAbility){selected.faery_slot=currentFaery;castError=f::faery_menu::faery_no_spell_message_v1(currentFaery);}
                 else if(!sourceFaeryTables||!skillAnimationBank)castError="Current saved Faery has no initialized source tables/animation bank";
                 else if(f::generic_skills::resolve_runtime_faery_animation_slot_v1(state,f::faery_menu::active_faery_difficulty_v1(),*skillAnimationBank,selected,castError)) {
                     const auto* sequence=skillVisualPlan.sequence(selected.selection_state,0);
@@ -8256,6 +8300,11 @@ int main(int argc,char** argv) {
                             f::generic_skills::RuntimeSkillFaerySpellArmV1 arm;
                             arm.tables=&sourceFaeryTables;arm.difficulty=f::faery_menu::active_faery_difficulty_v1();arm.policy=&policy;arm.actor_order=&order;arm.source_facts=&facts;arm.targets=&targets;arm.cooldown_clock=&faeryCooldownClock;
                             arm.celest_effect_dispatch=celestEffects.get();
+                            // v21.8: the Faery's own registry FX dispatcher (Hotty/Rocky/Wetty/Windy).
+                            if(castAbility&&castAbility->kind==f::faery_menu::FaeryAbilityKindV1::strike) {
+                                const auto fx=strikeEffects.find(std::string(castAbility->script));
+                                if(fx!=strikeEffects.end()){arm.effect_dispatch=fx->second.dispatch.get();arm.effect_ids=fx->second.ids;}
+                            }
                             f::generic_skills::RuntimeSkillCastRequestV1 request;
                             request.dispatch=f::generic_skills::RuntimeSkillCastDispatchV1::native_hud_spell;request.actor=combatSession->player_id();request.character=&state;
                             request.classes=&properties.classes;request.property_rules=&menuSkillPropertyRules;request.characters=&properties.characters;request.skills=menuSourceOwner.skill_owner->borrow();
@@ -8263,6 +8312,8 @@ int main(int argc,char** argv) {
                             // P15 FAERYSOUND (B050): original OnPreSkill_ sounds are queued on the audio session
                             // (every cast, empty target list included) and submitted with this frame's device clock.
                             skillCastCoordinator->set_faery_pre_sound_sink([&](const f::generic_skills::RuntimeSkillFaeryPreSoundV1& pre) {
+                                // v21.8: post-hit cue (Rocky/Wetty/Windy). Logged separately; queued on the same path as Pre labels.
+                                if(pre.hit_phase)std::cout<<"Faery hit sound frame="<<drawn<<" targets="<<pre.target_count<<" labels="<<(pre.labels.empty()?std::string("none"):pre.labels.front())<<'\n';
                                 if(!runtimeAudio){std::cout<<"Faery cast sound frame="<<drawn<<" targets="<<pre.target_count<<" status=dropped detail=no audio session"<<std::endl;return;}
                                 runtimeAudio->queue_faery_pre_sounds(pre.caster,pre.position,pre.target_count,pre.labels);
                             });
@@ -8772,7 +8823,7 @@ int main(int argc,char** argv) {
                 for(const auto& boundary:combatSession->combo_boundaries())
                     std::cout<<"Source combo boundary frame="<<drawn<<" actor="<<boundary.actor<<" generation="<<boundary.generation<<" begin="<<boundary.beginning<<" depth="<<boundary.depth<<" step="<<boundary.step<<" count="<<boundary.count<<" clip="<<boundary.source_clip<<'\n';
                 for(const auto& event:combatSession->events()) {
-                    std::cout<<"Damage frame="<<drawn<<" attacker="<<event.attacker<<" target="<<event.target<<" marker="<<event.marker_name<<" removed="<<event.health_removed<<" dead="<<event.target_died<<'\n';
+                    std::cout<<"Damage frame="<<drawn<<" attacker="<<event.attacker<<" target="<<event.target<<" marker="<<event.marker_name<<" removed="<<event.health_removed<<" dead="<<event.target_died<<" outcomes=0x"<<std::hex<<event.source_outcomes.value_or(0)<<" srcmask=0x"<<event.source_mask.value_or(0)<<std::dec<<'\n';
                     if(options.testEnemyInjuryActor&&event.attacker==options.testEnemyInjuryActor) {
                         const auto* props=combatSession->world()->combat_properties(event.attacker);
                         const auto* defender=combatSession->world()->combat_properties(event.target);
@@ -8788,6 +8839,59 @@ int main(int argc,char** argv) {
             if(!equipment.attachments().empty()&&!equipment.update(visual,error))throw std::runtime_error("Equipment pose: "+error);
             if(runtimeEquipmentAttachments&&(!runtimeEquipment||!runtimeEquipment->sample_render_pose(error)))throw std::runtime_error("Runtime equipment pose: "+error);
             for(auto& actor:population.actors())if(!gameplayPaused&&actor.enabled&&(!combatSession||!combatSession->owns_population_pose(actor.definition.stableId))&&!actor.visual.update(gameplayDt,error))throw std::runtime_error("Actor pose: "+error);
+            // v21.8 item 8: the player's own faery (model of the equipped faery, PlaceFaeryAndFollowers placement).
+            if(combatSession&&sourceFaeryTables&&state.source_faery_state_known) {
+                if(!faerieActorsScanned) {
+                    faerieActorsScanned=true;
+                    const auto* aiTables=combatSession->original_ai_tables();
+                    for(const auto& entry:combatSession->world()->actors()) {
+                        const auto* props=combatSession->world()->combat_properties(entry.first);const auto* traits=combatSession->world()->traits(entry.first);
+                        const auto* ai=aiTables&&props?dh2::data::ai_props(*aiTables,props->sheets.resolved[1]):nullptr;
+                        if(ai&&ai->type==3&&traits&&!traits->is_player)faerieActors.insert(entry.first); // Character::IsFaerie: AI row Type == 3
+                    }
+                }
+                const auto equipped=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
+                const auto* equippedAbility=f::faery_menu::faery_ability_for_list_slot_v1(sourceFaeryTables,state.source_faery_list_id,equipped);
+                const std::string equippedModel=equippedAbility?f::companions::faery_body_model_uri_v1(equippedAbility->model_file):std::string();
+                const auto lower=[](std::string text){for(auto& c:text)c=char(std::tolower(static_cast<unsigned char>(c)));return text;};
+                // Level::PlaceFaeryAndFollowers: at level start and after NativeHUDSetActiveFaery (ChangeFaery) the faery stands at
+                // the master target position + the master's UNIT look vector; follower.luac takes over from there.
+                std::map<std::uint64_t,std::int32_t>& placedFor=faeryPlacedFor;
+                for(auto& actor:population.actors()) {
+                    const auto id=actor.definition.stableId;
+                    if(!actor.enabled||!faerieActors.count(id))continue;
+                    if(placedFor[id]!=equipped+1&&!campaignHost.cutscene_mode()&&!campaignHost.scripted_clip_pose(id)) {
+                        placedFor[id]=equipped+1;
+                        const auto* hero=combatSession->actor(combatSession->player_id());auto* live=combatSession->actor(id);
+                        if(hero&&live) {
+                            const auto position=f::companions::faery_placement_position_v1(hero->transform.position.data(),hero->transform.rotation[2]);
+                            std::string placeError;
+                            const bool placed=options.sourceNativeBodies?nativeBodies.set_position(id,position,true,placeError):(live->transform.position=position,true);
+                            std::cout<<"Faery placed (PlaceFaeryAndFollowers) actor="<<id<<" slot="<<equipped<<" model="<<equippedModel<<" position="<<position[0]<<','<<position[1]<<','<<position[2]<<(placed?"":" failed: "+placeError)<<" frame="<<drawn<<'\n';
+                        }
+                    }
+                    const auto* ownConfig=actor.visual.configuration();
+                    if(equippedModel.empty()||!ownConfig||lower(ownConfig->model_path)==lower(equippedModel)) {faeryShown.erase(id);continue;}
+                    std::string bodyError;
+                    auto* body=faeryBodies.acquire(assets,actor.visual,equippedModel,[&](f::CharacterVisual& loaded) {
+                        for(std::size_t i=0;i<loaded.mutable_meshes().size();++i) {
+                            const auto& m=loaded.original_materials()[i];
+                            const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
+                            for(auto& range:loaded.mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
+                        }
+                        std::cout<<"Faery body loaded model="<<loaded.configuration()->model_path<<" meshes="<<loaded.meshes().size()<<'\n';
+                    },bodyError);
+                    if(!body){if(faeryBodyReported.insert(equippedModel).second)std::cerr<<bodyError<<'\n';faeryShown.erase(id);continue;}
+                    if(const auto* pose=combatSession->retained_actor_pose(id)) {
+                        const auto slot=pose->current_slot();const auto& current=pose->slots().at(slot);
+                        const std::int32_t sampleMs=!pose->samples().empty()?std::int32_t(pose->samples().back().current_ms):std::int32_t(current.timeline.current_ms);
+                        std::string mirrorError;
+                        if(!f::companions::RuntimeFaeryBodyV1::mirror_pose(*body,current.clip_id,sampleMs,mirrorError)&&faeryBodyReported.insert("pose:"+current.clip_id).second)
+                            std::cerr<<"Faery body pose "<<current.clip_id<<": "<<mirrorError<<'\n';
+                    }
+                    faeryShown[id]=body;
+                }
+            }
             // P16 OPENING4: scripted scene objects advance their clips on the gameplay clock.
             if(!gameplayPaused){std::string sceneError;if(!sceneDecor.update(gameplayDt,sceneError))throw std::runtime_error("Scene objects: "+sceneError);ambientDecor.update(gameplayDt);}
             // P16 containers: advance activating clips; the authored 'opened' marker is DoOpen (loot via T4, Lua OnOpen later).
@@ -8834,6 +8938,8 @@ int main(int argc,char** argv) {
                 const auto rotation=live?live->transform.rotation:std::array<float,3>{0,0,std::atan2(p[1],p[0])};
                 return sourceActorWorld(actor.definition.stableId,position,rotation,{std::hypot(p[0],p[1]),std::hypot(p[4],p[5]),p[10]});
             };
+            // v21.8 item 8: the visual that is DRAWN for an actor (the equipped faery body for Faerie-type actors, else the actor visual).
+            const auto shownVisual=[&](f::PopulationActor& actor)->f::CharacterVisual& {const auto found=faeryShown.find(actor.definition.stableId);return found==faeryShown.end()?actor.visual:*found->second;};
             if(options.sourceTargetPosition) {
                 for(const auto& entry:combatSession->world()->actors()) {
                     auto* actor=combatSession->actor(entry.first);auto* graphics=actorVisual(entry.first);
@@ -8891,7 +8997,7 @@ int main(int argc,char** argv) {
                 {activeCamera.up.x,activeCamera.up.y,activeCamera.up.z},activeCamera.verticalFovDegrees};
             const auto billboardView=f::sourceCameraViewMatrix(billboardCamera);
             for(auto& actor:population.actors())if(actor.enabled)
-                if(!actor.visual.prepare_camera_billboards(actorDrawWorld(actor),billboardView,activeCamera.eye,error))
+                if(!shownVisual(actor).prepare_camera_billboards(actorDrawWorld(actor),billboardView,activeCamera.eye,error))
                     throw std::runtime_error("Actor billboard: "+error);
             sourceEffectsCamera=activeCamera;
             if(sourceEffectsFactory&&!sourceEffectsPresentationFailed) {
@@ -8946,7 +9052,7 @@ int main(int argc,char** argv) {
                     // particles, and use a separate ID domain because actor IDs are full-width content hashes.
                     embeddedActorFx.begin_frame();
                     for(auto& actor:population.actors()) {
-                        const auto* config=actor.visual.configuration();
+                        const auto* config=shownVisual(actor).configuration();
                         if(!actor.enabled||!config||config->model_path.empty())continue;
                         const auto& modelPath=config->model_path;
                         const auto key=actor.definition.stableId;
@@ -8967,7 +9073,7 @@ int main(int argc,char** argv) {
                         if(!f::effects::embedded_clip_source_ms_v1(actor.visual,sourceMs))continue;
                         const auto world=actorDrawWorld(actor);
                         std::string embeddedError;
-                        if(!embeddedActorFx.update(key,sourceMs,sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,embeddedError,actor.visual.retained_scene_borrow())) {
+                        if(!embeddedActorFx.update(key,sourceMs,sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,embeddedError,shownVisual(actor).retained_scene_borrow())) {
                             std::cerr<<"Embedded FX actor "<<actor.definition.name<<" update: "<<embeddedError<<'\n';prepared=false;effectError=embeddedError;
                         }
                     }
@@ -9134,7 +9240,7 @@ int main(int argc,char** argv) {
                     for(const auto& mesh:actor.visual.meshes())for(const auto& v:mesh.vertices){const float p[3]{placement[0]*v.position.x+placement[4]*v.position.y+placement[8]*v.position.z+placement[12],placement[1]*v.position.x+placement[5]*v.position.y+placement[9]*v.position.z+placement[13],placement[2]*v.position.x+placement[6]*v.position.y+placement[10]*v.position.z+placement[14]};for(unsigned axis=0;axis<3;++axis){low[axis]=std::min(low[axis],p[axis]);high[axis]=std::max(high[axis],p[axis]);}}
                     std::cout<<"Capture scripted actor frame="<<(drawn+1)<<" name="<<actor.definition.name<<" position="<<placement[12]<<','<<placement[13]<<','<<placement[14]<<" scale="<<std::hypot(placement[0],placement[1])<<','<<std::hypot(placement[4],placement[5])<<','<<placement[10]<<" bounds="<<low[0]<<','<<low[1]<<','<<low[2]<<".."<<high[0]<<','<<high[1]<<','<<high[2]<<'\n';
                 }
-                for(const auto& mesh:actor.visual.meshes())queue.submit(mesh,placement);
+                for(const auto& mesh:shownVisual(actor).meshes())queue.submit(mesh,placement);
             }
             // P16 containers: visuals at the authored transform (closed or animated pose from ContainerRuntimeV1).
             for(const auto& view:containerRuntime.views())if(view.visual&&view.instance)for(const auto& mesh:view.visual->meshes())queue.submit(mesh,view.instance->transform);

@@ -1,0 +1,2 @@
+Faery placed (PlaceFaeryAndFollowers) actor=8886960962655148639 slot=2 model=data/3D/characters/faeries/faeries_01_wetty.bdae position=204.255,556.767,100.41 frame=0
+Faery body loaded model=data/3d/characters/faeries/faeries_01_wetty.bdae meshes=3

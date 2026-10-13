@@ -60,8 +60,8 @@ bool dispatch_celest_player_pre_best_effort_v1(
     CelestEffectReceiptV1&, std::string& error);
 
 // Called only for the retained state7 `do_spell` event. Character targets get
-// two ordered SpellCombatRoll occurrences each, then unconditional Celest Main
-// FX. Empty targets complete the Use loop without any roll.
+// one SpellCombatRoll occurrence each (v21.8: Character branch of the Lua), then Celest Main FX only for positive damage.
+// Empty targets complete the Use loop without any roll.
 bool apply_celest_source_use_v1(
     CombatSession&, const CelestPreparedCastV1&,
     const HottySourceTargetListV1&, const CharacterState&,

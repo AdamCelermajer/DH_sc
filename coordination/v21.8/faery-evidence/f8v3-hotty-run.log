@@ -1,0 +1,900 @@
+Swap interval requested=1 supported=1 effective=1
+{"profile_actor":"PASS","menu":"menu_MainMenu","slot":0,"save":"C:/dh217/cases/f8v3-hotty/character.save","character":"profile-slot-1","class":"KnightPlayerBase","appearance_steps":6,"draw_packets":5}
+Frontend music transition: kind=start track=TitleMusic fadeMs=2000 screen=menu_MainMenu ordinal=221 uid=464
+Frontend music state: ordinal=221 playing=1
+Frontend audio device token=1 kind=0 frame=20992
+Frontend audio authored menu=menu_MainMenu button=btn_MENU_SINGLE_PLAYER action=onRelease ordinal=141 uid=2 token=2 status=0 qpcNs=29092409167600 diagnostic=
+{"profile_actor":"PASS","menu":"menu_StartGame","slot":0,"save":"C:/dh217/cases/f8v3-hotty/character.save","character":"profile-slot-1","class":"KnightPlayerBase","appearance_steps":6,"draw_packets":5}
+Frontend audio device token=2 kind=0 frame=147456
+Frontend audio device token=2 kind=1 frame=240481
+Frontend music state: ordinal=221 playing=1
+Continue profile level=data/scene/002_swamp_witchcave.rule.xml launch level=data/scene/001_swamp.mlx entry=0 world=0
+{"frames":339,"menu":"menu_StartGame","source_clock_ms":5815,"fixed_step":false,"source_clip":"","source_sample_ms":0,"body_clip":"data/3d/characters/prince/animations/prince_menu_idle_knight.bdae","body_clock_ms":0,"idle_owner_required":false,"interactive":true,"saved_user_profiles":false,"generic_start_delivered":true,"native_profile_loan":false}
+Frontend launched same CharacterState slot=0 class=KnightPlayerBase sourceRNG=1234/0
+Session start resources handles=597 gdi=46 user=55 level=data/scene/002_swamp_witchcave.rule.xml frame=0
+Original actor=KnightPlayerBase HP=165.098/165.098 MP=27.25/27.25 (before equipment contributors)
+Continue level world status=none level=data/scene/002_swamp_witchcave.rule.xml
+Continue arrival at the recorded entry level=data/scene/002_swamp_witchcave.rule.xml entry=0
+Procedural level generated rule=data/scene/002_swamp_witchcave.rule.xml seed=2008709070 difficulty=0 tiles=7 modules=7 unplaced=0 signature=ed9ba36bed9ebddc
+[campaign] source visual profile derived auto_spawn=0 actor=_prim_Monster_04_56 profile=Witch propertyRow=435 animationTable=76
+[campaign] compiled banks common=15 level=24 level_uri=data/scene/002_swamp_witchcave.rule.xml script_file=data/pydata/scripts/002_swamp_cave_witch.pyscript
+Actor script clips admitted=33
+Level notice: Excluded exported module/navigation/collision helper instances: 3
+Level notice: Excluded exported module/navigation/collision helper instances: 4
+Level notice: Excluded exported module/navigation/collision helper instances: 4
+Level notice: Excluded exported module/navigation/collision helper instances: 6
+Level notice: Excluded exported module/navigation/collision helper instances: 4
+Level notice: Excluded exported module/navigation/collision helper instances: 4
+Level notice: Excluded exported module/navigation/collision helper instances: 4
+Level notice: Decor instantiated: 0 Decor/AnimatedDecor declarations (authored pose, no animation playback).
+Level notice: Decor rendering deferred to gameplay runtime owners.
+Level notice: Geometry preview only: module gameplay objects, quests, lights, skybox and campaign predicates are not instantiated.
+Level triangles=10002 instances=14 ranges=19
+Source skill optional root unavailable PotionAddict: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable Hardiness: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable FastMetabolism: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable Leadership: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable CombatMaster: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable SpecializationSkill: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable SpecializationSkill: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable SpecializationSkill: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable SpecializationSkill: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable SpecializationSkill: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable SpecializationSkill: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable SpecializationSkill: source SkillTable.Anim root is negative; no animation is authored
+Source skill optional root unavailable SpecializationSkill: source SkillTable.Anim root is negative; no animation is authored
+Source skill bank preloaded class=KnightPlayerBase roots=16 faeryCast=351
+Conditions table=118 watched=5 worldGates=4
+Unsupported class AnimatedDecor status=ported_elsewhere declarations=8 (logged once)
+Unsupported class CheckpointZone status=ported_elsewhere declarations=1 (logged once)
+Unsupported class Decor status=ported_elsewhere declarations=7 (logged once)
+Unsupported class DestructibleContainer status=library_only declarations=1 (logged once)
+Unsupported class Door status=ported_elsewhere declarations=2 (logged once)
+Unsupported class Dummy status=library_only declarations=12 (logged once)
+Unsupported class OpenableContainer status=library_only declarations=4 (logged once)
+Unsupported class SoundEmitter status=ported_elsewhere declarations=3 (logged once)
+Unsupported class SpawnPoint status=library_only declarations=1 (logged once)
+Unsupported class TriggerZone status=library_only declarations=7 (logged once)
+Unsupported class TriggerZoneExitLevel status=ported_elsewhere declarations=2 (logged once)
+Population source template RNG seed=6664414 calls=21
+Population visuals=32 declarations=37 skipped=5
+Population notice: data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_s_00_0#0|data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp|2|_prim_EntryPoint: Spawn point requires caller-owned spawning policy; no actor selected
+Population notice: data/scene/002_swamp_witchcave.rule.xml|/straight_swpcave_we_00_4#4|data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp|2|_prim_Slime_08: Explicit character profile unavailable: Slime
+Population notice: data/scene/002_swamp_witchcave.rule.xml|/straight_swpcave_we_00_4#4|data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp|3|_prim_Slime_09: Explicit character profile unavailable: Slime
+Population notice: data/scene/002_swamp_witchcave.rule.xml|/straight_swpcave_we_00_4#4|data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp|4|_prim_Slime_45: Explicit character profile unavailable: Slime
+Population notice: data/scene/002_swamp_witchcave.rule.xml|/straight_swpcave_we_00_4#4|data/3d/modules/swamp/mgp/witch_a__swpcave_we_00_01.mgp|5|_prim_Slime_46: Explicit character profile unavailable: Slime
+Level exit zone name=_prim_ExitLevelZone_001 target=SWAMP file=data/scene/001_swamp.mlx entry=4 condition=none procedural=0 centre=580.417,599.945,0
+Level zone name=_prim_CheckpointZone_01 kind=checkpoint centre=-5601.5,-12000,-3.76197 half=1400,800,200
+Level exit zone name=_prim_ExitLevelZone_42 target=SWAMP file=data/scene/001_swamp.mlx entry=4 condition=IsAfter_Swamp_KillWitch2 procedural=0 centre=4704.81,-10368.1,168.018
+Transition arrival entry=0 spawn=_prim_EntryPoint candidates=1 position=203.611,557.532,37.0598 heading=-0.870919 level=data/scene/002_swamp_witchcave.rule.xml
+Transition arrival character visited_records=7 level=data/scene/002_swamp_witchcave.rule.xml
+Containers instantiated=5 declarations=5 visuals=5 unsupported=AnimatedDecor:8,CheckpointZone:1,Decor:7,Door:2,Dummy:12,LevelConfig:1,SoundEmitter:3,TriggerZone:7,TriggerZoneExitLevel:2
+Container declaration=_prim_OpenableContainer_1_47 interaction=0 at=988.914,-2169.02,120.912 script=(none)
+Container declaration=_prim_DestructibleContainer_07 interaction=8 at=269.182,-6285.04,24.7892 script=moth_spawn_container
+Container declaration=_prim_OpenableContainer interaction=0 at=-5621.95,-11905.8,111.751 script=(none)
+Container declaration=_prim_WitchBox_02 interaction=0 at=5278.12,-9633.39,130.541 script=(none)
+Container declaration=_prim_OpenableContainer_1 interaction=0 at=-5288.62,-18878.3,34.6742 script=(none)
+Container notice: destructible clips declaration=_prim_DestructibleContainer_07 clips=3 stages=0 script=moth_spawn_container
+Animation channel skipped (target is not a scene node) type=28 target=GL_PCloud01-emitter (logged once)
+Animation channel skipped (target is not a scene node) type=86 target=Standard_15 (logged once)
+Animation channel skipped (target is not a scene node) type=86 target=wiimaterial_shader_alpha_portal (logged once)
+Animation channel skipped (target is not a scene node) type=89 target=fx_portal_strongeralpha (logged once)
+Animation channel skipped (target is not a scene node) type=86 target=Standard_8zxcv (logged once)
+Doors declarations=2 levers=0 gated_decor=0 (conditions applied at bind)
+SPAWN profile derived from tables: Swamp_Moth_Minions animationTable=44 states=8
+SPAWN pool profile=Swamp_Moth_Minions slots=2 level_raw=512
+[ranged-skill] profile=Witch incoming-only session profile; outgoing skill owner bound ai=witch skill=Witch_Projectile anim=756 range=600..5000 projectile=bogwitch class=Swamp_WitchRangedAttack teleport=1
+[boss-ai] profile=Witch swampking_core owner unavailable: AI script witch: AI script registers no OnEndOfAnim callback
+SPAWN melee bindings derived from tables: Swamp_Moth_Minions
+SPAWN melee bindings derived from tables: Witch
+Selected profile source projection HP=169.195/169.195 MP=28.5/28.5 XPraw=17408 skillPointsRaw=256 prebind=1
+Selected equipment initialization main=TwoHandsSword01 count=5
+Source player stance=1 main=1178 off=-1 preloadedPrograms=5
+Containers world objects declarations=5 notices=0
+Doors world objects declarations=2 notices=0
+Combat binding: Authenticated selected gear source properties bound before profile projection
+Combat binding: Original PROPS_AttackSpeed48 actor=18446744073709551615 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=1225920090592483878 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=11586552034794601012 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=18378362427079544487 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=7164193319705595751 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=14552840002247334696 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=7017835256986403320 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=1832732224959166294 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=13831140784906511668 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=10810401867983418741 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=351002522116854137 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=2972518283700148828 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=14131076081502061998 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=13202159697674020638 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=1811713842030907232 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=14063629055965325618 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=1815683500395685368 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=102377376217503574 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=12056354130882174976 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=1442057582387893217 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=9143330362337750553 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=11928218231074072168 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=8360796996631478269 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=14015367007146869049 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=7119004930892290618 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=14621738711656896074 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=1949633564804751683 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=2553347315986484349 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=9843357454694885335 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=6003394295803936768 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Original PROPS_AttackSpeed48 actor=6003394295803936769 multiplier=1.000000 caller_factor=1.000000
+Combat binding: Explicit original source phase groups execute pre/strike/recovery; outer combo chaining remains a caller gap
+Combat binding: Retained source animation clock actor=102377376217503574 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=351002522116854137 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=1225920090592483878 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=1442057582387893217 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=1811713842030907232 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=1815683500395685368 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=1832732224959166294 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=1949633564804751683 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=2553347315986484349 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=2972518283700148828 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=6003394295803936768 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=6003394295803936769 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=6315855483253321029 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=7017835256986403320 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=7119004930892290618 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=7164193319705595751 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=8360796996631478269 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=8886960962655148639 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=9143330362337750553 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=9843357454694885335 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=10810401867983418741 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=11586552034794601012 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=11928218231074072168 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=12056354130882174976 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=13202159697674020638 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=13831140784906511668 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=14015367007146869049 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=14063629055965325618 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=14131076081502061998 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=14552840002247334696 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=14621738711656896074 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=15595122752305069107 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=16216951034188608582 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=18378362427079544487 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Retained source animation clock actor=18446744073709551615 uses original two-slot blend, events, dynamic root/default library, completion and replay cadence; explicit bound player locomotion shares this owner; native callback reentry remains a gap
+Combat binding: Animation-only source actor=6315855483253321029 retains exact property vitals/visual and authored Idle; it is untargetable, has no attack IDs, and visual advancement is independent of combat alive/visibility state
+Combat binding: Animation-only source actor=8886960962655148639 retains exact property vitals/visual and authored Idle; it is untargetable, has no attack IDs, and visual advancement is independent of combat alive/visibility state
+Combat binding: Animation-only source actor=15595122752305069107 retains exact property vitals/visual and authored Idle; it is untargetable, has no attack IDs, and visual advancement is independent of combat alive/visibility state
+Combat binding: Incoming-only source actor=16216951034188608582 is a targetable shared damage receiver with original Injury/Died poses; outgoing attack IDs/commands remain disabled
+Combat binding: Source combo actor=18446744073709551615 uses same-owner continued/last/index and actual hierarchy hooks; unbound flags528/heading/OOI and target-search policies are diagnostic; frontal-heading/ranged/network backends reject when reached; preattack/look/sticky producers remain explicit gaps
+Combat binding: Full original DOT/status/leech/FX/quest outcomes retained for host; only direct health application is active
+Combat binding: Target turning uses original heading/rotation kernels and resolved rotation modifier; attack-specific rotation lock/snap flags remain a host gap
+Level world restore status=none level=data/scene/002_swamp_witchcave.rule.xml
+Collision triangles=522 floors=10 colliders=0 level=data/scene/002_swamp_witchcave.rule.xml
+Ground controller policy=development floor-edge policy; original PF step limits not yet verified radius=65.4533 height=344.557; speed from authored root motion
+Placement floor snap grounded=1 position=203.611,557.532,100.41
+Source movement body radius=113.7 from original joint bounds/body definition; native binding follows, floor solver remains pending
+Source body rest components=4 relative=-113.7,-30.7557,-150.672,113.7,30.7557,150.672; actual source AABB provider, movement collision solver remains approximate
+Source actor body plan actor=102377376217503574 radius=99.2119 circular=1
+Source actor body plan actor=351002522116854137 radius=82.9468 circular=1
+Source actor body plan actor=1225920090592483878 radius=66.0808 circular=1
+Source actor body plan actor=1442057582387893217 radius=81.3232 circular=1
+Source actor body plan actor=1811713842030907232 radius=99.2119 circular=1
+Source actor body plan actor=1815683500395685368 radius=99.2119 circular=1
+Source actor body plan actor=1832732224959166294 radius=73.9306 circular=1
+Source actor body plan actor=1949633564804751683 radius=59.2852 circular=1
+Source actor body plan actor=2553347315986484349 radius=94.5 circular=1
+Source actor body plan actor=2972518283700148828 radius=76.2844 circular=1
+Source actor body plan actor=6003394295803936768 radius=45 circular=1
+Source actor body plan actor=6003394295803936769 radius=45 circular=1
+Source actor body plan actor=6315855483253321029 radius=113.549 circular=1
+Source actor body plan actor=7017835256986403320 radius=92.0577 circular=1
+Source actor body plan actor=7119004930892290618 radius=59.1426 circular=1
+Source actor body plan actor=7164193319705595751 radius=81.2566 circular=1
+Source actor body plan actor=8360796996631478269 radius=59.1426 circular=1
+Source actor body plan actor=8886960962655148639 radius=75.4947 circular=1
+Source actor body plan actor=9143330362337750553 radius=82.9741 circular=1
+Source actor body plan actor=9843357454694885335 radius=72.625 circular=1
+Source actor body plan actor=10810401867983418741 radius=63.3413 circular=1
+Source actor body plan actor=11586552034794601012 radius=66.0808 circular=1
+Source actor body plan actor=11928218231074072168 radius=82.6987 circular=1
+Source actor body plan actor=12056354130882174976 radius=81.8711 circular=1
+Source actor body plan actor=13202159697674020638 radius=99.2119 circular=1
+Source actor body plan actor=13831140784906511668 radius=93.9551 circular=1
+Source actor body plan actor=14015367007146869049 radius=59.1426 circular=1
+Source actor body plan actor=14063629055965325618 radius=99.2119 circular=1
+Source actor body plan actor=14131076081502061998 radius=99.2119 circular=1
+Source actor body plan actor=14552840002247334696 radius=79.3882 circular=1
+Source actor body plan actor=14621738711656896074 radius=59.1426 circular=1
+Source actor body plan actor=15595122752305069107 radius=113.549 circular=1
+Source actor body plan actor=16216951034188608582 radius=49.5 circular=1
+Source actor body plan actor=18378362427079544487 radius=96.8294 circular=1
+Motion provenance stage=pre-body actor=102377376217503574 position=-5941.15,-8168.72,93.6904
+Source physical presence actor=102377376217503574 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=102377376217503574 position=-5941.15,-8168.72,93.6904 pf=0,0,0
+Native body bound actor=102377376217503574 radius=99.2119 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=351002522116854137 position=-1936.02,-5729.34,93.3271
+Source physical presence actor=351002522116854137 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=351002522116854137 position=-1936.02,-5729.34,93.3271 pf=0,0,0
+Native body bound actor=351002522116854137 radius=82.9468 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=1225920090592483878 position=-729.176,-694.598,66.4824
+Source physical presence actor=1225920090592483878 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=1225920090592483878 position=-729.176,-694.598,66.4824 pf=0,0,0
+Native body bound actor=1225920090592483878 radius=66.0808 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=1442057582387893217 position=-6127.71,-12528,122.406
+Source physical presence actor=1442057582387893217 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=1442057582387893217 position=-6127.71,-12528,122.406 pf=0,0,0
+Native body bound actor=1442057582387893217 radius=81.3232 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=1811713842030907232 position=-6510,-5348.88,70.3188
+Source physical presence actor=1811713842030907232 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=1811713842030907232 position=-6510,-5348.88,70.3188 pf=0,0,0
+Native body bound actor=1811713842030907232 radius=99.2119 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=1815683500395685368 position=-6162.19,-7083.05,94.2867
+Source physical presence actor=1815683500395685368 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=1815683500395685368 position=-6162.19,-7083.05,94.2867 pf=0,0,0
+Native body bound actor=1815683500395685368 radius=99.2119 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=1832732224959166294 position=850.718,-6174.83,93.3271
+Source physical presence actor=1832732224959166294 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=1832732224959166294 position=850.718,-6174.83,93.3271 pf=0,0,0
+Native body bound actor=1832732224959166294 radius=73.9306 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=1949633564804751683 position=-5549.93,-17287.5,41.8013
+Source physical presence actor=1949633564804751683 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=1949633564804751683 position=-5549.93,-17287.5,41.8013 pf=0,0,0
+Native body bound actor=1949633564804751683 radius=59.2852 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=2553347315986484349 position=-6255.76,-18657,336.688
+Source physical presence actor=2553347315986484349 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=2553347315986484349 position=-6255.76,-18657,336.688 pf=0,0,0
+Native body bound actor=2553347315986484349 radius=94.5 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=2972518283700148828 position=-2322.93,-5695.88,93.3271
+Source physical presence actor=2972518283700148828 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=2972518283700148828 position=-2322.93,-5695.88,93.3271 pf=0,0,0
+Native body bound actor=2972518283700148828 radius=76.2844 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=6003394295803936768 position=0,0,0
+Source physical presence actor=6003394295803936768 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=6003394295803936768 position=0,0,0 pf=0,0,0
+Native body bound actor=6003394295803936768 radius=45 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=6003394295803936769 position=0,0,0
+Source physical presence actor=6003394295803936769 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=6003394295803936769 position=0,0,0 pf=0,0,0
+Native body bound actor=6003394295803936769 radius=45 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=6315855483253321029 position=614.186,552.981,22.1103
+Source physical presence actor=6315855483253321029 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=6315855483253321029 position=614.186,552.981,22.1103 pf=0,0,0
+Native body bound actor=6315855483253321029 radius=113.549 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=7017835256986403320 position=673.199,-6421.1,93.3271
+Source physical presence actor=7017835256986403320 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=7017835256986403320 position=673.199,-6421.1,93.3271 pf=0,0,0
+Native body bound actor=7017835256986403320 radius=92.0577 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=7119004930892290618 position=-3609.77,-12161.5,36.8706
+Source physical presence actor=7119004930892290618 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=7119004930892290618 position=-3609.77,-12161.5,36.8706 pf=0,0,0
+Native body bound actor=7119004930892290618 radius=59.1426 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=7164193319705595751 position=101.118,-3516.91,93.3271
+Source physical presence actor=7164193319705595751 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=7164193319705595751 position=101.118,-3516.91,93.3271 pf=0,0,0
+Native body bound actor=7164193319705595751 radius=81.2566 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=8360796996631478269 position=-4060.68,-12154.3,36.8706
+Source physical presence actor=8360796996631478269 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=8360796996631478269 position=-4060.68,-12154.3,36.8706 pf=0,0,0
+Native body bound actor=8360796996631478269 radius=59.1426 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=8886960962655148639 position=-62.8582,563.496,0
+Source physical presence actor=8886960962655148639 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=8886960962655148639 position=-62.8582,563.496,0 pf=0,0,0
+Native body bound actor=8886960962655148639 radius=75.4947 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=9143330362337750553 position=-6115.1,-11380.5,122.406
+Source physical presence actor=9143330362337750553 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=9143330362337750553 position=-6115.1,-11380.5,122.406 pf=0,0,0
+Native body bound actor=9143330362337750553 radius=82.9741 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=9843357454694885335 position=-4920.04,-17629.4,41.8013
+Source physical presence actor=9843357454694885335 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=9843357454694885335 position=-4920.04,-17629.4,41.8013 pf=0,0,0
+Native body bound actor=9843357454694885335 radius=72.625 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=10810401867983418741 position=-2133.45,-5336.14,93.3271
+Source physical presence actor=10810401867983418741 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=10810401867983418741 position=-2133.45,-5336.14,93.3271 pf=0,0,0
+Native body bound actor=10810401867983418741 radius=63.3413 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=11586552034794601012 position=72.543,-1446.49,66.4824
+Source physical presence actor=11586552034794601012 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=11586552034794601012 position=72.543,-1446.49,66.4824 pf=0,0,0
+Native body bound actor=11586552034794601012 radius=66.0808 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=11928218231074072168 position=-5099.47,-12427.2,122.406
+Source physical presence actor=11928218231074072168 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=11928218231074072168 position=-5099.47,-12427.2,122.406 pf=0,0,0
+Native body bound actor=11928218231074072168 radius=82.6987 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=12056354130882174976 position=-5116.43,-11318.7,103.287
+Source physical presence actor=12056354130882174976 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=12056354130882174976 position=-5116.43,-11318.7,103.287 pf=0,0,0
+Native body bound actor=12056354130882174976 radius=81.8711 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=13202159697674020638 position=-5304.13,-5323.44,70.3188
+Source physical presence actor=13202159697674020638 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=13202159697674020638 position=-5304.13,-5323.44,70.3188 pf=0,0,0
+Native body bound actor=13202159697674020638 radius=99.2119 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=13831140784906511668 position=981.718,-6420.75,93.3271
+Source physical presence actor=13831140784906511668 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=13831140784906511668 position=981.718,-6420.75,93.3271 pf=0,0,0
+Native body bound actor=13831140784906511668 radius=93.9551 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=14015367007146869049 position=-3807.12,-11832.9,36.8706
+Source physical presence actor=14015367007146869049 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=14015367007146869049 position=-3807.12,-11832.9,36.8706 pf=0,0,0
+Native body bound actor=14015367007146869049 radius=59.1426 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=14063629055965325618 position=-6817.48,-6235.52,88.2501
+Source physical presence actor=14063629055965325618 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=14063629055965325618 position=-6817.48,-6235.52,88.2501 pf=0,0,0
+Native body bound actor=14063629055965325618 radius=99.2119 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=14131076081502061998 position=-4464.07,-6084.5,70.3188
+Source physical presence actor=14131076081502061998 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=14131076081502061998 position=-4464.07,-6084.5,70.3188 pf=0,0,0
+Native body bound actor=14131076081502061998 radius=99.2119 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=14552840002247334696 position=-16.337,-4834.99,93.3271
+Source physical presence actor=14552840002247334696 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=14552840002247334696 position=-16.337,-4834.99,93.3271 pf=0,0,0
+Native body bound actor=14552840002247334696 radius=79.3882 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=14621738711656896074 position=-3290.76,-11879.9,36.8706
+Source physical presence actor=14621738711656896074 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=14621738711656896074 position=-3290.76,-11879.9,36.8706 pf=0,0,0
+Native body bound actor=14621738711656896074 radius=59.1426 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=15595122752305069107 position=614.186,655.75,22.1103
+Source physical presence actor=15595122752305069107 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=15595122752305069107 position=614.186,655.75,22.1103 pf=0,0,0
+Native body bound actor=15595122752305069107 radius=113.549 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=16216951034188608582 position=5361.24,-10540,134.647
+Source physical presence actor=16216951034188608582 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=16216951034188608582 position=5361.24,-10540,134.647 pf=0,0,0
+Native body bound actor=16216951034188608582 radius=49.5 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=18378362427079544487 position=-250.305,-3394.55,89.7927
+Source physical presence actor=18378362427079544487 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=18378362427079544487 position=-250.305,-3394.55,89.7927 pf=0,0,0
+Native body bound actor=18378362427079544487 radius=96.8294 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Motion provenance stage=pre-body actor=18446744073709551615 position=203.611,557.532,37.0598
+Source physical presence actor=18446744073709551615 known=1 present=1 restored=0
+Motion provenance stage=post-body actor=18446744073709551615 position=203.611,557.532,37.0598 pf=0,0,0
+Native body bound actor=18446744073709551615 radius=113.7 pfUser=0; real body/position backing before InitFinal, world Step remains unbound
+Original actor anchor=forward maximum=640 incrementPerUpdate=17; explicit debug-switch result, combat heading command gates remain incomplete
+Original camera distance=3132.3 FOV=24.616 aspect=1.66775
+Test Faery equipped slot=4 argument=Hotty state=unlocked (forced by --test-faery)
+Source root constructor scopes root=data/scene/002_swamp_witchcave.rule.xml modules=7; full Level initialization remains incomplete
+Source module scope id=0 occurrence=/deadend_swpcave_s_00_0#0
+Source module scope id=1 occurrence=/corner_swpcave_nw_00_1#1
+Source module scope id=2 occurrence=/corner_swpcave_se_00_2#2
+Source module scope id=3 occurrence=/t_swpcave_nse_00_3#3
+Source module scope id=4 occurrence=/straight_swpcave_we_00_4#4
+Source module scope id=5 occurrence=/bossroom_swpcave_w_00_5#5
+Source module scope id=6 occurrence=/deadend_swpcave_n_00_6#6
+Source FX actor anchors registered=37 staticObjects=lazy generation=2
+Source floor diagnostic rooms=7 floors=10; explicit geometry admission, campaign gates remain separate
+Motion provenance stage=post-navigation actor=102377376217503574 position=-5941.15,-8168.72,93.6904 pf=-5941.15,-8168.72,87.2637 floor=2 room=2
+Motion provenance stage=post-navigation actor=351002522116854137 position=-1936.02,-5729.34,93.3271 pf=-1936.02,-5729.34,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=1225920090592483878 position=-729.176,-694.598,66.4824 pf=-729.176,-694.598,87.2637 floor=0 room=0
+Motion provenance stage=post-navigation actor=1442057582387893217 position=-6127.71,-12528,122.406 pf=-6127.71,-12528,87.2637 floor=3 room=3
+Motion provenance stage=post-navigation actor=1811713842030907232 position=-6510,-5348.88,70.3188 pf=-6510,-5348.88,87.2637 floor=2 room=2
+Motion provenance stage=post-navigation actor=1815683500395685368 position=-6162.19,-7083.05,94.2867 pf=-6162.19,-7083.05,87.2637 floor=2 room=2
+Motion provenance stage=post-navigation actor=1832732224959166294 position=850.718,-6174.83,93.3271 pf=850.718,-6174.83,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=1949633564804751683 position=-5549.93,-17287.5,41.8013 pf=-5549.93,-17287.5,87.2637 floor=8 room=6
+Motion provenance stage=post-navigation actor=2553347315986484349 position=-6255.76,-18657,336.688 pf=-6255.76,-18657,288.604 floor=9 room=6
+Motion provenance stage=post-navigation actor=2972518283700148828 position=-2322.93,-5695.88,93.3271 pf=-2322.93,-5695.88,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=6003394295803936768 position=0,0,0 pf=0,0,0 floor=4294967295 room=4294967295
+Motion provenance stage=post-navigation actor=6003394295803936769 position=0,0,0 pf=0,0,0 floor=4294967295 room=4294967295
+Motion provenance stage=post-navigation actor=6315855483253321029 position=614.186,552.981,22.1103 pf=614.186,552.981,100.41 floor=0 room=0
+Motion provenance stage=post-navigation actor=7017835256986403320 position=673.199,-6421.1,93.3271 pf=673.199,-6421.1,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=7119004930892290618 position=-3609.77,-12161.5,36.8706 pf=-3609.77,-12161.5,87.2637 floor=3 room=3
+Motion provenance stage=post-navigation actor=7164193319705595751 position=101.118,-3516.91,93.3271 pf=101.118,-3516.91,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=8360796996631478269 position=-4060.68,-12154.3,36.8706 pf=-4060.68,-12154.3,87.2637 floor=3 room=3
+Motion provenance stage=post-navigation actor=8886960962655148639 position=-62.8582,563.496,0 pf=-62.8582,563.496,98.1416 floor=0 room=0
+Motion provenance stage=post-navigation actor=9143330362337750553 position=-6115.1,-11380.5,122.406 pf=-6115.1,-11380.5,87.2637 floor=3 room=3
+Motion provenance stage=post-navigation actor=9843357454694885335 position=-4920.04,-17629.4,41.8013 pf=-4920.04,-17629.4,87.2637 floor=8 room=6
+Motion provenance stage=post-navigation actor=10810401867983418741 position=-2133.45,-5336.14,93.3271 pf=-2133.45,-5336.14,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=11586552034794601012 position=72.543,-1446.49,66.4824 pf=72.543,-1446.49,87.2637 floor=0 room=0
+Motion provenance stage=post-navigation actor=11928218231074072168 position=-5099.47,-12427.2,122.406 pf=-5099.47,-12427.2,87.2637 floor=3 room=3
+Motion provenance stage=post-navigation actor=12056354130882174976 position=-5116.43,-11318.7,103.287 pf=-5116.43,-11318.7,87.2637 floor=3 room=3
+Motion provenance stage=post-navigation actor=13202159697674020638 position=-5304.13,-5323.44,70.3188 pf=-5304.13,-5323.44,87.2637 floor=2 room=2
+Motion provenance stage=post-navigation actor=13831140784906511668 position=981.718,-6420.75,93.3271 pf=981.718,-6420.75,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=14015367007146869049 position=-3807.12,-11832.9,36.8706 pf=-3807.12,-11832.9,87.2637 floor=3 room=3
+Motion provenance stage=post-navigation actor=14063629055965325618 position=-6817.48,-6235.52,88.2501 pf=-6817.48,-6235.52,87.2637 floor=2 room=2
+Motion provenance stage=post-navigation actor=14131076081502061998 position=-4464.07,-6084.5,70.3188 pf=-4464.07,-6084.5,87.2637 floor=2 room=2
+Motion provenance stage=post-navigation actor=14552840002247334696 position=-16.337,-4834.99,93.3271 pf=-16.337,-4834.99,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=14621738711656896074 position=-3290.76,-11879.9,36.8706 pf=-3290.76,-11879.9,87.2637 floor=3 room=3
+Motion provenance stage=post-navigation actor=15595122752305069107 position=614.186,655.75,22.1103 pf=614.186,655.75,100.41 floor=0 room=0
+Motion provenance stage=post-navigation actor=16216951034188608582 position=5361.24,-10540,134.647 pf=5361.24,-10540,154.877 floor=7 room=5
+Motion provenance stage=post-navigation actor=18378362427079544487 position=-250.305,-3394.55,89.7927 pf=-250.305,-3394.55,87.2637 floor=1 room=1
+Motion provenance stage=post-navigation actor=18446744073709551615 position=203.611,557.532,37.0598 pf=203.611,557.532,100.41 floor=0 room=0
+Original floor motion bound actors=35 obstacles=33; shared PF position/direction policy, native Step remains unbound
+Source own target nodes bound=0 absent=35; actual authored NAME lookup, full InitFinal remains incomplete
+Lifecycle state actor=12056354130882174976 previous=-1 state=17 enabled=0 position=-5116.43,-11318.7,87.2637 yaw=-2.44277
+Lifecycle state actor=1442057582387893217 previous=-1 state=17 enabled=0 position=-6127.71,-12528,87.2637 yaw=1.06209
+Lifecycle state actor=9143330362337750553 previous=-1 state=17 enabled=0 position=-6115.1,-11380.5,87.2637 yaw=-0.70164
+Lifecycle state actor=11928218231074072168 previous=-1 state=17 enabled=0 position=-5099.47,-12427.2,87.2637 yaw=2.35122
+Lifecycle state actor=16216951034188608582 previous=-1 state=17 enabled=1 position=5361.24,-10540,154.877 yaw=-1.5708
+Lifecycle state actor=6003394295803936768 previous=-1 state=17 enabled=0 position=0,0,0 yaw=-3.14159
+Lifecycle state actor=6003394295803936769 previous=-1 state=17 enabled=0 position=0,0,0 yaw=-3.14159
+Lifecycle diagnostic uses source animations and enable/state gates; full source physical/aggro/sneak owners remain incomplete
+[campaign] compiled banks common=15 level=24 level_uri=data/scene/002_swamp_witchcave.rule.xml script_file=data/pydata/scripts/002_swamp_cave_witch.pyscript
+Character name=ada class=KnightPlayerBase xp=68
+[campaign] trigger zone fed: _prim_TriggerZone_cave_chest_ambush script=lezardman_chest_ambush min=-5923.32,-12213.6,-248.722 max=-5295.98,-11599.3,241.198
+[campaign] trigger zone fed: _prim_TriggerZone_cave_location_inner script=enterLocation_SwampCave_Inner_Den min=-8756.17,-14537.4,-248.722 max=2544.71,-9234.93,241.198
+[campaign] trigger zone fed: _prim_TriggerZone_11 script=Intro_Witch min=5961.7,-11442.4,-45.5199 max=6732.17,-9763.43,167.078
+[campaign] trigger zone fed: _prim_TriggerZone_BugFix script=SkipCutscene_Bugfix min=5964.63,-12035.4,-54.6884 max=6035.37,-11964.6,54.6884
+[campaign] trigger zone fed: _prim_TriggerZone_12 script=Open_portal_witch min=5423.34,-11401.4,78.7326 max=5956.81,-9381.63,219.471
+[campaign] trigger zone fed: _prim_TriggerZone_doorport script=Door_Teleport min=3455.77,-12404.1,8.835 max=3655.77,-11535.2,208.835
+[campaign] trigger zone not fed: _prim_TriggerZone (witch_a__swpcave_we_00_01.mgp) script=SkeletonSpawn2: script not in the loaded level bank
+[campaign] trigger zones fed=6 not-fed=1
+[scene] ambient AnimatedDecor instances=15
+[light] level PlayerLight from data/3D/Light/swampcave.lightset_xml att=0.132813,0.000109375,8.59375e-07 offsetZ=200
+OpenGL 4.6.0 NVIDIA 616.56 / NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2
+[scene] ambient material ranges=17 specularBound=7 opaqueSpBound=1
+Frontend music transition: kind=handoff-stop track=TitleMusic fadeMs=600 ordinal=221
+Audio initialized listener=1 anchor=2 reference=1000 maximum=1800; one V42 WinMM output, source metadata
+Container loot bound
+World gates bound=4 notices=0
+World gate state _prim_TriggerZone_11 activate_cond applied=true
+World gate state _prim_ExitLevelZone_42 activate_cond applied=false
+World gate state _prim_TriggerZone_BugFix activate_cond applied=true
+World gate state _prim_TriggerZone_12 activate_cond applied=false
+Source condition lifecycle actor=_prim_NPC_PriestGood activate=true deactivate=none tested=10 enabled=true
+Source condition lifecycle actor=_prim_NPC_Eddie activate=false deactivate=none tested=00 enabled=false
+Door view _prim_portal_witch state=0 present=1 meshes=5 at=4704.81,-10368.1,122.597
+Door view _prim_BlueDoor state=1 present=1 meshes=1 at=4465.39,-12115.6,0
+Doors refreshed present=2/2 levers=0 decor=0 (after condition watch prime)
+Map marker facts level_objects=4 characters=34 merchants=0 entry=unknown
+Quest zones built=0 level=44
+Quest runtime bound rows=64 actors=34 current=50 cqpg=1699
+World item presentation resolved visuals: dummy_itemdrop_BattleAxe dummy_itemdrop_Boot_Cloth dummy_itemdrop_Boot_Leather dummy_itemdrop_Boot_Plate dummy_itemdrop_Chest dummy_itemdrop_Chest_Cloth dummy_itemdrop_Chest_Leather dummy_itemdrop_Dagger dummy_itemdrop_Glove_Cloth dummy_itemdrop_Glove_Leather dummy_itemdrop_Glove_Plate dummy_itemdrop_Longsword dummy_itemdrop_Potion dummy_itemdrop_Quarterstaff dummy_itemdrop_Ring dummy_itemdrop_Shield dummy_itemdrop_TwoHandsAxe dummy_itemdrop_TwoHandsMace dummy_itemdrop_TwoHandsSword dummy_itemdrop_Warhammer dummy_itemdrop_bag dummy_itemdrop_sword root_itemdrop_Gold_01 root_itemdrop_Gold_02 root_itemdrop_Gold_03 unresolved:
+Source Celest FX bound player=18446744073709551615 PlayerSet=14 MainSet=13 particleInput=source-white
+Source Faery FX bound script=faerie_rocky PlayerSet=58 TargetSet=59
+Source Faery FX bound script=faerie_wetty PlayerSet=72 TargetSet=71
+Source Faery FX bound script=faerie_windy PlayerSet=75 TargetSet=74
+Source Faery FX bound script=faerie_hotty PlayerSet=38 TargetSet=39
+Source player step FX observer bound audioFirst=1
+Player body parts: MC_Torso_default_warrior-mesh-skin MC_Feet_Plate_01-mesh-skin MC_Hands_Leather_01-mesh-skin MC_Head_Plate_01-mesh-skin
+STATE_TRACE edge=periodic frame=0 dt=0 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=0 flags520=unknown globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=actor-18446744073709551615/Idle/sequence-0/phase-0 poseBound=1 poseGeneration=1 poseEnded=0 poseSample=0>0 poseEndNow=0
+[campaign] frame=0 player position=203.611,557.532,37.0598 qualified=1
+Transition prompt shown zone=_prim_ExitLevelZone_001 target=SWAMP display="The Boglands " entry=4 frame=0
+[ranged-skill] decision owner bound actors=1
+Source physical frame bound actors=35 stateReconstruction=Idle/Dead clock=actual-session
+[follower] actor=15595122752305069107 script=rene waiting: not enabled in the level population
+STATE_TRACE edge=post-update frame=0 dt=0.0502979 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=1 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=1 poseEnded=0 poseSample=0>50 poseEndNow=0
+Action icon frame=0 icon=5 type=-1
+Level music transition: kind=start track=SwampWitchCaveAmbientMusic fadeMs=2000 ordinal=217
+Embedded FX _prim_portal_witch not attached: Required external authored mesh effect
+Embedded FX _prim_BlueDoor attached model=data/3D/GameObjects/go_swamp_door_ruins_fire.bdae
+Embedded FX actor _prim_Faery attached model=original-cache/data/3d/characters/faeries/faeries_02_celeste.bdae
+Source FX frame=0 packets=1 gameplayMs=50 textures=1
+Map room zones level=data/scene/002_swamp_witchcave.rule.xml modules=7 visited=0
+Map room zone id=0 name=deadend_swpcave_s_00_0 bounds=-3000,-3000,0 -> 3000,3000,3600 ranges=0+2
+Map room zone id=1 name=corner_swpcave_nw_00_1 bounds=-3000,-9000,0 -> 3000,-3000,3600 ranges=2+3
+Map room zone id=2 name=corner_swpcave_se_00_2 bounds=-9000,-9000,0 -> -3000,-3000,3600 ranges=5+2
+Map room zone id=3 name=t_swpcave_nse_00_3 bounds=-9000,-15000,0 -> -3000,-9000,3600 ranges=7+3
+Map room zone id=4 name=straight_swpcave_we_00_4 bounds=-3000,-15000,0 -> 3000,-9000,3600 ranges=10+3
+Map room zone id=5 name=bossroom_swpcave_w_00_5 bounds=3000,-15000,0 -> 9000,-9000,3600 ranges=13+3
+Map room zone id=6 name=deadend_swpcave_n_00_6 bounds=-9000,-21000,0 -> -3000,-15000,3600 ranges=16+3
+Map room visited frame=0 level=data/scene/002_swamp_witchcave.rule.xml modules=0 total=1
+Source checkpoint saved zone=level_start key=203.611,557.532,100.41 revive=203.611,557.532,100.41 actors=35 objects=12 qest=1
+Level start checkpoint frame=1
+Audio voice kind=0 token=1 outputFrame=6656
+Source FX frame=1 packets=1 gameplayMs=104 textures=1
+Source FX frame=2 packets=1 gameplayMs=186 textures=1
+Source animation frame=25 actor=6315855483253321029 event=40 service=3 name=do_skill lag=2 controllerBlocked=0 synchronousHit=0
+Source animation frame=25 actor=6315855483253321029 event=40 service=0 name=do_skill lag=2 controllerBlocked=0 synchronousHit=0
+Source animation frame=25 actor=15595122752305069107 event=40 service=3 name=do_skill lag=2 controllerBlocked=0 synchronousHit=0
+Source animation frame=25 actor=15595122752305069107 event=40 service=0 name=do_skill lag=2 controllerBlocked=0 synchronousHit=0
+Source animation frame=28 actor=18446744073709551615 event=40 service=3 name=do_skill lag=2 controllerBlocked=0 synchronousHit=0
+Source animation frame=28 actor=18446744073709551615 event=40 service=0 name=do_skill lag=2 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=30 dt=0.016671 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=30 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=1 poseEnded=0 poseSample=569>585 poseEndNow=0
+[campaign] frame=30 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=30 dt=0.0167164 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=31 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=1 poseEnded=0 poseSample=585>603 poseEndNow=0
+Frame rate second=1 frames=55 worstFrameMs=81.4289
+STATE_TRACE edge=periodic frame=60 dt=0.0166718 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=60 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=1 poseEnded=0 poseSample=1069>1086 poseEndNow=0
+[campaign] frame=60 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=60 dt=0.0167134 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=61 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=1 poseEnded=0 poseSample=1086>1103 poseEndNow=0
+STATE_TRACE edge=periodic frame=90 dt=0.0166712 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=90 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=1 poseEnded=0 poseSample=1569>1586 poseEndNow=0
+[campaign] frame=90 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=90 dt=0.0167125 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=91 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=1 poseEnded=0 poseSample=1586>1603 poseEndNow=0
+Source animation frame=90 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=90 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=90 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=90 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Frame rate second=2 frames=60 worstFrameMs=16.7134
+STATE_TRACE edge=periodic frame=120 dt=0.0166707 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=120 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=383>399 poseEndNow=0
+[campaign] frame=120 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=120 dt=0.0167309 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=121 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=399>417 poseEndNow=0
+Source animation frame=129 actor=18446744073709551615 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=129 actor=18446744073709551615 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=150 dt=0.0166709 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=150 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=883>900 poseEndNow=0
+[campaign] frame=150 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=150 dt=0.0167195 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=151 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=900>917 poseEndNow=0
+Source animation frame=155 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=155 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=155 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=155 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Frame rate second=3 frames=60 worstFrameMs=16.7309
+STATE_TRACE edge=periodic frame=180 dt=0.016669 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=180 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=1384>1400 poseEndNow=0
+[campaign] frame=180 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=180 dt=0.0167145 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=181 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=1400>1417 poseEndNow=0
+STATE_TRACE edge=periodic frame=210 dt=0.0166657 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=210 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=200>218 poseEndNow=0
+[campaign] frame=210 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=210 dt=0.0167108 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=211 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=218>234 poseEndNow=0
+Source animation frame=221 actor=6315855483253321029 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=221 actor=6315855483253321029 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=221 actor=15595122752305069107 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=221 actor=15595122752305069107 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=230 actor=18446744073709551615 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=230 actor=18446744073709551615 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Frame rate second=4 frames=60 worstFrameMs=16.8516
+STATE_TRACE edge=periodic frame=240 dt=0.0166698 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=240 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=700>718 poseEndNow=0
+[campaign] frame=240 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=240 dt=0.0167127 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=241 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=718>734 poseEndNow=0
+STATE_TRACE edge=periodic frame=270 dt=0.0166906 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=270 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=1200>1217 poseEndNow=0
+[campaign] frame=270 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=270 dt=0.0167404 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=271 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=2 poseEnded=0 poseSample=1217>1234 poseEndNow=0
+Source animation frame=286 actor=6315855483253321029 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=286 actor=6315855483253321029 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=286 actor=15595122752305069107 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=286 actor=15595122752305069107 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Frame rate second=5 frames=60 worstFrameMs=16.7404
+STATE_TRACE edge=periodic frame=300 dt=0.0166696 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=300 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=3 poseEnded=0 poseSample=16>33 poseEndNow=0
+[campaign] frame=300 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=300 dt=0.0167404 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=301 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=3 poseEnded=0 poseSample=33>50 poseEndNow=0
+STATE_TRACE edge=periodic frame=330 dt=0.0166577 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=330 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=3 poseEnded=0 poseSample=517>534 poseEndNow=0
+[campaign] frame=330 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=330 dt=0.0167224 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=331 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=3 poseEnded=0 poseSample=534>550 poseEndNow=0
+Source animation frame=331 actor=18446744073709551615 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=331 actor=18446744073709551615 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=351 actor=6315855483253321029 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=351 actor=6315855483253321029 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=351 actor=15595122752305069107 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=351 actor=15595122752305069107 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Frame rate second=6 frames=60 worstFrameMs=16.7404
+STATE_TRACE edge=periodic frame=360 dt=0.0166641 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=360 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=3 poseEnded=0 poseSample=1017>1033 poseEndNow=0
+[campaign] frame=360 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=360 dt=0.0167193 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=361 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=3 poseEnded=0 poseSample=1033>1050 poseEndNow=0
+STATE_TRACE edge=periodic frame=390 dt=0.0166609 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=390 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=3 poseEnded=0 poseSample=1517>1533 poseEndNow=0
+[campaign] frame=390 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=390 dt=0.0167101 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=391 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=3 poseEnded=0 poseSample=1533>1550 poseEndNow=0
+Audio step source update=393 occurrence=1 actor=18446744073709551615 sequence=351 step=0 sound=-1 status=1 detail=
+Source Faery key=4 frame=392 slot=4 sequence=351 generation=1 phase=1 MP=18.5 diagnostic=Hotty OnPre completed; waiting for its distinct source Cast-state Use owner
+Source skill lifecycle frame=392 generation=1 phase=1 skill=faerie_hotty hits=0 MP=18.5 RNG=6664414/21 diagnostic=Hotty OnPre completed; waiting for its distinct source Cast-state Use owner
+Faery cast sound uid=479 label=sfx_mage_staff_elemental_fire targets=0 frame=393 status=dispatched detail=
+Audio voice kind=0 token=2 outputFrame=324608
+Audio step source update=412 occurrence=2 actor=18446744073709551615 sequence=351 step=1 sound=-1 status=1 detail=
+Frame rate second=7 frames=60 worstFrameMs=16.8128
+Source skill lifecycle frame=414 generation=1 phase=2 skill=faerie_hotty hits=0 MP=18.5 RNG=6664414/21 diagnostic=Hotty source state7 do_spell applied its ordered same-session result loop
+Source animation frame=414 actor=18446744073709551615 event=40 service=3 name=do_spell lag=8 controllerBlocked=0 synchronousHit=0
+Source animation frame=414 actor=18446744073709551615 event=40 service=0 name=do_spell lag=8 controllerBlocked=0 synchronousHit=0
+Source animation frame=415 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=415 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=415 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=415 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=420 dt=0.0166686 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=3 elapsed=0 target=0 sourceState=7 ownsPose=1 updateSerial=420 flags520=25345 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-skills/source-skill-sequence-351/phase-1 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=529>552 poseEndNow=0
+[campaign] frame=420 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=420 dt=0.0167207 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=3 elapsed=0 target=0 sourceState=7 ownsPose=1 updateSerial=421 flags520=25345 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-skills/source-skill-sequence-351/phase-1 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=552>572 poseEndNow=0
+Source skill lifecycle frame=446 generation=1 phase=3 skill=faerie_hotty hits=0 MP=18.5 RNG=6664414/21 diagnostic=Hotty retained state7 source Use and Cast sequence completed
+Source animation frame=446 actor=18446744073709551615 event=34 service=0 name= lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=446 actor=18446744073709551615 event=34 service=7 name= lag=0 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=450 dt=0.0166685 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=450 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=1133>1133 poseEndNow=0
+[campaign] frame=450 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=450 dt=0.0167304 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=451 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=1133>1133 poseEndNow=0
+Frame rate second=8 frames=60 worstFrameMs=16.7304
+Audio voice kind=1 token=2 outputFrame=391621
+STATE_TRACE edge=periodic frame=480 dt=0.0166689 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=480 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=517>533 poseEndNow=0
+[campaign] frame=480 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=480 dt=0.016743 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=481 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=533>550 poseEndNow=0
+Source animation frame=480 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=480 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=480 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=480 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=482 actor=18446744073709551615 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=482 actor=18446744073709551615 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=510 dt=0.0166613 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=510 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=1017>1033 poseEndNow=0
+[campaign] frame=510 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=510 dt=0.0167036 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=511 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=1033>1050 poseEndNow=0
+Frame rate second=9 frames=60 worstFrameMs=16.743
+STATE_TRACE edge=periodic frame=540 dt=0.0166678 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=540 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=1517>1533 poseEndNow=0
+[campaign] frame=540 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=540 dt=0.0167135 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=541 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=4 poseEnded=0 poseSample=1533>1550 poseEndNow=0
+Source animation frame=545 actor=6315855483253321029 event=40 service=3 name=do_skill lag=1 controllerBlocked=0 synchronousHit=0
+Source animation frame=545 actor=6315855483253321029 event=40 service=0 name=do_skill lag=1 controllerBlocked=0 synchronousHit=0
+Source animation frame=545 actor=15595122752305069107 event=40 service=3 name=do_skill lag=1 controllerBlocked=0 synchronousHit=0
+Source animation frame=545 actor=15595122752305069107 event=40 service=0 name=do_skill lag=1 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=570 dt=0.0166622 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=570 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=333>349 poseEndNow=0
+[campaign] frame=570 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=570 dt=0.0167124 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=571 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=349>366 poseEndNow=0
+Source animation frame=583 actor=18446744073709551615 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=583 actor=18446744073709551615 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Frame rate second=10 frames=60 worstFrameMs=16.7477
+STATE_TRACE edge=periodic frame=600 dt=0.0166704 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=600 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=833>849 poseEndNow=0
+[campaign] frame=600 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=600 dt=0.0167406 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=601 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=849>866 poseEndNow=0
+Source animation frame=610 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=610 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=610 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=610 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=630 dt=0.0166646 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=630 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=1333>1349 poseEndNow=0
+[campaign] frame=630 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=630 dt=0.0167142 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=631 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=1349>1366 poseEndNow=0
+Frame rate second=11 frames=60 worstFrameMs=16.7528
+STATE_TRACE edge=periodic frame=660 dt=0.0166662 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=660 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=149>165 poseEndNow=0
+[campaign] frame=660 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=660 dt=0.0167111 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=661 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=165>182 poseEndNow=0
+Source animation frame=675 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=675 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=675 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=675 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=684 actor=18446744073709551615 event=40 service=3 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+Source animation frame=684 actor=18446744073709551615 event=40 service=0 name=do_skill lag=16 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=690 dt=0.0166679 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=690 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=649>666 poseEndNow=0
+[campaign] frame=690 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=690 dt=0.0167519 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=691 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=666>682 poseEndNow=0
+Frame rate second=12 frames=60 worstFrameMs=16.7519
+STATE_TRACE edge=periodic frame=720 dt=0.016672 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=720 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=1149>1166 poseEndNow=0
+[campaign] frame=720 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=720 dt=0.0167076 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=721 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=5 poseEnded=0 poseSample=1166>1182 poseEndNow=0
+Source animation frame=740 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=740 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=740 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=740 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=750 dt=0.0166734 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=750 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=1666>1666 poseEndNow=0
+[campaign] frame=750 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=750 dt=0.0167104 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=751 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=0>0 poseEndNow=0
+Frame rate second=13 frames=60 worstFrameMs=16.7104
+STATE_TRACE edge=periodic frame=780 dt=0.0166649 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=780 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=467>484 poseEndNow=0
+[campaign] frame=780 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=780 dt=0.0167182 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=781 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=484>501 poseEndNow=0
+Source animation frame=784 actor=18446744073709551615 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=784 actor=18446744073709551615 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=805 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=805 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=805 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=805 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+STATE_TRACE edge=periodic frame=810 dt=0.0166685 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=810 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=967>984 poseEndNow=0
+[campaign] frame=810 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=810 dt=0.0167336 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=811 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=984>1001 poseEndNow=0
+Frame rate second=14 frames=60 worstFrameMs=16.7336
+STATE_TRACE edge=periodic frame=840 dt=0.0166659 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=840 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=1467>1484 poseEndNow=0
+[campaign] frame=840 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=840 dt=0.016708 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=841 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=1 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=1484>1501 poseEndNow=0
+STATE_TRACE edge=periodic frame=870 dt=0.0166692 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=870 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=283>300 poseEndNow=0
+[campaign] frame=870 player position=203.611,557.532,100.41 qualified=1
+STATE_TRACE edge=post-update frame=870 dt=0.0167125 focus=1 modal=0 menu=0 pause=0 cinematic=0 raw=0000000 cursor=1,1130,259,mouseHeld=0 semantic=0,0,0,0,0,0,interact=0,move=0,0 hero=18446744073709551615 alive=1 dead5193=0 hp=169.195/169.195 action=0 elapsed=0 target=0 sourceState=3 ownsPose=0 updateSerial=871 flags520=9088 globalBlock=0 localBlock=0 attack528=0 attackActive=0 attackLast=0 attackIndex=0 attackFinisher=0 headingActive=0 OOI=0 lastTarget=0 interact=0,0,0,0 equipmentReady=1 equipmentError=none poseSlot=0 clip=player-source-locomotion/Idle/seq-263/step-0 poseBound=1 poseGeneration=6 poseEnded=0 poseSample=300>317 poseEndNow=0
+Source animation frame=870 actor=6315855483253321029 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=870 actor=6315855483253321029 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=870 actor=15595122752305069107 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=870 actor=15595122752305069107 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=885 actor=18446744073709551615 event=40 service=3 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Source animation frame=885 actor=18446744073709551615 event=40 service=0 name=do_skill lag=0 controllerBlocked=0 synchronousHit=0
+Frame rate second=15 frames=60 worstFrameMs=16.7676
+Source FX final packetFrames=900 packets=1009 textureUploads=2 presentationFailed=0
+Combat text final results=0 labels=0 drawnFrames=0 active=0; original source snapshots and styles, full CUI call ordering remains incomplete
+Audio final dispatched=1 startedVoices=2 diagnostics=0; original assets, no substituted samples
+WinMM pump: underruns=0 refills=2289 renderedSeconds=15.2 wallSeconds=24.3387 maxGapMs=42.0552 gapsOver40ms=1 pumpThreadPriority=15
+Rendered frames=900; clean shutdown
+Character menu final opened=0 drawn=0 open=0; original-art development panel, full menu mutations/AS flow remain incomplete
+Character menu gameplay pausedFrames=0 updateSerial=900
+Source player locomotion final actor=18446744073709551615 clip=player-source-locomotion/Idle/seq-263/step-0 timelineMs=800
+Actor final position=203.611,557.532,100.41 grounded=1
+Population final enabled=27 deferredInitially=2 loaded=34
+Lifecycle final actor=12056354130882174976 name=_prim_Monster_09 state=17 enabled=0 physical=0 collisions=0
+Lifecycle final actor=1442057582387893217 name=_prim_Monster_10 state=17 enabled=0 physical=0 collisions=0
+Lifecycle final actor=9143330362337750553 name=_prim_Monster_11 state=17 enabled=0 physical=0 collisions=0
+Lifecycle final actor=11928218231074072168 name=_prim_Monster_22 state=17 enabled=0 physical=0 collisions=0
+Lifecycle final actor=16216951034188608582 name=_prim_Monster_04_56 state=17 enabled=1 physical=0 collisions=0
+Lifecycle final actor=6003394295803936768 name=spawn_pool_Swamp_Moth_Minions_0 state=17 enabled=0 physical=0 collisions=0
+Lifecycle final actor=6003394295803936769 name=spawn_pool_Swamp_Moth_Minions_1 state=17 enabled=0 physical=0 collisions=0
+Actor camera anchor final=203.611,557.532,100.41
+[campaign] unsupported summary: none
+Source camera final target=18446744073709551615 remaining=-50 globalControllerBlocked=0 anchor=203.611,557.532,100.41 damping=1
+Source body final absolute=89.9113,526.776,-50.2619,317.311,588.288,251.082
+Source floor final actor=102377376217503574 hit=1 height=87.2637 room=2 floor=2
+Source floor final actor=351002522116854137 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=1225920090592483878 hit=1 height=87.2637 room=0 floor=0
+Source floor final actor=1442057582387893217 hit=1 height=87.2637 room=3 floor=3
+Source floor final actor=1811713842030907232 hit=1 height=87.2637 room=2 floor=2
+Source floor final actor=1815683500395685368 hit=1 height=87.2637 room=2 floor=2
+Source floor final actor=1832732224959166294 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=1949633564804751683 hit=1 height=87.2637 room=6 floor=8
+Source floor final actor=2553347315986484349 hit=1 height=288.604 room=6 floor=9
+Source floor final actor=2972518283700148828 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=6003394295803936768 hit=0 height=0 room=4294967295 floor=4294967295
+Source floor final actor=6003394295803936769 hit=0 height=0 room=4294967295 floor=4294967295
+Source floor final actor=6315855483253321029 hit=1 height=100.41 room=0 floor=0
+Source floor final actor=7017835256986403320 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=7119004930892290618 hit=1 height=87.2637 room=3 floor=3
+Source floor final actor=7164193319705595751 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=8360796996631478269 hit=1 height=87.2637 room=3 floor=3
+Source floor final actor=8886960962655148639 hit=1 height=98.1416 room=0 floor=0
+Source floor final actor=9143330362337750553 hit=1 height=87.2637 room=3 floor=3
+Source floor final actor=9843357454694885335 hit=1 height=87.2637 room=6 floor=8
+Source floor final actor=10810401867983418741 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=11586552034794601012 hit=1 height=87.2637 room=0 floor=0
+Source floor final actor=11928218231074072168 hit=1 height=87.2637 room=3 floor=3
+Source floor final actor=12056354130882174976 hit=1 height=87.2637 room=3 floor=3
+Source floor final actor=13202159697674020638 hit=1 height=87.2637 room=2 floor=2
+Source floor final actor=13831140784906511668 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=14015367007146869049 hit=1 height=87.2637 room=3 floor=3
+Source floor final actor=14063629055965325618 hit=1 height=87.2637 room=2 floor=2
+Source floor final actor=14131076081502061998 hit=1 height=87.2637 room=2 floor=2
+Source floor final actor=14552840002247334696 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=14621738711656896074 hit=1 height=87.2637 room=3 floor=3
+Source floor final actor=15595122752305069107 hit=1 height=100.41 room=0 floor=0
+Source floor final actor=16216951034188608582 hit=1 height=154.877 room=5 floor=7
+Source floor final actor=18378362427079544487 hit=1 height=87.2637 room=1 floor=1
+Source floor final actor=18446744073709551615 hit=1 height=100.41 room=0 floor=0
+Native body final actor=102377376217503574 physical=1 radius=99.2119 pfUser=102377376217503574 physicsXY=-59.4115,-81.6872 sourcePositionMatch=1
+Navigation final actor=102377376217503574 pfUser=102377376217503574 radius=99.2119 room=2 floor=2 position=-5941.15,-8168.72,87.2637
+Native body final actor=351002522116854137 physical=1 radius=82.9468 pfUser=351002522116854137 physicsXY=-19.3602,-57.2934 sourcePositionMatch=1
+Navigation final actor=351002522116854137 pfUser=351002522116854137 radius=82.9468 room=1 floor=1 position=-1936.02,-5729.34,87.2637
+Native body final actor=1225920090592483878 physical=1 radius=66.0808 pfUser=1225920090592483878 physicsXY=-7.29176,-6.94598 sourcePositionMatch=1
+Navigation final actor=1225920090592483878 pfUser=1225920090592483878 radius=66.0808 room=0 floor=0 position=-729.176,-694.598,87.2637
+Native body final actor=1442057582387893217 physical=0 radius=81.3232 pfUser=1442057582387893217
+Navigation final actor=1442057582387893217 pfUser=1442057582387893217 radius=81.3232 room=3 floor=3 position=-6127.71,-12528,87.2637
+Native body final actor=1811713842030907232 physical=1 radius=99.2119 pfUser=1811713842030907232 physicsXY=-65.1,-53.4888 sourcePositionMatch=1
+Navigation final actor=1811713842030907232 pfUser=1811713842030907232 radius=99.2119 room=2 floor=2 position=-6510,-5348.88,87.2637
+Native body final actor=1815683500395685368 physical=1 radius=99.2119 pfUser=1815683500395685368 physicsXY=-61.6219,-70.8305 sourcePositionMatch=1
+Navigation final actor=1815683500395685368 pfUser=1815683500395685368 radius=99.2119 room=2 floor=2 position=-6162.19,-7083.05,87.2637
+Native body final actor=1832732224959166294 physical=1 radius=73.9306 pfUser=1832732224959166294 physicsXY=8.50718,-61.7483 sourcePositionMatch=1
+Navigation final actor=1832732224959166294 pfUser=1832732224959166294 radius=73.9306 room=1 floor=1 position=850.718,-6174.83,87.2637
+Native body final actor=1949633564804751683 physical=1 radius=59.2852 pfUser=1949633564804751683 physicsXY=-55.4993,-172.875 sourcePositionMatch=1
+Navigation final actor=1949633564804751683 pfUser=1949633564804751683 radius=59.2852 room=6 floor=8 position=-5549.93,-17287.5,87.2637
+Native body final actor=2553347315986484349 physical=1 radius=94.5 pfUser=2553347315986484349 physicsXY=-62.5576,-186.57 sourcePositionMatch=1
+Navigation final actor=2553347315986484349 pfUser=2553347315986484349 radius=94.5 room=6 floor=9 position=-6255.76,-18657,288.604
+Native body final actor=2972518283700148828 physical=1 radius=76.2844 pfUser=2972518283700148828 physicsXY=-23.2293,-56.9588 sourcePositionMatch=1
+Navigation final actor=2972518283700148828 pfUser=2972518283700148828 radius=76.2844 room=1 floor=1 position=-2322.93,-5695.88,87.2637
+Native body final actor=6003394295803936768 physical=0 radius=45 pfUser=6003394295803936768
+Navigation final actor=6003394295803936768 pfUser=6003394295803936768 radius=90 room=4294967295 floor=4294967295 position=0,0,0
+Native body final actor=6003394295803936769 physical=0 radius=45 pfUser=6003394295803936769
+Navigation final actor=6003394295803936769 pfUser=6003394295803936769 radius=90 room=4294967295 floor=4294967295 position=0,0,0
+Native body final actor=6315855483253321029 physical=1 radius=113.549 pfUser=6315855483253321029 physicsXY=6.14186,5.52981 sourcePositionMatch=1
+Navigation final actor=6315855483253321029 pfUser=6315855483253321029 radius=113.549 room=0 floor=0 position=614.186,552.981,100.41
+Native body final actor=7017835256986403320 physical=1 radius=92.0577 pfUser=7017835256986403320 physicsXY=6.73199,-64.211 sourcePositionMatch=1
+Navigation final actor=7017835256986403320 pfUser=7017835256986403320 radius=92.0577 room=1 floor=1 position=673.199,-6421.1,87.2637
+Native body final actor=7119004930892290618 physical=1 radius=59.1426 pfUser=7119004930892290618 physicsXY=-36.0977,-121.615 sourcePositionMatch=1
+Navigation final actor=7119004930892290618 pfUser=7119004930892290618 radius=59.1426 room=3 floor=3 position=-3609.77,-12161.5,87.2637
+Native body final actor=7164193319705595751 physical=1 radius=81.2566 pfUser=7164193319705595751 physicsXY=1.01118,-35.1691 sourcePositionMatch=1
+Navigation final actor=7164193319705595751 pfUser=7164193319705595751 radius=81.2566 room=1 floor=1 position=101.118,-3516.91,87.2637
+Native body final actor=8360796996631478269 physical=1 radius=59.1426 pfUser=8360796996631478269 physicsXY=-40.6068,-121.543 sourcePositionMatch=1
+Navigation final actor=8360796996631478269 pfUser=8360796996631478269 radius=59.1426 room=3 floor=3 position=-4060.68,-12154.3,87.2637
+Native body final actor=8886960962655148639 physical=1 radius=75.4947 pfUser=8886960962655148639 physicsXY=-0.628582,5.63496 sourcePositionMatch=1
+Navigation final actor=8886960962655148639 pfUser=8886960962655148639 radius=75.4947 room=0 floor=0 position=-62.8582,563.496,98.1416
+Native body final actor=9143330362337750553 physical=0 radius=82.9741 pfUser=9143330362337750553
+Navigation final actor=9143330362337750553 pfUser=9143330362337750553 radius=82.9741 room=3 floor=3 position=-6115.1,-11380.5,87.2637
+Native body final actor=9843357454694885335 physical=1 radius=72.625 pfUser=9843357454694885335 physicsXY=-49.2004,-176.294 sourcePositionMatch=1
+Navigation final actor=9843357454694885335 pfUser=9843357454694885335 radius=72.625 room=6 floor=8 position=-4920.04,-17629.4,87.2637
+Native body final actor=10810401867983418741 physical=1 radius=63.3413 pfUser=10810401867983418741 physicsXY=-21.3345,-53.3614 sourcePositionMatch=1
+Navigation final actor=10810401867983418741 pfUser=10810401867983418741 radius=63.3413 room=1 floor=1 position=-2133.45,-5336.14,87.2637
+Native body final actor=11586552034794601012 physical=1 radius=66.0808 pfUser=11586552034794601012 physicsXY=0.72543,-14.4649 sourcePositionMatch=1
+Navigation final actor=11586552034794601012 pfUser=11586552034794601012 radius=66.0808 room=0 floor=0 position=72.543,-1446.49,87.2637
+Native body final actor=11928218231074072168 physical=0 radius=82.6987 pfUser=11928218231074072168
+Navigation final actor=11928218231074072168 pfUser=11928218231074072168 radius=82.6987 room=3 floor=3 position=-5099.47,-12427.2,87.2637
+Native body final actor=12056354130882174976 physical=0 radius=81.8711 pfUser=12056354130882174976
+Navigation final actor=12056354130882174976 pfUser=12056354130882174976 radius=81.8711 room=3 floor=3 position=-5116.43,-11318.7,87.2637
+Native body final actor=13202159697674020638 physical=1 radius=99.2119 pfUser=13202159697674020638 physicsXY=-53.0413,-53.2344 sourcePositionMatch=1
+Navigation final actor=13202159697674020638 pfUser=13202159697674020638 radius=99.2119 room=2 floor=2 position=-5304.13,-5323.44,87.2637
+Native body final actor=13831140784906511668 physical=1 radius=93.9551 pfUser=13831140784906511668 physicsXY=9.81718,-64.2075 sourcePositionMatch=1
+Navigation final actor=13831140784906511668 pfUser=13831140784906511668 radius=93.9551 room=1 floor=1 position=981.718,-6420.75,87.2637
+Native body final actor=14015367007146869049 physical=1 radius=59.1426 pfUser=14015367007146869049 physicsXY=-38.0712,-118.329 sourcePositionMatch=1
+Navigation final actor=14015367007146869049 pfUser=14015367007146869049 radius=59.1426 room=3 floor=3 position=-3807.12,-11832.9,87.2637
+Native body final actor=14063629055965325618 physical=1 radius=99.2119 pfUser=14063629055965325618 physicsXY=-68.1749,-62.3552 sourcePositionMatch=1
+Navigation final actor=14063629055965325618 pfUser=14063629055965325618 radius=99.2119 room=2 floor=2 position=-6817.48,-6235.52,87.2637
+Native body final actor=14131076081502061998 physical=1 radius=99.2119 pfUser=14131076081502061998 physicsXY=-44.6407,-60.845 sourcePositionMatch=1
+Navigation final actor=14131076081502061998 pfUser=14131076081502061998 radius=99.2119 room=2 floor=2 position=-4464.07,-6084.5,87.2637
+Native body final actor=14552840002247334696 physical=1 radius=79.3882 pfUser=14552840002247334696 physicsXY=-0.16337,-48.3499 sourcePositionMatch=1
+Navigation final actor=14552840002247334696 pfUser=14552840002247334696 radius=79.3882 room=1 floor=1 position=-16.337,-4834.99,87.2637
+Native body final actor=14621738711656896074 physical=1 radius=59.1426 pfUser=14621738711656896074 physicsXY=-32.9076,-118.799 sourcePositionMatch=1
+Navigation final actor=14621738711656896074 pfUser=14621738711656896074 radius=59.1426 room=3 floor=3 position=-3290.76,-11879.9,87.2637
+Native body final actor=15595122752305069107 physical=1 radius=113.549 pfUser=15595122752305069107 physicsXY=6.14186,6.5575 sourcePositionMatch=1
+Navigation final actor=15595122752305069107 pfUser=15595122752305069107 radius=113.549 room=0 floor=0 position=614.186,655.75,100.41
+Native body final actor=16216951034188608582 physical=0 radius=49.5 pfUser=16216951034188608582
+Navigation final actor=16216951034188608582 pfUser=16216951034188608582 radius=49.5 room=5 floor=7 position=5361.24,-10540,154.877
+Native body final actor=18378362427079544487 physical=1 radius=96.8294 pfUser=18378362427079544487 physicsXY=-2.50305,-33.9455 sourcePositionMatch=1
+Navigation final actor=18378362427079544487 pfUser=18378362427079544487 radius=96.8294 room=1 floor=1 position=-250.305,-3394.55,87.2637
+Native body final actor=18446744073709551615 physical=1 radius=113.7 pfUser=18446744073709551615 physicsXY=2.03611,5.57532 sourcePositionMatch=1
+Navigation final actor=18446744073709551615 pfUser=18446744073709551615 radius=113.7 room=0 floor=0 position=203.611,557.532,100.41
+Motion final actor=102377376217503574 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=351002522116854137 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=1225920090592483878 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=1442057582387893217 enabledSegments=900 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=1811713842030907232 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=1815683500395685368 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=1832732224959166294 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=1949633564804751683 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=2553347315986484349 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=2972518283700148828 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=6003394295803936768 enabledSegments=900 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=6003394295803936769 enabledSegments=900 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=6315855483253321029 enabledSegments=913 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=7017835256986403320 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=7119004930892290618 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=7164193319705595751 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=8360796996631478269 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=8886960962655148639 enabledSegments=907 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=9143330362337750553 enabledSegments=900 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=9843357454694885335 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=10810401867983418741 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=11586552034794601012 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=11928218231074072168 enabledSegments=900 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=12056354130882174976 enabledSegments=900 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=13202159697674020638 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=13831140784906511668 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=14015367007146869049 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=14063629055965325618 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=14131076081502061998 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=14552840002247334696 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=14621738711656896074 enabledSegments=902 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=15595122752305069107 enabledSegments=913 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=16216951034188608582 enabledSegments=900 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=18378362427079544487 enabledSegments=918 disabledSegments=0 sourceXY=0 worldXY=0
+Motion final actor=18446744073709551615 enabledSegments=909 disabledSegments=0 sourceXY=0 worldXY=0
+Source PF motion final actor=18446744073709551615 solves=56 accepted=0 clamped=0
+Source manual heading final checks=0 slides=0 lateRotations=0; move focus prefix, full FSM/path/physics frame remains incomplete
+Source physical frame final steps=900 imports=0 suppressedRoots=0; actual Session/NativeWorld physical projection, global original traversal fidelity unverified
+Source own target cache final nodeQueries=0 writes=0; same rendered hierarchy, full source frame remains incomplete
+Source own target final actor=102377376217503574 nodePresent=0 cache=0,0,0
+Source own target final actor=351002522116854137 nodePresent=0 cache=0,0,0
+Source own target final actor=1225920090592483878 nodePresent=0 cache=0,0,0
+Source own target final actor=1442057582387893217 nodePresent=0 cache=0,0,0
+Source own target final actor=1811713842030907232 nodePresent=0 cache=0,0,0
+Source own target final actor=1815683500395685368 nodePresent=0 cache=0,0,0
+Source own target final actor=1832732224959166294 nodePresent=0 cache=0,0,0
+Source own target final actor=1949633564804751683 nodePresent=0 cache=0,0,0
+Source own target final actor=2553347315986484349 nodePresent=0 cache=0,0,0
+Source own target final actor=2972518283700148828 nodePresent=0 cache=0,0,0
+Source own target final actor=6003394295803936768 nodePresent=0 cache=0,0,0
+Source own target final actor=6003394295803936769 nodePresent=0 cache=0,0,0
+Source own target final actor=6315855483253321029 nodePresent=0 cache=0,0,0
+Source own target final actor=7017835256986403320 nodePresent=0 cache=0,0,0
+Source own target final actor=7119004930892290618 nodePresent=0 cache=0,0,0
+Source own target final actor=7164193319705595751 nodePresent=0 cache=0,0,0
+Source own target final actor=8360796996631478269 nodePresent=0 cache=0,0,0
+Source own target final actor=8886960962655148639 nodePresent=0 cache=0,0,0
+Source own target final actor=9143330362337750553 nodePresent=0 cache=0,0,0
+Source own target final actor=9843357454694885335 nodePresent=0 cache=0,0,0
+Source own target final actor=10810401867983418741 nodePresent=0 cache=0,0,0
+Source own target final actor=11586552034794601012 nodePresent=0 cache=0,0,0
+Source own target final actor=11928218231074072168 nodePresent=0 cache=0,0,0
+Source own target final actor=12056354130882174976 nodePresent=0 cache=0,0,0
+Source own target final actor=13202159697674020638 nodePresent=0 cache=0,0,0
+Source own target final actor=13831140784906511668 nodePresent=0 cache=0,0,0
+Source own target final actor=14015367007146869049 nodePresent=0 cache=0,0,0
+Source own target final actor=14063629055965325618 nodePresent=0 cache=0,0,0
+Source own target final actor=14131076081502061998 nodePresent=0 cache=0,0,0
+Source own target final actor=14552840002247334696 nodePresent=0 cache=0,0,0
+Source own target final actor=14621738711656896074 nodePresent=0 cache=0,0,0
+Source own target final actor=15595122752305069107 nodePresent=0 cache=0,0,0
+Source own target final actor=16216951034188608582 nodePresent=0 cache=0,0,0
+Source own target final actor=18378362427079544487 nodePresent=0 cache=0,0,0
+Source own target final actor=18446744073709551615 nodePresent=0 cache=0,0,0
+Actor final id=102377376217503574 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_se_00_2#2|data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp|6|_prim_tmp_commontype06 HP=36/36 target=0 action=0 position=-5941.15,-8168.72,93.6904
+Actor final id=351002522116854137 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|9|_prim_tmp_commontype1_liz03 HP=47.5/47.5 target=0 action=0 position=-1936.02,-5729.34,93.3271
+Actor final id=1225920090592483878 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_s_00_0#0|data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp|6|_prim_tmp_commontype1 HP=47.5/47.5 target=0 action=0 position=-729.176,-694.598,66.4824
+Actor final id=1442057582387893217 definition=data/scene/002_swamp_witchcave.rule.xml|/t_swpcave_nse_00_3#3|data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp|2|_prim_Monster_10 HP=47.5/47.5 target=0 action=0 position=-6127.71,-12528,87.2637
+Actor final id=1811713842030907232 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_se_00_2#2|data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp|3|_prim_tmp_commontype03 HP=36/36 target=0 action=0 position=-6510,-5348.88,70.3188
+Actor final id=1815683500395685368 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_se_00_2#2|data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp|5|_prim_tmp_commontype05 HP=36/36 target=0 action=0 position=-6162.19,-7083.05,94.2867
+Actor final id=1832732224959166294 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|6|_prim_tmp_commontype1_moths03 HP=36/36 target=0 action=0 position=850.718,-6174.83,93.3271
+Actor final id=1949633564804751683 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_n_00_6#6|data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp|1|_prim_Monster_3_05 HP=47.5/47.5 target=0 action=0 position=-5549.93,-17287.5,41.8013
+Actor final id=2553347315986484349 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_n_00_6#6|data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp|2|_prim_Monster_04 HP=110/110 target=0 action=0 position=-6255.76,-18657,336.688
+Actor final id=2972518283700148828 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|10|_prim_tmp_commontype1_liz04 HP=47.5/47.5 target=0 action=0 position=-2322.93,-5695.88,93.3271
+Actor final id=6003394295803936768 definition=spawn-pool/Swamp_Moth_Minions/0 HP=42/42 target=18446744073709551615 action=0 position=0,0,0
+Actor final id=6003394295803936769 definition=spawn-pool/Swamp_Moth_Minions/1 HP=42/42 target=18446744073709551615 action=0 position=0,0,0
+Actor final id=6315855483253321029 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_s_00_0#0|data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp|5|_prim_NPC_PriestGood HP=12000/12000 target=0 action=0 position=614.186,552.981,22.1103
+Actor final id=7017835256986403320 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|5|_prim_tmp_commontype1_moths02 HP=36/36 target=0 action=0 position=673.199,-6421.1,93.3271
+Actor final id=7119004930892290618 definition=data/scene/002_swamp_witchcave.rule.xml|/t_swpcave_nse_00_3#3|data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp|10|_prim_tmp_commontype1_03 HP=47.5/47.5 target=0 action=0 position=-3609.77,-12161.5,36.8706
+Actor final id=7164193319705595751 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|3|_prim_tmp_commontype1_moths01 HP=36/36 target=0 action=0 position=101.118,-3516.91,93.3271
+Actor final id=8360796996631478269 definition=data/scene/002_swamp_witchcave.rule.xml|/t_swpcave_nse_00_3#3|data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp|8|_prim_tmp_commontype1_01 HP=47.5/47.5 target=0 action=0 position=-4060.68,-12154.3,36.8706
+Actor final id=8886960962655148639 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_s_00_0#0|data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp|4|_prim_Faery HP=599.996/600 target=0 action=0 position=-62.8582,563.496,0
+Actor final id=9143330362337750553 definition=data/scene/002_swamp_witchcave.rule.xml|/t_swpcave_nse_00_3#3|data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp|5|_prim_Monster_11 HP=47.5/47.5 target=0 action=0 position=-6115.1,-11380.5,87.2637
+Actor final id=9843357454694885335 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_n_00_6#6|data/3d/modules/swamp/mgp/deadend_swpcave_n_00.mgp|3|_prim_Monster_05 HP=47.5/47.5 target=0 action=0 position=-4920.04,-17629.4,41.8013
+Actor final id=10810401867983418741 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|8|_prim_tmp_commontype1_liz02 HP=47.5/47.5 target=0 action=0 position=-2133.45,-5336.14,93.3271
+Actor final id=11586552034794601012 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_s_00_0#0|data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp|7|_prim_tmp_commontype02 HP=47.5/47.5 target=0 action=0 position=72.543,-1446.49,66.4824
+Actor final id=11928218231074072168 definition=data/scene/002_swamp_witchcave.rule.xml|/t_swpcave_nse_00_3#3|data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp|6|_prim_Monster_22 HP=47.5/47.5 target=0 action=0 position=-5099.47,-12427.2,87.2637
+Actor final id=12056354130882174976 definition=data/scene/002_swamp_witchcave.rule.xml|/t_swpcave_nse_00_3#3|data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp|1|_prim_Monster_09 HP=47.5/47.5 target=0 action=0 position=-5116.43,-11318.7,87.2637
+Actor final id=13202159697674020638 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_se_00_2#2|data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp|2|_prim_tmp_commontype02 HP=36/36 target=0 action=0 position=-5304.13,-5323.44,70.3188
+Actor final id=13831140784906511668 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|7|_prim_tmp_commontype1_moths04 HP=36/36 target=0 action=0 position=981.718,-6420.75,93.3271
+Actor final id=14015367007146869049 definition=data/scene/002_swamp_witchcave.rule.xml|/t_swpcave_nse_00_3#3|data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp|9|_prim_tmp_commontype1_02 HP=47.5/47.5 target=0 action=0 position=-3807.12,-11832.9,36.8706
+Actor final id=14063629055965325618 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_se_00_2#2|data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp|4|_prim_tmp_commontype04 HP=36/36 target=0 action=0 position=-6817.48,-6235.52,88.2501
+Actor final id=14131076081502061998 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_se_00_2#2|data/3d/modules/swamp/mgp/witch_a_wpcave_se_00_01.mgp|1|_prim_tmp_commontype1 HP=36/36 target=0 action=0 position=-4464.07,-6084.5,70.3188
+Actor final id=14552840002247334696 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|4|_prim_tmp_commontype1_liz01 HP=47.5/47.5 target=0 action=0 position=-16.337,-4834.99,93.3271
+Actor final id=14621738711656896074 definition=data/scene/002_swamp_witchcave.rule.xml|/t_swpcave_nse_00_3#3|data/3d/modules/swamp/mgp/witch_a_e_nse_00_01.mgp|11|_prim_tmp_commontype1_04 HP=47.5/47.5 target=0 action=0 position=-3290.76,-11879.9,36.8706
+Actor final id=15595122752305069107 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_s_00_0#0|data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp|8|_prim_NPC_Eddie HP=12000/12000 target=0 action=0 position=614.186,655.75,22.1103
+Actor final id=16216951034188608582 definition=data/scene/002_swamp_witchcave.rule.xml|/bossroom_swpcave_w_00_5#5|data/3d/modules/swamp/mgp/bossroom_witch_.mgp|1|_prim_Monster_04_56 HP=400/400 target=0 action=0 position=5361.24,-10540,154.877
+Actor final id=18378362427079544487 definition=data/scene/002_swamp_witchcave.rule.xml|/corner_swpcave_nw_00_1#1|data/3d/modules/swamp/mgp/witch_a_wpcave_nw_00_01.mgp|2|_prim_tmp_commontype1_moths HP=36/36 target=0 action=0 position=-250.305,-3394.55,89.7927
+Actor final id=18446744073709551615 definition=KnightPlayerBase HP=169.195/169.195 target=0 action=0 position=203.611,557.532,100.41
+Animation-only final actor=8886960962655148639 profile=DefaultFairy enabled=1 retained=1 slot=0 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 timelineMs=1018 sampleMs=1018
+Animation-only final actor=6315855483253321029 profile=WanderingPriest enabled=1 retained=1 slot=0 clip=actor-6315855483253321029/Idle/sequence-0/phase-0 timelineMs=1050 sampleMs=1050
+Animation-only final actor=15595122752305069107 profile=WanderingPriest enabled=0 retained=1 slot=0 clip=actor-15595122752305069107/Idle/sequence-0/phase-0 timelineMs=1050 sampleMs=1050
+Animation-only final actor=16216951034188608582 profile=Witch enabled=1 retained=1 slot=0 clip=actor-16216951034188608582/Spawn/sequence-0/phase-0 timelineMs=0 sampleMs=0

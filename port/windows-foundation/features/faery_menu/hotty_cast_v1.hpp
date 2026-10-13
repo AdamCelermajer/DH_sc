@@ -6,6 +6,7 @@
 #include "../../../game-data/faery_tables.hpp"
 #include "../../../game-data/class_tables.hpp"
 #include "../../../game-data/properties.hpp"
+#include "faery_ability_registry_v1.hpp"
 
 #include <map>
 #include <memory>
@@ -89,6 +90,9 @@ struct HottyPreparedCastV1 {
     std::int32_t difficulty{-1};
     std::int32_t faery_slot{-1};
     std::int32_t faery_record_id{-1};
+    // v21.8: the registry entry for the authored SpellScript of the selected row
+    // (strike kind: faerie_hotty, faerie_rocky, faerie_wetty, faerie_windy).
+    const FaeryAbilityV1* ability{};
     std::int32_t source_spell_type{-1};
     std::int32_t skill_level{};
     std::int32_t fixed_mana_cost{};

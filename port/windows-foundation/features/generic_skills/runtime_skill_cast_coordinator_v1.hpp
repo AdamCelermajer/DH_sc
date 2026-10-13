@@ -141,6 +141,8 @@ struct RuntimeSkillFaeryPreSoundV1 {
     std::array<float, 3> position{};
     std::size_t target_count = 0;
     std::vector<std::string> labels;
+    // v21.8: true for the post-hit cue (Rocky/Wetty/Windy PlaySound after the loop).
+    bool hit_phase = false;
 };
 using RuntimeSkillFaeryPreSoundSinkV1 = std::function<void(const RuntimeSkillFaeryPreSoundV1&)>;
 

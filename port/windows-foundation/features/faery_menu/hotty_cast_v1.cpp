@@ -107,7 +107,7 @@ bool resolve_hotty_row(const CharacterState& state, std::int32_t difficulty,
                        const dh2::data::FaeryTables::Borrow& tables,
                        std::int32_t& slot, std::int32_t& row_id,
                        std::int32_t& spell_type, std::int32_t& skill_level,
-                       std::string& error) {
+                       const FaeryAbilityV1*& ability, std::string& error) {
     if (!state.source_faery_state_known)
         return fail(error, "Hotty cast requires source-known Faery Save state");
     if (!tables || difficulty < 0 || difficulty >= 3 ||
@@ -126,13 +126,16 @@ bool resolve_hotty_row(const CharacterState& state, std::int32_t difficulty,
         std::size_t(row_id) >= tables.faery_names().size())
         return fail(error, "Hotty cast FaeryList references an invalid source row");
     const auto& row = tables.faeries()[std::size_t(row_id)];
-    // DEFAULT's Fake_Hotty row has no SpellScript. The actual class lists
-    // select the playable Hotty row and its authored script.
-    if (tables.faery_names()[std::size_t(row_id)] != "Hotty" ||
-        row.script != "faerie_hotty") {
-        error = "Active Faery spell is not Hotty; this source adapter does not substitute another spell";
+    // DEFAULT's Fake_* rows have no SpellScript. The actual class lists select
+    // the playable row; v21.8 resolves its authored script through the registry
+    // (strike kind only here; Celest has its own arm).
+    const auto* found = find_faery_ability_by_script_v1(row.script);
+    if (!found || found->kind != FaeryAbilityKindV1::strike ||
+        tables.faery_names()[std::size_t(row_id)] != std::string(found->faery_name)) {
+        error = "Active Faery spell is not a registered strike Faery; this source adapter does not substitute another spell";
         return false;
     }
+    ability = found;
     if (row.scalar.words[8] != std::uint32_t(slot))
         return fail(error, "Hotty Faery source type does not match the selected Save slot");
 
@@ -147,21 +150,26 @@ bool project_spell_properties(const dh2::data::ClassTables& classes,
                               const dh2::data::PropertyRules& rules,
                               const dh2::data::PropertySheet& live_resolved,
                               std::int32_t skill_level,
+                              std::string_view spell_class,
                               std::int32_t& class_id,
                               dh2::data::PropertySheet& output,
                               std::string& error) {
     if (classes.names.size() != classes.rows.size() ||
         rules.defaults[172] != 0 || rules.types[172] != 8)
         return fail(error, "Hotty requires the actual ClassTables and SnS_Level/MP source property schema");
-    const auto base = std::find(classes.names.begin(), classes.names.end(), "Spell_Fire_1");
+    // spell_class is the registry base row ("Spell_Fire_1", "Spell_Water_1", ...);
+    // the rank-1 row is the same base name with "_2" (Lua CLASS_ID + skill_level).
+    const std::string base_name(spell_class);
+    const std::string rank_name = base_name.substr(0, base_name.size() - 1) + "2";
+    const auto base = std::find(classes.names.begin(), classes.names.end(), base_name);
     if (base == classes.names.end())
-        return fail(error, "Source Spell_Fire_1 class row is unavailable");
+        return fail(error, "Source Faery spell base class row is unavailable");
     class_id = static_cast<std::int32_t>(base - classes.names.begin());
     const auto expected = class_id + skill_level;
     if (expected < 0 || std::size_t(expected) >= classes.names.size() ||
         classes.names[std::size_t(expected)] !=
-            (skill_level == 0 ? "Spell_Fire_1" : "Spell_Fire_2"))
-        return fail(error, "Source Hotty Spell_Fire_1 + skill_level class rows are not contiguous");
+            (skill_level == 0 ? base_name : rank_name))
+        return fail(error, "Source Faery spell base + skill_level class rows are not contiguous");
 
     output = live_resolved;
     // ToFixed(0/1) is truncation followed by wrapping <<8. Hotty caps ranks at 1.
@@ -353,8 +361,9 @@ bool prepare_hotty_spell_v1(
     ActorState* caster{};
     if (!source_player(world, caster_id, state, caster, error)) return false;
     std::int32_t slot{}, row_id{}, spell_type{}, skill_level{};
+    const FaeryAbilityV1* ability{};
     if (!resolve_hotty_row(state, difficulty, tables, slot, row_id,
-                           spell_type, skill_level, error)) return false;
+                           spell_type, skill_level, ability, error)) return false;
 
     auto* live_properties = world.combat_properties(caster_id);
     const auto* traits = world.traits(caster_id);
@@ -372,7 +381,8 @@ bool prepare_hotty_spell_v1(
     std::int32_t class_id{};
     dh2::data::PropertySheet spell_properties{};
     if (!project_spell_properties(classes, rules, live_properties->sheets.resolved,
-                                 skill_level, class_id, spell_properties, error)) return false;
+                                 skill_level, ability->spell_class, class_id,
+                                 spell_properties, error)) return false;
 
     // Literal recovered ToFixed/MulFixed behavior: ToFixed(0.2) truncates to
     // zero before <<8, so the source's nominal per-level term is exactly zero.
@@ -443,6 +453,7 @@ bool prepare_hotty_spell_v1(
     result.caster = caster_id;
     result.difficulty = difficulty;
     result.faery_slot = slot;
+    result.ability = ability;
     result.faery_record_id = row_id;
     result.source_spell_type = spell_type;
     result.skill_level = skill_level;

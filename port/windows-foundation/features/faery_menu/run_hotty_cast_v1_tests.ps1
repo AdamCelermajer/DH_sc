@@ -30,6 +30,7 @@ try {
     $sources = @(
         (Join-Path $PSScriptRoot 'hotty_cast_v1.cpp'),
         (Join-Path $PSScriptRoot 'hotty_effects_tables_v1.cpp'),
+        (Join-Path $PSScriptRoot 'faery_ability_registry_v1.cpp'),
         (Join-Path $PSScriptRoot 'tests\hotty_cast_v1_tests.cpp'),
         (Join-Path $repoRoot 'port\windows-foundation\playable_actor_world.cpp'),
         (Join-Path $repoRoot 'port\windows-foundation\world.cpp'),

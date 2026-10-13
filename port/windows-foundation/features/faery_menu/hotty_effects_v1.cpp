@@ -41,7 +41,10 @@ bool valid_prepared(const CombatSession& session,
     if (!actor || !actor->persistent_character_id ||
         *actor->persistent_character_id != character.id)
         return fail(error, "Hotty FX requires the same live player ActorState and CharacterState identity");
-    if (prepared.faery_slot != 4 || prepared.faery_record_id != 7 ||
+    // v21.8: any registered strike Faery (slot from the list; the registry entry
+    // is the identity). The record id is the table row and is checked at prepare.
+    if (!prepared.ability || prepared.ability->kind != FaeryAbilityKindV1::strike ||
+        prepared.faery_slot < 0 || prepared.faery_slot > 4 || prepared.faery_record_id < 0 ||
         prepared.source_spell_type < 0 || prepared.skill_level < 0 ||
         prepared.skill_level > 1 || prepared.range != (prepared.skill_level ? 800 : 600))
         return fail(error, "Hotty FX preparation no longer matches the source Hotty slot/rank contract");
@@ -66,8 +69,9 @@ bool dispatch_hotty_effect_v1(
     if (!tables || ids.player_pre < 0 || ids.character_target < 0 ||
         static_cast<std::size_t>(ids.player_pre) >= tables.set_names().size() ||
         static_cast<std::size_t>(ids.character_target) >= tables.set_names().size() ||
-        tables.set_names()[static_cast<std::size_t>(ids.player_pre)] != "Hotty_Level_1_Player_Pre" ||
-        tables.set_names()[static_cast<std::size_t>(ids.character_target)] != "Hotty_Level_1_Target")
+        ids.player_pre_name.empty() || ids.character_target_name.empty() ||
+        tables.set_names()[static_cast<std::size_t>(ids.player_pre)] != ids.player_pre_name ||
+        tables.set_names()[static_cast<std::size_t>(ids.character_target)] != ids.character_target_name)
         return fail(error, "Hotty FX IDs do not resolve to the exact same source EffectsTables names");
 
     std::int32_t set_id = -1;
