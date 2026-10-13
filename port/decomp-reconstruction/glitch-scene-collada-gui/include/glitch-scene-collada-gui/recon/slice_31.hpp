@@ -76,28 +76,8 @@ void CSkinnedMeshSceneNode_deserializeAttributes(CSkinnedMeshSceneNode& self, IA
                                                  SAttributeReadWriteOptions* options);
 
 // ---------------------------------------------------------------------------
-// glitch::scene billboard and light nodes.
+// glitch::scene billboard (retired here: canonical glitch::scene::CBillboardSceneNode in scene/CBillboardSceneNode.hpp) and light nodes.
 // ---------------------------------------------------------------------------
-class IBillboardSceneNode : public ISceneNode {};
-
-class CBillboardSceneNode : public IBillboardSceneNode {
-public:
-    glitch::video::SColor colorBottom;  // +0x178 (word 94), "Shade_Down"
-    glitch::video::SColor colorTop;     // +0x19c (word 103), "Shade_Top"
-    float width = 0.0f;                 // +0x134 (word 77)
-    float height = 0.0f;                // +0x138 (word 78)
-
-    // Object-level virtual that sets both sizes; name inferred from the call.
-    virtual void setSize(const glitch::core::dimension2d<float>& size) = 0;  // vtable +0x08
-};
-
-void CBillboardSceneNode_getColor(const CBillboardSceneNode& self, glitch::video::SColor& top,
-                                  glitch::video::SColor& bottom);
-void CBillboardSceneNode_serializeAttributes(const CBillboardSceneNode& self, IAttributes* attributes,
-                                             SAttributeReadWriteOptions* options);
-void CBillboardSceneNode_deserializeAttributes(CBillboardSceneNode& self, IAttributes* attributes,
-                                               SAttributeReadWriteOptions* options);
-
 class CLightSceneNode : public ISceneNode {
 public:
     glitch::video::CLight* light = nullptr;  // +0x134 (word 77)

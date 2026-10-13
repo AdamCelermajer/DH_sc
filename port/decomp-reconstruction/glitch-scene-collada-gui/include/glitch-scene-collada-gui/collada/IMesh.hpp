@@ -165,7 +165,7 @@ public:
     void releaseProcessBuffer(video::IVideoDriver* driver, std::uint32_t index) override;          // 0x64a2f4
     void init(video::IVideoDriver* driver, bool flag) override;                                    // 0x64a3b4
 
-    // Non-virtual members, not reconstructed (bodies are in recon/slice_20.cpp as free-function stand-ins).
+    // Non-virtual members, PARTIAL: the bodies are empty in src/collada/IMesh.cpp (the slice_20 free-function stand-ins were retired).
     void morph(std::uint32_t timeMs);                                                              // 0x64a6e4
     void instanciateMesh(video::IVideoDriver* driver, CRootSceneNode* root);                       // 0x64b700
 

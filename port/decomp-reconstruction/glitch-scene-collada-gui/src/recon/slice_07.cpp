@@ -104,18 +104,7 @@ void CAnimationStreamingManager_checkMemoryUsage(CAnimationStreamingManager& /*s
 // Partial: the previous-block release and the database member destructor are not reconstructed.
 void CAnimationBlock_D1(CAnimationBlock* /*self*/) {}
 
-// 0x60bad0 _ZN6glitch7collada14CAnimationBlock4freeEv
-// Partial: unregister then destroy; the operator delete is not modelled.
-void CAnimationBlock_free(CAnimationBlock* /*self*/) {}
 
-// 0x60bb1c _ZN6glitch7collada14CAnimationBlock4dropEv
-// Partial: frees when the count falls to one and the cached links allow it; free is stubbed.
-void CAnimationBlock_drop(CAnimationBlock* self) {
-    self->refCount -= 1;
-    if (self->refCount == 1) {
-        CAnimationBlock_free(self);
-    }
-}
 
 // 0x60bb64 _ZN6glitch7collada26CAnimationStreamingManager23unregisterAnimationBlockEPNS0_14CAnimationBlockE
 // Partial: the lower-bound search and erase are not reconstructed.
@@ -140,48 +129,20 @@ CAnimationBlock* CAnimationStreamingManager_getAnimationBlock(CAnimationStreamin
     return nullptr;
 }
 
-// 0x60c31c _ZN6glitch7collada14CAnimationBlock16prepareNextBlockEv
-// Partial stub: 1.7 KB of pseudocode, not reconstructed in this pass.
-void CAnimationBlock_prepareNextBlock(CAnimationBlock* /*self*/) {}
 
-// 0x60c3f0 _ZN6glitch7collada14CAnimationBlock4grabEv
-// Increments the count; prepares the next block at the first grab when none is linked.
-void CAnimationBlock_grab(CAnimationBlock& self) {
-    self.refCount += 1;
-    if (self.refCount == 2 && self.next == nullptr) {
-        CAnimationBlock_prepareNextBlock(&self);
-    }
-}
 
 // 0x60c414 _ZN6glitch7collada26CAnimationStreamingManager20registerAnimationBlockEPNS0_14CAnimationBlockE
 // Partial stub: 3.3 KB of pseudocode, not reconstructed in this pass.
 void CAnimationStreamingManager_registerAnimationBlock(CAnimationStreamingManager& /*self*/,
                                                        CAnimationBlock* /*block*/) {}
 
-// 0x60cb24 _ZNK6glitch7collada19CBillboardSceneNode24getTransformedBoundingBoxEv
-// Partial: the parent matrix transform (vtable slot +0x38 on the parent) is not dispatched here.
-const core::aabbox3d<float>& CBillboardSceneNode_getTransformedBoundingBox(CBillboardSceneNode& /*self*/) {
-    static const core::aabbox3d<float> kEmpty{};
-    return kEmpty;
-}
 
-// 0x60cbb0 _ZN6glitch7collada19CBillboardSceneNode18computeBoundingBoxEv
-// Partial stub: bounding box over the billboard corners is not reconstructed in this pass.
-void CBillboardSceneNode_computeBoundingBox(CBillboardSceneNode& /*self*/) {}
 
 // 0x60ce44 _ZN6glitch7collada10CSceneNodeD2Ev
 // Partial: the two base-class vtable resets and the ISceneNode destructor call are not modelled.
 void CSceneNode_D1(CSceneNode* /*self*/) {}
 
-// 0x60cec8 _ZN6glitch7collada19CBillboardSceneNodeD2Ev
-// Partial: resets the billboard vtable and forwards to CSceneNode_D1.
-void CBillboardSceneNode_D1(CBillboardSceneNode* self) {
-    CSceneNode_D1(reinterpret_cast<CSceneNode*>(self));
-}
 
-// 0x60cf88 _ZN6glitch7collada19CBillboardSceneNode20updateAbsolutePositionEb
-// Partial stub: 13.7 KB of pseudocode, not reconstructed in this pass.
-void CBillboardSceneNode_updateAbsolutePosition(CBillboardSceneNode& /*self*/, bool /*recursive*/) {}
 
 // 0x60f25c / 0x60f2b0 _ZN6glitch7collada16CColladaDatabaseC2EPKcPNS0_15CColladaFactoryE
 // Partial: CResFileManager::load is not in this category; the factory store and ref count are modelled as comments.

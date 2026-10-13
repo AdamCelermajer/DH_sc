@@ -12,6 +12,29 @@ CAnimationStreamingManager* CAnimationStreamingManager::Instance = nullptr;
 // recon/slice_07.cpp), so no block is found and the held block is left unchanged.
 void CAnimationStreamingManager::getAnimationBlock(SAnimationBlockSearchKey&, CAnimationBlock*&) {}
 
+// 0x60bad0 _ZN6glitch7collada14CAnimationBlock4freeEv. PARTIAL: unregister then delete; the key data release and operator delete are not
+// modelled, so this does nothing.
+void CAnimationBlock::free() {}
+
+// 0x60c31c _ZN6glitch7collada14CAnimationBlock16prepareNextBlockEv. PARTIAL: the next-block load (1.7 KB) is not reconstructed.
+void CAnimationBlock::prepareNextBlock() {}
+
+// 0x60c3f0 _ZN6glitch7collada14CAnimationBlock4grabEv. Increments the count; prepares the next block at the first grab when none is linked.
+void CAnimationBlock::grab() {
+    refCount += 1;
+    if (refCount == 2 && next == nullptr) {
+        prepareNextBlock();
+    }
+}
+
+// 0x60bb1c _ZN6glitch7collada14CAnimationBlock4dropEv. Frees when the count falls to one (free is partial).
+void CAnimationBlock::drop() {
+    refCount -= 1;
+    if (refCount == 1) {
+        free();
+    }
+}
+
 // 0x60b3cc _ZN6glitch7collada26CAnimationStreamingManagerC2Ev
 // 0x60b410 _ZN6glitch7collada26CAnimationStreamingManagerC1Ev
 // Zeroes the eight words (the member initialisers) and publishes the object through the static Instance pointer.

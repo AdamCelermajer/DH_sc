@@ -205,9 +205,6 @@ void CModularSkinnedMeshSceneNode_deserializeAttributes(CModularSkinnedMeshScene
 void CModularSkinnedMeshSceneNode_serializeAttributes(const CModularSkinnedMeshSceneNode&, io::IAttributes*,
                                                       io::SAttributeReadWriteOptions*) {}
 
-// 0x658564 _ZN6glitch7collada15CResFileManager23updateExternalResourcesEPNS0_8CResFileEPNS_2io9IReadFileE
-// Partial: the external-resource loop and its log output go through the os::Printer and file-manager virtuals, which are not mapped.
-void CResFileManager_updateExternalResources(CResFileManager&, CResFile*, io::IReadFile*) {}
 
 // 0x65aecc _ZNK6glitch7collada14CRootSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // Partial: the base ISceneNode serializer and the "Source" IAttributes string write (source name from the source record at +0x14c+0x20) are not mapped.

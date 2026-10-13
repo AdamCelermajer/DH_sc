@@ -280,4 +280,12 @@ void CMorphingMesh::releaseProcessBuffer(video::IVideoDriver* /*driver*/, std::u
 // PARTIAL: the 808-byte body (it creates the morph buffers from the first target) is not reconstructed.
 void CMorphingMesh::init(video::IVideoDriver* /*driver*/, bool /*flag*/) {}
 
+// 0x64a6e4 _ZN6glitch7collada13CMorphingMesh5morphEj. PARTIAL: the blend over the targets is not reconstructed; does nothing.
+// (The stand-in recon_20::CMorphingMesh_morph returned 0 and was retired with the slice_20 stand-ins.)
+void CMorphingMesh::morph(std::uint32_t /*timeMs*/) {}
+
+// 0x64b700 _ZN6glitch7collada13CMorphingMesh15instanciateMeshEPNS_5video12IVideoDriverEPNS0_14CRootSceneNodeE. PARTIAL: the targets
+// are not built from the database; does nothing.
+void CMorphingMesh::instanciateMesh(video::IVideoDriver* /*driver*/, CRootSceneNode* /*root*/) {}
+
 }  // namespace glitch::collada

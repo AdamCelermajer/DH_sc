@@ -5,23 +5,6 @@
 
 namespace glitch::collada::recon_20 {
 
-// 0x64a2f4 _ZN6glitch7collada13CMorphingMesh20releaseProcessBufferEPNS_5video12IVideoDriverEj
-int CMorphingMesh_releaseProcessBuffer(void* self, void* driver, unsigned int a3) { return 0; }
-
-// 0x64a3b4 _ZN6glitch7collada13CMorphingMesh4initEPNS_5video12IVideoDriverEb
-void* CMorphingMesh_init(void* self, void* driver, void* a3) { return nullptr; }
-
-// 0x64a6e4 _ZN6glitch7collada13CMorphingMesh5morphEj
-int CMorphingMesh_morph(void* self, unsigned int a2) { return 0; }
-
-// 0x64b700 _ZN6glitch7collada13CMorphingMesh15instanciateMeshEPNS_5video12IVideoDriverEPNS0_14CRootSceneNodeE
-void* CMorphingMesh_instanciateMesh(void* self, void* driver, void* rootNode) { return nullptr; }
-
-// 0x64b9c8 _ZN6glitch7collada13CMorphingMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE
-void* CMorphingMesh_ctor(void* self, void* db, void* driver, void* controller, void* rootNode) { return nullptr; }
-
-// 0x64baa0 _ZN6glitch7collada13CMorphingMeshC2ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE
-void* CMorphingMesh_ctor_dup(void* self, void* db, void* driver, void* controller, void* rootNode) { return nullptr; }
 
 // 0x64bb90 _ZNK6glitch7collada24CParticleSystemSceneNode16getParticleCountEv
 int CParticleSystemSceneNode_getParticleCount(const void* self) { return 0; }

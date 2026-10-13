@@ -12,6 +12,7 @@
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CMesh.hpp"
+#include "glitch-scene-collada-gui/scene/CParticleSystemSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CTerrainSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
 #include "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp"
@@ -209,45 +210,7 @@ public:
     void* meshHolder = nullptr;   // +0x130 a counted reference around the mesh name query (serialize 0x6f6478, deserialize 0x6f6d98)
 };
 
-class CParticleSystemSceneNode {
-public:
-    // 0x6c0dc4 _ZNK6glitch5scene24CParticleSystemSceneNode7getTypeEv (tag "ptcl")
-    std::uint32_t getType() const;
-    // 0x6c0df8 _ZN6glitch5scene24CParticleSystemSceneNode10getEmitterEv
-    IParticleEmitter* getEmitter();
-    // 0x6c0e58 _ZNK6glitch5scene24CParticleSystemSceneNode16getMaterialCountEv (returns 1)
-    std::uint32_t getMaterialCount() const;
-    // 0x6c0ed8 _ZN6glitch5scene24CParticleSystemSceneNode15setTransparencyEf
-    void setTransparency(float alpha);
-    // 0x6c0ee0 _ZN6glitch5scene24CParticleSystemSceneNode6renderEPv (empty)
-    void render(void* /*unused*/);
-    // 0x6c0ee4 _ZNK6glitch5scene24CParticleSystemSceneNode14getBoundingBoxEv
-    const core::aabbox3d<float>& getBoundingBox() const;
-    // 0x6c0eec _ZN6glitch5scene24CParticleSystemSceneNode21setParticlesAreGlobalEb
-    void setParticlesAreGlobal(bool global);
-    // 0x6c0f08 _ZN6glitch5scene24CParticleSystemSceneNode17reallocateBuffersEv (empty)
-    void reallocateBuffers();
-
-    // 0x6c0dd0 _ZNK6glitch5scene24CParticleSystemSceneNode20getNumberOfParticlesEv
-    std::int32_t getNumberOfParticles() const;
-    // 0x6c0ef4 _ZN6glitch5scene24CParticleSystemSceneNode15setParticleSizeERKNS_4core11dimension2dIfEE
-    void setParticleSize(const core::dimension2d<float>& size);
-    // 0x6c0f0c _ZN6glitch5scene24CParticleSystemSceneNode16setBillboardTypeENS0_25E_PARTICLE_BILLBOARD_TYPEE
-    void setBillboardType(std::uint32_t type);
-
-    // One particle record, 0x44 bytes in the original. The fields are not mapped.
-    struct SParticleRecord {
-        std::uint8_t bytes[0x44] = {};
-    };
-
-    std::vector<SParticleRecord> particles;   // +0x13c (begin) .. +0x140 (end)
-    IParticleEmitter* emitter = nullptr;      // +0x138
-    float transparency = 0.0f;                // +0x184
-    core::aabbox3d<float> boundingBox;        // +0x158
-    core::dimension2d<float> particleSize;    // +0x148
-    std::uint32_t billboardType = 0;          // +0x17c
-    bool particlesAreGlobal = false;          // +0x180
-};
+// CParticleSystemSceneNode: canonical in scene/CParticleSystemSceneNode.hpp (the stand-in with no base was retired).
 
 // glitch::scene::CMesh: canonical definition in scene/CMesh.hpp.
 

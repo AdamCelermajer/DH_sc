@@ -79,10 +79,6 @@ void CAnimationStreamingManager_release(CAnimationStreamingManager& self, CColla
 void CAnimationStreamingManager_checkMemoryUsage(CAnimationStreamingManager& self);
 // 0x60ba2c / 0x60bbd8 Partial: destructor releases the cached previous block and the database.
 void CAnimationBlock_D1(CAnimationBlock* self);
-// 0x60bad0 Partial: unregister then delete; the operator delete is not modelled.
-void CAnimationBlock_free(CAnimationBlock* self);
-// 0x60bb1c Partial: drops the count and frees when it reaches one.
-void CAnimationBlock_drop(CAnimationBlock* self);
 // 0x60bb64 Partial: binary search and erase of the registry entry are not reconstructed.
 void CAnimationStreamingManager_unregisterAnimationBlock(CAnimationStreamingManager& self,
                                                          CAnimationBlock* block);
@@ -94,27 +90,14 @@ void CAnimationBlock_ctor(CAnimationBlock* self, const CColladaDatabase& db,
 // 0x60c220 Partial: lookup then allocate-and-construct; allocation is not modelled.
 CAnimationBlock* CAnimationStreamingManager_getAnimationBlock(CAnimationStreamingManager& self,
                                                               SAnimationBlockSearchKey& key);
-// 0x60c31c Partial: next-block preparation is not reconstructed.
-void CAnimationBlock_prepareNextBlock(CAnimationBlock* self);
-// 0x60c3f0 Reconstructed: increments the count and prepares the next block at the first grab.
-void CAnimationBlock_grab(CAnimationBlock& self);
 // 0x60c414 Partial: sorted insert into the registry is not reconstructed.
 void CAnimationStreamingManager_registerAnimationBlock(CAnimationStreamingManager& self,
                                                        CAnimationBlock* block);
 
 // --- glitch::collada scene nodes -------------------------------------------
-struct CBillboardSceneNode;
 struct CSceneNode;
-// 0x60cb24 Partial: transformed box cache and parent matrix are not dispatched here.
-const core::aabbox3d<float>& CBillboardSceneNode_getTransformedBoundingBox(CBillboardSceneNode& self);
-// 0x60cbb0 Partial: bounding box computation over the billboard corners is not reconstructed.
-void CBillboardSceneNode_computeBoundingBox(CBillboardSceneNode& self);
 // 0x60ce44 Partial: base-class destructor chain (multiple inheritance) is not modelled.
 void CSceneNode_D1(CSceneNode* self);
-// 0x60cec8 Partial: forwards to CSceneNode_D1 after resetting the billboard vtable.
-void CBillboardSceneNode_D1(CBillboardSceneNode* self);
-// 0x60cf88 Partial: absolute-position update is not reconstructed (13 KB pseudocode).
-void CBillboardSceneNode_updateAbsolutePosition(CBillboardSceneNode& self, bool recursive);
 
 // --- glitch::collada::CColladaDatabase constructors (partial) --------------
 // 0x60f25c / 0x60f2b0 Partial: CResFileManager::load is not in this category.

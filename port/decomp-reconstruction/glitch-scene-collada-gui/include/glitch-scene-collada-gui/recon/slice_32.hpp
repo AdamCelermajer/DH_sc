@@ -237,8 +237,6 @@ void CModularSkinnedMeshSceneNode_serializeAttributes(const CModularSkinnedMeshS
                                                       io::IAttributes* attributes,
                                                       io::SAttributeReadWriteOptions* options);
 
-// 0x658564 _ZN6glitch7collada15CResFileManager23updateExternalResourcesEPNS0_8CResFileEPNS_2io9IReadFileE
-void CResFileManager_updateExternalResources(CResFileManager& self, CResFile* file, io::IReadFile* readFile);
 
 // 0x65aecc _ZNK6glitch7collada14CRootSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 void CRootSceneNode_serializeAttributes(const CRootSceneNode& self, io::IAttributes* attributes,

@@ -1,6 +1,6 @@
-// Tests for slice 31 reconstructions (see src/recon/slice_31.cpp): the billboard colour accessor and the attribute names of the
-// billboard node. The external calls the slice makes into other category code are stubbed here so the object links; the test uses a recording
-// fake for the attribute interface.
+// Link test for slice 31 reconstructions (see src/recon/slice_31.cpp). The billboard tests moved out with the billboard stand-in
+// (the canonical scene::CBillboardSceneNode is covered by its own tests). The external calls the slice makes into other category code
+// are stubbed here so the object links.
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -46,45 +46,9 @@ public:
     void addColor(const char* n, glitch::video::SColor, bool) override { names.emplace_back(n); }
 };
 
-class TestBillboard : public CBillboardSceneNode {
-public:
-    glitch::core::dimension2d<float> lastSize{};
-    const glitch::core::vector3d<float>* getAbsoluteTranslation() const override { return nullptr; }
-    const glitch::core::aabbox3d<float>* getBoundingBox() const override { return nullptr; }
-    float getDistanceBias() const override { return 0.0f; }
-    int getDefaultSortOrder() const override { return 0; }
-    void setSize(const glitch::core::dimension2d<float>& size) override { lastSize = size; }
-};
-
-glitch::video::SColor color(std::uint32_t value) {
-    glitch::video::SColor c;
-    c.color = value;
-    return c;
-}
-
-void testBillboardGetColor() {
-    TestBillboard node;
-    node.colorTop = color(0x11);
-    node.colorBottom = color(0x22);
-    glitch::video::SColor top = color(0);
-    glitch::video::SColor bottom = color(0);
-    CBillboardSceneNode_getColor(node, top, bottom);
-    CHECK(top.color == 0x11u);
-    CHECK(bottom.color == 0x22u);
-}
-
-void testBillboardSerializeNames() {
-    TestBillboard node;
-    RecordingAttributes attrs;
-    CBillboardSceneNode_serializeAttributes(node, &attrs, nullptr);
-    CHECK((attrs.names == std::vector<std::string>{"Width", "Height", "Shade_Top", "Shade_Down"}));
-}
-
 }  // namespace
 
 int main() {
-    testBillboardGetColor();
-    testBillboardSerializeNames();
     if (failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", failures);
         return 1;

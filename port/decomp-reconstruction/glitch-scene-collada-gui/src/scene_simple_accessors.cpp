@@ -103,8 +103,24 @@ void CAnimatedMeshSceneNode::setAnimationSpeed(float framesPerSecond) {
     animationSpeed = framesPerSecond * 0.001f;
 }
 
+// 0x6c23f4 (IParticleSystemSceneNode C2, PARTIAL: rotation vector not converted, identity quaternion used).
+IParticleSystemSceneNode::IParticleSystemSceneNode(int id, const core::vector3d<float>& position, const core::vector3d<float>& /*rotation*/,
+                                                 const core::vector3d<float>& scale)
+    : ISceneNode(id, position, core::quaternion(), scale) {}
+
+IParticleSystemSceneNode::~IParticleSystemSceneNode() = default;
+
+// Default node: the constructor 0x6c2478 with id -1 and zero position and rotation (PARTIAL: the bool and the affector-list setup are not
+// reconstructed; the member initialisers carry the constructor evidence).
+CParticleSystemSceneNode::CParticleSystemSceneNode(int id)
+    : IParticleSystemSceneNode(id, core::vector3d<float>{0.0f, 0.0f, 0.0f}, core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                               core::vector3d<float>{1.0f, 1.0f, 1.0f}) {}
+
+// 0x6c2478 family destructors. PARTIAL: the affector list release and the emitter release are not reconstructed.
+CParticleSystemSceneNode::~CParticleSystemSceneNode() = default;
+
 // 0x6c0dc4 _ZNK6glitch5scene24CParticleSystemSceneNode7getTypeEv
-std::uint32_t CParticleSystemSceneNode::getType() const { return kTagParticleSystem; }
+E_SCENE_NODE_TYPE CParticleSystemSceneNode::getType() const { return static_cast<E_SCENE_NODE_TYPE>(kTagParticleSystem); }
 
 // 0x6c0df8 _ZN6glitch5scene24CParticleSystemSceneNode10getEmitterEv
 IParticleEmitter* CParticleSystemSceneNode::getEmitter() { return emitter; }

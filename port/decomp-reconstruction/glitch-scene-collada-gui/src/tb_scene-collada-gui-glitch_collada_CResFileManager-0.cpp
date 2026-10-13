@@ -79,6 +79,10 @@ std::uint32_t CResFileManager::checkVersion(glitch::io::IReadFile*) {
     return 0;
 }
 
+// 0x658564 _ZN6glitch7collada15CResFileManager23updateExternalResourcesEPNS0_8CResFileEPNS_2io9IReadFileE. PARTIAL: resolves the external
+// resources once (SDatabaseTables flag); the body is empty, as the recon/slice_32 free stand-in was.
+void CResFileManager::updateExternalResources(CResFile*, glitch::io::IReadFile*) {}
+
 // 0x658c90 _ZN6glitch7collada15CResFileManager15postLoadProcessEPNS0_8CResFileEPNS_2io9IReadFileE
 int CResFileManager::postLoadProcess(CResFile* file, glitch::io::IReadFile* reader) {
     // Stage A. The original reads refCount at +0x04 and writes it back only when

@@ -47,13 +47,7 @@ struct SUidHolder {
 
 // CDynamicAnimationSet: canonical in collada/CDynamicAnimationSet.hpp.
 
-class CCoronasSceneNode {
-public:
-    // 0x6e5a38 _ZNK6glitch7collada17CCoronasSceneNode14getBoundingBoxEv
-    const core::aabbox3d<float>& getBoundingBox() const;
-
-    core::aabbox3d<float> boundingBox;  // +0x150
-};
+// CCoronasSceneNode: canonical in collada/CCoronasSceneNode.hpp (the stand-in with the +0x150 box was retired).
 
 // CMesh, CMorphingMesh and IMesh: canonical definitions in collada/IMesh.hpp.
 

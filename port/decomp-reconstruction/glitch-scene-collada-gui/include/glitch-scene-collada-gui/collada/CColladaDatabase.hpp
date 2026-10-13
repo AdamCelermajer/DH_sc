@@ -444,7 +444,7 @@ public:
     // 0x657bd0: the read file the loaders use for `file` (a memory copy for zipped archives). Declared only.
     glitch::io::CMemoryReadFile* getReadFile(glitch::io::IReadFile* file);
     // 0x658564: resolves the external resources of `file` once (the SDatabaseTables flag). Declared only; the body in
-    // recon/slice_32.cpp is the free function CResFileManager_updateExternalResources.
+    // PARTIAL: the body is empty in src/tb_scene-collada-gui-glitch_collada_CResFileManager-0.cpp (the recon/slice_32 free stand-in was retired).
     void updateExternalResources(CResFile* file, glitch::io::IReadFile* reader);
     // 0x6584fc: unload(iterator into the loaded-file map); the STLport iterator is not declared here.
     // 0x659b60, 0x659cfc, 0x659c3c: unload by name, by SCollada record, and everything.
@@ -767,6 +767,8 @@ public:
     void free();
     void prepareNextBlock();
     void grab();
+    // 0x60bb1c: drops a use; frees the block when the count falls to one. (The free-function stand-ins of recon/slice_07 were retired.)
+    void drop();
 };
 
 // The key the streaming manager looks a block up by (SAnimationBlockSearchKey): the database handle, the clip and the time.
