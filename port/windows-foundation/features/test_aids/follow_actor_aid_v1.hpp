@@ -24,7 +24,8 @@ struct FollowActorAidV1 {
     int period_frames = 30;   // re-evaluated every period (a player re-approaches, not every frame)
 };
 
-// "PROFILE@FROM-TO[:DISTANCE]"
+// "PROFILE@FROM-TO[:DISTANCE[!]]"; a trailing ! (act1rogue) lifts the 290 boss-body floor for a target with a smaller body (the Witch, melee reach
+// is the sum of both body radii) so a melee hero can be placed inside its melee range.
 inline FollowActorAidV1 parse_follow_actor_aid_v1(const std::string& spec) {
     FollowActorAidV1 aid;
     const auto at = spec.find('@');
@@ -35,9 +36,14 @@ inline FollowActorAidV1 parse_follow_actor_aid_v1(const std::string& spec) {
     aid.from_frame = std::stoi(spec.substr(at + 1, dash - at - 1));
     const auto colon = spec.find(':', dash + 1);
     aid.to_frame = std::stoi(spec.substr(dash + 1, colon == std::string::npos ? std::string::npos : colon - dash - 1));
-    if (colon != std::string::npos) aid.distance = std::stof(spec.substr(colon + 1));
+    bool body_override = false;
+    if (colon != std::string::npos) {
+        auto text = spec.substr(colon + 1);
+        if (!text.empty() && text.back() == '!') {body_override = true; text.pop_back();}
+        aid.distance = std::stof(text);
+    }
     if (aid.to_frame <= aid.from_frame || !(aid.distance > 0)) throw std::runtime_error("--follow-actor window or distance is empty");
-    if (aid.distance < kFollowContactDistance)
+    if (!body_override && aid.distance < kFollowContactDistance)
         throw std::runtime_error("--follow-actor distance must be at least 290 (inside the boss body the placement is not applied)");
     return aid;
 }

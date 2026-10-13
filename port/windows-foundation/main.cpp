@@ -65,6 +65,7 @@
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "features/combat/b035_session_push_effect_v1.hpp" // B159/B035: incoming Push (SM_SetKnockBackState) consumer
 #include "features/test_aids/follow_actor_aid_v1.hpp" // B158 harness: --follow-actor
+#include "features/test_aids/player_heal_aid_v1.hpp" // act1rogue harness: --test-player-heal
 #include "../script-runtime/script_constants.hpp"
 #include "../level-world/character_kill.hpp"
 #include "../level-world/character_path_commands.hpp"
@@ -456,6 +457,7 @@ struct Options {
     int testStatPoints=0,testSkillPoints=0; // B103 TEST ONLY\r
     float testPlayerHealth=0.f; // I024 TEST ONLY: --test-player-hp N[@FRAME] sets the local Character HP at FRAME (inert unless passed)
     int testPlayerHealthFrame=0;
+    dh::foundation::test_aids::PlayerHealAidV1 testHeal; // act1rogue TEST ONLY: --test-player-heal FROM-TO[:PERIOD] tops the hero up to max HP (never above it, never revives), so saves stay valid
     f::ActorId testSkillOldTarget=0;int testSkillOldTargetFrame=-1; // isolated Character408 field fixture, default inert
     f::ActorId testEnemyInjuryActor=0;int testEnemyInjuryRating=0; // B083 isolated source-formula branch fixture, default inert
     f::Vec3 actorPosition{};
@@ -652,6 +654,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
         else if(arg=="--combat-death") {auto c=choice(value());o.combat.profiles[c.first].death=c.second;}
+        else if(arg=="--test-player-heal") o.testHeal=dh::foundation::test_aids::parse_player_heal_aid_v1(value()); // act1rogue TEST ONLY (god-mode substitute that keeps HP <= max so the save validator accepts it)
         else if(arg=="--test-player-hp") { // I024 TEST ONLY: starting HP for the death verification fixture; never set in packaged args
             const std::string text=value();const auto at=text.find('@');
             o.testPlayerHealth=std::stof(text.substr(0,at));
@@ -1153,7 +1156,10 @@ int main(int argc,char** argv) {
                     animationProfile.reactionMinimalRandoms=false;
                     animationProfile.propertyOptions.refill_vitals=false;
                     options.combat.profiles[selected->class_id]=std::move(animationProfile);
-                    std::cout<<"Selected class "<<selected->class_id<<": source movement/HUD/menu and incoming damage; outgoing attacks await their own source pipeline\n";
+                    // act1rogue: this animation-only profile is only the menu-time placeholder. The Rogue/Mage families get their own
+                    // source attack bank and a real combat profile (animationOnly=false, sourceCombo) in the "Source player melee bank" block
+                    // after the profile tables load; real runs show Rogue hits, kills and XP (act1rogue-report.md). Keep the line truthful.
+                    std::cout<<"Selected class "<<selected->class_id<<": source movement/HUD/menu; placeholder animation-only profile, the source attack bank replaces it after the tables load\n";
                 }
                 options.combat.playerProfileId=selected->class_id;
                 options.combat.playerId=std::numeric_limits<f::ActorId>::max();
@@ -7774,6 +7780,19 @@ int main(int argc,char** argv) {
                 std::cout<<"Test source Injury actor="<<options.testEnemyInjuryActor<<" rating="<<options.testEnemyInjuryRating<<" cells=135,182; real enemy attack/result gates retained\n";
             }
             if(options.testPlayerHealth>0.f&&drawn==options.testPlayerHealthFrame) applyTestPlayerHealth(); // I024 TEST ONLY
+            if(combatSession&&options.testHeal.due(int(drawn))) { // act1rogue TEST ONLY
+                const auto healId=combatSession->player_id();
+                auto* healActor=combatSession->world()->find_actor(healId);
+                const auto* healProps=combatSession->world()->combat_properties(healId);
+                const auto* healTraits=combatSession->world()->traits(healId);
+                if(healActor&&healProps&&healTraits&&healActor->alive()&&healActor->health<healActor->max_health) {
+                    auto healSheet=*healProps;healSheet.sheets.resolved[36]=healSheet.sheets.resolved[38];
+                    const float before=healActor->health;healActor->health=healActor->max_health;
+                    std::string healError;
+                    if(!combatSession->world()->update_combat_properties(healId,healSheet,*healTraits,healError))throw std::runtime_error("Test player heal sheet: "+healError);
+                    std::cout<<"Test player heal frame="<<drawn<<" hp="<<before<<"->"<<healActor->health<<" (test aid)\n";
+                }
+            }
             if(options.testPlayerHealth>0.f&&combatSession&&drawn%50==0) { // I024 TEST ONLY: nearest enemy trace for the fixture
                 const auto* me=combatSession->actor(combatSession->player_id());
                 const f::ActorState* nearest=nullptr;float best=1e30f;

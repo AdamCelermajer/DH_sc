@@ -9,7 +9,10 @@ int main() {
     check(parse_follow_actor_aid_v1("SwampKing@10-20").distance == 300.0f, "default distance");
     // B158: inside the boss body contact distance (290) the placement is refused at parse time (run m3f1 used 170).
     check(parse_follow_actor_aid_v1("SwampKing@10-20:290").distance == 290.0f, "contact boundary is allowed");
-    for (const char* bad : {"", "SwampKing", "@1-2", "A@1", "A@1-", "A@5-5", "A@9-3", "A@1-2:0", "A@1-2:-4", "SwampKing@2960-6400:170", "A@1-2:289.9"}) {
+    // act1rogue: a trailing ! lifts the boss-body floor for a smaller target (Witch); the floor still applies without it.
+    check(parse_follow_actor_aid_v1("Witch@10-20:150!").distance == 150.0f, "body override lifts the floor");
+    check(parse_follow_actor_aid_v1("Witch@10-20:150!").profile == "Witch", "override keeps the profile");
+    for (const char* bad : {"", "SwampKing", "@1-2", "A@1", "A@1-", "A@5-5", "A@9-3", "A@1-2:0", "A@1-2:-4", "SwampKing@2960-6400:170", "A@1-2:289.9", "A@1-2:!", "A@1-2:0!"}) {
         bool threw = false;
         try { parse_follow_actor_aid_v1(bad); } catch (const std::exception&) { threw = true; }
         check(threw, bad);
