@@ -1017,6 +1017,8 @@ add_test(NAME runtime_swampking_core_ai_v1 COMMAND runtime_swampking_core_ai_v1_
 # B158: --follow-actor harness aid (hero follows a relocating boss in the continuous run).
 add_executable(follow_actor_aid_v1_tests features/test_aids/follow_actor_aid_v1_tests.cpp)
 add_test(NAME follow_actor_aid_v1 COMMAND follow_actor_aid_v1_tests)
+add_executable(zone_floor_placement_v1_tests features/test_aids/zone_floor_placement_v1_tests.cpp)
+add_test(NAME zone_floor_placement_v1 COMMAND zone_floor_placement_v1_tests)
 # B159: Mud Lord damage calibration against the recovered CF__CalcDamage inputs (monster level-2 sheet, SkillTree class sheets).
 add_executable(runtime_swampking_damage_calibration_v1_tests features/bosses/runtime_swampking_damage_calibration_v1_tests.cpp)
 target_link_libraries(runtime_swampking_damage_calibration_v1_tests PRIVATE foundation_runtime_bosses)

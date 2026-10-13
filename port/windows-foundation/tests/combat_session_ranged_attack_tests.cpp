@@ -49,7 +49,7 @@ int main(int argc,char** argv){try{
     std::cout<<"Staff stance="<<equipped.stance<<" sequence="<<attack.selected_sequence_id<<'\n';
 
     const auto run=[&](float targetX,float targetY,unsigned& markers,float& heading,float& expectedHeading,
-                       float& targetHealthBefore,float& targetHealthAfter,bool& attackBegan){
+                       float& targetHealthBefore,float& targetHealthAfter,bool& attackBegan,bool tab=true,ActorId* targetAfterAttack=nullptr){
         CombatSessionConfig config;config.diagnosticRngSeed=1234;config.playerId=1;config.playerProfileId="MagePlayerBase";
         config.tableRoot="original-cache/data/pydata";config.playerVisualConfig=base.config;
         config.playerVisualConfig.motion_node_id="auto";config.playerVisualConfig.consume_root_motion=true;
@@ -69,11 +69,15 @@ int main(int argc,char** argv){try{
         placed.transform=placed.definition.placement;population.actors().push_back(std::move(placed));
         CharacterVisual visual;CombatSession session;
         check(session.initialize(assets,db,bindings,config,visual,population,{0,0,0},customization,error),error);
-        InputActions input;input.targetSelect=true;check(session.update(0,input,{0,0,0},0,error),error);
-        check(session.actor(1)->target_id==2,"Target select did not pick the far lizard");
+        InputActions input;
+        if(tab){
+            input.targetSelect=true;check(session.update(0,input,{0,0,0},0,error),error);
+            check(session.actor(1)->target_id==2,"Target select did not pick the far lizard");
+        }
         targetHealthBefore=session.actor(2)->health;
         input.targetSelect=false;input.attack=true;check(session.update(1.0/60,input,{0,0,0},0,error),error);
         attackBegan=session.owns_pose(1);
+        if(targetAfterAttack)*targetAfterAttack=session.actor(1)->target_id;
         markers=0;
         for(unsigned i=0;i<240&&session.owns_pose(1);++i){
             input.attack=false;
@@ -97,6 +101,22 @@ int main(int argc,char** argv){try{
     check(markers>=1,"Ranged owner queued no state-5 projectile marker");
     check(std::fabs(heading-expected)<0.05f,"Ranged owner did not LookAt its far target");
     check(after==before,"Ranged attack applied a melee hit at a marker");
+    // v21.8 magefix2: AI_DoRangeAttack with NO explicit target searches the weapon range (Staff01 ItemTable max range 1000):
+    // an enemy at 600 is auto-targeted and faced (AI_SetTarget + LookAt); one at 1500 is out of range, the staff attack
+    // still starts and fires along the look vector (SM_SetAttackState has no target gate).
+    {
+        ActorId autoTarget=invalid_actor_id;
+        run(600.f,300.f,markers,heading,expected,before,after,began,false,&autoTarget);
+        std::cout<<"ranged no-Tab in range: began="<<began<<" markers="<<markers<<" target="<<autoTarget<<" heading="<<heading<<" expected="<<expected<<'\n';
+        check(began&&markers>=1,"Ranged owner without a target did not attack an enemy within its weapon range");
+        check(autoTarget==2,"Ranged owner did not auto-target the enemy within its weapon range");
+        check(std::fabs(heading-expected)<0.05f,"Ranged owner did not face its auto-selected target");
+        ActorId farTarget=2;
+        run(1500.f,900.f,markers,heading,expected,before,after,began,false,&farTarget);
+        std::cout<<"ranged no-Tab out of range: began="<<began<<" markers="<<markers<<" target="<<farTarget<<'\n';
+        check(began&&markers>=1,"Ranged owner without a target must still attack (SM_SetAttackState has no target gate)");
+        check(farTarget==invalid_actor_id,"Ranged owner auto-targeted an enemy beyond its weapon range");
+    }
     std::cout<<"combat_session_ranged_attack passed\n";
     return 0;
 }catch(const std::exception& e){std::cerr<<"combat_session_ranged_attack failed: "<<e.what()<<'\n';return 1;}}

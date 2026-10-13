@@ -1,0 +1,54 @@
+# v21.8 magefix2 report (escalation of magefix items 2 and 4, tracker B162)
+
+Branch `v21.8-magefix2`, worktree `.claude/worktrees/magefix2`, base `windows-foundation` d0b45052, subst `G:` (to release), build dir `C:/dh218/magefix2-build` (Release, llvm-mingw). Package: `.local-inputs/windows-source-clock-v21.8-staged-magefix` (no overlay). Harness: `C:/dh218/tools/run-act1.ps1` through `C:/dh218/tools/run-mf2.ps1`; cases in `C:/dh218/cases/m2-*`.
+
+## Verdicts
+
+| Item | Verdict | One line |
+|---|---|---|
+| A. Staff bolt contact / aim / no-target attack | **WORKED** | The bolt contact sensor was 28x too large (324-unit glow quad instead of the model's `_colbox_` node); the ranged attack with no target now auto-targets inside the weapon range. Spawn point and aim were already faithful. |
+| B. Hero "stuck" after the Mud Lord outro | **WORKED** (root cause was not a stuck state) | The hero was never locked. `--player-to <zone>` placed it on the exit box centre, which has no PF floor; the first movement/attack admission clamped it back. Walking from the outro end through the exit to Darkwood works in a real run; the test aid now picks a walkable point. |
+| Tests | CTest 204/204 (baseline 203 plus the new `zone_floor_placement_v1`) |
+
+## Item A: staff bolt
+
+### Original (IDA export `libDungeonHunter2.so/pseudocode`)
+- `CharAI::_OnAnimEvent` 0x3d4434, state 5 `attack_ranged/attack_mainhand/do_skill`: `ProjectileManager::Spawn(inst, projectileId, owner, a4=nullptr, nullptr, CharAI::_HandleProjectile, nullptr, 0)`. **No explicit target, no homing.**
+- `Projectile::SetInfo` 0x3e58cc: origin = `projectile_node` absolute position if the owner visual has that node, else `GameObject::GetTargetPosition(owner)`; destination = origin-ish + owner look vector * 1000 (`GetLookAtVec` = sin/cos of the owner heading at +372). `Projectile::Update` 0x3e51b0 keeps that direction (homing only with the row flag byte +53 AND a target, which this spawn never has). Contact point passed to `Projectile::OnCollision` = the projectile's own position (`POProjectile::onCollisionTest` 0x470520).
+- **No asset contains the node name `projectile_node`** (grep over the staged package, `assets-extra`, original cache), and the Mage has no `target_node` (`Source own target nodes bound=1 absent=45`), so the original spawn point is the owner position. The port already did that (`launchPlayerRangedProjectile`); the "live node origin" in the header comment is a never-used branch for models that lack the node. No change.
+- Velocity: `PhysicalObject::setLinearVelocity` 0x46e918 writes Box2D m/s directly, `getPosition` 0x46e818 multiplies by 100, row speed 20 = 2000 game units/s, timer 1000 ms = 2000 units of range. The "two inconsistent update paths" noted by magefix are consistent (both Box2D units); a debug trace showed 31.3 units per frame and the bolt flying 1960 units before the timer expiry. Bolts with no target therefore **fly forward and expire at the end of their range** (they only looked like "expire in place" because the hero stood still facing the same way, so every expiry point was the same).
+- **Contact radius**: `PhysicalObject` 0x46ef68 makes a circle of `max(width,height)/2` from the GameObject relative AABB. `VisualObject::VisualObject` 0x472a0c finds the model's `_colbox_` node (`SearchByName("_colbox_")`) and `VisualObject::CalcMeshBox` 0x47211c takes the box from THAT node (colbox mesh box times the scale of the colbox mesh node's parent; `CColladaDatabase::constructNode` 0x61b2f4 makes the geometry an identity mesh child of the authored TRS node), centred on the origin; `GameObject::SetRelativeAABB` 0x38b110 widens X or Y extents under 10. `elemental_bolt_fire.bdae` has `_colbox_fireball` (mesh +-20, node scale 0.284623) so the radius is **5.69 game units**. The port took the visible glow quad (324 units wide, radius 162.02), so any enemy within about 176 units was hit at spawn and the impact FX appeared at the caster (magefix item 2 symptom: "target 176 away hit at the caster position").
+- No target: `Ctrl_Attack` -> `AI_DoMeleeAttack` 0x3d01ac -> ranged owner -> `AI_DoRangeAttack` 0x3d076c. With no explicit target it runs `ObjectSearcher::TargetList::Search` 0x4a2f34 over the weapon's maximum range (ItemTable words[39]; Staff01: 1..1000) (360 degrees when the owner is not steering, the `Attack_FrontalAngle` arc when it is), then `AI_SetTarget` + `LookAt`, then `SM_SetAttackState` with no target gate. So **the Mage fires even with no target at all, and auto-targets the nearest enemy within 1000**. The port launched untargeted bolts without searching.
+
+### Changes
+- `features/effects/runtime_session_projectile_render_v1.cpp` `source_projectile_bounds_v1`: contact AABB from the model's `_colbox_` node as above (fallback to the mesh bounds only when a model has none). Radii now: fire bolt 5.69, ChainLightning 31.31, Cyclone 117.30 (colbox 459.72 x node scale 0.255147; was about 370). Inference recorded in code: the collada root wrapper matrix is identity at `CalcMeshBox` time.
+- `combat_session.cpp`: `ranged_search` (weapon max range from ItemTable words[39] or cached property 31 >> 8, `melee_reach` radii, nearest 3D distance; inference: sort order) used in the `attack_range_redirect` service when no target is given and the owner is not steering (`heading_active == 0`; the frontal-arc constant is not bound, so a steering owner keeps the old behaviour: it still fires along its look vector).
+- `main.cpp`: the launch log line now prints the weapon range (`range=1..1000`).
+
+### Evidence
+- Unit: `runtime_session_projectile_render_v1` asserts the fire bolt contact box +-5.69246 and (skill-models variant) ChainLightning 31.307 / Cyclone 117.2965; `combat_session_ranged_attack` has two new cases: no Tab with an enemy at 600 -> `target=2`, heading equals the LookAt heading; enemy at 1500 -> attack still begins, marker queued, target stays 0. Existing `runtime_session_projectile_v1`, `mage_skill_owner_v1`, `runtime_ranged_skill_monster_v1` pass.
+- Real run (hidden window, real Space, no Tab) `C:/dh218/cases/m2-auto2`: `Mage projectile launch ... range=1..1000 ... target=17937632967283937838 ... aimErrorDeg=0`, `sensor registered ... radiusGameUnits=5.69246`, `impact id=1 kind=4 ... pos=-5985.5,2164.26 damage=21.75`. Frames `m1.png` (f540..f570, viewed): Bog Moth name plate and target ring appear without Tab, the bolt leaves the staff, a fireball bursts on the moth, "21" damage. Before the change (`m2-dbg1`, same package) the radius was 162.021 and the impact positions were within about 176 units of the caster.
+- Real run `m2-dbg1` (explicit Tab target 1700 away): the bolt flies about 1400 units in flight and hits (frames `m1.png` of `m2-dbg2`).
+- Not changed: aim error when the hero switches between two close targets (the turn kernel is the recovered one; the marker is read at the current heading as in the original).
+
+## Item B: after the Mud Lord outro
+
+### Findings
+- The b10-style run was reproduced six times (`m2-b10a` .. `m2-b10g`, boss killed by the Mage with the harness aids `--follow-actor` and `--test-player-hp`). With a temporary trace on every hero teleport the actor, `options.actorPosition`, the movement owner and the PF navigation state were all consistent; no lock, `ownsPose` or cinematic flag was involved (lock/unlock balance, `cinematic=0`, `globalBlock=0`, `localBlock=0` after the outro).
+- In the old b10 log the line that explains it is `Source PF first clamp actor=<hero> current=-20810.1,10892.6,-132.6 ... valid=0 cachedHit=0 worldHit=0 result=-18462.8,11536.2`: the hero was clamped back by its first movement/attack admission. The target of `--player-to _prim_ExitLevelZone_001` is the box CENTRE (-20810, 10892), and the boss-room floor ends near x = -20140 (floor scan with 60 probes, `m2-scan`, `m2-scan2`: floor at x >= -20140, none at -20180). The zone box itself is 2933 x 2210 (x -21543..-20077). Teleports that did not trigger movement admission (idle hero) kept the position, which made the behaviour look timing dependent; a teleport during the outro is simply overridden by the script's final `Script_SetActorPosition` (hero to `_prim_Waypoint_test`).
+- The route is playable on foot: the floor reaches into the exit box.
+
+### Change
+- `features/test_aids/zone_floor_placement_v1.hpp` + `main.cpp`: `--player-to <zone>` now places the hero on the walkable point inside the (oriented) box nearest to its centre when the source floor world is loaded (logs `status=no_floor_in_box` and falls back to the centre otherwise). No gameplay code changed for item B.
+
+### Evidence
+- Unit: `zone_floor_placement_v1` (floorless centre -> nearest floor point inside the box with its floor height, walkable centre unchanged, no floor / floor outside the box -> nothing, rotated box honours the oriented bounds).
+- Real run `C:/dh218/cases/m2-b10g` (hidden window, real keys only after the outro; pre-outro harness aids: `--player-to` hops to the boss room, `--follow-actor`, `--test-player-hp`, `--caption-auto-tap-ms 400`): `Quest banner kind=QUEST COMPLETED row=50`, hero at -18462.8,11536.2 after `EndScriptedCutScene index=6`; real keys W (1100 ms) then A (2700 ms) move it to -20162.7,10759.6 (`[campaign] frame=8190..8490` positions), `Transition prompt shown zone=_prim_ExitLevelZone_001 target=DARKWOOD display="Gothicus Darkwood"`, real E: `Transition confirmed key=E ... file=data/scene/003_darkwood.mlx`, `Session start ... 003_darkwood.mlx`, `Level triangles=40142`, arrival at `_prim_EntryPoint_from_swamp02`, Darkwood NEW QUEST row 10. Frames `m1.png` (f9050, f9250 walking in the boss room with the priest following; f9500, f9800 Darkwood with captions, viewed).
+- Also `m2-b10d`/`m2-b10e`/`m2-b10old` (old build, overlay package): a post-outro `--player-to <zone>` followed by an idle hero keeps the position and shows the prompt; it was the old zone-centre placement plus a movement admission that produced the clamp.
+
+## Remaining gaps / notes
+- The frontal-arc search (`Attack_FrontalAngle`) for a steering ranged owner is not bound; an untargeted attack while moving fires along the look vector without auto-targeting.
+- Cyclone contact radius changed from about 370 to 117.3 by the colbox rule (no real run: the Mage external owner is still not wired in `main.cpp`).
+- `_prim_Door_exit` (a `Door` with `data="Invalid"` in the boss-room module) and `_prim_WallBreak` are logged `unknown_declaration` by the door commands; the exit route does not depend on them.
+- The caption auto tap (`--caption-auto-tap-ms`) is a verification input used only to make the outro length deterministic in the harness; real Space taps also reach the end (cases `m2-b10a`, `m2-b10e`).
+- Debug env traces added during the investigation were removed; the harness scripts are `C:/dh218/tools/run-mf2.ps1`, `b10*-run.ps1`.

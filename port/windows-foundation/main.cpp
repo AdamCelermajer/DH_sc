@@ -65,6 +65,7 @@
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
 #include "features/combat/b035_session_push_effect_v1.hpp" // B159/B035: incoming Push (SM_SetKnockBackState) consumer
 #include "features/test_aids/follow_actor_aid_v1.hpp" // B158 harness: --follow-actor
+#include "features/test_aids/zone_floor_placement_v1.hpp" // magefix2: --player-to <zone> walkable placement
 #include "../script-runtime/script_constants.hpp"
 #include "../level-world/character_kill.hpp"
 #include "../level-world/character_path_commands.hpp"
@@ -3771,7 +3772,7 @@ int main(int argc,char** argv) {
             bool accepted=false;std::uint64_t id=0;
             if(!playerProjectiles->launch_state5(playerProjectileTables,request,accepted,id,e))return false;
             std::cout<<"Mage projectile launch clockMs="<<playerProjectileClockMs<<" accepted="<<accepted<<" id="<<id<<" row="<<selection.projectile.row
-                     <<" model="<<selection.projectile.model_uri<<" occurrence="<<request.occurrence<<" heading="<<heading<<" target="<<owner->target_id;
+                     <<" model="<<selection.projectile.model_uri<<" range="<<selection.minimum<<".."<<selection.maximum<<" occurrence="<<request.occurrence<<" heading="<<heading<<" target="<<owner->target_id;
             if(const auto* aimed=combatSession->actor(owner->target_id))std::cout<<" targetPos="<<aimed->transform.position[0]<<','<<aimed->transform.position[1]<<" aimErrorDeg="<<(std::acos(std::clamp(((aimed->transform.position[0]-owner->transform.position[0])*request.pose.forward[0]+(aimed->transform.position[1]-owner->transform.position[1])*request.pose.forward[1])/std::max(1e-3f,std::hypot(aimed->transform.position[0]-owner->transform.position[0],aimed->transform.position[1]-owner->transform.position[1])),-1.f,1.f))*57.29578f);
             std::cout<<'\n';
             if(accepted&&!registerPlayerProjectileSensor(id,e))return false;
@@ -7888,7 +7889,22 @@ int main(int argc,char** argv) {
                     } else
                     if(zoneIndex==f::transitions::ExitZoneSet::npos) std::cout<<"Player-to zone="<<aid.first<<" status=unknown_zone frame="<<drawn<<'\n';
                     else if(motor) {
-                        const auto c=exitZones.zones()[zoneIndex].box.centre;
+                        const auto& zoneBox=exitZones.zones()[zoneIndex].box;
+                        auto c=zoneBox.centre;
+                        // magefix2: the box centre can lie off every PF floor (Mud Lord exit zone); a hero put there is clamped back by
+                        // its first movement/attack admission. Use the walkable point inside the box nearest to the centre when the
+                        // source floor world is loaded (the centre itself when it is walkable or no floor world exists).
+                        if(sourceFloors) {
+                            f::test_aids::ZoneBoxV1 aidBox;aidBox.centre=zoneBox.centre;aidBox.axes=zoneBox.axes;aidBox.half=zoneBox.half;
+                            const auto placement=f::test_aids::zone_floor_placement_v1(aidBox,[&](float x,float y,float z,float& height){
+                                for(const float probeZ:{z,z+100.f,z+250.f}){
+                                    dh2::navigation::HeightHit hit{};const float at[3]{x,y,probeZ};
+                                    if(dh2_nav_world_height(&hit,&sourceFloors->world()->collision_world,at,0)==1){height=hit.height;return true;}
+                                }
+                                return false;});
+                            if(placement)c=*placement;
+                            else std::cout<<"Player-to zone="<<aid.first<<" status=no_floor_in_box (centre used)\n";
+                        }
                         f::Vec3 target{c[0],c[1],c[2]};
                         {std::string teleportError; // B137 test aid: the profile-bound (frontend/arrival) hero is owned by the Session body, so use the SetActorPosition owner
                          if(!hostServices.actor_verbs.teleport||!hostServices.actor_verbs.teleport(combatSession->player_id(),{c[0],c[1],c[2]},teleportError))motor->setPosition(target,0.0f);}

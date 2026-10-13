@@ -796,6 +796,29 @@ struct CombatSession::Impl {
         }
         return result;
     }
+    // v21.8 magefix2: CharAI::AI_DoRangeAttack (0x3d076c) with no explicit target runs ObjectSearcher::TargetList::Search
+    // (0x4a2f34) over the weapon's maximum range (range query output 1 = ItemTable words[39] / cached property 31 >> 8) and
+    // takes the sorted head (AI_SetTarget + LookAt). The source range is `|targetPos - ownerTargetPos| - victimRadius -
+    // owner MeleeRadius <= maxRange`; this uses melee_reach for both radii and a 3D distance sort (inference: the sort order).
+    // A moving owner (heading flag +437) searches only the Attack_FrontalAngle arc; that arc constant is not bound here, so the
+    // caller does not search in that case (explicit gap, the attack still fires along the owner's look vector).
+    ActorId ranged_search(ActorId source)const {
+        const auto* a=world->find_actor(source);const auto* props=world->combat_properties(source);const auto* traits=world->traits(source);
+        if(!a||!props||!traits)return invalid_actor_id;
+        float range=-1;
+        if(props->sheets.resolved[32]!=-1)range=static_cast<float>(props->sheets.resolved[31]>>8);
+        else if(traits->main_item&&(traits->main_item->words[22]==4||traits->main_item->words[22]==5))range=static_cast<float>(traits->main_item->words[39]);
+        if(range<0)return invalid_actor_id;
+        ActorId result=invalid_actor_id;float best=0;
+        for(const auto& pair:world->actors()){
+            if(!world->eligible_target(*a,pair.second))continue;
+            float square=0;for(unsigned i=0;i<3;++i){const float d=a->transform.position[i]-pair.second.transform.position[i];square+=d*d;}
+            const float distance=std::sqrt(square)-world->melee_reach(pair.first)-world->melee_reach(source);
+            if(distance>range)continue;
+            if(result==invalid_actor_id||square<best){result=pair.first;best=square;}
+        }
+        return result;
+    }
     bool turn(ActorId source,ActorId target,double dt,std::string& error){
         auto* a=world->find_actor(source);const auto* b=world->find_actor(target);
         auto& entry=entries.at(source);
@@ -1060,7 +1083,15 @@ struct CombatSession::Impl {
                     // redirected command begins the same source attack (no melee search); the state-5 projectile marker
                     // is queued for the projectile executor. Other owners keep the unbound rejection.
                     if(!entry.rangedProjectileMarkers){b.failure="Original ranged action redirect is not bound for source combo";break;}
-                    if(!s.request(b.source,request->payload,b.failure))return;
+                    {
+                        ActorId chosen=request->payload;
+                        // AI_DoRangeAttack: no explicit target -> target search over the weapon range, then AI_SetTarget + LookAt.
+                        if(chosen==invalid_actor_id&&entry.sourceAttack.heading_active==0){
+                            chosen=s.ranged_search(b.source);
+                            if(chosen!=invalid_actor_id&&(!s.set_source_target(b.source,chosen,false,b.failure)||!s.turn(b.source,chosen,b.dt,b.failure)))return;
+                        }
+                        if(!s.request(b.source,chosen,b.failure))return;
+                    }
                     break;
                 default:b.failure="Original source combo service unavailable: "+std::to_string(request->service);break;
                 }

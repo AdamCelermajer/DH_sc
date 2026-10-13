@@ -172,7 +172,20 @@ int main(int argc, char** argv) {
                 check(skillRenderer->source_projectile_bounds_v1(uri, low, high, error),
                       std::string("Skill projectile AABB not enrolled: ") + uri + " " + error);
                 check(high[0] > low[0] && high[1] > low[1] && high[2] >= low[2], "Skill projectile AABB is empty");
+                // colbox mesh half-extent x its authored node scale: ChainLightning 31.307 x 1, Cyclone 459.721 x 0.255147.
+                const float expected = std::string(uri).find("chain_lightning") != std::string::npos ? 31.307f : 117.2965f;
+                check(std::fabs(high[0] - expected) < 0.01f && std::fabs(low[0] + expected) < 0.01f,
+                      std::string("Skill projectile contact AABB is not its _colbox_ node box: ") + uri);
             }
+        }
+        {
+            // v21.8 magefix2: the contact AABB is the model's `_colbox_` node (VisualObject::CalcMeshBox 0x47211c), not the
+            // 324-unit glow quad: elemental_bolt_fire colbox mesh +-20 (xy) x the colbox node's scale 0.284623 = +-5.6925.
+            std::array<float, 3> low{}, high{};
+            check(renderer->source_projectile_bounds_v1("data/3D/projectiles/elemental_bolt_fire.bdae", low, high, error), error);
+            check(std::fabs(high[0] - 5.69246f) < 0.001f && std::fabs(low[0] + 5.69246f) < 0.001f &&
+                  std::fabs(high[1] - 5.69246f) < 0.001f && std::fabs(low[1] + 5.69246f) < 0.001f,
+                  "Fire bolt contact AABB is not the _colbox_ node box (visible glow quad bounds leaked in)");
         }
         {
             std::array<float, 3> low{}, high{};
