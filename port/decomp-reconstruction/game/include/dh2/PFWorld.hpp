@@ -150,6 +150,7 @@ public:
     bool unk_94;                                                            // +0x94 false from the ctor; when set, ValidatePosition's height test passes
 
     // The instance, Singleton<PFWorld>::s_inst (0x9a26d8, IDA list_globals). Callers in the sources pass it as the
-    // object of PFWorld::InitObject, FlagFloorAsDeadEnd, GetFloorHeightAt and DropPath. The definition comes at integration.
-    static PFWorld s_inst;
+    // object of PFWorld::InitObject, FlagFloorAsDeadEnd, GetFloorHeightAt and DropPath. This name is a reference to that
+    // object, defined with the instantiation in game-app/src/singleton_PFWorld.cpp (link-1).
+    static PFWorld& s_inst;
 };

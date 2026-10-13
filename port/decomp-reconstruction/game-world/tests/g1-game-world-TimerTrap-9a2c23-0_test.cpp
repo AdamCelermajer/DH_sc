@@ -45,7 +45,8 @@
 // ---- link-level state and definitions ----
 
 int gAssertLevel = 0;
-ObjectManager* dword_99F764 = nullptr;
+static ObjectManager* g_test_dword_99F764 = nullptr;
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 std::uint8_t* Arrays::TimerTraps::members = nullptr;
 
 namespace {

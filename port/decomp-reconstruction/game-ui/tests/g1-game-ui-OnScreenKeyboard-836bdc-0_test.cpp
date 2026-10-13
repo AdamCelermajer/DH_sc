@@ -57,7 +57,8 @@ bool EventManager::Detach(int eventId, IEventReceiver* receiver) {
     return true;
 }
 
-EventManager* dword_99F740 = &g_manager;
+static EventManager* g_test_dword_99F740 = &g_manager;
+EventManager*& dword_99F740 = g_test_dword_99F740;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 // An event with a settable id, for the onEvent gate.
 class TestEvent : public IEvent {

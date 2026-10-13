@@ -26,8 +26,10 @@
 int gAssertLevel = 0;
 
 // ---- stand-ins for the globals the batch reads ----
-ObjectManager* dword_99F764 = nullptr;
-PlayerManager* dword_99F76C = nullptr;
+static ObjectManager* g_test_dword_99F764 = nullptr;
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 // Singleton<Application>::s_inst. The batch takes its address as the Application; the storage is only needed to link.
 alignas(16) char g_applicationInstance[1024] __asm__("_ZN9SingletonI11ApplicationE6s_instE");

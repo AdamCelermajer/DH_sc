@@ -119,7 +119,8 @@ alignas(16) unsigned char g_pyBuf[sizeof(PyDataConstants)];
 
 // ---- definitions this test provides (owned by other classes and layers that are not linked) ----
 
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 std::uint32_t Arrays::AnimatedEffectTable::size = 10;
 
 sfc::script::lua::Value::Value() : m_type(0), m_number(0.0f), m_string(nullptr), m_pointer(nullptr) {}

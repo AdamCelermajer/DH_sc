@@ -104,9 +104,9 @@ float Container::GetObstacleStrength() const {
 void Container::SetState(State state) {
     RootSceneNode* node = m_visualObject->m_node;
     if (state == STATE_ACTIVATE) {
-        node->unk_011c &= ~0x400u;
+        node->flags &= ~0x400u;
     } else {
-        node->unk_011c |= 0x400u;
+        node->flags |= 0x400u;
     }
     m_state = state;
 }

@@ -54,17 +54,15 @@ void MenuManager::HideAll() {
     }
 }
 
-// 0x42d290 _ZN11MenuManager11LoadSWFFileEPKci
-// PARTIAL: RenderFX::SetTextBufferingEnabled(fx, true) is not called. The RenderFX header is still the
-// MenuFX placeholder and declares no such method. The original allocates the MenuFX with an operator new
-// hint of 8 that is not mapped to a swf::MemHint value here, so plain new is used. The rest follows the
-// original: the MenuFX goes into m_swfFiles[index] (+0x8c + 4*index) before Load, and the camera goes
-// into m_cameras[index] (+0x9c + 4*index).
+// 0x42d290 MenuManager::LoadSWFFile(char const*,int)
+// The MenuFX goes into m_swfFiles[index] (+0x8c + 4*index) before Load, then text buffering is enabled, and the camera goes
+// into m_cameras[index] (+0x9c + 4*index). The original allocates the MenuFX with an operator new hint of 8, which is not
+// mapped to a swf::MemHint value here, so plain new is used.
 MenuFX* MenuManager::LoadSWFFile(const char* file, int index) {
     MenuFX* fx = new MenuFX();
     m_swfFiles[index] = fx;
     fx->Load(file, nullptr);
-    // RenderFX::SetTextBufferingEnabled(fx, true) omitted: waits on a RenderFX declaration.
+    fx->SetTextBufferingEnabled(true);
     m_cameras[index] = new MenuFlash2DCamera(fx);
     return m_swfFiles[index];
 }
@@ -381,12 +379,25 @@ void MenuManager::Update(bool hudOnly) {
     PopProfilingContext("MenuManager::Update");
 }
 
-// 0x42ee94 _ZN11MenuManager12RegisterMenuEP8MenuBase
-// PARTIAL, not rebuilt. The original looks for the first m_multiMenuManager->m_menuFX[0..3]
-// (MultiMenuManager, absent) whose RenderFX::Find(fx, menu->m_name) is non-null, and RenderFX::Find is not
-// declared. When one is found, the original pushes the menu on m_menus, calls MenuFX::RegisterState(menu,
-// nullptr) on that fx, and sets m_registered. When none is found, it reads the isTracingMenuManager switch
-// and returns. Nothing is done here.
+// 0x42ee94 MenuManager::RegisterMenu(MenuBase*)
+// The first of the four m_multiMenuManager->m_menuFX movies (+0x134) whose Find(menu->m_name) is non-null takes the menu:
+// it is appended to m_menus, the movie's RegisterState(menu, nullptr) is called and m_registered (+0x7c) is set. When no
+// movie has it, the debug switch file is loaded and isTracingMenuManager is read, and nothing is registered.
 void MenuManager::RegisterMenu(MenuBase* menu) {
-    (void)menu;
+    MenuFX* owner = nullptr;
+    for (int i = 0; i < 4; ++i) {
+        MenuFX* fx = m_multiMenuManager->m_menuFX[i];
+        if (fx != nullptr && fx->Find(menu->m_name) != nullptr) {
+            owner = fx;
+            break;
+        }
+    }
+    if (owner == nullptr) {
+        DebugSwitches::s_inst.load();
+        (void)DebugSwitches::s_inst.GetSwitch("isTracingMenuManager");
+        return;
+    }
+    m_menus.push_back(menu);
+    owner->RegisterState(menu, nullptr);
+    menu->m_registered = true;
 }

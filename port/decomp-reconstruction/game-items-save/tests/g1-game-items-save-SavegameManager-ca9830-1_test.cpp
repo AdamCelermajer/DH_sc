@@ -196,7 +196,8 @@ bool StreamReader::readString(IStreamBase* stream, char* dst, std::uint64_t len)
 
 // Option table of the test: row 0 is a toggle (type 0, 0..1), row 1 a two-state slider (type 2, Max 3, Min 0),
 // row 2 a type 1 option (0..5), row 3 a toggle used by the cheat checks.
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 bool handle_cheats_inGame = false;
 
 // ---- Checks ------------------------------------------------------------------------------------------------------

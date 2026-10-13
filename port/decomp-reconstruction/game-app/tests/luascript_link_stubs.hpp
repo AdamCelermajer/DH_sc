@@ -154,7 +154,8 @@ std::uint32_t LevelList::size = 0;
 }  // namespace Arrays
 
 // ---- player and random streams (read by the player bindings in g1-game-app-LuaScript-5015a8-1.cpp) ----
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 PlayerInfo* PlayerManager::GetHostingPlayer() { return nullptr; }
 PlayerInfo* PlayerManager::GetLocalPlayer(int /*localId*/, bool /*flag*/) { return nullptr; }

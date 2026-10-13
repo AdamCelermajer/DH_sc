@@ -232,7 +232,8 @@ void testDamping() {
 // Stubs for the engine functions the unit calls, and the two globals it reads.
 
 Point3D<float> Vec3f_Origin{0.0f, 0.0f, 0.0f};
-ObjectManager* dword_99F764 = nullptr;
+static ObjectManager* g_test_dword_99F764 = nullptr;
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 Application& ApplicationGetInstance() { return *reinterpret_cast<Application*>(g_appStorage); }
 int Application::GetDt() { return g_dt; }

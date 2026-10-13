@@ -31,7 +31,8 @@ int gAssertLevel = 0;
 
 // The constructor and destructor attach and detach the receiver on the global event manager (dh2/global/MenuManagerGlobals.hpp).
 // The manager is null here: the doubles record each call in g_events and never touch the manager.
-EventManager* dword_99F740 = nullptr;
+static EventManager* g_test_dword_99F740 = nullptr;
+EventManager*& dword_99F740 = g_test_dword_99F740;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 namespace {
 struct EventCall {

@@ -60,7 +60,8 @@ std::vector<std::string> g_callLog;
 }  // namespace
 
 int gAssertLevel = 0;
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 std::uint8_t* Arrays::TriggerPlates::members = nullptr;
 std::uint32_t Arrays::TriggerPlates::size = 0;
 

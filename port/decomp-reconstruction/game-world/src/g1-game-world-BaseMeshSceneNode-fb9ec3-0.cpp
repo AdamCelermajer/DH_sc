@@ -18,6 +18,13 @@
 #include "glitch-scene-collada-gui/collada/IMesh.hpp"
 #include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
 
+namespace {
+// The placement every engine mesh node of this family is built with (the stack temporaries of the constructors).
+const glitch::core::vector3d<float> kOrigin{0.0f, 0.0f, 0.0f};
+const glitch::core::quaternion kIdentityRotation{0.0f, 0.0f, 0.0f, 1.0f};
+const glitch::core::vector3d<float> kUnitScale{1.0f, 1.0f, 1.0f};
+}  // namespace
+
 // 0x35a9a8 _ZN17BaseMeshSceneNodeIN6glitch7collada14CMeshSceneNodeEE6renderEPv
 // Calls CMeshSceneNode::render(this, ctx) only when the flag at +0x138 is set. The original returns this in r0, which
 // the virtual slot ignores, so the result is void here.
@@ -37,9 +44,17 @@ void BaseMeshSceneNode<glitch::collada::CMeshSceneNode>::render(void* renderCont
 // CModularSkinnedMeshSceneNode does not derive from CMeshSceneNode, so that call is not bound and this body draws nothing.
 template <>
 void BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::render(void* renderContext) {
-    (void)renderContext;
     if (m_renderEnabled) {
-        // Original: glitch::collada::CMeshSceneNode::render(this, renderContext). Not bound, see above.
+        glitch::collada::CMeshSceneNode::render(renderContext);
+    }
+}
+
+// 0x35a9b8 _ZN17BaseMeshSceneNodeIN6glitch7collada21CSkinnedMeshSceneNodeEE6renderEPv
+// The original is "if (+0x17c) CMeshSceneNode::render(this, ctx)".
+template <>
+void BaseMeshSceneNode<glitch::collada::CSkinnedMeshSceneNode>::render(void* renderContext) {
+    if (m_renderEnabled) {
+        glitch::collada::CMeshSceneNode::render(renderContext);
     }
 }
 
@@ -61,8 +76,15 @@ BaseMeshSceneNode<glitch::collada::CMeshSceneNode>::~BaseMeshSceneNode() {}
 template <>
 BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::BaseMeshSceneNode(
         const boost::intrusive_ptr<glitch::collada::IMesh>& mesh)
-    : glitch::collada::CModularSkinnedMeshSceneNode() {
-    (void)mesh;
+    : glitch::collada::CModularSkinnedMeshSceneNode(mesh, nullptr, -1, kOrigin, kIdentityRotation, kUnitScale) {
+    m_renderEnabled = true;
+}
+
+// 0x35affc _ZN17BaseMeshSceneNodeIN6glitch7collada21CSkinnedMeshSceneNodeEEC2ERKN5boost13intrusive_ptrINS1_5IMeshEEE
+// CSkinnedMeshSceneNode(mesh, node=0, id=-1, position=0, rotation=identity, scale=1), then the flag at +0x17c is set to 1.
+template <>
+BaseMeshSceneNode<glitch::collada::CSkinnedMeshSceneNode>::BaseMeshSceneNode(const boost::intrusive_ptr<glitch::collada::IMesh>& mesh)
+    : glitch::collada::CSkinnedMeshSceneNode(mesh, nullptr, -1, kOrigin, kIdentityRotation, kUnitScale) {
     m_renderEnabled = true;
 }
 
@@ -78,8 +100,7 @@ BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::BaseMeshSceneN
 template <>
 BaseMeshSceneNode<glitch::collada::CMeshSceneNode>::BaseMeshSceneNode(
         const boost::intrusive_ptr<glitch::collada::IMesh>& mesh)
-    : glitch::collada::CMeshSceneNode() {
-    (void)mesh;
+    : glitch::collada::CMeshSceneNode(mesh, nullptr, -1, kOrigin, kIdentityRotation, kUnitScale) {
     m_renderEnabled = true;
 }
 
@@ -95,6 +116,11 @@ BaseMeshSceneNode<glitch::collada::CMeshSceneNode>::BaseMeshSceneNode(
 // CModularSkinnedMeshSceneNode declares no virtual base, so these stores are not checked on the host.
 template <>
 BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::~BaseMeshSceneNode() {}
+
+// 0x35b750 _ZN17BaseMeshSceneNodeIN6glitch7collada21CSkinnedMeshSceneNodeEED1Ev
+// Empty body: the compiler emits the vtable and virtual-base stores and the call to the base destructor.
+template <>
+BaseMeshSceneNode<glitch::collada::CSkinnedMeshSceneNode>::~BaseMeshSceneNode() {}
 
 // 0x35b714 _ZN17BaseMeshSceneNodeIN6glitch7collada28CModularSkinnedMeshSceneNodeEED0Ev
 // skipped: compiler-generated deleting destructor. It is the complete destructor 0x35b668 followed by CustomFree(this).

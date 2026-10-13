@@ -85,3 +85,10 @@ template <> int SimpleTypeProperty<glitch::core::dimension2d<float>>::SetDefault
 template <> SimpleTypeProperty<glitch::core::dimension2d<float>>* SimpleTypeProperty<glitch::core::dimension2d<float>>::Clone(); // 0x387f04
 template <> std::string SimpleTypeProperty<glitch::core::vector3d<float>>::ToString(void* object);                    // 0x387ad0
 template <> SimpleTypeProperty<glitch::core::vector3d<float>>* SimpleTypeProperty<glitch::core::vector3d<float>>::Clone(); // 0x387e40
+
+// The constructor of every instantiation except std::string: the binary has no out-of-line copy (the scalar, vector and
+// Point3D properties build it inline at their AddProperty<T> sites), and the body is the std::string one: Property(name,
+// object, field), then the default value copied from the argument (link-1; the callers named the out-of-line symbol).
+template <typename T>
+SimpleTypeProperty<T>::SimpleTypeProperty(void* object, const char* name, T* field, T defaultValue)
+    : Property(name, object, field), m_defaultValue(defaultValue) {}

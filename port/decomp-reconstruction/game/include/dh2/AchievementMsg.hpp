@@ -21,4 +21,10 @@ public:
     int m_trophyType;                                                   // +0x30 "TrophyType"
     int m_grade;                                                        // +0x34 "Grade"
     int m_label;                                                        // +0x38 "Label"
+
+    // Function-name pointers of the queue (4-byte .data pointers, no per-object storage): ELF
+    // _ZN14AchievementMsg15s_StartFuncNameE at 0x999838 and _ZN14AchievementMsg14s_SkipFuncNameE at 0x9a54e8.
+    // Read by NativeSkipAchievementMessage (game-app/src/g1-game-app-global-f216b6-12.cpp).
+    static const char* s_StartFuncName;                                 // 0x999838
+    static const char* s_SkipFuncName;                                  // 0x9a54e8
 };

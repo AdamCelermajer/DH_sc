@@ -11,6 +11,7 @@
 #include <string>
 
 #include "dh2/SoundEmitter.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/Level.hpp"
@@ -109,15 +110,14 @@ void SoundEmitter::Update() {
     }
 }
 
-// 0x3953e0 _ZN12SoundEmitterD1Ev
-// 0x395490 _ZN12SoundEmitterD2Ev
-// PARTIAL: the original first stops the sound when m_playing (+0x39c) is set:
-// VoxSoundManager::Stop(VoxSoundManager::s_instance, m_soundId (+0x390), 0). That call is not made, because
-// VoxSoundManager::Stop(int, int) and s_instance are not declared in the tree. The string m_sound (+0x378) and then
-// GameObject are destroyed by the compiler, in the same order as the original (_M_deallocate_block, then
-// GameObject::~GameObject). The two addresses have the same body, so one C++ destructor covers both.
+// 0x3953e0 SoundEmitter::~SoundEmitter(void)
+// Also the D2 base destructor at 0x395490 (same body; one C++ destructor serves both).
+// When m_playing (+0x39c) is set, the sound is stopped first: VoxSoundManager::Stop(s_instance, m_soundId (+0x390), 0). The
+// string m_sound (+0x378) and then GameObject are destroyed by the compiler, in the original order.
 SoundEmitter::~SoundEmitter() {
-    // Not made: if (m_playing) VoxSoundManager::Stop(VoxSoundManager::s_instance, m_soundId, 0).
+    if (m_playing) {
+        VoxSoundManager::s_instance->Stop(m_soundId, 0);
+    }
 }
 
 // 0x395474 _ZN12SoundEmitterD0Ev

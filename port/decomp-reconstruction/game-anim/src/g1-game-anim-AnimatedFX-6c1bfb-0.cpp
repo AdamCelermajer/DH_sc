@@ -11,6 +11,8 @@
 #include "dh2/AnimController.hpp"
 #include "dh2/AnimatedFX.hpp"
 #include "dh2/VisualObject.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
 // Global assert level (libDungeonHunter2.so gAssertLevel at 0x99f914). core-platform/memory.hpp declares it too,
 // but that header redefines glitch::core types that glitch-shared's glitch_core.hpp also defines, so it is not included here.
@@ -102,33 +104,40 @@ void AnimatedFX::SetEndPoint(const Point3D<float>& position) {
     (void)position;
 }
 
-// 0x492694 _ZN10AnimatedFX10SetLoopingEb
-// PARTIAL. When the FX has a visual and an animator, the original calls the animator's slot +0x44 (returns the
-// glitch::scene::ITimelineController) and then the controller's slot +0x40 with the flag. Neither interface is
-// declared in the tree, so that call is not written. The flag store is written.
+// 0x492694 AnimatedFX::SetLooping(bool)
+// When the FX has a visual and an animator, the animator's timeline controller (getTimelineCtrl, vptr+0x44) gets setLoop(flag)
+// (vptr+0x40). The flag is stored in m_looping (+0x18) in every case.
 void AnimatedFX::SetLooping(bool looping) {
-    if (m_visual != nullptr && GetAnimator() != nullptr) {
-        // NOT RECONSTRUCTED: ITimelineController slot +0x40 (looping), see above.
+    if (m_visual != nullptr) {
+        glitch::collada::ISceneNodeAnimator* animator = GetAnimator();
+        if (animator != nullptr) {
+            animator->getTimelineCtrl()->setLoop(looping);
+        }
     }
-    m_looping = looping;                                        // +0x18
+    m_looping = looping;
 }
 
-// 0x4926e4 _ZN10AnimatedFX6SetEndEv
-// PARTIAL. The original passes the controller's end word (+0x14) to the controller's slot +0x0c. The
-// controller comes from the animator (slot +0x44). Interfaces not declared in the tree; the call is not
-// written.
+// 0x4926e4 AnimatedFX::SetEnd(void)
+// With a visual and an animator: the timeline controller's jumpTo (vptr+0x0c) with its range end (rangeEndMs, +0x14).
 void AnimatedFX::SetEnd() {
-    if (m_visual != nullptr && GetAnimator() != nullptr) {
-        // NOT RECONSTRUCTED: ITimelineController slot +0x0c with the controller's +0x14 word.
+    if (m_visual != nullptr) {
+        glitch::collada::ISceneNodeAnimator* animator = GetAnimator();
+        if (animator != nullptr) {
+            const std::int32_t end = animator->getTimelineCtrl()->rangeEndMs;
+            animator->getTimelineCtrl()->jumpTo(end);
+        }
     }
 }
 
-// 0x492744 _ZN10AnimatedFX8SetStartEv
-// PARTIAL. The same call as SetEnd with the controller's +0x10 word (the start). Not written, for the same
-// reason.
+// 0x492744 AnimatedFX::SetStart(void)
+// As SetEnd, with the range start (rangeStartMs, +0x10).
 void AnimatedFX::SetStart() {
-    if (m_visual != nullptr && GetAnimator() != nullptr) {
-        // NOT RECONSTRUCTED: ITimelineController slot +0x0c with the controller's +0x10 word.
+    if (m_visual != nullptr) {
+        glitch::collada::ISceneNodeAnimator* animator = GetAnimator();
+        if (animator != nullptr) {
+            const std::int32_t start = animator->getTimelineCtrl()->rangeStartMs;
+            animator->getTimelineCtrl()->jumpTo(start);
+        }
     }
 }
 

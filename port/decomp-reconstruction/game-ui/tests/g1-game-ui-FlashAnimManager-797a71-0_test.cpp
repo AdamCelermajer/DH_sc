@@ -42,8 +42,8 @@ float GameSWFUtils::GetInvPixelScaleX(gameswf::root*) { return 1.0f; }
 float GameSWFUtils::GetInvPixelScaleY(gameswf::root*) { return 1.0f; }
 int GetScreenPosFromWorldPos(const glitch::core::vector3d<float>&, glitch::core::position2d<int>&) { return 0; }
 
-gameswf::character* RenderFX::GetFlashRoot() { return nullptr; }
-gameswf::root* RenderFX::GetRoot() { return nullptr; }
+gameswf::character* RenderFX::GetFlashRoot() const { return nullptr; }
+gameswf::root* RenderFX::GetRoot() const { return nullptr; }
 RenderFX::CharacterArray* RenderFX::FindCharacters(gameswf::character*, const char*, int) { return nullptr; }
 gameswf::character* RenderFX::Find(const char*, gameswf::character*) { return nullptr; }
 void RenderFX::BeginDisplay() {}

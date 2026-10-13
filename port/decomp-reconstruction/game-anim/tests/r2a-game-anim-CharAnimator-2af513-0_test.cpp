@@ -194,7 +194,9 @@ VisualFXManager::VisualFXManager() {}
 VisualFXManager::~VisualFXManager() {}
 VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
 VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
-VisualFXManager VisualFXManager::s_inst;
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static VisualFXManager g_testInstance_1{};
+VisualFXManager& VisualFXManager::s_inst = g_testInstance_1;
 
 bool Application::onEvent(const glitch::SEvent&) {
     return false;
@@ -224,7 +226,9 @@ std::vector<int> g_registeredFx;                     // FX set ids
 
 AnimSetManager::AnimSetManager() {}
 AnimSetManager::~AnimSetManager() {}
-AnimSetManager AnimSetManager::s_inst;
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static AnimSetManager g_testInstance_2{};
+AnimSetManager& AnimSetManager::s_inst = g_testInstance_2;
 void AnimSetManager::AddAnim(int setId, int animDict) {
     g_addAnim.emplace_back(setId, animDict);
 }

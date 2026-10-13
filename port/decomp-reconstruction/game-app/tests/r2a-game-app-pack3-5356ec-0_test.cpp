@@ -226,10 +226,14 @@ void MenuMessageManager<CharMenuTutorialMsg, 1>::Invoke(const char* functionName
     g_charInvokeQueue = queue;
 }
 
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static MenuMessageManager<DialogMsg, 1> g_testInstance_1{};
 template <>
-MenuMessageManager<DialogMsg, 1> MenuMessageManager<DialogMsg, 1>::s_inst{};
+MenuMessageManager<DialogMsg, 1>& MenuMessageManager<DialogMsg, 1>::s_inst = g_testInstance_1;
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static MenuMessageManager<CharMenuTutorialMsg, 1> g_testInstance_2{};
 template <>
-MenuMessageManager<CharMenuTutorialMsg, 1> MenuMessageManager<CharMenuTutorialMsg, 1>::s_inst{};
+MenuMessageManager<CharMenuTutorialMsg, 1>& MenuMessageManager<CharMenuTutorialMsg, 1>::s_inst = g_testInstance_2;
 
 // ---- Message classes ------------------------------------------------------------------------------------------------
 
@@ -268,14 +272,18 @@ bool GetDialogMsgListById(int dialogId, std::vector<DialogMsg>& out) {
 
 // ---- Stubs for code outside the batch --------------------------------------------------------------------------------
 
-ObjectManager* dword_99F764 = reinterpret_cast<ObjectManager*>(g_objectManagerStorage);
-PlayerManager* dword_99F76C = reinterpret_cast<PlayerManager*>(g_playerManagerStorage);
+static ObjectManager* g_test_dword_99F764 = reinterpret_cast<ObjectManager*>(g_objectManagerStorage);
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
+static PlayerManager* g_test_dword_99F76C = reinterpret_cast<PlayerManager*>(g_playerManagerStorage);
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 VisualFXManager::VisualFXManager() {}
 VisualFXManager::~VisualFXManager() {}
 VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
 VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
-VisualFXManager VisualFXManager::s_inst;
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static VisualFXManager g_testInstance_3{};
+VisualFXManager& VisualFXManager::s_inst = g_testInstance_3;
 
 void VisualFXManager::DropAnimatedFXSetByID(int /*effectTableId*/) {}
 

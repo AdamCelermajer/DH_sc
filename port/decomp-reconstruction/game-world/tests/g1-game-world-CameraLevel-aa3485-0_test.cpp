@@ -152,7 +152,8 @@ Level* Application::GetCurrentLevel() const {
 AnimationSet::~AnimationSet() {}
 Animation::~Animation() {}
 
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 int PlayerManager::GetNumLocalPlayers(bool) {
     return g_localPlayers;
 }
@@ -173,7 +174,9 @@ void VisualObject::SetAnimController(AnimController*) {}
 // ---- AnimSetManager, AnimController and AnimSetController ----
 AnimSetManager::AnimSetManager() {}
 AnimSetManager::~AnimSetManager() {}
-AnimSetManager AnimSetManager::s_inst;
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static AnimSetManager g_testInstance_1{};
+AnimSetManager& AnimSetManager::s_inst = g_testInstance_1;
 int AnimSetManager::Create() { return 0; }
 void AnimSetManager::AddTemplateAnim(int, int) {}
 void AnimSetManager::AddAnim(int, int) {}

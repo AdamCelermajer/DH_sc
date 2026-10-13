@@ -35,8 +35,10 @@
 #include "pydata-accessors/w7_pydata12.hpp"
 
 // The globals the bodies read. Declared extern in dh2/global/IsMultiplayerGame.hpp and ObjectManagerInstance.hpp.
-PlayerManager* dword_99F76C = nullptr;
-ObjectManager* dword_99F764 = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
+static ObjectManager* g_test_dword_99F764 = nullptr;
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 namespace {
 

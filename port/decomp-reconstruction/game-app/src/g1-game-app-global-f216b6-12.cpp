@@ -6,7 +6,8 @@
 // What is reconstructed and what is not:
 //   - BubbleSortByTitle (header) is the title sort of NativeGetQuestIDsInRange. It is tested in
 //     game-app/tests/g1-game-app-global-f216b6-12_test.cpp.
-//   - Every native is PARTIAL. Each one either reads an argument or writes its result through gameswf, which is the
+//   - (First wave, before the r3b-w1 redo.) Every native was PARTIAL. The redo completed the ones named in their ledger
+//     rows (reconstructed); the statuses below are historical. Each one either reads an argument or writes its result through gameswf, which was the
 //     blocker for all twenty, or it needs a piece the tree does not declare yet: the Singleton accessor and the
 //     s_SkipFuncName and s_StartFuncName pointers of the message queues, the OnlineStatusMsg, StatusMsg and TutorialMsg
 //     classes, RenderFX::InvokeASCallback and RenderFX::GetRoot, and MultiMenuManager::ResetUpdateCursor. The bodies are
@@ -50,10 +51,35 @@
 
 #include "dh2/global/native_gameswf_menus.hpp"
 
+#include <cstring>
+#include <string>
+
+#include "core-platform/w7_global_rem.hpp"
+#include "dh2/AchievementMsg.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/CharMenuTutorialMsg.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/PlayerStatManager.hpp"
+#include "dh2/RenderFX.hpp"
 #include "dh2/Singleton.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/global/multi_menu_manager.hpp"
 #include "dh2/global/native_app_bindings.hpp"
+#include "gameswf/gameswf_as_classes/as_array.h"
+#include "gameswf/gameswf_environment.h"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
+#include "vendor-gameswf/as_value.hpp"
+#include "vendor-gameswf/gameswf_root.hpp"
+
+// Helper unit g1-game-app-global-f216b6-12_names.cpp: the Arrays::LevelList name table (member_names.hpp).
+int FindLevelListRow(const char* name, int count);
 
 // 0x440e5c NativeGetNextOnlineStatusMessage(gameswf::fn_call const&)
 // PARTIAL. No argument is read. If the OnlineStatusMsg queue is not empty (the deque object is at global dword_99FB34,
@@ -85,32 +111,78 @@ void NativeKickPlayerOut(const gameswf::fn_call& call) {
 }
 
 // 0x442198 NativeSwapEquipment(gameswf::fn_call const&)
-// PARTIAL. The player index is to_number of the top argument. For the Character from NativeGetPlayerChar(index, false),
-// when it is non-null, the original runs ItemInventory::SwapEquipmentSet on the inventory at +0x37c, then
+// The player index is to_number of the top argument. For the Character from NativeGetPlayerChar(index, false), when it
+// is non-null, the original runs ItemInventory::SwapEquipmentSet on the inventory at +0x37c, then
 // CharProperties::UpdateGearsProperties at +0x560, Character::INV_CheckItemsRequirements, Character::INV_UpdateSkin and
 // Character::ValidateHPMP. Then the HUD: RenderFX::InvokeASCallback "DisplayRightHud" with no arguments, and
-// "FillActionIcon" with one number, MenuManager::GetInstance()->m_actionIconType (+0x108). Missing: to_number, the gameswf
-// root and root movie accessors, RenderFX::InvokeASCallback and RenderFX::GetRoot (not declared in dh2/RenderFX.hpp), and
-// drop_refs. NativeGetPlayerChar is declared, so the inventory part can be written once the gameswf accessors land.
+// "FillActionIcon" with one number, MenuManager::GetInstance()->m_actionIconType (+0x108). The HUD root is
+// MenuManager::GetHUDRoot(); its root movie is RenderFX::GetRoot()->get_root_movie().
 void NativeSwapEquipment(const gameswf::fn_call& call) {
-    (void)call;
+    Character* ch = NativeGetPlayerChar(static_cast<int>(call.arg(0).to_number()), false);
+    if (ch != nullptr) {
+        ch->ItemInventory::SwapEquipmentSet();
+        ch->CharProperties::UpdateGearsProperties();
+        ch->INV_CheckItemsRequirements();
+        ch->INV_UpdateSkin();
+        ch->ValidateHPMP();
+    }
+    MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+    gameswf::character* rootMovie = hud->RenderFX::GetRoot()->get_root_movie();
+    hud->InvokeASCallback(rootMovie, "DisplayRightHud", nullptr, 0);
+    gameswf::character* hudMovie = hud->RenderFX::GetRoot()->get_root_movie();
+    gameswf::as_value icon;
+    icon.set_double(static_cast<double>(MenuManager::GetInstance()->m_actionIconType));
+    hud->InvokeASCallback(hudMovie, "FillActionIcon", &icon, 1);
 }
 
 // 0x4422b8 NativeGoToZone(gameswf::fn_call const&)
-// PARTIAL. The zone name is to_string of the top argument. The entry point id is to_number of the argument below it,
-// with -1 changed to 0. The original then runs this block when there is no current level or the current level is
-// loaded (m_isLoaded +0x144). If there is a level and its m_loadStep (+0x130) is 38, it calls Level::QuickSave(false).
-// It then calls Level::SG_SaveAllPlayer(false), and the save slot is Character::SG_GetSlot of the local player's
-// character (PlayerInfo +0x660). With no level the slot is 0. When the name is not empty, the original searches
-// Arrays::LevelList (stride 72) for the name, and the level file name is the member's word at +32. It then reads
+// The zone name is to_string of the top argument. The entry point id is to_number of the argument below it, with -1
+// changed to 0. The original then runs this block when there is no current level or the current level is loaded
+// (m_isLoaded +0x144). If there is a level and its m_loadStep (+0x130) is 38, it calls Level::QuickSave(false). It then
+// calls Level::SG_SaveAllPlayer(false), and the save slot is Character::SG_GetSlot of the local player's character
+// (PlayerInfo +0x660). With no level the slot is 0. When the name is not empty, the original searches Arrays::LevelList
+// for the name, and the level file name is the row's string at +32 (LevelDeclaration::m_w8). It then reads
 // Character::SG_GetGameDifficulty of the local player's character, runs RenderFX "DisplayFastTravel" with four
 // arguments (false, name, name, entry id), and calls Application::LoadLevel(level file, entry id, slot, true, true,
-// difficulty, false, 0, 0). Finally it releases the name. A name that is not in the table is not checked by the
-// original: it reads the element before the table (index -1, offset -72). A rebuild must treat that case as an error
-// and must not read that memory. Missing: to_string, to_number, the setters for the callback arguments and drop_refs;
-// RenderFX::InvokeASCallback and RenderFX::GetRoot (not declared in dh2/RenderFX.hpp).
+// difficulty, false, 0, 0). A name that is not in the table: the original reads the element before the table (row -1,
+// offset -72). A rebuild rejects it: nothing is called after the search and the table is not read.
 void NativeGoToZone(const gameswf::fn_call& call) {
-    (void)call;
+    const std::string name(call.arg(0).to_string());
+    int entryPointId = static_cast<int>(call.arg(1).to_number());
+    if (entryPointId == -1) {
+        entryPointId = 0;
+    }
+    Application& app = ApplicationGetInstance();
+    Level* level = app.GetCurrentLevel();
+    if (level != nullptr && !level->m_isLoaded) {
+        return;
+    }
+    unsigned int slot = 0;
+    if (level != nullptr) {
+        if (level->m_loadStep == 38) {
+            level->QuickSave(false);
+        }
+        level->SG_SaveAllPlayer(false);
+        slot = static_cast<unsigned int>(app.m_playerManager->GetLocalPlayer(0, true)->unk_660->SG_GetSlot());
+    }
+    if (name.empty()) {
+        return;
+    }
+    const int levelIndex = FindLevelListRow(name.c_str(), static_cast<int>(Arrays::LevelList::size));
+    if (levelIndex < 0) {
+        return;
+    }
+    const auto* rows = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
+    const char* levelFile = static_cast<const char*>(rows[levelIndex].m_w8);
+    const int difficulty = app.m_playerManager->GetLocalPlayer(0, true)->unk_660->SG_GetGameDifficulty();
+    gameswf::as_value args[4];
+    args[0].set_bool(false);
+    args[1].set_string(name.c_str());
+    args[2].set_string(name.c_str());
+    args[3].set_double(static_cast<double>(entryPointId));
+    MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+    hud->InvokeASCallback(hud->RenderFX::GetRoot()->get_root_movie(), "DisplayFastTravel", args, 4);
+    app.LoadLevel(levelFile, entryPointId, slot, true, true, difficulty, false, 0, 0);
 }
 
 // Body of NativeSkillGetEquipedSkillsIDs: the three equipped skill slots of the character (Character::SG_GetSkillInSlot).
@@ -126,39 +198,74 @@ bool EquippedSkillIdsOfPlayer(int player, bool flag, int (&ids)[3]) {
 }
 
 // 0x4425a0 NativeSkillGetEquipedSkillsIDs(gameswf::fn_call const&)
-// PARTIAL. Needs two or three arguments. The top argument must be an object (tag 5) and the one below it a number (the
-// player index). With three arguments, the third from the top must be undefined or boolean (tag 0 or 1). Its to_bool is
-// the flag for NativeGetPlayerChar(index, flag). The top object (cast to as_array) gets the three equipped skill ids,
+// Needs two or three arguments. The top argument must be an object (tag 5) and the one below it a number (the player
+// index). With three arguments, the third from the top must be undefined or boolean (tag 0 or 1). Its to_bool is the
+// flag for NativeGetPlayerChar(index, flag). The top object (cast to as_array) gets the three equipped skill ids,
 // Character::SG_GetSkillInSlot(character, 0..2), each pushed as a number. Then the result is set to true. With no
-// character the result is left as it was. The lookup is EquippedSkillIdsOfPlayer (native_gameswf_menus.hpp). Missing:
-// the argument accessors (count, tag, is_number, to_number, to_bool), cast_to<as_array>, as_array::push, set_bool and
-// drop_refs.
+// character the result is left as it was. The original pushes into the array without a null check; a null array is
+// skipped here, because the original would fault on it.
 void NativeSkillGetEquipedSkillsIDs(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 2 && call.nargs != 3) {
+        return;
+    }
+    if (!call.arg(0).is_object() || !call.arg(1).is_number()) {
+        return;
+    }
+    if (call.nargs == 3 && !call.arg(2).is_undefined() && !call.arg(2).is_bool()) {
+        return;
+    }
+    gameswf::as_array* skills = gameswf::cast_to<gameswf::as_array>(call.arg(0).to_object());
+    const int player = static_cast<int>(call.arg(1).to_number());
+    const bool flag = call.nargs == 3 ? call.arg(2).to_bool() : false;
+    int ids[3] = {0, 0, 0};
+    if (!EquippedSkillIdsOfPlayer(player, flag, ids)) {
+        return;
+    }
+    if (skills != nullptr) {
+        for (int i = 0; i < 3; ++i) {
+            gameswf::as_value id;
+            id.set_double(static_cast<double>(ids[i]));
+            skills->push(id);
+        }
+    }
+    call.result->set_bool(true);
 }
 
 // 0x442838 NativeSkipCharMenuTutorialMessage(gameswf::fn_call const&)
-// PARTIAL. No argument is read. If the CharMenuTutorialMsg queue is not empty (the deque object is at global dword_99FBB8,
-// and the empty test compares its start and finish cur pointers at 0x99FBB8 and 0x99FBC8), the original pops the front
-// (std::deque::pop_front). When CharMenuTutorialMsg::s_SkipFuncName is set, it calls
-// MenuMessageManager<CharMenuTutorialMsg, 1>::Invoke with that name. Missing: the instance of
-// MenuMessageManager<CharMenuTutorialMsg, 1> (Singleton<T>::s_inst is not declared in the tree, so the deque at
-// dword_99FBB8 cannot be tied to m_queues[0]), CharMenuTutorialMsg::s_SkipFuncName (not declared in
-// dh2/CharMenuTutorialMsg.hpp), and the queue index that Invoke takes (the pseudocode passes only the name). This native
-// uses no gameswf value, so it is the first candidate to finish once the singleton and the statics land.
+// No argument is read. If the CharMenuTutorialMsg queue (queue 0 of Singleton<MenuMessageManager<CharMenuTutorialMsg, 1>>,
+// the deque at +0x04) is not empty, the original pops the front. When CharMenuTutorialMsg::s_SkipFuncName is set, it
+// calls MenuMessageManager<CharMenuTutorialMsg, 1>::Invoke with that name. The asm (0x442838) tail-calls Invoke with
+// r0 = the name and r1 never set in this function, so the queue argument is not read by the call and 0 is passed.
 void NativeSkipCharMenuTutorialMessage(const gameswf::fn_call& call) {
     (void)call;
+    auto& manager = Singleton<MenuMessageManager<CharMenuTutorialMsg, 1>>::s_inst;
+    if (manager.m_queues[0].empty()) {
+        return;
+    }
+    manager.m_queues[0].pop_front();
+    if (CharMenuTutorialMsg::s_SkipFuncName != nullptr) {
+        manager.Invoke(CharMenuTutorialMsg::s_SkipFuncName, 0);
+    }
 }
 
 // 0x442994 NativeSkipAchievementMessage(gameswf::fn_call const&)
-// PARTIAL. No argument is read. If the AchievementMsg queue is not empty (the deque object is at global dword_99FBE4, the
-// empty test compares dword_99FBF4 with it), the original pops the front. It calls
-// MenuMessageManager<AchievementMsg, 1>::Invoke on AchievementMsg::s_SkipFuncName when that is set. Then, if the queue is
-// still not empty, it calls the same Invoke on AchievementMsg::s_StartFuncName. Missing: the Singleton accessor for
-// MenuMessageManager<AchievementMsg, 1> (see the native above), the two function pointers (not declared in
-// dh2/AchievementMsg.hpp), and the queue index for Invoke. No gameswf value is used.
+// No argument is read. If the AchievementMsg queue (queue 0 of Singleton<MenuMessageManager<AchievementMsg, 1>>) is not
+// empty, the original pops the front. It calls MenuMessageManager<AchievementMsg, 1>::Invoke on
+// AchievementMsg::s_SkipFuncName when that is set. Then, if the queue is still not empty, it calls the same Invoke on
+// AchievementMsg::s_StartFuncName (the queue argument is not read, as in NativeSkipCharMenuTutorialMessage).
 void NativeSkipAchievementMessage(const gameswf::fn_call& call) {
     (void)call;
+    auto& manager = Singleton<MenuMessageManager<AchievementMsg, 1>>::s_inst;
+    if (manager.m_queues[0].empty()) {
+        return;
+    }
+    manager.m_queues[0].pop_front();
+    if (AchievementMsg::s_SkipFuncName != nullptr) {
+        manager.Invoke(AchievementMsg::s_SkipFuncName, 0);
+    }
+    if (!manager.m_queues[0].empty()) {
+        manager.Invoke(AchievementMsg::s_StartFuncName, 0);
+    }
 }
 
 // 0x442ea4 NativeStopMessage(gameswf::fn_call const&)
@@ -200,13 +307,25 @@ void RankingStatsOfPlayer(int player, std::string (&names)[7], int (&values)[7])
 }
 
 // 0x44344c NativeGetPlayerRanking(gameswf::fn_call const&)
-// PARTIAL. The output object is the top argument when it has tag 5 (cast_to<as_object>). The player index is to_number of
-// the argument below it. For each of the seven stats 0..6, the original sets a property on the object: the name is
-// PlayerStatManager::GetStatStr(stat) and the number is GetStatValue(stat, player), both read by RankingStatsOfPlayer
-// (native_gameswf_menus.hpp). The result is the object (set_as_object). Missing: the argument accessors, the as_object
-// property setter (vtable slot +28, index 7), tu_string, the value setters, set_as_object and drop_refs.
+// The output object is the top argument when it has tag 5. The player index is to_number of the argument below it. For
+// each of the seven stats 0..6, the original sets a property on the object: the name is PlayerStatManager::GetStatStr(stat)
+// and the number is GetStatValue(stat, player), both read by RankingStatsOfPlayer. The result is the object (set_as_object).
+// The property setter is as_object::set_member (vtable +0x1c). The original's exception path (the release of a heap
+// tu_string name) is the std::string destructor here.
 void NativeGetPlayerRanking(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* obj = call.arg(0).to_object();
+    const int player = static_cast<int>(call.arg(1).to_number());
+    std::string names[7];
+    int values[7] = {0, 0, 0, 0, 0, 0, 0};
+    RankingStatsOfPlayer(player, names, values);
+    if (obj != nullptr) {
+        for (int stat = 0; stat < 7; ++stat) {
+            gameswf::as_value value;
+            value.set_double(static_cast<double>(values[stat]));
+            obj->set_member(tu_stringi(names[stat].c_str()), value);
+        }
+    }
+    call.result->set_as_object(obj);
 }
 
 // 0x4435e4 NativeGetWorldMapLocations(gameswf::fn_call const&)
@@ -288,12 +407,20 @@ void NativeLoginInfos(const gameswf::fn_call& call) {
 }
 
 // 0x444c68 NativeGetMapIcons(gameswf::fn_call const&)
-// PARTIAL. The output object is the top argument when it has tag 5 (cast_to<as_object>). The native sets its "length"
-// property to the number 6 (the two words 0 and 1075314688 are the double 6.0) and its "Graphic" property to the string
-// "Objective", then sets the result to the object. Missing: the as_object property setter (vtable slot +28), tu_string,
-// the value setters, set_as_object and drop_refs.
+// The output object is the top argument when it has tag 5. The native sets its "length" property to the number 6 (the two
+// words 0 and 1075314688 are the double 6.0) and its "Graphic" property to the string "Objective" (as_object::set_member,
+// vtable +0x1c), then sets the result to the object.
 void NativeGetMapIcons(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* obj = call.arg(0).to_object();
+    if (obj != nullptr) {
+        gameswf::as_value length;
+        length.set_double(6.0);
+        obj->set_member(tu_stringi("length"), length);
+        gameswf::as_value graphic;
+        graphic.set_string("Objective");
+        obj->set_member(tu_stringi("Graphic"), graphic);
+    }
+    call.result->set_as_object(obj);
 }
 
 // 0x444dec NativeGetIPodPlaylistName(gameswf::fn_call const&)
@@ -306,24 +433,43 @@ void NativeGetIPodPlaylistName(const gameswf::fn_call& call) {
     (void)call;
 }
 
+namespace {
+
+// The tail of NativeGetStringFromSymbol and NativeGetStringFromID: a found text is formatted with StringManager::parse,
+// passed through ParsePlayerName and set as the result; a missing text gives "notfound".
+void SetParsedStringResult(const gameswf::fn_call& call, const char* text) {
+    if (text == nullptr) {
+        call.result->set_string("notfound");
+        return;
+    }
+    StringManager* strings = ApplicationGetInstance().m_stringManager;
+    std::string out;
+    strings->parse(out, text);
+    out = ParsePlayerName(out);
+    call.result->set_string(out.c_str());
+}
+
+}  // namespace
+
 // 0x444ebc NativeGetStringFromSymbol(gameswf::fn_call const&)
-// PARTIAL. The symbol is to_string of the top argument. When it is "MENU_ERROR_NO_USERNAME" or "MENU_ERROR_NO_PASSWORD",
-// the global Back_key_Glive is set to 1 (not declared in the tree). The key is then read again as a tu_string and passed to
-// StringManager::getStringFromSymbol. When that finds a text, StringManager::parse formats it into a std::string, which goes
-// through ParsePlayerName (declared in core-platform/include/core-platform/w7_global_rem.hpp) and is set as the result with
-// set_tu_string. When it finds nothing, the result is "notfound". Missing: to_string, to_tu_string, set_tu_string and
-// drop_refs. The StringManager global (0x99f760) has no accessor in the tree.
+// The symbol is to_tu_string of the top argument. When it is "MENU_ERROR_NO_USERNAME" or "MENU_ERROR_NO_PASSWORD", the
+// global Back_key_Glive is set to 1. The text is StringManager::getStringFromSymbol(symbol), then SetParsedStringResult.
 void NativeGetStringFromSymbol(const gameswf::fn_call& call) {
-    (void)call;
+    const char* symbol = call.arg(0).to_tu_string().c_str();
+    if (std::strcmp(symbol, "MENU_ERROR_NO_USERNAME") == 0 || std::strcmp(symbol, "MENU_ERROR_NO_PASSWORD") == 0) {
+        Back_key_Glive = true;
+    }
+    const char* text = ApplicationGetInstance().m_stringManager->getStringFromSymbol(symbol);
+    SetParsedStringResult(call, text);
 }
 
 // 0x44506c NativeGetStringFromID(gameswf::fn_call const&)
-// PARTIAL. The id is to_number of the top argument. StringManager::getString(id) gives the text. When it is found, it is
-// formatted with StringManager::parse, passed through ParsePlayerName, and set as the result with set_tu_string. When it is
-// not found, the result is "notfound". The steps match NativeGetStringFromSymbol, without the Back_key_Glive flag. Missing:
-// to_number, set_tu_string and drop_refs, and the StringManager global (0x99f760) has no accessor in the tree.
+// The id is to_number of the top argument (truncated to int). The text is StringManager::getString(id), then
+// SetParsedStringResult. The steps match NativeGetStringFromSymbol, without the Back_key_Glive flag.
 void NativeGetStringFromID(const gameswf::fn_call& call) {
-    (void)call;
+    const int id = static_cast<int>(call.arg(0).to_number());
+    const char* text = ApplicationGetInstance().m_stringManager->getString(id);
+    SetParsedStringResult(call, text);
 }
 
 // 0x4451ac NativeGetMultiplayerGameRooms(gameswf::fn_call const&)

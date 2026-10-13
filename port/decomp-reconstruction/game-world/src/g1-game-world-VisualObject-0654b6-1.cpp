@@ -159,7 +159,7 @@ void VisualObject::SetVisible(bool visible) {
     if (m_node == nullptr) {
         return;
     }
-    if (visible != ((m_node->unk_011c & 1u) != 0)) {
+    if (visible != ((m_node->flags & 1u) != 0)) {
         // Not made: SceneManager::ForceRegister() on the scene manager at device +0x1c.
     }
     m_node->setVisible(visible);

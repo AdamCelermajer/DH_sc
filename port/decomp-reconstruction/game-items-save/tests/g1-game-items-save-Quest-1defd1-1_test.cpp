@@ -61,7 +61,8 @@ std::string g_rewardText;  // what CreateRewardString appends in this test
 static Application g_app;
 static PyDataConstants g_pdc(nullptr);
 static StringManager g_sm;
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 Application& ApplicationGetInstance() { return g_app; }
 PyDataConstants* ApplicationGetPyDataConstants() { return &g_pdc; }
@@ -94,8 +95,10 @@ DialogMsg::~DialogMsg() {}
 
 template <>
 MenuMessageManager<DialogMsg, 1>::~MenuMessageManager() {}
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static MenuMessageManager<DialogMsg, 1> g_testInstance_1{};
 template <>
-MenuMessageManager<DialogMsg, 1> MenuMessageManager<DialogMsg, 1>::s_inst{};
+MenuMessageManager<DialogMsg, 1>& MenuMessageManager<DialogMsg, 1>::s_inst = g_testInstance_1;
 template <>
 void MenuMessageManager<DialogMsg, 1>::EnqueueMessage(const DialogMsg& message, int, bool) {
     ++g_enqueueCount;

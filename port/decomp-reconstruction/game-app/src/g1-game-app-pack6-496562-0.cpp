@@ -32,6 +32,7 @@
 
 #include "pydata-accessors/script_cmd.hpp"
 
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/AnimController.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/CharMenuTutorialMsg.hpp"
@@ -153,12 +154,10 @@ bool Script_EnterSafeZone::IsBlocking() const {
 }
 
 // 0x45fc80 Script_EnterSafeZone::Execute(bool, int)
-// PARTIAL. The tracing switch is reconstructed. The original then calls VoxSoundManager::SetInSafeZoneMusic(true) on
-// VoxSoundManager::s_instance (ELF 0x9a238c; SetInSafeZoneMusic at 0x36c014). Neither is declared in
-// vox-audio/include/vox-audio/vox/sound_manager.hpp, so the call is not rebuilt.
+// The tracing switch, then VoxSoundManager::SetInSafeZoneMusic(true) on VoxSoundManager::s_instance (0x9a238c).
 void Script_EnterSafeZone::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
-    // PARTIAL: VoxSoundManager::SetInSafeZoneMusic(true) on VoxSoundManager::s_instance is missing (see above).
+    VoxSoundManager::s_instance->SetInSafeZoneMusic(true);
 }
 
 // ---- Script_ExecScript ----

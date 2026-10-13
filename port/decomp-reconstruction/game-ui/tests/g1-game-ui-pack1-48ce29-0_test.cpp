@@ -106,8 +106,9 @@ std::array<float, 4> GameSWFUtils::GetAbsoluteBoundingRect(gameswf::character*) 
     return {1.0f, 2.0f, 3.0f, 4.0f};
 }
 
-void RenderFX::RegisterDisplayCallback(gameswf::character*, void (*)(gameswf::render_state&, void*), void*) {
+int RenderFX::RegisterDisplayCallback(gameswf::character*, void (*)(gameswf::render_state&, void*), void*) {
     ++g_registerCalls;
+    return 0;  // the header returns int (link-1)
 }
 
 int DragAndDrop::SendEvent(int event, MenuFX* menu, gameswf::character* character) {

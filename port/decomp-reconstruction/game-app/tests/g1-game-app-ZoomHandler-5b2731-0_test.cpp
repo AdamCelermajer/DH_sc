@@ -21,7 +21,8 @@
 #include "dh2/global/MenuManagerGlobals.hpp"
 
 // The EventManager instance that ZoomHandler attaches to (dword_99F740). The test owns it.
-EventManager* dword_99F740 = nullptr;
+static EventManager* g_test_dword_99F740 = nullptr;
+EventManager*& dword_99F740 = g_test_dword_99F740;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 // The map test (MapAcceptsTouch) runs only for a press on a camera with the object-position flag, and no check here makes
 // that press. These stubs abort, so a check that reaches the map test stops the test instead of passing silently.

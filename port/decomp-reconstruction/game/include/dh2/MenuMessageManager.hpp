@@ -40,5 +40,7 @@ public:
     // +0x00 is the vptr (implicit). One std::deque per queue index, 40 bytes each at 32-bit.
     std::deque<T> m_queues[N];                                          // +0x04
     // Singleton<MenuMessageManager<T, N>>::s_inst: the instance is the object itself (its queue deques sit at +0x04).
-    static MenuMessageManager s_inst;
+    // The binary has the object only as Singleton<MenuMessageManager<T, N>>::s_inst; this name is a reference to it, defined
+    // per instantiation in game-app/src/singleton_MenuMessageManager_<T>.cpp (link-1).
+    static MenuMessageManager& s_inst;
 };

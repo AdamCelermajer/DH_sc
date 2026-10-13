@@ -86,7 +86,8 @@ alignas(16) unsigned char g_menuStorage[sizeof(MenuBase)];
 
 // ---- Stubs for code outside the batch --------------------------------------------------------------------------
 
-ObjectManager* dword_99F764 = reinterpret_cast<ObjectManager*>(g_objectManagerStorage);
+static ObjectManager* g_test_dword_99F764 = reinterpret_cast<ObjectManager*>(g_objectManagerStorage);
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 DebugSwitches* DebugSwitches::GetInstance() {
     ++g_traceReads;

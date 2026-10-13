@@ -79,7 +79,8 @@ void Setup(ScriptManager& sm) {
 }  // namespace
 
 // Global the game defines with the globals batch. The stubs never read it.
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 // Engine stubs. The CMessage, CMessaging and PlayerManager stubs never dereference their this pointer.
 int PlayerManager::AllPlayersDead() { return g_allPlayersDead; }

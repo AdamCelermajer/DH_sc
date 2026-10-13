@@ -18,6 +18,9 @@
 #include <cstdint>
 
 #include "dh2/Character.hpp"
+
+// Helper unit g1-game-character-Character-ee9946-0_modeldict.cpp: the row count of Arrays::ModelDict.
+std::uint32_t ModelDictRowCount();
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_02.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
@@ -146,16 +149,15 @@ const Structs::AIFactions* Character::GetCharAIFaction() const {
     return reinterpret_cast<const Structs::AIFactions*>(Arrays::AIFactionTable::members) + GetCharAIFactionId();
 }
 
-// 0x3a31e8 _ZNK9Character14GetCharModelIdEv
-// partial: the raw word at +0x1004, PROPS_Get(3, false) (m_props m_w4). A negative word gives -1, as the original does.
-// The upper bound is not checked: the original returns -1 for a word at or past Arrays::ModelDict::size. Arrays::ModelDict
-// is declared in pydata w7_arrays_00.hpp, which redefines the structs of w7_arrays_02.hpp (StrID_Languages,
-// GameObjectDict, Sounds, ProjectileDict, EffectDict), so the two headers cannot be included in one unit. A
-// non-negative word past the table is returned unchanged here. Add the bound check (RowIndexOrFallback with
-// Arrays::ModelDict::size and fallback -1) once pydata resolves the clash.
+// 0x3a31e8 Character::GetCharModelId(void)
+// The raw word m_props.m_w4 (+0x1004, PROPS_Get(3, false)) is returned when it indexes Arrays::ModelDict (ModelDictRowCount,
+// in the helper unit g1-game-character-Character-ee9946-0_modeldict.cpp), otherwise -1.
 int Character::GetCharModelId() const {
     const int raw = PROPS_Get(3, false);
-    return raw < 0 ? -1 : raw;
+    if (raw < 0 || static_cast<std::uint32_t>(raw) >= ModelDictRowCount()) {
+        return -1;
+    }
+    return raw;
 }
 
 // 0x3a3228 _ZNK9Character18GetCharAnimTableIdEv

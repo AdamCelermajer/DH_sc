@@ -68,7 +68,7 @@ bool VisualObject::IsVisible() const {
     if (m_node == nullptr) {
         return false;
     }
-    return (m_node->unk_011c & 1u) != 0;
+    return (m_node->flags & 1u) != 0;
 }
 
 // 0x470ad8 _ZN12VisualObject27SetShadowSkinnedMeshVisibleEb

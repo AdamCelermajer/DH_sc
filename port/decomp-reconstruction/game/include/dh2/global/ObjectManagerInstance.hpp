@@ -6,4 +6,4 @@
 
 class ObjectManager;
 
-extern ObjectManager* dword_99F764;  // dword_99F764, the ObjectManager instance
+extern ObjectManager*& dword_99F764;  // dword_99F764, the ObjectManager instance: a reference to Singleton<Application>::s_inst.m_objectManager (+0x38), defined in game-app/src/link1_ApplicationWords.cpp (link-1)

@@ -153,7 +153,8 @@ unsigned int Random::GetRandom(int range, bool synced) {
     return range > 0 ? g_nextDraw % static_cast<unsigned int>(range) : 0u;
 }
 
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 PlayerInfo* PlayerManager::GetHostingPlayer() { return g_hostPlayer; }
 PlayerInfo* PlayerManager::GetLocalPlayer(int localId, bool flag) {

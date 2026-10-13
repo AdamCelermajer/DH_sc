@@ -33,11 +33,11 @@ public:
     // "override" is not written on the two virtuals below: the engine T classes in this tree
     // (collada_scene_accessors.hpp) declare no virtual dtor or render, so override fails when the template is
     // instantiated. "virtual" keeps the vtable slots the binary has.
-    virtual ~BaseMeshSceneNode();
+    ~BaseMeshSceneNode() override;
 
     // Slot 7. Calls T's render only when m_renderEnabled is set.
     // CMeshSceneNode 0x35a9a8, CSkinnedMeshSceneNode 0x35a9b8, CModularSkinnedMeshSceneNode 0x35a9c8.
-    virtual void render(void* renderContext);
+    void render(void* renderContext) override;
 
     // T occupies +0x00 .. sizeof(T)-1. Field offset as noted above.
     // Named after its use as the render gate (render() tests it, the ctor sets it to 1).

@@ -193,8 +193,10 @@ template class Singleton<PFWorld>;  // defines Singleton<PFWorld>::s_inst, which
 // ---- Globals the unit reads. ----
 
 Point3D<float> Vec3f_Origin{0.0f, 0.0f, 0.0f};
-EventManager* dword_99F740 = nullptr;
-PlayerManager* dword_99F76C = nullptr;
+static EventManager* g_test_dword_99F740 = nullptr;
+EventManager*& dword_99F740 = g_test_dword_99F740;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 int main() {
     testPressKeys();

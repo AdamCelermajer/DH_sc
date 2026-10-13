@@ -98,7 +98,9 @@ VisualFXManager::VisualFXManager() {}
 VisualFXManager::~VisualFXManager() {}
 VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
 VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
-VisualFXManager VisualFXManager::s_inst;
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static VisualFXManager g_testInstance_1{};
+VisualFXManager& VisualFXManager::s_inst = g_testInstance_1;
 AnimatedFX* VisualFXManager::GrabAnimFX(int effectDictId, GameObject* object) {
     g_grabs.emplace_back(effectDictId, object);
     static int standIn = 0;

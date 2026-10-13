@@ -88,8 +88,10 @@ struct InitVec3fK {
 
 }  // namespace
 
-ObjectManager* dword_99F764 = nullptr;
-PlayerManager* dword_99F76C = nullptr;
+static ObjectManager* g_test_dword_99F764 = nullptr;
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 Point3D<float> Vec3f_K;
 
 namespace Arrays {

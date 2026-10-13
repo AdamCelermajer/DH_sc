@@ -18,8 +18,8 @@
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"
 
 // 0x36233c _ZNK19SkyBoxMeshSceneNode7getTypeEv
-int SkyBoxMeshSceneNode::getType() const {
-    return 1601792883;
+glitch::scene::E_SCENE_NODE_TYPE SkyBoxMeshSceneNode::getType() const {
+    return static_cast<glitch::scene::E_SCENE_NODE_TYPE>(1601792883);
 }
 
 // 0x362398 _ZN19SkyBoxMeshSceneNode6renderEPv
@@ -80,8 +80,9 @@ SkyBoxMeshSceneNode::~SkyBoxMeshSceneNode() {
 // the first technique's passes pointer, reached through the renderer's technique table at +0x18.
 SkyBoxMeshSceneNode::SkyBoxMeshSceneNode(const boost::intrusive_ptr<glitch::collada::IMesh>& mesh,
                                          glitch::scene::IMeshSceneNode* node)
-    : glitch::collada::CMeshSceneNode() {
-    (void)mesh;
+    : glitch::collada::CMeshSceneNode(mesh, nullptr, -1, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                      glitch::core::quaternion{0.0f, 0.0f, 0.0f, 1.0f},
+                                      glitch::core::vector3d<float>{1.0f, 1.0f, 1.0f}) {
     m_renderEnabled = true;
     unk_13c = node;
     if (unk_13c != nullptr) {

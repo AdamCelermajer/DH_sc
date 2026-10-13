@@ -34,7 +34,8 @@ PlayerInfo* Record(int playerId) { return reinterpret_cast<PlayerInfo*>(g_record
 
 }  // namespace
 
-PlayerManager* dword_99F76C = reinterpret_cast<PlayerManager*>(g_managerStorage);  // nothing is read through it
+static PlayerManager* g_test_dword_99F76C = reinterpret_cast<PlayerManager*>(g_managerStorage);  // nothing is read through it
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 int PlayerManager::GetNumPlayers() { return g_numPlayers; }
 

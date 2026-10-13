@@ -30,9 +30,9 @@ public:
     virtual ~SkyBoxMeshSceneNode();                                     // 0x362718 (complete), 0x36278c (deleting), 0x3627a8 (VTT form)
 
     // Virtual slots of the original, in vtable order. Not override here (see header note).
-    int getType() const;                                                // slot 0xc8: 0x36233c returns 1601792883
-    void render(void* context);                                         // slot 0x28: 0x362398, tests m_renderEnabled first
-    int onRegisterSceneNode();                                          // slot 0x1c: 0x3625d0 returns 1
+    glitch::scene::E_SCENE_NODE_TYPE getType() const override;          // slot 0xc8: 0x36233c returns 1601792883
+    void render(void* context) override;                                // slot 0x28: 0x362398, tests m_renderEnabled first
+    int onRegisterSceneNode() override;                                 // slot 0x1c: 0x3625d0 returns 1
 
     // CMeshSceneNode occupies +0x00 .. +0x137 (the stub maps uidHolder at +0x130 and namedMesh at +0x134).
     bool m_renderEnabled;                                               // +0x138 render gate: the ctor sets it to 1, render returns early when clear

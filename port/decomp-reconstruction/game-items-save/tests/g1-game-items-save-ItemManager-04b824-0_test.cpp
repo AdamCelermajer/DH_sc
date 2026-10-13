@@ -33,7 +33,8 @@
 // Engine globals the batch reads. The real definitions are in other translation units, which this test does not link.
 int gAssertLevel = 0;
 std::uint32_t Arrays::ItemAudioVisualTable::size = 3;
-ObjectManager* dword_99F764 = nullptr;
+static ObjectManager* g_test_dword_99F764 = nullptr;
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 namespace {
 

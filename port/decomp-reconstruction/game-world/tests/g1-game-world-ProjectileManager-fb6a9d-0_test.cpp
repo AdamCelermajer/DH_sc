@@ -42,7 +42,8 @@
 int gAssertLevel = 0;
 
 alignas(16) unsigned char g_managerStorage[sizeof(ObjectManager)];
-ObjectManager* dword_99F764 = reinterpret_cast<ObjectManager*>(g_managerStorage);
+static ObjectManager* g_test_dword_99F764 = reinterpret_cast<ObjectManager*>(g_managerStorage);
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 std::uint8_t* Arrays::ProjectileTable::members = nullptr;
 std::uint32_t Arrays::ProjectileTable::size = 0;

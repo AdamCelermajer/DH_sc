@@ -151,6 +151,6 @@ public:
     std::vector<AnimFXSetInfo> m_animFXSets;                            // +0x1c .. +0x27 one AnimFXSetInfo per AnimatedEffectTable row
     std::vector<AnimatedFXInfo> m_animatedFXPools;                      // +0x28 .. +0x33 one AnimatedFXInfo per EffectDict row (begin +0x28, end +0x2c, capacity +0x30)
     // Singleton<VisualFXManager>::s_inst (ELF 0x9a1cf0): the instance is the object itself, callers take its address.
-    // Defined by the integrator; no translation unit defines it yet.
-    static VisualFXManager s_inst;
+    // This name is a reference to that object, defined with the instantiation in game-app/src/singleton_VisualFXManager.cpp (link-1).
+    static VisualFXManager& s_inst;
 };

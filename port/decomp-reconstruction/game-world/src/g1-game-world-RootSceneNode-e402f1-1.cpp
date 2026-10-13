@@ -25,8 +25,7 @@
 // 0x35d824 _ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE
 // partial: complete-object constructor. Base constructor not bound (see point 1 above); the secondary vptr at +0x20c is
 // not stored (point 2). The primary vptr is set by the compiler from the class.
-RootSceneNode::RootSceneNode(const glitch::collada::CColladaDatabase& database) {
-    (void)database;  // passed to the engine base constructor in the original; that call is not bound here
+RootSceneNode::RootSceneNode(const glitch::collada::CColladaDatabase& database) : glitch::collada::CRootSceneNode(database) {
 
     // +0x210: count of the secondary subobject (IReferenceCounted-style count, set to 1 before the base call in the original).
     m_secondaryRefCount = 1;

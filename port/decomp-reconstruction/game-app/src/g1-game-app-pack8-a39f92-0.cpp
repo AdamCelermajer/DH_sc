@@ -14,6 +14,7 @@
 
 #include "pydata-accessors/script_cmd.hpp"
 
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/AnimController.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/CameraLevel.hpp"
@@ -348,17 +349,19 @@ bool Script_PlayLevelMusic::IsBlocking() const {
 }
 
 // 0x45fd20 void Script_PlayLevelMusic::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe (unconditional) and the current level lookup. Missing: the sound calls. The original
-// calls VoxSoundManager::PlayMusic(s_instance, level m_musicSoundId (+0x11c), 1, 0, record m_w2 (+0x08)), then
-// VoxSoundManager::SetMusicState(s_instance, "ambient" or "combat"), chosen by the manager's byte at +0x31. sound_manager.hpp
-// declares neither method nor VoxSoundManager::s_instance, so the calls are not rebuilt.
+// The tracing switch, then the current level. When there is a level: VoxSoundManager::PlayMusic(s_instance, level
+// m_musicSoundId (+0x11c), true, false, record m_w2 (+0x08)), then SetMusicState "ambient" or "combat", chosen by the
+// manager's music_slot_ byte (+0x31).
 void Script_PlayLevelMusic::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level == nullptr) {
         return;
     }
-    // PARTIAL: VoxSoundManager::PlayMusic and SetMusicState are not rebuilt (see above).
+    const auto* args = static_cast<const Structs::PlayLevelMusic*>(m_args);
+    VoxSoundManager* sound = VoxSoundManager::s_instance;
+    sound->PlayMusic(level->m_musicSoundId, true, false, args->m_w2);
+    sound->SetMusicState(sound->music_slot_ ? "ambient" : "combat");
 }
 
 // 0x455650 bool Script_PlaySound::IsBlocking() const

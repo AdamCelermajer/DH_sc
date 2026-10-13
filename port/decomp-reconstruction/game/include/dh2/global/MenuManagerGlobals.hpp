@@ -15,7 +15,7 @@ extern bool HTC_DEVICES;
 extern bool NO_IGP;
 
 // dword_99F740 (unnamed in the symbols): the EventManager instance that ~MenuManager detaches from.
-extern EventManager* dword_99F740;
+extern EventManager*& dword_99F740;  // a reference to Singleton<Application>::s_inst.m_eventManager (+0x14), defined in game-app/src/link1_ApplicationWords.cpp (link-1)
 
 // dword_99F778 (unnamed in the symbols): the SavegameManager instance, read for getLanguage().
-extern SavegameManager* dword_99F778;
+extern SavegameManager*& dword_99F778;  // a reference to Singleton<Application>::s_inst.m_savegameManager (+0x4c), defined in game-app/src/link1_ApplicationWords.cpp (link-1)

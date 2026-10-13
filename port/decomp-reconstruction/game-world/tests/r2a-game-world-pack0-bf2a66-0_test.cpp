@@ -17,7 +17,9 @@
 Point3D<float> Vec3f_K{0.0f, 0.0f, 1.0f};
 PFWorld::PFWorld() {}
 PFWorld::~PFWorld() {}
-PFWorld PFWorld::s_inst;
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static PFWorld g_testInstance_1{};
+PFWorld& PFWorld::s_inst = g_testInstance_1;
 void PFWorld::DropPath(PFObject&) {}
 void PFWorld::InitObstacle(PFObject&, bool, float, float) {}
 PFGInnerEdge::~PFGInnerEdge() {}

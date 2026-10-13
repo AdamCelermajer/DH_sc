@@ -21,6 +21,7 @@
 #include "net-transport/update_job_thread.hpp"
 #include "pydata-accessors/script_cmd.hpp"
 
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
@@ -167,11 +168,10 @@ bool Script_KillActor::IsBlocking() const {
 }
 
 // 0x45fbe0 Script_LeaveSafeZone::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe. Missing: VoxSoundManager::SetInSafeZoneMusic(false) on VoxSoundManager::s_instance
-// (0x9a238c). Neither the method (0x36c014) nor the static instance is declared in
-// vox-audio/include/vox-audio/vox/sound_manager.hpp.
+// The tracing switch, then VoxSoundManager::SetInSafeZoneMusic(false) on VoxSoundManager::s_instance (0x9a238c).
 void Script_LeaveSafeZone::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
+    VoxSoundManager::s_instance->SetInSafeZoneMusic(false);
 }
 
 // 0x455670 Script_LeaveSafeZone::IsBlocking() const

@@ -3,7 +3,8 @@
 // ELF 0x4466c4 .. 0x44f528. Declarations: dh2/global/native_player_info_options.hpp.
 //
 // What is reconstructed and what is not:
-//   - Every native is PARTIAL. Each one reads its arguments and writes its result through gameswf: the fn_call
+//   - (First wave, before the r3b-w1 redo.) Every native was PARTIAL; the redo completed the ones marked reconstructed in
+//     their ledger rows, so the statuses here are historical. Each one reads its arguments and writes its result through gameswf: the fn_call
 //     argument accessors (argument count, top index, value tags, to_number, to_int, to_bool, to_string, to_xstring,
 //     is_number), the as_value setters (set_string, set_bool, set_double, set_as_object), the tu_string property
 //     names, drop_refs, the as_array push and element get, and the as_object property setter (vtable slot 7, byte
@@ -37,17 +38,55 @@
 
 #include "dh2/global/native_player_info_options.hpp"
 
+#include <cstdint>
+
+#include "dh2/Application.hpp"
+#include "dh2/CharMenuTutorialMsg.hpp"
+#include "dh2/GSKeyboard.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/ItemInventory.hpp"
+#include "dh2/Quest.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/native_app_bindings.hpp"
+#include "gameswf/gameswf_environment.h"
+#include "vendor-gameswf/as_value.hpp"
+
+// gameswf's tu_loadlib.h includes windows.h, which defines GetClassName as GetClassNameA. Character::GetClassName is the
+// DH2 member (the original's symbol), so the macro is removed for this unit.
+#ifdef GetClassName
+#undef GetClassName
+#endif
+
 // 0x4466c4 NativeGetPlayerInfos(gameswf::fn_call const&)
-// PARTIAL. The top argument is the output object (tag 5, cast to as_object). The one below it is the player index
-// (to_number). With three arguments the one below that is the remote flag (to_bool), else false. The original calls
-// NativeGetPlayerChar(index, remote). When that is null nothing is written. Otherwise the object gets PlayerName
-// (Character::SG_GetPlayerName), PlayerClass (Character::GetClassName) and PlayerNumber (a double: PlayerInfo +0x678
-// of PlayerManager::GetRemotePlayer(index, false) when remote, else of GetLocalPlayer(index, false)). The object is
-// then the return value, set_as_object, and this happens even when the player is null.
-// Missing: the argument accessors, to_number, to_bool, the tu_string names, set_string, set_double, drop_refs, the
-// object setter, set_as_object, NativeGetPlayerChar, and PlayerInfo (waits on dh2/PlayerInfo.hpp).
+// The top argument is the output object (tag 5). The one below it is the player index (to_number). With three arguments
+// the one below that is the remote flag (to_bool), else false. The original calls NativeGetPlayerChar(index, remote). When
+// that is null nothing is written. Otherwise the object gets PlayerName (Character::SG_GetPlayerName), PlayerClass
+// (Character::GetClassName) and PlayerNumber (a double: PlayerInfo +0x678 (unk_678) of PlayerManager::GetRemotePlayer(index,
+// false) when remote, else of GetLocalPlayer(index, false); the asm reads +0x678 on both paths). The object is then the
+// return value, set_as_object, and this happens even when the player is null.
 void NativeGetPlayerInfos(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* obj = call.arg(0).to_object();
+    const int player = static_cast<int>(call.arg(1).to_number());
+    const bool remote = call.nargs == 3 ? call.arg(2).to_bool() : false;
+    Character* ch = NativeGetPlayerChar(player, remote);
+    if (ch != nullptr && obj != nullptr) {
+        gameswf::as_value name;
+        name.set_string(ch->SG_GetPlayerName());
+        obj->set_member(tu_stringi("PlayerName"), name);
+        gameswf::as_value className;
+        className.set_string(ch->GetClassName());
+        obj->set_member(tu_stringi("PlayerClass"), className);
+        PlayerManager* players = ApplicationGetInstance().m_playerManager;
+        PlayerInfo* info = remote ? players->GetRemotePlayer(player, false) : players->GetLocalPlayer(player, false);
+        gameswf::as_value number;
+        number.set_double(static_cast<double>(info->unk_678));
+        obj->set_member(tu_stringi("PlayerNumber"), number);
+    }
+    call.result->set_as_object(obj);
 }
 
 // 0x446978 NativeGetStringNumPotions(gameswf::fn_call const&)
@@ -101,25 +140,38 @@ void NativeGetPlayerStats(const gameswf::fn_call& call) {
 }
 
 // 0x4497f4 NativeGetKeyboardLastString(gameswf::fn_call const&)
-// PARTIAL. The top argument is the output object (tag 5, cast to as_object). When it is an object, the original sets
-// opened (bool, from the global byte at ELF 0x9a24d4, not identified in the tree) and string (GSKeyboard::GetLastString(),
-// a char*, dh2/GSKeyboard.hpp). The object is then the return value, set_as_object, even when the argument is not an
-// object (then null is returned).
-// Missing: the argument accessors, the tu_string names, set_string, set_bool, drop_refs, the object setter, set_as_object,
-// and the name of ELF 0x9a24d4.
+// The top argument is the output object (tag 5). When it is an object, the original sets opened (bool, the byte
+// GSKeyboard::s_inst.m_querying, ELF 0x9a24d4) and string (GSKeyboard::GetLastString()). The object is then the result,
+// set_as_object, even when the argument is not an object (then null is returned).
 void NativeGetKeyboardLastString(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* obj = call.arg(0).to_object();
+    if (obj != nullptr) {
+        gameswf::as_value opened;
+        opened.set_bool(GSKeyboard::s_inst.m_querying);
+        obj->set_member(tu_stringi("opened"), opened);
+        gameswf::as_value text;
+        text.set_string(GSKeyboard::GetLastString());
+        obj->set_member(tu_stringi("string"), text);
+    }
+    call.result->set_as_object(obj);
 }
 
 // 0x44996c NativeGetNumPotions(gameswf::fn_call const&)
-// PARTIAL. The top argument is the output object (tag 5, used without a null check). The player is
-// PlayerManager::GetLocalPlayer(0, true) (asm: flag 1), and its character is PlayerInfo +0x660. When that character
-// exists, the object gets NumPotions (double, ItemInventory::GetNumPotions() of the inventory at +0x37c) and
-// MaxNumPotions (double, the byte at character +0x3a8, read with LDRB).
-// Missing: the argument accessors, the tu_string names, set_double, drop_refs, the object setter, and PlayerInfo
-// (waits on dh2/PlayerInfo.hpp).
+// The output object is the top argument (tag 5). The local player's Character is PlayerInfo +0x660 (unk_660). When it
+// exists, the object gets NumPotions (ItemInventory::GetNumPotions) and MaxNumPotions (the unsigned byte of the inventory's
+// m_maxPotions, Character +0x3a8). The original does not check the object before its setter, so a null object is skipped
+// here.
 void NativeGetNumPotions(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* obj = call.arg(0).to_object();
+    Character* ch = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
+    if (ch != nullptr && obj != nullptr) {
+        gameswf::as_value numPotions;
+        numPotions.set_double(static_cast<double>(ch->ItemInventory::GetNumPotions()));
+        obj->set_member(tu_stringi("NumPotions"), numPotions);
+        gameswf::as_value maxPotions;
+        maxPotions.set_double(static_cast<double>(static_cast<std::uint8_t>(ch->ItemInventory::m_maxPotions)));
+        obj->set_member(tu_stringi("MaxNumPotions"), maxPotions);
+    }
 }
 
 // 0x449b10 NativeGetPossibleClassSpec(gameswf::fn_call const&)
@@ -184,15 +236,31 @@ void NativeInvGetPlayerGold(const gameswf::fn_call& call) {
 }
 
 // 0x44a820 NativeHUDGetActiveFaery(gameswf::fn_call const&)
-// PARTIAL. The top argument is the player index (to_number). With two arguments, the one below it is the output object
-// (tag 5); otherwise there is none. The original calls NativeGetPlayerChar(index, false). When the player exists and
-// the object exists, the object gets Id (double, Character::SG_GetCurrentFaerieId(-1)) and Upgraded (bool,
-// Character::SG_GetFaerieLevel(id, -1) > 0), and is the return value (set_as_object). When there is no object, the
-// return value is the Id as a double (set_double on the return slot). When the player is null nothing is set.
-// Missing: the argument accessors, to_number, the tu_string names, set_double, set_bool, drop_refs, the object setter,
-// set_as_object, NativeGetPlayerChar.
+// The player index is to_number of the top argument, and the character is NativeGetPlayerChar(index, false). With two
+// arguments and an object below the top, the object gets Id (SG_GetCurrentFaerieId(-1)) and Upgraded (SG_GetFaerieLevel(id,
+// -1) > 0) and is the result (set_as_object). Otherwise the result is the Id as a number. No character: nothing is set.
 void NativeHUDGetActiveFaery(const gameswf::fn_call& call) {
-    (void)call;
+    const int player = static_cast<int>(call.arg(0).to_number());
+    gameswf::as_object* obj = nullptr;
+    if (call.nargs == 2 && call.arg(1).is_object()) {
+        obj = call.arg(1).to_object();
+    }
+    Character* ch = NativeGetPlayerChar(player, false);
+    if (ch == nullptr) {
+        return;
+    }
+    if (obj != nullptr) {
+        gameswf::as_value id;
+        id.set_double(static_cast<double>(ch->SG_GetCurrentFaerieId(-1)));
+        obj->set_member(tu_stringi("Id"), id);
+        gameswf::as_value upgraded;
+        const int faerieId = ch->SG_GetCurrentFaerieId(-1);
+        upgraded.set_bool(ch->SG_GetFaerieLevel(static_cast<unsigned int>(faerieId), -1) > 0);
+        obj->set_member(tu_stringi("Upgraded"), upgraded);
+        call.result->set_as_object(obj);
+    } else {
+        call.result->set_double(static_cast<double>(ch->SG_GetCurrentFaerieId(-1)));
+    }
 }
 
 // 0x44aa28 NativeGetSaveSlotDetails(gameswf::fn_call const&)
@@ -255,32 +323,64 @@ void NativeInvGetItemsListForSlot(const gameswf::fn_call& call) {
 }
 
 // 0x44c444 NativeGetQuestDetails(gameswf::fn_call const&)
-// PARTIAL. Arguments: the top one is the output object (tag 5, used without a null check), the one below it the player
-// index (to_number), and the one below that the quest index (to_number). The original calls
-// NativeGetPlayerChar(index, false). The quest index must satisfy 0 <= index < Character::SG_GetNumQuests(-1). Then
-// Character::SG_GetQuestByID(index, -1) gives the Quest, and the object gets Title (Quest::GetTitle),
-// PreDescription (Quest::GetPreDescription), ObjectiveDescription (Quest::GetObjectiveDescription, a std::string,
-// read through its data pointer), PostDescription (Quest::GetPostDescription) and IsPrimary (bool, Quest::IsPrimary).
-// The object is filled in place; no set_as_object follows.
-// Missing: the argument accessors, to_number, the tu_string names, set_string, set_bool, drop_refs, the object setter,
-// NativeGetPlayerChar.
+// The output object is the top argument, the player index is the argument below it and the quest index the third from the
+// top. The quest index must satisfy 0 <= index < SG_GetNumQuests(-1) of the player's character (NativeGetPlayerChar(player,
+// false)); then the object gets Title, PreDescription, ObjectiveDescription, PostDescription (strings) and IsPrimary (bool)
+// from Character::SG_GetQuestByID(index, -1). The native returns nothing.
 void NativeGetQuestDetails(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* obj = call.arg(0).to_object();
+    const int player = static_cast<int>(call.arg(1).to_number());
+    const int index = static_cast<int>(call.arg(2).to_number());
+    Character* ch = NativeGetPlayerChar(player, false);
+    if (ch == nullptr || obj == nullptr) {
+        return;
+    }
+    if (index < 0 || index >= ch->SG_GetNumQuests(-1)) {
+        return;
+    }
+    Quest* quest = ch->SG_GetQuestByID(index, -1);
+    gameswf::as_value title;
+    title.set_string(quest->GetTitle());
+    obj->set_member(tu_stringi("Title"), title);
+    gameswf::as_value pre;
+    pre.set_string(quest->GetPreDescription());
+    obj->set_member(tu_stringi("PreDescription"), pre);
+    gameswf::as_value objective;
+    objective.set_string(quest->GetObjectiveDescription().c_str());
+    obj->set_member(tu_stringi("ObjectiveDescription"), objective);
+    gameswf::as_value post;
+    post.set_string(quest->GetPostDescription());
+    obj->set_member(tu_stringi("PostDescription"), post);
+    gameswf::as_value primary;
+    primary.set_bool(quest->IsPrimary());
+    obj->set_member(tu_stringi("IsPrimary"), primary);
 }
 
 // 0x44c7a0 NativeGetCharMenuTutorialMessage(gameswf::fn_call const&)
-// PARTIAL. The top argument is the output object (tag 5, cast to as_object, used without a null check). The original
-// builds an empty CharMenuTutorialMsg (string id -1, empty frame and menu) that is never read, then looks at the front
-// entry of the global character-menu tutorial queue (ELF dword_99FBB8 is its begin and dword_99FBC8 its end; the queue
-// is not identified in the tree). When the queue is empty, the return value is false. Otherwise the front entry's string
-// id is read (+0), its frame and menu strings are copied (the _M_assign calls read the data pointers at +20/+24 for the
-// frame and +44/+48 for the menu), and the object gets TutorialMessage (StringManager::getString(id)), TutorialFrame and
-// TutorialMenu (strings). The return value is true (set_bool on the return slot). The entry is read but not popped.
-// Missing: the argument accessors, the tu_string names, set_string, set_bool, drop_refs, the object setter, the queue
-// declaration (dh2/CharMenuTutorialMsg.hpp declares the constructor only; layout request: CharMenuTutorialMsg +0 int
-// id, +4 std::string frame, +28 std::string menu, from the pseudocode offsets) and the queue's global name.
+// The original builds a temporary CharMenuTutorialMsg (id -1, two empty strings) and destroys it at once; nothing reads it,
+// so it is not written. The front of the CharMenuTutorialMsg queue (Singleton<MenuMessageManager<CharMenuTutorialMsg,1>>,
+// queue 0) is read, not popped. When the queue is non-empty, the object gets TutorialMessage (StringManager::getString of
+// the message id), TutorialFrame (m_frame) and TutorialMenu (m_menu), and the result is true. Otherwise the result is false.
 void NativeGetCharMenuTutorialMessage(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* obj = call.arg(0).to_object();
+    const auto& queue = Singleton<MenuMessageManager<CharMenuTutorialMsg, 1>>::s_inst.m_queues[0];
+    bool found = false;
+    if (!queue.empty()) {
+        const CharMenuTutorialMsg& front = queue.front();
+        if (obj != nullptr) {
+            gameswf::as_value message;
+            message.set_string(ApplicationGetInstance().m_stringManager->getString(front.m_stringId));
+            obj->set_member(tu_stringi("TutorialMessage"), message);
+            gameswf::as_value frame;
+            frame.set_string(front.m_frame.c_str());
+            obj->set_member(tu_stringi("TutorialFrame"), frame);
+            gameswf::as_value menu;
+            menu.set_string(front.m_menu.c_str());
+            obj->set_member(tu_stringi("TutorialMenu"), menu);
+        }
+        found = true;
+    }
+    call.result->set_bool(found);
 }
 
 // 0x44ca5c NativeInvGetItemDetails(gameswf::fn_call const&)

@@ -59,7 +59,8 @@ alignas(Application) unsigned char g_appStorage[sizeof(Application)];
 }  // namespace
 
 // The global the ObjectManager lookups read (declared in dh2/global/ObjectManagerInstance.hpp).
-ObjectManager* dword_99F764 = nullptr;
+static ObjectManager* g_test_dword_99F764 = nullptr;
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 std::map<std::pair<std::string, int>, CharAI::GroupInfo> CharAI::s_groups;
 
 // Stubs for the functions of the other batches that g1-game-character-CharAI-2ae0f1-5.cpp references.
@@ -148,7 +149,9 @@ template <> ProjectileManager Singleton<ProjectileManager>::s_inst{};
 VisualFXManager::VisualFXManager() {}
 VisualFXManager::~VisualFXManager() {}
 void VisualFXManager::PlayAnimFXSet(int, const Point3D<float>&, const GameObject*, VisualFXManager::AnimFXSetData*) {}
-VisualFXManager VisualFXManager::s_inst{};
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static VisualFXManager g_testInstance_1{};
+VisualFXManager& VisualFXManager::s_inst = g_testInstance_1;
 VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
 VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
 

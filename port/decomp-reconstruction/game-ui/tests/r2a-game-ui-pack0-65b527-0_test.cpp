@@ -125,7 +125,7 @@ void RenderFX::SetContext(gameswf::character* context) {
     g_log.push_back("SetContext:" + NameOf(context));
 }
 
-gameswf::character* RenderFX::GetFlashRoot() {
+gameswf::character* RenderFX::GetFlashRoot() const {
     return Char(3);
 }
 

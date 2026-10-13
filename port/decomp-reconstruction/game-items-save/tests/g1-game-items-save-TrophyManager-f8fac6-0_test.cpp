@@ -104,8 +104,10 @@ AchievementMsg::AchievementMsg(const AchievementMsg& other)
 
 template <>
 MenuMessageManager<AchievementMsg, 1>::~MenuMessageManager() {}
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private instance.
+static MenuMessageManager<AchievementMsg, 1> g_testInstance_1{};
 template <>
-MenuMessageManager<AchievementMsg, 1> MenuMessageManager<AchievementMsg, 1>::s_inst{};
+MenuMessageManager<AchievementMsg, 1>& MenuMessageManager<AchievementMsg, 1>::s_inst = g_testInstance_1;
 
 // CustomFree is inline in pydata-accessors/deps/stream_reader.hpp (malloc and free), so only CustomAlloc is defined here.
 void* CustomAlloc(unsigned size) {

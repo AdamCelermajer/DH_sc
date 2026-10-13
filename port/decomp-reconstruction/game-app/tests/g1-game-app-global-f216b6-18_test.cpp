@@ -102,7 +102,8 @@ std::size_t Condition_IsPlayerInLevel::DBG_TraceDetailedConditionInformation(__s
 
 // The callback's lookup path (Script_CharacterState_Callback, non-"All" name). The stubs record what the callback passes.
 // The name compare is exact, which is enough for the names the test uses.
-ObjectManager* dword_99F764 = nullptr;
+static ObjectManager* g_test_dword_99F764 = nullptr;
+ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 int g_lookupCalls = 0;
 const char* g_lookupName = nullptr;
 int g_lookupFlags = 0;

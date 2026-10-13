@@ -131,7 +131,8 @@ public:
 int gAssertLevel = 0;
 std::uint32_t Arrays::FastTravelList::size = 80;
 std::int32_t PlayerSavegame::m_difficultyLevel = 0;
-PlayerManager* dword_99F76C = reinterpret_cast<PlayerManager*>(g_playerManagerStorage);
+static PlayerManager* g_test_dword_99F76C = reinterpret_cast<PlayerManager*>(g_playerManagerStorage);
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 DebugSwitches DebugSwitches::s_inst;
 DebugSwitches::DebugSwitches() {}

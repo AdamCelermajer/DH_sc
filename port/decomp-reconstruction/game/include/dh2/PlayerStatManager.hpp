@@ -46,8 +46,9 @@ public:
     int GetNumLeadingStats(int playerId) const;                         // 0x379e10
 
     // Singleton<PlayerStatManager>::s_inst: the call sites pass &Singleton<PlayerStatManager>::s_inst as this
-    // (Character::F_ApplyResult overload at 0x3b10b4, IncrementStat and IncreaseStat calls). Declared only; no definition yet.
-    static PlayerStatManager s_inst;
+    // (Character::F_ApplyResult overload at 0x3b10b4, IncrementStat and IncreaseStat calls). This name is a reference to that
+    // object, defined with the instantiation in game-app/src/singleton_PlayerStatManager.cpp (link-1).
+    static PlayerStatManager& s_inst;
 
     // No data members: the vptr at +0x00 is the whole object.
 };

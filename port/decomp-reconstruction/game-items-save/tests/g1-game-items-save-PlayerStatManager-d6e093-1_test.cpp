@@ -117,7 +117,8 @@ DebugSwitches::DebugSwitches() {}
 DebugSwitches::~DebugSwitches() {}
 DebugSwitches DebugSwitches::s_inst;
 
-PlayerManager* dword_99F76C = nullptr;
+static PlayerManager* g_test_dword_99F76C = nullptr;
+PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
 
 // ---- checks ----
 

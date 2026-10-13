@@ -10,6 +10,7 @@
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/VisualObject.hpp"
 
 namespace {
@@ -26,18 +27,17 @@ void CopyFloatBits(float src, int& dst) {
 
 }  // namespace
 
-// 0x492ef0 _ZN10AnimatedFX10SetVisibleEb
-// PARTIAL. Missing: after the VisualObject call the original also stores the new visible flag in the
-// byte at +0x200 of the VisualObject's root node (VisualObject +0x08, RootSceneNode). RootSceneNode
-// has no complete declaration in the game headers beyond its forward declaration, so that store is not
-// written here (layout request).
+// 0x492ef0 AnimatedFX::SetVisible(bool)
+// When the flag changes: it is stored in unk_24 (+0x24), the visual's SetVisible is called, and the root node's byte at
+// +0x200 (RootSceneNode::m_cullBeforeUpdate) takes the same flag. Then SyncIrrData(false). Nothing happens when the flag
+// is unchanged. SyncIrrData is still partial, so the sync part of this call is incomplete.
 void AnimatedFX::SetVisible(bool visible) {
-    if (unk_24 != visible) {                // +0x24 visibility flag
-        VisualObject* visual = m_visual;    // +0x2c
+    if (unk_24 != visible) {
+        VisualObject* visual = m_visual;
         unk_24 = visible;
         if (visual != nullptr) {
             visual->SetVisible(visible);
-            // MISSING: root node byte +0x200 = visible (see the note above).
+            visual->m_node->m_cullBeforeUpdate = unk_24;
         }
         SyncIrrData(false);
     }

@@ -96,8 +96,9 @@ gameswf::character* DebugCachedCharacter::GetChar() {
     return nullptr;
 }
 
-void RenderFX::SetEnabled(gameswf::character* character, bool enabled) {
+int RenderFX::SetEnabled(gameswf::character* character, bool enabled) {
     g_enable.push_back({character, enabled});
+    return 0;  // the header returns int (link-1)
 }
 
 int RenderFX::PlayAnim(const char* name, const char* anim, int flag) {
