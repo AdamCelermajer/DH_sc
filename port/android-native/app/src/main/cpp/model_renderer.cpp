@@ -15156,16 +15156,15 @@ struct NativeMonsterInitialization {
   if(!s.subject(owner)||!s.owner||!s.ai)return fail("the scripted Character is no longer live");
   const auto fn=static_cast<dh2::character_native_bindings::Function>(function);
   (void)method;
-  // Character::_ApplyPropClass (0x3babdc, one class argument or a false buff
-  // flag -> CharProperties::PROPS_ApplyClass(resolved sheet)), _SetProp and
-  // _ClearProps act on the scripted Character's own CharProperties; only the
-  // Pointer buff-sheet form belongs to the host's BuffOwner route.
-  const bool own_sheet=receiver==owner&&
-      (fn==dh2::character_native_bindings::Function::character_set_prop||
-       fn==dh2::character_native_bindings::Function::character_clear_props||
-       (fn==dh2::character_native_bindings::Function::character_apply_prop_class&&
-        !(count>1&&arguments[1].type==DH2_SCRIPT_IDENTITY)));
-  if(!own_sheet&&dh2::native::player_skill_host_v1::handles(fn)) {
+  // The Monster-specific natives come first: they act on this Character's own
+  // owners (target list, aggro, CharProperties, animator, skill queue). Whatever
+  // they leave unhandled and the receiver-generic GameObject natives of the
+  // Player skill VM host (GetRand, GetSelf, PlayFX, ...) run there.
+  bool handled=false;
+  const auto status=monster_character_native(s,fn,name,receiver,arguments,count,output,
+      capacity,returned,error,error_capacity,handled);
+  if(handled)return status;
+  if(dh2::native::player_skill_host_v1::handles(fn)) {
    auto host=native_player_skill_host_services_v1();
    host.self=prince_character.identity();
    host.random=&dh2::random_lifecycle::process_state();
@@ -15176,10 +15175,6 @@ struct NativeMonsterInitialization {
    return dh2::native::player_skill_host_v1::invoke(host,fn,name,receiver,arguments,count,
        output,capacity,returned,error,error_capacity);
   }
-  bool handled=false;
-  const auto status=monster_character_native(s,fn,name,receiver,arguments,count,output,
-      capacity,returned,error,error_capacity,handled);
-  if(handled)return status;
   return fail("unsupported source script function");
  }
  dh2::monster_external_script::Services script_services() {
@@ -16289,11 +16284,17 @@ void retire_native_monster_scripts(bool preserve) {
   auto& script=*projection->initialization;
   if(preserve&&script.initialized)continue;
    script.retire_timers();
-  // The scripted Character's GameObject TargetList leases canonical ObjectManager
-  // rows through its named backups; release them while the Level owner is alive.
-  script.target_list.reset();
   script.initialized=false;
  }
+}
+
+// A scripted Monster's GameObject TargetList leases canonical ObjectManager rows
+// (ObjectBase +0x29) through its named backups, exactly like the Player's: release
+// them before Level teardown frees any candidate row. A VM that keeps running
+// recreates the list on its next search.
+void retire_native_monster_target_lists() {
+ for(auto& projection:source_char_ai.projections)
+  if(projection->initialization)projection->initialization->target_list.reset();
 }
 
 void clear_native_monster_outgoing_aggro(ObjectActor& actor);
@@ -22886,6 +22887,7 @@ if(!retain){
  inspected_object=-1;current_scene={};player=dh2::animation::Player{};walk_player=dh2::animation::Player{};level={};program=0;enabled=false;
  if(!retain){
   std::string backup_error;
+  retire_native_monster_target_lists();
   if(prince_skill_targets.named_backups.retire(backup_error)!=
        dh2::character_target_list_backup_v1::Status::complete)
    throw std::runtime_error("Player TargetList backup retirement failed: "+backup_error);
@@ -22940,6 +22942,7 @@ void deactivate(bool defer_source_level_finish){
  // retirement calls below stay as idempotent no-ops.
  {
   std::string backup_error;
+  retire_native_monster_target_lists();
   if(prince_skill_targets.named_backups.retire(backup_error)!=
        dh2::character_target_list_backup_v1::Status::complete){
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
@@ -33223,6 +33226,12 @@ std::int32_t NativeMonsterInitialization::monster_character_native(
  case Fn::character_apply_prop_class:
  case Fn::character_set_prop:
  case Fn::character_clear_props:{
+  // The Pointer buff-sheet forms (ApplyBuff, SetProp on a buff sheet) belong to the
+  // receiver's BuffOwner route in the Player skill VM host.
+  if((function==Fn::character_apply_prop_class&&count>1&&a[1].type==DH2_SCRIPT_IDENTITY)||
+     (function==Fn::character_set_prop&&count>2&&a[2].type==DH2_SCRIPT_IDENTITY)){
+   handled=false;return 0;
+  }
   if(!own)return fail("the property natives are bound to the scripted Character's own sheet");
   if(!s.owner->buffs||s.owner->buff_properties.resolved!=actor.properties.resolved.data())
    return fail("the Character's canonical PropertyView is unavailable");

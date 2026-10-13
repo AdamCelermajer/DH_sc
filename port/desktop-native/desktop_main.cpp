@@ -74,7 +74,10 @@ struct Options {
     // X,Y,Z, defaulting to the offset of the level's _prim_Waypoint_PrinceSpot), then
     // attack the boss (or just watch with --boss-passive) while logging the boss
     // AIS counters and both sides' health.
-    bool boss_fight_scenario = false, boss_passive = false, boss_offset_given = false;
+    // --boss-weaken: leave the boss 3 HP through the development debug_character_hit
+    // fixture (the existing nonlethal source health kernel) so one Player blow kills it.
+    bool boss_fight_scenario = false, boss_passive = false, boss_offset_given = false,
+         boss_weaken = false;
     std::string boss_name;
     std::array<float, 3> boss_offset{};
     // Planar distance from the boss at which the Player is placed (the direction
@@ -127,6 +130,7 @@ Options parse(int argc, char** argv) {
             options.boss_offset_given = true;
         }
         else if (arg == "--boss-passive") options.boss_passive = true;
+        else if (arg == "--boss-weaken") options.boss_weaken = true;
         else if (arg == "--boss-distance") options.boss_distance = std::stof(value("--boss-distance"));
         else if (arg == "--runtime-dir") options.runtime = value("--runtime-dir");
         else if (arg == "--level-row") {
@@ -221,7 +225,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
                          "  --scenario skill-matrix train/equip every class skill, use it in melee range of an enemy, log state/HP/MP effects\n"
-                         "  --scenario boss-fight [--boss NAME] [--boss-offset X,Y,Z] [--boss-passive] spawn the level boss, place the Player at its arena entry spot, fight it and log its AIS counters\n"
+                         "  --scenario boss-fight [--boss NAME] [--boss-offset X,Y,Z] [--boss-passive] [--boss-weaken] spawn the level boss, place the Player at its arena entry spot, fight it and log its AIS counters\n"
                          "  --matrix-only N       skill-matrix: test only SkillTree row N\n"
                          "  --follow-faery N      faery-follow: select Faery Save slot N (0..4) at frame 30\n"
                          "  --hud-tap-xy X,Y      touch point for --faery-hud-tap on the 1280x720 layout (default 1176,281; skill slot 0 is 980,445)\n"
@@ -934,6 +938,11 @@ private:
                 std::string show_error;
                 const bool shown = model_renderer::boss_probe_script_command(42, boss, show_error);
                 plog(fmt("boss ShowActor: %s%s", shown ? "ok" : "ERROR ", show_error.c_str()));
+                if (options_.boss_weaken && snap.hp > 3 * 256) {
+                    const std::string hit = model_renderer::debug_character_hit(
+                        boss, std::uint32_t(snap.hp - 3 * 256));
+                    plog(fmt("boss weaken | HP %.1f -> 3 | %s", snap.hp / 256.0, hit.c_str()));
+                }
                 plog(fmt("boss ready | frame %llu | script %s | fsm %d | HP %.1f | ais flags 0x%x | at %s",
                          (unsigned long long)frame_, snap.script.c_str(), snap.fsm_state,
                          snap.hp / 256.0, snap.ais_flags,
