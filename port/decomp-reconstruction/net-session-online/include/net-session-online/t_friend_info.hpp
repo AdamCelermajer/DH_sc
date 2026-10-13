@@ -21,6 +21,11 @@ public:
     std::int32_t Value00ForTest() const { return value00_; }
     std::int32_t Value1cForTest() const { return value1c_; }
 
+    // Setters for the three recovered fields, filled by CMatchingGLLive::GetFriendsList (0x81ec5c). Not in the original.
+    void SetValue00(std::int32_t value) { value00_ = value; }
+    void SetText04(const std::string& text) { text04_ = text; }
+    void SetValue1c(std::int32_t value) { value1c_ = value; }
+
 private:
     std::int32_t value00_ = 0;  // +0x00
     std::string text04_;        // +0x04

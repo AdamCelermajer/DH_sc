@@ -49,11 +49,13 @@ int main() {
     CHECK(arr.at(0).write_called);
     CHECK(arr.at(2).write_called);
 
-    // Acknowledgements and losses reach every element; the result is the last element's.
-    CHECK(arr.ProcessAcknowledgedPacket(5, 0) == 5);
+    // Acknowledgements and losses reach every element (void return, see the header).
+    arr.ProcessAcknowledgedPacket(5, 0);
     arr.ProcessAcknowledgedPacket(5, 0);
     CHECK(arr.at(1).acked == 10);
-    CHECK(arr.ProcessLostPacket(3, 0) == 3);
+    CHECK(arr.at(0).acked == 10);
+    arr.ProcessLostPacket(3, 0);
+    CHECK(arr.at(2).lost == 3);
 
     // Erase: presence bit set, so every element is erased.
     NetBitStream in(16);

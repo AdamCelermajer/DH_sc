@@ -8,7 +8,6 @@
 //   +0x50 last result (-1 pending, 0x32 refused)
 //   +0x60 state (>1 can send, >2 in session or room, >4 in game)
 //   +0x61 Init sets 10, +0x62 Init sets 0, +0x63/+0x64 Init sets 0xff (unknown)
-//   +0x18 establish-connection flag (in the base object in the original)
 //   +0x68 aux object (ThreadHandle, freed by mpDisconnect)
 //   +0x74 ConnectionLobby (allocated as 0x2058 bytes, time field at +0x2050)
 //   +0x78 auto-match flag  +0x80 request pending flag  +0x81 is master
@@ -18,6 +17,7 @@
 
 #include <cstdint>
 #include <list>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -99,22 +99,23 @@ public:
     // 0x8386f0 _ZN16GLXPlayerMPLobby15mpSendJoinLobbyEihPci
     void mpSendJoinLobby(std::int32_t lobbyId, std::uint8_t b, char* c, std::int32_t d);
     // 0x838528 _ZN16GLXPlayerMPLobby25mpSendJoinPredefinedLobbyEPciS0_iiRSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE
-    // Partial: only the refusal path is recovered; the success path ends in a call
-    // that does not return in the decompilation.
-    void mpSendJoinPredefinedLobby();
+    // Refused (result 0x32, observer slot 0) when the state is 1 or less. Otherwise each map entry
+    // goes into a query block and a parameter block, and both are sent with the connection.
+    void mpSendJoinPredefinedLobby(char* a, std::int32_t b, char* c, std::int32_t d, std::int32_t e,
+                                   std::map<std::int32_t, std::string>& names);
     // 0x838890 _ZN16GLXPlayerMPLobby30mpSendLobbyLoginWithGameCenterElPcihhS0_S0_
     void mpSendLobbyLoginWithGameCenter(long a, char* b, std::int32_t c, std::uint8_t d, std::uint8_t e,
                                         char* f, char* g);
     // 0x838928 _ZN16GLXPlayerMPLobby16mpSendLobbyLoginElPcih
     void mpSendLobbyLogin(long a, char* b, std::int32_t c, std::uint8_t d);
     // 0x8389a8 _ZN16GLXPlayerMPLobby16mpSendDisconnectEv
-    // Partial: the connected branch is recovered. Two virtual calls on the observer
-    // and on this object are not identified, so those steps are omitted.
+    // Partial: the observer slot 3 call (OnMPSetParamSuccess) is not made, because its int
+    // argument is not in the pseudocode. The port's void return drops the original's result.
     void mpSendDisconnect();
     // 0x838bf0 _ZN16GLXPlayerMPLobby12mpDisconnectEv
     void mpDisconnect();
     // 0x839e7c _ZN16GLXPlayerMPLobby25mpSendEstablishConnectionEv
-    // Partial: the connection is created, but the decompiled tail call is not identified.
+    // The state byte (+0x60) picks the branch: observer slot 2 when set, otherwise a new connection.
     void mpSendEstablishConnection();
     // 0x839f4c _ZN16GLXPlayerMPLobby10LoadConfigEv
     // Partial: the oconf.bar load is not recovered; only the not-found trace is kept.
@@ -122,6 +123,8 @@ public:
 
     // Not in the original: test seams that set state and read back the request kind.
     void SetStateForTest(std::uint8_t state) { state_ = state; }
+    // +0x60 state. Read by the sign-in path (CSignInGLLive::Update, step 6: state > 1).
+    std::uint8_t State() const { return state_; }
     void AttachConnectionForTest() { connection_ = std::make_unique<ConnectionLobby>(nullptr, 0); }
     std::int32_t LastResultForTest() const { return lastResult_; }
     std::int32_t PendingKindForTest() const { return pendingKind_; }
@@ -139,7 +142,6 @@ private:
     std::uint8_t unknown62_ = 0;                        // +0x62
     std::uint8_t unknown63_ = 0;                        // +0x63
     std::uint8_t unknown64_ = 0;                        // +0x64
-    std::uint8_t flag18_ = 0;                           // +0x18
     std::unique_ptr<ConnectionLobby> connection_;       // +0x74
     bool autoMatch_ = false;                            // +0x78
     std::unique_ptr<char[]> config_;                    // +0x7c (copy of the config text)

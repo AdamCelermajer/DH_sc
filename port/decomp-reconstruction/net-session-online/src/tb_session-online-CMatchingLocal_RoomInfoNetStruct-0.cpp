@@ -69,10 +69,11 @@ CMatchingLocal::RoomInfoNetStruct::RoomInfoNetStruct()
 }
 
 // 0x8061bc _ZN14CMatchingLocal17RoomInfoNetStructD1Ev
-// Partial. The original erases the packet history tree when it is not empty, then resets the
-// header. std::map::clear does the same here. The NetStructMember vptr stores and the NetStruct
-// vptr store of the original are the compiler's job. The element type NetStruct::tPacketHistory is
-// a placeholder in deps/net_struct_stub.hpp, so its layout is not recovered.
+// Reconstructed. The original erases the packet history tree when it is not empty, then resets the
+// header, which is std::map::clear. The element type is the stand-in NetStructBaseStub::tPacketHistory
+// (empty). The real NetStruct::tPacketHistory is two 64-bit words with no destructor, so clear() does
+// the same work. The NetStructMember vptr stores and the NetStruct vptr store of the original are the
+// compiler's job. The NetStruct base layout (+0x04..+0x10b) is not modelled, and the destructor does not touch it.
 CMatchingLocal::RoomInfoNetStruct::~RoomInfoNetStruct() {
     if (!packetHistory_.empty()) {
         packetHistory_.clear();
@@ -80,7 +81,7 @@ CMatchingLocal::RoomInfoNetStruct::~RoomInfoNetStruct() {
 }
 
 // 0x80623c _ZN14CMatchingLocal17RoomInfoNetStructD0Ev
-// Partial, as D1 above: the deleting destructor is the D1 body, then CustomFree(this).
+// Reconstructed, as D1 above: the deleting destructor is the D1 body, then CustomFree(this).
 void CMatchingLocal::RoomInfoNetStruct::DeletingDestructor() {
     this->~RoomInfoNetStruct();
     CustomFree(this);

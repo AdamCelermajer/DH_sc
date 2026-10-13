@@ -6,6 +6,8 @@
 #include <cstring>
 #include <string>
 
+#include "core-platform/gc_singleton.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
@@ -59,20 +61,25 @@ int main() {
     CHECK(gc.PlayerIdStatusForTest().size() == 2);
     gc.DumpPlayerIDStatusList();
 
-    // Achievements and scores are queued only when the gate is open.
+    // Achievements and scores are queued only when the gate on the GameCenter singleton is open. The score
+    // and the achievement name are stored on the object the call is made on; the flags go to the singleton.
+    GameCenter* singleton = GCSingleton<GameCenter>::GetInstance();
     gc.SaveGCAchievement("first");
     CHECK(gc.AchievementsForTest().size() == 1);
+    singleton->SetGateForTest(false);
     gc.ReportGCScore(42);
-    CHECK(!gc.ScoreFlagForTest());
+    CHECK(!singleton->ScoreFlagForTest());
     gc.ReportGCAchievement("ach");
-    CHECK(!gc.AchievementFlagForTest());
-    gc.SetGateForTest(true);
+    CHECK(!singleton->AchievementFlagForTest());
+    singleton->SetGateForTest(true);
     gc.ReportGCScore(42);
-    CHECK(gc.ScoreFlagForTest());
+    CHECK(singleton->ScoreFlagForTest());
     CHECK(gc.PendingScoreForTest() == 42);
     gc.ReportGCAchievement("ach");
-    CHECK(gc.AchievementFlagForTest());
+    CHECK(singleton->AchievementFlagForTest());
     CHECK(gc.PendingAchievementForTest() == "ach");
+    CHECK(!gc.ScoreFlagForTest());
+    CHECK(!gc.AchievementFlagForTest());
 
     // Join list: adds to the same list as the player IDs, and a copy comes back.
     gc.GCAddToJoinPlayerList("zed");

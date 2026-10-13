@@ -1,15 +1,16 @@
-// Batch e1-net-transport-CNetPlayerManager-0: the first 20 CNetPlayerManager functions of
-// libDungeonHunter2.so. Class: include/net-transport/tb/c_net_player_manager.hpp.
-// The NetStruct calls (net_struct_ and the player virtuals) are real (decisions-1); the one shim left is
-// COnline in include/net-transport/tb/net_player_manager_deps.hpp.
+// Batch e1-net-transport-CNetPlayerManager-0 (redo as r1n-net-transport-CNetPlayerManager-0e46d6-0): the
+// lookup, singleton, packet-write and removal functions of CNetPlayerManager in libDungeonHunter2.so.
+// Class: include/net-transport/tb/c_net_player_manager.hpp. Status per function is in
+// ledger.d/r1n-net-transport-CNetPlayerManager-0e46d6-0.csv.
+// The NetStruct calls (net_struct_ and the player virtuals) are real (decisions-1). COnline is the real class
+// in net-session-online: GetOnline (0x7fd794) is a thunk to COnline::GetInstance, so that is called directly.
 
 #include "net-transport/tb/c_net_player_manager.hpp"
 
 #include <cstdint>
 
+#include "net-session-online/c_online.hpp"       // COnline (one definition, net-session-online)
 #include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
-
-#include "net-transport/tb/net_player_manager_deps.hpp"
 
 // Static state. Other batches of this class must not define these again.
 // The initial value of the two factory hooks is not recovered (data section); they start null.
@@ -28,8 +29,10 @@ bool CNetPlayerManager::IsInitialized() {
 }
 
 // 0x810108 CNetPlayerManager::Terminate()
-// The original calls the object's vtable slot +0x04 (the virtual deleting destructor, presumed
-// from the vtable layout). Partial: that slot is not confirmed against the class's vtable.
+// The original calls the object's vtable slot +0x04. tools/decomp_vtable.py lists +0x00 and +0x04 as
+// ~CNetPlayerManager (slot +0x00 is the complete-object destructor, +0x04 the deleting one), so the call
+// is the deleting destructor. delete on the polymorphic object makes the same call. The original's r0 result
+// is a leftover of that call and is not kept (void); no caller reads it.
 void CNetPlayerManager::Terminate() {
     if (s_playerManager != nullptr) {
         delete s_playerManager;
@@ -52,8 +55,10 @@ CNetPlayerInfo* CNetPlayerManager::GetPlayerInternal(int index) const {
 }
 
 // 0x810180 CNetPlayerManager::GetPlayerInternal(int,int)
-// Partial: the first key is compared with +0x1a0 (conn_index_ in cnet_player_info.hpp), but
-// GetLocalPlayer passes a member id here. Confirm the field name before merging.
+// The first key is compared with the word at +0x1a0 and the second with +0x1c8 (unk_1c8). The word at +0x1a0
+// is the one cnet_player_info.hpp calls conn_index_, but the binary says it is a member index: IsLocal
+// (0x80f1ec) compares it with CMatching::LocalMemberId(), and IsLocalTo (0x80f1a0) with a member index. That
+// is why GetLocalPlayer passes a member id as the first key. The name is a layout request for the integrator.
 CNetPlayerInfo* CNetPlayerManager::GetPlayerInternal(int first_key, int second_key) const {
     for (CNetPlayerInfo* player : players_) {
         if (player != nullptr && first_key == player->conn_index_.GetValue() &&  // +0x1a0
@@ -65,7 +70,9 @@ CNetPlayerInfo* CNetPlayerManager::GetPlayerInternal(int first_key, int second_k
 }
 
 // 0x8101e0 CNetPlayerManager::GetPlayer(int,bool)
-// Partial: the fallback at +0x17c has no recovered name (fallback_player_ here).
+// The fallback at +0x17c (fallback_player_) is the default player that InitPlayers creates (member id -64);
+// the lookup returns it when nothing matches. IsActive is the vtable +0x5c slot, as the layout in
+// cnet_player_info.hpp says.
 CNetPlayerInfo* CNetPlayerManager::GetPlayer(int index, bool any_state) const {
     CNetPlayerInfo* player = GetPlayerInternal(index);
     if (player != nullptr && (any_state || player->IsActive())) {  // IsActive: vtable +0x5c
@@ -75,7 +82,7 @@ CNetPlayerInfo* CNetPlayerManager::GetPlayer(int index, bool any_state) const {
 }
 
 // 0x810228 CNetPlayerManager::GetPlayerByMemberId(int,int,bool)
-// Partial: same open names as GetPlayerInternal(int,int) and GetPlayer.
+// IsActive (vtable +0x5c) is evaluated before the allow flag, as in the original.
 CNetPlayerInfo* CNetPlayerManager::GetPlayerByMemberId(int first_key, int second_key,
                                                        bool allow_inactive) const {
     CNetPlayerInfo* player = GetPlayerInternal(first_key, second_key);
@@ -191,14 +198,15 @@ CNetPlayerInfo* CNetPlayerManager::GetLocalPlayer(int second_key) const {
 }
 
 // 0x810610 CNetPlayerManager::WritePacketData(int,int,NetBitStream &)
-// Partial: COnline::IsServer (GetOnline(), net-session-online) is the np_deps stand-in. The NetStruct
-// calls are real: the manager info is enabled for the server and serialised with ConditionalSerialize
-// (0x814cd4), each player with its vtable +0x0c (ConditionalSerialize) and the secondary players with +0x28
-// (HasDataToSend) and +0x08 (Serialize). The state branches follow the Hex-Rays pseudocode exactly. The
-// loops re-read the vectors as the original does.
+// The NetStruct calls are real: the manager info is enabled for the server and serialised with
+// ConditionalSerialize (0x814cd4), each player with its vtable +0x0c (ConditionalSerialize) and the secondary
+// players with +0x28 (HasDataToSend) and +0x08 (Serialize). COnline::IsServer comes from the real COnline
+// (net-session-online). The state branches follow the Hex-Rays pseudocode exactly. The loops re-read the
+// vectors as the original does.
 int CNetPlayerManager::WritePacketData(int a2, int a3, NetBitStream& stream) {
-    // COnline::IsServer(GetOnline()) feeds NetStruct::SetEnabled.
-    net_struct_.SetEnabled(np_deps::GetOnline()->IsServer());
+    // COnline::IsServer(GetOnline()) feeds NetStruct::SetEnabled. GetOnline (0x7fd794) is a thunk to
+    // COnline::GetInstance (0x7fd744), so the target is called directly.
+    net_struct_.SetEnabled(COnline::GetInstance()->IsServer());
     const bool is_server = CMatching::Get()->IsServer();
     int result = net_struct_.ConditionalSerialize(is_server, stream, a2, a3) != 0 ? 1 : 0;
 
@@ -254,8 +262,8 @@ int CNetPlayerManager::sWritePacketData(int a2, int a3, NetBitStream& stream) {
 }
 
 // 0x8108a8 CNetPlayerManager::RemovePlayer(int)
-// Partial: the player's Remove is declared on CNetPlayerInfo, but the original's call form
-// (member or static) is taken from the Hex-Rays call CNetPlayerInfo::Remove(Player).
+// GetPlayer(index, true), then CNetPlayerInfo::Remove. The symbol _ZN14CNetPlayerInfo6RemoveEv has no pointer
+// argument, so Remove is a non-static member and player->Remove() is the original's call form.
 int CNetPlayerManager::RemovePlayer(int index) {
     CNetPlayerInfo* player = GetPlayer(index, true);
     player->Remove();

@@ -24,13 +24,17 @@ ConnectionLobby::~ConnectionLobby() = default;
 
 // 0x846eb4 _ZN15ConnectionLobby13sendRetryDataEv
 // Partial: the original returns the time when a copy was sent, and the object pointer otherwise.
-// Hex-Rays shows that value as the return, which is not reproduced; the function returns void.
+// Hex-Rays shows that value as the return (R0 left by the calls). No direct caller exists in the
+// Hex-Rays output, so the return type cannot be confirmed; the function returns void. The body
+// (lobby slot +0x64) is read before the length (slot +0x60), as in the original.
 void ConnectionLobby::sendRetryData() {
     if (retry_packet_ == nullptr) {
         return;
     }
     auto* packet = new DataPacketLobby();
-    packet->setMessageBody(retry_packet_->getMessageBody(), retry_packet_->getMessageLen());
+    const std::uint8_t* body = retry_packet_->getMessageBody();
+    const std::size_t length = retry_packet_->getMessageLen();
+    packet->setMessageBody(body, length);
     addOutgoingPacket(packet);
     last_request_time_ = platform_calls::GetTime();
 }
@@ -48,9 +52,10 @@ bool ConnectionLobby::keepConnectionAlive() {
 }
 
 // 0x846fb0 _ZN15ConnectionLobby13saveRetryDataEP10DataPacket
-// Partial: the body is read through DataPacketLobby (getMessageBody and getMessageLen). The
-// original calls the same two slots on any DataPacket, and the DataPacket base does not declare
-// them yet, so the packet is downcast here.
+// The original calls the lobby-table getters (slot +0x64 body, slot +0x60 length) on the DataPacket
+// argument. The DataPacket base does not declare them, so the port downcasts to DataPacketLobby,
+// which has the same getters (no override exists). Every send* caller builds a DataPacketLobby,
+// and each Hex-Rays caller uses the call as a statement, so the return value is not used (void).
 void ConnectionLobby::saveRetryData(DataPacket* packet) {
     if (packet == nullptr) {
         return;
@@ -59,7 +64,9 @@ void ConnectionLobby::saveRetryData(DataPacket* packet) {
     auto* source = static_cast<DataPacketLobby*>(packet);
     auto* copy = new DataPacketLobby();
     retry_packet_ = copy;
-    copy->setMessageBody(source->getMessageBody(), source->getMessageLen());
+    const std::uint8_t* body = source->getMessageBody();
+    const std::size_t length = source->getMessageLen();
+    copy->setMessageBody(body, length);
     last_request_time_ = platform_calls::GetTime();
 }
 
@@ -603,7 +610,9 @@ void ConnectionLobby::sendData() {
         return;
     }
     auto* head = static_cast<DataPacketLobby*>(outgoing_);
-    if (socket_->Send(head->getMessageBody(), static_cast<int>(head->getMessageLen())) < 0) {
+    const std::uint8_t* body = head->getMessageBody();  // lobby slot +0x64, read before the length
+    const int length = static_cast<int>(head->getMessageLen());  // lobby slot +0x60
+    if (socket_->Send(body, length) < 0) {
         disconnect();
         return;
     }

@@ -4,11 +4,17 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "core-platform/time_util.hpp"
 #include "net-session-online/deps/glx_stand_ins.hpp"
 
 namespace {
 
 constexpr std::size_t kNpos = std::string::npos;
+
+// XP_API_GET_TIME (0x82b138) is gettimeofday in milliseconds, tv_sec * 1000 + tv_usec / 1000. That is
+// the formula of OS_GetTime (0x89d368). The inline stand-in in deps/glx_stand_ins.hpp returns 0, so the
+// timeouts in Run would never fire; this file reads the clock instead.
+std::uint32_t ClockMs() { return static_cast<std::uint32_t>(OS_GetTime()); }
 
 // The original's std::string::substr throws out_of_range past the end. The port returns an
 // empty string instead, and the caller's loop then ends.
@@ -186,9 +192,11 @@ std::int32_t GLXPlayerSocket::ResponseSpan() const {
 }
 
 // 0x830f20 _ZN15GLXPlayerSocket3RunEv
-// Partial: the state machine is reconstructed. Its transport calls are the virtual hooks,
-// and the port's base hooks report failure, so Run only advances with a transport. The
-// original's return values (the observer's result) are not kept: Run returns nothing.
+// Partial: every state follows the listing (the debug traces are not emitted). Two things are not
+// reproduced. The transport calls are virtual hooks whose base versions report failure, so Run only
+// advances with a transport. The response span (+0x83c end, +0x840 start) that OnReceived and
+// OnResponse report is written by the platform receive path, which is not ported, so the span
+// stays empty here. The connect timeout reads the clock (ClockMs, the OS_GetTime formula).
 void GLXPlayerSocket::Run() {
     // States 0 (idle), 7 (error) and 8 (cancelled) do nothing.
     if (state_ == 0 || state_ == 7 || state_ == 8) {
@@ -199,10 +207,12 @@ void GLXPlayerSocket::Run() {
             if (connectHandle_ != 0 || (connectHandle_ = OpenConnection(host_.get())) != 0) {
                 if (BeginConnect() != 0) {
                     state_ = 2;
+                } else {
+                    // A failed begin reads the error (vtable +0x2c) and leaves the state as it is.
+                    LastError();
                 }
-                // A failed begin leaves the state as it is, as the original does.
             } else {
-                const auto elapsed = static_cast<std::int32_t>(XP_API_GET_TIME() - connectStartTime_);
+                const auto elapsed = static_cast<std::int32_t>(ClockMs() - connectStartTime_);
                 if (elapsed > 9999) {
                     LastError();
                     state_ = 7;
@@ -216,7 +226,7 @@ void GLXPlayerSocket::Run() {
                 sentBytes_ = 0;
                 sendPercentage_ = 0;
                 state_ = 3;
-                sendStartTime_ = XP_API_GET_TIME();
+                sendStartTime_ = ClockMs();
                 connecting_ = 0;
             } else if (connecting_ == 1) {
                 // still connecting
@@ -261,7 +271,7 @@ void GLXPlayerSocket::Run() {
                 headerPending_ = true;
                 contentLengthKnown_ = false;
                 state_ = 4;
-                receiveStartTime_ = XP_API_GET_TIME();
+                receiveStartTime_ = ClockMs();
             }
             return;
         }

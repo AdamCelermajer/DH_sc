@@ -21,8 +21,9 @@ std::int32_t CMatchingLocal::SendChangeServerMessage() {
 }
 
 // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb
-// Partial: the room attributes are written through the stand-in, which writes no bytes. The
-// original's inet_ntoa() debug calls are not reproduced.
+// Partial: CRoomAttributes::Serialize is blocked (the NetStruct wire format is not ported), so the room
+// attributes write no bytes here. The listen id is the platform stand-in (an empty CNetworkId), not
+// CTransportManager::GetListenNetworkId. The original's inet_ntoa() debug calls are not reproduced.
 std::int32_t CMatchingLocal::SendServerResponse(bool flag) {
     NetBitStream stream(0x800);
     const std::uint8_t type = 1;
@@ -49,18 +50,13 @@ std::int32_t CMatchingLocal::SendClientRequest() {
     return CConnectionManager::GetInstance()->SendBroadcast(2, bytes.data(), static_cast<int>(bytes.size()));
 }
 
-// Stand-in (not an original function): the call through vtable slot +0x58 of ProcessClientMessage.
-// The slot is not named in the vtable dump and its body is not in this port, so the request is
-// treated as not accepted.
-bool CMatchingLocal::ClientRequestAccepted(const CNetworkId& /*from*/) const {
-    return false;
-}
-
 // 0x805ee0 _ZN14CMatchingLocal20ProcessClientMessageER10CNetworkIdR12NetBitStream
-// Partial: see ClientRequestAccepted. The original's stream argument is not read here.
-void CMatchingLocal::ProcessClientMessage(const CNetworkId& from, NetBitStream& /*stream*/) {
+// Reconstructed. When this member is the server, the original calls vtable slot +0x58 (the vtable dump names it
+// IsRoomHidden) and answers with SendServerResponse(false) when the room is not hidden. The original's int*
+// result (the slot's value or the response's result) is not returned here; the only caller ignores it.
+void CMatchingLocal::ProcessClientMessage(const CNetworkId& /*from*/, NetBitStream& /*stream*/) {
     if (memberId_ >= 0 && memberId_ == serverMemberId_) {
-        if (!ClientRequestAccepted(from)) {
+        if (!IsRoomHidden()) {
             SendServerResponse(false);
         }
     }

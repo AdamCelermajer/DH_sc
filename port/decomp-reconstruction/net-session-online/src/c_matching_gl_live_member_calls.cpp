@@ -46,13 +46,14 @@ std::int32_t CMatchingGLLive::SendRequestLostPassword(char* name) {
 }
 
 // 0x81c748 _ZN15CMatchingGLLive16InitializeFriendEv
-// Partial: copies the login UID into the friend list object, requests the friend list (kind 0x3d,
-// first 0, count 0) and sets the byte at +0x67e9. The original returns the request's result; the
-// port's sendGetUserFriends returns void, so this returns 0. A null friend list skips the copy and the
-// request here.
+// Partial: the login singleton is fetched first (as in the original, where it is not guarded), then the login
+// UID is copied into the friend list object, the friend list is requested (kind 0x3d, first 0, count 0) and the
+// byte at +0x67e9 is set. The original returns the request's result; the port's sendGetUserFriends returns void,
+// so this returns 0. A null friend list skips the copy and the request here (the original would fault).
 std::int32_t CMatchingGLLive::InitializeFriend() {
+    GLXPlayerLogin* login = GetGLXPlayerLogin();
     if (glxUserFriend_ != nullptr) {
-        glxUserFriend_->SetUID(GetGLXPlayerLogin()->GetUID());
+        glxUserFriend_->SetUID(login->GetUID());
         glxUserFriend_->sendGetUserFriends(0, 0);
     }
     glFriendsRequested_ = 1;
@@ -115,8 +116,9 @@ std::int32_t CMatchingGLLive::GetMemberId() const {
 
 // 0x81dd04 _ZNK15CMatchingGLLive17GetGLLiveMemberIdEv
 // Partial: returns -1 when the Game Center flag is set or the user is not signed in, as the original
-// does. The original then searches the lobby member list (tMemberInfo, not in the port) for the signed-in
-// user name, ignoring case. That search is not reproduced, so a signed-in lookup returns -1.
+// does. The original then creates the lobby observer (on first use; reproduced) and searches the lobby
+// member list (tMemberInfo, not in the port) for the signed-in user name, ignoring case. That search is not
+// reproduced, so a signed-in lookup returns -1.
 std::int32_t CMatchingGLLive::GetGLLiveMemberId() const {
     if (gameCenterActive_) {
         return -1;
@@ -125,14 +127,17 @@ std::int32_t CMatchingGLLive::GetGLLiveMemberId() const {
     if (signIn == nullptr || !signIn->LoggedInForTest()) {
         return -1;
     }
+    (void)GetGLXPlayerMPLobbyObserver();
     return -1;
 }
 
 // 0x81f04c _ZN15CMatchingGLLive14SetPlayerParamESsb
 // Partial: stores the text in playerParam_ (+0x67f0) when it is at most 0x80 bytes. With the flag set,
-// the text is sent to the lobby as a user parameter, with its length as the key, which is how the
-// original calls mpSendSetUserParameter. The original also calls the lobby observer's SetPlayerParam,
-// which is not declared in the port, so that call is skipped. A missing lobby skips the send here.
+// the text is sent to the lobby as a user parameter, with its length as the key (mpSendSetUserParameter),
+// and then a copy of the text goes to the lobby observer's SetPlayerParam. The observer's SetPlayerParam is a
+// no-op in the port (its member list is not modelled).
+// Partial: a missing lobby skips the send here, because the original creates the lobby on first use
+// (GetGLXPlayerMPLobby is partial); the observer call still happens.
 void CMatchingGLLive::SetPlayerParam(std::string value, bool sendToLobby) {
     if (value.size() > kMaxPlayerParamBytes) {
         return;
@@ -141,10 +146,9 @@ void CMatchingGLLive::SetPlayerParam(std::string value, bool sendToLobby) {
     if (!sendToLobby) {
         return;
     }
-    GLXPlayerMPLobby* lobby = GetGLXPlayerMPLobby();
-    if (lobby == nullptr) {
-        return;
+    if (GLXPlayerMPLobby* lobby = GetGLXPlayerMPLobby(); lobby != nullptr) {
+        std::string copy = value;
+        lobby->mpSendSetUserParameter(copy.data(), static_cast<std::int32_t>(copy.size()));
     }
-    std::string copy = value;
-    lobby->mpSendSetUserParameter(copy.data(), static_cast<std::int32_t>(copy.size()));
+    GetGLXPlayerMPLobbyObserver()->SetPlayerParam(value);
 }

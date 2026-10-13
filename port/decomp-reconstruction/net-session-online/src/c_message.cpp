@@ -18,7 +18,7 @@ CMessage::~CMessage() = default;
 // +0x10 (the port's Header names +0x10 "reserved"). Sender is the local member, lifetime
 // is the online clock (GetOnline()+0x28). The name argument is only used to look up the
 // type id, as in the original; typeName_ is left to SetDefaultProperties and the subclass.
-// Not modelled: the byte at +0x3c that the original zeroes (no field identified).
+// The byte at +0x3c (finished_) that the original zeroes is set by its default member initializer.
 CMessage::CMessage(const char* typeName, bool withSerial) {
     header_ = Header{};
     header_.reserved = static_cast<std::uint32_t>(FindTypeId(typeName)) & 0xffu;  // +0x10 byte

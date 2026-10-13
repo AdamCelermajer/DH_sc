@@ -13,24 +13,28 @@
 #include <string>
 #include <vector>
 
-#include "net-session-online/deps/glx_stand_ins.hpp"
-#include "net-session-online/deps/ss_enc_dec_stand_in.hpp"
+#include "core-platform/time_util.hpp"
 #include "net-session-online/deps/xp_api.hpp"
 #include "net-session-online/glx_player_http.hpp"
 #include "net-session-online/glx_player_observer.hpp"
 #include "net-session-online/glx_player_serever_config.hpp"
 #include "net-session-online/xp_api.hpp"
+#include "tinyxml-and-c-libs/ssencdec.hpp"
 
 namespace {
 
 // The request is answered within this many time units (the original's 18000 limit).
 constexpr std::int32_t kRequestTimeout = 18000;
 
+// XP_API_GET_TIME (0x82b138): gettimeofday in milliseconds, the same formula as OS_GetTime (0x89d368).
+// The inline stand-in in deps/glx_stand_ins.hpp returns 0, which would disable the timeout.
+std::uint32_t ClockMs() { return static_cast<std::uint32_t>(OS_GetTime()); }
+
 }  // namespace
 
 // 0x82eaac _ZN22GLXPlayerSereverConfig19SendGetServerConfigERi
-// Partial: the blob codec is a stand-in (SSEncDec_String2BlobLC returns null, so the "b=" blob is
-// empty here, as in SendByGet), and XP_API_GET_TIME is a stand-in that returns 0.
+// Partial: the "b=" blob comes from SSEncDec_String2Blob (0x82b5c8, tinyxml-and-c-libs), which the
+// original calls here. The _android_log_write trace lines are not reproduced.
 //
 // Status out: -1 when the GGI or the game version is empty (the call returns false); 1 when the
 // config is already loaded (the call returns true and sends nothing); 0 when the request was sent.
@@ -57,17 +61,18 @@ bool GLXPlayerSereverConfig::SendGetServerConfig(std::int32_t& status) {
 
     enabled_ = true;
 
-    // "b=<blob>" sent by GET. The codec returns null in this port, so the blob is empty.
-    char* blob = SSEncDec_String2BlobLC(buffer);
+    // "b=<blob>" sent by GET. SSEncDec_String2Blob returns a new[] buffer, freed with delete[].
+    unsigned char* blob = SSEncDec_String2Blob(buffer);
     char request[0x1000] = {};
-    std::snprintf(request, sizeof request, "b=%s", blob != nullptr ? blob : "");
-    std::free(blob);
+    std::snprintf(request, sizeof request, "b=%s",
+                  blob != nullptr ? reinterpret_cast<const char*>(blob) : "");
+    delete[] blob;
 
     // The request id is the second '|' field of the request text ("1" for the "f|1|" form).
     char field[0x0c] = {};
     getValue(buffer, field, 1, '|');
     requestId_ = XP_API_ATOI(field);
-    requestTime_ = XP_API_GET_TIME();
+    requestTime_ = ClockMs();
 
     XP_DEBUG_OUT("SendByGet %s\n", request);
     if (requestClient_) {
@@ -79,10 +84,10 @@ bool GLXPlayerSereverConfig::SendGetServerConfig(std::int32_t& status) {
 }
 
 // 0x82faac _ZN22GLXPlayerSereverConfig19loadConfigFromLocalEv
-// Partial: the completeness check tests three keys in the original. The third key is a char[5]
-// literal (the call is _M_find<char [5]>() with no argument shown in the pseudocode, and the ARM
-// listing reuses the register that holds it), so it is not recovered. Only "XplayerURL" and
-// "XPPHPVerNo" are checked here. This is the same gap as OnUpdateSuccess.
+// Partial: the completeness check tests three keys. The third is the char[5] key "type": the
+// _M_find<char [5]> clone (0x82f178) compares the tree with that literal, which the pseudocode
+// does not show (the call has no argument). The original copies each line into fixed buffers
+// (32 and 256 bytes) with no bound; the port sizes the buffers to the file.
 //
 // Other notes:
 //   The "GGI" line is parsed and its value dropped. The original calls ATOI and discards the result
@@ -164,7 +169,7 @@ bool GLXPlayerSereverConfig::loadConfigFromLocal() {
     XP_API_FILE_CLOSE(handle);
 
     // The original returns 0 when any of the three keys is missing. The map keeps what was read.
-    if (s_urlMap.count("XplayerURL") == 0 || s_urlMap.count("XPPHPVerNo") == 0) {
+    if (s_urlMap.count("XplayerURL") == 0 || s_urlMap.count("type") == 0 || s_urlMap.count("XPPHPVerNo") == 0) {
         return false;
     }
     s_isLoadConfig = true;
@@ -199,7 +204,7 @@ void GLXPlayerSereverConfig::Update() {
         if (requestClient_->IsSendByPost()) {
             return;
         }
-        const std::uint32_t now = XP_API_GET_TIME();
+        const std::uint32_t now = ClockMs();
         if (static_cast<std::int32_t>(now) - static_cast<std::int32_t>(requestTime_) <= kRequestTimeout) {
             return;
         }

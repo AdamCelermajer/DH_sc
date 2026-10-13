@@ -5,8 +5,9 @@
 #include <cstring>
 #include <new>
 
+#include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_online_impl.hpp"
 #include "net-transport/connection_manager.hpp"
-#include "net-transport/deps/connection_env.hpp"
 #include "net-transport/deps/transport_slots.hpp"
 #include "net-transport/transport_factory.hpp"
 #include "net-transport/transport_manager_impl.hpp"
@@ -19,8 +20,6 @@ constexpr std::size_t kMaxPayload = 0xFF8;
 // Port and address the broadcast ids use (6776 = 0x1A78, address word -1).
 constexpr std::uint16_t kBroadcastPort = 0x1A78;
 constexpr std::uint32_t kBroadcastHi = 0xFFFFFFFFu;
-// clock() ticks in one second as the original uses them (1000000 per second).
-constexpr std::int64_t kWindowTicksPerSecond = 1000000;
 
 std::uint16_t ReadU16(const char* p) {
     return static_cast<std::uint16_t>(static_cast<std::uint8_t>(p[0]) |
@@ -32,6 +31,18 @@ std::uint32_t ReadU32(const char* p) {
            (static_cast<std::uint32_t>(static_cast<std::uint8_t>(p[1])) << 8) |
            (static_cast<std::uint32_t>(static_cast<std::uint8_t>(p[2])) << 16) |
            (static_cast<std::uint32_t>(static_cast<std::uint8_t>(p[3])) << 24);
+}
+
+// The listening id of the singleton for a transport type. The original reads the singleton
+// without a null check; with no manager the port treats the id as empty.
+CNetworkId ListeningIdOf(tTRANSPORT_TYPE type) {
+    CTransportManager* manager = CTransportManager::GetInstance();
+    if (manager == nullptr) {
+        CNetworkId empty;
+        empty.Reset();
+        return empty;
+    }
+    return manager->GetListenNetworkId(type);
 }
 }  // namespace
 
@@ -83,8 +94,11 @@ void CTransportManager::Terminate() {
     CTransportManager* manager = s_transportManager;
     if (manager != nullptr) {
         manager->TerminateInternal();
-        delete manager;
-        s_transportManager = nullptr;
+        // The original re-reads the global after TerminateInternal before it deletes.
+        if (s_transportManager != nullptr) {
+            delete s_transportManager;
+            s_transportManager = nullptr;
+        }
     }
 }
 
@@ -159,10 +173,11 @@ bool CTransportManager::IsMainThreadBlocked() const {
 }
 
 // 0x81ac80 _ZN17CTransportManager18SetThreadTimestampEv
-// Partial: the original reads the 64-bit clock from GetOnline() (vtable +0x00). The port
-// uses the millisecond clock of online_calls::Now().
+// Reads the 64-bit time from GetOnline() (COnline::GetInstance, which is always a COnlineImpl)
+// through its vtable slot 0, which is COnlineImpl::GetAbsoluteTime, and stores it at +0x100.
 std::int64_t CTransportManager::SetThreadTimestamp() {
-    thread_timestamp_ = static_cast<std::int64_t>(online_calls::Now());
+    COnline* online = COnline::GetInstance();
+    thread_timestamp_ = static_cast<COnlineImpl*>(online)->GetAbsoluteTime();
     return thread_timestamp_;
 }
 
@@ -206,15 +221,16 @@ CNetworkId CTransportManager::GetListenNetworkId(tTRANSPORT_TYPE type) const {
 }
 
 // 0x81ae94 _ZN17CTransportManager20IsTransportAvailableE15tTRANSPORT_TYPE
-// Partial: types 3 and 4 test field2 for a nonzero value in the original; the port tests the
-// field2 presence bit (CNetworkId::Flags() bit 2) instead, as no value accessor exists.
-// Types outside 1..4 are available (constant 1).
+// Types 1 and 2 test the address1 word (+0x0c) of the listening type-1 id; types 3 and 4 test
+// field2 (+0x10) in the original. Partial: the port tests the field2 presence bit (CNetworkId::Flags()
+// bit 2) for types 3 and 4, as CNetworkId has no field2 setter, so those answers are always false here.
+// Types outside 1..4 are available (constant 1). The singleton is read with GetInstance, as the
+// original's GetTransportMgr thunk does.
 bool CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE type) {
-    CTransportManager& manager = GetTransportMgr();
     switch (static_cast<unsigned>(type - 1)) {
         case 0:
         case 1: {
-            CNetworkId id = manager.GetListenNetworkId(1);
+            CNetworkId id = ListeningIdOf(1);
             std::uint16_t lo = 0;
             std::uint32_t hi = 0;
             id.GetAddress1(lo, hi);
@@ -222,7 +238,7 @@ bool CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE type) {
         }
         case 2:
         case 3: {
-            CNetworkId id = manager.GetListenNetworkId(3);
+            CNetworkId id = ListeningIdOf(3);
             return (id.Flags() & 4u) != 0;
         }
         default:
@@ -231,8 +247,9 @@ bool CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE type) {
 }
 
 // 0x81af88 _ZN17CTransportManager27PrepareConnectionNetworkIdER10CNetworkId
-// Partial: the argument roles are mixed in the pseudocode; the port copies the peer id and,
-// for each transport that is connected to it, resets the id to that transport's type.
+// Partial: the port copies the peer id and, for each transport connected to it, resets the result to
+// that transport's type (the original's Reset(this, type)). Type (vtable +0x20) and IsConnectedTo
+// (vtable +0x28) are transport_slots stand-ins.
 CNetworkId CTransportManager::PrepareConnectionNetworkId(const CNetworkId& peer) const {
     CNetworkId result = peer;
     for (int i = 0; i < kTransportSlots; ++i) {
@@ -245,11 +262,13 @@ CNetworkId CTransportManager::PrepareConnectionNetworkId(const CNetworkId& peer)
 }
 
 // 0x81b010 _ZN17CTransportManager4SendEP10CTransportR10CNetworkIdiPvi
-// Packet layout (from ReceiverCallback): magic u32 at +0, length u16 at +4 (header
-// included), type byte at +6, payload at +8. The original's stack slots overlap, so the
-// layout is inferred from the receiver.
-// Partial: the original reports statistics (CConnectionManager::ReportStatistic) before the
-// send; that call is not reproduced. The transport send is a shim until CTransport declares it.
+// Packet: magic u32 at +0, length u16 at +4 (header included), packet type byte at +6 (stored as
+// given, bit 7 not cleared, as the original does), byte +7 zeroed (the original leaves it unwritten),
+// payload at +8.
+// Partial: the transport send (vtable +0x0c) is a transport_slots stand-in, so nothing is sent. The
+// original passes the length twice (four arguments after the transport), and the shim takes one.
+// Not reproduced: the transport type query (vtable +0x20, result unused). ReportStatistic is empty in
+// the original and GetConnectionMgr is a getter, so neither changes the result.
 int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET_TYPE type,
                             const void* data, std::size_t size) {
     if (size > kMaxPayload) {
@@ -264,7 +283,7 @@ int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET
     packet[3] = static_cast<char>((magic >> 24) & 0xFF);
     packet[4] = static_cast<char>(total & 0xFF);
     packet[5] = static_cast<char>((total >> 8) & 0xFF);
-    packet[6] = static_cast<char>(type & 0x7F);
+    packet[6] = static_cast<char>(type);
     packet[7] = 0;
     if (size != 0) {
         std::memcpy(packet + kHeaderBytes, data, size);
@@ -276,13 +295,15 @@ int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET
 }
 
 // 0x81b11c _ZN17CTransportManager16ReceiverCallbackEP10CTransportR10CNetworkIdPci
-// Partial: the pseudocode reads the packet buffer from the id argument and the length from
-// the buffer argument; the port follows the symbol order (data, size) and the framing. Each
-// packet is checked the same way as the original: length within the remaining bytes, magic,
-// and type bit 7 clear. Deviation: a length below the 8-byte header ends the pass. The original tests IsInitialized() and reports statistics per
-// packet; the statistics call is not reproduced. Type 7 (keep-alive) is answered with a
-// type 8 packet, as in the original. The port adds a bounds check so that a buffer shorter
-// than a header is rejected.
+// Static: the first argument is the transport the bytes came from (CUdp::Receive and
+// CTcp::ReceivePackets pass themselves), not the manager. Each packet must fit in the remaining bytes,
+// carry the magic, and have type bit 7 clear. An initialized manager that is not blocked answers a
+// type 7 (keep-alive) packet with a type 8 packet to the sender. Every packet is then dispatched to
+// CConnectionManager::sReceiverCallback with its payload.
+// Partial: deviations: a buffer shorter than a header, or a packet length below the 8-byte header, ends
+// the pass (the original reads past the buffer, spins on a zero length, or passes a negative payload size
+// for lengths 1 to 7). Not reproduced: the transport type query (vtable +0x20, result unused). ReportStatistic
+// is empty in the original.
 void CTransportManager::ReceiverCallback(CTransport* transport, CNetworkId& from, char* data, int size) {
     if (size <= 0) {
         return;
@@ -301,8 +322,8 @@ void CTransportManager::ReceiverCallback(CTransport* transport, CNetworkId& from
             return;
         }
         const int type = packet[6] & 0x7F;
-        if (IsInitialized() && type == 7 && !IsMainThreadBlocked()) {
-            Send(transport, from, 8, nullptr, 0);
+        if (IsInitialized() && type == 7 && !GetTransportMgr().IsMainThreadBlocked()) {
+            GetTransportMgr().Send(transport, from, 8, nullptr, 0);
         }
         remaining -= length;
         CConnectionManager::sReceiverCallback(type, from, packet + kHeaderBytes, length - static_cast<int>(kHeaderBytes));
@@ -358,18 +379,24 @@ void CTransportManager::Receive() {
 }
 
 // 0x81b440 _ZN17CTransportManager10DisconnectER10CNetworkId
-// Partial: the test uses CanDisconnectFrom (vtable +0x2c), a stand-in until CTransport
-// declares it. The removed transport is deleted through its deleting destructor (+0x04).
-void CTransportManager::Disconnect(const CNetworkId& peer) {
+// Under the lock, removes every transport that CanDisconnectFrom (vtable +0x2c) accepts for the peer,
+// deleting it through its deleting destructor (+0x04). Returns 0, as the original does.
+// Partial: CanDisconnectFrom is a transport_slots stand-in until CTransport declares it, so no
+// transport is removed here.
+int CTransportManager::Disconnect(const CNetworkId& peer) {
     mutex_.Lock();
     for (int i = 0; i < kTransportSlots; ++i) {
-        CTransport* transport = transports_[i];
-        if (transport != nullptr && transport_slots::CanDisconnectFrom(transport, peer)) {
-            delete transport;
-            transports_[i] = nullptr;
+        if (transports_[i] != nullptr && transport_slots::CanDisconnectFrom(transports_[i], peer)) {
+            // The original reads the slot again after the call.
+            CTransport* transport = transports_[i];
+            if (transport != nullptr) {
+                delete transport;
+                transports_[i] = nullptr;
+            }
         }
     }
     mutex_.Unlock();
+    return 0;
 }
 
 // 0x81b4c4 _ZN17CTransportManager12AddTransportEP10CTransport
@@ -398,8 +425,9 @@ void CTransportManager::AcceptCallback(tTRANSPORT_TYPE type, CTransport* transpo
 // 0x81b544 _ZN17CTransportManager17InitializeInternalEv
 // Clears the transport table, sets the thread timestamp, starts the receiver thread (vtable
 // +0x08, the Impl's StartReceiverThread) and sets the initialized flag. The original passes the
-// high word of the timestamp in a register; StartReceiverThread takes no argument, so it is not
-// passed here.
+// high word of the timestamp in a register; StartReceiverThread does not read it, so it is not
+// passed here. Deviation: the start slot is called on this object; the original calls it on the
+// global singleton, which is the same object on every path that reaches it (Initialize).
 int CTransportManager::InitializeInternal() {
     mutex_.Lock();
     for (auto& transport : transports_) {
@@ -413,13 +441,14 @@ int CTransportManager::InitializeInternal() {
 }
 
 // 0x81b5b4 _ZN17CTransportManager21ReceiverThreadExecuteEv
-// Partial: the blocked branch (main thread blocked and this device is the server) calls
-// AbortNetwork (vtable +0x10, empty body) as the original does. Matching checks use
-// matching_calls::IsServer (stand-in). The connection manager is null-checked here,
-// where the original calls it unguarded.
+// The original's return value is dropped: CTransportManagerImpl::ReceiverThreadInternal ignores it.
+// While the main thread is blocked, a server calls AbortNetwork (vtable +0x10, empty body). Otherwise
+// one receive pass runs and the connection manager keeps its connections alive. Deviation: the
+// connection manager is null-checked; the original calls it unguarded (GetConnectionMgr is a thunk
+// to CConnectionManager::GetInstance).
 void CTransportManager::ReceiverThreadExecute() {
     if (IsMainThreadBlocked()) {
-        if (matching_calls::IsServer()) {
+        if (CMatching::Get()->IsServer()) {
             AbortNetwork();
         }
         return;
@@ -432,8 +461,9 @@ void CTransportManager::ReceiverThreadExecute() {
 }
 
 // 0x81b604 _ZN17CTransportManager7ConnectER10CNetworkId
-// The prepared id (sret buffer in the original) is the only argument ConnectTransport reads; the
-// second register value in the pseudocode is not used by the callee.
+// The prepared id (sret buffer in the original) is the only argument: CTransportFactory::ConnectTransport
+// takes one CNetworkId&, so the second register value in the pseudocode is not passed. Its Bluetooth
+// branches are partial in transport_factory.cpp.
 int CTransportManager::Connect(const CNetworkId& peer) {
     if (!initialized_) {
         return -1;
@@ -462,6 +492,8 @@ void CTransportManager::TerminateInternal() {
             transports_[i] = nullptr;
         }
     }
+    // The original clears the 240-byte table again with LC_API_MEMSET_0 (a no-op after the loop).
+    std::memset(transports_, 0, sizeof(transports_));
     CTransportFactory::TerminateTransport();
     mutex_.Unlock();
 }

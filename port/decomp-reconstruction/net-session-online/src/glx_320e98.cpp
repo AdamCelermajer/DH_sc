@@ -26,34 +26,34 @@ void CMatching::SetMatchingProvider(MATCHING_PROVIDERS provider) {
 }
 
 
+// The forwarders read CMatching::s_Matching directly, as the binary does. They do not call Get(): Get()
+// would create an instance, which the original never does on this path.
+
 // 0x7fe628 _ZN9CMatching15sReadPacketDataEiiR12NetBitStream
-// Partial: forwards to vtable +0x10 (vtReadPacketData, name not identified). The original
-// dereferences the instance without a check; this port returns 0 when none is set.
+// Partial: forwards to vtable +0x10 (vtReadPacketData, the base ReadPacketData slot). The original
+// dereferences s_Matching without a check; this port returns 0 when none is set.
 std::int32_t CMatching::sReadPacketData(std::int32_t a1, std::int32_t a2, NetBitStream& stream) {
-    CMatching* matching = Get();
-    return matching != nullptr ? matching->vtReadPacketData(a1, a2, stream) : 0;
+    return s_Matching != nullptr ? s_Matching->vtReadPacketData(a1, a2, stream) : 0;
 }
 
 // 0x7fe66c _ZN9CMatching16sWritePacketDataEiiR12NetBitStream
-// Partial: forwards to vtable +0x0c (vtWritePacketData). Same null handling as above.
+// Partial: forwards to vtable +0x0c, CMatching::WritePacketData (0x8010a4), the virtual that CMatchingLocal and
+// CMatchingGLLive override. Same null handling as above.
 std::int32_t CMatching::sWritePacketData(std::int32_t a1, std::int32_t a2, NetBitStream& stream) {
-    CMatching* matching = Get();
-    return matching != nullptr ? matching->vtWritePacketData(a1, a2, stream) : 0;
+    return s_Matching != nullptr ? s_Matching->WritePacketData(a1, a2, stream) : 0;
 }
 
 // 0x7fe6b0 _ZN9CMatching26sProcessAcknowledgedPacketEii
 // Partial: forwards to vtable +0x14 with (a1, a2). The Hex-Rays signature has a third argument
-// that the body never forwards; the mangled name has two.
+// that the body never forwards; the mangled name has two. Null handling as above.
 std::int32_t CMatching::sProcessAcknowledgedPacket(std::int32_t a1, std::int32_t a2) {
-    CMatching* matching = Get();
-    return matching != nullptr ? matching->vtProcessAcknowledgedPacket(a1, a2) : 0;
+    return s_Matching != nullptr ? s_Matching->vtProcessAcknowledgedPacket(a1, a2) : 0;
 }
 
 // 0x7fe6ec _ZN9CMatching18sProcessLostPacketEii
 // Partial: forwards to vtable +0x18 (vtProcessLostPacket). Same note as sProcessAcknowledgedPacket.
 std::int32_t CMatching::sProcessLostPacket(std::int32_t a1, std::int32_t a2) {
-    CMatching* matching = Get();
-    return matching != nullptr ? matching->vtProcessLostPacket(a1, a2) : 0;
+    return s_Matching != nullptr ? s_Matching->vtProcessLostPacket(a1, a2) : 0;
 }
 
 // CMatching::s_Matching: the matching object. The binary's CMatching::Get() assigns it on first use (the
@@ -62,6 +62,10 @@ std::int32_t CMatching::sProcessLostPacket(std::int32_t a1, std::int32_t a2) {
 // stub that does not derive from CMatching, so Get() returns null for it.
 CMatching* CMatching::s_Matching = nullptr;
 
+// 0x800f8c _ZN9CMatching3GetEv
+// Partial. Reviewed against the Hex-Rays body: provider 0 becomes 1, then 1, 3 and 4 construct the
+// matching object and the instance is returned. Not reproduced: provider 2 (CMatchingBluetooth, 0xabb8
+// bytes), which returns null here because the Bluetooth class does not derive from CMatching.
 CMatching* CMatching::Get() {
     if (s_Matching != nullptr) {
         return s_Matching;

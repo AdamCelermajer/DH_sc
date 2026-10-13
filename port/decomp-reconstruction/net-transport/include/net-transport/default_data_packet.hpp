@@ -16,8 +16,7 @@ public:
     // 0x84a988 / 0x84aa7c _ZN17DefaultDataPacketC1Ev, _ZN17DefaultDataPacketC2Ev
     DefaultDataPacket();
     // 0x84a508 / 0x84a5a4 _ZN17DefaultDataPacketC1EP10DataPacket, _ZN17DefaultDataPacketC2EP10DataPacket
-    // (partial): copies the source's data type and body through the DataPacket stand-ins
-    // (deps/data_packet_payload.hpp), so the copy is empty until DataPacket declares its accessors.
+    // Copies the source's data type, body and length through the DataPacket virtuals.
     explicit DefaultDataPacket(DataPacket* source);
     // 0x84a740 / 0x84a7a8 _ZN17DefaultDataPacketD1Ev, _ZN17DefaultDataPacketD2Ev
     ~DefaultDataPacket() override;
@@ -49,12 +48,12 @@ public:
     // 0x84a9fc _ZN17DefaultDataPacket9getPacketERP10DataPacket (returns 1; see the ledger)
     virtual int getPacket(DataPacket*& packet);
     // 0x84a460 _ZN17DefaultDataPacket9addPacketEP10DataPacket (partial, vtable +0x54): appends the
-    // source's message as a big-endian 2-byte length and its body (stand-in accessors, see above).
+    // source's message as a big-endian 2-byte length and its body.
     virtual void addPacket(DataPacket* packet);
     // 0x84a344 packMessage: empty in the original.
     virtual void packMessage();
-    virtual int getMessageLen();                                                    // 0x84a330
-    virtual char* getMessageBody();                                                 // 0x84a33c
+    std::size_t getMessageLen() const override;                                     // 0x84a330
+    const std::uint8_t* getMessageBody() const override;                            // 0x84a33c
     // 0x84a4dc _ZN17DefaultDataPacket14setMessageBodyEPhi: copies `length` bytes into the body
     // and resets the cursors (read 0, write length). Not bounded by kBodySize, as in the original.
     virtual void setMessageBody(const unsigned char* data, int length);
@@ -62,7 +61,7 @@ public:
     virtual void setNextPacket(DataPacket* next);                                   // 0x84a354
     virtual bool IsSendByTcp();                                                     // 0x84a360
     virtual bool IsSendByUdp();                                                     // 0x84a37c
-    virtual int getDataType();                                                      // 0x84a394
+    int getDataType() const override;                                               // 0x84a394
     virtual void setDataType(int type);                                             // 0x84a3a0
     virtual int getPort();                                                          // 0x84a3ac
     virtual void setPort(int port);                                                 // 0x84a3b8

@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 
+#include "net-session-online/xp_api.hpp"  // XP_API_GET_RANDOM (0x82afb0)
 #include "net-transport/default_data_packet.hpp"
 #include "net-transport/deps/connection_env.hpp"
 #include "net-transport/deps/data_packet_payload.hpp"
@@ -35,7 +36,9 @@ Connection::Connection(char* host, int port)
 // 0x846bcc _ZN10ConnectionD2Ev is the same body (skipped at that address); 0x846bb0
 // _ZN10ConnectionD0Ev is the deleting variant (skipped).
 // Partial: the original also frees an owned object at +0x2018 whose type is not recovered, so it
-// is not freed here. The queues, retry copy, socket and name are released by the members.
+// is not freed here. Every Hex-Rays chunk writes that slot only in the two constructors (0x846ca4,
+// 0x846dac, which zero it), so the free never runs in the binary. The queues, retry copy, socket and
+// name are released by the members.
 Connection::~Connection() {
     disconnect();
 }
@@ -182,7 +185,9 @@ void Connection::saveRetryData(DataPacket* packet) {
 
 // 0x84581c _ZN10Connection7connectEv
 // Partial: a guard is added for a missing socket (the original dereferences it after a
-// disconnect). The connect attempt count lives in the socket (+0x85c, ConnectAttempts).
+// disconnect). A null host is stored as "", so an empty host is also treated as no host; the
+// original tests the pointer, and would connect to "". The connect attempt count lives in the
+// socket (+0x85c, ConnectAttempts).
 int Connection::connect() {
     if (state_ == 1) {
         if (!socket_) {
@@ -218,7 +223,10 @@ int Connection::connect() {
 
 // 0x845944 _ZN10Connection17addIncomingPacketEP10DataPacket
 // Partial: the original's error branch (a head without a tail, debug print) cannot occur with the
-// queue, so it is not reproduced. The packet is taken by the queue.
+// queue, so it is not reproduced. The packet is taken by the queue. The original links the queue
+// through the packet (ARM 0x845944: tail->setNextPacket(a2) with a2 still in r1), and the deque keeps
+// the same order. The return value is not reproduced: the original returns this on the empty-queue
+// path and a call result otherwise; 0 is returned here, and receiveDataLen ignores it.
 int Connection::addIncomingPacket(DataPacket* packet) {
     if (packet) {
         incoming_.emplace_back(packet);
@@ -227,9 +235,11 @@ int Connection::addIncomingPacket(DataPacket* packet) {
 }
 
 // 0x8459b4 _ZN10Connection17addOutgoingPacketEP10DataPacket
-// Partial: the return value of the original is the result of sendData (not reproduced, 0 is
-// returned). The packet is taken by the queue; when the link is down it is destroyed.
-// Partial too in the same error branch as addIncomingPacket (debug print dropped).
+// Partial: the return value of the original is not reproduced. It is this on a null packet, the
+// sendData result when the queue was empty, and a call result when appending (ARM 0x8459b4); 0 is
+// returned here. ConnectionLobby's send functions forward this value (connection_lobby.cpp), so it
+// matters there. The packet is taken by the queue; when the link is down it is destroyed (vtable +4,
+// as the original). Partial too in the same error branch as addIncomingPacket (debug print dropped).
 int Connection::addOutgoingPacket(DataPacket* packet) {
     if (!packet) {
         return 0;
@@ -461,13 +471,14 @@ int Connection::sendLoginPackage(char* user) {
 
 // 0x846488 _ZN10Connection30sendEstablishConnectionPackageEv
 // Partial: the debug print of the random value is dropped. Two handshake packets ("sw" and "sr",
-// each with the random value) are queued without a retry copy. The random value is the platform
-// stand-in (the original passes the connection name, which the stand-in ignores).
+// each with the random value) are queued without a retry copy. The random value is
+// XP_API_GET_RANDOM (0x82afb0, net-session-online), called with the connection name as the original
+// passes it (an empty name adds nothing to the sum, as a null name does).
 int Connection::sendEstablishConnectionPackage() {
     need_recv_data_len_ = 0;
     recv_buf_len_ = 0;
     recv_step_ = 0;
-    const int random = platform_calls::GetRandom();
+    const int random = static_cast<int>(XP_API_GET_RANDOM(name_.data()));
     auto first = NewPacket();
     first->addByte('s');
     first->addByte('w');

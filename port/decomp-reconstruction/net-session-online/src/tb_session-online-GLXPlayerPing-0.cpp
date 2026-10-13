@@ -97,25 +97,8 @@ std::int32_t GLXPlayerPing::Kernel() {
         receiveTimeout_.tv_sec = static_cast<std::int32_t>(XP_API_GET_TIME());
         state_ = 5;
     };
-    // LABEL_8 in the original: send one echo request, start the send timer, state 4.
-    auto startRound = [this, &failRound]() {
-        if (SendEchoRequest() < 0) {
-            failRound();
-            return;
-        }
-        state_ = 4;
-        sendTimeout_.tv_sec = static_cast<std::int32_t>(XP_API_GET_TIME());
-    };
-
-    switch (state_) {
-    case 2:
-        // The host resolve is partial (see above). Without an address the original leaves the
-        // state at 2 when the resolve fails, which is the path taken here.
-        break;
-    case 3:
-        startRound();
-        break;
-    case 4: {
+    // LABEL_10 in the original: one wait step of state 4 (select, then receive or time out).
+    auto waitRound = [this, &failRound]() {
         const std::int32_t waited = WaitForEchoReply(-1);
         if (waited < 0) {
             failRound();
@@ -134,8 +117,30 @@ std::int32_t GLXPlayerPing::Kernel() {
                 state_ = 3;
             }
         }
+    };
+    // LABEL_8 in the original: send one echo request, start the send timer, state 4. The original
+    // then falls into the wait step (LABEL_10) in the same call.
+    auto startRound = [this, &failRound, &waitRound]() {
+        if (SendEchoRequest() < 0) {
+            failRound();
+            return;
+        }
+        state_ = 4;
+        sendTimeout_.tv_sec = static_cast<std::int32_t>(XP_API_GET_TIME());
+        waitRound();
+    };
+
+    switch (state_) {
+    case 2:
+        // The host resolve is partial (see above). The original goes to LABEL_8 when the resolve
+        // succeeds; without an address the state stays at 2, which is the path taken here.
         break;
-    }
+    case 3:
+        startRound();
+        break;
+    case 4:
+        waitRound();
+        break;
     case 5: {
         const std::int32_t sinceReceive = static_cast<std::int32_t>(
             XP_API_GET_TIME() - static_cast<std::uint32_t>(receiveTimeout_.tv_sec));

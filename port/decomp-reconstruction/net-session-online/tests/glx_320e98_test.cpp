@@ -22,7 +22,7 @@ public:
     bool IsServer() const override { return false; }
     std::uint32_t GetRoomMask() const override { return 0; }
 
-    std::int32_t vtWritePacketData(std::int32_t a, std::int32_t b, NetBitStream&) override {
+    std::int32_t WritePacketData(std::int32_t a, std::int32_t b, NetBitStream&) override {
         lastSlot = 0x0c;
         lastA = a;
         lastB = b;

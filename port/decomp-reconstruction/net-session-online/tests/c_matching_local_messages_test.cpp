@@ -57,11 +57,13 @@ int main() {
         CHECK(p.packetType == 2 && p.broadcast && p.bytes.size() == 1 && p.bytes[0] == 2);
     }
 
-    // ProcessClientMessage answers when this is the server and the request is not accepted.
+    // ProcessClientMessage answers when this is the server and the room is not hidden (vtable +0x58 is
+    // IsRoomHidden). The constructor hides the room (Reset), so the room is opened first.
     {
         CMatchingLocal local;
         connection_manager_test::Reset();
         local.SetMemberId(1);
+        local.OpenRoom(true);
         NetBitStream stream(8);
         // serverMemberId_ is -2 until a change message arrives: no response.
         local.ProcessClientMessage(CNetworkId{}, stream);

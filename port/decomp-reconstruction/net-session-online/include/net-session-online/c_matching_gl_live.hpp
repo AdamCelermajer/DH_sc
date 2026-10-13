@@ -339,8 +339,8 @@ public:
     void SetPlayerParam(std::string value, bool sendToLobby);
     // 0x81f128 _ZN15CMatchingGLLive9StartGameEv
     void StartGame();
-    // 0x81f178 _ZN15CMatchingGLLive10SetGCStateEi. Partial: the CSignIn event (state 1) and the
-    // CreateJoinRoom (state 3) branches are not reconstructed. States 2 and 7 are.
+    // 0x81f178 _ZN15CMatchingGLLive10SetGCStateEi. Partial: the CSignIn event (state 1) is not reconstructed.
+    // State 3 calls CreateJoinRoom (partial callee). States 2 and 7 are reconstructed.
     void SetGCState(std::int32_t state);
     // 0x81f44c _ZN15CMatchingGLLive19SendSetPlayerStatusEc. Partial: the original returns the
     // lobby call's result; the port returns 0 because mpSendSetPlayerStatus is void here.
@@ -368,7 +368,7 @@ public:
     // 0x81f648 _ZN15CMatchingGLLive18SendGameParametersEv. Partial, see the cpp.
     void SendGameParameters();
     // 0x821188 _ZN15CMatchingGLLive31BroadcastPacketReceiverCallbackER10CNetworkIdPci. Partial: the
-    // type 1 (server) branch needs ProcessServerMessage, which is not reconstructed.
+    // type 1 (server) branch calls ProcessServerMessage, which is a stub (see the cpp).
     void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
     // 0x820e7c _ZN15CMatchingGLLive9AddServerEiR10CNetworkIdiR15CRoomAttributes. See the cpp.
     void AddServer(std::int32_t memberId, CNetworkId& serverId, std::int32_t rank, CRoomAttributes& attributes);
@@ -416,6 +416,9 @@ public:
     std::uint8_t UnkByte0fForTest() const { return unk_0f; }
     const std::list<GLFriendInfo>& GLFriendListForTest() const { return glFriends_; }
     std::list<GLFriendInfo>& GLFriendListForTest() { return glFriends_; }
+
+    // The message observer sets unk_6c02 for response codes 0x6f and 0x70 (0x8241e0). Access only.
+    friend class CMatchingGLLiveMessageObserver;
 
 private:
     // Members in the original order. Offsets are 32-bit; the CMatching part occupies +0x00..+0x362f.

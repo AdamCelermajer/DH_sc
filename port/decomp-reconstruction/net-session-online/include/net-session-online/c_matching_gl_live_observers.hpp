@@ -9,15 +9,23 @@
 //     request code is 0x3d.
 //   CMatchingGLLiveMessageObserver: +0x00 vptr only.
 //   CMatchingGLLiveLobbyObserver: +0x00 vptr, +0x04 logged-in flag (byte),
-//     +0x05 connected flag (byte), +0x06 game-started flag (byte), +0x14 state (int),
+//     +0x05 connected flag (byte), +0x06 game-started flag (byte), +0x07 flag (byte, set by
+//     the list-session handler), +0x08 int (-1 at construction; the create handler reads the
+//     host id here), +0x0c local member index (int), +0x10 update time (int),
+//     +0x14 state (int), +0x18 room list (vector of tGLRoomInfo*), +0x24 member list (vector of
+//     tMemberInfo, 84 bytes each in the original), +0x30 name map (std::map<std::string, int>),
 //     +0x48 last result (int).
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
 
+#include "net-session-online/t_member_info.hpp"
+
 class DataPacket;
+class tGLRoomInfo;
 class tMemberInfo;
 
 class CMatchingGLLiveFriendObserver {
@@ -51,18 +59,19 @@ public:
     // 0x8241dc _ZN30CMatchingGLLiveMessageObserver16OnRequestFailureEii: no-op.
     virtual void OnRequestFailure(std::int32_t code, std::int32_t detail);
     // 0x8241e0 _ZN30CMatchingGLLiveMessageObserver16OnRequestSuccessEiPci.
-    // Partial: for codes 0x6f and 0x70 the original sets a byte at +0x6c02 of the
-    // CMatching singleton. That layout is not reconstructed, so the body is empty.
+    // Partial: for codes 0x6f and 0x70 the original sets the byte at +0x6c02 of the CMatching
+    // singleton. The port writes CMatchingGLLive::unk_6c02, treating the singleton as the GLLive
+    // object that owns this observer (see the .cpp).
     virtual void OnRequestSuccess(std::int32_t code, const char* text, std::int32_t length);
 };
 
 class CMatchingGLLiveLobbyObserver {
 public:
-    // 0x822538 _ZN28CMatchingGLLiveLobbyObserverC2Ev. Partial: the room list, member vector and
-    // name map (+0x18, +0x24, +0x30) are not modelled; the scalars are initialised.
+    // 0x822538 _ZN28CMatchingGLLiveLobbyObserverC2Ev and 0x8225b8 C1Ev. Reconstructed: the scalars,
+    // the empty room list (+0x18), the empty member list (+0x24) and the empty name map (+0x30).
     CMatchingGLLiveLobbyObserver();
-    // 0x821ed8 _ZN28CMatchingGLLiveLobbyObserverD1Ev. Partial: runs Terminate; the containers
-    // are not modelled. The D2 twin at 0x821f7c has the same body.
+    // 0x821ed8 _ZN28CMatchingGLLiveLobbyObserverD1Ev. Reconstructed: runs Terminate, which destroys the
+    // room records. The D2 twin at 0x821f7c has the same body.
     virtual ~CMatchingGLLiveLobbyObserver();
 
     // 0x8212f8 _ZN28CMatchingGLLiveLobbyObserver30OnMPEstablishConnectionSuccessEv
@@ -74,7 +83,7 @@ public:
     // 0x821334 _ZN28CMatchingGLLiveLobbyObserver20OnMPStartGameSuccessEP10DataPacket
     virtual void OnMPStartGameSuccess(DataPacket* packet);
     // 0x82134c _ZN28CMatchingGLLiveLobbyObserver16OnMPGetLobbyInfoEP10DataPacket
-    // Partial: the packet dump (PrintDatapacket, 0x8215c4 queued) is not called.
+    // Partial: PrintDatapacket (0x8212d0, file-local in the tb file) is not called here; see the .cpp.
     virtual void OnMPGetLobbyInfo(DataPacket* packet);
     // 0x821368 _ZN28CMatchingGLLiveLobbyObserver19OnMPSetParamSuccessEi: no-op.
     virtual void OnMPSetParamSuccess(std::int32_t value);
@@ -94,8 +103,8 @@ public:
     // 0x8215a4 _ZN28CMatchingGLLiveLobbyObserver17OnMPFunctionErrorEPci: maps the error code to
     // a queued event. The decompiled return value (an AddEvent result) is not used, so void.
     virtual void OnMPFunctionError(char* message, std::int32_t code);
-    // 0x821448 _ZN28CMatchingGLLiveLobbyObserver9TerminateEv
-    // Partial: calls ClearRoomList (not reconstructed; see the .cpp).
+    // 0x821448 _ZN28CMatchingGLLiveLobbyObserver9TerminateEv. Reconstructed: calls ClearRoomList, then
+    // clears the state and the flags.
     void Terminate();
     // 0x821470 _ZN28CMatchingGLLiveLobbyObserver21OnMPDisconnectSuccessEv
     // Thunk: forwards to Terminate (0x821448).
@@ -105,22 +114,23 @@ public:
     // queues sign-in event 9 on the CSignIn singleton. The packet is not read.
     std::int32_t OnMPProcessPushSameAccountLogin(DataPacket* packet);
 
-    // Room and member list handling (batch e1-net-session-online-CMatchingGLLiveLobbyObserver-0).
-    // The room list (+0x18..+0x20) and the member list (+0x24..+0x2c, 84-byte entries) are not
-    // modelled in this header yet (layout request), so the bodies that need them are partial.
-    // 0x8213ec _ZN28CMatchingGLLiveLobbyObserver13ClearRoomListEv. Partial: no-op.
+    // Room and member list handling. The room list (+0x18) holds tGLRoomInfo records and the member
+    // list (+0x24) holds tMemberInfo entries (layouts in their own headers).
+    // 0x8213ec _ZN28CMatchingGLLiveLobbyObserver13ClearRoomListEv. Reconstructed: pops each record,
+    // runs its destructor (0x82138c) and CustomFree, as the original does.
     void ClearRoomList();
-    // 0x821474 _ZN28CMatchingGLLiveLobbyObserver18GetRoomIndexByNameEPKc. Partial: returns -1.
+    // 0x821474 _ZN28CMatchingGLLiveLobbyObserver18GetRoomIndexByNameEPKc. Reconstructed.
     std::int32_t GetRoomIndexByName(const char* name) const;
-    // 0x8214cc _ZN28CMatchingGLLiveLobbyObserver20GetMemberIndexByNameEPKc. Partial: returns -1.
+    // 0x8214cc _ZN28CMatchingGLLiveLobbyObserver20GetMemberIndexByNameEPKc. Reconstructed.
     std::int32_t GetMemberIndexByName(const char* name) const;
-    // 0x821bac _ZN28CMatchingGLLiveLobbyObserver17GetMemberIdVectorEv. Partial: returns an empty vector.
+    // 0x821bac _ZN28CMatchingGLLiveLobbyObserver17GetMemberIdVectorEv. Reconstructed.
     std::vector<std::int32_t> GetMemberIdVector() const;
-    // 0x822324 _ZN28CMatchingGLLiveLobbyObserver19GetMemberByMemberIdEi. Partial: returns nullptr.
+    // 0x822324 _ZN28CMatchingGLLiveLobbyObserver19GetMemberByMemberIdEi. Reconstructed.
     tMemberInfo* GetMemberByMemberId(std::int32_t memberId);
-    // 0x822638 _ZN28CMatchingGLLiveLobbyObserver14SetPlayerParamESs. Partial: no-op.
+    // 0x822638 _ZN28CMatchingGLLiveLobbyObserver14SetPlayerParamESs. Reconstructed (the mangled name
+    // has no return type, so it is void).
     void SetPlayerParam(std::string value);
-    // 0x822950 _ZN28CMatchingGLLiveLobbyObserver18CollapseMemberListEv. Partial: no-op.
+    // 0x822950 _ZN28CMatchingGLLiveLobbyObserver18CollapseMemberListEv. Reconstructed.
     void CollapseMemberList();
 
     // Session and push handlers. Vtable slots as in the dump (virtual where the slot is known).
@@ -155,19 +165,29 @@ public:
     bool ConnectedForTest() const { return connected_; }
     bool GameStartedForTest() const { return gameStarted_; }
     std::int32_t LastResultForTest() const { return lastResult_; }
+    bool Flag07ForTest() const { return flag07_; }
     void SetFlagsForTest(bool loggedIn, bool connected, bool gameStarted) {
         loggedIn_ = loggedIn;
         connected_ = connected;
         gameStarted_ = gameStarted;
     }
+    void SetLocalMemberIndexForTest(std::int32_t index) { field0c_ = index; }
+    void PushRoomForTest(tGLRoomInfo* room) { roomList_.push_back(room); }
+    std::size_t RoomCountForTest() const { return roomList_.size(); }
+    void PushMemberForTest(const tMemberInfo& member) { memberList_.push_back(member); }
+    std::size_t MemberCountForTest() const { return memberList_.size(); }
 
 private:
     bool loggedIn_ = false;        // +0x04
     bool connected_ = false;       // +0x05
     bool gameStarted_ = false;     // +0x06
-    std::int32_t field08_ = -1;    // +0x08 (the constructor sets -1; not identified)
-    std::int32_t field0c_ = 0;     // +0x0c (not identified)
+    bool flag07_ = false;          // +0x07 (set by OnMPListSessionSuccess; meaning not identified)
+    std::int32_t field08_ = -1;    // +0x08 (the constructor sets -1; the create handler reads the host id here)
+    std::int32_t field0c_ = 0;     // +0x0c (local member index: SetPlayerParam indexes the member list with it)
     std::int32_t updateTime_ = 0;  // +0x10 (time of the last list update in the original)
     std::int32_t state_ = 0;       // +0x14
+    std::vector<tGLRoomInfo*> roomList_;    // +0x18 (records are CustomAlloc'd in the original)
+    std::vector<tMemberInfo> memberList_;   // +0x24 (84-byte entries in the original)
+    std::map<std::string, std::int32_t> nameMap_;  // +0x30 (not used by the reconstructed bodies)
     std::int32_t lastResult_ = 0;  // +0x48
 };

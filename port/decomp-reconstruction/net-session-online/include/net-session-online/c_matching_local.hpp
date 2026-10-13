@@ -41,8 +41,8 @@ public:
     // Nested replicated struct, defined in tb/cmatching_local_room_info_net_struct.hpp.
     class RoomInfoNetStruct;
 
-    // 0x807e44 _ZN14CMatchingLocalC2Ev: sets the counters and empty containers. The original
-    // also runs Reset() and the NetStruct member constructors, which are not in this port yet.
+    // 0x807e44 _ZN14CMatchingLocalC2Ev: sets the counters and empty containers, then runs Reset(), which
+    // closes and hides the room. The NetStruct member constructors are not in this port yet.
     CMatchingLocal();
     // 0x807f80 _ZN14CMatchingLocalD1Ev: the members release themselves. The NetStruct member
     // teardown of the original is not in this port yet.
@@ -97,8 +97,9 @@ public:
     std::int32_t ReadPacketData(std::int32_t a2, std::int32_t a3, class NetBitStream& stream);
     // 0x8063c4 _ZN14CMatchingLocal15WritePacketDataEiiR12NetBitStream (partial: returns 0).
     std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, class NetBitStream& stream);
-    // 0x805cc8 _ZN14CMatchingLocal8IsInRoomEv (partial: see the batch source).
-    bool IsInRoom();
+    // 0x805cc8 _ZN14CMatchingLocal8IsInRoomEv: the local member is the server, or the server is connected,
+    // or the connection manager is initialized and has connected members. Vtable slot +0x64 (see the .cpp).
+    bool IsInRoom() const;
 
     // Lifecycle (c_matching_local_lifecycle.cpp). Base CMatching calls are not in this port.
     // 0x807c70 _ZN14CMatchingLocal10InitializeEi
@@ -155,11 +156,12 @@ public:
     // Messages (c_matching_local_messages.cpp)
     // 0x805d58 _ZN14CMatchingLocal23SendChangeServerMessageEv
     std::int32_t SendChangeServerMessage();
-    // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb (partial: room attributes not written)
+    // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb (partial: room attributes are blocked, listen id is a stand-in)
     std::int32_t SendServerResponse(bool flag);
     // 0x805f2c _ZN14CMatchingLocal17SendClientRequestEv
     std::int32_t SendClientRequest();
-    // 0x805ee0 _ZN14CMatchingLocal20ProcessClientMessageER10CNetworkIdR12NetBitStream (partial)
+    // 0x805ee0 _ZN14CMatchingLocal20ProcessClientMessageER10CNetworkIdR12NetBitStream: when this is the server,
+    // a response is sent unless IsRoomHidden() (vtable slot +0x58, see the vtable dump).
     void ProcessClientMessage(const CNetworkId& from, class NetBitStream& stream);
     // 0x805fa8 _ZN14CMatchingLocal22PacketReceiverCallbackEiPci
     void PacketReceiverCallback(std::int32_t from, char* data, std::uint32_t size);
@@ -187,6 +189,10 @@ public:
     void SetInitializedForTest(bool value) { initialized_ = value; }
     void SetBaseRoomClosedForTest(bool value) { baseRoomClosed_ = value; }
     void SetJoinThresholdForTest(std::int32_t value) { joinThreshold_ = value; }
+    void SetRoomOperationPendingForTest(bool value) { roomOperationPending_ = value; }
+    void SetServerPollTimeForTest(std::int32_t value) { serverPollTime_ = value; }
+    std::int32_t ServerPollTimeForTest() const { return serverPollTime_; }
+    std::size_t ServerCountForTest() const { return servers_.size(); }
     bool IsInitializedForTest() const { return initialized_; }
 
 private:
@@ -208,7 +214,4 @@ private:
     CRoomAttributes roomAttributes_;       // +0x4660
     CRoomSearchFilter roomSearchFilter_;   // +0x49f8
 
-    // Vtable slot +0x58 of ProcessClientMessage. Not named in the vtable dump; the port
-    // treats the request as not accepted (see c_matching_local_messages.cpp).
-    bool ClientRequestAccepted(const CNetworkId& from) const;
 };

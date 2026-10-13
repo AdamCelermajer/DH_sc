@@ -1,7 +1,10 @@
 #include "net-session-online/game_center.hpp"
 #include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
 
 #include <cstring>
+
+#include "core-platform/gc_singleton.hpp"
 
 // 0x4991ac _ZN10GameCenter15ConnectToServerEi (bx lr)
 void GameCenter::ConnectToServer(std::int32_t /*value*/) {}
@@ -75,23 +78,28 @@ void GameCenter::SetPlayerIDStatus(const char* id, const char* status, bool skip
 }
 
 // 0x499564 _ZN10GameCenter13ReportGCScoreEi
+// The gate and the flags are on the GameCenter singleton (GCSingleton<GameCenter>::GetInstance). The score
+// is stored on this, as in the original.
 void GameCenter::ReportGCScore(std::int32_t score) {
-    if (!gateFlag_) {
+    GameCenter* singleton = GCSingleton<GameCenter>::GetInstance();
+    if (!singleton->gateFlag_) {
         return;
     }
     pendingScore_ = score;
-    scoreFlag_ = true;
-    resultFlag_ = false;
+    singleton->scoreFlag_ = true;
+    singleton->resultFlag_ = false;
 }
 
 // 0x4995a0 _ZN10GameCenter19ReportGCAchievementEPc
+// Partial: a null name is taken as "" (the original calls strdup on it).
 void GameCenter::ReportGCAchievement(const char* name) {
-    if (!gateFlag_) {
+    GameCenter* singleton = GCSingleton<GameCenter>::GetInstance();
+    if (!singleton->gateFlag_) {
         return;
     }
     pendingAchievement_ = name != nullptr ? name : "";
-    achievementFlag_ = true;
-    resultFlag_ = false;
+    singleton->achievementFlag_ = true;
+    singleton->resultFlag_ = false;
 }
 
 // 0x499efc _ZN10GameCenter15CoinTossForHostEv
@@ -106,30 +114,37 @@ void GameCenter::GCAddToJoinPlayerList(const char* id) {
 }
 
 // 0x499440 _ZN10GameCenter25GCStartGameTimeoutExpiredEv
-// Partial: see game_center.hpp. The elapsed time is compared with 150000 ms.
+// The start time is this->+0x1c. The timevaldiff call goes to the OnlineSingleton<OnlineGameState> instance,
+// as the original's receiver does. timevaldiff reads only its two timevals (Hex-Rays 0x4a00a0), so the
+// receiver does not change the result. The elapsed time is compared with 150000 ms.
 bool GameCenter::GCStartGameTimeoutExpired() const {
     Timeval now{0, 0};
     GetTimeOfDay(&now);
-    const OnlineGameState stateForTimeDiff{};
-    return stateForTimeDiff.timevaldiff(&gameStartTime_, &now) > 150000;
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    return state->timevaldiff(&gameStartTime_, &now) > 150000;
 }
 
 // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv
-// Partial: see game_center.hpp. Only the GameCenter-owned steps run here.
+// Partial: see game_center.hpp. The gate, the start flag, the start time and the coin toss are on the
+// GameCenter singleton. OnlineGameState::Init(4) runs on the OnlineSingleton instance.
 void GameCenter::GCStartMultiplayerGame() {
-    if (startGate_) {
+    GameCenter* singleton = GCSingleton<GameCenter>::GetInstance();
+    if (singleton->startGate_) {
         return;
     }
-    startFlag_ = true;
-    GetTimeOfDay(&gameStartTime_);
-    CoinTossForHost();  // partial: the returned word is not stored (see game_center.hpp)
+    // Not ported: the OnlineGameState flag at +0x28 (no such member in online_game_state.hpp).
+    singleton->startFlag_ = true;
+    GetTimeOfDay(&singleton->gameStartTime_);
+    singleton->CoinTossForHost();  // partial: the returned word is not stored (see game_center.hpp)
     DumpPlayerIDStatusList();
-    // Not ported: OnlineGameState flag (+0x28 of the singleton), the GoToVerificationScreen
-    // callback, and OnlineGameState::Init(4).
+    // Not ported: the MenuManager "GoToVerificationScreen" callback (MenuManager::GetInstance has no body).
+    OnlineSingleton<OnlineGameState>::GetInstance()->Init(4);
 }
 
 // 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb
+// The bool argument is unused. The start gate is cleared on the singleton, then the no-argument overload
+// runs on this, as the original calls it.
 void GameCenter::GCStartMultiplayerGame(bool /*unused*/) {
-    startGate_ = false;
+    GCSingleton<GameCenter>::GetInstance()->startGate_ = false;
     GCStartMultiplayerGame();
 }

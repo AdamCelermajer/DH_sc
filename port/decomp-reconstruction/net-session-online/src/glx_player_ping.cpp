@@ -38,12 +38,13 @@ std::uint16_t InCksum(const unsigned char* data, std::size_t length) {
 
 }  // namespace
 
-// 0x840564 and 0x840600 _ZN13GLXPlayerPingC1EPKci
-// Partial: the socket comes from the factory, which builds the base socket class in the
-// port (the original builds CAndroidSocket).
+// 0x840564 C1 and 0x840600 C2 _ZN13GLXPlayerPingC1EPKci (same body)
+// The factory gets the owned host copy (the original passes its copy, not the caller's text), the
+// port, and no observer. Partial: the socket comes from the factory, which builds the base socket
+// class in the port (the original builds CAndroidSocket; see the factory's row).
 GLXPlayerPing::GLXPlayerPing(const char* host, std::int32_t port)
     : host_(CopyText(host)), port_(port) {
-    socket_.reset(GLXPlayerSocketFactory::GetSocket(host, port, nullptr));
+    socket_.reset(GLXPlayerSocketFactory::GetSocket(host_.get(), port, nullptr));
 }
 
 // 0x8400fc _ZN13GLXPlayerPingD1Ev, 0x8401cc _ZN13GLXPlayerPingD2Ev
@@ -70,8 +71,11 @@ std::int32_t GLXPlayerPing::Prepare() {
 }
 
 // 0x840280 _ZN13GLXPlayerPing16WaitForEchoReplyEi
-// The original calls select() on the socket handle with a zero timeout. Partial: no
-// select stand-in exists, so the port reports that no reply has arrived.
+// The original zeroes an fd_set, sets bit fd, and calls select(handle + 1, &set, 0, 0, &zero-timeout),
+// where handle is the socket's +0x08 value; it returns the select result. Partial: GLXPlayerSocket
+// has no handle getter and there is no select stand-in, so the port reports
+// that no reply has arrived (0). Layout request: a handle getter on GLXPlayerSocket, and a select
+// wrapper in the platform layer.
 std::int32_t GLXPlayerPing::WaitForEchoReply(std::int32_t fd) {
     (void)fd;
     return 0;

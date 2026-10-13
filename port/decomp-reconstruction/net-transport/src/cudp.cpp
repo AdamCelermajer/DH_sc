@@ -71,9 +71,10 @@ int CUdp::CloseSocket() {
 }
 
 // 0x8275b0 _ZN4CUdp7ReceiveEv
-// Partial: the datagram loop and sender ids match the pseudocode. The sender is stored as
-// address1 (presence flag bit 0). ReceiverCallback is the CTransportManager stand-in, a no-op,
-// and the pseudocode's first argument to it is not the manager, so the call uses GetTransportMgr().
+// The datagram loop matches the pseudocode and the ARM. The sender is stored as address1
+// (presence flag bit 0). The ARM passes this (the transport), the sender id, the buffer and the
+// count (r0-r3) to CTransportManager::ReceiverCallback; GetTransportMgr() is the manager instance.
+// Returns the count of the last ReceiveFrom, as the original does.
 int CUdp::Receive() {
     if (!socket_.IsValid()) {
         return -1;
@@ -126,9 +127,9 @@ CUdp* CUdp::CreateByPort(std::uint16_t port, unsigned int flags) {
 }
 
 // 0x8278fc _ZN4CUdp19InitializeTransportEv
-// Partial: creates the two UDP transports once: port 0x1a78 with flags 4 (no broadcast;
-// 0x1a78 is elf_hash_bucket + 0x199C, checked against the ARM listing) and port 0 with
-// flags 3 (broadcast). AddTransport is a no-op stand-in (deps/transport_manager.hpp).
+// Creates the two UDP transports once: port 0x1a78 with flags 4 (no broadcast; the ARM
+// MOVW immediate, which IDA shows as elf_hash_bucket+0x199C) and port 0 with flags 3 (broadcast;
+// the ARM passes s_initialized, still 0 here). Both are added to the manager (AddTransport).
 int CUdp::InitializeTransport() {
     if (!s_initialized_) {
         CUdp* first = CreateByPort(0x1a78, 4);

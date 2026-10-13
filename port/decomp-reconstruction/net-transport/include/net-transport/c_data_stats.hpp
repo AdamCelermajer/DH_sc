@@ -39,12 +39,11 @@ public:
         lock_.UnlockWrite();
     }
 
-    // 0x825be8 _ZN10CDataStatsIiE6GetSumEv (symbol shows (float); the body takes no window)
-    // Hex-Rays re-run: the tree walk is the STLport predecessor step (red is 0, so the header
-    // test is color == red && node->parent->parent == node). The walk starts at the newest
-    // sample. The port sums the samples no older than one second (1000000 ticks), newest
-    // first, and stops at the first older sample. The float argument is in the symbol only; the
-    // pseudocode does not read it.
+    // 0x825be8 CDataStats<int>::GetSum(float) [clone]
+    // The compiler specialised the window to 1000000 ticks, so the clone takes no argument. The
+    // walk is the predecessor step from the header (red is 0; the header test is color == red &&
+    // node->parent->parent == node). It visits the newest sample first and ends at the leftmost.
+    // It stops at the first sample older than the window (now - key > 1000000), and sums the rest.
     T GetSum() const {
         lock_.LockRead();
         const std::clock_t now = std::clock();
@@ -60,10 +59,10 @@ public:
     }
 
     // 0x825388 _ZN10CDataStatsIiE10GetAverageEf
-    // Hex-Rays re-run, same tree walk as GetSum (newest first). The window is 1000000 ticks per
-    // unit (window is truncated to int, as the original does). A window of 0 includes every
-    // sample. The walk stops at the first sample older than the window. The average is the sum
-    // divided by the count (integer division), and 0 when there are no samples.
+    // The same predecessor walk as GetSum, from the newest sample down to the leftmost. The window
+    // is 1000000 ticks per unit (the float is truncated to int, as the original does). A window of
+    // 0 includes every sample; otherwise the walk stops at the first sample older than the window.
+    // The average is the sum divided by the count (integer division), and 0 when there are none.
     T GetAverage(float window) const {
         lock_.LockRead();
         const std::clock_t now = std::clock();

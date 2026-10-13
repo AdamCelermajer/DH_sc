@@ -4,6 +4,7 @@
 #include <iterator>
 
 #include "net-transport/connection_manager.hpp"
+#include "net-transport/net_network_emulation.hpp"  // CNetworkEmulation::Initialize / Terminate (static)
 #include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
 namespace {
@@ -30,22 +31,34 @@ tPacketSlot CPacketManager::s_PacketSlots[CPacketManager::kPacketSlotCount];
 std::uint8_t CPacketManager::s_packetSlotBitMap = 0;
 
 // 0x8162a4 _ZN14CPacketManagerC1Ev, 0x816540 _ZN14CPacketManagerC2Ev
-// Partial: sets up the queue, mutex and initialized flag. The Hex-Rays body also registers the
-// receive callback with CConnectionManager (CConnectionManager::RegisterPacketType(6, 0, ...)),
-// takes the packet-list lock, clears the sorted containers, calls CNetworkEmulation::Initialize,
-// sets the initialized flag and unlocks. The member maps (tPacketMemberInfo, tSendPacket) and the
-// four CDataStats<int> members are not modelled in the header, and the registered callback
-// (CPacketManager::sPacketReceiverCallback) is not declared, so those steps are missing.
+// Registers the receive callback for packet type 6 with CConnectionManager, then under the mutex
+// initialises CNetworkEmulation (static, so the Hex-Rays argument is not used), sets the initialized
+// flag and unlocks. The original's GetConnectionMgr() call is a pure getter whose result is not used
+// here. Before the registration the original also clears the queue, the sorted containers and the
+// send-side maps; the members are constructed empty, so those clears do nothing and are not repeated.
+// The members are default-initialised, including the four CDataStats<int> (see the header).
+// sPacketReceiverCallback returns int, while the registry takes a void callback: the lambda discards
+// the result, which CConnectionManager's dispatch ignores too.
 CPacketManager::CPacketManager() {
+    CConnectionManager::RegisterPacketType(6, 0, [](int member, char* data, int size) {
+        (void)CPacketManager::sPacketReceiverCallback(member, data, size);
+    });
+    mutex_.Lock();
+    CNetworkEmulation::Initialize();
     initialized_ = true;
+    mutex_.Unlock();
 }
 
 // 0x816ab8 _ZN14CPacketManagerD2Ev, 0x81704c _ZN14CPacketManagerD1Ev
-// Partial: releases the queue. The original also unregisters packet type 6 and tears down the
-// CNetworkEmulation and CDataStats members, which this port does not have yet.
+// Unregisters packet type 6, tears down CNetworkEmulation (static) and clears the initialized flag.
+// The members are destroyed after this body, in reverse declaration order: the four CDataStats<int>
+// first, as in the original, then the +0x70 map, the acknowledged list and the sent-time map. The
+// order of the last containers (member map, waiting map, incoming list) differs from the original only
+// among containers with no observable side effect.
 CPacketManager::~CPacketManager() {
+    CConnectionManager::UnregisterPacketType(6);
+    CNetworkEmulation::Terminate();
     initialized_ = false;
-    packets_.clear();
 }
 
 // 0x8151c8 _ZN14CPacketManager11GetInstanceEv
@@ -59,8 +72,9 @@ bool CPacketManager::IsInitialized() {
 }
 
 // 0x8164e8 _ZN14CPacketManager10InitializeEv
-// Partial: the constructor is partial (see above), so the object is initialised without the
-// CConnectionManager registration.
+// partial: the original allocates the object with operator new(0x118, 2) and constructs it before the
+// null check. The second argument (allocator tag) is not recovered. The port uses the default
+// operator new, which throws instead of returning null, so the -1 result is not reachable.
 int CPacketManager::Initialize() {
     if (s_packetManager != nullptr) {
         return 0;
@@ -190,10 +204,13 @@ int CPacketManager::PacketReceiverCallback(int source, char* data, int size) {
 }
 
 // 0x815504 _ZN14CPacketManager26ProcessAcknowledgedPacketsEv
-// Runs the ack callback of every used slot for each acknowledged key, then empties the list.
-// The original's ReportStatistic call is empty and is dropped.
+// Runs the ack callback of every used slot for each acknowledged key, then empties the list. The list
+// is read by index and its size is taken again after every key, so a callback that adds a key is
+// served in the same pass, as in the original. The original's CConnectionManager::ReportStatistic call
+// after each key goes to an empty hook (0x7fc094 is a bare return), so it is omitted.
 void CPacketManager::ProcessAcknowledgedPackets() {
-    for (std::uint32_t key : acked_) {
+    for (std::size_t i = 0; i < acked_.size(); ++i) {
+        const std::uint32_t key = acked_[i];
         const int member = static_cast<int>(key >> 16);
         const int sequence = static_cast<int>(key & 0xFFFFu);
         for (int slot = 0; slot < kPacketSlotCount; ++slot) {
@@ -260,15 +277,16 @@ std::uint32_t CPacketManager::PreparePacketHeader(int member, NetBitStream& stre
 // Each slot writes one flag bit. A registered slot that the member has also registered writes
 // [flag 1][tag 32 bits][payload][block length 16 bits], where the tag is the slot index times
 // 0x01020304 (the original's running counter) and the length is the bit count of the block. If the
-// payload fails or the packet passes 0x578 bytes, the block is reverted and the flag is 0.
-// partial: the original also reverts on a write overflow (bit 1 of the stream flags at +0x1c).
-// NetBitStream does not expose those flags, so only the size limit is checked.
+// payload fails, the stream reports a write overflow (flags at +0x1c are non-zero, which the original
+// tests as a whole word) or the packet passes 0x578 bytes, the block is reverted and the flag is 0.
+// The member's slot mask is read only when the slot is used and has a write callback, as the original
+// short-circuits its tests.
 void CPacketManager::PreparePacketData(int member, std::uint32_t sequence, NetBitStream& stream) {
     std::uint32_t tag = 0;
     for (int slot = 0; slot < kPacketSlotCount; ++slot, tag += 0x01020304u) {
         const tPacketSlot& entry = s_PacketSlots[slot];
-        const std::uint8_t mask = member_info_[member].slot_mask;
-        if (!entry.used || entry.write == nullptr || ((mask >> slot) & 1u) == 0) {
+        if (!entry.used || entry.write == nullptr ||
+            ((member_info_[member].slot_mask >> slot) & 1u) == 0) {
             stream.WriteByte(0, 1);
             continue;
         }
@@ -277,7 +295,7 @@ void CPacketManager::PreparePacketData(int member, std::uint32_t sequence, NetBi
         stream.SetRevertPoint();
         stream.WriteByte(1, 1);
         stream.WriteU32(tag, 32);
-        if (!entry.write(member, static_cast<int>(sequence), stream)) {
+        if (!entry.write(member, static_cast<int>(sequence), stream) || stream.Flags() != 0) {
             stream.Revert();
             stream.WriteByte(0, 1);
             continue;
@@ -319,6 +337,9 @@ void CPacketManager::SendWaitingPackets() {
 // 0x8168fc _ZN14CPacketManager18ProcessLostPacketsEv
 // A sent packet older than 1000 ms is lost: every used slot's lost callback runs and the entry is
 // removed. An entry whose member is no longer known is removed and the scan stops, as the original does.
+// partial: the clock is steady_clock. The original reads the time through the GetOnline() object's
+// vtable slot 0, which is not recovered. The CConnectionManager::ReportStatistic call after each lost
+// packet goes to an empty hook (0x7fc094 is a bare return), so it is omitted.
 void CPacketManager::ProcessLostPackets() {
     auto it = sent_times_.begin();
     while (it != sent_times_.end()) {
@@ -362,9 +383,11 @@ void CPacketManager::ProcessPacketAcknowledgements(const tPacketMgrHeader& heade
 }
 
 // 0x816eac _ZN14CPacketManager14ReceivePacketsEv
-// Reads queued packets under the mutex. A packet that is new for this member is read slot by slot
-// and then acknowledged. A slot that is unknown here ends the packet without an acknowledgement.
-// Returns the result of the mutex unlock.
+// Reads queued packets under the mutex. The sender's slot mask is stored before the validity test.
+// A packet that is new for this member is read slot by slot and then acknowledged. A slot that is
+// unknown here ends the call without an acknowledgement. Returns the result of the mutex unlock.
+// The CConnectionManager::ReportStatistic call after each header read goes to an empty hook
+// (0x7fc094 is a bare return), so it is omitted.
 int CPacketManager::ReceivePackets() {
     mutex_.Lock();
     if (!ArePacketsAvailable()) {
@@ -401,8 +424,11 @@ int CPacketManager::ReceivePackets() {
 
 // 0x817814 _ZN14CPacketManager10SendPacketEi
 // Sends one packet to a connected member. Returns 1 when the packet was built (even when it is too
-// large to send), 0 when the member is not connected.
-// partial: a missing CConnectionManager singleton returns 0 here; the original dereferences it.
+// large to send), 0 when the member is not connected. The sent time is recorded per (member, sequence).
+// partial: the sent time is steady_clock in ms. The original stores the GetOnline() vtable slot 0 time,
+// which is not recovered. A missing CConnectionManager singleton returns 0 here; the original
+// dereferences it. The ReportStatistic call after the sent-time insert goes to an empty hook
+// (0x7fc094 is a bare return), so it is omitted.
 int CPacketManager::SendPacket(int member) {
     CConnectionManager* connections = CConnectionManager::GetInstance();
     if (connections == nullptr || !connections->IsConnected(member)) {
@@ -428,8 +454,11 @@ int CPacketManager::SendPacket(int member) {
 // Runs the acknowledgement and loss passes, then, when forced or after 50 ms, sends one packet to
 // each member in the list and sweeps the member map for members that were not sent to. The sweep
 // flag toggles on every sweep. Returns -1 when the manager is not initialised, 0 otherwise.
-// partial: the send interval uses the steady clock, while the original reads a cached COnline
-// time field. A missing CConnectionManager singleton sends nothing.
+// The member sweep is the original's: every member that was not sent to is removed, and the flag
+// toggles on every sweep (the original's running flag is always the current generation).
+// partial: the send interval uses the steady clock, while the original reads the COnline time field at
+// +0x1c, which COnline does not model. A missing CConnectionManager singleton sends nothing, where the
+// original dereferences it.
 int CPacketManager::SendPackets() {
     if (!initialized_) {
         return -1;

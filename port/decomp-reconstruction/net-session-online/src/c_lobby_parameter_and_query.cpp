@@ -16,7 +16,7 @@ constexpr char kTypeDelimiter = 124;         // '|'
 }  // namespace
 
 // 0x836e3c _ZN23CLobbyParameterAndQueryC1Ev
-// 0x837224 _ZN23CLobbyParameterAndQueryC2Ev (same body; skipped as a variant)
+// 0x837224 _ZN23CLobbyParameterAndQueryC2Ev (same body as C1; this one definition serves both)
 // Opens "oconf.bar" and parses it: the first line is read, then each following line is split
 // into "KEY:VALUE". GAME_PARAM_COUNT sets the count (capped at 10) and GAME_PARAM_TYPE stores
 // the '|'-separated type bytes while the count allows. A missing file is reported and leaves the

@@ -30,9 +30,9 @@ const char* GameCenterUserIdGlobal() { return nullptr; }
 // so it reads as false and the Game Center branches are not taken.
 bool GameCenterFlag() { return false; }
 
-// GLXPlayerMPLobby+0x60 (the lobby state). state_ is private and has no getter in the port, so
-// it reads as 0 (not ready). Event 6 therefore waits until the getter exists.
-std::uint8_t LobbyState(const GLXPlayerMPLobby* /*lobby*/) { return 0; }
+// GLXPlayerMPLobby+0x60 (the lobby state), read through GLXPlayerMPLobby::State(). A null lobby
+// reads as 0 (the original would dereference it).
+std::uint8_t LobbyState(const GLXPlayerMPLobby* lobby) { return lobby != nullptr ? lobby->State() : 0; }
 
 }  // namespace
 
@@ -107,12 +107,14 @@ void CSignInGLLive::Terminate() {
 
 // 0x8242b4 _ZN13CSignInGLLive10LoginLobbyEv
 // Partial. The original returns the result of the lobby send; the port's sends return nothing.
-// Here the Game Center branch is taken only when the Game Center flag is set (see the seam; it
-// is not, yet). The other branch needs the login service, so with no login service it sends
-// nothing.
+// The gate is the lobby observer byte at +0x05 (Hex-Rays and the ARM listing), which is the
+// connected flag: OnMPEstablishConnectionSuccess sets it, while OnMPLoginSuccess sets the
+// logged-in flag at +0x04. The Game Center branch is taken only when the Game Center flag is
+// set (see the seam; it is not, yet). The other branch needs the login service, so with no login
+// service it sends nothing.
 void CSignInGLLive::LoginLobby() {
     CMatchingGLLiveLobbyObserver* lobbyObserver = CMatchingGLLive::s_GLXPlayerMPLobbyObserver;
-    if (lobbyObserver == nullptr || !lobbyObserver->LoggedInForTest()) {
+    if (lobbyObserver == nullptr || !lobbyObserver->ConnectedForTest()) {
         return;
     }
     GLXPlayerMPLobby* lobby = CMatchingGLLive::s_GLXPlayerMPLobby;
@@ -148,7 +150,7 @@ void CSignInGLLive::LoginLobby() {
 //      Center variant is taken only with the Game Center flag (seam).
 //   4. event 2 with the login observer's server byte set: lobby pending, mpSendEstablishConnection,
 //      post event 4. The byte is the first byte of the observer's server address (+0x06).
-//   5. event 4 with the lobby observer logged in: LoginLobby, post event 6.
+//   5. event 4 with the lobby observer connected (+0x05): LoginLobby, post event 6.
 //   6. event 6 with lobby state > 1: consume, post CSignIn event 2, logged in, SetGCState(2).
 void CSignInGLLive::Update() {
     if (!active_) {
@@ -191,7 +193,7 @@ void CSignInGLLive::Update() {
 
     if (loginEvents_.HasEventOccured(4, false)) {
         CMatchingGLLiveLobbyObserver* lobbyObserver = CMatchingGLLive::s_GLXPlayerMPLobbyObserver;
-        if (lobbyObserver != nullptr && lobbyObserver->LoggedInForTest()) {
+        if (lobbyObserver != nullptr && lobbyObserver->ConnectedForTest()) {  // +0x05, as in LoginLobby
             loginEvents_.ConsumeEvent(4);
             LoginLobby();
             loginEvents_.AddEvent(6, nullptr, 0);

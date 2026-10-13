@@ -182,22 +182,23 @@ void CXPlayerManager::OnRequestSuccess(std::int32_t /*functionId*/, const char* 
     std::puts("XPlayerManager: Request Success action not implemented!");
 }
 
-// 0x52e524 _ZN15CXPlayerManager4InitEv (partial)
+// 0x52e524 _ZN15CXPlayerManager4InitEv
 // When the initialized flag (+0x04) is clear: the config version is "1.0.1" when the
-// "ConnectToBetaServer" debug switch is set, else "1.0.0". The server-config object is created
-// and this manager is registered as its observer, then the error code is printed. Code 1
-// creates the login and leaderboard services and waits in state 4.
-// Partial: the server-config request (SendGetServerConfig) has no port equivalent yet, so the
-// error code keeps its initial value 0 (the original's out-argument starts at the flag value,
-// which is 0 here). The services are therefore never created by this port.
+// "ConnectToBetaServer" debug switch is set, else "1.0.0". The server-config object is created,
+// its GET request is sent (SendGetServerConfig, whose status is the error code), this manager is
+// registered as its observer, then the error code is printed. Code 1 creates the login and
+// leaderboard services and waits in state 4. The status out-argument starts at the flag value,
+// which is 0 on this path. The request's own partial parts are in its row (GLXPlayerSereverConfig).
 void CXPlayerManager::Init() {
     if (initialized_) {
         return;
     }
     DebugSwitches::s_inst.load();
     const bool betaServer = DebugSwitches::s_inst.GetSwitch("ConnectToBetaServer");
-    third_ = new GLXPlayerSereverConfig(betaServer ? "1.0.1" : "1.0.0");
-    std::int32_t errorCode = 0;  // SendGetServerConfig(config, &errorCode) is not ported.
+    auto* config = new GLXPlayerSereverConfig(betaServer ? "1.0.1" : "1.0.0");
+    third_ = config;
+    std::int32_t errorCode = 0;  // +0x04 flag value, 0 on this path
+    config->SendGetServerConfig(errorCode);
     third_->RegisterObserver(this);
     std::printf("ServerConfig error code: %d\n", errorCode);
     if (errorCode == 1) {

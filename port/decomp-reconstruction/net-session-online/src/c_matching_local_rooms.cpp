@@ -53,7 +53,9 @@ std::int32_t CMatchingLocal::LeaveRoom() {
 // 0x8079d4 _ZN14CMatchingLocal22CreateJoinRoomInternalEbR15CRoomAttributes
 // Partial: the original writes the local member's id and listen address into its member-table
 // entry (this + 408 * index + 0x4d10 and + 0x4d38, index from CMatching::GetMemberIndex). Those
-// member-info records are not in this port yet, so the writes are not reproduced.
+// member-info records are not declared in this class yet (layout request), so the writes are not reproduced.
+// The final response test is exact: vtable slot +0x58 is IsRoomHidden (vtable dump), and the response is
+// sent when the room is not hidden.
 std::int32_t CMatchingLocal::CreateJoinRoomInternal(bool open, const CRoomAttributes& attributes) {
     if (!initialized_) {
         return -1;

@@ -85,11 +85,25 @@ public:
     static std::int32_t sWritePacketData(std::int32_t a1, std::int32_t a2, NetBitStream& stream);   // 0x7fe66c
     static std::int32_t sProcessAcknowledgedPacket(std::int32_t a1, std::int32_t a2);               // 0x7fe6b0
     static std::int32_t sProcessLostPacket(std::int32_t a1, std::int32_t a2);                       // 0x7fe6ec
-    // Vtable slots +0x0c, +0x10, +0x14, +0x18 (names not identified).
-    virtual std::int32_t vtWritePacketData(std::int32_t, std::int32_t, NetBitStream&) { return 0; }
+    // Vtable slots +0x00 and +0x04: the room requests that JoinRoom and CreateJoinRoom forward to.
+    // CMatchingGLLive declares the same signatures (c_matching_gl_live.hpp) and overrides them.
+    // CMatchingLocal's CreateJoinRoomInternal takes a const reference, so it does not override this one
+    // (the binary's mangled name takes a non-const reference; the integrator should fix that header).
+    // The base has no room backend, so the defaults return 0.
+    virtual std::int32_t JoinRoomInternal(std::uint64_t roomId) { (void)roomId; return 0; }
+    virtual std::int32_t CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes) {
+        (void)flag;
+        (void)attributes;
+        return 0;
+    }
+    // Vtable slots +0x10, +0x14, +0x18 (names not identified). Slot +0x0c is WritePacketData, below. No production
+    // class overrides these three; the forwarders in src/glx_320e98.cpp reach only test overrides (layout request).
     virtual std::int32_t vtReadPacketData(std::int32_t, std::int32_t, NetBitStream&) { return 0; }
     virtual std::int32_t vtProcessAcknowledgedPacket(std::int32_t, std::int32_t) { return 0; }
     virtual std::int32_t vtProcessLostPacket(std::int32_t, std::int32_t) { return 0; }
+    // 0x8010a4 CMatching::WritePacketData(int,int,NetBitStream&). Virtual in the original (CMatchingLocal and
+    // CMatchingGLLive override it). Partial, see src/r1n-net-session-online-CMatching-9acceb-1.cpp.
+    virtual std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
     // vtable +0x34: CMatchingLocal::GetTransportType(tPROTOCOL_TYPE) (0x8056a0). The port names the hook
     // TransportTypeForProtocol because the derived classes keep their table lookups as statics named
     // GetTransportType. Base: 0 for an unknown protocol.
@@ -175,6 +189,9 @@ public:
     // 0x7fed84 CMatching::ProcessLostPacket(int,int). Partial: the room attributes receive the call;
     // the per-member NetStruct slot +0x44 is not ported.
     void ProcessLostPacket(int a2, int a3);
+    // 0x7fed08 CMatching::ProcessAcknowledgedPacket(int,int). Partial: the room attributes receive the call;
+    // the per-member NetStruct slot +0x40 is not ported (see src/c_matching_base.cpp).
+    void ProcessAcknowledgedPacket(int a2, int a3);
     // 0x7ff008 CMatching::SetRoomMemberAttibute(int,void const*,int). Partial: the value is copied;
     // the NetStruct change notification (buffer slot +0x1c) is not ported.
     void SetRoomMemberAttibute(int memberId, const void* data, int size);
@@ -203,6 +220,18 @@ public:
     virtual int Update();
     // 0x7ff85c CMatching::Initialize(int) (vtable +0x28). Partial, see src/tb_session-online-CMatching-0.cpp.
     virtual int Initialize(int memberCapacity);
+    // 0x7ff5a0 CMatching::Terminate() (vtable +0x2c). The base has no body; CMatchingLocal and CMatchingGLLive
+    // override it. Destroy calls it through the pointer.
+    virtual std::int32_t Terminate() { return 0; }
+    // 0x7ff120 CMatching::JoinRoom(unsigned long long). Partial: the NetStruct SetEnabled(element, 0) loop is
+    // not ported (see src/tb_session-online-CMatching-0.cpp). Returns the JoinRoomInternal result.
+    std::int32_t JoinRoom(std::uint64_t roomId);
+    // 0x7ff350 CMatching::CreateJoinRoom(bool, CRoomAttributes). Partial: the SetEnabled(element, 1) loop is not
+    // ported. The attributes are passed by value, as the binary's copy is.
+    std::int32_t CreateJoinRoom(bool flag, CRoomAttributes attributes);
+    // 0x7feb8c CMatching::Destroy(). Non-static: the binary's Destroy takes this and does not use it.
+    // Partial: the CSignIn::Get() result is checked for null, the original dereferences it.
+    void Destroy();
 
 protected:
     std::int32_t memberCapacity_ = 0;            // +0x08 (Initialize(int) argument)

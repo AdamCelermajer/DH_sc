@@ -1,10 +1,9 @@
 // CMessaging: process-wide singleton that owns the receive and send queues and
 // the acknowledgement bookkeeping. Offsets of the original 32-bit layout are
 // given as comments. Reconstructed: the singleton accessors, the acknowledge and
-// resend helpers, queue clearing, and the lost/acknowledged packet callbacks.
-// Partial: the constructor and destructor (packet slot not registered yet) and
-// ResetQueues (CMessage::m_messageSerial is not modelled). The rest of the
-// slice is blocked on CMessage fields and NetBitStream internals (see NOTES.md).
+// resend helpers, queue clearing, the lost/acknowledged packet callbacks, the
+// queue printers, the receive and send paths, and the sequence bookkeeping.
+// Partial: AddToSendQueue (the flag32 branch's CPacketManager store) and ResetQueues.
 #pragma once
 
 #include <cstdint>
@@ -28,9 +27,9 @@ public:
     // 0x80b16c _ZN10CMessaging11GetInstanceEv: returns the singleton, creating it on first use.
     static CMessaging* GetInstance();
 
-    // 0x80afe4 _ZN10CMessagingC1Ev (partial: packet slot 1 is not registered).
+    // 0x80afe4 _ZN10CMessagingC1Ev: registers packet slot 1 with the four callbacks below.
     CMessaging();
-    // 0x80b438 _ZN10CMessagingD1Ev (partial: packet slot 1 is not unregistered).
+    // 0x80b438 _ZN10CMessagingD1Ev: unregisters packet slot 1, then resets the queues.
     virtual ~CMessaging();
 
     // 0x80a8d4 _ZN10CMessaging18ResendLostMessagesEiRSt3setItSt4lessItESaItEE
@@ -52,18 +51,18 @@ public:
     // 0x80ce48 _ZN10CMessaging24sProcessAcknowledgedPacketEii: packet-manager callback, forwards to the singleton.
     static void sProcessAcknowledgedPacket(int outerKey, int innerKey);
 
-    // 0x80aa50 _ZN10CMessaging23AreMessagesAcknowledgedEPKc (partial: the named search is not reconstructed).
+    // 0x80aa50 _ZN10CMessaging23AreMessagesAcknowledgedEPKc
     int AreMessagesAcknowledged(const char* typeName);
-    // 0x80ab00 _ZN10CMessaging19GetMessageFromQueueEPKc (partial: the type-id match is not reconstructed).
+    // 0x80ab00 _ZN10CMessaging19GetMessageFromQueueEPKc
     CMessage* GetMessageFromQueue(const char* typeName);
     // 0x80ab80 _ZN10CMessaging17IsMessageReceivedEPKc
     bool IsMessageReceived(const char* typeName);
     // 0x80acb8 _ZN10CMessaging22PurgeMessagesFromQueueEPSt4listIP8CMessageSaIS2_EEP9CNetMutexPKc
-    // (partial: removes null entries only; flagged entries are not removed). The char const* is unused.
+    // Removes null and finished entries and deletes the messages. The char const* is unused.
     void PurgeMessagesFromQueue(std::list<CMessage*>* queue, CNetMutex* mutex);
-    // 0x80ad54 _ZN10CMessaging16ProcessRecvQueueEv (partial: the expired-flag write is not reconstructed).
+    // 0x80ad54 _ZN10CMessaging16ProcessRecvQueueEv
     void ProcessRecvQueue();
-    // 0x80b900 _ZN10CMessaging12PackMessagesEiR12NetBitStream (partial: the +0x3c skip and the buffer-size check are not reconstructed).
+    // 0x80b900 _ZN10CMessaging12PackMessagesEiR12NetBitStream
     std::set<std::uint16_t> PackMessages(int memberId, NetBitStream& stream);
     // 0x80ba78 _ZN10CMessaging18AddMissingMessagesEiii
     void AddMissingMessages(int memberId, int fromSequence, int toSequence);
@@ -71,9 +70,10 @@ public:
     int WritePacketData(int outerKey, int innerKey, NetBitStream& stream);
     // 0x80cfdc _ZN10CMessaging16sWritePacketDataEiiR12NetBitStream: packet-manager callback, forwards to the singleton.
     static int sWritePacketData(int outerKey, int innerKey, NetBitStream& stream);
-    // 0x80d624 _ZN10CMessaging14AddToRecvQueueEP8CMessage (partial: ProcessMissingMessages is not called).
+    // 0x80d624 _ZN10CMessaging14AddToRecvQueueEP8CMessage
     void AddToRecvQueue(CMessage* message);
-    // 0x80db24 _ZN10CMessaging14AddToSendQueueEP8CMessage (partial: local messages are queued, not received).
+    // 0x80db24 _ZN10CMessaging14AddToSendQueueEP8CMessage (partial: the flag32 branch's store to
+    // CPacketManager::last_send_time_ is omitted, see the .cpp).
     void AddToSendQueue(CMessage* message);
     // 0x80e1e8 _ZN10CMessaging15SendMsgToServerEP8CMessage
     void SendMsgToServer(CMessage* message);
@@ -82,17 +82,17 @@ public:
     // 0x80e2a4 _ZN10CMessaging7SendMsgEP8CMessage
     void SendMsg(CMessage* message);
 
-    // 0x80a784 _ZN10CMessaging14PrintRecvQueueEv (partial: per-message routing fields print as '?').
+    // 0x80a784 _ZN10CMessaging14PrintRecvQueueEv
     void PrintRecvQueue();
-    // 0x80a82c _ZN10CMessaging14PrintSendQueueEv (partial: per-message routing fields print as '?').
+    // 0x80a82c _ZN10CMessaging14PrintSendQueueEv
     void PrintSendQueue();
-    // 0x80d058 _ZN10CMessaging22ProcessMissingMessagesEP8CMessage (partial: no-op until CMessage sender and serial are reachable).
+    // 0x80d058 _ZN10CMessaging22ProcessMissingMessagesEP8CMessage
     void ProcessMissingMessages(CMessage* message);
-    // 0x80d67c _ZN10CMessaging20HasMessageBeenQueuedEP8CMessage (partial: non-local messages report not queued).
+    // 0x80d67c _ZN10CMessaging20HasMessageBeenQueuedEP8CMessage
     bool HasMessageBeenQueued(CMessage* message);
-    // 0x80d8a0 _ZN10CMessaging16ProcessSendQueueEv (partial: the +0x3c flag write and the AcknowledgeMessage sender are not reconstructed).
+    // 0x80d8a0 _ZN10CMessaging16ProcessSendQueueEv
     void ProcessSendQueue();
-    // 0x80d9c0 _ZN10CMessaging14ReceiveMessageEP8CMessage (partial: the virtual slot +0x1c call at the end is not identified).
+    // 0x80d9c0 _ZN10CMessaging14ReceiveMessageEP8CMessage: takes ownership of the message and deletes it.
     void ReceiveMessage(CMessage* message);
     // 0x80da78 _ZN10CMessaging14UnpackMessagesER12NetBitStream
     int UnpackMessages(NetBitStream& stream);
@@ -108,7 +108,10 @@ private:
     static CMessaging* s_messaging;  // CMessaging::s_messaging
 
     // Bodies of the sequence bookkeeping in ProcessMissingMessages and HasMessageBeenQueued. They take the
-    // sender (+0x0c), serial (+0x04) and hash that the original reads from the message. The caller holds ackMutex_.
+    // sender (+0x0c), serial (+0x04) and hash that the original reads from the message. The hash is the
+    // 16-bit value CMessage::CreateHash returns (UXTH), so it is always 0..0xFFFF. The original's set lookup
+    // compares it unsigned (LDRH), so a hash of 0x8000 or more is found in the set like any other.
+    // The caller holds ackMutex_.
     bool HasQueuedSequence(int sender, int serial, std::uint16_t hash);
     void ProcessMissingSequence(int sender, int serial, std::uint16_t hash);
 

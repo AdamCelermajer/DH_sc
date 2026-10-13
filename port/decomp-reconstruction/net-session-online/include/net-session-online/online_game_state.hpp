@@ -8,24 +8,33 @@
 //   +0x10 handler context pointer (passed to every handler)
 //   +0x14 state machine (MultiplayerStateMachine)
 //   +0x3c start-game timeval (sec, usec)   +0x44 room-creation timeval (sec, usec)
+//   +0x50 std::vector<tRoomInfo> (begin, end, capacity; zeroed by the ctor, freed by the dtor)
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 #include "net-session-online/deps/time_of_day.hpp"
 #include "net-session-online/multiplayer_state_machine.hpp"
+#include "net-session-online/t_room_info.hpp"
 
 class OnlineGameState {
 public:
-    // 0x49ffe0 / 0x4a0040 _ZN15OnlineGameStateC1Ev, _ZN15OnlineGameStateC2Ev. Partial: only the
-    // members this port models are initialised. The handler list at +0x04..+0x10 is set to empty
-    // (not enabled). The flags at +0x24 and the fields from +0x28 to +0x58 are not modelled.
+    // 0x49ffe0 / 0x4a0040 _ZN15OnlineGameStateC1Ev, _ZN15OnlineGameStateC2Ev. Partial. The handler list
+    // at +0x04..+0x10 starts empty with the enabled flag at +0x04 set to 1 (member default below). The
+    // tRoomInfo vector at +0x50 starts empty. Not modelled: the byte flags at +0x24, +0x28, +0x4d and
+    // +0x4e, which the original zeroes. The state machine at +0x14 is default-constructed here, while the
+    // original leaves it to Init (initStateMachine).
     OnlineGameState() = default;
-    // 0x43f9c4 _ZN15OnlineGameStateD1Ev. Partial: the tRoomInfo vector at +0x50 is not modelled.
-    ~OnlineGameState() = default;
+    // 0x43f9c4 _ZN15OnlineGameStateD1Ev. Partial. Frees the handler list (in list order, unlinking each
+    // node as the original does), clears the enabled flag at +0x04 and destroys the tRoomInfo vector at
+    // +0x50 (member). Deviation: the state machine member frees its entries in its own destructor. The
+    // original's D1 does not do that (the entries are freed by Destroy), so the port frees them earlier.
+    ~OnlineGameState();
 
-    // 0x4a0388 _ZN15OnlineGameState7DestroyEv. Partial: the original looks the object up through
-    // OnlineSingleton<OnlineGameState>::GetInstance(); this port acts on the object it is called on.
+    // 0x4a0388 _ZN15OnlineGameState7DestroyEv. Partial. The original ignores this and works on the
+    // OnlineSingleton<OnlineGameState> instance, which this port does too. The original returns the
+    // state machine's return value, which the void destroyStateMachine here does not produce.
     void Destroy();
     // 0x4a039c _ZN15OnlineGameState6UpdateEv. Partial: runs the state machine only. The
     // processEvents() and processMessages() calls, gated on the online-game flag, are not ported.
@@ -72,11 +81,12 @@ private:
     // Calls every handler whose key matches, in list order, with the handler context.
     void runHandlers(std::int32_t key);
 
-    bool handlersEnabled_ = false;                          // +0x04
+    bool handlersEnabled_ = true;                           // +0x04 (the ctor stores 1; the dtor stores 0)
     HandlerNode* handlerHead_ = nullptr;                    // +0x08
     HandlerNode** handlerTail_ = &handlerHead_;             // +0x0c
     void* handlerContext_ = nullptr;                        // +0x10
-    MultiplayerStateMachine stateMachine_;                  // +0x14 (16 bytes, through +0x24)
+    MultiplayerStateMachine stateMachine_;                  // +0x14 (16 bytes, through +0x23)
     Timeval startGame_{0, 0};                               // +0x3c
     Timeval roomCreation_{0, 0};                            // +0x44
+    std::vector<tRoomInfo> roomInfos_;                      // +0x50 (12-byte vector in the original)
 };

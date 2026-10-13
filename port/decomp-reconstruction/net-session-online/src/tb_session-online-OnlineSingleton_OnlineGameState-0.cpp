@@ -33,8 +33,8 @@ T* OnlineSingleton<T>::m_instance = nullptr;
 //     The port skips it.
 //   - Level 2 calls std::abort() where the original writes to address 0. Same effect (a crash),
 //     but not the same instruction.
-//   - The fprintf stream is `__sF + 0xa8` in the ARM listing. Which FILE this is has not been
-//     identified, so the port uses stderr. The file-name string is the one in the pseudocode
+//   - The fprintf stream is `__sF + 0xa8` in the ARM listing, which is the third standard FILE
+//     (index 2, stderr in the C library layout). The port uses stderr. The file-name string is the one in the pseudocode
 //     (the string says MultiplayerStateMachine.h, which the original copied into this function).
 template <class T>
 T* OnlineSingleton<T>::GetInstance() {

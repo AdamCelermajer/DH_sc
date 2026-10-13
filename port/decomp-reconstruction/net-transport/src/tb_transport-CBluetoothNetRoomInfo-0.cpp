@@ -1,37 +1,29 @@
-// Batch e1-net-transport-CBluetoothNetRoomInfo-0: constructor and destructor of CBluetoothNetRoomInfo.
+// CBluetoothNetRoomInfo: constructor and destructor. Batch r1n-net-transport-pack0-34ed2e-0 (redo pass).
 //
-// Both functions are partial. The base NetStruct, the NetStructString<256u> member and the
-// NetStructMember base-class notifications (SetChanged, DeclareMember) are not reconstructed in the
-// port, so the statements that call them are documented here and not executed. The layout comments
-// are in tb/bluetooth_net_room_info.hpp.
+// The base NetStruct, the NetStructString<256u> member and the NetStructInt<32u> member are real now, so
+// the members are declared in the class (tb/bluetooth_net_room_info.hpp) and the field stores of the
+// original are the member initialisers. The layout comments are in that header.
 
 #include "net-transport/tb/bluetooth_net_room_info.hpp"
 
 // 0x800d7c CBluetoothNetRoomInfo::CBluetoothNetRoomInfo()
-// partial: the pseudocode, in order, is:
-//   1. NetStruct::NetStruct(this)                          (base ctor, not in the port)
-//   2. vptr = CBluetoothNetRoomInfo vtable (off_991E10)
-//   3. NetStructString<256u>(this+0x130, std::string(""))  (not in the port)
-//   4. destroy the temporary std::string (SSO buffer at +0x150 or CustomFree of heap data)
-//   5. +0x170 = 0 (u64); +0x16c = 32; +0x178 = -1; +0x17c = -1; +0x180 = 0; +0x184 = 0
-//   6. if the old value of +0x188 was non-zero: +0x188 = 0 and NetStructMember::SetChanged(this+0x168)
-//   7. vptr of member +0x168 = off_9635E8
-//   8. NetStruct::DeclareMember(this, this+0x130) and NetStruct::DeclareMember(this, this+0x168)
-// Steps 1, 3, 6 and 8 are missing, so no body is written. The integrator needs the NetStruct layout.
-CBluetoothNetRoomInfo::CBluetoothNetRoomInfo() {
+// Partial: the original reads the value word at +0x188 before it stores 0 there, and calls
+// NetStructMember::SetChanged on the member when that word was non-zero. Nothing in the original
+// initialises +0x188 before that read, so the branch depends on memory the constructor does not set.
+// The port's member starts at 0 (C++ value-initialisation), so the SetChanged branch is never taken.
+// The member declarations (name_, then value_) and DeclareMember calls follow the original order.
+CBluetoothNetRoomInfo::CBluetoothNetRoomInfo()
+    : NetStruct(), name_(std::string()) {
+    if (value_.GetValue() != 0) {
+        value_.SetValue(0);
+        value_.SetChanged();
+    }
+    DeclareMember(&name_);
+    DeclareMember(&value_);
 }
 
 // 0x801a0c CBluetoothNetRoomInfo::~CBluetoothNetRoomInfo()
-// partial: the pseudocode, in order, is:
-//   1. vptr of +0x130 member = off_963790 (NetStructString<256u> vptr)
-//   2. vptr = off_991E10 (vtable of CBluetoothNetRoomInfo) then vptr = off_9924D8 (NetStruct vtable)
-//   3. vptr of +0x168 member = off_963648
-//   4. std::string at +0x164 is freed: if its buffer is not the inline SSO buffer at +0x150 and the
-//      pointer is non-null, the capacity (end-start) > 0x80 selects CustomFree, otherwise the node
-//      allocator deallocates it. Missing: NetStructString<256u> layout, so this is not written.
-//   5. if the NetStruct member map at +0x10c (vector-of-maps slot) is non-empty: erase its rb-tree
-//      (NetStruct::tPacketHistory map) and reset the header pointers. This is NetStruct's own member,
-//      so it is not written.
-// Steps 1, 3, 4 and 5 need the base and member types; the destructor is left empty.
-CBluetoothNetRoomInfo::~CBluetoothNetRoomInfo() {
-}
+// Reconstructed. The original sets the vptrs of the members and the base (so the inlined destructors
+// run in the right order) and then frees the name string and the NetStruct packet-history map. Those
+// are the member and base destructors here, so the body is defaulted.
+CBluetoothNetRoomInfo::~CBluetoothNetRoomInfo() = default;

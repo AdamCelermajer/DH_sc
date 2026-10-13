@@ -58,22 +58,24 @@ CConnectionManager* CConnectionManager::s_connectionManager = nullptr;
 CConnectionManager::RecvCallbacks CConnectionManager::s_recvCBMap[CConnectionManager::kPacketTypes];
 CNetMutex CConnectionManager::m_connections_mutex;
 
-// 0x7fc0a8 _ZN18CConnectionManagerC1Ev (partial: the event queue sentinel is not reproduced)
+// 0x7fc0a8 _ZN18CConnectionManagerC1Ev (partial: the event queue's list sentinel and capacity are not written)
 // The C2 variant at 0x7fc140 has the same body and is skipped.
 CConnectionManager::CConnectionManager() {
-    // Original: vptr, CNetMutex at +0x0c, then the event queue at +0x08 with its list sentinel
-    // at +0x10 and capacity 100 at +0x18. CEventQueueBase has no capacity field, so those are not reproduced.
+    // Original: vptr, CNetMutex at +0x0c, then the event queue at +0x08 with a self-linked list sentinel
+    // at +0x10 and the template capacity 100 at +0x18. CEventQueueBase keeps its list in a std::list and
+    // its +0x10 word is the expiry flag, so neither the sentinel nor the 100 is written here.
     for (CConnection*& slot : connections_) {
         slot = nullptr;
     }
     initialized_ = false;
 }
 
-// 0x7fd400 _ZN18CConnectionManagerD1Ev (partial: the list clear is left to the event queue)
+// 0x7fd400 _ZN18CConnectionManagerD1Ev
 // The D2 variant at 0x7fd4b4 has the same body and is skipped; D0 at 0x7fd454 is skipped.
 CConnectionManager::~CConnectionManager() {
-    // Original: clears the CEvent list at +0x10, then destroys the CNetMutex at +0x0c.
-    // Here the members are destroyed in reverse order; the event queue clears itself.
+    // Original: clears the CEvent list at +0x10 (the event queue's list), then destroys the CNetMutex at
+    // +0x0c. The member destructors do both: CEventQueueBase's destructor destroys its list and mutex_ is
+    // destroyed. The mutex goes first here; the two do not interact.
 }
 
 // 0x7fbd4c _ZN18CConnectionManager7GetImplEv
@@ -298,17 +300,21 @@ int CConnectionManager::UnregisterPacketType(tPACKET_TYPE type) {
 }
 
 // 0x7fc3ac _ZN18CConnectionManager6SendToE12tPACKET_TYPER10CNetworkIdPvi
-// partial: CTransportManager::Send is not reconstructed (the stand-in returns 0 and sends nothing).
+// Calls CTransportManager::Send (0x81b290, reconstructed). The callee's own gaps (the statistics report
+// and the transport send shim) are recorded with the callee in transport_manager.cpp.
 int CConnectionManager::SendTo(tPACKET_TYPE type, CNetworkId& to, void* data, int size) {
     const std::intptr_t transport = GetPacketTransportType(type);
-    return transport_manager_calls::Send(GetTransportMgr(), transport, to, type, data, size);
+    return GetTransportMgr().Send(static_cast<tTRANSPORT_TYPE>(transport), to, type, data,
+                                  static_cast<std::size_t>(size));
 }
 
 // 0x7fc3ec _ZN18CConnectionManager13SendBroadcastE12tPACKET_TYPEPvi
-// partial: CTransportManager::Send is not reconstructed (the stand-in sends nothing).
+// Calls the four-argument CTransportManager::Send (0x81b2fc). That callee sends only for transport types
+// 1 and 2 (broadcast address); its types 3 and 4 are partial there.
 int CConnectionManager::SendBroadcast(tPACKET_TYPE type, void* data, int size) {
+    CTransportManager& manager = GetTransportMgr();
     const std::intptr_t transport = GetPacketTransportType(type);
-    return transport_manager_calls::Send(GetTransportMgr(), transport, type, data, size);
+    return manager.Send(static_cast<tTRANSPORT_TYPE>(transport), type, data, static_cast<std::size_t>(size));
 }
 
 // 0x7fc438 _ZN18CConnectionManager23GetConnectionByMemberIdEi
@@ -321,8 +327,10 @@ CConnection* CConnectionManager::GetConnectionByMemberId(int member_id) {
 }
 
 // 0x7fc464 _ZN18CConnectionManager20PingReceiverCallbackER10CNetworkIdPci
-// partial: the ping packet layout is inferred (flag byte at +0x0c, member id at +0x04) and
-// CConnection::ProcessPing result is not used here.
+// The 16 bytes are copied from the data (the pseudocode does not check size). A set reply flag (byte 12)
+// is cleared and the packet is sent back to the sender on packet type 0. Otherwise the packet goes to the
+// connection of its member id (word 1), passed to ProcessPing as the same three words. The ProcessPing
+// result is the value the callback discards, so this returns void.
 void CConnectionManager::PingReceiverCallback(CNetworkId& from, char* data, int size) {
     (void)size;
     PingPacket packet{};
@@ -333,7 +341,7 @@ void CConnectionManager::PingReceiverCallback(CNetworkId& from, char* data, int 
         return;
     }
     if (CConnection* conn = GetConnectionByMemberId(packet.member_id)) {
-        tMsgPing ping{packet.word0, 0, packet.word2};
+        tMsgPing ping{packet.word0, packet.member_id, packet.word2};
         conn->ProcessPing(ping);
     }
 }
@@ -344,9 +352,8 @@ void CConnectionManager::sPingReceiverCallback(CNetworkId& from, char* data, int
 }
 
 // 0x7fc508 _ZN18CConnectionManager25ProcessConnectionFinalizeER10CNetworkIdR12NetBitStream
-// partial: the 16-byte key is compared by its first word to the member id (as the pseudocode
-// does); the layout of the rest of the key is not understood. The original return value is
-// the member id and is not used by the caller, so this returns void.
+// The pseudocode reads 16 bytes and compares word 0 with the sender's member id. Words 1 to 3 are read and
+// not used. The original return value (the member id) is not used by the caller, so this returns void.
 void CConnectionManager::ProcessConnectionFinalize(CNetworkId& from, NetBitStream& stream) {
     std::uint8_t key[16] = {};
     stream.ReadByteArray(key, sizeof(key));
@@ -361,8 +368,10 @@ void CConnectionManager::ProcessConnectionFinalize(CNetworkId& from, NetBitStrea
 }
 
 // 0x7fc568 _ZN18CConnectionManager25ProcessConnectionResponseER10CNetworkIdR12NetBitStream
-// partial: the matching-state update after the response (the vtable calls at +0x6c/+0x70 on
-// CMatching: LocalMemberId and SetMemberId, vtable +0x6c and +0x70).
+// Reads 16 bytes. Word 0 must equal the sender's member id before the connection gets the response.
+// Word 1 is the local member id to store: when it differs from CMatching::LocalMemberId() (vtable +0x6c),
+// it is stored with CMatching::SetMemberId() (vtable +0x70). The pseudocode's CMatching-typed return value
+// is the leftover of those calls, so the port returns void.
 void CConnectionManager::ProcessConnectionResponse(CNetworkId& from, NetBitStream& stream) {
     std::int32_t key_words[4] = {};
     stream.ReadByteArray(key_words, sizeof(key_words));
@@ -389,17 +398,19 @@ int CConnectionManager::SendTo(tPACKET_TYPE type, int member_id, void* data, int
 }
 
 // 0x7fc638 _ZN18CConnectionManager12SendToServerE12tPACKET_TYPEPvi
-// partial: the server member id comes from CMatching vtable +0x74 (provisional name).
+// The server member id is CMatching::ServerMemberId() (vtable +0x74); the send is SendTo(int member, ...).
 int CConnectionManager::SendToServer(tPACKET_TYPE type, void* data, int size) {
     const int server = CMatching::Get()->ServerMemberId();
     return SendTo(type, server, data, size);
 }
 
 // 0x7fcf94 _ZN18CConnectionManager13GetServerPingEv
-// The server returns 0, and so does a client without a connection to the server member.
-// partial: the average of the connection's ping samples (a list of (time, ping) entries under a
-// CReadWriteLock, in the original's CConnection at +0x17c and +0x180) is not reconstructed: the
-// port's CConnection has no such list, so a client with a server connection also returns 0.
+// partial: the server returns 0, and so does a client without a connection to the server member. For a
+// client with a server connection the original averages the connection's ping samples: a CReadWriteLock at
+// CConnection +0x17c (LockRead, UnlockRead) and a time-ordered tree at +0x180 (header) with its node count
+// at +0x190. Nodes hold the sample time (+0x10) and the ping (+0x14). Samples within 30000000 clock() ticks
+// of now are summed, newest first, and the result is sum / count in integers. CConnection does not declare
+// the list, so a connected client returns 0 here. Layout request recorded for CConnection.
 int CConnectionManager::GetServerPing() {
     if (CMatching::Get()->IsServer()) {
         return 0;
@@ -438,8 +449,9 @@ bool CConnectionManager::IsConnected(int member_id) {
 }
 
 // 0x7fc718 _ZN18CConnectionManager10DisconnectEib
-// partial: the local member id is read from CMatching vtable +0x6c (provisional name) and
-// decides between DisconnectPeer and DisconnectAll on the non-server path.
+// partial: the three pad bytes after the notify byte of the 8-byte payload are not named by the pseudocode
+// (the original sends uninitialised stack there); the port writes zeros. On the non-server path the local
+// member id (CMatching::LocalMemberId, vtable +0x6c) chooses between DisconnectPeer and DisconnectAll.
 int CConnectionManager::Disconnect(int member_id, bool notify) {
     if (CMatching::Get()->IsServer() && IsConnected(member_id)) {
         DisconnectPayload payload{};
@@ -524,10 +536,11 @@ int CConnectionManager::Connect(int member_id, CNetworkId& id) {
 }
 
 // 0x7fc9cc _ZN18CConnectionManager6AcceptEiR10CNetworkIdy
-// The original's vtable call at +0x0c (CConnection::Accept) passes six words: this, the member id,
-// the peer, the connection's first word, and the 64-bit key. The first word lands in the register
-// that the 64-bit key cannot use (AAPCS alignment), so the key goes on the stack as usual. Passing
-// the key directly is therefore the same call.
+// The original's vtable call at +0x0c (CConnection::Accept, 0x826640) also passes the connection's first
+// word in r3. CConnection::Accept never reads its fourth argument (its body uses the member id, the peer and
+// the 64-bit key, which is on the stack), so passing the key directly is the same call. A new connection is
+// allocated with nothrow new (the original's operator new(0x1c0) is a custom allocator; Connect does the same)
+// and is deleted when AddConnection refuses it.
 int CConnectionManager::Accept(int member_id, CNetworkId& id, std::uint64_t key) {
     if (CConnection* existing = GetConnectionByMemberId(member_id)) {
         return existing->Accept(member_id, id, key);
@@ -545,8 +558,10 @@ int CConnectionManager::Accept(int member_id, CNetworkId& id, std::uint64_t key)
 }
 
 // 0x7fca74 _ZN18CConnectionManager24ProcessConnectionRequestER10CNetworkIdR12NetBitStream
-// partial: a new member id (CMatching::GenerateNewMemberId, vtable +0xac) is taken when the
-// packet has no member id and no existing connection matches its key.
+// Words: member id, unused, key low, key high. A negative member id searches the 32 slots for a connection
+// with the same key (CConnection::Key, +0x1b8). A match with a member id >= 0 is accepted under that id.
+// Otherwise CMatching::GenerateNewMemberId() (vtable +0xac) supplies the id. A non-negative id is accepted
+// as sent.
 int CConnectionManager::ProcessConnectionRequest(CNetworkId& from, NetBitStream& stream) {
     // Words: [0] member id, [1] unused here, [2] key low, [3] key high.
     std::int32_t words[4] = {};
@@ -605,8 +620,10 @@ void CConnectionManager::sPacketReceiverCallback(CNetworkId& from, char* data, i
 }
 
 // 0x7fcd04 _ZN18CConnectionManager17TerminateInternalEv (ARM checked)
-// partial: the ARM calls CTransportManager::Terminate with whatever r0 holds after the mutex
-// unlock. This port calls it on GetTransportMgr().
+// partial: CTransportManager::Terminate is a static that calls TerminateInternal on the CTransportManagerImpl
+// singleton (s_transportManager, which owns a receiver thread) and deletes it. The port's GetTransportMgr() is
+// a different object, so the static is not called here and the no-op stand-in keeps the call site. Integrator
+// decision needed: GetTransportMgr() should return the singleton before this call is wired.
 int CConnectionManager::TerminateInternal() {
     initialized_ = false;
     DisconnectAll();
@@ -639,9 +656,10 @@ void CConnectionManager::Terminate() {
 }
 
 // 0x7fcdec _ZN18CConnectionManager18InitializeInternalEv (ARM checked)
-// partial: the transport types come from CMatching::GetTransportType (vtable +0x34). The ARM
-// calls CTransportManager::Initialize with this+0x1c (the memset return value); this port calls it
-// on GetTransportMgr().
+// partial: CTransportManager::Initialize is a static (the ARM passes this+0x1c, which it ignores). It creates
+// and starts the CTransportManagerImpl singleton, which is not the object GetTransportMgr() returns in the port,
+// so the no-op stand-in keeps the call here (see TerminateInternal). The transport types come from
+// CMatching::TransportTypeForProtocol (vtable +0x34). The per-type InitializeTransport calls are real.
 int CConnectionManager::InitializeInternal() {
     RegisterPacketType(kConnectionPacketType, 0, &CConnectionManager::sPacketReceiverCallback);
     RegisterPacketType(kPingPacketType, 0, &CConnectionManager::sPingReceiverCallback);
@@ -651,9 +669,10 @@ int CConnectionManager::InitializeInternal() {
     for (CConnection*& slot : connections_) {
         slot = nullptr;
     }
-    transport_manager_calls::Initialize(GetTransportMgr());
+    transport_manager_calls::Initialize(GetTransportMgr());  // stand-in: see the comment above
+    CTransportManager& manager = GetTransportMgr();
     for (std::intptr_t transport : transports_) {
-        transport_manager_calls::InitializeTransport(GetTransportMgr(), transport);
+        manager.InitializeTransport(static_cast<tTRANSPORT_TYPE>(transport));
     }
     initialized_ = true;
     return 0;
@@ -673,7 +692,8 @@ int CConnectionManager::Initialize() {
 }
 
 // 0x7fd284 _ZN18CConnectionManager19GetConnMemberIdListEb
-// partial: the non-server path uses the server member id from CMatching vtable +0x74 (provisional).
+// Server (or all): the member ids of the non-null slots, in slot order. Otherwise: the server member id
+// (CMatching::ServerMemberId, vtable +0x74).
 std::vector<int> CConnectionManager::GetConnMemberIdList(bool all) {
     std::vector<int> ids;
     if (CMatching::Get()->IsServer() || all) {

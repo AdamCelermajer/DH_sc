@@ -14,6 +14,14 @@ void CMatching::ProcessLostPacket(int a2, int a3) {
     if (CRoomAttributes* room = GetRoomAttributes()) room->ProcessLostPacket(a2, a3);
 }
 
+// 0x7fed08 _ZN9CMatching25ProcessAcknowledgedPacketEii
+// Partial: same shape as ProcessLostPacket. The room attributes receive the call. The original then calls
+// the NetStruct slot +0x40 of every member element (0..memberCount-1); the element here is not a NetStruct
+// (MemberInfo has no NetStruct base), so that loop is not ported.
+void CMatching::ProcessAcknowledgedPacket(int a2, int a3) {
+    if (CRoomAttributes* room = GetRoomAttributes()) room->ProcessAcknowledgedPacket(a2, a3);
+}
+
 // 0x7ff008 _ZN9CMatching21SetRoomMemberAttibuteEiPKvi
 // Partial: the bytes are copied (NetStructByteArray<64>::SetBuffer copies into a ByteArray and then
 // calls the member's Set slot, which is not ported). A negative size is not verified and is treated
@@ -136,8 +144,16 @@ std::vector<int> CMatching::GetMemberIdList() const {
 }
 
 // 0x8008ac _ZN9CMatching9SetTeamIdEih
-// Partial: the team value is stored (team object +0x158, value +0x178). The NetStruct change
-// notification is not ported.
+// Partial. The binary returns int: the GetMemberIndex result when the index is out of range, otherwise the
+// result of the team object's SetValue call. The port returns void.
+// Binary body, from the assembly: GetMemberIndex(memberId); for an index in 0..memberCount_ (+0x1c) it builds
+// a temporary NetStructUInt<8> on the stack (sizeBits 8, change flags cleared) and calls its SetChanged when
+// the temporary's value slot differs from teamId. That slot is not written before the comparison in the binary,
+// so the test reads a stack value. SetChanged increments NetStruct::s_changeCounter. Then the element's team
+// object (+0x158, a NetStructUInt<8> member) gets SetValue(teamId) through vtable +0x1c.
+// Ported: the store of the team value into the element (plain int at +0x178). Not ported: the temporary and
+// its SetChanged (the global change counter is not modelled), and the team object's SetValue (the port's
+// MemberInfo does not hold a NetStruct member for the team).
 void CMatching::SetTeamId(int memberId, std::uint8_t teamId) {
     const std::int32_t index = GetMemberIndex(memberId);
     if (index < 0 || index >= memberCount_) return;

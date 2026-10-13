@@ -29,16 +29,16 @@ public:
     LCXPlayerHttp& operator=(const LCXPlayerHttp&) = delete;
 
     // 0x89d3ac _ZN13LCXPlayerHttp14GetRequestDataEv
-    const char* GetRequestData() const { return sendByPost_ ? postBody_.get() : request_; }
+    const char* GetRequestData() const override { return sendByPost_ ? postBody_.get() : request_; }
     // 0x89d414 _ZN13LCXPlayerHttp11GetResponseEv
     const char* GetResponse() const { return response_.get(); }
     // 0x89d41c _ZN13LCXPlayerHttp14GetResponseLenEv
     std::int32_t GetResponseLen() const { return responseLength_; }
     // 0x89d424 _ZN13LCXPlayerHttp14SetResponseLenEi
-    void SetResponseLen(std::int32_t length) { responseLength_ = length; }
+    void SetResponseLen(std::int32_t length) override { responseLength_ = length; }
     // 0x89d484 _ZN13LCXPlayerHttp16GetRequestLengthEv
     // The post body length when sending by POST, otherwise the length of the inline text.
-    std::uint32_t GetRequestLength() const;
+    std::int32_t GetRequestLength() const override;
 
     // 0x89d3c0 _ZN13LCXPlayerHttp13UpdateRequestEv: runs one receive step of the socket.
     void UpdateRequest();
@@ -52,22 +52,22 @@ public:
 
     // 0x89d4a0 _ZN13LCXPlayerHttp15SetResponseDataEPci
     // Copies size bytes into a new owned buffer and terminates it. size is assumed >= 0.
-    void SetResponseData(const char* data, std::int32_t size);
+    void SetResponseData(const char* data, std::int32_t size) override;
     // 0x89dd70 _ZN13LCXPlayerHttp12downloadFileEPcS0_S0_S0_ll
     // Builds a GET with Range when from > 0. The original appends without a bound; the
     // port stops at the 0x400-byte buffer. The response is cleared and the socket started.
     void downloadFile(const char* server, const char* object, const char* cookie,
                       const char* referer, long from, long to);
-    // 0x89d6a8 _ZN13LCXPlayerHttp18sendByGetWithNoVerEPcS0_. Partial: the Host value and the
-    // User-Agent are stand-ins (see the cpp).
+    // 0x89d6a8 _ZN13LCXPlayerHttp18sendByGetWithNoVerEPcS0_. Partial: the User-Agent is empty
+    // (see the cpp). The Host value follows the two LC_API_PARSE_DATA calls.
     void sendByGetWithNoVer(const char* url, const char* query);
     // 0x89e2e8 _ZN13LCXPlayerHttp9sendByGetEPcS0_. Partial: the Host value is a stand-in.
     void sendByGet(const char* url, const char* query);
-    // 0x89e048 _ZN13LCXPlayerHttp10sendByPostEPcS0_. Partial: the Host value is a stand-in.
-    // The original appends "&v=<version>" to the caller's query in place; the port copies it.
+    // 0x89e048 _ZN13LCXPlayerHttp10sendByPostEPcS0_. Partial: the original appends "&v=<version>"
+    // to the caller's query in place; the port copies it.
     void sendByPost(const char* url, const char* query);
-    // 0x89daa0 _ZN13LCXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_. Partial: the Host value is
-    // a stand-in. On return size holds the total length of the multipart post.
+    // 0x89daa0 _ZN13LCXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_. Partial: the caller's query is
+    // copied, not appended in place. On return size holds the total length of the multipart post.
     void sendVideoByPost(const char* url, const char* query, const char* data, std::int32_t& size,
                          const char* videoId);
 

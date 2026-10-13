@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "core-platform/lc_api.hpp"  // LC_API_GET_TIME (0x89d3a8)
+
 namespace {
 
 // The original lower-cases with LC_API_TOLOWER before it searches.
@@ -79,11 +81,164 @@ bool LCXPlayerSocket::IsInProgress() const {
     return state_ != kStateCancelled && state_ != kStateRequestComplete;
 }
 
-// vtable +0x10 (0x8a1c1c _ZN15LCXPlayerSocket3RunEv)
-// Partial: the receive step of the original (header parse on the first data, the content
-// length check, the observer callback at +0x18 and the timing traces) needs the platform
-// socket, which is not ported. The base class does no I/O.
-void LCXPlayerSocket::Run() {}
+namespace {
+
+// The lookup timeout of the start state (0x270F, 9999 ms) and the chunk size of a send or receive.
+constexpr std::int32_t kLookupTimeoutMs = 0x270F;
+constexpr std::int32_t kChunkSize = 2048;
+
+}  // namespace
+
+// 0x8a1c1c _ZN15LCXPlayerSocket3RunEv, vtable +0x10
+// One step of the state machine, as the original's switch runs it. Each state makes one platform
+// call (the virtual set above) and returns. The base class has no socket, so with its defaults the
+// start state times out into kStateError.
+// Deviations: a null observer ends a send in kStateError (the original calls through the pointer).
+// Not reproduced: the LC_DEBUG_OUT traces, and the stores to m_nReceived and m_buffer_used (those
+// fields are not named in the header and Run never reads them). The lookup start time (+0x864) is
+// not set by this port's Start, so the timeout is measured from 0 (unverified against Start).
+void LCXPlayerSocket::Run() {
+    const std::int32_t state = state_;
+    if (state == kStateNone || state == kStateError || state == kStateCancelled) {
+        return;
+    }
+    // The error exit shared by the states: read the error (for its trace), close, and fail.
+    auto fail = [this]() {
+        GetLastError();
+        OnCancelled();
+        state_ = kStateError;
+    };
+
+    switch (state) {
+        case kStateStartConnect:
+            if (serverAddress_ == nullptr) {
+                serverAddress_ = GetHostByName(serverName_.get());
+            }
+            if (serverAddress_ != nullptr) {
+                if (CreateSocket()) {
+                    state_ = kStateWaitConnecting;
+                } else {
+                    GetLastError();  // read for the trace only; the state stays
+                }
+            } else if (static_cast<std::uint32_t>(LC_API_GET_TIME() - gethostbynameStartTime_) >
+                       static_cast<std::uint32_t>(kLookupTimeoutMs)) {
+                GetLastError();
+                state_ = kStateError;
+                gethostbynameState_ = 0;
+            }
+            return;
+
+        case kStateWaitConnecting:
+            if (Connect()) {
+                sentLength_ = 0;
+                sendStartTime_ = LC_API_GET_TIME();
+                state_ = kStateSendRequest;
+                nonBlockConnectState_ = 0;
+            } else if (nonBlockConnectState_ != 1) {
+                GetLastError();
+                OnCancelled();
+                nonBlockConnectState_ = 0;
+                state_ = kStateError;
+            }
+            return;
+
+        case kStateSendRequest: {
+            const std::int32_t ready = Select(1);
+            if (ready < 0) {
+                fail();
+                return;
+            }
+            if (ready == 0) {
+                return;
+            }
+            if (observer_ == nullptr) {
+                fail();
+                return;
+            }
+            const std::int32_t total = observer_->GetRequestLength();
+            const char* data = observer_->GetRequestData();
+            std::int32_t chunk = total - sentLength_;
+            if (chunk > kChunkSize) {
+                chunk = kChunkSize;
+            }
+            const std::int32_t sent = Send(data != nullptr ? data + sentLength_ : nullptr, chunk);
+            if (sent < 0) {
+                fail();
+                return;
+            }
+            sentLength_ += sent;
+            if (sentLength_ == total) {
+                content_.clear();
+                receiveHttpHeader_ = true;
+                lengthKnown_ = false;
+                recvStartTime_ = LC_API_GET_TIME();
+                state_ = kStateWaitResponse;
+            }
+            return;
+        }
+
+        case kStateWaitResponse: {
+            if (Select(0) <= 0) {
+                return;
+            }
+            std::memset(receiveBuffer_, 0, sizeof(receiveBuffer_));
+            const std::int32_t got = Recv(receiveBuffer_, kChunkSize);
+            if (got < 0) {
+                GetLastError();
+                OnCancelled();
+                state_ = kStateError;
+                if (observer_ != nullptr) {
+                    observer_->SetResponseLen(0);
+                }
+                return;
+            }
+            if (got > 0) {
+                content_.append(receiveBuffer_, static_cast<std::size_t>(got));
+                if (receiveHttpHeader_) {
+                    if (static_cast<std::int32_t>(content_.find("\r\n\r\n")) <= 0) {
+                        return;  // the header is not complete yet
+                    }
+                    if (ParseHttpHeader("Content-Length") >= 0) {
+                        totalLength_ = CalculateTotalLength();
+                        lengthKnown_ = true;
+                    }
+                    RemoveHttpHeader();
+                    receiveHttpHeader_ = false;
+                }
+                const std::int32_t received = static_cast<std::int32_t>(content_.size());
+                if (observer_ != nullptr) {
+                    observer_->SetResponseLen(received);
+                }
+                if (lengthKnown_ && totalLength_ == received) {
+                    state_ = kStateCloseConnection;
+                }
+                return;
+            }
+            // Zero bytes: the peer closed the connection.
+            if (!lengthKnown_) {
+                ParseChunkedContent();
+            }
+            if (observer_ != nullptr) {
+                observer_->SetResponseData(content_.data(), static_cast<std::int32_t>(content_.size()));
+            }
+            content_.clear();
+            state_ = kStateRequestComplete;
+            return;
+        }
+
+        case kStateCloseConnection:
+            OnCancelled();
+            if (observer_ != nullptr) {
+                observer_->SetResponseData(content_.data(), static_cast<std::int32_t>(content_.size()));
+            }
+            content_.clear();
+            state_ = kStateRequestComplete;
+            return;
+
+        default:
+            return;  // kStateRequestComplete, and any other value
+    }
+}
 
 // 0x8a02fc _ZN15LCXPlayerSocket11SetAcceptIPEPc
 // The copy is LC_API_STRNEW (0x89d31c): null gives null. The previous address is released

@@ -109,12 +109,15 @@ void GLXPlayerHttp::sendByPost(const char* url, const char* query) {
     StorePostBody(postBody_, postLength_, header + body);
     sendByPost_ = true;
     Start();  // vtable +0x48
+    response_.reset();  // the original frees the response again after the call and zeroes its length
+    responseLength_ = 0;
 }
 
 // 0x82d6e0 _ZN13GLXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_
 // Partial: multipart/form-data POST with an AVI part. The header and multipart body go to the owned post
 // body; the inline buffer is not used. On return *length holds the total post length, as in the original.
-// Then Start() (vtable +0x48).
+// Then Start() (vtable +0x48). The response is released only after Start(), as in the original.
+// The original's return value (the freed response pointer) is not returned.
 void GLXPlayerHttp::sendVideoByPost(const char* url, const char* query, const char* data, std::int32_t* length,
                                     const char* fileName) {
     const std::string address = Text(url);
@@ -135,12 +138,12 @@ void GLXPlayerHttp::sendVideoByPost(const char* url, const char* query, const ch
                                std::to_string(multipart.size()) +
                                "\r\nProxy-Connection: Keep-Alive\r\nPragma: no-cache\r\n\r\n";
 
-    response_.reset();
-    responseLength_ = 0;
     StorePostBody(postBody_, postLength_, header + multipart);
     *length = postLength_;
     sendByPost_ = true;
     Start();  // vtable +0x48
+    response_.reset();
+    responseLength_ = 0;
 }
 
 // 0x82d9ac _ZN13GLXPlayerHttp9sendByGetEPcS0_

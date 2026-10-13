@@ -1,7 +1,7 @@
-// Stand-ins for the DataPacket virtuals that DataPacketLobby calls on another packet
-// (its source constructor and addPacket). The DataPacket header does not declare them
-// yet, and that class is owned by another slice, so they return empty values here.
-// Replace them with the virtual calls once DataPacket declares the slots.
+// Stand-ins for the DataPacket virtuals (getDataType, getMessageLen, getMessageBody). DataPacket
+// now declares those slots (data_packet.hpp), and DataPacketLobby, DefaultDataPacket and their
+// tests call them directly. connection_base.cpp still includes these stand-ins, which return
+// empty values; it should call the virtuals too, and then this header can be removed.
 #pragma once
 
 #include <cstddef>

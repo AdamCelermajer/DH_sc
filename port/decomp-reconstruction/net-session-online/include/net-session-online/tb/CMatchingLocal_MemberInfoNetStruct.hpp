@@ -11,7 +11,7 @@
 // Layout (original 32-bit offsets, kept as comments; NetStruct base is 0x130 bytes):
 //   +0x00 vptr (CMatchingLocal::MemberInfoNetStruct vtable)
 //   +0x04..+0x130  NetStruct base (member pointers, member count, enabled flag)
-//   +0x10c..+0x11f NetStruct packet history std::map (inside the base; not modelled)
+//   +0x10c..+0x11f NetStruct packet history std::map (the base's protected packetHistory_; the dtor clears it)
 //   +0x130 intMember_: NetStructMemberType<int>, 40 bytes. Base fields: sizeBits 32 at +0x134,
 //          change stamp at +0x138, ackMask -1 at +0x140, sentMask -1 at +0x144, changeMask 0 at
 //          +0x148, changed flag at +0x14c. Value (int) at +0x150. Meaning of the value not identified.

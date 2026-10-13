@@ -107,9 +107,13 @@ void GLXPlayerWebComponent::LoadConfig() {
 
 // 0x8319b0 _ZN21GLXPlayerWebComponent13OnUpdateParseEv
 // Partial: the token dispatch is reconstructed. The observer slot +0x00 call on the failure
-// paths (OnDownloadError) passes an argument that the pseudocode does not show, so the port
-// passes 0 there. The original's StartResponseParser call passes the response length as the
-// function id, which this keeps.
+// paths (OnDownloadError) takes its argument from r1, which the pseudocode does not show, so the
+// port passes 0 there (the base observer's body is empty; derived observers are not checked). The
+// original returns 0 when the response cursor or the function id is missing, 1 on the other
+// failure paths, and the result of OnUpdateSuccess or OnUpdateFailure otherwise; the port's void
+// return drops it. The port also guards a null request client, which
+// the original does not. The StartResponseParser call passes the response length as the function
+// id, as the original does.
 void GLXPlayerWebComponent::OnUpdateParse() {
     const char* response = requestClient_ ? requestClient_->GetResponse() : nullptr;
     const std::int32_t length = requestClient_ ? requestClient_->GetResponseLen() : 0;
@@ -153,8 +157,12 @@ void GLXPlayerWebComponent::OnUpdateParse() {
 }
 
 // 0x831bd4 _ZN21GLXPlayerWebComponent10SendByPostEPc
-// Sets enabled, builds "b=<blob>" and hands it with the service URL to the request client's POST path.
-// Partial: the blob codec is a stand-in that returns null, so the blob is empty here.
+// Sets enabled, builds "b=<blob>" and hands it with the service URL to the request client's POST
+// path. The original returns 1; the void signature drops it, and the subclasses in the tests
+// override this void form. Partial, two gaps: the blob codec is the net-session-online stand-in,
+// which returns null, so the blob is empty here (the reconstructed codec SSEncDec_String2Blob, in
+// tinyxml-and-c-libs, is not wired in); and GLXPlayerHttp::sendByPost is partial (its trailing
+// virtual call is not ported).
 void GLXPlayerWebComponent::SendByPost(char* request) {
     enabled_ = true;
     const std::string text = BlobRequest(request);
@@ -165,9 +173,11 @@ void GLXPlayerWebComponent::SendByPost(char* request) {
 }
 
 // 0x831cd4 _ZN21GLXPlayerWebComponent9SendByGetEPc
-// Sets enabled, takes the request id from the second '|' field, stamps the time, then sends
-// "b=<blob>" through the request client's GET path. Partial: the blob codec is a stand-in (see
-// SendByPost).
+// Sets enabled, takes the request id from the second '|' field of the raw request, stamps the
+// time, then sends "b=<blob>" through the request client's GET path. The original returns 1; the
+// void signature drops it (see SendByPost). Partial: the blob codec stand-in (see SendByPost). The
+// original copies that field into an 8-byte stack buffer (the stack guard follows it); the port
+// copies the whole field, which differs only for a request id longer than 7 characters.
 void GLXPlayerWebComponent::SendByGet(char* request) {
     enabled_ = true;
     const std::string text = BlobRequest(request);

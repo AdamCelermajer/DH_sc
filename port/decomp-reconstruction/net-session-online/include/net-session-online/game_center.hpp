@@ -57,19 +57,23 @@ public:
     // (+0x74). The loop has no body in the binary, so nothing happens.
     void DumpPlayerIDStatusList() const {}
     // 0x499224 _ZN10GameCenter17SaveGCAchievementEPc: appends the pointer to the achievement
-    // list (+0x6c). Partial: the original stores the pointer, not a copy, and returns the new
-    // list node, which is not exposed here. Allocation failure is not modelled.
+    // list (+0x6c). Partial: the original stores the pointer, not a copy (so does this), and
+    // returns the new list node, which is not exposed here. No caller in the corpus reads that
+    // return. The allocation-failure path (returns 0 with nothing linked) is not modelled.
     void SaveGCAchievement(const char* name);
     // 0x499264 _ZN10GameCenter17SetPlayerIDStatusEPKcS1_b: replaces the entry for the ID in
-    // place, or appends one. Partial: the original returns a register value that is not
-    // meaningful, so this returns nothing. A null status is taken as "" (the original would
-    // duplicate a null pointer).
+    // place, or appends one. Partial: the original returns a register value (this, or a copied
+    // status pointer), so this returns nothing. That value is passed on by GameCenter::ResetPlayerList
+    // (0x4999b8). The allocation-failure path is not modelled. A null status is taken as "" (the
+    // original would duplicate a null pointer).
     void SetPlayerIDStatus(const char* id, const char* status, bool skip);
-    // 0x499564 _ZN10GameCenter13ReportGCScoreEi. Partial: the original reads the gate flag
-    // through GCSingleton<GameCenter>::GetInstance(); this port reads its own (+0x05). The
+    // 0x499564 _ZN10GameCenter13ReportGCScoreEi. The gate (+0x05) and the flags (+0x0d, +0x0e) are on
+    // GCSingleton<GameCenter>::GetInstance(); the score is stored on this (+0x3c). The original returns
+    // the singleton pointer as an int. No caller in the corpus reads it, so this returns nothing. The
     // gate is not set anywhere in this port yet.
     void ReportGCScore(std::int32_t score);
-    // 0x4995a0 _ZN10GameCenter19ReportGCAchievementEPc. Partial, as for ReportGCScore.
+    // 0x4995a0 _ZN10GameCenter19ReportGCAchievementEPc. Partial: the gate and the flags are on the
+    // singleton, as for ReportGCScore. A null name is taken as "" (the original calls strdup on it).
     void ReportGCAchievement(const char* name);
     // 0x499efc _ZN10GameCenter15CoinTossForHostEv. Partial: the list is sorted as in the
     // original, but the returned word is read from the STL node storage in the original and
@@ -78,26 +82,28 @@ public:
     // 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc. Partial: a null ID is taken as ""
     // (the original would construct a string from a null pointer).
     void GCAddToJoinPlayerList(const char* id);
-    // 0x499440 _ZN10GameCenter25GCStartGameTimeoutExpiredEv. Partial: the original reads the
-    // OnlineSingleton<OnlineGameState> instance, which is not ported. timevaldiff is called on a
-    // default OnlineGameState here. That is the same only because timevaldiff reads its two
-    // arguments and no member state (inferred from its signature; to be checked in the binary).
+    // 0x499440 _ZN10GameCenter25GCStartGameTimeoutExpiredEv. Reconstructed: the start time is this->+0x1c,
+    // and the timevaldiff call goes to the OnlineSingleton<OnlineGameState> instance. timevaldiff (0x4a00a0)
+    // reads only its two timevals, so the receiver does not change the result.
     bool GCStartGameTimeoutExpired() const;
-    // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv. Partial: the OnlineGameState flag (+0x28
-    // of the singleton), OnlineGameState::Init(4), and the MenuManager "GoToVerificationScreen"
-    // callback are not ported (missing types). The coin-toss result is not stored: the original
-    // writes the int into the host UID pointer slot (+0x30), which is a decompile type clash.
-    // The original's return value is not reproduced (void here).
+    // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv. Partial: the gate (+0x15), the start flag (+0x11),
+    // the start time (+0x1c) and the coin toss are on the GameCenter singleton, as in the original.
+    // OnlineGameState::Init(4) runs on the OnlineSingleton instance. Not ported: the OnlineGameState flag at
+    // +0x28 (no such member in online_game_state.hpp), the MenuManager "GoToVerificationScreen" callback
+    // (MenuManager::GetInstance has no body in the tree), and the coin-toss result. The original writes that
+    // int into the host UID pointer slot (+0x30), which is a decompile type clash with the char* here.
+    // The original's return value is not reproduced (void here; no caller in the corpus reads it).
     void GCStartMultiplayerGame();
-    // 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb. The bool argument is unused in the
-    // original. It clears the start gate (+0x15) and then calls the no-argument overload.
+    // 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb. The bool argument is unused in the original. It clears
+    // the start gate (+0x15) on the GameCenter singleton, then calls the no-argument overload on this. Partial,
+    // as that overload is.
     void GCStartMultiplayerGame(bool /*unused*/);
     // 0x499fe8 _ZN10GameCenter17GetJoinPlayerListEv. The original returns the list by value
     // (hidden result pointer); the copy is the same as the list at +0x24.
     std::list<std::string> GetJoinPlayerList() const { return playerList_; }
-    // 0x499694 _ZN10GameCenter16GetGCPlayerGroupEv. Partial: the group number is built from two
-    // savegame values (see the cpp). The inputs need PlayerSavegame and the object at
-    // dword_99F778 (not in this category's headers), so the body returns 0 until they are ported.
+    // 0x499694 _ZN10GameCenter16GetGCPlayerGroupEv. Reconstructed (see the cpp). The inputs come from the
+    // Application singleton: PlayerManager (+0x40), SavegameManager (+0x4c) and MenuManager (+0x54). The
+    // decimal composition and the 32-bit strtol live in tb/gc_player_group.hpp.
     std::int32_t GetGCPlayerGroup();
 
     // Test seams. Not in the original.

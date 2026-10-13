@@ -2,30 +2,38 @@
 
 #include <cstdio>
 
+#include "core-platform/gc_singleton.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    // With the gate open, a start sets the start flag and records the start time.
-    GameCenter open;
-    open.SetStartGateForTest(false);
-    open.GCStartMultiplayerGame();
-    CHECK(open.StartFlagForTest());
-    // Just started, so the 150 s timeout has not expired.
-    CHECK(!open.GCStartGameTimeoutExpired());
+    // The start gate, the start flag and the start time are on the GameCenter singleton, as in the original.
+    GameCenter* gc = GCSingleton<GameCenter>::GetInstance();
 
     // With the gate closed, nothing happens.
-    GameCenter closed;
-    closed.SetStartGateForTest(true);
-    closed.GCStartMultiplayerGame();
-    CHECK(!closed.StartFlagForTest());
+    gc->SetStartGateForTest(true);
+    gc->GCStartMultiplayerGame();
+    CHECK(!gc->StartFlagForTest());
 
-    // The bool overload clears the gate and then starts.
-    GameCenter flagged;
-    flagged.SetStartGateForTest(true);
-    flagged.GCStartMultiplayerGame(true);
-    CHECK(!flagged.StartGateForTest());
-    CHECK(flagged.StartFlagForTest());
+    // With the gate open, a start sets the start flag and records the start time.
+    gc->SetStartGateForTest(false);
+    gc->GCStartMultiplayerGame();
+    CHECK(gc->StartFlagForTest());
+    // Just started, so the 150 s timeout has not expired.
+    CHECK(!gc->GCStartGameTimeoutExpired());
+
+    // A local object is not the singleton, so a start on it does not set the singleton's state.
+    GameCenter local;
+    local.SetStartGateForTest(false);
+    local.GCStartMultiplayerGame();
+    CHECK(!local.StartFlagForTest());
+
+    // The bool overload clears the singleton's gate and then starts (the flag is already set).
+    gc->SetStartGateForTest(true);
+    gc->GCStartMultiplayerGame(true);
+    CHECK(!gc->StartGateForTest());
+    CHECK(gc->StartFlagForTest());
 
     if (failures == 0) std::printf("game_center_start_test: all checks passed\n");
     return failures == 0 ? 0 : 1;

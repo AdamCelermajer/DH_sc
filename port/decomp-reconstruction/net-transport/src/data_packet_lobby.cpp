@@ -4,8 +4,6 @@
 #include <cstring>
 #include <new>
 
-#include "net-transport/deps/data_packet_payload.hpp"
-
 namespace {
 constexpr std::size_t kInitialCapacity = 4096;  // 0x1000 in the original
 }  // namespace
@@ -197,8 +195,9 @@ const char* DataPacketLobby::getIP() const {
 // 0x849560 _ZN15DataPacketLobby13String2PacketEPci
 // The 2-byte big-endian length is read at the current position and the position moves past it.
 // If length + 1 >= size the call fails with -1 (position already moved). Otherwise the body is
-// added through addBlob (vtable +0x68) from data + 2, as the original does, and length + 2 is
-// returned.
+// set through the vtable slot +0x68 (setMessageBody) from data + 2, as the original does, and
+// length + 2 is returned. The length goes over as a signed int (sign-extended from 16 bits),
+// as in the original; setMessageBody caps the copy at the buffer capacity.
 int DataPacketLobby::String2Packet(char* data, int size) {
     const std::size_t at = position_;
     const auto hi = static_cast<std::uint8_t>(data[at]);
@@ -208,7 +207,8 @@ int DataPacketLobby::String2Packet(char* data, int size) {
     if (n + 1 >= size) {
         return -1;
     }
-    addBlob(data + 2, n);
+    setMessageBody(reinterpret_cast<const std::uint8_t*>(data + 2),
+                   static_cast<std::size_t>(static_cast<int>(n)));
     return n + 2;
 }
 
@@ -318,17 +318,19 @@ bool DataPacketLobby::EnsureRoom(std::size_t bytes) {
 
 // 0x849924 _ZN15DataPacketLobby9addPacketEP10DataPacket
 // Partial: the original checks only the body length against the capacity (not the 2-byte
-// header), and it prints a debug line when growth fails, which is dropped here. The body
-// and length come from the DataPacket stand-ins in deps/data_packet_payload.hpp.
+// header), and on a failed growth it prints "addPacket failed : memory leak" through XP_DEBUG_OUT,
+// which the platform layer does not reproduce (deps/connection_env.hpp), so that line is dropped.
+// The original returns the memcpy destination; this returns nothing. The length (vptr +0x60)
+// and body (+0x64) are read from the source through the DataPacket virtuals, in the original order.
 void DataPacketLobby::addPacket(DataPacket* packet) {
-    const std::size_t size = PayloadLength(*packet);
+    const std::size_t size = packet->getMessageLen();
     if (WillBeFull(size) && !AllocateMoreMomery()) {
         return;
     }
     buffer_[position_] = static_cast<std::uint8_t>(size >> 8);
     buffer_[position_ + 1] = static_cast<std::uint8_t>(size);
     position_ += 2;
-    const std::uint8_t* body = PayloadBody(*packet);
+    const std::uint8_t* body = packet->getMessageBody();
     if (size != 0) {
         std::memcpy(buffer_.get() + position_, body, size);
     }
@@ -336,8 +338,9 @@ void DataPacketLobby::addPacket(DataPacket* packet) {
 }
 
 // 0x8499d8 _ZN15DataPacketLobby17addShortLenStringEPKcs
-// Partial: the original checks the body length only; this port checks the header too, so the
-// write cannot run past the buffer.
+// Partial: the original checks the body length alone against the capacity, with one growth step,
+// so a write can run past the buffer. This port checks the 2-byte header too and grows until
+// header and body fit (EnsureRoom), so the write cannot run past the buffer.
 int DataPacketLobby::addShortLenString(const char* text, std::int16_t length) {
     if (text == nullptr || length == 0) {
         return 0;
@@ -436,12 +439,16 @@ int DataPacketLobby::addByte(std::uint8_t value) {
 }
 
 // 0x849d20 _ZN15DataPacketLobbyC1EP10DataPacket (C2 0x849dcc, same body)
-// Partial: the data type, body and length come from the DataPacket stand-ins, which return
-// empty values until DataPacket declares those slots.
+// The data type (vptr +0x74), body (+0x64) and length (+0x60) come from the source through the
+// DataPacket virtuals, in the original order. The body goes through setMessageBody, which caps
+// the copy at the 4096-byte capacity; the original copies unchecked, so only a source longer
+// than the capacity (undefined in the original) differs.
 DataPacketLobby::DataPacketLobby(DataPacket* source)
     : buffer_(std::make_unique<std::uint8_t[]>(kInitialCapacity)),
-      data_type_(PayloadDataType(*source)) {
-    setMessageBody(PayloadBody(*source), PayloadLength(*source));
+      data_type_(source->getDataType()) {
+    const std::uint8_t* body = source->getMessageBody();
+    const std::size_t length = source->getMessageLen();
+    setMessageBody(body, length);
 }
 
 // 0x849e78 _ZN15DataPacketLobbyC1Ev (C2 0x849f5c, same body)

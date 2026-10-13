@@ -10,10 +10,11 @@
 #include <cstring>
 #include <vector>
 
+#include "core-platform/lc_api.hpp"
 #include "net-session-online/deps/config_file_stand_in.hpp"
 #include "net-session-online/deps/jni_stand_in.hpp"
-#include "net-session-online/deps/ss_enc_dec_stand_in.hpp"
 #include "net-session-online/lcx_player_http.hpp"
+#include "tinyxml-and-c-libs/ssencdec.hpp"
 
 jclass ALicenseCheck::cGame = nullptr;
 jclass ALicenseCheck::cContext = nullptr;
@@ -70,34 +71,10 @@ long Lrand48() {
     return static_cast<long>(g_rand48State >> 17);
 }
 
-// LC_API_PARSE_DATA (core-platform 0x89c88c): copies the field after `skip` separators
-// into out and returns the offset of its first character, or -1 when no field is found.
-// Deviation: out holds at most `capacity` bytes, including the terminator. The original
-// has no bound.
-int ParseField(const char* in, char* out, int skip, char separator, std::size_t capacity) {
-    int first = -1;
-    std::size_t written = 0;
-    int i = 0;
-    *out = '\0';
-    for (char c = in[0];; c = in[++i]) {
-        if (c == '\0') {
-            return first;
-        }
-        if (c == separator) {
-            skip -= 1;
-        } else if (skip == 0) {
-            if (written + 1 < capacity) {
-                out[written] = c;
-                out[written + 1] = '\0';
-                written += 1;
-            }
-            if (first == -1) {
-                first = i;
-            }
-        } else if (skip < 0) {
-            return first;
-        }
-    }
+// Scratch for LC_API_PARSE_DATA, which copies the whole field with no bound. A field is never
+// longer than its input, so a buffer of strlen(input) + 1 bytes holds it.
+std::vector<char> ParseScratch(const char* in) {
+    return std::vector<char>(std::strlen(in) + 1, 0);
 }
 
 // Byte of the RMS buffer as the listing reads it (a signed char). Out-of-range reads
@@ -258,12 +235,12 @@ void ALicenseCheck::Destroy() {
 // Partial: the original's field index is one less than the parser's result, so a URL with no
 // third separator reads before the string. The port starts at 0 instead.
 char* ALicenseCheck::getPhpAddress(char* url) {
-    char temp[256];
-    std::memset(temp, 0, sizeof(temp));
-    int start = ParseField(url, temp, 3, '/', sizeof(temp)) - 1;
+    std::vector<char> field = ParseScratch(url);
+    int start = LC_API_PARSE_DATA(url, field.data(), 3, '/') - 1;
     if (start < 0) {
         start = 0;
     }
+    char temp[256];
     std::memset(temp, 0, sizeof(temp));
     const std::size_t length = std::strlen(url);
     std::size_t count = length - static_cast<std::size_t>(start);
@@ -280,23 +257,24 @@ char* ALicenseCheck::getPhpAddress(char* url) {
 
 // 0x89b044 _ZN13ALicenseCheck7getHostEPc
 // Partial: as getPhpAddress, a missing field starts at 0 instead of reading before the string.
+// The host is parsed from temp, which holds at most 255 bytes, so host (256) cannot overflow.
 char* ALicenseCheck::getHost(char* url) {
+    std::vector<char> field = ParseScratch(url);
+    int start = LC_API_PARSE_DATA(url, field.data(), 2, '/');
+    if (start < 0) {
+        start = 0;
+    }
     char temp[256];
     char host[256];
     std::memset(temp, 0, sizeof(temp));
     std::memset(host, 0, sizeof(host));
-    int start = ParseField(url, temp, 2, '/', sizeof(temp));
-    if (start < 0) {
-        start = 0;
-    }
-    std::memset(temp, 0, sizeof(temp));
     const std::size_t length = std::strlen(url);
     std::size_t count = length - static_cast<std::size_t>(start);
     if (count > sizeof(temp) - 1) {
         count = sizeof(temp) - 1;
     }
     std::memcpy(temp, url + start, count);
-    ParseField(temp, host, 0, '/', sizeof(host));
+    LC_API_PARSE_DATA(temp, host, 0, '/');
     const std::size_t hostLength = std::strlen(host);
     char* result = new char[hostLength + 1];
     std::memset(result, 0, hostLength + 1);
@@ -325,10 +303,12 @@ void ALicenseCheck::SetRMS_PATH(const char* path) {
 }
 
 // 0x89b25c _ZN13ALicenseCheck7LoadRMSEv
-// Partial. Recovered: the file read, the key check (the XOR of the upper-cased KEY with
-// the table derived from MAP_CHARS and IK), the count block range check, the IMEI check, and
-// the checksum over [kChecksumFrom, kChecksumTo). The block layout is inferred from the
-// listing; the stored base and stride are read the way SaveRMS writes them.
+// Follows the Hex-Rays body step by step: the file read, the key check (the XOR of the
+// upper-cased KEY with the table derived from MAP_CHARS and IK), the count block range check,
+// the IMEI check, and the checksum over [kChecksumFrom, kChecksumTo). MAP_CHARS (9521344,
+// 49 bytes) and IK (9521396, eight 32-bit values) were checked against the binary.
+// Deviation: a file shorter than 0x80000 bytes leaves the rest of the buffer zero; the
+// original reads uninitialised stack bytes there.
 bool ALicenseCheck::LoadRMS() {
     char path[264];
     std::snprintf(path, sizeof(path), "%s/iglu.bin", RMS_PATH != nullptr ? RMS_PATH : "");
@@ -410,9 +390,11 @@ bool ALicenseCheck::LoadRMS() {
 }
 
 // 0x89b65c _ZN13ALicenseCheck7SaveRMSEb
-// Partial. The file is always written: a random block, and when valid, the key, count and
-// IMEI blocks plus the checksum. The Hex-Rays body reuses its temporaries across branches;
-// the port states each value the listing sets. Invalid saves zero the key stride.
+// The file is always written: a random block, and when valid, the key, count and IMEI blocks
+// plus the checksum. The Hex-Rays body reuses its temporaries across branches; the port names
+// each value the listing sets (the block base is kept above 3, otherwise it becomes 4, and
+// the stride the same). Invalid saves zero the key stride. Deviation: a null RMS_PATH is
+// formatted as an empty directory, so the path is "/iglu.bin" (the original prints "(null)").
 void ALicenseCheck::SaveRMS(bool valid) {
     char path[264];
     std::snprintf(path, sizeof(path), "%s/iglu.bin", RMS_PATH != nullptr ? RMS_PATH : "");
@@ -511,8 +493,9 @@ void ALicenseCheck::SaveRMS(bool valid) {
 // response saves an invalid RMS file. Partial: ConfigFile::mParams is a stand-in table.
 void ALicenseCheck::validateResponse(char* response) {
     char resp[8] = {};
-    char temp[32] = {};
-    const int v2 = ParseField(response, temp, 1, '|', sizeof(temp));
+    // The parsed field is not used afterwards; only its start offset (v2) is.
+    std::vector<char> temp = ParseScratch(response);
+    const int v2 = LC_API_PARSE_DATA(response, temp.data(), 1, '|');
     const int v3 = v2;
     if (static_cast<unsigned>(v2 - 2) <= 5) {
         std::memcpy(resp, response, static_cast<std::size_t>(v2 - 1));
@@ -534,7 +517,10 @@ void ALicenseCheck::validateResponse(char* response) {
 
 // 0x89bc38 _ZN13ALicenseCheck16sendRequestByGetEv
 // Sends the key, EPID, IMEI and UCODE as one blob, waits for the reply, and validates it.
-// Partial: the blob codec is a stand-in, so both encoded strings are empty here.
+// The blob codec is the real SSEncDec_String2BlobLC / SSEncDec_Blob2StringLC. Partial: the
+// request goes through LCXPlayerHttp::sendByGetWithNoVer, whose Host value is still a stand-in
+// (lcx_player_http.cpp). Deviation: a null reply is validated as an empty string; the original
+// passes null to the codec.
 void ALicenseCheck::sendRequestByGet() {
     if (m_http == nullptr) {
         initXPlayer();

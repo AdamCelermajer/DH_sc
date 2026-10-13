@@ -1,7 +1,8 @@
 // CBluetoothReliable and CBluetoothUnreliable: Bluetooth transports. There is no
 // Bluetooth stack on Windows, and the original Android build's leaf bodies return fixed
-// values, so the port keeps those. Only the leaf functions are reconstructed here; Connect,
-// Open, Listen, Create, InitializeTransport, the constructors and the destructors are not yet.
+// values, so the port keeps those. The leaf functions are declared here. CBluetoothReliable's
+// Connect, Open, Listen, Create, AcceptConnections and the constructors are in the .cpp; its
+// GetPeerNetworkId, GetLocalNetworkId and InitializeTransport are partial (see there).
 //
 // Original layout shared by both (32-bit offsets):
 //   +0x00 vptr (CTransport base)
@@ -26,13 +27,13 @@ public:
     CBluetoothReliable(const CBluetoothReliable&) = delete;
     CBluetoothReliable& operator=(const CBluetoothReliable&) = delete;
 
-    int Connect(CNetworkId& peer) override;          // 0x828df0 _ZN18CBluetoothReliable7ConnectER10CNetworkId (partial, see the .cpp)
-    // 0x828e58 _ZN18CBluetoothReliable4OpenESsSsi (partial, see the .cpp)
+    int Connect(CNetworkId& peer) override;          // 0x828df0 _ZN18CBluetoothReliable7ConnectER10CNetworkId
+    // 0x828e58 _ZN18CBluetoothReliable4OpenESsSsi
     int Open(std::string address, std::string name, int channel);
-    int Listen(std::string address, std::string name);  // 0x828ec8 _ZN18CBluetoothReliable6ListenESsSs (partial)
+    int Listen(std::string address, std::string name);  // 0x828ec8 _ZN18CBluetoothReliable6ListenESsSs
     CNetworkId GetPeerNetworkId();                   // 0x8290dc _ZN18CBluetoothReliable16GetPeerNetworkIdEv (partial)
     CNetworkId GetLocalNetworkId();                  // 0x829694 _ZN18CBluetoothReliable17GetLocalNetworkIdEv (partial)
-    // 0x829400 _ZN18CBluetoothReliable6CreateESsSsi (partial)
+    // 0x829400 _ZN18CBluetoothReliable6CreateESsSsi
     static CBluetoothReliable* Create(std::string first, std::string second, int channel);
     static int InitializeTransport();                // 0x8294cc _ZN18CBluetoothReliable19InitializeTransportEv (partial)
 
@@ -53,10 +54,11 @@ public:
     static int TerminateTransport();                 // 0x828d78 _ZN18CBluetoothReliable18TerminateTransportEv
 
 private:
-    int AcceptConnections();                         // 0x828da0 _ZN18CBluetoothReliable17AcceptConnectionsEv (partial)
+    int AcceptConnections();                         // 0x828da0 _ZN18CBluetoothReliable17AcceptConnectionsEv
 
+    int channel_ = 0;                                // +0x04 (the channel argument of Open)
     CBluetoothSocket socket_;                        // +0x08
-    bool accept_enabled_ = false;                    // +0x30 byte (set by no recovered code)
+    bool accept_enabled_ = false;                    // +0x30 byte (read by AcceptConnections; no writer recovered yet)
     std::uint32_t flags_ = 0;                        // +0x2c
     bool initialized_ = false;                       // +0x68
     CNetworkId peer_;                                // +0x6c (CNetworkId, 0x1c bytes; Connect stores the peer)
@@ -73,12 +75,12 @@ public:
     CBluetoothUnreliable& operator=(const CBluetoothUnreliable&) = delete;
 
     int Connect(CNetworkId& peer) override;          // 0x8297f8 _ZN20CBluetoothUnreliable7ConnectER10CNetworkId
-    // 0x829860 _ZN20CBluetoothUnreliable4OpenESsSsi (partial, see the .cpp)
+    // 0x829860 _ZN20CBluetoothUnreliable4OpenESsSsi (stores channel at +0x04)
     int Open(std::string address, std::string name, int channel);
-    int Listen(std::string address, std::string name);  // 0x8298d0 _ZN20CBluetoothUnreliable6ListenESsSs (partial)
+    int Listen(std::string address, std::string name);  // 0x8298d0 _ZN20CBluetoothUnreliable6ListenESsSs
     CNetworkId GetPeerNetworkId();                   // 0x829a50 _ZN20CBluetoothUnreliable16GetPeerNetworkIdEv (partial)
     CNetworkId GetLocalNetworkId();                  // 0x829f9c _ZN20CBluetoothUnreliable17GetLocalNetworkIdEv (partial)
-    // 0x829cfc _ZN20CBluetoothUnreliable6CreateESsSsi (partial)
+    // 0x829cfc _ZN20CBluetoothUnreliable6CreateESsSsi
     static CBluetoothUnreliable* Create(std::string first, std::string second, int channel);
     static int InitializeTransport();                // 0x829dc8 _ZN20CBluetoothUnreliable19InitializeTransportEv (partial)
 
@@ -99,8 +101,9 @@ public:
     static int TerminateTransport();                 // 0x829780 _ZN20CBluetoothUnreliable18TerminateTransportEv
 
 private:
-    int AcceptConnections();                         // 0x8297a8 _ZN20CBluetoothUnreliable17AcceptConnectionsEv (partial)
+    int AcceptConnections();                         // 0x8297a8 _ZN20CBluetoothUnreliable17AcceptConnectionsEv
 
+    int channel_ = 0;                                // +0x04 (set by Open from its int argument; the constructors store 0)
     CBluetoothSocket socket_;                        // +0x08
     bool accept_enabled_ = false;                    // +0x30 byte (set by no recovered code)
     std::uint32_t flags_ = 0;                        // +0x2c

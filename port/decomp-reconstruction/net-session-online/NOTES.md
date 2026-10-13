@@ -13,7 +13,10 @@ CMessage (`include/net-session-online/c_message.hpp`), vtable `_ZTV8CMessage`:
 - Header block, 16 bytes at +0x04: type (low byte on the wire), destMask (+0x08), sender (+0x0c), reserved (+0x10).
 - +0x2c sendMode: 0 routes via the server, 1 is remote, >1 is never local.
 - +0x30 reliable, +0x31 local, +0x33 includeLocalMember, +0x34 timestamp, +0x38 trackSent,
+  +0x3c finished (set by CMessaging when a message is done with its queue; the constructor zeroes it),
   +0x40 ackMask, +0x48 sentMask, +0x4c lifetime.
+- CMessaging reads the header through the accessors Sender (+0x0c), Serial (+0x04), DestMask (+0x08),
+  WireTypeId (+0x10, low byte), AckMask (+0x40), IsFinished and SetFinished (+0x3c).
 - The original also has a std::string at +0x14 (STL private layout). It is not modelled, so D1/D2 are partial.
 - Virtual slots: +0x00 GetDataPtr, +0x04 unnamed (body not recovered), +0x08 GetDataSize,
   +0x0c ResetData, +0x10 WriteData, +0x14 ReadData, +0x20 Duplicate.
@@ -495,8 +498,8 @@ so the port has one class now:
 - `CMatching::Get()` returns `s_Matching` and creates the object on first use from `s_matchingProvider`, as the
   binary's Get does (provider 0 or 1: CMatchingLocal; 3: CMatchingGLLive(false); 4: CMatchingGLLive(true)).
   It is in `src/glx_320e98.cpp`. The constructors do not assign `s_Matching`. `Set()` remains as a test helper.
-- `CMatching::Initialize` calls `CConnectionManager::Initialize()` when it is not initialized. The binary reaches
-  it through `CSignIn::Get()`'s vtable +0x08; CSignIn is not ported, so the call is direct.
+- `CMatching::Initialize` calls `CSignIn::Get()->Initialize()` (vtable +0x08, sets the active flag), then
+  `CConnectionManager::Initialize()` unconditionally, before the member reset, as the binary does. No guard.
 - The transport hook is `TransportTypeForProtocol(int)` (vtable +0x34). The binary's name is GetTransportType,
   but the derived classes keep their table lookups as statics named GetTransportType (tests call them), and a
   virtual of the same name with another signature would clash with them. CMatchingLocal and CMatchingGLLive

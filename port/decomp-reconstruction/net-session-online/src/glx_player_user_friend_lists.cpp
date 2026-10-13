@@ -50,9 +50,12 @@ void GLXPlayerUserFriend::clearFriendsList() {
 }
 
 // 0x82bfd8 _ZN19GLXPlayerUserFriend18processFriendsListEPc
-// Partial: the original copies the text fields 0 (user number), 2 (country), 6 (current game),
-// 8 (language), 9 (avatar key) and 10 (avatar last update) into raw text buffers. The header keeps
-// those per-entry values as numbers, so they are parsed but not stored; their arrays hold defaults.
+// Partial: the original stores the text fields 0 (user number), 2 (country), 6 (current game),
+// 8 (language), 9 (avatar key) and 10 (avatar last update) as char* buffers, one per entry, in the
+// arrays at +0x40, +0x48, +0x5c, +0x64, +0x68 and +0x6c (0x80, 0x80, 0x80, 3, 0x20 and 0x20 bytes).
+// The getters return the stored pointer as a 32-bit int (GetCountry, 0x82ba5c, reads the same
+// slot), which a 64-bit host cannot keep. So these fields are parsed and dropped here. Layout
+// request: the owner header types these slots as numbers; they need text storage.
 void GLXPlayerUserFriend::processFriendsList(const char* text) {
     clearFriendsList();
     if (text == nullptr) {

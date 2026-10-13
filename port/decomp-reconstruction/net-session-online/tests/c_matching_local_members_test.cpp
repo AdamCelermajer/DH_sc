@@ -22,12 +22,12 @@ int main() {
     CHECK(!CConnectionManager::GetInstance()->IsConnected(3));
     CHECK(local.GetMemberCount() == 3);  // the kicked peer keeps its connection object (binary DisconnectPeer): still counted
 
-    // IsInRoom: a connected member is in the room; the local member is not (stand-in);
-    // an unknown member is not.
+    // IsInRoom: a connected member is in the room; an unknown member is not. The local member id answers
+    // the no-argument IsInRoom() (0x805cc8): the connection manager is initialized and has connected peers.
     CHECK(local.IsInRoom(4));
     CHECK(!local.IsInRoom(99));
     local.SetMemberId(4);
-    CHECK(!local.IsInRoom(4));
+    CHECK(local.IsInRoom(4));
 
     // GenerateNewMemberId with no room mask takes the counter through the bit-spreading map:
     // counter 0 -> 1, counter 1 -> 17, counter 2 -> 33.

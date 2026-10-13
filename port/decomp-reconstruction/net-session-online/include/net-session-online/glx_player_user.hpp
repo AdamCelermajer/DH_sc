@@ -6,6 +6,7 @@
 // occupies +0x00..+0x3b. Owned strings are unique_ptr<char[]> and arrays of owned
 // strings are vectors, instead of raw heap arrays. Member roles that are not
 // identified are marked "unknown".
+//   +0x3c unk_3c_ owned string (OnUpdateSuccess 58; freed by the dtor)
 //   +0x40 owned string (unknown)            +0x44 user name (owned)
 //   +0x48 password (owned)                  +0x4c email (owned)
 //   +0x50 email flag (byte)                 +0x54 country (owned)
@@ -15,21 +16,26 @@
 //   +0x70 game PID strings (owned, array)   +0x74 game name strings (owned, array)
 //   +0x78 game trophy values (array)        +0x7c number of games
 //   +0x80 unknown (-1 by clearUserState)    +0x84 current user state (-1 when idle)
-//   +0x88 unknown object (freed by clearUserState; not modelled)
+//   +0x88 unk_88_ owned token (set by processUserState; freed by clearUserState)
 //   +0x90 reputation (double)               +0x98 bad reputation count
 //   +0x9c good reputation count             +0xa0 trophy
 //   +0xa4 best score                        +0xa8 avatar key (owned)
-//   +0xb0 avatar last update (owned)        +0xb8 avatar data (unknown object)
+//   +0xac other avatar key (owned)          +0xb0 avatar last update (owned)
+//   +0xb4 other avatar last update (owned)  +0xb8 avatar data (owned)
+//   +0xbc other avatar data (owned)
 //   +0xc0 user data (owned)                 +0xc4 other user name (owned)
 //   +0xc8 game icon (owned)                 +0xcc, +0xd0 unknown owned strings
 //   +0xd4 trophy-icon mode (-1 by the ctor, 0..2 by processUserTrophyIcon)
+//   +0xdc unk_dc_ owned string (game icon field 3)   +0xe4 unk_e4_ int (game icon field 5)
+//   +0xe8 advRss_ and +0xf8 promoRss_ (rss feeds, each a vector<channel>)
 //   +0xf4 RSS attachment (owned)            +0x104 promo attachment (owned)
 //   +0x108 avatar keys (owned, array)       +0x10c avatar last updates (owned, array)
 //   +0x110 avatar status (array)            +0x114 avatar count
-//   +0x118 chat warning (owned)             +0x124 unknown owned string
-// +0x128 live feed count (int) and +0x12c the _LiveFeed array (owned entries).
-// Not modelled: vector<channel> at +0xe8 and +0xf8, the request client object at +0x20 (see the
-// ctor note), and fields at +0x3c..+0x3f, +0x47, +0x49 and +0xdc, +0xe4 (their roles are not identified).
+//   +0x118 chat warning (owned)             +0x11c unk_11c_, +0x120 unk_120_ (owned tokens)
+//   +0x124 unknown owned string
+// +0x128 live feed count (int, -1 by the ctor) and +0x12c the _LiveFeed array (owned entries).
+// Not declared: fields at +0x47 and +0x49 (roles not identified). The request client at +0x20 is
+// created by the ctor, in the web component base's request-client slot.
 #pragma once
 
 #include <cstdint>
@@ -37,6 +43,7 @@
 #include <string>
 #include <vector>
 
+#include "net-session-online/channel.hpp"
 #include "net-session-online/glx_player_web_component.hpp"
 #include "net-session-online/live_feed.hpp"
 
@@ -80,9 +87,9 @@ public:
     std::int32_t getAvatarStatus(std::int32_t index) const;          // 0x83aa0c
 
     // 0x83c894 _ZN13GLXPlayerUser15OnUpdateSuccessEi
-    // Routes the response by code to the process* handler for it, then calls the base.
-    // Partial: codes 58 (+0x3c, not modelled) and 98 (+0x11c and +0x120, not modelled)
-    // read their tokens but store nothing.
+    // Routes the response by code to the process* handler for it, then calls the base. Code 58
+    // stores the text at +0x3c and code 98 stores its two tokens at +0x11c and +0x120. The
+    // original returns the base result; the port's base is void, so nothing is returned.
     void OnUpdateSuccess(std::int32_t code) override;
 
     // 0x83aa38 _ZN13GLXPlayerUser19processUploadAvatarEPc: empty in the original.
@@ -100,12 +107,12 @@ public:
     void processUserGameIcon(char* text);                            // 0x83b320 (partial)
     void processUserAvatarList(char* text);                          // 0x83b424
     void processUserData(char* text);                                // 0x83b620
-    void processDownloadAvatar(char* text);                          // 0x83b724 (partial)
-    void processUserAvatar(char* text);                              // 0x83b82c (partial)
+    void processDownloadAvatar(char* text);                          // 0x83b724
+    void processUserAvatar(char* text);                              // 0x83b82c
     void processUserBestScore(char* text);                           // 0x83bae4
     void processUserInformation(char* text);                         // 0x83bbf0
     void processUserTrophy(char* text);                              // 0x83c040
-    void processUserState(char* text);                               // 0x83c14c (partial)
+    void processUserState(char* text);                               // 0x83c14c
     void processUserGameList(char* text);                            // 0x83c484
     void processUserReputation(char* text);                          // 0x83c6f8
 
@@ -171,8 +178,20 @@ public:
     const char* RssAttachmentForTest() const { return rssAttachment_.get(); }
     const char* IconText0ForTest() const { return iconText0_.get(); }
     const char* IconText1ForTest() const { return iconText1_.get(); }
+    const char* Unk3cForTest() const { return unk_3c_.get(); }
+    const char* StateTokenForTest() const { return unk_88_.get(); }
+    const char* GameIconTagForTest() const { return unk_dc_.get(); }
+    const char* GameIconForTest() const { return gameIcon_.get(); }
+    std::int32_t GameIconFieldForTest() const { return unk_e4_; }
+    const char* OtherAvatarKeyForTest() const { return otherAvatarKey_.get(); }
+    const char* OtherAvatarLastUpdateForTest() const { return otherAvatarLastUpdate_.get(); }
+    const char* OtherAvatarDataForTest() const { return otherAvatarData_.get(); }
+    const char* Token11cForTest() const { return unk_11c_.get(); }
+    const char* Token120ForTest() const { return unk_120_.get(); }
+    std::int32_t LiveFeedCountForTest() const { return liveFeedCount_; }
 
 private:
+    std::unique_ptr<char[]> unk_3c_;                                 // +0x3c
     std::unique_ptr<char[]> string40_;                               // +0x40
     std::unique_ptr<char[]> userName_;                               // +0x44
     std::unique_ptr<char[]> password_;                               // +0x48
@@ -191,19 +210,27 @@ private:
     std::int32_t gameCount_ = 0;                                     // +0x7c
     std::int32_t field80_ = -1;                                      // +0x80
     std::int32_t currentState_ = -1;                                 // +0x84
+    std::unique_ptr<char[]> unk_88_;                                 // +0x88
     double reputation_ = 0.0;                                        // +0x90
     std::int32_t badReputation_ = 0;                                 // +0x98
     std::int32_t goodReputation_ = 0;                                // +0x9c
     std::int32_t trophy_ = 0;                                        // +0xa0
     std::int32_t bestScore_ = -1;                                    // +0xa4
     std::unique_ptr<char[]> avatarKey_;                              // +0xa8
+    std::unique_ptr<char[]> otherAvatarKey_;                         // +0xac (the n-form "d" value)
     std::unique_ptr<char[]> avatarLastUpdate_;                       // +0xb0
-    void* avatarData_ = nullptr;                                     // +0xb8 (not owned by this port)
+    std::unique_ptr<char[]> otherAvatarLastUpdate_;                  // +0xb4 (the n-form "t" value)
+    std::unique_ptr<char[]> avatarData_;                             // +0xb8
+    std::unique_ptr<char[]> otherAvatarData_;                        // +0xbc (the n-form data field)
     std::unique_ptr<char[]> userData_;                               // +0xc0
     std::unique_ptr<char[]> otherUserName_;                          // +0xc4
     std::unique_ptr<char[]> gameIcon_;                               // +0xc8
     std::int32_t trophyIconMode_ = -1;                               // +0xd4
+    std::unique_ptr<char[]> unk_dc_;                                 // +0xdc
+    std::int32_t unk_e4_ = 0;                                        // +0xe4
+    std::vector<channel> advRss_;                                    // +0xe8 (rss, filled by processGetADV_RSS)
     std::unique_ptr<char[]> rssAttachment_;                          // +0xf4
+    std::vector<channel> promoRss_;                                  // +0xf8 (rss, filled by processGetPromo_RSS)
     std::unique_ptr<char[]> promoAttachment_;                        // +0x104
     std::vector<std::unique_ptr<char[]>> avatarKeys_;                // +0x108
     std::vector<std::unique_ptr<char[]>> avatarLastUpdates_;         // +0x10c
@@ -212,7 +239,9 @@ private:
     std::unique_ptr<char[]> iconText0_;                              // +0xcc
     std::unique_ptr<char[]> iconText1_;                              // +0xd0
     std::unique_ptr<char[]> chatWarning_;                            // +0x118
+    std::unique_ptr<char[]> unk_11c_;                                // +0x11c
+    std::unique_ptr<char[]> unk_120_;                                // +0x120
     std::unique_ptr<char[]> string124_;                              // +0x124
-    std::int32_t liveFeedCount_ = 0;                                 // +0x128
+    std::int32_t liveFeedCount_ = -1;                                // +0x128
     std::vector<std::unique_ptr<_LiveFeed>> liveFeeds_;              // +0x12c
 };

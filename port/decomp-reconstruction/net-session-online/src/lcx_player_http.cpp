@@ -233,11 +233,11 @@ void LCXPlayerHttp::sendVideoByPost(const char* url, const char* query, const ch
 
 // 0x89d484 _ZN13LCXPlayerHttp16GetRequestLengthEv
 // The GET path is LC_API_STRLEN (a strlen wrapper) on the inline buffer.
-std::uint32_t LCXPlayerHttp::GetRequestLength() const {
+std::int32_t LCXPlayerHttp::GetRequestLength() const {
     if (sendByPost_) {
-        return static_cast<std::uint32_t>(postLength_);
+        return postLength_;
     }
-    return static_cast<std::uint32_t>(std::strlen(request_));
+    return static_cast<std::int32_t>(std::strlen(request_));
 }
 
 // Not in the original: test seams.

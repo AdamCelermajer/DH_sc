@@ -1,7 +1,6 @@
-// Track B batch e1-net-session-online-CMessaging-0: the CMessaging queue printers, message receive
-// path, packet read callbacks and the sequence bookkeeping. Offsets of the original 32-bit layout are
-// given as comments. Bodies that depend on CMessage fields that are not reachable from CMessaging are
-// marked partial at each function.
+// Track B batch e1-net-session-online-CMessaging-0 (redo r1n-net-session-online-CMessaging-7b9dc9-0): the
+// CMessaging queue printers, message receive path, packet read callbacks and the sequence bookkeeping.
+// Offsets of the original 32-bit layout are given as comments. CMessage fields are read through its accessors.
 #include <cstdint>
 #include <cstdio>
 #include <list>
@@ -11,9 +10,8 @@
 
 namespace {
 
-// Shared body of PrintRecvQueue and PrintSendQueue. The original prints each message as
-// "[sender:type|A:ack|D:dest] " (CMessage header at +0x04..+0x13 and ackMask_ at +0x40). Those fields
-// are protected in CMessage with no accessor, so each entry prints '?' in their place.
+// Shared body of PrintRecvQueue and PrintSendQueue. Each non-null entry prints as
+// "[sender:serial|A:ack|D:dest] " (CMessage header +0x0c and +0x04, ackMask_ at +0x40, destMask +0x08).
 void PrintQueueContents(const char* tag, std::list<CMessage*>& queue, CNetMutex& mutex) {
     if (queue.empty()) {
         return;
@@ -22,7 +20,8 @@ void PrintQueueContents(const char* tag, std::list<CMessage*>& queue, CNetMutex&
     std::printf("%s", tag);
     for (CMessage* message : queue) {
         if (message != nullptr) {
-            std::printf("[?:?|A:?|D:?] ");
+            std::printf("[%i:%i|A:0x%X|D:0x%X] ", static_cast<int>(message->Sender()),
+                        static_cast<int>(message->Serial()), message->AckMask(), message->DestMask());
         }
     }
     std::putchar('\n');
@@ -32,40 +31,43 @@ void PrintQueueContents(const char* tag, std::list<CMessage*>& queue, CNetMutex&
 }  // namespace
 
 // 0x80a784 _ZN10CMessaging14PrintRecvQueueEv
-// Partial: the per-message routing fields print as '?'. Layout request: CMessage needs public
-// accessors for the wire type (+0x04), destination mask (+0x08), sender (+0x0c) and ack mask (+0x40).
 void CMessaging::PrintRecvQueue() {
     PrintQueueContents("RQ> ", recvQueue_, recvMutex_);
 }
 
 // 0x80a82c _ZN10CMessaging14PrintSendQueueEv
-// Partial: the same as PrintRecvQueue, for the send queue (sendMutex_ at +0x0c, sendQueue_ at +0x24).
+// Same as PrintRecvQueue, for the send queue (sendMutex_ at +0x0c, sendQueue_ at +0x24).
 void CMessaging::PrintSendQueue() {
     PrintQueueContents("SQ> ", sendQueue_, sendMutex_);
 }
 
 // 0x80d058 _ZN10CMessaging22ProcessMissingMessagesEP8CMessage
-// Partial: the original reads the message's sender (+0x0c) and serial (+0x04), then calls
-// ProcessMissingSequence under ackMutex_ (+0x14). Both fields are protected in CMessage and no accessor
-// exists, so this does nothing. Layout request: public sender and serial accessors on CMessage.
+// Takes ackMutex_ and runs the sequence bookkeeping for the message's sender (+0x0c) and serial (+0x04).
 void CMessaging::ProcessMissingMessages(CMessage* message) {
-    (void)message;
+    ackMutex_.Lock();
+    ProcessMissingSequence(message->Sender(), static_cast<int>(message->Serial()),
+                           static_cast<std::uint16_t>(message->GetHash()));
+    ackMutex_.Unlock();
 }
 
 // 0x80d67c _ZN10CMessaging20HasMessageBeenQueuedEP8CMessage
-// Partial: the original returns 0 for a local message. For a remote message it reads the sender (+0x0c)
-// and serial (+0x04) and calls HasQueuedSequence under ackMutex_. Those fields are not reachable, so
-// every message reports not queued. Layout request: the same accessors as ProcessMissingMessages.
+// Returns false for a local message. Otherwise it is queued when the sequence bookkeeping says so.
 bool CMessaging::HasMessageBeenQueued(CMessage* message) {
-    (void)message;
-    return false;
+    ackMutex_.Lock();
+    bool queued = false;
+    if (!message->IsLocal()) {
+        queued = HasQueuedSequence(message->Sender(), static_cast<int>(message->Serial()),
+                                   static_cast<std::uint16_t>(message->GetHash()));
+    }
+    ackMutex_.Unlock();
+    return queued;
 }
 
 // 0x80d8a0 _ZN10CMessaging16ProcessSendQueueEv
-// Partial: a server-sent message that is for this member and not yet queued is duplicated into the
-// receive queue, then acknowledged for its sender (+0x0c, not reachable). Each message's +0x3c flag is
-// set to 1 when it is not an unacknowledged reliable message; the flag has no setter, so it is omitted.
-// The original unlocks twice; one unlock is made here, followed by PurgeMessagesFromQueue.
+// A server-sent message that is for this member and not yet queued is duplicated into the receive
+// queue, and then acknowledged for its sender (+0x0c). Each message that is not an unacknowledged
+// reliable message is marked finished (+0x3c). Finished messages are then purged. The original unlocks
+// twice; one unlock is made here, followed by PurgeMessagesFromQueue.
 void CMessaging::ProcessSendQueue() {
     if (!initialized_) {
         return;
@@ -78,13 +80,12 @@ void CMessaging::ProcessSendQueue() {
         if (message->IsFromServer() && message->IsFromMe() && message->IsForMe() &&
             !HasMessageBeenQueued(message)) {
             AddToRecvQueue(message->Duplicate());
-            // Original: AcknowledgeMessage(sender, message) with sender at +0x0c. Not reachable.
+            AcknowledgeMessage(message->Sender(), message);
         }
         if (message->IsReliable() && !message->IsAcknowledged()) {
-            // Original: the flag at +0x3c is not set and the scan continues with the next entry.
             continue;
         }
-        // Original: set the flag at +0x3c to 1. Not reachable from CMessaging.
+        message->SetFinished();
     }
     sendMutex_.Unlock();
     PurgeMessagesFromQueue(&sendQueue_, &sendMutex_);
@@ -92,9 +93,9 @@ void CMessaging::ProcessSendQueue() {
 
 // 0x80d9c0 _ZN10CMessaging14ReceiveMessageEP8CMessage
 // The message is queued for receive when it is for this member and not already queued, and forwarded
-// to the send queue when this instance is the server and the message must be forwarded.
-// Partial: the original ends by calling the message's virtual slot +0x1c, which is not identified in
-// CMessage, so that call is omitted.
+// to the send queue when this instance is the server and the message must be forwarded. The message
+// is then destroyed through its virtual deleting destructor (vtable +0x1c, the D0 entry), so ownership
+// passes to this function.
 void CMessaging::ReceiveMessage(CMessage* message) {
     if (message->IsForMe() && !HasMessageBeenQueued(message)) {
         AddToRecvQueue(message->Duplicate());
@@ -102,6 +103,7 @@ void CMessaging::ReceiveMessage(CMessage* message) {
     if (CMatching::Get()->IsServer() && message->MustForward()) {
         AddToSendQueue(message->Duplicate());
     }
+    delete message;
 }
 
 // 0x80da78 _ZN10CMessaging14UnpackMessagesER12NetBitStream
@@ -146,6 +148,7 @@ bool CMessaging::HasQueuedSequence(int sender, int serial, std::uint16_t hash) {
     if (first == seqMapA_.end()) {
         return false;
     }
+    // The set lookup compares 16-bit keys unsigned (LDRH), so every hash in 0..0xFFFF can be found.
     if (hashSet_.count(hash) != 0) {
         return false;
     }
@@ -162,7 +165,9 @@ bool CMessaging::HasQueuedSequence(int sender, int serial, std::uint16_t hash) {
 // is then removed from hashSet_.
 void CMessaging::ProcessMissingSequence(int sender, int serial, std::uint16_t hash) {
     if (seqMapA_.find(sender) == seqMapA_.end()) {
+        // First message from this sender: both serial maps start at its serial.
         seqMapA_[sender] = serial;
+        seqMapB_[sender] = serial;
     }
 
     int& received = seqMapB_[sender];

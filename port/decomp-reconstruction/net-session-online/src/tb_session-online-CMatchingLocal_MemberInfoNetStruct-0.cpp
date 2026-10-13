@@ -53,23 +53,28 @@ CMatchingLocal_MemberInfoNetStruct::CMatchingLocal_MemberInfoNetStruct()
 
 // 0x806258 CMatchingLocal::MemberInfoNetStruct::~MemberInfoNetStruct()
 //
-// Partial. The original (complete-object destructor) does:
+// Reconstructed. The original (complete-object destructor) does:
 //   1. Store the destructor-phase vptrs: +0x130 and +0x158 get off_963648, and the own vptr
 //      gets off_9924D8.
 //   2. When the NetStruct packet history map (+0x10c, count at +0x11c) is non-empty, erase its
 //      tree (_M_erase on the root at +0x110) and reset the header: root null, leftmost and
 //      rightmost point to the header, count 0.
 //
-// C++ runs step 1 implicitly. Step 2 needs the packet history map, which the stand-in NetStruct
-// does not hold, so this body is empty. The members are destroyed by the C++ rules. Partial
-// until the packet history map is modelled in the NetStruct base.
-CMatchingLocal_MemberInfoNetStruct::~CMatchingLocal_MemberInfoNetStruct() {}
+// C++ runs step 1 implicitly. Step 2 is std::map::clear on the NetStruct base's packetHistory_
+// (net-transport net_struct.hpp, protected). The NetStruct base destructor body is empty
+// (net-transport tb_transport-NetStruct-0.cpp), so nothing else runs. The members are destroyed by
+// the C++ rules.
+CMatchingLocal_MemberInfoNetStruct::~CMatchingLocal_MemberInfoNetStruct() {
+    if (!packetHistory_.empty()) {
+        packetHistory_.clear();
+    }
+}
 
 // 0x806344 CMatchingLocal::MemberInfoNetStruct::~MemberInfoNetStruct()  (D0, deleting variant)
 //
-// Partial. Same body as 0x806258, then the block is released with CustomFree(this).
+// Reconstructed. The same body as 0x806258, then the block is released with CustomFree(this).
 // C++ has no deleting destructor, so the body is a static member that the caller uses in place
-// of a delete expression. The deviation is the packet history erase, shared with 0x806258.
+// of a delete expression.
 void CMatchingLocal_MemberInfoNetStruct::DeletingDestructor(CMatchingLocal_MemberInfoNetStruct* self) {
     self->~CMatchingLocal_MemberInfoNetStruct();
     CustomFree(self);

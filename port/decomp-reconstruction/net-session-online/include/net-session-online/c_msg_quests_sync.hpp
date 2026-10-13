@@ -35,6 +35,10 @@ public:
 
     // Not in the original: test seam for the block length.
     std::int32_t BlockLengthForTest() const { return BlockLength(); }
+    // Not in the original: read access for MultiplayerCallback::HandleQuestsSyncMessage. BlockData is the
+    // block at +0x58 (null when no block), BlockSizeValue the block length word at +0x50.
+    const char* BlockData() const { return reinterpret_cast<const char*>(block_.get()); }
+    std::int32_t BlockSizeValue() const { return BlockLength(); }
 
 private:
     std::int32_t BlockLength() const;

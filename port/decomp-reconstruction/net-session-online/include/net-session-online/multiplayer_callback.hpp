@@ -1,6 +1,6 @@
 // MultiplayerCallback: the multiplayer state callbacks. The state machine calls them
-// with a context pointer. Only the two state-id callbacks are reconstructed here. The
-// message handlers (HandleStartGameMessage and the rest) are queued.
+// with a context pointer. The two state-id callbacks are complete. The message handlers and the
+// lobby and room callbacks are in src/multiplayer_callback.cpp; each one's blocker is noted there.
 #pragma once
 
 #include <cstdint>
@@ -12,8 +12,8 @@ public:
     // 0x49a0cc _ZN19MultiplayerCallback11ingameStateEPv: the in-game state id, 300.
     static std::int32_t ingameState(void* context);
 
-    // Message handlers and state callbacks. All are partial: their bodies need game types
-    // that are not in this port (see multiplayer_callback.cpp for the list per function).
+    // Message handlers and state callbacks. All are partial (see multiplayer_callback.cpp per function).
+    // Handlers that write the consumed flag (CMessage +0x3c) stay partial until that field is declared.
     // 0x49a0d4 _ZN19MultiplayerCallback32HandleAskResendAttributesMessageEPv
     std::int32_t HandleAskResendAttributesMessage(void* message);
     // 0x49a17c _ZN19MultiplayerCallback24HandleGlobalDeathMessageEPv

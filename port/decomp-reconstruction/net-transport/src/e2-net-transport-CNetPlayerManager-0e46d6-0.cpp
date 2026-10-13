@@ -1,8 +1,9 @@
 // Batch e2-net-transport-CNetPlayerManager-0e46d6-0: the first 20 functions of the second CNetPlayerManager
 // group in libDungeonHunter2.so (player list maintenance, id-list cache, packet reads).
 // Class: include/net-transport/tb/c_net_player_manager.hpp.
-// The one shim left (COnline) is in include/net-transport/tb/net_player_manager_deps.hpp.
-// Status per function is in ledger.d/e2-net-transport-CNetPlayerManager-0e46d6-0.csv.
+// COnline is the real class in net-session-online; no body here uses the np_deps shim any more.
+// Status per function is in ledger.d/e2-net-transport-CNetPlayerManager-0e46d6-0.csv and, for the redo of
+// the functions below, in ledger.d/r1n-net-transport-CNetPlayerManager-0e46d6-0.csv.
 //
 // Not defined here (skipped, see the ledger): ProcessEvents, the two GetPlayerName overloads,
 // AddPlayer(int,int), AddPlayer(NetBitStream&,int,int) and ~CNetPlayerManager. The nested
@@ -39,9 +40,9 @@ int CNetPlayerManager::DisconnectPlayer(int a2) {
 }
 
 // 0x810b7c CNetPlayerManager::SetPlayerGamepadId(int,int)
-// Partial: the field written is unk_1c8 (+0x1c8, the NetStructInt<16u> block at +0x1a8). Its name is not
-// recovered; the method name suggests a gamepad id, but that is not confirmed. The compare, store and
-// SetChanged are the block's SetValue.
+// The field written is unk_1c8 (+0x1c8, the NetStructInt<16u> block at +0x1a8). The compare, store and
+// SetChanged are the block's SetValue (checked against NetStructMemberType<int>::SetValue, 0x36d9f0). The
+// name is kept as unk_1c8; the setter name suggests a gamepad id, which the integrator may apply (layout request).
 int CNetPlayerManager::SetPlayerGamepadId(int a2, int a3) {
     if (a2 < 0) {
         return 0;
@@ -59,8 +60,10 @@ int CNetPlayerManager::SetPlayerGamepadId(int a2, int a3) {
 
 // 0x810bd4 CNetPlayerManager::ReassignPlayer(int,int,int)
 // Partial. The three stores are the blocks' SetValue (+0x180, +0x1a8, +0x1d0). The original returns the
-// return value of NetStruct::SetEnabled when the connection index is not the local member; that value is a
-// leftover R0 (SetEnabled returns void here), so this returns 0 in that branch.
+// return value of NetStruct::SetEnabled (0x81366c) in the branch where a3 differs from the local member id.
+// That value is not void in the binary: Hex-Rays gives NetStruct::SetEnabled an unsigned char* result, which
+// is the NetStruct pointer on the paths that do not enable it for the first time. The port's SetEnabled is void,
+// so this returns 0 in that branch. No caller of ReassignPlayer is in hexrays-all.
 int CNetPlayerManager::ReassignPlayer(int a2, int a3, int a4) {
     const bool is_server = CMatching::Get()->IsServer();
     int result = is_server ? 1 : 0;
@@ -79,8 +82,10 @@ int CNetPlayerManager::ReassignPlayer(int a2, int a3, int a4) {
 }
 
 // 0x810c88 CNetPlayerManager::ClearPlayers()
-// Partial. The original returns the leftover r0 of the last DeleteNetPlayerInfo call; that value
-// is not kept here (the function is void).
+// Deletes the players, the secondary players and the fallback through DeleteNetPlayerInfo, clearing each slot.
+// The original's int-like result is the leftover r0 of the last DeleteNetPlayerInfo call (0 when there is no
+// fallback). The result is not kept (void): the callers in hexrays-all (chunk_053 lines 13776, 14947, 15029)
+// do not read it.
 void CNetPlayerManager::ClearPlayers() {
     for (CNetPlayerInfo*& slot : players_) {
         if (slot != nullptr) {
@@ -124,7 +129,8 @@ void CNetPlayerManager::InitPlayers() {
 }
 
 // 0x811308 CNetPlayerManager::ResetPlayers()
-// Partial: the original returns the leftover r0 of InitPlayers (void here).
+// Clears the id-list cache, ClearPlayers, InitPlayers, and sets unk_1b0_ (+0x1b0) to -1. The leftover r0 of
+// InitPlayers is not kept; the callers in hexrays-all (chunk_052 and chunk_053) do not use the value.
 void CNetPlayerManager::ResetPlayers() {
     player_id_list_.clear();  // +0x1b8 (end = begin)
     ClearPlayers();
@@ -164,8 +170,9 @@ int CNetPlayerManager::GetPlayerCount() {
 
 // 0x811d74 CNetPlayerManager::ReadPacketData(int,int,NetBitStream&)
 // Partial. NetStruct::Load and the player's virtual slot +0x18 (ConditionalLoad) are the real NetStruct
-// calls. The AddPlayer(NetBitStream&) call is not reconstructed (skipped in this batch), so this body
-// calls an undefined member.
+// calls, and the state-based flags follow the pseudocode. The loop calls AddPlayer(NetBitStream&, int, int)
+// (0x811be8), which ledger.csv marks skipped and which has no definition in the tree, so this body is not
+// linkable until that function is written.
 NetBitStream* CNetPlayerManager::ReadPacketData(int a2, int a3, NetBitStream& stream) {
     net_struct_.Load(stream, a2, 0);
     for (std::size_t i = 0; i < players_.size(); ++i) {

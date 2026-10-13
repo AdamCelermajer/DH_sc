@@ -2,15 +2,18 @@
 // Reconstructed from the pseudocode. The Winsock path (under _WIN32) and the
 // POSIX path share one implementation through small helpers in the .cpp.
 //
-// The original derives from GLXPlayerSocket (not reconstructed in this category,
-// see net-session-online). Its virtual slots are called here as ordinary member
-// functions; the vtable is not reproduced.
+// The original derives from GLXPlayerSocket (declared in net-session-online, not part of
+// this category). This class does not derive from it: the fields it shares with the base
+// (state, handle, port, socket type) are held here directly, as LCAndroidSocket does. Its
+// virtual slots are called here as ordinary member functions; the vtable is not reproduced.
 #pragma once
 
 #include <cstddef>
 #include <cstdint>
+#include <string>
 
 struct hostent;
+class GLXPlayerSocketObserver;
 
 class CAndroidSocket {
 public:
@@ -30,13 +33,13 @@ public:
     static constexpr int kLookupTimeoutMs = 9999;
 
     // 0x84232c / 0x842430 CAndroidSocket(char*, int, GLXPlayerSocketObserver*)
-    CAndroidSocket(const char* host, int port, void* observer);
+    CAndroidSocket(const char* host, int port, GLXPlayerSocketObserver* observer);
     // 0x842260 / 0x8422d4 ~CAndroidSocket()
     ~CAndroidSocket();
     CAndroidSocket(const CAndroidSocket&) = delete;
     CAndroidSocket& operator=(const CAndroidSocket&) = delete;
 
-    static void Startup();                          // 0x842208 _ZN14CAndroidSocket7StartupEv
+    static int Startup();                           // 0x842208 _ZN14CAndroidSocket7StartupEv (sigaction result)
     static void Clearup();                          // 0x84210c _ZN14CAndroidSocket7ClearupEv
 
     void Init();                                    // 0x840880 _ZN14CAndroidSocket4InitEv
@@ -65,9 +68,9 @@ public:
     bool SetNonBlocking();                          // 0x841ad0
     int GetLastError() const;                       // 0x841b98
     hostent* GetHostByName(const char* name);       // 0x841ca8
-    hostent* GetHostIP(const char* name);           // 0x841e4c
+    static hostent* GetHostIP(const char* name);    // 0x841e4c (static: r0 is the name)
     int GetLocalIP(char* out);                      // 0x841fbc, 1 on success
-    int Accept();                                   // 0x842360 (accepted fd or -1)
+    CAndroidSocket* Accept();                       // 0x842360 (accepted socket object; see the .cpp)
 
 private:
     int FinishConnect();                            // state-1 path shared by Connect/ConnectByName
@@ -82,4 +85,6 @@ private:
     int lookup_start_ms_ = 0;                       // +0x868
     std::uint32_t ready_bits_[32] = {};             // +0x86c fd bitmap (fd_set in the original)
     int socket_kind_ = 0;                           // +0x820 1 = TCP, 2 = UDP/ICMP
+    std::string accept_ip_;                         // +0x824 accept address (base member in the original)
+    int accept_port_ = 0;                           // +0x828 accept port, host byte order
 };

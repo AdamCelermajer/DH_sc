@@ -24,9 +24,10 @@ void CMatchingGLLive::StartGame() {
 }
 
 // 0x81f178 _ZN15CMatchingGLLive10SetGCStateEi
-// Partial: state 1 (a CSignIn event) and state 3 (CMatching::CreateJoinRoom with a copy of the
-// room attributes) do nothing here, because neither is reconstructed. State 2 chooses 3 or 4
-// from the Game Center record, and state 7 starts the game.
+// Partial. State 2 chooses 3 or 4 from the Game Center record, state 3 calls CMatching::CreateJoinRoom(true, a copy
+// of the Game Center room attributes at +0x6840), and state 7 starts the game. Not reproduced: state 1, which posts
+// event 1 on the login queue of the CSignInGLLive object (its loginEvents_ at +0x2c has no accessor). The
+// CreateJoinRoom callee is partial (its NetStruct SetEnabled loop is not ported), so state 3 is partial too.
 void CMatchingGLLive::SetGCState(std::int32_t state) {
     if (!gameCenterActive_ || gcState_ == state) {
         return;
@@ -35,6 +36,9 @@ void CMatchingGLLive::SetGCState(std::int32_t state) {
     switch (state) {
         case 2:
             SetGCState(s_GameCenterInfo != nullptr ? 3 : 4);
+            break;
+        case 3:
+            CreateJoinRoom(true, gcRoomAttributes_);  // by-value copy, as the original's CRoomAttributes copy
             break;
         case 7:
             StartGame();

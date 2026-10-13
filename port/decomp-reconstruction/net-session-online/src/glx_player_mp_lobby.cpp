@@ -1,6 +1,9 @@
 #include "net-session-online/glx_player_mp_lobby.hpp"
 
+#include <cstdlib>
 #include <cstring>
+#include <map>
+#include <string>
 #include <vector>
 
 #include "net-session-online/c_lobby_parameter_and_query.hpp"
@@ -58,8 +61,9 @@ std::vector<char> PackFriendNames(GLXPlayerUserFriend* friends, std::int32_t& co
 }
 }  // namespace
 
-// 0x83a6c8 _ZN16GLXPlayerMPLobbyC2EP23GLXPlayerMPBaseObserverPc
-// Copies the config text into an owned string at +0x7c (new[] copy, null stays null), then Init.
+// 0x83a64c _ZN16GLXPlayerMPLobbyC1EP23GLXPlayerMPBaseObserverPc (C2 0x83a6c8, same body)
+// Base ctor, then the config text is copied into an owned string at +0x7c (new[] copy; a null
+// config leaves it null), then Init.
 GLXPlayerMPLobby::GLXPlayerMPLobby(GLXPlayerMPBaseObserver* observer, const char* config)
     : GLXPlayerMPBase(observer) {
     if (config != nullptr) {
@@ -70,9 +74,15 @@ GLXPlayerMPLobby::GLXPlayerMPLobby(GLXPlayerMPBaseObserver* observer, const char
     Init();
 }
 
-// 0x83a4f0 _ZN16GLXPlayerMPLobbyD1Ev, 0x83a5ac _ZN16GLXPlayerMPLobbyD2Ev
-// The owned config text at +0x7c is released by its unique_ptr member.
+// 0x83a4f0 _ZN16GLXPlayerMPLobbyD1Ev, 0x83a5ac _ZN16GLXPlayerMPLobbyD2Ev (same body)
+// Frees the owned address text at +0x58 (std::free, as the original's LC_API_FREE_0; the port
+// never allocates it, LoadConfig is partial), then mpDisconnect and the connection release. The
+// owned config text at +0x7c is released by its unique_ptr member after this body.
 GLXPlayerMPLobby::~GLXPlayerMPLobby() {
+    if (field58_ != nullptr) {
+        std::free(field58_);
+        field58_ = nullptr;
+    }
     if (connection_) {
         mpDisconnect();
         connection_.reset();
@@ -107,9 +117,9 @@ bool GLXPlayerMPLobby::mpIsInGame() const { return state_ > 4; }
 // 0x83766c _ZN16GLXPlayerMPLobby10mpIsMasterEv
 bool GLXPlayerMPLobby::mpIsMaster() const { return isMaster_; }
 
-// Refused requests call observer vtable slot 0, which is OnMPFinishGameSuccess.
-// The decompiled call site is a refusal path, so the name looks wrong. Check it
-// against the binary before relying on it.
+// Refused requests call observer vtable slot 0, which is OnMPFinishGameSuccess. Checked against the
+// binary: the refusal in mpSendJoinPredefinedLobby (0x838528) calls the observer's slot 0 with no
+// argument, and sets the result to 0x32 first.
 void GLXPlayerMPLobby::RefuseRequest() {
     lastResult_ = kRefused;
     observer_->OnMPFinishGameSuccess();
@@ -427,13 +437,31 @@ void GLXPlayerMPLobby::mpSendJoinLobby(std::int32_t lobbyId, std::uint8_t b, cha
 }
 
 // 0x838528 _ZN16GLXPlayerMPLobby25mpSendJoinPredefinedLobbyEPciS0_iiRSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE
-// Partial. When the state is above 1 the original makes a call that the
-// decompiler marks as non-returning (an operator new of 0x40 bytes). That call is
-// not identified, so only the refusal branch is kept.
-void GLXPlayerMPLobby::mpSendJoinPredefinedLobby() {
+// The map is walked in key order (the original's in-order tree walk). For each entry the query
+// block gets AddQueryCondition(key, 2, text) (vtable +0x0c) and the parameter block gets
+// SetParameterValue(key, text) (vtable +0x08). The connection then sends the two blocks, the
+// request time is stamped, and the pending kind is 14. The state check and the refusal
+// (result 0x32, observer slot 0) are as the original. The map value is read as the string's
+// c_str(); the original reads the same character data from the node.
+void GLXPlayerMPLobby::mpSendJoinPredefinedLobby(char* a, std::int32_t b, char* c, std::int32_t d,
+                                                 std::int32_t e,
+                                                 std::map<std::int32_t, std::string>& names) {
+    XP_DEBUG_OUT("GLXPlayerMPLobby::mpSendJoinPredefinedLobby(){\n");
     if (state_ <= 1) {
         RefuseRequest();
+        return;
     }
+    // queryCondition is v12 in the original (sent as a7) and parameterValues is v11 (sent as a8).
+    CLobbyParameterAndQuery queryCondition;
+    CLobbyParameterAndQuery parameterValues;
+    for (const auto& entry : names) {
+        queryCondition.AddQueryCondition(entry.first, 2, entry.second.c_str());
+        parameterValues.SetParameterValue(entry.first, entry.second.c_str());
+    }
+    connection_->sendJoinPredefinedLobbyPackage(a, b, c, d, e, &queryCondition, &parameterValues);
+    lastResult_ = kPending;
+    StampRequest(kKindJoinLobby);
+    XP_DEBUG_OUT("}\n");
 }
 
 // 0x838890 _ZN16GLXPlayerMPLobby30mpSendLobbyLoginWithGameCenterElPcihhS0_S0_
@@ -456,21 +484,26 @@ void GLXPlayerMPLobby::mpSendLobbyLogin(long a, char* b, std::int32_t c, std::ui
 }
 
 // 0x8389a8 _ZN16GLXPlayerMPLobby16mpSendDisconnectEv
-// Partial. The virtual calls on this object (vtable slot 6) and on the observer
-// (slot 3), and the ConnectionLobby virtual slot 0x14, are not identified, so
-// those steps are omitted.
+// Connected: result -1, the connection's finish package (Connection vtable +0x14,
+// sendFinishConnectionPackage), request time, pending kind 16. Not connected: mpDisconnect (this
+// object's vtable +0x18), then result 0.
+// Partial: the original then calls observer slot 3 (OnMPSetParamSuccess, an int argument). The
+// pseudocode does not show that argument (r1 is not set before the call), so the call is not made.
+// The original returns the observer call's result; the port's void return drops it.
 void GLXPlayerMPLobby::mpSendDisconnect() {
     if (!connection_) {
         return;
     }
-    if (!connection_->isConnected()) {
-        lastResult_ = 0;
+    if (connection_->isConnected()) {
+        lastResult_ = kPending;
+        connection_->sendFinishConnectionPackage();
+        connection_->SetRequestTime(XP_API_GET_TIME());
+        pendingKind_ = kKindDisconnect;
+        pendingActive_ = true;
         return;
     }
-    lastResult_ = kPending;
-    connection_->SetRequestTime(XP_API_GET_TIME());
-    pendingKind_ = kKindDisconnect;
-    pendingActive_ = true;
+    mpDisconnect();
+    lastResult_ = 0;
 }
 
 // 0x838bf0 _ZN16GLXPlayerMPLobby12mpDisconnectEv
@@ -486,23 +519,37 @@ void GLXPlayerMPLobby::mpDisconnect() {
 }
 
 // 0x839e7c _ZN16GLXPlayerMPLobby25mpSendEstablishConnectionEv
-// Partial. When flag18_ is clear the original tears down the connection, sets the
-// result to -1 and then creates a 0x2058-byte ConnectionLobby. The decompiler
-// shows the allocation's result unused and marks the call non-returning, so the
-// allocation is not reproduced.
+// The state byte (+0x60) selects the branch. Non-zero: result 0 and observer slot 2
+// (OnMPLeaveGameSuccess, no argument). Zero: an existing connection is torn down through mpDisconnect
+// (this object's vtable +0x18) and freed, the result becomes -1, a new ConnectionLobby is built on
+// the config host (+0x58) and port (+0x5c), it is named from the +0x08 name text, and the flag at
+// +0x6c is set. The original's 0x2058-byte allocation is the ConnectionLobby size; the port uses
+// the object's own size. The original returns the observer call's or the trace's result; the port's
+// void return drops it.
 void GLXPlayerMPLobby::mpSendEstablishConnection() {
     XP_DEBUG_OUT("GLXPlayerMPLobby::mpSendEstablishConnection(){\n");
-    if (flag18_ == 0) {
-        connection_.reset();
-        lastResult_ = kPending;
+    if (state_ != 0) {
+        lastResult_ = 0;
+        observer_->OnMPLeaveGameSuccess();
         return;
     }
-    lastResult_ = 0;
+    if (connection_) {
+        mpDisconnect();
+        connection_.reset();
+    }
+    lastResult_ = kPending;
+    connection_ = std::make_unique<ConnectionLobby>(field58_, field5c_);
+    connection_->setName(field08_);
+    field6c_ = 1;
+    XP_DEBUG_OUT("}\n");
 }
 
 // 0x839f4c _ZN16GLXPlayerMPLobby10LoadConfigEv
-// Partial. The original opens oconf.bar and parses it. The file loader is not a
-// stand-in yet, so only the trace is printed.
+// Partial: not recovered. The original opens oconf.bar (XP_API_FILE_OPEN, the whole file read,
+// then one key:value line per entry). GGI is stored at +0x48 with atoi. XPlayMPURL is split into
+// the address (owned, +0x58) and the port (atoi, +0x5c), and is read only when the config text at
+// +0x7c is null. A second parse of the config text at +0x7c runs when the file is missing (not
+// recovered). The port prints only the not-found trace, so +0x58 and +0x5c stay zero.
 void GLXPlayerMPLobby::LoadConfig() {
     XP_DEBUG_OUT("[GLXPlayerMPBase] load config - %s not found \n", "oconf.bar");
 }

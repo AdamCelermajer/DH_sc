@@ -20,6 +20,15 @@ protected:
     }
     bool IsConnected() const override { return connected; }
 };
+
+// DataPacket declares its message accessors pure (the original's slots are __cxa_pure_virtual),
+// so the base is tested through a packet that gives them empty values.
+class BlankPacket : public DataPacket {
+public:
+    std::size_t getMessageLen() const override { return 0; }
+    const std::uint8_t* getMessageBody() const override { return nullptr; }
+    int getDataType() const override { return 1; }
+};
 }  // namespace
 
 int main() {
@@ -30,7 +39,7 @@ int main() {
     t.StartBroadcast();
     t.StopBroadcast();
 
-    DataPacket p;
+    BlankPacket p;
     CHECK(p.GetMessageType() == -1);
     CHECK(p.GetMMOMessageType() == -1);
     CHECK(p.addBlob(nullptr, 0) == 0);

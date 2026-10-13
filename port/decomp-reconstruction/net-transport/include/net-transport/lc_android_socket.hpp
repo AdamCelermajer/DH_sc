@@ -9,11 +9,12 @@
 //
 // Layout (32-bit offsets from the original, kept as comments):
 //   +0x04 state_ (7 = error)     +0x08 fd_ (socket handle, -1 when closed)
-//   +0x820 socket_type_ (1 TCP, 2 UDP)
+//   +0x820 socket_type_ (1 TCP, 2 UDP)     +0x868 ready_bits_ (m_set, 0x80 bytes; ARM listing of Select)
 // Other member offsets were not recovered from the pseudocode, so they are not given.
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <thread>
 
@@ -86,8 +87,10 @@ private:
 
     int state_ = 0;                                     // +0x04
     int fd_ = -1;                                       // +0x08
+    std::unique_ptr<char[]> server_name_;               // +0x14 (owned copy of the constructor's name)
+    void* observer_ = nullptr;                          // +0x18 (observer; its type is not in deps)
     int socket_type_ = kTypeNone;                       // +0x820
-    std::uint32_t ready_bits_[32] = {};                 // m_set (fd_set; 1024-bit bitmap)
+    std::uint32_t ready_bits_[32] = {};                 // +0x868 m_set (fd_set; 1024-bit bitmap)
     int non_block_connect_state_ = 0;                   // m_nonBlockConnectState
     int connect_time_start_ = 0;                        // m_connectTimeStart (ms)
     hostent* server_addr_ = nullptr;                    // m_server_addr

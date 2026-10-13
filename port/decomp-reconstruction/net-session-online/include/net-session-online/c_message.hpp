@@ -48,6 +48,16 @@ public:
     bool IsReliable() const { return reliable_; }
     void Acknowledge(std::uint32_t mask) { ackMask_ |= mask; }
     bool IsFrom(int memberId) const { return header_.sender == memberId; }
+    // Header and queue fields that CMessaging reads directly in the original.
+    std::int32_t Sender() const { return header_.sender; }                  // +0x0c
+    std::uint32_t Serial() const { return header_.type; }                   // +0x04 (serial when requested)
+    std::uint32_t DestMask() const { return header_.destMask; }             // +0x08
+    std::uint8_t WireTypeId() const { return static_cast<std::uint8_t>(header_.reserved); }  // +0x10 low byte
+    std::uint32_t AckMask() const { return ackMask_; }                      // +0x40
+    // +0x3c: set once the message is finished with its queue (expired on the receive side,
+    // sent and acknowledged on the send side). Queues skip it and PurgeMessagesFromQueue removes it.
+    bool IsFinished() const { return finished_; }
+    void SetFinished() { finished_ = true; }
 
     void Initialize();
     void Serialize(NetBitStream& stream);
@@ -102,6 +112,7 @@ protected:
     // SetSentFlag check tests it as a flag. The name is inferred; CompareMsgSendPriority
     // orders messages by it, so it is also a priority.
     std::int32_t trackSent_ = 0;          // +0x38
+    bool finished_ = false;               // +0x3c (name inferred from PurgeMessagesFromQueue; see IsFinished)
     std::uint32_t ackMask_ = 0;           // +0x40
     std::uint32_t sentMask_ = 0;          // +0x48
     std::uint32_t lifetime_ = 0;          // +0x4c

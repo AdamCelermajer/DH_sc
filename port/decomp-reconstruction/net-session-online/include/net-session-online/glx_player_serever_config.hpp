@@ -45,18 +45,18 @@ public:
     // 0x82e3b4 _ZN22GLXPlayerSereverConfig10LoadConfigEv. Reads oconf.bar. Partial: the original returns
     // 1 or 0; the base declares void LoadConfig, so the result is dropped.
     void LoadConfig() override;
-    // 0x82f6d8 _ZN22GLXPlayerSereverConfig15OnUpdateSuccessEi. Partial: one key literal (char[5]) is not
-    // recovered, so the completeness check skips it (see the .cpp).
+    // 0x82f6d8 _ZN22GLXPlayerSereverConfig15OnUpdateSuccessEi. Partial: the token buffers are 256 bytes
+    // where the original overflows 52-byte buffers (see the .cpp). The key check covers "type" too.
     void OnUpdateSuccess(std::int32_t arg) override;
     // 0x82f940 _ZN22GLXPlayerSereverConfig15OnUpdateFailureEi
     bool OnUpdateFailure(std::int32_t code) override;
 
     // 0x82eaac _ZN22GLXPlayerSereverConfig19SendGetServerConfigERi. Status out: 1 when the config is
     // already loaded, 0 when the request was sent by GET, -1 when the GGI or the version is missing
-    // (then the result is false). Partial: see the .cpp (blob codec and time stand-ins).
+    // (then the result is false). The trace lines are not emitted (see the .cpp).
     bool SendGetServerConfig(std::int32_t& status);
     // 0x82faac _ZN22GLXPlayerSereverConfig19loadConfigFromLocalEv. Reads serverConfig.sav. Partial:
-    // the third completeness key (char[5]) is not recovered (see the .cpp).
+    // the original's fixed line buffers are unbounded; the port sizes them to the file (see the .cpp).
     bool loadConfigFromLocal();
     // 0x82fec8 _ZN22GLXPlayerSereverConfig6UpdateEv. Overrides the base Update (vtable +0x08). Partial:
     // the observer slot 0 argument is not in the pseudocode (see the .cpp).

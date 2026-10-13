@@ -12,6 +12,7 @@
 #include <map>
 #include <vector>
 
+#include "net-transport/c_data_stats.hpp"  // CDataStats<int> members (the four at +0x88..+0xf4)
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/sync.hpp"
 
@@ -59,8 +60,8 @@ public:
         std::uint32_t bits = 0;          // +0x14 bit count of the packet
     };
 
-    CPacketManager();                                             // 0x8162a4 C1, 0x816540 C2 (partial)
-    virtual ~CPacketManager();                                    // 0x816ab8 D2, 0x81704c D1 (partial)
+    CPacketManager();                                             // 0x8162a4 C1, 0x816540 C2
+    virtual ~CPacketManager();                                    // 0x816ab8 D2, 0x81704c D1
     CPacketManager(const CPacketManager&) = delete;
     CPacketManager& operator=(const CPacketManager&) = delete;
 
@@ -119,4 +120,14 @@ private:
     bool force_send_ = false;                                     // +0x30 send on the next SendPackets call
     std::map<std::uint32_t, std::uint32_t> sent_times_;           // +0x4c key = (member << 16) + sequence, value = send time (ms)
     std::vector<std::uint32_t> acked_;                            // +0x64 acknowledged keys, drained by ProcessAcknowledgedPackets
+
+    // Members after acked_ (original +0x70..+0xf8). Their use is not recovered: the constructor
+    // builds them and the destructor clears or tears them down, and no other batch uses them.
+    // The original builds the four CDataStats<int> at +0x88, +0xac, +0xd0 and +0xf4 (36 bytes each)
+    // and tears them down in reverse order, which the reverse declaration order here reproduces.
+    std::map<int, std::uint32_t> unk_70_;                         // +0x70 tree header, key int, value uint
+    CDataStats<int> unk_88_;                                      // +0x88
+    CDataStats<int> unk_ac_;                                      // +0xac
+    CDataStats<int> unk_d0_;                                      // +0xd0
+    CDataStats<int> unk_f4_;                                      // +0xf4
 };

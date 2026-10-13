@@ -11,7 +11,7 @@
 //   +0x81c receive length (int)                 +0x820 socket type (int)
 //   +0x824 accept address (owned string)        +0x828 accept port (int)
 //   +0x82c content (std::string, 0x18 bytes in the original)
-//   +0x845 header pending, +0x846 length known, +0x848 total length (used by Run, not ported)
+//   +0x845 header pending, +0x846 length known, +0x848 total length (the members are below)
 //   +0x84c sent length, +0x850 send start time, +0x854 receive start time
 //   +0x858 non-blocking connect state, +0x85c gethostbyname state
 //   +0x860 connect start time, +0x864 gethostbyname start time
@@ -21,10 +21,17 @@
 #include <memory>
 #include <string>
 
-// The callback target of a socket. The observer vtable of the original is not reconstructed.
+// The callback target of a socket (LCXPlayerHttp in the lobby). Run calls the four slots below in
+// this order: slot 0 GetRequestData, slot 1 GetRequestLength, slot 2 SetResponseData, slot 3
+// SetResponseLen (the Hex-Rays calls index the observer vtable at +0x00, +0x04, +0x08, +0x0c; the
+// LCXPlayerHttp vtable in the dump has the same four entries first). The defaults are empty.
 class LCXPlayerSocketObserver {
 public:
     virtual ~LCXPlayerSocketObserver() = default;
+    virtual const char* GetRequestData() const { return nullptr; }                       // slot 0
+    virtual std::int32_t GetRequestLength() const { return 0; }                          // slot 1
+    virtual void SetResponseData(const char* /*data*/, std::int32_t /*length*/) {}      // slot 2
+    virtual void SetResponseLen(std::int32_t /*length*/) {}                              // slot 3
 };
 
 class LCXPlayerSocket {
@@ -34,6 +41,10 @@ public:
     enum XSocketState : std::int32_t {
         kStateNone = 0,              // XSOCKET_STATE_NONE
         kStateStartConnect = 1,      // XSOCKET_STATE_START_CONNECT
+        kStateWaitConnecting = 2,    // XSOCKET_STATE_WAIT_CONNECTING (Run's switch: case 1, Connect)
+        kStateSendRequest = 3,       // XSOCKET_STATE_SEND_REQUEST (case 2, Select(1))
+        kStateWaitResponse = 4,      // XSOCKET_STATE_WAIT_RESPONSE (case 3, Select(0))
+        kStateCloseConnection = 5,   // XSOCKET_STATE_CLOSE_CONNECTION (case 4, close hook)
         kStateRequestComplete = 6,   // XSOCKET_STATE_REQUEST_COMPLETE
         kStateError = 7,             // XSOCKET_STATE_ERROR
         kStateCancelled = 8,         // XSOCKET_STATE_CANCELLED
@@ -47,7 +58,8 @@ public:
 
     // 0x8a02c4 _ZN15LCXPlayerSocket5StartEv, vtable +0x0c
     virtual void Start();
-    // vtable +0x10: the receive step. Not ported (see the cpp); a no-op here.
+    // 0x8a1c1c _ZN15LCXPlayerSocket3RunEv, vtable +0x10: one step of the XSocketState machine
+    // (see the cpp). The I/O it needs is the virtual set below, so the base class fails.
     virtual void Run();
     // 0x8a01b4 _ZN15LCXPlayerSocket6CancelEv, vtable +0x14
     virtual void Cancel();
@@ -55,8 +67,22 @@ public:
     virtual bool IsInProgress() const;
     // 0x8a0220 _ZN15LCXPlayerSocket15IsErrorOccurredEv, vtable +0x1c
     virtual bool IsErrorOccurred() const { return state_ == kStateError; }
-    // vtable +0x3c, called by Cancel. Pure in the original base; the port makes it a no-op.
+    // vtable +0x3c: the close hook, called by Cancel and by Run's error paths. LCAndroidSocket's
+    // override at this slot is CloseSocket. Pure in the original base; the port makes it a no-op.
     virtual void OnCancelled() {}
+
+    // Platform I/O that Run calls. The names are those of LCAndroidSocket's overrides in the binary
+    // (vtable dump, shifted to this class's vptr: GetHostByName +0x20, CreateSocket +0x28,
+    // GetLastError +0x2c, Connect +0x34, Select +0x40, Send +0x44, Recv +0x48). The base has no
+    // socket, so the defaults report failure: no address, no connection, -1 for the byte counts.
+    virtual const void* GetHostByName(const char* /*serverName*/) { return nullptr; }
+    virtual bool CreateSocket() { return false; }
+    virtual std::int32_t GetLastError() { return 0; }
+    virtual bool Connect() { return false; }
+    // flag 1 asks for write readiness (SEND_REQUEST), flag 0 for read readiness (WAIT_RESPONSE).
+    virtual std::int32_t Select(std::int32_t /*flag*/) { return -1; }
+    virtual std::int32_t Send(const char* /*data*/, std::int32_t /*length*/) { return -1; }
+    virtual std::int32_t Recv(char* /*buffer*/, std::int32_t /*length*/) { return -1; }
 
     // 0x8a0184 _ZN15LCXPlayerSocket11GetAcceptIPEv
     const char* GetAcceptIP() const { return acceptIp_.get(); }
@@ -90,6 +116,7 @@ public:
 
     // Not in the original: test seams.
     void SetStateForTest(std::int32_t state) { state_ = state; }
+    std::int32_t StateForTest() const { return state_; }
     void SetContentForTest(const std::string& text) { content_ = text; }
     const std::string& ContentForTest() const { return content_; }
 
@@ -106,6 +133,9 @@ private:
     std::unique_ptr<char[]> acceptIp_;              // +0x824
     std::int32_t acceptPort_ = 0;                   // +0x828
     std::string content_;                           // +0x82c
+    bool receiveHttpHeader_ = false;                // +0x845 header still to parse (m_bReceiveHttpHeader)
+    bool lengthKnown_ = false;                      // +0x846 Content-Length was read (m_bLengthKnown)
+    std::int32_t totalLength_ = 0;                  // +0x848 (m_total_length)
     std::int32_t sentLength_ = 0;                   // +0x84c
     std::int32_t sendStartTime_ = 0;                // +0x850
     std::int32_t recvStartTime_ = 0;                // +0x854

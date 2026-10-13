@@ -28,6 +28,12 @@
 //   - The CNetPlayerManager event queue at +0x180 (event 0x300001) and its 0x400008 and SyncTime.
 //   - The disconnect of 0x800007 goes through the DisconnectMember seam, which CMatchingLocal and the
 //     other derived classes do not forward yet, so the member stays connected in those classes.
+//   - Why the reset calls and the 0x800003 AddPlayer stay out: ResetPlayers, DisconnectAll, ResetQueues and
+//     COnline::ReportDisconnect now exist, but the body calls them on the CNetPlayerManager, CConnectionManager
+//     and CMessaging singletons without a check, and it reads CNetPlayerManager's queue (+0x180) and
+//     CConnectionManager's queue (+0x08, private in the port) on every call. CNetPlayerManager::AddPlayer(int, int)
+//     is not declared (the port has the stream overload only). The singletons are not installed by this
+//     category's tests, so the calls are left for the integrator.
 //   - NetStruct::SetEnabled on each member element for 0x80000b. Only the flag read (IsServer) is done.
 //   - The CConnectionManager event queue at +0x08 (event 0x600004) and its member-id branch
 //     (posts 0x40000a with COnline::ReportDisconnect(6), or 0x40000e), which is the last block of the body.
@@ -144,10 +150,13 @@ void CMatching::ProcessEvents() {
 }
 
 // 0x8018fc _ZN9CMatching6UpdateEv
-// Partial. Reproduced: ProcessEvents runs first, then the room mask dirty flag (+0x10) is set and the
-// original returns 0. Not reproduced: the initialized branch, which updates the message layer
-// (CMessaging::Get()->Update), the connection manager (vtable +0x08), the net player manager
-// (vtable +0x08, then CSignIn::Get()->vtable +0x1c) and the virtual call at vtable +0x1c on this.
+// Partial. Reproduced: ProcessEvents runs first, then the room mask dirty flag (+0x10) is set and the original
+// returns 0. Not reproduced: the initialized branch (+0x0c), which updates the message layer (CMessaging::Get()->
+// Update), the connection manager (vtable +0x08), the net player manager (vtable +0x08, then CSignIn::Get()->
+// vtable +0x1c) and the virtual call at vtable +0x1c on this. Each callee exists in the port except the net
+// player manager slot and the this->vtable +0x1c slot. The branch was tried and left out: ProcessEvents sets
+// initialized_ in the same call, so the Update test in this file reaches the branch with no connection manager
+// installed and crashes. That test would have to install the singletons first.
 int CMatching::Update() {
     ProcessEvents();
     roomMaskDirty_ = true;  // +0x10

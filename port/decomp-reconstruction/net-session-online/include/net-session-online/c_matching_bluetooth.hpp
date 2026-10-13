@@ -8,6 +8,7 @@
 #include <string>
 
 #include "net-session-online/c_room_attributes.hpp"
+#include "net-session-online/t_matching_peer.hpp"  // tMatchingPeer (value type of the original's parameter)
 
 class CMatchingBluetooth {
 public:
@@ -16,8 +17,7 @@ public:
     static std::int32_t GetTransportType(std::uint32_t protocolType);
 
     // 0x803cbc CMatchingBluetooth::GenerateBluetoothDeviceName(tMatchingPeer) (partial, see the cpp).
-    // Deviation: the original takes the peer by value and its `this` is unused. The port takes the
-    // two peer fields the body reads (member id and room attributes), because the tMatchingPeer
-    // stand-in declares a second CRoomAttributes that clashes with c_room_attributes.hpp.
-    static std::string GenerateBluetoothDeviceName(std::int32_t memberId, const CRoomAttributes& attributes);
+    // The original takes the peer by value (passed by reference in the ABI) and its `this` is unused,
+    // so this is static and takes the peer by const reference.
+    static std::string GenerateBluetoothDeviceName(const tMatchingPeer& peer);
 };

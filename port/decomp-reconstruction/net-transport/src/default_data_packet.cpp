@@ -2,8 +2,6 @@
 
 #include <cstring>
 
-#include "net-transport/deps/data_packet_payload.hpp"
-
 namespace {
 
 // The original's wchar_t is 4 bytes (ARM). Wide characters are written as 32-bit little-endian
@@ -43,13 +41,16 @@ DefaultDataPacket::DefaultDataPacket() = default;
 
 // 0x84a508 _ZN17DefaultDataPacketC1EP10DataPacket
 // 0x84a5a4 _ZN17DefaultDataPacketC2EP10DataPacket is the same body (skipped at that address).
-// Partial: the data type (vtable +0x74) and the body (+0x64, length from +0x60) of the source are
-// read through the DataPacket stand-ins, which return 0, nullptr and 0 until DataPacket declares
-// those slots. The copy then has the stand-in values. The original's ip and port are cleared, and
-// the next-packet link is cleared last, as the member initialisers and the body do here.
+// The data type (vtable +0x74), body (+0x64) and length (+0x60) of the source come through the
+// DataPacket virtuals, in the original order. The ip and port are cleared by the member
+// initialisers, and the next-packet link is cleared last, as in the original. The member
+// initialiser zeroes the body array first; the original leaves the bytes past the copied length
+// as operator new gave them (not observable through the message accessors).
 DefaultDataPacket::DefaultDataPacket(DataPacket* source) {
-    data_type_ = PayloadDataType(*source);
-    setMessageBody(PayloadBody(*source), static_cast<int>(PayloadLength(*source)));
+    data_type_ = source->getDataType();
+    const std::uint8_t* body = source->getMessageBody();
+    const std::size_t length = source->getMessageLen();
+    setMessageBody(body, static_cast<int>(length));
     next_packet_ = nullptr;
 }
 
@@ -295,16 +296,16 @@ int DefaultDataPacket::getPacket(DataPacket*& packet) {
 }
 
 // 0x84a460 _ZN17DefaultDataPacket9addPacketEP10DataPacket
-// Partial: the length (vtable +0x60) and the body (+0x64) of the source come from the DataPacket
-// stand-ins, so an empty message is appended until DataPacket declares them. The original returns
-// the memcpy destination, which is not returned here. Not bounded by kBodySize, as in the original.
-// Writes the length as two big-endian bytes, then the body, and advances the write cursor by both.
+// Partial: the original returns the memcpy destination, which is not returned here. Not bounded
+// by kBodySize, as in the original. The length (vtable +0x60) is read first, then the two
+// big-endian length bytes are written and the cursor moves past them, then the body (+0x64) is
+// read and copied, as in the original.
 void DefaultDataPacket::addPacket(DataPacket* packet) {
-    const std::size_t length = PayloadLength(*packet);
-    const std::uint8_t* body = PayloadBody(*packet);
+    const std::size_t length = packet->getMessageLen();
     body_[write_pos_] = ToChar(static_cast<std::uint8_t>(length >> 8));
     body_[write_pos_ + 1] = ToChar(static_cast<std::uint8_t>(length));
     write_pos_ += 2;
+    const std::uint8_t* body = packet->getMessageBody();
     if (length != 0) {
         std::memcpy(body_ + write_pos_, body, length);
     }
@@ -316,13 +317,13 @@ void DefaultDataPacket::addPacket(DataPacket* packet) {
 void DefaultDataPacket::packMessage() {}
 
 // 0x84a330 _ZN17DefaultDataPacket13getMessageLenEv
-int DefaultDataPacket::getMessageLen() {
-    return write_pos_;
+std::size_t DefaultDataPacket::getMessageLen() const {
+    return static_cast<std::size_t>(write_pos_);
 }
 
 // 0x84a33c _ZN17DefaultDataPacket14getMessageBodyEv
-char* DefaultDataPacket::getMessageBody() {
-    return body_;
+const std::uint8_t* DefaultDataPacket::getMessageBody() const {
+    return reinterpret_cast<const std::uint8_t*>(body_);
 }
 
 // 0x84a4dc _ZN17DefaultDataPacket14setMessageBodyEPhi
@@ -357,7 +358,7 @@ bool DefaultDataPacket::IsSendByUdp() {
 }
 
 // 0x84a394 _ZN17DefaultDataPacket11getDataTypeEv
-int DefaultDataPacket::getDataType() {
+int DefaultDataPacket::getDataType() const {
     return data_type_;
 }
 

@@ -29,10 +29,9 @@ std::int32_t Elapsed(std::uint32_t now, std::int32_t then) {
     return static_cast<std::int32_t>(now - static_cast<std::uint32_t>(then));
 }
 
-// Connection key of a network id: the present address and id fields are summed, the sum is
+// Connection key of a network id (Connect, Update): the present address and id fields are summed
+// (address1 for flag bit 0, address0 for bit 1, field2 for bit 2, field3 for bit 3), the sum is
 // masked to 56 bits and the presence flags are added in the top bits (flags << 55).
-// Partial: CNetworkId has no accessor for field2 and field3 (flag bits 2 and 3), so their
-// terms are not added. See NOTES.md.
 std::uint64_t KeyOf(const CNetworkId& id) {
     std::uint16_t lo = 0;
     std::uint32_t hi = 0;
@@ -43,6 +42,12 @@ std::uint64_t KeyOf(const CNetworkId& id) {
     if (id.GetAddress0(lo, hi)) {
         sum += (static_cast<std::uint64_t>(hi) << 16) + lo;
     }
+    if ((id.Flags() & 4) != 0) {
+        sum += id.Field2();
+    }
+    if ((id.Flags() & 8) != 0) {
+        sum += id.Field3();
+    }
     constexpr std::uint64_t kMask56 = (std::uint64_t{1} << 56) - 1;
     return (sum & kMask56) + (static_cast<std::uint64_t>(id.Flags()) << 55);
 }
@@ -51,16 +56,19 @@ std::uint64_t KeyOf(const CNetworkId& id) {
 
 // 0x8259a8 _ZN11CConnectionC1Ev
 // 0x825ab8 _ZN11CConnectionC2Ev (same body; the C2 copy is skipped in the ledger)
-// Partial: the CDataStats constructor fields (500 at +0x20 in each element) are not reproduced,
-// because the CDataStats stand-in has none. The event queue base is also not constructed here.
+// Partial: the nine CDataStats<int> elements are default-built (each cap is 500, as the original's
+// constructor writes at +0x20). The CEventQueue base at +0x04 (vptr, CNetMutex, list, capacity 100) is
+// not held by CConnection yet: CEventQueueBase exists in net-session-online with the same layout, but
+// adding it means changing this class's bases, so it waits for the connection-manager batch.
 CConnection::CConnection() {
     peer_id_.Reset();
     handshake_id_.Reset();
 }
 
 // 0x826370 _ZN11CConnectionD2Ev (D1 0x8263f4 is the same body)
-// Partial: the event queue base is cleared by CEventQueueBase::Clear in the original; that
-// base is not reconstructed yet, so nothing is cleared here.
+// Partial: the original calls CEventQueueBase::Clear on its +0x04 base and then empties that base's
+// list; CConnection does not hold the base yet (see the constructor), so nothing is cleared here.
+// The members (stats_ and the handshake id) are destroyed by their own destructors.
 CConnection::~CConnection() {
     CConnection::Disconnect();
 }
@@ -217,8 +225,10 @@ int CConnection::SetLastRecvTime() {
 }
 
 // 0x8266ec _ZN11CConnection22ProcessConnectFinalizeER10CNetworkId
-// Partial: the original returns the value of CNetworkId::Set, which is not reproduced; the
-// IsEqual call before it has no effect and is dropped.
+// Stores the handshake id with CNetworkId::Set. The pseudocode's int return is the value left in the
+// register by the Set call (CNetworkId::Set is void in this port and its own result is the same kind of
+// leftover). The port's only caller (connection_manager.cpp) discards it, so the return is void. The
+// IsEqual call before the Set is const and has no effect, so it is dropped.
 void CConnection::ProcessConnectFinalize(CNetworkId& id) {
     handshake_id_.Set(id);
 }
@@ -230,9 +240,10 @@ void CConnection::ProcessConnectResponse(CNetworkId& id) {
 }
 
 // 0x8261c4 _ZN11CConnection7ConnectEiR10CNetworkId
-// Partial: the connection key is built from the listen id with KeyOf, which lacks the
-// field2/field3 terms (see KeyOf). The two dead stores of the original (+0x1bc and +0x1b8 before
-// the key is written) are overwritten and are not reproduced.
+// Partial: the key is KeyOf(the listen id). The listen id comes from the transport-manager stand-in
+// (transport_calls::GetListenNetworkId, an empty id here), and the original's return value is the
+// COnline* of CTransportManager::Connect, while the stand-in returns int 0. The original's dead stores
+// (+0x1bc and +0x1b8, overwritten by the key) are not reproduced.
 int CConnection::Connect(int matching_key, CNetworkId& peer) {
     member_id_ = matching_key;
     if (&peer_id_ != &peer) {
@@ -273,9 +284,9 @@ int CConnection::Disconnect() {
 }
 
 // 0x826780 _ZN11CConnection6UpdateEv
-// Partial: the connected test compares KeyOf(peer_id_) with KeyOf(handshake_id_), so it inherits
-// the field2/field3 gap of KeyOf. The return value of the original (a register left over from
-// the calls) is not reproduced, so Update returns void.
+// The connected test compares KeyOf(peer_id_) with KeyOf(handshake_id_) (address and field terms).
+// The pseudocode's return type is a Hex-Rays artifact: the value is the last callee's result (void
+// CheckForLag, then AddEvent or Timeout). The virtual slot is void here, as in the port's callers.
 void CConnection::Update() {
     const std::uint32_t now = static_cast<std::uint32_t>(online_calls::Now());
     if (state_ == 2 && Elapsed(now, last_send_time_) > 50) {

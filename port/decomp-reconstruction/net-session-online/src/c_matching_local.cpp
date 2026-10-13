@@ -51,14 +51,16 @@ void CMatchingLocal::ProcessChangeServerMessage(std::int32_t /*from*/, NetBitStr
 CMatchingLocal* CMatchingLocal::s_Matching = nullptr;
 
 // 0x807e44 _ZN14CMatchingLocalC2Ev
-// Partial: the original runs Reset() and constructs the NetStruct members (room info, member
-// and server-backup records) before the counters are final. Reset() is not in this port
-// yet, and the NetStruct members are not modelled, so only the counters and containers are set.
+// Partial: the original constructs the NetStruct members (room info, member and server-backup records)
+// before it runs Reset() last. Those constructors are not run here (the members are not declared in this
+// class, layout request), so the constructor sets the counters and containers and then calls Reset(), which
+// closes and hides the room and sets the member-id counter to 0.
 CMatchingLocal::CMatchingLocal() {
     nextPeerKey_ = 1;          // +0x3634
     memberId_ = -1;            // +0x3638
     serverMemberId_ = -2;      // +0x363c
     roomOperationPending_ = false;  // +0x3630
+    Reset();
 }
 
 // 0x807f80 _ZN14CMatchingLocalD1Ev

@@ -89,24 +89,22 @@ public:
     }
 
     // 0x7fe728 (MemberInfoNetStruct), 0x805730 (ServerBackupNetStruct)
-    // Partial: the original returns the last element's result; with no elements it returns
-    // the array pointer, which no caller uses. This port returns 0 in that case.
-    int ProcessAcknowledgedPacket(int a2, int a3) {
-        int result = 0;
+    // Calls every element. Returns void: the pseudocode's int is the last element's leftover R0
+    // (NetStruct::ProcessAcknowledgedPacket is void) or the array pointer when empty. The only
+    // callers reach this through a void vtable slot (xrefs to 0x7fe728 and 0x805730 are data
+    // references in vtables), so nothing reads it.
+    void ProcessAcknowledgedPacket(int a2, int a3) {
         for (int i = 0; i < count_; ++i) {
-            result = elements_[i].ProcessAcknowledgedPacket(a2, a3);
+            elements_[i].ProcessAcknowledgedPacket(a2, a3);
         }
-        return result;
     }
 
     // 0x7fe788 (MemberInfoNetStruct), 0x805790 (ServerBackupNetStruct)
-    // Partial: same return-value note as ProcessAcknowledgedPacket.
-    int ProcessLostPacket(int a2, int a3) {
-        int result = 0;
+    // Same as ProcessAcknowledgedPacket: void, the int result is a leftover (xrefs are vtable slots).
+    void ProcessLostPacket(int a2, int a3) {
         for (int i = 0; i < count_; ++i) {
-            result = elements_[i].ProcessLostPacket(a2, a3);
+            elements_[i].ProcessLostPacket(a2, a3);
         }
-        return result;
     }
 
 protected:

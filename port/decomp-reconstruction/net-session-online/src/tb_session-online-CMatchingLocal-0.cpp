@@ -29,18 +29,21 @@ std::vector<tFriendInfo> CMatchingLocal::GetFriendsList(bool /*flag*/) {
 }
 
 // 0x8057f0 _ZN14CMatchingLocal17ProcessLostPacketEii
-// Partial: the original calls the base CMatching::ProcessLostPacket, NetStruct::ProcessLostPacket
-// on the room-info record (+0x4A20), and vtable slot +0x44 of each of the 32 member records
-// (408 bytes each, from +0x4BE0). None of those layers is in this port, so nothing runs and the
-// result is 0 (the original returns the last slot call's result).
-std::int32_t CMatchingLocal::ProcessLostPacket(std::int32_t /*a2*/, std::int32_t /*a3*/) {
+// Partial: the base CMatching::ProcessLostPacket runs first (as in the original; it is itself partial).
+// NetStruct::ProcessLostPacket on the room-info record (+0x4A20), and vtable slot +0x44 of each of the 32
+// member records (408 bytes each, from +0x4BE0), are not run: those NetStruct members are not declared in
+// this class (layout request). The result is 0 (the original returns the last slot call's result).
+std::int32_t CMatchingLocal::ProcessLostPacket(std::int32_t a2, std::int32_t a3) {
+    CMatching::ProcessLostPacket(a2, a3);
     return 0;
 }
 
 // 0x80585c _ZN14CMatchingLocal25ProcessAcknowledgedPacketEii
-// Partial: same shape as ProcessLostPacket, with vtable slot +0x40 of each member record and the
-// base CMatching::ProcessAcknowledgedPacket and NetStruct::ProcessAcknowledgedPacket not in port.
-std::int32_t CMatchingLocal::ProcessAcknowledgedPacket(std::int32_t /*a2*/, std::int32_t /*a3*/) {
+// Partial: same shape as ProcessLostPacket. The base CMatching::ProcessAcknowledgedPacket runs first
+// (partial itself); NetStruct::ProcessAcknowledgedPacket on the room-info record and vtable slot +0x40 of
+// each member record are not run (layout request).
+std::int32_t CMatchingLocal::ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3) {
+    CMatching::ProcessAcknowledgedPacket(a2, a3);
     return 0;
 }
 
@@ -65,31 +68,38 @@ std::int32_t CMatchingLocal::WritePacketData(std::int32_t /*a2*/, std::int32_t /
 }
 
 // 0x805cc8 _ZN14CMatchingLocal8IsInRoomEv
-// Partial. Exact: the local member is the server (both ids valid and equal), or the server id is
-// connected. The final step reads CConnectionManager::IsInitialized(nullptr), a static of
-// net-transport that is not in the stand-ins; it is taken as false here, so the connected-member
-// count is not consulted and the result is false.
-bool CMatchingLocal::IsInRoom() {
+// Reconstructed. The local member is the server (both ids valid and equal), or the server id is connected.
+// Otherwise the room counts as joined when the connection manager is initialized and has a connected
+// member (CConnectionManager::IsInitialized() is static and takes no argument; the Hex-Rays nullptr is
+// not a parameter). This is also the vtable +0x64 slot that IsInRoom(int) calls.
+bool CMatchingLocal::IsInRoom() const {
     if (memberId_ >= 0 && memberId_ == serverMemberId_) {
         return true;
     }
     if (CConnectionManager::GetInstance()->IsConnected(serverMemberId_)) {
         return true;
     }
-    // CConnectionManager::IsInitialized(nullptr) not in port: treated as not initialized.
-    return false;
+    if (!CConnectionManager::IsInitialized()) {
+        return false;
+    }
+    return CConnectionManager::GetInstance()->GetConnectionCount(false) > 0;
 }
 
 // 0x8074a4 _ZN14CMatchingLocal5ResetEv
-// Partial. Reproduced: serverPollTime_ = 0, roomOperationPending_ = false, serverMemberId_ = -2,
-// memberId_ = -1, and under serversMutex_ the server map is cleared (the original's tree erase and
-// header reset). Not reproduced: the NetStruct member writes and dirty flags (room info at +0x4A20,
-// the server-backup array at +0x7EE8, and the 32 member records from +0x4D00), the NetStructMember
-// vtable slot calls on them, and the CNetworkId resets they use. Tests in this category define
-// their own no-op Reset; do not link this file with them.
+// Partial. Reproduced, in the original order: serverPollTime_ = 0, roomOperationPending_ = false, the room
+// closed and hidden flags set to 1 (both written with the value 1 on every path, as the assembly shows),
+// the member-id counter set to 0, serverMemberId_ = -2, memberId_ = -1, and under serversMutex_ the server
+// map cleared. Not reproduced: the value writes of the NetStruct members also set their change flags when
+// the value changes (the port keeps plain fields); the server-backup array id writes (-3, +0x7EE8 array of
+// 32 elements) and the 32 member-record resets (member id -1, network id reset, from +0x4D00), which need
+// the NetStruct arrays declared in this class (layout request). Tests in this category define their own
+// no-op Reset; do not link this file with them.
 void CMatchingLocal::Reset() {
     serverPollTime_ = 0;             // +0x465c
     roomOperationPending_ = false;   // +0x3630
+    roomClosed_ = 1;                 // +0x4b6d (room info bool at +0x4b50 + 0x1d)
+    roomHiddenFlag_ = 1;             // +0x4b8d (room info bool at +0x4b70 + 0x1d)
+    memberIdCounter_ = 0;            // +0x4bd8 (room info int at +0x4bb8)
     serverMemberId_ = -2;            // +0x363c
     memberId_ = -1;                  // +0x3638
     serversMutex_.Lock();

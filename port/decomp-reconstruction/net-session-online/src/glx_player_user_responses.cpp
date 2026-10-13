@@ -117,23 +117,34 @@ void GLXPlayerUser::processUserTrophyIcon(char* text) {
 }
 
 // 0x83b1e0 _ZN13GLXPlayerUser19processGetPromo_RSSEPc
-// Partial: the response is read as an XML document (slim::XmlDocument), which is not
-// reconstructed.
+// Partial: the original parses the response as an XML document (slim::XmlDocument) and reads
+// it into the rss at +0xf8 (promoRss_) with rss::read. The core-platform rss and slim::XmlNode
+// are not the types the port's channel (net-session-online) uses, so the parse is not wired and
+// the body is a no-op. The response is not parsed and promoRss_ is not filled.
 void GLXPlayerUser::processGetPromo_RSS(char* response) { (void)response; }
 
 // 0x83b280 _ZN13GLXPlayerUser17processGetADV_RSSEPc
-// Partial: same XML document reader as processGetPromo_RSS.
+// Partial: same parse as processGetPromo_RSS, into the rss at +0xe8 (advRss_). Not wired.
 void GLXPlayerUser::processGetADV_RSS(char* response) { (void)response; }
 
 // 0x83b320 _ZN13GLXPlayerUser19processUserGameIconEPc
-// Frees the game icon (+0xc8) and stores field 1. Partial: field 3 (+0xdc) and field 5
-// (+0xe4, as an int) are not modelled.
+// Partial. Frees the game icon (+0xc8), then stores field 1 with XP_API_PARSE_DATA_NEW, as the
+// original does. That callee keeps the separator after a field that ends at one, so "0|iconA|x"
+// stores "iconA|" (see 0x82b634). Field 3 is stored at +0xdc (unk_dc_) and field 5 is read as an
+// int into +0xe4 (unk_e4_). Not reconstructed: when field 1 is not found, the original copies from
+// one byte before the text (an out-of-bounds read); the port stores an empty icon there. The
+// original also copies field 3 into an 8-byte buffer with no bound; the port keeps the whole field.
 void GLXPlayerUser::processUserGameIcon(char* text) {
     gameIcon_.reset();
     if (text == nullptr || std::strlen(text) == 0) {
         return;
     }
-    gameIcon_ = OwnedField(std::string(text), 1);
+    char* icon = nullptr;
+    (void)XP_API_PARSE_DATA_NEW(text, &icon, 1, kBar);
+    gameIcon_.reset(icon);
+    const std::string body(text);
+    unk_dc_ = OwnedField(body, 3);
+    unk_e4_ = IntField(body, 5);
 }
 
 // 0x83b424 _ZN13GLXPlayerUser21processUserAvatarListEPc
@@ -173,16 +184,29 @@ void GLXPlayerUser::processUserData(char* text) {
 }
 
 // 0x83b724 _ZN13GLXPlayerUser21processDownloadAvatarEPc
-// Frees the avatar data (+0xb8, opaque here). The copy of the text is not reconstructed.
+// Frees the avatar data (+0xb8). A body whose first field is not "n" stores that field as the
+// avatar data. A body that starts with "n" stores field 1 as the other user's name (+0xc4) and
+// field 2 as the other avatar data (+0xbc). The original does not free an earlier +0xc4 or
+// +0xbc in that case; the port replaces them.
 void GLXPlayerUser::processDownloadAvatar(char* text) {
-    avatarData_ = nullptr;
-    (void)text;
+    avatarData_.reset();
+    if (text == nullptr || std::strlen(text) == 0) {
+        return;
+    }
+    const std::string body(text);
+    if (Field(body, 0) != "n") {
+        avatarData_ = OwnedCopy(Field(body, 0));
+    } else {
+        otherUserName_ = OwnedField(body, 1);
+        otherAvatarData_ = OwnedField(body, 2);
+    }
 }
 
 // 0x83b82c _ZN13GLXPlayerUser17processUserAvatarEPc
-// Partial: the key (+0xa8) and last-update (+0xb0) fields are stored for the non-"n" form,
-// and +0xc4 for the "n" form. The tokens at +0xac and +0xb4 are not modelled, so they are
-// not stored.
+// The non-"n" form stores the key (+0xa8) and last update (+0xb0) after a "d" and a "t" flag.
+// The "n" form stores the other user's name (+0xc4) and, after the same flags, the other key
+// (+0xac) and other last update (+0xb4). The key is field 3 when field 2 is "d", and the
+// last-update flag and value follow it.
 void GLXPlayerUser::processUserAvatar(char* text) {
     if (text == nullptr || std::strlen(text) == 0) {
         return;
@@ -201,6 +225,15 @@ void GLXPlayerUser::processUserAvatar(char* text) {
         }
     } else {
         otherUserName_ = OwnedField(body, 1);
+        const bool keyForm = Field(body, 2) == "d";
+        if (keyForm) {
+            otherAvatarKey_ = OwnedField(body, 3);
+        }
+        const std::int32_t flagIndex = keyForm ? 4 : 3;
+        const std::int32_t valueIndex = keyForm ? 5 : 4;
+        if (Field(body, flagIndex) == "t") {
+            otherAvatarLastUpdate_ = OwnedField(body, valueIndex);
+        }
     }
 }
 
@@ -267,8 +300,10 @@ void GLXPlayerUser::processUserTrophy(char* text) {
 }
 
 // 0x83c14c _ZN13GLXPlayerUser16processUserStateEPc
-// Clears the state first. Partial: the token at +0x88 (a 16-byte object, not modelled) is
-// read past but not stored. The state value and the "a" flag value are kept.
+// Clears the state first. The state value is field 1 of the "t" form (field 3 after the other
+// user's name). The token at +0x88 is the next field after the flag field: field 3 for "t",
+// and field 4 or 5 for the "n" and "un" forms, depending on field 2. The "a" flag value at
+// +0x80 follows the token.
 void GLXPlayerUser::processUserState(char* text) {
     clearUserState();
     if (text == nullptr || std::strlen(text) == 0) {
@@ -279,6 +314,7 @@ void GLXPlayerUser::processUserState(char* text) {
     if (kind != "n" && kind != "un") {
         if (kind == "t") {
             currentState_ = IntField(body, 1);
+            unk_88_ = OwnedField(body, 3);
             if (Field(body, 4) == "a") {
                 field80_ = IntField(body, 5);
             }
@@ -287,11 +323,13 @@ void GLXPlayerUser::processUserState(char* text) {
     }
     otherUserName_ = OwnedField(body, 1);
     if (Field(body, 2) != "t") {
+        unk_88_ = OwnedField(body, 4);
         if (Field(body, 5) == "a") {
             field80_ = IntField(body, 6);
         }
     } else {
         currentState_ = IntField(body, 3);
+        unk_88_ = OwnedField(body, 5);
         if (Field(body, 6) == "a") {
             field80_ = IntField(body, 7);
         }
@@ -346,9 +384,9 @@ void GLXPlayerUser::processUserReputation(char* text) {
 
 // 0x83c894 _ZN13GLXPlayerUser15OnUpdateSuccessEi
 // Routes the response by code to the handler for it, then calls the base, which reports the
-// response text to the observer. Partial: code 58 writes +0x3c, which is not modelled, and
-// code 98 reads two tokens into +0x11c and +0x120, which are not modelled. Both read or
-// skip their fields without storing them.
+// response text to the observer. Code 58 stores the whole text at +0x3c. Code 98 stores its
+// two tokens at +0x11c ("d" flag) and +0x120 ("t" flag). The original returns the base result;
+// the port's base is void, so nothing is returned.
 void GLXPlayerUser::OnUpdateSuccess(std::int32_t code) {
     const std::string body = cursor_ != nullptr ? std::string(cursor_) : std::string();
     std::vector<char> buffer(body.begin(), body.end());
@@ -360,6 +398,7 @@ void GLXPlayerUser::OnUpdateSuccess(std::int32_t code) {
             country_ = OwnedField(body, 1);
             break;
         case 58:
+            unk_3c_ = OwnedCopy(body);
             break;
         case 63:
             otherUserName_.reset();
@@ -405,13 +444,13 @@ void GLXPlayerUser::OnUpdateSuccess(std::int32_t code) {
             processUserGameIcon(text);
             break;
         case 98: {
-            // The two tokens are read to advance the cursor; their values are not stored.
+            // Each token is kept when its flag matches: "d" stores at +0x11c, "t" at +0x120.
             std::vector<char> token(body.size() + 256, '\0');
             if (IsNextResponseStringToken("d")) {
-                GetNextResponseToken(token.data());
+                unk_11c_ = OwnedCopy(GetNextResponseToken(token.data()));
             }
             if (IsNextResponseStringToken("t")) {
-                GetNextResponseToken(token.data());
+                unk_120_ = OwnedCopy(GetNextResponseToken(token.data()));
             }
             break;
         }

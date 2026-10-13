@@ -46,10 +46,12 @@ struct HostCacheEntry {
     char* addr_list[2] = {nullptr, nullptr};
     hostent view{};
 
+    // The original entry is 20 bytes of zeroed memory with name, length and address list set.
+    // h_aliases and h_addrtype (+4, +8) stay zero there, so they stay zero here.
     void Fill() {
         view.h_name = name.data();
         view.h_aliases = nullptr;
-        view.h_addrtype = AF_INET;
+        view.h_addrtype = 0;
         view.h_length = static_cast<decltype(view.h_length)>(sizeof(addr));
         addr_list[0] = reinterpret_cast<char*>(&addr);
         addr_list[1] = nullptr;
@@ -160,20 +162,24 @@ sockaddr_in MakeInet(std::uint32_t addr_network, int port_host) {
 }  // namespace
 
 // 0x842208 _ZN14CAndroidSocket7StartupEv
-// Partial: SIGPIPE is set to SIG_IGN through sigaction, as in the original (sigaction_0(13, ...)).
-// The original clears only the host cache head (l_host[0]) and writes three unnamed globals
-// (dword_A339FC/F4/F8) that are not reproduced; here the whole cache is cleared. The Winsock
-// initialisation is added for _WIN32 builds.
-void CAndroidSocket::Startup() {
+// The original stores 0 into the four cache slots l_host[0..3] (dword_A339F4, F8 and FC are
+// l_host[1..3]) and leaves l_count alone. The slots are reset here; that frees the entries the
+// original would leak. SIGPIPE is then set to SIG_IGN through sigaction (sigaction_0(13, ...)),
+// and that result is returned.
+// Partial: sa_flags and sa_mask are zero here (the original leaves them uninitialised). On
+// _WIN32 the WSAStartup call replaces sigaction and its result is returned.
+int CAndroidSocket::Startup() {
+    for (auto& entry : g_host_cache) {
+        entry.reset();
+    }
 #ifdef _WIN32
     WSADATA data{};
-    ::WSAStartup(MAKEWORD(2, 2), &data);
+    return ::WSAStartup(MAKEWORD(2, 2), &data);
 #else
     struct sigaction action {};
     action.sa_handler = SIG_IGN;
-    ::sigaction(SIGPIPE, &action, nullptr);
+    return ::sigaction(SIGPIPE, &action, nullptr);
 #endif
-    ClearHostCache();
 }
 
 // 0x84210c _ZN14CAndroidSocket7ClearupEv
@@ -186,17 +192,22 @@ void CAndroidSocket::Clearup() {
 }
 
 // 0x84232c / 0x842430 CAndroidSocket(char*, int, GLXPlayerSocketObserver*)
-// Partial: the original calls the GLXPlayerSocket base constructor (which owns the host
-// string and the observer), not reconstructed here. Only the port is kept.
-CAndroidSocket::CAndroidSocket(const char* host, int port, void* observer) {
+// Partial: the original calls the GLXPlayerSocket base constructor (0x8302f0, reconstructed in
+// net-session-online; it keeps a copy of the host string, the port and the observer) and then
+// sets the CAndroidSocket vtable. This port has no base class, so the host and observer are
+// dropped and only the port is kept. The vtable pointer is implicit in C++. The base state
+// defaults (state 0, handle -1) match the member initialisers above.
+CAndroidSocket::CAndroidSocket(const char* host, int port, GLXPlayerSocketObserver* observer) {
     (void)host;
     (void)observer;
     port_ = static_cast<std::uint16_t>(port);
 }
 
 // 0x842260 / 0x8422d4 ~CAndroidSocket()
-// Partial: the original joins the worker thread when worker_state_ != 0 and then runs the
-// GLXPlayerSocket base destructor. Neither is reconstructed here, so only CloseSocket runs.
+// Partial: the original joins the worker thread (pthread handle at +0x8ec, read only when
+// worker_state_ != 0), calls CloseSocket directly, and then runs the GLXPlayerSocket base
+// destructor (0x8301e4, reconstructed in net-session-online). This class does not derive from
+// that base yet and has no thread handle member, so only CloseSocket runs here.
 CAndroidSocket::~CAndroidSocket() {
     CloseSocket();
 }
@@ -612,7 +623,8 @@ int CAndroidSocket::GetLastError() const {
 // longer than 1024 bytes are rejected. A miss calls gethostbyname(); the original stores the
 // first address with STRNEW (a string copy of the raw bytes), which is not reproduced: the
 // port stores the 4-byte address. Once the cache is full (4 entries) the last cached entry is
-// returned in place of the new lookup, as in the original.
+// returned in place of the new lookup, as in the original. A null slot there (Startup clears the
+// slots but not the count) returns nullptr, where the original returns its null slot.
 hostent* CAndroidSocket::GetHostByName(const char* name) {
     if (name == nullptr || std::strlen(name) > kHostNameMax) {
         return nullptr;
@@ -633,16 +645,18 @@ hostent* CAndroidSocket::GetHostByName(const char* name) {
         return nullptr;
     }
     if (g_host_count > static_cast<int>(kHostCacheSize) - 1) {
-        return &g_host_cache[g_host_count - 1]->view;
+        HostCacheEntry* last = g_host_cache[g_host_count - 1].get();
+        return last != nullptr ? &last->view : nullptr;
     }
     return &StoreHostCopy(name, found)->view;
 }
 
 // 0x841e4c _ZN14CAndroidSocket9GetHostIPEPc
-// Partial: the "GetHostByName() Existed/Add" debug lines are dropped. The original's cache hit
-// returns the cache entry itself (not the system hostent); the port returns the hostent view of
-// that entry. The stored address is the first one only (h_length bytes in the original).
-// The full pseudocode body is now used (the earlier "truncated tail" note was wrong).
+// Static: the name arrives in r0 (Hex-Rays shows it as this, and the body passes it straight to
+// gethostbyname). A cache hit returns the cache entry (the hostent view here). A miss returns the
+// system hostent and stores a copy only while a cache slot is free.
+// Partial: the "GetHostByName() Existed/Add" debug lines are dropped. The stored address is the
+// first one only (4 bytes here, h_length bytes in the original).
 hostent* CAndroidSocket::GetHostIP(const char* name) {
     for (int i = 0; i < g_host_count; ++i) {
         HostCacheEntry* entry = g_host_cache[i].get();
@@ -719,11 +733,25 @@ int CAndroidSocket::GetLocalIP(char* out) {
 }
 
 // 0x842360 _ZN14CAndroidSocket6AcceptEv
-// Partial: the original builds a new 0xcf4-byte CAndroidSocket for the accepted
-// connection; that object construction is not reconstructed. This returns the fd.
-int CAndroidSocket::Accept() {
+// Partial: the original returns a GLXPlayerSocket* to a new 0xcf4-byte CAndroidSocket. This
+// port has no GLXPlayerSocket base, so the object is returned as CAndroidSocket* (same as
+// LCAndroidSocket::Accept). The object is built in the original's order: accept(), inet_ntoa(),
+// new CAndroidSocket(nullptr, 0, nullptr), then SetSocket, SetAcceptIP, SetAcceptPort (the
+// sender port in host order, from the pseudocode's byte swap) and SetSocketType(1), which are
+// stored on the object's own members. As in the original, the object is returned even when
+// accept() failed (its handle is then -1). The sockaddr is zeroed first, so a failed accept
+// gives 0.0.0.0 and port 0 where the original reads unset stack bytes.
+CAndroidSocket* CAndroidSocket::Accept() {
     sockaddr_in peer{};
+    peer.sin_family = AF_INET;
     SockLen peer_len = sizeof(peer);
-    NativeHandle h = ::accept(ToNative(fd_), reinterpret_cast<sockaddr*>(&peer), &peer_len);
-    return IsValidNative(h) ? static_cast<int>(h) : -1;
+    const NativeHandle handle = ::accept(ToNative(fd_), reinterpret_cast<sockaddr*>(&peer), &peer_len);
+    const std::string ip = ::inet_ntoa(peer.sin_addr);
+    const std::uint16_t port = ntohs(peer.sin_port);
+    auto* accepted = new CAndroidSocket(nullptr, 0, nullptr);
+    accepted->fd_ = IsValidNative(handle) ? static_cast<int>(handle) : -1;
+    accepted->accept_ip_ = ip;
+    accepted->accept_port_ = port;
+    accepted->socket_kind_ = 1;  // SetSocketType(1): TCP
+    return accepted;
 }

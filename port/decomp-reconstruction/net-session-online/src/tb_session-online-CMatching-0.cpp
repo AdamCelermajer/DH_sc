@@ -4,7 +4,10 @@
 // with no body; the ledger notes name what is missing.
 
 #include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_messaging.hpp"    // CMessaging::GetInstance, ResetQueues
+#include "net-session-online/c_sign_in.hpp"      // CSignIn::Get, Destroy
 #include "net-transport/connection_manager.hpp"  // CConnectionManager::Initialize
+#include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager::GetInstance, ResetPlayers
 
 #include "net-session-online/deps/matching_queue.hpp"
 
@@ -59,8 +62,13 @@ CMatching::CMatching() {
 }
 
 // 0x800a68 _ZN9CMatchingD2Ev, 0x800b00 _ZN9CMatchingD1Ev
-// Partial. The port's implicit virtual destructor destroys members_. Not ported: the free of the
-// node-allocated container at +0x3620 and the per-element NetStruct destructor call (vtable slot 0).
+// Partial, no body (the port's destructor is the implicit `virtual ~CMatching() = default`). Binary body,
+// from the Hex-Rays pseudocode: the vptr is set to the base table, the container at +0x3620 (begin pointer,
+// end pointer at +0x3628) is freed through the node allocator when at most 0x80 bytes, else CustomFree, then
+// the vptr at +0x18 is set and the 32 member elements are destroyed from element 31 down to 0 through their
+// vtable slot 0 (NetStruct destructor). Not ported: the container free (its element type is not identified in
+// the port) and the element NetStruct destructors (MemberInfo is a plain struct, so the port destroys its
+// vector members implicitly).
 // 0x800b98 _ZN9CMatchingD0Ev is the deleting destructor and is compiler-generated (see ledger).
 
 // Functions below have no body yet. Each one needs callees or layout that are not in this category
@@ -78,23 +86,62 @@ CMatching::CMatching() {
 // slot +0x08 of the search object, which is not identified.
 
 // 0x7feb8c _ZN9CMatching7DestroyEv
-// Partial, no body. Needs the static instance CMatching::s_Matching, CSignIn::Get and the CSignIn and
-// CMatching virtual slots +0x2c, +0x24 (these slot names are not identified).
+// Partial. When s_Matching is set: Terminate() on it (vtable +0x2c, its result is discarded by the
+// binary), CSignIn::Get()->Destroy() (CSignIn vtable +0x24), then delete s_Matching through its deleting
+// destructor (vtable +0x24) and clear the pointer. The binary's Destroy takes this and never uses it, so it
+// is non-static here. Partial: the CSignIn pointer is null-checked; the original dereferences it.
+void CMatching::Destroy() {
+    if (s_Matching == nullptr) return;
+    s_Matching->Terminate();
+    if (CSignIn* signIn = CSignIn::Get()) signIn->Destroy();
+    if (s_Matching != nullptr) {
+        delete s_Matching;
+        s_Matching = nullptr;
+    }
+}
 
 // 0x7fed08 _ZN9CMatching25ProcessAcknowledgedPacketEii
-// Partial, no body. Needs CRoomAttributes::ProcessAcknowledgedPacket (not in the port's CRoomAttributes)
-// and NetStruct slot +0x40 on each member element.
+// Body in src/c_matching_base.cpp (room attributes call only; partial there). Not repeated here.
 
 // 0x7ff120 _ZN9CMatching8JoinRoomEy
-// Partial, no body. Needs CMessaging::Get and ResetQueues, GetNetPlayerMgr and CNetPlayerManager::ResetPlayers,
-// NetStructMember::SetChanged, the per-member Set slots, NetStruct::SetEnabled, and the virtual slot 0 that
-// receives the join request. The per-member reset is recovered (member id, team and previous id to -1,
-// attribute buffer cleared, enabled off) and can be written once NetStruct is in the port.
+// Partial. Reconstructed: CMessaging::Get() (a thunk to GetInstance) then ResetQueues(true), GetNetPlayerMgr()
+// (CNetPlayerManager::GetInstance) then ResetPlayers, the per-member reset (member id -1, team 0, attribute
+// buffer cleared, previous id -1), and the virtual JoinRoomInternal (vtable +0x00) with the room id.
+// Not ported: the NetStructMember change notifications on the id and team objects, and NetStruct::SetEnabled(
+// element, 0) on each element (the port's MemberInfo has no NetStruct base). The Hex-Rays stack value passed to
+// the id Set slot is undefined, so only the stored result is reproduced.
+std::int32_t CMatching::JoinRoom(std::uint64_t roomId) {
+    CMessaging::GetInstance()->ResetQueues(true);
+    CNetPlayerManager::GetInstance()->ResetPlayers();
+    for (std::int32_t i = 0; i < memberCount_; ++i) {
+        MemberInfo& member = members_[i];
+        member.memberId = -1;          // element +0x150
+        member.teamId = 0;             // element +0x178
+        member.roomAttribute.clear();  // element +0x180
+        member.previousMemberId = -1;  // element +0x1a8
+    }
+    return JoinRoomInternal(roomId);  // vtable +0x00
+}
 
 // 0x7ff350 _ZN9CMatching14CreateJoinRoomEb15CRoomAttributes
-// Partial, no body. Same member reset as JoinRoom (decompiled with the object as CMessaging). Needs
-// CRoomAttributes::SetAttributeInt(int, int) with the attribute id, NetStruct::SetEnabled and the
-// virtual slot +0x04 that receives the request.
+// Partial. Reconstructed: the same messaging and player resets and member reset as JoinRoom, then
+// SetAttributeInt(0, -1342128411) on the attributes (0xB000BEE5 as the 32-bit value), then the virtual
+// CreateJoinRoomInternal (vtable +0x04). Not ported: the NetStruct::SetEnabled(element, 1) loop that the
+// binary runs after the attribute write. The binary's attributes argument is a copy, so the port takes it by
+// value.
+std::int32_t CMatching::CreateJoinRoom(bool flag, CRoomAttributes attributes) {
+    CMessaging::GetInstance()->ResetQueues(true);
+    CNetPlayerManager::GetInstance()->ResetPlayers();
+    for (std::int32_t i = 0; i < memberCount_; ++i) {
+        MemberInfo& member = members_[i];
+        member.memberId = -1;          // element +0x150
+        member.teamId = 0;             // element +0x178
+        member.roomAttribute.clear();  // element +0x180
+        member.previousMemberId = -1;  // element +0x1a8
+    }
+    attributes.SetAttributeInt(0, -1342128411);
+    return CreateJoinRoomInternal(flag, attributes);  // vtable +0x04
+}
 
 // 0x7ff5a0 _ZN9CMatching9TerminateEv
 // Partial, no body. Needs CPacketManager::UnregisterPacketSlot and Terminate, CNetPlayerManager::Terminate,
@@ -103,14 +150,16 @@ CMatching::CMatching() {
 // and the AddEvent code 4194306.
 
 // 0x7ff85c _ZN9CMatching10InitializeEi
-// Partial. Reproduced: when the matching object is already initialized (+0x0c) it posts 0x400001 on the
-// output queue (CMatching::m_eventQueue) and returns. Otherwise it stores the capacity (+0x08), clears the
-// room hidden (+0x0d) and room closed (+0x0e) flags, clears both matching queues, and resets every member
-// element (id -1, team 0, attribute buffer empty, previous id -1). The original returns 0 on both paths.
-// Not reproduced: CPacketManager::RegisterPacketSlot with the four static forwarders, the call through
-// CSignIn::Get()'s vtable +0x08 into CConnectionManager::Initialize, the room attributes' vtable +0x10
-// slot (not identified), the NetStructMember change notifications of the element resets, and
-// NetStruct::SetEnabled(element, false) on every element.
+// Partial. Reproduced in the original order: when the matching object is already initialized (+0x0c) it posts
+// 0x400001 on the output queue (CMatching::m_eventQueue) and returns 0. Otherwise it stores the capacity (+0x08),
+// clears the room hidden (+0x0d) and room closed (+0x0e) flags, clears both matching queues, calls
+// CSignIn::Get()->Initialize() (the CSignIn vtable +0x08 slot, which sets the sign-in active flag), calls
+// CConnectionManager::Initialize() unconditionally, and resets every member element (id -1, team 0, attribute
+// buffer empty, previous id -1). The original returns 0 on both paths.
+// Not reproduced: CPacketManager::RegisterPacketSlot with the four static forwarders, the room attributes' calls
+// (GetRoomAttributes() at vtable +0xa4, then the result's vtable +0x10, not identified) that the binary makes
+// between the connection manager init and the member reset, the NetStructMember change notifications of the
+// element resets, and NetStruct::SetEnabled(element, false) on every element.
 int CMatching::Initialize(int memberCapacity) {
     if (initialized_) {
         MatchingOutputEventQueue().AddEvent(0x400001, nullptr, 0);  // 4194305
@@ -121,6 +170,9 @@ int CMatching::Initialize(int memberCapacity) {
     roomHidden_ = false;               // +0x0d
     MatchingOutputEventQueue().Clear();    // CMatching::m_eventQueue
     MatchingInternalEventQueue().Clear();  // CMatching::m_eventQueueInternal
+    // Unchecked, as in the binary: Get() returns null only for a provider other than 0 or 1.
+    CSignIn::Get()->Initialize();  // CSignIn vtable +0x08: sets the active flag
+    CConnectionManager::Initialize();  // unconditional
     for (std::int32_t i = 0; i < memberCount_; ++i) {
         MemberInfo& member = members_[i];
         member.memberId = -1;          // element +0x150
@@ -128,19 +180,9 @@ int CMatching::Initialize(int memberCapacity) {
         member.roomAttribute.clear();  // element +0x180
         member.previousMemberId = -1;  // element +0x1a8
     }
-    // The binary reaches CConnectionManager::Initialize through CSignIn::Get()'s vtable +0x08; the port calls
-    // it directly (CSignIn is not ported).
-    if (!CConnectionManager::IsInitialized()) {
-        CConnectionManager::Initialize();
-    }
     return 0;
 }
 
-// 0x800f8c _ZN9CMatching3GetEv
-// Partial, no body. The port already has an inline CMatching::Get in deps/matching.hpp that returns the
-// current instance. It does not construct CMatchingLocal, CMatchingBluetooth or CMatchingGLLive from
-// s_matchingProvider as the original does (sizes 0xa9e8, 0xabb8 and 0x6c08 are recorded in the ledger).
-
-// 0x8010a4 _ZN9CMatching15WritePacketDataEiiR12NetBitStream
-// Partial, no body. Needs NetStruct::SetEnabled on the room attributes' NetStruct (+0x08), CRoomAttributes::Serialize
-// with the bits argument, and NetStructArray<MemberInfoNetStruct,32>::Serialize.
+// 0x800f8c _ZN9CMatching3GetEv: the body is in src/glx_320e98.cpp (the one definition of CMatching::Get).
+// 0x8010a4 _ZN9CMatching15WritePacketDataEiiR12NetBitStream: the body is in
+// src/r1n-net-session-online-CMatching-9acceb-1.cpp (partial: the two serialize steps are stubs).

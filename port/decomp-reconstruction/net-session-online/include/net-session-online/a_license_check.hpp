@@ -2,8 +2,9 @@
 // method ids, the device id (IMEI), the key (KEY), the encrypted config values (EKEY, EPID,
 // SERVER), the response code (UCODE), the RMS directory (RMS_PATH) and the HTTP client.
 //
-// The JNI bridge, the config decoder and the SSEncDec codec are stand-ins (deps/), so
-// the functions that call them run but produce empty results on Windows.
+// The JNI bridge and the config decoder are stand-ins (deps/), so the functions that call them
+// run but produce empty results on Windows. The SSEncDec blob codec is the real one
+// (tinyxml-and-c-libs), and LC_API_PARSE_DATA is core-platform's.
 //
 // Static data layout: the binary keeps these in .bss (ALicenseCheck::KEY, IMEI, ...).
 // Sizes follow the symbol sizes: EKEY, EPID, KEY and IMEI are 255 bytes, SERVER 512.

@@ -21,12 +21,14 @@
 #include "net-session-online/deps/matching_queue.hpp"
 #include "net-transport/net_bit_stream.hpp"
 #include "net-session-online/glx_player_login.hpp"
+#include "net-session-online/glx_player_user_friend.hpp"
 #include "net-session-online/t_friend_info.hpp"
 
 // 0x81bfe4 _ZN15CMatchingGLLive17ProcessLostPacketEii
-// Partial. Calls CMatching::ProcessLostPacket (CMatching::ProcessLostPacket, itself partial), then NetStruct
-// vtable slot +0x44 on each of the 32 member entries at +0x3a00 (stride 0x168). The entry's slot is a stand-in
-// that does nothing (the packet history belongs to net-transport's NetStruct).
+// Partial. Calls the base CMatching::ProcessLostPacket (partial in its own row), then NetStruct vtable slot +0x44
+// on each of the 32 member entries at +0x3a00 (stride 0x168). The entry's slot is a stand-in that does nothing
+// (the packet history belongs to net-transport's NetStruct). The original returns the result of the last slot
+// call; the base declares this function void here, so that result is not produced.
 void CMatchingGLLive::ProcessLostPacket(std::int32_t a2, std::int32_t a3) {
     CMatching::ProcessLostPacket(a2, a3);
     for (MemberInfoNetStruct& entry : memberInfo_) {
@@ -35,10 +37,12 @@ void CMatchingGLLive::ProcessLostPacket(std::int32_t a2, std::int32_t a3) {
 }
 
 // 0x81c034 _ZN15CMatchingGLLive23ProcessAcknowledgedPacketEii
-// Partial. Same shape as ProcessLostPacket: the original calls CMatching::ProcessAcknowledgedPacket (0x7fed08,
-// not ported in CMatching) and then NetStruct slot +0x40 on each member entry. Only the loop over the entries
-// runs here, and the entry's slot is a stand-in that does nothing.
+// Partial. Same shape as ProcessLostPacket: the original first calls the base CMatching::ProcessAcknowledgedPacket
+// (0x7fed08, partial in its own row: the room attributes receive the call), then NetStruct slot +0x40 on each
+// member entry. The entry's slot is a stand-in that does nothing. The original's return value (the last slot
+// result) is not produced, as for ProcessLostPacket.
 void CMatchingGLLive::ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3) {
+    CMatching::ProcessAcknowledgedPacket(a2, a3);
     for (MemberInfoNetStruct& entry : memberInfo_) {
         entry.ProcessAcknowledgedPacket(a2, a3);
     }
@@ -76,15 +80,28 @@ std::int32_t CMatchingGLLive::SendClientRequest() {
 }
 
 // 0x81c460 _ZN15CMatchingGLLive9GetRoomIdEv
-// Partial. The original returns -1 when the sign-in logged-in flag (CSignIn +0x11) is set, and
-// otherwise the room id stored at +0x08 of the lobby observer. The flag has no accessor and the
-// observer field at +0x08 is not identified, so this returns 0 for now.
-std::int64_t CMatchingGLLive::GetRoomId() { return 0; }
+// Partial. Returns -1 when the sign-in logged-in flag (CSignIn +0x11) is set; the flag is read through
+// CSignIn::LoggedInForTest(), the only accessor. Otherwise the original returns the room id at +0x08 of the
+// lobby observer. That field is not identified (the observer's field08_ is not modelled), so 0 is returned.
+// The lobby observer is created on first use, as in the original.
+std::int64_t CMatchingGLLive::GetRoomId() {
+    CSignIn* signIn = CSignIn::Get();
+    if (signIn != nullptr && signIn->LoggedInForTest()) {
+        return -1;
+    }
+    GetGLXPlayerMPLobbyObserver();
+    return 0;
+}
 
 // 0x81c494 _ZN15CMatchingGLLive20GetMemberByMemberIdEi
-// Partial. The original forwards to CMatchingGLLiveLobbyObserver::GetMemberByMemberId on the lobby
-// observer, which is not declared in its header. Returns 0 for now.
-std::int32_t CMatchingGLLive::GetMemberByMemberId(std::int32_t /*memberId*/) { return 0; }
+// Partial. The original forwards to CMatchingGLLiveLobbyObserver::GetMemberByMemberId on the lobby observer
+// (created on first use). That lookup returns a tMemberInfo* and is partial in its own row (always null here).
+// The original returns the pointer as its int result; a host pointer cannot be returned as int32 here, so the
+// null result 0 is returned. A non-null member would be lost by this port (none can be produced yet).
+std::int32_t CMatchingGLLive::GetMemberByMemberId(std::int32_t memberId) {
+    (void)GetGLXPlayerMPLobbyObserver()->GetMemberByMemberId(memberId);
+    return 0;
+}
 
 // 0x81c4ac _ZN15CMatchingGLLive6IsInRoomEv
 // While the game is starting: true for the server (CMatching::IsServer), otherwise true when the connection
@@ -94,7 +111,10 @@ std::int32_t CMatchingGLLive::GetMemberByMemberId(std::int32_t /*memberId*/) { r
 bool CMatchingGLLive::IsInRoom() const {
     if (s_IsGameStarting) {
         if (IsServer()) return true;
-        return CConnectionManager::GetInstance()->GetConnectionCount(false) > 0;
+        // Deviation: the original always has the connection manager; a missing instance (before
+        // CConnectionManager::Initialize, as in the unit tests) counts as no connections.
+        CConnectionManager* manager = CConnectionManager::GetInstance();
+        return manager != nullptr && manager->GetConnectionCount(false) > 0;
     }
     CSignIn* signIn = CSignIn::Get();
     if (signIn != nullptr && signIn->LoggedInForTest()) {
@@ -104,15 +124,18 @@ bool CMatchingGLLive::IsInRoom() const {
 }
 
 // 0x81c524 _ZNK15CMatchingGLLive14GetMemberCountEv
-// Partial. While the game is starting the count is the connection count plus one. Otherwise the original returns
-// 0 when the lobby observer's byte at +0x06 is clear, and the size of the observer's member vector (84-byte
-// tMemberInfo entries at +0x24..+0x28) when it is set. That vector is not modelled on the observer, so the
-// second case returns 0.
+// Partial. While the game is starting the count is the connection count plus one. Otherwise the original reads the
+// lobby observer's game-started byte (+0x06, GameStartedForTest) and returns 0 when it is clear, and the size of the
+// observer's member vector (84-byte tMemberInfo entries at +0x24..+0x28) when it is set. That vector is not modelled
+// on the observer, so the second case returns 0 as well.
 std::int32_t CMatchingGLLive::GetMemberCount() const {
     if (s_IsGameStarting) {
         return CConnectionManager::GetInstance()->GetConnectionCount(false) + 1;
     }
-    return 0;  // Partial: the observer's member vector size is not available.
+    const bool gameStarted = GetGLXPlayerMPLobbyObserver()->GameStartedForTest();
+    // Partial: when gameStarted is set, the original returns the observer's member vector size (not modelled).
+    (void)gameStarted;
+    return 0;
 }
 
 // 0x81c6cc _ZN15CMatchingGLLive10IsMyFriendEPc
@@ -133,31 +156,43 @@ std::int32_t CMatchingGLLive::IsMyFriend(char* name) {
 }
 
 // 0x81c9e8 _ZN15CMatchingGLLive23sPacketReceiverCallbackEiPci
-// Partial. The original forwards the packet to CMatchingGLLive::PacketReceiverCallback on the
-// CMatching singleton (CMatching::s_Matching), which is not declared in this port.
-void CMatchingGLLive::sPacketReceiverCallback(std::int32_t /*from*/, char* /*data*/, int /*size*/) {}
+// Partial. The original forwards the packet to CMatchingGLLive::PacketReceiverCallback on the CMatching singleton
+// (CMatching::s_Matching) with the first argument as the sender. Deviation: the binary does not check s_Matching for
+// null; this port returns when it is null, as sBroadcastPacketReceiverCallback does (e2 batch, same callee class).
+void CMatchingGLLive::sPacketReceiverCallback(std::int32_t from, char* data, int size) {
+    auto* matching = static_cast<CMatchingGLLive*>(CMatching::s_Matching);
+    if (matching == nullptr) {
+        return;
+    }
+    matching->PacketReceiverCallback(from, data, size);
+}
 
 // 0x81cec0 _ZN15CMatchingGLLive12IsFriendWithEPKcb
 // Partial. The original copies the friend list (GetFriendsList with the flag, virtual slot +0x8c) and
-// returns true when any entry's name string (tFriendInfo offset +0x18 in the original) equals the
-// argument. tFriendInfo's name accessor and the offset mismatch with the placeholder layout in
-// t_friend_info.hpp are open. Returns false for now.
+// returns true when any entry's name string (tFriendInfo offset +0x18 in the original) equals the argument.
+// Two gaps: t_friend_info.hpp has no member at +0x18 (its placeholder fields are at +0x00, +0x04, +0x1c, +0x20,
+// +0x38 and +0x50), so the name cannot be read (layout request); and GetFriendsList is partial and returns an
+// empty list. Returns false for now.
 bool CMatchingGLLive::IsFriendWith(const char* /*name*/, bool /*flag*/) { return false; }
 
 // 0x81cf30 _ZN15CMatchingGLLive16SendInvitationEPKcS1_b
-// Partial. The original returns 1 when the friend-observer flag at +0x04 of the object at this+0x66c4
-// is clear. Otherwise it sends a message to each friend in the list (GLXPlayerMessage::SendOnlineMessage,
-// kind 8) and posts event 8388628. The member object and the queue are not declared, so this returns 0
-// without sending.
+// Partial. The original returns 1 when the friend observer's flag (+0x04 of the object at +0x6704) is clear.
+// Otherwise it sends a message to each friend in the list (GLXPlayerMessage::SendOnlineMessage at +0x6708, kind 8)
+// and posts event 8388628. Not reproduced: the friend observer is null in this port (the original would fault
+// reading its flag, so the flag check cannot be made here); the friend names are needed for the send and
+// tFriendInfo has no name at +0x18 (see IsFriendWith); and the friend list is partial. Returns 0 without sending.
 std::int32_t CMatchingGLLive::SendInvitation(const char* /*from*/, const char* /*to*/, bool /*flag*/) {
     return 0;
 }
 
 // 0x81dba0 _ZN15CMatchingGLLive19GetGLLiveMemberIdListEv
-// Partial. The original copies the member id field of each entry of the lobby observer's member
-// vector (84-byte entries, id at +0x00) into a new std::vector<int>. The member vector is not
-// declared on the observer, so the result is empty.
-std::vector<std::int32_t> CMatchingGLLive::GetGLLiveMemberIdList() { return {}; }
+// Partial. The original first copies the lobby observer's member vector (84-byte entries, id at +0x00) and then
+// builds the std::vector<int> of the ids. The member vector is not declared on the observer, so the id list is
+// empty. The lobby observer is created on first use, as in the original.
+std::vector<std::int32_t> CMatchingGLLive::GetGLLiveMemberIdList() {
+    (void)GetGLXPlayerMPLobbyObserver();
+    return {};
+}
 
 // 0x81ded4 _ZN15CMatchingGLLive6IsInRoomEi
 // While the game is starting the local member id (+0x3640) is answered by IsInRoom() (vtable +0x64) and any other
@@ -194,10 +229,29 @@ void CMatchingGLLive::SyncMemberId() {}
 void CMatchingGLLive::ReadPacketData(std::int32_t /*a2*/, std::int32_t /*a3*/, NetBitStream& /*stream*/) {}
 
 // 0x81ec5c _ZN15CMatchingGLLive14GetFriendsListEb
-// Partial. The original builds a list of tFriendInfo from the GLX user-friend object: for each
-// friend it stores the user number (atoi), the name, and the state, and keeps the entry unless the
-// flag is set and the state is 3. tFriendInfo has no field setters in t_friend_info.hpp, so the list
-// cannot be filled here and is returned empty.
-std::vector<tFriendInfo> CMatchingGLLive::GetFriendsList(bool /*notInState3*/) { return {}; }
+// Partial. The original returns an empty list unless the friend observer's flag (byte +0x04 of the object at
+// +0x6704) is set. Then, for each friend of the GLX user-friend object (+0x6700, count from GetFriendsCount), it
+// builds a tFriendInfo with the user number (+0x00), the name (+0x04) and the state (+0x1c), and keeps the entry
+// unless the argument is set and the state is 3. Deviation: the binary's GetUserNumber returns a string pointer
+// that the original passes to atoi; the port's GetUserNumber already returns the number, so it is used as it is.
+// A null friend observer or friend list gives an empty list here (the original reads through them).
+std::vector<tFriendInfo> CMatchingGLLive::GetFriendsList(bool notInState3) {
+    std::vector<tFriendInfo> list;
+    if (friendObserver_ == nullptr || !friendObserver_->FlagForTest() || glxUserFriend_ == nullptr) {
+        return list;
+    }
+    for (std::int32_t index = 0; index < glxUserFriend_->GetFriendsCount(); ++index) {
+        tFriendInfo info;
+        info.SetValue00(static_cast<std::int32_t>(glxUserFriend_->GetUserNumber(index)));
+        const char* name = glxUserFriend_->GetName(index);
+        info.SetText04(name != nullptr ? std::string(name) : std::string());
+        const std::int32_t state = glxUserFriend_->GetState(index);
+        info.SetValue1c(state);
+        if (!notInState3 || state != 3) {
+            list.push_back(info);
+        }
+    }
+    return list;
+}
 
 // 0x81ee10 AddFriendInGameList and 0x81ee6c GetGLFriendsList are in src/c_matching_gl_live_member_calls.cpp.

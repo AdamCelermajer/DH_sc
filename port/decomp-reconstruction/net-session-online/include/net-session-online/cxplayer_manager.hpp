@@ -7,7 +7,7 @@
 //   +0x04 initialized flag (byte)     +0x05 flag (byte, not identified)
 //   +0x08 login service (GLXPlayerLogin*, owned)
 //   +0x0c leaderboard service (GLXPlayerLeaderboard*, owned)
-//   +0x10 third service (type not identified; released through its virtual dtor)
+//   +0x10 server-config object (GLXPlayerSereverConfig, created by Init; released through its virtual dtor)
 //   +0x14 state (int)                 +0x18 score (int)
 //   +0x1c score waiting to be uploaded (int)
 //   +0x20 user name (46 bytes)        +0x4e password (46 bytes)
@@ -48,8 +48,8 @@ public:
     void Login(const char* user, const char* password);
     // Observer slot 2: 0x52e3f8 _ZN15CXPlayerManager16OnRequestSuccessEiPci
     void OnRequestSuccess(std::int32_t functionId, const char* data, std::int32_t dataLength);
-    // 0x52e524 _ZN15CXPlayerManager4InitEv (partial: the server-config request is not ported,
-    // so the services are never created; see the .cpp).
+    // 0x52e524 _ZN15CXPlayerManager4InitEv. Creates the server-config object, sends its request and
+    // creates the login and leaderboard services when the status is 1 (see the .cpp).
     void Init();
     // 0x52e6cc _ZN15CXPlayerManager13UploadMyScoreEi: the original returns a byte (0 or 1).
     bool UploadMyScore(std::int32_t score);

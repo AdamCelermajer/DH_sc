@@ -7,18 +7,19 @@ std::int32_t CMatchingLocal::GetMemberCount() const {
 }
 
 // 0x805c1c _ZN14CMatchingLocal8IsInRoomEi
-// Partial: the original asks the no-argument IsInRoom() (vtable +0x64, not in this port) for
-// the local member, and reads the member-table entry from CMatching::GetMemberIndex (base class,
-// not in this port). Both are stood in as "not in the room". The connection check is exact.
+// Partial. Exact: for the local member id the answer is the no-argument IsInRoom() (vtable +0x64, which is
+// CMatchingLocal::IsInRoom); for another id, a connected member is in the room. The original's last clause
+// is not reproduced: (memberId_ < 0 or memberId_ != serverMemberId_) && IsInRoom() && the member record found
+// by CMatching::GetMemberIndex has its member-id value (element +0x150) >= 0. Those member records are not
+// declared in this class (layout request), so the result is false there.
 bool CMatchingLocal::IsInRoom(std::int32_t memberId) const {
     if (memberId_ == memberId) {
-        return false;  // IsInRoom() of the local member: not in this port
+        return IsInRoom();  // vtable +0x64
     }
     if (CConnectionManager::GetInstance()->IsConnected(memberId)) {
         return true;
     }
-    // Member-table check (entry +0x150 >= 0) is not reproduced.
-    return false;
+    return false;  // member-table clause not reproduced (see above)
 }
 
 // 0x805d38 _ZN14CMatchingLocal10KickMemberEi
@@ -28,16 +29,19 @@ std::int32_t CMatchingLocal::KickMember(std::int32_t memberId) {
 }
 
 // 0x80675c _ZN14CMatchingLocal19GenerateNewMemberIdEv
-// Partial: the room mask comes from the base CMatching::GetRoomMask() (not in this port) and is
-// taken as 0 here, so the loop ends on the first id. The counter is kept in memberIdCounter_ in
-// place of the NetStruct member value (its dirty-flag write is not reproduced).
+// Partial. The room mask is CMatching::GetRoomMask() (base, 0x8000dc, itself partial). The counter is
+// memberIdCounter_, the value of the room-info int (+0x4bb8 object, value at +0x4bd8). The original writes it
+// through NetStruct SetValue, which also sets the member's change flag when the value changes; that flag is
+// not reproduced because the counter is a plain field here.
 std::int32_t CMatchingLocal::GenerateNewMemberId() {
-    const std::int32_t roomMask = 0;  // CMatching::GetRoomMask(this): base class, not in this port
+    const std::uint32_t roomMask = CMatching::GetRoomMask();  // 0x8000dc
     std::int32_t id = 0;
     do {
         const std::int32_t counter = memberIdCounter_;
-        id = counter / 17 + 1 + 16 * counter % 272;
-        memberIdCounter_ = counter + 1;
-    } while ((GetMemberMask(id) & roomMask) != 0);
+        // The 32-bit original wraps 16 * counter; the unsigned multiply keeps that wrap defined here.
+        const auto scaled = static_cast<std::int32_t>(16u * static_cast<std::uint32_t>(counter));
+        id = counter / 17 + 1 + scaled % 272;
+        memberIdCounter_ = static_cast<std::int32_t>(static_cast<std::uint32_t>(counter) + 1u);
+    } while ((static_cast<std::uint32_t>(GetMemberMask(id)) & roomMask) != 0);  // vtable +0x84 = GetMemberMask
     return id;
 }

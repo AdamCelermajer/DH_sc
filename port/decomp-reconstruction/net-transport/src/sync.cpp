@@ -24,25 +24,28 @@ int CMutex::IsLocked() const {
 CSemaphore::CSemaphore(int initial) : count_(initial) {}
 
 // 0x80e2e4 _ZN10CSemaphore4WaitEv
-// Hex-Rays body is empty (bx lr); no blocking is performed. Kept partial: the
-// no-op is the original behaviour, and real primitives need a design decision.
+// The ARM listing is a single `bx lr` (checked with decomp_asm.py), so the original does not block.
+// This body is the same no-op. Real blocking would be a design change, not a reconstruction gap.
 void CSemaphore::Wait() {}
 
 // 0x80e2e8 _ZN10CSemaphore7ReleaseEi
-// Hex-Rays body is empty; the count is not changed. Partial, as Wait.
+// The original is `bx lr` as well: the count is not changed.
 void CSemaphore::Release(int) {}
 
 // 0x80e33c _ZN14CReadWriteLock9LockWriteEv
-// Hex-Rays body is empty: not a real lock. Partial, as CSemaphore::Wait.
+// `bx lr` in the ARM listing: the original takes no lock.
 void CReadWriteLock::LockWrite() {}
 
 // 0x80e340 _ZN14CReadWriteLock11UnlockWriteEv
+// `bx lr` in the ARM listing.
 void CReadWriteLock::UnlockWrite() {}
 
 // 0x80e344 _ZN14CReadWriteLock8LockReadEv
+// `bx lr` in the ARM listing.
 void CReadWriteLock::LockRead() {}
 
 // 0x80e348 _ZN14CReadWriteLock10UnlockReadEv
+// `bx lr` in the ARM listing.
 void CReadWriteLock::UnlockRead() {}
 
 // 0x80e398 _ZN9CNetMutexC1Ev

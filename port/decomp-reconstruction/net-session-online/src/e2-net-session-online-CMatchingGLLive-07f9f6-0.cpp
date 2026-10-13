@@ -138,15 +138,19 @@ void CMatchingGLLive::SendGameParameters() {
 }
 
 // 0x81f6f8 _ZN15CMatchingGLLive10KickMemberEi
-// Partial. The original returns 1 when this is not the host, or when the lobby's virtual slot +0x34
-// returns null. It then looks up the member by id on the lobby observer (CMatchingGLLiveLobbyObserver::
-// GetMemberByMemberId, declared but returns nullptr in this port) and copies the member's fields into
-// a kick record (name, ids and flags). A member with id -1 returns 1. Otherwise it calls
-// mpSendKickOut(record) and queues event 4194318 on CMatching's queue. The lobby slot, the member
-// record layout (tMemberInfo) and the CMatching queue are not declared, so this returns 1 after the
-// host check only (no kick is sent).
+// Partial. The original returns 1 when this is not the host, or when the lobby's vtable +0x34 slot
+// (GLXPlayerMPLobby::mpIsInRoom, from the vtable dump) returns false. It then looks up the member by id on the
+// lobby observer (CMatchingGLLiveLobbyObserver::GetMemberByMemberId, which returns nullptr in this port) and
+// copies the member's fields into a kick record (name, ids and flags). A member with id -1 returns 1. Otherwise
+// it calls mpSendKickOut(record) and queues event 4194318 on CMatching's output queue. The member record layout
+// (tMemberInfo) is not modelled beyond its id, so the port returns 1 after the checks and sends no kick. A null
+// lobby or a null member record also returns 1 here (the original dereferences them).
 std::int32_t CMatchingGLLive::KickMember(std::int32_t /*memberId*/) {
     if (!IsHost()) {
+        return 1;
+    }
+    GLXPlayerMPLobby* lobby = GetGLXPlayerMPLobby();
+    if (lobby == nullptr || !lobby->mpIsInRoom()) {
         return 1;
     }
     return 1;  // Partial: kick record copy and mpSendKickOut not reproduced.
@@ -213,7 +217,10 @@ std::int32_t CMatchingGLLive::Update() {
 // event 8388622 on the matching queue.
 // Partial: the transport name comes from the transport stand-in (GetTransportNameOf, the original asks the
 // transport manager's vtable slot +0x1c) and the clock from the online clock stand-in. The peer's time offset
-// (+0x40) is copied from an uninitialised temporary in the original; the port keeps 0.
+// (+0x40) is copied from an uninitialised temporary in the original; the port keeps 0. Unsettled: both branches of
+// the decompile store into +0x20 the result of the first virtual of GetOnline() (the same call that yields the
+// transport manager pointer used for the name lookup), while tMatchingPeer names +0x20 last-seen time. The port
+// stores the online clock there; the source of the +0x20 value needs the COnline vtable (slot 0) to confirm.
 void CMatchingGLLive::AddServer(std::int32_t memberId, CNetworkId& serverId, std::int32_t rank,
                                 CRoomAttributes& attributes) {
     serversMutex_.Lock();
@@ -243,19 +250,31 @@ void CMatchingGLLive::AddServer(std::int32_t memberId, CNetworkId& serverId, std
 
 // 0x821110 _ZN15CMatchingGLLive20ProcessServerMessageER10CNetworkIdR12NetBitStream
 // Partial, no body. The original runs only when IsServer() is false (CMatching::IsServer is reachable now).
-// It then reads a 0x28-byte record (a 28-byte CNetworkId, the member id at +0x1c and the member count at +0x20),
-// unserializes the room attributes from the stream, calls AddServer(member id, address, member count,
-// attributes) and destroys the attributes. CRoomAttributes::Unserialize(NetBitStream&) is declared in
-// c_room_attributes.hpp but not defined (the NetStruct wire format is net-transport's), so the attributes of
-// a server message cannot be read and nothing is added.
+// It then reads a 0x28-byte record (a 28-byte CNetworkId copied as raw words, the member id at +0x1c and the
+// member count at +0x20), unserializes the room attributes from the stream, calls AddServer(member id, address,
+// member count, attributes) and destroys the attributes. Blocked on two points: CNetworkId has no setters for its
+// raw field words (field2 at +0x10, field3 at +0x14, flags at +0x18), so the raw record cannot be decoded without
+// guessing; and CRoomAttributes::Unserialize(NetBitStream&) is a stand-in that reads nothing (room_attributes_impl.cpp),
+// so the stream position would differ from the original. AddServer itself is partial (see above).
 void CMatchingGLLive::ProcessServerMessage(CNetworkId& /*from*/, NetBitStream& /*stream*/) {
     // Partial: IsServer() check, stream read, Unserialize and the AddServer call not reproduced.
 }
 
 // 0x821218 _ZN15CMatchingGLLive30sBroadcastPacketReceiverCallbackER10CNetworkIdPci
-// The original forwards the packet to CMatchingGLLive::BroadcastPacketReceiverCallback on the
-// matching object (the static CMatching::s_Matching). This port has no static instance of
-// CMatchingGLLive to forward to, so the forward is not made and the packet is dropped.
-void CMatchingGLLive::sBroadcastPacketReceiverCallback(CNetworkId& /*from*/, char* /*data*/, int /*size*/) {
-    // Partial: forward to the matching instance (CMatching::s_Matching) not reproduced.
+// Forwards the packet to CMatchingGLLive::BroadcastPacketReceiverCallback with the static
+// CMatching::s_Matching as the object. The assembly is a tail call: it loads s_Matching, moves the three
+// arguments along and branches. Deviation: the binary does not check s_Matching for null, but calling a
+// member function through a null pointer is undefined in C++, so this port returns when it is null. For a
+// type-2 or unknown packet the binary does nothing with a null object either; only a type-1 packet differs,
+// where the binary faults in IsServer.
+// Partial through the callee: the type-1 branch of BroadcastPacketReceiverCallback runs the stub
+// ProcessServerMessage. The forward itself is complete.
+void CMatchingGLLive::sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size) {
+    // The object is CMatching::s_Matching. This callback is registered only by CMatchingGLLive::Initialize,
+    // so the object is a CMatchingGLLive here (the binary calls the member without a type check).
+    auto* matching = static_cast<CMatchingGLLive*>(CMatching::s_Matching);
+    if (matching == nullptr) {
+        return;
+    }
+    matching->BroadcastPacketReceiverCallback(from, data, size);
 }

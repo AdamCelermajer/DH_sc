@@ -80,15 +80,16 @@ int CTransportManagerImpl::Sleep(unsigned int microseconds) {
 }
 
 // 0x825248 _ZN22CTransportManagerImpl20StartReceiverThreadEv
-// Partial: the original creates a joinable pthread unconditionally. The port refuses when a
-// thread is already joinable (std::thread assignment would terminate); that guard is an
-// addition.
+// Partial: the original creates a joinable pthread unconditionally, passing this as the thread
+// argument (the port passes this through the lambda). The port refuses when a thread is already
+// joinable (std::thread assignment would terminate); that guard is an addition the original does
+// not have, so a second start returns -1 here and starts a second thread there.
 int CTransportManagerImpl::StartReceiverThread() {
     if (receiver_thread_.joinable()) {
         return -1;
     }
     try {
-        receiver_thread_ = std::thread([this] { ReceiverThread(nullptr); });
+        receiver_thread_ = std::thread([this] { ReceiverThread(this); });
     } catch (...) {
         return -1;
     }

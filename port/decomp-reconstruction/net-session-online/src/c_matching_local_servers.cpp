@@ -7,9 +7,11 @@
 #include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 
 // 0x8094fc _ZN14CMatchingLocal9AddServerEiR10CNetworkIdiR15CRoomAttributes
-// Partial: the room filter always accepts (CRoomSearchFilter is a stand-in), and the transport
-// name comes from the transport stand-in. The rest follows the original: an existing address is
-// refreshed; a new one is added under the next key when the filter accepts it.
+// Partial: the transport name comes from the transport stand-in (GetTransportNameOf). CTransportManager
+// declares no name method yet (the original calls its vtable slot +0x1c). The room filter is the real
+// CRoomSearchFilter::TestRoomAttributes. The rest follows the original: an existing address is refreshed
+// (last-seen time and rank); a new one is added under the next key when the filter accepts it. The
+// original reads the online clock twice for a new entry (last-seen time, then the time offset); so does this.
 std::int32_t CMatchingLocal::AddServer(std::int32_t memberId, const CNetworkId& address,
                                        std::int32_t rank, const CRoomAttributes& attributes) {
     serversMutex_.Lock();
@@ -22,14 +24,13 @@ std::int32_t CMatchingLocal::AddServer(std::int32_t memberId, const CNetworkId& 
         }
     }
     if (roomSearchFilter_.TestRoomAttributes(attributes)) {
-        const std::int32_t now = OnlineNowMs();
         tMatchingPeer peer;
         peer.memberId = memberId;
         peer.address = address;
-        peer.lastSeenMs = now;
+        peer.lastSeenMs = OnlineNowMs();
         peer.name = GetTransportNameOf(address);
         peer.rank = rank;
-        peer.timeOffset = now - serverPollTime_;
+        peer.timeOffset = OnlineNowMs() - serverPollTime_;
         peer.roomAttributes = attributes;
         const std::uint64_t key = static_cast<std::uint64_t>(static_cast<std::int64_t>(nextPeerKey_));
         ++nextPeerKey_;

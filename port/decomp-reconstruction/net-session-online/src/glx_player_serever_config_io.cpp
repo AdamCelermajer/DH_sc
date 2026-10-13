@@ -132,9 +132,11 @@ void GLXPlayerSereverConfig::LoadConfig() {
 }
 
 // 0x82f6d8 _ZN22GLXPlayerSereverConfig15OnUpdateSuccessEi
-// Partial: the completeness check in the original tests three keys. The third key is a 5-character
-// literal that is not recovered, so only "XplayerURL" and "XPPHPVerNo" are checked here. Other
-// codes go to the base class. A null cursor or observer is treated as empty or absent.
+// Partial: the completeness check tests three keys, "XplayerURL", "type" (the char[5] key, from the
+// _M_find<char [5]> clone at 0x82f178) and "XPPHPVerNo". The original copies each token into 52- and
+// 28-byte stack buffers with a 0x1000-byte memcpy (an overflow for long tokens); the port reads
+// tokens into 256-byte buffers. Other codes go to the base class. A null cursor or observer is
+// treated as empty or absent.
 void GLXPlayerSereverConfig::OnUpdateSuccess(std::int32_t arg) {
     if (arg != 1) {
         GLXPlayerWebComponent::OnUpdateSuccess(arg);
@@ -172,8 +174,9 @@ void GLXPlayerSereverConfig::OnUpdateSuccess(std::int32_t arg) {
     }
 
     const bool hasUrl = s_urlMap.count("XplayerURL") != 0;
+    const bool hasType = s_urlMap.count("type") != 0;
     const bool hasPhpVersion = s_urlMap.count("XPPHPVerNo") != 0;
-    if (!hasUrl || !hasPhpVersion) {
+    if (!hasUrl || !hasType || !hasPhpVersion) {
         if (observer_ != nullptr) {
             observer_->OnResponseError(1, 40);
         }

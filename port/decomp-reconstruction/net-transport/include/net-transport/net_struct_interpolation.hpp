@@ -1,7 +1,7 @@
 // NetStructInterpolation<float> and NetStructInterpolatedRangedFloat<Bits, Min, Max>:
 // replicated floats that smooth received values over time. AddValue keeps a ring of
-// (time, value) samples and a running average; the wrap-around boundary fields of the original
-// are not recovered (see AddValue), so the ring is kept by count only.
+// (time, value) samples and a running average, with the window eviction and the ring boundary
+// words (43-45) as in the Hex-Rays body. Only the frame time (NetStructMember::GetFrameTime) is a stand-in.
 #pragma once
 
 #include <cstdint>
@@ -82,7 +82,8 @@ protected:
     unsigned int head_ = 0;                    // word 46
     // Ring boundary words, not named in the original. oldest_ (word 43, +0xac) is taken to be the
     // index of the oldest sample; mark_a_ (word 44, +0xb0) and mark_b_ (word 45, +0xb4) are its
-    // copies. Their initial values are assumed to be 0 (the constructor is not recovered).
+    // copies. The constructor of NetStructInterpolatedRangedFloat (0x3a681c) zeroes them (explicit
+    // stores at +0xd0, +0xd4, +0xd8 of the object, which is word 43-45 of this base at +0x24).
     unsigned int oldest_ = 0;                  // word 43
     unsigned int mark_a_ = 0;                  // word 44
     unsigned int mark_b_ = 0;                  // word 45

@@ -121,23 +121,23 @@ CBluetoothReliable::~CBluetoothReliable() {
 }
 
 // 0x828da0 _ZN18CBluetoothReliable17AcceptConnectionsEv
-// Partial: accept_enabled_ (+0x30) is not set by any recovered code. The socket check is vtable
-// +0x5c of CBluetoothSocket, which is IsServer(). AcceptCallback is the transport-manager
-// stand-in (a no-op). The pseudocode's first argument is the global `byte_4` (an unidentified
-// address, not a value), so the transport type passed is GetType(); that choice is a guess.
+// The socket check is vtable +0x5c of CBluetoothSocket, which is IsServer(). The transport type
+// is the immediate 4 (MOV R0,#4 before the call; the value GetType() returns). AcceptCallback is
+// static, so the call is CTransportManager::AcceptCallback(4, this). accept_enabled_ (+0x30) is
+// only read here; no writer is recovered in this batch.
 int CBluetoothReliable::AcceptConnections() {
     if (accept_enabled_ && socket_.IsServer() && (flags_ & 1) != 0) {
-        GetTransportMgr().AcceptCallback(GetType(), this);
+        CTransportManager::AcceptCallback(4, this);
     }
     return 0;
 }
 
 // 0x828df0 _ZN18CBluetoothReliable7ConnectER10CNetworkId
-// Partial: the pseudocode calls vtable slot +0x28 with `this` only. The vtable of this class puts
-// IsConnectedTo(CNetworkId&) in that slot, so the call is IsConnectedTo(peer) here. The decompile
-// shows no peer argument; the Bluetooth stub answers false whatever it is given. Fails with -1
-// when the transport is not initialized; the stored peer itself returns 0 without a copy,
-// otherwise the peer is stored.
+// Fails with -1 when the transport is not initialized. The vtable slot +0x28 of this class is
+// IsConnectedTo(CNetworkId&), and the assembly passes the peer in r1, so IsConnectedTo(peer) is
+// exact. A connected peer, or the stored peer itself, returns 0 without a copy. Otherwise the
+// whole 28-byte CNetworkId is copied raw (seven words, flags included). That is a plain struct
+// copy, not CNetworkId::Set, which copies only the fields the source's presence bits name.
 int CBluetoothReliable::Connect(CNetworkId& peer) {
     if (!initialized_) {
         return -1;
@@ -145,30 +145,32 @@ int CBluetoothReliable::Connect(CNetworkId& peer) {
     if (IsConnectedTo(peer) || &peer == &peer_) {
         return 0;
     }
-    peer_.Set(peer);
+    peer_ = peer;
     return 0;
 }
 
 // 0x828e58 _ZN18CBluetoothReliable4OpenESsSsi
-// Partial, as CBluetoothUnreliable::Open: the pseudocode stores one unnamed field (+0x04) and
-// copies the name into a temporary that is freed at once. The port keeps neither and returns 0.
+// The assembly stores the channel argument (r3) at +0x04 (STR R3,[R0,#4]), so channel_ is set.
+// The address argument is copied into a temporary string that is freed at once; the copy has no
+// observable effect and is not made. The name argument is not read. Returns 0.
 int CBluetoothReliable::Open(std::string address, std::string name, int channel) {
     (void)address;
     (void)name;
-    (void)channel;
+    channel_ = channel;
     return 0;
 }
 
 // 0x828ec8 _ZN18CBluetoothReliable6ListenESsSs
-// Partial: forwards to Open. The channel argument of the forwarded call is not recovered (the
-// pseudocode leaves it unset), so 0 is passed.
+// Forwards both strings to Open with channel 1 (MOV R3,#1 before the call) and returns its result.
 int CBluetoothReliable::Listen(std::string address, std::string name) {
-    return Open(address, name, 0);
+    return Open(address, name, 1);
 }
 
 // 0x8290dc _ZN18CBluetoothReliable16GetPeerNetworkIdEv
-// Partial: the pseudocode returns an id whose field3 is 0 with its presence bit (flags 0x8) set.
-// CNetworkId has no accessor for field3, so the port returns a reset id (no presence bit).
+// Partial: the original calls CNetworkId::Reset (memset to zero, so field3 is 0), then sets
+// presence bit 3 (flags |= 0x8) on the returned id. CNetworkId has no public way to set a
+// presence bit: flags_ is private and Set copies only the bits the source already has. The port
+// returns a reset id, so the bit is missing. A CNetworkId setter for flags and field3 is needed.
 CNetworkId CBluetoothReliable::GetPeerNetworkId() {
     CNetworkId id;
     id.Reset();
@@ -176,7 +178,7 @@ CNetworkId CBluetoothReliable::GetPeerNetworkId() {
 }
 
 // 0x829694 _ZN18CBluetoothReliable17GetLocalNetworkIdEv
-// Partial: same as GetPeerNetworkId (field3 presence bit not set; see there).
+// Partial: the same body as GetPeerNetworkId (presence bit 3 missing; see there).
 CNetworkId CBluetoothReliable::GetLocalNetworkId() {
     CNetworkId id;
     id.Reset();
@@ -184,20 +186,24 @@ CNetworkId CBluetoothReliable::GetLocalNetworkId() {
 }
 
 // 0x829400 _ZN18CBluetoothReliable6CreateESsSsi
-// Partial, as CBluetoothUnreliable::Create: allocates and initialises a transport, then calls Open
-// with the second argument first. The pseudocode's string copies are garbled, so the argument
-// order and the channel value are not recovered; the int argument is passed through as given.
+// Allocates and constructs the transport (the allocator's memory hint is not modelled), calls
+// Initialize (its return value is ignored), then Open(first, second, channel). The assembly passes
+// the copy of the first argument as the address and the copy of the second as the name, so the
+// order here is first, second. Returns the new transport.
 CBluetoothReliable* CBluetoothReliable::Create(std::string first, std::string second, int channel) {
     auto* transport = new CBluetoothReliable();
     transport->Initialize();
-    transport->Open(second, first, channel);
+    transport->Open(first, second, channel);
     return transport;
 }
 
 // 0x8294cc _ZN18CBluetoothReliable19InitializeTransportEv
-// Partial: the pseudocode asks the transport manager (vtable +0x1c) for the session name of the
-// "Default Bluetooth Session" transport, creates it through Create, initialises it, registers it
-// and sets s_initialized. The manager call and its arguments are not recovered, so the port
+// Partial. When s_initialized is clear, the original builds a CNetworkId with presence bit 3
+// (Reset, then flags |= 0x8). It calls the transport manager's virtual at vtable +0x1c with that
+// id and a result of std::string: CTransportManagerImpl::GetHostname(CNetworkId&). Then it calls
+// Create("Default Bluetooth Session", hostname, 1), Initialize, GetTransportMgr().AddTransport and
+// sets s_initialized. The port cannot reproduce it: GetTransportMgr() is the base CTransportManager,
+// which has no GetHostname, and the id cannot get presence bit 3 (see GetPeerNetworkId). The port
 // returns 0 and leaves the flag unset.
 int CBluetoothReliable::InitializeTransport() {
     return 0;
@@ -301,8 +307,9 @@ CBluetoothUnreliable::CBluetoothUnreliable() {
 
 // 0x829b5c _ZN20CBluetoothUnreliableC2Ejb
 // 0x829ecc _ZN20CBluetoothUnreliableC1Ejb is the same body (skipped at that address).
-// Partial: the channel and listen arguments are not used by the pseudocode, so they are ignored.
-// The original does not set the initialized flag here; the default value is used instead.
+// Reconstructed: the assembly overwrites both argument registers before reading them, so the
+// channel and listen arguments are unused. The body is the default constructor's (see above).
+// The initialized flag (+0x68) is not written here either; the port default (false) applies.
 CBluetoothUnreliable::CBluetoothUnreliable(unsigned int channel, bool listen) : CBluetoothUnreliable() {
     (void)channel;
     (void)listen;
@@ -331,37 +338,38 @@ int CBluetoothUnreliable::Connect(CNetworkId& peer) {
 }
 
 // 0x8297a8 _ZN20CBluetoothUnreliable17AcceptConnectionsEv
-// Partial: accept_enabled_ (+0x30) is not set by any recovered code. The socket check is vtable
-// +0x5c of CBluetoothSocket, which is IsServer(). AcceptCallback is the transport-manager
-// stand-in (a no-op), called with transport type 3.
+// Calls CTransportManager::AcceptCallback(3, this) when accept_enabled_ (+0x30) is set, the socket
+// reports a server role (vtable +0x5c of CBluetoothSocket, IsServer()) and the listening bit is set.
+// The callback is a static call in the original (no GetTransportMgr() call). Returns 0.
+// The constructors clear accept_enabled_; no recovered code sets it.
 int CBluetoothUnreliable::AcceptConnections() {
     if (accept_enabled_ && socket_.IsServer() && (flags_ & 1) != 0) {
-        GetTransportMgr().AcceptCallback(3, this);
+        CTransportManager::AcceptCallback(3, this);
     }
     return 0;
 }
 
 // 0x829860 _ZN20CBluetoothUnreliable4OpenESsSsi
-// Partial: the pseudocode stores one unnamed field (+0x04, taken from the address string's
-// internals, meaning not identified) and copies the name into a temporary that is freed at once.
-// The port keeps neither and returns 0.
+// Stores the int argument in the +0x04 field (channel_). The address is copied into a temporary
+// that is freed at once, and the name is never read, so neither has an effect. Returns 0.
 int CBluetoothUnreliable::Open(std::string address, std::string name, int channel) {
     (void)address;
     (void)name;
-    (void)channel;
+    channel_ = channel;
     return 0;
 }
 
 // 0x8298d0 _ZN20CBluetoothUnreliable6ListenESsSs
-// Partial: forwards to Open. The channel argument of the forwarded call is not recovered (the
-// pseudocode leaves it unset), so 0 is passed. Open has no observable effect here.
+// Calls Open with the two strings and channel 1 (the constant is in the fourth argument register
+// in the assembly). Returns Open's result.
 int CBluetoothUnreliable::Listen(std::string address, std::string name) {
-    return Open(address, name, 0);
+    return Open(address, name, 1);
 }
 
 // 0x829a50 _ZN20CBluetoothUnreliable16GetPeerNetworkIdEv
-// Partial: the pseudocode returns an id whose field2 is 0 with its presence bit (flags 0x4) set.
-// CNetworkId has no accessor for field2, so the port returns a reset id (no presence bit).
+// Partial: the assembly resets the id, writes field2 = 0 and sets its presence bit (flags 0x4).
+// CNetworkId has no setter for field2 or for the presence bit, so the port returns a reset id with
+// no presence bit. Layout request: CNetworkId::SetField2 (field2_ = value; flags_ |= 4).
 CNetworkId CBluetoothUnreliable::GetPeerNetworkId() {
     CNetworkId id;
     id.Reset();
@@ -369,7 +377,7 @@ CNetworkId CBluetoothUnreliable::GetPeerNetworkId() {
 }
 
 // 0x829f9c _ZN20CBluetoothUnreliable17GetLocalNetworkIdEv
-// Partial: same as GetPeerNetworkId (field2 presence bit not set; see there).
+// Partial: same body as GetPeerNetworkId (field2 presence bit not set; see there).
 CNetworkId CBluetoothUnreliable::GetLocalNetworkId() {
     CNetworkId id;
     id.Reset();
@@ -377,21 +385,25 @@ CNetworkId CBluetoothUnreliable::GetLocalNetworkId() {
 }
 
 // 0x829cfc _ZN20CBluetoothUnreliable6CreateESsSsi
-// Partial: allocates and initialises a transport, then calls Open with the arguments in the
-// order the pseudocode uses (second, first, channel). The channel value is not recovered (the
-// decompile never assigns it), so the int argument is passed through as given.
+// Reconstructed: builds a transport with the default constructor, initialises it, opens it with
+// the arguments in order (first, second, channel) and returns it. The operator new memory hint of
+// the original is not reproduced.
 CBluetoothUnreliable* CBluetoothUnreliable::Create(std::string first, std::string second, int channel) {
     auto* transport = new CBluetoothUnreliable();
     transport->Initialize();
-    transport->Open(second, first, channel);
+    transport->Open(first, second, channel);
     return transport;
 }
 
 // 0x829dc8 _ZN20CBluetoothUnreliable19InitializeTransportEv
-// Partial: the pseudocode creates the "Default Bluetooth Session" transport through Create,
-// with arguments that the decompile does not fully recover (a string from a transport-manager
-// call and an unset channel), registers it with the transport manager and sets s_initialized.
-// The port does not create the transport: it returns 0 and leaves the flag unset.
+// Partial. The assembly, run while s_initialized is clear, does this: resets a CNetworkId and sets
+// its presence bit 0x4 (no setter, see GetPeerNetworkId); makes the name "Default Bluetooth
+// Session"; takes the second name from the transport manager's vtable +0x1c (in the original
+// CTransportManagerImpl::GetHostname(CNetworkId&), which the port's singleton, a plain
+// CTransportManager, does not expose); calls Create(name, name2, 1); calls AddTransport on the
+// manager; calls GetLocalNetworkId through the new object's vtable +0x18 and discards the result;
+// then sets s_initialized. Without the second name the port does not create the transport: it
+// returns 0 and leaves the flag unset.
 int CBluetoothUnreliable::InitializeTransport() {
     return 0;
 }

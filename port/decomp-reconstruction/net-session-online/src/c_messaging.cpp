@@ -1,8 +1,22 @@
 #include "net-session-online/c_messaging.hpp"
 
+#include <cstdint>
+
 #include "net-session-online/deps/matching.hpp"
+#include "net-transport/packet_manager.hpp"
 
 CMessaging* CMessaging::s_messaging = nullptr;
+
+namespace {
+
+// The original reads the wire type id at message+0x10 with LDRSB (a signed byte) and compares it with
+// FindTypeId's int. An unregistered name gives -1; the CMessage constructor stores that as 0xFF, which
+// reads back as -1 and matches it. Ids 128..255 read back negative and never match a positive id.
+int SignedWireTypeId(const CMessage* message) {
+    return static_cast<int>(static_cast<std::int8_t>(message->WireTypeId()));
+}
+
+}  // namespace
 
 // 0x80a710 _ZN10CMessaging13IsInitializedEv
 std::uint32_t CMessaging::IsInitialized() {
@@ -43,21 +57,30 @@ CMessaging* CMessaging::GetInstance() {
 }
 
 // 0x80afe4 _ZN10CMessagingC1Ev
-// Partial: the original also registers packet slot 1 with the packet manager
-// (sWritePacketData, sReadPacketData, sProcessAcknowledgedPacket,
-// sProcessLostPacket). The write and read callbacks are not reconstructed yet,
-// so no registration is made here.
+// Registers packet slot 1 with the packet manager: sWritePacketData, sReadPacketData,
+// sProcessAcknowledgedPacket and sProcessLostPacket. The packet manager's write callback
+// returns bool and its read callback returns void; the static callbacks here return int.
+// The lambdas keep the same behaviour: a nonzero int is a true write result, and the read
+// result is discarded.
 CMessaging::CMessaging() {
     initialized_ = false;
     ResetQueues(true);
+    CPacketManager::RegisterPacketSlot(
+        1,
+        [](int outerKey, int innerKey, NetBitStream& stream) -> bool {
+            return sWritePacketData(outerKey, innerKey, stream) != 0;
+        },
+        [](int outerKey, int innerKey, NetBitStream& stream) {
+            (void)sReadPacketData(outerKey, innerKey, stream);
+        },
+        &sProcessAcknowledgedPacket, &sProcessLostPacket);
     initialized_ = true;
 }
 
 // 0x80b438 _ZN10CMessagingD1Ev
-// Partial: the original also calls CPacketManager::UnregisterPacketSlot(1),
-// which pairs with the registration omitted in the constructor.
 CMessaging::~CMessaging() {
     initialized_ = false;
+    CPacketManager::UnregisterPacketSlot(1);
     ResetQueues(true);
 }
 
@@ -170,27 +193,44 @@ void CMessaging::sProcessAcknowledgedPacket(int outerKey, int innerKey) {
 }
 
 // 0x80aa50 _ZN10CMessaging23AreMessagesAcknowledgedEPKc
-// With no name: 0 when the send queue is empty, otherwise 1. With a name the original
-// searches the send queue for an unflagged message of that wire type and returns its
-// +0x3c flag. Partial: the search needs the wire type id (+0x10) and the flag, which
-// CMessage does not expose, so every name reports 1 (no match).
+// With no name: 0 when the send queue is empty, otherwise 1. With a name: 0 when an unfinished
+// send-queue message has that wire type id, otherwise 1 (an empty queue also gives 1). The wire
+// type id is read as a signed byte (LDRSB, see SignedWireTypeId), so an unregistered name (-1) matches
+// a stored 0xFF, and ids 128..255 never match.
 int CMessaging::AreMessagesAcknowledged(const char* typeName) {
     if (typeName == nullptr) {
         return sendQueue_.empty() ? 0 : 1;
     }
+    const int typeId = CMessage::FindTypeId(typeName);
     sendMutex_.Lock();
+    bool pending = false;
+    for (CMessage* message : sendQueue_) {
+        if (message != nullptr && !message->IsFinished() &&
+            SignedWireTypeId(message) == typeId) {
+            pending = true;
+            break;
+        }
+    }
     sendMutex_.Unlock();
-    return 1;
+    return pending ? 0 : 1;
 }
 
 // 0x80ab00 _ZN10CMessaging19GetMessageFromQueueEPKc
-// Partial: the original returns the first unflagged receive-queue message whose wire type
-// id matches FindTypeId(typeName). The type id and flag are not reachable, so no match.
+// Returns the first unfinished receive-queue message whose wire type id matches FindTypeId(typeName),
+// or nullptr. The id is compared as a signed byte (LDRSB), as in AreMessagesAcknowledged.
 CMessage* CMessaging::GetMessageFromQueue(const char* typeName) {
-    (void)typeName;
+    const int typeId = CMessage::FindTypeId(typeName);
     recvMutex_.Lock();
+    CMessage* found = nullptr;
+    for (CMessage* message : recvQueue_) {
+        if (message != nullptr && !message->IsFinished() &&
+            SignedWireTypeId(message) == typeId) {
+            found = message;
+            break;
+        }
+    }
     recvMutex_.Unlock();
-    return nullptr;
+    return found;
 }
 
 // 0x80ab80 _ZN10CMessaging17IsMessageReceivedEPKc
@@ -199,14 +239,15 @@ bool CMessaging::IsMessageReceived(const char* typeName) {
 }
 
 // 0x80acb8 _ZN10CMessaging22PurgeMessagesFromQueueEPSt4listIP8CMessageSaIS2_EEP9CNetMutexPKc
-// Partial: the original also removes (and deletes) entries whose +0x3c flag is set. The
-// flag is not reachable, so only null entries are removed. The original unlocks twice;
-// one unlock is made here, as in ClearMessageQueue.
+// Removes each null or finished entry and deletes the message (delete of nullptr does nothing).
+// The original unlocks twice; one unlock is made here, as in ClearMessageQueue.
 void CMessaging::PurgeMessagesFromQueue(std::list<CMessage*>* queue, CNetMutex* mutex) {
     mutex->Lock();
     for (auto it = queue->begin(); it != queue->end();) {
-        if (*it == nullptr) {
+        CMessage* message = *it;
+        if (message == nullptr || message->IsFinished()) {
             it = queue->erase(it);
+            delete message;
         } else {
             ++it;
         }
@@ -215,13 +256,12 @@ void CMessaging::PurgeMessagesFromQueue(std::list<CMessage*>* queue, CNetMutex* 
 }
 
 // 0x80ad54 _ZN10CMessaging16ProcessRecvQueueEv
-// Partial: the original sets the +0x3c flag of each expired receive-queue message, then
-// purges. The flag write is not reconstructed, so the purge removes only null entries.
+// Sets the finished flag of each expired receive-queue message, then purges the queue.
 void CMessaging::ProcessRecvQueue() {
     recvMutex_.Lock();
     for (CMessage* message : recvQueue_) {
         if (message != nullptr && message->IsExpired()) {
-            // Original: flag at +0x3c set to 1 (not reachable from CMessaging).
+            message->SetFinished();
         }
     }
     recvMutex_.Unlock();
@@ -230,17 +270,25 @@ void CMessaging::ProcessRecvQueue() {
 
 // 0x80b900 _ZN10CMessaging12PackMessagesEiR12NetBitStream
 // Writes each eligible send-queue message as a 1 bit followed by its serialized form, then
-// a 0 bit. Returns the hashes of the written messages. Partial: the original skips messages
-// whose +0x3c flag is set, and stops before a message that would not fit in the buffer; neither
-// is reconstructed (no flag accessor, and the stand-in stream has no bit-position API).
+// a 0 bit. Returns the hashes of the written messages. Finished messages are skipped. A message
+// whose data plus the 16-byte header does not fit in the rest of the stream is skipped (the
+// stream size is in bytes; the free space is counted as the original does, one byte short when
+// the write position is not byte aligned).
 std::set<std::uint16_t> CMessaging::PackMessages(int memberId, NetBitStream& stream) {
     std::set<std::uint16_t> hashes;
     sendMutex_.Lock();
     for (CMessage* message : sendQueue_) {
-        if (message == nullptr || message->IsAcknowledgedBy(memberId) || message->HasBeenSentTo(memberId)) {
+        if (message == nullptr || message->IsFinished() || message->IsAcknowledgedBy(memberId) ||
+            message->HasBeenSentTo(memberId)) {
             continue;
         }
         if (!message->IsFor(memberId) && CMatching::Get()->IsServer()) {
+            continue;
+        }
+        const std::uint32_t writePos = stream.WritePosition();
+        const std::uint32_t partialByte = (writePos & 7u) != 0 ? 1u : 0u;
+        const std::uint32_t freeBytes = stream.Size() - 1u - (writePos >> 3) - partialByte;
+        if (freeBytes < message->GetDataSize() + 16u) {
             continue;
         }
         stream.WriteByte(1, 1);
@@ -283,21 +331,26 @@ int CMessaging::sWritePacketData(int outerKey, int innerKey, NetBitStream& strea
 }
 
 // 0x80d624 _ZN10CMessaging14AddToRecvQueueEP8CMessage
-// Partial: the original calls ProcessMissingMessages(message) before taking the lock. That
-// function is not reconstructed, so the call is omitted.
+// The original runs ProcessMissingMessages on the message before taking the lock.
 void CMessaging::AddToRecvQueue(CMessage* message) {
+    ProcessMissingMessages(message);
     recvMutex_.Lock();
     recvQueue_.push_back(message);
     recvMutex_.Unlock();
 }
 
 // 0x80db24 _ZN10CMessaging14AddToSendQueueEP8CMessage
-// The message is acknowledged for the local member, appended to the send queue, and the queue
-// is sorted by send priority (the Hex-Rays body is an inlined std::list::sort on
-// CMessage::CompareMsgSendPriority). Partial: for a local message the original hands it to
-// ReceiveMessage and returns before queueing. ReceiveMessage is not reconstructed, so local
-// messages are queued here.
+// A local message goes to ReceiveMessage, which takes ownership, and is not queued. Otherwise the
+// message is acknowledged for the local member, appended to the send queue, and the queue is sorted
+// by send priority (the Hex-Rays body is an inlined std::list::sort on CMessage::CompareMsgSendPriority).
+// Partial: when the message's flag32 (+0x32) is set, the original also empties a temporary copy of the
+// type name and stores 0 at CPacketManager::last_send_time_ (+0x2c, via GetPacketManager()). That field
+// is private to CPacketManager and has no setter, so the store is omitted.
 void CMessaging::AddToSendQueue(CMessage* message) {
+    if (message->IsLocal()) {
+        ReceiveMessage(message);
+        return;
+    }
     sendMutex_.Lock();
     message->AcknowledgeMember(CMatching::Get()->LocalMemberId());
     sendQueue_.push_back(message);

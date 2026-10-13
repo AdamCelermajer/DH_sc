@@ -20,8 +20,10 @@ int main() {
     CMatchingLocal local;
     CHECK(local.GetMemberMask(17) == 2);
     CHECK(local.GetInvitationRoomId() == 0);
-    CHECK(!local.IsRoomClosed());
-    CHECK(!local.IsRoomHidden());
+    // The constructor ends with Reset() (0x8074a4), which closes and hides the room (asm: both flags are
+    // written with 1 on every path).
+    CHECK(local.IsRoomClosed());
+    CHECK(local.IsRoomHidden());
     local.SetMemberId(9);
     CHECK(local.MemberIdForTest() == 9);
     local.SetRoomFlagsForTest(true, false);

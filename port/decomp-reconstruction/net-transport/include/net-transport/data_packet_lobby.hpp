@@ -14,9 +14,10 @@
 // Integers in the body are big-endian (addShort, addInt, getShort, getInt). Floats are
 // four little-endian bytes (addFloat, getFloat).
 //
-// The lobby table is a different virtual layout from DataPacket's (addBlob is +0x68 here,
-// +0x4c in DataPacket). This port derives from DataPacket for the shared addBlob/getBlob
-// interface and makes the slot-dispatched calls virtual.
+// The lobby vtable shares DataPacket's addBlob and getBlob slots (+0x4c, +0x50) and overrides the
+// message accessors DataPacket declares pure (getMessageLen +0x60, getMessageBody +0x64,
+// getDataType +0x74). setMessageBody is at +0x68: String2Packet calls it through the vtable,
+// so it is virtual here.
 #pragma once
 
 #include <cstddef>
@@ -51,21 +52,21 @@ public:
     virtual int getShort(std::int16_t& value);      // 0x849334 _ZN15DataPacketLobby8getShortERs
     virtual int getInt(int& value);                 // 0x84939c _ZN15DataPacketLobby6getIntERi
     int getFloat(float& value);                     // 0x84943c _ZN15DataPacketLobby8getFloatERf
-    std::size_t getMessageLen() const;              // 0x8494c0 _ZN15DataPacketLobby13getMessageLenEv
-    const std::uint8_t* getMessageBody() const;     // 0x8494c8 _ZN15DataPacketLobby14getMessageBodyEv
+    std::size_t getMessageLen() const override;     // 0x8494c0 _ZN15DataPacketLobby13getMessageLenEv
+    const std::uint8_t* getMessageBody() const override;  // 0x8494c8 _ZN15DataPacketLobby14getMessageBodyEv
     DataPacketLobby* packMessage();                 // 0x8494d0 _ZN15DataPacketLobby11packMessageEv
     DataPacket* getNextPacket() const;              // 0x8494fc _ZN15DataPacketLobby13getNextPacketEv
     void setNextPacket(DataPacket* packet);         // 0x849504 _ZN15DataPacketLobby13setNextPacketEP10DataPacket
     bool IsSendByTcp() const;                       // 0x84950c _ZN15DataPacketLobby11IsSendByTcpEv
     bool IsSendByUdp() const;                       // 0x849524 _ZN15DataPacketLobby11IsSendByUdpEv
-    int getDataType() const;                        // 0x849538 _ZN15DataPacketLobby11getDataTypeEv
+    int getDataType() const override;               // 0x849538 _ZN15DataPacketLobby11getDataTypeEv
     void setDataType(int type);                     // 0x849540 _ZN15DataPacketLobby11setDataTypeEi
     int getPort() const;                            // 0x849548 _ZN15DataPacketLobby7getPortEv
     void setPort(int port);                         // 0x849550 _ZN15DataPacketLobby7setPortEi
     const char* getIP() const;                      // 0x849558 _ZN15DataPacketLobby5getIPEv
     int String2Packet(char* data, int size);        // 0x849560 _ZN15DataPacketLobby13String2PacketEPci
     void Packet2String(char* out, int& out_length); // 0x8495b8 _ZN15DataPacketLobby13Packet2StringEPcRi
-    void setMessageBody(const std::uint8_t* data, std::size_t size);  // 0x849600 _ZN15DataPacketLobby14setMessageBodyEPhi
+    virtual void setMessageBody(const std::uint8_t* data, std::size_t size);  // 0x849600 _ZN15DataPacketLobby14setMessageBodyEPhi (vptr +0x68)
     const char* setIP(const char* ip);              // 0x849714 _ZN15DataPacketLobby5setIPEPc
     int getShortLenString(char*& text, std::uint16_t& length);        // 0x849748 _ZN15DataPacketLobby17getShortLenStringERPcRs
     int getBlob(char*& data, std::int16_t& length) override;          // 0x84980c _ZN15DataPacketLobby7getBlobERPcRs

@@ -29,9 +29,11 @@ CMatchingLocal::ServerBackupNetStruct::ServerBackupNetStruct()
 }
 
 // 0x8062d0 _ZN14CMatchingLocal21ServerBackupNetStructD1Ev
-// The original clears the packet history tree when it is not empty (_M_erase, then the header
-// is reset to empty). std::map::clear does the same. The vptr stores of the original are
-// the compiler's job here. The NetStruct base has no destructor body in the original.
+// Reconstructed. The original erases the packet history tree when it is not empty and resets the
+// header, which is std::map::clear. The element type here is the stand-in NetStructBaseStub::tPacketHistory
+// (empty). The real NetStruct::tPacketHistory (net-transport net_struct.hpp) is two 64-bit words with
+// no destructor, so clear() does the same work. The vptr stores are the compiler's job here. The
+// NetStruct base has no destructor body in the original.
 CMatchingLocal::ServerBackupNetStruct::~ServerBackupNetStruct() {
     if (!packetHistory_.empty()) {
         packetHistory_.clear();
@@ -39,7 +41,7 @@ CMatchingLocal::ServerBackupNetStruct::~ServerBackupNetStruct() {
 }
 
 // 0x806140 _ZN14CMatchingLocal21ServerBackupNetStructD0Ev
-// Deleting destructor: the D1 body, then CustomFree(this).
+// Reconstructed. Deleting destructor: the D1 body, then CustomFree(this).
 void CMatchingLocal::ServerBackupNetStruct::DeletingDestructor() {
     this->~ServerBackupNetStruct();
     CustomFree(this);

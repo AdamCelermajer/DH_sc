@@ -71,45 +71,69 @@ void CMatchingGLLive::DisconnectMember(int memberId) {
 }
 
 // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv
-// Partial: creates the GLXPlayerLogin singleton on first use. The original also copies the login
-// observer's fields into it and registers that observer through RegisterObserver, which takes a
-// GLXPlayerObserver* and cannot take the port's CSignInGLLiveObserver. Those steps are not reproduced.
+// Partial: creates the GLXPlayerLogin singleton on first use. The original then fetches the login observer
+// (created on first use as well; that side effect is reproduced) and copies its fields into a temporary
+// object. It then registers the login observer through RegisterObserver, which takes a GLXPlayerObserver*
+// and cannot take the port's CSignInGLLiveObserver (CSignInGLLiveObserver is not a GLXPlayerObserver), so
+// the copy and the registration are not reproduced.
 GLXPlayerLogin* CMatchingGLLive::GetGLXPlayerLogin() {
     if (s_GLXPlayerLogin == nullptr) {
         s_GLXPlayerLogin = new GLXPlayerLogin();
+        (void)GetGLXPlayerLoginObserver();
     }
     return s_GLXPlayerLogin;
 }
 
 // 0x81c37c _ZN15CMatchingGLLive22GetGLXPlayerUserFriendEv
 // Partial: creates the GLXPlayerUserFriend singleton on first use and keeps it in the static
-// s_GLXPlayerUserFriend, as the decompiled body does. The original also registers the login
-// observer on it (RegisterObserver takes a GLXPlayerObserver*, see GetGLXPlayerLogin), which is not
-// reproduced. The member at +0x6700 (glxUserFriend_) is a different slot and is not written here.
+// s_GLXPlayerUserFriend, as the decompiled body does. The original then fetches the friend observer (created
+// on first use; that side effect is reproduced) and copies its flag byte into a temporary object that is
+// destroyed unused (the copy has no visible effect and is not made). It registers the login observer on the
+// friend component (RegisterObserver takes a
+// GLXPlayerObserver*, see GetGLXPlayerLogin), which is not reproduced. The member at +0x6700 (glxUserFriend_)
+// is a different slot and is not written here.
 GLXPlayerUserFriend* CMatchingGLLive::GetGLXPlayerUserFriend() {
     if (s_GLXPlayerUserFriend == nullptr) {
         s_GLXPlayerUserFriend = new GLXPlayerUserFriend();
+        (void)GetGLXPlayerUserFriendObserver();
     }
     return s_GLXPlayerUserFriend;
 }
 
 // 0x81f858 _ZN15CMatchingGLLive9TerminateEv
-// Partial: clears the matching event queue and the GLLive queue, terminates the login observer and,
-// when signed in, the lobby observer, then clears the Game Center flag and the GLLive started flag.
-// Not reproduced: the CMatching::m_eventQueue clear, the virtual calls at +0x60 and +0x64 of this
-// class (not identified), the vtable call at +0x18 of the lobby object, the four UnregisterPacketType
-// calls and the CMatching::Terminate base call.
+// Partial. When IsInRoom() (vtable +0x64) is set it calls LeaveRoom (vtable +0x3c). It then clears the CMatching
+// output queue (m_eventQueue), the CMatching internal queue (m_eventQueueInternal) and the GLLive queue. When signed
+// in it calls the lobby's vtable +0x18 slot, mpDisconnect, and terminates the lobby observer. It terminates the login
+// observer, unregisters packet types 2, 3, 9 and 4, calls the CMatching base Terminate, and clears the initialized flag
+// (+0x0c), the Game Center flag (+0x67e8), the GLLive started flag and the alpha-server flag (+0x67ed).
+// Partial: the original creates the lobby on first use, so a null lobby here skips the disconnect; the lobby observer's
+// Terminate calls ClearRoomList, which is not reconstructed.
 std::int32_t CMatchingGLLive::Terminate() {
+    if (IsInRoom()) {
+        LeaveRoom();
+    }
+    MatchingOutputEventQueue().Clear();
     MatchingInternalEventQueue().Clear();
     s_eventQueueGLLiveInternal.Clear();
 
     CSignIn* signIn = CSignIn::Get();
     if (signIn != nullptr && signIn->LoggedInForTest()) {
+        if (GLXPlayerMPLobby* lobby = GetGLXPlayerMPLobby(); lobby != nullptr) {
+            lobby->mpDisconnect();  // GLXPlayerMPLobby vtable +0x18
+        }
         GetGLXPlayerMPLobbyObserver()->Terminate();
     }
     GetGLXPlayerLoginObserver()->Terminate();
 
-    gameCenterActive_ = false;
+    CConnectionManager::UnregisterPacketType(2);
+    CConnectionManager::UnregisterPacketType(3);
+    CConnectionManager::UnregisterPacketType(9);
+    CConnectionManager::UnregisterPacketType(4);
+    CMatching::Terminate();
+
+    gameCenterActive_ = false;  // +0x67e8
+    initialized_ = false;       // +0x0c
     s_IsGameStarting = false;
+    useAlphaServer_ = false;    // +0x67ed
     return 0;
 }

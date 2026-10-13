@@ -14,16 +14,45 @@ bool InRange(std::int32_t index, std::size_t size) {
 }  // namespace
 
 // 0x83f8a4 _ZN13GLXPlayerUserC2Ev, 0x83f754 _ZN13GLXPlayerUserC1Ev
-// Partial: the original allocates a 0x428-byte request client (ctor 0x82deac) into
-// +0x20 and passes it the strings at +0x10..+0x18. That allocation is not
-// reconstructed. The member defaults match the original's zeroing, -1 values included.
-GLXPlayerUser::GLXPlayerUser() : GLXPlayerWebComponent() { GLXPlayerWebComponent::LoadConfig(); }
+// The member defaults match the original's zeroing and -1 values. Two fields the original
+// does not set are zeroed here: +0x104 (promo attachment) and +0x114 (avatar count). The
+// request client is created after LoadConfig from the three owned strings, as the sibling
+// services do.
+GLXPlayerUser::GLXPlayerUser() : GLXPlayerWebComponent() {
+    GLXPlayerWebComponent::LoadConfig();
+    requestClient_ = std::make_unique<GLXPlayerHttp>(string10_.get(), string18_.get(), string14_.get());
+}
 
 // 0x83fb24 _ZN13GLXPlayerUserD1Ev, 0x83fda0 _ZN13GLXPlayerUserD2Ev
-// Partial: the original also destroys the vector<channel> pair at +0xe8 and +0xf8, and the
-// field at +0x3c, which are not modelled here. The _LiveFeed array at +0x12c is released by
-// its vector member.
-GLXPlayerUser::~GLXPlayerUser() = default;
+// Clears the list and information fields, then releases each owned field in the original's
+// order. The rss feeds advRss_ (+0xe8) and promoRss_ (+0xf8) are released by their members
+// after this body and before the base dtor, as the original does. The _LiveFeed array at
+// +0x12c is released by clearing its vector.
+GLXPlayerUser::~GLXPlayerUser() {
+    clearUserGameList();
+    clearUserState();
+    clearUserInformation();
+    clearAvatarList();
+    password_.reset();           // +0x48
+    userData_.reset();           // +0xc0
+    otherUserName_.reset();      // +0xc4
+    gameIcon_.reset();           // +0xc8
+    unk_3c_.reset();             // +0x3c
+    iconText0_.reset();          // +0xcc
+    iconText1_.reset();          // +0xd0
+    rssAttachment_.reset();      // +0xf4
+    avatarKey_.reset();          // +0xa8
+    otherAvatarKey_.reset();     // +0xac
+    avatarLastUpdate_.reset();   // +0xb0
+    otherAvatarLastUpdate_.reset();  // +0xb4
+    avatarData_.reset();         // +0xb8
+    otherAvatarData_.reset();    // +0xbc
+    chatWarning_.reset();        // +0x118
+    unk_11c_.reset();            // +0x11c
+    unk_120_.reset();            // +0x120
+    string124_.reset();          // +0x124
+    liveFeeds_.clear();          // +0x12c
+}
 
 // 0x83a880 _ZN13GLXPlayerUser11getUserNameEv
 const char* GLXPlayerUser::getUserName() const { return userName_.get(); }
@@ -113,7 +142,7 @@ const char* GLXPlayerUser::getUserAvatarKey() const { return avatarKey_.get(); }
 const char* GLXPlayerUser::getUserAvatarLastUpdate() const { return avatarLastUpdate_.get(); }
 
 // 0x83a994 _ZN13GLXPlayerUser17getUserAvatarDataEv
-const void* GLXPlayerUser::getUserAvatarData() const { return avatarData_; }
+const void* GLXPlayerUser::getUserAvatarData() const { return avatarData_.get(); }
 
 // 0x83a99c _ZN13GLXPlayerUser11getUserDataEv
 const char* GLXPlayerUser::getUserData() const { return userData_.get(); }
@@ -177,9 +206,9 @@ void GLXPlayerUser::clearAvatarList() {
 }
 
 // 0x83ac98 _ZN13GLXPlayerUser14clearUserStateEv
-// Partial: the original also frees the unknown object at +0x88, which is not
-// modelled here.
+// Frees the token at +0x88 and the other user name at +0xc4, then sets +0x80 and +0x84 to -1.
 void GLXPlayerUser::clearUserState() {
+    unk_88_.reset();
     otherUserName_.reset();
     field80_ = -1;
     currentState_ = -1;

@@ -75,12 +75,11 @@ CNetworkId CTcp::GetLocalNetworkId() {
 }
 
 // 0x82a0d8 _ZN4CTcp14ReceivePacketsEv
-// Partial: reads up to 21 packets of at most 4096 bytes and hands each to the transport
-// manager (ReceiverCallback, 0x81b11c). The argument roles of that call are unclear in the
-// Hex-Rays pseudocode: the call passes the CTcp object, the peer id, the buffer and the length
-// in the order of the callee's symbol, which is what the port does.
-// The per-packet size passed in the original is the register holding the pointer to the
-// peer id, so the length argument may differ.
+// Reads up to 21 packets of at most 4096 bytes and hands each to the transport manager
+// (CTransportManager::ReceiverCallback, 0x81b11c). The ARM call (r0-r3) passes the transport
+// (this), the sender id, the buffer and the length; the fifth Hex-Rays argument is the copy
+// pointer of the loop, not a register argument. The sender id is read through the virtual
+// GetPeerNetworkId (vtable +0x1c in the original); CTcp has no subclass, so the call is direct.
 int CTcp::ReceivePackets() {
     CNetworkId from;
     char buffer[0x1000];

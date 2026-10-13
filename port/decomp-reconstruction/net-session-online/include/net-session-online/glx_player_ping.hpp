@@ -40,19 +40,21 @@ public:
         return 0;
     }
     // 0x840280 _ZN13GLXPlayerPing16WaitForEchoReplyEi
-    // The original polls the socket with select() and a zero timeout. The port has no
-    // select stand-in and reports no data, so this is partial.
+    // Partial: the original calls select() on the socket handle with a zero timeout. The port has no
+    // select stand-in and no handle getter, and reports no data.
     std::int32_t WaitForEchoReply(std::int32_t fd);
     // 0x840454 _ZN13GLXPlayerPing15SendEchoRequestEv
     std::int32_t SendEchoRequest();
     // 0x8402f8 _ZN13GLXPlayerPing13RecvEchoReplyEv
-    // Partial: the receive hook (GLXPlayerSocket vtable +0x5c) is not declared on the port's socket.
+    // Partial: the receive hook (GLXPlayerSocket vtable +0x5c) is not declared on the port's socket,
+    // so the receive stand-in fails. The reply parsing is complete.
     std::int32_t RecvEchoReply();
     // 0x84069c _ZN13GLXPlayerPing6KernelEv
     // Partial: the host resolve step (state 2) and the socket handle read (state 4) have no port hook.
     std::int32_t Kernel();
 
     // Not in the original: test seams.
+    void SetStateForTest(std::int32_t state) { state_ = state; }
     std::int32_t StateForTest() const { return state_; }
     std::int32_t ResultForTest() const { return result_; }
     void SetSocketForTest(std::unique_ptr<GLXPlayerSocket> socket) { socket_ = std::move(socket); }

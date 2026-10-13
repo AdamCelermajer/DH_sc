@@ -36,7 +36,7 @@ public:
     static int Initialize();                  // 0x81b800 _ZN17CTransportManager10InitializeEv
     static void Terminate();                  // 0x81aa2c _ZN17CTransportManager9TerminateEv
 
-    void AbortNetwork();                                  // 0x81a9dc _ZN17CTransportManager12AbortNetworkEv
+    virtual void AbortNetwork();                          // 0x81a9dc _ZN17CTransportManager12AbortNetworkEv (vtable +0x10)
 
     // Receiver-thread hooks. The base vtable has these slots pure (+0x08 start, +0x0c stop);
     // CTransportManagerImpl overrides them. The base defaults do nothing.
@@ -55,22 +55,23 @@ public:
     // Sends one packet through one transport (transport, peer, packet type, payload, size).
     int Send(CTransport* transport, const CNetworkId& to, tPACKET_TYPE type,
              const void* data, std::size_t size);         // 0x81b010
-    // Splits received bytes into packets and dispatches them.
-    void ReceiverCallback(CTransport* transport, CNetworkId& from, char* data, int size);  // 0x81b11c
+    // Splits received bytes into packets and dispatches them. Static: the first argument is the
+    // transport the bytes came from (CUdp::Receive passes its own object), not the manager.
+    static void ReceiverCallback(CTransport* transport, CNetworkId& from, char* data, int size);  // 0x81b11c
     int Send(tTRANSPORT_TYPE type, const CNetworkId& to, tPACKET_TYPE packet_type,
              const void* data, std::size_t size);         // 0x81b290
     int Send(tTRANSPORT_TYPE type, tPACKET_TYPE packet_type,
              const void* data, std::size_t size);         // 0x81b2fc
 
     void Receive();                                       // 0x81b3c8 _ZN17CTransportManager7ReceiveEv
-    void Disconnect(const CNetworkId& peer);              // 0x81b440
+    int Disconnect(const CNetworkId& peer);               // 0x81b440 (returns 0)
     void AddTransport(CTransport* transport);             // 0x81b4c4
     static void AcceptCallback(tTRANSPORT_TYPE type, CTransport* transport);  // 0x81b52c
-    int InitializeInternal();                             // 0x81b544
+    virtual int InitializeInternal();                     // 0x81b544 (vtable +0x00)
     void ReceiverThreadExecute();                         // 0x81b5b4
     int Connect(const CNetworkId& peer);                  // 0x81b604
     int InitializeTransport(tTRANSPORT_TYPE type);        // 0x81b644
-    void TerminateInternal();                             // 0x81b64c
+    virtual void TerminateInternal();                     // 0x81b64c (vtable +0x04)
     void SendToAllTransport(tPACKET_TYPE type, const CNetworkId& to,
                             const void* data, std::size_t size);  // 0x81baec
     void KeepAlive(const CNetworkId& peer);               // 0x81bb88
@@ -89,6 +90,9 @@ private:
 };
 
 // Singleton accessor used by the transports and the connection code (0x8497664 _Z15GetTransportMgrv).
+// Deviation, not yet fixed: this is a function-local instance, not the singleton. The original (and
+// game/include/dh2/global/net_singletons.hpp) return CTransportManager::GetInstance(), a pointer.
+// Initialize and Terminate act on the singleton, so transports added here are not seen by it.
 inline CTransportManager& GetTransportMgr() {
     static CTransportManager manager;
     return manager;

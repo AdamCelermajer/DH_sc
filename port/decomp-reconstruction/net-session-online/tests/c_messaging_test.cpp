@@ -3,6 +3,7 @@
 #include <cstdio>
 
 #include "net-session-online/deps/matching.hpp"
+#include "messaging_stand_ins_for_tests.hpp"  // weak CPacketManager and CMatching::Get stand-ins (see the header)
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -69,7 +70,8 @@ int main() {
     // Receive path: AddToRecvQueue and ProcessRecvQueue keep the queue consistent (no nulls).
     box->AddToRecvQueue(new CMessage());
     box->ProcessRecvQueue();
-    CHECK(box->IsMessageReceived("") == false);  // partial: type match not reconstructed
+    // The default message has wire type id 0, and FindTypeId("") is 0 while no type is registered.
+    CHECK(box->IsMessageReceived("") == true);
 
     // AddMissingMessages with an empty range is a no-op.
     box->AddMissingMessages(2, 5, 5);
