@@ -263,6 +263,9 @@ private:
         std::int32_t last_use_lag_ms = 0;
     };
     std::uint64_t next_generation_ = 1;
+    // v21.8 es-runtime: Uses delivered per (actor, SkillTable id) for a profile volley plan. Persists across casts, as the
+    // Lua file-level skill_inc does; a new coordinator (session rebuild) starts it again, like a reloaded script.
+    std::map<std::pair<ActorId, int>, std::uint32_t> volley_cursor_;
     std::uint64_t timer_update_serial_ = 0;
     double elapsed_ms_ = 0.0;
     bool timer_clock_bound_ = false;

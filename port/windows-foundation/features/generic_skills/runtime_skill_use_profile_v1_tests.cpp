@@ -174,6 +174,28 @@ int main(int argc, char** argv) {
               "GrapplingHook is BLOCKED-PROJECTILE");
         check(find_skill_use_profile_rogue_v1("Volley", "prince_archer_volley") == nullptr,
               "Archer projectile skills are BLOCKED-PROJECTILE");
+
+        // v21.8 es-runtime: per-volley plan (Lua skill_inc cycle). Without a plan every Use is the row's own volley.
+        const RuntimeSkillUseProfileV1* plain = find_skill_use_profile_v1("ViciousStrike", "prince_rogue_vicious_strike");
+        check(plain != nullptr && select_volley_v1(*plain, 0) == nullptr && select_volley_v1(*plain, 7) == nullptr,
+              "A profile without a volley plan selected a volley");
+        const RuntimeSkillVolleyV1 plan[] = {{"Skill_Berserk_Berserk_Stun", false},
+                                             {"Skill_Berserk_Berserk_Damage", true},
+                                             {"Skill_Berserk_Berserk_KnockBack", true}};
+        RuntimeSkillUseProfileV1 planned = *plain;
+        planned.volleys = plan;
+        planned.volley_count = 3;
+        for (std::uint32_t cursor = 0; cursor < 7; ++cursor) {
+            const auto* selected = select_volley_v1(planned, cursor);
+            const auto& expected = plan[cursor % 3];
+            check(selected == &plan[cursor % 3] && std::string(selected->class_token) == expected.class_token &&
+                  selected->top_target_only == expected.top_target_only,
+                  "Volley cycle does not wrap every three Uses at cursor " + std::to_string(cursor));
+        }
+        check(select_volley_v1(planned, 3) == &plan[0] && select_volley_v1(planned, 5) == &plan[2],
+              "Volley cycle does not wrap at its length");
+        planned.volley_count = 0;
+        check(select_volley_v1(planned, 1) == nullptr, "A zero-length volley plan selected a volley");
     } catch (const std::exception& error) {
         std::fprintf(stderr, "FAIL runtime_skill_use_profile_v1: %s\n", error.what());
         return 1;

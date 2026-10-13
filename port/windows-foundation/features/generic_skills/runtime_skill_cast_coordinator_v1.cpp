@@ -1203,10 +1203,19 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             use_targets.ordered_object_targets.clear();
         }
     }
+    // v21.8 es-runtime: per-volley Use. The volley is chosen by the Uses already delivered for this actor and skill
+    // (Lua skill_inc): its ClassTable row replaces the row class, and a top-only volley keeps the first target.
+    const auto volley_key = std::make_pair(actor_id, active.receipt.skill_table_id);
+    const RuntimeSkillVolleyV1* volley = profile.volley_count ? select_volley_v1(profile, volley_cursor_[volley_key]) : nullptr;
+    if (volley && volley->top_target_only) {
+        if (use_targets.ordered_character_targets.size() > 1) use_targets.ordered_character_targets.resize(1);
+        if (use_targets.ordered_targets.size() > 1) use_targets.ordered_targets.resize(1);
+    }
     active.receipt.target_order = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
     const auto* use_class = active.class_token.c_str();
     if (profile.shield_variant && current->facts.shield)
         use_class = "Skill_Warrior_Charge_ShieldBonus";
+    if (volley) use_class = volley->class_token;
     double ignored_cooldown = 0.0, ignored_range = 0.0, ignored_range_growth = 0.0;
     if (!source_skill_class_projection(*active.characters, *active.classes,
             *active.property_rules, current->sheets.resolved, use_class,
@@ -1378,6 +1387,7 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         }
     }
     active.next_event_index = event_index;
+    if (volley) ++volley_cursor_[volley_key];  // the Lua skill_inc advances once the OnSkill_ volley has run
     ++active.use_volleys;
     active.use_delivered = true;
     active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;

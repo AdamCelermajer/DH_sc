@@ -45,6 +45,13 @@ struct RuntimeSkillBuffProfileV1 {
     int duration_prop_index = 176;
 };
 
+// One step of a volley cycle: the ClassTable row projected for that marker, and whether it rolls every target
+// (top_target_only = false, Lua loop over the list) or only the first one (GetTargetListTop, no pop).
+struct RuntimeSkillVolleyV1 {
+    const char* class_token;
+    bool top_target_only;
+};
+
 struct RuntimeSkillUseProfileV1 {
     const char* skill_name;   // SkillTable.name
     const char* script;       // SkillTable.script (the prince_*.luac file stem)
@@ -86,7 +93,18 @@ struct RuntimeSkillUseProfileV1 {
     // Lua constant cooldown written by OnPreSkill_ (SetSkillCooldown(COOLDOWN)) that overrides the
     // class projection of SnS_Cooldown. 0 = use the projected class value (default for every row).
     float fixed_cooldown_ms = 0.0f;
+    // v21.8 es-runtime: per-volley Use (Lua OnSkill_ `skill_inc` cycle). The n-th distinct do_skill marker of a cast uses
+    // volleys[n % volley_count]. nullptr / 0 = every marker runs the row's own class and targets (default for every row).
+    const RuntimeSkillVolleyV1* volleys = nullptr;
+    std::uint8_t volley_count = 0;
 };
+
+// The volley that a Use selects. `cursor` counts the Uses already delivered for this actor and skill (it persists across
+// casts, like the Lua file-level skill_inc). Returns nullptr when the profile has no volley plan.
+inline const RuntimeSkillVolleyV1* select_volley_v1(const RuntimeSkillUseProfileV1& profile, std::uint32_t cursor) {
+    if (!profile.volleys || profile.volley_count == 0) return nullptr;
+    return &profile.volleys[cursor % profile.volley_count];
+}
 
 inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;
 

@@ -98,7 +98,7 @@ struct RuntimeMageSkillOwnerV1::Tornado {
     RollContext victim_context, area_context;
     std::uint64_t projectile_id = 0;
     std::array<float, 3> start{};
-    double tick_ms = 0.0;
+    RuntimeSkillTimerIdV1 tick_timer = 0;  // TICK_DELAY loop on the owner's timer service
     float area_range = 0.0f;
     bool area_has_direct_damage = false;
     bool finished = false;
@@ -115,7 +115,7 @@ struct RuntimeMageSkillOwnerV1::Tornado {
 struct RuntimeMageSkillOwnerV1::Statue {
     RollContext roll_context;
     std::array<float, 3> position{};
-    double remaining_ms = kStatueDelayMs;
+    RuntimeSkillTimerIdV1 timer = 0;  // TNT_DELAY one-shot on the owner's timer service
     std::vector<ActorId> population_order;
     std::vector<SkillTargetSourceFactsV1> target_facts;
     std::optional<bool> objects_absent;
@@ -129,6 +129,7 @@ void RuntimeMageSkillOwnerV1::log(const std::string& line) const {
 }
 
 void RuntimeMageSkillOwnerV1::reset() {
+    timers_.clear();
     tornados_.clear();
     statues_.clear();
     stone_escape_origin_.clear();
@@ -411,6 +412,15 @@ bool RuntimeMageSkillOwnerV1::use_cyclone(CombatSession& session, const RuntimeS
     std::uint64_t projectile_id = 0;
     if (!executor->launch_skill(tables, request, projectile_id, error)) return false;
     tornado->projectile_id = projectile_id;
+    // Lua StartSkillTimerCB(TICK_DELAY, true, HandleTick): a repeating tick on this owner's clock until the tornado ends.
+    std::weak_ptr<Tornado> weak_tick = tornado;
+    tornado->tick_timer = timers_.start(kTornadoTickMs, true, [this, weak_tick](RuntimeSkillTimerIdV1, std::string& timer_error) {
+        const auto owner = weak_tick.lock();
+        if (!owner || owner->finished) return true;
+        if (!timer_session_) return fail(timer_error, "Cyclone tick fired outside the Mage owner clock");
+        return tick_tornado(*timer_session_, *owner, timer_error);
+    });
+    if (tornado->tick_timer == 0) return fail(error, "Cyclone tick timer could not be started");
     tornados_.push_back(tornado);
     log("Mage skill Cyclone tornado id=" + std::to_string(projectile_id) + " areaRange=" + std::to_string(tornado->area_range) +
         " proximityDirectDamage=" + std::to_string(tornado->area_has_direct_damage));
@@ -496,6 +506,17 @@ bool RuntimeMageSkillOwnerV1::use_stone_escape(CombatSession& session, const Run
     statue->objects_absent = context.non_character_attackable_objects_absent;
     if (services_.play_effect && !services_.play_effect(kStatueIdleFx, old_position, fx_error))
         log("Mage skill diagnostic StoneEscape statue FX: " + fx_error);
+    // Lua StartSkillTimerCB(TNT_DELAY, false, DoExplosion, statue): a one-shot on this owner's clock.
+    std::weak_ptr<Statue> weak_statue = statue;
+    statue->timer = timers_.start(kStatueDelayMs, false, [this, weak_statue](RuntimeSkillTimerIdV1, std::string& timer_error) {
+        const auto owner = weak_statue.lock();
+        if (!owner) return true;
+        if (!timer_session_) return fail(timer_error, "StoneEscape statue timer fired outside the Mage owner clock");
+        // The one-shot is spent before DoExplosion runs (the owner leaves the list, as the Lua timer entry does).
+        statues_.erase(std::remove(statues_.begin(), statues_.end(), owner), statues_.end());
+        return explode_statue(*timer_session_, *owner, timer_error);
+    });
+    if (statue->timer == 0) return fail(error, "StoneEscape statue timer could not be started");
     statues_.push_back(statue);
     return true;
 }
@@ -529,24 +550,26 @@ bool RuntimeMageSkillOwnerV1::explode_statue(CombatSession& session, Statue& sta
 // ----- clock --------------------------------------------------------------------------------------------------------
 bool RuntimeMageSkillOwnerV1::advance(CombatSession& session, double dt_ms, std::string& error) {
     error.clear();
-    for (auto it = statues_.begin(); it != statues_.end();) {
-        auto& statue = **it;
-        statue.remaining_ms -= dt_ms;
-        if (statue.remaining_ms > 0.0) {
-            ++it;
-            continue;
-        }
-        const auto owner = *it;
-        it = statues_.erase(it);
-        if (!explode_statue(session, *owner, error)) return false;
+    // The statue explosions and the tornado ticks are timers on the shared service, fired in due-time order. The
+    // Session is bound only for the duration of this call (the timer callbacks read it from timer_session_).
+    timer_session_ = &session;
+    std::string timer_error;
+    const bool timers_ok = timers_.advance(dt_ms, timer_error);
+    timer_session_ = nullptr;
+    if (!timers_ok) {
+        error = timer_error.empty() ? "Mage skill timer failed" : timer_error;
+        return false;
     }
     auto* executor = services_.projectiles ? services_.projectiles() : nullptr;
+    // Cleanup and carry after the timers. Ordering change against the former ad hoc clock (documented in the report):
+    // a victim rolled by this frame's tick is carried in this frame, not from the next one.
     for (auto it = tornados_.begin(); it != tornados_.end();) {
         auto& tornado = **it;
         std::array<float, 3> position{};
         const bool alive = executor && executor->projectile_position(tornado.projectile_id, position);
         if (!alive || tornado.finished) {
             log("Mage skill Cyclone cleanup id=" + std::to_string(tornado.projectile_id) + " victims=" + std::to_string(tornado.victims.size()));
+            timers_.stop(tornado.tick_timer);
             it = tornados_.erase(it);
             continue;
         }
@@ -560,11 +583,6 @@ bool RuntimeMageSkillOwnerV1::advance(CombatSession& session, double dt_ms, std:
             std::string move_error;
             if (services_.move_actor && !services_.move_actor(entry.first, wanted, false, move_error))
                 log("Mage skill diagnostic Cyclone carry: " + move_error);
-        }
-        tornado.tick_ms += dt_ms;
-        while (tornado.tick_ms >= kTornadoTickMs) {
-            tornado.tick_ms -= kTornadoTickMs;
-            if (!tick_tornado(session, tornado, error)) return false;
         }
         ++it;
     }

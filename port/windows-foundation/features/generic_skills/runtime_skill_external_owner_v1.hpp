@@ -51,6 +51,20 @@ public:
     virtual bool pre(CombatSession&, const RuntimeSkillExternalContextV1&, std::string& error) = 0;
     // OnSkill_ body at the retained state-6 do_skill marker.
     virtual bool use(CombatSession&, const RuntimeSkillExternalContextV1&, std::string& error) = 0;
+    // Gameplay clock of the owner's timers (StartSkillTimerCB). The host calls it once per unpaused frame after the
+    // Session update. Default: no timers.
+    virtual bool advance(CombatSession&, double dt_ms, std::string& error) {
+        error.clear();
+        (void)dt_ms;
+        return true;
+    }
+    // Original RegisterSkillEx `cleanup` (OnSkillCleanUp), run by CharAI::AI_SetDead / AI_ScriptCleanUp /
+    // AIUnLoadScriptProcess for the caster `actor`. Default: the Lua default cleanup is empty.
+    virtual void cleanup(CombatSession&, ActorId actor) {
+        (void)actor;
+    }
+    // Drops the owner's live state (session rebuild / level change). Default: nothing to drop.
+    virtual void reset() {}
 };
 
 } // namespace dh::foundation::generic_skills
