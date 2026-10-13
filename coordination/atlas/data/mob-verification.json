@@ -71,8 +71,8 @@
     },
     {
       "detail": {
-        "joined_model_files": 5,
-        "resolved_texture_files": 4
+        "joined_model_files": 10,
+        "resolved_texture_files": 8
       },
       "name": "model texture dependencies are included",
       "passed": true

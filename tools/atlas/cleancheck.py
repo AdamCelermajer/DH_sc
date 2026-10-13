@@ -21,6 +21,9 @@ def run(ctx):
     verification=validation.run(testctx)
     import mob_checks
     mob_verification=mob_checks.run(testctx)
+    import graph_checks
+    graph_verification=graph_checks.run(testctx)
+    write_json(testctx.out/'data/graph-verification.json',graph_verification)
     progress(testctx,'COVERAGE VERIFIED; MOB SEMANTICS PARTIAL' if verification['passed'] else 'CHECK FAILURES')
     report(testctx,check)
     normalize_outputs(testctx)
@@ -29,7 +32,7 @@ def run(ctx):
                 for p in folder.rglob('*') if p.is_file()}
     current,rebuilt=digest(ctx.out),digest(fresh)
     changed=sorted(k for k in current.keys()|rebuilt.keys() if current.get(k)!=rebuilt.get(k))
-    result={'passed':not changed and verification['passed'] and mob_verification['passed'],'artifacts':len(rebuilt),
+    result={'passed':not changed and verification['passed'] and mob_verification['passed'] and graph_verification['passed'],'artifacts':len(rebuilt),
             'differing_artifacts':changed,'fresh_output':str(fresh),
             'scope':'All generated files compared byte-for-byte; original inputs and game source read-only.'}
     write_json(runtime/'cleancheck-result.json',result)

@@ -8,10 +8,10 @@
     },
     "assets": {
       "statuses": {
-        "ORPHAN": 962,
-        "REFERENCED": 5771
+        "ORPHAN": 2461,
+        "REFERENCED": 10894
       },
-      "total": 6733
+      "total": 13355
     },
     "bosses": {
       "statuses": {
@@ -46,10 +46,10 @@
     "references": {
       "statuses": {
         "AMBIGUOUS": 2,
-        "RESOLVED": 30204,
-        "UNRESOLVED": 31315
+        "RESOLVED": 44586,
+        "UNRESOLVED": 50536
       },
-      "total": 61521
+      "total": 95124
     },
     "scripts": {
       "statuses": {
@@ -60,8 +60,7 @@
     },
     "tables": {
       "statuses": {
-        "RESOLVED": 7550,
-        "UNRESOLVED": 1313
+        "RESOLVED": 8863
       },
       "total": 8863
     }
@@ -111,6 +110,11 @@
     {
       "detail": "{\"literal_calls\": [{\"site\": \"darkqueen1_core.luac:10\", \"status\": \"RESOLVED\", \"table\": \"effect_sets\", \"index\": 229, \"expected_table\": \"effect_sets\", \"expected_index\": 229}, {\"site\": \"flaminite_core.luac:67\", \"status\": \"RESOLVED\", \"table\": \"animations_dictionary#group0\", \"index\": 1144, \"expected_table\": \"animations_dictionary#group0\", \"expected_index\": 1144}, {\"site\": \"prince_mage_stone_escape.luac:30\", \"status\": \"RESOLVED\", \"table\": \"effect_sets\", \"index\": 229, \"expected_table\": \"effect_sets\", \"expected_index\": 229}], \"charpropsname\": {\"status\": \"RESOLVED\", \"table\": \"character_properties#group0\", \"index\": 360, \"port_status\": \"PARTIAL\"}, \"CharSoundsTable_group_scope\": {\"status\": \"RESOLVED\", \"table\": \"sounds#group0\", \"target_table\": \"sounds#group0\", \"index\": 2, \"source_row_table\": \"sounds#group0\", \"source_row_name\": \"Default\"}}",
       "name": "literal PyData aliases and gated Swamp charpropsname source joins",
+      "passed": true
+    },
+    {
+      "detail": "{\"itemdrop_visual_rows\": 29, \"itemdrop_unresolved_symbols\": 29, \"skill_script_rows\": 124, \"scripts_with_exact_uri_assets\": 124, \"skill_icon_rows\": 74, \"icons_with_sprite79_frames\": 74}",
+      "name": "itemdrop scene tokens and SkillTable script/icon source targets",
       "passed": true
     }
   ],

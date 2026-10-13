@@ -1,11 +1,15 @@
 {
-  "asset_files": 6733,
+  "asset_files": 13355,
   "by_source": {
     "android": 6040,
     "android-extra": 18,
     "audio-cache": 265,
     "ios": 256,
+    "ios-app-resources": 28,
+    "ios-glive": 50,
+    "ios-packed": 6157,
     "original-cache": 152,
+    "port-runtime-original-cache": 387,
     "sound-table": 2
   }
 }

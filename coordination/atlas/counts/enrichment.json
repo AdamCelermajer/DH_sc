@@ -1,0 +1,36 @@
+{
+  "campaign_relations": 9129,
+  "payload_gaps": [],
+  "payloads": {
+    "decoded_by_table": {
+      "camera_animation_sets": 3,
+      "character_classes": 260,
+      "character_properties": 7,
+      "character_templates": 121,
+      "common": 2,
+      "common_text": 9,
+      "design": 20,
+      "dialogs": 55,
+      "fonts": 7,
+      "game_objects": 156,
+      "help_pages": 25,
+      "item_powers_monopoly": 43,
+      "loot_table": 51,
+      "sounds": 223,
+      "spawn_groups": 1,
+      "trophies": 69,
+      "v2conditions": 118,
+      "v2eventmanager": 66,
+      "v2quests": 64,
+      "worldmap": 16
+    },
+    "decoded_rows": 1316,
+    "families_attempted": 20,
+    "newly_resolved_rows": 1313,
+    "pre_resolved_enrichments": 3,
+    "references": 367,
+    "resolved_rows": 1316,
+    "unresolved_rows": 0
+  },
+  "symbolic_edges": 190
+}

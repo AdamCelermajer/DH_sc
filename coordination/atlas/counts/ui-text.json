@@ -1,0 +1,301 @@
+{
+  "aliases": 58705,
+  "gaps": 344,
+  "ios7_swf_movies": 7,
+  "localization_files": 333,
+  "localization_rows": 41546,
+  "resources_by_kind": {
+    "font-resource": 8,
+    "localization-file": 333,
+    "localization-row": 41546,
+    "swf-action-block": 10445,
+    "swf-edit-text": 1585,
+    "swf-font": 63,
+    "swf-movie": 37,
+    "swf-script-carrier": 342,
+    "swf-shape": 6105,
+    "swf-sprite": 6685,
+    "swf-texture": 162,
+    "table-row": 1913,
+    "texture-resource": 6
+  },
+  "script_inventory": {
+    "avm1_action_blocks": 10445,
+    "avm1_by_tag": {
+      "12": 10098,
+      "59": 347
+    },
+    "avm1_malformed_opaque": 0,
+    "avm1_opcode_indexed": 10445,
+    "avm1_records": 370902,
+    "avm2_by_tag": {},
+    "avm2_bytecode_blocks": 0,
+    "opaque_carriers_by_tag": {
+      "26": 342
+    },
+    "opaque_script_carriers": 342
+  },
+  "source_consumer": "HudTextV1::id decodes StringConfig then indexes common_text sheet/ordinal; InfoHUDManager FastUpdate 41e064 reads the eligible target name ID through StringManager and writes enemy.enemy_name.text; Faery page text is authored GAMEPLAYMENUS_FAERY_* symbol lookup, so Faery table Name/Description are retained as rows but not asserted as that page display source.",
+  "swf_movies": 37,
+  "swf_reports": {
+    "data/menus/dqcharmenu.swf": {
+      "exports": 23,
+      "imports": 0,
+      "symbols": 777,
+      "tags": 925,
+      "version": 9
+    },
+    "data/menus/dqcharmenu_droid.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 798,
+      "tags": 940,
+      "version": 8
+    },
+    "data/menus/dqcharmenu_i9000.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 798,
+      "tags": 940,
+      "version": 8
+    },
+    "data/menus/dqhud.swf": {
+      "exports": 588,
+      "imports": 0,
+      "symbols": 784,
+      "tags": 1447,
+      "version": 7
+    },
+    "data/menus/dqhud_droid.swf": {
+      "exports": 32,
+      "imports": 0,
+      "symbols": 778,
+      "tags": 931,
+      "version": 8
+    },
+    "data/menus/dqhud_i9000.swf": {
+      "exports": 32,
+      "imports": 0,
+      "symbols": 778,
+      "tags": 931,
+      "version": 8
+    },
+    "data/menus/dqhud_jp.swf": {
+      "exports": 5,
+      "imports": 0,
+      "symbols": 364,
+      "tags": 436,
+      "version": 8
+    },
+    "data/menus/dqhud_jp_droid.swf": {
+      "exports": 5,
+      "imports": 0,
+      "symbols": 364,
+      "tags": 436,
+      "version": 8
+    },
+    "data/menus/dqhud_jp_i9000.swf": {
+      "exports": 5,
+      "imports": 0,
+      "symbols": 364,
+      "tags": 436,
+      "version": 8
+    },
+    "data/menus/dqmenus.swf": {
+      "exports": 1201,
+      "imports": 0,
+      "symbols": 509,
+      "tags": 1755,
+      "version": 7
+    },
+    "data/menus/dqmenus2.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 42,
+      "tags": 52,
+      "version": 8
+    },
+    "data/menus/dqmenus2_droid.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 42,
+      "tags": 52,
+      "version": 8
+    },
+    "data/menus/dqmenus2_i9000.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 42,
+      "tags": 52,
+      "version": 8
+    },
+    "data/menus/dqmenus_droid.swf": {
+      "exports": 10,
+      "imports": 0,
+      "symbols": 522,
+      "tags": 618,
+      "version": 8
+    },
+    "data/menus/dqmenus_i9000.swf": {
+      "exports": 10,
+      "imports": 0,
+      "symbols": 518,
+      "tags": 614,
+      "version": 8
+    },
+    "data/menus/dqmenus_i9000_htc.swf": {
+      "exports": 10,
+      "imports": 0,
+      "symbols": 518,
+      "tags": 614,
+      "version": 8
+    },
+    "data/menus/dqmenus_i9000_lg.swf": {
+      "exports": 10,
+      "imports": 0,
+      "symbols": 518,
+      "tags": 614,
+      "version": 8
+    },
+    "data/menus/dqmenus_jp.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 508,
+      "tags": 609,
+      "version": 8
+    },
+    "data/menus/dqmenus_jp_droid.swf": {
+      "exports": 7,
+      "imports": 0,
+      "symbols": 573,
+      "tags": 732,
+      "version": 8
+    },
+    "data/menus/dqmenus_jp_i9000.swf": {
+      "exports": 7,
+      "imports": 0,
+      "symbols": 573,
+      "tags": 731,
+      "version": 8
+    },
+    "data/menus/dqmenus_kor.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 506,
+      "tags": 607,
+      "version": 8
+    },
+    "data/menus/dqmenusapple.swf": {
+      "exports": 9,
+      "imports": 0,
+      "symbols": 493,
+      "tags": 600,
+      "version": 8
+    },
+    "data/menus/dqshared.swf": {
+      "exports": 18,
+      "imports": 0,
+      "symbols": 152,
+      "tags": 212,
+      "version": 8
+    },
+    "data/menus/dqshared_droid.swf": {
+      "exports": 14,
+      "imports": 0,
+      "symbols": 151,
+      "tags": 208,
+      "version": 8
+    },
+    "data/menus/dqshared_i9000.swf": {
+      "exports": 14,
+      "imports": 0,
+      "symbols": 151,
+      "tags": 208,
+      "version": 8
+    },
+    "data/menus/dqsharedsssss.swf": {
+      "exports": 18,
+      "imports": 0,
+      "symbols": 152,
+      "tags": 212,
+      "version": 8
+    },
+    "data/menus/key.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 87,
+      "tags": 101,
+      "version": 10
+    },
+    "data/menus/loadanims.swf": {
+      "exports": 1,
+      "imports": 0,
+      "symbols": 5,
+      "tags": 13,
+      "version": 8
+    },
+    "data/menus/loadanims_droid.swf": {
+      "exports": 1,
+      "imports": 0,
+      "symbols": 4,
+      "tags": 11,
+      "version": 8
+    },
+    "data/menus/loadanims_i9000.swf": {
+      "exports": 1,
+      "imports": 0,
+      "symbols": 4,
+      "tags": 11,
+      "version": 8
+    },
+    "ios7/data/menus/dqcharmenu.swf": {
+      "exports": 23,
+      "imports": 0,
+      "symbols": 801,
+      "tags": 950,
+      "version": 8
+    },
+    "ios7/data/menus/dqhud.swf": {
+      "exports": 40,
+      "imports": 0,
+      "symbols": 790,
+      "tags": 952,
+      "version": 8
+    },
+    "ios7/data/menus/dqmenus.swf": {
+      "exports": 16,
+      "imports": 0,
+      "symbols": 442,
+      "tags": 533,
+      "version": 8
+    },
+    "ios7/data/menus/dqmenus2.swf": {
+      "exports": 2,
+      "imports": 0,
+      "symbols": 42,
+      "tags": 52,
+      "version": 8
+    },
+    "ios7/data/menus/dqmenusapple.swf": {
+      "exports": 9,
+      "imports": 0,
+      "symbols": 493,
+      "tags": 600,
+      "version": 8
+    },
+    "ios7/data/menus/dqshared.swf": {
+      "exports": 19,
+      "imports": 0,
+      "symbols": 153,
+      "tags": 215,
+      "version": 8
+    },
+    "ios7/data/menus/loadanims.swf": {
+      "exports": 1,
+      "imports": 0,
+      "symbols": 4,
+      "tags": 11,
+      "version": 8
+    }
+  }
+}

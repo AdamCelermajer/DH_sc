@@ -650,226 +650,226 @@
 | sounds#group0 | 0 | AAA_DONT_DELETE | {"Die": [], "Hurt": [], "ImpactVsFlesh": [], "ImpactVsMetal": [], "IsFlesh": false, "IsMetallic": false} | DONE |
 | sounds#group0 | 1 | ArmoredHuman | {"Die": [28], "Hurt": [29, 30, 31], "ImpactVsFlesh": [120, 121, 122], "ImpactVsMetal": [117, 118, 119], "IsFlesh": false, "IsMetallic": true} | DONE |
 | sounds#group0 | 2 | Default | {"Die": [], "Hurt": [], "ImpactVsFlesh": [], "ImpactVsMetal": [], "IsFlesh": true, "IsMetallic": false} | DONE |
-| sounds#group1 | 0 | AAA_DONT_DELETE_Listener | {} | DONE |
-| sounds#group1 | 1 | curListener | {} | DONE |
-| sounds#group1 | 2 | PlayerListener | {} | DONE |
-| sounds#group1 | 3 | BAPListener | {} | DONE |
-| sounds#group1 | 4 | CameraListener | {} | DONE |
-| sounds#group2 | 0 | AMBIANCE_3D | {} | DONE |
-| sounds#group2 | 1 | AMBIANCE_OMNI | {} | DONE |
-| sounds#group2 | 2 | AMBIANCE_ONESHOT | {} | DONE |
-| sounds#group2 | 3 | ELEMENTAL_EFFECT | {} | DONE |
-| sounds#group2 | 4 | INTERFACE | {} | DONE |
-| sounds#group2 | 5 | MC_DIES | {} | DONE |
-| sounds#group2 | 6 | MC_FOOTSTEPS | {} | DONE |
-| sounds#group2 | 7 | MC_HURT | {} | DONE |
-| sounds#group2 | 8 | MC_PHYS_IMPACTS | {} | DONE |
-| sounds#group2 | 9 | MC_SKILLS | {} | DONE |
-| sounds#group2 | 10 | MC_SPELLS | {} | DONE |
-| sounds#group2 | 11 | MUSIC_BOSS | {} | DONE |
-| sounds#group2 | 12 | MUSIC_ENV | {} | DONE |
-| sounds#group2 | 13 | MUSIC_INT | {} | DONE |
-| sounds#group2 | 14 | NPC_ATTACK | {} | DONE |
-| sounds#group2 | 15 | NPC_CALL | {} | DONE |
-| sounds#group2 | 16 | NPC_HURT | {} | DONE |
-| sounds#group2 | 17 | NPC_IDLE | {} | DONE |
-| sounds#group2 | 18 | NPC_KILLED | {} | DONE |
-| sounds#group2 | 19 | NPC_OUT | {} | DONE |
-| sounds#group2 | 20 | NPC_SPAWN | {} | DONE |
-| sounds#group2 | 21 | OBJECT_DEST | {} | DONE |
-| sounds#group2 | 22 | OBJECT_DROP | {} | DONE |
-| sounds#group2 | 23 | OBJECT_ENV | {} | DONE |
-| sounds#group2 | 24 | OBJECT_PICKUP | {} | DONE |
-| sounds#group2 | 25 | PROD_ELEMENTS | {} | DONE |
-| sounds#group2 | 26 | SWOOSH | {} | DONE |
-| sounds#group3 | 0 | m_boss | {} | DONE |
-| sounds#group3 | 1 | m_env | {} | DONE |
-| sounds#group3 | 2 | m_int | {} | DONE |
-| sounds#group3 | 3 | sfx_3D | {} | DONE |
-| sounds#group3 | 4 | sfx_3D_pitched | {} | DONE |
-| sounds#group3 | 5 | sfx_amb_loop_omni | {} | DONE |
-| sounds#group3 | 6 | sfx_amb_oneshot | {} | DONE |
-| sounds#group3 | 7 | sfx_int | {} | DONE |
-| sounds#group4 | 0 | AirTowerMusic | {} | DONE |
-| sounds#group4 | 1 | AncientRuinsMusic | {} | DONE |
-| sounds#group4 | 2 | BalrogAttack | {} | DONE |
-| sounds#group4 | 3 | BalrogAttack2 | {} | DONE |
-| sounds#group4 | 4 | BalrogHurt | {} | DONE |
-| sounds#group4 | 5 | BalrogIdle | {} | DONE |
-| sounds#group4 | 6 | BalrogKilled | {} | DONE |
-| sounds#group4 | 7 | BalrogOut | {} | DONE |
-| sounds#group4 | 8 | BanditAttack | {} | DONE |
-| sounds#group4 | 9 | BanditHurt | {} | DONE |
-| sounds#group4 | 10 | BanditKilled | {} | DONE |
-| sounds#group4 | 11 | BanditLairMusic | {} | DONE |
-| sounds#group4 | 12 | BanditLairRiverLoop | {} | DONE |
-| sounds#group4 | 13 | BarbarianAttack | {} | DONE |
-| sounds#group4 | 14 | BarbarianHurt | {} | DONE |
-| sounds#group4 | 15 | BarbarianKilled | {} | DONE |
-| sounds#group4 | 16 | BarrelBreak | {} | DONE |
-| sounds#group4 | 17 | BossIntroMusic | {} | DONE |
-| sounds#group4 | 18 | CatacombWindLoop | {} | DONE |
-| sounds#group4 | 19 | CatacombsMusic | {} | DONE |
-| sounds#group4 | 20 | CathedralMusic | {} | DONE |
-| sounds#group4 | 21 | CaveTrollAttack | {} | DONE |
-| sounds#group4 | 22 | CaveTrollHurt | {} | DONE |
-| sounds#group4 | 23 | CaveTrollKilled | {} | DONE |
-| sounds#group4 | 24 | CelestLightningSpell | {} | DONE |
-| sounds#group4 | 25 | CelestialHumanoidAttack | {} | DONE |
-| sounds#group4 | 26 | CelestialHumanoidHurt | {} | DONE |
-| sounds#group4 | 27 | CelestialHumanoidIdle | {} | DONE |
-| sounds#group4 | 28 | CelestialHumanoidKilled | {} | DONE |
-| sounds#group4 | 29 | CharacterDie | {} | DONE |
-| sounds#group4 | 30 | CharacterHurt1 | {} | DONE |
-| sounds#group4 | 31 | CharacterHurt2 | {} | DONE |
-| sounds#group4 | 32 | CharacterHurt3 | {} | DONE |
-| sounds#group4 | 33 | ChestOpen | {} | DONE |
-| sounds#group4 | 34 | CombatBeat | {} | DONE |
-| sounds#group4 | 35 | CrystalBreaking | {} | DONE |
-| sounds#group4 | 36 | CrystalHitting | {} | DONE |
-| sounds#group4 | 37 | DarkFaeryBossMusic | {} | DONE |
-| sounds#group4 | 38 | DarkwoodMusic | {} | DONE |
-| sounds#group4 | 39 | DashSkill | {} | DONE |
-| sounds#group4 | 40 | DoomKnightAttack | {} | DONE |
-| sounds#group4 | 41 | DoomKnightHurt | {} | DONE |
-| sounds#group4 | 42 | DoomKnightIdle1 | {} | DONE |
-| sounds#group4 | 43 | DoomKnightIdle2 | {} | DONE |
-| sounds#group4 | 44 | DoomKnightIdle3 | {} | DONE |
-| sounds#group4 | 45 | DoomKnightIdle4 | {} | DONE |
-| sounds#group4 | 46 | DoomKnightKilled | {} | DONE |
-| sounds#group4 | 47 | DrakeAttack | {} | DONE |
-| sounds#group4 | 48 | DrakeHurt | {} | DONE |
-| sounds#group4 | 49 | DrakeKilled | {} | DONE |
-| sounds#group4 | 50 | DrakeSpawn | {} | DONE |
-| sounds#group4 | 51 | DropArmor | {} | DONE |
-| sounds#group4 | 52 | DropGold | {} | DONE |
-| sounds#group4 | 53 | DropPotion | {} | DONE |
-| sounds#group4 | 54 | DropSword | {} | DONE |
-| sounds#group4 | 55 | EarthMasterySkill | {} | DONE |
-| sounds#group4 | 56 | EarthTowerMusic | {} | DONE |
-| sounds#group4 | 57 | EnergySkill | {} | DONE |
-| sounds#group4 | 58 | FireMasterySkill | {} | DONE |
-| sounds#group4 | 59 | FireTowerMusic | {} | DONE |
-| sounds#group4 | 60 | FloatingArmorBossSpawn | {} | DONE |
-| sounds#group4 | 61 | FurySkill | {} | DONE |
-| sounds#group4 | 62 | GargoyleAttack | {} | DONE |
-| sounds#group4 | 63 | GargoyleHurt | {} | DONE |
-| sounds#group4 | 64 | GargoyleKilled | {} | DONE |
-| sounds#group4 | 65 | GargoyleSpawn | {} | DONE |
-| sounds#group4 | 66 | GothicusMusic | {} | DONE |
-| sounds#group4 | 67 | GroundBurst | {} | DONE |
-| sounds#group4 | 68 | HottyFireSpell | {} | DONE |
-| sounds#group4 | 69 | HumanGuardCombatBeat | {} | DONE |
-| sounds#group4 | 70 | ImpactMetal1 | {} | DONE |
-| sounds#group4 | 71 | ImpactMetal2 | {} | DONE |
-| sounds#group4 | 72 | ImpactMetal3 | {} | DONE |
-| sounds#group4 | 73 | ImpactMetalFlesh1 | {} | DONE |
-| sounds#group4 | 74 | ImpactMetalFlesh2 | {} | DONE |
-| sounds#group4 | 75 | ImpactMetalFlesh3 | {} | DONE |
-| sounds#group4 | 76 | JeremoBarracksMusic | {} | DONE |
-| sounds#group4 | 77 | JeremoForgeMusic | {} | DONE |
-| sounds#group4 | 78 | JeremoHarborMusic | {} | DONE |
-| sounds#group4 | 79 | JeremoLordBossMusic | {} | DONE |
-| sounds#group4 | 80 | JeremoTownMusic | {} | DONE |
-| sounds#group4 | 81 | JumpAttackSkill | {} | DONE |
-| sounds#group4 | 82 | LavaCaveMusic | {} | DONE |
-| sounds#group4 | 83 | LevelUp | {} | DONE |
-| sounds#group4 | 84 | LeverActivate | {} | DONE |
-| sounds#group4 | 85 | LightningMasterySkill | {} | DONE |
-| sounds#group4 | 86 | LightningTowerMusic | {} | DONE |
-| sounds#group4 | 87 | Lose | {} | DONE |
-| sounds#group4 | 88 | MadPriestAttack | {} | DONE |
-| sounds#group4 | 89 | MadPriestBossMusic | {} | DONE |
-| sounds#group4 | 90 | MadPriestHurt | {} | DONE |
-| sounds#group4 | 91 | MadPriestKilled | {} | DONE |
-| sounds#group4 | 92 | MadPriestSpawn | {} | DONE |
-| sounds#group4 | 93 | MenuBack | {} | DONE |
-| sounds#group4 | 94 | MenuConfirm | {} | DONE |
-| sounds#group4 | 95 | MenuPotion | {} | DONE |
-| sounds#group4 | 96 | MenuSelect | {} | DONE |
-| sounds#group4 | 97 | MenuSpending | {} | DONE |
-| sounds#group4 | 98 | MenuTab | {} | DONE |
-| sounds#group4 | 99 | MiniBossBeat | {} | DONE |
-| sounds#group4 | 100 | MotherSlimeAttack | {} | DONE |
-| sounds#group4 | 101 | MotherSlimeBossMusic | {} | DONE |
-| sounds#group4 | 102 | MotherSlimeHurt | {} | DONE |
-| sounds#group4 | 103 | MotherSlimeKilled | {} | DONE |
-| sounds#group4 | 104 | MotherSlimeSpawn | {} | DONE |
-| sounds#group4 | 105 | PickupArmor | {} | DONE |
-| sounds#group4 | 106 | PickupGold | {} | DONE |
-| sounds#group4 | 107 | PickupItem | {} | DONE |
-| sounds#group4 | 108 | PickupPotion | {} | DONE |
-| sounds#group4 | 109 | PickupWeapon | {} | DONE |
-| sounds#group4 | 110 | PlenkoAttack | {} | DONE |
-| sounds#group4 | 111 | PlenkoChambersMusic | {} | DONE |
-| sounds#group4 | 112 | PlenkoCourtyardMusic | {} | DONE |
-| sounds#group4 | 113 | PlenkoDomainMusic | {} | DONE |
-| sounds#group4 | 114 | PlenkoHurt | {} | DONE |
-| sounds#group4 | 115 | PlenkoKilled | {} | DONE |
-| sounds#group4 | 116 | PlenkoLivingQuartersMusic | {} | DONE |
-| sounds#group4 | 117 | PotionDrink | {} | DONE |
-| sounds#group4 | 118 | PsychicScreamSpell | {} | DONE |
-| sounds#group4 | 119 | QueenAttack | {} | DONE |
-| sounds#group4 | 120 | QueenBossMusic | {} | DONE |
-| sounds#group4 | 121 | QueenHurt | {} | DONE |
-| sounds#group4 | 122 | QueenKilled | {} | DONE |
-| sounds#group4 | 123 | QuestComplete | {} | DONE |
-| sounds#group4 | 124 | QuestNew | {} | DONE |
-| sounds#group4 | 125 | QuestUpdate | {} | DONE |
-| sounds#group4 | 126 | RageSkill | {} | DONE |
-| sounds#group4 | 127 | RockyEarthSpell | {} | DONE |
-| sounds#group4 | 128 | ShockwaveSkill | {} | DONE |
-| sounds#group4 | 129 | SkeletonAttack | {} | DONE |
-| sounds#group4 | 130 | SkeletonHurt | {} | DONE |
-| sounds#group4 | 131 | SkeletonKilled | {} | DONE |
-| sounds#group4 | 132 | SkeletonSpawn | {} | DONE |
-| sounds#group4 | 133 | SlamSkill | {} | DONE |
-| sounds#group4 | 134 | SlimeAttack | {} | DONE |
-| sounds#group4 | 135 | SlimeHurt | {} | DONE |
-| sounds#group4 | 136 | SlimeKilled | {} | DONE |
-| sounds#group4 | 137 | SlimeSpawn | {} | DONE |
-| sounds#group4 | 138 | SneakSkill | {} | DONE |
-| sounds#group4 | 139 | SoldierAttack | {} | DONE |
-| sounds#group4 | 140 | SoldierHurt | {} | DONE |
-| sounds#group4 | 141 | SoldierKilled | {} | DONE |
-| sounds#group4 | 142 | SouthroadMusic | {} | DONE |
-| sounds#group4 | 143 | SouthroadRiverLoop | {} | DONE |
-| sounds#group4 | 144 | SouthroadWaterfallLoop1 | {} | DONE |
-| sounds#group4 | 145 | SouthroadWaterfallLoop2 | {} | DONE |
-| sounds#group4 | 146 | SpellCastingLoop | {} | DONE |
-| sounds#group4 | 147 | SpiderAttack | {} | DONE |
-| sounds#group4 | 148 | SpiderHurt | {} | DONE |
-| sounds#group4 | 149 | SpiderKilled | {} | DONE |
-| sounds#group4 | 150 | SpiderSpawn | {} | DONE |
-| sounds#group4 | 151 | SpikeTrapActivate | {} | DONE |
-| sounds#group4 | 152 | SpikeTrapDeactivate | {} | DONE |
-| sounds#group4 | 153 | StaticBallAttack | {} | DONE |
-| sounds#group4 | 154 | StaticBallHurt | {} | DONE |
-| sounds#group4 | 155 | StaticBallKilled | {} | DONE |
-| sounds#group4 | 156 | StaticBallSpawn | {} | DONE |
-| sounds#group4 | 157 | StonebridgeMusic | {} | DONE |
-| sounds#group4 | 158 | SwampCombatMusic | {} | DONE |
-| sounds#group4 | 159 | SwampMusic | {} | DONE |
-| sounds#group4 | 160 | ThamosVillageMusic | {} | DONE |
-| sounds#group4 | 161 | ThroneRoomMusic | {} | DONE |
-| sounds#group4 | 162 | TitleMusic | {} | DONE |
-| sounds#group4 | 163 | TwinStrikeSkill | {} | DONE |
-| sounds#group4 | 164 | ViciousStrikeSkill | {} | DONE |
-| sounds#group4 | 165 | WarCrySkill | {} | DONE |
-| sounds#group4 | 166 | WaterMasterySkill | {} | DONE |
-| sounds#group4 | 167 | WaterTowerMusic | {} | DONE |
-| sounds#group4 | 168 | WeaponSwoosh1 | {} | DONE |
-| sounds#group4 | 169 | WeaponSwoosh2 | {} | DONE |
-| sounds#group4 | 170 | Well01Music | {} | DONE |
-| sounds#group4 | 171 | Well02Music | {} | DONE |
-| sounds#group4 | 172 | WettyWaterSpell | {} | DONE |
-| sounds#group4 | 173 | WhirlingBladesSkill | {} | DONE |
-| sounds#group4 | 174 | WindMasterySkill | {} | DONE |
-| sounds#group4 | 175 | Windmill01Music | {} | DONE |
-| sounds#group4 | 176 | Windmill02Music | {} | DONE |
-| sounds#group4 | 177 | WindyWhirlwindSpell | {} | DONE |
-| sounds#group4 | 178 | WorldMapMusic | {} | DONE |
-| sounds#group4 | 179 | ZombieAttack | {} | DONE |
-| sounds#group4 | 180 | ZombieDie | {} | DONE |
-| sounds#group4 | 181 | ZombieHurt | {} | DONE |
-| sounds#group4 | 182 | ZombieSpawn | {} | DONE |
+| sounds#group1 | 0 | AAA_DONT_DELETE_Listener | {"Anchor": 3, "MaxDistance": 2500, "Orientation": 0, "RefDistance": 3150, "RolloffFactor": 1.0, "UpVector": 0} | DONE |
+| sounds#group1 | 1 | curListener | {"Anchor": 2, "MaxDistance": 1800, "Orientation": 2, "RefDistance": 1000, "RolloffFactor": 1.0, "UpVector": 0} | DONE |
+| sounds#group1 | 2 | PlayerListener | {"Anchor": 2, "MaxDistance": 1800, "Orientation": 2, "RefDistance": 1000, "RolloffFactor": 1.0, "UpVector": 0} | DONE |
+| sounds#group1 | 3 | BAPListener | {"Anchor": 1, "MaxDistance": 3500, "Orientation": 2, "RefDistance": 1500, "RolloffFactor": 1.0, "UpVector": 0} | DONE |
+| sounds#group1 | 4 | CameraListener | {"Anchor": 0, "MaxDistance": 2500, "Orientation": 0, "RefDistance": 3150, "RolloffFactor": 1.0, "UpVector": 0} | DONE |
+| sounds#group2 | 0 | AMBIANCE_3D | {"MaxPlayback": 4, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 1 | AMBIANCE_OMNI | {"MaxPlayback": 2, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 2 | AMBIANCE_ONESHOT | {"MaxPlayback": 2, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 3 | ELEMENTAL_EFFECT | {"MaxPlayback": 2, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 4 | INTERFACE | {"MaxPlayback": 4, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 5 | MC_DIES | {"MaxPlayback": 1, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 6 | MC_FOOTSTEPS | {"MaxPlayback": 2, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 7 | MC_HURT | {"MaxPlayback": 1, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 8 | MC_PHYS_IMPACTS | {"MaxPlayback": 3, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 9 | MC_SKILLS | {"MaxPlayback": 2, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 10 | MC_SPELLS | {"MaxPlayback": 2, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 11 | MUSIC_BOSS | {"MaxPlayback": 1, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 12 | MUSIC_ENV | {"MaxPlayback": 1, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 13 | MUSIC_INT | {"MaxPlayback": 1, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 14 | NPC_ATTACK | {"MaxPlayback": 3, "MaxPlaybackBehavior": 1} | DONE |
+| sounds#group2 | 15 | NPC_CALL | {"MaxPlayback": 1, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 16 | NPC_HURT | {"MaxPlayback": 3, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 17 | NPC_IDLE | {"MaxPlayback": 2, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 18 | NPC_KILLED | {"MaxPlayback": 3, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 19 | NPC_OUT | {"MaxPlayback": 2, "MaxPlaybackBehavior": 1} | DONE |
+| sounds#group2 | 20 | NPC_SPAWN | {"MaxPlayback": 2, "MaxPlaybackBehavior": 1} | DONE |
+| sounds#group2 | 21 | OBJECT_DEST | {"MaxPlayback": 3, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 22 | OBJECT_DROP | {"MaxPlayback": 3, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 23 | OBJECT_ENV | {"MaxPlayback": 2, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 24 | OBJECT_PICKUP | {"MaxPlayback": 3, "MaxPlaybackBehavior": 2} | DONE |
+| sounds#group2 | 25 | PROD_ELEMENTS | {"MaxPlayback": 2, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group2 | 26 | SWOOSH | {"MaxPlayback": 3, "MaxPlaybackBehavior": 0} | DONE |
+| sounds#group3 | 0 | m_boss | {"EnteringBus": "Music", "Positioning3D": 0} | DONE |
+| sounds#group3 | 1 | m_env | {"EnteringBus": "Music", "Positioning3D": 0} | DONE |
+| sounds#group3 | 2 | m_int | {"EnteringBus": "Music", "Positioning3D": 0} | DONE |
+| sounds#group3 | 3 | sfx_3D | {"EnteringBus": "SFX", "Positioning3D": 1} | DONE |
+| sounds#group3 | 4 | sfx_3D_pitched | {"EnteringBus": "SFX", "Positioning3D": 1} | DONE |
+| sounds#group3 | 5 | sfx_amb_loop_omni | {"EnteringBus": "Amb_loop_omni", "Positioning3D": 0} | DONE |
+| sounds#group3 | 6 | sfx_amb_oneshot | {"EnteringBus": "SFX", "Positioning3D": 1} | DONE |
+| sounds#group3 | 7 | sfx_int | {"EnteringBus": "sfx_int", "Positioning3D": 0} | DONE |
+| sounds#group4 | 0 | AirTowerMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_windmill_2.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 1 | AncientRuinsMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_earth_tower.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 2 | BalrogAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_balrog_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 3 | BalrogAttack2 | {"Bank": -1, "Channel": 1, "FileName": "sfx_balrog_attack_2.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 4 | BalrogHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_balrog_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 5 | BalrogIdle | {"Bank": -1, "Channel": 1, "FileName": "sfx_balrog_idle.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 6 | BalrogKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_balrog_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 7 | BalrogOut | {"Bank": -1, "Channel": 1, "FileName": "sfx_balrog_out.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 8 | BanditAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_bandit_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 9 | BanditHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_bandit_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 10 | BanditKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_bandit_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 11 | BanditLairMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_bandit_lair.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 12 | BanditLairRiverLoop | {"Bank": -1, "Channel": 1, "FileName": "sfx_bandit_lair_river_loop.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 13 | BarbarianAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_barbarian_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 14 | BarbarianHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_barbarian_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 15 | BarbarianKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_barbarian_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 16 | BarrelBreak | {"Bank": -1, "Channel": 1, "FileName": "sfx_barrel_breaking.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 17 | BossIntroMusic | {"Bank": -1, "Channel": 2, "FileName": "m_boss_intro.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 18 | CatacombWindLoop | {"Bank": -1, "Channel": 1, "FileName": "sfx_catacomb_wind_loop.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 19 | CatacombsMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_catacomb.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 20 | CathedralMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_cathedral.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 21 | CaveTrollAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_cave_troll_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 22 | CaveTrollHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_cave_troll_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 23 | CaveTrollKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_cave_troll_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 24 | CelestLightningSpell | {"Bank": -1, "Channel": 1, "FileName": "sfx_spell_lightning.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 25 | CelestialHumanoidAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_celestial_humanoid_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 26 | CelestialHumanoidHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_celestial_humanoid_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 27 | CelestialHumanoidIdle | {"Bank": -1, "Channel": 1, "FileName": "sfx_celestial_humanoid_Idle.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 28 | CelestialHumanoidKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_celestial_humanoid_die.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 29 | CharacterDie | {"Bank": -1, "Channel": 1, "FileName": "sfx_character_death.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 30 | CharacterHurt1 | {"Bank": -1, "Channel": 1, "FileName": "sfx_character_hurt_1.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 31 | CharacterHurt2 | {"Bank": -1, "Channel": 1, "FileName": "sfx_character_hurt_2.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 32 | CharacterHurt3 | {"Bank": -1, "Channel": 1, "FileName": "sfx_character_hurt_3.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 33 | ChestOpen | {"Bank": -1, "Channel": 1, "FileName": "sfx_chest_opening.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 34 | CombatBeat | {"Bank": -1, "Channel": 1, "FileName": "m_combat_small_enemy.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 35 | CrystalBreaking | {"Bank": -1, "Channel": 1, "FileName": "sfx_crystal_breaking.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 36 | CrystalHitting | {"Bank": -1, "Channel": 1, "FileName": "sfx_crystal_hitting.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 37 | DarkFaeryBossMusic | {"Bank": -1, "Channel": 2, "FileName": "m_boss_dark_faery.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 38 | DarkwoodMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_cemetary.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 39 | DashSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_knight_dash.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 40 | DoomKnightAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 41 | DoomKnightHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 42 | DoomKnightIdle1 | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_idle_1.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 43 | DoomKnightIdle2 | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_idle_2.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 44 | DoomKnightIdle3 | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_idle_3.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 45 | DoomKnightIdle4 | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_idle_4.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 46 | DoomKnightKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 47 | DrakeAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_drake_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 48 | DrakeHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_drake_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 49 | DrakeKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_drake_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 50 | DrakeSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_drake_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 51 | DropArmor | {"Bank": -1, "Channel": 1, "FileName": "sfx_drop_armor.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 52 | DropGold | {"Bank": -1, "Channel": 1, "FileName": "sfx_drop_gold.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 53 | DropPotion | {"Bank": -1, "Channel": 1, "FileName": "sfx_drop_potion.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 54 | DropSword | {"Bank": -1, "Channel": 1, "FileName": "sfx_drop_sword.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 55 | EarthMasterySkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_mage_rock_missile.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 56 | EarthTowerMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_earth_tower.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 57 | EnergySkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_mage_energy.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 58 | FireMasterySkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_mage_fire_missile.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 59 | FireTowerMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_lava_forge.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 60 | FloatingArmorBossSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_menu_back.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 61 | FurySkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_rogue_furry.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 62 | GargoyleAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_gargoyle_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 63 | GargoyleHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_gargoyle_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 64 | GargoyleKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_gargoyle_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 65 | GargoyleSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_gargoyle_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 66 | GothicusMusic | {"Bank": -1, "Channel": 2, "FileName": "m_exploration_gothicus.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 67 | GroundBurst | {"Bank": -1, "Channel": 1, "FileName": "sfx_npc_out.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 68 | HottyFireSpell | {"Bank": -1, "Channel": 1, "FileName": "sfx_spell_fire.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 69 | HumanGuardCombatBeat | {"Bank": -1, "Channel": 1, "FileName": "m_combat_human_guard.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 70 | ImpactMetal1 | {"Bank": -1, "Channel": 1, "FileName": "sfx_impact_metal_1.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 71 | ImpactMetal2 | {"Bank": -1, "Channel": 1, "FileName": "sfx_impact_metal_2.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 72 | ImpactMetal3 | {"Bank": -1, "Channel": 1, "FileName": "sfx_impact_metal_3.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 73 | ImpactMetalFlesh1 | {"Bank": -1, "Channel": 1, "FileName": "sfx_impact_metal_flesh_1.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 74 | ImpactMetalFlesh2 | {"Bank": -1, "Channel": 1, "FileName": "sfx_impact_metal_flesh_2.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 75 | ImpactMetalFlesh3 | {"Bank": -1, "Channel": 1, "FileName": "sfx_impact_metal_flesh_3.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 76 | JeremoBarracksMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_castle.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 77 | JeremoForgeMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_lava_forge.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 78 | JeremoHarborMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_catacomb.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 79 | JeremoLordBossMusic | {"Bank": -1, "Channel": 2, "FileName": "m_boss_jeremo.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 80 | JeremoTownMusic | {"Bank": -1, "Channel": 2, "FileName": "m_exploration_village.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 81 | JumpAttackSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_rogue_jump.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 82 | LavaCaveMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_lava_cave.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 83 | LevelUp | {"Bank": -1, "Channel": 1, "FileName": "m_level_up.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 84 | LeverActivate | {"Bank": -1, "Channel": 1, "FileName": "sfx_lever_activate.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 85 | LightningMasterySkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_mage_electricity_missile.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 86 | LightningTowerMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_catacomb.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 87 | Lose | {"Bank": -1, "Channel": 2, "FileName": "m_lose.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 88 | MadPriestAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_mad_priest_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 89 | MadPriestBossMusic | {"Bank": -1, "Channel": 2, "FileName": "m_boss_mad_priest.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 90 | MadPriestHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_mad_priest_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 91 | MadPriestKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_mad_priest_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 92 | MadPriestSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_mad_priest_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 93 | MenuBack | {"Bank": -1, "Channel": 1, "FileName": "sfx_menu_back.wav", "Format": 0, "Group": -1, "LoadType": 0, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 94 | MenuConfirm | {"Bank": -1, "Channel": 1, "FileName": "sfx_menu_confirm.wav", "Format": 0, "Group": -1, "LoadType": 0, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 95 | MenuPotion | {"Bank": -1, "Channel": 1, "FileName": "sfx_potion_drink.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 96 | MenuSelect | {"Bank": -1, "Channel": 1, "FileName": "sfx_menu_select.wav", "Format": 0, "Group": -1, "LoadType": 0, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 97 | MenuSpending | {"Bank": -1, "Channel": 1, "FileName": "sfx_menu_spending.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 98 | MenuTab | {"Bank": -1, "Channel": 1, "FileName": "sfx_menu_tab.wav", "Format": 0, "Group": -1, "LoadType": 0, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 99 | MiniBossBeat | {"Bank": -1, "Channel": 1, "FileName": "m_combat_mini_boss.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 100 | MotherSlimeAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_mother_slime_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 101 | MotherSlimeBossMusic | {"Bank": -1, "Channel": 2, "FileName": "m_boss_mother_slime.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 102 | MotherSlimeHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_mother_slime_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 103 | MotherSlimeKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_mother_slime_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 104 | MotherSlimeSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_mother_slime_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 105 | PickupArmor | {"Bank": -1, "Channel": 1, "FileName": "sfx_pickup_armor.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 106 | PickupGold | {"Bank": -1, "Channel": 1, "FileName": "sfx_pickup_gold.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 107 | PickupItem | {"Bank": -1, "Channel": 1, "FileName": "sfx_pickup_item.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 108 | PickupPotion | {"Bank": -1, "Channel": 1, "FileName": "sfx_pickup_potion.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 109 | PickupWeapon | {"Bank": -1, "Channel": 1, "FileName": "sfx_pickup_weapon.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 110 | PlenkoAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_plenko_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 111 | PlenkoChambersMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_plenko_chamber.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 112 | PlenkoCourtyardMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_outside.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 113 | PlenkoDomainMusic | {"Bank": -1, "Channel": 2, "FileName": "m_exploration_village.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 114 | PlenkoHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_plenko_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 115 | PlenkoKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_plenko_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 116 | PlenkoLivingQuartersMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_castle.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 117 | PotionDrink | {"Bank": -1, "Channel": 1, "FileName": "sfx_potion_drink.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 118 | PsychicScreamSpell | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_mage_psychic.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 119 | QueenAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 120 | QueenBossMusic | {"Bank": -1, "Channel": 2, "FileName": "m_combat_big_enemy.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 121 | QueenHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 122 | QueenKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_doom_knight_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 123 | QuestComplete | {"Bank": -1, "Channel": 2, "FileName": "m_quest_complete.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 124 | QuestNew | {"Bank": -1, "Channel": 2, "FileName": "m_quest_new.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 125 | QuestUpdate | {"Bank": -1, "Channel": 2, "FileName": "m_quest_update.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 126 | RageSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_knight_rage.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 127 | RockyEarthSpell | {"Bank": -1, "Channel": 1, "FileName": "sfx_spell_earth.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 128 | ShockwaveSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_knight_shockwave.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 129 | SkeletonAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_skeleton_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 130 | SkeletonHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_skeleton_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 131 | SkeletonKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_skeleton_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 132 | SkeletonSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_skeleton_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 133 | SlamSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_knight_slam.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 134 | SlimeAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_slime_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 135 | SlimeHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_slime_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 136 | SlimeKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_slime_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 137 | SlimeSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_slime_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 138 | SneakSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_elemental_wind.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 139 | SoldierAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_soldier_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 140 | SoldierHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_soldier_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 141 | SoldierKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_soldier_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 142 | SouthroadMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_outside.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 143 | SouthroadRiverLoop | {"Bank": -1, "Channel": 1, "FileName": "sfx_southroad_river_loop.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 144 | SouthroadWaterfallLoop1 | {"Bank": -1, "Channel": 1, "FileName": "sfx_southroad_waterfall_loop_1.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 145 | SouthroadWaterfallLoop2 | {"Bank": -1, "Channel": 1, "FileName": "sfx_southroad_waterfall_loop_2.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 146 | SpellCastingLoop | {"Bank": -1, "Channel": 1, "FileName": "sfx_spell_cast_loop.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 147 | SpiderAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_spider_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 148 | SpiderHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_spider_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 149 | SpiderKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_spider_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 150 | SpiderSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_spider_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 151 | SpikeTrapActivate | {"Bank": -1, "Channel": 1, "FileName": "sfx_spikes_trap_activating.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 152 | SpikeTrapDeactivate | {"Bank": -1, "Channel": 1, "FileName": "sfx_spikes_trap_disabling.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 153 | StaticBallAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_static_ball_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 154 | StaticBallHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_static_ball_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 155 | StaticBallKilled | {"Bank": -1, "Channel": 1, "FileName": "sfx_static_ball_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 156 | StaticBallSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_static_ball_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 157 | StonebridgeMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_castle.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 158 | SwampCombatMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_swamp_combat.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 159 | SwampMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_swamp_ambient.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 160 | ThamosVillageMusic | {"Bank": -1, "Channel": 2, "FileName": "m_exploration_village.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 161 | ThroneRoomMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_catacomb.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 162 | TitleMusic | {"Bank": -1, "Channel": 2, "FileName": "m_title.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 163 | TwinStrikeSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_rogue_twin_strike.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 164 | ViciousStrikeSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_rogue_vicious_strike.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 165 | WarCrySkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_knight_warcry.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 166 | WaterMasterySkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_mage_ice_missile.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 167 | WaterTowerMusic | {"Bank": -1, "Channel": 2, "FileName": "m_level_underworld.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 168 | WeaponSwoosh1 | {"Bank": -1, "Channel": 1, "FileName": "sfx_swoosh_sword_1.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 169 | WeaponSwoosh2 | {"Bank": -1, "Channel": 1, "FileName": "sfx_swoosh_sword_2.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 170 | Well01Music | {"Bank": -1, "Channel": 2, "FileName": "m_level_underworld.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 171 | Well02Music | {"Bank": -1, "Channel": 2, "FileName": "m_level_underworld.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 172 | WettyWaterSpell | {"Bank": -1, "Channel": 1, "FileName": "sfx_spell_ice.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 173 | WhirlingBladesSkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_knight_whirling.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 174 | WindMasterySkill | {"Bank": -1, "Channel": 1, "FileName": "sfx_skill_mage_wind_missile.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 175 | Windmill01Music | {"Bank": -1, "Channel": 2, "FileName": "m_level_windmill.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 176 | Windmill02Music | {"Bank": -1, "Channel": 2, "FileName": "m_level_windmill.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 177 | WindyWhirlwindSpell | {"Bank": -1, "Channel": 1, "FileName": "sfx_spell_wind.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 178 | WorldMapMusic | {"Bank": -1, "Channel": 2, "FileName": "m_world_map.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 179 | ZombieAttack | {"Bank": -1, "Channel": 1, "FileName": "sfx_zombie_attack.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 180 | ZombieDie | {"Bank": -1, "Channel": 1, "FileName": "sfx_zombie_killed.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 181 | ZombieHurt | {"Bank": -1, "Channel": 1, "FileName": "sfx_zombie_hurt.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |
+| sounds#group4 | 182 | ZombieSpawn | {"Bank": -1, "Channel": 1, "FileName": "sfx_zombie_spawn.wav", "Format": 0, "Group": -1, "LoadType": 2, "Priority": 32, "Repeat": 0, "Volume": 100} | DONE |

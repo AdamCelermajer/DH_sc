@@ -2,49 +2,49 @@
 
 | Table | Index | Name | Script / fields | Status |
 | --- | --- | --- | --- | --- |
-| item_powers_monopoly#group0 | 0 | ARMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 1 | AllResistMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 2 | AllStatsMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 3 | ArmorMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 4 | AxeDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 5 | BlockMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 6 | CriticalMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 7 | DRMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 8 | DaggerDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 9 | DamageMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 10 | DodgeMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 11 | GoldLootMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 12 | HPMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 13 | HPRegenMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 14 | ItemPowerSpellCriticalMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 15 | ItemPowerSpellToHitMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 16 | LifeLeechMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 17 | MPMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 18 | MPRegenMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 19 | MaceDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 20 | ManaLeechMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 21 | RangeDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 22 | ResistAirMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 23 | ResistEarthMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 24 | ResistElectricalMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 25 | ResistFireMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 26 | ResistWaterMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 27 | SpellDamageAirMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 28 | SpellDamageAllMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 29 | SpellDamageEarthMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 30 | SpellDamageFireMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 31 | SpellDamageLightningMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 32 | SpellDamageWaterMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 33 | StaffDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 34 | StatDexterityMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 35 | StatEnduranceMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 36 | StatEnergyMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 37 | StatStrengthMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 38 | SwordDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 39 | TreasureLootMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 40 | WandDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 41 | WeaponElementalDamageMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 42 | WeaponElementalDotDamageMonopoly | {} | DONE |
+| item_powers_monopoly#group0 | 0 | ARMonopoly | {"Entries": [29]} | DONE |
+| item_powers_monopoly#group0 | 1 | AllResistMonopoly | {"Entries": [31, 32, 33, 34, 35, 36]} | DONE |
+| item_powers_monopoly#group0 | 2 | AllStatsMonopoly | {"Entries": [0, 2, 3, 1, 4]} | DONE |
+| item_powers_monopoly#group0 | 3 | ArmorMonopoly | {"Entries": [27]} | DONE |
+| item_powers_monopoly#group0 | 4 | AxeDamageBonusMonopoly | {"Entries": [53]} | DONE |
+| item_powers_monopoly#group0 | 5 | BlockMonopoly | {"Entries": [26]} | DONE |
+| item_powers_monopoly#group0 | 6 | CriticalMonopoly | {"Entries": [24]} | DONE |
+| item_powers_monopoly#group0 | 7 | DRMonopoly | {"Entries": [30]} | DONE |
+| item_powers_monopoly#group0 | 8 | DaggerDamageBonusMonopoly | {"Entries": [55]} | DONE |
+| item_powers_monopoly#group0 | 9 | DamageMonopoly | {"Entries": [28]} | DONE |
+| item_powers_monopoly#group0 | 10 | DodgeMonopoly | {"Entries": [25]} | DONE |
+| item_powers_monopoly#group0 | 11 | GoldLootMonopoly | {"Entries": [47]} | DONE |
+| item_powers_monopoly#group0 | 12 | HPMonopoly | {"Entries": [5]} | DONE |
+| item_powers_monopoly#group0 | 13 | HPRegenMonopoly | {"Entries": [20]} | DONE |
+| item_powers_monopoly#group0 | 14 | ItemPowerSpellCriticalMonopoly | {"Entries": [39]} | DONE |
+| item_powers_monopoly#group0 | 15 | ItemPowerSpellToHitMonopoly | {"Entries": [40]} | DONE |
+| item_powers_monopoly#group0 | 16 | LifeLeechMonopoly | {"Entries": [37]} | DONE |
+| item_powers_monopoly#group0 | 17 | MPMonopoly | {"Entries": [6]} | DONE |
+| item_powers_monopoly#group0 | 18 | MPRegenMonopoly | {"Entries": [21]} | DONE |
+| item_powers_monopoly#group0 | 19 | MaceDamageBonusMonopoly | {"Entries": [54]} | DONE |
+| item_powers_monopoly#group0 | 20 | ManaLeechMonopoly | {"Entries": [38]} | DONE |
+| item_powers_monopoly#group0 | 21 | RangeDamageBonusMonopoly | {"Entries": [56]} | DONE |
+| item_powers_monopoly#group0 | 22 | ResistAirMonopoly | {"Entries": [34, 36]} | DONE |
+| item_powers_monopoly#group0 | 23 | ResistEarthMonopoly | {"Entries": [32, 36]} | DONE |
+| item_powers_monopoly#group0 | 24 | ResistElectricalMonopoly | {"Entries": [35, 36]} | DONE |
+| item_powers_monopoly#group0 | 25 | ResistFireMonopoly | {"Entries": [31, 36]} | DONE |
+| item_powers_monopoly#group0 | 26 | ResistWaterMonopoly | {"Entries": [33, 36]} | DONE |
+| item_powers_monopoly#group0 | 27 | SpellDamageAirMonopoly | {"Entries": [42, 41]} | DONE |
+| item_powers_monopoly#group0 | 28 | SpellDamageAllMonopoly | {"Entries": [46, 45, 43, 42, 44, 41]} | DONE |
+| item_powers_monopoly#group0 | 29 | SpellDamageEarthMonopoly | {"Entries": [45, 41]} | DONE |
+| item_powers_monopoly#group0 | 30 | SpellDamageFireMonopoly | {"Entries": [46, 41]} | DONE |
+| item_powers_monopoly#group0 | 31 | SpellDamageLightningMonopoly | {"Entries": [44, 41]} | DONE |
+| item_powers_monopoly#group0 | 32 | SpellDamageWaterMonopoly | {"Entries": [43, 41]} | DONE |
+| item_powers_monopoly#group0 | 33 | StaffDamageBonusMonopoly | {"Entries": [57]} | DONE |
+| item_powers_monopoly#group0 | 34 | StatDexterityMonopoly | {"Entries": [0, 2]} | DONE |
+| item_powers_monopoly#group0 | 35 | StatEnduranceMonopoly | {"Entries": [0, 3]} | DONE |
+| item_powers_monopoly#group0 | 36 | StatEnergyMonopoly | {"Entries": [0, 4]} | DONE |
+| item_powers_monopoly#group0 | 37 | StatStrengthMonopoly | {"Entries": [0, 1]} | DONE |
+| item_powers_monopoly#group0 | 38 | SwordDamageBonusMonopoly | {"Entries": [52]} | DONE |
+| item_powers_monopoly#group0 | 39 | TreasureLootMonopoly | {"Entries": [48]} | DONE |
+| item_powers_monopoly#group0 | 40 | WandDamageBonusMonopoly | {"Entries": [58]} | DONE |
+| item_powers_monopoly#group0 | 41 | WeaponElementalDamageMonopoly | {"Entries": [7, 8, 9]} | DONE |
+| item_powers_monopoly#group0 | 42 | WeaponElementalDotDamageMonopoly | {"Entries": [49, 50, 9]} | DONE |
 | item_powers#group0 | 0 | AllPowerLevel_01 | {"List": [{"Power": 49, "Prob": 1}, {"Power": 889, "Prob": 1}, {"Power": 193, "Prob": 1}, {"Power": 289, "Prob": 1}, {"Power": 313, "Prob": 1}, {"Power": 337, "Prob": 1}, {"Power": 241, "Prob": 1}, {"Power": 913, "Prob": 1}, {"Power": 25, "Prob": 1}, {"Power": 265, "Prob": 1}, {"Power": 385, "Prob": 1}, {"Power": 553, "Prob": 1}, {"Power": 361, "Prob": 1}, {"Power": 529, "Prob": 1}, {"Power": 121, "Prob": 1}, {"Power": 217, "Prob": 1}, {"Power": 97, "Prob": 1}, {"Power": 73, "Prob": 1}, {"Power": 169, "Prob": 1}, {"Power": 1, "Prob": 1}, {"Power": 145, "Prob": 1}, {"Power": 697, "Prob": 1}, {"Power": 649, "Prob": 1}, {"Power": 721, "Prob": 1}, {"Power": 601, "Prob": 1}, {"Power": 673, "Prob": 1}, {"Power": 625, "Prob": 1}, {"Power": 457, "Prob": 1}, {"Power": 577, "Prob": 1}, {"Power": 409, "Prob": 1}, {"Power": 433, "Prob": 1}]} | DONE |
 | item_powers#group0 | 1 | AncientRing | {"List": [{"Power": 67, "Prob": 1}, {"Power": 403, "Prob": 1}, {"Power": 571, "Prob": 1}, {"Power": 643, "Prob": 1}, {"Power": 70, "Prob": 1}, {"Power": 406, "Prob": 1}, {"Power": 574, "Prob": 1}, {"Power": 646, "Prob": 1}]} | DONE |
 | item_powers#group0 | 2 | Archer | {"List": [{"Power": 67, "Prob": 1}, {"Power": 139, "Prob": 1}, {"Power": 235, "Prob": 1}, {"Power": 643, "Prob": 1}, {"Power": 70, "Prob": 1}, {"Power": 142, "Prob": 1}, {"Power": 238, "Prob": 1}, {"Power": 646, "Prob": 1}]} | DONE |

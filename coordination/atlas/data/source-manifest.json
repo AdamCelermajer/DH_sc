@@ -6,7 +6,7 @@
     "size": 7940368,
     "use": "discovery reported to owner; not used as native semantic evidence"
   },
-  "asset_digest": "84f00f176910f8f877600822a74de58d107e7a9a16f45faa421dd371a10213de",
+  "asset_digest": "4a66d391465067924cee8900eb794f2169a6b475f0ce7200962266b158511070",
   "audio_authority": [
     ".local-inputs/assets-extra/ios/data/sounds",
     ".local-inputs/audio-v34/cache"
@@ -37,6 +37,26 @@
       "files": 265,
       "label": "audio-cache",
       "path": ".local-inputs/audio-v34/cache"
+    },
+    {
+      "files": 6157,
+      "label": "ios-packed",
+      "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data"
+    },
+    {
+      "files": 50,
+      "label": "ios-glive",
+      "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/GLIVE_RES"
+    },
+    {
+      "files": 28,
+      "label": "ios-app-resources",
+      "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app"
+    },
+    {
+      "files": 387,
+      "label": "port-runtime-original-cache",
+      "path": ".repo/port/android-native/app/src/main/assets/original-cache/data"
     }
   ],
   "native_authority": "Android APK/ELF IDA export. No iPhone binary is assumed.",

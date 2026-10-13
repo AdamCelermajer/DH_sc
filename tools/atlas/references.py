@@ -146,6 +146,7 @@ def _decode_animation_and_effect_refs(ctx,tables):
           typ=r.i()
           seqs.append({'Loop':loop,'Steps':step_count,'Type':typ})
           _mark_cell(by,'animation_sequences',si,'Loop',loop);_mark_cell(by,'animation_sequences',si,'Steps',step_count);_mark_cell(by,'animation_sequences',si,'Type',typ)
+          _mark_cell(by,'animation_sequences',si,'steps',steps)
         cam_count=r.word()
         for ci in range(cam_count):
           ca=r.ints(); vals={'CamAnims':ca,'Crit':r.i(),'Idle':r.i(),'Shake':r.i(),'Template':r.i()}
@@ -155,6 +156,7 @@ def _decode_animation_and_effect_refs(ctx,tables):
         for ci in range(char_count):
           for fidx,field in enumerate(state_names):
             vals=r.ints() if fidx in (15,31) else [r.i()]
+            _mark_cell(by,'character_animations',ci,field,vals if fidx in (15,31) else vals[0])
             for vi,value in enumerate(vals):
               _mark_cell(by,'character_animations',ci,field,vals if fidx in (15,31) else value)
               if value<0: continue
@@ -190,6 +192,7 @@ def _decode_animation_and_effect_refs(ctx,tables):
           refs.append(rr)
         typ=r.i();effect_rows.append({'ForceCache':force,'Loop':loop,'Steps':steps,'Type':typ})
         _mark_cell(by,'effect_sets',si,'steps',steps);_mark_cell(by,'effect_sets',si,'type',typ)
+        _mark_cell(by,'effect_sets',si,'ForceCache',force);_mark_cell(by,'effect_sets',si,'Loop',loop)
       char_count=r.word()
       for ci in range(char_count):
         vals={'BloodDeathEffect':r.i(),'BloodEffect':r.i(),'FootprintEffect':r.i(),'SwooshEffect':r.i(),'TriggerFloorFX':r.byte()}
@@ -342,7 +345,9 @@ def _audio_asset_files(name, assets):
     return _AUDIO_ASSET_LOOKUP[1].get(leaf,[])
 
 def _asset_file_metadata(assets):
-    return [{'path':a.get('path'),'source':a.get('source'),'sha256':a.get('sha256')} for a in assets]
+    return [{k:a.get(k) for k in ('id','path','source','sha256','logical_paths','decoded_sha256',
+            'decode_recipe','decode_confidence','mapping_confidence','package_version') if a.get(k) is not None}
+            for a in assets]
 
 
 _ASSET_LOOKUP = None
@@ -357,9 +362,11 @@ def _resolve_file(name, assets):
     if _ASSET_LOOKUP is None or _ASSET_LOOKUP[0] != id(assets):
         exact_map={};fold_map={};leaf_map={}
         for a in assets:
-            rel=a.get('relative','').replace('\\','/')
-            exact_map.setdefault(rel,[]).append(a);fold_map.setdefault(rel.casefold(),[]).append(a)
-            leaf_map.setdefault(Path(rel).name.casefold(),[]).append(a)
+            paths=[a.get('relative',''), *[re.sub(r'^data/', '', p) for p in a.get('logical_paths',[])]]
+            for value in paths:
+                rel=value.replace('\\','/')
+                exact_map.setdefault(rel,[]).append(a);fold_map.setdefault(rel.casefold(),[]).append(a)
+                leaf_map.setdefault(Path(rel).name.casefold(),[]).append(a)
         _ASSET_LOOKUP=(id(assets),exact_map,fold_map,leaf_map)
     _,exact_map,fold_map,leaf_map=_ASSET_LOOKUP
     exact=exact_map.get(norm,[])
@@ -390,6 +397,10 @@ def resolve_reference(ctx,row,tables=None,assets=None):
                      'source sound row':'sdd_dungeon_hunter_2_iphone',
                      'ProjectileDict row':'projectiles_dictionary#group0'}
       target_type=target.get('type')
+      if target_type in ('source_script','skill_icon_symbol','itemdrop_scene_object_symbol'):
+        # These targets already carry exact source identity/variant metadata;
+        # a path-oriented fallback would discard package-decoded aliases.
+        continue
       if target_type=='table-row':
         tname=target.get('table');idx=target.get('index');trow=table_by.get((tname,idx))
         row['referenced_table']=tname;row['referenced_index']=idx
@@ -510,6 +521,8 @@ _PYDATA_ARRAY_ALIASES = {
     'GameObjectDamager': 'game_objects#group3',
     'TimerTraps': 'game_objects#group7',
 }
+_ITEMDROP_TEMPLATE_URI='data/3d/gameobjects/itemdrops.bdae'
+_SKILL_ART_REPORT='port/windows-foundation/features/skill_ui/source_skill_art.json'
 
 
 def _resolve_literal_pydata_calls(ctx,refs,tables):
@@ -650,6 +663,122 @@ def _resolve_charpropsname_sites(refs,rows_by_table):
             ref['candidate_note']=f'No exact CharacterTable name row matches authored charpropsname {name!r}.'
 
 
+def _logical_uri_assets(uri,assets):
+    """Return exact logical-path matches, including decoded package variants."""
+    def normalize(value):
+        norm=str(value or '').replace('\\','/').lstrip('./')
+        for prefix in ('q:/data/iphone/','q:/data/','data/iphone/','data/'):
+            if norm.casefold().startswith(prefix):
+                norm=norm[len(prefix):]
+                break
+        return norm.casefold()
+    expected=normalize(uri)
+    matches=[]
+    for asset in assets:
+        aliases=[asset.get('relative',''),*(asset.get('logical_paths') or [])]
+        if any(normalize(alias)==expected for alias in aliases):
+            matches.append(asset)
+    return matches
+
+
+def _source_variant_metadata(assets):
+    """Keep the original package identity and decoder metadata for each variant."""
+    return _asset_file_metadata(assets)
+
+
+def _resolve_skill_source_targets(ctx,refs,assets):
+    """Turn SkillTable Script stems and SWF icon labels into typed source targets."""
+    art_path=ctx.root/_SKILL_ART_REPORT
+    art=read_json(art_path,{}) if art_path.is_file() else {}
+    icon_labels={str(k).casefold():int(v) for k,v in (art.get('icon_labels') or {}).items()}
+    art_source=str(art.get('source') or '').replace('\\','/')
+    art_uri=('.repo/'+art_source.lstrip('/') if art_source and not art_source.startswith(('.repo/','.local-inputs/')) else art_source)
+    art_assets=_logical_uri_assets('data/menus/dqcharmenu_droid.swf',assets)
+    art_assets=[a for a in art_assets if not art.get('sha256') or a.get('sha256')==art.get('sha256')]
+    for ref in refs:
+        site=ref.get('site','')
+        script_match=re.search(r'pydata/skills_pyarray\.bin\[skill=(\d+)\]\.Script$',site)
+        icon_match=re.search(r'pydata/skills_pyarray\.bin\[skill=(\d+)\]\.SkillIcon$',site)
+        if script_match and ref.get('kind')=='script':
+            stem=ref.get('name')
+            if not isinstance(stem,str) or not stem or Path(stem).name!=stem or Path(stem).suffix:
+                continue
+            uri=f'scripts/skills/{stem}.luac'
+            found=_logical_uri_assets(uri,assets)
+            old=(ref.get('resolves_to') or [{}])[0]
+            target={'type':'source_script','id':stable_id('skill-script-uri',uri.casefold()),
+                    'name':stem,'source_stem':stem,'path':'data/'+uri,'logical_uri':'data/'+uri,
+                    'original_target':{'type':old.get('type'),'path':old.get('path')},
+                    'asset_files':_source_variant_metadata(found),'status':'RESOLVED' if found else 'UNRESOLVED',
+                    'schema_evidence':'SkillTable Script string field; exact data/scripts/skills/<stem>.luac logical-path match in supplied source assets.'}
+            ref['resolves_to']=[target]
+            ref['resolution_evidence']=target['schema_evidence']
+            if found:
+                ref.update(status='RESOLVED',reason=None,work_status='DONE',confidence='PROVEN')
+                ref['candidates']=[];ref.pop('candidate_note',None)
+            else:
+                ref.update(status='UNRESOLVED',reason='FILE_MISSING',work_status='DONE',confidence='PROVEN')
+                ref['candidates']=[]
+                ref['candidate_note']=f'No exact logical script file exists at data/{uri}.'
+        elif icon_match and ref.get('kind')=='data file':
+            label=ref.get('name')
+            if not isinstance(label,str) or not label:
+                continue
+            frame=icon_labels.get(label.casefold())
+            present=frame is not None and bool(art_assets)
+            status='RESOLVED_SWF_SYMBOL_FRAME' if present else 'UNRESOLVED'
+            symbol_id=stable_id('skill-icon-swf-symbol',art.get('sha256'),art.get('icon_sprite'),label.casefold(),frame)
+            target={'type':'skill_icon_symbol','id':symbol_id,'name':label,'label':label,
+                    'source_name':label,'sprite_id':art.get('icon_sprite'),'frame':frame,
+                    'path':'data/menus/dqcharmenu_droid.swf','asset_uri':art_uri,
+                    'asset_files':_source_variant_metadata(art_assets),'sha256':art.get('sha256'),
+                    'art_catalog_path':'.repo/'+_SKILL_ART_REPORT,
+                    'status':status,'schema_evidence':'Original skill presenter maps SkillIcon to dqcharmenu_droid.swf sprite 79; source_skill_art.json gives exact label/frame.'}
+            ref['resolves_to']=[target]
+            ref['reference_kind']='skill_icon_symbol'
+            ref['resolution_evidence']=target['schema_evidence']
+            if present:
+                ref.update(status='RESOLVED',reason=None,work_status='DONE',confidence='PROVEN')
+                ref['candidates']=[];ref.pop('candidate_note',None)
+            else:
+                ref.update(status='UNRESOLVED',reason='OTHER',work_status='DONE',confidence='PROVEN')
+                ref['candidates']=[]
+                ref['candidate_note']=(f'No exact SWF sprite-79 label exists for {label!r}.' if frame is None
+                                       else 'The symbol label exists in the art catalog, but its matching original SWF asset is absent.')
+
+
+def _resolve_itemdrop_visual_tokens(ctx,refs,assets):
+    """Keep itemdrop Visual values as scene-node tokens, never physical files."""
+    template_status,template_files,template_candidates,template_reason=_resolve_file(_ITEMDROP_TEMPLATE_URI,assets)
+    template_assets=template_files if template_status=='RESOLVED' else template_candidates
+    template_metadata=_source_variant_metadata(template_assets)
+    evidence=('Recovered ItemObject::InitOnce 0x3ece80 uses fixed data/3D/GameObjects/itemdrops.bdae '
+              'and passes LootAudioVisual.Visual to the scene consumer; node selection is not independently resolved here.')
+    for ref in refs:
+        context=ref.get('context') or {}
+        if context.get('table')!='loot_audiovisual#group0' or context.get('field')!='Visual':
+            continue
+        token=ref.get('name')
+        original=(ref.get('resolves_to') or [{}])[0]
+        if not isinstance(token,str) or not token:
+            continue
+        target={'type':'itemdrop_scene_object_symbol','id':stable_id('itemdrop-scene-node',_ITEMDROP_TEMPLATE_URI,token),
+                'name':token,'source_token':token,'path':token,'namespace':'itemdrops.bdae scene node',
+                'template_uri':_ITEMDROP_TEMPLATE_URI,'template_asset_candidates':template_metadata,
+                # This is the known template dependency, not a selected token node.
+                'asset_files':_source_variant_metadata(template_assets),'status':'UNRESOLVED',
+                'original_target':{'type':original.get('type'),'path':original.get('path')},
+                'schema_evidence':evidence}
+        ref['resolves_to']=[target]
+        ref['reference_kind']='itemdrop_scene_node_token'
+        ref['resolution_evidence']=evidence
+        ref['status']='UNRESOLVED';ref['reason']='OTHER';ref['work_status']='DONE';ref['confidence']='PROVEN'
+        ref['candidates']=[]
+        ref['candidate_note']=('The Visual value is an authored scene-node token passed to the fixed itemdrops.bdae template; '
+                               'the template asset is listed as a dependency candidate, but the token is not asserted '
+                               'to be a physical file or a verified parsed node.')
+
+
 def prepare_tables(ctx):
     """Seed source-derived tables before level/campaign consumers on a clean run."""
     tables=_table_inventory(ctx)
@@ -715,6 +844,8 @@ def run(ctx, inventory_only=False):
     # without changing their stable identities or source locations.
     refs.extend(read_json(ctx.out/'data/campaign-references.json',[]) or [])
     _resolve_literal_pydata_calls(ctx,refs,tables)
+    _resolve_skill_source_targets(ctx,refs,assets_all)
+    _resolve_itemdrop_visual_tokens(ctx,refs,assets_all)
     by_id={r.get('id') or stable_id(r.get('site'),r.get('name'),r.get('kind')):r for r in refs}
     refs=list(by_id.values())
     _resolve_campaign_candidates(refs,tables)
@@ -760,6 +891,9 @@ def run(ctx, inventory_only=False):
       {'id':'pydata-literal-oid','rule':'A literal GetPyOID(tableAlias,rowName) resolves only through a proven PyDataArrays public alias and an exact case-sensitive source names-stream match; GetPyStruct names a struct member and is not treated as a row lookup without a matching native field schema.','evidence':'ida-apk-export-2026-10-07/libraries/classes.dex/pseudocode-all.c PyDataArrays constructor/GetOID/GetPyOID wrappers; port/android-native/app/src/main/cpp/source_process_array_registration_v101.hpp; exact Android names streams.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'character-charpropsname','rule':'An authored charpropsname on a gametype="Character" record conditionally identifies an exact CharacterTable row when char_template does not take precedence. This is a source relationship, not proof that the actor spawned at runtime.','evidence':'native GetCharPropertiesId 0x3b3d38; canonical_property_declarations_v1.inc:68; canonical_character_family_v4.cpp:40-47; port/windows-foundation/actor_population.cpp:144-170.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'character-sounds-table-group','rule':'CharacterTable.Sounds indexes the first registered sounds-array group exposed as CharSoundsTable (sounds#group0). This establishes only the row namespace; sound payload fields and any SDD/audio relationship remain undecoded. Sounds_bak is a separate later registration group.','evidence':'native Character::GetCharSoundsId 0x3a3294 and GetCharSounds 0x3a32d0; source_process_array_registration_v101.hpp:113-114 (CharSoundsTable) and :121-122 (Sounds_bak).','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'skill-script-uri','rule':'SkillTable.Script is a stem, not a path. Resolve it only to an exact data/scripts/skills/<stem>.luac logical-path match and retain all source variants for that URI; basename-only matches are not resolutions.','evidence':'port/game-data/skill_tables.cpp SkillTable.Script string field; supplied original data/scripts/skills files and exact logical-path comparison in tools/atlas/references.py.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'skill-icon-swf-symbol','rule':'A nonempty SkillTable.SkillIcon is a SWF symbol label, not a standalone image file. Resolve it to the exact label/frame in sprite 79 of dqcharmenu_droid.swf; retain the SWF asset identity and hash. Missing labels or SWF assets remain unresolved.','evidence':'Original skill presenter mapping in tools/atlas/entity_profiles.py; port/windows-foundation/features/skill_ui/source_skill_art.json label/frame extraction; original SWF asset hash.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'itemdrop-visual-token','rule':'LootAudioVisual.Visual is a scene-node token passed to the fixed itemdrops.bdae template, not a physical file path. Preserve the token and template asset candidates, but leave its node match unresolved unless an independently parsed source scene receipt proves the exact binding.','evidence':'port/game-data/loot_audiovisual_v8.cpp:10; recovered ItemObject::InitOnce 0x3ece80; tools/atlas/entity_profiles.py resolve_item_resources and source-scene receipts.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'level-scene-prefix','rule':'The decoded Levels.LevelFile is a bare scene filename. The Windows transition consumer prepends data/scene/; the atlas looks up scene/<LevelFile> within each included data root. Original native loader behavior beyond the recovered table schema remains unconfirmed.','evidence':'port/game-data/level_tables.cpp:63; port/windows-foundation/features/transitions/level_transitions_v1.cpp:113.','status':'INFERENCE','confidence':'LIKELY'},
       {'id':'signed-reference-sentinels','rule':'Typed signed table-index fields use signed 32-bit values; negative values such as -1 mean no reference and are omitted from reference rows, never reinterpreted as large unsigned IDs.','evidence':'port/game-data/skill_tables.cpp signed_word and Skill Anim field; Projectiles registered source descriptor and signed row fields; exact source pyarray bytes.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'bdae-sound-prefix','rule':'BDAE sound events strip exactly one leading `sfx_` before lookup in sounds.xml; preserve the resulting label verbatim, including malformed or missing names.','evidence':'port/engine-audio/reference/source-bindings-v38/ledger.json; adapter.cpp sound event mapping; BDAE event sites from tools/atlas/sites.py.','status':'PROVEN','confidence':'PROVEN'},
@@ -831,6 +965,8 @@ def _resolve_with_assets(ctx,refs):
       if r.get('status')=='UNRESOLVED' and not r.get('candidates') and not r.get('candidate_note'):
         r['candidate_note']='No candidate asset or table row could be established from the available source inventory.'
       for target in r.get('resolves_to') or []:
+        if target.get('type') in ('source_script','skill_icon_symbol','itemdrop_scene_object_symbol'):
+          continue
         path=target.get('path')
         if not path: continue
         if target.get('type')=='sounds.xml filename':
@@ -975,6 +1111,48 @@ def known_checks(ctx):
                                          'CharSoundsTable_group_scope':sounds_actual},ensure_ascii=False)})
     except Exception as e:
         out.append({'name':'literal PyData aliases and gated Swamp charpropsname source joins','passed':False,'detail':str(e)})
+    try:
+        saved=read_json(ctx.out/'data/references.json',[]) or []
+        itemdrop=[r for r in saved if (r.get('context') or {}).get('table')=='loot_audiovisual#group0'
+                  and (r.get('context') or {}).get('field')=='Visual']
+        itemdrop_checks=[]
+        for r in itemdrop:
+            target=(r.get('resolves_to') or [{}])[0]
+            itemdrop_checks.append(r.get('status')=='UNRESOLVED'
+                and target.get('type')=='itemdrop_scene_object_symbol'
+                and target.get('path')==r.get('name')==target.get('source_token')
+                and bool(target.get('template_asset_candidates'))
+                and all(any(Path(p).name.casefold()=='itemdrops.bdae' for p in [a.get('path',''),*a.get('logical_paths',[])])
+                        for a in target.get('template_asset_candidates') or []))
+        scripts=[r for r in saved if r.get('site','').startswith('pydata/skills_pyarray.bin[skill=')
+                 and r.get('site','').endswith('.Script')]
+        script_checks=[]
+        for r in scripts:
+            target=(r.get('resolves_to') or [{}])[0]
+            script_checks.append(r.get('status')=='RESOLVED' and target.get('type')=='source_script'
+                and target.get('logical_uri')==f"data/scripts/skills/{r.get('name')}.luac"
+                and bool(target.get('asset_files'))
+                and all(any(Path(p).suffix.casefold()=='.luac' for p in [a.get('path',''),*a.get('logical_paths',[])])
+                        for a in target.get('asset_files') or []))
+        icons=[r for r in saved if r.get('site','').startswith('pydata/skills_pyarray.bin[skill=')
+               and r.get('site','').endswith('.SkillIcon')]
+        icon_checks=[]
+        for r in icons:
+            target=(r.get('resolves_to') or [{}])[0]
+            icon_checks.append(r.get('status')=='RESOLVED' and target.get('type')=='skill_icon_symbol'
+                and target.get('id')==stable_id('skill-icon-swf-symbol',target.get('sha256'),79,r.get('name','').casefold(),target.get('frame'))
+                and target.get('sprite_id')==79 and isinstance(target.get('frame'),int)
+                and target.get('label')==r.get('name') and bool(target.get('asset_files'))
+                and all(a.get('sha256')==target.get('sha256') for a in target.get('asset_files') or []))
+        passed=(len(itemdrop)==29 and all(itemdrop_checks)
+                and len(scripts)==124 and all(script_checks)
+                and len(icons)==74 and all(icon_checks))
+        out.append({'name':'itemdrop scene tokens and SkillTable script/icon source targets','passed':passed,
+                    'detail':json.dumps({'itemdrop_visual_rows':len(itemdrop),'itemdrop_unresolved_symbols':sum(itemdrop_checks),
+                                         'skill_script_rows':len(scripts),'scripts_with_exact_uri_assets':sum(script_checks),
+                                         'skill_icon_rows':len(icons),'icons_with_sprite79_frames':sum(icon_checks)},ensure_ascii=False)})
+    except Exception as e:
+        out.append({'name':'itemdrop scene tokens and SkillTable script/icon source targets','passed':False,'detail':str(e)})
     return out
 
 

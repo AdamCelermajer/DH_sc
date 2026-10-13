@@ -107520,107 +107520,224 @@
     "work_status": "DONE"
   },
   {
+    "candidate_note": null,
+    "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "consumer_evidence": "Native source table is a named list of 3-word entries; no recovered consumer establishes meanings or ID namespaces for the tuple positions",
+    "fields": {
+      "list_entries": [
+        [
+          149,
+          3,
+          50
+        ],
+        [
+          150,
+          0,
+          20
+        ],
+        [
+          151,
+          1,
+          20
+        ],
+        [
+          152,
+          2,
+          10
+        ]
+      ]
+    },
     "id": "39fc109bf1325d51ca07",
     "index": 0,
+    "input_status": "UNRESOLVED",
     "name": "Knight",
-    "reason": "OTHER",
-    "schema_evidence": "port/game-data/data.cpp:25",
+    "reason": null,
+    "schema_evidence": "source_process_array_registration_v101.hpp:23-24; StatAutoAssignSchemeTable [iii] at 0x4b41f4, names 0x4b7e3c; compiled member list_entries at source_process_compiled_members_v121.hpp:17",
     "section": 1,
     "source_file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
     "source_table": "character_properties",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "character_properties#group1",
     "work_status": "DONE"
   },
   {
+    "candidate_note": null,
+    "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "consumer_evidence": "Native source table is a named list of 3-word entries; no recovered consumer establishes meanings or ID namespaces for the tuple positions",
+    "fields": {
+      "list_entries": [
+        [
+          149,
+          3,
+          10
+        ],
+        [
+          150,
+          0,
+          15
+        ],
+        [
+          151,
+          1,
+          15
+        ],
+        [
+          152,
+          2,
+          60
+        ]
+      ]
+    },
     "id": "96e570f5c1c59ff0fbe5",
     "index": 1,
+    "input_status": "UNRESOLVED",
     "name": "Mage",
-    "reason": "OTHER",
-    "schema_evidence": "port/game-data/data.cpp:25",
+    "reason": null,
+    "schema_evidence": "source_process_array_registration_v101.hpp:23-24; StatAutoAssignSchemeTable [iii] at 0x4b41f4, names 0x4b7e3c; compiled member list_entries at source_process_compiled_members_v121.hpp:17",
     "section": 1,
     "source_file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
     "source_table": "character_properties",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "character_properties#group1",
     "work_status": "DONE"
   },
   {
+    "candidate_note": null,
+    "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "consumer_evidence": "Native source table is a named list of 3-word entries; no recovered consumer establishes meanings or ID namespaces for the tuple positions",
+    "fields": {
+      "list_entries": [
+        [
+          149,
+          3,
+          20
+        ],
+        [
+          150,
+          0,
+          60
+        ],
+        [
+          151,
+          1,
+          10
+        ],
+        [
+          152,
+          2,
+          10
+        ]
+      ]
+    },
     "id": "2a3bb50a830ad77ee0a8",
     "index": 2,
+    "input_status": "UNRESOLVED",
     "name": "Rogue",
-    "reason": "OTHER",
-    "schema_evidence": "port/game-data/data.cpp:25",
+    "reason": null,
+    "schema_evidence": "source_process_array_registration_v101.hpp:23-24; StatAutoAssignSchemeTable [iii] at 0x4b41f4, names 0x4b7e3c; compiled member list_entries at source_process_compiled_members_v121.hpp:17",
     "section": 1,
     "source_file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
     "source_table": "character_properties",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "character_properties#group1",
     "work_status": "DONE"
   },
   {
+    "candidate_note": null,
+    "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "consumer_evidence": "StatList row preserves its exact two signed words; no consumer justifies naming either integer or emitting references",
+    "fields": {
+      "Values": [
+        1,
+        150
+      ]
+    },
     "id": "d07e3ddf9de297fca01d",
     "index": 0,
+    "input_status": "UNRESOLVED",
     "name": "Dexterity",
-    "reason": "OTHER",
-    "schema_evidence": "port/game-data/data.cpp:25",
+    "reason": null,
+    "schema_evidence": "source_process_array_registration_v101.hpp:25-26; StatListTable ii at 0x4b40a8, names 0x4b7ca0; compiled member list_entries at source_process_compiled_members_v121.hpp:18",
     "section": 2,
     "source_file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
     "source_table": "character_properties",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "character_properties#group2",
     "work_status": "DONE"
   },
   {
+    "candidate_note": null,
+    "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "consumer_evidence": "StatList row preserves its exact two signed words; no consumer justifies naming either integer or emitting references",
+    "fields": {
+      "Values": [
+        1,
+        151
+      ]
+    },
     "id": "41bbaa9ead74e5357ef9",
     "index": 1,
+    "input_status": "UNRESOLVED",
     "name": "Endurance",
-    "reason": "OTHER",
-    "schema_evidence": "port/game-data/data.cpp:25",
+    "reason": null,
+    "schema_evidence": "source_process_array_registration_v101.hpp:25-26; StatListTable ii at 0x4b40a8, names 0x4b7ca0; compiled member list_entries at source_process_compiled_members_v121.hpp:18",
     "section": 2,
     "source_file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
     "source_table": "character_properties",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "character_properties#group2",
     "work_status": "DONE"
   },
   {
+    "candidate_note": null,
+    "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "consumer_evidence": "StatList row preserves its exact two signed words; no consumer justifies naming either integer or emitting references",
+    "fields": {
+      "Values": [
+        1,
+        152
+      ]
+    },
     "id": "c654574e7ab7baae4c1f",
     "index": 2,
+    "input_status": "UNRESOLVED",
     "name": "Energy",
-    "reason": "OTHER",
-    "schema_evidence": "port/game-data/data.cpp:25",
+    "reason": null,
+    "schema_evidence": "source_process_array_registration_v101.hpp:25-26; StatListTable ii at 0x4b40a8, names 0x4b7ca0; compiled member list_entries at source_process_compiled_members_v121.hpp:18",
     "section": 2,
     "source_file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
     "source_table": "character_properties",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "character_properties#group2",
     "work_status": "DONE"
   },
   {
+    "candidate_note": null,
+    "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "consumer_evidence": "StatList row preserves its exact two signed words; no consumer justifies naming either integer or emitting references",
+    "fields": {
+      "Values": [
+        1,
+        149
+      ]
+    },
     "id": "c1ca56ec7c21faab445c",
     "index": 3,
+    "input_status": "UNRESOLVED",
     "name": "Strength",
-    "reason": "OTHER",
-    "schema_evidence": "port/game-data/data.cpp:25",
+    "reason": null,
+    "schema_evidence": "source_process_array_registration_v101.hpp:25-26; StatListTable ii at 0x4b40a8, names 0x4b7ca0; compiled member list_entries at source_process_compiled_members_v121.hpp:18",
     "section": 2,
     "source_file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
     "source_table": "character_properties",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "character_properties#group2",
     "work_status": "DONE"
   },

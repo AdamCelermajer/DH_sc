@@ -33,14 +33,26 @@ def source_roots(ctx):
                   ('ios',ctx.inputs / 'assets-extra/ios/data'),
                   ('original-cache',ctx.inputs / 'assets-extra/android/original-cache/data'),
                   ('android-extra',ctx.inputs / 'assets-extra/android/3d'),
-                  ('audio-cache',ctx.inputs / 'audio-v34/cache')]
+                  ('audio-cache',ctx.inputs / 'audio-v34/cache'),
+                  ('ios-packed',ctx.inputs / 'claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data'),
+                  ('ios-glive',ctx.inputs / 'claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/GLIVE_RES'),
+                  ('ios-app-resources',ctx.inputs / 'claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app'),
+                  ('port-runtime-original-cache',ctx.root / 'port/android-native/app/src/main/assets/original-cache/data')]
     return [(label,p) for label,p in candidates if p.is_dir()]
 
 def source_files(ctx):
     seen=set()
     for label,folder in source_roots(ctx):
-        for p in sorted(folder.rglob('*')):
-            if p.is_file():
+        if label == 'ios-app-resources':
+            # Only named game/app resources; do not recursively admit binaries,
+            # signing files, third-party package branding or copied data packs.
+            paths = [p for pattern in ('Default*.png', 'defaulteffects.bdae', 'DH2_*logo_iPad.mov',
+                     'DQ_TRAILER_SUB-*.srt', 'response_*.txt', '*.lproj/InfoPlist.strings')
+                     for p in folder.glob(pattern)]
+        else:
+            paths = folder.rglob('*')
+        for p in sorted(paths):
+            if p.is_file() and p not in seen:
                 seen.add(p)
                 yield label,p
     # Owner clarified that both partial caches are authoritative inputs and
@@ -51,7 +63,18 @@ def source_files(ctx):
         if p.is_file() and p not in seen:yield label,p
 
 def source_site(ctx, path):
-    return '.local-inputs/' + Path(path).relative_to(ctx.inputs).as_posix()
+    try:
+        return '.local-inputs/' + Path(path).relative_to(ctx.inputs).as_posix()
+    except ValueError:
+        return '.repo/' + Path(path).relative_to(ctx.root).as_posix()
+
+
+def physical_path(ctx, path):
+    if path.startswith('.local-inputs/'):
+        return ctx.inputs / path[len('.local-inputs/'):]
+    if path.startswith('.repo/'):
+        return ctx.root / path[len('.repo/'):]
+    return ctx.root / path
 
 def markdown_table(headers, rows):
     def cell(v):

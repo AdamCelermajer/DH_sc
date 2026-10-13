@@ -2,7 +2,7 @@
 
 Generated from the supplied Android, iOS and Android original-cache corpus and the frozen port source. This is a static data and source atlas. Port status records source coverage; it does not certify gameplay or audibility.
 
-Coverage check: **PASS**. Processed: **86,309/86,309 (100.00%)**.
+Coverage check: **PASS**. Processed: **126,534/126,534 (100.00%)**.
 
 Processed means every inventoried row has a terminal disposition. Explicitly unresolved references and native contracts remain follow-up work.
 
@@ -12,13 +12,18 @@ Commands (PowerShell, from this worktree):
 ./tools/atlas/regen.ps1
 . ./tools/atlas/use.ps1
 atlas check
-atlas mob SwampKing
+atlas serve
+atlas show "Mud Lord"
+atlas show skill:BashDown
+atlas show item:Potion0
 atlas mob Witch --json
 atlas find sound:517
 atlas cleancheck
 ```
 
-[Mob, boss and actor profiles](general/mobs/index.md) join every CharacterProperties row to its available scripts, animation/effect/projectile dependencies, sound producers and loot graph. **Profile coverage remains partial:** dynamic Lua bindings, undecoded payloads, encounter placement and runtime conditions are still explicit gaps. The processed percentage is not a claim that every mob is fully understood.
+[Open the searchable atlas](index.html). Run `atlas serve` and open `http://127.0.0.1:18789/` for source inspection and audio playback. Search by original name, English display name, URI or typed ID; Dependencies and Used by navigate in both directions.
+
+[Mob, boss and actor profiles](general/mobs/index.md) join every CharacterProperties row to its available scripts, animation/effect/projectile dependencies, sound producers and loot graph. **Semantic coverage remains partial:** dynamic Lua bindings, native contracts, encounter placement and runtime conditions are explicit gaps. All inventoried Android table payload rows are decoded; packed iOS table payloads retain their own evidence limits. The processed percentage is not a claim that every mob is fully understood.
 
 The wrapper stages an ignored portable interpreter from the Codex dependency bundle on first use. Use `--inputs <directory>` to select another read-only input corpus. No global Python or original data is committed.
 
@@ -29,56 +34,66 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | scripts | 219 | {"UNRESOLVED": 215, "DONE": 4} |
 | functions | 288 | {"UNRESOLVED": 257, "DONE": 31} |
 | calls | 7982 | {"DONE": 4170, "UNRESOLVED": 3812} |
-| references | 61521 | {"UNRESOLVED": 31315, "RESOLVED": 30204, "AMBIGUOUS": 2} |
-| assets | 6733 | {"ORPHAN": 962, "REFERENCED": 5771} |
+| references | 95124 | {"UNRESOLVED": 50536, "RESOLVED": 44586, "AMBIGUOUS": 2} |
+| assets | 13355 | {"ORPHAN": 2461, "REFERENCED": 10894} |
 | levels | 190 | {"DONE": 91, "UNRESOLVED": 15, "RESOLVED": 78, "INFERENCE": 6} |
 | actors | 448 | {"RESOLVED": 448} |
 | bosses | 65 | {"PROVEN": 59, "UNRESOLVED": 6} |
-| tables | 8863 | {"RESOLVED": 7550, "UNRESOLVED": 1313} |
+| tables | 8863 | {"RESOLVED": 8863} |
 
 ## Reference resolution and port status
 
 | Kind | Total | Resolved | Ambiguous | Unresolved | Reasons | Port status |
 | --- | --- | --- | --- | --- | --- | --- |
-| actor_name_candidate | 46 | 6 | 0 | 40 | {"OTHER": 40} | {"UNKNOWN": 46} |
+| actor_name_candidate | 46 | 32 | 0 | 14 | {"OTHER": 14} | {"UNKNOWN": 46} |
 | anim | 4429 | 4429 | 0 | 0 | {} | {"PARTIAL": 1897, "UNKNOWN": 2532} |
 | animated effect | 553 | 553 | 0 | 0 | {} | {"PARTIAL": 284, "UNKNOWN": 269} |
-| animation event | 521 | 0 | 0 | 521 | {"OTHER": 521} | {"UNKNOWN": 521} |
+| animation event | 1042 | 0 | 0 | 1042 | {"OTHER": 1042} | {"UNKNOWN": 1042} |
 | animation_dictionary | 854 | 854 | 0 | 0 | {} | {"PARTIAL": 854} |
-| character | 13199 | 1105 | 0 | 12094 | {"OTHER": 12050, "NAME_NO_FILE": 44} | {"UNKNOWN": 12050, "PARTIAL": 1149} |
-| class | 298 | 298 | 0 | 0 | {} | {"PARTIAL": 298} |
-| data file | 402 | 225 | 0 | 177 | {"OTHER": 172, "FILE_MISSING": 1, "NAME_NO_FILE": 4} | {"UNKNOWN": 402} |
+| campaign_script_target_index | 1004 | 1004 | 0 | 0 | {} | {"UNKNOWN": 1004} |
+| character | 25391 | 1105 | 0 | 24286 | {"OTHER": 24242, "NAME_NO_FILE": 44} | {"UNKNOWN": 24242, "PARTIAL": 1149} |
+| class | 511 | 511 | 0 | 0 | {} | {"PARTIAL": 511} |
+| data file | 698 | 225 | 0 | 473 | {"OTHER": 467, "FILE_MISSING": 2, "NAME_NO_FILE": 4} | {"UNKNOWN": 698} |
+| dialog_style_id | 1812 | 0 | 0 | 1812 | {"OTHER": 1812} | {"UNKNOWN": 1812} |
+| dialog_text_string_id | 1812 | 0 | 0 | 1812 | {"OTHER": 1812} | {"UNKNOWN": 1812} |
 | effect set | 575 | 575 | 0 | 0 | {} | {"PARTIAL": 452, "UNKNOWN": 123} |
 | effect_set | 370 | 370 | 0 | 0 | {} | {"PARTIAL": 370} |
 | faction | 519 | 519 | 0 | 0 | {} | {"PARTIAL": 519} |
 | faery | 29 | 29 | 0 | 0 | {} | {"PARTIAL": 29} |
+| global_campaign_operand | 37 | 3 | 0 | 34 | {"OTHER": 34} | {"UNKNOWN": 37} |
 | item | 2178 | 2178 | 0 | 0 | {} | {"PARTIAL": 2178} |
 | item power | 3643 | 3643 | 0 | 0 | {} | {"PARTIAL": 3643} |
 | level | 84 | 51 | 0 | 33 | {"OTHER": 33} | {"PARTIAL": 84} |
 | level_name_candidate | 9 | 9 | 0 | 0 | {} | {"UNKNOWN": 9} |
 | loot | 1141 | 1141 | 0 | 0 | {} | {"PARTIAL": 1141} |
-| model | 8022 | 6683 | 0 | 1339 | {"FILE_MISSING": 375, "NAME_NO_FILE": 964} | {"UNKNOWN": 6013, "PARTIAL": 2009} |
+| model | 13397 | 11097 | 0 | 2300 | {"NAME_NO_FILE": 1991, "FILE_MISSING": 280, "OTHER": 29} | {"UNKNOWN": 11388, "PARTIAL": 2009} |
 | model component | 1245 | 0 | 0 | 1245 | {"OTHER": 1245} | {"PARTIAL": 1245} |
-| named_reference | 1939 | 0 | 0 | 1939 | {"OTHER": 1936, "FILE_MISSING": 3} | {"UNKNOWN": 1939} |
+| named_reference | 3864 | 0 | 0 | 3864 | {"OTHER": 3861, "FILE_MISSING": 3} | {"UNKNOWN": 3864} |
 | numeric_reference | 294 | 0 | 0 | 294 | {"OTHER": 279, "FILE_MISSING": 15} | {"UNKNOWN": 294} |
 | projectile | 150 | 150 | 0 | 0 | {} | {"PARTIAL": 110, "UNKNOWN": 40} |
-| script | 1164 | 576 | 0 | 588 | {"OTHER": 494, "FILE_MISSING": 94} | {"UNKNOWN": 633, "PARTIAL": 531} |
-| serialized_string | 7727 | 0 | 0 | 7727 | {"OTHER": 7727} | {"UNKNOWN": 7727} |
+| quest | 154 | 154 | 0 | 0 | {} | {"PARTIAL": 154} |
+| scene_object_condition | 472 | 462 | 0 | 10 | {"OTHER": 10} | {"UNKNOWN": 472} |
+| script | 1628 | 621 | 0 | 1007 | {"OTHER": 910, "FILE_MISSING": 97} | {"UNKNOWN": 1097, "PARTIAL": 531} |
+| serialized_string | 7727 | 4133 | 0 | 3594 | {"OTHER": 3594} | {"UNKNOWN": 7727} |
 | skill | 268 | 268 | 0 | 0 | {} | {"PARTIAL": 55, "UNKNOWN": 213} |
-| sound | 3267 | 2481 | 2 | 784 | {"OTHER": 55, "FILE_MISSING": 240, "NAME_NO_FILE": 489} | {"UNKNOWN": 2653, "PARTIAL": 614} |
+| sound | 4754 | 2988 | 2 | 1764 | {"OTHER": 391, "FILE_MISSING": 395, "NAME_NO_FILE": 978} | {"UNKNOWN": 4140, "PARTIAL": 614} |
 | source_sound_ordinal | 202 | 202 | 0 | 0 | {} | {"PARTIAL": 202} |
 | symbolic_reference | 2544 | 424 | 0 | 2120 | {"OTHER": 2105, "NAME_NO_FILE": 4, "FILE_MISSING": 11} | {"UNKNOWN": 2544} |
-| texture | 5849 | 3435 | 0 | 2414 | {"FILE_MISSING": 244, "NAME_NO_FILE": 2170} | {"UNKNOWN": 5849} |
+| texture | 11688 | 6856 | 0 | 4832 | {"FILE_MISSING": 492, "NAME_NO_FILE": 4340} | {"UNKNOWN": 11688} |
 
 ## Asset consumers and orphans
 
 | Corpus | Files | Referenced | ORPHAN |
 | --- | --- | --- | --- |
-| android | 6040 | 5149 | 891 |
+| android | 6040 | 5170 | 870 |
 | android-extra | 18 | 0 | 18 |
 | audio-cache | 265 | 254 | 11 |
 | ios | 256 | 254 | 2 |
+| ios-app-resources | 28 | 0 | 28 |
+| ios-glive | 50 | 0 | 50 |
+| ios-packed | 6157 | 5101 | 1056 |
 | original-cache | 152 | 112 | 40 |
+| port-runtime-original-cache | 387 | 1 | 386 |
 | sound-table | 2 | 2 | 0 |
 
 ORPHAN means no extracted consumer in this supplied corpus. It does not prove an asset was unused by the original game.
@@ -343,26 +358,42 @@ Ranked by distinct boss/custom scripts blocked, then all affected scripts, then 
 | sfx_faerie_ice.wav is absent from original data | True | sfx_faerie_ice.wav present=False |
 | Knight BashDown, GroundSlam, and Charge source rows | True | {"expected": {"BashDown": [347, "skill_dh2_prince_warrior_bash_down.bdae", 164, 190, 101], "GroundSlam": [350, "skill_dh2_prince_warrior_crushing_blow.bdae", 173, 185, 103], "Charge": [349, "skill_dh2_prince_warrior_charge.bdae", 172, 48, 102]}, "actual": {"BashDown": {"skill_index": 7, "skill_anim": 347, "fx": 164, "sound": 190, "sound_uid": 101, "clip_present": true, "matrix_row_present": true}, "GroundSlam": {"skill_index": 51, "skill_anim": 350, "fx": 173, "sound": 185, "sound_uid": 103, "clip_present": true, "matrix_row_present": true}, "Charge": {"skill_index": 13, "skill_anim": 349, "fx": 172, "sound": 48, "sound_uid": 102, "clip_present": true, "matrix_row_present": true}}} |
 | literal PyData aliases and gated Swamp charpropsname source joins | True | {"literal_calls": [{"site": "darkqueen1_core.luac:10", "status": "RESOLVED", "table": "effect_sets", "index": 229, "expected_table": "effect_sets", "expected_index": 229}, {"site": "flaminite_core.luac:67", "status": "RESOLVED", "table": "animations_dictionary#group0", "index": 1144, "expected_table": "animations_dictionary#group0", "expected_index": 1144}, {"site": "prince_mage_stone_escape.luac:30", "status": "RESOLVED", "table": "effect_sets", "index": 229, "expected_table": "effect_sets", "expected_index": 229}], "charpropsname": {"status": "RESOLVED", "table": "character_properties#group0", "index": 360, "port_status": "PARTIAL"}, "CharSoundsTable_group_scope": {"status": "RESOLVED", "table": "sounds#group0", "target_table": "sounds#group0", "index": 2, "source_row_table": "sounds#group0", "source_row_name": "Default"}} |
+| itemdrop scene tokens and SkillTable script/icon source targets | True | {"itemdrop_visual_rows": 29, "itemdrop_unresolved_symbols": 29, "skill_script_rows": 124, "scripts_with_exact_uri_assets": 124, "skill_icon_rows": 74, "icons_with_sprite79_frames": 74} |
 
 ## Platform comparison
 
-| Format | Platform availability |
+| Logical resource format | Platform availability |
 | --- | --- |
-| .bdae | {"ANDROID_OR_RECOVERED_ONLY": 2889, "BOTH": 3} |
-| .bin | {"ANDROID_OR_RECOVERED_ONLY": 219} |
-| .lightset_xml | {"ANDROID_OR_RECOVERED_ONLY": 40} |
-| .luac | {"ANDROID_OR_RECOVERED_ONLY": 219} |
-| .mgp | {"ANDROID_OR_RECOVERED_ONLY": 629} |
-| .mgx | {"ANDROID_OR_RECOVERED_ONLY": 250} |
-| .mlx | {"ANDROID_OR_RECOVERED_ONLY": 400} |
-| .mvp | {"ANDROID_OR_RECOVERED_ONLY": 598} |
-| .mvx | {"ANDROID_OR_RECOVERED_ONLY": 253} |
-| .state | {"ANDROID_OR_RECOVERED_ONLY": 1} |
-| .tga | {"ANDROID_OR_RECOVERED_ONLY": 242} |
-| .txt | {"ANDROID_OR_RECOVERED_ONLY": 23} |
-| .vxn | {"ANDROID_OR_RECOVERED_ONLY": 3, "BOTH": 14} |
-| .wav | {"ANDROID_OR_RECOVERED_ONLY": 244, "IOS_ONLY": 239} |
-| .xml | {"ANDROID_OR_RECOVERED_ONLY": 41} |
+| .bdae | {"BOTH": 2892, "IOS_ONLY": 9} |
+| .bin | {"ANDROID_OR_RECOVERED_ONLY": 4, "BOTH": 215} |
+| .english | {"BOTH": 37} |
+| .fnt | {"BOTH": 1} |
+| .french | {"BOTH": 37} |
+| .german | {"BOTH": 37} |
+| .italian | {"BOTH": 37} |
+| .japanese | {"BOTH": 37} |
+| .korean | {"BOTH": 37} |
+| .lightset_xml | {"BOTH": 40} |
+| .luac | {"BOTH": 219} |
+| .mgp | {"BOTH": 629} |
+| .mgx | {"BOTH": 250} |
+| .mlx | {"BOTH": 400} |
+| .mvp | {"BOTH": 598} |
+| .mvx | {"BOTH": 253} |
+| .pak | {"IOS_ONLY": 1} |
+| .sc | {"BOTH": 37} |
+| .spanish | {"BOTH": 37} |
+| .state | {"BOTH": 1} |
+| .swf | {"ANDROID_OR_RECOVERED_ONLY": 23, "BOTH": 7} |
+| .symbols | {"BOTH": 37} |
+| .tga | {"ANDROID_OR_RECOVERED_ONLY": 9, "BOTH": 233} |
+| .ttf | {"ANDROID_OR_RECOVERED_ONLY": 7} |
+| .tweaker_xml | {"IOS_ONLY": 2} |
+| .txt | {"BOTH": 22} |
+| .vxn | {"IOS_ONLY": 14} |
+| .wav | {"IOS_ONLY": 239} |
+| .xml | {"BOTH": 39} |
+| .zip | {"IOS_ONLY": 1} |
 | extensionless | {"ANDROID_OR_RECOVERED_ONLY": 237} |
 
 Both supplied partial caches are used under the owner’s clarification. Each resolved target retains its source platform. The iOS-only audio subset has 245 distinct missing catalog filenames; combining it with the recovered Android audio leaves the required 45.
@@ -410,7 +441,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1517
+      "unresolved_source_references": 1749
     },
     {
       "act": "act_2",
@@ -421,7 +452,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1005
+      "unresolved_source_references": 1049
     },
     {
       "act": "act_3",
@@ -458,7 +489,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
     }
   ],
   "ranking_scope": "Act 2+ only. Campaign engine command rows include native kind, factory/reader address, descriptor source, port status, and current anchors; unresolved source rows include resolver metadata.",
-  "shared_asset_count": 67,
+  "shared_asset_count": 82,
   "shared_rule": "A stable asset ID is shared only when its source-linked references occur in at least two explicitly assigned acts.",
   "status": "DONE",
   "top20_acts_2_plus": [
@@ -749,6 +780,25 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "actor_id": "89d6b10973db87e6eecd",
       "category": "unresolved_actor_table_dependency",
       "confidence": "PROVEN",
+      "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[0].ItemListID -> loot_table#group2[176 ] -> List[0].Item -> loot_table#group3[682 ] -> AudioVisualID -> loot_audiovisual#group0[18 ]",
+      "field": "Visual",
+      "implementation": "port/game-data/loot_audiovisual_v8.cpp:10",
+      "index": 18,
+      "port_status": "PARTIAL",
+      "priority": 2,
+      "reason": "OTHER",
+      "reference_id": "1f55ab86a417fde515fc",
+      "rule": "port/game-data/loot_audiovisual_v8.cpp:10; field Visual",
+      "status": "UNRESOLVED",
+      "table": "loot_audiovisual#group0",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor": "DW_Merchant",
+      "actor_id": "89d6b10973db87e6eecd",
+      "category": "unresolved_actor_table_dependency",
+      "confidence": "PROVEN",
       "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[0].ItemListID -> loot_table#group2[176 ] -> List[0].Item -> loot_table#group3[682 ]",
       "field": "ModularModule",
       "implementation": "port/game-data/items.cpp:43",
@@ -760,6 +810,25 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "rule": "Item metadata stores a named modular node/icon; a matching file name alone is insufficient to prove its consumer.",
       "status": "UNRESOLVED",
       "table": "loot_table#group3",
+      "work_status": "DONE"
+    },
+    {
+      "act": "act_2",
+      "actor": "DW_Merchant",
+      "actor_id": "89d6b10973db87e6eecd",
+      "category": "unresolved_actor_table_dependency",
+      "confidence": "PROVEN",
+      "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[0].ItemListID -> loot_table#group2[176 ] -> List[1].Item -> loot_table#group3[49 ] -> AudioVisualID -> loot_audiovisual#group0[0 ]",
+      "field": "Visual",
+      "implementation": "port/game-data/loot_audiovisual_v8.cpp:10",
+      "index": 0,
+      "port_status": "PARTIAL",
+      "priority": 2,
+      "reason": "OTHER",
+      "reference_id": "8b5c056b727bf2ddee6e",
+      "rule": "port/game-data/loot_audiovisual_v8.cpp:10; field Visual",
+      "status": "UNRESOLVED",
+      "table": "loot_audiovisual#group0",
       "work_status": "DONE"
     },
     {
@@ -787,55 +856,17 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "actor_id": "89d6b10973db87e6eecd",
       "category": "unresolved_actor_table_dependency",
       "confidence": "PROVEN",
-      "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[0].ItemListID -> loot_table#group2[176 ] -> List[2].Item -> loot_table#group3[1292 ]",
-      "field": "ModularModule",
-      "implementation": "port/game-data/items.cpp:43",
-      "index": 1292,
+      "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[0].ItemListID -> loot_table#group2[176 ] -> List[2].Item -> loot_table#group3[1292 ] -> AudioVisualID -> loot_audiovisual#group0[28 ]",
+      "field": "Visual",
+      "implementation": "port/game-data/loot_audiovisual_v8.cpp:10",
+      "index": 28,
       "port_status": "PARTIAL",
       "priority": 2,
       "reason": "OTHER",
-      "reference_id": "9593a42715c34b34682a",
-      "rule": "Item metadata stores a named modular node/icon; a matching file name alone is insufficient to prove its consumer.",
+      "reference_id": "db9a4024c467bafa637d",
+      "rule": "port/game-data/loot_audiovisual_v8.cpp:10; field Visual",
       "status": "UNRESOLVED",
-      "table": "loot_table#group3",
-      "work_status": "DONE"
-    },
-    {
-      "act": "act_2",
-      "actor": "DW_Merchant",
-      "actor_id": "89d6b10973db87e6eecd",
-      "category": "unresolved_actor_table_dependency",
-      "confidence": "PROVEN",
-      "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[1].ItemListID -> loot_table#group2[78 ] -> List[0].Item -> loot_table#group3[388 ]",
-      "field": "ModularModule",
-      "implementation": "port/game-data/items.cpp:43",
-      "index": 388,
-      "port_status": "PARTIAL",
-      "priority": 2,
-      "reason": "OTHER",
-      "reference_id": "ab80acf3683c70793d01",
-      "rule": "Item metadata stores a named modular node/icon; a matching file name alone is insufficient to prove its consumer.",
-      "status": "UNRESOLVED",
-      "table": "loot_table#group3",
-      "work_status": "DONE"
-    },
-    {
-      "act": "act_2",
-      "actor": "DW_Merchant",
-      "actor_id": "89d6b10973db87e6eecd",
-      "category": "unresolved_actor_table_dependency",
-      "confidence": "PROVEN",
-      "dependency": "CharacterProperties[56].Loot -> loot_table#group5[2 ] -> SubLoots[0] -> loot_table#group5[256 ] -> RandomLootEntries[1].ItemListID -> loot_table#group2[78 ] -> List[1].Item -> loot_table#group3[160 ]",
-      "field": "ModularModule",
-      "implementation": "port/game-data/items.cpp:43",
-      "index": 160,
-      "port_status": "PARTIAL",
-      "priority": 2,
-      "reason": "OTHER",
-      "reference_id": "e5d2f57182fbaa13d38c",
-      "rule": "Item metadata stores a named modular node/icon; a matching file name alone is insufficient to prove its consumer.",
-      "status": "UNRESOLVED",
-      "table": "loot_table#group3",
+      "table": "loot_audiovisual#group0",
       "work_status": "DONE"
     }
   ]

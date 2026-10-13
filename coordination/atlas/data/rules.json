@@ -49,6 +49,27 @@
     "status": "PROVEN"
   },
   {
+    "confidence": "PROVEN",
+    "evidence": "port/game-data/skill_tables.cpp SkillTable.Script string field; supplied original data/scripts/skills files and exact logical-path comparison in tools/atlas/references.py.",
+    "id": "skill-script-uri",
+    "rule": "SkillTable.Script is a stem, not a path. Resolve it only to an exact data/scripts/skills/<stem>.luac logical-path match and retain all source variants for that URI; basename-only matches are not resolutions.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "Original skill presenter mapping in tools/atlas/entity_profiles.py; port/windows-foundation/features/skill_ui/source_skill_art.json label/frame extraction; original SWF asset hash.",
+    "id": "skill-icon-swf-symbol",
+    "rule": "A nonempty SkillTable.SkillIcon is a SWF symbol label, not a standalone image file. Resolve it to the exact label/frame in sprite 79 of dqcharmenu_droid.swf; retain the SWF asset identity and hash. Missing labels or SWF assets remain unresolved.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "port/game-data/loot_audiovisual_v8.cpp:10; recovered ItemObject::InitOnce 0x3ece80; tools/atlas/entity_profiles.py resolve_item_resources and source-scene receipts.",
+    "id": "itemdrop-visual-token",
+    "rule": "LootAudioVisual.Visual is a scene-node token passed to the fixed itemdrops.bdae template, not a physical file path. Preserve the token and template asset candidates, but leave its node match unresolved unless an independently parsed source scene receipt proves the exact binding.",
+    "status": "PROVEN"
+  },
+  {
     "confidence": "LIKELY",
     "evidence": "port/game-data/level_tables.cpp:63; port/windows-foundation/features/transitions/level_transitions_v1.cpp:113.",
     "id": "level-scene-prefix",

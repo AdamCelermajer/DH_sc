@@ -16,8 +16,13 @@ def run(ctx):
     if not baseline['passed']:
         result={'passed':False,'tests':tests};write_json(ctx.out/'data/validation.json',result);return result
     def test(name,file,mutate,expected):
-        originals={p:p.read_bytes() for p in (fixture/'data').glob('*.json')}
         p=fixture/'data'/f'{file}.json'
+        # The checker only writes its check report. Restore the mutation's
+        # authority file and the sole paired-projection mutation, rather than
+        # rereading and rewriting the entire large atlas for every probe.
+        paths=[p]
+        if name=='paired script reference deletion fails':paths.append(fixture/'data/script-references.json')
+        originals={path:path.read_bytes() for path in paths}
         try:
             value=read_json(p);mutate(value);write_json(p,value)
             result=audit(testctx)

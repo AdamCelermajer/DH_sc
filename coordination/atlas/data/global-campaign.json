@@ -1,0 +1,1638 @@
+[
+  {
+    "command_count": 4,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:0:0",
+        "id": "32eb99a8e773de247ee6",
+        "index": 0,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[0]=BeginCutScene/command[0]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 79
+        },
+        "graph_id": "command:global:0:1",
+        "id": "11ee01d51f7e82fe98c1",
+        "index": 1,
+        "kind": 79,
+        "name": "Script_FlushMessages",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[0]=BeginCutScene/command[1]=Script_FlushMessages",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 17,
+          "16": "menu_skipcutscene",
+          "20": 0
+        },
+        "graph_id": "command:global:0:2",
+        "id": "6fec78188f18f2cf3d1e",
+        "index": 2,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[0]=BeginCutScene/command[2]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 39,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:0:3",
+        "id": "e6c06ebd8fb815c2b4ec",
+        "index": 3,
+        "kind": 39,
+        "name": "Script_StopActor",
+        "payload_ordinal": 3,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[0]=BeginCutScene/command[3]=Script_StopActor",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:0",
+    "id": "abcf6d7dce1297ed3e8a",
+    "index": 0,
+    "manager_script_index": 0,
+    "name": "BeginCutScene",
+    "name_ordinal": 0,
+    "payload_ordinal": 0,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[0]=BeginCutScene",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 8,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 70
+        },
+        "graph_id": "command:global:1:0",
+        "id": "c6b7de9446885db7f247",
+        "index": 0,
+        "kind": 70,
+        "name": "Script_BlockSaveGame",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[1]=BeginScriptedCutScene/command[0]=Script_BlockSaveGame",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 79
+        },
+        "graph_id": "command:global:1:1",
+        "id": "16a07de0161a365f032e",
+        "index": 1,
+        "kind": 79,
+        "name": "Script_FlushMessages",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[1]=BeginScriptedCutScene/command[1]=Script_FlushMessages",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 1,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:1:2",
+        "id": "f35e204394fd0dfbf196",
+        "index": 2,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[1]=BeginScriptedCutScene/command[2]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:1:3",
+        "id": "26cacfed3ba87bf19adb",
+        "index": 3,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 3,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[1]=BeginScriptedCutScene/command[3]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 17,
+          "16": "menu_skipcutscene",
+          "20": 0
+        },
+        "graph_id": "command:global:1:4",
+        "id": "d2f5596f4712aa9f1482",
+        "index": 4,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 4,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[1]=BeginScriptedCutScene/command[4]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 24,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:1:5",
+        "id": "658365e077d4201724dc",
+        "index": 5,
+        "kind": 24,
+        "name": "Script_LockCharacter",
+        "payload_ordinal": 5,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[1]=BeginScriptedCutScene/command[5]=Script_LockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 39,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:1:6",
+        "id": "3c9ec935fec370747c3c",
+        "index": 6,
+        "kind": 39,
+        "name": "Script_StopActor",
+        "payload_ordinal": 6,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[1]=BeginScriptedCutScene/command[6]=Script_StopActor",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 1
+        },
+        "graph_id": "command:global:1:7",
+        "id": "5f04382bdec7db6e0f85",
+        "index": 7,
+        "kind": 1,
+        "name": "Script_EnterCutSceneMode",
+        "payload_ordinal": 7,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[1]=BeginScriptedCutScene/command[7]=Script_EnterCutSceneMode",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:1",
+    "id": "15aae244e2be74ba779f",
+    "index": 1,
+    "manager_script_index": 1,
+    "name": "BeginScriptedCutScene",
+    "name_ordinal": 1,
+    "payload_ordinal": 1,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[1]=BeginScriptedCutScene",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 3,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 12
+        },
+        "graph_id": "command:global:2:0",
+        "id": "b653a68de0e71d58ff04",
+        "index": 0,
+        "kind": 12,
+        "name": "Script_WaitDialog",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[2]=EndCutScene/command[0]=Script_WaitDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 17,
+          "16": "menu_skipcutscene",
+          "20": 0
+        },
+        "graph_id": "command:global:2:1",
+        "id": "e34962458bc754e6e258",
+        "index": 1,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[2]=EndCutScene/command[1]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:2:2",
+        "id": "f0d7db60a34d9cb9f37c",
+        "index": 2,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[2]=EndCutScene/command[2]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:2",
+    "id": "ebb43cab1eb7ff34ba8d",
+    "index": 2,
+    "manager_script_index": 2,
+    "name": "EndCutScene",
+    "name_ordinal": 2,
+    "payload_ordinal": 2,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[2]=EndCutScene",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 8,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 31,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:3:0",
+        "id": "687dbc01ea778b135bf6",
+        "index": 0,
+        "kind": 31,
+        "name": "Script_PutCharacterInIdle",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[3]=EndScriptedCutScene/command[0]=Script_PutCharacterInIdle",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 12
+        },
+        "graph_id": "command:global:3:1",
+        "id": "63416ba020b3d1fdbf81",
+        "index": 1,
+        "kind": 12,
+        "name": "Script_WaitDialog",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[3]=EndScriptedCutScene/command[1]=Script_WaitDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:3:2",
+        "id": "c26a9d6384f18b0de4da",
+        "index": 2,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[3]=EndScriptedCutScene/command[2]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 17,
+          "16": "menu_skipcutscene",
+          "20": 0
+        },
+        "graph_id": "command:global:3:3",
+        "id": "59cac99cb1f1a2811162",
+        "index": 3,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 3,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[3]=EndScriptedCutScene/command[3]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 0,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:3:4",
+        "id": "8a70c232d3f9fa5b5c30",
+        "index": 4,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 4,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[3]=EndScriptedCutScene/command[4]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 25,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:3:5",
+        "id": "9026791f506cf3d4437c",
+        "index": 5,
+        "kind": 25,
+        "name": "Script_UnlockCharacter",
+        "payload_ordinal": 5,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[3]=EndScriptedCutScene/command[5]=Script_UnlockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 2
+        },
+        "graph_id": "command:global:3:6",
+        "id": "caf4211d8fc5956e9945",
+        "index": 6,
+        "kind": 2,
+        "name": "Script_ExitCutSceneMode",
+        "payload_ordinal": 6,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[3]=EndScriptedCutScene/command[6]=Script_ExitCutSceneMode",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 69
+        },
+        "graph_id": "command:global:3:7",
+        "id": "a3b2e08c497d87fcb5b1",
+        "index": 7,
+        "kind": 69,
+        "name": "Script_SaveGame",
+        "payload_ordinal": 7,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[3]=EndScriptedCutScene/command[7]=Script_SaveGame",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:3",
+    "id": "f2927738bd6aa0394cf0",
+    "index": 3,
+    "manager_script_index": 3,
+    "name": "EndScriptedCutScene",
+    "name_ordinal": 3,
+    "payload_ordinal": 3,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[3]=EndScriptedCutScene",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 12,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 1,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:4:0",
+        "id": "2ce408a99fc6e3c18a4a",
+        "index": 0,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[0]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 16,
+          "16": "menu_BlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:4:1",
+        "id": "810504447680bd5926ee",
+        "index": 1,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[1]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:4:2",
+        "id": "b0fca596a4519da0d270",
+        "index": 2,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[2]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 24,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:4:3",
+        "id": "02dad476d71ded4e94e6",
+        "index": 3,
+        "kind": 24,
+        "name": "Script_LockCharacter",
+        "payload_ordinal": 3,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[3]=Script_LockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 24,
+          "16": "menu_FadeFromBlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:4:4",
+        "id": "3415e41782755e9e1382",
+        "index": 4,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 4,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[4]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 26,
+          "8": 1000
+        },
+        "graph_id": "command:global:4:5",
+        "id": "7a48db9cc7e0cc7648f3",
+        "index": 5,
+        "kind": 26,
+        "name": "Script_Wait",
+        "payload_ordinal": 5,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[5]=Script_Wait",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 39,
+          "8": 6,
+          "12": "Player"
+        },
+        "graph_id": "command:global:4:6",
+        "id": "cb7280a66c98cded2e27",
+        "index": 6,
+        "kind": 39,
+        "name": "Script_StopActor",
+        "payload_ordinal": 6,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[6]=Script_StopActor",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 24,
+          "16": "menu_FadeFromBlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:4:7",
+        "id": "67b312608a8d901631ab",
+        "index": 7,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 7,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[7]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 25,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:4:8",
+        "id": "f4eb34de42f8807d672d",
+        "index": 8,
+        "kind": 25,
+        "name": "Script_UnlockCharacter",
+        "payload_ordinal": 8,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[8]=Script_UnlockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:4:9",
+        "id": "b8481513052b6d2cb420",
+        "index": 9,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 9,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[9]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 31,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:4:10",
+        "id": "643cfb3db21046136791",
+        "index": 10,
+        "kind": 31,
+        "name": "Script_PutCharacterInIdle",
+        "payload_ordinal": 10,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[10]=Script_PutCharacterInIdle",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 0,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:4:11",
+        "id": "0537025afad71c895c47",
+        "index": 11,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 11,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[4]=OnEnterLevel01/command[11]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:4",
+    "id": "98469df10aea6f232405",
+    "index": 4,
+    "manager_script_index": 4,
+    "name": "OnEnterLevel01",
+    "name_ordinal": 4,
+    "payload_ordinal": 4,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[4]=OnEnterLevel01",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 12,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 1,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:5:0",
+        "id": "741e99e7613fd4a56625",
+        "index": 0,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[0]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 16,
+          "16": "menu_BlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:5:1",
+        "id": "eea5a9113d09f2c04f21",
+        "index": 1,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[1]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:5:2",
+        "id": "d093c715f4808cd5fb93",
+        "index": 2,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[2]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 24,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:5:3",
+        "id": "303090642fd17c62665b",
+        "index": 3,
+        "kind": 24,
+        "name": "Script_LockCharacter",
+        "payload_ordinal": 3,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[3]=Script_LockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 24,
+          "16": "menu_FadeFromBlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:5:4",
+        "id": "7b26d1e7be88cf16c4a7",
+        "index": 4,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 4,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[4]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 26,
+          "8": 1000
+        },
+        "graph_id": "command:global:5:5",
+        "id": "a843746cbdcaecd23285",
+        "index": 5,
+        "kind": 26,
+        "name": "Script_Wait",
+        "payload_ordinal": 5,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[5]=Script_Wait",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 39,
+          "8": 6,
+          "12": "Player"
+        },
+        "graph_id": "command:global:5:6",
+        "id": "a4ee243710c6121b23b8",
+        "index": 6,
+        "kind": 39,
+        "name": "Script_StopActor",
+        "payload_ordinal": 6,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[6]=Script_StopActor",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 24,
+          "16": "menu_FadeFromBlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:5:7",
+        "id": "9e6dc3c892f698ea05a2",
+        "index": 7,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 7,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[7]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 25,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:5:8",
+        "id": "6010799d047812865de9",
+        "index": 8,
+        "kind": 25,
+        "name": "Script_UnlockCharacter",
+        "payload_ordinal": 8,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[8]=Script_UnlockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:5:9",
+        "id": "54d8c3e9d3ef65607890",
+        "index": 9,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 9,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[9]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 31,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:5:10",
+        "id": "1c072f77deed42cc226f",
+        "index": 10,
+        "kind": 31,
+        "name": "Script_PutCharacterInIdle",
+        "payload_ordinal": 10,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[10]=Script_PutCharacterInIdle",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 0,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:5:11",
+        "id": "f81279caaabd6b935b55",
+        "index": 11,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 11,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[5]=OnEnterLevel02/command[11]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:5",
+    "id": "1ba5774fd9480594f6ca",
+    "index": 5,
+    "manager_script_index": 5,
+    "name": "OnEnterLevel02",
+    "name_ordinal": 5,
+    "payload_ordinal": 5,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[5]=OnEnterLevel02",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 9,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:6:0",
+        "id": "457b606ce29476b7d39a",
+        "index": 0,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[0]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 3,
+          "8": 26,
+          "12": "Player has died... sucker!"
+        },
+        "graph_id": "command:global:6:1",
+        "id": "a23cbb621b23cdb2d63c",
+        "index": 1,
+        "kind": 3,
+        "name": "Script_CONSOLE",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[1]=Script_CONSOLE",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 1,
+          "12": 22,
+          "16": "menu_FadeToBlackScreen",
+          "20": 1
+        },
+        "graph_id": "command:global:6:2",
+        "id": "20c7a149a6459683b5db",
+        "index": 2,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[2]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 16,
+          "16": "menu_BlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:6:3",
+        "id": "24483437679225973b1b",
+        "index": 3,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 3,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[3]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 22,
+          "16": "menu_FadeToBlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:6:4",
+        "id": "c4f2d0f6b2e9ad64a3d8",
+        "index": 4,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 4,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[4]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 0,
+          "8": 1,
+          "12": 4294967295,
+          "16": 5,
+          "20": [
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "24": 1
+        },
+        "graph_id": "command:global:6:5",
+        "id": "a62e43d1d8a04f65d7a9",
+        "index": 5,
+        "kind": 0,
+        "name": "Script_ExecScript",
+        "payload_ordinal": 5,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[5]=Script_ExecScript",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 22,
+          "8": 0,
+          "12": 3,
+          "16": "HUD",
+          "20": 0
+        },
+        "graph_id": "command:global:6:6",
+        "id": "b0f5defff3a00c51c894",
+        "index": 6,
+        "kind": 22,
+        "name": "Script_ShowFlash",
+        "payload_ordinal": 6,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[6]=Script_ShowFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 23,
+          "8": 0,
+          "12": 16,
+          "16": "menu_BlackScreen",
+          "20": 0
+        },
+        "graph_id": "command:global:6:7",
+        "id": "5e0af59e3bcb6b924515",
+        "index": 7,
+        "kind": 23,
+        "name": "Script_HideFlash",
+        "payload_ordinal": 7,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[7]=Script_HideFlash",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 63
+        },
+        "graph_id": "command:global:6:8",
+        "id": "9755b1f5ce33839c166a",
+        "index": 8,
+        "kind": 63,
+        "name": "Script_RestartLevel",
+        "payload_ordinal": 8,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[6]=PlayerDeathScript/command[8]=Script_RestartLevel",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:6",
+    "id": "36eb110cc5760756ed12",
+    "index": 6,
+    "manager_script_index": 6,
+    "name": "PlayerDeathScript",
+    "name_ordinal": 6,
+    "payload_ordinal": 6,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[6]=PlayerDeathScript",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 2,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 10,
+          "8": 4294967295,
+          "12": 4,
+          "16": 1310792
+        },
+        "graph_id": "command:global:7:0",
+        "id": "c351e7ac0443676d64b8",
+        "index": 0,
+        "kind": 10,
+        "name": "Script_StartDialog",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[7]=PlayerDeathScript_01/command[0]=Script_StartDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 12
+        },
+        "graph_id": "command:global:7:1",
+        "id": "986430a81b2782c1d106",
+        "index": 1,
+        "kind": 12,
+        "name": "Script_WaitDialog",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[7]=PlayerDeathScript_01/command[1]=Script_WaitDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:7",
+    "id": "614a9cf9426efd992e45",
+    "index": 7,
+    "manager_script_index": 7,
+    "name": "PlayerDeathScript_01",
+    "name_ordinal": 7,
+    "payload_ordinal": 7,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[7]=PlayerDeathScript_01",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 2,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 10,
+          "8": 4294967295,
+          "12": 4,
+          "16": 1310793
+        },
+        "graph_id": "command:global:8:0",
+        "id": "2758e00b84959f54d2e7",
+        "index": 0,
+        "kind": 10,
+        "name": "Script_StartDialog",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[8]=PlayerDeathScript_02/command[0]=Script_StartDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 12
+        },
+        "graph_id": "command:global:8:1",
+        "id": "abf5340bf614ae376e55",
+        "index": 1,
+        "kind": 12,
+        "name": "Script_WaitDialog",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[8]=PlayerDeathScript_02/command[1]=Script_WaitDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:8",
+    "id": "c517be443a132b50a95e",
+    "index": 8,
+    "manager_script_index": 8,
+    "name": "PlayerDeathScript_02",
+    "name_ordinal": 8,
+    "payload_ordinal": 8,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[8]=PlayerDeathScript_02",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 2,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 10,
+          "8": 4294967295,
+          "12": 4,
+          "16": 1310794
+        },
+        "graph_id": "command:global:9:0",
+        "id": "73ac0638405e9f374d0a",
+        "index": 0,
+        "kind": 10,
+        "name": "Script_StartDialog",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[9]=PlayerDeathScript_03/command[0]=Script_StartDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 12
+        },
+        "graph_id": "command:global:9:1",
+        "id": "345a0de4c2b89559bd5f",
+        "index": 1,
+        "kind": 12,
+        "name": "Script_WaitDialog",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[9]=PlayerDeathScript_03/command[1]=Script_WaitDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:9",
+    "id": "6906c2a778dffae2b272",
+    "index": 9,
+    "manager_script_index": 9,
+    "name": "PlayerDeathScript_03",
+    "name_ordinal": 9,
+    "payload_ordinal": 9,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[9]=PlayerDeathScript_03",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 2,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 10,
+          "8": 4294967295,
+          "12": 4,
+          "16": 1310795
+        },
+        "graph_id": "command:global:10:0",
+        "id": "73f37ae0ca91ae19b464",
+        "index": 0,
+        "kind": 10,
+        "name": "Script_StartDialog",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[10]=PlayerDeathScript_04/command[0]=Script_StartDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 12
+        },
+        "graph_id": "command:global:10:1",
+        "id": "17d8052394ca2a7dfea9",
+        "index": 1,
+        "kind": 12,
+        "name": "Script_WaitDialog",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[10]=PlayerDeathScript_04/command[1]=Script_WaitDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:10",
+    "id": "29ab170fa2fd65e43a89",
+    "index": 10,
+    "manager_script_index": 10,
+    "name": "PlayerDeathScript_04",
+    "name_ordinal": 10,
+    "payload_ordinal": 10,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[10]=PlayerDeathScript_04",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 2,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 10,
+          "8": 4294967295,
+          "12": 4,
+          "16": 1310796
+        },
+        "graph_id": "command:global:11:0",
+        "id": "39e58b8722423cbc2d6c",
+        "index": 0,
+        "kind": 10,
+        "name": "Script_StartDialog",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[11]=PlayerDeathScript_05/command[0]=Script_StartDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 12
+        },
+        "graph_id": "command:global:11:1",
+        "id": "521ae784d4517aa35dba",
+        "index": 1,
+        "kind": 12,
+        "name": "Script_WaitDialog",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[11]=PlayerDeathScript_05/command[1]=Script_WaitDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:11",
+    "id": "1b471b82c649d4ca3877",
+    "index": 11,
+    "manager_script_index": 11,
+    "name": "PlayerDeathScript_05",
+    "name_ordinal": 11,
+    "payload_ordinal": 11,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[11]=PlayerDeathScript_05",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 1,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 13,
+          "8": 0,
+          "12": 0,
+          "13": 0,
+          "16": 127
+        },
+        "graph_id": "command:global:12:0",
+        "id": "31d277039fa397f693de",
+        "index": 0,
+        "kind": 13,
+        "name": "Script_PlaySound",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[12]=PlayerLevelUp/command[0]=Script_PlaySound",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:12",
+    "id": "392be0d8b3bad795757d",
+    "index": 12,
+    "manager_script_index": 12,
+    "name": "PlayerLevelUp",
+    "name_ordinal": 12,
+    "payload_ordinal": 12,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[12]=PlayerLevelUp",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 7,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 1,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:13:0",
+        "id": "6e655f0bf5b6f5f08457",
+        "index": 0,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[13]=ShowUnlockedTrophies/command[0]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 39,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:13:1",
+        "id": "5af6e1a22cfab69d9932",
+        "index": 1,
+        "kind": 39,
+        "name": "Script_StopActor",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[13]=ShowUnlockedTrophies/command[1]=Script_StopActor",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 24,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:13:2",
+        "id": "ab5ce5e235325da8b9b8",
+        "index": 2,
+        "kind": 24,
+        "name": "Script_LockCharacter",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[13]=ShowUnlockedTrophies/command[2]=Script_LockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 68
+        },
+        "graph_id": "command:global:13:3",
+        "id": "fcb4bf72ef4f7899c1be",
+        "index": 3,
+        "kind": 68,
+        "name": "Script_ShowTrophies",
+        "payload_ordinal": 3,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[13]=ShowUnlockedTrophies/command[3]=Script_ShowTrophies",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 25,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:13:4",
+        "id": "f7e3b3745cdb32f4184b",
+        "index": 4,
+        "kind": 25,
+        "name": "Script_UnlockCharacter",
+        "payload_ordinal": 4,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[13]=ShowUnlockedTrophies/command[4]=Script_UnlockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 31,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:13:5",
+        "id": "2e0954fb24052b111e8d",
+        "index": 5,
+        "kind": 31,
+        "name": "Script_PutCharacterInIdle",
+        "payload_ordinal": 5,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[13]=ShowUnlockedTrophies/command[5]=Script_PutCharacterInIdle",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 0,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:13:6",
+        "id": "daeec029e11edd05d155",
+        "index": 6,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 6,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[13]=ShowUnlockedTrophies/command[6]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:13",
+    "id": "6e3ec56ac83560354042",
+    "index": 13,
+    "manager_script_index": 13,
+    "name": "ShowUnlockedTrophies",
+    "name_ordinal": 13,
+    "payload_ordinal": 13,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[13]=ShowUnlockedTrophies",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  },
+  {
+    "command_count": 7,
+    "commands": [
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 1,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:14:0",
+        "id": "9252040a56a28c26ac8d",
+        "index": 0,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 0,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[14]=WaitQuestUpdate/command[0]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 39,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:14:1",
+        "id": "1dce3e9301e35ee8dcb7",
+        "index": 1,
+        "kind": 39,
+        "name": "Script_StopActor",
+        "payload_ordinal": 1,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[14]=WaitQuestUpdate/command[1]=Script_StopActor",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 24,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:14:2",
+        "id": "6558e8e5db405c25cde2",
+        "index": 2,
+        "kind": 24,
+        "name": "Script_LockCharacter",
+        "payload_ordinal": 2,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[14]=WaitQuestUpdate/command[2]=Script_LockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 12
+        },
+        "graph_id": "command:global:14:3",
+        "id": "1ea07d71f3e603e9d18a",
+        "index": 3,
+        "kind": 12,
+        "name": "Script_WaitDialog",
+        "payload_ordinal": 3,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[14]=WaitQuestUpdate/command[3]=Script_WaitDialog",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 25,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:14:4",
+        "id": "2e39f87586a784ac3f44",
+        "index": 4,
+        "kind": 25,
+        "name": "Script_UnlockCharacter",
+        "payload_ordinal": 4,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[14]=WaitQuestUpdate/command[4]=Script_UnlockCharacter",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 31,
+          "8": 3,
+          "12": "All"
+        },
+        "graph_id": "command:global:14:5",
+        "id": "45af194d15e2a6b0517e",
+        "index": 5,
+        "kind": 31,
+        "name": "Script_PutCharacterInIdle",
+        "payload_ordinal": 5,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[14]=WaitQuestUpdate/command[5]=Script_PutCharacterInIdle",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      },
+      {
+        "decode_status": "DONE",
+        "fields": {
+          "4": 32,
+          "8": 0,
+          "12": 3,
+          "16": "All"
+        },
+        "graph_id": "command:global:14:6",
+        "id": "bc06a37c1d798f961bb4",
+        "index": 6,
+        "kind": 32,
+        "name": "Script_MarkCharacterAsScripted",
+        "payload_ordinal": 6,
+        "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin:script[14]=WaitQuestUpdate/command[6]=Script_MarkCharacterAsScripted",
+        "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin"
+      }
+    ],
+    "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+    "graph_id": "campaign:global:14",
+    "id": "198ea360a7ba0e577e3e",
+    "index": 14,
+    "manager_script_index": 14,
+    "name": "WaitQuestUpdate",
+    "name_ordinal": 14,
+    "payload_ordinal": 14,
+    "site": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin:script[14]=WaitQuestUpdate",
+    "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+    "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+    "status": "DONE",
+    "type": "global_campaign_script",
+    "work_status": "DONE"
+  }
+]

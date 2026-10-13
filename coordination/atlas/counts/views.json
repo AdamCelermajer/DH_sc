@@ -18,14 +18,14 @@
   "category": "ACT-ORGANISED GENERATED VIEWS",
   "inventory": {
     "asset_reference_rows": {
-      "processed": 61521,
+      "processed": 95124,
       "states": {
         "AMBIGUOUS": 2,
-        "RESOLVED": 30204,
-        "UNRESOLVED": 31315
+        "RESOLVED": 44586,
+        "UNRESOLVED": 50536
       },
       "todo": 0,
-      "total": 61521
+      "total": 95124
     },
     "backup_scene_rows": {
       "processed": 30,
@@ -103,7 +103,7 @@
     "dialogue_rows": {
       "processed": 55,
       "states": {
-        "UNRESOLVED": 55
+        "RESOLVED": 55
       },
       "todo": 0,
       "total": 55

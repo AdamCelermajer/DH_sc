@@ -68,6 +68,12 @@ def asset_inventory(ctx, inventory_only=False):
                            'work_status':'TODO' if inventory_only else 'DONE',
                            'reason':'' if inventory_only else 'No extracted consumer in the supplied corpus; not proof of unused original content.',
                            'referrers':[]})
+    import package_index
+    if (ctx.inputs/'claude-preview15/ipa/index_map.tsv').is_file():
+        updates={r['path']:r for r in package_index.enrich(ctx,result)}
+        for row in result:
+            if row['path'] in updates:
+                row.update(updates[row['path']])
     write_json(ctx.out / 'data/assets.json', result)
     return {'asset_files':len(result), 'by_source':dict(Counter(r['source'] for r in result))}
 
@@ -78,6 +84,8 @@ def link_assets(ctx):
     for a in assets:
         by_suffix[a['relative'].lower()].append(a)
         by_suffix[Path(a['relative']).name.lower()].append(a)
+        for alias in a.get('logical_paths',[]):
+            by_suffix[re.sub(r'^data/', '', alias.lower())].append(a)
     def match(value):
         if not isinstance(value,str): return []
         value=value.replace('\\','/').lower().split(':line')[0]
@@ -162,9 +170,17 @@ def run_modules(ctx, inventory_only=False):
         if name=='references' and not inventory_only:
             import mob_sounds
             mob_sounds.integrate(ctx)
+            import enrichment
+            enrichment.run(ctx)
             # The final views consume reference outcomes; sync the projections
             # before that pass, not only after all modules have finished.
             sync_projections(ctx)
+    if not inventory_only:
+        # views regenerates the campaign extractor projection; restore enriched
+        # ledger rows after that pass, including the new typed operand sites.
+        enriched=[r for r in rows(ctx,'references') if r.get('scene_id') and r.get('command_index') is not None]
+        write_json(ctx.out/'data/campaign-references.json',enriched)
+        sync_projections(ctx)
 
 def source_manifest(ctx):
     files=rows(ctx,'assets')
@@ -199,6 +215,10 @@ def finalize_unresolved_rows(ctx):
         if changed:write_json(path,rr)
 
 def platform_compare(ctx):
+    import platform_views
+    views=platform_views.compare_assets(rows(ctx,'assets'))
+    write_json(ctx.out/'data/platform-logical-uris.json',views['logical_uri_view'])
+    write_json(ctx.out/'data/platform-source-paths.json',views['path_view'])
     groups=defaultdict(list)
     spellings={}
     by_hash=defaultdict(list)
@@ -212,8 +232,8 @@ def platform_compare(ctx):
         groups[relative.casefold()].append(a)
     result=[]
     for path,aa in sorted(groups.items()):
-        android=[a for a in aa if a['source'] in ('android','android-extra','original-cache','audio-cache')]
-        ios=[a for a in aa if a['source']=='ios']
+        android=[a for a in aa if a['source'] in ('android','android-extra','original-cache','audio-cache','port-runtime-original-cache')]
+        ios=[a for a in aa if a['source'].startswith('ios')]
         if not android and not ios:continue
         record={'id':stable_id('platform-path',path),'path':path,'format':Path(path).suffix or 'extensionless',
                 'availability':'BOTH' if android and ios else 'ANDROID_OR_RECOVERED_ONLY' if android else 'IOS_ONLY',
@@ -235,6 +255,11 @@ def platform_compare(ctx):
         'differing_content':sum(r['different_content'] for r in result),
         'case_variant_paths':sum(len(r['case_variants'])>1 for r in result),
         'identical_content_different_name_groups':len(aliases),
+        'logical_uri_groups':len(views['logical_uri_view']),
+        'logical_uri_availability':dict(Counter(r['availability'] for r in views['logical_uri_view'])),
+        'logical_by_format':{ext:dict(Counter(r['availability'] for r in views['logical_uri_view']
+            if (Path(r['key']).suffix or 'extensionless')==ext)) for ext in sorted({Path(r['key']).suffix or 'extensionless'
+            for r in views['logical_uri_view']})},
         'by_format':{ext:dict(Counter(r['availability'] for r in result if r['format']==ext)) for ext in sorted({r['format'] for r in result})},
         'policy':'Use both supplied partial caches, as clarified by the owner; record the platform of every resolution.'})
 
@@ -354,6 +379,8 @@ def audit(ctx, include_sources=True):
                      if Path(a.get('relative','')).suffix.casefold() in ('.wav','.vxn','.ogg','.mp3')}
     for asset in sets['assets']:
         assets_by_relative[asset.get('relative','').replace('\\','/').casefold()].append(asset)
+        for alias in asset.get('logical_paths',[]):
+            assets_by_relative[re.sub(r'^data/', '', alias.replace('\\','/').casefold())].append(asset)
     def source_path_exists(value):
         if not isinstance(value,str) or not value:return False
         norm=value.replace('\\','/').lstrip('./')
@@ -446,6 +473,8 @@ def audit(ctx, include_sources=True):
         import mobs, mob_sounds
         errors.extend(mob_sounds.coverage_check(ctx))
         errors.extend(mobs.coverage_check(ctx))
+        import graph
+        errors.extend(graph.coverage_check(ctx))
     checks=known_checks(ctx)
     for c in checks:
         if not c.get('passed'):errors.append('known answer failed: '+c.get('name','?')+' '+str(c.get('detail','')))
@@ -472,9 +501,11 @@ def report(ctx, check):
          f'Coverage check: **{"PASS" if check["passed"] else "FAIL"}**. Processed: **{p.get("not_TODO",0):,}/{p.get("total",0):,} ({p.get("percent",0):.2f}%)**.','',
          'Processed means every inventoried row has a terminal disposition. Explicitly unresolved references and native contracts remain follow-up work.','',
          'Commands (PowerShell, from this worktree):','',
-         '```powershell\n./tools/atlas/regen.ps1\n. ./tools/atlas/use.ps1\natlas check\natlas mob SwampKing\natlas mob Witch --json\natlas find sound:517\natlas cleancheck\n```','',
+         '```powershell\n./tools/atlas/regen.ps1\n. ./tools/atlas/use.ps1\natlas check\natlas serve\natlas show "Mud Lord"\natlas show skill:BashDown\natlas show item:Potion0\natlas mob Witch --json\natlas find sound:517\natlas cleancheck\n```','',
+         '[Open the searchable atlas](index.html). Run `atlas serve` and open `http://127.0.0.1:18789/` for source inspection and audio playback. '
+         'Search by original name, English display name, URI or typed ID; Dependencies and Used by navigate in both directions.','',
          '[Mob, boss and actor profiles](general/mobs/index.md) join every CharacterProperties row to its available scripts, animation/effect/projectile dependencies, sound producers and loot graph. '
-         '**Profile coverage remains partial:** dynamic Lua bindings, undecoded payloads, encounter placement and runtime conditions are still explicit gaps. The processed percentage is not a claim that every mob is fully understood.','',
+         '**Semantic coverage remains partial:** dynamic Lua bindings, native contracts, encounter placement and runtime conditions are explicit gaps. All inventoried Android table payload rows are decoded; packed iOS table payloads retain their own evidence limits. The processed percentage is not a claim that every mob is fully understood.','',
          'The wrapper stages an ignored portable interpreter from the Codex dependency bundle on first use. '
          'Use `--inputs <directory>` to select another read-only input corpus. No global Python or original data is committed.','',
          '## Coverage','',markdown_table(['Category','Total','Statuses'],[[k,v['total'],v['statuses']] for k,v in check['coverage'].items()]),
@@ -492,7 +523,7 @@ def report(ctx, check):
          markdown_table(['Function','Port status','Boss/custom scripts','All scripts','Call sites'],[
           [name,next((f.get('port_status','UNKNOWN') for f in funcs if f.get('name')==name),'UNKNOWN'),sorted(imp['bosses']),len(imp['scripts']),imp['calls']] for name,imp in ranking]),
          '## Known-answer checks','',markdown_table(['Check','Passed','Evidence/result'],[[c.get('name'),c.get('passed'),c.get('detail','')] for c in check['known_answers']]),
-         '## Platform comparison','',markdown_table(['Format','Platform availability'],[[k,v] for k,v in read_json(ctx.out/'counts/platforms.json',{}).get('by_format',{}).items()]),
+         '## Platform comparison','',markdown_table(['Logical resource format','Platform availability'],[[k,v] for k,v in read_json(ctx.out/'counts/platforms.json',{}).get('logical_by_format',{}).items()]),
          'Both supplied partial caches are used under the owner’s clarification. Each resolved target retains its source platform. '
          'The iOS-only audio subset has 245 distinct missing catalog filenames; combining it with the recovered Android audio leaves the required 45.', '',
          '## Checker failure-branch validation','',
@@ -554,12 +585,13 @@ def find(ctx, query):
 def generate(ctx, inventory_only=False):
     """Generate source projections without depending on previous output."""
     ctx.out.mkdir(parents=True,exist_ok=True)
-    (ctx.out/'.gitattributes').write_text('.gitattributes text eol=lf\n*.md text eol=lf\n*.json text eol=lf\n',encoding='utf-8',newline='\n')
+    (ctx.out/'.gitattributes').write_text('.gitattributes text eol=lf\n*.md text eol=lf\n*.json text eol=lf\n*.html text eol=lf\n',encoding='utf-8',newline='\n')
     write_json(ctx.out/'data/baseline.json',{'source_commit':'64afbdc5','branch':'v21.8-atlas','game_code_read_only':True})
     template=ctx.root/'tools/atlas/templates/atlas-method.md'
     (ctx.out/'reports').mkdir(parents=True,exist_ok=True)
     (ctx.out/'reports/atlas-method.md').write_text(template.read_text(encoding='utf-8'),encoding='utf-8',newline='\n')
-    for template in sorted((ctx.root/'tools/atlas/templates').glob('mob-*.md')):
+    for template in sorted((ctx.root/'tools/atlas/templates').glob('*.md')):
+        if template.name=='atlas-method.md':continue
         (ctx.out/template.name).write_text(template.read_text(encoding='utf-8'), encoding='utf-8', newline='\n')
     old_count=ctx.out/'counts/table_sites.json'
     if old_count.is_file():old_count.unlink()
@@ -570,17 +602,27 @@ def generate(ctx, inventory_only=False):
         link_assets(ctx);sync_projections(ctx)
         import mobs
         mobs.run(ctx)
+        import graph
+        graph.run(ctx)
     platform_compare(ctx)
     source_manifest(ctx)
     return progress(ctx,'INVENTORY TODO' if inventory_only else 'MAPPED')
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('command',choices=('inventory','regen','check','find','mob','selftest','cleancheck'))
+    ap.add_argument('command',choices=('inventory','regen','check','find','mob','show','serve','selftest','cleancheck'))
     ap.add_argument('query',nargs='?')
     ap.add_argument('--inputs')
+    ap.add_argument('--port',type=int,default=18789)
     ap.add_argument('--json', action='store_true', help='Expand joined mob tables, references and calls as JSON')
     a=ap.parse_args();ctx=context(a.inputs)
+    if a.command=='serve':
+        import explorer_server
+        return explorer_server.run(ctx,a.port)
+    if a.command=='show':
+        if a.query is None:ap.error('show needs a name, alias, typed ID or kind:index')
+        import graph
+        return graph.lookup(ctx,a.query,a.json)
     if a.command=='cleancheck':
         import cleancheck
         return cleancheck.run(ctx)
@@ -604,6 +646,13 @@ def main():
         if inventory_only:return 0
     check=audit(ctx)
     if a.command=='regen' and check['passed']:
+        import graph_checks
+        graph_verification=graph_checks.run(ctx)
+        write_json(ctx.out/'data/graph-verification.json',graph_verification)
+        if not graph_verification['passed']:
+            check['passed']=False
+            check['errors'].append('universal graph lookup checks failed; see data/graph-verification.json')
+            write_json(ctx.out/'data/check.json',check)
         import mob_checks
         mob_verification=mob_checks.run(ctx)
         if not mob_verification['passed']:

@@ -68,9 +68,12 @@ class Index:
         self.asset_by_id = {a['id']: a for a in self.assets}
         self.asset_paths = defaultdict(list)
         for asset in self.assets:
-            for path in (asset['path'], asset.get('relative', '')):
+            for path in (asset['path'], asset.get('relative', ''), *asset.get('logical_paths', [])):
                 if path:
-                    self.asset_paths[path.replace('\\', '/').casefold()].append(asset)
+                    norm = path.replace('\\', '/').casefold()
+                    self.asset_paths[norm].append(asset)
+                    if norm.startswith('data/'):
+                        self.asset_paths[norm[5:]].append(asset)
         self.scripts = read_json(ctx.out / 'data/scripts.json', [])
         self.script_by_id = {s['id']: s for s in self.scripts}
         self.script_names = defaultdict(list)
@@ -228,7 +231,7 @@ def source_link(ctx, path, line=None):
     if path.startswith('.local-inputs/'):
         target = ctx.inputs / path[len('.local-inputs/'):]
     else:
-        target = ctx.root / path
+        target = ctx.root / path.removeprefix('.repo/')
     suffix = ':' + str(line) if line else ''
     return f'[{path}{suffix}](<{target.as_posix()}{suffix}>)'
 

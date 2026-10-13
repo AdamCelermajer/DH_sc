@@ -5,13 +5,13 @@
     "data file": 328,
     "model": 6013,
     "script": 506,
-    "sound": 1542,
+    "sound": 2690,
     "texture": 5849
   },
   "event_decode_errors": [],
-  "reference_sites": 27958,
+  "reference_sites": 29106,
   "source_files": {
-    "bdae": 2918,
-    "xml": 2335
+    "bdae": 2919,
+    "xml": 2337
   }
 }

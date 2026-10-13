@@ -2,49 +2,49 @@
 
 | Table | Index | Name | Decoded fields | Status |
 | --- | --- | --- | --- | --- |
-| item_powers_monopoly#group0 | 0 | ARMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 1 | AllResistMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 2 | AllStatsMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 3 | ArmorMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 4 | AxeDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 5 | BlockMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 6 | CriticalMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 7 | DRMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 8 | DaggerDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 9 | DamageMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 10 | DodgeMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 11 | GoldLootMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 12 | HPMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 13 | HPRegenMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 14 | ItemPowerSpellCriticalMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 15 | ItemPowerSpellToHitMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 16 | LifeLeechMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 17 | MPMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 18 | MPRegenMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 19 | MaceDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 20 | ManaLeechMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 21 | RangeDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 22 | ResistAirMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 23 | ResistEarthMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 24 | ResistElectricalMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 25 | ResistFireMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 26 | ResistWaterMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 27 | SpellDamageAirMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 28 | SpellDamageAllMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 29 | SpellDamageEarthMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 30 | SpellDamageFireMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 31 | SpellDamageLightningMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 32 | SpellDamageWaterMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 33 | StaffDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 34 | StatDexterityMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 35 | StatEnduranceMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 36 | StatEnergyMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 37 | StatStrengthMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 38 | SwordDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 39 | TreasureLootMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 40 | WandDamageBonusMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 41 | WeaponElementalDamageMonopoly | {} | DONE |
-| item_powers_monopoly#group0 | 42 | WeaponElementalDotDamageMonopoly | {} | DONE |
+| item_powers_monopoly#group0 | 0 | ARMonopoly | {"Entries": [29]} | DONE |
+| item_powers_monopoly#group0 | 1 | AllResistMonopoly | {"Entries": [31, 32, 33, 34, 35, 36]} | DONE |
+| item_powers_monopoly#group0 | 2 | AllStatsMonopoly | {"Entries": [0, 2, 3, 1, 4]} | DONE |
+| item_powers_monopoly#group0 | 3 | ArmorMonopoly | {"Entries": [27]} | DONE |
+| item_powers_monopoly#group0 | 4 | AxeDamageBonusMonopoly | {"Entries": [53]} | DONE |
+| item_powers_monopoly#group0 | 5 | BlockMonopoly | {"Entries": [26]} | DONE |
+| item_powers_monopoly#group0 | 6 | CriticalMonopoly | {"Entries": [24]} | DONE |
+| item_powers_monopoly#group0 | 7 | DRMonopoly | {"Entries": [30]} | DONE |
+| item_powers_monopoly#group0 | 8 | DaggerDamageBonusMonopoly | {"Entries": [55]} | DONE |
+| item_powers_monopoly#group0 | 9 | DamageMonopoly | {"Entries": [28]} | DONE |
+| item_powers_monopoly#group0 | 10 | DodgeMonopoly | {"Entries": [25]} | DONE |
+| item_powers_monopoly#group0 | 11 | GoldLootMonopoly | {"Entries": [47]} | DONE |
+| item_powers_monopoly#group0 | 12 | HPMonopoly | {"Entries": [5]} | DONE |
+| item_powers_monopoly#group0 | 13 | HPRegenMonopoly | {"Entries": [20]} | DONE |
+| item_powers_monopoly#group0 | 14 | ItemPowerSpellCriticalMonopoly | {"Entries": [39]} | DONE |
+| item_powers_monopoly#group0 | 15 | ItemPowerSpellToHitMonopoly | {"Entries": [40]} | DONE |
+| item_powers_monopoly#group0 | 16 | LifeLeechMonopoly | {"Entries": [37]} | DONE |
+| item_powers_monopoly#group0 | 17 | MPMonopoly | {"Entries": [6]} | DONE |
+| item_powers_monopoly#group0 | 18 | MPRegenMonopoly | {"Entries": [21]} | DONE |
+| item_powers_monopoly#group0 | 19 | MaceDamageBonusMonopoly | {"Entries": [54]} | DONE |
+| item_powers_monopoly#group0 | 20 | ManaLeechMonopoly | {"Entries": [38]} | DONE |
+| item_powers_monopoly#group0 | 21 | RangeDamageBonusMonopoly | {"Entries": [56]} | DONE |
+| item_powers_monopoly#group0 | 22 | ResistAirMonopoly | {"Entries": [34, 36]} | DONE |
+| item_powers_monopoly#group0 | 23 | ResistEarthMonopoly | {"Entries": [32, 36]} | DONE |
+| item_powers_monopoly#group0 | 24 | ResistElectricalMonopoly | {"Entries": [35, 36]} | DONE |
+| item_powers_monopoly#group0 | 25 | ResistFireMonopoly | {"Entries": [31, 36]} | DONE |
+| item_powers_monopoly#group0 | 26 | ResistWaterMonopoly | {"Entries": [33, 36]} | DONE |
+| item_powers_monopoly#group0 | 27 | SpellDamageAirMonopoly | {"Entries": [42, 41]} | DONE |
+| item_powers_monopoly#group0 | 28 | SpellDamageAllMonopoly | {"Entries": [46, 45, 43, 42, 44, 41]} | DONE |
+| item_powers_monopoly#group0 | 29 | SpellDamageEarthMonopoly | {"Entries": [45, 41]} | DONE |
+| item_powers_monopoly#group0 | 30 | SpellDamageFireMonopoly | {"Entries": [46, 41]} | DONE |
+| item_powers_monopoly#group0 | 31 | SpellDamageLightningMonopoly | {"Entries": [44, 41]} | DONE |
+| item_powers_monopoly#group0 | 32 | SpellDamageWaterMonopoly | {"Entries": [43, 41]} | DONE |
+| item_powers_monopoly#group0 | 33 | StaffDamageBonusMonopoly | {"Entries": [57]} | DONE |
+| item_powers_monopoly#group0 | 34 | StatDexterityMonopoly | {"Entries": [0, 2]} | DONE |
+| item_powers_monopoly#group0 | 35 | StatEnduranceMonopoly | {"Entries": [0, 3]} | DONE |
+| item_powers_monopoly#group0 | 36 | StatEnergyMonopoly | {"Entries": [0, 4]} | DONE |
+| item_powers_monopoly#group0 | 37 | StatStrengthMonopoly | {"Entries": [0, 1]} | DONE |
+| item_powers_monopoly#group0 | 38 | SwordDamageBonusMonopoly | {"Entries": [52]} | DONE |
+| item_powers_monopoly#group0 | 39 | TreasureLootMonopoly | {"Entries": [48]} | DONE |
+| item_powers_monopoly#group0 | 40 | WandDamageBonusMonopoly | {"Entries": [58]} | DONE |
+| item_powers_monopoly#group0 | 41 | WeaponElementalDamageMonopoly | {"Entries": [7, 8, 9]} | DONE |
+| item_powers_monopoly#group0 | 42 | WeaponElementalDotDamageMonopoly | {"Entries": [49, 50, 9]} | DONE |
 | item_powers#group0 | 0 | AllPowerLevel_01 | {"List": [{"Power": 49, "Prob": 1}, {"Power": 889, "Prob": 1}, {"Power": 193, "Prob": 1}, {"Power": 289, "Prob": 1}, {"Power": 313, "Prob": 1}, {"Power": 337, "Prob": 1}, {"Power": 241, "Prob": 1}, {"Power": 913, "Prob": 1}, {"Power": 25, "Prob": 1}, {"Power": 265, "Prob": 1}, {"Power": 385, "Prob": 1}, {"Power": 553, "Prob": 1}, {"Power": 361, "Prob": 1}, {"Power": 529, "Prob": 1}, {"Power": 121, "Prob": 1}, {"Power": 217, "Prob": 1}, {"Power": 97, "Prob": 1}, {"Power": 73, "Prob": 1}, {"Power": 169, "Prob": 1}, {"Power": 1, "Prob": 1}, {"Power": 145, "Prob": 1}, {"Power": 697, "Prob": 1}, {"Power": 649, "Prob": 1}, {"Power": 721, "Prob": 1}, {"Power": 601, "Prob": 1}, {"Power": 673, "Prob": 1}, {"Power": 625, "Prob": 1}, {"Power": 457, "Prob": 1}, {"Power": 577, "Prob": 1}, {"Power": 409, "Prob": 1}, {"Power": 433, "Prob": 1}]} | DONE |
 | item_powers#group0 | 1 | AncientRing | {"List": [{"Power": 67, "Prob": 1}, {"Power": 403, "Prob": 1}, {"Power": 571, "Prob": 1}, {"Power": 643, "Prob": 1}, {"Power": 70, "Prob": 1}, {"Power": 406, "Prob": 1}, {"Power": 574, "Prob": 1}, {"Power": 646, "Prob": 1}]} | DONE |
 | item_powers#group0 | 2 | Archer | {"List": [{"Power": 67, "Prob": 1}, {"Power": 139, "Prob": 1}, {"Power": 235, "Prob": 1}, {"Power": 643, "Prob": 1}, {"Power": 70, "Prob": 1}, {"Power": 142, "Prob": 1}, {"Power": 238, "Prob": 1}, {"Power": 646, "Prob": 1}]} | DONE |
@@ -2992,123 +2992,123 @@
 | loot_table#group5 | 336 | Wind_Champion_Loot | {"FixedLootEntries": [], "NumRandomItemProbs": 6, "RandomLootEntries": [], "RollType": 0, "SubLoots": [271, 271, 272, 273, 274, 312]} | DONE |
 | loot_table#group5 | 337 | Wind_Weak_Loot | {"FixedLootEntries": [], "NumRandomItemProbs": 32, "RandomLootEntries": [], "RollType": 0, "SubLoots": [271, 296]} | DONE |
 | loot_table#group5 | 338 | Witch_Loot | {"FixedLootEntries": [], "NumRandomItemProbs": 2, "RandomLootEntries": [], "RollType": 0, "SubLoots": [235, 234, 236, 237, 303]} | DONE |
-| loot_table#group6 | 0 | Merchant_Bloodsands | {} | DONE |
-| loot_table#group6 | 1 | Merchant_Bloodsands_Epic | {} | DONE |
-| loot_table#group6 | 2 | Merchant_Darkwood | {} | DONE |
-| loot_table#group6 | 3 | Merchant_Darkwood_Epic | {} | DONE |
-| loot_table#group6 | 4 | Merchant_FallenKingdom_Epic | {} | DONE |
-| loot_table#group6 | 5 | Merchant_Northerlands | {} | DONE |
-| loot_table#group6 | 6 | Merchant_Northerlands_Epic | {} | DONE |
-| loot_table#group6 | 7 | Merchant_Online | {} | DONE |
-| loot_table#group6 | 8 | Merchant_Swamp | {} | DONE |
-| loot_table#group6 | 9 | Merchant_Swamp_Epic | {} | DONE |
-| loot_table#group6 | 10 | Merchant_Underworld | {} | DONE |
-| loot_table#group6 | 11 | Merchant_Underworld_Epic | {} | DONE |
-| loot_table#group7 | 0 | DefaultAtLeastOneItem | {} | DONE |
-| loot_table#group7 | 1 | DefaultBarrelLoot | {} | DONE |
-| loot_table#group7 | 2 | DefaultBossItem | {} | DONE |
-| loot_table#group7 | 3 | DefaultBossLegendaryPower | {} | DONE |
-| loot_table#group7 | 4 | DefaultBossPower | {} | DONE |
-| loot_table#group7 | 5 | DefaultBossUniqueItem | {} | DONE |
-| loot_table#group7 | 6 | DefaultChampionMonsterLoot | {} | DONE |
-| loot_table#group7 | 7 | DefaultChestLoot | {} | DONE |
-| loot_table#group7 | 8 | DefaultEpicChestLoot | {} | DONE |
-| loot_table#group7 | 9 | DefaultGoodChestLoot | {} | DONE |
-| loot_table#group7 | 10 | DefaultHighPower | {} | DONE |
-| loot_table#group7 | 11 | DefaultItem | {} | DONE |
-| loot_table#group7 | 12 | DefaultItemMore | {} | DONE |
-| loot_table#group7 | 13 | DefaultLegendaryItem | {} | DONE |
-| loot_table#group7 | 14 | DefaultLowPower | {} | DONE |
-| loot_table#group7 | 15 | DefaultMerchantPower | {} | DONE |
-| loot_table#group7 | 16 | DefaultMerchantPowerEpic | {} | DONE |
-| loot_table#group7 | 17 | DefaultMerchantPowerHigh | {} | DONE |
-| loot_table#group7 | 18 | DefaultMidPower | {} | DONE |
-| loot_table#group7 | 19 | DefaultMonsterLoot | {} | DONE |
-| loot_table#group7 | 20 | DefaultNoLoot | {} | DONE |
-| loot_table#group7 | 21 | DefaultNoPower | {} | DONE |
-| loot_table#group7 | 22 | DefaultOneItem | {} | DONE |
-| loot_table#group7 | 23 | DefaultOneOrNoneItem | {} | DONE |
-| loot_table#group7 | 24 | DefaultOneorTwo | {} | DONE |
-| loot_table#group7 | 25 | DefaultPower | {} | DONE |
-| loot_table#group7 | 26 | DefaultRarelyOneItem | {} | DONE |
-| loot_table#group7 | 27 | DefaultRingPower | {} | DONE |
-| loot_table#group7 | 28 | DefaultStaffHighPower | {} | DONE |
-| loot_table#group7 | 29 | DefaultStaffMidPower | {} | DONE |
-| loot_table#group7 | 30 | DefaultStaffPower | {} | DONE |
-| loot_table#group7 | 31 | DefaultTwoToFourItems | {} | DONE |
-| loot_table#group7 | 32 | DefaultWeakMonsterLoot | {} | DONE |
-| loot_table#group7 | 33 | ItemListPower | {} | DONE |
-| loot_table#group7 | 34 | MerchantSixItems | {} | DONE |
-| loot_table#group7 | 35 | MerchantThirtyItems | {} | DONE |
-| loot_table#group7 | 36 | UniqueItem | {} | DONE |
-| loot_table#group7 | 37 | UniqueNotTooRareItem | {} | DONE |
-| loot_table#group7 | 38 | UniqueVeryRareItem | {} | DONE |
-| trophies#group0 | 0 | epic_lvl10 | {} | DONE |
-| trophies#group0 | 1 | epic_lvl20 | {} | DONE |
-| trophies#group0 | 2 | epic_lvl30 | {} | DONE |
-| trophies#group0 | 3 | epic_lvl40 | {} | DONE |
-| trophies#group0 | 4 | epic_lvl50 | {} | DONE |
-| trophies#group0 | 5 | epic_lvl60 | {} | DONE |
-| trophies#group0 | 6 | epic_lvl70 | {} | DONE |
-| trophies#group0 | 7 | epic_lvl80 | {} | DONE |
-| trophies#group0 | 8 | epic_lvl90 | {} | DONE |
-| trophies#group0 | 9 | epic_lvl100 | {} | DONE |
-| trophies#group0 | 10 | power_50dam | {} | DONE |
-| trophies#group0 | 11 | power_100dam | {} | DONE |
-| trophies#group0 | 12 | power_150dam | {} | DONE |
-| trophies#group0 | 13 | power_200dam | {} | DONE |
-| trophies#group0 | 14 | quest_warriorwin | {} | DONE |
-| trophies#group0 | 15 | quest_berserkerwin | {} | DONE |
-| trophies#group0 | 16 | quest_paladinwin | {} | DONE |
-| trophies#group0 | 17 | quest_roguewin | {} | DONE |
-| trophies#group0 | 18 | quest_assassinwin | {} | DONE |
-| trophies#group0 | 19 | quest_archerwin | {} | DONE |
-| trophies#group0 | 20 | quest_magewin | {} | DONE |
-| trophies#group0 | 21 | quest_necromancerwin | {} | DONE |
-| trophies#group0 | 22 | quest_illusionistwin | {} | DONE |
-| trophies#group0 | 23 | quest_allcomplete | {} | DONE |
-| trophies#group0 | 24 | gear_10kgold | {} | DONE |
-| trophies#group0 | 25 | gear_100kgold | {} | DONE |
-| trophies#group0 | 26 | gear_1mgold | {} | DONE |
-| trophies#group0 | 27 | power_onehit | {} | DONE |
-| trophies#group0 | 28 | gear_transmute | {} | DONE |
-| trophies#group0 | 29 | faery_Wetty | {} | DONE |
-| trophies#group0 | 30 | faery_Windy | {} | DONE |
-| trophies#group0 | 31 | faery_Rocky | {} | DONE |
-| trophies#group0 | 32 | faery_Hotty | {} | DONE |
-| trophies#group0 | 33 | faery_charged | {} | DONE |
-| trophies#group0 | 34 | epic_invincible | {} | DONE |
-| trophies#group0 | 35 | epic_invisible | {} | DONE |
-| trophies#group0 | 36 | epic_withskills | {} | DONE |
-| trophies#group0 | 37 | epic_maxskill | {} | DONE |
-| trophies#group0 | 38 | epic_all_skills_unlocked | {} | DONE |
-| trophies#group0 | 39 | epic_spent_all_skill_points | {} | DONE |
-| trophies#group0 | 40 | gear_warrior | {} | DONE |
-| trophies#group0 | 41 | gear_berserker | {} | DONE |
-| trophies#group0 | 42 | gear_paladin | {} | DONE |
-| trophies#group0 | 43 | gear_rogue | {} | DONE |
-| trophies#group0 | 44 | gear_assassin | {} | DONE |
-| trophies#group0 | 45 | gear_archer | {} | DONE |
-| trophies#group0 | 46 | gear_mage | {} | DONE |
-| trophies#group0 | 47 | gear_illusionist | {} | DONE |
-| trophies#group0 | 48 | gear_necromancer | {} | DONE |
-| trophies#group0 | 49 | destroy_200_breakables | {} | DONE |
-| trophies#group0 | 50 | open_100_chests | {} | DONE |
-| trophies#group0 | 51 | use_100_potions | {} | DONE |
-| trophies#group0 | 52 | sell_100_items | {} | DONE |
-| trophies#group0 | 53 | spend_1000_gold | {} | DONE |
-| trophies#group0 | 54 | spend_10000_gold | {} | DONE |
-| trophies#group0 | 55 | knocked_down_50_times | {} | DONE |
-| trophies#group0 | 56 | picked_up_300_drops | {} | DONE |
-| trophies#group0 | 57 | full_inventory | {} | DONE |
-| trophies#group0 | 58 | killed_100 | {} | DONE |
-| trophies#group0 | 59 | killed_500 | {} | DONE |
-| trophies#group0 | 60 | killed_1000 | {} | DONE |
-| trophies#group0 | 61 | killed_2000 | {} | DONE |
-| trophies#group0 | 62 | completed_no_sidequests | {} | DONE |
-| trophies#group0 | 63 | completed_never_open_chests | {} | DONE |
-| trophies#group0 | 64 | completed_never_increase_stats | {} | DONE |
-| trophies#group0 | 65 | completed_never_died | {} | DONE |
-| trophies#group0 | 66 | quest_died_10_times | {} | DONE |
-| trophies#group0 | 67 | quest_died_50_times | {} | DONE |
-| trophies#group0 | 68 | quest_died_100_times | {} | DONE |
+| loot_table#group6 | 0 | Merchant_Bloodsands | {"Field0": 20, "Field4": 250, "Records": [{"First": -1, "Second": 176}]} | DONE |
+| loot_table#group6 | 1 | Merchant_Bloodsands_Epic | {"Field0": 30, "Field4": 250, "Records": [{"First": -1, "Second": 177}]} | DONE |
+| loot_table#group6 | 2 | Merchant_Darkwood | {"Field0": 20, "Field4": 200, "Records": [{"First": -1, "Second": 178}]} | DONE |
+| loot_table#group6 | 3 | Merchant_Darkwood_Epic | {"Field0": 30, "Field4": 200, "Records": [{"First": -1, "Second": 179}]} | DONE |
+| loot_table#group6 | 4 | Merchant_FallenKingdom_Epic | {"Field0": 20, "Field4": 300, "Records": [{"First": -1, "Second": 180}]} | DONE |
+| loot_table#group6 | 5 | Merchant_Northerlands | {"Field0": 20, "Field4": 300, "Records": [{"First": -1, "Second": 181}]} | DONE |
+| loot_table#group6 | 6 | Merchant_Northerlands_Epic | {"Field0": 30, "Field4": 300, "Records": [{"First": -1, "Second": 182}]} | DONE |
+| loot_table#group6 | 7 | Merchant_Online | {"Field0": 100, "Field4": 100, "Records": []} | DONE |
+| loot_table#group6 | 8 | Merchant_Swamp | {"Field0": 20, "Field4": 200, "Records": [{"First": -1, "Second": 183}]} | DONE |
+| loot_table#group6 | 9 | Merchant_Swamp_Epic | {"Field0": 30, "Field4": 200, "Records": [{"First": -1, "Second": 184}]} | DONE |
+| loot_table#group6 | 10 | Merchant_Underworld | {"Field0": 20, "Field4": 300, "Records": [{"First": -1, "Second": 185}]} | DONE |
+| loot_table#group6 | 11 | Merchant_Underworld_Epic | {"Field0": 20, "Field4": 300, "Records": [{"First": -1, "Second": 186}]} | DONE |
+| loot_table#group7 | 0 | DefaultAtLeastOneItem | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 94}, {"First": 2, "Second": 5}, {"First": 3, "Second": 1}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 1 | DefaultBarrelLoot | {"Pairs": [{"First": 0, "Second": 10}, {"First": 1, "Second": 8}, {"First": 2, "Second": 1}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 2 | DefaultBossItem | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 0}, {"First": 2, "Second": 30}, {"First": 3, "Second": 27}, {"First": 4, "Second": 23}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 3 | DefaultBossLegendaryPower | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 575}, {"First": 2, "Second": 400}, {"First": 3, "Second": 20}, {"First": 4, "Second": 5}]} | DONE |
+| loot_table#group7 | 4 | DefaultBossPower | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 500}, {"First": 2, "Second": 400}, {"First": 3, "Second": 75}, {"First": 4, "Second": 25}]} | DONE |
+| loot_table#group7 | 5 | DefaultBossUniqueItem | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 100}, {"First": 2, "Second": 0}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 6 | DefaultChampionMonsterLoot | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 3}, {"First": 2, "Second": 1}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 7 | DefaultChestLoot | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 100}, {"First": 2, "Second": 100}, {"First": 3, "Second": 50}, {"First": 4, "Second": 25}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 8 | DefaultEpicChestLoot | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 0}, {"First": 2, "Second": 30}, {"First": 3, "Second": 27}, {"First": 4, "Second": 23}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 9 | DefaultGoodChestLoot | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 10}, {"First": 2, "Second": 30}, {"First": 3, "Second": 20}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 10 | DefaultHighPower | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 200}, {"First": 2, "Second": 200}, {"First": 3, "Second": 30}, {"First": 4, "Second": 7}]} | DONE |
+| loot_table#group7 | 11 | DefaultItem | {"Pairs": [{"First": 0, "Second": 63}, {"First": 1, "Second": 25}, {"First": 2, "Second": 12}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 12 | DefaultItemMore | {"Pairs": [{"First": 0, "Second": 40}, {"First": 1, "Second": 30}, {"First": 2, "Second": 18}, {"First": 3, "Second": 8}, {"First": 4, "Second": 4}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 13 | DefaultLegendaryItem | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 0}, {"First": 2, "Second": 0}, {"First": 3, "Second": 0}, {"First": 4, "Second": 1000}]} | DONE |
+| loot_table#group7 | 14 | DefaultLowPower | {"Pairs": [{"First": 0, "Second": 700}, {"First": 1, "Second": 200}, {"First": 2, "Second": 10}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}]} | DONE |
+| loot_table#group7 | 15 | DefaultMerchantPower | {"Pairs": [{"First": 0, "Second": 250}, {"First": 1, "Second": 200}, {"First": 2, "Second": 100}, {"First": 3, "Second": 50}, {"First": 4, "Second": 0}]} | DONE |
+| loot_table#group7 | 16 | DefaultMerchantPowerEpic | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 250}, {"First": 2, "Second": 300}, {"First": 3, "Second": 200}, {"First": 4, "Second": 10}]} | DONE |
+| loot_table#group7 | 17 | DefaultMerchantPowerHigh | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 250}, {"First": 2, "Second": 200}, {"First": 3, "Second": 50}, {"First": 4, "Second": 0}]} | DONE |
+| loot_table#group7 | 18 | DefaultMidPower | {"Pairs": [{"First": 0, "Second": 100}, {"First": 1, "Second": 200}, {"First": 2, "Second": 150}, {"First": 3, "Second": 25}, {"First": 4, "Second": 6}]} | DONE |
+| loot_table#group7 | 19 | DefaultMonsterLoot | {"Pairs": [{"First": 0, "Second": 10}, {"First": 1, "Second": 1}, {"First": 2, "Second": 0}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 20 | DefaultNoLoot | {"Pairs": [{"First": 0, "Second": 100}]} | DONE |
+| loot_table#group7 | 21 | DefaultNoPower | {"Pairs": [{"First": 0, "Second": 1000}, {"First": 1, "Second": 0}, {"First": 2, "Second": 0}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}]} | DONE |
+| loot_table#group7 | 22 | DefaultOneItem | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 100}, {"First": 2, "Second": 0}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 23 | DefaultOneOrNoneItem | {"Pairs": [{"First": 0, "Second": 50}, {"First": 1, "Second": 50}, {"First": 2, "Second": 0}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 24 | DefaultOneorTwo | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 50}, {"First": 2, "Second": 50}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 25 | DefaultPower | {"Pairs": [{"First": 0, "Second": 500}, {"First": 1, "Second": 200}, {"First": 2, "Second": 75}, {"First": 3, "Second": 15}, {"First": 4, "Second": 0}]} | DONE |
+| loot_table#group7 | 26 | DefaultRarelyOneItem | {"Pairs": [{"First": 0, "Second": 3}, {"First": 1, "Second": 1}, {"First": 2, "Second": 0}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 27 | DefaultRingPower | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 750}, {"First": 2, "Second": 215}, {"First": 3, "Second": 80}, {"First": 4, "Second": 5}]} | DONE |
+| loot_table#group7 | 28 | DefaultStaffHighPower | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 100}, {"First": 2, "Second": 300}, {"First": 3, "Second": 80}, {"First": 4, "Second": 5}]} | DONE |
+| loot_table#group7 | 29 | DefaultStaffMidPower | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 300}, {"First": 2, "Second": 300}, {"First": 3, "Second": 80}, {"First": 4, "Second": 5}]} | DONE |
+| loot_table#group7 | 30 | DefaultStaffPower | {"Pairs": [{"First": 0, "Second": 300}, {"First": 1, "Second": 500}, {"First": 2, "Second": 115}, {"First": 3, "Second": 80}, {"First": 4, "Second": 5}]} | DONE |
+| loot_table#group7 | 31 | DefaultTwoToFourItems | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 0}, {"First": 2, "Second": 30}, {"First": 3, "Second": 10}, {"First": 4, "Second": 5}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 32 | DefaultWeakMonsterLoot | {"Pairs": [{"First": 0, "Second": 20}, {"First": 1, "Second": 1}, {"First": 2, "Second": 0}, {"First": 3, "Second": 0}, {"First": 4, "Second": 0}, {"First": 5, "Second": 0}, {"First": 6, "Second": 0}]} | DONE |
+| loot_table#group7 | 33 | ItemListPower | {"Pairs": [{"First": 0, "Second": 0}, {"First": 1, "Second": 1}, {"First": 2, "Second": 1}, {"First": 3, "Second": 1}, {"First": 4, "Second": 1}]} | DONE |
+| loot_table#group7 | 34 | MerchantSixItems | {"Pairs": [{"First": 6, "Second": 100}]} | DONE |
+| loot_table#group7 | 35 | MerchantThirtyItems | {"Pairs": [{"First": 70, "Second": 100}, {"First": 80, "Second": 50}]} | DONE |
+| loot_table#group7 | 36 | UniqueItem | {"Pairs": [{"First": 0, "Second": 750}, {"First": 1, "Second": 1}]} | DONE |
+| loot_table#group7 | 37 | UniqueNotTooRareItem | {"Pairs": [{"First": 0, "Second": 250}, {"First": 1, "Second": 1}]} | DONE |
+| loot_table#group7 | 38 | UniqueVeryRareItem | {"Pairs": [{"First": 0, "Second": 500}, {"First": 1, "Second": 1}]} | DONE |
+| trophies#group0 | 0 | epic_lvl10 | {"Desc": 65549, "GLIndex": 44, "GLLive": 3522, "Grade": 0, "Label": 1, "Name": 65539, "Type": 1} | DONE |
+| trophies#group0 | 1 | epic_lvl20 | {"Desc": 65550, "GLIndex": 45, "GLLive": 3524, "Grade": 0, "Label": 2, "Name": 65540, "Type": 1} | DONE |
+| trophies#group0 | 2 | epic_lvl30 | {"Desc": 65551, "GLIndex": 46, "GLLive": 3526, "Grade": 0, "Label": 3, "Name": 65541, "Type": 1} | DONE |
+| trophies#group0 | 3 | epic_lvl40 | {"Desc": 65552, "GLIndex": 47, "GLLive": 3528, "Grade": 0, "Label": 4, "Name": 65542, "Type": 1} | DONE |
+| trophies#group0 | 4 | epic_lvl50 | {"Desc": 65553, "GLIndex": 48, "GLLive": 3530, "Grade": 1, "Label": 5, "Name": 65543, "Type": 1} | DONE |
+| trophies#group0 | 5 | epic_lvl60 | {"Desc": 65554, "GLIndex": 49, "GLLive": 3532, "Grade": 1, "Label": 6, "Name": 65544, "Type": 1} | DONE |
+| trophies#group0 | 6 | epic_lvl70 | {"Desc": 65555, "GLIndex": 50, "GLLive": 3534, "Grade": 1, "Label": 7, "Name": 65545, "Type": 1} | DONE |
+| trophies#group0 | 7 | epic_lvl80 | {"Desc": 65556, "GLIndex": 51, "GLLive": 3536, "Grade": 1, "Label": 8, "Name": 65546, "Type": 1} | DONE |
+| trophies#group0 | 8 | epic_lvl90 | {"Desc": 65557, "GLIndex": 52, "GLLive": 3538, "Grade": 1, "Label": 9, "Name": 65547, "Type": 1} | DONE |
+| trophies#group0 | 9 | epic_lvl100 | {"Desc": 65558, "GLIndex": 53, "GLLive": 3540, "Grade": 2, "Label": 10, "Name": 65548, "Type": 1} | DONE |
+| trophies#group0 | 10 | power_50dam | {"Desc": 65564, "GLIndex": 9, "GLLive": 3448, "Grade": 0, "Label": 52, "Name": 65559, "Type": 3} | DONE |
+| trophies#group0 | 11 | power_100dam | {"Desc": 65565, "GLIndex": 10, "GLLive": 3450, "Grade": 0, "Label": 53, "Name": 65560, "Type": 3} | DONE |
+| trophies#group0 | 12 | power_150dam | {"Desc": 65566, "GLIndex": 11, "GLLive": 3452, "Grade": 0, "Label": 54, "Name": 65561, "Type": 3} | DONE |
+| trophies#group0 | 13 | power_200dam | {"Desc": 65567, "GLIndex": 12, "GLLive": 3454, "Grade": 0, "Label": 55, "Name": 65562, "Type": 3} | DONE |
+| trophies#group0 | 14 | quest_warriorwin | {"Desc": 65579, "GLIndex": 35, "GLLive": 3504, "Grade": 2, "Label": 41, "Name": 65568, "Type": 2} | DONE |
+| trophies#group0 | 15 | quest_berserkerwin | {"Desc": 65579, "GLIndex": 29, "GLLive": 3492, "Grade": 2, "Label": 42, "Name": 65572, "Type": 2} | DONE |
+| trophies#group0 | 16 | quest_paladinwin | {"Desc": 65579, "GLIndex": 33, "GLLive": 3500, "Grade": 2, "Label": 45, "Name": 65571, "Type": 2} | DONE |
+| trophies#group0 | 17 | quest_roguewin | {"Desc": 65579, "GLIndex": 34, "GLLive": 3502, "Grade": 2, "Label": 40, "Name": 65569, "Type": 2} | DONE |
+| trophies#group0 | 18 | quest_assassinwin | {"Desc": 65579, "GLIndex": 28, "GLLive": 3490, "Grade": 2, "Label": 44, "Name": 65573, "Type": 2} | DONE |
+| trophies#group0 | 19 | quest_archerwin | {"Desc": 65579, "GLIndex": 27, "GLLive": 3488, "Grade": 2, "Label": 38, "Name": 65574, "Type": 2} | DONE |
+| trophies#group0 | 20 | quest_magewin | {"Desc": 65579, "GLIndex": 31, "GLLive": 3496, "Grade": 2, "Label": 37, "Name": 65570, "Type": 2} | DONE |
+| trophies#group0 | 21 | quest_necromancerwin | {"Desc": 65579, "GLIndex": 32, "GLLive": 3498, "Grade": 2, "Label": 39, "Name": 65576, "Type": 2} | DONE |
+| trophies#group0 | 22 | quest_illusionistwin | {"Desc": 65579, "GLIndex": 30, "GLLive": 3494, "Grade": 2, "Label": 43, "Name": 65575, "Type": 2} | DONE |
+| trophies#group0 | 23 | quest_allcomplete | {"Desc": 65578, "GLIndex": 36, "GLLive": 3506, "Grade": 3, "Label": 36, "Name": 65577, "Type": 2} | DONE |
+| trophies#group0 | 24 | gear_10kgold | {"Desc": -1, "GLIndex": 24, "GLLive": 3482, "Grade": 0, "Label": 11, "Name": 65580, "Type": 6} | DONE |
+| trophies#group0 | 25 | gear_100kgold | {"Desc": -1, "GLIndex": 25, "GLLive": 3484, "Grade": 1, "Label": 12, "Name": 65581, "Type": 6} | DONE |
+| trophies#group0 | 26 | gear_1mgold | {"Desc": -1, "GLIndex": 26, "GLLive": 3486, "Grade": 2, "Label": 13, "Name": 65582, "Type": 6} | DONE |
+| trophies#group0 | 27 | power_onehit | {"Desc": 65584, "GLIndex": 57, "GLLive": 3548, "Grade": 0, "Label": 31, "Name": 65583, "Type": 3} | DONE |
+| trophies#group0 | 28 | gear_transmute | {"Desc": 65586, "GLIndex": 65, "GLLive": 3564, "Grade": 0, "Label": 27, "Name": 65585, "Type": 6} | DONE |
+| trophies#group0 | 29 | faery_Wetty | {"Desc": 65588, "GLIndex": 22, "GLLive": 3478, "Grade": 1, "Label": 16, "Name": 65587, "Type": 7} | DONE |
+| trophies#group0 | 30 | faery_Windy | {"Desc": 65590, "GLIndex": 23, "GLLive": 3480, "Grade": 1, "Label": 17, "Name": 65589, "Type": 7} | DONE |
+| trophies#group0 | 31 | faery_Rocky | {"Desc": 65592, "GLIndex": 20, "GLLive": 3474, "Grade": 1, "Label": 18, "Name": 65591, "Type": 7} | DONE |
+| trophies#group0 | 32 | faery_Hotty | {"Desc": 65594, "GLIndex": 21, "GLLive": 3476, "Grade": 1, "Label": 14, "Name": 65593, "Type": 7} | DONE |
+| trophies#group0 | 33 | faery_charged | {"Desc": 65596, "GLIndex": 19, "GLLive": 3470, "Grade": 2, "Label": 19, "Name": 65595, "Type": 7} | DONE |
+| trophies#group0 | 34 | epic_invincible | {"Desc": 65598, "GLIndex": 37, "GLLive": 3508, "Grade": 1, "Label": 60, "Name": 65597, "Type": 8} | DONE |
+| trophies#group0 | 35 | epic_invisible | {"Desc": 65600, "GLIndex": 38, "GLLive": 3510, "Grade": 1, "Label": 61, "Name": 65599, "Type": 8} | DONE |
+| trophies#group0 | 36 | epic_withskills | {"Desc": 65602, "GLIndex": 62, "GLLive": 3558, "Grade": 1, "Label": 47, "Name": 65601, "Type": 8} | DONE |
+| trophies#group0 | 37 | epic_maxskill | {"Desc": 65605, "GLIndex": 63, "GLLive": 3560, "Grade": 1, "Label": 46, "Name": 65604, "Type": 8} | DONE |
+| trophies#group0 | 38 | epic_all_skills_unlocked | {"Desc": 65607, "GLIndex": 60, "GLLive": 3554, "Grade": 1, "Label": 48, "Name": 65606, "Type": 8} | DONE |
+| trophies#group0 | 39 | epic_spent_all_skill_points | {"Desc": 65609, "GLIndex": 43, "GLLive": 3520, "Grade": 1, "Label": 50, "Name": 65608, "Type": 8} | DONE |
+| trophies#group0 | 40 | gear_warrior | {"Desc": 65615, "GLIndex": 8, "GLLive": 3446, "Grade": 0, "Label": 21, "Name": 65614, "Type": 6} | DONE |
+| trophies#group0 | 41 | gear_berserker | {"Desc": 65617, "GLIndex": 6, "GLLive": 3442, "Grade": 0, "Label": 22, "Name": 65616, "Type": 6} | DONE |
+| trophies#group0 | 42 | gear_paladin | {"Desc": 65619, "GLIndex": 1, "GLLive": 3430, "Grade": 0, "Label": 23, "Name": 65618, "Type": 6} | DONE |
+| trophies#group0 | 43 | gear_rogue | {"Desc": 65621, "GLIndex": 7, "GLLive": 3444, "Grade": 0, "Label": 24, "Name": 65620, "Type": 6} | DONE |
+| trophies#group0 | 44 | gear_assassin | {"Desc": 65623, "GLIndex": 3, "GLLive": 3436, "Grade": 0, "Label": 26, "Name": 65622, "Type": 6} | DONE |
+| trophies#group0 | 45 | gear_archer | {"Desc": 65625, "GLIndex": 0, "GLLive": 3426, "Grade": 0, "Label": 25, "Name": 65624, "Type": 6} | DONE |
+| trophies#group0 | 46 | gear_mage | {"Desc": 65627, "GLIndex": 4, "GLLive": 3438, "Grade": 0, "Label": 56, "Name": 65626, "Type": 6} | DONE |
+| trophies#group0 | 47 | gear_illusionist | {"Desc": 65629, "GLIndex": 2, "GLLive": 3432, "Grade": 0, "Label": 57, "Name": 65628, "Type": 6} | DONE |
+| trophies#group0 | 48 | gear_necromancer | {"Desc": 65631, "GLIndex": 5, "GLLive": 3440, "Grade": 0, "Label": 58, "Name": 65630, "Type": 6} | DONE |
+| trophies#group0 | 49 | destroy_200_breakables | {"Desc": 65633, "GLIndex": 59, "GLLive": 3552, "Grade": 0, "Label": 71, "Name": 65632, "Type": 0} | DONE |
+| trophies#group0 | 50 | open_100_chests | {"Desc": 65635, "GLIndex": 66, "GLLive": 3566, "Grade": 0, "Label": 51, "Name": 65634, "Type": 0} | DONE |
+| trophies#group0 | 51 | use_100_potions | {"Desc": 65637, "GLIndex": 58, "GLLive": 3550, "Grade": 0, "Label": 20, "Name": 65636, "Type": 0} | DONE |
+| trophies#group0 | 52 | sell_100_items | {"Desc": 65639, "GLIndex": 54, "GLLive": 3542, "Grade": 0, "Label": 28, "Name": 65638, "Type": 0} | DONE |
+| trophies#group0 | 53 | spend_1000_gold | {"Desc": 65641, "GLIndex": 13, "GLLive": 3456, "Grade": 0, "Label": 29, "Name": 65640, "Type": 0} | DONE |
+| trophies#group0 | 54 | spend_10000_gold | {"Desc": 65643, "GLIndex": 14, "GLLive": 3458, "Grade": 0, "Label": 30, "Name": 65642, "Type": 0} | DONE |
+| trophies#group0 | 55 | knocked_down_50_times | {"Desc": 65649, "GLIndex": 15, "GLLive": 3462, "Grade": 0, "Label": 59, "Name": 65648, "Type": 0} | DONE |
+| trophies#group0 | 56 | picked_up_300_drops | {"Desc": 65655, "GLIndex": 61, "GLLive": 3556, "Grade": 0, "Label": 72, "Name": 65654, "Type": 0} | DONE |
+| trophies#group0 | 57 | full_inventory | {"Desc": 65657, "GLIndex": 68, "GLLive": 3570, "Grade": 0, "Label": 63, "Name": 65656, "Type": 0} | DONE |
+| trophies#group0 | 58 | killed_100 | {"Desc": 65659, "GLIndex": 39, "GLLive": 3512, "Grade": 0, "Label": 32, "Name": 65658, "Type": 3} | DONE |
+| trophies#group0 | 59 | killed_500 | {"Desc": 65661, "GLIndex": 40, "GLLive": 3514, "Grade": 0, "Label": 33, "Name": 65660, "Type": 3} | DONE |
+| trophies#group0 | 60 | killed_1000 | {"Desc": 65663, "GLIndex": 41, "GLLive": 3516, "Grade": 0, "Label": 34, "Name": 65662, "Type": 3} | DONE |
+| trophies#group0 | 61 | killed_2000 | {"Desc": 65665, "GLIndex": 42, "GLLive": 3518, "Grade": 0, "Label": 35, "Name": 65664, "Type": 3} | DONE |
+| trophies#group0 | 62 | completed_no_sidequests | {"Desc": 65667, "GLIndex": 55, "GLLive": 3544, "Grade": 0, "Label": 65, "Name": 65666, "Type": 2} | DONE |
+| trophies#group0 | 63 | completed_never_open_chests | {"Desc": 65669, "GLIndex": 56, "GLLive": 3546, "Grade": 0, "Label": 66, "Name": 65668, "Type": 2} | DONE |
+| trophies#group0 | 64 | completed_never_increase_stats | {"Desc": 65671, "GLIndex": 64, "GLLive": 3562, "Grade": 0, "Label": 67, "Name": 65670, "Type": 2} | DONE |
+| trophies#group0 | 65 | completed_never_died | {"Desc": 65673, "GLIndex": 67, "GLLive": 3568, "Grade": 0, "Label": 64, "Name": 65672, "Type": 2} | DONE |
+| trophies#group0 | 66 | quest_died_10_times | {"Desc": 65675, "GLIndex": 16, "GLLive": 3464, "Grade": 0, "Label": 68, "Name": 65674, "Type": 2} | DONE |
+| trophies#group0 | 67 | quest_died_50_times | {"Desc": 65677, "GLIndex": 17, "GLLive": 3466, "Grade": 0, "Label": 69, "Name": 65676, "Type": 2} | DONE |
+| trophies#group0 | 68 | quest_died_100_times | {"Desc": 65679, "GLIndex": 18, "GLLive": 3468, "Grade": 0, "Label": 70, "Name": 65678, "Type": 2} | DONE |
