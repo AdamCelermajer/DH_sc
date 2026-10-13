@@ -81,6 +81,25 @@ Result register_faery_anim_set(
     const Effects& effects,
     std::string& error);
 
+// Character::SetAnimationSet (IDA 0x3c9f4c) request producer for a Character that
+// owns no CharacterVisual projection (the local Player). The ordered result is
+// `state.registrations` (template first, repeated dictionary IDs preserved, as
+// the source AnimSetManager receives them). `stance_count` is COUNT_IPHONE for a
+// Player and `stance_mask` is AnimStancedAnim/SL__LIST_IPHONE; the caller reads
+// both from the retained animation constants. `source_skill_list_id` is the
+// resolved SkillTree property (out-of-range selects source fallback row 3).
+Result compile_character_anim_set(
+    AnimSetState& state,
+    Identity expected_character,
+    const data::AnimationTables& animation_tables,
+    const data::SkillTables& skill_tables,
+    std::int32_t animation_table_id,
+    std::int32_t source_skill_list_id,
+    std::int32_t stance_count,
+    std::uint32_t stance_mask,
+    const Effects& effects,
+    std::string& error);
+
 // Clear only the AnimSet projection attached to the matching CharacterVisual.
 bool retire(character_faery_visual_facade_v1::CharacterVisual& visual,
             Identity expected_character) noexcept;

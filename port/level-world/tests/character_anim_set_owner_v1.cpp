@@ -108,4 +108,34 @@ int main() {
     assert(register_faery_anim_set(visual, visual.character, animations, skills,
                                    0, -1, effects, error) == Result::identity_mismatch);
     assert(visual.anim_set.registrations.size() == prior_count);
+
+    // Player SetAnimationSet: the stance loop wraps every member and the
+    // SkillList; a stanced variant (stance > 0) registers only when its flag is
+    // in the source stance mask, and the 0x200000 skill flag never is.
+    {
+        const std::vector<std::int32_t> stance0{29, 30, 32, 33, 34, 35, 36};
+        AnimSetState player;
+        assert(compile_character_anim_set(player, 0x77, animations, skills, 0, -1, 2, 2,
+                                          Effects{}, error) == Result::registered);
+        assert(player.phase == Phase::ready && player.anim_set_id == 3);
+        std::vector<std::int32_t> requests;
+        for (const auto& registration : player.registrations)
+            requests.push_back(registration.animation_dictionary_id);
+        auto with_stance1 = stance0;
+        with_stance1.push_back(34); // Idle member 10 at stance 1 (flag 2 is in mask 2)
+        assert(requests == with_stance1);
+        assert(player.registrations.front().kind == RegistrationKind::template_animation);
+
+        AnimSetState masked;
+        assert(compile_character_anim_set(masked, 0x77, animations, skills, 0, -1, 2, 0,
+                                          Effects{}, error) == Result::registered);
+        assert(masked.animation_dictionary_ids == stance0);
+        assert(masked.registrations.size() == stance0.size());
+
+        AnimSetState none;
+        assert(compile_character_anim_set(none, 0, animations, skills, 0, -1, 1, 0,
+                                          Effects{}, error) == Result::invalid_identity);
+        assert(compile_character_anim_set(none, 0x77, animations, skills, 0, -1, 0, 0,
+                                          Effects{}, error) == Result::malformed_source);
+    }
 }

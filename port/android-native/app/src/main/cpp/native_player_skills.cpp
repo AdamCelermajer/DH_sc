@@ -1084,6 +1084,12 @@ struct Runtime::Impl {
   const auto status=dh2::player_script_timer_dispatch_v1::dispatch(
       timer_dispatch,id,error);
   if(status==dh2::player_script_timer_dispatch_v1::Status::inactive_ais)return;
+  // The AIS OnScriptTimer result is ignored by CharAI::OnScriptTimer's caller and
+  // LuaScript::Call swallows script errors; only a structural failure is fatal.
+  if(status==dh2::player_script_timer_dispatch_v1::Status::failed){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Player source OnScriptTimer script call failed; the source ignores script failures | timer %u | %s",id,error.c_str());
+   return;
+  }
   if(status!=dh2::player_script_timer_dispatch_v1::Status::delivered)
    throw std::runtime_error("Player source OnScriptTimer dispatch failed: "+error);
   ++timer_callbacks;
