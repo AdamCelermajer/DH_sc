@@ -2,6 +2,7 @@
 
 #include "runtime_skill_cast_prepare_v1.hpp"
 #include "runtime_skill_target_query_v1.hpp"
+#include "runtime_skill_use_profile_v1.hpp"
 #include "runtime_skill_animation_bank_v1.hpp"
 #include "../../actor_population.hpp"
 #include "../../original_combat_visual_plan.hpp"
@@ -44,13 +45,6 @@ enum class RuntimeSkillSourceAnimStateV1 : std::uint8_t {
 enum class RuntimeSkillFaeryScriptV1 : std::uint8_t {
     hotty,
     celest
-};
-
-enum class RuntimeWarriorSkillBranchV1 : std::uint8_t {
-    bashdown,
-    ground_slam,
-    charge,
-    rogue_jump_kick
 };
 
 struct RuntimeSkillFaerySpellArmV1 {
@@ -114,6 +108,12 @@ struct RuntimeSkillCastRequestV1 {
     // native fields are available. The Character-only coordinator never
     // treats an absent object registry as a successful no-target result.
     std::optional<bool> non_character_attackable_objects_absent;
+    // Equipped-hand facts for the source _SkillCombatRoll dual-wield branch
+    // (row mask 0x800000: HasMainHandWeapon / HasOffHandWeapon). Required only
+    // for paired-hand rows; other rows ignore them.
+    bool hand_facts_known = false;
+    bool has_main_hand_weapon = false;
+    bool has_off_hand_weapon = false;
     const SkillObjectTargetArmV1* object_targets = nullptr;
     const OriginalCombatVisualPlan* visual_plan = nullptr;
     const OriginalSequencePolicies* sequence_policies = nullptr;
@@ -197,8 +197,11 @@ private:
         const dh2::data::PropertyRules* property_rules = nullptr;
         int source_class_id = -1;
         std::uint32_t row_mask = 0;
+        // Dual-wield (mask 0x800000) rows hit once per equipped hand.
+        bool paired_hand = false, has_main_hand = false, has_off_hand = false;
         std::int32_t element = -1, category = -1;
-        RuntimeWarriorSkillBranchV1 warrior_branch = RuntimeWarriorSkillBranchV1::bashdown;
+        // Data-driven source use profile (runtime_skill_use_profile_v1.hpp); never null once admitted.
+        const RuntimeSkillUseProfileV1* use_profile = nullptr;
         std::string class_token;
         std::vector<ActorId> population_order;
         std::vector<SkillTargetSourceFactsV1> target_facts;

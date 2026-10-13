@@ -8060,6 +8060,8 @@ int main(int argc,char** argv) {
                         else {
                             f::generic_skills::RuntimeSkillCastRequestV1 request;
                             request.actor=combatSession->player_id();request.character=&state;request.source_slot=slot;
+                            // v21.8 skills-a: equipped main/off-hand facts for the source dual-wield branch (mask 0x800000).
+                            {const auto hands=currentLocomotionItems();request.hand_facts_known=true;request.has_main_hand_weapon=hands.first>=0;request.has_off_hand_weapon=hands.second>=0;}
                             request.characters=&properties.characters;request.skills=menuSourceOwner.skill_owner->borrow();request.classes=&properties.classes;request.property_rules=&menuSkillPropertyRules;
                             request.population=&population;request.animation_bank=&*skillAnimationBank;request.visual_plan=&skillVisualPlan;request.sequence_policies=&skillSequencePolicies;
                             request.selection={selected.selection_state,0,sequence->phases.front().sourcePath};

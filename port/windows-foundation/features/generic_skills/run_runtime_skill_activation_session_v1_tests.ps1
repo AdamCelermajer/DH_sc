@@ -34,6 +34,9 @@ try {
         (Join-Path $repoRoot 'port\level-world\navigation_heading.cpp') `
         (Join-Path $repoRoot 'port\level-world\character_animation_ai.cpp') `
         (Join-Path $repoRoot 'port\windows-foundation\combat_session.cpp') `
+        (Join-Path $repoRoot 'port\windows-foundation\actor_combat_runtime.cpp') `
+        (Join-Path $repoRoot 'port\windows-foundation\retained_sequence_playback.cpp') `
+        (Join-Path $repoRoot 'port\windows-foundation\actor_state.cpp') `
         (Join-Path $repoRoot 'port\windows-foundation\playable_actor_world.cpp') `
         (Join-Path $repoRoot 'port\windows-foundation\save_store.cpp') `
         (Join-Path $repoRoot 'port\windows-foundation\game_save.cpp') `

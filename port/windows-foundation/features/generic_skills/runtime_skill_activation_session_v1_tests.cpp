@@ -33,14 +33,24 @@ dh2::data::Bytes bytes(const std::vector<std::uint8_t>& value) {
     return {value.data(), value.size()};
 }
 
-void run_rogue_jumpkick_source_slot0_fixture(
+// v21.8 skills-a: one authored Rogue source skill per run of the same full-session fixture.
+struct RogueSkillFixtureSpecV1 {
+    const char* skill_name;   // SkillTable.name
+    const char* script;       // SkillTable.script
+    const char* class_token;  // ClassTable row for the rank-1 mana projection
+    std::uint32_t anim_root;  // SkillTable word[1] (CharAnimTable root)
+    std::size_t hits_per_target = 1; // 2 for dual-wield rows (mask 0x800000) with both hands equipped
+};
+
+void run_rogue_source_slot0_fixture(
     const std::filesystem::path& scratch, AssetCatalog& assets,
     OriginalPropertyDatabase& properties, OriginalMeleeBindings& bindings,
     const dh2::data::CharacterTable& characters,
     dh2::data::SkillTables::Borrow skill_tables,
     const dh2::data::AnimationTables& animation_tables,
     const dh2::data::Dictionary& animation_dictionary,
-    const dh2::data::PropertyRules& property_rules) {
+    const dh2::data::PropertyRules& property_rules,
+    const RogueSkillFixtureSpecV1& spec) {
     std::string error;
     const auto rogue_row = std::find(characters.names.begin(), characters.names.end(),
                                      "RoguePlayerBase");
@@ -53,12 +63,21 @@ void run_rogue_jumpkick_source_slot0_fixture(
     check(tree_id >= 0 && std::size_t(tree_id) < skill_tables.lists().size(),
           "Original Rogue base row has no actual source SkillList");
     const auto& source_list = skill_tables.lists()[std::size_t(tree_id)];
-    check(!source_list.empty() && source_list[0] >= 0 &&
-          std::size_t(source_list[0]) < skill_tables.skills().size() &&
-          skill_tables.skill_names()[std::size_t(source_list[0])] == "JumpKick" &&
-          skill_tables.skills()[std::size_t(source_list[0])].script == "prince_rogue_jump_kick" &&
-          skill_tables.skills()[std::size_t(source_list[0])].scalar.words[1] == 521,
-          "Actual Rogue list position0 no longer resolves to JumpKick / Anim root521");
+    // The authored row is located by its exact (name, script, anim root) identity.
+    std::size_t saved_row = source_list.size();
+    for (std::size_t i = 0; i < source_list.size(); ++i) {
+        const auto id = source_list[i];
+        if (id >= 0 && std::size_t(id) < skill_tables.skills().size() &&
+            skill_tables.skill_names()[std::size_t(id)] == spec.skill_name &&
+            skill_tables.skills()[std::size_t(id)].script == spec.script &&
+            skill_tables.skills()[std::size_t(id)].scalar.words[1] == spec.anim_root) {
+            saved_row = i;
+            break;
+        }
+    }
+    check(saved_row < source_list.size(),
+          std::string("Actual Rogue SkillList has no exact row for ") + spec.skill_name);
+    const auto row_table_id = source_list[saved_row];
 
     OriginalActorProperties rogue_source;
     check(resolve_original_actor_properties(properties.characters, properties.classes,
@@ -78,20 +97,21 @@ void run_rogue_jumpkick_source_slot0_fixture(
               "Original Rogue SkillList has an invalid table row");
         rogue_state.skills.push_back({skill_tables.skill_names()[std::size_t(table_id)], 0});
     }
-    rogue_state.skills[0].rank = 1; // Exact native starter grant for source row0.
-    rogue_state.skill_slots.push_back({0, 0, 0});
+    // Rank-1 grant of the authored row, bound to source hotbar slot 0 (PC key2).
+    rogue_state.skills[saved_row].rank = 1;
+    rogue_state.skill_slots.push_back({0, 0, static_cast<std::uint32_t>(saved_row)});
 
-    const auto save_path = scratch / "rogue-jumpkick-source.dhsave";
+    const auto save_path = scratch / "rogue-source-skill.dhsave";
     check(save_character(save_path, rogue_state, error), error);
     CharacterState loaded_rogue;
     check(load_character(save_path, loaded_rogue, error), error);
     std::filesystem::remove(save_path);
     check(loaded_rogue.id == rogue_state.id && loaded_rogue.class_id == "RoguePlayerBase" &&
-          loaded_rogue.skills.size() == source_list.size() && loaded_rogue.skills[0].id == "JumpKick" &&
-          loaded_rogue.skills[0].rank == 1 && loaded_rogue.skill_slots.size() == 1 &&
+          loaded_rogue.skills.size() == source_list.size() && loaded_rogue.skills[saved_row].id == spec.skill_name &&
+          loaded_rogue.skills[saved_row].rank == 1 && loaded_rogue.skill_slots.size() == 1 &&
           loaded_rogue.skill_slots[0].equipment_set == 0 && loaded_rogue.skill_slots[0].slot == 0 &&
-          loaded_rogue.skill_slots[0].saved_skill_row == 0,
-          "Original Rogue source save roundtrip changed key1/source-slot0 JumpKick identity");
+          loaded_rogue.skill_slots[0].saved_skill_row == saved_row,
+          "Original Rogue source save roundtrip changed key1/source-slot0 skill identity");
 
     ActorCustomization rogue_customization;
     rogue_customization.skin_id_contains = "_default_rogue-mesh-skin";
@@ -117,12 +137,12 @@ void run_rogue_jumpkick_source_slot0_fixture(
     RuntimeSkillAnimationBankV1 bank;
     check(build_runtime_skill_animation_bank_v1(bank_request, rogue_base_plan,
               bank, error), error);
-    check(bank.hotbar[0] && bank.hotbar[0]->skill.saved_skill_row == 0 &&
-          bank.hotbar[0]->skill.class_skill_position == 0 &&
-          bank.hotbar[0]->skill.skill_table_id == source_list[0] &&
-          bank.hotbar[0]->skill.animation_sequence_id == 521 &&
-          bank.hotbar[0]->selection_state == skills_animation::skill_sequence_state(521),
-          "Pre-init Rogue bank did not retain exact assigned source root521 selection");
+    check(bank.hotbar[0] && bank.hotbar[0]->skill.saved_skill_row == static_cast<int>(saved_row) &&
+          bank.hotbar[0]->skill.class_skill_position == static_cast<int>(saved_row) &&
+          bank.hotbar[0]->skill.skill_table_id == row_table_id &&
+          bank.hotbar[0]->skill.animation_sequence_id == static_cast<int>(spec.anim_root) &&
+          bank.hotbar[0]->selection_state == skills_animation::skill_sequence_state(static_cast<int>(spec.anim_root)),
+          "Pre-init Rogue bank did not retain exact assigned source animation root selection");
     OriginalSequencePolicies rogue_policies;
     check(merge_runtime_skill_animation_bank_v1(bank, rogue_base_plan,
               rogue_policies, error), error);
@@ -213,9 +233,9 @@ void run_rogue_jumpkick_source_slot0_fixture(
           "Rogue PlayerState and Session MP do not share the source property sheet");
     SkillManaCostV1 mana_cost;
     check(evaluate_skill_mana_cost_v1(properties.classes, property_rules,
-              current->sheets.resolved, "Skill_Rogue_JumpKick", 1, mana_cost, error), error);
+              current->sheets.resolved, spec.class_token, 1, mana_cost, error), error);
     check(mana_cost.fixed_mana_cost > 0 && mana_cost.fixed_mana_cost <= current->sheets.resolved[43],
-          "Source JumpKick rank1 mana cost is not representable by the same Rogue MP sheet");
+          "Source rank1 mana cost is not representable by the same Rogue MP sheet");
 
     SkillManaSourceFactsV1 mana_facts;
     mana_facts.application_byte5 = false;
@@ -241,6 +261,10 @@ void run_rogue_jumpkick_source_slot0_fixture(
           invalid_key_source_slot == 77 && !error.empty(),
           "Unsupported PC skill number changed the logical source-slot output");
     request.source_slot = key1_source_slot;
+    // Startup dual-dagger Rogue: both HasMainHandWeapon and HasOffHandWeapon hold.
+    request.hand_facts_known = true;
+    request.has_main_hand_weapon = true;
+    request.has_off_hand_weapon = true;
     request.characters = &characters;
     request.skills = skill_tables;
     request.classes = &properties.classes;
@@ -254,7 +278,7 @@ void run_rogue_jumpkick_source_slot0_fixture(
     request.animation_bank = &bank;
     player->target_id = 3;
     check(session.selectedactor() == session.actor(3),
-          "JumpKick Post fixture did not start with its exact selected same-world target");
+          "Rogue Post fixture did not start with its exact selected same-world target");
     RuntimeSkillCastCoordinatorV1 coordinator;
     RuntimeSkillCastReceiptV1 rejected;
     const auto mp_before_empty = session.world()->combat_properties(1)->sheets.resolved[41];
@@ -279,11 +303,11 @@ void run_rogue_jumpkick_source_slot0_fixture(
     RuntimeSkillAnimationSlotV1 fresh_slot;
     check(resolve_runtime_skill_animation_slot_v1(loaded_rogue, characters, skill_tables,
               0, 0, bank, fresh_slot, error), error);
-    check(fresh_slot.skill.skill_table_id == source_list[0] &&
-          fresh_slot.skill.saved_skill_row == 0 && fresh_slot.skill.saved_rank == 1 &&
-          fresh_slot.skill.animation_sequence_id == 521 &&
-          fresh_slot.selection_state == skills_animation::skill_sequence_state(521),
-          "Fresh Rogue source slot0 resolver did not select saved row0/rank1 JumpKick root521");
+    check(fresh_slot.skill.skill_table_id == row_table_id &&
+          fresh_slot.skill.saved_skill_row == static_cast<int>(saved_row) && fresh_slot.skill.saved_rank == 1 &&
+          fresh_slot.skill.animation_sequence_id == static_cast<std::int32_t>(spec.anim_root) &&
+          fresh_slot.selection_state == skills_animation::skill_sequence_state(static_cast<std::int32_t>(spec.anim_root)),
+          "Fresh Rogue source slot0 resolver did not select saved row/rank1 authored root");
     request.selection.state = fresh_slot.selection_state;
     unsigned marker_count = 0, completion_count = 0;
     RetainedAnimationEvent actual_event;
@@ -302,12 +326,12 @@ void run_rogue_jumpkick_source_slot0_fixture(
     RuntimeSkillCastReceiptV1 accepted;
     check(coordinator.begin_skill_cast_v1(request, session, accepted, error), error);
     check(accepted.phase == RuntimeSkillCastPhaseV1::prepared_pending_use &&
-          accepted.skill_name == "JumpKick" && accepted.source_script == "prince_rogue_jump_kick" &&
-          accepted.source_slot == 0 && accepted.saved_skill_row == 0 &&
-          accepted.class_skill_position == 0 && accepted.skill_table_id == source_list[0] &&
+          accepted.skill_name == spec.skill_name && accepted.source_script == spec.script &&
+          accepted.source_slot == 0 && accepted.saved_skill_row == saved_row &&
+          accepted.class_skill_position == static_cast<int>(saved_row) && accepted.skill_table_id == row_table_id &&
           accepted.mana.mana_spent && accepted.target_order.size() == 2 &&
           session.retained_actor_pose(1) == pose_before_empty,
-          "Rogue PC key2/middle-circle/source-slot0 did not start exact JumpKick pre-use prefix/root");
+          "Rogue PC key2/middle-circle/source-slot0 did not start exact authored skill pre-use prefix/root");
     for (unsigned frame = 0; frame < 180 && completion_count == 0; ++frame) {
         check(session.update(1.0 / 60.0, {}, {0, 0, 0}, 0.0f, error), error);
         check(coordinator.advance_after_session_update(session, 1.0 / 60.0, error), error);
@@ -315,23 +339,23 @@ void run_rogue_jumpkick_source_slot0_fixture(
     const auto* final = coordinator.receipt(1);
     check(marker_count == 1 && completion_count == 1 && final &&
           final->phase == RuntimeSkillCastPhaseV1::completed &&
-          final->applied_results.size() == 2 && session.retained_actor_pose(1) == pose_before_empty,
-          "Exact Rogue root521 did not reach retained do_skill, apply two source results and complete Post");
-    check(final->target_order.size() == final->applied_results.size(),
-          "JumpKick result count does not match retained source target order");
+          final->applied_results.size() == 2 * spec.hits_per_target && session.retained_actor_pose(1) == pose_before_empty,
+          "Exact Rogue authored root did not reach retained do_skill, apply two source results and complete Post");
+    check(final->target_order.size() * spec.hits_per_target == final->applied_results.size(),
+          "Rogue result count does not match retained source target order");
     for (std::size_t i = 0; i < final->applied_results.size(); ++i) {
         const auto& result = final->applied_results[i];
         check(result.applied && result.attacker == 1 &&
-              result.target == final->target_order[i] &&
-              (result.target == 2 || result.target == 3) && result.source_id == "JumpKick" &&
+              result.target == final->target_order[i / spec.hits_per_target] &&
+              (result.target == 2 || result.target == 3) && result.source_id == spec.skill_name &&
               result.marker_name == "do_skill" && result.health_removed > 0.0f,
-              "JumpKick result receipt lost same-session source target order/marker or positive HP result");
+              "Rogue skill result receipt lost same-session source target order/marker or positive HP result");
     }
     check(final->target_order.size() == 2 && final->mana.mana_spent &&
           final->mana.mana_after < final->mana.mana_before &&
           session.actor(1)->action == CharacterAction::idle &&
           session.actor(1)->target_id == invalid_actor_id && !session.selectedactor(),
-          "JumpKick Post did not clear its selected target after preserving source target order/mana");
+          "Rogue skill Post did not clear its selected target after preserving source target order/mana");
     RuntimeSkillCastReceiptV1 duplicate;
     const auto hp2_after = session.actor(2)->health;
     const auto hp3_after = session.actor(3)->health;
@@ -341,10 +365,70 @@ void run_rogue_jumpkick_source_slot0_fixture(
     const auto rng_duplicate = session.world()->random_state();
     check(session.actor(2)->health == hp2_after && session.actor(3)->health == hp3_after &&
           rng_duplicate.seed == rng_after.seed && rng_duplicate.calls == rng_after.calls,
-          "Duplicate Rogue do_skill callback reapplied JumpKick results or consumed RNG");
+          "Duplicate Rogue do_skill callback reapplied skill results or consumed RNG");
     session.detach_for_restore();
 }
 } // namespace
+
+// v21.8 skills-a: the data-driven use profile table must match the authored
+// SkillTable (name, script) rows and ClassTable tokens, and keep the numeric
+// values transcribed from the original skill Lua (runtime_skill_use_profile_v1.hpp).
+void check_skill_use_profiles_v1(dh2::data::SkillTables::Borrow skills,
+                                 const dh2::data::ClassTables& classes) {
+    const auto near = [](float a, float b) { return std::fabs(a - b) < 0.0001f; };
+    for (const auto& profile : kRuntimeSkillUseProfilesV1) {
+        bool row_found = false;
+        for (std::size_t i = 0; i < skills.skill_names().size() && i < skills.skills().size(); ++i) {
+            if (skills.skill_names()[i] == profile.skill_name && skills.skills()[i].script == profile.script)
+                row_found = true;
+        }
+        check(row_found, std::string("Use profile has no authored SkillTable row: ") + profile.skill_name);
+        check(std::find(classes.names.begin(), classes.names.end(), profile.class_token) != classes.names.end(),
+              std::string("Use profile class token is absent from ClassTables: ") + profile.class_token);
+    }
+    check(sizeof(kRuntimeSkillUseProfilesV1) / sizeof(kRuntimeSkillUseProfilesV1[0]) == 6, "Use profile table admitted-row count changed");
+    check(find_skill_use_profile_v1("Quickness", "prince_rogue_quickness") == nullptr,
+          "Quickness must not be admitted before its timed buff owner exists");
+    check(find_skill_use_profile_v1("ViciousStrike", "prince_warrior_bashdown") == nullptr,
+          "Use profile lookup must require the exact (name, script) pair");
+
+    // prince_rogue_vicious_strike.luac: OnPre SEARCH_RANGE 300 + LookAt; OnSkill_ RANGE 160, ANGLE 180;
+    // character-only SkillCombatRoll; CLASS = Skill_Rogue_ViciousStrike_Stun; Post ClearTarget; no SetSkillCooldown.
+    const auto* vicious = find_skill_use_profile_v1("ViciousStrike", "prince_rogue_vicious_strike");
+    check(vicious && near(vicious->pre_range, 300.0f) && near(vicious->use_range, 160.0f) &&
+          near(vicious->use_cone_radians, 3.1415927f) && vicious->pre_look_at &&
+          vicious->use_targets == SkillUseTargetsV1::requery_at_use && !vicious->rolls_objects &&
+          vicious->post_clear_target && !vicious->sets_cooldown && !vicious->shield_variant &&
+          std::string(vicious->class_token) == "Skill_Rogue_ViciousStrike_Stun",
+          "ViciousStrike Lua transcription changed");
+    // prince_rogue_roundhouse.luac: RANGE 220 FrontalFirst + LookAt; OnSkill_ pops the OnPre list (no search).
+    const auto* roundhouse = find_skill_use_profile_v1("Roundhouse", "prince_rogue_roundhouse");
+    check(roundhouse && near(roundhouse->pre_range, 220.0f) && roundhouse->pre_look_at &&
+          roundhouse->use_targets == SkillUseTargetsV1::pre_list_all && roundhouse->rolls_objects &&
+          roundhouse->post_clear_target && !roundhouse->sets_cooldown,
+          "Roundhouse Lua transcription changed");
+    // prince_rogue_jump_kick.luac: INIT_RANGE 250; OnSkill_ RANGE 160, ANGLE 270; ClearTarget Post.
+    const auto* jump_kick = find_skill_use_profile_v1("JumpKick", "prince_rogue_jump_kick");
+    check(jump_kick && near(jump_kick->pre_range, 250.0f) && near(jump_kick->use_range, 160.0f) &&
+          near(jump_kick->use_cone_radians, 4.712389f) && jump_kick->post_clear_target &&
+          !jump_kick->sets_cooldown, "JumpKick Lua transcription changed");
+    // prince_warrior_bashdown.luac: RANGE 160; OnSkill_ uses the OnPre-selected target only.
+    const auto* bashdown = find_skill_use_profile_v1("BashDown", "prince_warrior_bashdown");
+    check(bashdown && near(bashdown->pre_range, 160.0f) &&
+          bashdown->use_targets == SkillUseTargetsV1::pre_selected_single && !bashdown->sets_cooldown,
+          "BashDown Lua transcription changed");
+    // prince_warrior_charge.luac: OnSkill_ NoSort RANGE 300 ANGLE 120; SetSkillCooldown; shield class variant.
+    const auto* charge = find_skill_use_profile_v1("Charge", "prince_warrior_charge");
+    check(charge && near(charge->use_range, 300.0f) && near(charge->use_cone_radians, 2.0943951f) &&
+          charge->use_sort == SkillTargetSortV1::source_order && charge->sets_cooldown &&
+          charge->shield_variant && !charge->post_clear_target, "Charge Lua transcription changed");
+    // prince_warrior_ground_slam.luac: no OnPre query; OnSkill_ range TempProp1, ClosestFirst, LookAt; cooldown.
+    const auto* ground_slam = find_skill_use_profile_v1("GroundSlam", "prince_warrior_ground_slam");
+    check(ground_slam && near(ground_slam->pre_range, 0.0f) && ground_slam->use_range_from_temp_prop1 &&
+          ground_slam->use_sort == SkillTargetSortV1::closest_first && ground_slam->use_look_at &&
+          ground_slam->sets_cooldown && ground_slam->post_clear_target,
+          "GroundSlam Lua transcription changed");
+}
 
 int main(int argc, char** argv) {
     try {
@@ -509,8 +593,18 @@ int main(int argc, char** argv) {
                                                animation_tables, error), error);
         dh2::data::PropertyRules property_rules;
         check(dh2::data::load_property_rules(properties.characters, property_rules, error), error);
-        run_rogue_jumpkick_source_slot0_fixture(scratch, assets, properties, bindings,
-            characters, skill_tables, animation_tables, dictionary, property_rules);
+        check_skill_use_profiles_v1(skill_tables, properties.classes);
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"JumpKick", "prince_rogue_jump_kick", "Skill_Rogue_JumpKick", 521});
+        // v21.8 skills-a: ViciousStrike (OnPre search + Use requery 160/180deg) and
+        // Roundhouse (OnPre list reused at Use). Same full-session path as JumpKick.
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"ViciousStrike", "prince_rogue_vicious_strike", "Skill_Rogue_ViciousStrike_Stun", 528, 2});
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"Roundhouse", "prince_rogue_roundhouse", "Skill_Rogue_Roundhouse", 525, 2});
         std::cout << "PASS PC visual mapping regression: key1 rejects empty source2; "
                      "key2 selects middle-circle source0 JumpKick row0/root521.\n";
 
