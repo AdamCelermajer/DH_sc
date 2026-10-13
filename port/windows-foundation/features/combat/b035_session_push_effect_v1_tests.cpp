@@ -169,6 +169,16 @@ void run_case(const char* root, const PushCase& wanted) {
     check(capture_session_push_admission_v1(session,hit,admission,error),error);
     check(admission.source_push_gate_admitted&&admission.target_state_before_hit==3,
         "Pre-hit Session Player/Idle gate was not captured");
+    {
+        // v21.8 faery2: F_ApplyResult guards the status block with IsDead (not IsPlayer), so a MONSTER defender (the lizard, pre-hit
+        // Idle) is admitted for the same Push chain (the sink then decides whether it owns a bank for that profile).
+        CombatSessionSourceHit monster_hit=hit;
+        monster_hit.attacker=1;monster_hit.target=2;monster_hit.generation=2;
+        SessionPushAdmissionV1 monster_admission;
+        check(capture_session_push_admission_v1(session,monster_hit,monster_admission,error),error);
+        check(monster_admission.source_push_gate_admitted&&!monster_admission.target_was_player&&
+              monster_admission.target_state_before_hit==3,"Monster defender was not admitted to the Push chain");
+    }
     SessionPushAdmissionV1 failing_admission;
     check(capture_session_push_admission_v1(session,hit,failing_admission,error),error);
     const auto rng_before_hit=session.world()->random_state();

@@ -76,6 +76,9 @@ struct DamageEvent {
     bool target_died = false;
     std::optional<std::uint32_t> source_outcomes;
     std::optional<std::uint32_t> source_mask;
+    // v21.8 faery2: attacker property 189 (SnS_Slow_Duration, mask 0x10000) or 146 as read from the sheet the hit was rolled with
+    // (F_ApplyResult reads it from the attacker AFTER ApplyPropClass); raw x256 value. Absent for hits that did not capture it.
+    std::optional<std::int32_t> source_slow_duration_raw;
 };
 
 bool validate_attack_definition(const AttackDefinition&, std::string& error);

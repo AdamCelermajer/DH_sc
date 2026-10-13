@@ -39,6 +39,10 @@ float original_speed_modifier(std::int32_t raw) noexcept {
     const float value = original_signed256(raw) * 0.01f + 1.0f;
     return value > 0.0f ? value : 0.0f;
 }
+double original_speed_modifier_ratio(std::int32_t base_raw, std::int32_t live_raw) noexcept {
+    const double base = original_speed_modifier(base_raw);
+    return base > 0.0 ? double(original_speed_modifier(live_raw)) / base : 0.0;
+}
 bool resolve_original_actor_properties(const dh2::data::CharacterTable& characters,
     const dh2::data::ClassTables& classes, const std::string& row_name,
     const OriginalActorPropertyOptions& options, OriginalActorProperties& output,

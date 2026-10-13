@@ -1831,7 +1831,13 @@ bool CombatSession::apply_source_result(const CombatSessionSourceHit& hit,
     batch.delivered.insert(delivery);
     const bool applied=s.runtime->apply_calculated_hit(hit.attacker,hit.target,hit.source_id,
         hit.marker_name,result.damage,result.original.outcomes,result.original.mask,receipt,error);
-    if(receipt.applied)s.pendingSourceHits.push_back(receipt);
+    if(receipt.applied){
+        // F_ApplyResult's PROPS_DebuffSlow reads the attacker's property 189 (mask 0x10000) / 146 from the sheet the roll used.
+        const auto* attackerProps=s.world->combat_properties(hit.attacker);
+        const dh2::data::PropertySheet* slowSheet=hit.attacker_formula_sheet?hit.attacker_formula_sheet:(attackerProps?&attackerProps->sheets.resolved:nullptr);
+        if(slowSheet)receipt.source_slow_duration_raw=(*slowSheet)[(result.original.mask&0x10000u)?189:146];
+        s.pendingSourceHits.push_back(receipt);
+    }
     return applied;
 }
 void CombatSession::clear_retained_frame_audio_observer(){if(impl_)impl_->retainedFrameAudioObserver={};}
@@ -2387,9 +2393,10 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
         const auto* actor=s.world->find_actor(id);const auto* traits=s.world->traits(id);
         const auto* other=s.world->find_actor(policy.source_other_actor);
         const auto state=s.live_original_state(id);
-        if(!actor||!actor->alive()||!traits||!traits->is_player||!other||
+        // v21.8 faery2: SM_SetKnockBackState/CSKnockedBack are Character-generic (IsPlayer is not tested), so a monster target is admitted too.
+        if(!actor||!actor->alive()||!traits||!other||
            policy.state_flags!=0x2341u||(!policy.source_direct_transition&&state!=3&&state!=11)){
-            error="KnockedBack10 requires its live player/attacker, source flags and admitted current state";return false;
+            error="KnockedBack10 requires its live target/attacker, source flags and admitted current state";return false;
         }
     }
     if(entry.dispatchingDeparture||(entry.stateSequence&&entry.sourceStatePolicy)){

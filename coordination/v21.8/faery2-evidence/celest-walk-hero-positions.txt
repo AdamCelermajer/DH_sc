@@ -1,0 +1,17 @@
+Timed buff probe frame=280 position=203.611,557.532 activeBuffs=1 walkRate=1
+Timed buff probe frame=296 position=203.611,557.532 activeBuffs=1 walkRate=1
+Timed buff probe frame=312 position=203.611,557.532 activeBuffs=1 walkRate=1
+Timed buff probe frame=328 position=127.589,662.385 activeBuffs=1 walkRate=1
+Timed buff probe frame=344 position=247.456,782.1 activeBuffs=1 walkRate=1
+Timed buff probe frame=360 position=308.736,793.611 activeBuffs=1 walkRate=1
+Timed buff probe frame=376 position=366.072,795.435 activeBuffs=1 walkRate=1
+Timed buff probe frame=392 position=590.612,794.949 activeBuffs=1 walkRate=1
+Timed buff probe frame=408 position=683.83,766.188 activeBuffs=1 walkRate=1
+Timed buff probe frame=424 position=749.631,737.245 activeBuffs=1 walkRate=1
+Timed buff probe frame=440 position=749.631,737.245 activeBuffs=1 walkRate=1
+Timed buff probe frame=456 position=749.631,737.245 activeBuffs=1 walkRate=1
+Faery placed (PlaceFaeryAndFollowers) actor=8886960962655148639 slot=0 model=data/3D/characters/faeries/faeries_02_celeste.bdae position=204.255,556.767,100.41 frame=0
+[follower] actor=8886960962655148639 script=follower action=approach distance=563.848 view=2300 interact=250
+[follower] actor=8886960962655148639 script=follower action=stop distance=560.952 view=2300 interact=250
+[follower] actor=8886960962655148639 script=follower action=none distance=560.952 view=2300 interact=250
+Actor final id=8886960962655148639 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_s_00_0#0|data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp|4|_prim_Faery HP=599.996/600 target=0 action=0 position=216.958,561.383,100.41

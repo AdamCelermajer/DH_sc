@@ -1,0 +1,22 @@
+Test Faery equipped slot=2 argument=Wetty state=unlocked (forced by --test-faery)
+Source Faery FX bound script=faerie_rocky PlayerSet=58 TargetSet=59
+Source Faery FX bound script=faerie_wetty PlayerSet=72 TargetSet=71
+Source Faery FX bound script=faerie_windy PlayerSet=75 TargetSet=74
+Source Faery FX bound script=faerie_hotty PlayerSet=38 TargetSet=39
+Faery passive applied class=Maria_WaterResistance element=2 level=0 frame=0
+Faery placed (PlaceFaeryAndFollowers) actor=8886960962655148639 slot=2 model=data/3D/characters/faeries/faeries_01_wetty.bdae position=204.255,556.767,100.41 frame=0
+Faery body loaded model=data/3d/characters/faeries/faeries_01_wetty.bdae meshes=3
+Embedded FX actor _prim_Faery attached model=data/3d/characters/faeries/faeries_01_wetty.bdae
+Source Faery key=4 frame=250 slot=2 sequence=356 generation=1 phase=1 MP=18.5 diagnostic=Hotty OnPre completed; waiting for its distinct source Cast-state Use owner
+Faery cast sound uid=589 label=sfx_spell_water_small targets=2 frame=251 status=dispatched detail=
+Faery hit sound frame=275 targets=2 labels=sfx_faerie_ice
+Damage frame=275 attacker=18446744073709551615 target=6003394295803936768 marker=SpellCombatRoll removed=22.7148 dead=0 outcomes=0x0 srcmask=0x1005554a
+Damage frame=275 attacker=18446744073709551615 target=6003394295803936769 marker=SpellCombatRoll removed=27.5586 dead=0 outcomes=0x0 srcmask=0x1005554a
+Faery cast sound uid=-1 label=sfx_faerie_ice targets=2 frame=276 status=failed detail=label absent from the sounds table
+Source Faery key=4 frame=600 slot=2 sequence=356 generation=2 phase=1 MP=8.5 diagnostic=Hotty OnPre completed; waiting for its distinct source Cast-state Use owner
+Faery cast sound uid=589 label=sfx_spell_water_small targets=2 frame=601 status=dispatched detail=
+Faery hit sound frame=625 targets=2 labels=sfx_faerie_ice
+Damage frame=625 attacker=18446744073709551615 target=6003394295803936768 marker=SpellCombatRoll removed=28.1328 dead=0 outcomes=0x0 srcmask=0x1005554a
+Damage frame=625 attacker=18446744073709551615 target=6003394295803936769 marker=SpellCombatRoll removed=27.4414 dead=1 outcomes=0x0 srcmask=0x1005554a
+Faery cast sound uid=-1 label=sfx_faerie_ice targets=2 frame=626 status=failed detail=label absent from the sounds table
+Actor final id=8886960962655148639 definition=data/scene/002_swamp_witchcave.rule.xml|/deadend_swpcave_s_00_0#0|data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp|4|_prim_Faery HP=599.996/600 target=0 action=0 position=204.255,556.767,100.41

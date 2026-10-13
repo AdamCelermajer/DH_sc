@@ -23,6 +23,10 @@ bool load_original_ai_tables(const AssetCatalog& assets,const std::string& root,
 dh2::data::CombatRandom PlayableActorWorld::random_state() const noexcept {
     return lootRandomLoan_?dh2::data::CombatRandom{lootRandomLoan_->seed,lootRandomLoan_->calls}:random_;
 }
+void PlayableActorWorld::set_random_state_for_test(dh2::data::CombatRandom state) noexcept {
+    random_=state;
+    if(lootRandomLoan_){lootRandomLoan_->seed=state.seed;lootRandomLoan_->calls=state.calls;}
+}
 void PlayableActorWorld::sync_random_from_loan() const noexcept {
     if(lootRandomLoan_)random_={lootRandomLoan_->seed,lootRandomLoan_->calls};
 }

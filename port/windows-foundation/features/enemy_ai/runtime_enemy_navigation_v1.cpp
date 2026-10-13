@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <limits>
 
 namespace dh::foundation::enemy_ai {
@@ -67,6 +68,8 @@ void RuntimeEnemyNavigationV1::reset_for_session(const std::weak_ptr<const void>
     if (!lease_initialized_ || !same_owner(session_lease_, lease)) {
         routes_.clear();
         locomotion_bound_.clear();
+        base_walk_raw_.clear();
+        applied_walk_ratio_.clear();
         session_lease_ = lease;
         lease_initialized_ = true;
     }
@@ -127,6 +130,9 @@ bool RuntimeEnemyNavigationV1::bind_locomotion(CombatSession& session, ActorId i
                                        config_.walk_rate, true, error)) return false;
     if (!session.bind_actor_locomotion(id, config_.idle_alias, config_.idle_choice,
                                        config_.idle_rate, true, error)) return false;
+    if (const auto* props = session.world() ? session.world()->combat_properties(id) : nullptr)
+        base_walk_raw_[id] = props->sheets.resolved[46];
+    applied_walk_ratio_[id] = 1.0;
     locomotion_bound_[id] = true;
     return true;
 }
@@ -135,6 +141,23 @@ bool RuntimeEnemyNavigationV1::select(CombatSession& session, ActorId id,
                                       const std::string& alias, std::string& error) {
     if (session.owns_pose(id)) return true;
     if (!bind_locomotion(session, id, error)) return false;
+    // v21.8 faery2 (Debuff_Slow): the walk rate follows the live Speed_Modifier_Walk cell (46) relative to its value at the first
+    // bind, so a timed buff/debuff on the sheet (Wetty slow, Rene haste) changes the monster's root-motion speed. A monster whose
+    // base modifier is not 1.0 keeps its previous (config) rate until a buff changes the cell.
+    if (alias == config_.walk_alias) {
+        const auto* props = session.world() ? session.world()->combat_properties(id) : nullptr;
+        const auto base = base_walk_raw_.find(id);
+        if (props && base != base_walk_raw_.end()) {
+            const double ratio = original_speed_modifier_ratio(base->second, props->sheets.resolved[46]);
+            auto& applied = applied_walk_ratio_[id];
+            if (ratio > 0.0 && std::isfinite(ratio) && std::fabs(ratio - applied) > 1e-6) {
+                if (!session.bind_actor_locomotion(id, config_.walk_alias, config_.walk_choice, config_.walk_rate * ratio, true, error)) return false;
+                applied = ratio;
+                ++report_.walk_rate_rebinds;
+                std::cout << "[nav] walk rate rebound actor=" << id << " modifierRatio=" << ratio << " rate=" << config_.walk_rate * ratio << "\n";
+            }
+        }
+    }
     return session.select_actor_locomotion(id, alias, error);
 }
 

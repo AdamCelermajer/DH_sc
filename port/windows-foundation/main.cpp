@@ -493,6 +493,7 @@ struct Options {
     bool noLevelLight=false;   // B076: --no-level-light (A/B diagnostic)
     int transitionEntryId=-1;     // P17 TRANSITIONS: entry id of the level this session arrives at (-1 = none)
     float transitionHeading=0.0f; // P17 TRANSITIONS: arrival facing (yaw of the entry SpawnPoint)
+    std::vector<std::pair<std::uint32_t,int>> testRngAt; // v21.8 faery2 test aid: --test-rng-at SEED@FRAME resets the combat RNG stream to {SEED,0} at that frame
     std::vector<std::pair<std::string,int>> playerToZoneFrames; // P17 TRANSITIONS test aid: --player-to ZONE@FRAME
     std::optional<dh::foundation::test_aids::FollowActorAidV1> followActorAid; // B158 test aid: --follow-actor PROFILE@FROM-TO[:DIST]
     std::vector<int> transitionConfirmFrames;                   // P17 TRANSITIONS test aid: --transition-confirm FRAME
@@ -632,6 +633,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
         else if(arg=="--no-level-light") o.noLevelLight=true; // B076 A/B diagnostic
         else if(arg=="--no-ambient-decor") o.noAmbientDecor=true; // B076 A/B diagnostic: omit ambient AnimatedDecor
+        else if(arg=="--test-rng-at") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--test-rng-at expects SEED@FRAME");o.testRngAt.emplace_back(std::uint32_t(std::stoul(at.substr(0,sep))),std::stoi(at.substr(sep+1)));}
         else if(arg=="--player-to") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--player-to expects ZONE@FRAME");o.playerToZoneFrames.emplace_back(at.substr(0,sep),std::stoi(at.substr(sep+1)));} // P17 TRANSITIONS
         else if(arg=="--follow-actor") o.followActorAid=dh::foundation::test_aids::parse_follow_actor_aid_v1(value()); // B158 test aid
         else if(arg=="--transition-confirm") o.transitionConfirmFrames.push_back(std::stoi(value())); // P17 TRANSITIONS
@@ -1482,6 +1484,7 @@ int main(int argc,char** argv) {
         // B159/B035: source Push banks (CharAnimTable KnockedBack/GreatKnockedBack roots) of the player, one per equipment stance, and the
         // actor-binding lease the Push consumer is currently bound to (a restore replaces the lease and clears the Session handler).
         std::map<std::int32_t,f::combat::SessionPushAnimationBankV1> sourcePushBanks;std::weak_ptr<const void> sourcePushBoundLease;
+        std::map<std::string,f::combat::SessionPushAnimationBankV1> monsterPushBanks; // v21.8 faery2: per monster profile (defender's own CharAnimTable +72/+36 roots)
         if(sourcePlayerStanceEnabled) {
             const auto read=[&](const char* file){return f::read_content(assets,(std::filesystem::path(options.combat.tableRoot)/file).generic_string());};
             const auto records=read("loot_table_pyarray.bin"),names=read("loot_table_pyarraynames.bin"),fields=read("loot_table_pystructnames.bin");
@@ -2354,6 +2357,31 @@ int main(int argc,char** argv) {
                     }
                     std::cout<<"[push] stance "<<stance<<" bank normal="<<bank.normal_sequence<<" great="<<bank.great_sequence<<" pushClips="<<pushClips<<'\n';
                     sourcePushBanks.emplace(stance,std::move(bank));
+                }
+                // v21.8 faery2: the same SM_SetKnockBackState reads the defender's OWN CharAnimTable row (+72 KnockedBack / +36 GreatKnockedBack),
+                // so every combat monster profile gets its bank (stance 0: no equipment stance) and its clips join its Session visual.
+                monsterPushBanks.clear();
+                if(constantsOk)for(auto& policyEntry:options.combat.profiles) {
+                    const auto& monsterProfileId=policyEntry.first;
+                    if(monsterProfileId==options.combat.playerProfileId||policyEntry.second.animationOnly)continue;
+                    const auto* monsterProfile=profiles.find(monsterProfileId);
+                    if(!monsterProfile||monsterProfile->animation_table.empty()||monsterProfile->model_uri.empty())continue;
+                    int monsterRow=-1;
+                    try{monsterRow=std::stoi(monsterProfile->animation_table);}catch(...){continue;}
+                    if(monsterRow<0||std::size_t(monsterRow)>=skillAnimationTables.characters.size())continue;
+                    f::CharacterVisualConfig monsterVisual;monsterVisual.model_path=monsterProfile->model_uri;
+                    f::combat::SessionPushAnimationBankV1 monsterBank;std::string monsterPushError;
+                    if(!f::combat::build_session_push_animation_bank_v1(assets,skillAnimationTables,skillAnimationDictionary,monsterRow,0,std::uint32_t(pushConstants.stanced_list_mask),
+                        monsterVisual,"monster-source-push-"+monsterProfileId,monsterBank,monsterPushError)) {
+                        std::cout<<"[push] monster "<<monsterProfileId<<" bank unavailable: "<<monsterPushError<<'\n';continue;
+                    }
+                    std::size_t monsterPushClips=0;
+                    for(const auto& clip:monsterBank.plan.config.clips) {
+                        ++monsterPushClips;
+                        if(std::none_of(policyEntry.second.sourceAnimationClips.begin(),policyEntry.second.sourceAnimationClips.end(),[&](const auto& item){return item.first==clip.first;}))policyEntry.second.sourceAnimationClips.push_back(clip);
+                    }
+                    std::cout<<"[push] monster "<<monsterProfileId<<" CharAnimTable="<<monsterRow<<" bank normal="<<monsterBank.normal_sequence<<" great="<<monsterBank.great_sequence<<" pushClips="<<monsterPushClips<<'\n';
+                    monsterPushBanks.emplace(monsterProfileId,std::move(monsterBank));
                 }
             }
             auto next=std::make_shared<f::CombatSession>();
@@ -5903,6 +5931,7 @@ int main(int argc,char** argv) {
         std::set<std::uint64_t> faerieActors;
         bool faerieActorsScanned=false;
         std::map<std::uint64_t,std::int32_t> faeryPlacedFor; // actor -> equipped slot + 1 it was last placed for
+        std::string faeryPassiveClass; // v21.8 faery passive: resistance ClassTable row currently applied to the player (empty = none)
         std::set<std::string> faeryBodyReported;
         std::shared_ptr<f::SourceNavigationWorldStorage> enemyNavigationWorld;
         // B159/B035: binds the Session's incoming-Push consumer (CombatSession hit-effect observer). Original: F_ApplyResult 0x3b10b4 calls
@@ -5915,6 +5944,17 @@ int main(int argc,char** argv) {
             if(lease.expired())return;
             if(!sourcePushBoundLease.expired()&&!lease.owner_before(sourcePushBoundLease)&&!sourcePushBoundLease.owner_before(lease))return;
             const auto sink=[&](f::CombatSession& session,const f::combat::SessionPushRequestV1& request,std::string& e)->bool{
+                if(const auto* targetTraits=session.world()->traits(request.target);targetTraits&&!targetTraits->is_player) {
+                    // v21.8 faery2: monster defender (F_ApplyResult guards the status block with IsDead, not IsPlayer; SM_SetKnockBackState is a no-op for a Boss).
+                    std::string monsterProfileId;
+                    for(const auto& placed:population.actors())if(placed.definition.stableId==request.target){monsterProfileId=placed.profileId;break;}
+                    const auto monsterBank=monsterPushBanks.find(monsterProfileId);
+                    if(monsterBank==monsterPushBanks.end()) {std::cout<<"[push] no source Push bank for monster profile '"<<monsterProfileId<<"'; knockback not played\n";return true;}
+                    std::cout<<"[push] KnockBack monster target="<<request.target<<" profile="<<monsterProfileId<<" attacker="<<request.attacker<<" source="<<request.source_id<<" great="<<request.great<<" direct="<<request.direct
+                             <<" outcomes=0x"<<std::hex<<request.source_outcomes<<" mask=0x"<<request.source_mask<<std::dec<<" frame="<<session.update_serial()<<'\n';
+                    f::CombatSessionStateAnimationServices monsterServices;
+                    return f::combat::play_session_push_animation_v1(session,request,monsterBank->second,std::move(monsterServices),e);
+                }
                 std::int32_t stance=-1;
                 if(locomotionLibrary) {
                     const auto hands=currentLocomotionItems();
@@ -6003,7 +6043,9 @@ int main(int argc,char** argv) {
                 if(options.sourceNativeBodies)return nativeBodies.set_position(owner.id,position,true,e);
                 owner.transform.position=position;return true;
             };
-            followServices.body_radius=[&](const f::ActorState& master){const auto* pf=nativeBodies.navigation(master.id);return pf?pf->radius:0.0f;};
+            // Original: AI_IsInInteractionRange subtracts the master's vtable+148 = Character::GetInteractionRadius 0x3a374c = CharAI::AI_GetMeleeRadius(master)
+            // (AI row MeleeRadius + weapon reach), i.e. PlayableActorWorld::melee_reach, not the navigation body radius.
+            followServices.body_radius=[&](const f::ActorState& master){return combatSession->world()->melee_reach(master.id);};
             followServices.enabled=[&](f::ActorId id){for(const auto& a:population.actors())if(a.definition.stableId==id)return a.enabled!=0;return true;};
             followServices.active=[&](){return !campaignHost.cutscene_mode();};
             auto followers=std::make_shared<f::companions::RuntimeFollowerControllerV1>(std::move(followServices));
@@ -7004,6 +7046,32 @@ int main(int argc,char** argv) {
         dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
         // Poll can latch a platform close before the next iteration. Admit that iteration so the
         // Application::Quit save/retry handler below owns shutdown instead of bypassing it.
+        // v21.8 skills-a + faery: the shared timed buff owner is created on first use (Quickness cast, faery passive).
+        const auto ensureTimedBuffOwner=[&]() {
+            if(timedBuffs)return;
+                                f::generic_skills::TimedBuffBindingsV1 buffBindings;
+                                buffBindings.classes=&properties.classes;buffBindings.rules=&menuSkillPropertyRules;
+                                buffBindings.fx.play=[&](const std::string& setName,f::ActorId actorId,std::uintptr_t& identity,std::string& e)->bool{
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    const auto fxTables=sourceEffectsTables.borrow();
+                                    const auto& setNames=fxTables.set_names();
+                                    const auto setIt=std::find(setNames.begin(),setNames.end(),setName);
+                                    if(setIt==setNames.end()){e="EffectsTables set absent: "+setName;return false;}
+                                    std::uintptr_t managerIdentity{};bool found=false;
+                                    if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
+                                    if(!found||!managerIdentity){e="Buff actor has no opaque FX manager identity";return false;}
+                                    // Native buff FX load (CharProperties buff_fx_load): GrabAnimFX on the character - a retained looping
+                                    // marker FX that lives until the buff releases it (DropAnimatedFX), not an auto-returning PlayAnimFXSet.
+                                    if(!sourceEffectsFactory->manager().grab_marker_v28(std::int32_t(setIt-setNames.begin()),managerIdentity,identity,e))return false;
+                                    if(!identity){e="Buff FX grab created no instance";return false;}
+                                    return true;
+                                };
+                                buffBindings.fx.drop=[&](std::uintptr_t identity,std::string& e)->bool{
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    return sourceEffectsFactory->manager().drop(identity,e);
+                                };
+                                timedBuffs=std::make_unique<f::generic_skills::RuntimeTimedBuffOwnerV1>(std::move(buffBindings));
+        };
         while(true) {
             stateTraceFrame=drawn;
             // B086 Application::Quit: closing the window (or --quit-frame) quick-saves the level world and the profile first. An active
@@ -7809,6 +7877,7 @@ int main(int argc,char** argv) {
                     }
             }
             if(combatSession&&!exitZones.zones().empty()&&!pendingTransition) {
+                for(const auto& rngAid:options.testRngAt) if(rngAid.second==drawn) {combatSession->world()->set_random_state_for_test({rngAid.first,0});std::cout<<"Test RNG reset seed="<<rngAid.first<<" frame="<<drawn<<" (test aid)\n";}
                 for(const auto& aid:options.playerToZoneFrames) if(aid.second==drawn) {
                     const auto zoneIndex=exitZones.find(aid.first);
                     float rawX=0,rawY=0,rawZ=0;
@@ -8410,30 +8479,7 @@ int main(int argc,char** argv) {
                             };
                             // v21.8 skills-a: timed buff owner (Quickness CreateBuff/ApplyBuff). The FX service plays the buff's
                             // AnimatedEffectTable set on the player as a retained looping marker (buff_fx_load = GrabAnimFX).
-                            if(!timedBuffs) {
-                                f::generic_skills::TimedBuffBindingsV1 buffBindings;
-                                buffBindings.classes=&properties.classes;buffBindings.rules=&menuSkillPropertyRules;
-                                buffBindings.fx.play=[&](const std::string& setName,f::ActorId actorId,std::uintptr_t& identity,std::string& e)->bool{
-                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
-                                    const auto fxTables=sourceEffectsTables.borrow();
-                                    const auto& setNames=fxTables.set_names();
-                                    const auto setIt=std::find(setNames.begin(),setNames.end(),setName);
-                                    if(setIt==setNames.end()){e="EffectsTables set absent: "+setName;return false;}
-                                    std::uintptr_t managerIdentity{};bool found=false;
-                                    if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
-                                    if(!found||!managerIdentity){e="Buff actor has no opaque FX manager identity";return false;}
-                                    // Native buff FX load (CharProperties buff_fx_load): GrabAnimFX on the character - a retained looping
-                                    // marker FX that lives until the buff releases it (DropAnimatedFX), not an auto-returning PlayAnimFXSet.
-                                    if(!sourceEffectsFactory->manager().grab_marker_v28(std::int32_t(setIt-setNames.begin()),managerIdentity,identity,e))return false;
-                                    if(!identity){e="Buff FX grab created no instance";return false;}
-                                    return true;
-                                };
-                                buffBindings.fx.drop=[&](std::uintptr_t identity,std::string& e)->bool{
-                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
-                                    return sourceEffectsFactory->manager().drop(identity,e);
-                                };
-                                timedBuffs=std::make_unique<f::generic_skills::RuntimeTimedBuffOwnerV1>(std::move(buffBindings));
-                            }
+                            ensureTimedBuffOwner();
                             // v21.8 magewire: external owner for ChainLightning / Cyclone / StoneEscape (their OnPre/OnSkill bodies run
                             // on the shared projectile executor, the NativeWorld sensor and the source FX/audio owners).
                             if(!mageSkillOwner) {
@@ -8859,6 +8905,14 @@ int main(int argc,char** argv) {
                     if(probeActor&&probeProps)std::cout<<"Timed buff probe frame="<<drawn<<" position="<<probeActor->transform.position[0]<<','<<probeActor->transform.position[1]
                         <<" activeBuffs="<<(timedBuffs?timedBuffs->active_count(combatSession->player_id()):0)<<" walkRate="<<f::original_speed_modifier(probeProps->sheets.resolved[46])<<'\n';
                 }
+                if(!gameplayPaused&&stateTraceEnabled&&drawn%4==0) { // same diagnostic for the other session actors (Debuff_Slow / knockback measurements)
+                    for(const auto& entry:combatSession->world()->actors()) {
+                        if(entry.first==combatSession->player_id())continue;
+                        const auto* otherProps=combatSession->world()->combat_properties(entry.first);
+                        if(otherProps&&entry.second.alive())std::cout<<"Actor probe frame="<<drawn<<" actor="<<entry.first<<" position="<<entry.second.transform.position[0]<<','<<entry.second.transform.position[1]
+                            <<" action="<<int(entry.second.action)<<" walkRate="<<f::original_speed_modifier(otherProps->sheets.resolved[46])<<'\n';
+                    }
+                }
                 if(!gameplayPaused&&skillCastCoordinator) {
                     if(const auto* receipt=skillCastCoordinator->receipt(combatSession->player_id()))if(lastSkillPhase!=int(receipt->phase)||lastSkillGeneration!=receipt->generation) {
                         lastSkillPhase=int(receipt->phase);lastSkillGeneration=receipt->generation;
@@ -9105,6 +9159,21 @@ int main(int argc,char** argv) {
                     std::cout<<"Source combo boundary frame="<<drawn<<" actor="<<boundary.actor<<" generation="<<boundary.generation<<" begin="<<boundary.beginning<<" depth="<<boundary.depth<<" step="<<boundary.step<<" count="<<boundary.count<<" clip="<<boundary.source_clip<<'\n';
                 for(const auto& event:combatSession->events()) {
                     std::cout<<"Damage frame="<<drawn<<" attacker="<<event.attacker<<" target="<<event.target<<" marker="<<event.marker_name<<" removed="<<event.health_removed<<" dead="<<event.target_died<<" outcomes=0x"<<std::hex<<event.source_outcomes.value_or(0)<<" srcmask=0x"<<event.source_mask.value_or(0)<<std::dec<<'\n';
+                    // v21.8 slow (Character::F_ApplyResult byte+25 bit0 -> PROPS_DebuffSlow): Debuff_Slow on a non-boss target.
+                    if(event.source_outcomes&&(*event.source_outcomes&0x100u)!=0&&!event.target_died&&combatSession->original_ai_tables()) {
+                        const auto* attackerProps=combatSession->world()->combat_properties(event.attacker);
+                        const auto* defenderProps=combatSession->world()->combat_properties(event.target);
+                        const auto* defenderAi=defenderProps?dh2::data::ai_props(*combatSession->original_ai_tables(),defenderProps->sheets.resolved[1]):nullptr;
+                        const auto slow=!defenderAi?std::nullopt:event.source_slow_duration_raw?f::generic_skills::debuff_slow_spec_from_duration_v1(*event.source_outcomes,*event.source_slow_duration_raw,(defenderAi->flags&4u)!=0)
+                            :attackerProps?f::generic_skills::debuff_slow_spec_v1(*event.source_outcomes,event.source_mask.value_or(0),attackerProps->sheets.resolved,(defenderAi->flags&4u)!=0):std::optional<f::generic_skills::TimedBuffSpecV1>{};
+                        if(slow) {
+                            ensureTimedBuffOwner();
+                            std::string slowError;
+                            if(timedBuffs->apply_timed_buff(*combatSession,event.target,*slow,slowError))
+                                std::cout<<"Debuff slow applied target="<<event.target<<" durationMs="<<slow->duration_ms<<" frame="<<drawn<<'\n';
+                            else std::cerr<<"Debuff slow failed target="<<event.target<<": "<<slowError<<'\n';
+                        }
+                    }
                     if(options.testEnemyInjuryActor&&event.attacker==options.testEnemyInjuryActor) {
                         const auto* props=combatSession->world()->combat_properties(event.attacker);
                         const auto* defender=combatSession->world()->combat_properties(event.target);
@@ -9134,6 +9203,29 @@ int main(int argc,char** argv) {
                 const auto equipped=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
                 const auto* equippedAbility=f::faery_menu::faery_ability_for_list_slot_v1(sourceFaeryTables,state.source_faery_list_id,equipped);
                 const std::string equippedModel=equippedAbility?f::companions::faery_body_model_uri_v1(equippedAbility->model_file):std::string();
+                // v21.8 faery passive (faerie_celest.luac CheckFaeries, run from its OnSkillUpdate_): when the equipped element or
+                // level changes, RemoveBuff the previous resistance and CreateBuff(class, 0, false, 1) + ApplyBuff the new one.
+                // Duration 0 = permanent (no timer in PROPS_AddBuff), no FX. Trigger: any equipped faery (CheckFaeries reads
+                // GetEquippedFaeryElement); which script runs OnSkillUpdate_ at all is an inference, see faery2-report.md.
+                if(equippedAbility&&!equippedAbility->faery_name.empty()) {
+                    const auto& progress=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].faeries[std::size_t(equipped)];
+                    const char* wanted=f::faery_menu::faery_passive_buff_class_v1(equippedAbility->element,std::int32_t(progress.level));
+                    const std::string wantedClass=wanted?wanted:"";
+                    if(!wantedClass.empty()&&wantedClass!=faeryPassiveClass&&combatSession) {
+                        ensureTimedBuffOwner();
+                        std::string passiveError;
+                        const auto player=combatSession->player_id();
+                        if(!faeryPassiveClass.empty()&&!timedBuffs->remove_timed_buff(*combatSession,player,faeryPassiveClass,passiveError))
+                            std::cerr<<"Faery passive remove "<<faeryPassiveClass<<": "<<passiveError<<'\n';
+                        f::generic_skills::TimedBuffSpecV1 passiveSpec;
+                        passiveSpec.class_name=wantedClass;passiveSpec.strength=1;passiveSpec.duration_ms=0.0;passiveSpec.permanent=true;
+                        passiveSpec.source="faery passive "+std::string(equippedAbility->faery_name);
+                        if(timedBuffs->apply_timed_buff(*combatSession,player,passiveSpec,passiveError)) {
+                            std::cout<<"Faery passive applied class="<<wantedClass<<" element="<<equippedAbility->element<<" level="<<progress.level<<" frame="<<drawn<<'\n';
+                            faeryPassiveClass=wantedClass;
+                        } else std::cerr<<"Faery passive apply "<<wantedClass<<" failed: "<<passiveError<<'\n';
+                    }
+                }
                 const auto lower=[](std::string text){for(auto& c:text)c=char(std::tolower(static_cast<unsigned char>(c)));return text;};
                 // Level::PlaceFaeryAndFollowers: at level start and after NativeHUDSetActiveFaery (ChangeFaery) the faery stands at
                 // the master target position + the master's UNIT look vector; follower.luac takes over from there.
@@ -9159,6 +9251,7 @@ int main(int argc,char** argv) {
                             const auto& m=loaded.original_materials()[i];
                             const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
                             for(auto& range:loaded.mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
+                            std::cout<<"Faery body mesh "<<i<<" diffuse="<<m.diffuse<<" alpha="<<m.alphaMap<<" effect="<<m.effectFile<<" technique="<<m.technique<<" vertices="<<loaded.meshes()[i].vertices.size()<<" ranges="<<loaded.meshes()[i].ranges.size()<<'\n';
                         }
                         std::cout<<"Faery body loaded model="<<loaded.configuration()->model_path<<" meshes="<<loaded.meshes().size()<<'\n';
                     },bodyError);
@@ -9171,6 +9264,11 @@ int main(int argc,char** argv) {
                             std::cerr<<"Faery body pose "<<current.clip_id<<": "<<mirrorError<<'\n';
                     }
                     faeryShown[id]=body;
+                    if(!options.testFaery.empty()&&drawn%20==0) { // --test-faery diagnostic: where the faery body is and what it plays
+                        const auto* liveF=combatSession->actor(id);const auto* poseF=combatSession->retained_actor_pose(id);
+                        std::cout<<"Faery body trace frame="<<drawn<<" actor="<<id<<" position="<<(liveF?liveF->transform.position[0]:0.f)<<','<<(liveF?liveF->transform.position[1]:0.f)<<','<<(liveF?liveF->transform.position[2]:0.f)
+                                 <<" meshes="<<body->meshes().size()<<" clip="<<(poseF?poseF->slots().at(poseF->current_slot()).clip_id:std::string("(no retained pose)"))<<" action="<<(liveF?int(liveF->action):-1)<<'\n';
+                    }
                 }
             }
             // P16 OPENING4: scripted scene objects advance their clips on the gameplay clock.

@@ -35,6 +35,7 @@ struct RuntimeEnemyNavigationReportV1 {
     std::size_t geometry_identity_checks = 0;
     std::size_t boundary_heading_checks = 0;
     std::size_t boundary_heading_slides = 0;
+    std::size_t walk_rate_rebinds = 0;  // walk locomotion re-bound because Speed_Modifier_Walk changed (buff/debuff)
 };
 
 // Route state is per stable ActorId, while ActorState, PFObject, floor world,
@@ -83,6 +84,8 @@ private:
     RuntimeEnemyNavigationConfigV1 config_;
     std::map<ActorId, ActorRoute> routes_;
     std::map<ActorId, bool> locomotion_bound_;
+    std::map<ActorId, std::int32_t> base_walk_raw_;  // Speed_Modifier_Walk (cell 46, raw) when the walk locomotion was first bound
+    std::map<ActorId, double> applied_walk_ratio_;  // live/base ratio the bound walk rate currently carries
     std::weak_ptr<const void> session_lease_;
     bool lease_initialized_ = false;
     RuntimeEnemyNavigationReportV1 report_;

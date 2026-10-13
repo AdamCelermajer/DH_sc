@@ -74,8 +74,10 @@ bool capture_session_push_admission_v1(CombatSession& session,
     next.target_was_alive = target->alive();
     // B159: F_ApplyResult 0x3b10b4 raises SM_SetKnockBackState for every defender whose result carries outcome bit 0x80 (the
     // Player/SM_IsIdle test only synthesises the Injured/Dodge bit when none is set). The state machine accepts event 50011 from the
-    // states in source_knockback_event_accepted_v1 (not only Idle); this admission is the pre-hit state of a player target.
-    next.source_push_gate_admitted = next.target_was_player &&
+    // states in source_knockback_event_accepted_v1 (not only Idle). v21.8 faery2: the status block is guarded by Character::IsDead
+    // (vtable +52 of the F_ApplyResult at 0x3b01b8), not by IsPlayer (+40), so a living MONSTER defender is admitted the same way;
+    // the sink decides whether it owns a bank for that target (no bank = source no-op for that row, a Boss is a no-op in the state setter).
+    next.source_push_gate_admitted =
         next.target_was_alive && source_knockback_event_accepted_v1(source_state);
     output = std::move(next);
     return true;

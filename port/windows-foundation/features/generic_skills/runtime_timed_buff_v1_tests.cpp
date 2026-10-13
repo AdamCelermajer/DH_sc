@@ -26,6 +26,27 @@ constexpr unsigned kWalk = 46, kRotation = 47, kAttack = 48, kSnsLevel = 172, kM
 
 int main(int argc, char** argv) {
     try {
+        // v21.8 slow decision (F_ApplyResult byte+25 bit0 -> PROPS_DebuffSlow): pure rules, no session needed.
+        {
+            dh2::data::PropertySheet attacker{};
+            attacker[189] = 2000 << 8; // SnS_Slow_Duration (Water faery, skill mask 0x10000)
+            attacker[146] = 500 << 8;  // default slow property
+            const auto a = debuff_slow_spec_v1(0x100u, 0x10000u, attacker, false);
+            check(a && a->class_name == "Debuff_Slow" && a->duration_ms == 2000.0 && a->strength == 0,
+                  "Slow outcome with mask 0x10000 must use property 189 as a Debuff_Slow duration");
+            const auto b = debuff_slow_spec_v1(0x100u, 0x0u, attacker, false);
+            check(b && b->duration_ms == 500.0, "Slow outcome without mask 0x10000 must use property 146");
+            check(!debuff_slow_spec_v1(0x80u, 0x10000u, attacker, false), "A push outcome must not slow");
+            check(!debuff_slow_spec_v1(0x0u, 0x10000u, attacker, false), "No outcome must not slow");
+            check(!debuff_slow_spec_v1(0x100u, 0x10000u, attacker, true), "A boss defender must not be slowed");
+            attacker[189] = 0;
+            check(!debuff_slow_spec_v1(0x100u, 0x10000u, attacker, false), "A zero slow duration must not slow");
+            // The hit-captured duration (DamageEvent::source_slow_duration_raw, Spell_Water_1: 5000 ms x256) drives the same rule.
+            const auto c = debuff_slow_spec_from_duration_v1(0x100u, 5000 << 8, false);
+            check(c && c->class_name == "Debuff_Slow" && c->duration_ms == 5000.0, "Hit-captured slow duration must become a Debuff_Slow of that many ms");
+            check(!debuff_slow_spec_from_duration_v1(0x0u, 5000 << 8, false) && !debuff_slow_spec_from_duration_v1(0x100u, 0, false) &&
+                  !debuff_slow_spec_from_duration_v1(0x100u, 5000 << 8, true), "No slow without the outcome, with zero duration, or on a boss");
+        }
         check(argc == 2, "Supply repository root");
         const std::filesystem::path repo(argv[1]);
         AssetCatalog assets(repo / ".local-inputs/windows-source-clock-v19-preview-9/assets");
@@ -91,6 +112,18 @@ int main(int argc, char** argv) {
         const auto quick3 = buff_cells("Skill_Rogue_Quickness_buff", 3);
         check(quick1[kWalk] == 5120 + 384 && quick1[kRotation] == 5120 + 384 && quick1[kAttack] == 5120 + 384 &&
               quick3[kWalk] == 5120 + 3 * 384, "Skill_Rogue_Quickness_buff class row no longer matches the recorded 5120 + 384 x level");
+
+        {
+            // v21.8 faery2: the authored Debuff_Slow row halves walk/rotation/attack (raw -12800 = -50 %), so a bound monster walk
+            // locomotion is re-bound at half rate (RuntimeEnemyNavigationV1 uses original_speed_modifier_ratio of base vs live cell 46).
+            const auto slow = buff_cells("Debuff_Slow", 0);
+            check(slow[kWalk] == -12800 && slow[kRotation] == -12800 && slow[kAttack] == -12800,
+                  "Debuff_Slow class row no longer matches the recorded -50 % walk/rotation/attack");
+            check(near(original_speed_modifier_ratio(0, slow[kWalk]), 0.5), "Debuff_Slow must halve the walk rate ratio");
+            check(near(original_speed_modifier_ratio(0, 0), 1.0) && near(original_speed_modifier_ratio(5120, 5120), 1.0),
+                  "An unchanged cell keeps ratio 1");
+            check(original_speed_modifier_ratio(-25600, 0) == 0.0, "A non-positive base modifier yields no ratio");
+        }
 
         std::vector<std::string> fx_played, fx_dropped;
         std::uintptr_t next_fx = 100;
@@ -224,8 +257,21 @@ int main(int argc, char** argv) {
         check(!owner.apply_timed_buff(session, 1, bad, error) && live()[kWalk] == base[kWalk], "Unknown class must be rejected");
         bad = spec;
         bad.duration_ms = 0.0;
-        check(!owner.apply_timed_buff(session, 1, bad, error) && live()[kWalk] == base[kWalk], "Zero duration must be rejected");
+        check(!owner.apply_timed_buff(session, 1, bad, error) && live()[kWalk] == base[kWalk], "Zero duration must be rejected without permanent");
+        bad.duration_ms = -5.0;
+        bad.permanent = true;
+        check(!owner.apply_timed_buff(session, 1, bad, error) && live()[kWalk] == base[kWalk], "Permanent with a nonzero duration must be rejected");
         check(!owner.apply_timed_buff(session, 77, spec, error), "A foreign actor must be rejected");
+
+        // 9b. A permanent buff (duration 0, Celest passive CreateBuff(id, 0, false, 1)): no expiry until RemoveBuff.
+        bad = spec;
+        bad.duration_ms = 0.0;
+        bad.permanent = true;
+        check(owner.apply_timed_buff(session, 1, bad, error), error);
+        check(owner.advance(session, 600.0, error), error);
+        check(owner.active(1, spec.class_name), "A duration 0 (permanent) buff must not expire");
+        check(owner.remove_timed_buff(session, 1, spec.class_name, error), error);
+        check(!owner.active(1, spec.class_name) && live()[kWalk] == base[kWalk], "Removing a permanent buff must restore the sheet");
 
         // 10. A dead actor drops its buffs (the owner released them); nothing is published.
         check(owner.apply_timed_buff(session, 1, spec, error), error);

@@ -571,11 +571,17 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         if (active.receipt.generation == 0) active.receipt.generation = next_generation_++;
         active.receipt.session_update_serial = session.update_serial();
         active.receipt.native_hud_spell = true;
-        active.receipt.skill_name = "faerie_hotty";
+        // v21.8: the strike arm serves Hotty, Rocky, Wetty and Windy; name the receipt by the selected Faery's registry entry.
+        const auto* strikeAbility = faery_menu::find_faery_ability_by_script_v1(
+            arm->tables->faeries()[static_cast<std::size_t>(selected_faery_row)].script);
+        const std::string strikeScript = strikeAbility ? std::string(strikeAbility->script) : std::string("faerie_hotty");
+        const std::string strikeName = strikeAbility ? std::string(strikeAbility->faery_name) : std::string("Hotty");
+        active.receipt.skill_name = strikeScript;
+        active.receipt.source_script = strikeScript;
         active.receipt.phase = RuntimeSkillCastPhaseV1::prepared_pending_use;
         active.source_state = 7;
         active.source_focus_flags = 0x6301u;
-        active.receipt.detail = "Hotty OnPre completed; waiting for its distinct source Cast-state Use owner";
+        active.receipt.detail = strikeName + " OnPre completed; waiting for its distinct source Cast-state Use owner";
         active.binding_lease = session.actor_binding_lease();
         active.character = request.character;
         active.characters = request.characters;
