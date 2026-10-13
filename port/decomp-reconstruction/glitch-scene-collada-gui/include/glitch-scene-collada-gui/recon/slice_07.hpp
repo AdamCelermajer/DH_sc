@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <utility>
 
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
@@ -119,13 +120,9 @@ struct CColladaDatabase;
 struct CAnimationStreamingManager;
 struct SAnimationBlockSearchKey;
 
-// Stand-in member view of CAnimationBlock: intrusive count at +0x00, next block at +0x18.
-struct CAnimationBlockLayout {
-    std::int32_t refCount = 0;          // +0x00
-    std::uint8_t pad_0004[0x14] = {};   // +0x04..+0x17 (not mapped)
-    CAnimationBlockLayout* next = nullptr;  // +0x18
-};
-using CAnimationBlock = CAnimationBlockLayout;
+// glitch::collada::CAnimationBlock: the canonical class (collada/CColladaDatabase.hpp). The count is at +0x00 and
+// the next block at +0x18.
+using glitch::collada::CAnimationBlock;
 
 // 0x60b2b4 Reconstructed: empty non-deleting destructor of COnDemandReader.
 void COnDemandReader_D1(void* self);

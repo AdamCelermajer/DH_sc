@@ -96,7 +96,8 @@ public:
     void sendHighScore(const char* score);
     // 0x832fb8 _ZN20GLXPlayerLeaderboard13sendHighScoreEiii (kind 0x6e). s is the score, l the
     // level (sent only when not negative) and t the time.
-    void sendHighScore(std::int32_t s, std::int32_t l, std::int32_t t);
+    // Returns the SendByGet result (1).
+    std::int32_t sendHighScore(std::int32_t s, std::int32_t l, std::int32_t t);
 
     // Not in the original: test seams that fill the parsed lists.
     void SetEntryForTest(std::int32_t index, const char* name, const char* country,

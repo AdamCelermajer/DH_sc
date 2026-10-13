@@ -29,12 +29,12 @@ std::int32_t Abs32(std::int32_t value) {
 // SetValue(0) that only calls SetChanged when the uninitialised memory was non-zero), clears the word at
 // +0x280, declares the eight members with NetStruct::DeclareMember in block order, and ends with a direct
 // call to Reset(). The member defaults are 0, so member_id_ stays 0 (Reset does not touch it) while
-// conn_index_ and unk_1c8 become -1 and state_ stays 0.
+// matching_member_id_ and gamepad_id_ become -1 and state_ stays 0.
 CNetPlayerInfo::CNetPlayerInfo() : name_(std::string()) {
     DeclareMember(&unk_150);     // +0x130
     DeclareMember(&member_id_);  // +0x158
-    DeclareMember(&conn_index_); // +0x180
-    DeclareMember(&unk_1c8);     // +0x1a8
+    DeclareMember(&matching_member_id_); // +0x180
+    DeclareMember(&gamepad_id_);     // +0x1a8
     DeclareMember(&state_);      // +0x1d0
     DeclareMember(&unk_218);     // +0x1f8
     DeclareMember(&unk_240);     // +0x220

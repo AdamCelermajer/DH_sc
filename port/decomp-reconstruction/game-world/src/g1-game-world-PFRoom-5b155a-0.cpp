@@ -46,21 +46,24 @@ void AssertFailed(const char* expression, int line) {
     }
 }
 
-// The box update of the original: a minimum keeps the current value unless the candidate is smaller, a maximum keeps
-// the current value unless the candidate is larger. The comparisons are the original's, so ties and NaN resolve alike.
+// The box update of the original. The asm tests the positive form: fcmplt(candidate, current) for a minimum and
+// fcmplt(current, candidate) for a maximum. The candidate wins only when that test is true, so a tie keeps the current
+// value, and a NaN on either side keeps it too, because every comparison with NaN is false.
 float MinKeep(float current, float candidate) {
-    return candidate >= current ? current : candidate;
+    return candidate < current ? candidate : current;
 }
 
 float MaxKeep(float current, float candidate) {
-    return current >= candidate ? current : candidate;
+    return current < candidate ? candidate : current;
 }
 
-// The room's point test: the point must lie inside the room's box on every axis (boundaries included).
+// The room's point test: the point must lie inside the room's box on every axis (boundaries included). The original
+// calls fcmple(min, x) and fcmple(x, max) on each axis and returns false when any call gives 0, so a NaN coordinate is
+// outside the box.
 bool PointInRoomBox(const PFRoom& room, const Point3D<float>& point) {
-    return !(room.m_boundsMin.X > point.X || point.X > room.m_boundsMax.X ||
-             room.m_boundsMin.Y > point.Y || point.Y > room.m_boundsMax.Y ||
-             room.m_boundsMin.Z > point.Z || point.Z > room.m_boundsMax.Z);
+    return room.m_boundsMin.X <= point.X && point.X <= room.m_boundsMax.X &&
+           room.m_boundsMin.Y <= point.Y && point.Y <= room.m_boundsMax.Y &&
+           room.m_boundsMin.Z <= point.Z && point.Z <= room.m_boundsMax.Z;
 }
 
 // The overlap test of PFRoom::_PostLoad: the two floors' boxes touch or overlap on every axis.
@@ -71,11 +74,12 @@ bool BoxesOverlap(const PFFloor& a, const PFFloor& b) {
 }
 
 // The reach test of PFRoom::_Link: the other floor's box grown by 50 units on every side must reach the first floor's
-// box. Each axis is the original's skip test, so a NaN passes exactly as it does there.
+// box. The original calls fcmple(a.min, b.max + 50) and fcmpge(a.max, b.min - 50) on each axis and skips the pair when
+// any call gives 0, so a NaN fails the test and the pair is not linked.
 bool BoxesWithinLinkReach(const PFFloor& a, const PFFloor& b) {
-    return !(a.m_boundsMin.X > b.m_boundsMax.X + 50.0f) && !(a.m_boundsMax.X < b.m_boundsMin.X - 50.0f) &&
-           !(a.m_boundsMin.Y > b.m_boundsMax.Y + 50.0f) && !(a.m_boundsMax.Y < b.m_boundsMin.Y - 50.0f) &&
-           !(a.m_boundsMin.Z > b.m_boundsMax.Z + 50.0f) && !(a.m_boundsMax.Z < b.m_boundsMin.Z - 50.0f);
+    return a.m_boundsMin.X <= b.m_boundsMax.X + 50.0f && a.m_boundsMax.X >= b.m_boundsMin.X - 50.0f &&
+           a.m_boundsMin.Y <= b.m_boundsMax.Y + 50.0f && a.m_boundsMax.Y >= b.m_boundsMin.Y - 50.0f &&
+           a.m_boundsMin.Z <= b.m_boundsMax.Z + 50.0f && a.m_boundsMax.Z >= b.m_boundsMin.Z - 50.0f;
 }
 
 }  // namespace
@@ -269,6 +273,7 @@ void PFRoom::_Link(PFRoom* other) {
 
 // 0x521eb8 _ZN6PFRoom10_LoadFloorEPN6glitch5scene14IMeshSceneNodeEPKc
 // PARTIAL. Appends a PFFloor for the mesh node, loads its navigation mesh and merges the floor's box into the room box.
+// The six merges use MinKeep and MaxKeep, the positive fcmplt form of the asm (see above).
 // Missing: the last statement of the original, SceneManager::AddNodeToMap(sceneManager, floor->m_navMesh). The scene
 // manager is the word at +0x1c of the glitch device (dword_99F73C + 28, where dword_99F73C is Application::m_device at
 // +0x10 of Singleton<Application>::s_inst). glitch::IDevice declares nothing at +0x1c, so the pointer cannot be read

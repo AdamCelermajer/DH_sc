@@ -14,13 +14,7 @@
 #include <vector>
 
 #include "core-platform/deps/game_types.hpp"
-// net-transport's deps/byte_array.hpp (through dh2/Door.hpp) and pydata's deps/stream_reader.hpp both define CustomFree
-// and MemoryHintState; rename the net-transport copies while the two are included together (as dh2/Character.hpp does).
-#define CustomFree CustomFree_net_transport
-#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/Door.hpp"
-#undef CustomFree
-#undef MemoryHintState
 #include "pydata-accessors/structs_records.hpp"
 
 // The source file reads this global; the test provides it (gAssertLevel 0 keeps ASSERT silent).

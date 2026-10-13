@@ -10,7 +10,7 @@
 #pragma once
 
 #include "glitch-core-io/core/reference_counted.hpp"
-#include "glitch-video/deps/glitch_io.hpp"
+#include "glitch-core-io/io/interfaces.hpp"
 #include "glitch-video/image.hpp"
 #include "glitch-video/texture_loaders.hpp"
 

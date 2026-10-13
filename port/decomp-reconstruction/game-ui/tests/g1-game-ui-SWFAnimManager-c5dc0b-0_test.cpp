@@ -1,13 +1,18 @@
 // Checks the SWFAnimManager bodies of batch g1-game-ui-SWFAnimManager-c5dc0b-0 that run without the engine: the
-// constructor, CloneAnim, DropAnim, FlushBank, FlushAll (bank order), the destructor, GrabAnim over a bank that already
-// holds a free anim, GrabAnim and ExtendBank when the movie clip is missing, and ExtendBank with a count that the bank
-// already meets.
+// constructor, CloneAnim, DropAnim, FlushBank, FlushAll (bank order and release of each bank's storage), the destructor,
+// GrabAnim over a bank that already holds a free anim, GrabAnim and ExtendBank when the movie clip is missing, and
+// ExtendBank with a count that the bank already meets.
 //
 // The translation unit also refers to engine code (SWFAnim, DebugCachedCharacter, RenderFX, MenuManager, the gameswf
 // sprite and string code). The definitions below are stubs for that code. The anim objects are real SWFAnimManager
 // bookkeeping over stub SWFAnim objects: the stubs record each destruction and each SetVisible call.
+//
+// The global operator new and delete are replaced here to keep a table of live blocks. A bank's pointer array comes
+// from std::allocator (operator new), so IsLive shows whether FlushAll released it.
 #include <cstdio>
 #include <cstdlib>
+#include <memory>
+#include <new>
 #include <string>
 #include <utility>
 #include <vector>
@@ -105,6 +110,57 @@ void VectorSet<SWFAnim*>::push_back_unique(SWFAnim* const& value) {
     *m_finish++ = value;
 }
 
+// ---- live-block tracking: a static table of the blocks from operator new that are not yet deleted ----
+
+namespace {
+constexpr std::size_t kMaxLive = static_cast<std::size_t>(1) << 16;
+void* g_live[kMaxLive];
+std::size_t g_liveCount = 0;
+
+void TrackLive(void* p) {
+    if (p != nullptr && g_liveCount < kMaxLive) {
+        g_live[g_liveCount++] = p;
+    }
+}
+
+void UntrackLive(void* p) {
+    for (std::size_t i = g_liveCount; i-- > 0;) {
+        if (g_live[i] == p) {
+            g_live[i] = g_live[--g_liveCount];
+            return;
+        }
+    }
+}
+
+// Compares addresses only; a freed address is never dereferenced.
+bool IsLive(const void* p) {
+    for (std::size_t i = 0; i < g_liveCount; ++i) {
+        if (g_live[i] == p) {
+            return true;
+        }
+    }
+    return false;
+}
+}  // namespace
+
+void* operator new(std::size_t size) {
+    void* p = std::malloc(size != 0 ? size : 1);
+    if (p == nullptr) {
+        throw std::bad_alloc();
+    }
+    TrackLive(p);
+    return p;
+}
+
+void operator delete(void* p) noexcept {
+    if (p != nullptr) {
+        UntrackLive(p);
+        std::free(p);
+    }
+}
+
+void operator delete(void* p, std::size_t) noexcept { operator delete(p); }
+
 // ---- checks ----
 
 namespace {
@@ -193,14 +249,37 @@ int main() {
         CHECK(mgr.m_banks.empty());
     }
 
-    // The destructor (D1 through the deleting destructor) frees what the manager still holds.
+    // FlushAll also releases each bank's pointer array, as the original's map erase does with the node. The arrays are
+    // live before the flush (this checks the tracking) and not live after it.
+    {
+        ResetStubs();
+        SWFAnimManager mgr;
+        SWFAnim* a1 = new SWFAnim(menu, nullptr);
+        SWFAnim* b1 = new SWFAnim(menu, nullptr);
+        mgr.m_banks["a"].push_back_unique(a1);
+        mgr.m_banks["b"].push_back_unique(b1);
+        SWFAnim** arrayA = mgr.m_banks["a"].m_start;
+        SWFAnim** arrayB = mgr.m_banks["b"].m_start;
+        CHECK(IsLive(arrayA));
+        CHECK(IsLive(arrayB));
+        mgr.FlushAll();
+        CHECK(g_deleted.size() == 2);
+        CHECK(!IsLive(arrayA));
+        CHECK(!IsLive(arrayB));
+        CHECK(mgr.m_banks.empty());
+    }
+
+    // The destructor (D1 through the deleting destructor) frees what the manager still holds, and the storage of its banks.
     {
         ResetStubs();
         SWFAnimManager* mgr = new SWFAnimManager();
         SWFAnim* held = new SWFAnim(menu, nullptr);
         mgr->m_banks["held"].push_back_unique(held);
+        SWFAnim** heldArray = mgr->m_banks["held"].m_start;
+        CHECK(IsLive(heldArray));
         delete mgr;
         CHECK(g_deleted.size() == 1 && g_deleted[0] == held);
+        CHECK(!IsLive(heldArray));
     }
 
     // GrabAnim over a bank that already exists: the first free anim is handed out and marked in use.

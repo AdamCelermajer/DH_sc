@@ -1,5 +1,5 @@
-// Test for the AnimatorSynchronizedSet functions of batch g1-game-anim-pack0-625644-0. It runs the constructor, getType and
-// animateNode, whose state changes do not need the engine base (not inherited, see the header).
+// Test for the AnimatorSynchronizedSet functions of batch g1-game-anim-pack0-625644-0. It runs getType and animateNode on
+// zero-filled storage. The constructor is not run: the engine base builds its track state from a live CAnimationSet.
 // Run (from the track-b worktree root): bash tools/trackb/check_tu.sh --test <this file> <batch .cpp> <AnimApplicator .cpp>
 // where the batch .cpp is game-anim/src/g1-game-anim-pack0-625644-0.cpp and the AnimApplicator .cpp is
 // game-anim/src/g1-game-anim-AnimApplicator-85c725-0.cpp.
@@ -10,6 +10,7 @@
 // of them is reached by the checks in this file.
 #include <cctype>
 #include <cstdio>
+#include <cstring>
 #include <new>
 #include <string>
 #include <vector>
@@ -179,20 +180,17 @@ void Check(bool ok, const char* what) {
 }  // namespace
 
 int main() {
-    // A null animation set and no names. The set is never destroyed: a null intrusive_ptr owns nothing, and its
-    // destructor would need the complete CAnimationSet type, which this test does not have.
-    using AnimationSetPtr = boost::intrusive_ptr<glitch::collada::CAnimationSet>;
-    alignas(AnimationSetPtr) unsigned char animationSetStorage[sizeof(AnimationSetPtr)];
-    const AnimationSetPtr& animationSet = *new (animationSetStorage) AnimationSetPtr();
-    std::vector<std::string> names;
-    // The constructor stores the flag at +0xc4 and builds the applicator.
-    AnimatorSynchronizedSet set(animationSet, names);
+    // The constructor is not run: the engine base builds its track state from a live CAnimationSet (a null set is
+    // dereferenced there), and this test has none. The checks call the batch functions on zero-filled storage, through
+    // qualified names, so no vtable is used.
+    alignas(AnimatorSynchronizedSet) unsigned char setStorage[sizeof(AnimatorSynchronizedSet)];
+    std::memset(setStorage, 0, sizeof setStorage);
+    AnimatorSynchronizedSet& set = *reinterpret_cast<AnimatorSynchronizedSet*>(setStorage);
 
-    Check(set.getType() == 15, "getType returns 15");
-    Check(set.unk_0c4 == 1, "constructor stores 1 at +0xc4");
+    Check(set.AnimatorSynchronizedSet::getType() == 15, "getType returns 15");
 
     // animateNode hands the time to the applicator. With no reference node that is the m_time store (LABEL_11 path).
-    set.animateNode(nullptr, 1234u);
+    set.AnimatorSynchronizedSet::animateNode(nullptr, 1234u);
     Check(set.m_applicator.m_time == 1234u, "animateNode stores the time in the applicator");
 
     std::printf(g_failures == 0 ? "all checks passed\n" : "%d check(s) failed\n", g_failures);

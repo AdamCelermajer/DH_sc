@@ -53,8 +53,8 @@ void StepCrossFade(AnimatorBlender& blender, unsigned int timeMs) {
 }  // namespace
 
 // 0x366620 AnimatorBlender::getType() const
-int AnimatorBlender::getType() const {
-    return 12;
+glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorBlender::getType() const {
+    return static_cast<glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE>(12);
 }
 
 // 0x366628 AnimatorBlender::_HandleAnimEnding(glitch::scene::ITimelineController*)
@@ -213,7 +213,7 @@ void AnimatorBlender::SetCallbacks(AnimCallback animCallback, void* animUserData
 
 // 0x367018 AnimatorBlender::AnimatorBlender()  (complete-object constructor, C1)
 // The vptr writes and the base-class construction are compiler generated. The original's reference-counted sub-object
-// is a virtual base; here it is a member, with the same count of 1 (IReferenceCounted default).
+// is the virtual base IReferenceCounted of the canonical base, so no member is written here.
 AnimatorBlender::AnimatorBlender()
     : glitch::collada::CSceneNodeAnimatorBlender(),
       m_currentIndex(0),
@@ -222,8 +222,7 @@ AnimatorBlender::AnimatorBlender()
       m_blendRemaining(0),
       m_blendScale(0.0f),
       m_lastTime(0),
-      m_applicator(this),
-      m_refSecondary() {}
+      m_applicator(this) {}
 
 // 0x36720c AnimatorBlender::~AnimatorBlender()  (complete-object destructor, D1)
 // The members and the engine base are destroyed by the implicit destructors. The original destroys the applicator and

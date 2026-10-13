@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "core-platform/deps/game_types.hpp"
-#include "core-platform/deps/glitch_core.hpp"
+#include "glitch-shared/glitch_core.hpp"
 
 std::ostream& operator<<(std::ostream& os, const glitch::core::vector3d<float>& v);  // 0x30fdd0
 std::ostream& operator<<(std::ostream& os, const glitch::core::vector3d<int>& v);    // 0x30ff48

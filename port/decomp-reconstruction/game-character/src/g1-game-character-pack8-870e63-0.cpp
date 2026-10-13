@@ -1,7 +1,8 @@
 // Batch g1-game-character-pack8-870e63-0: the CSSpawn and CSStunned character states, the CharMenuTutorialMsg queue entry and
 // CharPropTextField (the gameswf text binding). Declarations come from dh2/CSSpawn.hpp, dh2/CSStunned.hpp,
-// dh2/CharMenuTutorialMsg.hpp and dh2/CharPropTextField.hpp. Each PARTIAL comment names what is missing, and the ledger rows in
-// game-character/ledger.d/g1-game-character-pack8-870e63-0.csv repeat it.
+// dh2/CharMenuTutorialMsg.hpp and dh2/CharPropTextField.hpp. The ledger rows in
+// game-character/ledger.d/g1-game-character-pack8-870e63-0.csv give each function's status. The two deleting destructors
+// (CSSpawn D0 0x3c0a60, CSStunned D0 0x3c08c0) are compiler-generated and skipped.
 
 #include <cstdint>
 #include <cstring>
@@ -12,6 +13,7 @@
 #include "dh2/CharMenuTutorialMsg.hpp"
 #include "dh2/CharPropTextField.hpp"
 
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharAI.hpp"
 #include "dh2/CharAnimator.hpp"
@@ -21,10 +23,15 @@
 #include "dh2/GameObject.hpp"
 #include "dh2/GameSWFUtils.hpp"
 #include "dh2/PhysicalObject.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/RenderFX.hpp"
+#include "dh2/StringManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/charai_ai.hpp"
+#include "dh2/global/item_instance.hpp"
 #include "dh2/v2Controller.hpp"
+#include "gameswf/gameswf_character.h"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
@@ -55,9 +62,37 @@ void ProbeSwitch(const char* name) {
 
 namespace charproptext_internal {
 
+// The name parse of the CharPropTextField constructor (0x41f8f0). `name` is the source text character's name (its
+// get_name().c_str()). The original searches the first '_' with strchr. When there is one, the mode is name[2] if that
+// is 'i', 'p' or 'b' (otherwise '_'), and the property id is GetPropIDFromName of the text after the '_'. Without a '_'
+// the outputs are left as they are.
+void ParsePropName(const char* name, int& propId, int& kind) {
+    const char* underscore = std::strchr(name, '_');
+    if (underscore == nullptr) {
+        return;
+    }
+    // The original reads name[2] without a length check. For a name of two characters that is the terminating NUL, which
+    // this reads too. A shorter name reads past its NUL in the original; here it reads as '\0', which is not a mode.
+    const char letter = std::strlen(name) >= 2 ? name[2] : '\0';
+    kind = (letter == 'i' || letter == 'p' || letter == 'b') ? letter : '_';
+    propId = CharProperties::GetPropIDFromName(underscore + 1);
+}
+
+// The colour step of mode 'b' for a property that is not a bonus (the original's inline code in CharPropTextField::Update,
+// 0x422aa8). The target's custom block (gameswf::character +0x54) is allocated on first use. Its colour transform is set to
+// the identity, the target's local transform (+0x48) points at it, and the changed flag (+0x9a) is set.
+void ApplyIdentityColourTransform(gameswf::character* target) {
+    if (target->m_custom == nullptr) {
+        target->m_custom = new gameswf::character::custom();
+    }
+    gameswf::character::custom* block = target->m_custom;
+    block->m_cxform = gameswf::cxform::identity;
+    target->m_local_cxform = &block->m_cxform;
+    target->m_cxform_changed = true;
+}
+
 // Internal helper, not an original symbol: the mode dispatch of CharPropTextField::Update, given the local player's Character.
-// The caller supplies that Character (see Update for why the fetch is not written). A null character takes the original's early
-// return. The test calls it directly.
+// Update fetches that Character itself. A null character takes the original's early return. The test calls this directly.
 void UpdatePropText(RenderFX* renderFx, Character* localCharacter, int propId, int kind, gameswf::character* target) {
     if (localCharacter == nullptr || propId == -1) {
         return;
@@ -66,13 +101,24 @@ void UpdatePropText(RenderFX* renderFx, Character* localCharacter, int propId, i
     const int value = localCharacter->CharProperties::PROPS_GetIntWithBonus(propId, false);
     switch (kind) {
         case 'b':
-            // PARTIAL: the colour step is not written (see CharPropTextField::Update). The text step below still runs, as in the original.
+            if (localCharacter->CharProperties::PROPS_IsBonus(propId)) {
+                // The bonus colour: RenderFX::SetColorTransform(target, 0xFF000000, the FontTextColors propBonus constant).
+                const auto colour = static_cast<unsigned int>(
+                    ApplicationGetPyDataConstants()->getConstant("FontTextColors", "propBonus"));
+                renderFx->SetColorTransform(target, 0xFF000000u, colour);
+            } else {
+                ApplyIdentityColourTransform(target);
+            }
             [[fallthrough]];
         case '_':
             if (value <= 1000) {
                 renderFx->FormatHTML(target, "%d", value);
+            } else {
+                // Values above 1000 are formatted by the string manager's "^d" pattern and set as text.
+                std::string text;
+                ApplicationGetStringManager()->parse(text, "^d", value);
+                renderFx->SetText(target, text.c_str(), true);
             }
-            // PARTIAL: values above 1000 take the StringManager "^d" text path, which is not written (see CharPropTextField::Update).
             break;
         case 'i':
             if (value != -1) {
@@ -266,31 +312,19 @@ CharMenuTutorialMsg::CharMenuTutorialMsg(const CharMenuTutorialMsg& other)
 
 // 0x41f8f0 CharPropTextField::CharPropTextField(gameswf::character*, gameswf::character*) (C1)
 // 0x41f978 is the C2 variant with an identical body; the two share this definition.
-// PARTIAL. Written: m_propId = -1, m_kind = '_', and the target defaulting to the source when null. Not written: the property name parse.
-// The original reads the source character's name from gameswf::character +0x44 (a pointer to a string buffer whose first byte is 0xff for
-// an external text pointer at buffer +0x0c, and otherwise holds inline text at +0x01). gameswf::character is not declared in this tree, so
-// the name cannot be read (layout request filed). Until the parse is written, m_propId stays -1 and Update does nothing.
+// The target defaults to the source when null. The name is the source character's get_name() (the original reads the
+// gameswf::character +0x44 name pointer and the tu_string text behind it), and the parse is charproptext_internal::ParsePropName.
 CharPropTextField::CharPropTextField(gameswf::character* source, gameswf::character* target)
-    : m_propId(-1), m_kind('_'), m_target(target != nullptr ? target : source) {}
+    : m_propId(-1), m_kind('_'), m_target(target != nullptr ? target : source) {
+    charproptext_internal::ParsePropName(source->get_name().c_str(), m_propId, m_kind);
+}
 
 // 0x422aa8 CharPropTextField::Update(RenderFX*)
-// PARTIAL. The original takes the local player's Character as PlayerManager::GetLocalPlayer(0, true)->unk_660 (dword_99F76C), and
-// PlayerManager.hpp cannot be included together with Character.hpp (its net-transport StreamBuffer and the pydata IStreamBase clash;
-// the same blocker CSIdle records). Until that is fixed, the fetch is not written and the character is taken as null, so the
-// original's early return applies and the text is not updated. The dispatch is written in UpdatePropText, and it is correct for a
-// given character:
-//   - the CharProperties value with bonus (PROPS_GetIntWithBonus, useTemp false) and the mode dispatch for '_', 'i' and 'p';
-//   - mode '_' and 'b' with a value up to 1000 print the value through FormatHTML("%d"); mode 'p' prints "%d%%"; mode 'i' goes to
-//     the frame with that number when it is not -1.
-// Not written in UpdatePropText:
-//  - mode 'b' when the property is a bonus: RenderFX::SetColorTransform (propBonus font colour) is not declared in game-ui RenderFX.hpp.
-//  - mode 'b' when it is not a bonus: the target's gameswf colour transform (a 108-byte gameswf::character::custom at target +0x54, set
-//    from gameswf::cxform::identity, with target +0x48 and the flag byte at +0x9a) is not declared. The bonus test (PROPS_IsBonus) is
-//    therefore not called; the colour step is skipped in both cases.
-//  - a value above 1000: the "^d" text path needs the StringManager singleton (dword_99F760, no accessor declared) and
-//    RenderFX::SetText, which is not declared.
+// The original takes the local player's Character as PlayerManager::GetLocalPlayer(0, true)->character_660, where the PlayerManager
+// global dword_99F76C is Application +0x40 (m_playerManager, the same source NativeGetPlayerChar uses). PlayerInfo names that field
+// unk_660. The fetch is unconditional in the original, and the PlayerInfo pointer is not checked here either. The dispatch is
+// charproptext_internal::UpdatePropText.
 void CharPropTextField::Update(RenderFX* renderFx) {
-    // PARTIAL: the local player fetch (see above). Null here, so the dispatch below returns early.
-    Character* localCharacter = nullptr;
+    Character* localCharacter = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
     charproptext_internal::UpdatePropText(renderFx, localCharacter, m_propId, m_kind, m_target);
 }

@@ -2,8 +2,9 @@
 //
 // The batch members run on a SimpleTypeProperty over a plain owner object. The Property constructor and the
 // SimpleTypeProperty<T> constructors are in other batches, so this file defines them (test stand-ins). The link-only
-// dependencies of the batch are stood in here too: CustomAlloc and the tagged operator new (core-platform/memory.cpp),
-// and Point3D<float>::operator== (its batch). StrToObj and ObjToStr come from core-platform/src/obj_str.cpp, which the
+// dependencies of the batch are stood in here too: CustomAlloc (core-platform/memory.cpp), the operator new(size_t,
+// MemoryHintState) that the Clone bodies call (0x310570, game-app/src/g1-game-app-global-f216b6-0.cpp), and
+// Point3D<float>::operator== (its batch). StrToObj and ObjToStr come from core-platform/src/obj_str.cpp, which the
 // test build links.
 //
 // The batch's Clone for dimension2d<float> and vector3d<float> copy-constructs those types, so the link also needs their
@@ -28,6 +29,7 @@
 #include "dh2/Point3D.hpp"
 #include "dh2/Property.hpp"
 #include "dh2/SimpleTypeProperty.hpp"
+#include "dh2/global/runtime_support.hpp"  // operator new(size_t, MemoryHintState), the overload the Clone bodies call
 
 // ---- Stand-ins for the dependencies outside the batch ----
 
@@ -35,7 +37,8 @@ void* CustomAlloc(unsigned size) {
     return std::malloc(size);
 }
 
-void* operator new(std::size_t size, glitch::memory::E_MEMORY_HINT) {
+// Definition of the declaration in dh2/global/runtime_support.hpp (game-app, 0x310570, which forwards to CustomAlloc).
+void* operator new(std::size_t size, MemoryHintState) {
     return std::malloc(size);
 }
 

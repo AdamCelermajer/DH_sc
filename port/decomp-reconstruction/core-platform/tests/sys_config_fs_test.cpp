@@ -37,7 +37,7 @@ int main() {
 
     FileSystemBase fsb;
     CHECK(fsb.changeWorkingDirectoryTo("."));
-    CHECK(std::strcmp(glitch::io::CFileSystem_WorkingDirectory, ".") == 0);
+    CHECK(std::strcmp(glitch::io::CFileSystem::WorkingDirectory, ".") == 0);
     CHECK(!fsb.changeWorkingDirectoryTo("/no/such/dir/for/dh2"));
 
     FsFileHandle h{0, 10, 0};

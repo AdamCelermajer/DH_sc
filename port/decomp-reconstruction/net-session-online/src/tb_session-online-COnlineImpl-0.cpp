@@ -10,11 +10,11 @@
 // 0x824f40 _ZN11COnlineImpl10InitializeEv
 std::int32_t COnlineImpl::Initialize() {
     // +0x04 initialized flag; already set means nothing to do.
-    if (initialized_ != 0) {
+    if (initialized_) {
         return 0;
     }
     const std::int32_t result = COnline::Initialize();
-    initialized_ = 1;
+    initialized_ = true;
     // +0x40 last-check timeval (gettimeofday with no timezone).
     GetTimeOfDay(&lastCheck_);
     return result;

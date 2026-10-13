@@ -5,13 +5,14 @@
 #include "net-session-online/deps/platform_stand_ins.hpp"
 #include "net-session-online/deps/stream_bytes.hpp"
 #include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
+#include "net-transport/transport_manager.hpp"   // CTransportManager (host names)
 
 // 0x8094fc _ZN14CMatchingLocal9AddServerEiR10CNetworkIdiR15CRoomAttributes
-// Partial: the transport name comes from the transport stand-in (GetTransportNameOf). CTransportManager
-// declares no name method yet (the original calls its vtable slot +0x1c). The room filter is the real
-// CRoomSearchFilter::TestRoomAttributes. The rest follows the original: an existing address is refreshed
-// (last-seen time and rank); a new one is added under the next key when the filter accepts it. The
-// original reads the online clock twice for a new entry (last-seen time, then the time offset); so does this.
+// The room filter is the real CRoomSearchFilter::TestRoomAttributes. An existing address is refreshed
+// (last-seen time and rank); a new one is added under the next key when the filter accepts it, with the host
+// name the transport manager reports for the address (vtable +0x1c). The original reads the online clock twice
+// for a new entry (last-seen time, then the time offset); so does this. Partial only because the clock is
+// OnlineNowMs, the stand-in for the COnline virtual at slot 0 (GetAbsoluteTime).
 std::int32_t CMatchingLocal::AddServer(std::int32_t memberId, const CNetworkId& address,
                                        std::int32_t rank, const CRoomAttributes& attributes) {
     serversMutex_.Lock();
@@ -28,7 +29,8 @@ std::int32_t CMatchingLocal::AddServer(std::int32_t memberId, const CNetworkId& 
         peer.memberId = memberId;
         peer.address = address;
         peer.lastSeenMs = OnlineNowMs();
-        peer.name = GetTransportNameOf(address);
+        CNetworkId peerId = address;  // GetHostname takes a non-const reference
+        peer.name = GetTransportMgr()->GetHostname(peerId);
         peer.rank = rank;
         peer.timeOffset = OnlineNowMs() - serverPollTime_;
         peer.roomAttributes = attributes;
@@ -94,13 +96,14 @@ void CMatchingLocal::ProcessServerMessage(const CNetworkId& /*from*/, NetBitStre
 }
 
 // 0x808538 _ZN14CMatchingLocal13GetMemberNameEi
-// Partial: the transport names come from the stand-ins. The original returns the local name
-// whole, and for a remote member the part of the transport name before the first '.'.
+// The local member gets the local host name whole (transport manager vtable +0x20); a remote member gets the
+// part of the host name (vtable +0x1c, asked with the member network id) before the first '.'.
 std::string CMatchingLocal::GetMemberName(std::int32_t memberId) const {
     if (memberId == memberId_) {
-        return GetLocalTransportName();
+        return GetTransportMgr()->GetLocalhostname();
     }
-    const std::string full = GetTransportNameOf(CConnectionManager::GetInstance()->GetMemberNetworkId(memberId));
+    CNetworkId memberNetworkId = CConnectionManager::GetInstance()->GetMemberNetworkId(memberId);
+    const std::string full = GetTransportMgr()->GetHostname(memberNetworkId);
     const std::size_t dot = full.find('.');
     return dot == std::string::npos ? full : full.substr(0, dot);
 }

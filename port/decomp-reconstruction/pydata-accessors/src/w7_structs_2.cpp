@@ -25,7 +25,7 @@ namespace {
 
 // new[](4 * count, 1) of int32 words, each read with readAs<int> in order.
 void* ReadInt32Array(IStreamBase* stream, std::uint32_t count) {
-    auto* data = static_cast<std::int32_t*>(MemoryHintState(std::size_t{4} * count, 1));
+    auto* data = static_cast<std::int32_t*>(::operator new[](std::size_t{4} * count, kPydataBufferHint));
     for (std::uint32_t i = 0; i < count; ++i) {
         data[i] = StreamReader::readAs<std::int32_t>(stream);
     }
@@ -36,7 +36,7 @@ void* ReadInt32Array(IStreamBase* stream, std::uint32_t count) {
 // bytes with hint 0, then store the terminating zero at buf[len].
 void ReadStringField(IStreamBase* stream, void*& slot, std::uint32_t len) {
     if (slot != nullptr) CustomFree(slot);
-    auto* buf = static_cast<char*>(MemoryHintState(std::size_t{len} + 1, 1));
+    auto* buf = static_cast<char*>(::operator new[](std::size_t{len} + 1, kPydataBufferHint));
     slot = buf;
     StreamReader::readStringEx(stream, buf, len);
     buf[len] = 0;
@@ -438,7 +438,7 @@ void ItemTypeListList::finalize() {
 void ItemTypeListList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
     if (m_w2 != nullptr) CustomFree(m_w2);  // +0x8
-    auto* bytes = static_cast<std::int8_t*>(MemoryHintState(m_w1, 1));
+    auto* bytes = static_cast<std::int8_t*>(::operator new[](m_w1, kPydataBufferHint));
     m_w2 = bytes;
     for (std::uint32_t i = 0; i < m_w1; ++i) {
         StreamReader::readAs<std::int8_t>(stream, &bytes[i]);

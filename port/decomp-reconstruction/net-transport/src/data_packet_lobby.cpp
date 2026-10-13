@@ -41,15 +41,16 @@ int DataPacketLobby::getShortLenWideString(wchar_t*&, unsigned char&) {
 
 // 0x849228 _ZN15DataPacketLobby11InitMessageEi
 // Writes the two type bytes 1 and 2, then the int through the virtual slots.
-int DataPacketLobby::InitMessage(int type) {
+// The pseudocode returns the addInt result (leftover r0); the slot is void here.
+void DataPacketLobby::InitMessage(int type) {
     addByte(1);
     addByte(2);
-    return addInt(type);
+    addInt(type);
 }
 
 // 0x849270 _ZN15DataPacketLobby14InitMMOMessageEs
-int DataPacketLobby::InitMMOMessage(std::int16_t type) {
-    return addShort(type);
+void DataPacketLobby::InitMMOMessage(std::int16_t type) {
+    addShort(type);
 }
 
 // 0x849284 _ZN15DataPacketLobby14GetMessageTypeEv
@@ -72,7 +73,7 @@ bool DataPacketLobby::WillBeFull(std::size_t bytes) const {
 }
 
 // 0x8492f8 _ZN15DataPacketLobby7getByteERh
-int DataPacketLobby::getByte(std::uint8_t& value) {
+int DataPacketLobby::getByte(unsigned char& value) {
     if (position_ < length_) {
         value = buffer_[position_];
         ++position_;
@@ -127,27 +128,27 @@ int DataPacketLobby::getFloat(float& value) {
 }
 
 // 0x8494c0 _ZN15DataPacketLobby13getMessageLenEv
-std::size_t DataPacketLobby::getMessageLen() const {
-    return length_;
+int DataPacketLobby::getMessageLen() {
+    return static_cast<int>(length_);
 }
 
 // 0x8494c8 _ZN15DataPacketLobby14getMessageBodyEv
-const std::uint8_t* DataPacketLobby::getMessageBody() const {
-    return buffer_.get();
+char* DataPacketLobby::getMessageBody() {
+    return reinterpret_cast<char*>(buffer_.get());
 }
 
 // 0x8494d0 _ZN15DataPacketLobby11packMessageEv
 // Sets the length to the position and writes big-endian (length - 2) into the header.
-DataPacketLobby* DataPacketLobby::packMessage() {
+// The pseudocode returns this (leftover r0); the slot is void.
+void DataPacketLobby::packMessage() {
     length_ = position_;
     const auto body = static_cast<std::uint16_t>(length_ - 2);
     buffer_[0] = static_cast<std::uint8_t>(body >> 8);
     buffer_[1] = static_cast<std::uint8_t>(body);
-    return this;
 }
 
 // 0x8494fc _ZN15DataPacketLobby13getNextPacketEv
-DataPacket* DataPacketLobby::getNextPacket() const {
+DataPacket* DataPacketLobby::getNextPacket() {
     return next_packet_;
 }
 
@@ -158,17 +159,17 @@ void DataPacketLobby::setNextPacket(DataPacket* packet) {
 }
 
 // 0x84950c _ZN15DataPacketLobby11IsSendByTcpEv
-bool DataPacketLobby::IsSendByTcp() const {
+bool DataPacketLobby::IsSendByTcp() {
     return data_type_ == 1 || data_type_ == 3;
 }
 
 // 0x849524 _ZN15DataPacketLobby11IsSendByUdpEv
-bool DataPacketLobby::IsSendByUdp() const {
+bool DataPacketLobby::IsSendByUdp() {
     return data_type_ == 2;
 }
 
 // 0x849538 _ZN15DataPacketLobby11getDataTypeEv
-int DataPacketLobby::getDataType() const {
+int DataPacketLobby::getDataType() {
     return data_type_;
 }
 
@@ -178,7 +179,7 @@ void DataPacketLobby::setDataType(int type) {
 }
 
 // 0x849548 _ZN15DataPacketLobby7getPortEv
-int DataPacketLobby::getPort() const {
+int DataPacketLobby::getPort() {
     return port_;
 }
 
@@ -188,7 +189,7 @@ void DataPacketLobby::setPort(int port) {
 }
 
 // 0x849558 _ZN15DataPacketLobby5getIPEv
-const char* DataPacketLobby::getIP() const {
+char* DataPacketLobby::getIP() {
     return ip_.get();
 }
 
@@ -207,8 +208,7 @@ int DataPacketLobby::String2Packet(char* data, int size) {
     if (n + 1 >= size) {
         return -1;
     }
-    setMessageBody(reinterpret_cast<const std::uint8_t*>(data + 2),
-                   static_cast<std::size_t>(static_cast<int>(n)));
+    setMessageBody(reinterpret_cast<const unsigned char*>(data + 2), static_cast<int>(n));
     return n + 2;
 }
 
@@ -228,8 +228,8 @@ void DataPacketLobby::Packet2String(char* out, int& out_length) {
 // 0x849600 _ZN15DataPacketLobby14setMessageBodyEPhi
 // Partial: the original copies size bytes into the buffer without a capacity check. This
 // port copies at most capacity_ bytes and records that many as the length.
-void DataPacketLobby::setMessageBody(const std::uint8_t* data, std::size_t size) {
-    const std::size_t copy = std::min(size, capacity_);
+void DataPacketLobby::setMessageBody(const unsigned char* data, int size) {
+    const std::size_t copy = size > 0 ? std::min(static_cast<std::size_t>(size), capacity_) : 0;
     if (copy != 0) {
         std::memcpy(buffer_.get(), data, copy);
     }
@@ -242,7 +242,7 @@ DataPacketLobby::~DataPacketLobby() = default;
 
 // 0x849714 _ZN15DataPacketLobby5setIPEPc
 // Partial: a null ip clears the stored address. The original would call STRNEW on null.
-const char* DataPacketLobby::setIP(const char* ip) {
+char* DataPacketLobby::setIP(const char* ip) {
     ip_.reset();
     if (ip == nullptr) {
         return nullptr;
@@ -254,12 +254,18 @@ const char* DataPacketLobby::setIP(const char* ip) {
 }
 
 // 0x849748 _ZN15DataPacketLobby17getShortLenStringERPcRs
-// Partial: the length is read as unsigned 16-bit here; the original compares it as a signed
-// short. Returns 0 for an empty string as the original does, so an empty string reads as failure.
-int DataPacketLobby::getShortLenString(char*& text, std::uint16_t& length) {
-    length = static_cast<std::uint16_t>((buffer_[position_] << 8) | buffer_[position_ + 1]);
+// The length is a signed short, as the original compares and copies it (the symbol takes short&).
+// Returns 0 for an empty string as the original does, so an empty string reads as failure, and the
+// position moves past the 2-byte header on every path. Partial: a negative length passes the
+// original's bounds test and then asks operator new[] for a negative size (undefined); the port
+// fails the call there instead.
+int DataPacketLobby::getShortLenString(char*& text, std::int16_t& length) {
+    length = static_cast<std::int16_t>((buffer_[position_] << 8) | buffer_[position_ + 1]);
     position_ += 2;
-    const std::size_t n = length;
+    if (length < 0) {
+        return 0;
+    }
+    const std::size_t n = static_cast<std::size_t>(length);
     if (position_ + n > length_) {
         return 0;
     }
@@ -323,14 +329,14 @@ bool DataPacketLobby::EnsureRoom(std::size_t bytes) {
 // The original returns the memcpy destination; this returns nothing. The length (vptr +0x60)
 // and body (+0x64) are read from the source through the DataPacket virtuals, in the original order.
 void DataPacketLobby::addPacket(DataPacket* packet) {
-    const std::size_t size = packet->getMessageLen();
+    const std::size_t size = static_cast<std::size_t>(packet->getMessageLen());
     if (WillBeFull(size) && !AllocateMoreMomery()) {
         return;
     }
     buffer_[position_] = static_cast<std::uint8_t>(size >> 8);
     buffer_[position_ + 1] = static_cast<std::uint8_t>(size);
     position_ += 2;
-    const std::uint8_t* body = packet->getMessageBody();
+    const char* body = packet->getMessageBody();
     if (size != 0) {
         std::memcpy(buffer_.get() + position_, body, size);
     }
@@ -429,7 +435,7 @@ int DataPacketLobby::addShort(std::int16_t value) {
 }
 
 // 0x849cd4 _ZN15DataPacketLobby7addByteEh
-int DataPacketLobby::addByte(std::uint8_t value) {
+int DataPacketLobby::addByte(unsigned char value) {
     if (!EnsureRoom(1)) {
         return 0;
     }
@@ -446,9 +452,9 @@ int DataPacketLobby::addByte(std::uint8_t value) {
 DataPacketLobby::DataPacketLobby(DataPacket* source)
     : buffer_(std::make_unique<std::uint8_t[]>(kInitialCapacity)),
       data_type_(source->getDataType()) {
-    const std::uint8_t* body = source->getMessageBody();
-    const std::size_t length = source->getMessageLen();
-    setMessageBody(body, length);
+    const char* body = source->getMessageBody();
+    const int length = source->getMessageLen();
+    setMessageBody(reinterpret_cast<const unsigned char*>(body), length);
 }
 
 // 0x849e78 _ZN15DataPacketLobbyC1Ev (C2 0x849f5c, same body)

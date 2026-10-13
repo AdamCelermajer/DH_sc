@@ -11,6 +11,10 @@
 // the same value on every path. NetStructMemberType::SetValue marks the member changed exactly when it differs, so the
 // member values and change flags match. Only the counter advance can differ.
 //
+// SetCharacterName (0x371ccc) is not in this set. Its temporary is a NetStructString<32u>, and its constructor sets the
+// value from the name against an empty start, so the SetChanged it may make is decided by the name, not by stale stack
+// data. That advance is deterministic and is reproduced (see the row below).
+//
 // No test: every body works on NetStruct members, the player manager or the online singletons, so none of the logic can
 // run standalone.
 
@@ -20,6 +24,7 @@
 
 #include "dh2/PlayerInfo.hpp"
 #include "net-transport/tb/c_net_player_manager.hpp"
+#include "net-transport/tb/net_struct_string.hpp"
 
 // 0x37418c PlayerInfo::PlayerInfo(void)   (C1)
 // PARTIAL (see the file note). The base constructor runs first, then each member is built in the header's order with its
@@ -213,11 +218,16 @@ void PlayerInfo::SetCharacterClass(int characterClass) {
 // expression on a PlayerInfo does the same, so there is no separate body.
 
 // 0x371ccc PlayerInfo::SetCharacterName(std::string)
-// The original copies the argument into a local string, copies that into a temporary NetStructString<32u>, and passes the
-// temporary's string to SetValue of m_characterName. Those copies have no other effect, so the argument is passed directly.
-// NetStructMemberType<std::string>::SetValue stores the string and marks the member changed when it differs (0x36fc4c).
+// The original copies the argument, builds a NetStructString<32u> temporary from the copy, and passes the temporary's
+// value (its std::string at +0x20) to the virtual SetValue (vtable +0x1c) of m_characterName (+0x2b0). The temporary's
+// constructor calls NetStructMemberType<std::string>::SetValue (0x36fc4c, non-virtual) on a value that starts empty. That
+// SetValue calls NetStructMember::SetChanged (0x814f84) on the temporary exactly when the name is not empty, and SetChanged
+// does ++NetStruct::s_changeCounter. The port builds the same temporary, so the counter advances the same way: once for
+// the temporary when the name is not empty, and once more when m_characterName changes. The temporary's flags are
+// discarded with it, and its destructor does nothing else.
 void PlayerInfo::SetCharacterName(std::string name) {
-    m_characterName.SetValue(name);
+    NetStructString<32u> tmp(name);
+    m_characterName.SetValue(tmp.GetValue());
 }
 
 // 0x373bdc PlayerInfo::Reset(void)

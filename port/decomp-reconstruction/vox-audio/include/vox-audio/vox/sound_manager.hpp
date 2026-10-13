@@ -4,7 +4,45 @@
 // layout is not complete; see vox-audio/NOTES.md (VoxSoundManager).
 #pragma once
 
-#include "vox-audio/deps/glitch_vector3d.hpp"
+#include <cstdint>
+#include <string>
+#include <vector>
+
+#include "glitch-shared/glitch_core.hpp"
+#include "vox-audio/vox/sound_pack_xml.hpp"
+
+namespace vox {
+class DataHandle;
+class VoxEngine;
+}  // namespace vox
+
+// Game globals the sound glue reads and writes. Their definitions belong to the globals batches
+// (game-app; RES_PATH is in core-platform filesystem_win32.cpp). Types follow the listings: the
+// two 1-byte .bss flags are bool, music_volume and sfx_vfx_volume are 4-byte .bss floats (the listing
+// stores the float register bits with no conversion), Save_Current_Music_ID is a 4-byte .data int.
+extern bool JAVA_SOUNDS;               // Android sound-mode flag (ELF JAVA_SOUNDS).
+extern bool Resume_Sound_Interrupt;    // set by the GS_InterruptLoading dtor under JAVA_SOUNDS.
+extern int Save_Current_Music_ID;      // music id kept across an interrupt, -1 when none.
+extern float music_volume;             // last music volume sent to the native player.
+extern float sfx_vfx_volume;           // last SFX/VFX volume sent to the native player.
+extern const char* RES_PATH;           // data root prefix.
+extern int gAssertLevel;               // assert reporting level (core-platform memory.cpp): 1 prints, 2 faults.
+void CustomFree(void* p);              // 0x310440, the game's free (core-platform memory.cpp).
+
+// Android sound bridge: the native functions the JNI glue implements. Their bodies are rows of
+// core-platform (0x531570, 0x5314c8, 0x531940, 0x53177c, 0x531a64) and are not defined on the
+// desktop build. nativeStopAllBigSound is called with a second argument by every caller; its body
+// reads only the first one.
+extern "C" {
+int nativeStopSoundBig(int sound_id);                             // 0x531570
+int nativeResumeSoundBig(int sound_id);                           // 0x5314c8
+int nativeStopAllBigSound(int sound_id, int fade_ms);             // 0x531940
+int nativeSetVolumeBig(int sound_id, float volume, int channel);  // 0x53177c; channel 1 music, 2 SFX/VFX
+int nativeIsMediaPlaying(int sound_id);                           // 0x531a64
+// Declared with the core-platform bridge signatures (android_jni_bridge.hpp): the binary ignores their results.
+void nativePlaySoundBig(int sound_id, float volume, int loop, int channel);  // 0x531348; channel 1 music, 2 SFX/VFX
+void nativePauseSoundBig(int sound_id);                           // 0x531420
+}
 
 class VoxSoundManager {
 public:
@@ -18,4 +56,77 @@ public:
     // Scales each visual component by 0.01f (constant 0x3c23d70a in the ARM listing).
     static glitch::core::vector3d<float> ConvertVisual3DToSound3D(
         const glitch::core::vector3d<float>& visual);
+
+    // Sound and music control. Bodies: src/p1-vox-audio-VoxSoundManager-3a5f5c-0.cpp.
+    // The binary passes the engine object (*this) as the instance argument of the VoxEngine calls.
+    // The port facade is static, so those calls drop it; engine_ keeps the null checks on *this.
+    void UnloadSound(int sound);                                            // 0x36921c
+    void UnloadAllSounds();                                                 // 0x369298
+    void SetMusicState(const char* state);                                  // 0x369514 (partial)
+    bool IsSoundPlaying(int sound);                                         // 0x3696dc (partial)
+    bool IsMusicPlaying();                                                  // 0x369804 (partial)
+    void StopAllMusic(int fade_ms);                                         // 0x3698f0
+    void StopAllSounds(int fade_ms);                                        // 0x369990
+    void LoadSound(int sound);                                              // 0x3699fc
+    float GetSoundVolume(int type);                                         // 0x369b38
+    void SetInitialVolume(float music, float sfx, float vfx);               // 0x369c2c
+    void SetSoundVolume(int type, float volume);                            // 0x369da0
+    float GetMasterVolume();                                                // 0x369ee8
+    void SetMasterVolume(float volume);                                     // 0x369f1c
+    void SetListenerPos(const glitch::core::vector3d<float>& pos,
+                        const glitch::core::vector3d<float>& front,
+                        const glitch::core::vector3d<float>& up,
+                        int a5, int a6, float a7);                          // 0x369f50
+    void Stop(int sound, int fade_ms);                                      // 0x369fec (partial)
+    void StopMusic(int fade_ms);                                            // 0x36a1a0 (partial)
+    void Stop3D(int sound, int fade_ms, const float* pos, float radius);    // 0x36a218 (partial)
+    void Resume(int sound);                                                 // 0x36a470 (partial)
+    void ResumeAllSounds();                                                 // 0x36a590
+    void PauseAllSounds();                                                  // 0x36a624
+
+    // Platform pass (batch p1-vox-audio-VoxSoundManager-3a5f5c-1). Bodies: src/p1-vox-audio-VoxSoundManager-3a5f5c-1.cpp.
+    // The 3D sound calls take the position as glitch::core::vector3d<float> and two floats that the binary stores as
+    // 3D emitter parameters 2 and 1 (the listing's a9 and a10).
+    ~VoxSoundManager();                                                     // 0x36afb0 and 0x36b088 (same body)
+    void Pause(int sound);                                                  // 0x36a664 (partial)
+    void PauseMusic();                                                      // 0x36a784 (partial)
+    int PlaySoundPackSound(int sound, const char* name, vox::FormatTypes format, int field_16,
+                           int bank_id, vox::VoxSourceLoadingFlags flags,
+                           const glitch::core::vector3d<float>& pos,
+                           float param2, float param1);                     // 0x36a7c0
+    void ReleaseLvlSounds();                                                // 0x36b2cc
+    int PlayEvent(int event, const glitch::core::vector3d<float>& pos,
+                  float param2, float param1);                              // 0x36b420
+    int Play3D(int sound, const glitch::core::vector3d<float>& pos, bool loop, int reserved,
+               float param2, float param1);                                 // 0x36b5d8 (partial)
+    int Play(int sound, bool loop, int fade_ms, int type, bool force);      // 0x36b80c (partial)
+    void CrossfadeMusic(int music_a, int music_b);                          // 0x36baa0 (partial)
+    void PlayMusic(int music, bool loop, bool stop_if_none, int fade_ms);   // 0x36bd78 (partial)
+    void SetInSafeZoneMusic(bool in_zone);                                  // 0x36c014 (partial)
+
+    // Layout: the 32-bit offsets from the listings are the comments; pointers are host width.
+    // Only the fields the rebuilt bodies touch are named. The constructor (0x36c7b0, not ported)
+    // is expected to set engine_ from VoxEngine::GetVoxEngine() and to allocate sounds_.
+    vox::VoxEngine* engine_ = nullptr;      // +0x00 (*this in the binary)
+    void* unk_04 = nullptr;                 // +0x04, freed by the destructor (CustomFree); allocated outside this batch
+    vox::DataHandle** sounds_ = nullptr;    // +0x08, one DataHandle* per sound id (LoadSound)
+    std::vector<int> preload_ids_;          // +0x0c..+0x17 (begin, end, end of storage); ids ReleaseLvlSounds keeps
+    std::uint8_t pad_18[4];                 // +0x18..+0x1b
+    int sound_count_ = 0;                   // +0x1c, sound ids run 0 .. sound_count_
+    bool initial_volume_set_ = false;       // +0x20, SetInitialVolume has run
+    std::uint8_t pad_21[3];                 // +0x21..+0x23
+    int music_id_ = -1;                     // +0x24, current music sound id, -1 when none
+    int prev_music_id_ = -1;                // +0x28, music id stopped last (StopAllMusic, StopMusic)
+    std::uint8_t pad_2c[4];                 // +0x2c..+0x2f
+    bool music_loop_ = false;               // +0x30, loop flag of the current music (PlayMusic stores it)
+    bool music_slot_ = false;               // +0x31, toggled by CrossfadeMusic; SetInSafeZoneMusic tests it
+    bool in_safe_zone_ = false;             // +0x32, SetInSafeZoneMusic
+    std::uint8_t pad_33[5];                 // +0x33..+0x37
+    std::string unk_38;                     // +0x38, a std::string (its block is freed by the destructor)
+    std::uint8_t pad_48[0x0c];              // +0x48..+0x53
+    int unk_54 = 0;                         // +0x54, SetListenerPos a5
+    int unk_58 = 0;                         // +0x58, SetListenerPos a6
+    float unk_5c = 0.0f;                    // +0x5c, SetListenerPos a7
+    std::uint8_t pad_60[4];                 // +0x60..+0x63
+    vox::VoxSoundPackXML sound_pack_;       // +0x64, embedded sound pack (GetGroupMask, GetDataSourceInfo)
 };

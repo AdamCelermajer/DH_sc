@@ -3,6 +3,7 @@
 // (constructor, clone, onRegisterSceneNode, setSize, setColor, setMaterial, render, getMaterial) and recon/slice_31 (getColor,
 // serializeAttributes, deserializeAttributes).
 #include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
+#include "glitch-core-io/io/iattributes.hpp"
 
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-video/video_driver.hpp"

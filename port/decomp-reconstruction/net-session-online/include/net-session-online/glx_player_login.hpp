@@ -132,6 +132,9 @@ public:
 public:
     ~GLXPlayerLogin() override;  // 0x834928 D1, 0x834a8c D2 (clears the product lists)
 
+    // The login un-token at +0x78 (the lobby id SearchRoomInternal passes), null until a login has set it.
+    const char* UnToken() const { return unToken_.get(); }
+
 private:
     bool keepAliveEnabled_ = false;                    // +0x40
     std::int32_t lastKeepAliveMs_ = 0;                 // +0x44

@@ -7,7 +7,6 @@
 #include "net-session-online/xp_api.hpp"  // XP_API_GET_RANDOM (0x82afb0)
 #include "net-transport/default_data_packet.hpp"
 #include "net-transport/deps/connection_env.hpp"
-#include "net-transport/deps/data_packet_payload.hpp"
 
 namespace {
 
@@ -25,11 +24,16 @@ unsigned char ByteLength(const char* text) {
 
 // 0x846ca4 _ZN10ConnectionC1EPci
 // 0x846dac _ZN10ConnectionC2EPci is the same body (skipped at that address).
-// The host is copied (a null host is stored as an empty string) and the socket is created for it.
-Connection::Connection(char* host, int port)
-    : host_(host ? host : ""), port_(port) {
+// The host is copied (XP_API_STRNEW; a null host stays null) and the socket is created for it
+// (a CAndroidSocket, through the factory).
+Connection::Connection(char* host, int port) : port_(port) {
+    if (host != nullptr) {
+        const std::size_t length = std::strlen(host);
+        host_.reset(new char[length + 1]);
+        std::memcpy(host_.get(), host, length + 1);
+    }
     // The factory's observer argument is 0 in the original, which is nullptr here.
-    socket_.reset(GLXPlayerSocketFactory::GetSocket(host_.c_str(), port_, nullptr));
+    socket_.reset(GLXPlayerSocketFactory::GetSocket(host_.get(), port_, nullptr));
 }
 
 // 0x846b14 _ZN10ConnectionD1Ev
@@ -44,10 +48,12 @@ Connection::~Connection() {
 }
 
 // 0x84699c _ZN10Connection8sendDataEv
-// Partial: the two debug prints (select error and "PPP not open") are dropped. The body bytes
-// come from the DataPacket stand-in (deps/data_packet_payload.hpp), so an empty body is sent until
-// DataPacket declares its body accessors. The queue, the send and the resend steps are as in the
-// original.
+// Partial: the two debug prints (select error and "PPP not open") are dropped, and a missing socket on a
+// connected link disconnects (the original would dereference it). The head packet's length (vtable
+// +0x60) is stored in the length byte, then its body (+0x64) and length are read again for the copy,
+// as the original calls them. Select(write) failing returns; the send of length + 1 bytes failing
+// disconnects. After a send the head is popped (its next link, then its deleting destructor, +0x6c and
+// +0x04) and sendData recurses (vtable +0x08) while packets remain.
 void Connection::sendData() {
     if (outgoing_.empty()) {
         return;
@@ -57,16 +63,16 @@ void Connection::sendData() {
         return;
     }
     DataPacket& packet = *outgoing_.front();
-    const std::size_t length = PayloadLength(packet);
-    send_buffer_[0] = static_cast<std::uint8_t>(length);
-    if (length != 0) {
-        std::memcpy(send_buffer_ + 1, PayloadBody(packet), length);
+    send_buffer_[0] = static_cast<std::uint8_t>(packet.getMessageLen());
+    const char* body = packet.getMessageBody();
+    const int length = packet.getMessageLen();
+    if (length > 0) {
+        std::memcpy(send_buffer_ + 1, body, static_cast<std::size_t>(length));
     }
-    if (socket_->Poll(true) < 0) {  // vtable +0x40, write readiness
+    if (socket_->Select(GLXPlayerSocket::kSelectWrite) < 0) {  // vtable +0x40
         return;
     }
-    if (socket_->SendBytes(reinterpret_cast<const char*>(send_buffer_), static_cast<int>(length) + 1) < 0) {  // +0x44
-
+    if (socket_->Send(reinterpret_cast<const char*>(send_buffer_), packet.getMessageLen() + 1) < 0) {  // +0x44
         disconnect();
         return;
     }
@@ -96,14 +102,14 @@ void Connection::receiveDataLen() {
     if (recv_buf_len_ == 0) {
         std::memset(recv_buffer_, 0, kBufferBytes);
     }
-    if (socket_->Poll(false) < 0) {  // vtable +0x40, read readiness
+    if (socket_->Select(GLXPlayerSocket::kSelectRead) < 0) {  // vtable +0x40, read readiness
         return;
     }
-    if (!socket_->HasPendingData()) {  // vtable +0x4c
+    if (!socket_->IsReadyForRW()) {  // vtable +0x4c
         return;
     }
-    const int result = socket_->RecvBytes(reinterpret_cast<char*>(recv_buffer_ + recv_buf_len_),  // vtable +0x48
-                                          need_recv_data_len_ - recv_buf_len_);
+    const int result = socket_->Recv(reinterpret_cast<char*>(recv_buffer_ + recv_buf_len_),  // vtable +0x48
+                                     need_recv_data_len_ - recv_buf_len_);
     if (result < 0) {
         return;
     }
@@ -170,51 +176,55 @@ int Connection::getTimeOfLastReqest() const {
 }
 
 // 0x8457a4 _ZN10Connection13saveRetryDataEP10DataPacket
-// Partial: the copy of the body comes from the DataPacket stand-in (see sendData), so the retry
-// copy has an empty body until DataPacket declares its body accessors.
+// Cleans the old copy, builds a DefaultDataPacket and fills it with setMessageBody (vtable +0x68) from
+// the source's body (vtable +0x64, read first) and length (+0x60), then stamps the request time.
 void Connection::saveRetryData(DataPacket* packet) {
     if (!packet) {
         return;
     }
     cleanRetryData();
     auto copy = NewPacket();
-    copy->setMessageBody(PayloadBody(*packet), static_cast<int>(PayloadLength(*packet)));
+    const char* body = packet->getMessageBody();
+    const int length = packet->getMessageLen();
+    copy->setMessageBody(reinterpret_cast<const unsigned char*>(body), length);
     retry_packet_ = std::move(copy);
     last_request_time_ = platform_calls::GetTime();
 }
 
 // 0x84581c _ZN10Connection7connectEv
-// Partial: a guard is added for a missing socket (the original dereferences it after a
-// disconnect). A null host is stored as "", so an empty host is also treated as no host; the
-// original tests the pointer, and would connect to "". The connect attempt count lives in the
-// socket (+0x85c, ConnectAttempts).
+// Partial: a guard is added for a missing socket (the original dereferences it after a disconnect).
+// State 1 calls the socket's ConnectByName (vtable +0x38) with the host and 0; on success it sets the
+// connected flag, sends the handshake (vtable +0x10), starts the receive (+0x0c), stamps the send time,
+// moves to state 2 and clears the socket's connect state (+0x85c). A failed attempt with that state at
+// 2 or more gives up (state 3). State 0 creates the socket (vtable +0x28) when the host and port are
+// set, else fails.
 int Connection::connect() {
     if (state_ == 1) {
         if (!socket_) {
             state_ = 3;
             return 0;
         }
-        const int result = socket_->Connect(host_.c_str(), 0);  // vtable +0x38
+        const int result = socket_->ConnectByName(host_.get(), 0);  // vtable +0x38
         if (result) {
             connected_ = true;
             sendEstablishConnectionPackage();
             receiveDataLen();
             last_send_time_ = platform_calls::GetTime();
             state_ = 2;
-            socket_->SetConnectAttempts(0);
+            socket_->nonBlockConnectState_ = 0;
             return 1;
         }
-        if (socket_->ConnectAttempts() >= 2) {
+        if (socket_->nonBlockConnectState_ >= 2) {
             state_ = 3;
-            socket_->SetConnectAttempts(0);
+            socket_->nonBlockConnectState_ = 0;
         }
         return 0;
     }
     if (state_ != 0) {
         return 0;
     }
-    if (!host_.empty() && port_ != 0 && socket_) {
-        state_ = socket_->BeginConnect() ? 1 : 3;  // vtable +0x28
+    if (host_ && port_ != 0 && socket_) {
+        state_ = socket_->CreateSocket() ? 1 : 3;  // vtable +0x28
         return 0;
     }
     state_ = 3;
@@ -257,13 +267,16 @@ int Connection::addOutgoingPacket(DataPacket* packet) {
 }
 
 // 0x845a50 _ZN10Connection13sendRetryDataEv
-// Partial: the body copy comes from the DataPacket stand-in (see sendData).
+// A copy of the retry packet (body from vtable +0x64, length from +0x60) is queued through
+// addOutgoingPacket, and the request time is stamped. The pseudocode returns the time (leftover r0).
 void Connection::sendRetryData() {
     if (!retry_packet_) {
         return;
     }
     auto copy = NewPacket();
-    copy->setMessageBody(PayloadBody(*retry_packet_), static_cast<int>(PayloadLength(*retry_packet_)));
+    const char* body = retry_packet_->getMessageBody();
+    const int length = retry_packet_->getMessageLen();
+    copy->setMessageBody(reinterpret_cast<const unsigned char*>(body), length);
     addOutgoingPacket(copy.release());
     last_request_time_ = platform_calls::GetTime();
 }
@@ -503,7 +516,7 @@ int Connection::sendEstablishConnectionPackage() {
 void Connection::disconnect() {
     connected_ = false;
     if (socket_) {
-        socket_->OnCancelled();  // vtable +0x3c, the close hook (Connection::disconnect calls it, then deletes)
+        socket_->CloseSocket();  // vtable +0x3c (Connection::disconnect calls it, then deletes the socket)
         socket_.reset();
     }
     cleanRetryData();

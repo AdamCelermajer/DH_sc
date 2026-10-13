@@ -7,6 +7,7 @@
 
 #include "net-transport/c_data_stats.hpp"
 #include "net-transport/connection.hpp"
+#include "net-transport/deps/transport_test_support.hpp"
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/net_network_id.hpp"
 #include "net-transport/sync.hpp"
@@ -110,6 +111,7 @@ static void TestSyncNoops() {
 }
 
 int main() {
+    transport_test_support::InstallInitialized();  // CConnection reaches the transport manager singleton
     TestStats();
     TestConnectionKey();
     TestSyncNoops();

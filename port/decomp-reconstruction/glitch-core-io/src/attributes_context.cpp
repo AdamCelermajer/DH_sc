@@ -4,6 +4,8 @@
 
 #include "glitch-core-io/io/attributes.hpp"
 
+#include "glitch-video/video_driver.hpp"
+
 namespace glitch::io {
 
 // 0x562b10 _ZN6glitch2io11CAttributes8SContextC1EPKc

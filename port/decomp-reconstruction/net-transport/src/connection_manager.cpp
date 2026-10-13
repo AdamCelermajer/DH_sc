@@ -9,7 +9,7 @@
 #include <new>
 
 #include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
-#include "net-transport/deps/transport_manager.hpp"  // GetTransportMgr()
+#include "net-transport/transport_manager.hpp"  // GetTransportMgr()
 
 namespace {
 
@@ -58,12 +58,12 @@ CConnectionManager* CConnectionManager::s_connectionManager = nullptr;
 CConnectionManager::RecvCallbacks CConnectionManager::s_recvCBMap[CConnectionManager::kPacketTypes];
 CNetMutex CConnectionManager::m_connections_mutex;
 
-// 0x7fc0a8 _ZN18CConnectionManagerC1Ev (partial: the event queue's list sentinel and capacity are not written)
+// 0x7fc0a8 _ZN18CConnectionManagerC1Ev
 // The C2 variant at 0x7fc140 has the same body and is skipped.
 CConnectionManager::CConnectionManager() {
-    // Original: vptr, CNetMutex at +0x0c, then the event queue at +0x08 with a self-linked list sentinel
-    // at +0x10 and the template capacity 100 at +0x18. CEventQueueBase keeps its list in a std::list and
-    // its +0x10 word is the expiry flag, so neither the sentinel nor the 100 is written here.
+    // Original: vptr, CNetMutex at +0x0c, then the event queue at +0x08 (CEventQueue<EVENTS,100>: a
+    // self-linked empty list at +0x10 and the template argument 100 at +0x18) and the initialized flag
+    // and the 32 connection slots cleared. event_queue_{100} is the queue; its std::list is empty.
     for (CConnection*& slot : connections_) {
         slot = nullptr;
     }
@@ -85,7 +85,7 @@ int CConnectionManager::GetImpl() {
 
 // 0x7fcc30 _ZN18CConnectionManager6UpdateEv
 int CConnectionManager::Update() {
-    transport_manager_calls::Update(GetTransportMgr());
+    GetTransportMgr()->Update();
     for (CConnection*& slot : connections_) {
         if (!slot) {
             continue;
@@ -94,7 +94,7 @@ int CConnectionManager::Update() {
         if (slot->State() != kStateDropped) {
             continue;
         }
-        transport_manager_calls::Disconnect(GetTransportMgr(), slot->NetworkId());
+        GetTransportMgr()->Disconnect(slot->NetworkId());
         m_connections_mutex.Lock();
         if (slot) {
             delete slot;
@@ -304,17 +304,17 @@ int CConnectionManager::UnregisterPacketType(tPACKET_TYPE type) {
 // and the transport send shim) are recorded with the callee in transport_manager.cpp.
 int CConnectionManager::SendTo(tPACKET_TYPE type, CNetworkId& to, void* data, int size) {
     const std::intptr_t transport = GetPacketTransportType(type);
-    return GetTransportMgr().Send(static_cast<tTRANSPORT_TYPE>(transport), to, type, data,
-                                  static_cast<std::size_t>(size));
+    return GetTransportMgr()->Send(static_cast<tTRANSPORT_TYPE>(transport), to, type, data,
+                                   static_cast<std::size_t>(size));
 }
 
 // 0x7fc3ec _ZN18CConnectionManager13SendBroadcastE12tPACKET_TYPEPvi
 // Calls the four-argument CTransportManager::Send (0x81b2fc). That callee sends only for transport types
 // 1 and 2 (broadcast address); its types 3 and 4 are partial there.
 int CConnectionManager::SendBroadcast(tPACKET_TYPE type, void* data, int size) {
-    CTransportManager& manager = GetTransportMgr();
+    CTransportManager* manager = GetTransportMgr();
     const std::intptr_t transport = GetPacketTransportType(type);
-    return manager.Send(static_cast<tTRANSPORT_TYPE>(transport), type, data, static_cast<std::size_t>(size));
+    return manager->Send(static_cast<tTRANSPORT_TYPE>(transport), type, data, static_cast<std::size_t>(size));
 }
 
 // 0x7fc438 _ZN18CConnectionManager23GetConnectionByMemberIdEi
@@ -405,12 +405,12 @@ int CConnectionManager::SendToServer(tPACKET_TYPE type, void* data, int size) {
 }
 
 // 0x7fcf94 _ZN18CConnectionManager13GetServerPingEv
-// partial: the server returns 0, and so does a client without a connection to the server member. For a
-// client with a server connection the original averages the connection's ping samples: a CReadWriteLock at
-// CConnection +0x17c (LockRead, UnlockRead) and a time-ordered tree at +0x180 (header) with its node count
-// at +0x190. Nodes hold the sample time (+0x10) and the ping (+0x14). Samples within 30000000 clock() ticks
-// of now are summed, newest first, and the result is sum / count in integers. CConnection does not declare
-// the list, so a connected client returns 0 here. Layout request recorded for CConnection.
+// The server returns 0, and so does a client without a connection to the server member. For a client
+// with a server connection the original walks the connection's ping samples inline: the CReadWriteLock
+// at CConnection +0x17c (LockRead, UnlockRead) and the time-ordered tree at +0x180 with its node count at
+// +0x190 are the sample store of stats_[8] (a CDataStats<int>, +0x178). Samples within 30000000 clock()
+// ticks of now are summed, newest first, and the result is sum / count in integers (0 when there are
+// none): CDataStats<int>::GetAverage(30.0f), which the compiler inlined here.
 int CConnectionManager::GetServerPing() {
     if (CMatching::Get()->IsServer()) {
         return 0;
@@ -419,7 +419,7 @@ int CConnectionManager::GetServerPing() {
     if (server == nullptr) {
         return 0;
     }
-    return 0;
+    return server->stats_[8].GetAverage(30.0f);
 }
 
 // 0x7fc680 _ZN18CConnectionManager14DisconnectPeerEi
@@ -620,10 +620,8 @@ void CConnectionManager::sPacketReceiverCallback(CNetworkId& from, char* data, i
 }
 
 // 0x7fcd04 _ZN18CConnectionManager17TerminateInternalEv (ARM checked)
-// partial: CTransportManager::Terminate is a static that calls TerminateInternal on the CTransportManagerImpl
-// singleton (s_transportManager, which owns a receiver thread) and deletes it. The port's GetTransportMgr() is
-// a different object, so the static is not called here and the no-op stand-in keeps the call site. Integrator
-// decision needed: GetTransportMgr() should return the singleton before this call is wired.
+// CTransportManager::Terminate is a static that calls TerminateInternal (vtable +0x04) on the
+// CTransportManagerImpl singleton (which owns the receiver thread) and deletes it.
 int CConnectionManager::TerminateInternal() {
     initialized_ = false;
     DisconnectAll();
@@ -635,7 +633,7 @@ int CConnectionManager::TerminateInternal() {
         }
         m_connections_mutex.Unlock();
     }
-    transport_manager_calls::Terminate(GetTransportMgr());
+    CTransportManager::Terminate();
     UnregisterPacketType(5);
     UnregisterPacketType(0);
     return event_queue_.Clear();
@@ -656,10 +654,9 @@ void CConnectionManager::Terminate() {
 }
 
 // 0x7fcdec _ZN18CConnectionManager18InitializeInternalEv (ARM checked)
-// partial: CTransportManager::Initialize is a static (the ARM passes this+0x1c, which it ignores). It creates
-// and starts the CTransportManagerImpl singleton, which is not the object GetTransportMgr() returns in the port,
-// so the no-op stand-in keeps the call here (see TerminateInternal). The transport types come from
-// CMatching::TransportTypeForProtocol (vtable +0x34). The per-type InitializeTransport calls are real.
+// CTransportManager::Initialize is a static (the ARM passes this+0x1c, which it ignores): it creates and
+// starts the CTransportManagerImpl singleton. The transport types come from CMatching::TransportTypeForProtocol
+// (vtable +0x34), and InitializeTransport runs for each of the three.
 int CConnectionManager::InitializeInternal() {
     RegisterPacketType(kConnectionPacketType, 0, &CConnectionManager::sPacketReceiverCallback);
     RegisterPacketType(kPingPacketType, 0, &CConnectionManager::sPingReceiverCallback);
@@ -669,10 +666,10 @@ int CConnectionManager::InitializeInternal() {
     for (CConnection*& slot : connections_) {
         slot = nullptr;
     }
-    transport_manager_calls::Initialize(GetTransportMgr());  // stand-in: see the comment above
-    CTransportManager& manager = GetTransportMgr();
+    CTransportManager::Initialize();
+    CTransportManager* manager = GetTransportMgr();
     for (std::intptr_t transport : transports_) {
-        manager.InitializeTransport(static_cast<tTRANSPORT_TYPE>(transport));
+        manager->InitializeTransport(static_cast<tTRANSPORT_TYPE>(transport));
     }
     initialized_ = true;
     return 0;

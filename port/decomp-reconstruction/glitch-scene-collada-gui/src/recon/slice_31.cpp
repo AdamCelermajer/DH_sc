@@ -34,7 +34,7 @@ void IGUIElement_serializeAttributes(const IGUIElement& self, IAttributes* attri
     (void)options;
     attributes->addInt("Id", self.id, false);
     attributes->addString("Name", self.getName(), false);
-    attributes->addStringW("Caption", self.getCaption(), false);
+    attributes->addString("Caption", self.getCaption(), false);
     attributes->addRect("Rect", self.absoluteRect, false);
     attributes->addPosition2d("MinSize", self.minSize, false);
     attributes->addPosition2d("MaxSize", self.maxSize, false);
@@ -158,7 +158,7 @@ void CGUIMessageBox_serializeAttributes(const CGUIMessageBox& self, IAttributes*
     attributes->addBool("CancelButton", ((self.buttons >> 1) & 1) != 0, false);
     attributes->addBool("YesButton", ((self.buttons >> 2) & 1) != 0, false);
     attributes->addBool("NoButton", ((self.buttons >> 3) & 1) != 0, false);
-    attributes->addStringW("MessageText", self.messageText.c_str(), false);
+    attributes->addString("MessageText", self.messageText.c_str(), false);
 }
 
 // 0x547f28 _ZN6glitch3gui14CGUIMessageBox21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
@@ -250,7 +250,7 @@ void CGUISkin_serializeAttributes(const CGUISkin& self, IAttributes* attributes,
         attributes->addInt(GUISkinSizeNames[j], self.sizes[j], false);
     }
     for (int k = 0; k != 8; ++k) {
-        attributes->addStringW(GUISkinTextNames[k], self.texts[k].c_str(), false);
+        attributes->addString(GUISkinTextNames[k], self.texts[k].c_str(), false);
     }
     for (int m = 0; m != 23; ++m) {
         attributes->addInt(GUISkinIconNames[m], self.icons[m], false);

@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import re
 import sys
 import time
@@ -36,9 +37,11 @@ DR = manifest.DR
 REPORT_DIR = ROOT / "reports" / "decomp-reconstruction" / "armdiff"
 CLASS_FACTS = ROOT / "reports" / "decomp-reconstruction" / "class-facts.json"
 
-CSV_COLUMNS = ["category", "address", "symbol", "demangled", "source_file", "orig_size", "shape", "result", "reason_or_difference",
+CSV_COLUMNS = ["category", "address", "symbol", "demangled", "source_file", "orig_size", "trivial", "shape", "result", "reason_or_difference",
                "cases", "equal", "fault_equal", "inconclusive", "mismatch", "first_case", "first_difference", "mismatch_class",
                "orig_coverage_pct", "flags", "recon_symbol", "src_sha1", "notes"]
+
+TRIVIAL_BYTES = 8       # an original of this many bytes or fewer (bx lr, a constant return) is a "trivial" match; reports count them apart
 
 # std:: types whose 32-bit layout is the same in STLport (the original) and libc++ (the ARM32 build)
 # fundamental typedefs spelled with std:: (cstdint, cstddef): not containers
@@ -72,7 +75,8 @@ class Outcome:
 
     def csv_row(self) -> list:
         r = self.row
-        return [r.category, f"0x{r.addr:x}", r.symbol, self.demangled, r.source_file, r.size, self.shape, self.result, self.reason,
+        return [r.category, f"0x{r.addr:x}", r.symbol, self.demangled, r.source_file, r.size, "yes" if 0 < r.size <= TRIVIAL_BYTES else "",
+                self.shape, self.result, self.reason,
                 self.cases, self.equal, self.fault_equal, self.inconclusive, self.mismatch, self.first_case, self.first_diff,
                 self.mismatch_class, ("" if self.coverage < 0 else f"{100 * self.coverage:.0f}"), ";".join(self.flags), self.recon_symbol, self.src_sha1, "; ".join(self.notes)]
 
@@ -281,7 +285,7 @@ def select_rows(orig: manifest.Original, a) -> list[manifest.Row]:
 
 
 def exclusion_reason(row: manifest.Row, a, models_ok) -> str:
-    if row.status != "reconstructed":
+    if row.status != "reconstructed" and not manifest.is_armdiff_demoted(row.status, row.notes):
         return f"ledger status is {row.status}, not reconstructed"
     if not row.elf_name:
         return "no function symbol at this address in the original"
@@ -432,6 +436,9 @@ def run_function(m: mc.Machine, row: manifest.Row, tu: TuData, sig: abi.IRSig, r
     if out.equal >= need:
         out.result = "match"
         out.reason = f"{out.equal}/{out.cases} cases identical"
+        if manifest.is_armdiff_demoted(row.status, row.notes):
+            out.reason += "; demoted by an earlier armdiff mismatch and now matches (candidate for promotion)"
+            out.flags.append("was_demoted")
         if out.fault_equal:
             out.reason += f", {out.fault_equal} identical faults"
         if out.stl_suspect:
@@ -445,9 +452,74 @@ def run_function(m: mc.Machine, row: manifest.Row, tu: TuData, sig: abi.IRSig, r
             out.reason += "; first inconclusive case: " + first_note[len("inconclusive: "):]
 
 
+def run_all(a) -> int:
+    """Every category with a ledger: build once, then one child process per category, one CSV each."""
+    import subprocess
+    import concurrent.futures as cf
+    cats = sorted(p.parent.name for p in DR.glob("*/ledger.csv"))
+    t0 = time.time()
+    if not a.no_build:
+        for cat in cats:
+            if (DR / cat / "src").is_dir():
+                build_arm.build_category(cat, a.opt, a.force_build, a.jobs)
+    common = ["--cases", str(a.cases), "--extend", str(a.extend), "--seed", str(a.seed), "--budget", str(a.budget),
+              "--shape", a.shape, "--callee", a.callee, "--opt", a.opt, "--library", a.library, "--skip-tu-build"]
+    if a.no_call_only:
+        common.append("--no-call-only")
+    if a.no_build:
+        common.append("--no-build")
+    if a.csv_suffix:
+        common += ["--csv-suffix", a.csv_suffix]
+    workers = a.workers or max(1, min(8, (os.cpu_count() or 4) // 2))
+    logdir = ROOT / "build" / "tb-arm32" / "_logs"
+    logdir.mkdir(parents=True, exist_ok=True)
+
+    def one(cat: str):
+        t = time.time()
+        p = subprocess.run([sys.executable, str(Path(__file__).resolve()), "-c", cat] + common, capture_output=True, text=True)
+        (logdir / f"{cat}.log").write_text(p.stdout + "\n" + p.stderr, encoding="utf-8")
+        return cat, p.returncode, time.time() - t
+
+    print(f"[armdiff --all] {len(cats)} categories, {workers} processes", flush=True)
+    done = []
+    with cf.ThreadPoolExecutor(workers) as ex:
+        for cat, rc, dt in ex.map(one, cats):
+            done.append(cat)
+            print(f"  {cat:28s} exit {rc}  {dt:5.0f}s", flush=True)
+    # summary from the CSVs
+    suffix = f"-{a.csv_suffix}" if a.csv_suffix else ""
+    lines = [["category", "ledger_rows_selected", "ran", "match", "match_trivial", "match_nontrivial", "mismatch", "excluded"]]
+    tot = [0] * 7
+    for cat in cats:
+        path = REPORT_DIR / f"{cat}{suffix}.csv"
+        if not path.exists():
+            continue
+        rows = list(csv.DictReader(path.open(encoding="utf-8")))
+        ran = [r for r in rows if int(r["cases"] or 0) > 0]
+        mt = [r for r in rows if r["result"] == "match"]
+        triv = sum(1 for r in mt if r["trivial"] == "yes")
+        vals = [len(rows), len(ran), len(mt), triv, len(mt) - triv, sum(1 for r in rows if r["result"] == "mismatch"),
+                sum(1 for r in rows if r["result"] == "excluded")]
+        lines.append([cat] + vals)
+        tot = [x + y for x, y in zip(tot, vals)]
+    lines.append(["total"] + tot)
+    out = REPORT_DIR / f"all-summary{suffix}.csv"
+    with out.open("w", newline="", encoding="utf-8") as fh:
+        csv.writer(fh, lineterminator="\n").writerows(lines)
+    w = max(len(x[0]) for x in lines)
+    print(f"{'category':{w}s} {'rows':>6s} {'ran':>5s} {'match':>6s} {'trivial':>7s} {'other':>6s} {'mism':>5s} {'excl':>6s}")
+    for ln in lines[1:]:
+        print(f"{ln[0]:{w}s} {ln[1]:6d} {ln[2]:5d} {ln[3]:6d} {ln[4]:7d} {ln[5]:6d} {ln[6]:5d} {ln[7]:6d}")
+    print(f"wrote {out}  ({time.time() - t0:.0f}s)")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--category", "-c", action="append", help="ledger category (repeatable), e.g. game-anim")
+    ap.add_argument("--all", action="store_true", help="every category that has a ledger, one CSV each (runs categories in parallel processes)")
+    ap.add_argument("--workers", type=int, default=0, help="parallel category processes for --all (default: half the CPUs, at most 8)")
+    ap.add_argument("--skip-tu-build", action="store_true", help=argparse.SUPPRESS)
     ap.add_argument("--address", action="append", help="hex ELF address of the original function (repeatable)")
     ap.add_argument("--cases", type=int, default=48, help="cases per function (default 48)")
     ap.add_argument("--extend", type=int, default=4,
@@ -472,8 +544,12 @@ def main() -> int:
     ap.add_argument("--verbose", "-v", action="store_true", help="print every case")
     ap.add_argument("-j", "--jobs", type=int, default=None, help="compile jobs")
     a = ap.parse_args()
+    if a.all:
+        if a.address or a.unit:
+            ap.error("--all does not combine with --address or --unit")
+        return run_all(a)
     if not a.category and not a.address:
-        ap.error("give --category and/or --address")
+        ap.error("give --category, --address or --all")
 
     t0 = time.time()
     orig = manifest.Original(Path(a.library))
@@ -523,7 +599,7 @@ def main() -> int:
             return 2
         unit_override = (build_arm.OUT_ROOT / "_unit", up.stem)
         cats_needed, hdr_rows = [], {}
-    if not a.no_build:
+    if not a.no_build and not a.skip_tu_build:
         for cat in cats_needed:
             if (DR / cat / "src").is_dir():
                 build_arm.build_category(cat, a.opt, a.force_build, a.jobs)

@@ -229,9 +229,10 @@ std::string Quest::GetObjectiveDescription() const {
 // Ignores states above 13 (unsigned compare in the original). Entering a state that is not the current one, or the current
 // one with m_needsReinit set, stamps the state and leaves the old state's objectives: Active unregisters the objective list,
 // Completed unregisters the end objective, Available unregisters the accept objective. Volatile states save first. Then the
-// entry actions of the new state run; their script slots are in the comments. The Closed entry builds its text from the
-// reward list's +0x1c and +0x18 words (see that case): the body follows the asm, but the meaning of those two words is
-// not yet declared in dh2/RewardList.hpp (layout request).
+// entry actions of the new state run; their script slots are in the comments. The Closed entry (12) builds the dialog body
+// from the reward list's text, m_rewards.m_rewardString (RewardList +0x08), which CreateRewardString has just built. The
+// original reads that text through the RewardList +0x1c and +0x18 words (see that case); those words are the string's
+// _M_start_of_storage and _M_finish, which dh2/RewardList.hpp does not declare yet (layout request).
 void Quest::SetState(int state) {
     if (state < 0 || state > 13) {
         return;
@@ -325,12 +326,13 @@ void Quest::SetState(int state) {
             ExecScript(2);    // OnClosed
             m_rewards.CreateRewardString();
             const std::string title(ApplicationGetStringManager()->getString(m_pyData->m_w2));
-            // The reward text is the range from the reward list's +0x1c word (begin) to its +0x18 word (end), as the asm
-            // loads them (LDR +0x54, LDR +0x50). The string is then copied up to its first NUL.
-            const char* rangeBegin = static_cast<const char*>(m_rewards.unk_1c);
-            const char* rangeEnd = static_cast<const char*>(m_rewards.unk_18);
-            const std::string rewardText(rangeBegin, rangeEnd);
-            const std::string text(rewardText.c_str());
+            // The original copies the range from the reward list's +0x1c word (begin) to its +0x18 word (end), as the asm
+            // loads them (LDR +0x54, LDR +0x50), and builds the body from the copy's first NUL. Those two words are the live
+            // _M_start_of_storage and _M_finish of the reward string at +0x08 (layout request), so the range is that string's
+            // text. The port takes the text from the host string directly, copied up to its first NUL.
+            // RewardList::unk_18 and unk_1c are not read here: the host std::string keeps its own storage, so the words do not
+            // follow CreateRewardString, and a range read through them would always be empty.
+            const std::string text(m_rewards.m_rewardString.c_str());
             const int style = ApplicationGetPyDataConstants()->getConstant("DialogStyles", "QuestCompletedMsgDialog");
             const DialogMsg message(title, text, style, 1);
             EnqueueDialog(message);

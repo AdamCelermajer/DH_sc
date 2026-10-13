@@ -4,14 +4,12 @@
 // LevelMap members the batch calls (the constructor, the destructor, Load, Unload, Update and Draw) are stubs here
 // that count their calls and record the level id. The checks cover the ctor (level id -1), Ctor (new LevelMap with
 // the level id, then Load), Draw and Update (forwarded to the LevelMap), Dtor (Unload, then delete and null), the
-// second Ctor after Dtor, and Inst (one instance, and the level id stored in dword_9A2674).
+// second Ctor after Dtor, and Inst (one instance, the level id stored in its m_levelId, and a Ctor on that instance
+// building LevelMap(m_levelId)).
 #include <cstdio>
 
 #include "dh2/GSLevelMap.hpp"
 #include "dh2/LevelMap.hpp"
-
-// Defined in g1-game-world-GSLevelMap-ae6433-0.cpp.
-extern int dword_9A2674;
 
 namespace {
 
@@ -108,18 +106,32 @@ void testDrawAndUpdateForward() {
 }
 
 void testInst() {
+    // The function-local instance has static storage, so its LevelMap pointer starts null, as the Ctor expects.
     GSLevelMap* first = GSLevelMap::Inst(3);
     EXPECT(first != nullptr);
-    EXPECT(dword_9A2674 == 3);
-    EXPECT(first->m_levelId == -1);
+    EXPECT(first->m_levelId == 3);
 
-    // Every call returns the same instance and stores its argument.
+    // Every call returns the same instance and stores its argument in m_levelId.
     GSLevelMap* second = GSLevelMap::Inst(9);
     EXPECT(second == first);
-    EXPECT(dword_9A2674 == 9);
+    EXPECT(second->m_levelId == 9);
     GSLevelMap* third = GSLevelMap::Inst(-4);
     EXPECT(third == first);
-    EXPECT(dword_9A2674 == -4);
+    EXPECT(third->m_levelId == -4);
+
+    // Ctor on the instance builds LevelMap(m_levelId), so the id that Inst stored is the one that gets loaded.
+    resetCounts();
+    GSLevelMap* map = GSLevelMap::Inst(7);
+    EXPECT(map->m_levelId == 7);
+    map->Ctor(nullptr);
+    EXPECT(g_levelMapCtors == 1);
+    EXPECT(g_levelMapCtorId == 7);
+    EXPECT(g_loads == 1);
+    EXPECT(map->m_levelMap != nullptr && map->m_levelMap->m_levelId == 7);
+    map->Dtor(nullptr);
+    EXPECT(g_unloads == 1);
+    EXPECT(g_levelMapDtors == 1);
+    EXPECT(map->m_levelMap == nullptr);
 }
 
 }  // namespace

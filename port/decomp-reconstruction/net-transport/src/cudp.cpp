@@ -5,18 +5,18 @@
 bool CUdp::s_initialized_ = false;
 
 // 0x827504 _ZN4CUdp11IsConnectedEv
-bool CUdp::IsConnected() const {
+bool CUdp::IsConnected() {
     return true;
 }
 
 // 0x82750c _ZN4CUdp17CanDisconnectFromER10CNetworkId
-bool CUdp::CanDisconnectFrom(CNetworkId& peer) const {
+bool CUdp::CanDisconnectFrom(const CNetworkId& peer) {
     (void)peer;
     return false;
 }
 
 // 0x827514 _ZN4CUdp7GetTypeEv
-int CUdp::GetType() const {
+int CUdp::GetType() {
     return 1;
 }
 
@@ -28,12 +28,12 @@ int CUdp::TerminateTransport() {
 
 // 0x827544 _ZN4CUdp13IsConnectedToER10CNetworkId
 // Returns the inverse of the field2 presence bit (flags & 4), as the original computes it.
-bool CUdp::IsConnectedTo(const CNetworkId& peer) const {
+bool CUdp::IsConnectedTo(const CNetworkId& peer) {
     return (peer.Flags() & 4) == 0;
 }
 
 // 0x827554 _ZN4CUdp16GetPeerNetworkIdEv
-CNetworkId CUdp::GetPeerNetworkId() const {
+CNetworkId CUdp::GetPeerNetworkId() {
     CNetworkId id;
     id.Reset();
     return id;
@@ -51,7 +51,7 @@ CNetworkId CUdp::GetLocalNetworkId() {
 
 // 0x82770c _ZN4CUdp4SendER10CNetworkIdPvi
 // Sends only when the socket is open and the peer id carries an address1 (flag bit 0).
-std::int64_t CUdp::Send(CNetworkId& peer, const void* data, int len) {
+int CUdp::Send(const CNetworkId& peer, const void* data, int len) {
     std::uint16_t port = 0;
     std::uint32_t address = 0;
     if (!socket_.IsValid() || !peer.GetAddress1(port, address)) {
@@ -59,7 +59,7 @@ std::int64_t CUdp::Send(CNetworkId& peer, const void* data, int len) {
     }
     in_addr to{};
     to.s_addr = address;
-    return socket_.SendTo(to, port, data, len);
+    return static_cast<int>(socket_.SendTo(to, port, data, len));
 }
 
 // 0x827764 _ZN4CUdp11CloseSocketEv
@@ -91,7 +91,7 @@ int CUdp::Receive() {
             break;
         }
         from.SetAddress1(source_port, source.s_addr);
-        GetTransportMgr().ReceiverCallback(this, from, buffer, static_cast<int>(received));
+        CTransportManager::ReceiverCallback(this, from, buffer, static_cast<int>(received));
     }
     return static_cast<int>(received);
 }
@@ -133,9 +133,9 @@ CUdp* CUdp::CreateByPort(std::uint16_t port, unsigned int flags) {
 int CUdp::InitializeTransport() {
     if (!s_initialized_) {
         CUdp* first = CreateByPort(0x1a78, 4);
-        GetTransportMgr().AddTransport(first);
+        GetTransportMgr()->AddTransport(first);
         CUdp* second = CreateByPort(0, 3);
-        GetTransportMgr().AddTransport(second);
+        GetTransportMgr()->AddTransport(second);
     }
     s_initialized_ = true;
     return 0;

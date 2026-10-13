@@ -71,13 +71,16 @@ constexpr std::uint32_t kCameraNodeTypeTag = 0x63656164u;
 constexpr float kCos45 = 0.70710678f;
 constexpr float kSin45 = 0.70710678f;
 
-// The screen-to-world delta used by HandleCentering: the world point under screen (screenX, 0) minus the world point
-// under the screen centre (0, 0), both on the plane at the position's height, added to the position. Each call takes
-// the z the original read (position.Z before any change).
+// The screen-to-world delta used by HandleCentering: the world point under the normalized screen point (screenX, 0)
+// minus the world point under the normalized screen centre (0, 0), both on the plane at the position's height, added
+// to the position. Both samples use the Point2D<float> overload (0x40f394), as the four BL sites of the original do:
+// the centre pair is two zero words, so the centre is Point2D<float>{0, 0}. The Point2D<int> overload (0x40f2f0) takes
+// pixels, where (0, 0) is the pixel origin, so it is not interchangeable here. Each call takes the z the original read
+// (position.Z before any change).
 void ApplyScreenDelta(Point3D<float>& position, float screenX) {
     Point3D<float> centre{0.0f, 0.0f, 0.0f};
     Point3D<float> shifted{0.0f, 0.0f, 0.0f};
-    CameraBase::GetWorldCoord(Point2D<int>{0, 0}, centre, position.Z);
+    CameraBase::GetWorldCoord(Point2D<float>{0.0f, 0.0f}, centre, position.Z);
     CameraBase::GetWorldCoord(Point2D<float>{screenX, 0.0f}, shifted, position.Z);
     position.X += shifted.X - centre.X;
     position.Y += shifted.Y - centre.Y;
@@ -137,9 +140,9 @@ bool CameraLevel::CanPlayShakeAnim(Character* requester) const {
 // 0x40fa68 CameraLevel::HandleCentering(Point3D<float>&)
 // Multiplayer centring. The Hex-Rays signature returns the z component as a float (the position's z after the move,
 // or an incidental register value on the other paths); this port keeps the void declaration of dh2/CameraLevel.hpp.
-// PARTIAL: the delta comes from CameraBase::GetWorldCoord, which is still a stub (it returns false), so the position
-// does not move until that function is complete. The flags are the four bytes of Level +0x190 (Level.hpp pad_190),
-// which are named by no one yet; see the layout request in the ledger notes.
+// PARTIAL: the delta comes from CameraBase::GetWorldCoord (the Point2D<float> overload, 0x40f394, see ApplyScreenDelta),
+// which is still a stub (it returns false), so the position does not move until that function is complete. The flags
+// are the four bytes of Level +0x190 (Level.hpp pad_190), which are named by no one yet.
 void CameraLevel::HandleCentering(Point3D<float>& position) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     const int localPlayers = dword_99F76C->GetNumLocalPlayers(true);

@@ -43,6 +43,8 @@ public:
     bool mpIsInRoom() const;
     bool mpIsInGame() const;
     bool mpIsMaster() const;
+    // The master byte at +0x81, which OnMPProcessPushLeaveLobby sets when the leaving member is the local one.
+    void SetMaster(bool value) { isMaster_ = value; }
 
     // 0x837674 _ZN16GLXPlayerMPLobby22mpSendGetPlayerCounterEv
     void mpSendGetPlayerCounter();

@@ -6,21 +6,11 @@
 
 #include "net-transport/net_struct.hpp"
 
+#include "net-session-online/c_online.hpp"       // COnline (the frame time)
 #include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
 // The change counter is a process-wide 64-bit value. Its owner, NetStruct, is not in the port yet.
 std::uint64_t NetStruct::s_changeCounter = 0;
-
-namespace {
-
-// GetOnline()->+0x1c, the frame time read by NetStructMember::GetFrameTime. GetOnline() returns
-// COnline (net-session-online), which is not merged here, and the field name is not recovered.
-// Stand-in: returns 0.
-std::int32_t OnlineFrameTimeStandIn() {
-    return 0;
-}
-
-}  // namespace
 
 // 0x36d204 NetStructMember::~NetStructMember()   (D1, complete-object destructor)
 // The original body is empty; the vptr store is the compiler's.
@@ -83,13 +73,14 @@ bool NetStructMember::IsChanged() {
 // 0x814f84 NetStructMember::SetChanged()
 // Marks the member changed, copies the change mask (+0x18) into both masks, stamps the change with
 // the current counter value and advances the counter.
-void NetStructMember::SetChanged() {
+NetStructMember* NetStructMember::SetChanged() {
     std::uint32_t mask = changeMask_;          // +0x18
     changed_ = true;                           // +0x1c
     sentMask_ = mask;                          // +0x14
     ackMask_ = mask;                           // +0x10
     changeStamp_ = NetStruct::s_changeCounter; // +0x08
     ++NetStruct::s_changeCounter;
+    return this;
 }
 
 // 0x814fd8 NetStructMember::SetAcked()
@@ -139,17 +130,16 @@ bool NetStructMember::HasDataToSend(std::uint32_t keep, std::uint32_t mask) {
 }
 
 // 0x8150a0 NetStructMember::GetFrameTime()
-// partial: the original returns GetOnline()->+0x1c. COnline is not in the port, so the
-// stand-in OnlineFrameTimeStandIn() returns 0.
+// Returns GetOnline()->+0x1c: GetOnline is the thunk to COnline::GetInstance and +0x1c is the elapsed-time word
+// that COnline::ReceivePackets stores. The object pointer is not used (the function is static here).
 int NetStructMember::GetFrameTime() {
-    return OnlineFrameTimeStandIn();
+    return COnline::GetInstance()->GetElapsedTime();
 }
 
 // 0x8150b0 NetStructMember::AreChangesAcknowledged()
-// partial: the original asks CMatching whether this device is the server. If so it tests the room
-// mask against ackMask_ (+0x10). Otherwise it maps the member id from CMatching's vtable +0x74 to
-// its mask with vtable +0x84 and tests that mask. The control flow is the original's; CMatching is
-// the CMatching object of net-session-online (deps/matching.hpp).
+// The original asks CMatching whether this device is the server. If so it tests the room mask against ackMask_
+// (+0x10). Otherwise it maps the member id from CMatching's vtable +0x74 to its mask with vtable +0x84 and
+// tests that mask. CMatching is the CMatching of net-session-online (deps/matching.hpp).
 bool NetStructMember::AreChangesAcknowledged() {
     CMatching* matching = CMatching::Get();
     if (matching->IsServer()) {

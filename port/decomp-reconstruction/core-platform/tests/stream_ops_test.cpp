@@ -6,6 +6,16 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+// A colour from its four bytes (component 0 is the low byte, as in the original).
+static glitch::video::SColor MakeColor(unsigned char b0, unsigned char b1, unsigned char b2, unsigned char b3) {
+    glitch::video::SColor c;
+    c.setComponent(0, b0);
+    c.setComponent(1, b1);
+    c.setComponent(2, b2);
+    c.setComponent(3, b3);
+    return c;
+}
+
 int main() {
     {
         std::ostringstream os;
@@ -19,7 +29,7 @@ int main() {
     }
     {
         std::ostringstream os;
-        os << glitch::video::SColor{'a', 'b', 'c', 0};
+        os << MakeColor('a', 'b', 'c', 0);
         CHECK(os.str() == "a,b,c");
     }
     {
@@ -48,9 +58,9 @@ int main() {
     }
     {
         std::istringstream is("255,128,7");
-        glitch::video::SColor c{9, 9, 9, 9};
+        glitch::video::SColor c = MakeColor(9, 9, 9, 9);
         is >> c;
-        CHECK(c.R == 255 && c.G == 128 && c.B == 7 && c.A == 0);
+        CHECK(c.component(0) == 255 && c.component(1) == 128 && c.component(2) == 7 && c.component(3) == 0);
     }
     std::printf("%s\n", failures ? "stream_ops: FAILED" : "stream_ops: ok");
     return failures != 0;

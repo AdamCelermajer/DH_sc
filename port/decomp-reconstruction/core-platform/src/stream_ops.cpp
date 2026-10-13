@@ -22,14 +22,14 @@ std::ostream& operator<<(std::ostream& os, const glitch::core::vector3d<int>& v)
 
 // 0x310178 _ZlsRSoRKN6glitch5video6SColorE
 // The three channels are written as raw characters (std::ostream::_M_put_char),
-// with the same ',' clone between them: R ',' G ',' B. Nothing precedes R or
-// follows B.
+// with the same ',' clone between them: bytes 0 ',' 1 ',' 2. Nothing precedes byte 0 or
+// follows byte 2. Byte i is SColor::component(i) (canonical, glitch-shared/glitch_core.hpp).
 std::ostream& operator<<(std::ostream& os, const glitch::video::SColor& c) {
-    os.put(static_cast<char>(c.R));
+    os.put(static_cast<char>(c.component(0)));
     os << ',';
-    os.put(static_cast<char>(c.G));
+    os.put(static_cast<char>(c.component(1)));
     os << ',';
-    os.put(static_cast<char>(c.B));
+    os.put(static_cast<char>(c.component(2)));
     return os;
 }
 
@@ -76,10 +76,10 @@ std::istream& operator>>(std::istream& is, glitch::video::SColor& c) {
     is >> g;
     is >> sep;
     is >> b;
-    c.A = 0;
-    c.R = static_cast<unsigned char>(r);
-    c.G = static_cast<unsigned char>(g);
-    c.B = static_cast<unsigned char>(b);
+    c.setComponent(3, 0);
+    c.setComponent(0, static_cast<std::uint8_t>(r));
+    c.setComponent(1, static_cast<std::uint8_t>(g));
+    c.setComponent(2, static_cast<std::uint8_t>(b));
     return is;
 }
 

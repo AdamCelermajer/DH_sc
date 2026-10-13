@@ -58,6 +58,7 @@ public:
     int m_btn_start;                                                    // +0xa4 "btn_start"
     int m_btn_select;                                                   // +0xa8 "btn_select"
     int m_btn_power;                                                    // +0xac "btn_power"
+    uint8_t pad_b0[4];                                                  // +0xb0 the dword at original index 44: the ctor leaves it untouched
 
     // Mapped values: m_mappedButtons[i] = raw value of the same slot, written by UpdateButtonMappings.
     // Zeroed in the ctor. Element i sits at +0xb4 + 4 * i.

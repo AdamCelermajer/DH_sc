@@ -265,6 +265,23 @@ void testParse(StringManager& sm) {
     CHECK(out == "plain");
 }
 
+// The $ escape: the spec "$ab" is matched against the replacement, and once the replacement is used up the third
+// argument (a plain char pointer) is written. The pending "$ab" is dropped in that case, as in the listing.
+void testDollar(StringManager& sm) {
+    std::string out;
+    CHECK(sm.parse(out, "^$", "$ab", "ab", "VALUE") == 1);
+    CHECK(out == "VALUE");
+
+    out.clear();
+    sm.parse(out, "L^$R", "$ab", "ab", "VALUE");
+    CHECK(out == "LVALUER");
+
+    // A spec that does not match writes its own characters and never reads the third argument.
+    out.clear();
+    sm.parse(out, "^$", "$ab", "ax", "VALUE");
+    CHECK(out == "$ab");
+}
+
 void testParseEx(StringManager& sm) {
     std::string out;
     // With no arguments, the argument specifiers write nothing and the newline and text stay.
@@ -300,6 +317,7 @@ int main() {
     sm.m_currentPack = 0;
     testParseColors(sm);
     testParse(sm);
+    testDollar(sm);
     testParseEx(sm);
     testPreloadPack(sm);
 

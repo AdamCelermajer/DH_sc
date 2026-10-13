@@ -12,7 +12,7 @@
 //     NextSibling(name). tixml_node.hpp declares only the unnamed FirstChild(), so the walk is not written. The
 //     per-child work is in LoadOneRoomPool / LoadOneListRule.
 //   - UnloadRules: the delete of the TiXmlDocument at +0x124 needs the class; tixml_dh.hpp only forward-declares it.
-//   - Generate: RootRule::Impl::Generate yields the root Tile* in the original; RootRule.hpp declares it bool.
+//   - Generate: RootRule::Impl::Generate yields the root Tile*. RootRule.hpp declares it Tile*, and Generate stores it.
 //   - PrintMap: the original's walk has no observable effect in the binary.
 #include "dh2/rnd/RandomGenerator.hpp"
 
@@ -203,18 +203,23 @@ RandomGenerator::RandomGenerator() : m_rootRule(*this), m_sceneDir("data/scene/"
     static_cast<PropertyMap*>(m_levelConfig)->LoadDefaultProperties();
 }
 
-// 0x488134 rnd::RandomGenerator::Generate(int)   [PARTIAL]
-// Clears the grid, sets both seed words, and runs RootRule::Impl over the grid. The original stores the root Tile*
-// that Impl::Generate returns at +0x114, and when it is non-null calls PrintMap() and Tile::Print() on it, then
-// returns 1. RootRule.hpp declares Impl::Generate as bool, so the root cannot be stored yet. This body returns 1 when
-// placement succeeds and leaves m_rootTile null.
+// 0x488134 rnd::RandomGenerator::Generate(int)
+// Clears the grid, sets both seed words, and runs RootRule::Impl over the grid. The root Tile* that Impl::Generate
+// returns is stored at +0x114 (m_rootTile), replacing the previous value without unspawning it, as the original does.
+// When the root is non-null, PrintMap() and Tile::Print() run on it and the function returns 1. Otherwise it returns 0.
+// PrintMap has no observable effect in the binary (see its row).
 int RandomGenerator::Generate(int seed) {
     m_tiles.Clear();
     m_seed = seed;
     m_rngState = static_cast<std::uint32_t>(seed);
     RootRule::Impl impl(m_rootRule);
-    const bool placed = impl.Generate(m_tiles);
-    return placed ? 1 : 0;
+    m_rootTile = impl.Generate(m_tiles);
+    if (m_rootTile) {
+        PrintMap();
+        m_rootTile->Print();
+        return 1;
+    }
+    return 0;
 }
 
 // 0x4881d0 rnd::ListElem::~ListElem()

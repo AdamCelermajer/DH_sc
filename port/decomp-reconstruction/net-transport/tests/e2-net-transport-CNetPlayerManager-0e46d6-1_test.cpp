@@ -11,15 +11,12 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stub: AddPlayer(NetBitStream&,int,int) is skipped in batch e2 and is referenced by
-// ReadPacketData (linked in through CNetPlayerInfo::Update's cache clear), which this test does not call.
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 static CNetPlayerInfo* MakePlayer(int member_id, int conn_index, int state) {
     CNetPlayerInfo* p = new CNetPlayerInfo();
     p->member_id_.SetValue(member_id);
-    p->conn_index_.SetValue(conn_index);
-    p->unk_1c8.SetValue(0);          // IsActive needs all three indices to be non-negative
+    p->matching_member_id_.SetValue(conn_index);
+    p->gamepad_id_.SetValue(0);          // IsActive needs all three indices to be non-negative
     p->state_.SetValue(state);
     return p;
 }

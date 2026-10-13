@@ -119,7 +119,9 @@ MultiplayerStateMachine (`multiplayer_state_machine.hpp`): +0x00 state (-1 when 
 Entry: +0x00 skip flag, +0x04 state id, +0x08 callback, +0x0c next, +0x10 link (the slot that holds
 this entry, so removal can fix the predecessor). It is an intrusive singly linked list.
 
-IEvent (`i_event.hpp`): +0x04 event id. IEventReceiver: virtual destructor only.
+IEvent and IEventReceiver: `i_event.hpp` and `i_event_receiver.hpp` now forward to the game's one
+definitions, `dh2/IEvent.hpp` (+0x04 event id, virtual getEventID) and `dh2/IEventReceiver.hpp`
+(onEvent at +0x08). U2 (engine unification) retired the stand-ins.
 
 CMsgDropLoot (`c_msg_drop_loot.hpp`): header bytes +0x50..+0x67 (fixed_[0x18]); block length
 int32 at +0x64; block owned at +0x68. GetDataSize = block length + 24.
@@ -527,3 +529,48 @@ it cannot honestly derive from CMatching. `CMatching::Get()` returns null for pr
   the real class names that slot `establish_time_`; they are the same slot.
 - Blocked CRoomAttributes::Serialize and Unserialize (declared in c_room_attributes.hpp, not ported) have
   no-op bodies in `src/room_attributes_impl.cpp`, with the behaviour of the stand-in they replace.
+
+## Net structure pass (2026-10-13, ledger part `ledger.d/net-structure.csv`)
+
+Applies the net-session-online side of the layout requests of the r1n result (the net-transport side is in
+`net-transport/NOTES.md`, same heading). The binary won wherever the request text differed.
+
+- **Socket hierarchy.** `GLXPlayerSocket` is abstract: the platform slots of the binary vtable (GetLocalIP +0x08, GetHostByName +0x20 ...
+  SendBroadcast +0x84, 34 slots) are pure virtuals, `Run` and the HTTP receive code call them through the slots at the original
+  offsets, the observer interface has the four virtuals (`GetRequestData`, `GetRequestLength`, `SetResponseData`, `SetResponseLen`), and
+  the members (state +0x04, socket +0x08, host entry +0x0c, port +0x10, ... connect and lookup timers up to +0x868) are public.
+  `GLXPlayerSocketFactory::GetSocket` returns a `CAndroidSocket`; the response span the observer receives is the content string's own
+  span. `LCXPlayerSocket` is a separate abstract class (27 slots, its own signatures) and `LCAndroidSocket` derives from it
+  (not from `GLXPlayerSocket`: see net-transport). Tests that need a socket derive from `StubGLXSocket` / `StubLCXSocket`
+  (`tests/socket_test_doubles.hpp`).
+- **Ping.** `GLXPlayerPing` runs on the real slots: `Init` uses `CreateIcmpSocket` (+0x74), `SendEchoRequest` `SendTo` (+0x58, 48 bytes),
+  `WaitForEchoReply` `select(socket_ + 1, ...)` on the base's `socket_`, `RecvEchoReply` `RecvFrom` (+0x5c, 324 bytes) and Kernel
+  state 2 `GetHostByName` (+0x20).
+- **COnline / COnlineImpl.** `COnlineImpl` no longer shadows `initialized_` and the event queue: it uses COnline's (so `COnline::Initialize`'s
+  guard sees the flag `COnlineImpl::Initialize` sets) and adds only `lastCheck_` at +0x40. `COnline::Destroy` calls
+  `CMatching::Get()->Destroy()` first. `COnlineImpl::GetPlayerName` is the transport manager's `GetLocalhostname()` (vtable +0x20)
+  when the manager is initialized, else "PLAYER". `COnline::IsOnlineGame()` and `GetElapsedTime()` are the inline reads other classes did.
+- **Host names.** The transport-name and listen-id stand-ins in `deps/platform_stand_ins.hpp` are gone:
+  `CMatchingLocal::GetMemberName`/`AddServer`, `CMatchingGLLive::AddServer` and `SendServerResponse` call
+  `CTransportManager::GetHostname`, `GetLocalhostname` and `GetListenNetworkId`. `CMatchingBluetooth::SetServerBroadcast` is written
+  (`EnableBroadcast(GetListenNetworkId(0))`).
+- **Web component.** `GLXPlayerWebComponent::SendByGet` and `SendByPost` return 1 as in the binary; `GLXPlayerUserFriend::sendGetUserFriends`
+  and `sendAddUserFriend` and `GLXPlayerLeaderboard::sendHighScore(int,int,int)` return that result, so `CMatchingGLLive::InitializeFriend`,
+  `SendGLFriendInvite` and `GLSendHighScore` return it. The blob codec is the real `SSEncDec_String2Blob` of tinyxml-and-c-libs
+  (the stand-in header is deleted; the blob is released with `delete[]`).
+- **Accessors added for readers elsewhere** (no symbols in the binary; inline reads): `CSignIn::LoggedIn()` and `CredentialsName()`,
+  `CMatchingGLLiveFriendObserver::Flag()`, the lobby observer's `LoggedIn()`, `Connected()`, `GameStarted()`,
+  `CSignInGLLiveObserver::Configured()`, `LoggedIn()`, `Server()`, `CSignInGLLive::LoginEvents()`, `CMatchingGLLive::GameCenterActive()`,
+  `GLXPlayerMPLobby::SetMaster()`, `GLXPlayerLogin::UnToken()`, `MultiplayerStateMachine::CurrentState()`, and the public flag members of
+  `OnlineGameState` (`flag24_` .. `flag4e_`, `mode_`, `menuName30_`, `menuName38_`, `GetState()`). `CXPlayerManager`'s members are public.
+  `CMessage` already had the consumed flag (`SetFinished`, +0x3c) and `Sender()`. The production code now uses these instead of the
+  `...ForTest` reads, and the multiplayer message handlers write the consumed flag.
+- **Not applied** (each needs more than a declaration; the reason is in the ledger row or in the request list of the report):
+  the `CMatchingLocal`/`CMatching` NetStruct rework (requests 40, 46 to 52, 95: members_ at +0x4be0, the server backup array, the
+  room info NetStruct blocks, moving the other NetStruct classes off `deps/net_struct_stub.hpp`), `CRoomAttributes` Serialize and
+  Unserialize and the `Resend` slot (41, 67, 76), the `CMatchingGLLiveLobbyObserver` member vector and room id (55, 56, 62, 63, 71),
+  `tFriendInfo` name (54), `GLXPlayerUserFriend` text storage and the string-typed `GetUserNumber` (23, 73, 98),
+  `GLXPlayerMPLobby::Update` (89: needs the lobby members at +0x68 and +0x6c), `tMemberInfo` fields (77, 78),
+  the `field60_`/`state_` duplicate (100) and the `LoadConfig` overlap (101), the static singleton getters (87), `vtWritePacketData`
+  (45), the `CMsg*` payload field names and duplicate class definitions (26, 27, 34, 90), and the requests whose definitions belong to
+  other categories (28, 29, 35, 19).

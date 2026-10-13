@@ -20,4 +20,9 @@ public:
     // The original takes the peer by value (passed by reference in the ABI) and its `this` is unused,
     // so this is static and takes the peer by const reference.
     static std::string GenerateBluetoothDeviceName(const tMatchingPeer& peer);
+
+    // 0x801c58 _ZN18CMatchingBluetooth18SetServerBroadcastEv: the transport manager starts the broadcast of the
+    // transport that listens on the manager's own listen id (EnableBroadcast(GetListenNetworkId(0))). The object
+    // is not read.
+    void SetServerBroadcast();
 };

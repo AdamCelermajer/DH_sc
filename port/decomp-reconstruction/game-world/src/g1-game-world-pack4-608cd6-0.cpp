@@ -2,9 +2,9 @@
 // destructors, render, onRegisterSceneNode and getBoundingBox). Declarations come from dh2/UnderlaySceneNode.hpp and the
 // render helper from dh2/global/underlay_scene_node.hpp.
 //
-// Reconstructed: AddUnderlayNode (0x326fcc) and onRegisterSceneNode (0x381cf0).
-// Partial: the complete destructor (0x381ad4), render (0x381b90) and getBoundingBox (0x381e48). Each comment names what
-// is missing. Skipped: the deleting destructor (D0 0x381b54), which is the complete destructor followed by CustomFree.
+// Reconstructed: AddUnderlayNode (0x326fcc), the complete destructor (0x381ad4) and onRegisterSceneNode (0x381cf0).
+// Partial: render (0x381b90) and getBoundingBox (0x381e48). Each comment names what is missing.
+// Skipped: the deleting destructor (D0 0x381b54), which is the complete destructor followed by CustomFree.
 //
 // Include note: the scene headers (ISceneNode.hpp through glitch-core-io/io/interfaces.hpp) and the glitch-video headers
 // (video_driver.hpp and what it includes) redefine the same classes (IBuffer, CImage, CLight, vector3d, SEvent) when they
@@ -62,10 +62,12 @@ void UnderlaySceneNode::AddUnderlayNode(glitch::scene::ISceneNode* node) {
 }
 
 // 0x381ad4 _ZN17UnderlaySceneNodeD1Ev
-// partial. The original stores the vptrs, frees the underlay list storage (GlitchFree) and runs ~ISceneNode. The std::vector
-// member frees its storage after this body and the base destructor runs after that, so the order matches. Not reproduced:
-// the store of the second base's vptr (off_963B10) at +0x13c. That base is not identified; unk_13c is a plain pointer in
-// dh2/UnderlaySceneNode.hpp, so the compiler does not store it.
+// Reconstructed. The original stores the primary vptr (_ZTV17UnderlaySceneNode+0x1c) at +0x00 and the vptr of the virtual
+// base glitch::IReferenceCounted (_ZTV17UnderlaySceneNode+0x120) at +0x13c. It frees the underlay list storage (GlitchFree
+// on the vector begin at +0x130), then calls the ISceneNode base-object destructor with the VTT (_ZTT17UnderlaySceneNode+4).
+// The compiler emits the same sequence for this empty body: it stores both vptrs, the std::vector member frees its storage
+// (operator delete, not GlitchFree; the port's std containers stand in for the glitch ones, as in AddUnderlayNode), and the
+// base destructors run last. The +0x13c store is the virtual base that dh2/UnderlaySceneNode.hpp leaves to ISceneNode.
 UnderlaySceneNode::~UnderlaySceneNode() {}
 
 // 0x381b54 _ZN17UnderlaySceneNodeD0Ev

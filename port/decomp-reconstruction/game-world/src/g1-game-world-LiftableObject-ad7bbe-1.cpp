@@ -1,12 +1,12 @@
-// Batch g1-game-world-LiftableObject-ad7bbe-1 (part 2 of 2): the destructor, the two copies of the constructor,
-// InitFinal and DeclareProperties of LiftableObject. Declarations come from dh2/LiftableObject.hpp. Original 32-bit
-// size 0x3a8 (936).
+// Batch g1-game-world-LiftableObject-ad7bbe-1 (part 2 of 2): the two copies of the constructor, InitFinal and
+// DeclareProperties of LiftableObject. The destructor is defined in part 1 only. Declarations come from
+// dh2/LiftableObject.hpp. Original 32-bit size 0x3a8 (936).
 //
 // Partial functions and what is missing:
 //   - InitFinal: the physics body is a PhysicalObject here. The original stores the PODecor vtable over it after the
 //     constructor, which C++ cannot express (see the comment on InitFinal).
 //
-// No test: the constructor, the destructor and DeclareProperties need GameObject, ObjectBase and PropertyMap, and
+// No test: the constructors and DeclareProperties need GameObject, ObjectBase and PropertyMap, and
 // InitFinal needs the Application singleton and the physics world. None of the logic runs without the engine.
 
 #include "dh2/LiftableObject.hpp"
@@ -17,11 +17,9 @@
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 
-// 0x3eec3c LiftableObject::~LiftableObject()   (D2, base object destructor)
-// D1 at 0x3eebcc has the same body (the same vtable stores, the same m_dataDesc release, the same GameObject call), so
-// the C++ destructor is written once here. The compiler writes the vtable pointers, releases the std::string at +0x378
-// (m_dataDesc), and then runs GameObject::~GameObject. The implicit member and base destruction gives that order.
-LiftableObject::~LiftableObject() {}
+// The base-object destructor (D2, 0x3eec3c) has no definition in this file. Its body is the destructor defined once in
+// g1-game-world-LiftableObject-ad7bbe-0.cpp (D1, 0x3eebcc). That is the key function of the class, so the file emits the
+// vtable there. A second definition here would be a duplicate symbol at link time.
 
 // 0x3eec88 LiftableObject::LiftableObject(ObjectBase::GO_IDS)
 // 0x3eed10 LiftableObject::LiftableObject(ObjectBase::GO_IDS)

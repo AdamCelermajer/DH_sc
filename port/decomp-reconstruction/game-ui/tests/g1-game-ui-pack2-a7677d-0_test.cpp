@@ -150,7 +150,7 @@ bool DebugSwitches::GetSwitch(const std::string& name) {
 DebugSwitches DebugSwitches::s_inst;
 
 gameswf::as_value::as_value(gameswf::as_object* obj)
-    : unk_00(0), m_type(OBJECT), m_object(obj), m_owner(nullptr) {
+    : m_flags(0), m_type(OBJECT), m_object(obj), m_owner(nullptr) {
     g_value_objects.push_back(obj);
 }
 

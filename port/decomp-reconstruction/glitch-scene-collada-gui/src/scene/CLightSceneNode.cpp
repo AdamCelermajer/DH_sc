@@ -2,6 +2,7 @@
 // scene_nodes.cpp (getType), tb_scene-collada-gui-glitch_scene_CLightSceneNode-0.cpp (comments only) and the light entries of
 // recon/slice_05 (constructors, clone), recon/slice_31 (deserializeAttributes) and recon/slice_32 (serializeAttributes, constructors).
 #include "glitch-scene-collada-gui/scene/CLightSceneNode.hpp"
+#include "glitch-core-io/io/iattributes.hpp"
 
 #include <cfloat>
 

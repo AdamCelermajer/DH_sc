@@ -24,15 +24,8 @@
 #include <string>
 
 #include "core-platform/deps/game_types.hpp"
-// net-transport's deps/byte_array.hpp and pydata-accessors' deps/stream_reader.hpp both define CustomFree/MemoryHintState
-// (engine stand-ins, retired in the engine unification wave); rename the net-transport copies while they are included
-// next to CharProperties' pydata headers.
-#define CustomFree CustomFree_net_transport
-#define MemoryHintState MemoryHintState_net_transport
 #include "net-transport/net_struct.hpp"
 #include "net-transport/tb/net_struct_int.hpp"
-#undef CustomFree
-#undef MemoryHintState
 
 #include "dh2/GameObject.hpp"
 #include "dh2/v2Controllable.hpp"

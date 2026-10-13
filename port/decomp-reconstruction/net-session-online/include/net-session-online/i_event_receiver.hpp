@@ -1,8 +1,5 @@
-// IEventReceiver: interface for objects that receive session events. The original has
-// no members and no methods besides the destructors.
+// IEventReceiver: forwards to the one definition, dh2/IEventReceiver.hpp (u2-net-session-online). The
+// stand-in that stood here (destructor only) is retired. Kept so this path still resolves.
 #pragma once
 
-class IEventReceiver {
-public:
-    virtual ~IEventReceiver() = default;  // 0x32fdbc D1 (the deleting destructor 0x330674 is skipped)
-};
+#include "dh2/IEventReceiver.hpp"

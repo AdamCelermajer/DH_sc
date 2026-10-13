@@ -56,7 +56,7 @@ template <class Elem>
 Elem* NewElementTable(std::uint32_t listing_stride, std::uint32_t count) {
     static_assert(alignof(Elem) <= kElementTableHeaderBytes, "the header must keep the elements aligned");
     auto* block = static_cast<std::uint8_t*>(
-        MemoryHintState(sizeof(Elem) * static_cast<std::size_t>(count) + kElementTableHeaderBytes, 1));
+        ::operator new[](sizeof(Elem) * static_cast<std::size_t>(count) + kElementTableHeaderBytes, kPydataBufferHint));
     std::memcpy(block, &listing_stride, sizeof listing_stride);
     std::memcpy(block + 4, &count, sizeof count);
     Elem* first = reinterpret_cast<Elem*>(block + kElementTableHeaderBytes);

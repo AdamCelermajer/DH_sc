@@ -20,18 +20,18 @@ int main() {
     CHECK(pad.getTopBound() == 0 && pad.getBottomBound() == 0);
 
     glitch::SEvent ev{};
-    ev.type = 1;
-    ev.mouseX = 5;
-    ev.mouseY = 6;
-    ev.mouseEvent = 6;  // move without a press is not consumed
+    ev.EventType = glitch::EET_MOUSE_INPUT_EVENT;
+    ev.MouseInput.X = 5;
+    ev.MouseInput.Y = 6;
+    ev.MouseInput.Event = 6;  // move without a press is not consumed
     CHECK(!pad.onEvent(ev));
-    ev.mouseEvent = 0;  // press
+    ev.MouseInput.Event = 0;  // press
     CHECK(pad.onEvent(ev));
-    ev.mouseEvent = 6;  // move while held
+    ev.MouseInput.Event = 6;  // move while held
     CHECK(pad.onEvent(ev));
-    ev.mouseEvent = 3;  // release
+    ev.MouseInput.Event = 3;  // release
     CHECK(pad.onEvent(ev));
-    ev.type = 2;        // other event types are ignored
+    ev.EventType = glitch::EET_KEY_INPUT_EVENT;  // other event types are ignored
     CHECK(!pad.onEvent(ev));
 
     std::printf("%s\n", failures ? "touch_variants: FAILED" : "touch_variants: ok");

@@ -69,7 +69,8 @@ public:
     // 0x82c584 _ZN19GLXPlayerUserFriend23sendGetUserFriendsCountEv (kind 0x49)
     void sendGetUserFriendsCount();
     // 0x82c640 _ZN19GLXPlayerUserFriend18sendGetUserFriendsEii (kind 0x3d, "a|" and "c|" fields)
-    void sendGetUserFriends(std::int32_t first, std::int32_t count);
+    // Returns the SendByGet result (1).
+    std::int32_t sendGetUserFriends(std::int32_t first, std::int32_t count);
     // 0x82c708 _ZN19GLXPlayerUserFriend17sendDelUserFriendEPcb (kind 0x3c). The flag picks the
     // "n|" field (false) or the "un|" field (true).
     void sendDelUserFriend(const char* name, bool byUserName);
@@ -78,7 +79,8 @@ public:
     void sendConfirmUserFriend(const char* name, std::int32_t confirm, bool byUserName);
     // 0x82c8ec _ZN19GLXPlayerUserFriend17sendAddUserFriendEPcS0_b (kind 0x3b). The message, when
     // not null, is appended as an "m|" field.
-    void sendAddUserFriend(const char* name, const char* message, bool byUserName);
+    // Returns the SendByGet result (1).
+    std::int32_t sendAddUserFriend(const char* name, const char* message, bool byUserName);
 
     // Not in the original: test seam. Sizes every per-entry array to count entries.
     void ReserveForTest(std::int32_t count);

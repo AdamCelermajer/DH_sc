@@ -1,4 +1,5 @@
 #include "net-transport/connection.hpp"
+#include "net-transport/deps/transport_test_support.hpp"
 
 #include <cstdio>
 
@@ -6,6 +7,9 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
+    // The connection reaches the transport manager singleton (GetTransportMgr), so one is installed.
+    transport_test_support::InstallInitialized();
+
     // A new connection is not to the server: its key (-14531089) differs from the stand-in key 0.
     CConnection conn;
     CHECK(!conn.IsToServer());

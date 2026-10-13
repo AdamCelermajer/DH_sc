@@ -7,6 +7,8 @@
 #include "glitch-core-io/core/sided_collection.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 
+#include "io_video_fakes.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
@@ -39,10 +41,10 @@ int main() {
         TextureCollection tex;
         CHECK(tex.size() == 0);
         CHECK(tex.getNextId() == 0);
-        video::ITexture* a = new video::ITexture();
-        video::ITexture* b = new video::ITexture();
-        const std::uint16_t idA = tex.add("stone", boost::intrusive_ptr<video::ITexture>(a));
-        const std::uint16_t idB = tex.add("grass", boost::intrusive_ptr<video::ITexture>(b));
+        video::ITexture* a = new io_test_fakes::FakeTexture();
+        video::ITexture* b = new io_test_fakes::FakeTexture();
+        const std::uint16_t idA = tex.add("stone", boost::intrusive_ptr<video::ITexture>(a, true));
+        const std::uint16_t idB = tex.add("grass", boost::intrusive_ptr<video::ITexture>(b, true));
         CHECK(idA == 0 && idB == 1);
         CHECK(tex.size() == 2);
         CHECK(tex.getMaxID() == 1);
@@ -65,7 +67,7 @@ int main() {
         CHECK(tex.size() == 1);
         CHECK(tex.getNextId() == 0);  // the freed id is reused first
         CHECK(tex.getId("stone") == 0xffff);
-        CHECK(tex.add("moss", boost::intrusive_ptr<video::ITexture>(new video::ITexture())) == 0);
+        CHECK(tex.add("moss", boost::intrusive_ptr<video::ITexture>(new io_test_fakes::FakeTexture(), true)) == 0);
 
         // removeAll(false) removes only the unused values.
         b->referenceCounter = 1;
@@ -96,7 +98,7 @@ int main() {
         SIDedCollection<boost::intrusive_ptr<video::IShader>, std::uint16_t, false, TestProperties, sc::SValueTraits> shaders;
         SIDedCollection<boost::intrusive_ptr<video::IShaderCode>, std::uint16_t, false, sc::SEmptyProperties, sc::SValueTraits> codes;
         SIDedCollection<boost::intrusive_ptr<video::CMaterialRenderer>, std::uint16_t, false, TestProperties, sc::SValueTraits> renderers;
-        CHECK(shaders.add("phong", boost::intrusive_ptr<video::IShader>(new video::IShader())) == 0);
+        CHECK(shaders.add("phong", boost::intrusive_ptr<video::IShader>(new io_test_fakes::FakeShader(), true)) == 0);
         CHECK(codes.getId("none") == 0xffff && renderers.size() == 0);
         CHECK(shaders.getId("phong") == 0);
     }

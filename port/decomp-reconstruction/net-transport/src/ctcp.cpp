@@ -26,7 +26,7 @@ int CTcp::Connect(CNetworkId& peer) {
 }
 
 // 0x82a040 _ZN4CTcp11IsConnectedEv
-bool CTcp::IsConnected() const {
+bool CTcp::IsConnected() {
     return socket_.IsConnected();
 }
 
@@ -38,12 +38,12 @@ bool CTcp::IsConnectedTo(const CNetworkId& peer) {
 
 // 0x829fc4 _ZN4CTcp17CanDisconnectFromER10CNetworkId
 // Tail call into IsConnectedTo (vtable +0x28 in the original; direct here, CTcp has no subclass).
-bool CTcp::CanDisconnectFrom(CNetworkId& peer) {
+bool CTcp::CanDisconnectFrom(const CNetworkId& peer) {
     return IsConnectedTo(peer);
 }
 
 // 0x829fd8 _ZN4CTcp7GetTypeEv
-int CTcp::GetType() const {
+int CTcp::GetType() {
     return 2;
 }
 
@@ -91,7 +91,7 @@ int CTcp::ReceivePackets() {
             break;
         }
         from = GetPeerNetworkId();
-        GetTransportMgr().ReceiverCallback(this, from, buffer, got);
+        CTransportManager::ReceiverCallback(this, from, buffer, got);
         if (remaining == 0) {
             break;
         }
@@ -102,11 +102,11 @@ int CTcp::ReceivePackets() {
 
 // 0x82a1dc _ZN4CTcp4SendER10CNetworkIdPvi
 // Sends when the socket is valid and IsConnectedTo(peer) (vtable +0x28 in the original).
-std::int64_t CTcp::Send(CNetworkId& peer, const void* data, int len) {
+int CTcp::Send(const CNetworkId& peer, const void* data, int len) {
     if (!socket_.IsValid() || !IsConnectedTo(peer)) {
         return -1;
     }
-    return socket_.Send(data, len);
+    return static_cast<int>(socket_.Send(data, len));
 }
 
 // 0x82a5dc _ZN4CTcp7ReceiveEv
@@ -177,7 +177,7 @@ int CTcp::AcceptConnections() {
         int handle = socket_.Accept(from, from_port);
         if (handle > 0) {
             CTcp* accepted = CreateBySocketId(handle, 0);
-            GetTransportMgr().AcceptCallback(2, accepted);
+            CTransportManager::AcceptCallback(2, accepted);
         }
     }
     return 0;
@@ -189,7 +189,7 @@ int CTcp::AcceptConnections() {
 int CTcp::InitializeTransport() {
     if (!s_initialized_) {
         CTcp* listener = CreateByPort(0, 5);
-        GetTransportMgr().AddTransport(listener);
+        GetTransportMgr()->AddTransport(listener);
     }
     s_initialized_ = true;
     return 0;

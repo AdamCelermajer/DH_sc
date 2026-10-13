@@ -87,7 +87,7 @@ int main() {
         }
         CHECK(connected);
 
-        LCAndroidSocket* accepted = listener.Accept();
+        auto* accepted = dynamic_cast<LCAndroidSocket*>(listener.Accept());
         CHECK(accepted != nullptr);
         if (accepted != nullptr) {
             CHECK(accepted->GetSocketPort() == port);

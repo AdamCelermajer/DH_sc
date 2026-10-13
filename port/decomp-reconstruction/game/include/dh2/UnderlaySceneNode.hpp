@@ -3,8 +3,9 @@
 // onRegisterSceneNode submits one material to the scene manager unless the IsUsingToggleDisplayMode or
 // IsUsingCharacterShowRoom debug switch is set, and getBoundingBox is not supported (it asserts).
 // Original 32-bit size not recorded (no operator new site and no ctor in class-facts or the queue).
-// The base ISceneNode occupies +0x00 .. +0x12f. The underlay vector starts at +0x130. The second base
-// subobject starts at +0x13c and is not identified (see BaseMeshSceneNode.hpp for the same subobject).
+// The base ISceneNode occupies +0x00 .. +0x12f. The underlay vector starts at +0x130. The virtual base
+// glitch::IReferenceCounted, which ISceneNode declares, follows the vector at +0x13c in the complete object. It has no
+// member here: the compiler stores its vptr at +0x13c (dtor 0x381ad4 stores _ZTV17UnderlaySceneNode+0x120 there).
 // Reconstructed from libDungeonHunter2.so pseudocode (dtors 0x381ad4 / 0x381b54, methods 0x326fcc,
 // 0x381b90, 0x381cf0, 0x381e48).
 #pragma once
@@ -13,7 +14,7 @@
 #include <vector>
 
 #include "glitch-shared/glitch_core.hpp"
-#include "glitch-scene-collada-gui/layouts/scene.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
 class UnderlaySceneNode : public glitch::scene::ISceneNode {
 public:
@@ -30,7 +31,6 @@ public:
     // K 0x48). The Hex-Rays signature returns a pointer, which looks like register residue, so void here.
     void AddUnderlayNode(glitch::scene::ISceneNode* node);              // 0x326fcc
 
-    // ISceneNode occupies +0x00 .. +0x12f.
+    // ISceneNode occupies +0x00 .. +0x12f. The virtual base glitch::IReferenceCounted sits at +0x13c and has no member here.
     std::vector<glitch::scene::ISceneNode*> m_underlayNodes;            // +0x130 begin, +0x134 end, +0x138 end of storage
-    void* unk_13c;                                                      // +0x13c vptr of the unidentified second base subobject
 };

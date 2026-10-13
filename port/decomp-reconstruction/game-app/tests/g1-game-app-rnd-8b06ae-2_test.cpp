@@ -76,9 +76,9 @@ void TestRoomPoolFind() {
     EXPECT(pool.Find(7UL) == nullptr);  // empty pool
 
     rnd::RPElem a;
-    a.unk_04 = 7;
+    a.m_id = 7;
     rnd::RPElem b;
-    b.unk_04 = 9;
+    b.m_id = 9;
     pool.m_elems.push_back(a);
     pool.m_elems.push_back(b);
 
@@ -89,27 +89,25 @@ void TestRoomPoolFind() {
 
 void TestBlockDefaults() {
     rnd::MgxBlock block;
-    EXPECT(block.m_width == 1);
-    EXPECT(block.m_height == 1);
-    EXPECT(block.unk_5c == 0);
-    EXPECT(block.unk_4c == 2960.0f);
-    EXPECT(block.unk_50 == 2960.0f);
-    EXPECT(block.unk_9c0 == 0);
-    EXPECT(block.unk_9c4 == 0);
+    EXPECT(block.m_blockWidth == 1);
+    EXPECT(block.m_blockHeight == 1);
+    EXPECT(block.m_sideCount == 0);
+    EXPECT(block.m_unitWidth == 2960.0f);
+    EXPECT(block.m_unitHeight == 2960.0f);
+    EXPECT(block.m_fileBuffer == nullptr);
+    EXPECT(block.m_document == nullptr);
     EXPECT(block.m_name.empty());
     EXPECT(block.m_gameplay.empty());
     EXPECT(block.m_visual.empty());
     for (const rnd::Block::Side& side : block.m_sides) {
-        EXPECT(side.unk_1c == nullptr);
-        EXPECT(side.unk_20 == nullptr);
-        EXPECT(side.unk_24 == nullptr);
+        EXPECT(side.m_names.empty());
     }
 }
 
 void TestPlaceRemoveFits() {
     rnd::MgxBlock block;
-    block.m_width = 2;
-    block.m_height = 2;
+    block.m_blockWidth = 2;
+    block.m_blockHeight = 2;
     Array2d<rnd::Tile*> map;
 
     EXPECT(block.FitsInMap(map, 0, 0));
@@ -135,8 +133,8 @@ void TestOccupiedCells() {
     gAssertLevel = 0;  // level 0: occupied and foreign cells are skipped silently
 
     rnd::MgxBlock block;
-    block.m_width = 1;
-    block.m_height = 1;
+    block.m_blockWidth = 1;
+    block.m_blockHeight = 1;
     Array2d<rnd::Tile*> map;
 
     EXPECT(block.PlaceInMap(map, TileAt(0), 3, 3));
@@ -152,8 +150,8 @@ void TestOccupiedCells() {
 
 void TestNonSquareFootprint() {
     rnd::MgxBlock block;
-    block.m_width = 3;
-    block.m_height = 1;
+    block.m_blockWidth = 3;
+    block.m_blockHeight = 1;
     Array2d<rnd::Tile*> map;
 
     EXPECT(block.PlaceInMap(map, TileAt(2), 0, 0));

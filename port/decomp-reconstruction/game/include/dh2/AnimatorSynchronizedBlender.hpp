@@ -3,8 +3,10 @@
 // Blend mirrors AnimatorBlender: m_currentIndex and m_previousIndex swap and the remaining cross-fade time
 // counts down. Its SynchronizedBlenderApplicator (an AnimApplicator at +0xd8) keeps a per-segment weight
 // vector and applies the synchronized values to the reference node.
-// Vtable: the primary table (336 bytes) comes from glitch::collada::CSceneNodeAnimatorSynchronizedBlender, with
-// secondary tables at +0x24 (engine) and +0x128 (IReferenceCounted). getType returns 14.
+// Base: glitch::collada::CSceneNodeAnimatorSynchronizedBlender (glitch-scene-collada-gui, canonical). The base
+// also carries the IColladaSceneNodeSynchronizedAnimatorInterface secondary table (+0x24 in the original) and
+// the virtual IReferenceCounted (+0x128 in the original); neither is redeclared here.
+// getType returns 14 (the value is outside the named scene::E_SCENE_NODE_ANIMATOR_TYPE entries).
 // Original 32-bit size 0x130 (the reference-counted sub-object ends at +0x12f). No operator new seen.
 // Reconstructed from libDungeonHunter2.so pseudocode (ctor 0x3688f0 / 0x3689cc, dtor 0x368be4 / 0x368cd0 / 0x368d70,
 // Blend 0x3684d8, animateNode 0x36820c, SetCallbacks 0x367b74, applicator ApplyValues 0x367d94, AnimateNode 0x367ec8).
@@ -14,6 +16,7 @@
 #include <vector>
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSynchronizedBlender.hpp"
 
 #include "dh2/AnimApplicator.hpp"
 
@@ -27,7 +30,7 @@ struct STriggeredEvent;
 }  // namespace collada
 }  // namespace glitch
 
-class AnimatorSynchronizedBlender {
+class AnimatorSynchronizedBlender : public glitch::collada::CSceneNodeAnimatorSynchronizedBlender {
 public:
     typedef void (*AnimCallback)(glitch::scene::ITimelineController* timeline, void* userData);
     typedef void (*EventCallback)(const glitch::collada::STriggeredEvent& event, void* userData);
@@ -58,19 +61,15 @@ public:
 
     virtual ~AnimatorSynchronizedBlender();                                // 0x368cd0 (D1, complete object), 0x368be4 (D2, base form taking the VTT), 0x368d70 (D0)
 
-    virtual void animateNode(glitch::scene::ISceneNode* node, unsigned int time);  // 0x36820c
-    virtual int getType() const;                                           // 0x367b6c returns 14
+    void animateNode(glitch::scene::ISceneNode* node, unsigned int time) override;  // 0x36820c
+    glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE getType() const override;    // 0x367b6c returns 14
     static void _CBAnim(glitch::scene::ITimelineController* timeline, void* userData);  // 0x367b68 empty (bare return)
     void SetCallbacks(AnimCallback animCallback, void* animUserData,
                       EventCallback eventCallback, void* eventUserData);   // 0x367b74
     void SetScale(float scale);                                            // 0x367c38 scales the cross-fade time
     void BlendPost();                                                      // 0x367ca4
-    virtual void compile(std::vector<std::uint8_t>* buffer);               // 0x368ba4 slot 0x88, sizes the output buffer
+    void compile(std::vector<std::uint8_t>* buffer) override;              // 0x368ba4 slot 0x88, sizes the output buffer
     void Blend(int duration);                                              // 0x3684d8 starts a cross-fade of the given length (ms)
-
-    // Primary vptr is implicit at +0x00. The glitch::collada::CSceneNodeAnimatorSynchronizedBlender base sub-object
-    // covers +0x04 .. +0xb3 (its segment and synchronization data); its layout belongs to glitch-scene-collada-gui.
-    uint8_t pad_04[0xb0];                                                  // +0x04 .. +0xb3 engine base sub-object
 
     int m_currentIndex;                                                    // +0xb4 index of the child that is fading in, advanced by Blend
     int m_previousIndex;                                                   // +0xb8 index of the child that was current before the last Blend
@@ -82,5 +81,4 @@ public:
     AnimCallback m_animCallback;                                           // +0xd0 set by SetCallbacks, also passed to the applicator
     void* m_animCallbackUser;                                              // +0xd4 set by SetCallbacks
     SynchronizedBlenderApplicator m_applicator;                            // +0xd8 0x50 bytes, owner is this
-    glitch::IReferenceCounted m_refSecondary;                              // +0x128 secondary IReferenceCounted sub-object (vptr, count = 1 from the ctor)
 };

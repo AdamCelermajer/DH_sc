@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 
-#include "core-platform/deps/glitch_core.hpp"
+#include "glitch-shared/glitch_core.hpp"
 
 namespace gameswf {
 struct fn_call;

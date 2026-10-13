@@ -77,7 +77,7 @@ public:
     Rule* m_rule;                                                   // +0x04 the source rule
     Impl* m_parent;                                                 // +0x08
     int32_t m_childCount;                                           // +0x0c number of child nodes
-    uint8_t pad_10[0x18];                                           // +0x10 .. +0x27 child-node slots (capacity not recovered)
+    Impl* m_children[6];                                            // +0x10 .. +0x27 child-node slots (count at +0x0c); six fit before m_depth
     int32_t m_depth;                                                // +0x28 zeroed by the ctor (IsDeadEnd compares it with m_limit)
     int32_t m_limit;                                                // +0x2c set to 1 by the ctor; Path::Impl sets its chosen size
     std::vector<const char*> m_names;                               // +0x30 c_str of each block name of the source rule

@@ -41,7 +41,7 @@
 //   SIdValue+0x00  cached batch baker, IReferenceCounted* (getBatchBaker reads node+0x18,
 //                  removeBatchBaker clears it)
 //   SIdValue+0x04  uint16 id (getId 0x5d85d0 LDRH node+0x1c; the ctor writes STRH +4)
-// The shared template in deps/sid_collection.hpp puts the id at SIdValue+0x1c (ITexture instance);
+// The shared template (glitch-core-io/core/sided_collection.hpp) puts the id at SIdValue+0x1c (ITexture instance);
 // that does not match this instance. See NOTES.md, "Open questions".
 
 #pragma once
@@ -50,8 +50,8 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/sided_collection.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
-#include "glitch-video/deps/sid_collection.hpp"
 
 namespace glitch {
 class IReferenceCounted;

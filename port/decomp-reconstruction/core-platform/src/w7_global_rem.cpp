@@ -20,11 +20,10 @@ int DBG_DisplayPointAsBox(const glitch::core::vector3d<float>& point, const glit
         point.X - half, point.Y - half, point.Z - half,
         point.X + half, point.Y + half, point.Z + half,
     };
-    const auto* bytes = reinterpret_cast<const unsigned char*>(&color);
-    const std::uint32_t packed = static_cast<std::uint32_t>(bytes[0]) |
-                                 (static_cast<std::uint32_t>(bytes[1]) << 8) |
-                                 (static_cast<std::uint32_t>(bytes[2]) << 16) |
-                                 (static_cast<std::uint32_t>(bytes[3]) << 24);
+    const std::uint32_t packed = static_cast<std::uint32_t>(color.component(0)) |
+                                 (static_cast<std::uint32_t>(color.component(1)) << 8) |
+                                 (static_cast<std::uint32_t>(color.component(2)) << 16) |
+                                 (static_cast<std::uint32_t>(color.component(3)) << 24);
     void* driver = DbgDrawOwnerDriver();
     return DbgDrawBoxViaDriverSlot28(driver, rect, packed);
 }

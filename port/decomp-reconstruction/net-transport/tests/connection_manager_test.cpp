@@ -1,4 +1,5 @@
 #include "net-transport/connection_manager.hpp"
+#include "net-transport/deps/transport_test_support.hpp"  // a transport manager without a receiver thread
 #include "fake_matching.hpp"  // CMatching test double
 
 #include <cstdio>
@@ -16,7 +17,7 @@ int main() {
 
     // Singleton and connection table.
     CHECK(!CConnectionManager::IsInitialized());
-    CHECK(CConnectionManager::Initialize() == 0);
+    CHECK((transport_test_support::Install(), CConnectionManager::Initialize()) == 0);
     CHECK(CConnectionManager::IsInitialized());
     CConnectionManager* cm = CConnectionManager::GetInstance();
     CHECK(cm != nullptr);

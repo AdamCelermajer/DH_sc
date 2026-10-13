@@ -11,12 +11,11 @@
 // Notes:
 //  * m_pyData is the row, Structs::v2QuestObjectiveStub (pydata-accessors/structs_records.hpp). The listing reads
 //    row +0x04 (m_w1, the objective type), +0x20 (m_w8, the object id) and +0x24 (m_w9, the level id).
-//  * PARTIAL, DBG_TraceDetailedObjectiveInformation (both instances): the listing prints names from the pydata tables
-//    Arrays::CharacterTable and Arrays::LevelList. Those are declared in pydata-accessors/member_names.hpp, which cannot
-//    be included in the same translation unit as Character.hpp (structs_records.hpp defines the Structs classes that
-//    member_names.hpp defines too, e.g. Structs::SoundAutoGen). The table lookups are therefore not made here, and every
-//    table name prints kUnreadTableName. Where the listing prints "na" for an index outside the table, this prints "?".
-//    Replace the placeholder with a lookup of names[index] when the pydata headers are unified.
+//  * DBG_TraceDetailedObjectiveInformation (both instances) prints two pydata names. The type 5 object name is
+//    Arrays::CharacterTable::m_memberNames[row +0x20], and the level name is Arrays::LevelList::m_memberNames[row +0x24].
+//    Both tables are declared in pydata-accessors/member_names.hpp, which is included here with Character.hpp in one
+//    translation unit. TableName() is the listing's lookup: "na" for an index below 0 or at or above the table size,
+//    otherwise names[index].
 //  * Type 5 is the literal the listing compares against (the v2QuestObjectiveType constant it names is not recovered).
 //    For that type the object id is matched against Character::SafeGetCharPropsId() over ObjectManager::m_characters
 //    (+0x60, reached through the Application singleton's m_objectManager at +0x38), in list order. The first match
@@ -33,6 +32,7 @@
 #include "dh2/Character.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/Objective_EventReceiver.hpp"
+#include "pydata-accessors/member_names.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
@@ -54,9 +54,11 @@ class QE_TalkToNPC;
 
 namespace {
 
-// PARTIAL placeholder for a pydata table name in the DBG listing (see the note at the top of this file). The listing
-// prints names[index], or "na" when the index is outside the table.
-constexpr const char* kUnreadTableName = "?";
+// The DBG listing's pydata name lookup (Arrays::X::m_memberNames, a pydata::NameTable). An index below 0, or at or above
+// the table size, prints "na". Otherwise the name at that index is printed.
+const char* TableName(const pydata::NameTable& table, int index) {
+    return (index < 0 || index >= table.size) ? "na" : table.names[index];
+}
 
 }  // namespace
 
@@ -120,9 +122,8 @@ template ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerPlate, QE_Trigger
 
 // ---------------------------------------------------------------------------------------------------------------------
 // DBG_TraceDetailedObjectiveInformation (slot 0x0c). The listing prints the header line, the type name, the object and the
-// level, then calls Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation for the base lines.
-// PARTIAL: the table names (Arrays::CharacterTable for type 5, Arrays::LevelList for the level) are printed as
-// kUnreadTableName, not read from the pydata tables. The rest of the control flow and the output are the listing's.
+// level, then calls Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation for the base lines. The type 5 object
+// name comes from Arrays::CharacterTable and the level name from Arrays::LevelList, both through TableName().
 
 template <typename TStruct, typename TEvent>
 int ObjectiveTemplate_InteractWith<TStruct, TEvent>::DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const {
@@ -143,20 +144,21 @@ int ObjectiveTemplate_InteractWith<TStruct, TEvent>::DBG_TraceDetailedObjectiveI
                 break;
             }
         }
+        // Arrays::CharacterTable::m_memberNames[objectId] (or "na") is printed first in both branches. The matched
+        // character's name is read at Character +0x44, which is ObjectBase::m_name.c_str() (the string's data pointer
+        // at +0x14 inside m_name at +0x30, from std::string::_M_assign at 0x3109e0).
+        const char* tableObjectName = TableName(Arrays::CharacterTable::m_memberNames, objectId);
         if (matched == nullptr) {
-            // PARTIAL: the listing prints Arrays::CharacterTable::m_memberNames[objectId] here (or "na").
-            std::fprintf(out, "\t    Object      : %s(%d) => ??\n", kUnreadTableName, objectId);
+            std::fprintf(out, "\t    Object      : %s(%d) => ??\n", tableObjectName, objectId);
         } else {
-            // PARTIAL: the listing prints Arrays::CharacterTable::m_memberNames[objectId] (or "na") first. The character
-            // name is read at Character +0x44, which is ObjectBase::m_name.c_str().
-            std::fprintf(out, "\t    Object      : %s(%d) => %s\n", kUnreadTableName, objectId, matched->m_name.c_str());
+            std::fprintf(out, "\t    Object      : %s(%d) => %s\n", tableObjectName, objectId, matched->m_name.c_str());
         }
     } else {
         std::fprintf(out, "\t    Object      : %d\n", row->m_w8);  // row +0x20
     }
 
-    // PARTIAL: the listing prints Arrays::LevelList::m_memberNames[row->m_w9] (or "na") here.
-    std::fprintf(out, "\t    Level (OID) : %s\n\n", kUnreadTableName);  // row +0x24
+    // Arrays::LevelList::m_memberNames[row->m_w9] (or "na").
+    std::fprintf(out, "\t    Level (OID) : %s\n\n", TableName(Arrays::LevelList::m_memberNames, row->m_w9));  // row +0x24
     return Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(stream);
 }
 

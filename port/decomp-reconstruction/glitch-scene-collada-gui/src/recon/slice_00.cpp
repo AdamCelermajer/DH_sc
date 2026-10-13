@@ -110,47 +110,8 @@ void Tweakable::loadXML(const char* file, bool flag) {
     (void)flag;
 }
 
-// ---------------------------------------------------------------------------
-// glitch::scene::SViewFrustum and culling helpers
-// ---------------------------------------------------------------------------
-
-// 0x35bec8 _ZNK6glitch5scene12SViewFrustum10intersectsERKNS_4core8aabbox3dIfEE
-bool ViewFrustum::intersects(const glitch::core::aabbox3d<float>& b) const {
-    // Bounding-box overlap against the frustum box (a1[27..32]).
-    if (!(box.MinEdge.X <= b.MaxEdge.X && box.MinEdge.Y <= b.MaxEdge.Y &&
-          box.MinEdge.Z <= b.MaxEdge.Z && box.MaxEdge.X >= b.MinEdge.X &&
-          box.MaxEdge.Y >= b.MinEdge.Y && box.MaxEdge.Z >= b.MinEdge.Z)) {
-        return false;
-    }
-    for (const FrustumPlane& p : planes) {
-        const float x = p.normal[0] < 0.0f ? b.MaxEdge.X : b.MinEdge.X;
-        const float y = p.normal[1] >= 0.0f ? b.MinEdge.Y : b.MaxEdge.Y;
-        const float z = p.normal[2] >= 0.0f ? b.MinEdge.Z : b.MaxEdge.Z;
-        const float dist = p.normal[0] * x + p.normal[1] * y + p.normal[2] * z + p.d;
-        if (dist > 0.0f) {
-            return false;
-        }
-    }
-    return true;
-}
-
-// 0x50cacc _ZNK6glitch5scene12SViewFrustum25intersectsWithoutBoxTest3ERKNS_4core8aabbox3dIfEE
-// Tests planes 2, 3 and 0 only, as the original does (no bounding-box test).
-bool ViewFrustum::intersectsWithoutBoxTest3(const glitch::core::aabbox3d<float>& b) const {
-    auto outside = [&b](const FrustumPlane& p) {
-        const float x = p.normal[0] < 0.0f ? b.MaxEdge.X : b.MinEdge.X;
-        const float y = p.normal[1] < 0.0f ? b.MaxEdge.Y : b.MinEdge.Y;
-        const float z = p.normal[2] < 0.0f ? b.MaxEdge.Z : b.MinEdge.Z;
-        return p.normal[0] * x + p.normal[1] * y + p.normal[2] * z + p.d > 0.0f;
-    };
-    if (outside(planes[2])) {
-        return false;
-    }
-    if (outside(planes[3])) {
-        return false;
-    }
-    return !outside(planes[0]);
-}
+// glitch::scene::SViewFrustum::intersects and intersectsWithoutBoxTest3 are the canonical bodies
+// (tb/glitch_scene_SViewFrustum.hpp, src/tb_scene-collada-gui-glitch_scene_SViewFrustum-0.cpp).
 
 // ---------------------------------------------------------------------------
 // glitch::gui::IGUIElement

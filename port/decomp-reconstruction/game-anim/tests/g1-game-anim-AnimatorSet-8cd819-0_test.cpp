@@ -23,10 +23,6 @@ void AnimApplicator::ResetDelta(unsigned int) {}  // vtable slot of AnimApplicat
 void AnimApplicator::SetCallback(AnimCallback, void*) {}
 Animation* AnimationSet::GetAnimationBySetIndex(int) { return nullptr; }
 Animation* AnimationSet::GetAnimation(int) { return nullptr; }
-namespace glitch {
-// Out-of-line in the glitch-core-io stand-in header. Reached only by intrusive_ptr release, which this test never runs.
-bool IReferenceCounted::drop() const { return false; }
-}  // namespace glitch
 
 namespace {
 

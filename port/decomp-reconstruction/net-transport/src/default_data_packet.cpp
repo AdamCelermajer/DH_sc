@@ -48,9 +48,9 @@ DefaultDataPacket::DefaultDataPacket() = default;
 // as operator new gave them (not observable through the message accessors).
 DefaultDataPacket::DefaultDataPacket(DataPacket* source) {
     data_type_ = source->getDataType();
-    const std::uint8_t* body = source->getMessageBody();
-    const std::size_t length = source->getMessageLen();
-    setMessageBody(body, static_cast<int>(length));
+    const char* body = source->getMessageBody();
+    const int length = source->getMessageLen();
+    setMessageBody(reinterpret_cast<const unsigned char*>(body), length);
     next_packet_ = nullptr;
 }
 
@@ -301,15 +301,15 @@ int DefaultDataPacket::getPacket(DataPacket*& packet) {
 // big-endian length bytes are written and the cursor moves past them, then the body (+0x64) is
 // read and copied, as in the original.
 void DefaultDataPacket::addPacket(DataPacket* packet) {
-    const std::size_t length = packet->getMessageLen();
+    const int length = packet->getMessageLen();
     body_[write_pos_] = ToChar(static_cast<std::uint8_t>(length >> 8));
     body_[write_pos_ + 1] = ToChar(static_cast<std::uint8_t>(length));
     write_pos_ += 2;
-    const std::uint8_t* body = packet->getMessageBody();
+    const char* body = packet->getMessageBody();
     if (length != 0) {
-        std::memcpy(body_ + write_pos_, body, length);
+        std::memcpy(body_ + write_pos_, body, static_cast<std::size_t>(length));
     }
-    write_pos_ += static_cast<int>(length);
+    write_pos_ += length;
 }
 
 // 0x84a344 _ZN17DefaultDataPacket11packMessageEv
@@ -317,13 +317,13 @@ void DefaultDataPacket::addPacket(DataPacket* packet) {
 void DefaultDataPacket::packMessage() {}
 
 // 0x84a330 _ZN17DefaultDataPacket13getMessageLenEv
-std::size_t DefaultDataPacket::getMessageLen() const {
-    return static_cast<std::size_t>(write_pos_);
+int DefaultDataPacket::getMessageLen() {
+    return write_pos_;
 }
 
 // 0x84a33c _ZN17DefaultDataPacket14getMessageBodyEv
-const std::uint8_t* DefaultDataPacket::getMessageBody() const {
-    return reinterpret_cast<const std::uint8_t*>(body_);
+char* DefaultDataPacket::getMessageBody() {
+    return body_;
 }
 
 // 0x84a4dc _ZN17DefaultDataPacket14setMessageBodyEPhi
@@ -358,7 +358,7 @@ bool DefaultDataPacket::IsSendByUdp() {
 }
 
 // 0x84a394 _ZN17DefaultDataPacket11getDataTypeEv
-int DefaultDataPacket::getDataType() const {
+int DefaultDataPacket::getDataType() {
     return data_type_;
 }
 
@@ -383,9 +383,9 @@ char* DefaultDataPacket::getIP() {
 }
 
 // 0x84a7f4 _ZN17DefaultDataPacket5setIPEPc
-// Partial: the original returns the new string (XP_API_STRNEW), which is not returned here.
-// A null argument stores nullptr (the pseudocode does not show that case).
-void DefaultDataPacket::setIP(char* ip) {
+// Frees the old string, stores an owned copy (XP_API_STRNEW) and returns it, as the original.
+// Partial: a null argument stores nullptr; the pseudocode does not show that case.
+char* DefaultDataPacket::setIP(const char* ip) {
     delete[] ip_;
     ip_ = nullptr;
     if (ip != nullptr) {
@@ -393,6 +393,7 @@ void DefaultDataPacket::setIP(char* ip) {
         ip_ = new char[size];
         std::memcpy(ip_, ip, size);
     }
+    return ip_;
 }
 
 // 0x84a410 _ZN17DefaultDataPacket13Packet2StringEPcRi

@@ -48,6 +48,9 @@ public:
     // 0x8242b4 _ZN13CSignInGLLive10LoginLobbyEv. Partial, see the cpp for the seams it uses.
     void LoginLobby();
 
+    // The second event queue at +0x2c (the login events), which SetGCState state 1 posts to.
+    CEventQueueBase& LoginEvents() { return loginEvents_; }
+
 private:
     bool lobbyPending_ = false;                  // +0x28
     CEventQueueBase loginEvents_;                // +0x2c

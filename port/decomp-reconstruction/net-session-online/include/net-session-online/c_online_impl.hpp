@@ -2,10 +2,8 @@
 // its network is always connected (the online service is gone), and it keeps the clock
 // used for elapsed-time checks. The init, update and terminate paths are queued.
 //
-// Layout (original 32-bit offsets, kept as comments; COnline occupies its own fields,
-// see c_online.hpp):
-//   +0x04 initialized flag (byte)
-//   +0x08 event queue (CEventQueueBase, embedded)
+// Layout (original 32-bit offsets, kept as comments). The flag at +0x04 and the event queue at +0x08 are
+// COnline's (initialized_, eventQueue_, see c_online.hpp); COnlineImpl uses them and adds only:
 //   +0x40 last-check timeval (sec at +0x40, usec at +0x44)
 #pragma once
 
@@ -34,16 +32,12 @@ public:
     // 0x824f40 _ZN11COnlineImpl10InitializeEv: runs COnline::Initialize once and stamps the
     // clock. Returns 0 when already initialized, else the base result.
     std::int32_t Initialize();
-    // 0x825068 _ZN11COnlineImpl13GetPlayerNameEv. Partial: the transport-manager branch (net-transport)
-    // is stubbed; this always returns the fallback "PLAYER".
+    // 0x825068 _ZN11COnlineImpl13GetPlayerNameEv: the local host name from the transport manager when it is
+    // initialized (vtable +0x20, GetLocalhostname), else "PLAYER".
     std::string GetPlayerName() const;
 
-    // Test seams. Not in the original.
-    CEventQueueBase& EventsForTest() { return events_; }
+    // Test seam. Not in the original. (EventsForTest is COnline's.)
     void SetLastCheckForTest(const Timeval& when) { lastCheck_ = when; }
 
-private:
-    std::uint8_t initialized_ = 0;      // +0x04
-    CEventQueueBase events_;            // +0x08
     Timeval lastCheck_{0, 0};           // +0x40
 };

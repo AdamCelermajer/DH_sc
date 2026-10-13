@@ -263,14 +263,19 @@ void ItemInstance::_UpdateName() {
     const std::size_t cut = tag != nullptr ? static_cast<std::size_t>(tag - nameText) : formatted.size();
     const std::string prefix = formatted.substr(0, cut);
 
+    // The original joins the two parts with one space when the second text exists. With the [a] tag inside, it appends
+    // the prefix and then " " + suffix. Without it, it appends suffix + " " and then the prefix. The space is
+    // _M_appendT(" ", " " + 1) in the original: the clone at 0x3fa868 appends exactly one character.
     if (tagInside) {
         m_name.append(prefix);
         if (after != nullptr) {
+            m_name.append(" ");
             m_name.append(suffix);
         }
     } else {
         if (after != nullptr) {
             m_name.append(suffix);
+            m_name.append(" ");
         }
         m_name.append(prefix);
     }

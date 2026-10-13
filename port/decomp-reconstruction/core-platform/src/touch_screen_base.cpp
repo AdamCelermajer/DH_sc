@@ -246,7 +246,8 @@ int TouchScreenBase::getTouchIDInitiatedInRegion(const glitch::core::rect<float>
         const Slot& s = slots_[i];
         const float x = static_cast<float>(s.begin_[0]);
         const float y = static_cast<float>(s.begin_[1]);
-        if (x >= r.X1 && y >= r.Y1 && x <= r.X2 && y <= r.Y2 && s.valid_ && s.touched_) {
+        if (x >= r.UpperLeftCorner.X && y >= r.UpperLeftCorner.Y && x <= r.LowerRightCorner.X && y <= r.LowerRightCorner.Y &&
+            s.valid_ && s.touched_) {
             return i;
         }
     }
@@ -260,7 +261,8 @@ int TouchScreenBase::getTouchIDInRegion(const glitch::core::rect<float>& r) cons
         const Slot& s = slots_[i];
         const float x = static_cast<float>(s.cur_[0]);
         const float y = static_cast<float>(s.cur_[1]);
-        if (x >= r.X1 && y >= r.Y1 && x <= r.X2 && y <= r.Y2 && s.valid_ && s.touched_) {
+        if (x >= r.UpperLeftCorner.X && y >= r.UpperLeftCorner.Y && x <= r.LowerRightCorner.X && y <= r.LowerRightCorner.Y &&
+            s.valid_ && s.touched_) {
             return i;
         }
     }

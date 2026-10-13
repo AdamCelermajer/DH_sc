@@ -9,7 +9,7 @@ static int failures = 0;
 // Captures the request text that the senders hand to SendByGet.
 class CapturingBoard : public GLXPlayerLeaderboard {
 public:
-    void SendByGet(char* request) override { last = request; }
+    std::int32_t SendByGet(char* request) override { last = request; return 1; }
     std::string last;
 };
 

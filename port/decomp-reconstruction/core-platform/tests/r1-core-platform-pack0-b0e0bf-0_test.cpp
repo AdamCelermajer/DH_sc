@@ -17,10 +17,10 @@ namespace {
 // A mouse event (type 1) with the given mouse event code and position.
 glitch::SEvent MouseEvent(int code, int x, int y) {
     glitch::SEvent ev{};
-    ev.type = 1;
-    ev.mouseX = x;
-    ev.mouseY = y;
-    ev.mouseEvent = code;
+    ev.EventType = glitch::EET_MOUSE_INPUT_EVENT;
+    ev.MouseInput.X = x;
+    ev.MouseInput.Y = y;
+    ev.MouseInput.Event = code;
     return ev;
 }
 }  // namespace
@@ -41,7 +41,7 @@ int main() {
     {
         TouchScreenWin32 win(640, 480);
         glitch::SEvent ev = MouseEvent(0, 1, 1);
-        ev.type = 2;
+        ev.EventType = glitch::EET_KEY_INPUT_EVENT;
         CHECK(!win.onEvent(ev));
     }
 

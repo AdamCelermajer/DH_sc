@@ -48,16 +48,17 @@ std::int32_t CMatchingGLLive::SendRequestLostPassword(char* name) {
 // 0x81c748 _ZN15CMatchingGLLive16InitializeFriendEv
 // Partial: the login singleton is fetched first (as in the original, where it is not guarded), then the login
 // UID is copied into the friend list object, the friend list is requested (kind 0x3d, first 0, count 0) and the
-// byte at +0x67e9 is set. The original returns the request's result; the port's sendGetUserFriends returns void,
-// so this returns 0. A null friend list skips the copy and the request here (the original would fault).
+// byte at +0x67e9 is set. Returns the request's result (the SendByGet result). A null friend list skips the copy and
+// the request and returns 0 here (the original would fault).
 std::int32_t CMatchingGLLive::InitializeFriend() {
     GLXPlayerLogin* login = GetGLXPlayerLogin();
+    std::int32_t result = 0;
     if (glxUserFriend_ != nullptr) {
         glxUserFriend_->SetUID(login->GetUID());
-        glxUserFriend_->sendGetUserFriends(0, 0);
+        result = glxUserFriend_->sendGetUserFriends(0, 0);
     }
     glFriendsRequested_ = 1;
-    return 0;
+    return result;
 }
 
 // 0x81c78c _ZN15CMatchingGLLive23SendGLFriendsGameInviteEPc
@@ -124,7 +125,7 @@ std::int32_t CMatchingGLLive::GetGLLiveMemberId() const {
         return -1;
     }
     CSignIn* signIn = CSignIn::Get();
-    if (signIn == nullptr || !signIn->LoggedInForTest()) {
+    if (signIn == nullptr || !signIn->LoggedIn()) {
         return -1;
     }
     (void)GetGLXPlayerMPLobbyObserver();

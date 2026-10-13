@@ -7,25 +7,14 @@
 #include <string>
 #include <vector>
 
+#include "dh2/EventManager.hpp"    // EventManager (game header, the one definition)
+#include "dh2/IEventReceiver.hpp"  // ::IEventReceiver (game header, the one definition)
+
 namespace glitch {
 namespace scene {
 class ISceneNode;
 }
 }
-
-// Stand-in for the event receiver base (glitch/net event interface). Only the
-// virtual destructor is needed here.
-class IEventReceiver {
-public:
-    virtual ~IEventReceiver() = default;
-};
-
-// Stand-in for EventManager. Only Attach/Detach as used by Console are declared.
-class EventManager {
-public:
-    void Attach(int event_type, IEventReceiver* receiver, int priority);
-    void Detach(int event_type, IEventReceiver* receiver);
-};
 
 // EventManager instance; ELF global dword_99F740. Defined by the owning category.
 extern EventManager* g_eventManager;
@@ -42,6 +31,9 @@ public:
 };
 extern ConsoleFileLister* g_consoleFileLister;
 
+// Abstract for now: IEventReceiver::onEvent is pure in the canonical dh2/IEventReceiver.hpp, and
+// Console::onEvent (0x335b14) and onEventNotOpened (0x33271c) are not reconstructed yet (skipped rows).
+// Nothing constructs a Console in this tree (Application holds a Console* only).
 class Console : public IEventReceiver {
 public:
     Console();                  // 0x333a4c C1 and 0x33401c C2 (identical bodies)

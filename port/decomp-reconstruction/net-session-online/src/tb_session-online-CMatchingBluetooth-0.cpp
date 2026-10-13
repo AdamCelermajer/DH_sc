@@ -11,6 +11,8 @@
 #include <cstdio>
 #include <string>
 
+#include "net-transport/transport_manager.hpp"  // GetTransportMgr, CTransportManager
+
 // 0x803cbc CMatchingBluetooth::GenerateBluetoothDeviceName(tMatchingPeer)
 // Partial. Written: the "|m=<member id>" field (tMatchingPeer +0x00), the "|i_<n>=<value>" fields for the
 // active int attributes 1..7 in that order (room attributes at +0x48, the CRoomAttributes copy in the original).
@@ -39,4 +41,14 @@ std::string CMatchingBluetooth::GenerateBluetoothDeviceName(const tMatchingPeer&
         out += field;
     }
     return out;
+}
+
+// 0x801c58 _ZN18CMatchingBluetooth18SetServerBroadcastEv
+// The listen id of all transports (GetListenNetworkId(0)) is passed to EnableBroadcast, which starts the broadcast
+// of the transport whose local id equals it. The object is not read, and the result (EnableBroadcast's leftover
+// r0) is not returned.
+void CMatchingBluetooth::SetServerBroadcast() {
+    CTransportManager* manager = GetTransportMgr();
+    CNetworkId listen = GetTransportMgr()->GetListenNetworkId(0);
+    manager->EnableBroadcast(listen);
 }

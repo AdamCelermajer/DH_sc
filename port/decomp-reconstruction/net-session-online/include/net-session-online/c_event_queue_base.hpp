@@ -16,7 +16,9 @@
 // destructor, +0x20 HasEvents. Every one of them is virtual in the binary.
 class CEventQueueBase {
 public:
-    CEventQueueBase() = default;
+    // The template argument of CEventQueue<T, N> (0 for the base itself): CConnection, CConnectionManager and
+    // CSignIn queues are built with 100. It is stored at +0x10 and passed to CEvent::IsExpired.
+    explicit CEventQueueBase(std::uint32_t expiry = 0) : expiryCheck_(expiry) {}
     virtual ~CEventQueueBase();                                   // D1 / D2 (D0 skipped)
 
     // 0x7fe204 AddEvent. Returns the pthread_mutex_unlock result (0 on success).

@@ -12,6 +12,8 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/os/event_receiver.hpp"
+
 namespace glitch::collada::recon_02 {
 
 class IGUIElement;
@@ -32,19 +34,12 @@ struct SRect {
     int height() const { return y1 - y0; }
 };
 
-// Event record as read by the onEvent bodies. The field meanings follow the
-// pseudocode indices: category at word 0, element pointer at word 2, a second
-// pointer or key code at word 3, an event code at word 4 (GUI and mouse) or
-// word 5 (GUI sub-events), and the key-down flag as a byte at offset 16.
-struct SEvent {
-    int category = 0;                     // word 0: 0 mouse, 1 GUI, 2 keyboard
-    IGUIElement* element = nullptr;       // word 2
-    int keyOrRelated = 0;                 // word 3: key code, or related element / value
-    int eventCode = 0;                    // word 4
-    int guiCode = 0;                      // word 5 (GUI category)
-    bool keyDown = false;                 // byte 16 (keyboard category)
-    float amount = 0.0f;                  // word 1 as float (wheel amount)
-};
+// glitch::SEvent: the canonical event record (glitch-core-io/os/event_receiver.hpp). The category numbers are
+// the binary ones: EET_GUI_EVENT 0, EET_MOUSE_INPUT_EVENT 1, EET_KEY_INPUT_EVENT 2. GUI events carry the caller at
+// +0x08 (GUIEvent.Caller), the element at +0x0c and the event code at +0x10 (GUIEvent.EventType). Mouse events carry
+// Y at +0x0c (MouseInput.Y), the wheel at +0x10 (MouseInput.Wheel) and the event at +0x14 (MouseInput.Event). Key
+// events carry the key code at +0x0c (KeyInput.Key) and the down flag at +0x10 (KeyInput.PressedDown).
+using glitch::SEvent;
 
 // Keyboard and GUI codes used by the bodies below.
 enum : int {

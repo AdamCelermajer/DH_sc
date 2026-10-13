@@ -23,15 +23,15 @@ void channel::read(const slim::XmlNode* node) {
         std::abort();  // the original calls _assert2()
     }
     if (const slim::XmlNode* child = node->findChild("title")) {
-        title_ = child->Text();
+        title_ = child->value_.c_str();
     }
     if (const slim::XmlNode* child = node->findChild("link")) {
-        link_ = child->Text();
+        link_ = child->value_.c_str();
     }
     if (const slim::XmlNode* child = node->findChild("description")) {
-        description_ = child->Text();
+        description_ = child->value_.c_str();
     }
-    int cursor = 0;
+    slim::XmlNode::ChildIterator cursor;
     for (const slim::XmlNode* entry = node->findFirstChild("item", cursor); entry != nullptr;
          entry = node->findNextChild("item", cursor)) {
         // The original grows the vector by one element (resize to size + 1), then reads into

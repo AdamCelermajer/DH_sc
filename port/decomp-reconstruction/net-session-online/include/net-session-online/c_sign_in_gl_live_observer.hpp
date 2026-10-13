@@ -63,7 +63,13 @@ public:
     // the byte through the observer pointer when the server config is already loaded.
     void SetConfigured(bool configured) { configured_ = configured; }
 
-    // Accessors. Not in the original.
+    // Accessors for the fields other classes read inline in the original (no symbols): the server-configured flag
+    // (+0x04), the logged-in flag and the server address buffer (+0x06, the socket URL).
+    bool Configured() const { return configured_; }
+    bool LoggedIn() const { return loggedIn_; }
+    const char* Server() const { return server_; }
+
+    // Test seams. Not in the original.
     bool ConfiguredForTest() const { return configured_; }
     bool LoggedInForTest() const { return loggedIn_; }
     std::int32_t LastErrorForTest() const { return lastError_; }

@@ -14,7 +14,7 @@ int main() {
     // SendChangeServerMessage: type 4, point-to-point, then the local member id (4 bytes).
     {
         CMatchingLocal local;
-        connection_manager_test::Reset();
+        connection_manager_test::ResetForSends();
         connection_manager_test::ConnectPeer(3);  // SendToAll reaches connected peers only
         local.SetMemberId(6);
         CHECK(local.SendChangeServerMessage() == 0);
@@ -32,9 +32,9 @@ int main() {
     // SendServerResponse: type 1 record of 40 bytes (listen id, member id, count, flag), broadcast type 2.
     {
         CMatchingLocal local;
-        connection_manager_test::Reset();
+        connection_manager_test::ResetForSends();
         local.SetMemberId(7);
-        CHECK(local.SendServerResponse(true) == 0);
+        CHECK(local.SendServerResponse(true) == 49);  // the 8-byte packet header and the 41 bytes
         const auto& p = SentPacketLog().back();
         CHECK(p.packetType == 2);
         CHECK(p.broadcast);
@@ -51,8 +51,8 @@ int main() {
     // SendClientRequest: a single type-2 byte, broadcast.
     {
         CMatchingLocal local;
-        connection_manager_test::Reset();
-        CHECK(local.SendClientRequest() == 0);
+        connection_manager_test::ResetForSends();
+        CHECK(local.SendClientRequest() == 9);        // the 8-byte packet header and the type byte
         const auto& p = SentPacketLog().back();
         CHECK(p.packetType == 2 && p.broadcast && p.bytes.size() == 1 && p.bytes[0] == 2);
     }
@@ -61,7 +61,7 @@ int main() {
     // IsRoomHidden). The constructor hides the room (Reset), so the room is opened first.
     {
         CMatchingLocal local;
-        connection_manager_test::Reset();
+        connection_manager_test::ResetForSends();
         local.SetMemberId(1);
         local.OpenRoom(true);
         NetBitStream stream(8);
@@ -104,7 +104,7 @@ int main() {
         std::uint8_t record[41];
         record[0] = 1;
         std::memcpy(record + 1, &header, sizeof header);
-        connection_manager_test::Reset();
+        connection_manager_test::ResetForSends();
         local.SetJoinThresholdForTest(10);
         CNetworkId from;
         CMatchingLocal::sBroadcastPacketReceiverCallback(from, reinterpret_cast<char*>(record), sizeof record);

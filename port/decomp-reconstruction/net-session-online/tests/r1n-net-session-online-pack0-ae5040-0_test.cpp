@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <string>
 
-#include "net-session-online/deps/slim_xml_node.hpp"
+#include "core-platform/slim_xml.hpp"
 #include "net-session-online/item.hpp"
 
 static int failures = 0;
@@ -17,15 +17,22 @@ static int failures = 0;
         }                                                                 \
     } while (0)
 
+// Adds <name>text</name> under parent. The trees are built with addChild, as the parser builds them.
+static slim::XmlNode* AddText(slim::XmlNode* parent, const char* name, const std::string& text) {
+    slim::XmlNode* child = parent->addChild(name, slim::kElement);
+    child->value_ = text;
+    return child;
+}
+
 int main() {
     static const char* const kTags[12] = {
         "id",     "title",       "description", "link",   "attachment_id", "fileType",
         "fileSize", "width",     "height",      "times",  "button_left",   "button_right",
     };
 
-    slim::XmlNode node("item", "");
+    slim::XmlDocument node;
     for (int i = 0; i < 12; ++i) {
-        node.AddChild(slim::XmlNode(kTags[i], "v" + std::to_string(i)));
+        AddText(&node, kTags[i], "v" + std::to_string(i));
     }
     item full;
     full.read(&node);
@@ -34,7 +41,7 @@ int main() {
     }
 
     // A node with no tags leaves every field empty (the original only copies found children).
-    slim::XmlNode bare("item", "");
+    slim::XmlDocument bare;
     item empty;
     empty.read(&bare);
     CHECK(empty.FieldForTest(0).empty());

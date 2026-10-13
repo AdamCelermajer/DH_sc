@@ -462,11 +462,11 @@ void HUDControls::initCachedChars() {
 }
 
 // 0x41a780 HUDControls::Update(void)
-// PARTIAL, three parts are not rebuilt:
-//   - b_IsInCutScreen = byte_9A600C != 0 at the top: the global is not declared yet;
-//   - the attack branch's `*(player + 0x413) = 0` before Cmd_Attack: Character +0x413 is not declared (layout request);
-//   - the attack test reads the 32-bit word at Character +0x14e4. Only m_isNetSpawned (the byte at +0x14e4) is tested
-//     here, which differs from the original when the other bytes of that word are set (layout request).
+// PARTIAL, one part is not rebuilt:
+//   - b_IsInCutScreen = byte_9A600C != 0 at the top: the global is not declared yet.
+// The attack test reads the word at Character +0x14a4 (Hex-Rays *(player + 5284)), which is Character::m_objectOfInterest.
+// When it is null, the attack stores 0 at Character +0x413 (Hex-Rays *(player + 1043)), which is CharAI::m_stickyTarget
+// (CharAI at Character +0x3c8, its m_stickyTarget at CharAI +0x4b), and then calls Cmd_Attack(nullptr).
 void HUDControls::Update() {
     unk_84 = false;
     Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
@@ -493,9 +493,10 @@ void HUDControls::Update() {
     }
 
     if (m_attackHeld) {
-        if (player->m_isNetSpawned) {
+        if (player->m_objectOfInterest != nullptr) {
             player->m_controller->Cmd_UseOOI(nullptr);
         } else {
+            player->m_stickyTarget = false;
             player->m_controller->Cmd_Attack(nullptr);
         }
     }

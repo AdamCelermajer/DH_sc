@@ -33,7 +33,7 @@ constexpr std::size_t kLoginNameMaxLength = 15;
 // CSignIn::Get() and its logged-in flag (+0x11 in the original).
 bool SignInLoggedIn() {
     CSignIn* signIn = CSignIn::Get();
-    return signIn != nullptr && signIn->LoggedInForTest();
+    return signIn != nullptr && signIn->LoggedIn();
 }
 
 }  // namespace
@@ -128,11 +128,11 @@ std::int32_t CMatchingGLLive::GetServerMemberId() const {
 }
 
 // 0x81c084 _ZN15CMatchingGLLive15GLSendHighScoreEi
-// Partial: the port's sendHighScore returns void, so 0 is returned here. The null guard is
-// an addition: the original calls through the pointer unchecked.
+// Returns the result of sendHighScore(score, -1, 1) (the SendByGet result). The null guard is an addition: the
+// original calls through the pointer unchecked.
 std::int32_t CMatchingGLLive::GLSendHighScore(std::int32_t score) {
     if (glxLeaderboard_ != nullptr) {
-        glxLeaderboard_->sendHighScore(score, -1, 1);
+        return glxLeaderboard_->sendHighScore(score, -1, 1);
     }
     return 0;
 }

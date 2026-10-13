@@ -39,6 +39,18 @@ public:
     // Field words at +0x10 and +0x14 (read by NetStructMemberType<CNetworkId>::SetValue, batch e2-...-b42f13-1).
     std::uint32_t Field2() const { return field2_; }
     std::uint32_t Field3() const { return field3_; }
+    // Setters for the field words. Each sets its presence bit as CNetworkId::Set does:
+    // SetField2 stores +0x10 and raises bit 2 (flags |= 4), SetField3 stores +0x14 and
+    // raises bit 3 (flags |= 8). The binary writes these inline (CBluetoothUnreliable id
+    // getters, InitializeTransport).
+    void SetField2(std::uint32_t value) {
+        field2_ = value;
+        flags_ |= 4;
+    }
+    void SetField3(std::uint32_t value) {
+        field3_ = value;
+        flags_ |= 8;
+    }
 
     // Address accessors for the transports (not in the original, which reads the fields directly).
     // Address0 is presence bit 1 (flags 0x2); Address1 is presence bit 0 (flags 0x1).

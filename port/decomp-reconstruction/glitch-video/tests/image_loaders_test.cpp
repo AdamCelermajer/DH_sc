@@ -1,4 +1,5 @@
 #include "glitch-video/image_loaders.hpp"
+#include "read_file_stub.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -10,10 +11,9 @@ static int failures = 0;
 namespace {
 
 // In-memory IReadFile that returns a fixed byte buffer.
-class MemoryFile : public glitch::io::IReadFile {
+class MemoryFile : public glitch::video::test::StubReadFile {
 public:
     MemoryFile(const char* bytes, size_t n) : m_bytes(bytes, n) {}
-    void unidentifiedBaseSlot() override {}
     int32_t read(void* buffer, uint32_t size) override {
         uint32_t n = 0;
         while (n < size && m_pos < m_bytes.size()) {

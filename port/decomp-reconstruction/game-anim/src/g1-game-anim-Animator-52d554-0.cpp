@@ -1,9 +1,8 @@
 // Batch g1-game-anim-Animator-52d554-0: the Animator class (game-anim). Declarations come from dh2/Animator.hpp.
 //
-// The engine base glitch::collada::CSceneNodeAnimator is not inherited by Animator (see the note in
-// dh2/Animator.hpp: the base is a byte sub-object until glitch-scene-collada-gui's layout is unified). So
-// every call into the base, and the virtual getTimelineCtrl (vtable +0x44) that comes from it, is missing
-// and the functions that make one are marked partial below.
+// Animator derives from the canonical engine base glitch::collada::CSceneNodeAnimator (dh2/Animator.hpp).
+// The base's bodies are not forwarded yet: the calls into the base, and the virtual getTimelineCtrl
+// (vtable +0x44) that comes from it, are still missing, and the functions that make one are marked partial below.
 //
 // Compiler-generated variants are not written here: 0x366418 (deleting dtor), 0x366434 (base-object dtor
 // with VTT) and 0x366518 (base-object ctor with VTT). Their bodies are the D1 and C1 rows.
@@ -33,8 +32,8 @@ int ClipTimeLeftMs(int stepMs, int remainingMs) {
 }  // namespace animator_detail
 
 // 0x36621c _ZNK8Animator7getTypeEv
-int Animator::getType() const {
-    return 11;
+glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE Animator::getType() const {
+    return static_cast<glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE>(11);
 }
 
 // 0x366224 _ZN8Animator17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE
@@ -96,14 +95,9 @@ void Animator::SetCallbacks(AnimCallback animCallback, void* animUserData,
 Animator::~Animator() {}
 
 // 0x366490 _ZN8AnimatorC1ERKN6glitch7collada16CColladaDatabaseERNS1_22SLibraryAnimationClipsE
-// partial: the original calls the base constructor CSceneNodeAnimator(database, clips) through the VTT
-// (missing: the base is not inherited). The IReferenceCounted at +0x94 starts with count 1 here as in the
-// original (+0x98 = 1). m_applicator takes this as its owner, as in the original; the reinterpret_cast is
-// the stand-in for the base relationship (the base sub-object is at +0x00, so the pointer is the same) and
-// goes away when the base is inherited.
+// partial: the base constructor CSceneNodeAnimator(database, clips) is now called (the base is inherited). The
+// IReferenceCounted of the original is the base's virtual base, so the +0x94 count is not written here.
+// m_applicator takes this as its owner, as in the original.
 Animator::Animator(const glitch::collada::CColladaDatabase& database,
                    glitch::collada::SLibraryAnimationClips& clips)
-    : m_applicator(reinterpret_cast<glitch::collada::ISceneNodeAnimator*>(this)) {
-    (void)database;
-    (void)clips;
-}
+    : glitch::collada::CSceneNodeAnimator(database, clips), m_applicator(this) {}

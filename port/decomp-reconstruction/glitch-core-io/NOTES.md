@@ -847,9 +847,7 @@ Canonical headers (include paths):
 - `glitch-core-io/core/memory_hint.hpp`: `glitch::memory::E_MEMORY_HINT` (only the value 0 occurs in the binary).
 - Game side, next to `dh2/EventManager.hpp`: `dh2/IEvent.hpp`, `EvAcceleration.hpp`, `EvTouchScreenMove.hpp`, `EvTouchScreenPress.hpp` (layouts from TouchScreenBase::ProcessEvents 0x33c568 and AccelerometerBase::moved 0x33d8dc).
 
-Left alone on purpose (other domains, kept in this category as stand-ins): the glitch::video and glitch::scene stubs in `deps/glitch_core_objects.hpp`
-(IVideoDriver, ITexture, CLight, CMaterial, CMaterialRenderer, CVertexStreams, IShader, IShaderCode, IBuffer, CImage, CMeshBuffer), `tb/cprimitivestream.hpp` and
-`collada_binary_file_loader.hpp`. Their owners replace them; the core-io code that names them follows when the real headers are wired in.
+Left alone on purpose: `collada_binary_file_loader.hpp` (CColladaBinaryFileLoader, a scene class whose unification row is `keep`). The glitch::video and glitch::scene stand-ins were replaced in wave U2 (below).
 
 Tests: `u1_core_events_test`, `u1_core_io_interfaces_test`, `u1_core_sid_test`; the read-file fakes in the older tests derive from `tests/io_stub_files.hpp`
 (inert implementations of the pure slots).
@@ -865,3 +863,12 @@ Open:
 - The root `port/decomp-reconstruction/CMakeLists.txt` cannot be configured while `vendor-lua/src` and `vendor-box2d/src` exist: the per-category library loop then
   declares `dh2_vendor_lua` and `dh2_vendor_box2d` a second time. The u1-core tests were built and run from a private copy of the tree (junctions plus a root file with a
   `if(TARGET ...) continue()` guard), 74 of 74 core-io tests pass; the integrator needs to merge those two vendor targets.
+
+## Engine unification wave U2 (video and scene stand-ins replaced)
+
+- `deps/glitch_core_objects.hpp` is a forwarding header now. Its video and scene stand-ins are the canonical classes: glitch-video `buffer.hpp`, `image.hpp`, `light.hpp`, `material.hpp`, `material_renderer.hpp`, `shader_attributes.hpp`, `shader_code.hpp`, `texture.hpp`, `vertex_streams.hpp`, `video_driver.hpp`, `video_mode_list.hpp`, and glitch-scene-collada-gui `scene/CMeshBuffer.hpp`. The file stays because game code includes it (`game/include/dh2/HUDControls.hpp`).
+- `tb/cprimitivestream.hpp` forwards to glitch-video `primitive_stream.hpp`. The io code uses the canonical members: `m_indexBuffer`, `m_offset`, `m_count`, `m_vertexStart` (the old unk_0c), `m_vertexEnd` (unk_10), `m_indexType`, `m_primitiveType`.
+- The canonical IBuffer, ITexture, IShader and IShaderCode are abstract, and the canonical objects are born with count 0. A new object is wrapped with `boost::intrusive_ptr<T>(p, true)`. loadHeadersAndSkipData and loadVS wrap their table the same way.
+- loadPS and loadVS create their buffers through the driver, `createBuffer(1 or 0, 4, bytes, new[](bytes), true)`, the calls the listings make (0x6b61fc, 0x6b73d8). With no driver the bytes are skipped and the stream has no buffer (PARTIAL).
+- `src/tb_core-io-boost_intrusive_ptr_glitch_video_CVertexStreams_-0.cpp` is removed. The counting template in `boost/intrusive_ptr.hpp` releases the table.
+- Tests: `tests/io_video_fakes.hpp` holds the concrete fakes (FakeBuffer, FakeTexture, FakeShader, FakeShaderCode) and TestNullDriver (a CNullDriver over an IDevice). Eight test files were updated: six of them use these fakes, the other two (r1 pack2 and CAttributes) changed only the birth count and member names.

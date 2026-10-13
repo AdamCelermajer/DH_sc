@@ -3,7 +3,7 @@
 //
 // Original layout (32-bit offsets):
 //   +0x00 vptr (CTransport base)
-//   +0x04 create flags (the flags argument of CreateByPort / CreateBySocketId)
+//   +0x04 create_flags_ (CTransport; the flags argument of CreateByPort / CreateBySocketId)
 //   +0x08 CSocket (its valid flag is the +0x10 byte, its listening flag is +0x13)
 // Peer addresses use CNetworkId address0 (flag bit 1): the 16-bit port and the IPv4 address.
 #pragma once
@@ -22,14 +22,14 @@ public:
     CTcp& operator=(const CTcp&) = delete;
 
     int Connect(CNetworkId& peer) override;          // 0x82a228 _ZN4CTcp7ConnectER10CNetworkId
-    bool IsConnected() const;                        // 0x82a040 _ZN4CTcp11IsConnectedEv
-    bool IsConnectedTo(const CNetworkId& peer);      // 0x82a008 _ZN4CTcp13IsConnectedToER10CNetworkId
-    bool CanDisconnectFrom(CNetworkId& peer);        // 0x829fc4 _ZN4CTcp17CanDisconnectFromER10CNetworkId
-    int GetType() const;                             // 0x829fd8 _ZN4CTcp7GetTypeEv
-    CNetworkId GetPeerNetworkId();                   // 0x82a048 _ZN4CTcp16GetPeerNetworkIdEv
-    CNetworkId GetLocalNetworkId();                  // 0x82a090 _ZN4CTcp17GetLocalNetworkIdEv
-    std::int64_t Send(CNetworkId& peer, const void* data, int len);  // 0x82a1dc _ZN4CTcp4SendER10CNetworkIdPvi
-    int Receive();                                   // 0x82a5dc _ZN4CTcp7ReceiveEv
+    bool IsConnected() override;                     // 0x82a040 _ZN4CTcp11IsConnectedEv
+    bool IsConnectedTo(const CNetworkId& peer) override;      // 0x82a008 _ZN4CTcp13IsConnectedToER10CNetworkId
+    bool CanDisconnectFrom(const CNetworkId& peer) override;  // 0x829fc4 _ZN4CTcp17CanDisconnectFromER10CNetworkId
+    int GetType() override;                          // 0x829fd8 _ZN4CTcp7GetTypeEv
+    CNetworkId GetPeerNetworkId() override;          // 0x82a048 _ZN4CTcp16GetPeerNetworkIdEv
+    CNetworkId GetLocalNetworkId() override;         // 0x82a090 _ZN4CTcp17GetLocalNetworkIdEv
+    int Send(const CNetworkId& peer, const void* data, int len) override;  // 0x82a1dc _ZN4CTcp4SendER10CNetworkIdPvi
+    int Receive() override;                          // 0x82a5dc _ZN4CTcp7ReceiveEv
     int CloseSocket();                               // 0x82a284 _ZN4CTcp11CloseSocketEv
     // Opens the socket on port and listens when listen is set. Returns 0 or -1.
     int OpenSocket(std::uint16_t port, bool listen); // 0x82a2a4 _ZN4CTcp10OpenSocketEtb
@@ -44,7 +44,6 @@ private:
     int AcceptConnections();                         // 0x82a540 _ZN4CTcp17AcceptConnectionsEv
     int ReceivePackets();                            // 0x82a0d8 _ZN4CTcp14ReceivePacketsEv
 
-    unsigned int create_flags_ = 0;                  // +0x04
     CSocket socket_;                                 // +0x08
     static bool s_initialized_;                      // _ZN4CTcp13s_initializedE
 };

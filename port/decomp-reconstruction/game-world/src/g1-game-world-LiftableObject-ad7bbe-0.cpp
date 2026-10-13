@@ -6,6 +6,7 @@
 //
 // Three functions are partial: Release (the node re-attach to the scene root), PickUp (the QE_PickedUpLiftable event)
 // and InitPost (the data-row lookup). Drop is partial because it calls Release. The rest are reconstructed.
+// The destructor is defined once in the tree, here (0x3eebcc, see the note there), because this file emits the vtable.
 
 #include <cstdio>
 #include <cstdlib>
@@ -262,6 +263,10 @@ void LiftableObject::InitPost() {
 // 0x3eebcc _ZN14LiftableObjectD1Ev
 // The original stores the three vtable pointers, destroys m_dataDesc (+0x378) and calls GameObject::~GameObject. The
 // implicit member and base destruction does the same.
+// This is the only definition of the destructor in the tree. The destructor is the key function of LiftableObject (the
+// constructor is not virtual, and this is the first virtual function declared that is not inline), so this translation
+// unit emits the vtable and the typeinfo. The base-object form D2 at 0x3eec3c is generated from this definition, and the
+// part-2 file (ad7bbe-1.cpp) does not define it again.
 LiftableObject::~LiftableObject() {}
 
 // 0x3eec20 _ZN14LiftableObjectD0Ev

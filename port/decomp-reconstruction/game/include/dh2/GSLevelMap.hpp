@@ -21,7 +21,7 @@ public:
     void Draw(const StateMachine* machine) override;                // slot +0x1c 0x386938: forwards to LevelMap::Draw
     // Pause (+0x10), Resume (+0x14), Draw2D (+0x20), Sleep (+0x24) and WakeUp (+0x28) are StateBase's and are not redeclared.
 
-    // Returns the function-local instance and stores levelId in the global dword_9A2674.
+    // Stores levelId in the m_levelId of the function-local instance (at 0x9A2670) and returns that instance.
     static GSLevelMap* Inst(int levelId);                           // 0x3869b0
 
     // StateBase occupies +0x00 (vptr). GSLevelMap occupies +0x00 .. +0x0b.

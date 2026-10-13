@@ -1,14 +1,17 @@
-#include "net-transport/deps/connection_deps.hpp"
+#include "net-transport/connection.hpp"
 
 #include <cstdio>
 
 #include "fake_matching.hpp"
 #include "net-session-online/c_event_queue_base.hpp"
+#include "net-transport/deps/transport_test_support.hpp"
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
+    // CConnection::Send reaches the transport manager singleton (GetTransportMgr), so one is installed.
+    transport_test_support::InstallInitialized();
     // CMatching comes from net-session-online. The fake installed by fake_matching.hpp is the one
     // CMatching::Get() returns; GetMemberIndex is the lowest set bit of MemberBit (member n -> slot n).
     CHECK(CMatching::Get() == &InstalledFakeMatching());
@@ -30,7 +33,7 @@ int main() {
     conn.SetMemberId(7);
     CHECK(conn.State() == 4);
     CHECK(conn.MemberId() == 7);
-    CHECK(conn.Send(5, nullptr, 0) == 0);
+    CHECK(conn.Send(5, nullptr, 0) == 8);  // an empty payload is framed in the 8-byte header; a recorder takes it
 
     // CEventQueueBase (net-session-online): AddEvent stores an event, GetEventData copies it back and
     // Clear empties the queue. Both return the unlock result, 0.

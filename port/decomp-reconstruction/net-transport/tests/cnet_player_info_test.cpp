@@ -15,11 +15,9 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stub: AddPlayer(NetBitStream&,int,int) is skipped in batch e2 (ReadPacketData references it).
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 static void ClearChanged(CNetPlayerInfo& p) {
-    p.unk_150.IsChanged(); p.member_id_.IsChanged(); p.conn_index_.IsChanged(); p.unk_1c8.IsChanged();
+    p.unk_150.IsChanged(); p.member_id_.IsChanged(); p.matching_member_id_.IsChanged(); p.gamepad_id_.IsChanged();
     p.state_.IsChanged(); p.unk_218.IsChanged(); p.unk_240.IsChanged(); p.name_.IsChanged();
 }
 
@@ -27,18 +25,18 @@ int main() {
     // Reset: the three fields go back to -1, -1, 0 and only the changed blocks are marked.
     {
         CNetPlayerInfo p;
-        p.conn_index_.SetValue(3);
-        p.unk_1c8.SetValue(4);
+        p.matching_member_id_.SetValue(3);
+        p.gamepad_id_.SetValue(4);
         p.state_.SetValue(2);
         p.member_id_.SetValue(9);
         ClearChanged(p);
         p.Reset();
-        CHECK(p.conn_index_.GetValue() == -1 && p.unk_1c8.GetValue() == -1 && p.state_.GetValue() == 0);
+        CHECK(p.matching_member_id_.GetValue() == -1 && p.gamepad_id_.GetValue() == -1 && p.state_.GetValue() == 0);
         CHECK(p.member_id_.GetValue() == 9);                       // untouched
-        CHECK(p.conn_index_.IsChanged() && p.unk_1c8.IsChanged() && p.state_.IsChanged());
+        CHECK(p.matching_member_id_.IsChanged() && p.gamepad_id_.IsChanged() && p.state_.IsChanged());
         CHECK(!p.member_id_.IsChanged());
         p.Reset();                                                  // already reset: nothing changes
-        CHECK(!p.conn_index_.IsChanged());
+        CHECK(!p.matching_member_id_.IsChanged());
     }
 
     // Add / Remove / Disconnect / SetState.
@@ -48,12 +46,12 @@ int main() {
         CHECK(p.state_.GetValue() == 1);
 
         SetServerForTest(true);
-        p.conn_index_.SetValue(2);
-        p.unk_1c8.SetValue(3);
+        p.matching_member_id_.SetValue(2);
+        p.gamepad_id_.SetValue(3);
         p.Disconnect();
         CHECK(p.state_.GetValue() == 4);                           // server: 4
         p.Remove();
-        CHECK(p.state_.GetValue() == 0 && p.conn_index_.GetValue() == -1 && p.unk_1c8.GetValue() == -1);
+        CHECK(p.state_.GetValue() == 0 && p.matching_member_id_.GetValue() == -1 && p.gamepad_id_.GetValue() == -1);
 
         SetServerForTest(false);
         p.Disconnect();
@@ -99,8 +97,8 @@ int main() {
 
         CNetPlayerInfo p;
         SetServerForTest(false);
-        p.conn_index_.SetValue(0);          // the stand-in's local member id is 0
-        p.unk_1c8.SetValue(0);
+        p.matching_member_id_.SetValue(0);          // the stand-in's local member id is 0
+        p.gamepad_id_.SetValue(0);
         p.member_id_.SetValue(1);
         p.Add();                            // state 1
         CHECK(p.applied_state_ == 0);
@@ -108,7 +106,7 @@ int main() {
         CHECK(p.state_.GetValue() == 3);
         CHECK(p.applied_state_ == 3);
         CHECK(p.enabled_);                  // NetStruct::SetEnabled(true) ran for states 2 and 3
-        CHECK(mgr.id_list_dirty_);          // ClearPlayerListCaches(conn_index_)
+        CHECK(mgr.id_list_dirty_);          // ClearPlayerListCaches(matching_member_id_)
         CHECK(p.IsActive());
 
         // A second Update with an unchanged state does nothing to the applied state.

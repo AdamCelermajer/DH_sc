@@ -84,13 +84,14 @@ void COnline::SendPackets() {
 }
 
 // 0x7fd66c _ZN7COnline7DestroyEv
-// Partial: the original first calls CMatching::Destroy(CMatching::Get()) (0x7feb8c). That has no body or
-// declaration in this category, so the call is missing. The rest follows the original: Terminate the singleton,
-// then, if it is still set, delete it through the virtual destructor (vtable +0x0c) and clear the pointer.
+// When the singleton exists: CMatching::Get()->Destroy() (0x7feb8c, which terminates and deletes the matching
+// object), COnlineImpl::Terminate on the singleton, then, if it is still set, deletes it through the virtual
+// destructor (vtable +0x0c) and clears the pointer.
 void COnline::Destroy() {
     if (s_Online == nullptr) {
         return;
     }
+    CMatching::Get()->Destroy();
     s_Online->Terminate();
     if (s_Online != nullptr) {
         delete s_Online;

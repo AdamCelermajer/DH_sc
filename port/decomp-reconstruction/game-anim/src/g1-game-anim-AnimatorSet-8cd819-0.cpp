@@ -1,9 +1,8 @@
 // Batch g1-game-anim-AnimatorSet-8cd819-0 (game-anim, owner AnimatorSet).
 //
-// In the original, AnimatorSet derives from glitch::collada::CSceneNodeAnimatorSet (and through it from
-// glitch::scene::ISceneNodeAnimator). dh2/AnimatorSet.hpp does not declare that base: its +0x04..+0x57 area is
-// an opaque pad. Every body that forwards to a base method, or reads the timeline or Animation fields that
-// have no declaration yet, is therefore partial. Those spots are written as TODO comments with the original
+// AnimatorSet derives from glitch::collada::CSceneNodeAnimatorSet (canonical, glitch-scene-collada-gui), which is
+// the original base. Every body that forwards to a base method, or reads the timeline or Animation fields that
+// have no declaration yet, is still partial. Those spots are written as TODO comments with the original
 // address and offset. The layout requests for them are in the batch report.
 
 #include "dh2/AnimatorSet.hpp"
@@ -30,8 +29,8 @@ int remainingAnimTimeMs(float startSec, float endSec, int currentMs) {
 }  // namespace animator_set_detail
 
 // 0x3672c0 _ZNK11AnimatorSet7getTypeEv
-int AnimatorSet::getType() const {
-    return 13;
+glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorSet::getType() const {
+    return static_cast<glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE>(13);
 }
 
 // 0x3672c8 _ZN11AnimatorSet17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE
@@ -75,15 +74,14 @@ void AnimatorSet::applyAnimationValues(unsigned int time) {
 }
 
 // 0x367390 _ZN11AnimatorSet17getAnimationValueEiiPv
-// PARTIAL: same +0x50 store, then a return of the base result (glitch::collada::CSceneNodeAnimatorSet::getAnimationValue,
-// returns void*). The base is not reachable, so the stub returns nullptr.
-void* AnimatorSet::getAnimationValue(int track, int index, void* out) {
+// PARTIAL: same +0x50 store, then the base call glitch::collada::CSceneNodeAnimatorSet::getAnimationValue(this, track,
+// index, out), which returns void (the canonical signature). The store and the base call are not written yet.
+void AnimatorSet::getAnimationValue(int track, int index, void* out) {
     // TODO(layout): AnimatorSet +0x50 = m_currentAnimation ? Animation +0x20 : 0.
-    // TODO(base): return glitch::collada::CSceneNodeAnimatorSet::getAnimationValue(this, track, index, out).
+    // TODO(base): glitch::collada::CSceneNodeAnimatorSet::getAnimationValue(track, index, out).
     (void)track;
     (void)index;
     (void)out;
-    return nullptr;  // stub
 }
 
 // 0x3673a4 _ZN11AnimatorSet11animateNodeEPN6glitch5scene10ISceneNodeEj
@@ -110,10 +108,9 @@ void AnimatorSet::updateTime(unsigned int time) {
 // 0x367420 _ZN11AnimatorSet19setCurrentAnimationEi
 // PARTIAL: the lookup by set index, the clip check (Animation unk_20 != -1), the use counts (m_useCount +0x24 and
 // unk_2c +0x2c) and the m_currentAnimation swap with the release of the previous clip are rebuilt. Missing: the base
-// forward glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, setIndex), because this class does not
-// derive from the engine base (pad_04). On the success path the original returns that base result; the stub returns
-// the lookup result there, so the return value is wrong only on that path.
-Animation* AnimatorSet::setCurrentAnimation(int setIndex) {
+// forward glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(setIndex). The canonical override returns void,
+// as the original's base result does, so the lookup result is no longer returned.
+void AnimatorSet::setCurrentAnimation(int setIndex) {
     Animation* result = m_animationSet->GetAnimationBySetIndex(setIndex);
     if (result->unk_20 != -1) {
         ++result->m_useCount;   // +0x24
@@ -123,9 +120,8 @@ Animation* AnimatorSet::setCurrentAnimation(int setIndex) {
         if (previous != nullptr) {
             --previous->m_useCount;   // +0x24 of the clip that was current
         }
-        // TODO(base): return glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, setIndex) (engine base).
+        // TODO(base): glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(setIndex) (engine base).
     }
-    return result;
 }
 
 // 0x367484 _ZN11AnimatorSet8onUnbindEPN6glitch5scene10ISceneNodeE
@@ -178,7 +174,7 @@ void AnimatorSet::SetCallbacks(AnimCallback animCallback, void* animUserData,
 // same order as the original.
 AnimatorSet::~AnimatorSet() {
     // TODO(layout): if (m_currentAnimation) --m_currentAnimation +0x24 before the members are destroyed.
-    // TODO(base): ~glitch::collada::CSceneNodeAnimatorSet runs last; the base is not declared.
+    // The base destructor (~glitch::collada::CSceneNodeAnimatorSet) runs after this body, implicitly.
 }
 
 // 0x36761c _ZN11AnimatorSetD0Ev
@@ -190,17 +186,16 @@ AnimatorSet::~AnimatorSet() {
 // minus the secondary vptr store at +0x9c. Not rebuilt separately.
 
 // 0x3676b8 _ZN11AnimatorSetC1ERKN5boost13intrusive_ptrI12AnimationSetEE
-// PARTIAL: the base construction is not reachable (glitch::collada::CSceneNodeAnimatorSet C2 with the VTT and the engine
-// set taken from AnimationSet +0x20). AnimApplicator is built with a null animator because AnimatorSet is not
-// derived from glitch::collada::ISceneNodeAnimator in this header; the original passes this.
+// PARTIAL: the base is default constructed. The original base constructor takes the engine set (AnimationSet +0x20,
+// a CDynamicAnimationSet, which is a CAnimationSet) and calls init on it, and init dereferences that set, so the
+// engine set is not bound here yet. AnimApplicator is built with this as its animator, as in the original.
 AnimatorSet::AnimatorSet(const boost::intrusive_ptr<AnimationSet>& animationSet)
-    : m_applicator(nullptr),  // TODO: original passes this (ISceneNodeAnimator base not declared)
+    : glitch::collada::CSceneNodeAnimatorSet(),
+      m_applicator(this),
       m_animationSet(animationSet),
       m_currentAnimation(nullptr) {
-    // The secondary IReferenceCounted at +0x9c starts with count 1 (its default member initialiser, +0xa0 = 1 in the
-    // original). The primary and secondary vptrs are implicit.
-    // TODO(base): glitch::collada::CSceneNodeAnimatorSet ctor with the engine set (AnimationSet +0x20), with the
-    // addref before and the drop after, as at 0x3676b8 (asm: BL to the base C2, r1 = VTT + 4).
+    // TODO(base): glitch::collada::CSceneNodeAnimatorSet(engine set) with the addref before and the drop after, as at
+    // 0x3676b8 (asm: BL to the base C2, r1 = VTT + 4). Needs the engine set from AnimationSet +0x20 (m_animSet).
 }
 
 // 0x367790 _ZN11AnimatorSetC2ERKN5boost13intrusive_ptrI12AnimationSetEE

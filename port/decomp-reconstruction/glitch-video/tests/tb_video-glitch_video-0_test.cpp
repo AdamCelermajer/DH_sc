@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../src/tb_video-glitch_video-0.cpp"
+#include "read_file_stub.hpp"
 
 namespace glitch::os {
 void Printer::logf(ELOG_LEVEL, const char*, ...) {}  // test stub: message output is not checked
@@ -16,10 +17,10 @@ namespace {
 int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-class MemoryReadFile : public glitch::io::IReadFile {
+// Only the header read is exercised; the size and position slots keep the inert answers of the stub.
+class MemoryReadFile : public glitch::video::test::StubReadFile {
 public:
     explicit MemoryReadFile(std::vector<uint8_t> bytes) : m_bytes(std::move(bytes)) {}
-    void unidentifiedBaseSlot() override {}
     int32_t read(void* buffer, uint32_t size) override {
         const uint32_t available = static_cast<uint32_t>(m_bytes.size()) - m_pos;
         const uint32_t n = size < available ? size : available;
@@ -27,8 +28,8 @@ public:
         m_pos += n;
         return static_cast<int32_t>(n);
     }
-    bool seek(int32_t position, bool relative) override {
-        m_pos = static_cast<uint32_t>(relative ? static_cast<int32_t>(m_pos) + position : position);
+    bool seek(long position, bool relative) override {
+        m_pos = static_cast<uint32_t>(relative ? static_cast<long>(m_pos) + position : position);
         return true;
     }
 private:

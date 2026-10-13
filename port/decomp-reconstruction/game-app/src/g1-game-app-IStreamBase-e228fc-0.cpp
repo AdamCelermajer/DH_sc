@@ -22,14 +22,7 @@
 #include <string>
 
 #include "core-platform/deps/game_types.hpp"
-// net-transport's deps/byte_array.hpp (reached through dh2/Door.hpp) and pydata-accessors' deps/stream_reader.hpp both
-// define the engine stand-ins CustomFree and MemoryHintState (retired in the engine unification wave). dh2/Character.hpp
-// renames the net-transport copies the same way while the two are included together.
-#define CustomFree CustomFree_net_transport
-#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/Door.hpp"
-#undef CustomFree
-#undef MemoryHintState
 #include "pydata-accessors/structs_records.hpp"  // Structs::CharacterProperties
 
 // Global assert level (libDungeonHunter2.so gAssertLevel). core-platform/memory.hpp declares it too, but that header is

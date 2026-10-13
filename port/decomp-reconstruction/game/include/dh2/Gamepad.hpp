@@ -36,7 +36,8 @@ public:
     bool IsVibrationEnabled();                                          // 0x34d02c returns s_vibration
 
     // Static, not part of the object. The byte is read and written by the two functions above (LDRB / STRB).
-    // Its initial value is not in the constructor, so it is not recovered.
+    // Its initial value is 1: the .data byte at 0x999744 is 1, so IsVibrationEnabled is true until the first toggle.
+    // The definition (= 1) is in game-app/src/g1-game-app-pack0-8e4185-0.cpp.
     static uint8_t s_vibration;                                         // Gamepad::s_vibration
 
     // InputDevice occupies +0x00 .. +0x0b.

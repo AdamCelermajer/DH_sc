@@ -401,7 +401,8 @@ void TestHandleCentering(CameraLevel& cam) {
     p = Point3D<float>{1.0f, 2.0f, 3.0f};
     cam.HandleCentering(p);
     EXPECT(g_worldCallCount == 2);
-    EXPECT(g_worldCalls[0].fromInt && g_worldCalls[0].z == 3.0f);
+    EXPECT(!g_worldCalls[0].fromInt && g_worldCalls[0].screenX == 0.0f && g_worldCalls[0].screenY == 0.0f &&
+           g_worldCalls[0].z == 3.0f);
     EXPECT(!g_worldCalls[1].fromInt && g_worldCalls[1].screenX == -0.5f && g_worldCalls[1].z == 3.0f);
     EXPECT(p.X == -4.0f && p.Y == 2.0f && p.Z == 3.0f);
 
@@ -422,8 +423,12 @@ void TestHandleCentering(CameraLevel& cam) {
     // Three players: [400] and [402] each take a quarter step; the pair above gives -0.5 and a shift of -5.
     g_localPlayers = 3;
     SetFlags(three);
+    g_worldCallCount = 0;
     p = Point3D<float>{1.0f, 2.0f, 3.0f};
     cam.HandleCentering(p);
+    EXPECT(g_worldCallCount == 2);
+    EXPECT(!g_worldCalls[0].fromInt && g_worldCalls[0].screenX == 0.0f && g_worldCalls[0].screenY == 0.0f);
+    EXPECT(!g_worldCalls[1].fromInt && g_worldCalls[1].screenX == -0.5f && g_worldCalls[1].screenY == 0.0f);
     EXPECT(p.X == -4.0f);
 
     // Three players: [403] is not read, so a flag there alone does nothing.
@@ -437,8 +442,12 @@ void TestHandleCentering(CameraLevel& cam) {
     // Four players: [403] adds a quarter step, so the flag at [403] alone gives +0.25, a shift of +2.5.
     g_localPlayers = 4;
     SetFlags(four);
+    g_worldCallCount = 0;
     p = Point3D<float>{1.0f, 2.0f, 3.0f};
     cam.HandleCentering(p);
+    EXPECT(g_worldCallCount == 2);
+    EXPECT(!g_worldCalls[0].fromInt && g_worldCalls[0].screenX == 0.0f && g_worldCalls[0].screenY == 0.0f);
+    EXPECT(!g_worldCalls[1].fromInt && g_worldCalls[1].screenX == 0.25f && g_worldCalls[1].screenY == 0.0f);
     EXPECT(p.X == 3.5f);
 
     // Four players: [402] and [403] cancel.

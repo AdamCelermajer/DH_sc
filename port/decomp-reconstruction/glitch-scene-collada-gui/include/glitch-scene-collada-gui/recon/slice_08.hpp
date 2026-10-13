@@ -20,6 +20,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "glitch-scene-collada-gui/collada/SAnimation.hpp"
 #include "glitch-scene-collada-gui/animation_track_virtual_ex.hpp"
 #include "glitch-scene-collada-gui/collada_database.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
@@ -43,10 +44,9 @@ namespace glitch::collada::recon_08 {
 // whose word at +0x04 is the key buffer. Only that word is mapped here.
 // The accessor module defines getOutput; nothing in the tree declares it yet.
 // ---------------------------------------------------------------------------
-struct SAnimationOutput {
-    std::uint32_t reserved00;  // +0x00
-    std::uint8_t* keys;        // +0x04, key buffer
-};
+// glitch::collada::SAnimationOutput: the canonical record (collada/SAnimation.hpp), {count at +0x00, data at +0x04}.
+// The key buffer is `data`.
+using glitch::collada::SAnimationOutput;
 
 // unattached: needs the SAnimationAccessor::getOutput declaration in the accessor header.
 SAnimationOutput* getOutput(const SAnimationAccessor& accessor, int index);

@@ -42,6 +42,7 @@ public:
     // 0x8212cc _ZN29CMatchingGLLiveFriendObserver16OnRequestFailureEii: no-op.
     virtual void OnRequestFailure(std::int32_t code, std::int32_t detail);
 
+    bool Flag() const { return flag_; }  // +0x04, set when the code is 0x3d
     bool FlagForTest() const { return flag_; }
 
 private:
@@ -158,6 +159,11 @@ public:
     std::int32_t OnMPProcessPushLeaveLobby(DataPacket* packet);
     // 0x823fd8 _ZN28CMatchingGLLiveLobbyObserver23OnMPProcessPushMessagesEP10DataPacketi (slot +0x3c). Partial.
     virtual std::int32_t OnMPProcessPushMessages(DataPacket* packet, std::int32_t type);
+
+    // Accessors for the fields other classes read inline in the original (no symbols).
+    bool LoggedIn() const { return loggedIn_; }
+    bool Connected() const { return connected_; }        // +0x05
+    bool GameStarted() const { return gameStarted_; }
 
     // Test seams. Not in the original.
     std::int32_t StateForTest() const { return state_; }

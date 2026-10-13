@@ -115,7 +115,7 @@ int main() {
         node->drop();
     }
 
-    CLightSceneNode light;
+    CLightSceneNode light(false);
     CHECK(light.getType() == 0x7468676cu);
     {
         auto* mesh = new CMeshSceneNode(boost::intrusive_ptr<IMesh>(), 1, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
@@ -145,7 +145,8 @@ int main() {
     CHECK(manager.hierarchyChanged && manager.visibilityChanged);
     CHECK(manager.createMeshWriter(0) == nullptr);
 
-    CBillboardSceneNode billboard;
+    CBillboardSceneNode billboard(nullptr, 0, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                  glitch::core::dimension2d<float>{1.0f, 1.0f}, glitch::video::SColor(), glitch::video::SColor());
     CHECK(billboard.getType() == 0x6c6c6962u);
     CHECK(billboard.getMaterialCount() == 1);
     billboard.size.Width = 3.0f;

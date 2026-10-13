@@ -1,5 +1,7 @@
 #include "glitch-core-io/io/typed_attributes.hpp"
 
+#include "glitch-video/video_driver.hpp"
+
 #include <cctype>
 #include <cstddef>
 #include <cstdio>

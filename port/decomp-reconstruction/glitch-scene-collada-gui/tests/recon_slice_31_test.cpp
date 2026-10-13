@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/io/attributes.hpp"
 #include "glitch-video/material.hpp"
 #include "glitch-video/texture.hpp"
 #include "glitch-scene-collada-gui/recon/slice_31.hpp"
@@ -44,16 +45,18 @@ int failures = 0;
         }                                                                                  \
     } while (0)
 
-// Attribute fake: records the names of every add call and push, in order.
-class RecordingAttributes : public IAttributes {
+// Attribute fake: records the names of every add call and push, in order. It derives from the canonical
+// CAttributes so the slots it does not record (the other 160 or so) are the real implementation.
+class RecordingAttributes : public glitch::io::CAttributes {
 public:
+    RecordingAttributes() : glitch::io::CAttributes(nullptr) {}
     std::vector<std::string> names;
 
     void addInt(const char* n, int, bool) override { names.emplace_back(n); }
     void addFloat(const char* n, float, bool) override { names.emplace_back(n); }
     void addBool(const char* n, bool, bool) override { names.emplace_back(n); }
     void addString(const char* n, const char*, bool) override { names.emplace_back(n); }
-    void addStringW(const char* n, const wchar_t*, bool) override { names.emplace_back(n); }
+    void addString(const char* n, const wchar_t*, bool) override { names.emplace_back(n); }
     void addEnum(const char* n, int, const char* const*, bool) override { names.emplace_back(n); }
     void addColor(const char* n, glitch::video::SColor, bool) override { names.emplace_back(n); }
     void addPosition2d(const char* n, glitch::core::position2d<int>, bool) override { names.emplace_back(n); }

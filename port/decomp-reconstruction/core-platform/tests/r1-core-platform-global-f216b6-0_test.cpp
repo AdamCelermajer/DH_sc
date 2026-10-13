@@ -9,12 +9,18 @@
 #include "core-platform/stream_ops.hpp"
 #include "core-platform/w7_global_00.hpp"
 
-// memory.cpp defines CustomFree as std::free (0x310440). This test links without
-// memory.cpp, so the same definition is supplied here.
-void CustomFree(void* p) { std::free(p); }
-
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
+
+// A colour from its four bytes (component 0 is the low byte, as in the original).
+static glitch::video::SColor MakeColor(unsigned char b0, unsigned char b1, unsigned char b2, unsigned char b3) {
+    glitch::video::SColor c;
+    c.setComponent(0, b0);
+    c.setComponent(1, b1);
+    c.setComponent(2, b2);
+    c.setComponent(3, b3);
+    return c;
+}
 
 int main() {
     // 0x313498: "X,Y,Z" elements separated by ';' (the separator read is a ';' or ' ' test).
@@ -85,7 +91,7 @@ int main() {
     // 0x310178: R, G and B are raw characters with ',' between them.
     {
         std::ostringstream os;
-        os << glitch::video::SColor{'x', 'y', 'z', 0};
+        os << MakeColor('x', 'y', 'z', 0);
         CHECK(os.str() == "x,y,z");
     }
     // 0x30ff48 and 0x30fdd0 separators.

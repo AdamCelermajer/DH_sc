@@ -2,6 +2,7 @@
 // Covers the state changes that run without the engine: Connect's initialized check, Listen's
 // forward to Open, Create's initialize-then-open sequence, and InitializeTransport's partial stub.
 #include "net-transport/bluetooth_transport.hpp"
+#include "net-transport/deps/transport_test_support.hpp"
 
 #include <cstdio>
 
@@ -37,14 +38,18 @@ int main() {
         delete created;
     }
 
-    // The id getters do not set presence bit 3 in this port (partial: see bluetooth_transport.cpp).
+    // The id getters return a reset id with presence bit 3 (flags 0x8) and field3 = 0.
     CNetworkId local = transport.GetLocalNetworkId();
     CNetworkId remote = transport.GetPeerNetworkId();
-    CHECK(local.Flags() == 0);
-    CHECK(remote.Flags() == 0);
+    CHECK(local.Flags() == 8 && local.Field3() == 0);
+    CHECK(remote.Flags() == 8 && remote.Field3() == 0);
 
-    // InitializeTransport is partial: it returns 0 and does not create the Bluetooth session.
+    // InitializeTransport builds the id with presence bit 3, asks the manager for the host name, creates the
+    // "Default Bluetooth Session" transport, initialises it and adds it to the manager.
+    transport_test_support::Install();
     CHECK(CBluetoothReliable::InitializeTransport() == 0);
+    CHECK(transport_test_support::Install()->Count(4) == 1);
+    CTransportManager::Terminate();
 
     std::printf("%s\n", failures ? "r1n-net-transport-CBluetoothReliable-350a35-0: FAILED"
                                  : "r1n-net-transport-CBluetoothReliable-350a35-0: ok");

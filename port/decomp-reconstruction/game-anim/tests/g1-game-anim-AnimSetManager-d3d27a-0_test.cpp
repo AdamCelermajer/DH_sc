@@ -96,13 +96,15 @@ AnimatorSet::AnimatorSet(const boost::intrusive_ptr<AnimationSet>& animationSet)
 
 // The constructor sets the vptr, so the vtable is emitted here and every virtual slot needs a definition.
 AnimatorSet::~AnimatorSet() {}
-int AnimatorSet::getType() const { return 13; }
+glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorSet::getType() const {
+    return static_cast<glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE>(13);
+}
 void AnimatorSet::computeAnimationValues(unsigned int) {}
 void AnimatorSet::applyAnimationValues(unsigned int) {}
-void* AnimatorSet::getAnimationValue(int, int, void* out) { return out; }
+void AnimatorSet::getAnimationValue(int, int, void*) {}
 void AnimatorSet::animateNode(glitch::scene::ISceneNode*, unsigned int) {}
 void AnimatorSet::updateTime(unsigned int) {}
-Animation* AnimatorSet::setCurrentAnimation(int) { return nullptr; }
+void AnimatorSet::setCurrentAnimation(int) {}
 void AnimatorSet::onUnbind(glitch::scene::ISceneNode*) {}
 
 

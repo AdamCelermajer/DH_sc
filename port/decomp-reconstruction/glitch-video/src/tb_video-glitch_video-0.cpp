@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include "glitch-video/deps/glitch_io.hpp"
+#include "glitch-core-io/io/interfaces.hpp"
 #include "glitch-video/deps/os_logging.hpp"
 #include "glitch-video/texture_loaders.hpp"
 
@@ -142,7 +142,7 @@ bool readPVRHeader(io::IReadFile* file, SPVRHeader& header, bool& isBTEX) {
                                                             : highestBitIndex(1);
     const uint32_t expectedLevels = std::max(std::max(widthLog, heightLog), depthLog);
     if (header.mipMapCount != expectedLevels) {
-        const char* name = file->getFileNameText();
+        const char* name = file->getFileName();
         os::Printer::logf(os::ELL_ERROR, "loading %s: incomplete mipmap chain not supported", name);
         return false;
     }

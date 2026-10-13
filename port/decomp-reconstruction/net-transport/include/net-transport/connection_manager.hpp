@@ -18,7 +18,6 @@
 
 #include "net-session-online/c_event_queue_base.hpp"  // CEventQueueBase (one definition, net-session-online)
 #include "net-transport/connection.hpp"
-#include "net-transport/deps/connection_deps.hpp"  // CTransportManager calls
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/net_network_id.hpp"
 #include "net-transport/sync.hpp"
@@ -116,16 +115,15 @@ public:
     void PrintMergedStatistics();                                                               // 0x7fc0a0
     void GetBandwidth(int& in, int& out);                                                       // 0x7fc0a4
 
-private:
     int InitializeInternal();     // 0x7fcdec
     int TerminateInternal();      // 0x7fcd04
 
-    // Static state.
+    // Static state (public with the rest, decision 9).
     static CConnectionManager* s_connectionManager;
     static RecvCallbacks s_recvCBMap[kPacketTypes];
     static CNetMutex m_connections_mutex;
 
-    CEventQueueBase event_queue_;                       // +0x08
+    CEventQueueBase event_queue_{100};                  // +0x08 (CEventQueue<EVENTS, 100>)
     CNetMutex mutex_;                                   // +0x0c
     CConnection* connections_[kConnectionSlots] = {};   // +0x1c
     std::intptr_t transports_[kTransportSlots] = {};    // +0x9c

@@ -1,6 +1,5 @@
 // C allocation wrappers of the Irrlicht layer. The original forwards to GlitchAlloc
-// (hint 0) and GlitchFree, which core-platform owns and this category does not link;
-// they are stand-ins over malloc and free, as in PS_NEW.
+// (hint 0) and GlitchFree, which core-platform owns (core-platform/memory.hpp).
 #pragma once
 
 #include <cstddef>

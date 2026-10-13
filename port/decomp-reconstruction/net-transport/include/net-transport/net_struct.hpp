@@ -54,9 +54,11 @@ public:
     void Resend(int memberId);                                                               // 0x81344c
     void Resend();                                                                           // 0x81347c
     int LoadInternal(bool acknowledged, NetBitStream& stream, int memberId);                 // 0x8134f4
-    // Returns void: the pseudocode returns the last callee's leftover R0 (the address of the last member
-    // that was enabled, or NetStruct itself), which nothing reads.
-    void SetEnabled(bool enabled);                                                           // 0x81366c
+    // Returns unsigned char*, as Hex-Rays types it: this on the paths that change nothing (disabling, or
+    // enabling an enabled struct), otherwise the last member's address (the last SetChanged result) or, for a
+    // struct with no members, the member bit mask the CMatching call returns in r0. Only
+    // CNetPlayerManager::ReassignPlayer passes it on.
+    unsigned char* SetEnabled(bool enabled);                                                 // 0x81366c
 
     // Packet history (the std::map at +0x10c): per member id, the packets that carried its changes.
     // The 32-bit node holds an unread int at +0x14, then changeStamp at +0x18 and changeMask at +0x20.
@@ -94,14 +96,15 @@ public:
     bool Serialize(NetBitStream& stream, std::uint32_t mask);               // 0x815168
 
     bool IsChanged();                                                       // 0x814f70 (reads and clears)
-    void SetChanged();                                                      // 0x814f84
+    // Returns this (the pseudocode returns it in r0; NetStruct::SetEnabled passes it on).
+    NetStructMember* SetChanged();                                          // 0x814f84
     void SetAcked();                                                        // 0x814fd8
     void SetAcked(std::uint32_t bits);                                      // 0x814fe8
     void AcknowledgeChange(std::uint32_t bits, std::uint64_t stamp);        // 0x815004
     bool AreChangesAcknowledgedBy(std::uint32_t bits) const;                // 0x815028
     void SetSentFlag(std::uint32_t bits, bool sent, std::uint64_t stamp);   // 0x81503c
     bool HasDataToSend(std::uint32_t keep, std::uint32_t mask);             // 0x815078
-    int GetFrameTime();                                                     // 0x8150a0 (partial)
+    static int GetFrameTime();                                              // 0x8150a0 (the object is not used)
     bool AreChangesAcknowledged();                                          // 0x8150b0 (partial)
 
     NetStructMember() = default;

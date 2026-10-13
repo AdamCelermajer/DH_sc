@@ -7,10 +7,6 @@
 #include <memory>
 #include <vector>
 
-// Test doubles for the engine allocator.
-extern "C" void* GlitchAlloc(std::size_t size, int) { return std::malloc(size); }
-extern "C" void GlitchFree(void* p) { std::free(p); }
-
 namespace {
 
 using glitch::collada::recon_v2_01::ChildNode;

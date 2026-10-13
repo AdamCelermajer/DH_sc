@@ -2,8 +2,8 @@
 // bounds, so the four bound getters return zero.
 #pragma once
 
-#include "core-platform/deps/glitch_core.hpp"
 #include "core-platform/touch_screen_base.hpp"
+#include "glitch-core-io/os/event_receiver.hpp"  // glitch::IEventReceiver, glitch::SEvent (canonical)
 
 // Two bases in the original's order: TouchScreenBase at +0 and the glitch::IEventReceiver
 // interface at +0x1b4 (the secondary vtable thunks to ~TouchScreenWin32 and onEvent).

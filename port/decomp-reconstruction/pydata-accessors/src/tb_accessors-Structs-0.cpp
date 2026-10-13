@@ -25,7 +25,7 @@ namespace {
 // The count word has already been stored by the caller.
 void ReadInt32Words(IStreamBase* stream, void*& words, std::uint32_t count) {
     if (words != nullptr) CustomFree(words);
-    words = MemoryHintState(sizeof(std::int32_t) * static_cast<std::size_t>(count), 1);
+    words = ::operator new[](sizeof(std::int32_t) * static_cast<std::size_t>(count), kPydataBufferHint);
     std::int32_t* const values = static_cast<std::int32_t*>(words);
     for (std::uint32_t i = 0; i < count; ++i) {
         values[i] = StreamReader::readAs<std::int32_t>(stream);
@@ -36,7 +36,7 @@ void ReadInt32Words(IStreamBase* stream, void*& words, std::uint32_t count) {
 // of len + 1 bytes is allocated (hint 1) and stored, len bytes are read (hint 0), and buf[len] is set to NUL.
 void ReadStringField(IStreamBase* stream, std::uint32_t len, void*& buf) {
     if (buf != nullptr) CustomFree(buf);
-    buf = MemoryHintState(static_cast<std::size_t>(len) + 1, 1);
+    buf = ::operator new[](static_cast<std::size_t>(len) + 1, kPydataBufferHint);
     char* const chars = static_cast<char*>(buf);
     StreamReader::readStringEx(stream, chars, len);
     chars[len] = '\0';

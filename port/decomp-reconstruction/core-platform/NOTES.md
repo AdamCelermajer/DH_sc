@@ -263,3 +263,28 @@ Eight workers re-derived the 77 partial rows of the core-platform queue from Hex
   (EventManager::Raise, gameswf::malloc_internal, the Application device object, the
   debug-draw owner, ISceneNode, ObjectHandle, VoxSoundManager, XP_DEBUG_OUT).
 - Character-type gameplay rows in w7_global (0x41f834, 0x4218e4, 0x433d00) are skipped.
+
+## Unification (Track B wave U2, 2026-10-13)
+
+The one-definition rule now covers these types. The entries above that name the deps stand-ins are
+superseded by this section.
+
+- `deps/glitch_core.hpp` is a forwarding header. It includes the canonical `glitch-shared/glitch_core.hpp`
+  (`vector3d`, `rect`, `dimension2d`, `SColor`), `glitch-core-io/os/event_receiver.hpp` (`SEvent`,
+  `IEventReceiver`) and `glitch-core-io/core/memory_hint.hpp` (`E_MEMORY_HINT`). core-platform's own headers
+  include the canonical headers directly. The forwarder stays for the game headers that still name it
+  (`dh2/Billboard.hpp`, `dh2/SimpleTypeProperty.hpp`, `dh2/InputManagerEventReceiver.hpp`); delete it when they switch.
+- `rect<T>`: `X1, Y1, X2, Y2` are now `UpperLeftCorner` and `LowerRightCorner` (`.X`, `.Y`). `Rct<short>` in
+  `deps/game_types.hpp` is a different type and is unchanged.
+- `SEvent`: `type` is `EventType`; `mouseX`, `mouseY`, `mouseEvent` are `MouseInput.X`, `.Y`, `.Event`.
+- `SColor` is one 32-bit word. The old `R`, `G`, `B`, `A` are `component(0..3)` and `setComponent(i, v)`.
+- `IEventReceiver` and `EventManager` come from `dh2/IEventReceiver.hpp` and `dh2/EventManager.hpp`. `Console` is
+  abstract until `Console::onEvent` (0x335b14) and `onEventNotOpened` (0x33271c) are reconstructed; nothing in the
+  tree constructs a `Console`.
+- `CFileSystem_WorkingDirectory[512]` is gone. `changeWorkingDirectoryTo` writes `glitch::io::CFileSystem::WorkingDirectory`
+  (`char[1024]`, the one buffer `CFileSystem` uses), with a bounded copy.
+- `CustomFree` is defined only in `src/memory.cpp`. The test-local copy in `tests/r1-core-platform-global-f216b6-0_test.cpp`
+  is removed.
+- Still stand-ins in other categories: `CustomFree` and `NewArrayWithHint` in `net-session-online/.../deps/platform_stand_ins.hpp`,
+  `CustomFree` in `net-transport/.../deps/byte_array.hpp`, and `CustomFree` and `MemoryHintState(size, hint)` in
+  `pydata-accessors/.../deps/stream_reader.hpp`.

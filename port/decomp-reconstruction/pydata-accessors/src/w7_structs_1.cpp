@@ -25,7 +25,7 @@ void FinalizeStringField(std::uint32_t& len, char*& buf) {
 // read len raw bytes, then NUL-terminate. The readStringEx flag is taken as 0 (see the ledger notes).
 void ReadStringField(IStreamBase* stream, std::uint32_t len, char*& buf) {
     if (buf != nullptr) CustomFree(buf);
-    buf = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(len) + 1, 1));
+    buf = static_cast<char*>(::operator new[](static_cast<std::size_t>(len) + 1, kPydataBufferHint));
     StreamReader::readStringEx(stream, buf, len);
     buf[len] = '\0';
 }

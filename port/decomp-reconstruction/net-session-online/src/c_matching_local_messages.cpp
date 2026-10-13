@@ -5,6 +5,7 @@
 #include "net-session-online/deps/platform_stand_ins.hpp"
 #include "net-session-online/deps/stream_bytes.hpp"
 #include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
+#include "net-transport/transport_manager.hpp"   // CTransportManager (GetListenNetworkId)
 
 // Packet type ids used by these bodies: 1 server message, 2 client message/request,
 // 4 change-server message (see the registrations in Initialize).
@@ -22,14 +23,14 @@ std::int32_t CMatchingLocal::SendChangeServerMessage() {
 
 // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb
 // Partial: CRoomAttributes::Serialize is blocked (the NetStruct wire format is not ported), so the room
-// attributes write no bytes here. The listen id is the platform stand-in (an empty CNetworkId), not
-// CTransportManager::GetListenNetworkId. The original's inet_ntoa() debug calls are not reproduced.
+// attributes write no bytes here. The listen id is CTransportManager::GetListenNetworkId(0). The original's
+// inet_ntoa() debug calls are not reproduced.
 std::int32_t CMatchingLocal::SendServerResponse(bool flag) {
     NetBitStream stream(0x800);
     const std::uint8_t type = 1;
     stream.WriteByteArray(&type, 1);
     RoomServerHeader header{};
-    header.listenId = GetListenNetworkId();
+    header.listenId = GetTransportMgr()->GetListenNetworkId(0);
     header.memberId = memberId_;
     header.memberCount = GetMemberCount();
     header.flag = flag ? 1 : 0;
@@ -45,7 +46,7 @@ std::int32_t CMatchingLocal::SendClientRequest() {
     NetBitStream stream(0x800);
     const std::uint8_t type = 2;
     stream.WriteByteArray(&type, 1);
-    (void)GetListenNetworkId();
+    (void)GetTransportMgr()->GetListenNetworkId(0);
     auto bytes = StreamBytes(stream);
     return CConnectionManager::GetInstance()->SendBroadcast(2, bytes.data(), static_cast<int>(bytes.size()));
 }

@@ -22,9 +22,6 @@ int failures = 0;
 
 }  // namespace
 
-// Test-only stub: AddPlayer(NetBitStream&,int,int) is skipped in batch e2 and is referenced by
-// ReadPacketData (linked in through CNetPlayerInfo::Update's cache clear), which this test does not call.
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 int main() {
     NetStructInt<6u> member;
@@ -68,8 +65,8 @@ int main() {
     {
         CNetPlayerInfo info;
         CHECK(info.member_id_.GetValue() == 0);
-        CHECK(info.conn_index_.GetValue() == -1);
-        CHECK(info.unk_1c8.GetValue() == -1);
+        CHECK(info.matching_member_id_.GetValue() == -1);
+        CHECK(info.gamepad_id_.GetValue() == -1);
         CHECK(info.state_.GetValue() == 0);
         CHECK(info.unk_150.GetValue() == 0 && info.unk_218.GetValue() == 0 && info.unk_240.GetValue() == 0);
         CHECK(info.name_.GetValue().empty());
@@ -77,13 +74,13 @@ int main() {
         CHECK(!info.IsActive());
         // Bit sizes of the blocks (constructor 0x80fc28): 17, 8, 17, 16, 8, 8, 8 and 8 * 32 for the name.
         CHECK(info.unk_150.GetSizeBits() == 17 && info.member_id_.GetSizeBits() == 8);
-        CHECK(info.conn_index_.GetSizeBits() == 17 && info.unk_1c8.GetSizeBits() == 16);
+        CHECK(info.matching_member_id_.GetSizeBits() == 17 && info.gamepad_id_.GetSizeBits() == 16);
         CHECK(info.state_.GetSizeBits() == 8 && info.unk_218.GetSizeBits() == 8 && info.unk_240.GetSizeBits() == 8);
         CHECK(info.name_.GetSizeBits() == 256);
         // The NetStruct base sees all eight: 1 bit for the struct plus the member sizes.
         CHECK(info.GetSizeBits() == 1 + 17 + 8 + 17 + 16 + 8 + 8 + 8 + 256);
-        // Reset() changed conn_index_ and unk_1c8 (0 to -1); the others were never changed.
-        CHECK(info.conn_index_.IsChanged() && info.unk_1c8.IsChanged());
+        // Reset() changed matching_member_id_ and gamepad_id_ (0 to -1); the others were never changed.
+        CHECK(info.matching_member_id_.IsChanged() && info.gamepad_id_.IsChanged());
         CHECK(!info.member_id_.IsChanged() && !info.state_.IsChanged());
     }
 

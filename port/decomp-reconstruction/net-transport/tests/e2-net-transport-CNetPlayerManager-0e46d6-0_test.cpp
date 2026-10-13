@@ -10,9 +10,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stub: AddPlayer(NetBitStream&,int,int) is skipped in batch e2 and is referenced by
-// ReadPacketData, which this test does not call.
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 static int destroyed = 0;
 static CNetPlayerInfo* MakePlayer() { return new CNetPlayerInfo(); }
@@ -21,8 +18,8 @@ static void DestroyPlayer(CNetPlayerInfo* p) { ++destroyed; delete p; }
 static CNetPlayerInfo* MakeActive(int member_id) {
     CNetPlayerInfo* p = new CNetPlayerInfo();
     p->member_id_.SetValue(member_id);
-    p->conn_index_.SetValue(0);
-    p->unk_1c8.SetValue(0);
+    p->matching_member_id_.SetValue(0);
+    p->gamepad_id_.SetValue(0);
     p->state_.SetValue(3);
     return p;
 }
@@ -66,8 +63,8 @@ int main() {
     // set as InitPlayers would set it.
     m.player_slot_count_ = 3;
     CHECK(m.SetPlayerGamepadId(0, 5) == 1);
-    CHECK(m.players_[0]->unk_1c8.GetValue() == 5);
-    CHECK(m.players_[0]->unk_1c8.IsChanged());   // SetPlayerGamepadId stores through the block's SetValue
+    CHECK(m.players_[0]->gamepad_id_.GetValue() == 5);
+    CHECK(m.players_[0]->gamepad_id_.IsChanged());   // SetPlayerGamepadId stores through the block's SetValue
     CHECK(m.SetPlayerGamepadId(-1, 5) == 0);
     CHECK(m.SetPlayerGamepadId(10, 5) == 0);
 

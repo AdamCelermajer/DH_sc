@@ -9,11 +9,15 @@
 #include <cstdint>
 #include <string>
 
+#include "glitch-video/material_renderer.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/video_driver.hpp"
+
 namespace glitch::collada::recon_18 {
 
 // Incomplete stand-ins for types owned by other slices.
 struct CColladaDatabase;
-struct IVideoDriver;
+using glitch::video::IVideoDriver;  // canonical: glitch-video/video_driver.hpp
 struct SGeometry;
 struct SEffect;
 struct SEffectList;
@@ -21,8 +25,8 @@ struct SLight;
 struct SLibraryAnimationClips;
 struct SNewParam;
 struct CRootSceneNode;
-struct CMaterialRenderer;
-struct CMaterialRendererManager;
+using glitch::video::CMaterialRenderer;          // canonical: glitch-video/material_renderer.hpp
+using glitch::video::CMaterialRendererManager;   // canonical: glitch-video/material_renderer_manager.hpp
 struct SEmitter;
 struct SGNPSEmitter;
 struct CMesh;

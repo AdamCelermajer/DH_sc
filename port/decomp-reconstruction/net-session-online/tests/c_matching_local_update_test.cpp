@@ -9,7 +9,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 static void Clean() {
-    connection_manager_test::Reset();
+    connection_manager_test::ResetForSends();
     MatchingInternalEventQueue().Clear();
 }
 

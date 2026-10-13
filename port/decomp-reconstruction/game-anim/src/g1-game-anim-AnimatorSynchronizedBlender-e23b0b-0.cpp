@@ -30,8 +30,8 @@ void AnimatorSynchronizedBlender::_CBAnim(glitch::scene::ITimelineController* ti
 }
 
 // 0x367b6c AnimatorSynchronizedBlender::getType() const
-int AnimatorSynchronizedBlender::getType() const {
-    return 14;
+glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorSynchronizedBlender::getType() const {
+    return static_cast<glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE>(14);
 }
 
 // 0x367b74 AnimatorSynchronizedBlender::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*,
@@ -174,20 +174,19 @@ void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::SetRefNode(glit
 }
 
 // No symbol of its own: the original inlines this construction into the blender constructors 0x3688f0 and 0x3689cc.
-// partial: the original passes the owning blender as the ISceneNodeAnimator of AnimApplicator. The blender does not derive
-// from ISceneNodeAnimator in this tree yet, so the base receives nullptr and m_animator (+0x04) stays null until the
-// engine base is declared. The rest is complete: m_blender, an empty weight vector, unk_4c = -1.
+// The owning blender is the ISceneNodeAnimator of AnimApplicator, as in the original (m_animator +0x04).
+// The rest is complete: m_blender, an empty weight vector, unk_4c = -1.
 AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::SynchronizedBlenderApplicator(
     AnimatorSynchronizedBlender* blender)
-    : AnimApplicator(nullptr), m_blender(blender), m_weights(), unk_4c(-1) {}
+    : AnimApplicator(blender), m_blender(blender), m_weights(), unk_4c(-1) {}
 
 // 0x3688f0 AnimatorSynchronizedBlender::AnimatorSynchronizedBlender()  (C1, complete-object constructor)
-// partial: the engine base constructor glitch::collada::CSceneNodeAnimatorSynchronizedBlender is not declared, so the
-// engine base area +0x04 .. +0xb3 is left uninitialised. The vptr writes (+0x00, +0x04, +0x24, +0x128) are compiler
-// generated. Done: the own fields (+0xb4 .. +0xcc, +0xd0, +0xd4 zeroed), the applicator (see its constructor), and the
-// reference-counted sub-object (count 1 from its default constructor).
+// partial: the engine base glitch::collada::CSceneNodeAnimatorSynchronizedBlender is default constructed (its own body
+// is not forwarded here). The vptr writes (+0x00, +0x04, +0x24, +0x128) are compiler generated. Done: the own fields
+// (+0xb4 .. +0xcc, +0xd0, +0xd4 zeroed) and the applicator (see its constructor).
 AnimatorSynchronizedBlender::AnimatorSynchronizedBlender()
-    : m_currentIndex(0),
+    : glitch::collada::CSceneNodeAnimatorSynchronizedBlender(),
+      m_currentIndex(0),
       m_previousIndex(0),
       m_blendDuration(0),
       m_blendRemaining(0),
@@ -196,8 +195,7 @@ AnimatorSynchronizedBlender::AnimatorSynchronizedBlender()
       m_clipWrapOffset(0),
       m_animCallback(nullptr),
       m_animCallbackUser(nullptr),
-      m_applicator(this),
-      m_refSecondary() {}
+      m_applicator(this) {}
 
 // 0x3689cc AnimatorSynchronizedBlender::AnimatorSynchronizedBlender()  (C2, base-object constructor taking the VTT)
 // skipped: compiler-generated base-object variant. Same body as C1 (0x3688f0), with the primary vptr taken from the VTT.

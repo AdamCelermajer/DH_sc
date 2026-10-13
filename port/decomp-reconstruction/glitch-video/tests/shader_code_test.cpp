@@ -21,8 +21,14 @@ int main() {
     CHECK(codes.getShaderCode("beta").get() == b.get());
     CHECK(!codes.getShaderCode("gamma"));
     CHECK(a->referenceCounter == 2);  // the local and the collection
+    // The collection removes only the entries nothing else holds (removeUnused = removeAll(false)).
+    codes.removeUnusedShaderCodes();
+    CHECK(codes.getShaderCode("alpha"));
+    CHECK(codes.getShaderCode("beta"));
+    a = boost::intrusive_ptr<IShaderCode>();  // now the collection is the only user of alpha
     codes.removeUnusedShaderCodes();
     CHECK(!codes.getShaderCode("alpha"));
+    CHECK(codes.getShaderCode("beta"));      // still held by b
 
     // Named shader: hash is the id, mask is 1, dirty flag is cleared by updateHash.
     CNullShader named(42, "shader", nullptr);

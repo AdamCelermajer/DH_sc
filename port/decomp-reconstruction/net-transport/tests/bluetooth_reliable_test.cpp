@@ -1,4 +1,5 @@
 #include "net-transport/bluetooth_transport.hpp"
+#include "net-transport/deps/transport_test_support.hpp"
 
 #include <cstdio>
 
@@ -24,11 +25,11 @@ int main() {
     CHECK(transport.Open("addr", "name", 1) == 0);
     CHECK(transport.Listen("addr", "name") == 0);
 
-    // The id getters return a reset id.
+    // The id getters return a reset id with presence bit 3 (flags 0x8) and field3 = 0.
     CNetworkId local = transport.GetLocalNetworkId();
     CNetworkId remote = transport.GetPeerNetworkId();
-    CHECK(local.Flags() == 0);
-    CHECK(remote.Flags() == 0);
+    CHECK(local.Flags() == 8 && local.Field3() == 0);
+    CHECK(remote.Flags() == 8 && remote.Field3() == 0);
 
     CHECK(transport.Disconnect() == 0);
     CHECK(transport.Disconnect() == -1);
@@ -45,8 +46,12 @@ int main() {
     CBluetoothReliable with_args(7, true);
     CHECK(with_args.Initialize() == 0);
 
-    // InitializeTransport is a stub in this port: it reports success and does not set the flag.
+    // InitializeTransport registers one default transport with the transport manager (the singleton), once.
+    transport_test_support::Install();
     CHECK(CBluetoothReliable::InitializeTransport() == 0);
+    CHECK(CBluetoothReliable::InitializeTransport() == 0);  // the flag is set: nothing more is added
+    CHECK(transport_test_support::Install()->Count(4) == 1);
+    CTransportManager::Terminate();  // deletes the registered transport
 
     std::printf("%s\n", failures ? "bluetooth_reliable: FAILED" : "bluetooth_reliable: ok");
     return failures ? 1 : 0;

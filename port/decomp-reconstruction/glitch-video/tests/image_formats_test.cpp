@@ -2,6 +2,7 @@
 // texture data reader sizes, and the loader factories.
 #include "glitch-video/image_loaders.hpp"
 #include "glitch-video/texture_loaders.hpp"
+#include "read_file_stub.hpp"
 #include "video_test_types.hpp"
 
 #include <cstdio>
@@ -14,10 +15,9 @@ static int failures = 0;
 namespace {
 
 // Seekable in-memory IReadFile. seek(pos, relative) and getSize are used by the probes.
-class MemoryFile : public glitch::io::IReadFile {
+class MemoryFile : public glitch::video::test::StubReadFile {
 public:
     explicit MemoryFile(std::string bytes) : m_bytes(std::move(bytes)) {}
-    void unidentifiedBaseSlot() override {}
     int32_t read(void* buffer, uint32_t size) override {
         uint32_t n = 0;
         while (n < size && m_pos < m_bytes.size()) {
@@ -25,14 +25,14 @@ public:
         }
         return static_cast<int32_t>(n);
     }
-    bool seek(int32_t position, bool relative) override {
+    bool seek(long position, bool relative) override {
         int64_t target = relative ? static_cast<int64_t>(m_pos) + position : position;
         if (target < 0 || target > static_cast<int64_t>(m_bytes.size())) return false;
         m_pos = static_cast<size_t>(target);
         return true;
     }
-    uint32_t getSize() const override { return static_cast<uint32_t>(m_bytes.size()); }
-    int32_t getPos() const override { return static_cast<int32_t>(m_pos); }
+    long getSize() const override { return static_cast<long>(m_bytes.size()); }
+    long getPos() const override { return static_cast<long>(m_pos); }
 
 private:
     std::string m_bytes;

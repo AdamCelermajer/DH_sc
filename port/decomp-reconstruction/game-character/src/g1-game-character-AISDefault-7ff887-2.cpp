@@ -21,6 +21,8 @@
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/LuaScript.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
 
@@ -32,11 +34,18 @@ bool PathIsEmpty(const Character* character) {
     return character->m_pfObject.m_path.empty();
 }
 
-// The clear that the target hooks run once the character has no path left to walk: the target is dropped and
-// AI_SyncLastTarget copies it, then the seeking flag at +0x4a of CharAI is cleared.
-void DropTarget(CharAI* ai) {
+// The target drop that OnInteract runs: AI_SetTarget(null, false) and then AI_SyncLastTarget. It does not touch the
+// seeking flag (asm 0x3dc244: the path ends in a tail call to AI_SyncLastTarget, with no store to +0x412).
+void ClearTarget(CharAI* ai) {
     ai->AI_SetTarget(nullptr, false);
     ai->AI_SyncLastTarget();
+}
+
+// The drop that the seek hooks run once the character has no path left to walk: ClearTarget, then the seeking flag
+// at +0x4a of CharAI (Character +0x412) is cleared. OnTargetInCloseRange, OnTargetInRangedRange and
+// OnTargetOutOfRange store 0 there (Hex-Rays: *(owner + 1042) = 0).
+void DropTarget(CharAI* ai) {
+    ClearTarget(ai);
     ai->m_targetSeeking = false;
 }
 
@@ -104,7 +113,8 @@ void AISDefault::OnInteract() {
     if (target->IsCharacter() && ai->AI_GetTargetAsCharacter()->IsMerchant()) {
         return;
     }
-    DropTarget(ai);
+    // Only the target is dropped (AI_SetTarget(null, false), AI_SyncLastTarget). The seeking flag keeps its value.
+    ClearTarget(ai);
 }
 
 // 0x3dc284 AISDefault::OnTargetInMeleeRange(void)
@@ -206,32 +216,43 @@ int AISDefault::InitVCB() {
 // here; the complete-object destructor is in the part 2 batch.
 
 // 0x3dc9a8 AISDefault::OnCombatResults(Character *,Character *,void *)
-// PARTIAL: the Lua call is not made. The original pushes a2 and a3 as userdata into an sfc::script::lua::Arguments and
-// calls LuaScript::Call with "OnTargetMissed" or "OnTargetHit". The Arguments class has no header in the tree yet
-// (dh2/sfc/script/lua/Arguments.hpp), so the two call sites are marked below. The branch that picks the hook is
-// reproduced: a result whose low two flag bits are set is a miss, otherwise a hit.
+// The two characters go to the script as userdata. A result whose low two flag bits are set is a miss, and the script's
+// OnTargetMissed runs when the miss callback bit (0x1000 in unk_b8) is set; otherwise a hit runs OnTargetHit when bit
+// 0x800 is set. Hex-Rays reads the flags as the byte at +0x18 (a4[24]), which is AttackResult::m_resultFlags.
 void AISDefault::OnCombatResults(Character* a2, Character* a3, void* a4) {
-    (void)a2;
-    (void)a3;
+    sfc::script::lua::Arguments args;
+    args.pushUserData(a2);
+    args.pushUserData(a3);
     const auto* results = static_cast<const Character::AttackResult*>(a4);
     if ((results->m_resultFlags & 3u) != 0) {
         if ((unk_b8 & 0x1000u) != 0) {
-            // LuaScript::Call("OnTargetMissed", args) is not made.
+            LuaScript::Call("OnTargetMissed", args);
         }
     } else if ((unk_b8 & 0x800u) != 0) {
-        // LuaScript::Call("OnTargetHit", args) is not made.
+        LuaScript::Call("OnTargetHit", args);
     }
 }
 
 // 0x3dca50 AISDefault::OnAnimEvent(char const*)
-// PARTIAL. Not made:
-//   - LuaScript::Call("OnAnimEvent") with the event name and CharAnimator::m_lastEventData (Character +0x4f4). The
-//     Arguments class has no header in the tree yet.
-//   - The footstep effect: VisualFXManager::PlayAnimFXSet on Singleton<VisualFXManager>::s_inst (no accessor), the
-//     CharEffect flag for the character (the row index is Character +0x1014, which GetFXFootprint cannot reach yet)
-//     and the footstep row for the floor material (PFFloor +0x3c, not declared in dh2/PFFloor.hpp).
-// Reproduced: the step_right and step_left test, and the foot position chosen for each foot.
+// The script hears every event: OnAnimEvent gets the event name and the character's last event data (CharAnimator
+// m_lastEventData, Character +0x4f4). Then the footstep events pick the foot position.
+// PARTIAL: the footstep effects are not played. Not made:
+//   - the footprint effect VisualFXManager::PlayAnimFXSet(Singleton<VisualFXManager>::s_inst, GetFXFootprint(),
+//     position, 0, 0). Both names are declared (dh2/Singleton.hpp, dh2/VisualFXManager.hpp, dh2/Character.hpp), but the
+//     singleton storage is defined in game-app/src/Globals.cpp, and this file's test links only itself, so the call
+//     would need the singleton and the VisualFXManager vtable stubbed. It is left out until the test can link it.
+//   - the footstep row: the original reads the character's CharEffect row index (Character +0x1014) and the floor
+//     material (Character +0x1d8). Neither is declared in dh2/Character.hpp. Arrays::CharEffectTable and
+//     Arrays::FootstepEffectTable are raw byte arrays in pydata-accessors (std::uint8_t* members, strides 24 and 32, no
+//     row type), and the original reads their fields at byte offsets. The floor material is a char* at PFFloor +0x3c,
+//     inside dh2/PFFloor.hpp's m_floorTypes (+0x28).
+// Reproduced: the event call, the step_right and step_left test, and the foot position chosen for each foot.
 void AISDefault::OnAnimEvent(const char* name) {
+    sfc::script::lua::Arguments args;
+    args.pushString(name);
+    args.pushInteger(m_character->m_lastEventData);
+    LuaScript::Call("OnAnimEvent", args);
+
     const bool rightFoot = std::strcmp(name, "step_right") == 0;
     if (!rightFoot && std::strcmp(name, "step_left") != 0) {
         return;
@@ -243,8 +264,9 @@ void AISDefault::OnAnimEvent(const char* name) {
 }
 
 // 0x3dcc80 AISDefault::OnScriptTimer(uint)
-// PARTIAL: the original pushes the timer id into an sfc::script::lua::Arguments and calls LuaScript::Call("OnTimer").
-// The Arguments class has no header in the tree yet, so the call is not made.
+// The timer id goes to the script as an integer argument of OnTimer.
 void AISDefault::OnScriptTimer(unsigned int id) {
-    (void)id;
+    sfc::script::lua::Arguments args;
+    args.pushInteger(static_cast<int>(id));
+    LuaScript::Call("OnTimer", args);
 }

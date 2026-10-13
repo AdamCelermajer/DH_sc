@@ -4,8 +4,7 @@
 // blocks' SetValue (compare, store, NetStructMember::SetChanged) and SetEnabled is the real NetStruct one.
 //
 // Not written here (see the ledger): the copy constructors and operator= (they copy the NetStruct base's
-// member pointer array with memcpy, so the copy would point at the source's blocks), and the CEventQueueBase
-// event sends in Update.
+// member pointer array with memcpy, so the copy would point at the source's blocks).
 
 #include "net-transport/tb/cnet_player_info.hpp"
 
@@ -14,7 +13,7 @@
 
 // 0x36d208 CNetPlayerInfo::IsActivating()
 bool CNetPlayerInfo::IsActivating() const {
-    if (member_id_.GetValue() < 0 || conn_index_.GetValue() < 0 || unk_1c8.GetValue() < 0) {
+    if (member_id_.GetValue() < 0 || matching_member_id_.GetValue() < 0 || gamepad_id_.GetValue() < 0) {
         return false;
     }
     return state_.GetValue() == 1 || state_.GetValue() == 2;
@@ -22,7 +21,7 @@ bool CNetPlayerInfo::IsActivating() const {
 
 // 0x80f124 CNetPlayerInfo::IsActive()
 bool CNetPlayerInfo::IsActive() const {
-    return member_id_.GetValue() >= 0 && conn_index_.GetValue() >= 0 && unk_1c8.GetValue() >= 0 &&
+    return member_id_.GetValue() >= 0 && matching_member_id_.GetValue() >= 0 && gamepad_id_.GetValue() >= 0 &&
            state_.GetValue() == 3;
 }
 
@@ -35,17 +34,17 @@ bool CNetPlayerInfo::IsRemote() const {
 // CMatching vtable +0x68 (IsInRoom(int)) with the connection index. CMatching is the
 // net-session-online class (deps/matching.hpp).
 bool CNetPlayerInfo::IsInRoom() const {
-    return CMatching::Get()->IsInRoom(conn_index_.GetValue());
+    return CMatching::Get()->IsInRoom(matching_member_id_.GetValue());
 }
 
 // 0x80f1a0 CNetPlayerInfo::IsLocalTo(int)
 bool CNetPlayerInfo::IsLocalTo(int member_index) const {
     CMatching* matching = CMatching::Get();
     if (matching->ServerMemberId() != member_index) {  // vtable +0x74
-        return conn_index_.GetValue() == member_index;
+        return matching_member_id_.GetValue() == member_index;
     }
-    if (conn_index_.GetValue() >= 0) {
-        return conn_index_.GetValue() == member_index;
+    if (matching_member_id_.GetValue() >= 0) {
+        return matching_member_id_.GetValue() == member_index;
     }
     return true;
 }
@@ -53,8 +52,8 @@ bool CNetPlayerInfo::IsLocalTo(int member_index) const {
 // 0x80f1ec CNetPlayerInfo::IsLocal()
 bool CNetPlayerInfo::IsLocal() const {
     const bool is_server = CMatching::Get()->IsServer();
-    if (!is_server || conn_index_.GetValue() >= 0) {
-        return conn_index_.GetValue() == CMatching::Get()->LocalMemberId();  // vtable +0x6c
+    if (!is_server || matching_member_id_.GetValue() >= 0) {
+        return matching_member_id_.GetValue() == CMatching::Get()->LocalMemberId();  // vtable +0x6c
     }
     return true;
 }
@@ -77,8 +76,8 @@ void CNetPlayerInfo::Add() {
 // Virtual slot +0x4c. connection index -1, then the +0x1a8 block -1, then the state 0, each only when it
 // differs (SetValue). member_id_ is left alone.
 void CNetPlayerInfo::Reset() {
-    conn_index_.SetValue(-1);
-    unk_1c8.SetValue(-1);
+    matching_member_id_.SetValue(-1);
+    gamepad_id_.SetValue(-1);
     state_.SetValue(0);
 }
 
@@ -88,8 +87,8 @@ void CNetPlayerInfo::Reset() {
 void CNetPlayerInfo::Remove() {
     if (CMatching::Get()->IsServer()) {
         state_.SetValue(0);
-        conn_index_.SetValue(-1);
-        unk_1c8.SetValue(-1);
+        matching_member_id_.SetValue(-1);
+        gamepad_id_.SetValue(-1);
     } else {
         state_.SetValue(6);
     }
@@ -114,11 +113,14 @@ void CNetPlayerInfo::SetState(char state) {
     unk_240.SetValue(static_cast<std::uint32_t>(static_cast<int>(state)));
 }
 
-// 0x80f3d0 CNetPlayerInfo::Update()   [partial]
-// Virtual slot +0x48. The state machine follows the pseudocode, with the real SetEnabled and the real
-// cache clear on the manager. Not ported: the CEventQueueBase::AddEvent calls on the manager's two event
-// queues (+0x04: events 9437185 and 9437184 with the member id; +0x180: events 3145730 and 3145731 with
-// the member id), because CNetPlayerManager does not declare those queue subobjects.
+// 0x80f3d0 CNetPlayerInfo::Update()
+// Virtual slot +0x48. When the state differs from the applied one: a server turns state 5 (client disconnect) into
+// the disconnected state and state 6 into a removal; state 1 becomes 2 for a local player; state 2 posts 9437185 to
+// the manager's events_ queue (+0x04), enables the struct and moves to 3; state 3 posts 9437184 and enables the
+// struct; state 4 posts 3145730 to the manager's internal queue (+0x180); state 0 posts 3145730 (unless the
+// applied state was 4) and 3145731 there and resets the player. Each event carries the player id (member_id_).
+// The applied state is then stored and the manager's id-list caches are cleared for this player's member.
+// Last, an enabled struct in state 0 is disabled once its changes are acknowledged.
 void CNetPlayerInfo::Update() {
     if (applied_state_ != static_cast<int>(state_.GetValue())) {
         CMatching* matching = CMatching::Get();
@@ -139,31 +141,36 @@ void CNetPlayerInfo::Update() {
             s = state_.GetValue();
         }
         if (s == 2) {
-            // AddEvent(manager queue +0x04, 9437185, member_id_) not ported.
+            std::int32_t player_id = member_id_.GetValue();
+            CNetPlayerManager::GetInstance()->events_.AddEvent(9437185, &player_id, 4);
             SetEnabled(true);  // NetStruct::SetEnabled (0x81366c)
             state_.SetValue(3);
             s = state_.GetValue();
         }
         if (s == 3) {
-            // AddEvent(manager queue +0x04, 9437184, member_id_) not ported.
+            std::int32_t player_id = member_id_.GetValue();
+            CNetPlayerManager::GetInstance()->events_.AddEvent(9437184, &player_id, 4);
             SetEnabled(true);
             s = state_.GetValue();
         }
         if (s == 4) {
-            // AddEvent(manager queue +0x180, 3145730, member_id_) not ported.
+            std::int32_t player_id = member_id_.GetValue();
+            CNetPlayerManager::GetInstance()->internal_events_.AddEvent(3145730, &player_id, 4);
             s = state_.GetValue();
         }
         if (s == 0) {
-            if (applied_state_ != 4) {
-                // AddEvent(manager queue +0x180, 3145730, member_id_) not ported.
+            const int previous = applied_state_;
+            std::int32_t player_id = member_id_.GetValue();
+            if (previous != 4) {
+                CNetPlayerManager::GetInstance()->internal_events_.AddEvent(3145730, &player_id, 4);
             }
-            // AddEvent(manager queue +0x180, 3145731, member_id_) not ported.
+            CNetPlayerManager::GetInstance()->internal_events_.AddEvent(3145731, &player_id, 4);
             Reset();  // vtable +0x4c
             s = state_.GetValue();
         }
 
         applied_state_ = static_cast<int>(s);
-        CNetPlayerManager::GetInstance()->ClearPlayerListCaches(conn_index_.GetValue());
+        CNetPlayerManager::GetInstance()->ClearPlayerListCaches(matching_member_id_.GetValue());
     }
 
     if (enabled_ && state_.GetValue() == 0) {  // LABEL_19: +0x124, +0x1f0

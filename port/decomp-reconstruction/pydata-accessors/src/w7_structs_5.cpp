@@ -23,7 +23,7 @@ namespace {
 // then NUL-terminate. The readStringEx 4th argument is 0 (the value the script_cmd string reads use).
 void ReadBuffer(IStreamBase* stream, char*& buf, std::uint32_t length) {
     if (buf != nullptr) CustomFree(buf);
-    buf = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(length) + 1, 1));
+    buf = static_cast<char*>(::operator new[](static_cast<std::size_t>(length) + 1, kPydataBufferHint));
     StreamReader::readStringEx(stream, buf, length);
     buf[length] = '\0';
 }
@@ -31,7 +31,7 @@ void ReadBuffer(IStreamBase* stream, char*& buf, std::uint32_t length) {
 // Original int32 table read: free the old array, allocate 4 * count bytes, read count int32 words.
 void ReadWords(IStreamBase* stream, void*& words, std::uint32_t count) {
     if (words != nullptr) CustomFree(words);
-    words = MemoryHintState(4 * static_cast<std::size_t>(count), 1);
+    words = ::operator new[](4 * static_cast<std::size_t>(count), kPydataBufferHint);
     auto* values = static_cast<std::int32_t*>(words);
     for (std::uint32_t i = 0; i < count; ++i) {
         values[i] = StreamReader::readAs<std::int32_t>(stream);

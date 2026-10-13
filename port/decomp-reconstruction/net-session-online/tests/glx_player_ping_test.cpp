@@ -1,4 +1,5 @@
 #include "net-session-online/glx_player_ping.hpp"
+#include "socket_test_doubles.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -9,13 +10,11 @@ static int failures = 0;
 
 namespace {
 
-// A socket that records the echo request and reports a connection.
-class RecordingSocket : public GLXPlayerSocket {
+// A socket that records the echo request and reports that the ICMP socket opened (vtable +0x74).
+class RecordingSocket : public StubGLXSocket {
 public:
-    RecordingSocket() : GLXPlayerSocket(nullptr, 0, nullptr) {}
-    std::int32_t Connect() override { return 1; }
-    std::int32_t SendTo(const void* data, std::int32_t length, const char* address,
-                        std::int32_t port) override {
+    bool CreateIcmpSocket() override { return true; }
+    int SendTo(const char* data, int length, const char* address, int port) override {
         std::memcpy(packet, data, static_cast<std::size_t>(length));
         sentLength = length;
         sentPort = port;
@@ -43,7 +42,8 @@ int main() {
     CHECK(ping.SendTimeoutForTest().tv_usec == 5000);
     CHECK(ping.ReceiveTimeoutForTest().tv_sec == 0);
 
-    // The base socket connects with 0, so Prepare fails and the state stays at 1.
+    // A socket that cannot open an ICMP socket: Prepare fails and the state stays at 1.
+    ping.SetSocketForTest(std::make_unique<StubGLXSocket>());
     CHECK(ping.Prepare() == -1);
     CHECK(ping.StateForTest() == 1);
     CHECK(ping.Finish() == 0);
@@ -76,8 +76,9 @@ int main() {
     CHECK(ping.SendEchoRequest() == 48);
     CHECK(Word(raw->packet + 6) == 1);         // the sequence advances
 
-    // The base socket reports failure, which sets the result to -1.
+    // A socket whose send fails sets the result to -1.
     GLXPlayerPing unconnected("192.0.2.2", 9);
+    unconnected.SetSocketForTest(std::make_unique<StubGLXSocket>());
     CHECK(unconnected.SendEchoRequest() == -1);
     CHECK(unconnected.ResultForTest() == -1);
 

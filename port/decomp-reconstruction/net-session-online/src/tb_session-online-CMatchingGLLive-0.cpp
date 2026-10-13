@@ -86,7 +86,7 @@ std::int32_t CMatchingGLLive::SendClientRequest() {
 // The lobby observer is created on first use, as in the original.
 std::int64_t CMatchingGLLive::GetRoomId() {
     CSignIn* signIn = CSignIn::Get();
-    if (signIn != nullptr && signIn->LoggedInForTest()) {
+    if (signIn != nullptr && signIn->LoggedIn()) {
         return -1;
     }
     GetGLXPlayerMPLobbyObserver();
@@ -117,8 +117,8 @@ bool CMatchingGLLive::IsInRoom() const {
         return manager != nullptr && manager->GetConnectionCount(false) > 0;
     }
     CSignIn* signIn = CSignIn::Get();
-    if (signIn != nullptr && signIn->LoggedInForTest()) {
-        return GetGLXPlayerMPLobbyObserver()->GameStartedForTest();
+    if (signIn != nullptr && signIn->LoggedIn()) {
+        return GetGLXPlayerMPLobbyObserver()->GameStarted();
     }
     return false;
 }
@@ -132,7 +132,7 @@ std::int32_t CMatchingGLLive::GetMemberCount() const {
     if (s_IsGameStarting) {
         return CConnectionManager::GetInstance()->GetConnectionCount(false) + 1;
     }
-    const bool gameStarted = GetGLXPlayerMPLobbyObserver()->GameStartedForTest();
+    const bool gameStarted = GetGLXPlayerMPLobbyObserver()->GameStarted();
     // Partial: when gameStarted is set, the original returns the observer's member vector size (not modelled).
     (void)gameStarted;
     return 0;
@@ -237,7 +237,7 @@ void CMatchingGLLive::ReadPacketData(std::int32_t /*a2*/, std::int32_t /*a3*/, N
 // A null friend observer or friend list gives an empty list here (the original reads through them).
 std::vector<tFriendInfo> CMatchingGLLive::GetFriendsList(bool notInState3) {
     std::vector<tFriendInfo> list;
-    if (friendObserver_ == nullptr || !friendObserver_->FlagForTest() || glxUserFriend_ == nullptr) {
+    if (friendObserver_ == nullptr || !friendObserver_->Flag() || glxUserFriend_ == nullptr) {
         return list;
     }
     for (std::int32_t index = 0; index < glxUserFriend_->GetFriendsCount(); ++index) {

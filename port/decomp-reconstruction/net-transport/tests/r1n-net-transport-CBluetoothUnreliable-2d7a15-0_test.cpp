@@ -1,6 +1,7 @@
 // Batch r1n-net-transport-CBluetoothUnreliable-2d7a15-0: Open, Listen, Create, the two-argument
 // constructor and AcceptConnections' neighbours. Only observable behaviour is checked here.
 #include "net-transport/bluetooth_transport.hpp"
+#include "net-transport/deps/transport_test_support.hpp"
 
 #include <cstdio>
 #include <string>
@@ -35,8 +36,16 @@ int main() {
     CHECK(with_args.Initialize() == 0);
     CHECK(with_args.Disconnect() == 0);
 
-    // InitializeTransport is partial in this port: it reports 0 and does not create the default transport.
+    // InitializeTransport creates the default transport and adds it to the manager (no separate Initialize).
+    transport_test_support::Install();
     CHECK(CBluetoothUnreliable::InitializeTransport() == 0);
+    CHECK(transport_test_support::Install()->Count(3) == 1);
+    CTransportManager::Terminate();
+
+    // The id getters return a reset id with presence bit 2 (flags 0x4) and field2 = 0.
+    CBluetoothUnreliable ids;
+    CHECK(ids.GetLocalNetworkId().Flags() == 4 && ids.GetLocalNetworkId().Field2() == 0);
+    CHECK(ids.GetPeerNetworkId().Flags() == 4);
 
     std::printf("%s\n", failures ? "bluetooth_unreliable_batch: FAILED" : "bluetooth_unreliable_batch: ok");
     return failures != 0;

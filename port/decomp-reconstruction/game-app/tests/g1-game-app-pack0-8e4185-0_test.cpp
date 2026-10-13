@@ -9,6 +9,7 @@
 #include <ctime>
 #include <string>
 
+#include "dh2/Application.hpp"
 #include "dh2/ByteArray.hpp"
 #include "dh2/DebugCachedCharacter.hpp"
 #include "dh2/Gamepad.hpp"
@@ -27,20 +28,28 @@ int gAssertLevel = 0;
 extern Point3D<float> Vec3f_Origin;
 Point3D<float> Vec3f_Origin{0.0f, 0.0f, 0.0f};
 const char* RES_PATH = "";
-glitch::IDevice* dword_99F73C = nullptr;
+
+// Stand-in for the process singleton. GamepadTweaker's constructor reads Application::m_device through
+// ApplicationGetInstance(); the real singleton comes from the Application units, which this test does not link. Only
+// the m_device word is used here. The storage is zero-initialised and no Application constructor runs.
+alignas(Application) static unsigned char g_applicationStorage[sizeof(Application)];
+Application& ApplicationGetInstance() {
+    return *reinterpret_cast<Application*>(g_applicationStorage);
+}
 
 // InputDevice (base of Gamepad): the batch calls its constructor.
 InputDevice::InputDevice(Type type) : m_type(type), unk_08(0) {}
 
-// Point3D<float> members used by UpdateFrame. Their bodies are not part of this batch.
+// Point3D<float> members used by UpdateFrame. Their bodies are not part of this batch (game-world owns them).
 template <>
-void Point3D<float>::normalize() {
+Point3D<float>& Point3D<float>::normalize() {
     const float length = std::sqrt(X * X + Y * Y + Z * Z);
     if (length > 0.0f) {
         X /= length;
         Y /= length;
         Z /= length;
     }
+    return *this;
 }
 
 template <>
@@ -99,12 +108,13 @@ static void TestGamepad() {
     CHECK(pad.m_buttons[44].previous_maximum == 1.0f);
     CHECK(pad.m_axes[8].maximum == 1.0f);
 
-    // Vibration flag: starts clear, toggles on and off.
-    CHECK(!pad.IsVibrationEnabled());
-    pad.ToggleVibration();
+    // Vibration flag: starts set (initial value 1, the .data byte at 0x999744); the first toggle clears it and the
+    // second sets it again.
     CHECK(pad.IsVibrationEnabled());
     pad.ToggleVibration();
     CHECK(!pad.IsVibrationEnabled());
+    pad.ToggleVibration();
+    CHECK(pad.IsVibrationEnabled());
 
     // Stick 0 pushed fully to the right: the press direction is (1, 0, 0). Clock stamps are kept non-zero so that the
     // stamp checks below are meaningful.
@@ -133,7 +143,12 @@ static void TestGamepad() {
 }
 
 static void TestGamepadTweaker() {
+    // The tweaker base takes Application::m_device (the singleton word at +0x10). The token is never dereferenced.
+    static char deviceToken;
+    glitch::IDevice* device = reinterpret_cast<glitch::IDevice*>(&deviceToken);
+    ApplicationGetInstance().m_device = device;
     GamepadTweaker tw;
+    CHECK(tw.device == device);
     CHECK(tw.m_btn_cross == 0);
     CHECK(tw.m_mappedButtons[GamepadTweaker::BUTTON_POWER] == 0);
 

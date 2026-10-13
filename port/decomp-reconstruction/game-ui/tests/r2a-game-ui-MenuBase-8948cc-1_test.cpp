@@ -94,9 +94,6 @@ int tu_string::utf8_char_count(const char*, int) {
 }
 void tu_string::resize(int) {}
 // The gameswf header declares these out of line (DH2: bodies not in this tree); the g1-game-ui-MenuBase-8948cc-4 TU reaches them.
-int tu_string::get_hashi() const {
-    return 0;
-}
 void tu_string::operator+=(const char*) {}
 void tu_string::operator+=(const tu_string&) {}
 bool tu_string::operator==(const tu_string&) const {

@@ -9,6 +9,9 @@
 #include <vector>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_vertex_attribute_map.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "glitch-scene-collada-gui/layouts/animation_track.hpp"
 #include "glitch-scene-collada-gui/layouts/collada_db.hpp"
 #include "glitch-scene-collada-gui/layouts/scene.hpp"
@@ -25,9 +28,9 @@ class SNode;
 class CRootSceneNode;
 class SController;
 class SChannel;
-class IVideoDriver;
-class CMaterial;
-class CMaterialVertexAttributeMap;
+using glitch::video::CMaterial;                  // canonical: glitch-video/material.hpp
+using glitch::video::CMaterialVertexAttributeMap; // canonical: glitch-video/material_vertex_attribute_map.hpp
+using glitch::video::IVideoDriver;               // canonical: glitch-video/video_driver.hpp
 class CMatrix4;
 class SQuaternion;
 class IMesh;

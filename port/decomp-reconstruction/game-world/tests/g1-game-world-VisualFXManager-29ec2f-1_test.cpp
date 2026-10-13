@@ -214,12 +214,13 @@ int main() {
     }
     Check((g_fxToLoad == std::vector<int>{3, 6, 4}), "_BuildAnimFXSets queues the preload rows 0 and 1");
 
-    // 3. PlayAnimFXSet on the random row 2: the random step is taken on the synced stream with id 2, and the
+    // 3. PlayAnimFXSet on the random row 2: the random step is taken on the ordinary stream (synced false, as the
+//    0x493780 clone does), with range 2, and the
     //    stub returns 1, so step 1 (effect 8) plays.
     g_fxCalls.clear();
     vfx.PlayAnimFXSet(2, Vec3f_Origin, nullptr, nullptr);
     Check(g_randomRange == 2, "random row draws over its two steps");
-    Check(g_randomSynced, "random row draws on the synced stream for effect table id 2");
+    Check(!g_randomSynced, "random row draws on the ordinary stream for effect table id 2");
     Check((g_fxCalls == std::vector<int>{8}), "random row plays step 1, effect 8");
     Check(vfx.m_animFXSets[2].m_setData.size() == 1, "the new set data joins set 2's list");
 

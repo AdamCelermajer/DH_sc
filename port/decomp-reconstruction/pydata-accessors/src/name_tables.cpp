@@ -18,10 +18,10 @@ void ReadNameTable(NameTable& table, IStreamBase* stream) {
     const std::uint32_t count = StreamReader::readAs<std::uint32_t>(stream);
     if (table.size != static_cast<int>(count)) return;
     // The original allocates the pointer array before the zero-count check.
-    table.names = static_cast<char**>(MemoryHintState(count * sizeof(char*), 1));
+    table.names = static_cast<char**>(::operator new[](count * sizeof(char*), kPydataBufferHint));
     for (std::uint32_t i = 0; i < count; ++i) {
         const std::uint32_t len = StreamReader::readAs<std::uint32_t>(stream);
-        char* buf = static_cast<char*>(MemoryHintState(len + 1, 1));
+        char* buf = static_cast<char*>(::operator new[](len + 1, kPydataBufferHint));
         table.names[i] = buf;
         StreamReader::readStringEx(stream, buf, len);
         buf[len] = 0;

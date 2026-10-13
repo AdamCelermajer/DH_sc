@@ -160,9 +160,6 @@ int tu_string::utf8_char_count(const char*, int) {
     return 0;
 }
 void tu_string::resize(int) {}
-int tu_string::get_hashi() const {
-    return 0;
-}
 void tu_string::operator+=(const char*) {}
 void tu_string::operator+=(const tu_string&) {}
 bool tu_string::operator==(const tu_string&) const {

@@ -18,13 +18,7 @@
 #include "dh2/Application.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/LuaScript.hpp"
-// PlayerManager pulls in net-transport, whose deps/byte_array.hpp also defines CustomFree, which pydata's stream_reader.hpp
-// defines too (the same workaround as dh2/Character.hpp). The renames cover only the net-transport include.
-#define CustomFree CustomFree_net_transport
-#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/PlayerManager.hpp"
-#undef CustomFree
-#undef MemoryHintState
 #include "dh2/Random.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C: the PlayerManager global
 #include "dh2/sfc/script/lua/Arguments.hpp"

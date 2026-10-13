@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstring>
 
+#include "net-transport/deps/transport_test_support.hpp"
 #include "net-transport/transport_manager.hpp"
 
 namespace {
@@ -71,8 +72,9 @@ int main() {
     CHECK(!CTransportManager::IsTransportAvailable(1));
     CHECK(!CTransportManager::IsTransportAvailable(3));
 
-    // A standalone manager that was never initialized.
-    CTransportManager manager;
+    // A standalone manager that was never initialized (the base is abstract: the test manager fills in the
+    // receiver-thread and host-name slots, and runs no thread).
+    transport_test_support::TestTransportManager manager;
     CHECK(manager.Connect(peer) == -1);
     CHECK(manager.Disconnect(peer) == 0);
     manager.Receive();                       // not initialized: no pass
@@ -84,11 +86,34 @@ int main() {
     CHECK(manager.Send(static_cast<CTransport*>(nullptr), peer, 1, "x", 1) == -1);
     CHECK(manager.Send(static_cast<CTransport*>(nullptr), peer, 1, nullptr, 0xFF9) == -1);
 
-    // Send by transport type: the default branch (types outside 1..4) sends nothing and returns 0,
-    // and types 3 and 4 return 0 because field2/field3 cannot be set.
+    // Send by transport type: the default branch (types outside 1..4) sends nothing and returns 0. Types 1 to 4
+    // build a broadcast id (address1, address0, field2 = -1, field3 = -1) and look for a transport of that type:
+    // an empty table has none, so the send returns -1.
     CHECK(manager.Send(9, 1, "x", 1) == 0);
-    CHECK(manager.Send(3, 1, "x", 1) == 0);
-    CHECK(manager.Send(4, 1, "x", 1) == 0);
+    CHECK(manager.Send(1, 1, "x", 1) == -1);
+    CHECK(manager.Send(3, 1, "x", 1) == -1);
+    CHECK(manager.Send(4, 1, "x", 1) == -1);
+
+    // With a transport of the type, the packet is framed (8-byte header) and handed to it, broadcast id included.
+    {
+        SentPacketLog().clear();
+        manager.AddTransport(new transport_test_support::RecordingTransport(3));
+        manager.AddTransport(new transport_test_support::RecordingTransport(4));
+        CHECK(manager.Send(3, 5, "xy", 2) == 10);
+        CHECK(manager.Send(4, 6, "z", 1) == 9);
+        CHECK(SentPacketLog().size() == 2);
+        CHECK(SentPacketLog()[0].packetType == 5 && SentPacketLog()[0].broadcast &&
+              SentPacketLog()[0].bytes.size() == 2);
+        CHECK(SentPacketLog()[1].packetType == 6 && SentPacketLog()[1].broadcast);
+        // The listening flag (create flags bit 0) and the local id decide GetListenNetworkId; a recorder
+        // does not listen, so no id is listed, and IsConnectedTo answers true for any peer.
+        CHECK(manager.GetListenNetworkId(3).Flags() == 0);
+        CHECK(manager.IsConnectedTo(peer));
+        CHECK(manager.GetTransportByPeer(3, peer) != nullptr);
+        CHECK(manager.GetTransportByPeer(1, peer) == nullptr);
+        manager.Disconnect(peer);  // CanDisconnectFrom is false for the recorders: both stay
+        CHECK(manager.GetTransportByPeer(4, peer) != nullptr);
+    }
 
     // ReceiverCallback framing: each buffer below is rejected before any dispatch.
     CNetworkId from;

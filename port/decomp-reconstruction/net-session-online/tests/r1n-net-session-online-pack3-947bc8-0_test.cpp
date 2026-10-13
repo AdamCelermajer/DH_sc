@@ -3,6 +3,7 @@
 // (Kernel with a send that succeeds or fails). Returns non-zero on any failure.
 #include "net-session-online/glx_player_mp_lobby.hpp"
 #include "net-session-online/glx_player_ping.hpp"
+#include "net-transport/android_socket.hpp"
 
 #include <cstdio>
 #include <map>
@@ -23,13 +24,16 @@ struct CountingObserver : GLXPlayerMPBaseObserver {
     void OnMPLeaveGameSuccess() override { ++leave; }
 };
 
-// A socket whose echo send result is fixed by the test and which counts the sends.
-class EchoSocket : public GLXPlayerSocket {
+// A socket whose echo send result is fixed by the test and which counts the sends. It is a real CAndroidSocket
+// with an open UDP socket (so the probe's select call has a valid handle) whose SendTo is replaced.
+class EchoSocket : public CAndroidSocket {
 public:
     explicit EchoSocket(std::int32_t sendResult)
-        : GLXPlayerSocket(nullptr, 0, nullptr), sendResult_(sendResult) {}
-    std::int32_t SendTo(const void* data, std::int32_t length, const char* address,
-                        std::int32_t port) override {
+        : CAndroidSocket(nullptr, 0, nullptr), sendResult_(sendResult) {
+        CAndroidSocket::Startup();
+        CreateUdpSocket();
+    }
+    int SendTo(const char* data, int length, const char* address, int port) override {
         (void)data; (void)length; (void)address; (void)port;
         ++sends;
         return sendResult_;
@@ -111,7 +115,7 @@ void TestKernelSendFailure() {
 }
 
 // Kernel state 3 with a successful send: one echo request, then the wait step in the same call.
-// The wait stand-in reports no data and the send timer has not expired, so the state is 4.
+// The wait step finds no data on the open UDP socket and the send timer has not expired, so the state is 4.
 void TestKernelSendSuccess() {
     GLXPlayerPing ping("probe.local", 7);
     auto socket = std::make_unique<EchoSocket>(48);

@@ -1,4 +1,5 @@
 #include "net-transport/cudp.hpp"
+#include "net-transport/deps/transport_test_support.hpp"
 #include "net-transport/ctcp.hpp"
 
 #include <chrono>
@@ -32,6 +33,7 @@ int main() {
     WSADATA data;
     ::WSAStartup(MAKEWORD(2, 2), &data);
 #endif
+    transport_test_support::Install();  // InitializeTransport registers with the manager singleton
     CHECK(CUdp::InitializeTransport() == 0);
     CHECK(CUdp::TerminateTransport() == 0);
     CHECK(CTcp::InitializeTransport() == 0);

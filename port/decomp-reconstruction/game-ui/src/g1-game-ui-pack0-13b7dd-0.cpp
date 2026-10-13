@@ -34,7 +34,8 @@ extern int gAssertLevel;
 // and whether the data index is in range. The return value is true when the offset changed.
 //
 // PARTIAL: the original also writes +0x9b (a flag byte of the gameswf::character) after each RenderFX::SetEnabled
-// call. Those statements are left out; see the file comment.
+// call. There are five such write sites (wrap: two; non-wrap: the down button, then the up button in the split or the
+// non-split branch), and each call runs two of them. Those statements are left out; see the file comment.
 bool AbstractTableModel::UpdateTableData(int delta) {
     const int oldOffset = m_scrollOffset;     // +0x08
     const int offset = delta + oldOffset;     // v4 in the original
@@ -119,8 +120,8 @@ bool AbstractTableModel::UpdateTableData(int delta) {
             m_menu->SetEnabled(upButton, m_scrollOffset < m_count - 1);
             // PARTIAL: the +0x9b flag of the up button is set to (m_scrollOffset < m_count - 1) here.
         } else {
-            m_menu->SetEnabled(upButton, m_anchor + m_scrollOffset < m_count);
-            // PARTIAL: the +0x9b flag of the up button is set to (m_anchor + m_scrollOffset < m_count) here.
+            m_menu->SetEnabled(upButton, m_visibleRows + m_scrollOffset < m_count);
+            // PARTIAL: the +0x9b flag of the up button is set to (m_visibleRows + m_scrollOffset < m_count) here.
         }
     }
 

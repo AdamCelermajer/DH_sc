@@ -4,6 +4,7 @@
 
 #include "net-transport/deps/connection_env.hpp"
 #include "net-transport/net_bit_stream.hpp"
+#include "net-transport/transport_manager.hpp"
 
 namespace {
 
@@ -12,8 +13,8 @@ constexpr int kEventConnectDone = 6291457;   // 0x600001, queued when the handsh
 constexpr int kEventDisconnect = 6291458;    // 0x600002, queued by Disconnect
 constexpr int kEventLag = 6291459;           // 0x600003, queued when the link starts to lag
 
-// Transport type used for every connection message (CTransportManager::SendToAllTransport(.., 5, ..)).
-constexpr int kMessageTransport = 5;
+// Packet type of every connection message (CTransportManager::SendToAllTransport(.., 5, ..)).
+constexpr int kMessagePacketType = 5;
 
 // The 16-byte handshake payload. Field order and widths match the original stack layout
 // (two 32-bit words, then the 64-bit key), little-endian as on the device.
@@ -56,21 +57,21 @@ std::uint64_t KeyOf(const CNetworkId& id) {
 
 // 0x8259a8 _ZN11CConnectionC1Ev
 // 0x825ab8 _ZN11CConnectionC2Ev (same body; the C2 copy is skipped in the ledger)
-// Partial: the nine CDataStats<int> elements are default-built (each cap is 500, as the original's
-// constructor writes at +0x20). The CEventQueue base at +0x04 (vptr, CNetMutex, list, capacity 100) is
-// not held by CConnection yet: CEventQueueBase exists in net-session-online with the same layout, but
-// adding it means changing this class's bases, so it waits for the connection-manager batch.
+// Sets the vptr, builds the event queue base at +0x04 (CEventQueue<EVENTS,100>: mutex, empty list, expiry
+// 100) and the nine CDataStats<int> (each cap 500), state 0, member id -14531089, timeout 30000, the lag
+// flag clear, the peer and handshake ids reset and the key 0. The member initialisers do all of it.
 CConnection::CConnection() {
     peer_id_.Reset();
     handshake_id_.Reset();
 }
 
 // 0x826370 _ZN11CConnectionD2Ev (D1 0x8263f4 is the same body)
-// Partial: the original calls CEventQueueBase::Clear on its +0x04 base and then empties that base's
-// list; CConnection does not hold the base yet (see the constructor), so nothing is cleared here.
-// The members (stats_ and the handshake id) are destroyed by their own destructors.
+// Disconnects, clears the event queue at +0x04 (CEventQueueBase::Clear), destroys the nine statistics in
+// reverse order, resets the queue vptr to the base table, clears its list and destroys its mutex. The
+// members do the destruction in that order (stats_ before event_queue_).
 CConnection::~CConnection() {
     CConnection::Disconnect();
+    event_queue_.Clear();
 }
 
 // 0x825338 _ZN11CConnection10IsToServerEv
@@ -126,7 +127,7 @@ void CConnection::SendKeepAlive(std::uint32_t now) {
     if (!recent || Elapsed(now, last_send_time_) > 1000) {
         last_keepalive_time_ = static_cast<std::int32_t>(now);
         last_send_time_ = static_cast<std::int32_t>(now);
-        transport_calls::KeepAlive(peer_id_);
+        GetTransportMgr()->KeepAlive(peer_id_);
     }
 }
 
@@ -142,7 +143,7 @@ void CConnection::SendPacket(std::uint8_t type, const void* payload, std::size_t
     const std::uint32_t length = (bits + 7) >> 3;
     std::vector<char> buffer(length);
     stream.GetBuffer(buffer.data(), length);
-    transport_calls::SendToAllTransport(kMessageTransport, &peer_id_, buffer.data(), static_cast<int>(length));
+    GetTransportMgr()->SendToAllTransport(kMessagePacketType, peer_id_, buffer.data(), length);
 }
 
 // 0x8256e4 _ZN11CConnection19SendConnectFinalizeEv
@@ -240,18 +241,19 @@ void CConnection::ProcessConnectResponse(CNetworkId& id) {
 }
 
 // 0x8261c4 _ZN11CConnection7ConnectEiR10CNetworkId
-// Partial: the key is KeyOf(the listen id). The listen id comes from the transport-manager stand-in
-// (transport_calls::GetListenNetworkId, an empty id here), and the original's return value is the
-// COnline* of CTransportManager::Connect, while the stand-in returns int 0. The original's dead stores
-// (+0x1bc and +0x1b8, overwritten by the key) are not reproduced.
+// Stores the member id, copies the peer id, moves to state 2, connects the transports to the peer
+// (CTransportManager::Connect), then computes the key from the listen id of every transport
+// (GetListenNetworkId(0)) and stamps the receive, send and update times. The original's dead stores
+// (+0x1bc and +0x1b8, overwritten by the key) are not reproduced. The result is the value of
+// CTransportManager::Connect (0, or -1 when the manager is not initialised).
 int CConnection::Connect(int matching_key, CNetworkId& peer) {
     member_id_ = matching_key;
     if (&peer_id_ != &peer) {
         peer_id_ = peer;
     }
     state_ = 2;
-    const int result = transport_calls::Connect(peer);
-    key_ = KeyOf(transport_calls::GetListenNetworkId(0));
+    const int result = GetTransportMgr()->Connect(peer);
+    key_ = KeyOf(GetTransportMgr()->GetListenNetworkId(0));
     last_recv_time_ = online_calls::Now();
     last_send_time_ = online_calls::Now();
     last_update_time_ = online_calls::Now();
@@ -263,7 +265,7 @@ int CConnection::Accept(int matching_key, CNetworkId& peer, std::uint64_t key) {
     member_id_ = matching_key;
     peer_id_.Set(peer);
     state_ = 3;
-    const int result = transport_calls::Connect(peer);
+    const int result = GetTransportMgr()->Connect(peer);
     key_ = key;
     last_recv_time_ = online_calls::Now();
     last_send_time_ = online_calls::Now();
@@ -316,7 +318,8 @@ int CConnection::Send(int packet_type, const void* data, int size) {
         return 0;
     }
     const int transport = connection_manager_calls::PacketTransportType(packet_type);
-    const int result = transport_calls::Send(transport, peer_id_, packet_type, data, size);
+    const int result = GetTransportMgr()->Send(static_cast<tTRANSPORT_TYPE>(transport), peer_id_, packet_type, data,
+                                               static_cast<std::size_t>(size));
     if (result >= 0) {
         last_send_time_ = online_calls::Now();
     }

@@ -6,11 +6,6 @@
 
 #include "dh2/LevelMap.hpp"
 
-// The global that GSLevelMap::Inst stores its argument in (IDA: dword_9A2674). Its only cross-reference in
-// libDungeonHunter2.so is that store, so no reader is recovered and its meaning is not known. External linkage, so
-// the unit test can read it.
-int dword_9A2674 = 0;
-
 // 0x3868e4 _ZN10GSLevelMapC1Ev
 // 0x3868b8 _ZN10GSLevelMapC2Ev  (C2 variant, same body)
 // Asm (C1 at 0x3868e4): stores -1 to +0x04, and the vtable address point to +0x00. The compiler writes the vptr
@@ -59,12 +54,14 @@ void GSLevelMap::Ctor(const StateMachine* /*machine*/) {
 }
 
 // 0x3869b0 _ZN10GSLevelMap4InstEi
-// The function-local static is constructed on the first call (the guard variable and the atexit registration are the
-// compiler's). The argument is stored in dword_9A2674 on every call, then the instance is returned. Asm: the store
-// is after the guard check on both paths, and the returned address is the static's.
+// The function-local static gsLevelMap (at 0x9A2670) is constructed on the first call (the guard variable at 0x9A266C
+// and the atexit registration are the compiler's). On every call the argument is stored in the static's own m_levelId
+// (+0x04), then the instance is returned. Asm: the store is after the guard check on both paths. STR R4,[vHalf+0x14]
+// writes 0x9A2674, which is gsLevelMap+0x04, and ADD R0,R0,#0x10 returns 0x9A2670, so the function does
+// gsLevelMap.m_levelId = levelId; return &gsLevelMap. Ctor reads the same field back (LDR R1,[R5,#4]).
 GSLevelMap* GSLevelMap::Inst(int levelId) {
     static GSLevelMap gsLevelMap;
-    dword_9A2674 = levelId;
+    gsLevelMap.m_levelId = levelId;
     return &gsLevelMap;
 }
 

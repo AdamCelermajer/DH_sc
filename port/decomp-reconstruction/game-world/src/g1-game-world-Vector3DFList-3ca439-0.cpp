@@ -65,18 +65,20 @@ void Vector3DFList::addClosest(const glitch::core::vector3d<float>& position) {
         m_distSq[m_count] = distSq;
         ++m_count;
     } else if (m_capacity > 0) {
-        // Full: walk the stored distances with a running maximum that starts at the new distance. replace ends as the
-        // last index whose distance is strictly above the running maximum when it is reached. That is the first entry
-        // holding the largest stored distance, provided that distance is above the new one; otherwise it stays -1.
+        // Full: walk the stored distances with a running maximum that starts at the new distance. Each entry strictly
+        // above the maximum so far becomes the candidate (replace) and raises the maximum. The listing does this with
+        // __aeabi_fcmpgt(current, threshold) and a conditional move pair (MOVNE R11,R4 / MOVEQ R5,R6). An unordered (NaN)
+        // compare is false, so a NaN stored entry is never a candidate, and a NaN new distance replaces nothing.
+        // Ties do not replace: the candidate is the first entry holding the largest stored distance, and only when that
+        // distance is above the new one; otherwise replace stays -1.
         float threshold = distSq;
         int replace = -1;
         for (int i = 0; i < m_capacity; ++i) {
             const float current = m_distSq[i];
             if (current > threshold) {
                 replace = i;
+                threshold = current;
             }
-            // Keeps the threshold on a tie or an unordered (NaN) compare, as the listing does (if v12 <= v9: v12 = v9).
-            threshold = (current <= threshold) ? threshold : current;
         }
         if (replace != -1) {
             m_points[replace] = p;
@@ -107,6 +109,8 @@ void Vector3DFList::setNew(int capacity) {
         m_distSq = nullptr;
     }
     auto* points = static_cast<glitch::core::vector3d<float>*>(CustomAlloc(PointBytes(capacity)));
+    // The listing's zeroing loop is a do-while entered only for a nonzero capacity. It would never end for a negative
+    // capacity, so only capacity >= 0 is defined. For 0 this loop writes nothing, as the listing does.
     for (int i = 0; i < capacity; ++i) {
         points[i] = glitch::core::vector3d<float>{};  // three zero words per point
     }

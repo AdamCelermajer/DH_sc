@@ -167,12 +167,12 @@ static void checkKdRemove() {
 static void checkVertexStreamsRelease() {
     glitch::video::CVertexStreams* raw = new glitch::video::CVertexStreams;
     {
-        boost::intrusive_ptr<glitch::video::CVertexStreams> first(raw);  // takes the reference
+        boost::intrusive_ptr<glitch::video::CVertexStreams> first(raw, true);  // takes the first use (born with count 0)
         {
             boost::intrusive_ptr<glitch::video::CVertexStreams> second = first;  // adds a use
-            CHECK(raw->referenceCounter == 2);
+            CHECK(raw->m_refCount == 2);
         }
-        CHECK(raw->referenceCounter == 1);
+        CHECK(raw->m_refCount == 1);
     }
     // The last release deleted raw; it is not read again.
 }

@@ -7,7 +7,7 @@
 #include <list>
 
 #include "core-platform/deps/game_types.hpp"
-#include "core-platform/deps/glitch_core.hpp"
+#include "glitch-shared/glitch_core.hpp"
 
 class TouchScreenBase {
 public:

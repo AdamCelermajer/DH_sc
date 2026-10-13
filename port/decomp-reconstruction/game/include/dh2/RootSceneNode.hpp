@@ -23,7 +23,7 @@ namespace scene {
 class ISceneNode;
 class CEmptySceneNode;
 class CCameraSceneNode;
-struct CSceneManager;
+class CSceneManager;
 }  // namespace scene
 }  // namespace glitch
 

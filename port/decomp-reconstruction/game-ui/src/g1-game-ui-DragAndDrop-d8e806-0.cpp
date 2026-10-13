@@ -11,6 +11,8 @@
 //   - The original's inline push_back of an 84-byte Dragable and a 32-byte Dropable, with its doubling growth, is
 //     std::vector::emplace_back. The element size differs on the host, so the memcpy of 0x54 bytes is not kept.
 //   - LC_API_STRCMP_0 is strcmp (0 when the strings are equal).
+//   - gameswf::character::m_name (+0x44) is declared in vendor-gameswf/upstream/gameswf-r1714/gameswf/gameswf_character.h
+//     as a pointer to a tu_string. get_name() returns that string, and its c_str() is the text the original reads.
 
 #include <cstring>
 #include <string>
@@ -20,6 +22,7 @@
 #include "dh2/Dragable.hpp"
 #include "dh2/Dropable.hpp"
 #include "dh2/GameSWFUtils.hpp"
+#include "gameswf/gameswf_character.h"
 
 // 0x411ebc DragAndDrop::DragAndDrop()
 // 0x411ee0 DragAndDrop::DragAndDrop()  (C2 copy: identical body)
@@ -33,16 +36,13 @@ bool DragAndDrop::IsDraggingSomething() const {
 }
 
 // 0x411f34 DragAndDrop::GetDragable(char const*)
-// PARTIAL: the walk over m_dragables is rebuilt, but the name compare is not. The original reads the name of the
-// entry's character from character +0x44, which is a pointer to a DH2 gameswf string (tag byte at +0x00: -1 means
-// the text is at +0x0c, otherwise it starts at +0x01), and compares it with LC_API_STRCMP_0(name, query). The
-// gameswf::character layout is not declared in this tree (vendor-gameswf has no DH2 character header), so the name
-// is not reachable here. Until it is declared, the search finds nothing and returns null. Waits on the layout
-// request for gameswf::character +0x44 in the batch report.
+// Walks m_dragables at 84 bytes per entry and returns the first entry whose character name equals the query, or
+// null when none does (or when the list is empty). The name is the character's m_name (+0x44), a pointer to a DH2
+// tu_string. c_str() gives the same text the original computes: the heap buffer at +0x0c when the flag byte is -1,
+// otherwise the inline text at +0x01. The original compares with LC_API_STRCMP_0(name, query), which is strcmp.
 Dragable* DragAndDrop::GetDragable(const char* name) {
     for (Dragable& entry : m_dragables) {
-        const char* entry_name = nullptr;  // character name at +0x44, not reachable (see above)
-        if (entry_name != nullptr && std::strcmp(entry_name, name) == 0) {
+        if (std::strcmp(entry.m_character->get_name().c_str(), name) == 0) {
             return &entry;
         }
     }
@@ -117,7 +117,7 @@ bool DragAndDrop::OnEvent(RenderFX::Event& e) {
     m_dragging = nullptr;
     for (Dragable& entry : m_dragables) {
         if (entry.OnEvent(e)) {
-            if (type != 6) {
+            if (static_cast<int>(e.type) != 6) {  // the original re-reads the event type after OnEvent
                 m_dragging = &entry;
                 break;
             }
@@ -136,7 +136,7 @@ bool DragAndDrop::OnEvent(RenderFX::Event& e) {
     }
 
     // Type 6 leaves m_dragging null, so source is non-null here (the early return above).
-    if (type == 6) {
+    if (static_cast<int>(e.type) == 6) {
         source->ResetPosition();
     }
     return true;

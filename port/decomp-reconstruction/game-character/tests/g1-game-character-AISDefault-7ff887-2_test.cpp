@@ -1,10 +1,12 @@
 // Test for batch g1-game-character-AISDefault-7ff887-2.
 //
 // The checks run the hooks on zero-filled storage for the AISDefault, the Character it names and the v2Controller.
-// The vptrs stay zero, so only direct member calls and the stubs below are reached (no virtual call is checked:
-// OnInteract and OnAttack call Interact and IsCharacter virtually and are not run here). The path list
-// (GameObject::m_pfObject.m_path) is constructed in place so that empty() is meaningful. The stubs record every
-// callee in order, so each check compares the call sequence with the original control flow.
+// The vptrs stay zero, so only direct member calls and the stubs below are reached. The virtual calls the batch makes
+// on the target are the two in OnInteract and OnAttack: GameObject::IsCharacter (vtable slot 9, +0x24) and
+// GameObject::Interact (slot 38, +0x98). The target storage gets a vtable whose two slots point at fake functions
+// that log the call, so those paths run too. The path list (GameObject::m_pfObject.m_path) is constructed in place so
+// that empty() is meaningful. The stubs record every callee in order, so each check compares the call sequence with
+// the original control flow.
 
 #include <cstdint>
 #include <cstdio>
@@ -21,6 +23,8 @@
 #include "dh2/GameObject.hpp"
 #include "dh2/LuaScript.hpp"
 #include "dh2/PFObject.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/sfc/script/lua/UserData.hpp"
 #include "dh2/v2Controller.hpp"
 
 namespace {
@@ -39,6 +43,11 @@ bool g_idle = false;
 bool g_attacking = false;
 bool g_hasHit = false;
 bool g_hasMissed = false;
+
+// The target is a character (AI_GetTargetAsCharacter returns it), and the Character flags the stubs return.
+bool g_targetIsCharacter = false;
+bool g_isMonster = false;
+bool g_isMerchant = false;
 
 // Positions the stubs return, and the last point passed to Cmd_MoveTo.
 const GameObject* g_target = nullptr;
@@ -69,6 +78,20 @@ Character* SelfCharacter() { return reinterpret_cast<Character*>(g_charStorage);
 AISDefault* AI() { return reinterpret_cast<AISDefault*>(g_aiStorage); }
 GameObject* Target() { return reinterpret_cast<GameObject*>(g_targetStorage); }
 
+// Fake virtual functions for the target. The target storage holds a pointer to g_targetVtable (main fills slots 9 and
+// 38). The object is the first argument of each call, as the Itanium C++ ABI passes it, so a free function with the
+// same leading parameter is called.
+bool FakeIsCharacter(const GameObject*) {
+    g_log.push_back("IsCharacter");
+    return g_targetIsCharacter;
+}
+
+void FakeInteract(GameObject*, GameObject* other) {
+    g_log.push_back(std::string("Interact ") + (other == static_cast<GameObject*>(SelfCharacter()) ? "owner" : "other"));
+}
+
+void* g_targetVtable[64] = {};
+
 // Sets the path list of the character to empty or to one entry.
 void SetPathEmpty(bool empty) {
     PathList& path = SelfCharacter()->m_pfObject.m_path;
@@ -85,6 +108,9 @@ void Setup() {
     std::memset(g_aiStorage, 0, sizeof g_aiStorage);
     std::memset(g_ctrlStorage, 0, sizeof g_ctrlStorage);
     std::memset(g_targetStorage, 0, sizeof g_targetStorage);
+    *reinterpret_cast<void***>(g_targetStorage) = g_targetVtable;  // the vptr, written after the zero fill
+
+    g_targetIsCharacter = g_isMonster = g_isMerchant = false;
 
     Character* self = SelfCharacter();
     self->m_controller = reinterpret_cast<v2Controller*>(g_ctrlStorage);
@@ -143,7 +169,7 @@ int CharAI::AI_PauseUpdate(unsigned int ms) {
 }
 
 Character* CharAI::AI_GetTargetAsCharacter() {
-    return nullptr;  // not reached by the checks (OnAttack and OnInteract are not run here)
+    return g_targetIsCharacter ? reinterpret_cast<Character*>(g_targetStorage) : nullptr;
 }
 
 bool CharStateMachine::SM_IsIdle(bool) const {
@@ -187,12 +213,55 @@ bool LuaScript::IsInVFTable(const char* funcName) const {
     return false;
 }
 
-void Character::F_MeleeAttack(AttackResult&, Character*, Character*, bool, bool) {}
-void Character::F_ApplyResult(const AttackResult&, Character*, Character*, bool) {}
-bool Character::IsMonster() const { return false; }
-bool Character::IsMerchant() const { return false; }
-Point3D<float> Character::GetLeftFootPosition() const { return Point3D<float>{}; }
-Point3D<float> Character::GetRightFootPosition() const { return Point3D<float>{}; }
+void Character::F_MeleeAttack(AttackResult&, Character*, Character*, bool flag, bool) {
+    g_log.push_back(std::string("MeleeAttack ") + (flag ? "true" : "false"));
+}
+void Character::F_ApplyResult(const AttackResult&, Character*, Character*, bool) {
+    g_log.push_back("ApplyResult");
+}
+bool Character::IsMonster() const {
+    g_log.push_back("IsMonster");
+    return g_isMonster;
+}
+bool Character::IsMerchant() const {
+    g_log.push_back("IsMerchant");
+    return g_isMerchant;
+}
+Point3D<float> Character::GetLeftFootPosition() const {
+    g_log.push_back("LeftFoot");
+    return Point3D<float>{};
+}
+Point3D<float> Character::GetRightFootPosition() const {
+    g_log.push_back("RightFoot");
+    return Point3D<float>{};
+}
+
+// The Lua argument list (dh2/sfc/script/lua/Arguments.hpp) is only built on the stack here. Each push is logged, and
+// LuaScript::Call logs the callback name, so the script hand-off is checked in order.
+sfc::script::lua::Arguments::Arguments() {}
+sfc::script::lua::Arguments::~Arguments() {}
+
+void sfc::script::lua::Arguments::pushString(const char* value) {
+    g_log.push_back(std::string("push string ") + value);
+}
+
+void sfc::script::lua::Arguments::pushInteger(int value) {
+    g_log.push_back("push int " + std::to_string(value));
+}
+
+void sfc::script::lua::Arguments::pushUserData(sfc::script::lua::UserData* value) {
+    if (value == static_cast<sfc::script::lua::UserData*>(SelfCharacter())) {
+        g_log.push_back("push user self");
+    } else if (value == static_cast<sfc::script::lua::UserData*>(reinterpret_cast<Character*>(g_targetStorage))) {
+        g_log.push_back("push user target");
+    } else {
+        g_log.push_back("push user other");
+    }
+}
+
+void LuaScript::Call(const char* funcName, const sfc::script::lua::Arguments&) {
+    g_log.push_back(std::string("Call ") + funcName);
+}
 
 // ---- Checks -----------------------------------------------------------------------------------------------------
 
@@ -353,6 +422,123 @@ void CheckSeek(bool ranged) {
     Expect(g_log == expect, tag);
 }
 
+void CheckAttack() {
+    // A target that is not a character is interacted with by the owner.
+    Setup();
+    AI()->AISDefault::OnAttack(0, 0, true);
+    Expect(g_log == Calls({"Interact owner"}), "attack: non-character target is interacted with");
+
+    // A character target is attacked with the flag, and the result is applied.
+    Setup();
+    g_targetIsCharacter = true;
+    AI()->AISDefault::OnAttack(0, 0, true);
+    Expect(g_log == Calls({"MeleeAttack true", "ApplyResult"}), "attack: character target is attacked");
+}
+
+// OnInteract: the drop at the end is AI_SetTarget(null, false) and AI_SyncLastTarget only. The seeking flag must keep
+// its value (the asm has no store to +0x412 on that path), so every case checks it.
+void CheckInteract() {
+    // No target: nothing happens.
+    Setup();
+    static_cast<CharAI*>(SelfCharacter())->m_target = nullptr;
+    AI()->AISDefault::OnInteract();
+    Expect(g_log.empty(), "interact: no target does nothing");
+
+    // A neutral target that is not a character: interact with the owner, then drop the target.
+    Setup();
+    AI()->AISDefault::OnInteract();
+    Expect(g_log == Calls({"IsCharacter", "Interact owner", "IsCharacter", "SetTarget null false", "SyncLastTarget"}),
+           "interact: neutral target is interacted with and dropped");
+    Expect(static_cast<CharAI*>(SelfCharacter())->m_targetSeeking == true, "interact: seeking flag is left alone");
+
+    // unk_2fa (+0x2fa) set on the target: interacted with, the target is kept.
+    Setup();
+    Target()->unk_2fa = 1;
+    AI()->AISDefault::OnInteract();
+    Expect(g_log == Calls({"IsCharacter", "Interact owner"}), "interact: unk_2fa keeps the target");
+
+    // A monster character is not interacted with.
+    Setup();
+    g_targetIsCharacter = g_isMonster = true;
+    AI()->AISDefault::OnInteract();
+    Expect(g_log == Calls({"IsCharacter", "IsMonster"}), "interact: monster is not interacted with");
+
+    // A merchant character is interacted with and kept.
+    Setup();
+    g_targetIsCharacter = g_isMerchant = true;
+    AI()->AISDefault::OnInteract();
+    Expect(g_log == Calls({"IsCharacter", "IsMonster", "Interact owner", "IsCharacter", "IsMerchant"}),
+           "interact: merchant is interacted with and kept");
+
+    // A plain character target is interacted with and dropped.
+    Setup();
+    g_targetIsCharacter = true;
+    AI()->AISDefault::OnInteract();
+    Expect(g_log == Calls({"IsCharacter", "IsMonster", "Interact owner", "IsCharacter", "IsMerchant", "SetTarget null false",
+                           "SyncLastTarget"}),
+           "interact: plain character is interacted with and dropped");
+    Expect(static_cast<CharAI*>(SelfCharacter())->m_targetSeeking == true, "interact: character case keeps seeking flag");
+}
+
+void CheckCombatResults() {
+    Character* self = SelfCharacter();
+    Character* other = reinterpret_cast<Character*>(g_targetStorage);
+    Character::AttackResult hit{};  // m_resultFlags 0: a hit
+    Character::AttackResult miss{};
+    miss.m_resultFlags = 0x2u;      // low two bits set: a miss
+
+    // A hit with the hit callback bit calls OnTargetHit, after both characters are pushed.
+    Setup();
+    AI()->unk_b8 = 0x800u;
+    AI()->AISDefault::OnCombatResults(self, other, &hit);
+    Expect(g_log == Calls({"push user self", "push user target", "Call OnTargetHit"}), "combat: hit calls OnTargetHit");
+
+    // A miss with the miss callback bit calls OnTargetMissed.
+    Setup();
+    AI()->unk_b8 = 0x1000u;
+    AI()->AISDefault::OnCombatResults(self, other, &miss);
+    Expect(g_log == Calls({"push user self", "push user target", "Call OnTargetMissed"}), "combat: miss calls OnTargetMissed");
+
+    // Each result needs its own callback bit: a hit with only the miss bit, or a miss with only the hit bit, calls nothing.
+    Setup();
+    AI()->unk_b8 = 0x1000u;
+    AI()->AISDefault::OnCombatResults(self, other, &hit);
+    Expect(g_log == Calls({"push user self", "push user target"}), "combat: hit without its bit calls nothing");
+
+    Setup();
+    AI()->unk_b8 = 0x800u;
+    AI()->AISDefault::OnCombatResults(self, other, &miss);
+    Expect(g_log == Calls({"push user self", "push user target"}), "combat: miss without its bit calls nothing");
+}
+
+void CheckAnimEvent() {
+    // Every event reaches the script with its name and the character's last event data (CharAnimator m_lastEventData).
+    Setup();
+    SelfCharacter()->m_lastEventData = 7;
+    AI()->AISDefault::OnAnimEvent("jump");
+    Expect(g_log == Calls({"push string jump", "push int 7", "Call OnAnimEvent"}), "anim: event goes to OnAnimEvent");
+
+    // A left step reads the left foot position after the call.
+    Setup();
+    SelfCharacter()->m_lastEventData = 7;
+    AI()->AISDefault::OnAnimEvent("step_left");
+    Expect(g_log == Calls({"push string step_left", "push int 7", "Call OnAnimEvent", "LeftFoot"}),
+           "anim: step_left reads the left foot");
+
+    // A right step reads the right foot position.
+    Setup();
+    SelfCharacter()->m_lastEventData = 7;
+    AI()->AISDefault::OnAnimEvent("step_right");
+    Expect(g_log == Calls({"push string step_right", "push int 7", "Call OnAnimEvent", "RightFoot"}),
+           "anim: step_right reads the right foot");
+}
+
+void CheckScriptTimer() {
+    Setup();
+    AI()->AISDefault::OnScriptTimer(5u);
+    Expect(g_log == Calls({"push int 5", "Call OnTimer"}), "timer: id goes to OnTimer");
+}
+
 }  // namespace
 
 int main() {
@@ -360,12 +546,21 @@ int main() {
     std::memset(g_charStorage, 0, sizeof g_charStorage);
     ::new (static_cast<void*>(&SelfCharacter()->m_pfObject.m_path)) PathList();
 
+    // Vtable slots of the virtual calls on the target: GameObject::IsCharacter (+0x24) and GameObject::Interact (+0x98).
+    g_targetVtable[9] = reinterpret_cast<void*>(&FakeIsCharacter);
+    g_targetVtable[38] = reinterpret_cast<void*>(&FakeInteract);
+
     CheckUpdate();
     CheckInitVCB();
     CheckMelee();
     CheckCloseRange();
     CheckSeek(true);
     CheckSeek(false);
+    CheckAttack();
+    CheckInteract();
+    CheckCombatResults();
+    CheckAnimEvent();
+    CheckScriptTimer();
 
     if (g_failures == 0) {
         std::printf("AISDefault part 3: all checks passed\n");

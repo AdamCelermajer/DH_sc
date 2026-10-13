@@ -3,14 +3,23 @@
 #include <cstdio>
 #include <string>
 
+#include "core-platform/slim_xml.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+// Adds <name>text</name> under parent. The trees are built with addChild, as the parser builds them.
+static slim::XmlNode* AddText(slim::XmlNode* parent, const char* name, const std::string& text) {
+    slim::XmlNode* child = parent->addChild(name, slim::kElement);
+    child->value_ = text;
+    return child;
+}
+
 int main() {
-    slim::XmlNode node;
-    node.AddChild(slim::XmlNode("id", "item-7"));
-    node.AddChild(slim::XmlNode("title", "Sword"));
-    node.AddChild(slim::XmlNode("button_right", "Close"));
+    slim::XmlDocument node;
+    AddText(&node, "id", "item-7");
+    AddText(&node, "title", "Sword");
+    AddText(&node, "button_right", "Close");
 
     item a;
     a.read(&node);
@@ -30,8 +39,8 @@ int main() {
     CHECK(c.FieldForTest(0) == "item-7");
 
     // A second read only replaces the fields whose tags are present.
-    slim::XmlNode only_link;
-    only_link.AddChild(slim::XmlNode("link", "http://x"));
+    slim::XmlDocument only_link;
+    AddText(&only_link, "link", "http://x");
     c.read(&only_link);
     CHECK(c.FieldForTest(0) == "item-7");
     CHECK(c.FieldForTest(3) == "http://x");

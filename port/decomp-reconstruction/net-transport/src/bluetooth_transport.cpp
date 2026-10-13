@@ -8,12 +8,12 @@ bool CBluetoothUnreliable::s_initialized_ = false;
 // ---- CBluetoothReliable ----
 
 // 0x828cb4 _ZN18CBluetoothReliable7GetTypeEv
-int CBluetoothReliable::GetType() const {
+int CBluetoothReliable::GetType() {
     return 4;
 }
 
 // 0x828cbc _ZN18CBluetoothReliable17CanDisconnectFromER10CNetworkId
-bool CBluetoothReliable::CanDisconnectFrom(CNetworkId& peer) {
+bool CBluetoothReliable::CanDisconnectFrom(const CNetworkId& peer) {
     (void)peer;
     return false;
 }
@@ -39,12 +39,12 @@ int CBluetoothReliable::Disconnect() {
 }
 
 // 0x828cfc _ZN18CBluetoothReliable11IsConnectedEv
-bool CBluetoothReliable::IsConnected() const {
+bool CBluetoothReliable::IsConnected() {
     return false;
 }
 
 // 0x828d04 _ZN18CBluetoothReliable13IsConnectedToER10CNetworkId
-bool CBluetoothReliable::IsConnectedTo(const CNetworkId& peer) const {
+bool CBluetoothReliable::IsConnectedTo(const CNetworkId& peer) {
     (void)peer;
     return false;
 }
@@ -72,7 +72,7 @@ void CBluetoothReliable::StartBroadcast() {}
 void CBluetoothReliable::StopBroadcast() {}
 
 // 0x828d64 _ZN18CBluetoothReliable4SendER10CNetworkIdPvi
-int CBluetoothReliable::Send(CNetworkId& peer, const void* data, int len) {
+int CBluetoothReliable::Send(const CNetworkId& peer, const void* data, int len) {
     (void)peer;
     (void)data;
     (void)len;
@@ -156,7 +156,7 @@ int CBluetoothReliable::Connect(CNetworkId& peer) {
 int CBluetoothReliable::Open(std::string address, std::string name, int channel) {
     (void)address;
     (void)name;
-    channel_ = channel;
+    create_flags_ = static_cast<std::uint32_t>(channel);
     return 0;
 }
 
@@ -167,21 +167,21 @@ int CBluetoothReliable::Listen(std::string address, std::string name) {
 }
 
 // 0x8290dc _ZN18CBluetoothReliable16GetPeerNetworkIdEv
-// Partial: the original calls CNetworkId::Reset (memset to zero, so field3 is 0), then sets
-// presence bit 3 (flags |= 0x8) on the returned id. CNetworkId has no public way to set a
-// presence bit: flags_ is private and Set copies only the bits the source already has. The port
-// returns a reset id, so the bit is missing. A CNetworkId setter for flags and field3 is needed.
+// The original calls CNetworkId::Reset (memset to zero, so field3 is 0), then sets presence bit 3
+// (flags |= 0x8) on the returned id: SetField3(0).
 CNetworkId CBluetoothReliable::GetPeerNetworkId() {
     CNetworkId id;
     id.Reset();
+    id.SetField3(0);
     return id;
 }
 
 // 0x829694 _ZN18CBluetoothReliable17GetLocalNetworkIdEv
-// Partial: the same body as GetPeerNetworkId (presence bit 3 missing; see there).
+// The same body as GetPeerNetworkId.
 CNetworkId CBluetoothReliable::GetLocalNetworkId() {
     CNetworkId id;
     id.Reset();
+    id.SetField3(0);
     return id;
 }
 
@@ -198,26 +198,34 @@ CBluetoothReliable* CBluetoothReliable::Create(std::string first, std::string se
 }
 
 // 0x8294cc _ZN18CBluetoothReliable19InitializeTransportEv
-// Partial. When s_initialized is clear, the original builds a CNetworkId with presence bit 3
-// (Reset, then flags |= 0x8). It calls the transport manager's virtual at vtable +0x1c with that
-// id and a result of std::string: CTransportManagerImpl::GetHostname(CNetworkId&). Then it calls
-// Create("Default Bluetooth Session", hostname, 1), Initialize, GetTransportMgr().AddTransport and
-// sets s_initialized. The port cannot reproduce it: GetTransportMgr() is the base CTransportManager,
-// which has no GetHostname, and the id cannot get presence bit 3 (see GetPeerNetworkId). The port
-// returns 0 and leaves the flag unset.
+// When s_initialized is clear, builds a CNetworkId with presence bit 3 (Reset, then flags |= 0x8), asks the
+// transport manager for the host name of that id (vtable +0x1c, GetHostname, which the CTransportManagerImpl
+// singleton implements), creates the transport with Create("Default Bluetooth Session", hostname, 1), calls
+// Initialize on it, adds it to the manager and sets s_initialized. Returns 0.
 int CBluetoothReliable::InitializeTransport() {
+    if (!s_initialized_) {
+        CNetworkId id;
+        id.Reset();
+        id.SetField3(0);
+        const std::string name = "Default Bluetooth Session";
+        const std::string host = GetTransportMgr()->GetHostname(id);
+        CBluetoothReliable* transport = Create(name, host, 1);
+        transport->Initialize();
+        GetTransportMgr()->AddTransport(transport);
+        s_initialized_ = true;
+    }
     return 0;
 }
 
 // ---- CBluetoothUnreliable ----
 
 // 0x8296bc _ZN20CBluetoothUnreliable7GetTypeEv
-int CBluetoothUnreliable::GetType() const {
+int CBluetoothUnreliable::GetType() {
     return 3;
 }
 
 // 0x8296c4 _ZN20CBluetoothUnreliable17CanDisconnectFromER10CNetworkId
-bool CBluetoothUnreliable::CanDisconnectFrom(CNetworkId& peer) {
+bool CBluetoothUnreliable::CanDisconnectFrom(const CNetworkId& peer) {
     (void)peer;
     return false;
 }
@@ -241,12 +249,12 @@ int CBluetoothUnreliable::Disconnect() {
 }
 
 // 0x829704 _ZN20CBluetoothUnreliable11IsConnectedEv
-bool CBluetoothUnreliable::IsConnected() const {
+bool CBluetoothUnreliable::IsConnected() {
     return false;
 }
 
 // 0x82970c _ZN20CBluetoothUnreliable13IsConnectedToER10CNetworkId
-bool CBluetoothUnreliable::IsConnectedTo(const CNetworkId& peer) const {
+bool CBluetoothUnreliable::IsConnectedTo(const CNetworkId& peer) {
     (void)peer;
     return false;
 }
@@ -273,7 +281,7 @@ void CBluetoothUnreliable::StartBroadcast() {}
 void CBluetoothUnreliable::StopBroadcast() {}
 
 // 0x82976c _ZN20CBluetoothUnreliable4SendER10CNetworkIdPvi
-int CBluetoothUnreliable::Send(CNetworkId& peer, const void* data, int len) {
+int CBluetoothUnreliable::Send(const CNetworkId& peer, const void* data, int len) {
     (void)peer;
     (void)data;
     (void)len;
@@ -355,7 +363,7 @@ int CBluetoothUnreliable::AcceptConnections() {
 int CBluetoothUnreliable::Open(std::string address, std::string name, int channel) {
     (void)address;
     (void)name;
-    channel_ = channel;
+    create_flags_ = static_cast<std::uint32_t>(channel);
     return 0;
 }
 
@@ -367,20 +375,20 @@ int CBluetoothUnreliable::Listen(std::string address, std::string name) {
 }
 
 // 0x829a50 _ZN20CBluetoothUnreliable16GetPeerNetworkIdEv
-// Partial: the assembly resets the id, writes field2 = 0 and sets its presence bit (flags 0x4).
-// CNetworkId has no setter for field2 or for the presence bit, so the port returns a reset id with
-// no presence bit. Layout request: CNetworkId::SetField2 (field2_ = value; flags_ |= 4).
+// The assembly resets the id, writes field2 = 0 and sets its presence bit (flags 0x4): SetField2(0).
 CNetworkId CBluetoothUnreliable::GetPeerNetworkId() {
     CNetworkId id;
     id.Reset();
+    id.SetField2(0);
     return id;
 }
 
 // 0x829f9c _ZN20CBluetoothUnreliable17GetLocalNetworkIdEv
-// Partial: same body as GetPeerNetworkId (field2 presence bit not set; see there).
+// The same body as GetPeerNetworkId (asm checked).
 CNetworkId CBluetoothUnreliable::GetLocalNetworkId() {
     CNetworkId id;
     id.Reset();
+    id.SetField2(0);
     return id;
 }
 
@@ -396,14 +404,22 @@ CBluetoothUnreliable* CBluetoothUnreliable::Create(std::string first, std::strin
 }
 
 // 0x829dc8 _ZN20CBluetoothUnreliable19InitializeTransportEv
-// Partial. The assembly, run while s_initialized is clear, does this: resets a CNetworkId and sets
-// its presence bit 0x4 (no setter, see GetPeerNetworkId); makes the name "Default Bluetooth
-// Session"; takes the second name from the transport manager's vtable +0x1c (in the original
-// CTransportManagerImpl::GetHostname(CNetworkId&), which the port's singleton, a plain
-// CTransportManager, does not expose); calls Create(name, name2, 1); calls AddTransport on the
-// manager; calls GetLocalNetworkId through the new object's vtable +0x18 and discards the result;
-// then sets s_initialized. Without the second name the port does not create the transport: it
-// returns 0 and leaves the flag unset.
+// While s_initialized is clear: resets a CNetworkId and sets its presence bit 0x4; makes the name "Default
+// Bluetooth Session"; takes the host name from the transport manager's vtable +0x1c (GetHostname); calls
+// Create(name, hostname, 1); adds the transport to the manager; calls GetLocalNetworkId through the new
+// object's vtable +0x18 and discards the result; then sets s_initialized. Unlike the reliable class there
+// is no separate Initialize call. Returns 0.
 int CBluetoothUnreliable::InitializeTransport() {
+    if (!s_initialized_) {
+        CNetworkId id;
+        id.Reset();
+        id.SetField2(0);
+        const std::string name = "Default Bluetooth Session";
+        const std::string host = GetTransportMgr()->GetHostname(id);
+        CBluetoothUnreliable* transport = Create(name, host, 1);
+        GetTransportMgr()->AddTransport(transport);
+        (void)transport->GetLocalNetworkId();  // vtable +0x18, result discarded
+        s_initialized_ = true;
+    }
     return 0;
 }

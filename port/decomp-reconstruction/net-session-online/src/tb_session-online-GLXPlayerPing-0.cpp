@@ -4,37 +4,31 @@
 #include <cstring>
 #include <thread>
 
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <winsock2.h>
+#else
+#include <netdb.h>
+#include <arpa/inet.h>
+#endif
+
 #include "net-session-online/deps/glx_stand_ins.hpp"
 #include "net-session-online/deps/xp_api.hpp"
 #include "net-session-online/glx_player_ping.hpp"
 #include "net-session-online/xp_api.hpp"
 
-namespace {
-
-// The ICMP receive hook of the probe socket (GLXPlayerSocket vtable +0x5c, called with a
-// 324-byte buffer). The port's GLXPlayerSocket declares no such hook, and the socket header
-// is owned by another batch, so this stand-in reports -1, the failure the base socket gives
-// for its other probe hooks. Layout request: GLXPlayerSocket needs
-// `virtual std::int32_t RecvFrom(void* buffer, std::int32_t length)` at vtable +0x5c.
-std::int32_t ReceiveIcmpPacket(GLXPlayerSocket* socket, std::uint8_t* buffer, std::int32_t length) {
-    (void)socket;
-    (void)buffer;
-    (void)length;
-    return -1;
-}
-
-}  // namespace
-
 // 0x8402f8 GLXPlayerPing::RecvEchoReply()
-// Partial: the receive step is the stand-in above, so the port always takes the failure
-// branch. The parsing below follows the original's byte offsets in the 324-byte packet:
+// The receive step is the socket's vtable +0x5c (RecvFrom) with the 324-byte buffer. The parsing below
+// follows the original's byte offsets in the 324-byte packet:
 // +0x08 TTL, +0x0c source address, +0x14 ICMP type, +0x15 ICMP code, +0x18 ICMP identifier,
 // +0x1a ICMP sequence and +0x20 the echoed send timestamp (32-bit, host order as written by
 // SendEchoRequest).
 std::int32_t GLXPlayerPing::RecvEchoReply() {
     std::uint8_t packet[324];
     XP_API_MEMSET(packet, 0, sizeof(packet));
-    const std::int32_t count = ReceiveIcmpPacket(socket_.get(), packet, sizeof(packet));
+    const std::int32_t count = socket_->RecvFrom(reinterpret_cast<char*>(packet), static_cast<int>(sizeof(packet)));
     if (count < 0) {
         result_ = -1;
         return -1;
@@ -80,14 +74,10 @@ std::int32_t GLXPlayerPing::RecvEchoReply() {
 // The probe state machine, run once per call: state 2 resolves the host, 3 sends an echo
 // request, 4 waits for the reply, 5 holds the result for the receive timeout. Every path ends
 // with a 1 ms sleep (usleep(0x3e8) in the original) and returns 0.
-// Partial, two gaps:
-//   - State 2: the original calls the socket's vtable +0x20 with the host, which returns a
-//     hostent*. The port's OpenConnection returns an int handle, so the address copy cannot be
-//     reproduced and the state stays 2. Layout request: a host-resolve hook returning a
-//     hostent-shaped result on GLXPlayerSocket.
-//   - State 4: the original passes the socket handle (GLXPlayerSocket +0x08) to
-//     WaitForEchoReply. The port's socket has no handle getter, so -1 is passed; the port's
-//     WaitForEchoReply ignores the value.
+// State 2 calls the socket's GetHostByName (vtable +0x20) with the host: a null result keeps the state;
+// otherwise the first address (h_length bytes) is turned into dotted text with inet_ntoa, replaces the
+// owned address string, and the round starts. State 4 passes the socket handle (GLXPlayerSocket +0x08) to
+// WaitForEchoReply.
 // The timeouts use the original's two-int pair: tv_sec holds the start time and tv_usec the
 // timeout in the same unit as XP_API_GET_TIME.
 std::int32_t GLXPlayerPing::Kernel() {
@@ -99,7 +89,7 @@ std::int32_t GLXPlayerPing::Kernel() {
     };
     // LABEL_10 in the original: one wait step of state 4 (select, then receive or time out).
     auto waitRound = [this, &failRound]() {
-        const std::int32_t waited = WaitForEchoReply(-1);
+        const std::int32_t waited = WaitForEchoReply(socket_->socket_);
         if (waited < 0) {
             failRound();
         } else if (waited != 0) {
@@ -131,10 +121,20 @@ std::int32_t GLXPlayerPing::Kernel() {
     };
 
     switch (state_) {
-    case 2:
-        // The host resolve is partial (see above). The original goes to LABEL_8 when the resolve
-        // succeeds; without an address the state stays at 2, which is the path taken here.
+    case 2: {
+        hostent* entry = socket_->GetHostByName(host_.get());  // vtable +0x20
+        if (entry != nullptr) {
+            in_addr address{};
+            std::memcpy(&address, entry->h_addr_list[0], static_cast<std::size_t>(entry->h_length));
+            address_.reset();
+            const char* text = inet_ntoa(address);
+            const std::size_t length = std::strlen(text);
+            address_.reset(new char[length + 1]);
+            std::memcpy(address_.get(), text, length + 1);
+            startRound();  // LABEL_8
+        }
         break;
+    }
     case 3:
         startRound();
         break;

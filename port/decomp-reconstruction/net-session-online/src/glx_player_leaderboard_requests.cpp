@@ -63,7 +63,7 @@ void GLXPlayerLeaderboard::sendHighScore(const char* score) {
 }
 
 // 0x832fb8 _ZN20GLXPlayerLeaderboard13sendHighScoreEiii
-void GLXPlayerLeaderboard::sendHighScore(std::int32_t s, std::int32_t l, std::int32_t t) {
+std::int32_t GLXPlayerLeaderboard::sendHighScore(std::int32_t s, std::int32_t l, std::int32_t t) {
     char buf[kRequestBytes] = {};
     if (l < 0) {
         std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|t|%d|s|%d|", 0x6e, static_cast<int>(GetGGI()),
@@ -73,5 +73,5 @@ void GLXPlayerLeaderboard::sendHighScore(std::int32_t s, std::int32_t l, std::in
                       UidText(GetUID()), l, t, s);
     }
     XP_DEBUG_OUT("GLXPlayerUser::sendHighscore before String2Blob -> buffer = %s\n", buf);
-    SendByGet(buf);
+    return SendByGet(buf);
 }

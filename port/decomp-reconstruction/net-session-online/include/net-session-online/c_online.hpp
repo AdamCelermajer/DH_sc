@@ -53,6 +53,11 @@ public:
     virtual void DetectDisconnect() {}
     // 0x7fd50c _ZN7COnline15SetIsOnlineGameEb
     void SetIsOnlineGame(bool value) { isOnlineGame_ = value; }
+    // The online-game flag at +0x05 (no symbol; roomLobbyUpdate, lobbyUpdate and OnlineGameState::Update read it).
+    bool IsOnlineGame() const { return isOnlineGame_; }
+    // The word at +0x1c: the time since the start time, stored by ReceivePackets. NetStructMember::GetFrameTime
+    // (0x8150a0) reads it as GetOnline()->+0x1c.
+    std::int32_t GetElapsedTime() const { return elapsed_; }
     // 0x7fd514 _ZN7COnline15IsAgeRestrictedEv: returns 0. Slot 6 of the vtable.
     virtual std::int32_t IsAgeRestricted() const { return 0; }
     // 0x7fd588 _ZN7COnline16GetLocalMemberIdEv: 1 when offline, else the matching local id.
@@ -74,9 +79,8 @@ public:
     // 0x7fd634 _ZN7COnline11SendPacketsEv: CPacketManager::SendPackets when initialised, then
     // CMessaging::ProcessSendQueue when the messaging instance exists.
     void SendPackets();
-    // 0x7fd66c _ZN7COnline7DestroyEv. Partial: the original first calls CMatching::Destroy(CMatching::Get()),
-    // which has no body or declaration in this category (0x7feb8c), so that call is missing here.
-    // Terminates the singleton and deletes it through the virtual destructor.
+    // 0x7fd66c _ZN7COnline7DestroyEv. First calls CMatching::Get()->Destroy() (0x7feb8c), as the original does,
+    // then terminates the singleton and deletes it through the virtual destructor.
     static void Destroy();
     // 0x7fd6d0 _ZN7COnline9TerminateEv: clears the initialized flag, unregisters packet type 1 and clears the
     // event queue. Returns the queue's Clear result.

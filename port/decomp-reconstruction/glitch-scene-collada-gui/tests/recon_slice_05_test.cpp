@@ -19,7 +19,8 @@ void check(bool condition, const char* what) {
 
 int main() {
     using glitch::core::dimension2d;
-    glitch::scene::CBillboardSceneNode node;
+    glitch::scene::CBillboardSceneNode node(nullptr, 0, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                            dimension2d<float>{1.0f, 1.0f}, glitch::video::SColor(), glitch::video::SColor());
 
     // Zero size: the stored size becomes 1x1 and the half extent is 0.
     glitch::scene::recon_05::billboardSetSize(node, dimension2d<float>{0.0f, 0.0f});

@@ -21,8 +21,6 @@ int main() {
         int receiverTag = 0;
         logger.setReceiver(reinterpret_cast<IEventReceiver*>(&receiverTag));
         CHECK(logger.receiver == reinterpret_cast<IEventReceiver*>(&receiverTag));
-        ILogger base;
-        (void)base;
         IOSOperator osBase;
         (void)osBase;
     }

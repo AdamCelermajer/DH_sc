@@ -9,6 +9,7 @@
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "io_stub_files.hpp"
+#include "io_video_fakes.hpp"
 #include "glitch-core-io/core/sided_collection.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 #include "glitch-core-io/io/limit_read_file.hpp"
@@ -59,8 +60,9 @@ public:
     unsigned int pos = 0;
 };
 
+// A fresh shader code with one use (born with count 0, so the (ptr, true) form takes the use).
 boost::intrusive_ptr<glitch::video::IShaderCode> newCode() {
-    return boost::intrusive_ptr<glitch::video::IShaderCode>(new glitch::video::IShaderCode());
+    return boost::intrusive_ptr<glitch::video::IShaderCode>(new io_test_fakes::FakeShaderCode(), true);
 }
 
 // init: the five-argument form takes the second name as the full name; clone copies the full name.

@@ -1,7 +1,7 @@
 // glitch::video::IShaderCode, CGLSLShaderCode and the code-shader manager. Canonical definition of IShaderCode (engine
 // unification wave u1-video); the stand-in in glitch-core-io (deps/glitch_core_objects.hpp) is replaced by this header.
-// The shader-code collection is an SIDedCollection in the original; it is stood in for here by a name-to-index table, so
-// lookups keep the 0xffff "not found" convention.
+// The shader-code collection is the canonical SIDedCollection instance (glitch-core-io/core/sided_collection.hpp, over
+// glitch-shared/sid_collection.hpp); its getId keeps the 0xffff "not found" convention.
 //
 // IShaderCode layout (32-bit; constructors 0x6e2130 C1 / 0x6e2178 C2, size 0x20):
 //   +0x00  vptr (vtable 0x98b208, five slots)
@@ -12,11 +12,11 @@
 #pragma once
 
 #include <cstdint>
-#include <map>
 #include <string>
 #include <vector>
 
 #include "glitch-core-io/core/reference_counted.hpp"
+#include "glitch-core-io/core/sided_collection.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/video_types.hpp"
 
@@ -57,22 +57,14 @@ private:
     uint8_t m_unknown34 = 0;                    // +0x34, compiled flag
 };
 
-// Stand-in for SIDedCollection<intrusive_ptr<IShaderCode>, uint16_t, ...>.
-class CShaderCodeManager {
-public:
-    CShaderCodeManager() = default;  // 0x6e0804 / 0x6e0818
-    ~CShaderCodeManager() = default; // 0x6e1758 / 0x6e1828
-
-    static constexpr uint16_t kInvalidId = 0xffff;
-    uint16_t getId(const char* name) const;
-    void insert(const char* name, const boost::intrusive_ptr<IShaderCode>& code);
-    boost::intrusive_ptr<IShaderCode> at(uint16_t id) const;
-    void removeAll();
-
-private:
-    std::map<std::string, uint16_t> m_ids;
-    std::vector<boost::intrusive_ptr<IShaderCode>> m_codes;
-};
+// The shader-code collection of ICodeShaderManager (+0x54): SIDedCollection<intrusive_ptr<IShaderCode>, ushort, false,
+// SEmptyProperties, SValueTraits>, the canonical instance. Its ctor and dtor are the collection's own, 0x6e0804 / 0x6e0818
+// and 0x6e1758 / 0x6e1828 (glitch-shared/sid_collection.hpp). Used through getId(name) (0xffff when not found),
+// insert(name, code, managed), get(id)->value and removeUnused() (removeAll(false)).
+using ShaderCodeCollection =
+    glitch::core::detail::SIDedCollection<boost::intrusive_ptr<IShaderCode>, uint16_t, false,
+                                          glitch::core::detail::sidedcollection::SEmptyProperties,
+                                          glitch::core::detail::sidedcollection::SValueTraits>;
 
 // IShaderManager base is not reconstructed; only the code-collection part of
 // the manager is modelled (+0x54 in the original).
@@ -99,7 +91,7 @@ public:
     // 0x6e0c10. Partial: same as the overload above; null b or c count as empty.
     std::string makeShaderCodeName(const char* a, const char* b, const char* c, uint32_t* outLength) const;
 
-    CShaderCodeManager m_shaderCodes;  // +0x54
+    ShaderCodeCollection m_shaderCodes;  // +0x54
 
     // Additional config text: +0x7c is the text pointer (null when not loaded) and +0x80 the
     // length, -1 until a text is loaded. Only the flag and the text are modelled here.

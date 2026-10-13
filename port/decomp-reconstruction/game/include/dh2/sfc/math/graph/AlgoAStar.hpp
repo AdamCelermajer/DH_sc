@@ -2,7 +2,8 @@
 // GraphT is PFGInnerGraph (a GraphSparse<PFGInnerEdge>). HeuristicT is DiabloIPhoneHeuristic or DijkstraHeuristic.
 // The two instantiations share one body. Neither the binary's findNode nor _markNode calls the heuristic type: the
 // Diablo findNode adds the constant 0.0 to the path cost (asm: BL __aeabi_fadd with MOV R1,#0), so its f equals g.
-// Layout (32-bit): vptr at +0x00, m_graph at +0x04, m_path (a std::list, one pointer in the original) at +0x08,
+// Layout (32-bit): vptr at +0x00, m_graph at +0x04, m_path (a std::list with its sentinel embedded: two words, next at
+// +0x08 and prev at +0x0c; pad_0c below is the prev word) at +0x08,
 // the output-list pointer at +0x10 (findNode points it at its output list and restores &m_path before it returns),
 // m_found at +0x14. findNode increments the counters at +0x18..+0x24. The last field seen is at +0x24, so the
 // original object is at least 0x28 bytes.
@@ -49,8 +50,9 @@ public:
     // 0x52ad4c sfc::math::graph::AlgoAStar<PFGInnerGraph,DiabloIPhoneHeuristic>::findNode(unsigned int,
     //     sfc::math::graph::ITest<PFGInnerEdge,PFGInnerNode> const&, unsigned int, std::list<PFGInnerEdge const*>*)
     // Expands at most maxExpansions nodes from startId toward the goal test. Returns whether the goal was reached.
-    // The path (goal first) goes to *path, or to m_path when path is null. When the goal is not reached, every
-    // closed edge is appended instead, in key order.
+    // The path (start first) goes to *path, or to m_path when path is null, and is put in front of anything the list
+    // already holds (list::push_front). When the goal is not reached, every closed edge goes to the list instead, one
+    // at a time in key order, so the list ends in descending key order.
     bool findNode(unsigned int startId, const ITest<PFGInnerEdge, PFGInnerNode>& goal, unsigned int maxExpansions,
                   std::list<const PFGInnerEdge*>* path);
 

@@ -78,7 +78,7 @@ void testKdTree() {
 }
 
 void testHandles() {
-    CAnimationBlockLayout block{};
+    CAnimationBlock block{};
     block.refCount = 1;
     CAnimationBlock_grab(block);
     check(block.refCount == 2, "grab increments count");

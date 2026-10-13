@@ -1,21 +1,24 @@
 // Test for batch g1-game-character-pack8-870e63-0.
 //
-// Covers the CharMenuTutorialMsg constructors, the CharPropTextField constructor defaults and its Update null path, the
-// charproptext_internal::UpdatePropText mode dispatch, and the flag, probe and registration logic of CSSpawn (OnEvent, OnBlur,
-// OnFocus, OnInit) and CSStunned (OnBlur, OnUpdate, OnInit). CSStunned::OnFocus is not run: it calls the IsPlayer virtual on the
-// Character, and the test has no Character vtable.
+// Covers the CharMenuTutorialMsg constructors, the CharPropTextField name parse (charproptext_internal::ParsePropName) and
+// constructor, the mode dispatch (charproptext_internal::UpdatePropText, including the 'b' colour steps and the text path for
+// values above 1000), the fetch in CharPropTextField::Update, and the flag, probe and registration logic of CSSpawn (OnEvent,
+// OnBlur, OnFocus, OnInit) and CSStunned (OnBlur, OnUpdate, OnInit). CSStunned::OnFocus is not run: it calls the IsPlayer
+// virtual on the Character, and the test has no Character vtable.
 //
 // The engine functions the batch links to are stubs in this file. They record their calls and return the values the test sets.
-// Characters, controllers, visual and physical objects, the CharAnim row and the other engine objects are zero-filled storage;
-// the code under test reads and writes their named data members only. The state classes are constructed (they have no data).
+// Characters, controllers, visual and physical objects, the Application and its managers, the gameswf text characters and the
+// CharAnim row are zero-filled storage; the code under test reads and writes their named data members only.
 
 #include <cstdarg>
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 #include <vector>
 
+#include "dh2/Application.hpp"
 #include "dh2/CSSpawn.hpp"
 #include "dh2/CSStunned.hpp"
 #include "dh2/CharMenuTutorialMsg.hpp"
@@ -24,14 +27,20 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameSWFUtils.hpp"
 #include "dh2/PhysicalObject.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/RenderFX.hpp"
+#include "dh2/StringManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/charai_ai.hpp"
+#include "dh2/global/item_instance.hpp"
 #include "dh2/v2Controller.hpp"
+#include "gameswf/gameswf_character.h"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
 namespace charproptext_internal {
+void ParsePropName(const char* name, int& propId, int& kind);
 void UpdatePropText(RenderFX* renderFx, Character* localCharacter, int propId, int kind, gameswf::character* target);
 }  // namespace charproptext_internal
 
@@ -55,8 +64,12 @@ alignas(16) unsigned char g_renderStorage[sizeof(RenderFX)];
 alignas(16) unsigned char g_switchStorage[sizeof(DebugSwitches)];
 alignas(16) unsigned char g_animRow[sizeof(Structs::CharAnim)];
 alignas(16) unsigned char g_pydataStorage[64];
-char g_dummyName[1];
-char g_dummyTarget[1];
+alignas(16) unsigned char g_appStorage[sizeof(Application)];
+alignas(16) unsigned char g_playerMgrStorage[sizeof(PlayerManager)];
+alignas(16) unsigned char g_playerInfoStorage[sizeof(PlayerInfo)];
+alignas(16) unsigned char g_stringMgrStorage[sizeof(StringManager)];
+// Four gameswf text characters, used as the sources and targets of the CharPropTextField tests.
+alignas(16) unsigned char g_textStorage[4][sizeof(gameswf::character)];
 
 // Call log and return values set by each scenario.
 std::vector<std::string> g_switchProbes;
@@ -77,11 +90,31 @@ int g_fadeCalls = 0;
 float g_fadeSeconds = -1.0f;
 int g_stance = 7;        // GetAnimStance return
 int g_constant = 0;      // PyDataConstants::getConstant return
+std::string g_lastConstantName;
 int g_propValue = 0;     // CharProperties::PROPS_GetIntWithBonus return
+bool g_isBonus = false;  // CharProperties::PROPS_IsBonus return
+std::vector<int> g_propIdQueries;
+std::vector<int> g_isBonusQueries;
+std::vector<std::string> g_nameLookups;
 int g_gotoCalls = 0;
 int g_gotoFrame = -1;
 std::vector<std::string> g_htmlFormats;
 std::vector<int> g_htmlValues;
+int g_colourCalls = 0;
+gameswf::character* g_colourTarget = nullptr;
+unsigned int g_colourFirst = 0;
+unsigned int g_colourSecond = 0;
+int g_setTextCalls = 0;
+std::string g_setText;
+bool g_setTextFlag = false;
+int g_parseCalls = 0;
+std::string g_parseFormat;
+int g_parseValue = 0;
+int g_customCtorCalls = 0;
+int g_localPlayerCalls = 0;
+int g_localPlayerId = -1;
+bool g_localPlayerFlag = false;
+Character* g_localCharacter = nullptr;  // what the stubbed PlayerManager::GetLocalPlayer returns in its PlayerInfo
 
 struct RegCall {
     int state;
@@ -124,6 +157,16 @@ void ResetLog() {
     g_gotoFrame = -1;
     g_htmlFormats.clear();
     g_htmlValues.clear();
+    g_propIdQueries.clear();
+    g_isBonusQueries.clear();
+    g_nameLookups.clear();
+    g_colourCalls = 0;
+    g_setTextCalls = 0;
+    g_setText.clear();
+    g_parseCalls = 0;
+    g_parseFormat.clear();
+    g_customCtorCalls = 0;
+    g_localPlayerCalls = 0;
     g_regs.clear();
 }
 
@@ -139,6 +182,20 @@ Character* MakeCharacter(unsigned int flags) {
     c->m_stateFlags = flags;
     c->m_statusFlags = 0;
     return c;
+}
+
+// A zero-filled gameswf text character whose name is `name` (the object the CharPropTextField ctor reads through +0x44).
+gameswf::character* MakeText(int slot, const tu_string& name) {
+    std::memset(g_textStorage[slot], 0, sizeof(g_textStorage[slot]));
+    auto* text = reinterpret_cast<gameswf::character*>(g_textStorage[slot]);
+    text->m_name = &name;
+    return text;
+}
+
+// The Application singleton's PlayerManager, as the stubbed ApplicationGetInstance returns it.
+void SetupApplication() {
+    std::memset(g_appStorage, 0, sizeof(g_appStorage));
+    reinterpret_cast<Application*>(g_appStorage)->m_playerManager = reinterpret_cast<PlayerManager*>(g_playerMgrStorage);
 }
 
 Structs::CharAnim* AnimRow() {
@@ -202,9 +259,52 @@ void PhysicalObject::pin() { ++g_pin; }
 void PhysicalObject::unpin() { ++g_unpin; }
 
 PyDataConstants* ApplicationGetPyDataConstants() { return reinterpret_cast<PyDataConstants*>(g_pydataStorage); }
-int PyDataConstants::getConstant(const char*, const char*) const { return g_constant; }
+int PyDataConstants::getConstant(const char*, const char* constantName) const {
+    g_lastConstantName = constantName;
+    return g_constant;
+}
 
-int CharProperties::PROPS_GetIntWithBonus(int, bool) const { return g_propValue; }
+Application& ApplicationGetInstance() { return *reinterpret_cast<Application*>(g_appStorage); }
+PlayerInfo* PlayerManager::GetLocalPlayer(int localId, bool flag) {
+    ++g_localPlayerCalls;
+    g_localPlayerId = localId;
+    g_localPlayerFlag = flag;
+    auto* info = reinterpret_cast<PlayerInfo*>(g_playerInfoStorage);
+    info->unk_660 = g_localCharacter;
+    return info;
+}
+
+StringManager* ApplicationGetStringManager() { return reinterpret_cast<StringManager*>(g_stringMgrStorage); }
+int StringManager::parse(std::string& out, const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    const int value = va_arg(args, int);
+    va_end(args);
+    ++g_parseCalls;
+    g_parseFormat = format;
+    g_parseValue = value;
+    out.append("V").append(std::to_string(value));
+    return 0;
+}
+
+int CharProperties::PROPS_GetIntWithBonus(int propId, bool) const {
+    g_propIdQueries.push_back(propId);
+    return g_propValue;
+}
+bool CharProperties::PROPS_IsBonus(int propId) const {
+    g_isBonusQueries.push_back(propId);
+    return g_isBonus;
+}
+int CharProperties::GetPropIDFromName(const char* name) {
+    g_nameLookups.push_back(name);
+    if (std::strcmp(name, "Life") == 0) {
+        return 42;
+    }
+    if (std::strcmp(name, "Gold") == 0) {
+        return 7;
+    }
+    return -1;
+}
 
 void RenderFX::FormatHTML(gameswf::character*, const char* format, ...) {
     va_list args;
@@ -214,12 +314,47 @@ void RenderFX::FormatHTML(gameswf::character*, const char* format, ...) {
     g_htmlFormats.push_back(format);
     g_htmlValues.push_back(value);
 }
+int RenderFX::SetColorTransform(gameswf::character* character, unsigned int first, unsigned int second) {
+    ++g_colourCalls;
+    g_colourTarget = character;
+    g_colourFirst = first;
+    g_colourSecond = second;
+    return 0;
+}
+void RenderFX::SetText(gameswf::character*, const char* text, bool flag) {
+    ++g_setTextCalls;
+    g_setText = text;
+    g_setTextFlag = flag;
+}
 
 int GameSWFUtils::GotoFrame(gameswf::character*, int frame) {
     ++g_gotoCalls;
     g_gotoFrame = frame;
     return 0;
 }
+
+// The gameswf colour transform and its custom block. The engine's identity initialiser (gameswf_types.cpp) sets the
+// multiplier of each channel to 1 and the addend to 0. The custom constructor body is not in the vendored tree; the members
+// it default-constructs are stubbed here.
+gameswf::cxform::cxform() {
+    for (int channel = 0; channel < 4; ++channel) {
+        m_[channel][0] = 1;
+        m_[channel][1] = 0;
+    }
+}
+gameswf::cxform gameswf::cxform::identity;
+gameswf::matrix::matrix() {}
+gameswf::character::custom::custom() { ++g_customCtorCalls; }
+
+// The short-string path of tu_string. Every name the tests build fits the inline buffer (14 characters plus the NUL), so
+// resize only sets the inline length. The heap release used by the destructor is forwarded to free, and no test string uses it.
+void tu_string::resize(int new_size) {
+    m_union.m_local.m_length_plus_one = static_cast<char>(new_size + 1);
+    m_union.m_local.m_buffer[new_size] = 0;
+}
+namespace gameswf {
+void free_internal(void* p, unsigned int) { std::free(p); }
+}  // namespace gameswf
 
 // ---- checks -------------------------------------------------------------------------------------------------------------
 
@@ -240,29 +375,89 @@ void TestCharMenuTutorialMsg() {
     Expect(copy.m_frame == "frame_a", "CharMenuTutorialMsg copy does not follow later changes to the source");
 }
 
-void TestCharPropTextFieldDefaults() {
-    auto* source = reinterpret_cast<gameswf::character*>(g_dummyName);
-    auto* target = reinterpret_cast<gameswf::character*>(g_dummyTarget);
-
-    CharPropTextField fallback(source, nullptr);
-    Expect(fallback.m_propId == -1, "CharPropTextField ctor leaves the property id at -1 (name parse partial)");
-    Expect(fallback.m_kind == '_', "CharPropTextField ctor starts the mode at '_'");
-    Expect(fallback.m_target == source, "CharPropTextField target defaults to the source when null");
-
-    CharPropTextField explicitTarget(source, target);
-    Expect(explicitTarget.m_target == target, "CharPropTextField keeps an explicit target");
-
-    // Update on the partial path: the local character is not fetched, so the dispatch returns before any output.
+// ParsePropName: the first '_' splits the name, name[2] is the mode, and the text after the '_' is the property name.
+void ParseCase(const char* name, int expectedId, int expectedKind, const char* expectedLookup, const char* what) {
+    int propId = -1;
+    int kind = '_';
     ResetLog();
+    charproptext_internal::ParsePropName(name, propId, kind);
+    const bool lookupOk = g_nameLookups.size() == 1 && g_nameLookups[0] == expectedLookup;
+    Expect(propId == expectedId && kind == expectedKind && lookupOk, what);
+}
+
+void TestParsePropName() {
+    ParseCase("txb_Life", 42, 'b', "Life", "name[2] 'b' is the bonus mode and the text after '_' is the property");
+    ParseCase("txi_Gold", 7, 'i', "Gold", "name[2] 'i' is the goto-frame mode");
+    ParseCase("txp_Gold", 7, 'p', "Gold", "name[2] 'p' is the percent mode");
+    ParseCase("txq_Gold", 7, '_', "Gold", "a letter other than i, p or b gives the plain mode");
+    ParseCase("tb_Life", 42, '_', "Life", "name[2] is the underscore here, so the mode is plain");
+    ParseCase("xx_a_b", -1, '_', "a_b", "the first '_' is the split point, and the lookup keeps later underscores");
+    ParseCase("a_", -1, '_', "", "a name ending at its underscore looks up the empty text");
+    ParseCase("_", -1, '_', "", "a lone underscore looks up the empty text and keeps the plain mode");
+
+    int propId = 99;
+    int kind = 'p';
+    ResetLog();
+    charproptext_internal::ParsePropName("txbLife", propId, kind);
+    Expect(propId == 99 && kind == 'p' && g_nameLookups.empty(), "a name without '_' leaves both outputs alone");
+}
+
+void TestCharPropTextFieldCtor() {
+    tu_string bonusName("txb_Life");
+    gameswf::character* source = MakeText(0, bonusName);
+
+    ResetLog();
+    CharPropTextField field(source, nullptr);
+    Expect(field.m_propId == 42 && field.m_kind == 'b', "CharPropTextField ctor parses the source name into the property id and mode");
+    Expect(field.m_target == source, "CharPropTextField target defaults to the source when null");
+    Expect(g_nameLookups.size() == 1 && g_nameLookups[0] == "Life", "CharPropTextField ctor looks up the text after the '_'");
+
+    gameswf::character* target = MakeText(1, bonusName);
+    CharPropTextField explicitTarget(source, target);
+    Expect(explicitTarget.m_target == target && explicitTarget.m_propId == 42, "CharPropTextField keeps an explicit target");
+
+    tu_string plainName("Life");
+    gameswf::character* plainSource = MakeText(2, plainName);
+    CharPropTextField none(plainSource, nullptr);
+    Expect(none.m_propId == -1 && none.m_kind == '_' && none.m_target == plainSource,
+           "CharPropTextField with a name that has no '_' keeps the defaults");
+}
+
+void TestCharPropTextFieldUpdate() {
+    SetupApplication();
     auto* renderFx = reinterpret_cast<RenderFX*>(g_renderStorage);
     std::memset(g_renderStorage, 0, sizeof(g_renderStorage));
-    fallback.Update(renderFx);
-    Expect(g_htmlValues.empty() && g_gotoCalls == 0, "CharPropTextField::Update does nothing on the partial path");
+
+    tu_string name("txb_Life");
+    gameswf::character* source = MakeText(0, name);
+    CharPropTextField field(source, nullptr);
+
+    // No local player: the fetch still happens (GetLocalPlayer(0, true)) and nothing is written.
+    ResetLog();
+    g_localCharacter = nullptr;
+    field.Update(renderFx);
+    Expect(g_localPlayerCalls == 1 && g_localPlayerId == 0 && g_localPlayerFlag,
+           "CharPropTextField::Update fetches GetLocalPlayer(0, true)");
+    Expect(g_htmlValues.empty() && g_colourCalls == 0 && g_customCtorCalls == 0 && g_propIdQueries.empty(),
+           "CharPropTextField::Update writes nothing without a local character");
+
+    // A local character with Life = 7 (not a bonus): the value prints and the source takes the identity colour transform.
+    g_localCharacter = MakeCharacter(0);
+    g_propValue = 7;
+    g_isBonus = false;
+    ResetLog();
+    field.Update(renderFx);
+    Expect(g_propIdQueries.size() == 1 && g_propIdQueries[0] == 42, "CharPropTextField::Update queries the property id from the name");
+    Expect(g_htmlFormats.size() == 1 && g_htmlFormats[0] == "%d" && g_htmlValues.size() == 1 && g_htmlValues[0] == 7,
+           "CharPropTextField::Update prints the value with %d");
+    Expect(source->m_custom != nullptr && source->m_cxform_changed && source->m_local_cxform == &source->m_custom->m_cxform,
+           "CharPropTextField::Update gives the source its colour block and sets the changed flag");
 }
 
 void TestUpdatePropTextDispatch() {
     auto* renderFx = reinterpret_cast<RenderFX*>(g_renderStorage);
-    auto* target = reinterpret_cast<gameswf::character*>(g_dummyTarget);
+    tu_string name("Life");
+    gameswf::character* target = MakeText(3, name);
     Character* local = MakeCharacter(0);
 
     ResetLog();
@@ -285,28 +480,59 @@ void TestUpdatePropTextDispatch() {
     charproptext_internal::UpdatePropText(renderFx, local, 10, 'i', target);
     Expect(g_gotoCalls == 0, "mode 'i' with value -1 does not move the frame");
 
+    // Mode 'b', not a bonus: the target gets the identity colour block (allocated on first use) and the value prints.
     ResetLog();
     g_propValue = 7;
+    g_isBonus = false;
     charproptext_internal::UpdatePropText(renderFx, local, 10, 'b', target);
-    Expect(g_htmlFormats.size() == 1 && g_htmlValues[0] == 7, "mode 'b' still runs the text step (colour step is partial)");
+    Expect(g_isBonusQueries.size() == 1 && g_isBonusQueries[0] == 10, "mode 'b' asks PROPS_IsBonus for the property");
+    Expect(g_colourCalls == 0, "mode 'b' without a bonus does not call SetColorTransform");
+    Expect(g_customCtorCalls == 1 && target->m_custom != nullptr && target->m_cxform_changed &&
+               target->m_local_cxform == &target->m_custom->m_cxform,
+           "mode 'b' without a bonus allocates the custom block and points the local transform at it");
+    Expect(std::memcmp(&target->m_custom->m_cxform, &gameswf::cxform::identity, sizeof(gameswf::cxform)) == 0,
+           "mode 'b' without a bonus copies the identity colour transform");
+    Expect(g_htmlFormats.size() == 1 && g_htmlValues[0] == 7, "mode 'b' without a bonus still prints the value");
 
+    // A second 'b' update reuses the block: no new allocation.
+    gameswf::character::custom* block = target->m_custom;
+    ResetLog();
+    charproptext_internal::UpdatePropText(renderFx, local, 10, 'b', target);
+    Expect(g_customCtorCalls == 0 && target->m_custom == block, "mode 'b' reuses an existing custom block");
+
+    // Mode 'b', a bonus: SetColorTransform(target, 0xFF000000, FontTextColors/propBonus), then the value prints.
+    ResetLog();
+    g_propValue = 9;
+    g_isBonus = true;
+    g_constant = 0x00ABCDEF;
+    charproptext_internal::UpdatePropText(renderFx, local, 10, 'b', target);
+    Expect(g_colourCalls == 1 && g_colourTarget == target && g_colourFirst == 0xFF000000u && g_colourSecond == 0x00ABCDEFu,
+           "mode 'b' bonus calls SetColorTransform with 0xFF000000 and the propBonus colour");
+    Expect(g_lastConstantName == "propBonus", "mode 'b' bonus reads the propBonus constant");
+    Expect(g_htmlFormats.size() == 1 && g_htmlValues[0] == 9, "mode 'b' bonus still prints the value");
+    g_isBonus = false;
+    g_constant = 0;
+
+    // Values above 1000 take the text path: the string manager formats "^d" and the value is set as text.
     ResetLog();
     g_propValue = 1500;
     charproptext_internal::UpdatePropText(renderFx, local, 10, '_', target);
-    Expect(g_htmlValues.empty(), "value above 1000 takes the partial text path and prints nothing");
+    Expect(g_parseCalls == 1 && g_parseFormat == "^d" && g_parseValue == 1500, "a value above 1000 formats with the \"^d\" pattern");
+    Expect(g_setTextCalls == 1 && g_setText == "V1500" && g_setTextFlag, "a value above 1000 sets the formatted text");
+    Expect(g_htmlValues.empty(), "a value above 1000 does not print with FormatHTML");
 
     ResetLog();
     charproptext_internal::UpdatePropText(renderFx, local, 10, 'x', target);
-    Expect(g_htmlValues.empty() && g_gotoCalls == 0, "unknown mode returns without output");
+    Expect(g_htmlValues.empty() && g_gotoCalls == 0 && g_colourCalls == 0, "unknown mode returns without output");
 
     ResetLog();
     g_propValue = 5;
     charproptext_internal::UpdatePropText(renderFx, local, -1, '_', target);
-    Expect(g_htmlValues.empty(), "property id -1 returns without output");
+    Expect(g_htmlValues.empty() && g_propIdQueries.empty(), "property id -1 returns without output");
 
     ResetLog();
     charproptext_internal::UpdatePropText(renderFx, nullptr, 10, '_', target);
-    Expect(g_htmlValues.empty(), "null local character returns without output");
+    Expect(g_htmlValues.empty() && g_propIdQueries.empty(), "null local character returns without output");
 }
 
 void TestCSSpawnEventsAndBlur() {
@@ -438,7 +664,9 @@ void TestCSStunned() {
 
 int main() {
     TestCharMenuTutorialMsg();
-    TestCharPropTextFieldDefaults();
+    TestParsePropName();
+    TestCharPropTextFieldCtor();
+    TestCharPropTextFieldUpdate();
     TestUpdatePropTextDispatch();
     TestCSSpawnEventsAndBlur();
     TestCSSpawnFocus();

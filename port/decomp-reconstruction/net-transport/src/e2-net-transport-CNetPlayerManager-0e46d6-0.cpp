@@ -40,9 +40,8 @@ int CNetPlayerManager::DisconnectPlayer(int a2) {
 }
 
 // 0x810b7c CNetPlayerManager::SetPlayerGamepadId(int,int)
-// The field written is unk_1c8 (+0x1c8, the NetStructInt<16u> block at +0x1a8). The compare, store and
-// SetChanged are the block's SetValue (checked against NetStructMemberType<int>::SetValue, 0x36d9f0). The
-// name is kept as unk_1c8; the setter name suggests a gamepad id, which the integrator may apply (layout request).
+// The field written is gamepad_id_ (+0x1c8, the NetStructInt<16u> block at +0x1a8). The compare, store and
+// SetChanged are the block's SetValue (checked against NetStructMemberType<int>::SetValue, 0x36d9f0).
 int CNetPlayerManager::SetPlayerGamepadId(int a2, int a3) {
     if (a2 < 0) {
         return 0;
@@ -54,31 +53,30 @@ int CNetPlayerManager::SetPlayerGamepadId(int a2, int a3) {
         return 0;
     }
     CNetPlayerInfo* player = players_[static_cast<std::size_t>(a2)];
-    player->unk_1c8.SetValue(a3);  // +0x1c8: compare, store and NetStructMember::SetChanged (block +0x1a8)
+    player->gamepad_id_.SetValue(a3);  // +0x1c8: compare, store and NetStructMember::SetChanged (block +0x1a8)
     return 1;
 }
 
 // 0x810bd4 CNetPlayerManager::ReassignPlayer(int,int,int)
-// Partial. The three stores are the blocks' SetValue (+0x180, +0x1a8, +0x1d0). The original returns the
-// return value of NetStruct::SetEnabled (0x81366c) in the branch where a3 differs from the local member id.
-// That value is not void in the binary: Hex-Rays gives NetStruct::SetEnabled an unsigned char* result, which
-// is the NetStruct pointer on the paths that do not enable it for the first time. The port's SetEnabled is void,
-// so this returns 0 in that branch. No caller of ReassignPlayer is in hexrays-all.
-int CNetPlayerManager::ReassignPlayer(int a2, int a3, int a4) {
+// Server only. The three stores are the blocks' SetValue (+0x180, +0x1a8, +0x1d0): the member id (a3), the
+// gamepad id (a4) and state 1. When the member is not the local one the player's NetStruct is enabled, and
+// the result is NetStruct::SetEnabled's. Otherwise it is what r0 holds: the LocalMemberId call (server) or
+// the IsServer result (0, client). The result is typed unsigned char* as the NetStruct::SetEnabled value is;
+// the member-id results are the raw integer. No caller of ReassignPlayer is in hexrays-all.
+unsigned char* CNetPlayerManager::ReassignPlayer(int a2, int a3, int a4) {
     const bool is_server = CMatching::Get()->IsServer();
-    int result = is_server ? 1 : 0;
-    if (is_server) {
-        CNetPlayerInfo* player = GetPlayer(a2, true);
-        player->conn_index_.SetValue(a3);  // +0x1a0, block +0x180
-        player->unk_1c8.SetValue(a4);      // +0x1c8, block +0x1a8
-        player->state_.SetValue(1);        // +0x1f0, block +0x1d0
-        result = CMatching::Get()->LocalMemberId();  // vtable +0x6c
-        if (a3 != result) {
-            players_[static_cast<std::size_t>(a2)]->SetEnabled(true);  // NetStruct::SetEnabled (0x81366c)
-            return 0;  // SetEnabled's leftover R0 is not kept.
-        }
+    if (!is_server) {
+        return nullptr;
     }
-    return result;
+    CNetPlayerInfo* player = GetPlayer(a2, true);
+    player->matching_member_id_.SetValue(a3);  // +0x1a0, block +0x180
+    player->gamepad_id_.SetValue(a4);          // +0x1c8, block +0x1a8
+    player->state_.SetValue(1);                // +0x1f0, block +0x1d0
+    const int local_member = CMatching::Get()->LocalMemberId();  // vtable +0x6c
+    if (a3 != local_member) {
+        return players_[static_cast<std::size_t>(a2)]->SetEnabled(true);  // NetStruct::SetEnabled (0x81366c)
+    }
+    return reinterpret_cast<unsigned char*>(static_cast<std::intptr_t>(local_member));
 }
 
 // 0x810c88 CNetPlayerManager::ClearPlayers()
@@ -129,13 +127,13 @@ void CNetPlayerManager::InitPlayers() {
 }
 
 // 0x811308 CNetPlayerManager::ResetPlayers()
-// Clears the id-list cache, ClearPlayers, InitPlayers, and sets unk_1b0_ (+0x1b0) to -1. The leftover r0 of
+// Clears the id-list cache, ClearPlayers, InitPlayers, and sets last_host_id_ (+0x1b0) to -1. The leftover r0 of
 // InitPlayers is not kept; the callers in hexrays-all (chunk_052 and chunk_053) do not use the value.
 void CNetPlayerManager::ResetPlayers() {
     player_id_list_.clear();  // +0x1b8 (end = begin)
     ClearPlayers();
     InitPlayers();
-    unk_1b0_ = -1;  // +0x1b0
+    last_host_id_ = -1;  // +0x1b0
 }
 
 // 0x8113fc CNetPlayerManager::GetPlayerIdList()

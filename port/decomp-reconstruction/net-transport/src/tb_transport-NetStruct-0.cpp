@@ -6,6 +6,7 @@
 #include "net-transport/net_struct.hpp"
 
 #include <cassert>
+#include <cstdint>
 
 #include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
@@ -148,21 +149,27 @@ int NetStruct::Load(NetBitStream& stream, int memberId, std::uint32_t a4) {
 // 0x81366c _ZN9NetStruct10SetEnabledEb
 // Disabling clears the post-load flag. Enabling a disabled struct gives every member the change mask of
 // the local member (CMatching vt +0x84 of vt +0x6c) and marks it changed, so the first Serialize sends the
-// whole struct. The enabled byte (+0x124) is stored last. The pseudocode returns a leftover R0; void here.
-void NetStruct::SetEnabled(bool enabled) {
+// whole struct. The enabled byte (+0x124) is stored last. The result is what r0 holds at the end, which
+// Hex-Rays types as unsigned char*: this when nothing was changed, the address of the last member (the
+// SetChanged result) after an enabling loop, or the member bit mask itself when the struct has no members
+// (the CMatching call's result, returned as the raw value).
+unsigned char* NetStruct::SetEnabled(bool enabled) {
+    unsigned char* result = reinterpret_cast<unsigned char*>(this);
     if (enabled) {
         if (!enabled_) {  // +0x124
             CMatching* matching = CMatching::Get();
             const std::uint32_t bit = matching->MemberBit(matching->LocalMemberId());  // vt +0x84, vt +0x6c
+            result = reinterpret_cast<unsigned char*>(static_cast<std::uintptr_t>(bit));
             for (int i = 0; i < member_count_; ++i) {
                 members_[i]->changeMask_ = bit;  // member +0x18
-                members_[i]->SetChanged();
+                result = reinterpret_cast<unsigned char*>(members_[i]->SetChanged());
             }
         }
     } else {
         post_load_pending_ = false;  // +0x125
     }
     enabled_ = enabled;
+    return result;
 }
 
 // 0x813704 _ZN9NetStruct22AreChangesAcknowledgedEv

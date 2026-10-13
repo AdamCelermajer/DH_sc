@@ -153,7 +153,9 @@ bool AlgoAStar<GraphT, HeuristicT>::_markNode(std::map<unsigned int, _InEdge>& c
 // A* over the graph. The open heap is a min-heap on f. Each expansion takes the node on top of the heap, lists its
 // outgoing edges, and relaxes each one that passes the goal and validity tests. A goal edge is the last thing pushed:
 // the binary empties the heap (a sort) and pushes only that edge, so the next pass finds the goal on top. When the
-// goal is reached, the path is rebuilt from the closed map back to the start node.
+// goal is reached, the path is rebuilt from the closed map back to the start node. Each edge is put at the front of
+// the output list (list::push_front), so the list reads start to goal. When the goal is not reached, the closed edges
+// are put at the front in key order, which leaves them in descending key order.
 //
 // Asm-checked details: the heuristic term is the constant 0.0, the goal test runs one extra time (its result is
 // dropped) for every edge that passes the validity tests, and the binary walks the edge list once more per edge
@@ -173,6 +175,10 @@ bool AlgoAStar<GraphT, HeuristicT>::findNode(unsigned int startId, const ITest<P
         return m_found;
     }
     const PFGInnerNode* start = startIt->second;
+    if (start == nullptr) {
+        // The binary returns here as well: after the resets above and before m_outPath is set (asm: CMP R3,#0; BEQ).
+        return m_found;
+    }
 
     std::list<const PFGInnerEdge*>* outList = path != nullptr ? path : &m_path;
     m_outPath = outList;
@@ -245,18 +251,20 @@ bool AlgoAStar<GraphT, HeuristicT>::findNode(unsigned int startId, const ITest<P
     const bool reached = goal(current);
     m_found = reached;
     if (reached) {
-        // Walk back from the goal along the closed edges, appending each edge, until the start node.
+        // Walk back from the goal along the closed edges until the start node. Each edge goes to the front of the
+        // output list (the binary's insert before the list's first element), so the last one put in, the edge
+        // leaving the start node, is first: the path reads start to goal.
         const PFGInnerNode* node = current;
         while (node->getID() != start->getID()) {
             const _InEdge& entry = closed[node->getID()];
-            m_outPath->push_back(entry.edge);
+            m_outPath->push_front(entry.edge);
             node = entry.edge->getFromNode();
         }
     } else {
-        // Not reached: every closed edge, in key order.
+        // Not reached: every closed edge goes to the front in key order, so the list ends in descending key order.
         for (const auto& entry : closed) {
             if (entry.second.edge != nullptr) {
-                m_outPath->push_back(entry.second.edge);
+                m_outPath->push_front(entry.second.edge);
             }
         }
     }

@@ -17,6 +17,13 @@ int g_failures = 0;
     } while (0)
 }  // namespace
 
+// The destructor's body is in batch p1-vox-audio-VoxSoundManager-3a5f5c-1.cpp (game glue, not linked into this test).
+// The test only needs the members destroyed, so empty bodies are enough here (the sound pack's is not linked either).
+VoxSoundManager::~VoxSoundManager() {}
+namespace vox {
+VoxSoundPackXML::~VoxSoundPackXML() {}
+}  // namespace vox
+
 int main() {
     glitch::core::vector3d<float> visual{250.0f, -100.0f, 0.5f};
     glitch::core::vector3d<float> sound = VoxSoundManager::ConvertVisual3DToSound3D(visual);

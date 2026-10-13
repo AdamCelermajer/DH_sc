@@ -21,42 +21,26 @@ CGLSLShaderCode::CGLSLShaderCode(CProgrammableGLDriver* driver)
 // The string member releases its heap buffer (the original calls GlitchFree
 // when the buffer is not the inline one); the vtable store is implicit.
 
-uint16_t CShaderCodeManager::getId(const char* name) const {
-    auto it = m_ids.find(name);
-    return it == m_ids.end() ? kInvalidId : it->second;
-}
-
-void CShaderCodeManager::insert(const char* name, const boost::intrusive_ptr<IShaderCode>& code) {
-    m_ids[name] = static_cast<uint16_t>(m_codes.size());
-    m_codes.push_back(code);
-}
-
-boost::intrusive_ptr<IShaderCode> CShaderCodeManager::at(uint16_t id) const {
-    if (id < m_codes.size()) return m_codes[id];
-    return boost::intrusive_ptr<IShaderCode>();
-}
-
-void CShaderCodeManager::removeAll() {
-    m_ids.clear();
-    m_codes.clear();
-}
+// 0x6e0804 / 0x6e0818 (ctor) and 0x6e1758 / 0x6e1828 (dtor) of the collection: the canonical SIDedCollection() and
+// ~SIDedCollection() (glitch-shared/sid_collection.hpp), listed in ledger.d/u2-glitch-video.csv.
 
 // 0x6e1b08 _ZNK6glitch5video18ICodeShaderManager13getShaderCodeEPKc
 // Returns a null pointer when the name is unknown, as the original does.
 boost::intrusive_ptr<IShaderCode> ICodeShaderManager::getShaderCode(const char* name) const {
-    uint16_t id = m_shaderCodes.getId(name);
-    if (id == CShaderCodeManager::kInvalidId) return boost::intrusive_ptr<IShaderCode>();
-    return m_shaderCodes.at(id);
+    const uint16_t id = m_shaderCodes.getId(name);
+    if (id == 0xffff) return boost::intrusive_ptr<IShaderCode>();
+    return m_shaderCodes.get(id)->value;
 }
 
 // 0x6e1d70 _ZN6glitch5video18ICodeShaderManager13addShaderCodeERKN5boost13intrusive_ptrINS0_11IShaderCodeEEE
 void ICodeShaderManager::addShaderCode(const boost::intrusive_ptr<IShaderCode>& code) {
-    m_shaderCodes.insert(code->m_name.c_str(), code);
+    m_shaderCodes.insert(code->m_name.c_str(), code, false);
 }
 
 // 0x6e2028 _ZN6glitch5video18ICodeShaderManager23removeUnusedShaderCodesEv
+// The collection's removeUnused() (removeAll(false)): only entries that nothing else holds are removed.
 void ICodeShaderManager::removeUnusedShaderCodes() {
-    m_shaderCodes.removeAll();
+    m_shaderCodes.removeUnused();
 }
 
 // 0x6e2034 _ZN6glitch5video18ICodeShaderManager19removeUnusedShadersEv

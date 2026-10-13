@@ -75,7 +75,7 @@ public:
     void disconnect();                               // 0x8465b8 _ZN10Connection10disconnectEv
     void setName(char* name);                        // 0x846c68 _ZN10Connection7setNameEPc
 
-private:
+    // Members are public (TRACK-B decision 9): ConnectionLobby reads and writes them directly.
     static constexpr std::size_t kBufferBytes = 0x1001;  // recv_buffer_ and send_buffer_
 
     int state_ = 0;                                  // +0x04
@@ -84,7 +84,7 @@ private:
     std::uint8_t recv_buffer_[kBufferBytes] = {};    // +0x0f
     std::uint8_t send_buffer_[kBufferBytes] = {};    // +0x1010
     std::unique_ptr<GLXPlayerSocket> socket_;        // +0x2014
-    std::string host_;                               // +0x201c (empty when the original host is null)
+    std::unique_ptr<char[]> host_;                   // +0x201c (owned copy of the constructor host; null when it is null)
     int port_ = 0;                                   // +0x2020
     std::deque<std::unique_ptr<DataPacket>> outgoing_;  // +0x2024 / +0x2028
     std::deque<std::unique_ptr<DataPacket>> incoming_;  // +0x202c / +0x2030

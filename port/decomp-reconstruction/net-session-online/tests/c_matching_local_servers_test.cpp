@@ -97,14 +97,14 @@ int main() {
     from.JoinRoomInternal(1);
     CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000c, false));
 
-    // GetMemberName: the local member gives the local transport name (empty here); a remote
-    // member gives the part of its transport name before the first '.'.
-    TransportNamesForTest().clear();
-    TransportNamesForTest()[0] = "alpha.beta";
+    // GetMemberName: the local member gives the local host name of the transport manager; a remote
+    // member gives the part of its host name before the first '.'.
+    transport_test_support::HostnamesForTest().clear();
+    transport_test_support::HostnamesForTest()[0] = "alpha.beta";
     CHECK(local.GetMemberName(5) == "alpha");
     local.SetMemberId(7);
-    CHECK(local.GetMemberName(7).empty());
-    TransportNamesForTest().clear();
+    CHECK(local.GetMemberName(7) == transport_test_support::LocalHostnameForTest());
+    transport_test_support::HostnamesForTest().clear();
 
     std::printf("%s\n", failures ? "c_matching_local_servers: FAILED" : "c_matching_local_servers: ok");
     return failures != 0;

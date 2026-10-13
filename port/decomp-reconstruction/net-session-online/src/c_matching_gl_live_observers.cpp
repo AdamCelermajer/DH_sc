@@ -44,13 +44,13 @@ void CMatchingGLLiveMessageObserver::OnRequestFailure(std::int32_t /*code*/, std
 // Codes 0x6f (111) and 0x70 (112) set the byte at +0x6c02 of the CMatching singleton (CMatching::Get,
 // which the original calls without using the result). Partial: the singleton is treated as the
 // CMatchingGLLive that owns this observer (the observer is its messageObserver_). The port
-// checks the singleton for null, the original does not.
+// checks that the singleton exists and is a CMatchingGLLive, the original does not: with another provider the
+// byte would lie outside the object.
 void CMatchingGLLiveMessageObserver::OnRequestSuccess(std::int32_t code, const char* /*text*/,
                                                      std::int32_t /*length*/) {
     if (static_cast<std::uint32_t>(code - 111) <= 1u) {
-        CMatching* matching = CMatching::Get();
-        if (matching != nullptr) {
-            static_cast<CMatchingGLLive*>(matching)->unk_6c02 = 1;
+        if (auto* live = dynamic_cast<CMatchingGLLive*>(CMatching::Get())) {
+            live->unk_6c02 = 1;
         }
     }
 }

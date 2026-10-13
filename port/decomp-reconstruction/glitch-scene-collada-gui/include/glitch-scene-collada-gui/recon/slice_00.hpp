@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+#include "glitch-scene-collada-gui/scene/SViewFrustum.hpp"
 
 namespace glitch::collada::recon_00 {
 
@@ -103,22 +104,8 @@ public:
 // ---------------------------------------------------------------------------
 // glitch::scene::SViewFrustum and culling helpers
 // ---------------------------------------------------------------------------
-struct FrustumPlane {
-    float normal[3];  // +0x00 (nx, ny, nz)
-    float d;          // +0x0c
-};
-
-class ViewFrustum {
-public:
-    // 0x35bec8 _ZNK6glitch5scene12SViewFrustum10intersectsERKNS_4core8aabbox3dIfEE
-    bool intersects(const glitch::core::aabbox3d<float>& box) const;
-    // 0x50cacc _ZNK6glitch5scene12SViewFrustum25intersectsWithoutBoxTest3ERKNS_4core8aabbox3dIfEE
-    bool intersectsWithoutBoxTest3(const glitch::core::aabbox3d<float>& box) const;
-
-    std::uint32_t header[3];        // +0x00 .. +0x0b (not used by these helpers)
-    FrustumPlane planes[6];         // +0x0c, six planes of four floats each
-    glitch::core::aabbox3d<float> box;  // +0x6c (frustum bounding box)
-};
+// glitch::scene::SViewFrustum: the canonical view frustum (scene/SViewFrustum.hpp). The stand-in
+// ViewFrustum / FrustumPlane are retired; the box and planes are the canonical members (plane3d Normal / D).
 
 // glitch::collada::CSceneNodeAnimatorSynchronizedBlender / SynchronizedSet: canonical classes in
 // collada/CSceneNodeAnimatorSynchronizedBlender.hpp and collada/CSceneNodeAnimatorSynchronizedSet.hpp.

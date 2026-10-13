@@ -125,9 +125,10 @@ void VisualFXManager::PlayAnimFXSet(int effectTableId, const Point3D<float>& pos
 
     int stepIndex = 0;
     if (row.m_w5 == 2) {
-        // The original passes the effect table id as the synced flag (r1). The callee tests it as a truth value
-        // (if (a2) selects the synced stream), so the bool conversion is the same branch.
-        stepIndex = static_cast<int>(Random::GetRandom(static_cast<int>(row.m_w3), effectTableId != 0));
+        // The original BLs the GCC clone of Random::GetRandom with synced folded to false (0x493780, the ordinary
+        // stream: s_seed and counter [0]). The effect table id left in r1 is a register leftover; that clone never
+        // reads it, so the call is GetRandom(range, false).
+        stepIndex = static_cast<int>(Random::GetRandom(static_cast<int>(row.m_w3), false));
     }
 
     const Point3D<float> positionCopy = position;
@@ -188,8 +189,9 @@ void VisualFXManager::PlayAnimFXSet(int effectTableId, const Point3D<float>& pos
 
     int stepIndex = 0;
     if (row.m_w5 == 2) {
-        // The original passes the effect table id as the synced flag (r1), as in PlayAnimFXSet above.
-        stepIndex = static_cast<int>(Random::GetRandom(static_cast<int>(row.m_w3), effectTableId != 0));
+        // Same clone as the 0x495888 variant (0x493780, ordinary stream): the effect table id in r1 is never read,
+        // so the call is GetRandom(range, false).
+        stepIndex = static_cast<int>(Random::GetRandom(static_cast<int>(row.m_w3), false));
     }
 
     const Point3D<float> positionCopy = position;

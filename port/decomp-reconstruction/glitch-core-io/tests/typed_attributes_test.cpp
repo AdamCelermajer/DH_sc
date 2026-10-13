@@ -1,6 +1,8 @@
 #include "glitch-core-io/io/scalar_attributes.hpp"
 #include "glitch-core-io/io/typed_attributes.hpp"
 
+#include "io_video_fakes.hpp"
+
 #include <cstdio>
 #include <cwchar>
 
@@ -66,7 +68,8 @@ int main() {
     CHECK(binary.getType() == 0x19);
 
     // The texture attribute holds a reference on its driver until it is destroyed.
-    glitch::video::IVideoDriver driver;  // count 1, stays on the stack
+    io_test_fakes::TestNullDriver nullDriver;  // count 1, stays on the stack
+    glitch::video::IVideoDriver& driver = nullDriver.get();
     {
         CTextureAttribute held("tex", boost::intrusive_ptr<glitch::video::ITexture>{}, &driver, false);
         CHECK(driver.referenceCounter == 2 && held.driver == &driver);

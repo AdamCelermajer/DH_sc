@@ -321,9 +321,9 @@ void CGUIListBox::selectNew(int position, bool setBySecond) {
     recalculateScrollPos();
     if (parent && !setBySecond) {
         SEvent event;
-        event.category = 0;
-        event.element = this;
-        event.eventCode = (selected == previous && now < lastSelectTime + 500) ? 9 : 8;
+        event.EventType = EET_GUI_EVENT;
+        event.GUIEvent.Caller = this;
+        event.GUIEvent.EventType = (selected == previous && now < lastSelectTime + 500) ? 9 : 8;
         parent->onEvent(event);
     }
     lastSelectTime = now;
@@ -349,8 +349,8 @@ bool CGUIListBox::onEvent(const SEvent& event) {
     if (!enabled) {
         return parent ? parent->onEvent(event) : false;
     }
-    if (event.category == 1) {
-        switch (event.guiCode) {
+    if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+        switch (event.MouseInput.Event) {
             case 0:
                 mouseSelectArmed = true;
                 return true;
@@ -359,32 +359,32 @@ bool CGUIListBox::onEvent(const SEvent& event) {
                 if (!canSelect(event)) {
                     return true;
                 }
-                selectNew(event.keyOrRelated, false);
+                selectNew(event.MouseInput.Y, false);
                 return true;
             }
             case 6:
                 if ((!mouseSelectArmed && !allowKeySelect) || !canSelect(event)) {
                     return parent ? parent->onEvent(event) : false;
                 }
-                selectNew(event.keyOrRelated, true);
+                selectNew(event.MouseInput.Y, true);
                 return true;
             case 7:
                 if (scrollBar) {
-                    scrollBar->setPos(scrollBar->getPos() - static_cast<int>(10.0f * event.amount));
+                    scrollBar->setPos(scrollBar->getPos() - static_cast<int>(10.0f * event.MouseInput.Wheel));
                 }
                 return true;
             default:
                 return parent ? parent->onEvent(event) : false;
         }
     }
-    if (event.category == 2) {
-        if (!event.keyDown) {
-            if (event.keyOrRelated == kKeyReturn || event.keyOrRelated == kKeySpace) {
+    if (event.EventType == EET_KEY_INPUT_EVENT) {
+        if (!event.KeyInput.PressedDown) {
+            if (event.KeyInput.Key == kKeyReturn || event.KeyInput.Key == kKeySpace) {
                 if (parent) {
                     SEvent sent;
-                    sent.category = 0;
-                    sent.element = this;
-                    sent.eventCode = 9;
+                    sent.EventType = EET_GUI_EVENT;
+                    sent.GUIEvent.Caller = this;
+                    sent.GUIEvent.EventType = 9;
                     parent->onEvent(sent);
                     return true;
                 }
@@ -398,7 +398,7 @@ bool CGUIListBox::onEvent(const SEvent& event) {
                                  ? (absoluteRect.height() - itemHeight) / itemHeight
                                  : 0;
         int next = selected;
-        switch (event.keyOrRelated) {
+        switch (event.KeyInput.Key) {
             case kKeyHome:
                 next = 0;
                 break;
@@ -432,9 +432,9 @@ bool CGUIListBox::onEvent(const SEvent& event) {
         recalculateScrollPos();
         if (selected != before && parent && !mouseSelectArmed && !allowKeySelect) {
             SEvent sent;
-            sent.category = 0;
-            sent.element = this;
-            sent.eventCode = 8;
+            sent.EventType = EET_GUI_EVENT;
+            sent.GUIEvent.Caller = this;
+            sent.GUIEvent.EventType = 8;
             parent->onEvent(sent);
         }
         return true;
@@ -666,9 +666,9 @@ bool CGUIMessageBox::onEvent(const SEvent& event) {
     if (!enabled) {
         return IGUIElement::onEvent(event);
     }
-    if (event.category == 2 && event.keyDown) {
+    if (event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.PressedDown) {
         IGUIElement* target = nullptr;
-        switch (event.keyOrRelated) {
+        switch (event.KeyInput.Key) {
             case kKeyEscape:
                 if (modalActive) {
                     for (IGUIElement* button : buttons) {
@@ -745,7 +745,7 @@ void CGUIModalScreen::draw() {
 // Partial: the click timestamp and the parent forwarding are ported. The focus
 // hand-off to the environment (vtable +16) is not.
 bool CGUIModalScreen::onEvent(const SEvent& event) {
-    if (event.category == 0 && event.eventCode == 0) {
+    if (event.EventType == EET_GUI_EVENT && event.GUIEvent.EventType == 0) {
         lastClickTime = getTimeMs();
         if (parent) {
             return parent->onEvent(event);

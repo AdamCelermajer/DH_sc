@@ -1,18 +1,20 @@
 // CConnection: one peer connection of the matching layer. Reconstructed from
-// libDungeonHunter2.so pseudocode.
+// libDungeonHunter2.so pseudocode. Members are public (TRACK-B decision 9).
 //
 // Original layout (32-bit offsets, kept as comments):
 //   +0x00 vptr (CConnection)
-//   +0x04 CEventQueue<CConnection::EVENTS, 100> base (not reconstructed yet)
-//   +0x08 CNetMutex
-//   +0x0c event list (inside the queue base)
-//   +0x14 event_capacity_, 100
+//   +0x04 event_queue_: CEventQueue<CConnection::EVENTS, 100>, a CEventQueueBase of 0x14 bytes (vptr +0x04,
+//         CNetMutex +0x08, event list +0x0c, expiry 100 at +0x14). The constructor sets its vptr to the
+//         CEventQueue<EVENTS,100> table; the destructor clears it.
 //   +0x18 state_: 0 idle, 1 disconnected, 2 connect requested, 3 accept pending, 4 connected
 //   +0x1c member_id_: set by Connect; IsToServer compares it with CMatching's slot 116 (ctor sentinel -14531089)
 //   +0x20 peer_id_ (CNetworkId, 28 bytes)
 //   +0x3c last_recv_time_, +0x40 last_send_time_, +0x44 last_keepalive_time_,
 //   +0x48 last_update_time_, +0x4c lag_start_time_, +0x50 timeout_ms_, +0x54 lag_flag_
 //   +0x58 stats_[9] (CDataStats<int>, 36 bytes each in the original)
+//   +0x17c..+0x190: the sample store of stats_[8] (the ping statistic): its CReadWriteLock at +0x17c, the
+//         red-black tree header at +0x180 (colour, root, leftmost, rightmost) and the node count at +0x190.
+//         CConnection::ReportStatistic(8, ...) writes it, and CConnectionManager::GetServerPing reads it.
 //   +0x19c handshake_id_ (CNetworkId, 28 bytes)
 //   +0x1b8 key_ (64-bit connection key)
 //
@@ -23,9 +25,9 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "net-session-online/c_event_queue_base.hpp"  // CEventQueueBase (one definition, net-session-online)
 #include "net-transport/deps/c_data_stats.hpp"
 #include "net-transport/net_network_id.hpp"
-#include "net-transport/sync.hpp"
 
 // Ping message. Only the fields the connection code reads are named.
 struct tMsgPing {
@@ -73,13 +75,12 @@ public:
     void SetState(int state) { state_ = state; }                      // test hook
     void SetMemberId(int member_id) { member_id_ = member_id; }       // test hook
 
-private:
     // Sends one message: a type byte, then `bytes` bytes of payload, to every transport.
     void SendPacket(std::uint8_t type, const void* payload, std::size_t bytes);
     // Handshake payload size and layout, as in the original (16 bytes).
     static constexpr std::size_t kHandshakeBytes = 16;
 
-    std::int32_t event_capacity_ = 100;                // +0x14
+    CEventQueueBase event_queue_{100};                 // +0x04 (CEventQueue<CConnection::EVENTS, 100>)
     std::int32_t state_ = 0;                           // +0x18
     std::int32_t member_id_ = -14531089;               // +0x1c
     CNetworkId peer_id_{};                             // +0x20
@@ -90,8 +91,7 @@ private:
     std::int32_t lag_start_time_ = 0;                  // +0x4c
     std::int32_t timeout_ms_ = 30000;                  // +0x50
     bool lag_flag_ = false;                            // +0x54
-    CDataStats<int> stats_[9];                         // +0x58
+    CDataStats<int> stats_[9];                         // +0x58 (stats_[8], +0x178, holds the ping samples)
     CNetworkId handshake_id_{};                        // +0x19c
     std::uint64_t key_ = 0;                            // +0x1b8
-    CNetMutex mutex_;                                  // +0x08
 };

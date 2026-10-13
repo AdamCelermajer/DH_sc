@@ -13,7 +13,8 @@
 // Dependencies outside this batch (the link needs them):
 //   StrToObj / ObjToStr overloads        core-platform/src/obj_str.cpp
 //   CustomAlloc(unsigned)                core-platform/src/memory.cpp
-//   operator new(size_t, E_MEMORY_HINT)  core-platform/src/memory.cpp
+//   operator new(size_t, MemoryHintState) game-app/src/g1-game-app-global-f216b6-0.cpp (0x310570, dh2/global/runtime_support.hpp;
+//                                        the Clone bodies call the MemoryHintState overload, not the E_MEMORY_HINT one)
 //   Point3D<float>::operator==           0x312b6c, Point3D batch
 //   Property::Property(...) and the SimpleTypeProperty<T> constructors: other batches (the ctor is not in this batch)
 //   The vtable slots of SimpleTypeProperty<dimension2d<float>> and <vector3d<float>> (Clone copy-constructs them, which
@@ -25,10 +26,11 @@
 #include <string>
 
 #include "core-platform/deps/glitch_core.hpp"  // glitch::core::vector3d<float>, glitch::core::dimension2d<float>
-#include "core-platform/memory.hpp"           // CustomAlloc, operator new(size_t, E_MEMORY_HINT)
+#include "core-platform/memory.hpp"           // CustomAlloc, MHS_UNRECOVERED
 #include "core-platform/obj_str.hpp"          // ObjToStr, StrToObj
 #include "dh2/Point3D.hpp"
 #include "dh2/Property.hpp"
+#include "dh2/global/runtime_support.hpp"     // operator new(size_t, MemoryHintState), 0x310570
 
 namespace {
 // The member of an owning object that a property describes: the object's address plus the property's byte offset.
@@ -84,11 +86,12 @@ int SimpleTypeProperty<int>::SetDefaultValueFromString(const char* text) {
 }
 
 // 0x38c08c _ZN18SimpleTypePropertyIiE5CloneEv
-// The original allocates sizeof(SimpleTypeProperty<int>) (0x24 on the 32-bit build) through operator new(size, 0) and
-// copies the offset, the name and the default value into it. The implicit copy constructor does the same copies.
+// The original allocates sizeof(SimpleTypeProperty<int>) (0x24 on the 32-bit build) through operator new(0x24, 0), which is
+// operator new(size_t, MemoryHintState) at 0x310570 (asm: MOV R1,#0; BL _Znwj15MemoryHintState). It copies the offset, the
+// name and the default value into the block. The implicit copy constructor does the same copies.
 template <>
 SimpleTypeProperty<int>* SimpleTypeProperty<int>::Clone() {
-    void* memory = operator new(sizeof(SimpleTypeProperty<int>), glitch::memory::EMH_UNRECOVERED);
+    void* memory = ::operator new(sizeof(SimpleTypeProperty<int>), MHS_UNRECOVERED);
     return new (memory) SimpleTypeProperty<int>(*this);
 }
 
@@ -157,9 +160,11 @@ int SimpleTypeProperty<Point3D<float>>::SetDefaultValueFromString(const char* te
 }
 
 // 0x389ee4 _ZN18SimpleTypePropertyI7Point3DIfEE5CloneEv
+// The original allocates through operator new(0x2c, 0), which is operator new(size_t, MemoryHintState) (asm: BL
+// _Znwj15MemoryHintState), not the E_MEMORY_HINT overload.
 template <>
 SimpleTypeProperty<Point3D<float>>* SimpleTypeProperty<Point3D<float>>::Clone() {
-    void* memory = operator new(sizeof(SimpleTypeProperty<Point3D<float>>), glitch::memory::EMH_UNRECOVERED);
+    void* memory = ::operator new(sizeof(SimpleTypeProperty<Point3D<float>>), MHS_UNRECOVERED);
     return new (memory) SimpleTypeProperty<Point3D<float>>(*this);
 }
 
@@ -197,10 +202,11 @@ int SimpleTypeProperty<glitch::core::dimension2d<float>>::SetDefaultValueFromStr
 }
 
 // 0x387f04 _ZN18SimpleTypePropertyIN6glitch4core11dimension2dIfEEE5CloneEv
+// The original allocates through operator new(0x28, 0), which is operator new(size_t, MemoryHintState) (asm: BL
+// _Znwj15MemoryHintState), not the E_MEMORY_HINT overload.
 template <>
 SimpleTypeProperty<glitch::core::dimension2d<float>>* SimpleTypeProperty<glitch::core::dimension2d<float>>::Clone() {
-    void* memory = operator new(sizeof(SimpleTypeProperty<glitch::core::dimension2d<float>>),
-                                glitch::memory::EMH_UNRECOVERED);
+    void* memory = ::operator new(sizeof(SimpleTypeProperty<glitch::core::dimension2d<float>>), MHS_UNRECOVERED);
     return new (memory) SimpleTypeProperty<glitch::core::dimension2d<float>>(*this);
 }
 
@@ -216,9 +222,10 @@ std::string SimpleTypeProperty<glitch::core::vector3d<float>>::ToString(void* ob
 }
 
 // 0x387e40 _ZN18SimpleTypePropertyIN6glitch4core8vector3dIfEEE5CloneEv
+// The original allocates through operator new(0x2c, 0), which is operator new(size_t, MemoryHintState) (asm: BL
+// _Znwj15MemoryHintState), not the E_MEMORY_HINT overload.
 template <>
 SimpleTypeProperty<glitch::core::vector3d<float>>* SimpleTypeProperty<glitch::core::vector3d<float>>::Clone() {
-    void* memory = operator new(sizeof(SimpleTypeProperty<glitch::core::vector3d<float>>),
-                                glitch::memory::EMH_UNRECOVERED);
+    void* memory = ::operator new(sizeof(SimpleTypeProperty<glitch::core::vector3d<float>>), MHS_UNRECOVERED);
     return new (memory) SimpleTypeProperty<glitch::core::vector3d<float>>(*this);
 }

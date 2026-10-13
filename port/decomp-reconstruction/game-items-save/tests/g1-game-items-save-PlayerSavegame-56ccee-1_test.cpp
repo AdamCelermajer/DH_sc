@@ -8,13 +8,14 @@
 // companion, which needs dh2/PlayerManager.hpp and so cannot share this translation unit with the pydata name tables; the stand-in
 // answers "not multiplayer", which is the answer the source's online-flag stub gives. The checks cover the batch source's own
 // logic: the constructor state, the checkpoint sequencing and file names, the slot search, the fast-travel bits, and the faery,
-// skill and map-location tables with their out-of-range results.
+// skill and map-location tables with their out-of-range results, and the ASSERT lines a map location prints.
 
 #include <algorithm>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -276,6 +277,69 @@ void TestMapLocations() {
     CHECK(states0[1] == 7);
 }
 
+// ---- the ASSERT lines a map location prints ----
+// At gAssertLevel 1 the batch source prints one line per failed ASSERT to stderr. The test sends stderr to a file for four
+// out-of-range calls and reads it back. A negative location prints only the lower-bound line, and a location at or past the
+// count prints only the upper-bound line: the original's compare is signed, so a negative location does not reach the upper
+// bound.
+
+#ifdef _WIN32
+const char kNullDevice[] = "NUL";
+#else
+const char kNullDevice[] = "/dev/null";
+#endif
+
+// True when text is "ASSERT(<expr>) FAILED: <source>:<line>" for the given expression and line number.
+bool PrintedAssert(const std::string& text, const std::string& expr, int line) {
+    const std::string head = "ASSERT(" + expr + ") FAILED: ";
+    const std::string tail = ":" + std::to_string(line);
+    return text.compare(0, head.size(), head) == 0 && text.size() >= tail.size() &&
+           text.compare(text.size() - tail.size(), tail.size(), tail) == 0;
+}
+
+void TestMapLocationAsserts() {
+    SetNameTable(Arrays::WorldMap::m_memberNames, {"L0", "L1", "L2", "L3"});
+    std::int32_t states0[4] = {0, 0, 0, 0};
+    PlayerSavegame map(0, 0, false);
+    map.m_worldMapStates[0] = states0;
+
+    const char* dir = std::getenv("TEMP");
+    if (dir == nullptr) dir = std::getenv("TMP");
+    if (dir == nullptr) dir = ".";
+    const std::string path = std::string(dir) + "/g1-pso-maploc-assert.log";
+
+    gAssertLevel = 1;
+    if (std::freopen(path.c_str(), "w", stderr) == nullptr) {
+        gAssertLevel = 0;
+        CHECK(false);  // stderr could not be redirected to the log file
+        return;
+    }
+    map.SG_SetMapLocState(-1, 1, 0);
+    map.SG_SetMapLocState(4, 1, 0);
+    (void)map.SG_GetMapLocState(-1, 0);
+    (void)map.SG_GetMapLocState(4, 0);
+    std::fflush(stderr);
+    std::freopen(kNullDevice, "w", stderr);  // closes the log file
+    gAssertLevel = 0;
+
+    std::vector<std::string> lines;
+    std::ifstream in(path);
+    for (std::string line; std::getline(in, line);) {
+        lines.push_back(line);
+    }
+    in.close();
+    std::remove(path.c_str());
+
+    CHECK(lines.size() == 4);
+    if (lines.size() == 4) {
+        CHECK(PrintedAssert(lines[0], "mapLocId >= 0", 125));                            // SetMapLocState, negative
+        CHECK(PrintedAssert(lines[1], "mapLocId < (int)Arrays::WorldMap::size", 126));  // SetMapLocState, past the count
+        CHECK(PrintedAssert(lines[2], "mapLocId >= 0", 115));                            // GetMapLocState, negative
+        CHECK(PrintedAssert(lines[3], "mapLocId < (int)Arrays::WorldMap::size", 116));  // GetMapLocState, past the count
+    }
+    CHECK(states0[0] == 0 && states0[1] == 0 && states0[2] == 0 && states0[3] == 0);  // nothing stored
+}
+
 }  // namespace
 
 // ---- stand-ins for the external symbols the batch source references ----
@@ -347,6 +411,7 @@ int main() {
     TestFaeries();
     TestSkills();
     TestMapLocations();
+    TestMapLocationAsserts();
 
     if (g_failures != 0) {
         std::printf("%d check(s) failed\n", g_failures);

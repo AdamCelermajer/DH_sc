@@ -89,7 +89,7 @@ void GameObject::GetLookAtVec(Point3D<float>&) const { std::abort(); }
 template <>
 float Point3D<float>::angle(const Point3D<float>&) const { std::abort(); }
 template <>
-void Point3D<float>::normalize() { std::abort(); }
+Point3D<float>& Point3D<float>::normalize() { std::abort(); }
 
 Application& ApplicationGetInstance() { std::abort(); }
 int Application::GetDt() { std::abort(); }
@@ -167,6 +167,9 @@ void TestDragableConstructorScreenDeadZone() {
     Check(NearlyEqual(d.m_deadZone[2], 0.0f), "dead zone ymin is zero without a zone");
     Check(NearlyEqual(d.m_deadZone[3], 600.0f * 20.0f), "dead zone ymax is the screen height times 20");
     Check(d.unk_1c == 0, "unk_1c zero at construction");
+    Check(NearlyEqual(d.m_bounds[0], 0.0f) && NearlyEqual(d.m_bounds[1], 0.0f) && NearlyEqual(d.m_bounds[2], 0.0f) &&
+              NearlyEqual(d.m_bounds[3], 0.0f),
+          "m_bounds is zeroed before the twips conversion (the bounds query is not declared)");
     Check(NearlyEqual(d.m_savedMatrix[0], 1.0f) && NearlyEqual(d.m_savedMatrix[1], 0.0f) &&
               NearlyEqual(d.m_savedMatrix[2], 0.0f) && NearlyEqual(d.m_savedMatrix[3], 0.0f) &&
               NearlyEqual(d.m_savedMatrix[4], 1.0f) && NearlyEqual(d.m_savedMatrix[5], 0.0f),

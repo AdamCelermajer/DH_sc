@@ -15,13 +15,15 @@ namespace {
 // Captures the request text instead of sending it.
 class CapturingUser : public GLXPlayerUser {
 public:
-    void SendByGet(char* request) override {
+    std::int32_t SendByGet(char* request) override {
         ++getCount;
         get = request;
+        return 1;
     }
-    void SendByPost(char* request) override {
+    std::int32_t SendByPost(char* request) override {
         ++postCount;
         post = request;
+        return 1;
     }
     int getCount = 0;
     int postCount = 0;

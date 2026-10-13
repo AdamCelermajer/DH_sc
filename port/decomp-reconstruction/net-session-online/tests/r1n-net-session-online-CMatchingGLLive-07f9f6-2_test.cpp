@@ -17,10 +17,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stub: CNetPlayerManager::AddPlayer(NetBitStream&,int,int) has no body in the port yet, and the
-// net-transport object that CNetPlayerManager's constructor comes from references it (same stub as the
-// other net-session-online tests).
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 int main() {
     CNetworkId from;

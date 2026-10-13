@@ -8,6 +8,7 @@
 
 #include "net-session-online/lcx_player_socket.hpp"
 #include "net-session-online/tb/t_gl_room_info.hpp"
+#include "socket_test_doubles.hpp"
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -34,9 +35,9 @@ public:
 
 // A socket whose platform calls are scripted. Send accepts at most sendLimit bytes per call;
 // Recv hands out the incoming bytes in pieces of recvPiece, then returns 0 (the peer closed).
-class ScriptedSocket : public LCXPlayerSocket {
+class ScriptedSocket : public StubLCXSocket {
 public:
-    using LCXPlayerSocket::LCXPlayerSocket;
+    using StubLCXSocket::StubLCXSocket;
 
     bool connectOk = true;
     std::size_t sendLimit = static_cast<std::size_t>(-1);
@@ -46,12 +47,12 @@ public:
     std::string sent;
     int closeCalls = 0;
 
-    const void* GetHostByName(const char*) override { return this; }
+    hostent* GetHostByName(const char*) override { return reinterpret_cast<hostent*>(this); }
     bool CreateSocket() override { return true; }
-    std::int32_t GetLastError() override { return 0; }
+    int GetLastError() override { return 0; }
     bool Connect() override { return connectOk; }
-    std::int32_t Select(std::int32_t) override { return 1; }
-    std::int32_t Send(const char* data, std::int32_t length) override {
+    int Select(XSocketSelectFlag) override { return 1; }
+    int Send(const char* data, int length) override {
         std::size_t n = static_cast<std::size_t>(length);
         if (n > sendLimit) {
             n = sendLimit;
@@ -59,7 +60,7 @@ public:
         sent.append(data, n);
         return static_cast<std::int32_t>(n);
     }
-    std::int32_t Recv(char* buffer, std::int32_t length) override {
+    int Recv(char* buffer, int length) override {
         std::size_t left = incoming.size() - readPos;
         if (left == 0) {
             return 0;
@@ -75,7 +76,10 @@ public:
         readPos += n;
         return static_cast<std::int32_t>(n);
     }
-    void OnCancelled() override { ++closeCalls; }
+    bool CloseSocket() override {
+        ++closeCalls;
+        return true;
+    }
 };
 
 // Runs the socket until it leaves the state it is in, or gives up after a fixed count.

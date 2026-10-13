@@ -2,8 +2,10 @@
 // libDungeonHunter2.so. Offsets in comments are the original 32-bit ARM offsets; the members sit at those offsets in
 // dh2/InfoHUDManager.hpp.
 //
-// Rebuilt in full: Draw, initCachedChars, Update, the constructors (C1 and C2), GetInstance and the destructors (D1 and D2).
-// Partial: the other functions. Each partial function's comment says which part is left out.
+// Rebuilt in full: Draw, initCachedChars, Update, the constructors (C1 and C2) and GetInstance.
+// Partial: the destructors (D1 and D2) and the other functions. The destructors have the original's body (Flush(), then
+// the member destruction) but inherit the death-timer gap of Flush. Each partial function's comment says which part is
+// left out.
 //
 // Facts used here:
 //   - The C1 and C2 constructors, and the D1 and D2 destructors, have identical bodies. One definition carries both
@@ -344,4 +346,15 @@ void InfoHUDManager::Flush() {
     }
 
     m_enemy.GetChar()->m_visible = false;
+}
+
+// 0x41f16c _ZN14InfoHUDManagerD1Ev and 0x41f29c _ZN14InfoHUDManagerD2Ev
+// PARTIAL: the two destructors have identical bodies; this one stands for both. The original calls Flush(this) first,
+// then destroys the 29 DebugCachedCharacter members in reverse offset order (+0x54c .. +0x0c). The implicit member
+// destruction below runs in reverse declaration order, which is that same order. The original also tests this + offset
+// against the constants -12, -684, -540 and -396 before four member groups (the ally trio and the two skill arrays and
+// the list buttons). For a live object those tests always pass, so they are not written. The body is exact, but it
+// inherits the death-timer gap of Flush(), which is partial.
+InfoHUDManager::~InfoHUDManager() {
+    Flush();
 }

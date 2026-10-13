@@ -8,7 +8,6 @@
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/c_online_impl.hpp"
 #include "net-transport/connection_manager.hpp"
-#include "net-transport/deps/transport_slots.hpp"
 #include "net-transport/transport_factory.hpp"
 #include "net-transport/transport_manager_impl.hpp"
 
@@ -63,6 +62,13 @@ CTransportManager::~CTransportManager() = default;
 // Empty in the original.
 void CTransportManager::AbortNetwork() {}
 
+// 0x81aca4 _ZN17CTransportManager6UpdateEv
+// A tail-call thunk to SetThreadTimestamp (0x81ac80): CConnectionManager::Update calls it every tick to refresh the
+// thread timestamp (+0x100). The 64-bit result is the timestamp; callers do not read it.
+void CTransportManager::Update() {
+    (void)SetThreadTimestamp();
+}
+
 // 0x81a9e0 _ZN17CTransportManager11GetInstanceEv
 CTransportManager* CTransportManager::GetInstance() {
     return s_transportManager;
@@ -74,9 +80,9 @@ bool CTransportManager::IsInitialized() {
 }
 
 // 0x81b800 _ZN17CTransportManager10InitializeEv
-// Creates the CTransportManagerImpl singleton when none exists, then calls InitializeInternal
-// (vtable +0x00) on the instance, every time, as the original does (the call is outside its
-// create branch).
+// Creates the CTransportManagerImpl singleton (operator new(0x110), the Impl vtable) when none exists,
+// then calls InitializeInternal (vtable +0x00) on the instance, every time, as the original does (the
+// call is outside its create branch).
 int CTransportManager::Initialize() {
     if (s_transportManager == nullptr) {
         s_transportManager = new (std::nothrow) CTransportManagerImpl();
@@ -103,17 +109,15 @@ void CTransportManager::Terminate() {
 }
 
 // 0x81aa8c _ZN17CTransportManager15EnableBroadcastE10CNetworkId
-// Partial: the original's loop ends with the found transport's StartBroadcast (+0x30) call.
-// When no transport matches, the original returns an uninitialised pointer; the port
-// returns without calling anything.
+// Finds the transport whose local id (vtable +0x18) equals the id and starts its broadcast (vtable +0x30).
+// When no transport matches, the original returns an uninitialised pointer (the stack id); this returns void.
 void CTransportManager::EnableBroadcast(const CNetworkId& id) {
     for (int i = 0; i < kTransportSlots; ++i) {
         CTransport* transport = transports_[i];
         if (transport == nullptr) {
             continue;
         }
-        CNetworkId local;
-        transport_slots::GetLocalId(transport, local);
+        CNetworkId local = transport->GetLocalNetworkId();
         if (local.IsEqual(id)) {
             transport->StartBroadcast();
             return;
@@ -122,16 +126,15 @@ void CTransportManager::EnableBroadcast(const CNetworkId& id) {
 }
 
 // 0x81ab0c _ZN17CTransportManager16DisableBroadcastE10CNetworkId
-// Partial: same shape as EnableBroadcast; the found transport gets StopBroadcast (+0x34).
-// The no-match return value is not recovered.
+// Same shape as EnableBroadcast; the found transport gets StopBroadcast (vtable +0x34). The no-match return
+// value is the same leftover (void here).
 void CTransportManager::DisableBroadcast(const CNetworkId& id) {
     for (int i = 0; i < kTransportSlots; ++i) {
         CTransport* transport = transports_[i];
         if (transport == nullptr) {
             continue;
         }
-        CNetworkId local;
-        transport_slots::GetLocalId(transport, local);
+        CNetworkId local = transport->GetLocalNetworkId();
         if (local.IsEqual(id)) {
             transport->StopBroadcast();
             return;
@@ -140,13 +143,11 @@ void CTransportManager::DisableBroadcast(const CNetworkId& id) {
 }
 
 // 0x81ab8c _ZN17CTransportManager20GetTransportByPeerE15tTRANSPORT_TYPE10CNetworkId
-// Partial: the type and peer tests go through transport_slots (vtable +0x20 and +0x28),
-// which are stand-ins until CTransport declares them.
+// The first transport whose type (vtable +0x20) is the type and that IsConnectedTo (vtable +0x28) the peer.
 CTransport* CTransportManager::GetTransportByPeer(tTRANSPORT_TYPE type, const CNetworkId& peer) const {
     for (int i = 0; i < kTransportSlots; ++i) {
         CTransport* transport = transports_[i];
-        if (transport != nullptr && transport_slots::Type(transport) == type &&
-            transport_slots::IsConnectedTo(transport, peer)) {
+        if (transport != nullptr && transport->GetType() == type && transport->IsConnectedTo(peer)) {
             return transport;
         }
     }
@@ -154,13 +155,13 @@ CTransport* CTransportManager::GetTransportByPeer(tTRANSPORT_TYPE type, const CN
 }
 
 // 0x81ac0c _ZN17CTransportManager13IsConnectedToER10CNetworkId
-// Partial: the result is the transport's state slot (vtable +0x24), which is not named in
-// transport.hpp; transport_slots::ConnectedState stands in for it.
+// For the first transport that IsConnectedTo (vtable +0x28) the peer, the result is that transport's
+// connected state (vtable +0x24).
 bool CTransportManager::IsConnectedTo(const CNetworkId& peer) const {
     for (int i = 0; i < kTransportSlots; ++i) {
         CTransport* transport = transports_[i];
-        if (transport != nullptr && transport_slots::IsConnectedTo(transport, peer)) {
-            return transport_slots::ConnectedState(transport) != 0;
+        if (transport != nullptr && transport->IsConnectedTo(peer)) {
+            return transport->IsConnected();
         }
     }
     return false;
@@ -182,9 +183,11 @@ std::int64_t CTransportManager::SetThreadTimestamp() {
 }
 
 // 0x81ad30 _ZN17CTransportManager18GetListenNetworkIdE15tTRANSPORT_TYPE
-// Partial: the fields of type 3 and 4 (field2 and field3, presence bits 2 and 3) have no
-// public setter in CNetworkId, so those transports are skipped here. The listening flag
-// (object flag at +0x04) and the local id are read through transport_slots.
+// Collects the local ids of the listening transports (create flags bit 0, CTransport +0x04). A nonzero type
+// restricts the walk to transports of that type. Each transport copies the field of its own type from its
+// local id (vtable +0x18): type 1 address1, type 2 address0, type 3 field2 and type 4 field3, with the
+// presence bit raised. The raw fields are copied whether or not the local id has them set. The copy rules
+// for the four types are the Hex-Rays switch.
 CNetworkId CTransportManager::GetListenNetworkId(tTRANSPORT_TYPE type) const {
     CNetworkId result;
     result.Reset();
@@ -193,17 +196,17 @@ CNetworkId CTransportManager::GetListenNetworkId(tTRANSPORT_TYPE type) const {
         if (transport == nullptr) {
             continue;
         }
-        if (type != 0 && transport_slots::Type(transport) != type) {
+        if (type != 0 && transport->GetType() != type) {
             continue;
         }
-        if (!transport_slots::IsListening(transport)) {
+        if ((transport->create_flags_ & 1u) == 0) {
             continue;
         }
-        CNetworkId local;
-        transport_slots::GetLocalId(transport, local);
+        const int transport_type = transport->GetType();
+        CNetworkId local = transport->GetLocalNetworkId();
         std::uint16_t lo = 0;
         std::uint32_t hi = 0;
-        switch (transport_slots::Type(transport) - 1) {
+        switch (transport_type - 1) {
             case 0:  // transport 1 -> address1 (presence bit 0)
                 local.GetAddress1(lo, hi);
                 result.SetAddress1(lo, hi);
@@ -212,8 +215,13 @@ CNetworkId CTransportManager::GetListenNetworkId(tTRANSPORT_TYPE type) const {
                 local.GetAddress0(lo, hi);
                 result.SetAddress0(lo, hi);
                 break;
+            case 2:  // transport 3 -> field2 (presence bit 2)
+                result.SetField2(local.Field2());
+                break;
+            case 3:  // transport 4 -> field3 (presence bit 3)
+                result.SetField3(local.Field3());
+                break;
             default:
-                // Types 3 and 4 (field2, field3): not settable through CNetworkId's public API.
                 break;
         }
     }
@@ -221,11 +229,9 @@ CNetworkId CTransportManager::GetListenNetworkId(tTRANSPORT_TYPE type) const {
 }
 
 // 0x81ae94 _ZN17CTransportManager20IsTransportAvailableE15tTRANSPORT_TYPE
-// Types 1 and 2 test the address1 word (+0x0c) of the listening type-1 id; types 3 and 4 test
-// field2 (+0x10) in the original. Partial: the port tests the field2 presence bit (CNetworkId::Flags()
-// bit 2) for types 3 and 4, as CNetworkId has no field2 setter, so those answers are always false here.
-// Types outside 1..4 are available (constant 1). The singleton is read with GetInstance, as the
-// original's GetTransportMgr thunk does.
+// Types 1 and 2 test the address1 word (+0x0c) of the listening type-1 id; types 3 and 4 test field2
+// (+0x10) of the listening type-3 id. Types outside 1..4 are available (constant 1). The singleton is
+// read through GetTransportMgr, as the original does; with no singleton the id is empty.
 bool CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE type) {
     switch (static_cast<unsigned>(type - 1)) {
         case 0:
@@ -239,7 +245,7 @@ bool CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE type) {
         case 2:
         case 3: {
             CNetworkId id = ListeningIdOf(3);
-            return (id.Flags() & 4u) != 0;
+            return id.Field2() != 0;
         }
         default:
             return true;
@@ -247,15 +253,14 @@ bool CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE type) {
 }
 
 // 0x81af88 _ZN17CTransportManager27PrepareConnectionNetworkIdER10CNetworkId
-// Partial: the port copies the peer id and, for each transport connected to it, resets the result to
-// that transport's type (the original's Reset(this, type)). Type (vtable +0x20) and IsConnectedTo
-// (vtable +0x28) are transport_slots stand-ins.
+// Copies the peer id and, for each transport connected to it (vtable +0x28), resets the copy to that
+// transport's type (vtable +0x20, CNetworkId::Reset(type)).
 CNetworkId CTransportManager::PrepareConnectionNetworkId(const CNetworkId& peer) const {
     CNetworkId result = peer;
     for (int i = 0; i < kTransportSlots; ++i) {
         CTransport* transport = transports_[i];
-        if (transport != nullptr && transport_slots::IsConnectedTo(transport, peer)) {
-            result.Reset(transport_slots::Type(transport));
+        if (transport != nullptr && transport->IsConnectedTo(peer)) {
+            result.Reset(transport->GetType());
         }
     }
     return result;
@@ -264,11 +269,11 @@ CNetworkId CTransportManager::PrepareConnectionNetworkId(const CNetworkId& peer)
 // 0x81b010 _ZN17CTransportManager4SendEP10CTransportR10CNetworkIdiPvi
 // Packet: magic u32 at +0, length u16 at +4 (header included), packet type byte at +6 (stored as
 // given, bit 7 not cleared, as the original does), byte +7 zeroed (the original leaves it unwritten),
-// payload at +8.
-// Partial: the transport send (vtable +0x0c) is a transport_slots stand-in, so nothing is sent. The
-// original passes the length twice (four arguments after the transport), and the shim takes one.
-// Not reproduced: the transport type query (vtable +0x20, result unused). ReportStatistic is empty in
-// the original and GetConnectionMgr is a getter, so neither changes the result.
+// payload at +8. A null transport returns -1 after the packet is built. The packet is sent with the
+// transport's Send (vtable +0x0c). The Hex-Rays call passes the length twice; the second word is a
+// leftover register (Send takes the peer, the packet and the length).
+// Before the send the original asks the transport for its type (vtable +0x20) and passes it to
+// CConnectionManager::ReportStatistic, which is empty; the query is kept, the empty call is not.
 int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET_TYPE type,
                             const void* data, std::size_t size) {
     if (size > kMaxPayload) {
@@ -291,7 +296,8 @@ int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET
     if (transport == nullptr) {
         return -1;
     }
-    return transport_slots::Send(transport, to, packet, static_cast<int>(total));
+    (void)transport->GetType();  // vtable +0x20; the result only feeds the empty ReportStatistic
+    return transport->Send(to, packet, static_cast<int>(total));
 }
 
 // 0x81b11c _ZN17CTransportManager16ReceiverCallbackEP10CTransportR10CNetworkIdPci
@@ -302,8 +308,8 @@ int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET
 // CConnectionManager::sReceiverCallback with its payload.
 // Partial: deviations: a buffer shorter than a header, or a packet length below the 8-byte header, ends
 // the pass (the original reads past the buffer, spins on a zero length, or passes a negative payload size
-// for lengths 1 to 7). Not reproduced: the transport type query (vtable +0x20, result unused). ReportStatistic
-// is empty in the original.
+// for lengths 1 to 7). The transport type query (vtable +0x20, result unused, it feeds the empty
+// ReportStatistic) is made for every packet, but skipped for a null transport, which the original would crash on.
 void CTransportManager::ReceiverCallback(CTransport* transport, CNetworkId& from, char* data, int size) {
     if (size <= 0) {
         return;
@@ -322,8 +328,11 @@ void CTransportManager::ReceiverCallback(CTransport* transport, CNetworkId& from
             return;
         }
         const int type = packet[6] & 0x7F;
-        if (IsInitialized() && type == 7 && !GetTransportMgr().IsMainThreadBlocked()) {
-            GetTransportMgr().Send(transport, from, 8, nullptr, 0);
+        if (transport != nullptr) {
+            (void)transport->GetType();  // vtable +0x20; the result only feeds the empty ReportStatistic
+        }
+        if (IsInitialized() && type == 7 && !GetTransportMgr()->IsMainThreadBlocked()) {
+            GetTransportMgr()->Send(transport, from, 8, nullptr, 0);
         }
         remaining -= length;
         CConnectionManager::sReceiverCallback(type, from, packet + kHeaderBytes, length - static_cast<int>(kHeaderBytes));
@@ -342,9 +351,9 @@ int CTransportManager::Send(tTRANSPORT_TYPE type, const CNetworkId& to, tPACKET_
 }
 
 // 0x81b2fc _ZN17CTransportManager4SendE15tTRANSPORT_TYPEiPvi
-// Partial: types 1 and 2 use the broadcast address (port 6776, address word -1) on
-// address1 and address0. Types 3 and 4 need field2 and field3 set to -1, which CNetworkId
-// cannot do through its public API, so no packet is sent for them here.
+// Broadcast: builds the destination id for the type (types 1 and 2: port 6776 and address word -1 on
+// address1 and address0; types 3 and 4: field2 and field3 = -1), raises the presence bit of the type
+// and sends through the id overload. Other types send nothing and return 0.
 int CTransportManager::Send(tTRANSPORT_TYPE type, tPACKET_TYPE packet_type, const void* data,
                             std::size_t size) {
     CNetworkId id;
@@ -356,6 +365,12 @@ int CTransportManager::Send(tTRANSPORT_TYPE type, tPACKET_TYPE packet_type, cons
         case 2:
             id.SetAddress0(kBroadcastPort, kBroadcastHi);
             break;
+        case 3:
+            id.SetField2(0xFFFFFFFFu);
+            break;
+        case 4:
+            id.SetField3(0xFFFFFFFFu);
+            break;
         default:
             return 0;
     }
@@ -363,8 +378,8 @@ int CTransportManager::Send(tTRANSPORT_TYPE type, tPACKET_TYPE packet_type, cons
 }
 
 // 0x81b3c8 _ZN17CTransportManager7ReceiveEv
-// Partial: lock, then one receive pass over all transports, skipped while terminating. The
-// per-transport receive call (vtable +0x10) is a transport_slots stand-in.
+// Lock, then one receive pass over all transports (vtable +0x10), skipped while terminating.
+// Returns void; the original returns the unlock result (leftover r0), which its caller does not use.
 void CTransportManager::Receive() {
     if (!initialized_ || terminating_) {
         return;
@@ -372,7 +387,7 @@ void CTransportManager::Receive() {
     mutex_.Lock();
     for (int i = 0; i < kTransportSlots; ++i) {
         if (!terminating_ && transports_[i] != nullptr) {
-            transport_slots::Receive(transports_[i]);
+            transports_[i]->Receive();
         }
     }
     mutex_.Unlock();
@@ -381,12 +396,10 @@ void CTransportManager::Receive() {
 // 0x81b440 _ZN17CTransportManager10DisconnectER10CNetworkId
 // Under the lock, removes every transport that CanDisconnectFrom (vtable +0x2c) accepts for the peer,
 // deleting it through its deleting destructor (+0x04). Returns 0, as the original does.
-// Partial: CanDisconnectFrom is a transport_slots stand-in until CTransport declares it, so no
-// transport is removed here.
 int CTransportManager::Disconnect(const CNetworkId& peer) {
     mutex_.Lock();
     for (int i = 0; i < kTransportSlots; ++i) {
-        if (transports_[i] != nullptr && transport_slots::CanDisconnectFrom(transports_[i], peer)) {
+        if (transports_[i] != nullptr && transports_[i]->CanDisconnectFrom(peer)) {
             // The original reads the slot again after the call.
             CTransport* transport = transports_[i];
             if (transport != nullptr) {
@@ -419,7 +432,7 @@ void CTransportManager::AddTransport(CTransport* transport) {
 // The type is not used; the accepted transport is added to the singleton, as in the original.
 void CTransportManager::AcceptCallback(tTRANSPORT_TYPE type, CTransport* transport) {
     (void)type;
-    GetTransportMgr().AddTransport(transport);
+    GetTransportMgr()->AddTransport(transport);
 }
 
 // 0x81b544 _ZN17CTransportManager17InitializeInternalEv

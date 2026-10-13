@@ -293,7 +293,7 @@ void AnchorForward::Update() {
 // isTracingDragable debug switch read.
 // Missing (the gameswf character layout is not declared in this tree; see the layout requests):
 //   - m_bounds: the character's bounds query, its vtable slot +0x12c (slot 75), writes the rect into &m_bounds before the
-//     conversion. Here m_bounds stays zero.
+//     conversion. Here m_bounds is zeroed instead, so the conversion divides zeros, not the rect the query writes.
 //   - m_depth: the character's depth word (character +0x94, uint16). Here 0.
 //   - unk_30, unk_34: the (int) truncations of the character's matrix tx and ty (matrix pointer at character +0x4c). Here 0.
 //   - m_savedMatrix: the six floats of the character's matrix, copied over the identity. Here the identity stays.
@@ -307,7 +307,11 @@ Dragable::Dragable(MenuFX* menu, gameswf::character* character, gameswf::charact
     m_savedMatrix[4] = 1.0f;                                // +0x4c d
     m_savedMatrix[5] = 0.0f;                                // +0x50 ty
 
-    // PARTIAL: the bounds query (see above). m_bounds is zero until it is declared.
+    // PARTIAL: the bounds query (see above). Until the query is declared, m_bounds is zeroed here, so the conversion
+    // below is deterministic. The original converts the rect that the query wrote into m_bounds instead.
+    for (float& value : m_bounds) {
+        value = 0.0f;
+    }
     TwipsToPixels(m_bounds);                                // +0x0c
 
     // PARTIAL: m_depth is character +0x94 (see above). Zero until the character layout is declared.

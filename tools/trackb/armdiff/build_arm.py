@@ -35,7 +35,7 @@ OUT_ROOT = ROOT / "build" / "tb-arm32"
 
 DEFAULT_NDK = Path(r"C:/Users/nacworkstation/Documents/Codex/2026-10-09/find/work/tools/android-sdk/ndk/29.0.14206865")
 TARGET = "armv7a-linux-androideabi21"
-META_VERSION = 4          # bump when the signature or layout extraction changes: cached metadata is then rebuilt
+META_VERSION = 6          # bump when the signature or layout extraction changes: cached metadata is then rebuilt
 
 ENGINE = ["core-platform", "pydata-accessors", "net-transport", "net-session-online", "vox-audio",
           "tinyxml-and-c-libs", "glitch-core-io", "glitch-video", "glitch-scene-collada-gui"]
@@ -498,7 +498,7 @@ def build_header_tu(cat: str, header_src: str, demangled: list[str], opt: str = 
     dropped: dict[str, str] = {}
     for attempt in range(8):
         srcp.write_text("\n".join(lines) + "\n", encoding="utf-8")
-        res = build_tu(cat, srcp, opt, force or attempt > 0, outdir, ["-femit-all-decls", "-fno-inline"], rel=header_src)
+        res = build_tu(cat, srcp, opt, force or attempt > 0, outdir, ["-femit-all-decls", "-fno-inline", "-ferror-limit=0"], rel=header_src)
         if res.status != "compile_failed":
             break
         # drop the lines the compiler rejected and retry; remember why
@@ -507,15 +507,15 @@ def build_header_tu(cat: str, header_src: str, demangled: list[str], opt: str = 
             err = json.loads((outdir / f"{stem}.meta.json").read_text(encoding="utf-8")).get("error_full", "")
         except (OSError, ValueError):
             pass
-        bad: dict[int, str] = {}
+        bad: dict[int, list[str]] = {}
         for m_ in re.finditer(rf"{re.escape(stem)}\.cpp:(\d+):\d+: (error|note): ([^\n]*)", err):
-            ln = int(m_.group(1))
-            if m_.group(2) == "error" or ln not in bad:
-                bad[ln] = m_.group(3) if m_.group(2) == "error" else bad.get(ln, "")
+            msgs = bad.setdefault(int(m_.group(1)), [])
+            if m_.group(2) == "error" and len(msgs) < 4:
+                msgs.append(m_.group(3))
         keep = []
         for i, ln in enumerate(lines, 1):
             if i > keep_first and i in bad:
-                dropped[ln] = bad[i]
+                dropped[ln] = " | ".join(bad[i])
             else:
                 keep.append(ln)
         if len(keep) == len(lines):

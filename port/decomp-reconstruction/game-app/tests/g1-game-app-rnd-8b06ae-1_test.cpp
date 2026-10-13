@@ -13,10 +13,9 @@
 #include "dh2/rnd/Exit.hpp"
 #include "dh2/rnd/MgxBlock.hpp"
 
-// Declared in the batch source (not in a header yet).
+// Declared in the batch source (not in a header yet). TryIsZero is declared in dh2/rnd/Exit.hpp.
 namespace rnd {
 void SplitFileListText(std::string text, std::vector<std::string>& files);
-bool TryIsZero(const char* text);
 }  // namespace rnd
 
 // Symbols outside this batch that the batch source's vtables and constructors refer to.
@@ -113,10 +112,10 @@ void TestSplitFileListText() {
 
 void TestGetBlockUnitPosition() {
     TestBlock block;
-    block.m_width = 2;      // +0x54
-    block.m_height = 3;     // +0x58
-    block.unk_4c = 10.0f;   // unit width, +0x4c
-    block.unk_50 = 10.0f;   // unit height, +0x50
+    block.m_blockWidth = 2;     // +0x54
+    block.m_blockHeight = 3;    // +0x58
+    block.m_unitWidth = 10.0f;  // unit width, +0x4c
+    block.m_unitHeight = 10.0f; // unit height, +0x50
 
     std::vector<std::string> names;
     rnd::Exit exit(TestDirection(), &block, 0, 0, 0.0f, 0, names);
@@ -152,12 +151,12 @@ void TestExitConstructor() {
     EXPECT(exit.m_block == &block);
     EXPECT(exit.m_x == 3);
     EXPECT(exit.m_y == 4);
-    EXPECT(exit.unk_10 == 1.5f);
+    EXPECT(exit.m_weight == 1.5f);
     EXPECT(exit.m_direction == &TestDirection());
-    EXPECT(exit.unk_18 == 7);
+    EXPECT(exit.m_flags == 7);
     EXPECT(exit.unk_28 == 0);
     EXPECT(exit.m_names == names);
-    EXPECT(exit.unk_00 != nullptr && std::strcmp(exit.unk_00, "blk") == 0);
+    EXPECT(exit.m_blockName != nullptr && std::strcmp(exit.m_blockName, "blk") == 0);
 }
 
 }  // namespace

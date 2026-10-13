@@ -46,7 +46,7 @@ void item::read(const slim::XmlNode* node) {
     };
     for (const Field& entry : fields) {
         if (const slim::XmlNode* child = node->findChild(entry.tag)) {
-            *entry.field = child->Text();
+            *entry.field = child->value_.c_str();
         }
     }
 }

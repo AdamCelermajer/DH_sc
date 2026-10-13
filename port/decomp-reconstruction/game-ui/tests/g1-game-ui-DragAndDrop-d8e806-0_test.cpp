@@ -1,8 +1,11 @@
 // Checks the DragAndDrop bodies of batch g1-game-ui-DragAndDrop-d8e806-0 without the engine. The members they call
 // (Dragable, Dropable, GameSWFUtils::PlayAnim and DebugSwitches) are replaced here by recording test doubles, so only
-// this test and the DragAndDrop source are linked. GetDragable is partial and is not checked here.
+// this test and the DragAndDrop source are linked. GetDragable reads each entry's name through
+// gameswf::character::get_name(); the test gives it stand-in character blocks whose m_name points at a tu_string.
+// The tu_string resize is a double, so only short (inline) names are exercised, not the heap branch.
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 #include <vector>
@@ -12,6 +15,7 @@
 #include "dh2/Dragable.hpp"
 #include "dh2/Dropable.hpp"
 #include "dh2/GameSWFUtils.hpp"
+#include "gameswf/gameswf_character.h"
 
 namespace {
 
@@ -63,9 +67,28 @@ RenderFX::Event MakeEvent(int type) {
     return e;
 }
 
+// Stand-in gameswf::character blocks for GetDragable. Each block is zeroed and only m_name is set; no other member
+// is read by the code under test. get_name() is inline in the header and returns *m_name.
+alignas(16) unsigned char g_charBlock[4][sizeof(gameswf::character)];
+
+gameswf::character* StandInCharacter(int slot, const tu_string* name) {
+    gameswf::character* ch = reinterpret_cast<gameswf::character*>(g_charBlock[slot]);
+    ch->m_name = name;
+    return ch;
+}
+
 }  // namespace
 
 // ---- Test doubles for the external members (defined here, not in the engine sources) ----
+
+// The tu_string constructor from a C string calls resize, which is out of line in the engine. The test names are
+// short, so the inline text holds them and resize only has to exist. The inline destructor refers to free_internal
+// for heap text, which these names never use.
+void tu_string::resize(int) {}
+
+namespace gameswf {
+void free_internal(void* p, unsigned int) { std::free(p); }
+}  // namespace gameswf
 
 Dragable::Dragable(MenuFX* menu, gameswf::character* character, gameswf::character* /*zone*/)
     : m_menu(menu), m_character(character) {}
@@ -268,6 +291,26 @@ void TestOnEventReleaseKeepsLastTaker() {
     Check(g_tested_notify.size() == 1 && g_tested_notify[0], "event 6 notifies the Dropable");
 }
 
+void TestGetDragableFindsByName() {
+    ResetRecords();
+    DragAndDrop d;
+    MenuFX* menu = FakeMenu();
+    Check(d.GetDragable("Btn_A") == nullptr, "GetDragable returns null for an empty list");
+
+    const tu_string name_a("Btn_A");
+    const tu_string name_b("Btn_B");
+    const tu_string name_b_again("Btn_B");
+    d.AddDragable(menu, StandInCharacter(0, &name_a), Fake(90));
+    d.AddDragable(menu, StandInCharacter(1, &name_b), Fake(91));
+    d.AddDragable(menu, StandInCharacter(2, &name_b_again), Fake(92));
+
+    Check(d.GetDragable("Btn_A") == &d.m_dragables[0], "GetDragable finds the entry whose name matches");
+    Check(d.GetDragable("Btn_B") == &d.m_dragables[1], "GetDragable returns the first of two equal names");
+    Check(d.GetDragable("Btn_Z") == nullptr, "GetDragable returns null when no name matches");
+    Check(d.GetDragable("Btn") == nullptr, "GetDragable compares whole names, not prefixes");
+    Check(d.GetDragable("btn_a") == nullptr, "GetDragable compares case-sensitively");
+}
+
 void TestResetPositionsRunsOnCopies() {
     ResetRecords();
     DragAndDrop d;
@@ -300,6 +343,7 @@ int main() {
     TestOnEventRejectsWhenNothingHeld();
     TestOnEventReleaseKeepsLastTaker();
     TestResetPositionsRunsOnCopies();
+    TestGetDragableFindsByName();
 
     if (g_failures != 0) {
         std::printf("%d check(s) failed\n", g_failures);

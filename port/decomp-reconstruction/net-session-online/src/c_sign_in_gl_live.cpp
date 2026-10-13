@@ -114,7 +114,7 @@ void CSignInGLLive::Terminate() {
 // service it sends nothing.
 void CSignInGLLive::LoginLobby() {
     CMatchingGLLiveLobbyObserver* lobbyObserver = CMatchingGLLive::s_GLXPlayerMPLobbyObserver;
-    if (lobbyObserver == nullptr || !lobbyObserver->ConnectedForTest()) {
+    if (lobbyObserver == nullptr || !lobbyObserver->Connected()) {
         return;
     }
     GLXPlayerMPLobby* lobby = CMatchingGLLive::s_GLXPlayerMPLobby;
@@ -157,14 +157,14 @@ void CSignInGLLive::Update() {
         return;
     }
     CSignInGLLiveObserver* loginObserver = CMatchingGLLive::s_GLXPlayerLoginObserver;
-    if (loginObserver != nullptr && loginObserver->ConfiguredForTest()) {
+    if (loginObserver != nullptr && loginObserver->Configured()) {
         if (GLXPlayerLogin* login = LoginService(); login != nullptr) {
             login->Update();
         }
     }
 
     if (loginEvents_.HasEventOccured(1, false)) {
-        const bool serverLoggedIn = loginObserver != nullptr && loginObserver->LoggedInForTest();
+        const bool serverLoggedIn = loginObserver != nullptr && loginObserver->LoggedIn();
         if (serverLoggedIn) {
             loginEvents_.ConsumeEvent(1);
             if (GLXPlayerLogin* login = LoginService(); login != nullptr) {
@@ -181,7 +181,7 @@ void CSignInGLLive::Update() {
     }
 
     if (loginEvents_.HasEventOccured(2, false) && loginObserver != nullptr &&
-        loginObserver->ServerForTest()[0] != '\0') {
+        loginObserver->Server()[0] != '\0') {
         lobbyPending_ = true;
         loginEvents_.ConsumeEvent(2);
         // The original also reads the login UID here and discards it, so that read is omitted.
@@ -193,7 +193,7 @@ void CSignInGLLive::Update() {
 
     if (loginEvents_.HasEventOccured(4, false)) {
         CMatchingGLLiveLobbyObserver* lobbyObserver = CMatchingGLLive::s_GLXPlayerMPLobbyObserver;
-        if (lobbyObserver != nullptr && lobbyObserver->ConnectedForTest()) {  // +0x05, as in LoginLobby
+        if (lobbyObserver != nullptr && lobbyObserver->Connected()) {  // +0x05, as in LoginLobby
             loginEvents_.ConsumeEvent(4);
             LoginLobby();
             loginEvents_.AddEvent(6, nullptr, 0);

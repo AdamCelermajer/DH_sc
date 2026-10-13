@@ -98,6 +98,7 @@ const char* TextFor(int id) {
         case 202: return "Gem[s]%d";    // name with the male plural tag
         case 203: return "Gem[f]%d";    // name with the female tag
         case 300: return "AA#BB#CC[a]DD";  // second text: '#' splits, [a] marks the isAfter tag
+        case 301: return "AA#BB";          // second text with no isAfter tag: the segment goes before the name
         default: return "";
     }
 }
@@ -214,6 +215,11 @@ int main() {
     ItemRow(10)->m_w17 = 202;
     ItemRow(10)->m_w18 = 300;
 
+    // Row 11: plain name with a second text that has no isAfter tag (the segment goes before the name).
+    ItemRow(11)->m_w17 = 200;
+    ItemRow(11)->m_w18 = 301;
+    ItemRow(11)->m_w22 = 11;
+
     // Power rows: value 30 (id 2) and 10 (id 1), both without values, description 77.
     PowerRow(2)->m_w7 = 30;
     PowerRow(2)->m_w3 = 0;
@@ -291,14 +297,20 @@ int main() {
         plain.SetValue(7);
         CHECK(plain.m_name == "Gem7");
 
-        ItemInstance female(9, 1);  // template "Gem[f]%d", value 0; segment 1 gives "BB"
-        CHECK(female.m_name == "GemBB");
+        ItemInstance female(9, 1);  // template "Gem[f]%d", value 0; segment 1 gives "BB", joined with one space
+        CHECK(female.m_name == "Gem BB");
 
         ItemInstance male(10, 1);   // template "Gem[s]%d"; segment 2 with no delimiter after the first gives the whole text
-        CHECK(male.m_name == "GemAA#BB#CC");
+        CHECK(male.m_name == "Gem AA#BB#CC");
 
         ItemInstance noName(3, 1);
         CHECK(noName.m_name.empty());
+
+        // No isAfter tag: suffix + " " + prefix. The segment before the first '#' is "AA", the name is "Gem0" then "Gem7".
+        ItemInstance joined(11, 1);
+        CHECK(joined.m_name == "AA Gem0");
+        joined.SetValue(7);
+        CHECK(joined.m_name == "AA Gem7");
     }
 
     // ---- AddPower ordering and UpdateLocalization ----

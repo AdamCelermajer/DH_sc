@@ -9,10 +9,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stub: CNetPlayerManager::AddPlayer(NetBitStream&,int,int) has no body in the port yet, and the
-// net-transport object that GetInstance and ResetPlayers come from references it (same stub as the
-// net-transport tests).
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 namespace {
 

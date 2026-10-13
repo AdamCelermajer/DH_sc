@@ -18,12 +18,7 @@
 #include "dh2/LuaManager.hpp"
 #include "dh2/LuaScript.hpp"
 #include "pydata-accessors/member_names.hpp"  // Arrays::GetMemberIDByString, used by the sound bindings of part 2
-// PlayerManager pulls in net-transport, whose CustomFree clashes with pydata's (the workaround of dh2/Character.hpp).
-#define CustomFree CustomFree_net_transport
-#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/PlayerManager.hpp"
-#undef CustomFree
-#undef MemoryHintState
 #include "dh2/Random.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/sfc/script/lua/Arguments.hpp"

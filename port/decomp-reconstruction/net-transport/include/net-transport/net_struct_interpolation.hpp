@@ -1,7 +1,7 @@
 // NetStructInterpolation<float> and NetStructInterpolatedRangedFloat<Bits, Min, Max>:
 // replicated floats that smooth received values over time. AddValue keeps a ring of
 // (time, value) samples and a running average, with the window eviction and the ring boundary
-// words (43-45) as in the Hex-Rays body. Only the frame time (NetStructMember::GetFrameTime) is a stand-in.
+// words (43-45) as in the Hex-Rays body. The frame time is NetStructMember::GetFrameTime (COnline's elapsed word).
 #pragma once
 
 #include <cstdint>
@@ -16,7 +16,7 @@ class NetStructInterpolation {
 public:
     virtual ~NetStructInterpolation() = default;    // 0x3a3578 _ZN22NetStructInterpolationIfED1Ev (float instance)
 
-    // 0x3a3e64 _ZN22NetStructInterpolationIfE8AddValueEfj (partial: GetFrameTime is a stand-in).
+    // 0x3a3e64 _ZN22NetStructInterpolationIfE8AddValueEfj.
     // Adds a sample and returns 20, the constant the original returns on every path.
     int AddValue(T value, unsigned int time) {
         const unsigned int frame_time = GetFrameTime();
@@ -70,9 +70,9 @@ protected:
         T value;                               // word 2k+2 of the ring
     };
 
-    // NetStructMember::GetFrameTime (0x8150a0, partial in tb_transport-NetStructMember-0.cpp: it reads
-    // GetOnline()+0x1c). The stand-in returns 0.
-    unsigned int GetFrameTime() const { return 0; }
+    // NetStructMember::GetFrameTime (0x8150a0): GetOnline()+0x1c. The original passes the object but the
+    // function does not use it.
+    unsigned int GetFrameTime() const { return static_cast<unsigned int>(NetStructMember::GetFrameTime()); }
 
     Sample samples_[kSamples] = {};            // +0x04..+0x9f (relative to the NetStructInterpolation base)
     unsigned int window_ = 40;                 // word 47 (set to 40 by the constructor)

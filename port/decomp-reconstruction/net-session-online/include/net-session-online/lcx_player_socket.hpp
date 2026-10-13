@@ -1,25 +1,30 @@
 // LCXPlayerSocket: the lobby-side socket wrapper. The original LCX class has its own
 // layout (the ctor, Start and Cancel bodies below are the source); it is not the GLX
 // class with a different name, so the offsets differ from glx_player_socket.hpp.
+// The class is abstract, as in the original: the platform slots (vtable +0x08 and +0x20..+0x80) are
+// null in _ZTV15LCXPlayerSocket, and LCAndroidSocket (net-transport) implements them. LCAndroidSocket
+// derives from this class (its constructor calls 0x8a0314 first), not from GLXPlayerSocket.
 //
-// Layout (original 32-bit offsets, kept as comments; confirmed against the ARM ctor and
-// the Hex-Rays bodies):
-//   +0x00 vptr                                  +0x04 state (XSocketState, see below)
-//   +0x08 socket handle (int, -1 until connected) +0x0c server address (type not identified)
-//   +0x10 server port (int)                     +0x14 server name (owned copy of ctor argument 1)
-//   +0x18 observer                              +0x1c receive buffer, 0x800 bytes
-//   +0x81c receive length (int)                 +0x820 socket type (int)
-//   +0x824 accept address (owned string)        +0x828 accept port (int)
-//   +0x82c content (std::string, 0x18 bytes in the original)
-//   +0x845 header pending, +0x846 length known, +0x848 total length (the members are below)
-//   +0x84c sent length, +0x850 send start time, +0x854 receive start time
-//   +0x858 non-blocking connect state, +0x85c gethostbyname state
-//   +0x860 connect start time, +0x864 gethostbyname start time
+// Layout (original 32-bit offsets, kept as comments; the member names are the binary's, from the
+// IDA type of LCXPlayerSocket, size 0x868). Members are public (TRACK-B decision 9):
+//   +0x00 vptr                                  +0x04 m_state (XSocketState, see below)
+//   +0x08 m_socket (int, -1 until connected)    +0x0c m_server_addr (void*, the resolved host)
+//   +0x10 m_server_port (int)                   +0x14 m_server_name (owned copy of ctor argument 1)
+//   +0x18 m_observer                            +0x1c m_abBuffer, 0x800 bytes
+//   +0x81c m_nReceived (int)                    +0x820 m_type (int)
+//   +0x824 m_accept_ip (owned string)           +0x828 m_accept_port (int)
+//   +0x82c m_buffer (std::string, 0x18 bytes)   +0x844 m_buffer_used (byte)
+//   +0x845 m_bReceiveHttpHeader, +0x846 m_bLengthKnown, +0x848 m_total_length
+//   +0x84c m_sentLen, +0x850 tmpSendStartTime, +0x854 tmpRecvStartTime
+//   +0x858 m_nonBlockConnectState, +0x85c m_gethostbynameState
+//   +0x860 m_connectTimeStart, +0x864 m_gethostbynametimeStart
 #pragma once
 
 #include <cstdint>
 #include <memory>
 #include <string>
+
+struct hostent;
 
 // The callback target of a socket (LCXPlayerHttp in the lobby). Run calls the four slots below in
 // this order: slot 0 GetRequestData, slot 1 GetRequestLength, slot 2 SetResponseData, slot 3
@@ -50,16 +55,22 @@ public:
         kStateCancelled = 8,         // XSOCKET_STATE_CANCELLED
     };
 
+    // LCXPlayerSocket::XSocketSelectFlag (the argument of the Select slot).
+    enum XSocketSelectFlag : std::int32_t { kSelectRead = 0, kSelectWrite = 1 };
+
     // 0x8a0314 and 0x8a03bc _ZN15LCXPlayerSocketC1EPciP23LCXPlayerSocketObserver.
     // The original does not initialise the state word; the port starts at kStateNone.
     LCXPlayerSocket(const char* serverName, std::int32_t port, LCXPlayerSocketObserver* observer);
     // 0x8a0464 (D1). D2 (0x8a051c) has the same body; D0 (0x8a0500) is the deleting variant.
     virtual ~LCXPlayerSocket() = default;
 
+    // ---- vtable _ZTV15LCXPlayerSocket (tools/decomp_vtable.py LCXPlayerSocket) ----
+    // +0x08 pure in the base; LCAndroidSocket::GetLocalIP
+    virtual bool GetLocalIP(char* out) = 0;
     // 0x8a02c4 _ZN15LCXPlayerSocket5StartEv, vtable +0x0c
     virtual void Start();
     // 0x8a1c1c _ZN15LCXPlayerSocket3RunEv, vtable +0x10: one step of the XSocketState machine
-    // (see the cpp). The I/O it needs is the virtual set below, so the base class fails.
+    // (see the cpp). The I/O it needs is the platform set below.
     virtual void Run();
     // 0x8a01b4 _ZN15LCXPlayerSocket6CancelEv, vtable +0x14
     virtual void Cancel();
@@ -67,22 +78,34 @@ public:
     virtual bool IsInProgress() const;
     // 0x8a0220 _ZN15LCXPlayerSocket15IsErrorOccurredEv, vtable +0x1c
     virtual bool IsErrorOccurred() const { return state_ == kStateError; }
-    // vtable +0x3c: the close hook, called by Cancel and by Run's error paths. LCAndroidSocket's
-    // override at this slot is CloseSocket. Pure in the original base; the port makes it a no-op.
-    virtual void OnCancelled() {}
 
-    // Platform I/O that Run calls. The names are those of LCAndroidSocket's overrides in the binary
-    // (vtable dump, shifted to this class's vptr: GetHostByName +0x20, CreateSocket +0x28,
-    // GetLastError +0x2c, Connect +0x34, Select +0x40, Send +0x44, Recv +0x48). The base has no
-    // socket, so the defaults report failure: no address, no connection, -1 for the byte counts.
-    virtual const void* GetHostByName(const char* /*serverName*/) { return nullptr; }
-    virtual bool CreateSocket() { return false; }
-    virtual std::int32_t GetLastError() { return 0; }
-    virtual bool Connect() { return false; }
-    // flag 1 asks for write readiness (SEND_REQUEST), flag 0 for read readiness (WAIT_RESPONSE).
-    virtual std::int32_t Select(std::int32_t /*flag*/) { return -1; }
-    virtual std::int32_t Send(const char* /*data*/, std::int32_t /*length*/) { return -1; }
-    virtual std::int32_t Recv(char* /*buffer*/, std::int32_t /*length*/) { return -1; }
+    // The platform slots, all pure in the original base. Names and signatures are LCAndroidSocket's
+    // overrides, shifted to this class's vptr.
+    virtual hostent* GetHostByName(const char* name) = 0;                              // +0x20
+    virtual void* GetHostName(char** out) = 0;                                         // +0x24
+    virtual bool CreateSocket() = 0;                                                   // +0x28
+    virtual int GetLastError() = 0;                                                    // +0x2c
+    virtual bool SetNonBlocking() = 0;                                                 // +0x30
+    virtual bool Connect() = 0;                                                        // +0x34
+    virtual bool ConnectByName(const char* name) = 0;                                  // +0x38
+    virtual bool CloseSocket() = 0;                                                    // +0x3c
+    virtual int Select(XSocketSelectFlag flag) = 0;                                    // +0x40
+    virtual int Send(const char* data, int length) = 0;                                // +0x44
+    virtual int Recv(char* buffer, int length) = 0;                                    // +0x48
+    virtual bool IsReadyForRW() = 0;                                                   // +0x4c
+    virtual LCXPlayerSocket* Accept() = 0;                                             // +0x50
+    virtual int Bind(const char* ip, std::uint16_t port) = 0;                          // +0x54
+    virtual int SendTo(const char* data, int length, const char* ip, int port) = 0;    // +0x58
+    virtual int RecvFrom(char* buffer, int length) = 0;                                // +0x5c
+    virtual int RecvFromUnkownIP(char* buffer, int length, char** ip_out, int* port_out) = 0;  // +0x60
+    virtual void Listen(int backlog) = 0;                                              // +0x64
+    virtual bool ConnectTo(const char* ip, int port) = 0;                              // +0x68
+    virtual bool CreateTcpSocket() = 0;                                                // +0x6c
+    virtual bool CreateUdpSocket() = 0;                                                // +0x70
+    virtual const char* GetSocketAddr() = 0;                                           // +0x74
+    virtual std::uint16_t GetSocketPort() = 0;                                         // +0x78
+    virtual void SetBroadcast() = 0;                                                   // +0x7c
+    virtual int SendBroadcast(const char* data, int length, int port) = 0;             // +0x80
 
     // 0x8a0184 _ZN15LCXPlayerSocket11GetAcceptIPEv
     const char* GetAcceptIP() const { return acceptIp_.get(); }
@@ -120,10 +143,9 @@ public:
     void SetContentForTest(const std::string& text) { content_ = text; }
     const std::string& ContentForTest() const { return content_; }
 
-private:
     std::int32_t state_ = kStateNone;               // +0x04
     std::int32_t socket_ = -1;                      // +0x08
-    const void* serverAddress_ = nullptr;           // +0x0c
+    void* serverAddress_ = nullptr;                 // +0x0c
     std::int32_t serverPort_ = 0;                   // +0x10
     std::unique_ptr<char[]> serverName_;            // +0x14
     LCXPlayerSocketObserver* observer_ = nullptr;   // +0x18
@@ -133,6 +155,7 @@ private:
     std::unique_ptr<char[]> acceptIp_;              // +0x824
     std::int32_t acceptPort_ = 0;                   // +0x828
     std::string content_;                           // +0x82c
+    bool bufferUsed_ = false;                       // +0x844 (m_buffer_used)
     bool receiveHttpHeader_ = false;                // +0x845 header still to parse (m_bReceiveHttpHeader)
     bool lengthKnown_ = false;                      // +0x846 Content-Length was read (m_bLengthKnown)
     std::int32_t totalLength_ = 0;                  // +0x848 (m_total_length)
@@ -146,8 +169,7 @@ private:
 };
 
 // 0x89e57c _ZN22LCXPlayerSocketFactory9GetSocketEPciP23LCXPlayerSocketObserver
-// Partial: the original builds LCAndroidSocket (0xcf0 bytes). The port builds the base class,
-// which has no I/O.
+// Builds an LCAndroidSocket (0xcf0 bytes), as the original.
 class LCXPlayerSocketFactory {
 public:
     static LCXPlayerSocket* GetSocket(const char* serverName, std::int32_t port,

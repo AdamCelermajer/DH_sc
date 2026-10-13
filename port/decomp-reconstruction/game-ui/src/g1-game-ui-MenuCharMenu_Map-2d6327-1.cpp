@@ -112,17 +112,10 @@ glitch::core::vector3d<float> ToVector3d(const Point3D<float>& p) {
 }  // namespace
 
 // 0x45440c _ZN16MenuCharMenu_MapD2Ev
-// The original sets the vptr (done by the compiler), deletes the map camera through its virtual deleting
-// destructor (vtable +0x04) and clears it, then destroys the 18 icon vectors in reverse order, clears the
-// unvisited and visited room lists, and runs MenuBase's destructor. The member destructors here run in
-// reverse declaration order, which is the same order: m_icons[17] .. m_icons[0], m_unvisitedRooms,
-// m_visitedRooms, then the MenuBase base.
-MenuCharMenu_Map::~MenuCharMenu_Map() {
-    if (m_mapCamera != nullptr) {
-        delete m_mapCamera;
-        m_mapCamera = nullptr;
-    }
-}
+// Base-object destructor with the same body as the D1 complete-object destructor at 0x454368 (the Hex-Rays pseudocode is identical).
+// One C++ destructor serves both forms, as for HUDMinimap, so there is no definition in this file. The single
+// definition of MenuCharMenu_Map::~MenuCharMenu_Map() is in game-ui/src/g1-game-ui-MenuCharMenu_Map-2d6327-0.cpp
+// (the 0x454368 row). A second definition here fails to link ("multiple definition") when both parts are built.
 
 // 0x454504 _ZN16MenuCharMenu_Map13DuplicateIconENS_9EIconTypeERKN6glitch4core8vector3dIfEE
 // PARTIAL: the icon itself is not made. The original clones the map dummy (m_mapIconsDummy, +0xf8) under the name

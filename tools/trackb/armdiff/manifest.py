@@ -241,12 +241,21 @@ class Row:
     ledger_from: str = ""
 
 
+ARMDIFF_NOTE = "armdiff mismatch:"
+
+
+def is_armdiff_demoted(status: str, notes: str) -> bool:
+    return status == "partial" and notes.strip().startswith(ARMDIFF_NOTE)
+
+
 def build_rows(cat: str, orig: Original, only_status: str | None = "reconstructed", only_addrs: set[int] | None = None) -> list[Row]:
     out = []
     for addr, r in sorted(read_ledger(cat).items()):
         st = (r.get("status") or "").strip()
         if only_status and st != only_status:
-            continue
+            # a row armdiff itself demoted stays under test, so a fix can be seen to work
+            if not (only_status == "reconstructed" and is_armdiff_demoted(st, r.get("notes") or "")):
+                continue
         if only_addrs is not None and addr not in only_addrs:
             continue
         row = Row(cat, addr, (r.get("symbol") or "").strip(), st, (r.get("source_file") or "").strip(), (r.get("notes") or "").strip(),

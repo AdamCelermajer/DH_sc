@@ -121,7 +121,7 @@ int main() {
             CHECK(g_unk[1].row == 1 && g_unk[1].dataIndex == 1 && g_unk[1].enabled);
             CHECK(g_unk[2].row == 2 && g_unk[2].dataIndex == 2 && g_unk[2].enabled);
         }
-        // Down button off at offset 0, up button on while anchor + offset < count.
+        // Down button off at offset 0, up button on while visible rows + offset < count.
         CHECK(g_enable.size() == 2);
         if (g_enable.size() == 2) {
             CHECK(g_enable[0].character == g_down && !g_enable[0].enabled);
@@ -169,6 +169,45 @@ int main() {
         CHECK(table.m_scrollOffset == 0);
         CHECK(!table.UpdateTableData(-5));  // already at 0: no change
         CHECK(table.m_scrollOffset == 0);
+    }
+
+    // ---- Single list: the up button is on while visible rows + offset < count (the anchor is 0 here) ----
+    {
+        TestModel table{};   // value-initialized: InitTable keeps the scroll offset, so it must start at 0
+        g_table = &table;
+        table.InitTable(g_menu, 10, 3, false, false, false);
+        CHECK(table.m_anchor == 0);
+        Reset();
+        CHECK(table.UpdateTableData(6));    // offset 6: 3 + 6 < 10 is true
+        CHECK(g_enable.size() == 2);
+        if (g_enable.size() == 2) {
+            CHECK(g_enable[0].character == g_down && g_enable[0].enabled);
+            CHECK(g_enable[1].character == g_up && g_enable[1].enabled);
+        }
+        Reset();
+        CHECK(table.UpdateTableData(1));    // offset 7 = count - visible: 3 + 7 < 10 is false, so up is off
+        CHECK(table.m_scrollOffset == 7);
+        CHECK(g_enable.size() == 2);
+        if (g_enable.size() == 2) {
+            CHECK(g_enable[0].character == g_down && g_enable[0].enabled);
+            CHECK(g_enable[1].character == g_up && !g_enable[1].enabled);
+        }
+    }
+
+    // ---- Buffered single list (anchor 2): the up button still uses visible rows, so it is off at offset 7 ----
+    {
+        TestModel table{};   // value-initialized: InitTable keeps the scroll offset, so it must start at 0
+        g_table = &table;
+        table.InitTable(g_menu, 10, 3, true, false, false);
+        CHECK(table.m_anchor == 2);
+        Reset();
+        CHECK(table.UpdateTableData(7));    // offset 7: 3 + 7 < 10 is false (anchor 2 + 7 < 10 would wrongly be true)
+        CHECK(table.m_scrollOffset == 7);
+        CHECK(g_enable.size() == 2);
+        if (g_enable.size() == 2) {
+            CHECK(g_enable[0].character == g_down && g_enable[0].enabled);
+            CHECK(g_enable[1].character == g_up && !g_enable[1].enabled);
+        }
     }
 
     // ---- Split list with buffer rows: anchor = visible / 2, offset clamps to count - 1 ----

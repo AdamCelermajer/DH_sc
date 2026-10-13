@@ -1,4 +1,5 @@
 #include "net-transport/data_packet.hpp"
+#include "net-transport/default_data_packet.hpp"
 #include "net-transport/socket_abstract.hpp"
 #include "net-transport/transport.hpp"
 
@@ -21,18 +22,27 @@ protected:
     bool IsConnected() const override { return connected; }
 };
 
-// DataPacket declares its message accessors pure (the original's slots are __cxa_pure_virtual),
-// so the base is tested through a packet that gives them empty values.
-class BlankPacket : public DataPacket {
+// DataPacket declares its message slots pure (the original's slots are __cxa_pure_virtual), so the base's
+// own bodies are tested through a concrete packet.
+class BlankPacket : public DefaultDataPacket {};
+
+// CTransport declares its slots pure as well (+0x0c Send, +0x10 Receive, +0x18..+0x2c); the base's own bodies
+// (Connect, Disconnect, StartBroadcast, StopBroadcast) are tested through a transport that fills them in.
+class ProbeTransport : public CTransport {
 public:
-    std::size_t getMessageLen() const override { return 0; }
-    const std::uint8_t* getMessageBody() const override { return nullptr; }
-    int getDataType() const override { return 1; }
+    int Send(const CNetworkId&, const void*, int) override { return 0; }
+    int Receive() override { return 0; }
+    CNetworkId GetLocalNetworkId() override { return CNetworkId(); }
+    CNetworkId GetPeerNetworkId() override { return CNetworkId(); }
+    int GetType() override { return 9; }
+    bool IsConnected() override { return true; }
+    bool IsConnectedTo(const CNetworkId&) override { return true; }
+    bool CanDisconnectFrom(const CNetworkId&) override { return true; }
 };
 }  // namespace
 
 int main() {
-    CTransport t;
+    ProbeTransport t;
     CNetworkId peer;
     CHECK(t.Connect(peer) == 0);
     CHECK(t.Disconnect() == 0);

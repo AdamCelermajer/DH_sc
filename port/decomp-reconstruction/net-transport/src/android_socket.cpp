@@ -192,24 +192,22 @@ void CAndroidSocket::Clearup() {
 }
 
 // 0x84232c / 0x842430 CAndroidSocket(char*, int, GLXPlayerSocketObserver*)
-// Partial: the original calls the GLXPlayerSocket base constructor (0x8302f0, reconstructed in
-// net-session-online; it keeps a copy of the host string, the port and the observer) and then
-// sets the CAndroidSocket vtable. This port has no base class, so the host and observer are
-// dropped and only the port is kept. The vtable pointer is implicit in C++. The base state
-// defaults (state 0, handle -1) match the member initialisers above.
-CAndroidSocket::CAndroidSocket(const char* host, int port, GLXPlayerSocketObserver* observer) {
-    (void)host;
-    (void)observer;
-    port_ = static_cast<std::uint16_t>(port);
-}
+// Calls the GLXPlayerSocket base constructor (0x8302f0: it copies the host string and keeps the
+// port and the observer) and then sets the CAndroidSocket vtable, which C++ does implicitly.
+CAndroidSocket::CAndroidSocket(const char* host, int port, GLXPlayerSocketObserver* observer)
+    : GLXPlayerSocket(host, port, observer) {}
 
 // 0x842260 / 0x8422d4 ~CAndroidSocket()
-// Partial: the original joins the worker thread (pthread handle at +0x8ec, read only when
-// worker_state_ != 0), calls CloseSocket directly, and then runs the GLXPlayerSocket base
-// destructor (0x8301e4, reconstructed in net-session-online). This class does not derive from
-// that base yet and has no thread handle member, so only CloseSocket runs here.
+// Joins the lookup thread (pthread handle at +0x8ec) when the lookup state (+0x860) is nonzero,
+// calls CloseSocket directly (not through the vtable), and then runs the GLXPlayerSocket base
+// destructor (0x8301e4: the accept address, host name and content string are released by the
+// base's members). A std::thread must not be destroyed joinable, so the join is also guarded by
+// joinable(); nothing in the exported code starts the thread.
 CAndroidSocket::~CAndroidSocket() {
-    CloseSocket();
+    if (gethostbynameState_ != 0 && worker_thread_.joinable()) {
+        worker_thread_.join();
+    }
+    CAndroidSocket::CloseSocket();
 }
 
 // 0x840880 _ZN14CAndroidSocket4InitEv
@@ -217,49 +215,49 @@ void CAndroidSocket::Init() {}
 
 // 0x840884 _ZN14CAndroidSocket12IsReadyForRWEv
 // Guard added: fds outside the bitmap report false instead of reading past it.
-bool CAndroidSocket::IsReadyForRW() const {
-    if (fd_ < 0 || fd_ >= kFdBitmapBits) {
+bool CAndroidSocket::IsReadyForRW() {
+    if (socket_ < 0 || socket_ >= kFdBitmapBits) {
         return false;
     }
-    return (ready_bits_[fd_ / 32] >> (fd_ % 32)) & 1u;
+    return (ready_bits_[socket_ / 32] >> (socket_ % 32)) & 1u;
 }
 
 // 0x8408ac _ZN14CAndroidSocket13SendBroadcastEPKcii
 // Partial: XP_DEBUG_OUT logging dropped. Returns the sendto() result.
-std::ptrdiff_t CAndroidSocket::SendBroadcast(const char* data, int length, int port) {
+int CAndroidSocket::SendBroadcast(const char* data, int length, int port) {
     sockaddr_in addr = MakeInet(INADDR_BROADCAST, port);
-    return static_cast<std::ptrdiff_t>(
-        ::sendto(ToNative(fd_), data, length, 0, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)));
+    return static_cast<int>(
+        ::sendto(ToNative(socket_), data, length, 0, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)));
 }
 
 // 0x8409a0 _ZN14CAndroidSocket12SetBroadcastEv
 // Partial: XP_DEBUG_OUT on failure dropped. Returns the setsockopt() result.
 int CAndroidSocket::SetBroadcast() {
     int one = 1;
-    return ::setsockopt(ToNative(fd_), SOL_SOCKET, SO_BROADCAST, reinterpret_cast<const char*>(&one), sizeof(one));
+    return ::setsockopt(ToNative(socket_), SOL_SOCKET, SO_BROADCAST, reinterpret_cast<const char*>(&one), sizeof(one));
 }
 
 // 0x840a04 _ZN14CAndroidSocket6ListenEi
 // Partial: "Listen failed!" log dropped. The original returns the log call's result on
 // failure, which is not recovered; the listen() result (-1) is returned instead.
 int CAndroidSocket::Listen(int backlog) {
-    return ::listen(ToNative(fd_), backlog);
+    return ::listen(ToNative(socket_), backlog);
 }
 
 // 0x840a30 _ZN14CAndroidSocket13GetSocketPortEv
 // Hex-Rays returns int, built from sa_data[0..1] in network order, which is ntohs(sin_port).
 // The port fits in 16 bits, so std::uint16_t is used.
-std::uint16_t CAndroidSocket::GetSocketPort() const {
+std::uint16_t CAndroidSocket::GetSocketPort() {
     sockaddr_in addr{};
     SockLen len = sizeof(addr);
-    ::getsockname(ToNative(fd_), reinterpret_cast<sockaddr*>(&addr), &len);
+    ::getsockname(ToNative(socket_), reinterpret_cast<sockaddr*>(&addr), &len);
     return ntohs(addr.sin_port);
 }
 
 // 0x840ab4 _ZN14CAndroidSocket13GetSocketAddrEv
 // Returns the first IPv4 address of this machine's host name, or nullptr. The string
 // comes from inet_ntoa and lives in a static buffer, as in the original.
-const char* CAndroidSocket::GetSocketAddr() const {
+const char* CAndroidSocket::GetSocketAddr() {
     char name[256];
     std::memset(name, 0, sizeof(name));
     if (::gethostname(name, sizeof(name)) != 0) {
@@ -278,11 +276,11 @@ const char* CAndroidSocket::GetSocketAddr() const {
 // Partial: XP_DEBUG_OUT logging dropped. On success *ip_out is a new[] copy of the sender
 // address string (the caller deletes it) and *port_out is the sender port in host order.
 // Returns the recvfrom() result.
-std::ptrdiff_t CAndroidSocket::RecvFromUnkownIP(char* buffer, int length, char** ip_out, int* port_out) {
+int CAndroidSocket::RecvFromUnkownIP(char* buffer, int length, char** ip_out, int* port_out) {
     sockaddr_in from{};
     from.sin_family = AF_INET;
     SockLen from_len = sizeof(from);
-    const auto got = ::recvfrom(ToNative(fd_), buffer, length, 0, reinterpret_cast<sockaddr*>(&from), &from_len);
+    const auto got = ::recvfrom(ToNative(socket_), buffer, length, 0, reinterpret_cast<sockaddr*>(&from), &from_len);
     if (got > 0) {
         const std::string ip = ::inet_ntoa(from.sin_addr);
         char* copy = new char[ip.size() + 1];
@@ -290,12 +288,12 @@ std::ptrdiff_t CAndroidSocket::RecvFromUnkownIP(char* buffer, int length, char**
         *ip_out = copy;
         *port_out = ntohs(from.sin_port);
     }
-    return static_cast<std::ptrdiff_t>(got);
+    return static_cast<int>(got);
 }
 
 // 0x840c60 _ZN14CAndroidSocket11GetHostNameEPPc
 // The buffer is zeroed first (the original leaves it uninitialised on failure).
-void CAndroidSocket::GetHostName(char** out) const {
+void CAndroidSocket::GetHostName(char** out) {
     char name[256];
     std::memset(name, 0, sizeof(name));
     ::gethostname(name, sizeof(name) - 1);
@@ -307,63 +305,63 @@ void CAndroidSocket::GetHostName(char** out) const {
 // 0x840cc8 _ZN14CAndroidSocket8RecvFromEPci
 // Partial: XP_DEBUG_OUT logging dropped. The sender address is read and discarded.
 // Returns the recvfrom() result.
-std::ptrdiff_t CAndroidSocket::RecvFrom(char* buffer, int length) {
+int CAndroidSocket::RecvFrom(char* buffer, int length) {
     sockaddr_in from{};
     from.sin_family = AF_INET;
     SockLen from_len = sizeof(from);
-    return static_cast<std::ptrdiff_t>(
-        ::recvfrom(ToNative(fd_), buffer, length, 0, reinterpret_cast<sockaddr*>(&from), &from_len));
+    return static_cast<int>(
+        ::recvfrom(ToNative(socket_), buffer, length, 0, reinterpret_cast<sockaddr*>(&from), &from_len));
 }
 
 // 0x840de0 _ZN14CAndroidSocket6SendToEPKciS1_i
 // Partial: XP_DEBUG_OUT logging dropped. A null host sends nothing and returns 0.
 // Returns the sendto() result.
-std::ptrdiff_t CAndroidSocket::SendTo(const char* data, int length, const char* host, int port) {
+int CAndroidSocket::SendTo(const char* data, int length, const char* host, int port) {
     if (host == nullptr) {
         return 0;
     }
     sockaddr_in addr = MakeInet(inet_addr(host), port);
-    return static_cast<std::ptrdiff_t>(
-        ::sendto(ToNative(fd_), data, length, 0, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)));
+    return static_cast<int>(
+        ::sendto(ToNative(socket_), data, length, 0, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)));
 }
 
 // 0x840ed0 _ZN14CAndroidSocket16CreateIcmpSocketEv
 // Note: Winsock does not allow SOCK_DGRAM + IPPROTO_ICMP, so this returns false there.
 bool CAndroidSocket::CreateIcmpSocket() {
-    fd_ = OpenSocket(AF_INET, SOCK_DGRAM, IPPROTO_ICMP);
-    const bool ok = fd_ >= 0;
+    socket_ = OpenSocket(AF_INET, SOCK_DGRAM, IPPROTO_ICMP);
+    const bool ok = socket_ >= 0;
     if (ok) {
-        socket_kind_ = 2;
+        socketType_ = 2;
     }
     return ok;
 }
 
 // 0x840f04 _ZN14CAndroidSocket15CreateUdpSocketEv
 bool CAndroidSocket::CreateUdpSocket() {
-    fd_ = OpenSocket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    const bool ok = fd_ >= 0;
+    socket_ = OpenSocket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    const bool ok = socket_ >= 0;
     if (ok) {
-        socket_kind_ = 2;
+        socketType_ = 2;
     }
     return ok;
 }
 
 // 0x840f38 _ZN14CAndroidSocket15CreateTcpSocketEv
 void CAndroidSocket::CreateTcpSocket() {
-    fd_ = OpenSocket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (fd_ >= 0) {
-        socket_kind_ = 1;
+    socket_ = OpenSocket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (socket_ >= 0) {
+        socketType_ = 1;
     }
 }
 
 // 0x840f68 _ZN14CAndroidSocket12CreateSocketEv
 // Partial: XP_DEBUG_OUT on failure dropped.
 bool CAndroidSocket::CreateSocket() {
-    fd_ = OpenSocket(AF_INET, SOCK_STREAM, 0);
-    if (fd_ >= 0) {
+    socket_ = OpenSocket(AF_INET, SOCK_STREAM, 0);
+    if (socket_ >= 0) {
         return true;
     }
-    status_ = kStatusError;
+    state_ = kStatusError;
     return false;
 }
 
@@ -376,46 +374,46 @@ int CAndroidSocket::Bind(const char* host, std::uint16_t port) {
     (void)host;
     sockaddr_in addr = MakeInet(INADDR_ANY, port);
     int one = 1;
-    ::setsockopt(ToNative(fd_), SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&one), sizeof(one));
+    ::setsockopt(ToNative(socket_), SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&one), sizeof(one));
     int attempts = 0;
-    if (::bind(ToNative(fd_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
+    if (::bind(ToNative(socket_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
         std::uint16_t candidate = static_cast<std::uint16_t>(port + 1);
         do {
             addr.sin_port = htons(candidate);
             ++attempts;
             ++candidate;
-        } while (::bind(ToNative(fd_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0);
+        } while (::bind(ToNative(socket_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0);
     }
     return port + attempts;
 }
 
 // 0x8410d8 _ZN14CAndroidSocket4RecvEPci
 // The original's XP_API_GET_TIME() result is unused and dropped.
-std::ptrdiff_t CAndroidSocket::Recv(char* buffer, int length) {
-    return static_cast<std::ptrdiff_t>(::recv(ToNative(fd_), buffer, length, 0));
+int CAndroidSocket::Recv(char* buffer, int length) {
+    return static_cast<int>(::recv(ToNative(socket_), buffer, length, 0));
 }
 
 // 0x8410f8 _ZN14CAndroidSocket4SendEPci
 // Partial: XP_DEBUG_OUT logging dropped. Returns the send() result.
-std::ptrdiff_t CAndroidSocket::Send(const char* data, int length) {
-    return static_cast<std::ptrdiff_t>(::send(ToNative(fd_), data, length, 0));
+int CAndroidSocket::Send(const char* data, int length) {
+    return static_cast<int>(::send(ToNative(socket_), data, length, 0));
 }
 
 // 0x8411e8 _ZN14CAndroidSocket6SelectEN15GLXPlayerSocket17XSocketSelectFlagE
 // Polls only this socket with a zero timeout. The ready bit is the select() result
 // for this fd (bit set before the call, cleared by select on timeout).
 int CAndroidSocket::Select(XSocketSelectFlag flag) {
-    if (fd_ < 0 || fd_ >= kFdBitmapBits) {
+    if (socket_ < 0 || socket_ >= kFdBitmapBits) {
         return -1;
     }
     std::memset(ready_bits_, 0, sizeof(ready_bits_));
-    ready_bits_[fd_ / 32] |= 1u << (fd_ % 32);
+    ready_bits_[socket_ / 32] |= 1u << (socket_ % 32);
 
     timeval tv{};
     fd_set set;
     FD_ZERO(&set);
-    FD_SET(ToNative(fd_), &set);
-    const int nfds = fd_ + 1;
+    FD_SET(ToNative(socket_), &set);
+    const int nfds = socket_ + 1;
     int rc = -1;
     if (flag == kSelectRead) {
         rc = ::select(nfds, &set, nullptr, nullptr, &tv);
@@ -425,11 +423,11 @@ int CAndroidSocket::Select(XSocketSelectFlag flag) {
         return -1;
     }
     if (rc >= 0) {
-        const bool ready = FD_ISSET(ToNative(fd_), &set) != 0;
+        const bool ready = FD_ISSET(ToNative(socket_), &set) != 0;
         if (ready) {
-            ready_bits_[fd_ / 32] |= 1u << (fd_ % 32);
+            ready_bits_[socket_ / 32] |= 1u << (socket_ % 32);
         } else {
-            ready_bits_[fd_ / 32] &= ~(1u << (fd_ % 32));
+            ready_bits_[socket_ / 32] &= ~(1u << (socket_ % 32));
         }
     }
     return rc;
@@ -438,9 +436,9 @@ int CAndroidSocket::Select(XSocketSelectFlag flag) {
 // 0x8412b4 _ZN14CAndroidSocket11CloseSocketEv
 // Partial: the "CloseSocket() [%d]" debug line dropped.
 bool CAndroidSocket::CloseSocket() {
-    if (fd_ >= 0) {
-        CloseNative(fd_);
-        fd_ = -1;
+    if (socket_ >= 0) {
+        CloseNative(socket_);
+        socket_ = -1;
     }
     return true;
 }
@@ -450,81 +448,81 @@ bool CAndroidSocket::CloseSocket() {
 // the connection completes and 0 otherwise. The original has no timeout in this state.
 // Partial: XP_DEBUG_OUT logging dropped.
 int CAndroidSocket::ConnectTo(const char* host, int port) {
-    if (conn_state_ == kConnectIdle) {
+    if (nonBlockConnectState_ == kConnectIdle) {
         sockaddr_in addr = MakeInet(inet_addr(host), port);
         if (!SetNonBlocking()) {
             CloseSocket();
-            conn_state_ = kConnectFailed;
-            status_ = kStatusError;
+            nonBlockConnectState_ = kConnectFailed;
+            state_ = kStatusError;
             return 0;
         }
-        if (::connect(ToNative(fd_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0 &&
+        if (::connect(ToNative(socket_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0 &&
             LastSocketError() != kInProgressError) {
             CloseSocket();
-            conn_state_ = kConnectFailed;
-            status_ = kStatusError;
+            nonBlockConnectState_ = kConnectFailed;
+            state_ = kStatusError;
             return 0;
         }
-        conn_state_ = kConnectInProgress;
+        nonBlockConnectState_ = kConnectInProgress;
         return 0;
     }
-    if (conn_state_ != kConnectInProgress) {
+    if (nonBlockConnectState_ != kConnectInProgress) {
         return 0;
     }
     const int ready = Select(kSelectWrite);
     if (ready < 0) {
         CloseSocket();
-        conn_state_ = kConnectFailed;
-        status_ = kStatusError;
+        nonBlockConnectState_ = kConnectFailed;
+        state_ = kStatusError;
         return 0;
     }
     if (ready == 0) {
         return 0;
     }
     int error = 0;
-    if (ReadSocketError(fd_, error) && error == 0 && SetBlockingMode(fd_, false)) {
-        conn_state_ = kConnectDone;
+    if (ReadSocketError(socket_, error) && error == 0 && SetBlockingMode(socket_, false)) {
+        nonBlockConnectState_ = kConnectDone;
         return 1;
     }
     CloseSocket();
-    conn_state_ = kConnectFailed;
-    status_ = kStatusError;
+    nonBlockConnectState_ = kConnectFailed;
+    state_ = kStatusError;
     return 0;
 }
 
 // 0x84152c _ZN14CAndroidSocket7ConnectEv
-// Uses the resolved host_ and port_ (set by ConnectByName or the base class). Returns 1 when
+// Uses the resolved hostEntry_ and port_ (set by ConnectByName or the base class). Returns 1 when
 // the connection completes and 0 otherwise.
-// Partial: host_ == nullptr is treated as a failure instead of a crash.
+// Partial: hostEntry_ == nullptr is treated as a failure instead of a crash.
 int CAndroidSocket::Connect() {
-    if (conn_state_ == kConnectIdle) {
-        if (host_ == nullptr || host_->h_addr_list[0] == nullptr) {
+    if (nonBlockConnectState_ == kConnectIdle) {
+        if (hostEntry_ == nullptr || hostEntry_->h_addr_list[0] == nullptr) {
             CloseSocket();
-            conn_state_ = kConnectFailed;
-            status_ = kStatusError;
+            nonBlockConnectState_ = kConnectFailed;
+            state_ = kStatusError;
             return 0;
         }
         sockaddr_in addr = MakeInet(0, port_);
-        std::memcpy(&addr.sin_addr, host_->h_addr_list[0],
-                    std::min<std::size_t>(sizeof(addr.sin_addr), static_cast<std::size_t>(host_->h_length)));
+        std::memcpy(&addr.sin_addr, hostEntry_->h_addr_list[0],
+                    std::min<std::size_t>(sizeof(addr.sin_addr), static_cast<std::size_t>(hostEntry_->h_length)));
         if (!SetNonBlocking()) {
             CloseSocket();
-            conn_state_ = kConnectFailed;
-            status_ = kStatusError;
+            nonBlockConnectState_ = kConnectFailed;
+            state_ = kStatusError;
             return 0;
         }
-        if (::connect(ToNative(fd_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0 &&
+        if (::connect(ToNative(socket_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0 &&
             LastSocketError() != kInProgressError) {
             CloseSocket();
-            conn_state_ = kConnectFailed;
-            status_ = kStatusError;
+            nonBlockConnectState_ = kConnectFailed;
+            state_ = kStatusError;
         } else {
-            conn_state_ = kConnectInProgress;
-            connect_start_ms_ = NowMs();
+            nonBlockConnectState_ = kConnectInProgress;
+            connectTimeStart_ = NowMs();
         }
         return 0;
     }
-    if (conn_state_ == kConnectInProgress) {
+    if (nonBlockConnectState_ == kConnectInProgress) {
         return FinishConnect();
     }
     return 0;
@@ -537,24 +535,24 @@ int CAndroidSocket::FinishConnect() {
     const int ready = Select(kSelectWrite);
     if (ready < 0) {
         CloseSocket();
-        conn_state_ = kConnectFailed;
-        status_ = kStatusError;
+        nonBlockConnectState_ = kConnectFailed;
+        state_ = kStatusError;
         return 0;
     }
     if (ready == 0) {
-        if (NowMs() - connect_start_ms_ <= kConnectTimeoutMs) {
+        if (NowMs() - connectTimeStart_ <= kConnectTimeoutMs) {
             return 0;
         }
     } else {
         int error = 0;
-        if (ReadSocketError(fd_, error) && error == 0 && SetBlockingMode(fd_, false)) {
-            conn_state_ = kConnectDone;
+        if (ReadSocketError(socket_, error) && error == 0 && SetBlockingMode(socket_, false)) {
+            nonBlockConnectState_ = kConnectDone;
             return 1;
         }
     }
     CloseSocket();
-    conn_state_ = kConnectFailed;
-    status_ = kStatusError;
+    nonBlockConnectState_ = kConnectFailed;
+    state_ = kStatusError;
     return 0;
 }
 
@@ -563,63 +561,63 @@ int CAndroidSocket::FinishConnect() {
 // when the connection completes and 0 otherwise. Partial: XP_DEBUG_OUT logging dropped.
 int CAndroidSocket::ConnectByName(const char* name, std::uint16_t port) {
     (void)port;
-    if (conn_state_ == kConnectIdle) {
-        host_ = GetHostByName(name);
-        if (host_ == nullptr) {
-            if (NowMs() - lookup_start_ms_ > kLookupTimeoutMs) {
+    if (nonBlockConnectState_ == kConnectIdle) {
+        hostEntry_ = GetHostByName(name);
+        if (hostEntry_ == nullptr) {
+            if (NowMs() - gethostbynameTimeStart_ > kLookupTimeoutMs) {
                 CloseSocket();
-                status_ = kStatusError;
-                conn_state_ = kConnectFailed;
-                worker_state_ = 0;
+                state_ = kStatusError;
+                nonBlockConnectState_ = kConnectFailed;
+                gethostbynameState_ = 0;
             }
             return 0;
         }
         sockaddr_in addr = MakeInet(0, port_);
-        std::memcpy(&addr.sin_addr, host_->h_addr_list[0],
-                    std::min<std::size_t>(sizeof(addr.sin_addr), static_cast<std::size_t>(host_->h_length)));
+        std::memcpy(&addr.sin_addr, hostEntry_->h_addr_list[0],
+                    std::min<std::size_t>(sizeof(addr.sin_addr), static_cast<std::size_t>(hostEntry_->h_length)));
         if (!SetNonBlocking()) {
             CloseSocket();
-            conn_state_ = kConnectFailed;
-            status_ = kStatusError;
+            nonBlockConnectState_ = kConnectFailed;
+            state_ = kStatusError;
             return 0;
         }
-        if (::connect(ToNative(fd_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0 &&
+        if (::connect(ToNative(socket_), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0 &&
             LastSocketError() != kInProgressError) {
             CloseSocket();
-            conn_state_ = kConnectFailed;
-            status_ = kStatusError;
+            nonBlockConnectState_ = kConnectFailed;
+            state_ = kStatusError;
         } else {
-            conn_state_ = kConnectInProgress;
-            connect_start_ms_ = NowMs();
+            nonBlockConnectState_ = kConnectInProgress;
+            connectTimeStart_ = NowMs();
         }
         return 0;
     }
-    if (conn_state_ == kConnectInProgress) {
+    if (nonBlockConnectState_ == kConnectInProgress) {
         return FinishConnect();
     }
     return 0;
 }
 
 // 0x841ad0 _ZN14CAndroidSocket14SetNonBlockingEv
-// On failure the socket is closed and status_ is set to the error value.
+// On failure the socket is closed and state_ is set to the error value.
 // Partial: XP_DEBUG_OUT logging dropped.
 bool CAndroidSocket::SetNonBlocking() {
-    if (SetBlockingMode(fd_, true)) {
+    if (SetBlockingMode(socket_, true)) {
         return true;
     }
     CloseSocket();
-    status_ = kStatusError;
+    state_ = kStatusError;
     return false;
 }
 
 // 0x841b98 _ZN14CAndroidSocket12GetLastErrorEv
-int CAndroidSocket::GetLastError() const {
+int CAndroidSocket::GetLastError() {
     return LastSocketError();
 }
 
 // 0x841ca8 _ZN14CAndroidSocket13GetHostByNameEPc
 // Partial: the body is a cache lookup, reconstructed from Hex-Rays. A non-empty cache
-// returns nullptr while worker_state_ is 1, otherwise it is searched by name (strcmp). Names
+// returns nullptr while gethostbynameState_ is 1, otherwise it is searched by name (strcmp). Names
 // longer than 1024 bytes are rejected. A miss calls gethostbyname(); the original stores the
 // first address with STRNEW (a string copy of the raw bytes), which is not reproduced: the
 // port stores the 4-byte address. Once the cache is full (4 entries) the last cached entry is
@@ -630,7 +628,7 @@ hostent* CAndroidSocket::GetHostByName(const char* name) {
         return nullptr;
     }
     if (g_host_count > 0) {
-        if (worker_state_ == 1) {
+        if (gethostbynameState_ == 1) {
             return nullptr;
         }
         for (int i = 0; i < g_host_count; ++i) {
@@ -733,25 +731,23 @@ int CAndroidSocket::GetLocalIP(char* out) {
 }
 
 // 0x842360 _ZN14CAndroidSocket6AcceptEv
-// Partial: the original returns a GLXPlayerSocket* to a new 0xcf4-byte CAndroidSocket. This
-// port has no GLXPlayerSocket base, so the object is returned as CAndroidSocket* (same as
-// LCAndroidSocket::Accept). The object is built in the original's order: accept(), inet_ntoa(),
-// new CAndroidSocket(nullptr, 0, nullptr), then SetSocket, SetAcceptIP, SetAcceptPort (the
-// sender port in host order, from the pseudocode's byte swap) and SetSocketType(1), which are
-// stored on the object's own members. As in the original, the object is returned even when
-// accept() failed (its handle is then -1). The sockaddr is zeroed first, so a failed accept
+// Returns a GLXPlayerSocket* to a new 0xcf4-byte CAndroidSocket, as the original. The object is built
+// in the original's order: accept(), inet_ntoa(), new CAndroidSocket(nullptr, 0, nullptr), then the
+// base setters SetSocket, SetAcceptIP, SetAcceptPort (the sender port in host order, from the
+// pseudocode's byte swap) and SetSocketType(1). As in the original, the object is returned even when
+// accept() failed (its handle is then -1). Partial: the sockaddr is zeroed first, so a failed accept
 // gives 0.0.0.0 and port 0 where the original reads unset stack bytes.
-CAndroidSocket* CAndroidSocket::Accept() {
+GLXPlayerSocket* CAndroidSocket::Accept() {
     sockaddr_in peer{};
     peer.sin_family = AF_INET;
     SockLen peer_len = sizeof(peer);
-    const NativeHandle handle = ::accept(ToNative(fd_), reinterpret_cast<sockaddr*>(&peer), &peer_len);
-    const std::string ip = ::inet_ntoa(peer.sin_addr);
+    const NativeHandle handle = ::accept(ToNative(socket_), reinterpret_cast<sockaddr*>(&peer), &peer_len);
+    const char* ip = ::inet_ntoa(peer.sin_addr);
     const std::uint16_t port = ntohs(peer.sin_port);
     auto* accepted = new CAndroidSocket(nullptr, 0, nullptr);
-    accepted->fd_ = IsValidNative(handle) ? static_cast<int>(handle) : -1;
-    accepted->accept_ip_ = ip;
-    accepted->accept_port_ = port;
-    accepted->socket_kind_ = 1;  // SetSocketType(1): TCP
+    accepted->SetSocket(IsValidNative(handle) ? static_cast<int>(handle) : -1);
+    accepted->SetAcceptIP(ip);
+    accepted->SetAcceptPort(port);
+    accepted->SetSocketType(1);  // TCP
     return accepted;
 }

@@ -18,14 +18,7 @@
 //
 // The original's ASSERT in Update prints through ReportAssert, as the other batches do.
 
-// Trigger.hpp (through net-transport's net_struct.hpp) defines CustomFree and MemoryHintState, and so do the pydata
-// headers included below (stream_reader.hpp). As in Character.hpp, the net-transport copies are renamed while they are
-// included, so the two sets do not clash in this translation unit.
-#define CustomFree CustomFree_net_transport
-#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/TriggerPlate.hpp"
-#undef CustomFree
-#undef MemoryHintState
 
 #include <cstdio>
 #include <cstdlib>

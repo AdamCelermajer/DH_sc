@@ -5,7 +5,7 @@
 
 #include <string>
 
-#include "net-session-online/deps/slim_xml_node.hpp"
+#include "core-platform/slim_xml.hpp"
 
 class item {
 public:

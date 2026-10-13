@@ -202,15 +202,15 @@ int main() {
     // time and the rank; the pending flag posts event 8388622 for a new entry.
     {
         MatchingInternalEventQueue().Clear();
-        TransportNamesForTest().clear();
+        transport_test_support::HostnamesForTest().clear();
         CMatchingGLLive m;
         CNetworkId first;
         first.SetAddress0(0x11, 0);
         CNetworkId second;
         second.SetAddress0(0x22, 0);
         std::uint64_t key = 0;
-        key = TransportKeyOf(first);
-        TransportNamesForTest()[key] = "first.server";
+        key = transport_test_support::HostnameKeyOf(first);
+        transport_test_support::HostnamesForTest()[key] = "first.server";
         CRoomAttributes attributes;
         attributes.SetAttributeInt(1, 9);
 

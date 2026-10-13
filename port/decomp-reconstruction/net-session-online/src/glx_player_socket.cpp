@@ -5,7 +5,7 @@
 #include <cstring>
 
 #include "core-platform/time_util.hpp"
-#include "net-session-online/deps/glx_stand_ins.hpp"
+#include "net-transport/android_socket.hpp"  // CAndroidSocket (GLXPlayerSocketFactory::GetSocket)
 
 namespace {
 
@@ -54,7 +54,7 @@ void GLXPlayerSocket::Start() {
     std::memset(receiveBuffer_, 0, sizeof(receiveBuffer_));
     socket_ = -1;
     state_ = 1;
-    connectHandle_ = 0;
+    hostEntry_ = nullptr;
 }
 
 // 0x83007c _ZN15GLXPlayerSocket6CancelEv
@@ -63,8 +63,8 @@ void GLXPlayerSocket::Cancel() {
     const std::int32_t state = state_;
     if (state != 0 && state != 7 && state != 6) {
         state_ = 8;
-        connecting_ = 0;
-        OnCancelled();
+        nonBlockConnectState_ = 0;
+        CloseSocket();  // vtable +0x3c
     }
 }
 
@@ -176,68 +176,64 @@ std::int32_t GLXPlayerSocket::ParseChunkedContent() {
     return 1;
 }
 
-// Error path of the Run states: LastError, the close hook and state 7.
+// Error path of the Run states: GetLastError (vtable +0x2c, read for its trace), CloseSocket
+// (vtable +0x3c) and state 7.
 void GLXPlayerSocket::FailAndClose() {
-    LastError();
-    OnCancelled();
+    GetLastError();
+    CloseSocket();
     state_ = 7;
 }
 
-// Length of the response span. The original subtracts the two stored pointers.
-std::int32_t GLXPlayerSocket::ResponseSpan() const {
-    if (responseStart_ == nullptr || responseEnd_ == nullptr) {
-        return 0;
-    }
-    return static_cast<std::int32_t>(responseEnd_ - responseStart_);
-}
-
 // 0x830f20 _ZN15GLXPlayerSocket3RunEv
-// Partial: every state follows the listing (the debug traces are not emitted). Two things are not
-// reproduced. The transport calls are virtual hooks whose base versions report failure, so Run only
-// advances with a transport. The response span (+0x83c end, +0x840 start) that OnReceived and
-// OnResponse report is written by the platform receive path, which is not ported, so the span
-// stays empty here. The connect timeout reads the clock (ClockMs, the OS_GetTime formula).
+// Every state follows the Hex-Rays body and the listing (the XP_DEBUG_OUT traces are not emitted, so
+// the row stays partial). Every transport call goes through the platform slot at the offset the
+// original uses: GetHostByName +0x20, CreateSocket +0x28, GetLastError +0x2c, Connect +0x34,
+// CloseSocket +0x3c, Select +0x40, Send +0x44, Recv +0x48. The response span the observer receives is
+// the content string's own span (its finish pointer at +0x83c minus its start pointer at +0x840), so
+// SetResponseLen gets content_.size() and SetResponseData gets content_.data() and content_.size().
 void GLXPlayerSocket::Run() {
     // States 0 (idle), 7 (error) and 8 (cancelled) do nothing.
     if (state_ == 0 || state_ == 7 || state_ == 8) {
         return;
     }
     switch (state_) {
-        case 1: {  // started: open the connection, then begin the connect
-            if (connectHandle_ != 0 || (connectHandle_ = OpenConnection(host_.get())) != 0) {
-                if (BeginConnect() != 0) {
+        case 1: {  // started: resolve the host, then create the socket
+            if (hostEntry_ != nullptr || (hostEntry_ = GetHostByName(host_.get())) != nullptr) {
+                if (CreateSocket()) {
                     state_ = 2;
                 } else {
-                    // A failed begin reads the error (vtable +0x2c) and leaves the state as it is.
-                    LastError();
+                    // A failed create reads the error (vtable +0x2c) and leaves the state as it is.
+                    GetLastError();
                 }
             } else {
-                const auto elapsed = static_cast<std::int32_t>(ClockMs() - connectStartTime_);
+                const auto elapsed = static_cast<std::int32_t>(ClockMs() - static_cast<std::uint32_t>(gethostbynameTimeStart_));
                 if (elapsed > 9999) {
-                    LastError();
+                    GetLastError();
                     state_ = 7;
-                    connectResult_ = 0;
+                    gethostbynameState_ = 0;
                 }
             }
             return;
         }
         case 2: {  // connecting
-            if (IsConnected() != 0) {
+            if (Connect() != 0) {
                 sentBytes_ = 0;
                 sendPercentage_ = 0;
                 state_ = 3;
                 sendStartTime_ = ClockMs();
-                connecting_ = 0;
-            } else if (connecting_ == 1) {
+                nonBlockConnectState_ = 0;
+            } else if (nonBlockConnectState_ == 1) {
                 // still connecting
             } else {
-                FailAndClose();
-                connecting_ = 0;
+                GetLastError();
+                CloseSocket();
+                nonBlockConnectState_ = 0;
+                state_ = 7;
             }
             return;
         }
         case 3: {  // sending the request from the observer's data
-            const std::int32_t ready = Poll(true);
+            const std::int32_t ready = Select(kSelectWrite);
             if (ready < 0) {
                 FailAndClose();
                 return;
@@ -245,16 +241,16 @@ void GLXPlayerSocket::Run() {
             if (ready == 0) {
                 return;
             }
-            const char* data = observer_ != nullptr ? observer_->RequestData() : nullptr;
+            // The original reads the length (observer slot +0x04) before the data (slot +0x00).
             const auto total = observer_ != nullptr
-                                   ? static_cast<std::int32_t>(observer_->RequestLength())
+                                   ? static_cast<std::int32_t>(observer_->GetRequestLength())
                                    : 0;
+            const char* data = observer_ != nullptr ? observer_->GetRequestData() : nullptr;
             std::int32_t chunk = total - sentBytes_;
             if (chunk > 2048) {
                 chunk = 2048;
             }
-            const std::int32_t sent =
-                SendBytes(data != nullptr ? data + sentBytes_ : nullptr, chunk);
+            const std::int32_t sent = Send(data != nullptr ? data + sentBytes_ : nullptr, chunk);
             if (sent < 0) {
                 FailAndClose();
                 return;
@@ -267,7 +263,7 @@ void GLXPlayerSocket::Run() {
                 // Send successful: the reply starts with a header.
                 receiveLength_ = 0;
                 content_.clear();
-                responseFlag844_ = false;
+                bufferUsed_ = true;
                 headerPending_ = true;
                 contentLengthKnown_ = false;
                 state_ = 4;
@@ -276,15 +272,15 @@ void GLXPlayerSocket::Run() {
             return;
         }
         case 4: {  // receiving the reply
-            if (Poll(false) <= 0) {
+            if (Select(kSelectRead) <= 0) {
                 return;
             }
             std::memset(receiveBuffer_, 0, sizeof(receiveBuffer_));
-            const std::int32_t received = RecvBytes(receiveBuffer_, 2048);
+            const std::int32_t received = Recv(receiveBuffer_, 2048);
             if (received < 0) {
                 FailAndClose();
                 if (observer_ != nullptr) {
-                    observer_->OnReceived(0);
+                    observer_->SetResponseLen(0);
                 }
                 return;
             }
@@ -303,9 +299,9 @@ void GLXPlayerSocket::Run() {
                     RemoveHttpHeader();
                     headerPending_ = false;
                 }
-                const std::int32_t available = ResponseSpan();
+                const auto available = static_cast<std::int32_t>(content_.size());
                 if (observer_ != nullptr) {
-                    observer_->OnReceived(available);
+                    observer_->SetResponseLen(available);
                 }
                 if (contentLengthKnown_ && expectedLength_ == available) {
                     state_ = 5;
@@ -316,7 +312,7 @@ void GLXPlayerSocket::Run() {
                     ParseChunkedContent();
                 }
                 if (observer_ != nullptr) {
-                    observer_->OnResponse(responseStart_, ResponseSpan());
+                    observer_->SetResponseData(content_.data(), static_cast<std::int32_t>(content_.size()));
                 }
                 content_.clear();
                 state_ = 6;
@@ -324,9 +320,9 @@ void GLXPlayerSocket::Run() {
             return;
         }
         case 5: {  // response complete: close, report, finish
-            OnCancelled();
+            CloseSocket();
             if (observer_ != nullptr) {
-                observer_->OnResponse(responseStart_, ResponseSpan());
+                observer_->SetResponseData(content_.data(), static_cast<std::int32_t>(content_.size()));
             }
             content_.clear();
             state_ = 6;
@@ -353,7 +349,8 @@ void GLXPlayerSocket::SetAcceptIP(const char* address) {
 }
 
 // 0x831528 _ZN22GLXPlayerSocketFactory9GetSocketEPciP23GLXPlayerSocketObserver
+// operator new(0xcf4) + the CAndroidSocket constructor, as the original.
 GLXPlayerSocket* GLXPlayerSocketFactory::GetSocket(const char* host, std::int32_t port,
                                                    GLXPlayerSocketObserver* observer) {
-    return new GLXPlayerSocket(host, port, observer);
+    return new CAndroidSocket(host, port, observer);
 }

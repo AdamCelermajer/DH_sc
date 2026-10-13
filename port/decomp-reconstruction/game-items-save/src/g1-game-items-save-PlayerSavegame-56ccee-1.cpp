@@ -14,8 +14,11 @@
 //  * Name tables. Arrays::FastTravelList and Arrays::WorldMap are read through the name tables of
 //    pydata-accessors/member_names.hpp: the w7 headers declare the same structs with a count member but cannot share a
 //    translation unit with it. NameTable::size is the table count (ReadNameTable fills the names only for a matching count).
-//  * Unsigned compares. The original compares ids and locations with the unsigned Arrays and record counts, so a negative
-//    location also trips the upper-bound ASSERT. The same compares are kept here.
+//  * Compare signedness. Faery ids and skill rows are unsigned parameters, and the original compares them with their record
+//    counts through unsigned branches (BHI and BCS in the assembly of 0x46663c, 0x466700, 0x4667c4, 0x4668dc and 0x466a08);
+//    the port does the same. A WorldMap location is an int parameter, and the original compares it with NameTable::size as a
+//    signed int (BLT after CMP in 0x466b18 and 0x466d10). A negative location therefore prints only the `mapLocId >= 0`
+//    ASSERT, and a location at or past the count prints only the upper-bound ASSERT.
 //  * Return values that the original leaves in r0 (a leftover `this` or the printf count of an ASSERT) are not returned:
 //    SG_SetSkillLevel, SG_SetMapLocState and SG_UnlockAllFastTravels are void, as their callers in game-character ignore
 //    the value. SG_SetFaerieState and SG_SetFaerieLevel return the faery count of the difficulty in every path.
@@ -67,9 +70,10 @@ bool OnlineGameStub() {
 // Constants::MapElementState::Count. The original accepts a state with state <= 2, so the count is 3.
 constexpr int kMapElementStateCount = 3;
 
-// The unsigned count of the WorldMap name table, the value the original compares a location against.
-std::uint32_t WorldMapCount() {
-    return static_cast<std::uint32_t>(Arrays::WorldMap::m_memberNames.size);
+// The count of the WorldMap name table (NameTable::size, an int). The original compares a location with it as a signed int
+// (BLT after CMP in 0x466b18 and 0x466d10), so a negative location is below the count and only the lower-bound ASSERT prints.
+int WorldMapCount() {
+    return Arrays::WorldMap::m_memberNames.size;
 }
 
 // The unsigned count of the FastTravelList name table.
@@ -359,7 +363,8 @@ int PlayerSavegame::SG_GetSkillId(std::uint32_t row) const {
 
 // 0x466b18 PlayerSavegame::SG_SetMapLocState(int, int, int)
 // The first argument is the map location id: the ASSERT texts and the stored index both say so. The header used to name it
-// state. A location outside the WorldMap table (ASSERT lines 125 and 126) is not stored: the original writes past the table,
+// state. A location below 0 prints only the ASSERT at line 125, and a location at or past the WorldMap count prints only the
+// ASSERT at line 126 (the compare is signed, as in the original). Neither is stored: the original writes past the table,
 // undefined there. A state outside 0..2 (lines 127 and 128) is stored as given, as the original stores it.
 void PlayerSavegame::SG_SetMapLocState(int location, int state, int difficulty) {
     bool locationInRange = true;
@@ -367,7 +372,7 @@ void PlayerSavegame::SG_SetMapLocState(int location, int state, int difficulty) 
         ReportSaveAssert("mapLocId >= 0", 125);
         locationInRange = false;
     }
-    if (static_cast<std::uint32_t>(location) >= WorldMapCount()) {
+    if (location >= WorldMapCount()) {
         ReportSaveAssert("mapLocId < (int)Arrays::WorldMap::size", 126);
         locationInRange = false;
     }
@@ -383,15 +388,15 @@ void PlayerSavegame::SG_SetMapLocState(int location, int state, int difficulty) 
 }
 
 // 0x466d10 PlayerSavegame::SG_GetMapLocState(int, int) const
-// A location outside the WorldMap table (ASSERT lines 115 and 116) returns 0: the original reads past the table, undefined
-// there.
+// A location below 0 prints only the ASSERT at line 115, and a location at or past the WorldMap count prints only the one at
+// line 116 (signed compare, as in the original). Either returns 0: the original reads past the table, undefined there.
 int PlayerSavegame::SG_GetMapLocState(int location, int difficulty) const {
     bool locationInRange = true;
     if (location < 0) {
         ReportSaveAssert("mapLocId >= 0", 115);
         locationInRange = false;
     }
-    if (static_cast<std::uint32_t>(location) >= WorldMapCount()) {
+    if (location >= WorldMapCount()) {
         ReportSaveAssert("mapLocId < (int)Arrays::WorldMap::size", 116);
         locationInRange = false;
     }

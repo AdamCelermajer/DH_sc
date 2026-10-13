@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+#include "core-platform/rss.hpp"
+#include "core-platform/slim_xml.hpp"
 #include "net-session-online/owned_text.hpp"
 #include "net-session-online/xp_api.hpp"
 
@@ -117,15 +119,32 @@ void GLXPlayerUser::processUserTrophyIcon(char* text) {
 }
 
 // 0x83b1e0 _ZN13GLXPlayerUser19processGetPromo_RSSEPc
-// Partial: the original parses the response as an XML document (slim::XmlDocument) and reads
-// it into the rss at +0xf8 (promoRss_) with rss::read. The core-platform rss and slim::XmlNode
-// are not the types the port's channel (net-session-online) uses, so the parse is not wired and
-// the body is a no-op. The response is not parsed and promoRss_ is not filled.
-void GLXPlayerUser::processGetPromo_RSS(char* response) { (void)response; }
+// The response is parsed as an XML document (slim::XmlDocument) and its "rss" child is read into
+// the feed at +0xf8 (promoRss_) with rss::read. The original calls strlen on the response without a
+// check; a null response is ignored here instead of faulting.
+void GLXPlayerUser::processGetPromo_RSS(char* response) {
+    if (response == nullptr) {
+        return;
+    }
+    slim::XmlDocument doc;
+    doc.loadFromMemory(response, static_cast<unsigned int>(std::strlen(response)));
+    if (const slim::XmlNode* rssNode = doc.findChild("rss")) {
+        promoRss_.read(rssNode);
+    }
+}
 
 // 0x83b280 _ZN13GLXPlayerUser17processGetADV_RSSEPc
-// Partial: same parse as processGetPromo_RSS, into the rss at +0xe8 (advRss_). Not wired.
-void GLXPlayerUser::processGetADV_RSS(char* response) { (void)response; }
+// Same parse as processGetPromo_RSS, into the feed at +0xe8 (advRss_). Null handling as above.
+void GLXPlayerUser::processGetADV_RSS(char* response) {
+    if (response == nullptr) {
+        return;
+    }
+    slim::XmlDocument doc;
+    doc.loadFromMemory(response, static_cast<unsigned int>(std::strlen(response)));
+    if (const slim::XmlNode* rssNode = doc.findChild("rss")) {
+        advRss_.read(rssNode);
+    }
+}
 
 // 0x83b320 _ZN13GLXPlayerUser19processUserGameIconEPc
 // Partial. Frees the game icon (+0xc8), then stores field 1 with XP_API_PARSE_DATA_NEW, as the

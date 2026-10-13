@@ -13,10 +13,11 @@
 #include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
 // Static state. Other batches of this class must not define these again.
-// The initial value of the two factory hooks is not recovered (data section); they start null.
+// The two factory hooks live in the data section (0x99e238 and 0x99e23c) with the initial values 0x8103d4 and
+// 0x81009c: CNetPlayerInfo::Create and CNetPlayerInfo::Delete, the defaults UnregisterPlayerInfoFunctions restores.
 CNetPlayerManager* CNetPlayerManager::s_playerManager = nullptr;
-CNetPlayerInfo* (*CNetPlayerManager::CreateNetPlayerInfo)() = nullptr;
-void (*CNetPlayerManager::DeleteNetPlayerInfo)(CNetPlayerInfo*) = nullptr;
+CNetPlayerInfo* (*CNetPlayerManager::CreateNetPlayerInfo)() = CNetPlayerInfo::Create;
+void (*CNetPlayerManager::DeleteNetPlayerInfo)(CNetPlayerInfo*) = CNetPlayerInfo::Delete;
 
 // 0x8100bc CNetPlayerManager::GetInstance()
 CNetPlayerManager* CNetPlayerManager::GetInstance() {
@@ -55,14 +56,14 @@ CNetPlayerInfo* CNetPlayerManager::GetPlayerInternal(int index) const {
 }
 
 // 0x810180 CNetPlayerManager::GetPlayerInternal(int,int)
-// The first key is compared with the word at +0x1a0 and the second with +0x1c8 (unk_1c8). The word at +0x1a0
-// is the one cnet_player_info.hpp calls conn_index_, but the binary says it is a member index: IsLocal
+// The first key is compared with the word at +0x1a0 and the second with +0x1c8 (gamepad_id_). The word at +0x1a0
+// is the one cnet_player_info.hpp calls matching_member_id_, but the binary says it is a member index: IsLocal
 // (0x80f1ec) compares it with CMatching::LocalMemberId(), and IsLocalTo (0x80f1a0) with a member index. That
 // is why GetLocalPlayer passes a member id as the first key. The name is a layout request for the integrator.
 CNetPlayerInfo* CNetPlayerManager::GetPlayerInternal(int first_key, int second_key) const {
     for (CNetPlayerInfo* player : players_) {
-        if (player != nullptr && first_key == player->conn_index_.GetValue() &&  // +0x1a0
-            second_key == player->unk_1c8.GetValue()) {                          // +0x1c8
+        if (player != nullptr && first_key == player->matching_member_id_.GetValue() &&  // +0x1a0
+            second_key == player->gamepad_id_.GetValue()) {                          // +0x1c8
             return player;
         }
     }
@@ -243,7 +244,7 @@ int CNetPlayerManager::WritePacketData(int a2, int a3, NetBitStream& stream) {
         if (secondary_players_[i] != nullptr &&
             secondary_players_[i]->HasDataToSend(a2)) {  // vtable +0x28
             stream.WriteByte(1, 1);
-            stream.WriteByte(static_cast<std::uint8_t>(secondary_players_[i]->unk_1c8.GetValue()), 8);  // +0x1c8
+            stream.WriteByte(static_cast<std::uint8_t>(secondary_players_[i]->gamepad_id_.GetValue()), 8);  // +0x1c8
             secondary_players_[i]->Serialize(stream, a2, a3);  // vtable +0x08
         }
     }

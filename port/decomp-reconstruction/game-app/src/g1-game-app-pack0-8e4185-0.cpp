@@ -4,8 +4,9 @@
 //  - Identical C1/C2 constructor pairs (Gamepad::Gamepad, 0x34cd0c and 0x34ce88) have one body here, emitted
 //    once and listed twice in the ledger.
 //  - Scalar deleting destructors (D0: 0x404b80, 0x4a37d4) are compiler-generated on the host and are not written.
-//  - Globals read here and not defined in this file: RES_PATH (STT_OBJECT, .data), dword_99F73C (the IDevice
-//    pointer, 0x99f73c, name not recovered), Vec3f_Origin (0x99f854) and gAssertLevel.
+//  - Globals read here and not defined in this file: RES_PATH (STT_OBJECT, .data; no definition in the tree yet),
+//    Vec3f_Origin (0x99f854) and gAssertLevel. The IDevice pointer that the tweaker base takes is Application::m_device
+//    (+0x10 of Singleton<Application>::s_inst), read through ApplicationGetInstance().
 
 #include <cmath>
 #include <cstdint>
@@ -14,6 +15,7 @@
 #include <cstring>
 #include <ctime>
 
+#include "dh2/Application.hpp"
 #include "dh2/ByteArray.hpp"
 #include "dh2/DebugCachedCharacter.hpp"
 #include "dh2/Gamepad.hpp"
@@ -35,9 +37,8 @@ void* operator new[](std::size_t size, MemoryHintState hint);   // 0x31056c, def
 // includes core-platform/deps/game_types.hpp, whose Point3D clashes with dh2/Point3D.hpp.
 extern Point3D<float> Vec3f_Origin;
 
-// Globals owned by other units. The definitions are in the platform layer and the device setup.
+// Global owned by another unit. No definition exists in game-app/src or game/include yet.
 extern const char* RES_PATH;                  // STT_OBJECT, 4 bytes, .data: a pointer to the resource root
-extern glitch::IDevice* dword_99F73C;         // 0x99f73c: the device pointer handed to the tweaker base class
 
 namespace {
 
@@ -215,9 +216,10 @@ DebugCachedCharacter::DebugCachedCharacter() {
 }
 
 // 0x431428 DebugCachedCharacter::DebugCachedCharacter(gameswf::character*) [clone]
-// The binary's clone has the character argument folded to NULL (MenuManager passes null): it stores null into the
-// weak pointer and leaves the argument unused. The +0x00 flag is not written by the clone; the host sets it to 0 so
-// the member is defined.
+// PARTIAL: the binary's clone has the character argument folded to NULL (MenuManager passes null): it stores null into
+// the weak pointer and leaves the argument unused. The clone never writes the +0x00 flag (its pseudocode writes the
+// string at +0x08, +0x04, +0x20, +0x24, +0x28 and +0x2c). The store "m_flag = 0" below is not in the binary: it only
+// gives the member a defined value on the host.
 DebugCachedCharacter::DebugCachedCharacter(gameswf::character* character) {
     (void)character;
     m_flag = 0;
@@ -350,8 +352,9 @@ bool Gamepad::IsVibrationEnabled() {
     return s_vibration != 0;
 }
 
-// The static flag. It has no initializer in the constructor; the storage is zero at start-up.
-uint8_t Gamepad::s_vibration;
+// The static flag. Its initial value is 1: the .data byte at 0x999744 (IDA) is 1, so IsVibrationEnabled returns true until
+// the first ToggleVibration turns it off.
+uint8_t Gamepad::s_vibration = 1;
 
 // 0x34d124 Gamepad::UpdateFrame(float)
 // The argument is not used by the original. Each channel's previous values are updated (buttons, then axes), then
@@ -373,9 +376,11 @@ void Gamepad::UpdateFrame(float dt) {
 // GamepadTweaker
 
 // 0x32f074 GamepadTweaker::GamepadTweaker()
-// The base tweaker takes the device pointer. The raw button values and the mapped values are zeroed, then each raw
-// value is registered with the tweaker under its name. The tweaker XML is loaded from the resource root.
-GamepadTweaker::GamepadTweaker() : glitch::debugger::CTweakable(dword_99F73C) {
+// The base tweaker takes the device pointer, which is Application::m_device (+0x10 of Singleton<Application>::s_inst,
+// read through ApplicationGetInstance(); the asm loads it from the singleton, not from a separate global). The raw
+// button values and the mapped values are zeroed, then each raw value is registered with the tweaker under its name.
+// The tweaker XML is loaded from the resource root.
+GamepadTweaker::GamepadTweaker() : glitch::debugger::CTweakable(ApplicationGetInstance().m_device) {
     m_btn_cross = 0;
     m_btn_circle = 0;
     m_btn_square = 0;

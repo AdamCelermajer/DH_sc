@@ -102,8 +102,8 @@ Block::Block() {
 // 0x48ad14 rnd::MgxBlock::MgxBlock(void)
 // 0x48b108 rnd::MgxBlock::MgxBlock(void)  (same body; one definition serves both)
 MgxBlock::MgxBlock() {
-    unk_9c0 = 0;
-    unk_9c4 = 0;
+    m_fileBuffer = nullptr;  // +0x9c0
+    m_document = nullptr;    // +0x9c4
 }
 
 // 0x48ad54 rnd::MgxBlock::FromFilename(char const*,char const*,char const*)
@@ -131,10 +131,10 @@ MgxBlock* MgxBlock::FromFilename(const char* gameplay, const char* visual, const
 }
 
 // 0x48b85c rnd::MgxBlock::FitsInMap(Array2d<rnd::Tile*>&,int,int)
-// True when every cell of the m_width by m_height footprint at (x, y) is empty. Array2d grows to cover the cells.
+// True when every cell of the m_blockWidth by m_blockHeight footprint at (x, y) is empty. Array2d grows to cover the cells.
 bool MgxBlock::FitsInMap(Array2d<Tile*>& map, int x, int y) {
-    for (int dx = 0; dx < m_width; ++dx) {
-        for (int dy = 0; dy < m_height; ++dy) {
+    for (int dx = 0; dx < m_blockWidth; ++dx) {
+        for (int dy = 0; dy < m_blockHeight; ++dy) {
             if (map(x + dx, y + dy) != nullptr) {
                 return false;
             }
@@ -147,8 +147,8 @@ bool MgxBlock::FitsInMap(Array2d<Tile*>& map, int x, int y) {
 // Clears each footprint cell that holds `tile`. A cell that holds something else is an assert (see the file header).
 // Returns 1 in the original.
 bool MgxBlock::RemoveFromMap(Array2d<Tile*>& map, Tile* tile, int x, int y) {
-    for (int dy = 0; dy < m_height; ++dy) {
-        for (int dx = 0; dx < m_width; ++dx) {
+    for (int dy = 0; dy < m_blockHeight; ++dy) {
+        for (int dx = 0; dx < m_blockWidth; ++dx) {
             Tile*& cell = map(x + dx, y + dy);
             if (cell == tile) {
                 cell = nullptr;
@@ -163,8 +163,8 @@ bool MgxBlock::RemoveFromMap(Array2d<Tile*>& map, Tile* tile, int x, int y) {
 // 0x48ba58 rnd::MgxBlock::PlaceInMap(Array2d<rnd::Tile*>&,rnd::Tile*,int,int)
 // Stores `tile` in each empty footprint cell. An occupied cell is an assert (see the file header). Returns 1 in the original.
 bool MgxBlock::PlaceInMap(Array2d<Tile*>& map, Tile* tile, int x, int y) {
-    for (int dy = 0; dy < m_height; ++dy) {
-        for (int dx = 0; dx < m_width; ++dx) {
+    for (int dy = 0; dy < m_blockHeight; ++dy) {
+        for (int dx = 0; dx < m_blockWidth; ++dx) {
             Tile*& cell = map(x + dx, y + dy);
             if (cell == nullptr) {
                 cell = tile;
@@ -176,13 +176,13 @@ bool MgxBlock::PlaceInMap(Array2d<Tile*>& map, Tile* tile, int x, int y) {
     return true;
 }
 
-// 0x48bbec rnd::Rule::Impl::GetRootRule(void) const
-RootRule* Rule::Impl::GetRootRule() const {
+// 0x48bbec rnd::Rule::Impl::GetRootRule(void)
+RootRule* Rule::Impl::GetRootRule() {
     return m_rule->m_root;
 }
 
-// 0x48bbf8 rnd::Rule::GetRootRule(void) const
-RootRule* Rule::GetRootRule() const {
+// 0x48bbf8 rnd::Rule::GetRootRule(void)
+RootRule* Rule::GetRootRule() {
     return m_root;
 }
 
@@ -200,7 +200,7 @@ void RPElem::FillSizes(int a, int b) {
 // The first element whose key (+0x04) equals `key`, or null. Elements are checked in order, as in the original.
 RPElem* RoomPool::Find(unsigned long key) {
     for (RPElem& elem : m_elems) {
-        if (elem.unk_04 == key) {
+        if (elem.m_id == key) {
             return &elem;
         }
     }
@@ -209,11 +209,11 @@ RPElem* RoomPool::Find(unsigned long key) {
 
 // 0x48bc94 rnd::Rule::Unload(void)
 // Deletes the child rules from the last slot back to the first, each through its virtual destructor, then clears the 16
-// child slots. unk_0c is the child count. Only the first unk_0c slots are read; the original reads them the same way.
+// child slots. m_childCount is the child count. Only the first m_childCount slots are read; the original reads them the same way.
 void Rule::Unload() {
-    while (unk_0c > 0) {
-        --unk_0c;
-        Rule* child = m_children[unk_0c];
+    while (m_childCount > 0) {
+        --m_childCount;
+        Rule* child = m_children[m_childCount];
         if (child != nullptr) {
             delete child;
         }
@@ -241,10 +241,9 @@ void RootRule::Impl::FilterExits(std::vector<std::pair<const Exit*, ListElem>>& 
 void RootRule::Impl::WriteDebuggingInfo() {}
 
 // 0x48bd0c rnd::Path::Impl::IsDeadEnd(void) const
-// A dead end when Impl unk_28 + 1 equals unk_2c and the source rule has no children (Rule::unk_0c == 0). The two Impl fields
-// are not named yet (see the header).
+// A dead end when Impl m_depth + 1 equals m_limit and the source rule has no children (Rule::m_childCount == 0).
 bool Path::Impl::IsDeadEnd() const {
-    return unk_28 + 1 == unk_2c && m_rule->unk_0c == 0;
+    return m_depth + 1 == m_limit && m_rule->m_childCount == 0;
 }
 
 // 0x48bd38 rnd::EndPath::Impl::OneStep(rnd::Tile*,rnd::Exit const*,rnd::Exit const*)

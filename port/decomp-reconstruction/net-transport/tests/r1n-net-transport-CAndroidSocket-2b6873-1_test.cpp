@@ -13,7 +13,7 @@ static int failures = 0;
 // holds no handle, so it reports not ready and port 0.
 static void TestAcceptWithoutListener() {
     CAndroidSocket idle("", 0, nullptr);
-    CAndroidSocket* accepted = idle.Accept();
+    auto* accepted = dynamic_cast<CAndroidSocket*>(idle.Accept());
     CHECK(accepted != nullptr);
     if (accepted != nullptr) {
         CHECK(!accepted->IsReadyForRW());
@@ -45,7 +45,7 @@ static void TestAcceptLoopback() {
     const char msg[] = "hi";
     CHECK(client.Send(msg, static_cast<int>(sizeof(msg) - 1)) == 2);
 
-    CAndroidSocket* accepted = listener.Accept();
+    auto* accepted = dynamic_cast<CAndroidSocket*>(listener.Accept());
     CHECK(accepted != nullptr);
     if (accepted != nullptr) {
         CHECK(accepted->GetSocketPort() == port);

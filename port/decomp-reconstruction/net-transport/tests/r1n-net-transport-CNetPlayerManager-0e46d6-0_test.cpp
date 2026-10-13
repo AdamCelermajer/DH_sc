@@ -1,8 +1,7 @@
 // Test for batch r1n-net-transport-CNetPlayerManager-0e46d6-0. Logic checked: the lookups GetPlayerInternal(int),
 // GetPlayerInternal(int,int), GetPlayer and GetPlayerByMemberId, the singleton Terminate, RemovePlayer,
 // ReassignPlayer, SetPlayerGamepadId, ClearPlayers and ResetPlayers.
-// Not run here: WritePacketData (needs a NetStruct serialise and read round trip) and ReadPacketData
-// (calls AddPlayer(NetBitStream&,int,int), which is not written; the stub below only satisfies the link).
+// Not run here: WritePacketData (needs a NetStruct serialise and read round trip) and ReadPacketData.
 #include <cstdio>
 
 #define private public
@@ -16,19 +15,17 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stub: AddPlayer(NetBitStream&,int,int) is skipped in the ledger, and ReadPacketData references it.
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 static int destroyed = 0;
 static CNetPlayerInfo* MakePlayer() { return new CNetPlayerInfo(); }
 static void DestroyPlayer(CNetPlayerInfo* p) { ++destroyed; delete p; }
 
-// A player with the given keys (conn_index_ at +0x1a0 and unk_1c8 at +0x1c8) and state; member_id_ is set as well.
+// A player with the given keys (matching_member_id_ at +0x1a0 and gamepad_id_ at +0x1c8) and state; member_id_ is set as well.
 static CNetPlayerInfo* MakeKeyed(int member_id, int first_key, int second_key, unsigned state) {
     CNetPlayerInfo* p = new CNetPlayerInfo();
     p->member_id_.SetValue(member_id);
-    p->conn_index_.SetValue(first_key);   // +0x1a0, the first lookup key
-    p->unk_1c8.SetValue(second_key);      // +0x1c8, the second lookup key
+    p->matching_member_id_.SetValue(first_key);   // +0x1a0, the first lookup key
+    p->gamepad_id_.SetValue(second_key);      // +0x1c8, the second lookup key
     p->state_.SetValue(static_cast<std::uint32_t>(state));
     return p;
 }
@@ -109,7 +106,7 @@ int main() {
         m.player_slot_count_ = 1;
         CHECK(m.RemovePlayer(0) == 0);
         CHECK(active->state_.GetValue() == 0);
-        CHECK(active->conn_index_.GetValue() == -1 && active->unk_1c8.GetValue() == -1);
+        CHECK(active->matching_member_id_.GetValue() == -1 && active->gamepad_id_.GetValue() == -1);
         CHECK(m.RemovePlayer(3) == 0);                  // out of range: the fallback is the target
         CHECK(fallback->state_.GetValue() == 0);
         SetServerForTest(false);
@@ -126,18 +123,18 @@ int main() {
 
         SetServerForTest(false);
         CHECK(m.ReassignPlayer(0, 5, 6) == 0);
-        CHECK(p->conn_index_.GetValue() == 0 && p->unk_1c8.GetValue() == 0 && p->state_.GetValue() == 0);
+        CHECK(p->matching_member_id_.GetValue() == 0 && p->gamepad_id_.GetValue() == 0 && p->state_.GetValue() == 0);
 
         SetServerForTest(true);
         CHECK(m.ReassignPlayer(0, 0, 6) == 0);         // equals the local member id: returns it, 0
-        CHECK(p->conn_index_.GetValue() == 0);
-        CHECK(p->unk_1c8.GetValue() == 6);
+        CHECK(p->matching_member_id_.GetValue() == 0);
+        CHECK(p->gamepad_id_.GetValue() == 6);
         CHECK(p->state_.GetValue() == 1);
         CHECK(!p->enabled_);
 
-        CHECK(m.ReassignPlayer(0, 5, 7) == 0);
-        CHECK(p->conn_index_.GetValue() == 5);
-        CHECK(p->unk_1c8.GetValue() == 7);
+        CHECK(m.ReassignPlayer(0, 5, 7) != nullptr);    // NetStruct::SetEnabled's result: the last member's address
+        CHECK(p->matching_member_id_.GetValue() == 5);
+        CHECK(p->gamepad_id_.GetValue() == 7);
         CHECK(p->enabled_);                             // SetEnabled(true) ran
         SetServerForTest(false);
     }
@@ -149,7 +146,7 @@ int main() {
         m.players_ = {p};
         m.player_slot_count_ = 1;
         CHECK(m.SetPlayerGamepadId(0, 3) == 1);
-        CHECK(p->unk_1c8.GetValue() == 3 && p->unk_1c8.IsChanged());
+        CHECK(p->gamepad_id_.GetValue() == 3 && p->gamepad_id_.IsChanged());
         CHECK(m.SetPlayerGamepadId(1, 3) == 0);
         CHECK(m.SetPlayerGamepadId(-1, 3) == 0);
     }
@@ -169,7 +166,7 @@ int main() {
     }
 
     // ResetPlayers: the old players and fallback are deleted, the id-list cache is cleared, InitPlayers builds
-    // the fallback (member id -64) and the slots (member id = slot index), and unk_1b0_ becomes -1.
+    // the fallback (member id -64) and the slots (member id = slot index), and last_host_id_ becomes -1.
     {
         destroyed = 0;
         CNetPlayerManager m;
@@ -177,7 +174,7 @@ int main() {
         m.players_ = {MakePlayer()};
         m.fallback_player_ = MakePlayer();
         m.player_id_list_ = {7, 9};
-        m.unk_1b0_ = 5;
+        m.last_host_id_ = 5;
         m.ResetPlayers();
         CHECK(destroyed == 2);
         CHECK(m.player_id_list_.empty());
@@ -186,7 +183,7 @@ int main() {
         CHECK(m.players_[1]->member_id_.GetValue() == 1);
         CHECK(m.players_[0]->state_.GetValue() == 0);
         CHECK(m.fallback_player_ != nullptr && m.fallback_player_->member_id_.GetValue() == -64);
-        CHECK(m.unk_1b0_ == -1);
+        CHECK(m.last_host_id_ == -1);
     }
 
     CNetPlayerManager::UnregisterPlayerInfoFunctions();

@@ -32,10 +32,24 @@ extern "C" void _ZN3rnd8RootRule4ImplC1ERKS0_(void*, void*) __attribute__((alias
 extern "C" void _ZN3rnd8RootRule4ImplD1Ev(void*) __attribute__((alias("NoopDtor")));
 extern "C" void _ZN3rnd8RootRuleD1Ev(void*) __attribute__((alias("NoopDtor")));
 
+namespace {
+// The root that the stubbed RootRule::Impl::Generate returns. Null is a failed placement.
+rnd::Tile* g_stubRoot = nullptr;
+// Calls to Tile::Print made by RandomGenerator::Generate, and the tile the last call was made on.
+int g_printCalls = 0;
+const rnd::Tile* g_printedTile = nullptr;
+// Storage for a non-null root. Generate only stores that pointer, and Tile::Print is a stub, so it is never read.
+alignas(16) unsigned char g_fakeRootStorage[64];
+}  // namespace
+
 namespace rnd {
 void Tile::Unspawn() { std::abort(); }
+void Tile::Print() {
+    ++g_printCalls;
+    g_printedTile = this;
+}
 void RootRule::Unload() {}
-bool RootRule::Impl::Generate(Array2d<Tile*>&) { return false; }   // no placement: Generate reports failure
+Tile* RootRule::Impl::Generate(Array2d<Tile*>&) { return g_stubRoot; }
 void RoomPool::LoadFromXml(TiXmlNode*) { std::abort(); }
 void ListRule::LoadFromXml(TiXmlNode*) { std::abort(); }
 }  // namespace rnd
@@ -203,10 +217,30 @@ void TestLoadCountsReturnOne() {
 
 void TestGenerateReportsFailure() {
     rnd::RandomGenerator* gen = MakeGenerator(0);
-    EXPECT(gen->Generate(42) == 0);                     // the stubbed RootRule::Impl places nothing
+    g_stubRoot = nullptr;                               // the stubbed RootRule::Impl places nothing
+    g_printCalls = 0;
+    gen->m_rootTile = reinterpret_cast<rnd::Tile*>(g_fakeRootStorage);   // a stale root that Generate overwrites
+    EXPECT(gen->Generate(42) == 0);
     EXPECT(gen->m_seed == 42);
     EXPECT(gen->m_rngState == 42u);
-    EXPECT(gen->m_rootTile == nullptr);
+    EXPECT(gen->m_rootTile == nullptr);                 // +0x114 takes the null result of Impl::Generate
+    EXPECT(g_printCalls == 0);                          // Tile::Print runs only for a placed root
+    gen->m_rootTile = nullptr;                          // keep the destructor path (UnloadTiles) off the stale value
+}
+
+void TestGenerateStoresRoot() {
+    rnd::RandomGenerator* gen = MakeGenerator(0);
+    g_stubRoot = reinterpret_cast<rnd::Tile*>(g_fakeRootStorage);   // the stubbed RootRule::Impl places a root
+    g_printCalls = 0;
+    g_printedTile = nullptr;
+    EXPECT(gen->Generate(7) == 1);                      // a placed root gives 1
+    EXPECT(gen->m_rootTile == g_stubRoot);              // stored at +0x114
+    EXPECT(gen->m_seed == 7);
+    EXPECT(gen->m_rngState == 7u);
+    EXPECT(g_printCalls == 1);                          // Tile::Print runs once, on the stored root
+    EXPECT(g_printedTile == gen->m_rootTile);
+    gen->m_rootTile = nullptr;                          // keep the destructor path (UnloadTiles) off the stub root
+    g_stubRoot = nullptr;
 }
 
 void TestConstructorDefaults() {
@@ -234,6 +268,7 @@ int main() {
     TestUnloadRulesEmptiesListMap();
     TestLoadCountsReturnOne();
     TestGenerateReportsFailure();
+    TestGenerateStoresRoot();
     TestConstructorDefaults();
     if (g_failures != 0) {
         std::fprintf(stderr, "%d check(s) failed\n", g_failures);

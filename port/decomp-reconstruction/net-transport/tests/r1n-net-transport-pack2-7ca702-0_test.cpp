@@ -17,20 +17,12 @@ namespace {
 
 // A source packet with a fixed type and body. The packet classes read it through the
 // DataPacket virtuals (getMessageLen, getMessageBody, getDataType).
-class FixedPacket : public DataPacket {
+class FixedPacket : public DefaultDataPacket {
 public:
-    FixedPacket(int type, const char* body, std::size_t length)
-        : type_(type), body_(body), length_(length) {}
-    std::size_t getMessageLen() const override { return length_; }
-    const std::uint8_t* getMessageBody() const override {
-        return reinterpret_cast<const std::uint8_t*>(body_);
+    FixedPacket(int type, const char* body, std::size_t length) {
+        setDataType(type);
+        setMessageBody(reinterpret_cast<const unsigned char*>(body), static_cast<int>(length));
     }
-    int getDataType() const override { return type_; }
-
-private:
-    int type_;
-    const char* body_;
-    std::size_t length_;
 };
 
 }  // namespace
@@ -81,7 +73,7 @@ int main() {
         std::uint8_t type = 0;
         CHECK(r.getByte(type) == 1 && type == 1);
         char* text = nullptr;
-        std::uint16_t length = 0;
+        std::int16_t length = 0;
         CHECK(r.getShortLenString(text, length) == 1);
         CHECK(length == 5 && text != nullptr && std::strcmp(text, "hello") == 0);
         delete[] text;
@@ -94,7 +86,7 @@ int main() {
         w.addPacket(&src);
         w.packMessage();  // 2 + 2 + 3 = 7 bytes, header 5
         CHECK(w.getMessageLen() == 7);
-        const std::uint8_t* b = w.getMessageBody();
+        const unsigned char* b = reinterpret_cast<const unsigned char*>(w.getMessageBody());
         CHECK(b[0] == 0 && b[1] == 5);
         CHECK(b[2] == 0 && b[3] == 3);
         CHECK(std::memcmp(b + 4, "abc", 3) == 0);
@@ -126,7 +118,7 @@ int main() {
         CHECK(d.addByte(9) == 1);
         d.addPacket(&src);
         CHECK(d.getMessageLen() == 6);
-        const std::uint8_t* b = d.getMessageBody();
+        const unsigned char* b = reinterpret_cast<const unsigned char*>(d.getMessageBody());
         CHECK(b[0] == 9 && b[1] == 0 && b[2] == 3);
         CHECK(std::memcmp(b + 3, "abc", 3) == 0);
     }

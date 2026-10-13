@@ -65,7 +65,7 @@ template <typename T>
 void createTriangles(const std::uint16_t* indices, std::uint32_t count, const SVertexStream& stream,
                          TriangleVector& out) {
     bool hasZ = false;
-    switch (stream.componentCount) {
+    switch (stream.field0c) {
         case 2:
             hasZ = false;
             break;
@@ -77,10 +77,10 @@ void createTriangles(const std::uint16_t* indices, std::uint32_t count, const SV
             return;
     }
 
-    IBuffer* buffer = stream.buffer;
-    std::uint8_t* mapped = buffer->map(1);  // E_BUFFER_READ_MAP_ACCESS value 1
+    const IBuffer* buffer = stream.buffer.get();
+    std::uint8_t* mapped = buffer->map(1);  // E_BUFFER_READ_MAP_ACCESS value 1 (const overload)
     std::uint8_t* base = mapped + stream.offset;
-    const std::size_t stride = stream.stride;
+    const std::size_t stride = stream.field0e;
 
     if (indices == nullptr) {
         for (std::uint32_t i = 0; i < count; i += 3) {

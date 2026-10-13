@@ -34,7 +34,7 @@ void CEvent::Init(std::int32_t type, const void* data, std::size_t size) {
     if (!copyable) {
         return;
     }
-    void* copy = NewArrayWithHint(size, 2);
+    void* copy = ::operator new[](size, static_cast<MemoryHintState>(2));  // _Znaj15MemoryHintState, hint 2
     data_ = copy;
     if (copy != nullptr) {
         size_ = size;

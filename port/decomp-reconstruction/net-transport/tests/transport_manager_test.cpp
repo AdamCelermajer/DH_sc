@@ -1,3 +1,4 @@
+#include "net-transport/deps/transport_test_support.hpp"
 #include "net-transport/transport_manager.hpp"
 
 #include <cstdio>
@@ -7,7 +8,7 @@ static int failures = 0;
 
 namespace {
 // Exposes the transport table of a manager instance for the test.
-class ProbeManager : public CTransportManager {
+class ProbeManager : public transport_test_support::TestTransportManager {
 public:
     CTransport* slot(int index) const { return transports_[index]; }
 };
@@ -26,8 +27,8 @@ int main() {
 
     {
         ProbeManager manager;
-        CTransport* first = new CTransport();
-        CTransport* second = new CTransport();
+        CTransport* first = new transport_test_support::RecordingTransport(1);
+        CTransport* second = new transport_test_support::RecordingTransport(2);
         manager.AddTransport(first);
         manager.AddTransport(second);
         CHECK(manager.slot(0) == first);

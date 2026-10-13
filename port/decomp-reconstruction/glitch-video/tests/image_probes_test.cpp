@@ -1,4 +1,5 @@
 #include "glitch-video/texture_loaders.hpp"
+#include "read_file_stub.hpp"
 
 #include <algorithm>
 #include <cstdio>
@@ -11,10 +12,9 @@ static int failures = 0;
 using namespace glitch::video;
 
 // Seekable in-memory file. Matches the vtable slots the probes call.
-class SeekFile : public glitch::io::IReadFile {
+class SeekFile : public glitch::video::test::StubReadFile {
 public:
     explicit SeekFile(std::vector<uint8_t> bytes) : m_bytes(std::move(bytes)) {}
-    void unidentifiedBaseSlot() override {}
     int32_t read(void* buffer, uint32_t size) override {
         size_t avail = m_pos < m_bytes.size() ? m_bytes.size() - m_pos : 0;
         size_t n = std::min<size_t>(avail, size);
@@ -22,12 +22,12 @@ public:
         m_pos += n;
         return static_cast<int32_t>(n);
     }
-    bool seek(int32_t position, bool relative) override {
-        m_pos = static_cast<size_t>(relative ? static_cast<int32_t>(m_pos) + position : position);
+    bool seek(long position, bool relative) override {
+        m_pos = static_cast<size_t>(relative ? static_cast<long>(m_pos) + position : position);
         return true;
     }
-    uint32_t getSize() const override { return static_cast<uint32_t>(m_bytes.size()); }
-    int32_t getPos() const override { return static_cast<int32_t>(m_pos); }
+    long getSize() const override { return static_cast<long>(m_bytes.size()); }
+    long getPos() const override { return static_cast<long>(m_pos); }
 
 private:
     std::vector<uint8_t> m_bytes;

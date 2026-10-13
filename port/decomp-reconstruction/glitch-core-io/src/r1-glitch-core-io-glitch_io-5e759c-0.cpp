@@ -97,13 +97,19 @@ std::uint8_t count0cForMask(std::uint32_t mask) {
     return count;
 }
 
-// A buffer that owns n bytes. The stand-in keeps the bytes in IBuffer::storage.
-std::shared_ptr<glitch::video::IBuffer> makeSharedBuffer(std::uint32_t bytes) {
-    auto buffer = std::make_shared<glitch::video::IBuffer>();
-    buffer->storage.assign(bytes, 0);
-    buffer->data = buffer->storage.data();
-    buffer->size = bytes;
-    return buffer;
+// Driver buffers of the index and vertex data: type 1 (index) or 0 (vertex), usage 4, and the bytes in
+// zeroed storage that the buffer owns (IVideoDriver::createBuffer with flag true, vtable +0x78). The call
+// is the one the listings make in loadPS (0x6b61fc, createBuffer(1, 4, bytes, new[](bytes), 1)) and loadVS
+// (0x6b73d8, createBuffer(0, 4, bytes, new[](bytes), 1)). The result already holds one use.
+constexpr glitch::video::E_BUFFER_TYPE kVertexBufferType = 0;
+constexpr glitch::video::E_BUFFER_TYPE kIndexBufferType = 1;
+constexpr glitch::video::E_BUFFER_USAGE kDataBufferUsage = 4;
+
+boost::intrusive_ptr<glitch::video::IBuffer> createDataBuffer(glitch::video::IVideoDriver* driver,
+                                                              glitch::video::E_BUFFER_TYPE type,
+                                                              std::uint32_t bytes) {
+    std::uint8_t* storage = new std::uint8_t[bytes]();
+    return driver->createBuffer(type, kDataBufferUsage, bytes, storage, true);
 }
 
 }  // namespace
@@ -169,7 +175,7 @@ CXMLReaderImpl<char, glitch::IReferenceCounted>* createIXMLReaderUTF8(IReadFile*
 // size of 1 for such an entry; valid streams never reach it. The original does not test the
 // table pointer for null, and neither does this port.
 unsigned int getVertexStreamsStride(const boost::intrusive_ptr<const glitch::video::CVertexStreams>& streams) {
-    const auto& entries = streams->streams;
+    const auto& entries = streams->m_streams;
     if (entries.empty()) return 0;
 
     auto elementSize = [](std::uint16_t valueType) -> unsigned int {
@@ -204,33 +210,33 @@ int save(const glitch::video::CPrimitiveStream& stream, IWriteFile* file, bool b
         const std::uint32_t word = bigEndian ? byteSwap32(value) : value;
         file->write(&word, 4);
     };
-    writeWord(stream.primitiveType);
-    writeWord(stream.indexType);
-    writeWord(stream.count);
+    writeWord(stream.m_primitiveType);
+    writeWord(stream.m_indexType);
+    writeWord(stream.m_count);
     writeWord(stream.getPrimitiveCount());
-    writeWord(stream.unk_0c);
-    writeWord(stream.unk_10);
+    writeWord(stream.m_vertexStart);
+    writeWord(stream.m_vertexEnd);
 
-    if (!stream.buffer) return kPrimitiveHeaderBytes;
-    const std::uint8_t* base = stream.buffer->data + stream.offset;
-    const std::uint32_t count = stream.count;
+    if (!stream.m_indexBuffer) return kPrimitiveHeaderBytes;
+    const std::uint8_t* base = stream.m_indexBuffer->m_data + stream.m_offset;
+    const std::uint32_t count = stream.m_count;
 
     if (!bigEndian) {
-        const std::uint32_t bytes = count * indexSize(stream.indexType);
+        const std::uint32_t bytes = count * indexSize(stream.m_indexType);
         file->write(base, bytes);
         return kPrimitiveHeaderBytes;
     }
-    if (stream.indexType == 0) {
+    if (stream.m_indexType == 0) {
         file->write(base, 0);
         return kPrimitiveHeaderBytes;
     }
-    if (stream.indexType == 1) {
+    if (stream.m_indexType == 1) {
         for (std::uint32_t i = 0; i < count; ++i) {
             const std::uint8_t* element = base + 2 * i;
             const std::uint8_t out[2] = {element[1], element[0]};
             file->write(out, 2);
         }
-    } else if (stream.indexType == 2) {
+    } else if (stream.m_indexType == 2) {
         for (std::uint32_t i = 0; i < count; ++i) {
             const std::uint8_t* element = base + 4 * i;
             const std::uint8_t out[4] = {element[3], element[2], element[1], element[0]};
@@ -242,12 +248,12 @@ int save(const glitch::video::CPrimitiveStream& stream, IWriteFile* file, bool b
 
 // 0x6b61fc _ZN6glitch2io6loadPSEPNS0_9IReadFileEbPNS_5video12IVideoDriverE
 // Reads the 24-byte header, then the indices. An index type of 0xff marks an empty stream (no
-// buffer). PARTIAL: the original creates the buffer through the driver (vtable +0x78, a buffer of
-// the index bytes with usage 4); the port holds the bytes in a private IBuffer instead. The
-// empty-stream count (word 5 minus word 4) is taken from the pseudocode and not checked against
-// the ARM listing.
+// buffer). The index bytes go into a driver buffer (createBuffer(1, 4, bytes, storage, true), as the
+// listing does). PARTIAL: with no driver (the original would call through a null pointer) the index
+// bytes are skipped and the stream has no buffer; the buffer is written through m_data, not through
+// a driver map call. The empty-stream count (word 5 minus word 4) is taken from the pseudocode and
+// not checked against the ARM listing.
 glitch::video::CPrimitiveStream loadPS(IReadFile* file, bool bigEndian, glitch::video::IVideoDriver* driver) {
-    (void)driver;  // the driver's buffer creation is not reproduced (see PARTIAL above)
     glitch::video::CPrimitiveStream stream;
 
     std::uint8_t raw[kPrimitiveHeaderBytes];
@@ -263,27 +269,28 @@ glitch::video::CPrimitiveStream loadPS(IReadFile* file, bool bigEndian, glitch::
     const std::uint32_t word4 = word(4);
     const std::uint32_t word5 = word(5);
 
-    stream.primitiveType = static_cast<std::uint16_t>(primitiveType);
-    stream.offset = 0;
-    stream.unk_0c = word4;
-    stream.unk_10 = word5;
+    stream.m_primitiveType = static_cast<std::uint16_t>(primitiveType);
+    stream.m_offset = 0;
+    stream.m_vertexStart = word4;
+    stream.m_vertexEnd = word5;
     if (indexType == 0xff) {
         // Empty stream: no buffer. The original stores word5 - word4 as the count.
-        stream.count = word5 - word4;
-        stream.indexType = static_cast<std::uint16_t>(indexType);
+        stream.m_count = word5 - word4;
+        stream.m_indexType = static_cast<std::uint16_t>(indexType);
         return stream;
     }
-    stream.count = count;
-    stream.indexType = static_cast<std::uint16_t>(indexType);
+    stream.m_count = count;
+    stream.m_indexType = static_cast<std::uint16_t>(indexType);
 
     const std::uint32_t bytes = count * indexSize(indexType);
-    auto* buffer = new glitch::video::IBuffer();  // count 1: taken by the intrusive pointer
-    buffer->storage.assign(bytes, 0);
-    buffer->data = buffer->storage.data();
-    buffer->size = bytes;
-    stream.buffer = boost::intrusive_ptr<glitch::video::IBuffer>(buffer);
+    if (driver == nullptr) {
+        // PARTIAL: no driver to create the buffer; the index bytes are skipped so the file position stays right.
+        file->seek(static_cast<long>(bytes), true);
+        return stream;
+    }
+    stream.m_indexBuffer = createDataBuffer(driver, kIndexBufferType, bytes);
 
-    std::uint8_t* data = buffer->data;
+    std::uint8_t* data = stream.m_indexBuffer->m_data;
     if (bigEndian && indexType == 1) {
         for (std::uint32_t i = 0; i < count; ++i) {
             std::uint8_t in[2];
@@ -320,11 +327,12 @@ boost::intrusive_ptr<glitch::video::CVertexStreams> loadHeadersAndSkipData(IRead
     const std::vector<SVertexStreamHeader> headers = readStreamHeaders(file, headerCount, bigEndian, mask);
 
     auto* table = new glitch::video::CVertexStreams();
-    boost::intrusive_ptr<glitch::video::CVertexStreams> result(table);
-    table->count0c = count0cForMask(mask);
-    table->streams.resize(headers.size());
+    // The canonical table is born with count 0: the (table, true) form takes the first use.
+    boost::intrusive_ptr<glitch::video::CVertexStreams> result(table, true);
+    table->m_count0c = count0cForMask(mask);
+    table->m_streams.resize(headers.size());
     for (std::size_t i = 0; i < headers.size(); ++i) {
-        auto& entry = table->streams[i];
+        auto& entry = table->m_streams[i];
         entry.buffer = nullptr;
         entry.offset = headers[i].offset;
         entry.attribute = headers[i].attribute;
@@ -336,13 +344,13 @@ boost::intrusive_ptr<glitch::video::CVertexStreams> loadHeadersAndSkipData(IRead
     // Trailing block: two vector3d pairs, then count0c more pairs (read and discarded here).
     skipVector3Pair(file, bigEndian);
     skipVector3Pair(file, bigEndian);
-    for (std::uint8_t k = 0; k < table->count0c; ++k) {
+    for (std::uint8_t k = 0; k < table->m_count0c; ++k) {
         skipVector3Pair(file, bigEndian);
         skipVector3Pair(file, bigEndian);
     }
 
     const std::uint32_t vertexCount = readWord(file, false);  // not byte-swapped, as the original
-    table->field08 = vertexCount;
+    table->m_field08 = vertexCount;
     const std::uint32_t stride = headers.empty() ? 0 : headers[0].stride;
     file->seek(static_cast<long>(vertexCount * stride), true);
 
@@ -374,33 +382,39 @@ boost::intrusive_ptr<glitch::video::CVertexStreams> loadHeadersAndSkipData(IRead
 // (as setStream is given the same buffer in the original).
 boost::intrusive_ptr<glitch::video::CVertexStreams> loadVS(IReadFile* file, bool bigEndian,
                                                            glitch::video::IVideoDriver* driver) {
-    (void)driver;
     const std::uint32_t headerCount = readWord(file, bigEndian);
     std::uint32_t mask = 0;
     const std::vector<SVertexStreamHeader> headers = readStreamHeaders(file, headerCount, bigEndian, mask);
 
     auto* table = new glitch::video::CVertexStreams();
-    boost::intrusive_ptr<glitch::video::CVertexStreams> result(table);
-    table->count0c = count0cForMask(mask);
-    table->streams.resize(headers.size());
+    // The canonical table is born with count 0: the (table, true) form takes the first use.
+    boost::intrusive_ptr<glitch::video::CVertexStreams> result(table, true);
+    table->m_count0c = count0cForMask(mask);
+    table->m_streams.resize(headers.size());
 
     skipVector3Pair(file, bigEndian);
     skipVector3Pair(file, bigEndian);
-    for (std::uint8_t k = 0; k < table->count0c; ++k) {
+    for (std::uint8_t k = 0; k < table->m_count0c; ++k) {
         skipVector3Pair(file, bigEndian);
         skipVector3Pair(file, bigEndian);
     }
 
     const std::uint32_t vertexCount = readWord(file, false);
-    table->field08 = vertexCount;
+    table->m_field08 = vertexCount;
     const std::uint32_t stride = headers.empty() ? 0 : headers[0].stride;
     const std::uint32_t bytes = vertexCount * stride;
 
-    std::shared_ptr<glitch::video::IBuffer> buffer = makeSharedBuffer(bytes);
-    if (bytes != 0) file->read(buffer->data, bytes);
+    boost::intrusive_ptr<glitch::video::IBuffer> buffer;
+    if (driver != nullptr) {
+        buffer = createDataBuffer(driver, kVertexBufferType, bytes);
+        if (bytes != 0) file->read(buffer->m_data, bytes);
+    } else {
+        // PARTIAL: no driver to create the buffer; the vertex bytes are skipped and the streams have no buffer.
+        file->seek(static_cast<long>(bytes), true);
+    }
 
     for (std::size_t i = 0; i < headers.size(); ++i) {
-        auto& entry = table->streams[i];
+        auto& entry = table->m_streams[i];
         entry.buffer = buffer;
         entry.offset = headers[i].offset;
         entry.attribute = headers[i].attribute;
@@ -435,7 +449,7 @@ boost::intrusive_ptr<glitch::scene::CMeshBuffer> loadMB(IReadFile* file, bool bi
 // the header section as the listing computes it.
 int save(const boost::intrusive_ptr<const glitch::video::CVertexStreams>& streams, IWriteFile* file,
          bool bigEndian) {
-    const auto& entries = streams->streams;
+    const auto& entries = streams->m_streams;
 
     // Header table: aligned running offset for each bound stream (as getVertexStreamsStride).
     struct Header {
@@ -476,7 +490,7 @@ int save(const boost::intrusive_ptr<const glitch::video::CVertexStreams>& stream
         writeHalf(totalStride);
     }
     // PARTIAL: the trailing block (two vector3d pairs and count0c pairs) is not written here.
-    writeWord(streams->field08);
+    writeWord(streams->m_field08);
 
     // Vertex data: one SStreamItrWriter per bound stream. For each vertex, a stream is padded to its
     // element size with zero bytes, then its components are written and the source advances by the
@@ -487,7 +501,7 @@ int save(const boost::intrusive_ptr<const glitch::video::CVertexStreams>& stream
     for (const auto& entry : entries) {
         if (entry.buffer == nullptr) continue;
         SStreamItrWriter writer{};
-        writer.data = entry.buffer->data + entry.offset;
+        writer.data = entry.buffer->m_data + entry.offset;
         writer.count = entry.field0c;
         writer.elementSize = entry.field0a < 7 ? kValueTypeSize[entry.field0a] : 1u;
         writer.stride = entry.field0e;
@@ -495,7 +509,7 @@ int save(const boost::intrusive_ptr<const glitch::video::CVertexStreams>& stream
         elementSizes.push_back(writer.elementSize);
     }
     std::uint32_t position = 0;
-    for (std::uint32_t vertex = 0; vertex < streams->field08; ++vertex) {
+    for (std::uint32_t vertex = 0; vertex < streams->m_field08; ++vertex) {
         for (std::size_t i = 0; i < writers.size(); ++i) {
             const std::uint32_t size = elementSizes[i];
             const std::uint32_t pad = (size - position % size) % size;
@@ -507,7 +521,7 @@ int save(const boost::intrusive_ptr<const glitch::video::CVertexStreams>& stream
     const std::uint32_t finalPad = totalStride == 0 ? 0 : (totalStride - position % totalStride) % totalStride;
     for (std::uint32_t p = 0; p < finalPad; ++p) file->write(kPadding, 1);
 
-    return static_cast<int>(12 * headers.size() + 24 * streams->count0c + 32);
+    return static_cast<int>(12 * headers.size() + 24 * streams->m_count0c + 32);
 }
 
 // 0x6b875c _ZN6glitch2io4saveERKN5boost13intrusive_ptrIKNS_5scene11CMeshBufferEEEPNS0_10IWriteFileEbPjSB_

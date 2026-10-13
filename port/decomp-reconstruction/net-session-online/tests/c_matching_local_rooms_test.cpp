@@ -10,7 +10,7 @@ static int failures = 0;
 
 
 static void Clean() {
-    connection_manager_test::Reset();
+    connection_manager_test::ResetForSends();
     MatchingInternalEventQueue().Clear();
 }
 

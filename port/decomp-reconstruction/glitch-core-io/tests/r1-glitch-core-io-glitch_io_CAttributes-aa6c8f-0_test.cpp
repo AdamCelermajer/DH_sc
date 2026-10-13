@@ -36,8 +36,8 @@ struct Recorder : io::IAttribute {
 
 int main() {
     io::CAttributes attrs(nullptr);
-    boost::intrusive_ptr<video::CLight> light(new video::CLight());  // one use, held by this variable
-    CHECK(light->referenceCounter == 1);
+    boost::intrusive_ptr<video::CLight> light(new video::CLight(nullptr), true);  // one use, held by this variable
+    CHECK(light->m_refCount == 1);
 
     // setAttribute(index, light): the attribute at index gets the light through setLight, and the
     // reference taken for the call is released afterwards.
@@ -47,25 +47,25 @@ int main() {
     attrs.setAttribute(0, light);
     CHECK(rec->lightCalls == 1);
     CHECK(rec->lastLight == light.get());
-    CHECK(light->referenceCounter == 1);
+    CHECK(light->m_refCount == 1);
 
     // An out-of-range index does nothing.
     attrs.setAttribute(5, light);
     CHECK(rec->lightCalls == 1);
-    CHECK(light->referenceCounter == 1);
+    CHECK(light->m_refCount == 1);
 
     // setAttribute(name, light): an existing attribute is forwarded to, nothing is added.
     attrs.setAttribute("rec", light);
     CHECK(rec->lightCalls == 2);
     CHECK(attrs.currentAttributes().size() == 1);
-    CHECK(light->referenceCounter == 1);
+    CHECK(light->m_refCount == 1);
 
     // A missing name appends a light attribute with the flag clear that keeps the light.
     attrs.setAttribute("lamp", light);
     CHECK(attrs.currentAttributes().size() == 2);
     CHECK(attrs.getAttributeP("lamp") != nullptr && !attrs.getAttributeP("lamp")->flag);
     CHECK(attrs.getLight("lamp").get() == light.get());
-    CHECK(light->referenceCounter == 2);  // this variable and the attribute
+    CHECK(light->m_refCount == 2);  // this variable and the attribute
 
     // addLight appends with the given flag and keeps the light.
     attrs.addLight("added", light, true);
@@ -73,7 +73,7 @@ int main() {
     CHECK(attrs.getAttributeP("added")->flag);
     CHECK(attrs.getLight("added").get() == light.get());
     CHECK(attrs.getStringW("added") == L"light");
-    CHECK(light->referenceCounter == 3);
+    CHECK(light->m_refCount == 3);
 
     // addStringAsLight appends a light attribute with no light (the value text is not kept).
     attrs.addStringAsLight("empty", L"ignored", true);
@@ -82,7 +82,7 @@ int main() {
     CHECK(attrs.getLight("empty").get() == nullptr);
     CHECK(attrs.getStringW("empty").empty());
     CHECK(std::wstring(attrs.getAttributeTypeString("empty")) == L"light");
-    CHECK(light->referenceCounter == 3);
+    CHECK(light->m_refCount == 3);
 
     // setAttribute(name, aabbox): a missing box is appended with the flag clear and the given corners.
     core::aabbox3d<float> box{{0.f, 0.f, 0.f}, {1.f, 2.f, 3.f}};

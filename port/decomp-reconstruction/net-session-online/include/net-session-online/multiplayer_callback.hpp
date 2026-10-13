@@ -12,8 +12,8 @@ public:
     // 0x49a0cc _ZN19MultiplayerCallback11ingameStateEPv: the in-game state id, 300.
     static std::int32_t ingameState(void* context);
 
-    // Message handlers and state callbacks. All are partial (see multiplayer_callback.cpp per function).
-    // Handlers that write the consumed flag (CMessage +0x3c) stay partial until that field is declared.
+    // Message handlers and state callbacks (see multiplayer_callback.cpp per function for what each still lacks).
+    // The handlers mark their message consumed with CMessage::SetFinished (+0x3c).
     // 0x49a0d4 _ZN19MultiplayerCallback32HandleAskResendAttributesMessageEPv
     std::int32_t HandleAskResendAttributesMessage(void* message);
     // 0x49a17c _ZN19MultiplayerCallback24HandleGlobalDeathMessageEPv

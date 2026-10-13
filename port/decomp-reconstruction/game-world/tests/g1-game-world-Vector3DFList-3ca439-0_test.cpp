@@ -4,9 +4,13 @@
 // destructor are stubs, because the PFObject source is not linked here. Only the Vector3DFList bodies are exercised.
 //
 // Not covered: nothing in this batch depends on the engine beyond those two stubs.
+//
+// The NaN cases check the listing's unordered-compare behaviour (__aeabi_fcmpgt returns 0 for NaN).
 
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <limits>
 
 #include "dh2/Vector3DFList.hpp"
 
@@ -207,6 +211,37 @@ static void TestAddClosestTieRules() {
     EXPECT(other.m_distSq[1] == 1.0f);
 }
 
+static void TestAddClosestNaNCompareMatchesListing() {
+    const float nan = std::numeric_limits<float>::quiet_NaN();
+
+    // A NaN new distance makes every compare unordered, so the listing replaces nothing, even though the stored
+    // distances (4 and 9) are finite. The earlier C++ form overwrote index 1 here.
+    Vector3DFList list(2);
+    list.setCharacterPosition(V(0, 0, 0));
+    list.addClosest(V(2, 0, 0));  // 4
+    list.addClosest(V(3, 0, 0));  // 9
+    list.addClosest(V(nan, 0, 0));
+    EXPECT(list.getCount() == 2);
+    EXPECT(Same(list[0], V(2, 0, 0)));
+    EXPECT(Same(list[1], V(3, 0, 0)));
+    EXPECT(list.m_distSq[0] == 4.0f);
+    EXPECT(list.m_distSq[1] == 9.0f);
+
+    // A NaN stored distance is never a candidate. Index 1 holds the NaN point (appended while there was room), so
+    // the closer point (distance 1) replaces index 0, the only finite candidate above it.
+    Vector3DFList nanStored(2);
+    nanStored.setCharacterPosition(V(0, 0, 0));
+    nanStored.addClosest(V(2, 0, 0));  // 4
+    nanStored.addClosest(V(nan, 0, 0));  // appended with a NaN distance at index 1
+    EXPECT(nanStored.getCount() == 2);
+    EXPECT(std::isnan(nanStored.m_distSq[1]));
+    nanStored.addClosest(V(1, 0, 0));  // 1
+    EXPECT(Same(nanStored[0], V(1, 0, 0)));
+    EXPECT(std::isnan(nanStored[1].X));
+    EXPECT(nanStored.m_distSq[0] == 1.0f);
+    EXPECT(std::isnan(nanStored.m_distSq[1]));
+}
+
 static void TestAddClosestZeroCapacity() {
     Vector3DFList list(0);
     list.setCharacterPosition(V(0, 0, 0));
@@ -236,6 +271,7 @@ int main() {
     TestAddClosestMeasuresFromCharacterPosition();
     TestAddClosestReplacesFarthest();
     TestAddClosestTieRules();
+    TestAddClosestNaNCompareMatchesListing();
     TestAddClosestZeroCapacity();
     TestLiveBlocksBalanced();
     EXPECT(g_liveBlocks == 0);

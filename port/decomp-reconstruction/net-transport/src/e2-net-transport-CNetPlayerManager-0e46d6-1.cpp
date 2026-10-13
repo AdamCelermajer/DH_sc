@@ -17,7 +17,7 @@
 // 0x812d50 CNetPlayerManager::GetPlayerIdListByMemberId(int)
 // Per-key cache in player_list_caches_ (+0x1c4). The entry is rebuilt only when it is empty and
 // id_list_dirty_ (+0x1b4) is set. The rebuild clears the flag, then sets it again for every active
-// player, as the original does. An active player whose conn_index_ (+0x1a0) equals the key adds its
+// player, as the original does. An active player whose matching_member_id_ (+0x1a0) equals the key adds its
 // member_id_ (+0x178) to the entry.
 std::vector<int>& CNetPlayerManager::GetPlayerIdListByMemberId(int a2) {
     if (player_list_caches_[a2].empty() && id_list_dirty_) {
@@ -26,7 +26,7 @@ std::vector<int>& CNetPlayerManager::GetPlayerIdListByMemberId(int a2) {
             CNetPlayerInfo* player = players_[i];
             if (player != nullptr && player->IsActive()) {
                 id_list_dirty_ = true;
-                if (a2 == player->conn_index_.GetValue()) {
+                if (a2 == player->matching_member_id_.GetValue()) {
                     player_list_caches_[a2].push_back(player->member_id_.GetValue());
                 }
             }

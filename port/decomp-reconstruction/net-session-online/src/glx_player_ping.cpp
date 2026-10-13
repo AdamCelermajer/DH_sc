@@ -2,6 +2,15 @@
 
 #include <cstring>
 
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <winsock2.h>
+#else
+#include <sys/select.h>
+#endif
+
 #include "net-session-online/deps/glx_stand_ins.hpp"
 
 namespace {
@@ -40,8 +49,7 @@ std::uint16_t InCksum(const unsigned char* data, std::size_t length) {
 
 // 0x840564 C1 and 0x840600 C2 _ZN13GLXPlayerPingC1EPKci (same body)
 // The factory gets the owned host copy (the original passes its copy, not the caller's text), the
-// port, and no observer. Partial: the socket comes from the factory, which builds the base socket
-// class in the port (the original builds CAndroidSocket; see the factory's row).
+// port, and no observer. The socket is a CAndroidSocket, as in the original.
 GLXPlayerPing::GLXPlayerPing(const char* host, std::int32_t port)
     : host_(CopyText(host)), port_(port) {
     socket_.reset(GLXPlayerSocketFactory::GetSocket(host_.get(), port, nullptr));
@@ -53,9 +61,10 @@ GLXPlayerPing::GLXPlayerPing(const char* host, std::int32_t port)
 GLXPlayerPing::~GLXPlayerPing() = default;
 
 // 0x84008c _ZN13GLXPlayerPing4InitEv
+// The socket's vtable +0x74 is CreateIcmpSocket.
 std::int32_t GLXPlayerPing::Init() {
     if (host_ != nullptr && port_ >= 0) {
-        return socket_->Connect();
+        return socket_->CreateIcmpSocket();
     }
     return 0;
 }
@@ -71,14 +80,27 @@ std::int32_t GLXPlayerPing::Prepare() {
 }
 
 // 0x840280 _ZN13GLXPlayerPing16WaitForEchoReplyEi
-// The original zeroes an fd_set, sets bit fd, and calls select(handle + 1, &set, 0, 0, &zero-timeout),
-// where handle is the socket's +0x08 value; it returns the select result. Partial: GLXPlayerSocket
-// has no handle getter and there is no select stand-in, so the port reports
-// that no reply has arrived (0). Layout request: a handle getter on GLXPlayerSocket, and a select
-// wrapper in the platform layer.
+// Zeroes an fd_set, sets bit fd in it, and calls select(socket handle + 1, &set, 0, 0, a zero timeout), where
+// the handle is the socket's +0x08 value (GLXPlayerSocket::socket_). Returns the select result. Kernel passes
+// the handle as the argument, so the set holds the probe socket. A handle outside the set (negative, or
+// at least FD_SETSIZE) is not set; the original indexes the set without a check.
 std::int32_t GLXPlayerPing::WaitForEchoReply(std::int32_t fd) {
-    (void)fd;
-    return 0;
+    fd_set set;
+    FD_ZERO(&set);
+#ifdef _WIN32
+    if (fd >= 0) {
+        FD_SET(static_cast<SOCKET>(fd), &set);
+    }
+#else
+    if (fd >= 0 && fd < FD_SETSIZE) {
+        FD_SET(fd, &set);
+    }
+#endif
+    timeval timeout{};
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0;
+    return static_cast<std::int32_t>(
+        select(socket_->socket_ + 1, &set, nullptr, nullptr, &timeout));
 }
 
 // 0x840454 _ZN13GLXPlayerPing15SendEchoRequestEv
@@ -111,8 +133,9 @@ std::int32_t GLXPlayerPing::SendEchoRequest() {
     const std::uint16_t checksum = InCksum(echoRequest, sizeof(echoRequest));
     std::memcpy(&echoRequest[2], &checksum, sizeof(checksum));
 
-    const std::int32_t result =
-        socket_->SendTo(echoRequest, sizeof(echoRequest), address_.get(), port_);
+    // The socket's vtable +0x58 is SendTo(buffer, 48, address, port).
+    const std::int32_t result = socket_->SendTo(reinterpret_cast<const char*>(echoRequest),
+                                                static_cast<int>(sizeof(echoRequest)), address_.get(), port_);
     if (result < 0) {
         result_ = -1;
     }

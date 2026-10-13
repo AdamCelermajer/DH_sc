@@ -25,13 +25,7 @@
 #include <string>
 #include <vector>
 
-// Trigger.hpp (through net-transport's net_struct.hpp) and the pydata headers both define CustomFree and
-// MemoryHintState. As in Character.hpp, the net-transport copies are renamed while they are included.
-#define CustomFree CustomFree_net_transport
-#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/TriggerPlate.hpp"
-#undef CustomFree
-#undef MemoryHintState
 
 #include "dh2/Application.hpp"
 #include "dh2/GameObject.hpp"

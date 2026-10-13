@@ -7,10 +7,12 @@
 // Layout request: "gameswf::character +0x9b uint8". The store is left out and ExtendBank is PARTIAL.
 //
 // The map walk in FlushAll is the in-order traversal of the original tree, which std::map iteration gives directly.
-// The VectorSet storage is not released when a bank is cleared, as in the original (VectorSet has no destructor).
+// FlushBank keeps a bank's storage, as the original does. FlushAll releases each bank's storage when it empties the map,
+// as the original's map erase does (VectorSet has no destructor, so FlushAll releases the storage itself).
 
 #include <cstdio>
 #include <cstdlib>
+#include <memory>
 #include <string>
 
 #include "dh2/DebugCachedCharacter.hpp"
@@ -71,20 +73,35 @@ void SWFAnimManager::DropAnim(SWFAnim* anim) {
 
 // 0x4974f4 _ZN14SWFAnimManager8FlushAllEv SWFAnimManager::FlushAll()
 void SWFAnimManager::FlushAll() {
-    // Visit the banks in key order (the original walks the tree in order) and empty each one.
+    // Pass 1: visit the banks in key order (the original walks the tree in order) and delete their anims.
     for (auto& entry : m_banks) {
         FlushBank(entry.second);
     }
-    // The original erases the nodes when the count (+0x14) is not zero and resets the header to empty. clear() does the same.
+    // Pass 2: the original's map erase (_M_erase at 0x49743c) frees each node's bank storage together with the node:
+    // the array runs from node+0x28 (start) to node+0x30 (end of storage). VectorSet has no destructor, so the storage
+    // is released here, as std::allocator<T>::deallocate(start, end_of_storage - start). The pointers are cleared so
+    // that no bank is left pointing at freed storage.
+    for (auto& entry : m_banks) {
+        VectorSet<SWFAnim*>& bank = entry.second;
+        if (bank.m_start != nullptr) {
+            std::allocator<SWFAnim*>().deallocate(
+                bank.m_start, static_cast<std::size_t>(bank.m_endOfStorage - bank.m_start));
+            bank.m_start = nullptr;
+            bank.m_finish = nullptr;
+            bank.m_endOfStorage = nullptr;
+        }
+    }
+    // The original erases the nodes (with their key strings) only when the count (+0x14) is not zero, then resets the
+    // header to empty. clear() does the same.
     m_banks.clear();
 }
 
 // 0x4975a8 _ZN14SWFAnimManagerD1Ev SWFAnimManager::~SWFAnimManager()  (D1)
 // 0x497628 _ZN14SWFAnimManagerD2Ev SWFAnimManager::~SWFAnimManager()  (D2, the same body: one C++ destructor serves both forms)
 SWFAnimManager::~SWFAnimManager() {
-    // The vptr store at the start of the original is the compiler's. FlushAll empties the map, so the original's
-    // trailing erase (taken only when the count is non-zero) is never reached here; the map member's destructor
-    // then finds it empty.
+    // The vptr store at the start of the original is the compiler's. FlushAll does the original's work here: it deletes
+    // every anim, frees each bank's storage and empties the map. The original's trailing erase (taken only when the
+    // count is non-zero) is therefore not reached, and the map member's destructor finds the map empty.
     FlushAll();
 }
 

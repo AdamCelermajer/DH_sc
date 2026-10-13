@@ -6,19 +6,11 @@
 // given by InitMessage; some messages instead start with the three bytes 'g', 'r' and a
 // command byte (103, 114, n) and have no InitMessage.
 //
-// Original fields are in Connection's layout (word index from the Connection base, the byte
-// offset in hex). The fields are kept here until Connection is reconstructed:
-//   +0x0f recv_buffer_ (0x1001 bytes; the message is read into it)
-//   +0x2014 (word 2053) socket_
-//   +0x2024 (word 2057) outgoing_ (DataPacket* queue head)
-//   +0x2028 (word 2058) outgoing_active_
-//   +0x2034 (word 2061) last_send_time_
-//   +0x2038 (word 2062) last_request_time_, also the connect time
-//   +0x203c (word 2063) retry_packet_ (DataPacketLobby*)
-//   +0x2044 (word 2065) recv_buf_len_ (m_iRecvDataBufLen)
-//   +0x2048 (word 2066) need_recv_data_len_ (m_iNeedRecvDataLen)
-//   +0x204c (word 2067) recv_step_ (m_iRecvStep: 0 length header, 1 body)
-//   +0x2050 (word 2068) establish_time_
+// ConnectionLobby derives from Connection and uses its members (socket_, outgoing_, retry_packet_,
+// the receive buffer and counters; see connection_base.hpp). It adds one member, the establish time
+// at +0x2050 (the object is 0x2058 bytes). The saveRetryData, sendRetryData and keepConnectionAlive
+// below are its own copies of the Connection functions (non-virtual in the binary, so the lobby's
+// senders call these), and they build DataPacketLobby packets.
 #pragma once
 
 #include <cstdint>
@@ -27,21 +19,10 @@
 
 #include "net-transport/connection_base.hpp"
 #include "net-transport/data_packet.hpp"
+#include "net-transport/data_packet_lobby.hpp"
 
 class CLobbyParameterAndQuery;
 class DataPacketLobby;
-
-// The socket object that ConnectionLobby reads and writes. Slots +0x40, +0x44, +0x48, +0x4c.
-// Declared here; it was in the stand-in for Connection, which is removed (it had the same class name
-// as the real Connection, and its smaller layout let Connection::disconnect write past the object).
-class ConnectionSocket {
-public:
-    virtual ~ConnectionSocket() = default;
-    virtual int Select(int mode) = 0;                    // +0x40: 0 = read ready, 1 = write ready; <0 on error
-    virtual int Send(const void* data, int length) = 0;  // +0x44: bytes sent, <0 on error
-    virtual int Recv(void* data, int length) = 0;        // +0x48: bytes received, 0 when closed
-    virtual bool HasPendingData() const = 0;             // +0x4c: non-zero when data can be read
-};
 
 class ConnectionLobby : public Connection {
 public:
@@ -107,7 +88,6 @@ public:
     int sendCreateSessionPackage(char* name, char* a3, int a4);  // 0x848a28
     int sendLoginPackage(char* user);                  // 0x848b04
 
-private:
     // Queues a finished message: packs it, keeps a copy for resend, and adds it to the outgoing queue.
     int QueueMessage(DataPacketLobby* packet);
     // Adds a query parameter block to the message (the block is freed after the copy).
@@ -116,17 +96,6 @@ private:
     int SendLobbyListMessage(int message_type, int a3, int a4, unsigned char a5,
                              CLobbyParameterAndQuery* a6, unsigned char a7);
 
-    // +0x0f in the original Connection layout: the receive buffer.
-    char recv_buffer_[0x1001]{};
-    // Fields in the Connection layout (see the header comment).
-    ConnectionSocket* socket_ = nullptr;        // +0x2014
-    DataPacket* outgoing_ = nullptr;            // +0x2024
-    int outgoing_active_ = 0;                   // +0x2028
-    int last_send_time_ = 0;                    // +0x2034
-    int last_request_time_ = 0;                 // +0x2038
-    DataPacketLobby* retry_packet_ = nullptr;   // +0x203c
-    int recv_buf_len_ = 0;                      // +0x2044
-    int need_recv_data_len_ = 0;                // +0x2048
-    int recv_step_ = 0;                         // +0x204c
+    // Members are public (TRACK-B decision 9), as in Connection.
     int establish_time_ = 0;                    // +0x2050
 };

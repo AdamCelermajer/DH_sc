@@ -131,13 +131,13 @@ void AnimatedDecor::DeclareProperties() {
 Animation::~Animation() {}
 
 // 0x368efc AnimatorSynchronizedSet::getType() const
-int AnimatorSynchronizedSet::getType() const {
-    return 15;
+glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE AnimatorSynchronizedSet::getType() const {
+    return static_cast<glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE>(15);
 }
 
 // 0x368f24 AnimatorSynchronizedSet::animateNode(glitch::scene::ISceneNode*, unsigned int)
-// PARTIAL. The original first runs glitch::collada::CSceneNodeAnimatorSet::animateNode on the base sub-object, which is
-// not reachable (the base is not inherited, see the header). The applicator step is rebuilt: AnimApplicator::AnimateNode
+// PARTIAL. The original first runs glitch::collada::CSceneNodeAnimatorSynchronizedSet::animateNode on the base sub-object,
+// which is not forwarded yet. The applicator step is rebuilt: AnimApplicator::AnimateNode
 // on +0x84. The function returns nothing. Hex-Rays shows float because its last instruction is a tail branch
 // (B AnimApplicator::AnimateNode) that leaves r0 as it found it, and AnimApplicator::AnimateNode is void.
 void AnimatorSynchronizedSet::animateNode(glitch::scene::ISceneNode* node, unsigned int time) {
@@ -148,7 +148,7 @@ void AnimatorSynchronizedSet::animateNode(glitch::scene::ISceneNode* node, unsig
 // 0x368f54 AnimatorSynchronizedSet::~AnimatorSynchronizedSet() (D1)
 // PARTIAL. The original runs ~AnimApplicator on +0x84 and then the CSceneNodeAnimatorSynchronizedSet base destructor
 // (through the VTT entry). The applicator is a member here, so it is destroyed after this body, as in the original.
-// The base is not inherited, so its destructor does not run.
+// The base destructor runs after this body, implicitly.
 AnimatorSynchronizedSet::~AnimatorSynchronizedSet() {}
 
 // 0x368fcc AnimatorSynchronizedSet::~AnimatorSynchronizedSet() (D0, scalar deleting destructor)
@@ -159,18 +159,14 @@ AnimatorSynchronizedSet::~AnimatorSynchronizedSet() {}
 // and the base destructor. It is covered by the D1 definition above and has the same blockers.
 
 // 0x36904c AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, std::vector<std::string> const&) (C1)
-// PARTIAL. The original stores 1 at +0xc4, calls the CSceneNodeAnimatorSynchronizedSet base constructor with the animation
-// set and the names (through the VTT), then builds the AnimApplicator at +0x84 with this as its animator. Not rebuilt: the
-// base constructor (the base is not inherited, so the arguments are not forwarded to it), and the animator argument, which
-// is nullptr here because the ISceneNodeAnimator base is not declared. The vptr stores are compiler-generated.
+// PARTIAL. The original calls the CSceneNodeAnimatorSynchronizedSet base constructor with the animation set and the names
+// (through the VTT), then builds the AnimApplicator at +0x84 with this as its animator. The base constructor runs with
+// the arguments forwarded here. The stores of the original's secondary words (+0xc0, +0xc4) are not written, as those
+// words are part of the base. The vptr stores are compiler-generated.
 AnimatorSynchronizedSet::AnimatorSynchronizedSet(
         const boost::intrusive_ptr<glitch::collada::CAnimationSet>& animationSet,
         const std::vector<std::string>& names)
-    : m_applicator(nullptr) {
-    (void)animationSet;
-    (void)names;
-    unk_0c4 = 1;  // +0xc4, written before the base constructor in the original
-}
+    : glitch::collada::CSceneNodeAnimatorSynchronizedSet(animationSet, names), m_applicator(this) {}
 
 // 0x3690dc AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, std::vector<std::string> const&) (C2, VTT base-object variant)
 // PARTIAL, no separate C++ form. The VTT variant passes the VTT entry (+4) and the arguments to the base constructor, then

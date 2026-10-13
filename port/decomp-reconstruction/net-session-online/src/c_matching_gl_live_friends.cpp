@@ -33,11 +33,11 @@ std::int32_t CMatchingGLLive::GetGLFriendState(std::int32_t index) const {
 }
 
 // 0x81c0e8 _ZNK15CMatchingGLLive18SendGLFriendInviteEPKc
-// Partial: sendAddUserFriend returns void in glx_player_user_friend.hpp, so the original's
-// return value is not produced. A null list sends nothing.
+// Returns the result of sendAddUserFriend(name, null, false) (the SendByGet result). A null list sends nothing
+// and returns 0, where the original would call through the null pointer.
 std::int32_t CMatchingGLLive::SendGLFriendInvite(const char* name) const {
     if (glxUserFriend_ != nullptr) {
-        glxUserFriend_->sendAddUserFriend(name, nullptr, false);
+        return glxUserFriend_->sendAddUserFriend(name, nullptr, false);
     }
     return 0;
 }

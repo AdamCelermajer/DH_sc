@@ -70,6 +70,11 @@ public:
     // Not in the original: the event queue at +0x14, which the observers post to.
     CEventQueueBase& EventQueue() { return events_; }
 
+    // Production accessors for the two fields other classes read inline in the original (no symbols):
+    // the logged-in flag at +0x11 and the credentials' name at +0x04.
+    bool LoggedIn() const { return loggedIn_; }
+    const char* CredentialsName() const { return credentials_.Name(); }
+
     // Test seams. Not in the original.
     bool ActiveForTest() const { return active_; }
     bool LoggedInForTest() const { return loggedIn_; }

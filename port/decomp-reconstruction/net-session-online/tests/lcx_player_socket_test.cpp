@@ -1,5 +1,6 @@
 #include "net-session-online/lcx_player_http.hpp"
 #include "net-session-online/lcx_player_socket.hpp"
+#include "socket_test_doubles.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -8,7 +9,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    LCXPlayerSocket sock("lobby.local", 7001, nullptr);
+    StubLCXSocket sock("lobby.local", 7001, nullptr);
     CHECK(sock.GetAcceptIP() == nullptr);
     CHECK(!sock.IsInProgress());
     sock.Start();
@@ -19,7 +20,7 @@ int main() {
     sock.Cancel();
     CHECK(sock.IsInProgress() == false);
 
-    LCXPlayerSocket parser(nullptr, 0, nullptr);
+    StubLCXSocket parser(nullptr, 0, nullptr);
     parser.SetContentForTest("HTTP/1.1 200 OK\r\nContent-Length: 12\r\nX-Test: yes\r\n\r\nbody12345678");
     CHECK(parser.ParseHttpHeader("x-test") == 37);
     CHECK(parser.ParseHttpHeader("missing") == -1);

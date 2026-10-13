@@ -153,6 +153,8 @@ public:
 
     // Static global (0x9a6060 in the original): the difficulty the game is running at. Not part of the object.
     static std::int32_t m_difficultyLevel;
+    // 0x9a6048 PlayerSavegame::s_playerNameTemp (24 bytes). SG_GetPlayerName copies the name into it and returns its text.
+    static std::string s_playerNameTemp;
 
     // ---- members (original offsets) ----
     // vptr                                                             // +0x00

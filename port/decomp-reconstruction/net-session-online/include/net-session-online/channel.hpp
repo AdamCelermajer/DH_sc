@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "core-platform/slim_xml.hpp"
 #include "net-session-online/item.hpp"
-#include "net-session-online/deps/slim_xml_node.hpp"
 
 class channel {
 public:
@@ -27,8 +27,8 @@ public:
 
     // 0x843e64 _ZN7channel4readEPKN4slim7XmlNodeE
     // Partial: the original asserts on a null node (kept as abort) and returns the last
-    // findNextChild result, which is not reproduced (void here). The item cursor follows the
-    // stand-in in deps/slim_xml_node.hpp, which is inferred and not checked against the binary.
+    // findNextChild result, which is not reproduced (void here). The item cursor is the binary's
+    // slim::XmlNode::ChildIterator (core-platform/slim_xml.hpp).
     void read(const slim::XmlNode* node);
 
     // Test seams. Not in the original.

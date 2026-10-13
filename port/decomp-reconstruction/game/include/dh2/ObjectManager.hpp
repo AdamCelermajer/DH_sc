@@ -55,7 +55,7 @@ public:
     // Registration and lookup. Object handles are returned by value (sret).
     ObjectHandle Add(ObjectBase* object, char const* name, char const* type, int flags, bool active);  // 0x34b270
     ObjectHandle GetNewObject(char const* type, char const* name, int flags, bool active);             // 0x34b520
-    ObjectHandle Spawn(char const* type, char const* name, bool active, bool silent);                  // 0x34b724; arg 1 is the type ("Character" in the callers), arg 2 the instance name. Bool order not confirmed
+    ObjectHandle Spawn(char const* type, char const* name, bool active, bool silent);                  // 0x34b724; arg 1 type, arg 2 instance name. Arg 3 gates InitPost and TestEnableCondition(true), arg 4 is GetNewObject's active flag (asm). Parameter names not confirmed
     ObjectHandle GetObjectByName(char const* name, int flags, bool active, char const* type);          // 0x34aca0
     ObjectHandle GetHighestThreatPlayer(char const* name, int flags, bool active);                     // 0x34b064
     ObjectHandle GetObjectByPtr(ObjectBase* object);                                                   // 0x340c54
@@ -67,7 +67,7 @@ public:
     void GetLightBaseList(std::list<LightBase*>& out) const;                                           // 0x34336c
     Point3D<float> GetDynamicFogColorAtPos(Point3D<float> const& pos, float radius);                   // 0x3419a8
     void InitModulesFogColor(std::vector<Point3D<float>> const& colors, int module);                   // 0x347100
-    void LoadFromXML(TiXmlElement* element, char const* type, Point3D<float> const& pos, int flags);   // 0x34b868
+    void LoadFromXML(TiXmlElement* element, char const* type, Point3D<float> const& pos, int flags);   // 0x34b868; the binary returns int (partial, see its ledger row)
     void LoadFromXML(TiXmlElement* element, char const* type);                                         // 0x34bbe4
     void MarkForDeletion(ObjectBase* object);                                                          // 0x3432f8
     void Remove(ObjectHandle handle);                                                                  // 0x348ea4

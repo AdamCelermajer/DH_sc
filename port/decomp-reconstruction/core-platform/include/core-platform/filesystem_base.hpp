@@ -4,10 +4,9 @@
 
 #include <string>
 
-namespace glitch::io {
-// CFileSystem::WorkingDirectory, the buffer strcpy'd by changeWorkingDirectoryTo.
-extern char CFileSystem_WorkingDirectory[512];
-}  // namespace glitch::io
+// glitch::io::CFileSystem::WorkingDirectory (char[1024], the one working-directory buffer that
+// changeWorkingDirectoryTo writes and getWorkingDirectory returns) comes with the canonical header.
+#include "glitch-core-io/io/file_system.hpp"
 
 class FileSystemBase {
 public:

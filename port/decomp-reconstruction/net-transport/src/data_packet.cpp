@@ -20,7 +20,7 @@ void DataPacket::InitMessage(int type) {
 }
 
 // 0x8491e4 _ZN10DataPacket14GetMessageTypeEv
-int DataPacket::GetMessageType() const {
+int DataPacket::GetMessageType() {
     return -1;
 }
 
@@ -30,6 +30,6 @@ void DataPacket::InitMMOMessage(std::int16_t type) {
 }
 
 // 0x8491f0 _ZN10DataPacket17GetMMOMessageTypeEv
-int DataPacket::GetMMOMessageType() const {
+int DataPacket::GetMMOMessageType() {
     return -1;
 }

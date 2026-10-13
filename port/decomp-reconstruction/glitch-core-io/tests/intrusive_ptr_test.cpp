@@ -6,12 +6,14 @@
 
 #include <cstdio>
 
+#include "io_video_fakes.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 namespace {
 
-struct Counted : glitch::video::ITexture {
+struct Counted : io_test_fakes::FakeTexture {
     static int alive;
     Counted() { ++alive; }
     ~Counted() { --alive; }
@@ -22,7 +24,8 @@ int Counted::alive = 0;
 
 int main() {
     {
-        boost::intrusive_ptr<glitch::video::ITexture> a(new Counted());
+        // ITexture is born with count 0 (the canonical constructor), so the first holder adds the use.
+        boost::intrusive_ptr<glitch::video::ITexture> a(new Counted(), true);
         CHECK(Counted::alive == 1 && a->referenceCounter == 1);
         {
             boost::intrusive_ptr<glitch::video::ITexture> b(a);
@@ -44,24 +47,24 @@ int main() {
     glitch::io::CLightAttribute light;
     CHECK(!light.getBool());
 
-    // CMaterial and CMaterialRenderer count at +0x00. Stack objects start with two uses
+    // CMaterial and CMaterialRenderer count at +0x00 (m_refCount). Stack objects start with two uses
     // so that releasing one does not delete them.
     glitch::video::CMaterial material;
-    material.referenceCounter = 2;
+    material.m_refCount = 2;
     {
         boost::intrusive_ptr<glitch::video::CMaterial> held(&material);
-        CHECK(material.referenceCounter == 2);
+        CHECK(material.m_refCount == 2);
     }
-    CHECK(material.referenceCounter == 1);
+    CHECK(material.m_refCount == 1);
     glitch::video::CMaterialRenderer renderer;
-    renderer.referenceCounter = 2;
+    renderer.m_refCount = 2;
     {
         boost::intrusive_ptr<glitch::video::CMaterialRenderer> held(&renderer);
     }
-    CHECK(renderer.referenceCounter == 1);
+    CHECK(renderer.m_refCount == 1);
     // The last release of a heap material deletes it (no count is read afterwards).
     {
-        boost::intrusive_ptr<const glitch::video::CMaterial> last(new glitch::video::CMaterial);
+        boost::intrusive_ptr<const glitch::video::CMaterial> last(new glitch::video::CMaterial(), true);
     }
 
     std::printf("%s\n", failures ? "intrusive_ptr: FAILED" : "intrusive_ptr: ok");

@@ -527,9 +527,12 @@ Eight workers re-derived the 99 partial rows of the pydata-accessors queue from 
 ## Track B game/engine type unification (u2-gametypes)
 
 - `IStreamBase` and `StreamReader` are no longer defined here. `deps/stream_reader.hpp` includes `dh2/IStreamBase.hpp`
-  and `dh2/StreamReader.hpp` (the game headers are the one definition) and still carries the `MemoryHintState` and
-  `CustomFree` stand-ins, which the core unification wave owns. The pydata code therefore calls the real stream
+  and `dh2/StreamReader.hpp` (the game headers are the one definition). The pydata code therefore calls the real stream
   interface: `IStreamBase::read(void*, uint64)` instead of the old `ReadBytes(void*, size_t)`.
+- Unification wave U2 (pydata-accessors): the `MemoryHintState` and `CustomFree` stand-ins are gone. `deps/stream_reader.hpp`
+  includes `core-platform/memory.hpp` (the `MemoryHintState` enum and the out-of-line `CustomFree`) and
+  `dh2/global/runtime_support.hpp` (`operator new[](size, MemoryHintState)`, defined in game-app). Every original
+  `operator new[](n, 1)` is `::operator new[](n, kPydataBufferHint)`, with `kPydataBufferHint` = the enum value 1.
 - `StreamReader` has the forms the binary has. The value read `readAs<T>(stream)` exists for int, unsigned int,
   unsigned char and bool; float, short and signed char use the out-parameter form `readAs<T>(stream, &member)`, as the
   Hex-Rays bodies do. `readStringEx(stream, dst, len)` takes the 64-bit length as one argument (the old trailing `0`

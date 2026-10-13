@@ -5,7 +5,7 @@
 
 #include <cstddef>
 
-#include "core-platform/deps/glitch_core.hpp"
+#include "glitch-core-io/core/memory_hint.hpp"  // glitch::memory::E_MEMORY_HINT (canonical)
 #include "core-platform/deps/swf_types.hpp"
 
 // Memory-hint state used by the tagged operator new overloads.

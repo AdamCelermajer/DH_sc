@@ -11,9 +11,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stub: CNetPlayerManager::AddPlayer(NetBitStream&,int,int) has no body in the library (the net-transport
-// object that GetInstance and ResetPlayers come from references it). The net-transport tests define the same stub.
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 // Test double: a server flag and a room of its own, so WritePacketData can be checked on another object.
 class TestMatching : public CMatching {

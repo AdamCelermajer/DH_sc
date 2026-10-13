@@ -1,20 +1,12 @@
-// rss: the RSS feed reader. The object is the list of channels read from the
-// "channel" children of an XML document. Partial: channel is a stand-in, since
-// channel::read belongs to another category.
+// rss: the RSS feed reader. The object is the list of channels read from the "channel" children of an
+// XML document. The channel is net-session-online's real class (net-session-online/channel.hpp), the one
+// the port's feeds use (GLXPlayerUser advRss_ and promoRss_), so there is one channel definition.
 #pragma once
 
 #include <vector>
 
-namespace slim {
-class XmlNode;
-}
-
-class channel {
-public:
-    channel() = default;
-    // Stand-in: channel::read is not reconstructed in this category.
-    void read(const slim::XmlNode* node);
-};
+#include "core-platform/slim_xml.hpp"
+#include "net-session-online/channel.hpp"
 
 class rss : public std::vector<channel> {
 public:

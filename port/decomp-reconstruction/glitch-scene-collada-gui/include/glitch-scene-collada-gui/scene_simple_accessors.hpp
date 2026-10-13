@@ -10,6 +10,7 @@
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
+#include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CMesh.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
 #include "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp"
@@ -619,11 +620,7 @@ public:
     video::IVideoDriver* videoDriver = nullptr;  // +0x14
 };
 
-class IBillboard {
-public:
-    // 0x580a20 _ZN6glitch5scene10IBillboardD1Ev (empty)
-    ~IBillboard() = default;
-};
+// IBillboard: canonical class in scene/CBillboardSceneNode.hpp.
 
 // IEndOfBatchCallback: canonical class in scene/CAppendMeshBuffer.hpp.
 

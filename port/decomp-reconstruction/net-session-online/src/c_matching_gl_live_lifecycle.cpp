@@ -117,7 +117,7 @@ std::int32_t CMatchingGLLive::Terminate() {
     s_eventQueueGLLiveInternal.Clear();
 
     CSignIn* signIn = CSignIn::Get();
-    if (signIn != nullptr && signIn->LoggedInForTest()) {
+    if (signIn != nullptr && signIn->LoggedIn()) {
         if (GLXPlayerMPLobby* lobby = GetGLXPlayerMPLobby(); lobby != nullptr) {
             lobby->mpDisconnect();  // GLXPlayerMPLobby vtable +0x18
         }

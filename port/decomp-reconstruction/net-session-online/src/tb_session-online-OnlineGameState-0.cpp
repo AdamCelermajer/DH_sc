@@ -5,6 +5,7 @@
 
 #include "net-session-online/c_messaging.hpp"
 #include "net-session-online/multiplayer_callback.hpp"
+#include "net-transport/tb/c_net_player_manager.hpp"
 
 namespace {
 
@@ -82,9 +83,9 @@ void OnlineGameState::runHandlers(std::int32_t key) {
 }
 
 // 0x49fb0c _ZN15OnlineGameState15processMessagesEv
-// Partial: the message-type dispatch is reconstructed. Not reconstructed: the block that the
-// original runs while the byte at +0x24 is set (NetPlayerMgr, event 3145728, PlayerJoined
-// handler 13). The original's int return value is not kept (see the header).
+// The message-type dispatch over the handler list, in the original order, with the joined-player block between
+// CMsgQuestsSync and CMsgGlobalDeath. The original's int return value (the last handler result) is not kept (see the
+// header).
 void OnlineGameState::processMessages() {
     // CMessaging::Get() is a thunk to CMessaging::GetInstance(). Each block fetches the same singleton.
     CMessaging* messaging = CMessaging::GetInstance();
@@ -118,7 +119,13 @@ void OnlineGameState::processMessages() {
     if (messaging->IsMessageReceived("CMsgQuestsSync")) {
         runHandlers(9);
     }
-    // Not reconstructed: the block gated on the byte at +0x24 (see the header comment).
+    // While the online-game byte (+0x24) is set and the player manager is initialised, a joined-player event
+    // (3145728) in the manager's internal queue (+0x180) runs the handlers of key 13 (HandlePlayerJoined). GetNetPlayerMgr
+    // is the thunk to CNetPlayerManager::GetInstance.
+    if (flag24_ && CNetPlayerManager::IsInitialized() &&
+        CNetPlayerManager::GetInstance()->internal_events_.HasEventOccured(3145728, false)) {
+        runHandlers(13);
+    }
     if (messaging->IsMessageReceived("CMsgGlobalDeath")) {
         runHandlers(11);
     }

@@ -27,5 +27,5 @@ bool COnlineImpl::ElapsedTimeMs(std::int32_t ms) {
 
 // 0x824f20 _ZN11COnlineImpl6SignInEv
 void COnlineImpl::SignIn() {
-    events_.AddEvent(kSignInEvent, nullptr, 0);
+    eventQueue_.AddEvent(kSignInEvent, nullptr, 0);
 }

@@ -784,3 +784,15 @@ Facts found while checking the listings (not in the earlier headers):
 - IBuffer::clone with an owning source produces a clone that claims the same pointer (cloneImpl passes the owns bit, copy() then refuses): the original does the same; the test clones a non-owning buffer.
 
 Open (see the StructuredOutput of the wave): the GL driver family (CCommonGLDriverBase / CCommonGLDriver / CProgrammableGLDriver and the nested CTextureBase, CFramebufferBase, CRenderTargetBase) is still a port-layer class tree that does not derive from IVideoDriver / ITexture / IRenderTarget; the shader manager family (IShaderManager, ICodeShaderManager, CNullShaderManager, CGLSLShaderManager) is not one hierarchy; CBatchDriver, CGLSLShaderManager and the CMaterialRendererManager queue rows have no declarations for all their functions; six tests (material_vertex_attribute_map, primitive_buffer, texture_state, vertex_attribute_map, vertex_stream_state, vertex_streams_build) link only against the video library alone until glitch-core-io drops its IBuffer / CVertexStreams stand-ins.
+
+## u2-glitch-video (engine unification wave U2, 2026-10-13)
+
+Map rows applied (reports/decomp-reconstruction/unification/core.json and scene.json; video.json has no row in this category). Ledger rows: ledger.d/u2-glitch-video.csv.
+
+- deps/glitch_io.hpp (the IReadFile stand-in) is deleted. image_loaders.hpp, texture_loaders.hpp and src/tb_video-glitch_video-0.cpp include glitch-core-io/io/interfaces.hpp. Renamed: getFileNameText -> getFileName. Changed signatures: getSize and getPos return long, seek takes long (the binary's types). The placeholder slots (unidentifiedBaseSlot and the others) are gone; no code in the category called them except the ITextureDataSource slots, which are a different class.
+- tests: each IReadFile fake derives from glitch::video::test::StubReadFile (tests/read_file_stub.hpp), which implements the canonical pure slots with the inert answers (size 0, position 0, empty name).
+- deps/sid_collection.hpp (a forwarder to the canonical header) is deleted. shader_manager.hpp includes glitch-core-io/core/sided_collection.hpp.
+- shader_code.hpp: the name-table stand-in CShaderCodeManager is replaced by ShaderCodeCollection, the canonical SIDedCollection instance (ushort ids, SEmptyProperties). getId returns 0xffff when missing; insert(name, code, false); get(id)->value. removeUnusedShaderCodes calls removeUnused() (removeAll(false)): an entry that another holder still references is kept. tests/shader_code_test.cpp checks that.
+- The collection's ctor and dtor (0x6e0804 / 0x6e0818, 0x6e1758 / 0x6e1828) are the template's own members (glitch-shared/sid_collection.hpp); they have no body in this category.
+- Kept as the map says (action keep): deps/intrusive_ptr.hpp and deps/os_logging.hpp (forwarders), and the scene forward declarations in batch_baker.hpp and video_driver.hpp and the video_types.hpp forward declaration of CMeshBuffer.
+- Outside this category: vendor-gameswf/src/v1-vendor-gameswf-bitmap_info_ogl-434136-1.cpp:218 has a comment that names deps/glitch_io.hpp. It is a comment only.

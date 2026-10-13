@@ -61,7 +61,7 @@ PFGInnerEdge* addEdge(PFGInnerGraph& graph, unsigned int from, unsigned int to, 
     return edge;
 }
 
-// The path lists goal first: the edges 3->4, 2->3 and 1->2 for the search from 1 to 4.
+// The path lists start first: the edges 1->2, 2->3 and 3->4 for the search from 1 to 4.
 bool isEdge(const PFGInnerEdge* edge, unsigned int from, unsigned int to) {
     return edge != nullptr && edge->m_from->getID() == from && edge->m_to->getID() == to;
 }
@@ -141,9 +141,9 @@ void testFindNode() {
     CHECK(path.size() == 3);
     if (path.size() == 3) {
         auto it = path.begin();
-        CHECK(isEdge(*it++, 3, 4));
+        CHECK(isEdge(*it++, 1, 2));
         CHECK(isEdge(*it++, 2, 3));
-        CHECK(isEdge(*it, 1, 2));
+        CHECK(isEdge(*it, 3, 4));
     }
     CHECK(search.m_outPath == &search.m_path);
     CHECK(search.unk_18 == 3);   // expansions: nodes 1, 2, 3
@@ -156,8 +156,9 @@ void testFindNode() {
     CHECK(search.m_path.size() == 3);
     CHECK(search.m_outPath == &search.m_path);
 
-    // Not found: every closed edge, in key order (2, 3, 4). Node 4 is closed with cost 3, so the route through 3 is
-    // refused there and the search runs out of open entries.
+    // Not found: every closed edge, in descending key order (4, 3, 2): each one goes to the front of the list in key
+    // order. Node 4 is closed with cost 3, so the route through 3 is refused there and the search runs out of open
+    // entries.
     GoalNode missing(99);
     std::list<const PFGInnerEdge*> closedEdges;
     CHECK(!search.findNode(1, missing, 100, &closedEdges));
@@ -165,9 +166,9 @@ void testFindNode() {
     CHECK(closedEdges.size() == 3);
     if (closedEdges.size() == 3) {
         auto it = closedEdges.begin();
-        CHECK(isEdge(*it++, 1, 2));
+        CHECK(isEdge(*it++, 3, 4));
         CHECK(isEdge(*it++, 2, 3));
-        CHECK(isEdge(*it, 3, 4));
+        CHECK(isEdge(*it, 1, 2));
     }
     CHECK(search.unk_18 == 5);   // expansions: 1, 2, 3, 4, 3 (the second 3 pops the cost-5 entry)
     CHECK(search.unk_1c == 5);
@@ -179,11 +180,48 @@ void testFindNode() {
     CHECK(none.empty());
     CHECK(search.unk_18 == 0 && search.unk_1c == 0 && search.unk_20 == 0 && search.unk_24 == 0);
 
-    // Budget of one expansion: the goal is not reached from the start.
+    // Budget of one expansion: the goal is not reached from the start. The closed edges 1->2 and 1->3 come out in
+    // descending key order: 1->3 (key 3) first, then 1->2 (key 2).
     std::list<const PFGInnerEdge*> budgetOut;
     CHECK(!search.findNode(1, goal4, 1, &budgetOut));
     CHECK(search.unk_18 == 1);
+    CHECK(budgetOut.size() == 2);
+    if (budgetOut.size() == 2) {
+        auto it = budgetOut.begin();
+        CHECK(isEdge(*it++, 1, 3));
+        CHECK(isEdge(*it, 1, 2));
+    }
 
+    graph.clear();
+}
+
+// A start id whose map value is null: the binary resets the counters and the path, then returns m_found before it
+// sets the output list. The output list is left alone.
+void testNullStartNode() {
+    PFGInnerGraph graph;
+    addNode(graph, 1);
+    addNode(graph, 4);
+    addEdge(graph, 1, 4, 1.0f);
+    graph.m_nodes[5] = nullptr;
+
+    Search search;
+    search.m_graph = &graph;
+    GoalNode goal4(4);
+
+    // Leave a path in m_path first (no output list is passed), so the reset is visible.
+    CHECK(search.findNode(1, goal4, 100, nullptr));
+    CHECK(search.m_path.size() == 1);
+
+    std::list<const PFGInnerEdge*> out;
+    out.push_back(nullptr);
+    CHECK(!search.findNode(5, goal4, 100, &out));
+    CHECK(!search.m_found);
+    CHECK(search.m_path.empty());
+    CHECK(search.unk_18 == 0 && search.unk_1c == 0 && search.unk_20 == 0 && search.unk_24 == 0);
+    CHECK(out.size() == 1);             // untouched: nothing was written to the output list
+    CHECK(search.m_outPath == &search.m_path);
+
+    graph.m_nodes.erase(5);             // a null node must not reach GraphSparse::clear
     graph.clear();
 }
 
@@ -193,6 +231,7 @@ int main() {
     testGetEdgesAndClear();
     testMarkNode();
     testFindNode();
+    testNullStartNode();
     if (failures != 0) {
         std::printf("%d check(s) failed\n", failures);
         return 1;

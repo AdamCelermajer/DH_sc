@@ -19,6 +19,7 @@
 #include <string>
 
 #include "glitch-core-io/core/reference_counted.hpp"
+#include "glitch-core-io/io/iattributes.hpp"
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
@@ -39,41 +40,9 @@ struct SAttributeReadWriteOptions;
 class ISceneNode;
 class CGUISkin;
 
-// ---------------------------------------------------------------------------
-// glitch::io::IAttributes (stand-in). Slot offsets are the CAttributes vtable.
-// ---------------------------------------------------------------------------
-class IAttributes {
-public:
-    virtual ~IAttributes() = default;
-
-    virtual void addInt(const char* name, int value, bool flag) = 0;                       // +0x4c
-    virtual void addFloat(const char* name, float value, bool flag) = 0;                   // +0x64
-    virtual void addBool(const char* name, bool value, bool flag) = 0;                     // +0xd8
-    virtual void addString(const char* name, const char* value, bool flag) = 0;            // +0x7c
-    virtual void addStringW(const char* name, const wchar_t* value, bool flag) = 0;        // +0x94
-    virtual void addEnum(const char* name, int value, const char* const* literals, bool flag) = 0;  // +0xf4
-    virtual void addColor(const char* name, glitch::video::SColor value, bool flag) = 0;   // +0x118
-    virtual void addPosition2d(const char* name, glitch::core::position2d<int> value, bool flag) = 0;  // +0x1d8
-    virtual void addRect(const char* name, glitch::core::rect<int> value, bool flag) = 0;  // +0x1f0
-    virtual void addVector3d(const char* name, const glitch::core::vector3d<float>& value, bool flag) = 0;  // +0x1a8
-    virtual void addTexture(const char* name, boost::intrusive_ptr<glitch::video::ITexture> value, bool flag) = 0;  // +0x2b0
-
-    virtual bool existsAttribute(const char* name) const = 0;                              // +0x24
-    virtual int getInt(const char* name) const = 0;                                        // +0x58
-    virtual float getFloat(const char* name) const = 0;                                    // +0x70
-    virtual bool getBool(const char* name) const = 0;                                      // +0xe4
-    virtual std::string getString(const char* name) const = 0;                             // +0x84
-    virtual std::wstring getStringW(const char* name) const = 0;                           // +0x9c
-    virtual int getEnum(const char* name, const char* const* literals) const = 0;          // +0x100
-    virtual glitch::video::SColor getColor(const char* name) const = 0;                    // +0x124
-    virtual glitch::core::position2d<int> getPosition2d(const char* name) const = 0;       // +0x1e4
-    virtual glitch::core::rect<int> getRect(const char* name) const = 0;                   // +0x1fc
-    virtual glitch::core::vector3d<float> getVector3d(const char* name) const = 0;         // +0x1b4
-    virtual boost::intrusive_ptr<glitch::video::ITexture> getTexture(const char* name) const = 0;  // +0x2bc
-
-    virtual void push(const char* name) = 0;                                               // +0x30
-    virtual void pop() = 0;                                                                // +0x3c
-};
+// glitch::io::IAttributes: the canonical interface (glitch-core-io/io/iattributes.hpp). The stand-in
+// addStringW is the canonical addString(const char*, const wchar_t*, bool) slot at +0x94.
+using glitch::io::IAttributes;
 
 // Enumeration name tables passed to addEnum/getEnum and the per-slot name
 // lists. The tables are data in the category and are declared here only.

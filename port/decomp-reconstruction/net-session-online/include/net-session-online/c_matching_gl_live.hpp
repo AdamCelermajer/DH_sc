@@ -266,8 +266,7 @@ public:
     std::int32_t GetGLFriendsCount() const;
     // 0x81c0ac _ZNK15CMatchingGLLive16GetGLFriendStateEi: state of a friend, -1 out of range.
     std::int32_t GetGLFriendState(std::int32_t index) const;
-    // 0x81c0e8 _ZNK15CMatchingGLLive18SendGLFriendInviteEPKc. Partial: the original returns the
-    // result of sendAddUserFriend; the port's version returns void, so this returns 0.
+    // 0x81c0e8 _ZNK15CMatchingGLLive18SendGLFriendInviteEPKc: returns the result of sendAddUserFriend.
     std::int32_t SendGLFriendInvite(const char* name) const;
     // 0x81c0fc _ZNK15CMatchingGLLive16GetGLFriendsNameEi: name of a friend, null out of range.
     const char* GetGLFriendsName(std::int32_t index) const;
@@ -286,11 +285,9 @@ public:
     int SaveGLLiveProfile();
     // 0x81be2c _ZN15CMatchingGLLive17LoadGLLiveProfileEv: reads profile.sav.
     int LoadGLLiveProfile();
-    // 0x81bf88 _ZN15CMatchingGLLive10IsLoggedInEv. Partial: reads the sign-in logged-in flag
-    // through CSignIn::LoggedInForTest() (no production accessor in c_sign_in.hpp yet).
+    // 0x81bf88 _ZN15CMatchingGLLive10IsLoggedInEv: reads the sign-in logged-in flag (CSignIn::LoggedIn).
     int IsLoggedIn();
-    // 0x81c084 _ZN15CMatchingGLLive15GLSendHighScoreEi. Partial: sendHighScore returns void
-    // in the port, so the returned status is 0 and not the original's result.
+    // 0x81c084 _ZN15CMatchingGLLive15GLSendHighScoreEi: returns the result of sendHighScore.
     std::int32_t GLSendHighScore(std::int32_t score);
     // 0x81c18c _ZN15CMatchingGLLive6GetGGIEv: GGI of the GLX server config component (+0x6710), 0 when none.
     unsigned long GetGGI();
@@ -395,6 +392,9 @@ public:
     std::int32_t RoomOpForTest() const { return roomOp_; }
     std::int32_t GcStateForTest() const { return gcState_; }
     void SetGameCenterActiveForTest(bool value) { gameCenterActive_ = value; }
+    // Production accessor for the Game Center flag at +0x67e8 (read inline by OnMPProcessPushLeaveLobby and
+    // CSignInGLLive; the constructor argument).
+    bool GameCenterActive() const { return gameCenterActive_; }
     void SetRoomKeyForTest(std::int32_t key) { roomKey_ = key; }
     std::int32_t RoomKeyForTest() const { return roomKey_; }
     const CRoomSearchFilter& SearchFilterForTest() const { return searchFilter_; }

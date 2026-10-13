@@ -88,6 +88,13 @@ glitch render backend exists. Game code may include `lua.h`, `Box2D.h` and `game
 9. Access specifiers are not recoverable from the binary, and the original code reads other classes'
    fields directly (for example `Character` reads `CharAI` +0x40). Game class members are `public`. Do not
    add `private:` or `protected:` to game headers, and do not add getters only to get around access.
+10. Every reconstructed function reproduces the original mangled symbol: the same namespaces, class, name,
+    parameter types and const-ness, so it links where the original did. `tools/trackb/armdiff/conformance.py`
+    checks this. A deviation is a defect, not a style choice.
+11. Verification: `tools/trackb/armdiff` runs reconstructed functions beside the original ARM code. A
+    mismatch triaged as a reconstruction error demotes the row to `partial`, with a note naming the first
+    differing register or byte. A base-class layout error is fixed once, at the base. Matches of 8 bytes or
+    less are reported separately from matches of real bodies.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

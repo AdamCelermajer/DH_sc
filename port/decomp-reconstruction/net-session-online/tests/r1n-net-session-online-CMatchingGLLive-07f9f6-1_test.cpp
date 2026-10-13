@@ -8,8 +8,10 @@
 // the rank of a known address without a second entry.
 
 #include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/c_sign_in_gl_live.hpp"
 #include "net-session-online/c_room_attributes.hpp"
 #include "net-session-online/t_friend_info.hpp"
+#include "net-transport/deps/transport_test_support.hpp"  // the transport manager AddServer asks for host names
 #include "net-transport/net_network_id.hpp"
 
 #include <cstdio>
@@ -19,6 +21,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
+    transport_test_support::Install();
     // GetFriendsList: no friend observer (the port never creates +0x6704), so the list is empty even when a
     // friend list object is set.
     {
@@ -41,6 +44,18 @@ int main() {
         CHECK(m.GcStateForTest() == 4);
         m.SetGCState(4);
         CHECK(m.GcStateForTest() == 4);
+    }
+
+    // State 1 posts event 1 on the login queue of the sign-in object when it is a CSignInGLLive.
+    {
+        CSignInGLLive signIn;
+        CSignIn::SetInstanceForTest(&signIn);
+        CMatchingGLLive m;
+        m.SetGameCenterActiveForTest(true);
+        m.SetGCState(1);
+        CHECK(m.GcStateForTest() == 1);
+        CHECK(signIn.LoginEvents().HasEventOccured(1, true));
+        CSignIn::SetInstanceForTest(nullptr);
     }
 
     // SetPlayerParam without the lobby send: a 0x80-byte text is kept, a longer one is refused and the previous

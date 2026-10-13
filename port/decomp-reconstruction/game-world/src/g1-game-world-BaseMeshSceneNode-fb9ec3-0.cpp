@@ -84,9 +84,15 @@ BaseMeshSceneNode<glitch::collada::CMeshSceneNode>::BaseMeshSceneNode(
 }
 
 // 0x35b668 _ZN17BaseMeshSceneNodeIN6glitch7collada28CModularSkinnedMeshSceneNodeEED1Ev
-// partial. Empty body: the compiler emits the vtable and virtual-base stores from the declared hierarchy, then the call
-// to CModularSkinnedMeshSceneNode's destructor. The original's stores include a second base at +0x184 (the
-// ModularSkinnedMeshSceneNode.hpp unk_184 note) that the stand-in does not declare, so they are not checked.
+// partial. Empty body: the compiler emits the vptr and virtual-base stores from the declared hierarchy, then the call
+// to glitch::collada::CMeshSceneNode::~CMeshSceneNode (D2). The original writes only two slots of this object, +0x00 and
+// +0x180, and no vptr at +0x184 (checked in the disassembly and the vtable words). Every store through a vtable offset
+// lands at +0 or +0x180: the offset word at address point -0x1C is 0 and the vbase word at -0xC is 0x180, for the two
+// construction address points off_95DCDC and off_95DE14. +0x00 takes off_95DCDC, then off_95DE14. +0x180 takes the
+// BaseMeshSceneNode vtable group +0x128 (0x95DC60), then off_95DDE8 and off_95DF20 (the +0x128 points of the CModular-in-
+// Base and CSkinned-in-Base construction groups). The +0x184 vptr named by unk_184 in ModularSkinnedMeshSceneNode.hpp is
+// stored by the derived ModularSkinnedMeshSceneNode ctor (0x35af00, its own batch), not by this dtor. The stand-in
+// CModularSkinnedMeshSceneNode declares no virtual base, so these stores are not checked on the host.
 template <>
 BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::~BaseMeshSceneNode() {}
 

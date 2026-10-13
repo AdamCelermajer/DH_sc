@@ -21,29 +21,29 @@ int TouchScreenPS3::getBottomBound() const { return 0; }
 
 // 0x33d21c TouchScreenPS3::onEvent(glitch::SEvent const&)
 // Type 1 events only. Event code 0 begins a touch, 6 moves it while the pad
-// button is held, and 3 ends it. The point is (mouseX, mouseY) as shorts. The
+// button is held, and 3 ends it. The point is (MouseInput.X, MouseInput.Y) as shorts. The
 // held state is a function-local static, as in the original.
 bool TouchScreenPS3::onEvent(const glitch::SEvent& event) {
     static bool isDown = false;
-    if (event.type != 1) {
+    if (event.EventType != glitch::EET_MOUSE_INPUT_EVENT) {
         return false;
     }
-    switch (event.mouseEvent) {
+    switch (event.MouseInput.Event) {
         case 3: {
             isDown = false;
-            touchEnded(Point2D<short>{static_cast<short>(event.mouseX), static_cast<short>(event.mouseY)}, 0);
+            touchEnded(Point2D<short>{static_cast<short>(event.MouseInput.X), static_cast<short>(event.MouseInput.Y)}, 0);
             return true;
         }
         case 6: {
             if (isDown) {
-                touchMoved(Point2D<short>{static_cast<short>(event.mouseX), static_cast<short>(event.mouseY)}, 0);
+                touchMoved(Point2D<short>{static_cast<short>(event.MouseInput.X), static_cast<short>(event.MouseInput.Y)}, 0);
                 return true;
             }
             return false;
         }
         case 0: {
             isDown = true;
-            touchBegan(Point2D<short>{static_cast<short>(event.mouseX), static_cast<short>(event.mouseY)}, 0);
+            touchBegan(Point2D<short>{static_cast<short>(event.MouseInput.X), static_cast<short>(event.MouseInput.Y)}, 0);
             return true;
         }
         default:

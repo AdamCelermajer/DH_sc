@@ -16,10 +16,17 @@
 // (cnet_player_info.hpp), so the PlayerInfo copy and assignment are deleted too (dh2/PlayerInfo.hpp). Ledger: skipped.
 
 // 0x459900 PlayerInfo::SetInCutscene(bool)
-// The Hex-Rays text builds a temporary NetStructBool on the stack and calls SetChanged on it when its uninitialised
-// value byte differs from the argument. Nothing reads that temporary: the byte is the argument in every case (when the
-// compare is equal, the byte already holds it). The effect is the virtual SetValue of the +0x4e8 block (m_inCutscene),
-// vtable slot +0x1c.
+// PARTIAL. Not reproduced: the stale-temporary SetChanged (NetStructBool temporary; counter advance).
+// The Hex-Rays text builds a NetStructBool temporary on the stack. Its value byte (SP+0x1D) is never written, so the
+// compare with the argument reads stale stack data. When they differ, the original stores the argument in the byte and
+// calls NetStructMember::SetChanged (0x814f84) on the temporary. SetChanged copies the old NetStruct::s_changeCounter
+// into the temporary's changeStamp_ (+8) and advances the global s_changeCounter. That global advance is the side effect
+// this body omits, the same case as the PARTIAL setters in the part-0 file note.
+// The temporary object is not used after that call. Only its value byte is passed on: the original calls the virtual
+// SetValue of the +0x4e8 block (m_inCutscene, vtable slot +0x1c, R0 = this+0x4e8) with a pointer to that byte. The byte
+// equals the argument on both paths (it is stored when they differ), so the port passes the argument by value.
+// NetStructMemberType<bool>::SetValue marks the member changed exactly when its value changes, so the member value and
+// its change flag match.
 void PlayerInfo::SetInCutscene(bool inCutscene) {
     m_inCutscene.SetValue(inCutscene);
 }

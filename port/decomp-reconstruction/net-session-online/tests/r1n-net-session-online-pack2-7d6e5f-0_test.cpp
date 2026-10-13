@@ -9,6 +9,7 @@
 
 #include "net-session-online/glx_player_socket.hpp"
 #include "net-session-online/lc_api_net.hpp"
+#include "socket_test_doubles.hpp"
 #include "net-session-online/xp_api.hpp"
 
 static int failures = 0;
@@ -30,38 +31,43 @@ public:
     int responseCalls = 0;
     std::string response;
 
-    const char* RequestData() const override { return request.c_str(); }
-    std::uint32_t RequestLength() const override { return static_cast<std::uint32_t>(request.size()); }
-    void OnResponse(const char* data, std::int32_t length) override {
+    const char* GetRequestData() const override { return request.c_str(); }
+    std::uint32_t GetRequestLength() const override { return static_cast<std::uint32_t>(request.size()); }
+    void SetResponseData(const char* data, std::int32_t length) override {
         ++responseCalls;
         response.assign(data != nullptr ? data : "", length > 0 ? static_cast<std::size_t>(length) : 0);
     }
-    void OnReceived(std::int32_t) override { ++receivedCalls; }
+    void SetResponseLen(std::int32_t) override { ++receivedCalls; }
 };
 
-// A transport that connects at once, accepts every send, and returns one reply and then a close.
-class FakeSocket : public GLXPlayerSocket {
+// A transport that resolves and connects at once, accepts every send, and returns one reply and then a close.
+// The slots are the platform slots of GLXPlayerSocket: GetHostByName +0x20, CreateSocket +0x28, Connect +0x34,
+// Select +0x40, Send +0x44, Recv +0x48.
+class FakeSocket : public StubGLXSocket {
 public:
     FakeSocket(const char* host, std::int32_t port, GLXPlayerSocketObserver* observer)
-        : GLXPlayerSocket(host, port, observer) {}
+        : StubGLXSocket(host, port, observer) {}
 
     std::string sent;
     int reads = 0;
 
-    std::int32_t OpenConnection(const char* /*host*/) override { return 7; }
-    std::int32_t BeginConnect() override { return 1; }
-    std::int32_t IsConnected() const override { return 1; }
-    std::int32_t Poll(bool /*wantWrite*/) override { return 1; }
-    std::int32_t SendBytes(const char* data, std::int32_t length) override {
+    hostent* GetHostByName(const char* /*host*/) override {
+        static char storage[64];
+        return reinterpret_cast<hostent*>(storage);
+    }
+    bool CreateSocket() override { return true; }
+    int Connect() override { return 1; }
+    int Select(XSocketSelectFlag /*flag*/) override { return 1; }
+    int Send(const char* data, int length) override {
         sent.append(data, static_cast<std::size_t>(length));
         return length;
     }
-    std::int32_t RecvBytes(char* buffer, std::int32_t length) override {
+    int Recv(char* buffer, int length) override {
         ++reads;
         if (reads == 1) {
             const char reply[] = "HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nok";
-            const std::int32_t n = static_cast<std::int32_t>(sizeof(reply) - 1);
-            const std::int32_t count = n <= length ? n : length;
+            const int n = static_cast<int>(sizeof(reply) - 1);
+            const int count = n <= length ? n : length;
             std::memcpy(buffer, reply, static_cast<std::size_t>(count));
             return count;
         }
@@ -78,31 +84,32 @@ int main() {
         FakeSocket socket("h", 80, &observer);
         socket.Start();                       // state 1
         CHECK(socket.IsInProgress() == 1);
-        socket.Run();                         // 1 -> 2: open and begin the connect
+        socket.Run();                         // 1 -> 2: resolve the host and create the socket
         socket.Run();                         // 2 -> 3: connected
         socket.Run();                         // 3: the whole request is sent, 3 -> 4
         CHECK(socket.sent == observer.request);
         CHECK(socket.GetSendPercentage() == 100);
 
-        socket.Run();                         // 4: first reply, header removed, body kept
+        socket.Run();                         // 4: first reply, header removed, body kept; the length matches, 4 -> 5
         CHECK(socket.ContentForTest() == "ok");
         CHECK(observer.receivedCalls == 1);
-        CHECK(observer.responseCalls == 0);   // the span is not written by the platform path
+        CHECK(observer.responseCalls == 0);
 
-        socket.Run();                         // 4: close, response reported, 4 -> 6
+        socket.Run();                         // 5: close, the response (the content string's span) is reported, 5 -> 6
         CHECK(observer.responseCalls == 1);
+        CHECK(observer.response == "ok");
         CHECK(socket.ContentForTest().empty());
         CHECK(socket.IsInProgress() == 0);    // state 6 is finished
         socket.Run();                         // state 6 does nothing
         CHECK(observer.responseCalls == 1);
     }
 
-    // ---- GLXPlayerSocket::Run with no transport: the base hooks report failure ----
-    // The connect start time (+0x868) is written by the platform open path, which is not ported, so it
-    // is 0 here and the connect timeout is already past: the first Run goes to the error state.
+    // ---- GLXPlayerSocket::Run with a socket that cannot resolve the host ----
+    // The lookup start time (+0x868) is 0 here and the 9999 ms lookup timeout is already past: the first Run
+    // goes to the error state.
     {
         RecordingObserver observer;
-        GLXPlayerSocket socket("h", 80, &observer);
+        StubGLXSocket socket("h", 80, &observer);
         socket.Start();
         socket.Run();
         CHECK(socket.IsErrorOccurred());
@@ -111,7 +118,7 @@ int main() {
 
     // ---- ParseHttpHeader and RemoveHttpHeader ----
     {
-        GLXPlayerSocket socket("h", 80, nullptr);
+        StubGLXSocket socket("h", 80, nullptr);
         socket.SetContentForTest("HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nok");
         CHECK(socket.ParseHttpHeader("Content-Length") == 17);
         CHECK(socket.ParseHttpHeader("X-Missing") == static_cast<std::uint32_t>(std::string::npos));

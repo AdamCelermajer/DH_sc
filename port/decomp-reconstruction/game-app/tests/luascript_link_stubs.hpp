@@ -26,17 +26,10 @@
 #include "dh2/sfc/script/lua/ReturnValues.hpp"
 #include "dh2/sfc/script/lua/Value.hpp"
 
-// PlayerManager and net_struct.hpp pull in net-transport, whose deps/byte_array.hpp also defines CustomFree, which
-// pydata's stream_reader.hpp defines too. The renames cover only the net-transport includes (the same workaround as
-// g1-game-app-LuaScript-5015a8-1.cpp).
-#define CustomFree CustomFree_net_transport
-#define MemoryHintState MemoryHintState_net_transport
 #include "dh2/PlayerManager.hpp"
 #include "dh2/Random.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "net-transport/net_struct.hpp"
-#undef CustomFree
-#undef MemoryHintState
 
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"

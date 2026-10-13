@@ -6,6 +6,7 @@
 #include <cstring>
 
 #include "core-platform/lc_api.hpp"  // LC_API_GET_TIME (0x89d3a8)
+#include "net-transport/lc_android_socket.hpp"  // LCAndroidSocket (LCXPlayerSocketFactory::GetSocket)
 
 namespace {
 
@@ -60,7 +61,7 @@ void LCXPlayerSocket::Start() {
 
 // 0x8a01b4 _ZN15LCXPlayerSocket6CancelEv
 // A socket that has not started, has failed or has finished is left alone. Otherwise the
-// state becomes cancelled, the non-blocking connect state is cleared, and OnCancelled runs.
+// state becomes cancelled, the non-blocking connect state is cleared, and CloseSocket (vtable +0x3c) runs.
 void LCXPlayerSocket::Cancel() {
     if (state_ == kStateNone || state_ == kStateError) {
         return;
@@ -70,7 +71,7 @@ void LCXPlayerSocket::Cancel() {
     }
     state_ = kStateCancelled;
     nonBlockConnectState_ = 0;
-    OnCancelled();
+    CloseSocket();  // vtable +0x3c
 }
 
 // 0x8a01f4 _ZN15LCXPlayerSocket12IsInProgressEv
@@ -94,9 +95,10 @@ constexpr std::int32_t kChunkSize = 2048;
 // call (the virtual set above) and returns. The base class has no socket, so with its defaults the
 // start state times out into kStateError.
 // Deviations: a null observer ends a send in kStateError (the original calls through the pointer).
-// Not reproduced: the LC_DEBUG_OUT traces, and the stores to m_nReceived and m_buffer_used (those
-// fields are not named in the header and Run never reads them). The lookup start time (+0x864) is
-// not set by this port's Start, so the timeout is measured from 0 (unverified against Start).
+// The LC_DEBUG_OUT traces are not emitted: LC_DEBUG_OUT (0x89c304) is a bare return in the binary, so
+// that omission is exact. The lookup start time (+0x864) is not set by Start in the binary either,
+// so the lookup timeout is measured from 0 there and here. m_nReceived and m_buffer_used are
+// cleared when a send completes, as the Hex-Rays body does.
 void LCXPlayerSocket::Run() {
     const std::int32_t state = state_;
     if (state == kStateNone || state == kStateError || state == kStateCancelled) {
@@ -105,14 +107,14 @@ void LCXPlayerSocket::Run() {
     // The error exit shared by the states: read the error (for its trace), close, and fail.
     auto fail = [this]() {
         GetLastError();
-        OnCancelled();
+        CloseSocket();
         state_ = kStateError;
     };
 
     switch (state) {
         case kStateStartConnect:
             if (serverAddress_ == nullptr) {
-                serverAddress_ = GetHostByName(serverName_.get());
+                serverAddress_ = GetHostByName(serverName_.get());  // vtable +0x20
             }
             if (serverAddress_ != nullptr) {
                 if (CreateSocket()) {
@@ -136,14 +138,14 @@ void LCXPlayerSocket::Run() {
                 nonBlockConnectState_ = 0;
             } else if (nonBlockConnectState_ != 1) {
                 GetLastError();
-                OnCancelled();
+                CloseSocket();
                 nonBlockConnectState_ = 0;
                 state_ = kStateError;
             }
             return;
 
         case kStateSendRequest: {
-            const std::int32_t ready = Select(1);
+            const std::int32_t ready = Select(kSelectWrite);
             if (ready < 0) {
                 fail();
                 return;
@@ -168,9 +170,11 @@ void LCXPlayerSocket::Run() {
             }
             sentLength_ += sent;
             if (sentLength_ == total) {
+                receiveLength_ = 0;      // m_nReceived
                 content_.clear();
                 receiveHttpHeader_ = true;
                 lengthKnown_ = false;
+                bufferUsed_ = false;     // m_buffer_used
                 recvStartTime_ = LC_API_GET_TIME();
                 state_ = kStateWaitResponse;
             }
@@ -178,14 +182,14 @@ void LCXPlayerSocket::Run() {
         }
 
         case kStateWaitResponse: {
-            if (Select(0) <= 0) {
+            if (Select(kSelectRead) <= 0) {
                 return;
             }
             std::memset(receiveBuffer_, 0, sizeof(receiveBuffer_));
             const std::int32_t got = Recv(receiveBuffer_, kChunkSize);
             if (got < 0) {
                 GetLastError();
-                OnCancelled();
+                CloseSocket();
                 state_ = kStateError;
                 if (observer_ != nullptr) {
                     observer_->SetResponseLen(0);
@@ -227,7 +231,7 @@ void LCXPlayerSocket::Run() {
         }
 
         case kStateCloseConnection:
-            OnCancelled();
+            CloseSocket();
             if (observer_ != nullptr) {
                 observer_->SetResponseData(content_.data(), static_cast<std::int32_t>(content_.size()));
             }
@@ -358,8 +362,8 @@ std::int32_t LCXPlayerSocket::ParseChunkedContent() {
 }
 
 // 0x89e57c _ZN22LCXPlayerSocketFactory9GetSocketEPciP23LCXPlayerSocketObserver
-// Partial: the original news an LCAndroidSocket (0xcf0 bytes); the port returns the base class.
+// operator new(0xcf0) and the LCAndroidSocket constructor, as the original.
 LCXPlayerSocket* LCXPlayerSocketFactory::GetSocket(const char* serverName, std::int32_t port,
                                                    LCXPlayerSocketObserver* observer) {
-    return new LCXPlayerSocket(serverName, port, observer);
+    return new LCAndroidSocket(serverName, port, observer);
 }

@@ -32,12 +32,12 @@ void GLXPlayerUserFriend::sendGetUserFriendsCount() {
 }
 
 // 0x82c640 _ZN19GLXPlayerUserFriend18sendGetUserFriendsEii
-void GLXPlayerUserFriend::sendGetUserFriends(std::int32_t first, std::int32_t count) {
+std::int32_t GLXPlayerUserFriend::sendGetUserFriends(std::int32_t first, std::int32_t count) {
     char buf[kRequestBytes] = {};
     std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|a|%d|c|%d|", 0x3d, static_cast<int>(GetGGI()),
                   UidText(GetUID()), first, count);
     XP_DEBUG_OUT("GLXPlayerUser::sendGetUserFriends before String2Blob -> buffer = %s\n", buf);
-    SendByGet(buf);
+    return SendByGet(buf);
 }
 
 // 0x82c708 _ZN19GLXPlayerUserFriend17sendDelUserFriendEPcb
@@ -61,7 +61,7 @@ void GLXPlayerUserFriend::sendConfirmUserFriend(const char* name, std::int32_t c
 }
 
 // 0x82c8ec _ZN19GLXPlayerUserFriend17sendAddUserFriendEPcS0_b
-void GLXPlayerUserFriend::sendAddUserFriend(const char* name, const char* message, bool byUserName) {
+std::int32_t GLXPlayerUserFriend::sendAddUserFriend(const char* name, const char* message, bool byUserName) {
     char buf[kRequestBytes] = {};
     const char* format = byUserName ? "f|%d|i|%d|u|%s|un|%s|" : "f|%d|i|%d|u|%s|n|%s|";
     std::snprintf(buf, sizeof buf, format, 0x3b, static_cast<int>(GetGGI()), UidText(GetUID()),
@@ -72,5 +72,5 @@ void GLXPlayerUserFriend::sendAddUserFriend(const char* name, const char* messag
         std::strcat(buf, field);
     }
     XP_DEBUG_OUT("GLXPlayerUser::sendAddUserFriend before String2Blob -> buffer = %s\n", buf);
-    SendByGet(buf);
+    return SendByGet(buf);
 }

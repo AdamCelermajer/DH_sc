@@ -8,6 +8,7 @@
 // layout is now in t_room_info.hpp, but the body also needs the lobby observer's tGLRoomInfo list
 // (+0x18 of the observer), which the observer header does not declare.
 
+#include "net-transport/transport_manager.hpp"   // CTransportManager (host names)
 #include "net-session-online/c_matching_gl_live.hpp"
 
 #include <cstdint>
@@ -215,12 +216,11 @@ std::int32_t CMatchingGLLive::Update() {
 // clock, the transport name of the address, the rank and a copy of the room attributes, and is inserted under
 // the next key (the counter at +0x363c, which is incremented). When the pending flag at +0x3630 is set it posts
 // event 8388622 on the matching queue.
-// Partial: the transport name comes from the transport stand-in (GetTransportNameOf, the original asks the
-// transport manager's vtable slot +0x1c) and the clock from the online clock stand-in. The peer's time offset
-// (+0x40) is copied from an uninitialised temporary in the original; the port keeps 0. Unsettled: both branches of
-// the decompile store into +0x20 the result of the first virtual of GetOnline() (the same call that yields the
-// transport manager pointer used for the name lookup), while tMatchingPeer names +0x20 last-seen time. The port
-// stores the online clock there; the source of the +0x20 value needs the COnline vtable (slot 0) to confirm.
+// The transport name is what the transport manager reports for the address (vtable +0x1c, GetHostname). The clock
+// is OnlineNowMs, the stand-in for the first virtual of GetOnline(), which the COnline vtable names GetAbsoluteTime
+// (slot 0): both branches of the decompile store that call's result into +0x20, which tMatchingPeer calls the
+// last-seen time. Partial: the peer's time offset (+0x40) is copied from an uninitialised temporary in the
+// original; the port keeps 0; and the clock is still the stand-in.
 void CMatchingGLLive::AddServer(std::int32_t memberId, CNetworkId& serverId, std::int32_t rank,
                                 CRoomAttributes& attributes) {
     serversMutex_.Lock();
@@ -236,7 +236,7 @@ void CMatchingGLLive::AddServer(std::int32_t memberId, CNetworkId& serverId, std
     peer.memberId = memberId;
     peer.address = serverId;
     peer.lastSeenMs = OnlineNowMs();
-    peer.name = GetTransportNameOf(serverId);
+    peer.name = GetTransportMgr()->GetHostname(serverId);
     peer.rank = rank;
     peer.roomAttributes = attributes;
     const std::uint64_t key = static_cast<std::uint64_t>(static_cast<std::int64_t>(nextPeerKey_));

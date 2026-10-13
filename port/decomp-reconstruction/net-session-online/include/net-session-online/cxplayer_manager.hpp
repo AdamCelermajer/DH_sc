@@ -72,10 +72,10 @@ public:
     std::int32_t PendingScoreForTest() const { return pendingScore_; }
     void SetLoginForTest(GLXPlayerLogin* login) { login_ = login; }
 
-private:
     static constexpr CXPlayerManagerState kReadyState = 0x10;
     static constexpr std::size_t kCredentialLength = 46;
 
+    // Members are public (the game-app GSInit reads flag05_).
     bool initialized_ = false;                      // +0x04
     bool flag05_ = false;                           // +0x05
     GLXPlayerLogin* login_ = nullptr;               // +0x08

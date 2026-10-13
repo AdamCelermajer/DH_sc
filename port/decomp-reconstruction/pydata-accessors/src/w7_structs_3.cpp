@@ -45,7 +45,7 @@ void ItemAudioVisual::read(IStreamBase* stream) {
     m_w2 = StreamReader::readAs<std::int32_t>(stream);   // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
     if (m_w4 != nullptr) CustomFree(m_w4);               // +0x10
-    m_w4 = MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1);
+    m_w4 = ::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint);
     // PARTIAL: the listing passes a 5th, 64-bit argument to readStringEx (high word 1, low word undefined in
     // the listing), and returns the readStringEx result as a bool. The stand-in readStringEx takes four
     // arguments and returns void, so neither is passed or returned.
@@ -78,7 +78,7 @@ void ItemBonusAttrList::finalize() {
 void ItemBonusAttrList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4 (count)
     if (m_w2 != nullptr) CustomFree(m_w2);               // +0x8
-    m_w2 = MemoryHintState(4 * static_cast<std::size_t>(m_w1), 1);
+    m_w2 = ::operator new[](4 * static_cast<std::size_t>(m_w1), kPydataBufferHint);
     auto* words = static_cast<std::int32_t*>(m_w2);
     for (std::uint32_t i = 0; i < m_w1; ++i) {
         words[i] = StreamReader::readAs<std::int32_t>(stream);

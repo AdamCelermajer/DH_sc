@@ -1,5 +1,6 @@
 #include "net-session-online/glx_player_http.hpp"
 #include "net-session-online/glx_player_socket.hpp"
+#include "socket_test_doubles.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -10,17 +11,20 @@ static int failures = 0;
 
 namespace {
 
-class CountingSocket : public GLXPlayerSocket {
+// Counts the CloseSocket slot (vtable +0x3c), which Cancel calls.
+class CountingSocket : public StubGLXSocket {
 public:
-    CountingSocket() : GLXPlayerSocket(nullptr, 0, nullptr) {}
-    void OnCancelled() override { ++cancels; }
+    bool CloseSocket() override {
+        ++cancels;
+        return true;
+    }
     int cancels = 0;
 };
 
 }  // namespace
 
 int main() {
-    GLXPlayerSocket sock(nullptr, 0, nullptr);
+    StubGLXSocket sock;
     CHECK(sock.GetAcceptIP() == nullptr);
     CHECK(sock.GetAcceptPort() == 0);
     sock.SetAcceptPort(9001);
@@ -62,7 +66,7 @@ int main() {
     CHECK(finished.cancels == 0);
 
     // Header and body helpers (0x8305bc, 0x830448, 0x830cb0, 0x83067c).
-    GLXPlayerSocket parsed(nullptr, 0, nullptr);
+    StubGLXSocket parsed;
     parsed.SetContentForTest("HTTP/1.1 200 OK\r\nContent-Length: 12\r\nX-Test: abc\r\n\r\nbody");
     CHECK(parsed.ParseHttpHeader("content-length") == 17);
     CHECK(parsed.ParseHttpHeader("X-TEST") != 0xffffffffu);
@@ -71,18 +75,18 @@ int main() {
     parsed.RemoveHttpHeader();
     CHECK(parsed.ContentForTest() == "body");
 
-    GLXPlayerSocket noLength(nullptr, 0, nullptr);
+    StubGLXSocket noLength;
     noLength.SetContentForTest("HTTP/1.1 200 OK\r\n\r\nbody");
     CHECK(noLength.CalculateTotalLength() == 0);
-    GLXPlayerSocket openHeader(nullptr, 0, nullptr);
+    StubGLXSocket openHeader;
     openHeader.SetContentForTest("HTTP/1.1 200 OK\r\nContent-Length: 4");
     CHECK(openHeader.CalculateTotalLength() == -1);
 
-    GLXPlayerSocket chunked(nullptr, 0, nullptr);
+    StubGLXSocket chunked;
     chunked.SetContentForTest("5\r\nhello\r\n0\r\n\r\n");
     CHECK(chunked.ParseChunkedContent() == 1);
     CHECK(chunked.ContentForTest() == "hello");
-    GLXPlayerSocket broken(nullptr, 0, nullptr);
+    StubGLXSocket broken;
     broken.SetContentForTest("abc");
     CHECK(broken.ParseChunkedContent() == 0);
 
@@ -95,7 +99,7 @@ int main() {
     http.SetRequestForTest("GET /x?a=1");
     CHECK(std::strcmp(http.GetRequestData(), "GET /x?a=1") == 0);
     CHECK(http.GetRequestLength() == 10);
-    auto owned = std::make_unique<GLXPlayerSocket>(nullptr, 0, nullptr);
+    auto owned = std::make_unique<StubGLXSocket>();
     GLXPlayerSocket* raw = owned.get();
     http.SetSocketForTest(std::move(owned));
     raw->SetSendPercentageForTest(101);

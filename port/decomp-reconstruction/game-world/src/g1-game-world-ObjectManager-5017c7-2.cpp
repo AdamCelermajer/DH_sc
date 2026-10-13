@@ -77,8 +77,13 @@ void ObjectManager::LoadGameObjectNetData(int objectId, int member, NetBitStream
     bool headerPresent = false;
     if (stream.ReadBit() != 0) {
         headerByte = static_cast<std::int16_t>(stream.ReadByte(8));
-        // unk_b0 is the highest value seen for this object, unk_e0 counts the repeats, unk_c8 the stored
-        // count. operator[] inserts 0 for a missing key, as the original does.
+        // unk_b0 is the highest header byte seen for this object, unk_e0 counts the repeats of that byte, and
+        // unk_c8 is reset to -1 whenever a new highest byte arrives. A missing key is booked as -1 before the
+        // compare (LABEL_149 in the pseudocode), so a first-seen object with header byte 0 still takes the reset
+        // branch. operator[] alone would book 0 there and skip the reset.
+        if (unk_b0.find(objectId) == unk_b0.end()) {
+            unk_b0[objectId] = -1;
+        }
         if (unk_b0[objectId] < headerByte) {
             unk_b0[objectId] = headerByte;
             unk_e0[objectId] = 0;
@@ -180,8 +185,8 @@ void ObjectManager::Draw3D() {
 // 0x348ea4 ObjectManager::Remove(ObjectHandle)
 // PARTIAL. Written: the room, no-room and update-list unlinks, the character unlinks with CharAI::RemoveFromGroup,
 // the unk_50 decrement and the generation bump. NOT WRITTEN: (1) the unk_68 unlink for object
-// type 5 (layout request: unk_68 holds ObjectBase* in this function and in Add, but the header declares it as
-// std::list<std::int32_t>), (2) the online branch that moves Player objects into unk_120 (offline only, so
+// type 5 (layout request: the original links ObjectBase* into unk_68 here and in Add, but the header declares it
+// as std::list<Module*>), (2) the online branch that moves Player objects into unk_120 (offline only, so
 // skipped), and (3) the m_objectMap erase and the AddOrphanRenderObjectToDelete / delete step (ObjectListItem).
 void ObjectManager::Remove(ObjectHandle handle) {
     GameObject* object = handle;

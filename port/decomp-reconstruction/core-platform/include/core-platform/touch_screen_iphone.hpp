@@ -2,7 +2,7 @@
 // as four shorts at +0x1b4 (left), +0x1b6 (right), +0x1b8 (top), +0x1ba (bottom).
 #pragma once
 
-#include "core-platform/deps/glitch_core.hpp"
+#include "glitch-shared/glitch_core.hpp"
 #include "core-platform/touch_screen_base.hpp"
 
 class TouchScreenIPhone : public TouchScreenBase {

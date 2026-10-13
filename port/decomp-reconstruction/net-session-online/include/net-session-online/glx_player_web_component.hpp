@@ -41,8 +41,8 @@ public:
 
     // Partial bodies: see each function in the .cpp for the part that is not reconstructed.
     virtual void Update();                                      // 0x831dfc
-    virtual void SendByGet(char* request);                      // 0x831cd4 (the original returns 1)
-    virtual void SendByPost(char* request);                     // 0x831bd4 (the original returns 1)
+    virtual std::int32_t SendByGet(char* request);              // 0x831cd4 (returns 1)
+    virtual std::int32_t SendByPost(char* request);             // 0x831bd4 (returns 1)
     virtual void Cancel();                                      // 0x831c88
     virtual void OnUpdateParse();                               // 0x8319b0
     virtual void LoadConfig();                                  // 0x8315c4

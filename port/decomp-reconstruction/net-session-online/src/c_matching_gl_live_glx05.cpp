@@ -1,5 +1,6 @@
 #include "net-session-online/c_matching_gl_live.hpp"
 
+#include "net-session-online/c_sign_in_gl_live.hpp"
 #include "net-session-online/game_center_info.hpp"
 #include "net-session-online/glx_player_mp_lobby.hpp"
 
@@ -24,16 +25,22 @@ void CMatchingGLLive::StartGame() {
 }
 
 // 0x81f178 _ZN15CMatchingGLLive10SetGCStateEi
-// Partial. State 2 chooses 3 or 4 from the Game Center record, state 3 calls CMatching::CreateJoinRoom(true, a copy
-// of the Game Center room attributes at +0x6840), and state 7 starts the game. Not reproduced: state 1, which posts
-// event 1 on the login queue of the CSignInGLLive object (its loginEvents_ at +0x2c has no accessor). The
-// CreateJoinRoom callee is partial (its NetStruct SetEnabled loop is not ported), so state 3 is partial too.
+// State 1 posts event 1 on the login queue (loginEvents_, +0x2c) of the sign-in object, which the original takes
+// from CSignIn::Get() without a check (the port skips a sign-in that is not a CSignInGLLive); state 2 chooses 3 or
+// 4 from the Game Center record, state 3 calls CMatching::CreateJoinRoom(true, a copy of the Game Center room
+// attributes at +0x6840), and state 7 starts the game. Partial because the CreateJoinRoom callee is partial (its
+// NetStruct SetEnabled loop is not ported).
 void CMatchingGLLive::SetGCState(std::int32_t state) {
     if (!gameCenterActive_ || gcState_ == state) {
         return;
     }
     gcState_ = state;
     switch (state) {
+        case 1:
+            if (auto* signIn = dynamic_cast<CSignInGLLive*>(CSignIn::Get())) {
+                signIn->LoginEvents().AddEvent(1, nullptr, 0);
+            }
+            break;
         case 2:
             SetGCState(s_GameCenterInfo != nullptr ? 3 : 4);
             break;

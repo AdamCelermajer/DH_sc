@@ -8,6 +8,7 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <limits>
 #include <set>
 #include <string>
 #include <utility>
@@ -19,10 +20,6 @@ template <typename T>
 struct aabb {
     T values[6];
 };
-
-// PFFloor names CompPos in a map member, and its destructor destroys that map. The test defines CompPos here so the
-// double destructor compiles; the test never uses it.
-struct CompPos {};
 
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/PFFloor.hpp"
@@ -128,6 +125,16 @@ void TestExtendBoundingBox() {
     Check(Same(world.m_boundsMin, -9.0f, -2.0f, -1.0f), "world minimum X extends to -9");
     Check(Same(world.m_boundsMax, 10.0f, 10.0f, 25.0f), "world maximum Z extends to 25");
     Check(grew, "world top grew from 20 to 25");
+
+    // A NaN in every slot of the argument box keeps every current value: each positive fcmplt test is false for NaN.
+    const float nan = std::numeric_limits<float>::quiet_NaN();
+    const aabb<float> broken{{nan, nan, nan, nan, nan, nan}};
+    grew = room.ExtendBoundingBox(broken);
+    Check(Same(room.m_boundsMin, -9.0f, -2.0f, -1.0f) && Same(room.m_boundsMax, 3.0f, 4.0f, 25.0f),
+          "a NaN box leaves the room box alone");
+    Check(Same(world.m_boundsMin, -9.0f, -2.0f, -1.0f) && Same(world.m_boundsMax, 10.0f, 10.0f, 25.0f),
+          "a NaN box leaves the world box alone");
+    Check(!grew, "a NaN box reports no growth");
 }
 
 void TestFloorQueries() {
@@ -204,6 +211,16 @@ void TestFloorQueries() {
     ResetLog();
     hit = room.GetCollisionAt(outside, inside, hitPoint, true);
     Check(!hit && g_queried.size() == 3, "segment collision with includeAll asks every floor when none answers");
+
+    // A NaN coordinate is outside the room box on its axis, so the box-tested queries ask no floor.
+    ResetLog();
+    g_answers = {plain};
+    const Point3D<float> nanPoint{std::numeric_limits<float>::quiet_NaN(), 5.0f, 5.0f};
+    found = nullptr;
+    hit = room.GetFloorHeightAt(nanPoint, &height, &normal, &found, true);
+    Check(!hit && found == nullptr && g_queried.empty(), "a NaN coordinate is outside the room box for the height query");
+    hit = room.GetCollisionAt(nanPoint, hitPoint, triangle, &found, true);
+    Check(!hit && g_queried.empty(), "a NaN coordinate is outside the room box for the triangle collision");
 }
 
 void TestPostLoadAndLink() {
@@ -246,6 +263,13 @@ void TestPostLoadAndLink() {
     here._Link(&there);
     Check(g_links.size() == 1 && g_links[0].first == p && g_links[0].second == r,
           "link pairs only the floors within 50 units, skipping flagged floors");
+
+    // A floor whose box has a NaN minimum on X fails the reach test against every floor of there, so nothing links.
+    ResetLog();
+    PFRoom nanRoom = MakeRoom("nan", &world);
+    nanRoom.m_floors.push_back(MakeFloor(1u, 0u, std::numeric_limits<float>::quiet_NaN(), 1.0f));
+    nanRoom._Link(&there);
+    Check(g_links.empty(), "a floor with a NaN box edge is not linked, as the original's reach test fails on NaN");
 }
 
 void TestDestructor() {

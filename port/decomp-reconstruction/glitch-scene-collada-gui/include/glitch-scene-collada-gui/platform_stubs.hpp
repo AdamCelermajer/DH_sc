@@ -5,6 +5,7 @@
 
 #include <cstdint>
 
+#include "glitch-core-io/os/logging.hpp"
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 
 namespace glitch {
@@ -27,20 +28,8 @@ public:
     ~IObject() = default;
 };
 
-// Log levels in the order of upstream ILogger.h.
-enum ELOG_LEVEL : std::uint32_t {
-    ELL_DEBUG = 0,
-    ELL_INFORMATION,
-    ELL_WARNING,
-    ELL_ERROR,
-    ELL_NONE,
-};
-
-class ILogger {
-public:
-    // 0x6a08b0 _ZN6glitch7ILoggerD1Ev (empty D1)
-    ~ILogger() = default;
-};
+// ELOG_LEVEL, ILogger and glitch::os::Printer are the canonical definitions in glitch-core-io/os/logging.hpp
+// (engine unification, Track B wave U2).
 
 class CLogger {
 public:
@@ -57,19 +46,6 @@ public:
     ELOG_LEVEL level{};                  // +0x08
     IEventReceiver* receiver = nullptr;  // +0x0c
 };
-
-namespace os {
-
-// glitch::os::Printer as the Android device calls it. The original's log takes the
-// glitch::ELOG_LEVEL enum above (mangled NS_10ELOG_LEVEL). Only the two-argument
-// overload is declared here.
-class Printer {
-public:
-    // 0x60aca0 _ZN6glitch2os7Printer3logEPKcNS_10ELOG_LEVELE
-    static void log(const char* text, ELOG_LEVEL level);
-};
-
-}  // namespace os
 
 class IOSOperator {
 public:

@@ -4,6 +4,7 @@
 // wiring to CTransportManager. Engine-side effects (transport sockets, the matching server) are
 // the test doubles in fake_matching.hpp and the connection/transport stand-ins.
 #include "net-transport/connection_manager.hpp"
+#include "net-transport/deps/transport_test_support.hpp"  // a transport manager without a receiver thread
 #include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager, for the stub below
 #include "fake_matching.hpp"  // CMatching test double: member id n is bit n, local and server id 0
 
@@ -15,9 +16,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stub: CNetPlayerManager::ClearPlayerListCaches (linked through the e2 objects) calls
-// AddPlayer(NetBitStream&,int,int), which is skipped in batch e2. The same stub is in cnet_player_info_test.cpp.
-void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 namespace {
 
@@ -53,7 +51,7 @@ int main() {
 
     // Singleton lifecycle.
     CHECK(!CConnectionManager::IsInitialized());
-    CHECK(CConnectionManager::Initialize() == 0);
+    CHECK((transport_test_support::Install(), CConnectionManager::Initialize()) == 0);
     CHECK(CConnectionManager::IsInitialized());
     CConnectionManager* cm = CConnectionManager::GetInstance();
     CHECK(cm != nullptr);
@@ -165,7 +163,7 @@ int main() {
     CConnectionManager::Terminate();
     CHECK(!CConnectionManager::IsInitialized());
     CHECK(CConnectionManager::GetInstance() == nullptr);
-    CHECK(CConnectionManager::Initialize() == 0);
+    CHECK((transport_test_support::Install(), CConnectionManager::Initialize()) == 0);
     CHECK(CConnectionManager::GetInstance()->GetConnectionCount(false) == 0);
     CConnectionManager::Terminate();
 

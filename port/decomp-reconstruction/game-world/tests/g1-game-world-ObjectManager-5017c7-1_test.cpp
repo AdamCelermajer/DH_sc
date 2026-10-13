@@ -146,7 +146,7 @@ ObjectHandle::operator Character*() { return static_cast<Character*>(m_cached); 
 ObjectHandle ObjectBase::GetHandle() { return ObjectHandle(this); }
 void GameObject::ZoneEntered() { ++g_zoneEntered; }
 void NetStruct::Resend() {}
-void NetStruct::SetEnabled(bool) {}
+unsigned char* NetStruct::SetEnabled(bool) { return nullptr; }
 bool Character::IsMerchant() const { return false; }
 
 CMatching* CMatching::Get() { return nullptr; }

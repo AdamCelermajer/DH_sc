@@ -10,22 +10,38 @@ using namespace glitch::collada::recon_30;
 
 namespace {
 
-// One buffer serves as both write and read sink.
+// One buffer serves as both write and read sink. Both canonical interfaces are
+// implemented in full: the slots the test does not use are inert.
 struct MemFile : IWriteFile, IReadFile {
     std::vector<unsigned char> data;
     std::size_t pos = 0;
 
-    std::uint32_t write(const void* d, std::uint32_t size) override {
+    // IWriteFile
+    std::size_t write(const void* d, unsigned int size) override {
         const unsigned char* p = static_cast<const unsigned char*>(d);
         data.insert(data.end(), p, p + size);
         return size;
     }
-    std::uint32_t read(void* d, std::uint32_t size) override {
+    void flush() override {}
+    bool seek(long offset, bool relative) override {
+        pos = static_cast<std::size_t>(relative ? static_cast<long>(pos) + offset : offset);
+        return true;
+    }
+    long getPos() const override { return static_cast<long>(pos); }
+    const char* getFileName() const override { return "mem"; }
+    const char* getFullPath() const override { return "mem"; }
+
+    // IReadFile
+    std::int32_t read(void* d, std::uint32_t size) override {
         if (pos + size > data.size()) return 0;
         std::memcpy(d, data.data() + pos, size);
         pos += size;
-        return size;
+        return static_cast<std::int32_t>(size);
     }
+    bool readAsync(void*, std::uint32_t, glitch::io::ReadAsyncCallBack, void*) override { return false; }
+    bool readAsync(void*, std::uint32_t, long, glitch::io::ReadAsyncCallBack, void*) override { return false; }
+    glitch::io::IReadFile* clone() const override { return nullptr; }
+    long getSize() const override { return static_cast<long>(data.size()); }
 };
 
 int check(bool ok, const char* what) {

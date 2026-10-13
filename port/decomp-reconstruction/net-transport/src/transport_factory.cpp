@@ -1,9 +1,11 @@
 #include "net-transport/transport_factory.hpp"
 
+#include <string>
+
 #include "net-transport/bluetooth_transport.hpp"
 #include "net-transport/ctcp.hpp"
 #include "net-transport/cudp.hpp"
-#include "net-transport/deps/transport_manager.hpp"
+#include "net-transport/transport_manager.hpp"
 
 // 0x827204 _ZN17CTransportFactory18TerminateTransportEv
 // The original chains the four TerminateTransport calls through their return values; the
@@ -41,23 +43,47 @@ int CTransportFactory::InitializeTransport(tTRANSPORT_TYPE type) {
 }
 
 // 0x8272c4 _ZN17CTransportFactory16ConnectTransportER10CNetworkId
-// The argument is the peer id; its presence flags select the transports (bit 1 = TCP,
-// bit 2 = Bluetooth unreliable, bit 3 = Bluetooth reliable). Partial: only the TCP branch
-// (flag 2) is reconstructed. The Bluetooth branches (flags 4 and 8) are not written. They call
-// the manager's GetHostname (CTransportManagerImpl) on a reset CNetworkId, then CBluetoothUnreliable::Create or
-// CBluetoothReliable::Create (std::string first, std::string second, int channel). The Hex-Rays
-// pseudocode loses the std::string temporaries and the channel argument, so the argument roles
-// are not recovered; the branches stay out until the ARM of those call sites is checked.
+// The argument is the peer id; its presence flags select the transports, in this order: bit 1 TCP, bit 2
+// Bluetooth unreliable (type 3), bit 3 Bluetooth reliable (type 4). Each branch creates its transport, adds
+// it to the manager and connects it to the peer (vtable +0x08), ignoring the connect result. The TCP
+// transport is created with CreateByPort(0, 0) (the assembly clears both argument registers). The two
+// Bluetooth branches build a reset id, ask the manager for its host name (vtable +0x1c) and call
+// Create("Default Bluetooth Session", hostname, 0). A failed creation returns -1; otherwise 0.
 int CTransportFactory::ConnectTransport(CNetworkId& peer) {
-    int result = 0;
     std::uint32_t flags = peer.Flags();
     if ((flags & 2u) != 0) {
-        CTcp* tcp = CTcp::CreateByPort(0, flags);
+        CTcp* tcp = CTcp::CreateByPort(0, 0);
         if (tcp == nullptr) {
             return -1;
         }
-        GetTransportMgr().AddTransport(tcp);
-        result = tcp->Connect(peer);
+        GetTransportMgr()->AddTransport(tcp);
+        tcp->Connect(peer);
+        flags = peer.Flags();
     }
-    return result;
+    if ((flags & 4u) != 0) {
+        CNetworkId id;
+        id.Reset();
+        const std::string name = "Default Bluetooth Session";
+        const std::string host = GetTransportMgr()->GetHostname(id);
+        CBluetoothUnreliable* transport = CBluetoothUnreliable::Create(name, host, 0);
+        if (transport == nullptr) {
+            return -1;
+        }
+        GetTransportMgr()->AddTransport(transport);
+        transport->Connect(peer);
+        flags = peer.Flags();
+    }
+    if ((flags & 8u) != 0) {
+        CNetworkId id;
+        id.Reset();
+        const std::string name = "Default Bluetooth Session";
+        const std::string host = GetTransportMgr()->GetHostname(id);
+        CBluetoothReliable* transport = CBluetoothReliable::Create(name, host, 0);
+        if (transport == nullptr) {
+            return -1;
+        }
+        GetTransportMgr()->AddTransport(transport);
+        transport->Connect(peer);
+    }
+    return 0;
 }

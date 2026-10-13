@@ -13,22 +13,18 @@
 #include <cstdint>
 #include <vector>
 
+#include "glitch-core-io/io/interfaces.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
+
 namespace glitch::collada::recon_30 {
 
-// Minimal stand-ins for the glitch::io file interfaces. The original calls
-// write and read through the vtable at offset 12; here they are named.
-struct IWriteFile {
-    virtual ~IWriteFile() = default;
-    virtual std::uint32_t write(const void* data, std::uint32_t size) = 0;
-};
+// glitch::io::IWriteFile and glitch::io::IReadFile, the canonical interfaces (glitch-core-io/io/interfaces.hpp).
+// save calls write at vtable +0x0c and load calls read at +0x0c, as the original does.
+using glitch::io::IReadFile;
+using glitch::io::IWriteFile;
 
-struct IReadFile {
-    virtual ~IReadFile() = default;
-    virtual std::uint32_t read(void* data, std::uint32_t size) = 0;
-};
-
-// Opaque refcounted mesh buffer (glitch::scene::CMeshBuffer in the original).
-class CMeshBuffer;
+// glitch::scene::CMeshBuffer (the canonical scene class, scene/CMeshBuffer.hpp).
+using glitch::scene::CMeshBuffer;
 
 // Stand-in for glitch::os::Printer::log(message, level).
 void logMessage(const char* message, int level);

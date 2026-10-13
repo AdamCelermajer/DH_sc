@@ -2,8 +2,8 @@
 // events (the pad's pointer) drive begin, move and end.
 #pragma once
 
-#include "core-platform/deps/glitch_core.hpp"
 #include "core-platform/touch_screen_base.hpp"
+#include "glitch-core-io/os/event_receiver.hpp"  // glitch::IEventReceiver, glitch::SEvent (canonical)
 
 // Two bases in the original's order: TouchScreenBase at +0 and the glitch::IEventReceiver
 // interface at +0x1b4 (its vtable is the secondary table at off_95C4F0).

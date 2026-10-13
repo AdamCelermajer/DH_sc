@@ -335,7 +335,7 @@ removed, because the templates are abstract.
   fields (`NetStructMember(int size_bits)`: bit size, -1 masks) in their constructors, as the inline constructors in
   CNetPlayerInfo (0x80fc28) and Door::NetStructDoor (0x3e80d4) do.
 - ByteArray (the stand-in in `deps/byte_array.hpp`) owns its block: destructor, deep copy, move. Its allocation is
-  `ByteArrayAllocate` (malloc) so it always pairs with `CustomFree` (free). The old `new[]` / `free` pair corrupted the heap
+  `CustomAlloc` (malloc; `ByteArrayAllocate` before u2-net-transport) so it always pairs with `CustomFree` (free). The old `new[]` / `free` pair corrupted the heap
   whenever the test executable resolved `libstdc++-6.dll` from `C:\Program Files\Git\mingw64\bin` (msvcrt) ahead of the WinLibs
   UCRT one. The same DLL mix explains the 0xc0000139 (entry point not found) failures of the three core-platform tests on this
   machine: run the tests with the WinLibs `mingw64/bin` first on PATH.
@@ -355,3 +355,90 @@ removed, because the templates are abstract.
   include them. The member functions stay in `src/stream_buffer.cpp`.
 - The stand-in declared `size(int)` as a pure slot of `IStreamBase`. The vtables show it is a slot `StreamBuffer`
   adds at +0x34 (`_ZTV11IStreamBase` is 60 bytes, `_ZTV12StreamBuffer` 64). The members are public (Track B decision 9).
+
+## Track B engine unification (u2-net-transport)
+
+- `CustomFree` and the allocator call of `deps/byte_array.hpp` are the canonical ones in `core-platform/memory.hpp`
+  (`CustomFree` 0x310440 is `free`, `CustomAlloc` 0x310454 is `malloc` with the out-of-memory report). The header
+  includes that file. `ByteArrayAllocate` is gone; `SetBuffer` allocates with `CustomAlloc`, the call the original's
+  `operator new[](n, 2)` forwards to.
+- The `#define CustomFree CustomFree_net_transport` / `MemoryHintState_net_transport` renames in the game and test
+  sources existed only to keep the net-transport copy apart from the pydata one. They are removed (Character.hpp,
+  Door and PlayerManager users, TriggerPlate, the game-app and game-world tests), since both now use the one
+  canonical declaration.
+- `ByteArray` itself stays in `deps/byte_array.hpp`. It is the game-app type (`game/include/dh2/ByteArray.hpp`), which
+  differs in member names and the `SetBuffer` signature. Retiring this stand-in is the game-app wave's job; a
+  translation unit must not include both until then.
+
+## Net structure pass (2026-10-13, ledger part `ledger.d/net-structure.csv`)
+
+The 106 layout requests of `reports/decomp-reconstruction/trackb-batches/r1n-result.json` were checked against the binary
+(`decomp_extract`, `decomp_asm`, `decomp_vtable`, read-only IDA) and applied, the binary winning wherever the request text
+differed. This section supersedes the earlier statements in these notes about the `deps/transport_slots.hpp`,
+`deps/connection_deps.hpp` and `deps/data_packet_payload.hpp` stand-ins (all three are deleted), the function-local
+`GetTransportMgr()`, and the open list at the end of "Track B integrator decisions 2 to 5".
+
+Decisions applied:
+
+- **Sockets.** `CAndroidSocket` derives from `GLXPlayerSocket` (net-session-online), whose platform slots are now the pure
+  virtuals of the binary vtable (34 slots, `tools/decomp_vtable.py GLXPlayerSocket`: GetHostByName +0x20 ... SendBroadcast +0x84).
+  The shared fields are the base's (state +0x04, socket +0x08, port +0x10, socket type +0x820, connect state +0x85c, lookup
+  state +0x860); the members are public (decision 9). `CAndroidSocket` adds only `ready_bits_` (+0x86c), the lookup worker
+  `worker_thread_` (+0x8ec) and `host_request_` (+0x8f0). The destructor joins the worker when the lookup state is nonzero and the
+  thread is joinable (a `std::thread` must not be destroyed joinable: the one deviation, shared with `LCAndroidSocket`).
+  **Deviation from the request text:** `LCAndroidSocket` derives from `LCXPlayerSocket`, not from `GLXPlayerSocket`. The ARM
+  constructor calls `LCXPlayerSocket::LCXPlayerSocket` (0x8a03bc), and `LCXPlayerSocket` has its own vtable (27 slots, its own
+  names and signatures: `bool Connect()`, `bool ConnectByName(const char*)`, `void Listen(int)` ...). The two socket families are
+  separate classes in the binary.
+- **CNetworkId.** `SetField2` and `SetField3` set the value and the presence bits 0x4 and 0x8. The Bluetooth id getters, both
+  `InitializeTransport` bodies and `CTransportManager::GetListenNetworkId` / `IsTransportAvailable` / the broadcast `Send` use them.
+- **CTransport.** The slots are declared at their offsets: Send +0x0c, Receive +0x10, GetLocalNetworkId +0x18, GetPeerNetworkId +0x1c,
+  GetType +0x20, IsConnected +0x24, IsConnectedTo +0x28, CanDisconnectFrom +0x2c (pure), plus `create_flags_` at +0x04 (bit 0 listening).
+  `Send` takes `(const CNetworkId& peer, const void*, int length)`: the pseudocode passes the length twice, the second word is a leftover
+  register. CTcp, CUdp, CBluetoothReliable and CBluetoothUnreliable override them; the `transport_slots` shims are gone.
+- **GetTransportMgr() and the Impl.** `GetTransportMgr()` returns the singleton `CTransportManager*` (the `.` call sites are `->`).
+  `CTransportManager` is abstract as in the binary: `StartReceiverThread` (+0x08), `StopReceiverThread` (+0x0c), `GetHostname(CNetworkId&)`
+  (+0x1c) and `GetLocalhostname()` (+0x20) are pure, `InitializeInternal`/`TerminateInternal` virtual, and `CTransportManagerImpl`
+  (receiver thread at +0x108, 0x110 bytes) is what `CTransportManager::Initialize` creates. The Impl is reached through the
+  virtual slots only, so callers never name it. `Update()` is the tail-call thunk to `SetThreadTimestamp` at 0x81aca4.
+  `game/include/dh2/global/net_singletons.hpp` already declared the pointer form: no edit was needed.
+- **DataPacket.** The full 45-slot vtable is declared in order. `getMessageLen()` (+0x60) and `getMessageBody()` (+0x64) are pure;
+  `getMessageBody` returns `char*`; `setMessageBody` (+0x68), `setIP`, `getShortLenString(char*&, int16_t&)` (+0x40), the byte,
+  short and int reads are virtual on the base. DataPacketLobby's getters are non-const (the symbols have no K) and its
+  `packMessage`, `InitMessage`, `InitMMOMessage` return void. `PayloadLength`/`PayloadBody` are gone.
+- **Event queues.** `CConnection` holds a `CEventQueueBase event_queue_{100}` at +0x04 (constructor, `Disconnect`, destructor
+  `Clear`); `CNetPlayerManager` holds `events_` (+0x04, then 8 bytes of pad before the NetStruct at +0x20) and `internal_events_`
+  (+0x180), both `CEventQueueBase` with capacity 100. `CConnectionManager::event_queue_` is public.
+- **CConnection ping tree.** The request asked for a separate tree at +0x17c..+0x190. The binary shows it is the internal storage of
+  `stats_[8]` (a `CDataStats<int>` at +0x178: its `CReadWriteLock`, tree and node count). `GetServerPing` is
+  `stats_[8].GetAverage(30.0f)`; no new member.
+- **NetStruct::SetEnabled** returns `unsigned char*` (this, the last `SetChanged` result, or the member bit mask) and
+  `NetStructMember::SetChanged` returns `NetStructMember*`; `CNetPlayerManager::ReassignPlayer` returns the same value.
+- **CNetPlayerManager.** `Update(int)` is the virtual at +0x08. Newly defined: the constructor (slot count, `ResetPlayers`, packet
+  slot 2, caches, initialized flag), the destructor, `Initialize(int)`, `ProcessEvents`, `Update(int)`,
+  `GetPlayerName(std::string, int)` and `AddPlayer(NetBitStream&, int, int)`. The two static factory hooks start as
+  `CNetPlayerInfo::Create` / `Delete` (the data-section initial values at 0x99e238 and 0x99e23c), not null. A default constructor
+  remains for tests that fill a manager by hand; it is not in the binary.
+- **CNetPlayerInfo.** `conn_index_` is renamed `matching_member_id_` (value +0x1a0): `IsLocal` compares it with
+  `CMatching::LocalMemberId`, the player lookups with a member id, `ReassignPlayer` stores the member there; every use is updated.
+  `unk_1c8` is `gamepad_id_` (+0x1c8).
+- **NetStructMember::GetFrameTime** is `GetOnline()->+0x1c` (COnline's elapsed word; `COnline::GetElapsedTime()`), static here;
+  `NetStructInterpolation<float>::AddValue` calls it.
+
+Test support (not part of the reconstruction): `include/net-transport/deps/transport_test_support.hpp` has `RecordingTransport`
+and `TestTransportManager`, a thread-less `CTransportManager` (the four pure slots filled in; host names from
+`HostnamesForTest()`, local name `LocalHostnameForTest()`). Tests call `transport_test_support::Install()` before a
+`CConnection`/`CConnectionManager` is used (the real singleton starts a receiver thread that polls the transports).
+`tests/connection_manager_for_tests.hpp` (net-session-online) wires that up and records sends in `SentPacketLog()`.
+
+Build and test: `cmake -S port/decomp-reconstruction -B build/tb-net -G Ninja` then
+`ninja -C build/tb-net -k 0 dh2_net_transport dh2_net_session_online` is clean. `dh2_game` does not build as a whole (7 translation
+units unrelated to the net layer: game-anim AnimatorBlender x3, game-app global-2 and rnd x2, game-character CharAIScript), so the
+tests were linked by hand against the net libraries and the game objects that did compile (the `nettest.py` flow of the pass:
+compile the test objects with ninja, `ar` the `dh2_game` objects, link each test with `--start-group`, run with a 60 s limit).
+Result: 151 of 155 tests pass. Not passing: four link failures that do not come from this pass (`game_center_test`,
+`game_center_start_test`: vendor-gameswf `shape_character_def` members that no object defines yet; `c_sign_in_gl_live_login_test`
+and `r1n-net-session-online-CMatchingGLLiveLobbyObserver-9d847a-1_test`: static members defined both by the test and by the library
+object), and one test that is flaky when run beside others for a reason that predates the pass (a message observer writing through the
+wrong matching class; guarded now). Tests that reach `MultiplayerCallback` or `OnlineGameState::Init` cannot link until the game objects
+build, so the multiplayer message handlers have no test of their own.

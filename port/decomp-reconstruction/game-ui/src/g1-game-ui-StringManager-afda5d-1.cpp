@@ -418,7 +418,8 @@ const char* StringManager::getString(int id) const {
 
 // 0x508ef4 StringManager::parse(std::string&, char const*, ...)
 // Formats the arguments into out, then runs the text through format_utf_text. Escapes are: # * ^ (literal), $ (an
-// expansion of the spec and replacement strings), d k p (int, k divides by 1000, p multiplies by 100), f g h i m
+// expansion of the spec and replacement strings, with a third string argument written once the replacement is used up),
+// d k p (int, k divides by 1000, p multiplies by 100), f g h i m
 // (double, scaled as in scaleFloatSpec), n (newline), s (string, or "<null>"), t (title) and v (version). A | writes
 // byte 17. Returns 1 when an escape or a | was seen, 0 otherwise.
 int StringManager::parse(std::string& out, const char* format, ...) {
@@ -480,9 +481,12 @@ int StringManager::parse(std::string& out, const char* format, ...) {
                                 collecting = false;
                             }
                             if (*repCur == '\0') {
-                                const char* const* third = va_arg(args, const char* const*);
+                                // The third argument is a plain char pointer, the same type as spec and rep. The listing
+                                // passes the slot value itself to strlen and _M_append, so there is no extra dereference.
+                                // A NULL here faults in the original too, because strlen is not guarded.
+                                const char* third = va_arg(args, const char*);
                                 phase = 1;
-                                out.append(*third);
+                                out.append(third);
                             }
                         } else {
                             out.push_back(static_cast<char>(ch));

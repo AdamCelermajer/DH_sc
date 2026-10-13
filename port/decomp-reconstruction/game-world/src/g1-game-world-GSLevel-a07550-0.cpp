@@ -137,8 +137,9 @@ void GSLevel::Draw(const StateMachine* /*machine*/) {
 // dh2/LuaScript.hpp does not declare that static (layout request). Both stores sit in the phase 4 flow and are
 // marked below.
 //
-// The switch key is the empty string. The asm passes the NUL at the end of the literal "Lua_DumpCalls"
-// (ELF 0x8c1ff8 + 0x0d) as an empty range, so the key is "".
+// The switch key is "Lua_DumpCalls", the literal at ELF 0x8c1ff8. The asm passes the end pointer (literal + 0x0d)
+// to std::string::_M_range_initialize clone.2_0, which takes only that end pointer: the clone reads the start from
+// the literal itself (LDR R6,=aLuaDumpcalls), so the length is 0x0d and the key is the whole 13-character literal.
 void GSLevel::Update(StateMachine* /*machine*/, double /*dt*/) {
     if (ApplicationGetInstance().unk_ec) {  // byte_99F818: Singleton<Application>::s_inst +0xec
         return;
@@ -162,7 +163,7 @@ void GSLevel::Update(StateMachine* /*machine*/, double /*dt*/) {
         LuaScript::s_numCalls = 0;
         // PARTIAL: LuaScript::s_dumpCallList = 0 (layout request).
         DebugSwitches::s_inst.load();
-        const std::string key = "";
+        const std::string key("Lua_DumpCalls");  // the literal at ELF 0x8c1ff8, see the note above Update
         const bool dumpCalls = DebugSwitches::s_inst.GetSwitch(key);
         if (dumpCalls) {
             // PARTIAL: LuaScript::s_dumpCallList = 1 (layout request).

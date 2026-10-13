@@ -3,10 +3,9 @@
 
 #include <cstddef>
 
-// Engine allocator. The original requests 12 bytes (the 32-bit ARM size of ChildNode);
-// the test file supplies the definitions.
-extern "C" void* GlitchAlloc(std::size_t size, int hint);
-extern "C" void GlitchFree(void* p);
+#include "core-platform/memory.hpp"
+
+// The engine allocator (GlitchAlloc / GlitchFree, core-platform/memory.hpp).
 
 namespace glitch::collada::recon_v2_01 {
 namespace {
@@ -59,7 +58,7 @@ int bringToFront(glitch::gui::IGUIElement* self, glitch::gui::IGUIElement* child
 
     // Append a fresh node at the tail: new.next = sentinel, new.prev = old tail,
     // old tail.next = new, sentinel.prev = new.
-    ChildNode* fresh = static_cast<ChildNode*>(GlitchAlloc(sizeof(ChildNode), 0));
+    ChildNode* fresh = static_cast<ChildNode*>(GlitchAlloc(sizeof(ChildNode), glitch::memory::EMH_UNRECOVERED));
     fresh->element = child;
     fresh->next = sentinel;
     void* tail = self->childrenPrev;

@@ -13,10 +13,6 @@
 #define DH2_CHDIR chdir
 #endif
 
-namespace glitch::io {
-char CFileSystem_WorkingDirectory[512] = {};
-}  // namespace glitch::io
-
 // Defined in filesystem_win32.cpp (the RES_PATH global set by the platform layer).
 extern const char* RES_PATH;
 
@@ -46,7 +42,9 @@ void FileSystemBase::decodeObfuscatedData(int index, void* data, int size, void*
 bool FileSystemBase::changeWorkingDirectoryTo(const char* path) {
     bool ok = DH2_CHDIR(path) == 0;
     if (ok) {
-        std::strcpy(glitch::io::CFileSystem_WorkingDirectory, path);
+        // The canonical buffer is char[1024]; copy at most 1023 characters, as CFileSystem does.
+        std::strncpy(glitch::io::CFileSystem::WorkingDirectory, path, sizeof(glitch::io::CFileSystem::WorkingDirectory) - 1);
+        glitch::io::CFileSystem::WorkingDirectory[sizeof(glitch::io::CFileSystem::WorkingDirectory) - 1] = '\0';
     }
     return ok;
 }

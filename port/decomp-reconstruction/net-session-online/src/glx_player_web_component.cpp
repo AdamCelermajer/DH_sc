@@ -6,12 +6,12 @@
 #include <vector>
 
 #include "net-session-online/deps/glx_stand_ins.hpp"
-#include "net-session-online/deps/ss_enc_dec_stand_in.hpp"
 #include "net-session-online/deps/xp_api.hpp"
 #include "net-session-online/glx_player_observer.hpp"
 #include "net-session-online/glx_player_serever_config.hpp"
 #include "net-session-online/glx_text.hpp"
 #include "net-session-online/xp_api.hpp"
+#include "tinyxml-and-c-libs/ssencdec.hpp"
 
 namespace {
 // Token buffers in the original are 256-byte stack arrays.
@@ -25,12 +25,13 @@ std::unique_ptr<char[]> OwnedCopy(const std::string& text) {
     return copy;
 }
 
-// The request text "b=<blob>" that SendByGet and SendByPost hand to the request client. The codec
-// (SSEncDec_String2Blob) is a stand-in that returns null, so the blob is empty in this port.
+// The request text "b=<blob>" that SendByGet and SendByPost hand to the request client. The blob is
+// SSEncDec_String2Blob (0x82b5c8, tinyxml-and-c-libs); the codec allocates with new[], so the buffer is
+// released with delete[] (the original frees it with LC_API_FREE_0).
 std::string BlobRequest(char* request) {
-    char* blob = SSEncDec_String2BlobLC(request);
-    std::string text = std::string("b=") + (blob != nullptr ? blob : "");
-    std::free(blob);
+    unsigned char* blob = SSEncDec_String2Blob(request);
+    std::string text = std::string("b=") + (blob != nullptr ? reinterpret_cast<const char*>(blob) : "");
+    delete[] blob;
     return text;
 }
 }  // namespace
@@ -158,27 +159,24 @@ void GLXPlayerWebComponent::OnUpdateParse() {
 
 // 0x831bd4 _ZN21GLXPlayerWebComponent10SendByPostEPc
 // Sets enabled, builds "b=<blob>" and hands it with the service URL to the request client's POST
-// path. The original returns 1; the void signature drops it, and the subclasses in the tests
-// override this void form. Partial, two gaps: the blob codec is the net-session-online stand-in,
-// which returns null, so the blob is empty here (the reconstructed codec SSEncDec_String2Blob, in
-// tinyxml-and-c-libs, is not wired in); and GLXPlayerHttp::sendByPost is partial (its trailing
-// virtual call is not ported).
-void GLXPlayerWebComponent::SendByPost(char* request) {
+// path, and returns 1. Partial: GLXPlayerHttp::sendByPost is partial (its trailing virtual call is
+// not ported). The blob is the real SSEncDec_String2Blob.
+std::int32_t GLXPlayerWebComponent::SendByPost(char* request) {
     enabled_ = true;
     const std::string text = BlobRequest(request);
     XP_DEBUG_OUT("SendByPost buffer length %d\n", static_cast<int>(text.size()));
     if (requestClient_) {
         requestClient_->sendByPost(url_.get(), text.c_str());
     }
+    return 1;
 }
 
 // 0x831cd4 _ZN21GLXPlayerWebComponent9SendByGetEPc
 // Sets enabled, takes the request id from the second '|' field of the raw request, stamps the
-// time, then sends "b=<blob>" through the request client's GET path. The original returns 1; the
-// void signature drops it (see SendByPost). Partial: the blob codec stand-in (see SendByPost). The
-// original copies that field into an 8-byte stack buffer (the stack guard follows it); the port
-// copies the whole field, which differs only for a request id longer than 7 characters.
-void GLXPlayerWebComponent::SendByGet(char* request) {
+// time, then sends "b=<blob>" through the request client's GET path, and returns 1. Partial: the original copies
+// that field into an 8-byte stack buffer (the stack guard follows it); the port copies the whole field, which
+// differs only for a request id longer than 7 characters.
+std::int32_t GLXPlayerWebComponent::SendByGet(char* request) {
     enabled_ = true;
     const std::string text = BlobRequest(request);
     requestId_ = std::atoi(GLXField(request, 1, '|').c_str());
@@ -187,6 +185,7 @@ void GLXPlayerWebComponent::SendByGet(char* request) {
     if (requestClient_) {
         requestClient_->sendByGet(url_.get(), text.c_str());
     }
+    return 1;
 }
 
 // 0x831c88 _ZN21GLXPlayerWebComponent6CancelEv

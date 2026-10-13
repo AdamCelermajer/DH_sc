@@ -18,6 +18,7 @@
 #include "net-session-online/c_msg_quests_sync.hpp"
 #include "net-session-online/c_msg_raised_event.hpp"
 #include "net-session-online/c_online.hpp"
+#include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager (host member id, players)
 
 // 0x49a0c4 _ZN19MultiplayerCallback9idleStateEPv
 std::int32_t MultiplayerCallback::idleState(void* /*context*/) { return 100; }
@@ -26,24 +27,38 @@ std::int32_t MultiplayerCallback::idleState(void* /*context*/) { return 100; }
 std::int32_t MultiplayerCallback::ingameState(void* /*context*/) { return 300; }
 
 // Redo pass (2026-10-13, batch r1n). Bodies are written in place. Every message handler ends by
-// setting the consumed flag, the byte at CMessage +0x3c. CMessage declares no field there yet (layout
-// request for net-session-online: bool consumed_ at +0x3c), so every handler that writes it is
-// partial, even where the rest of its body is complete. Handlers that depend on the unrecovered
+// setting the consumed flag, the byte at CMessage +0x3c (CMessage::SetFinished; net structure pass: the field and its
+// setter are declared now). Handlers that depend on the unrecovered
 // OnlineGameState flags, on ObjectManager lookups (declared, but no definition in the tree), on
 // RenderFX::InvokeASCallback (no definition), on CMatching::SearchRoom or JoinRoom (no definition),
 // or on private CNetPlayerManager fields (the host member id at +0x170) stay stubs that keep the
 // original return code where the pseudocode returns one unconditionally, and 0 otherwise.
 
 // 0x49a0d4 _ZN19MultiplayerCallback32HandleAskResendAttributesMessageEPv
-// Partial: the body needs the host member id (CNetPlayerManager net_struct_.host_member_id_, manager +0x170)
-// and the member id of a player (CNetPlayerInfo +0x1a0, the conn_index_ value). Neither has an accessor.
-// The consumed flag (CMessage +0x3c) is not written. The stub returns 0.
-std::int32_t MultiplayerCallback::HandleAskResendAttributesMessage(void* /*message*/) { return 0; }
+// On the server, or on a client whose local member id is the member of the host player (the player at the host
+// member id, manager +0x170; its CNetPlayerInfo +0x1a0 value), the original asks the matching object's room attributes
+// (vtable +0xa4) to resend (their vtable +0x18, CRoomAttributes::Resend). The message is then marked consumed.
+// Partial: CRoomAttributes does not declare Resend (the NetStruct wire format is not ported), so the resend itself is
+// not made; the condition and the consumed flag are.
+std::int32_t MultiplayerCallback::HandleAskResendAttributesMessage(void* /*message*/) {
+    CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgAskResendAttributes");
+    bool resend = CMatching::Get()->IsServer();
+    if (!resend) {
+        const std::int32_t local = CMatching::Get()->LocalMemberId();  // vtable +0x6c
+        CNetPlayerManager* manager = GetNetPlayerMgr();
+        const CNetPlayerInfo* host = manager->GetPlayer(manager->net_struct_.host_member_id_.GetValue(), false);
+        resend = local == host->matching_member_id_.GetValue();  // +0x1a0
+    }
+    if (resend) {
+        // Not made: CMatching::Get()->GetRoomAttributes()->Resend() (CRoomAttributes vtable +0x18).
+    }
+    message->SetFinished();  // +0x3c
+    return 0;
+}
 
 // 0x49a17c _ZN19MultiplayerCallback24HandleGlobalDeathMessageEPv
-// Partial: the consumed flag (CMessage +0x3c) is not written (layout request). Otherwise complete: the local
-// player's Character (PlayerInfo::unk_660) is killed when alive, or its death timer is reset when it is dead and
-// PlayerManager::m_globalDeathState is 0.
+// The local player's Character (PlayerInfo::unk_660) is killed when alive, or its death timer is reset when it is
+// dead and PlayerManager::m_globalDeathState is 0; then the message is marked consumed (+0x3c).
 std::int32_t MultiplayerCallback::HandleGlobalDeathMessage(void* /*message*/) {
     CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgGlobalDeath");
     PlayerManager* players = ApplicationGetInstance().m_playerManager;  // dword_99F76C = s_inst +0x40
@@ -56,14 +71,14 @@ std::int32_t MultiplayerCallback::HandleGlobalDeathMessage(void* /*message*/) {
             players->ResetCharacterDeathTimer();
         }
     }
-    (void)message;  // +0x3c consumed flag: not written (layout request)
+    message->SetFinished();  // +0x3c
     return 0;
 }
 
 // 0x49a6e4 _ZN19MultiplayerCallback24HandleRaisedEventMessageEPv
-// Partial: the consumed flag (CMessage +0x3c) is not written (layout request). Otherwise complete: the message is
-// raised only while the current Level is loaded (m_loadStep 38 and m_isLoaded set). CMsgRaisedEvent::RaiseEventFromNetwork
-// is itself partial (its guard only).
+// The message is raised only while the current Level is loaded (m_loadStep 38 and m_isLoaded set), and then marked
+// consumed (+0x3c); the early return leaves it queued. CMsgRaisedEvent::RaiseEventFromNetwork is itself partial
+// (its guard only).
 std::int32_t MultiplayerCallback::HandleRaisedEventMessage(void* /*message*/) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level == nullptr || level->m_loadStep != 38 || !level->m_isLoaded) {
@@ -71,7 +86,7 @@ std::int32_t MultiplayerCallback::HandleRaisedEventMessage(void* /*message*/) {
     }
     auto* message = static_cast<CMsgRaisedEvent*>(CMessaging::GetInstance()->GetMessageFromQueue("CMsgRaisedEvent"));
     CMsgRaisedEvent::RaiseEventFromNetwork(message);
-    // +0x3c consumed flag: not written (layout request)
+    message->SetFinished();  // +0x3c
     return 0;
 }
 
@@ -92,38 +107,43 @@ std::int32_t MultiplayerCallback::HandlePlayerLeft(void* /*message*/) { return 0
 // 0x49a960 _ZN19MultiplayerCallback22HandleMenuReadyMessageEPv
 // Partial: the body is gated on OnlineGameState's state being 200, and the state has no accessor (the
 // MultiplayerStateMachine state is test-only). The as_value pair the pseudocode builds is never passed to a
-// call, so it has no effect. The consumed flag (CMessage +0x3c) is not written. The stub returns 0.
+// call, so it has no effect. The stub returns 0 (and does not mark the message consumed).
 std::int32_t MultiplayerCallback::HandleMenuReadyMessage(void* /*message*/) { return 0; }
 
 // 0x49a9fc _ZN19MultiplayerCallback19HandleIsHostMessageEPv
-// Partial: the host member id is CNetPlayerManager's private net_struct_.host_member_id_ (manager +0x170), with
-// no setter, so the write and its NetStructMember::SetChanged on manager +0x150 cannot be reproduced. The sender
-// id (CMessage header +0x0c) has no getter either; CMessage::IsFrom only compares. The consumed flag (CMessage +0x3c)
-// is not written.
-std::int32_t MultiplayerCallback::HandleIsHostMessage(void* /*message*/) { return 0; }
+// The sender (CMessage header +0x0c) names the new host: its player (GetPlayerByMemberId(sender, 0, false)) gives the
+// player id (+0x178), which becomes the manager's host member id (+0x170, with NetStructMember::SetChanged on +0x150
+// when it differs); then the message is marked consumed (+0x3c).
+std::int32_t MultiplayerCallback::HandleIsHostMessage(void* /*message*/) {
+    CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgIsHost");
+    const std::int32_t playerId =
+        GetNetPlayerMgr()->GetPlayerByMemberId(message->Sender(), 0, false)->member_id_.GetValue();  // +0x178
+    GetNetPlayerMgr()->net_struct_.host_member_id_.SetValue(playerId);  // compares, stores and SetChanged
+    message->SetFinished();  // +0x3c
+    return 0;
+}
 
 // 0x49aa60 _ZN19MultiplayerCallback24HandleSpawnObjectMessageEPv
 // Partial: ObjectManager::GetObjectHandleByNetworkId and AssignObjectNetworkId, AddNoRoomObject are declared
 // (game/include) but have no definition in the tree, and RoomZone::AddInitialObject has none either. The
-// payload fields of CMsgSpawnObject are not named. The consumed flag (CMessage +0x3c) is not written. The stub returns 0.
+// payload fields of CMsgSpawnObject are not named. The stub returns 0 (and does not mark the message consumed).
 std::int32_t MultiplayerCallback::HandleSpawnObjectMessage(void* /*message*/) { return 0; }
 
 // 0x49ac18 _ZN19MultiplayerCallback17HandleLootMessageEPv
 // Partial: the drop target lookup needs ObjectManager::GetObjectHandleByNetworkId, which has no definition in the
-// tree. The payload fields of CMsgDropLoot are only partly named (block length and data). The consumed flag
-// (CMessage +0x3c) is not written. The stub returns 0.
+// tree. The payload fields of CMsgDropLoot are only partly named (block length and data). The stub returns 0 (and does not mark the message
+// consumed).
 std::int32_t MultiplayerCallback::HandleLootMessage(void* /*message*/) { return 0; }
 
 // 0x49ade0 _ZN19MultiplayerCallback19HandleAttackMessageEPv
 // Partial: the attacker and target lookups need ObjectManager::GetObjectHandleByNetworkId, which has no definition in
 // the tree. CMsgAttackResult's payload fields exist in c_msg_attack_result.hpp, which conflicts with the second
-// CMsgAttackResult in c_msg_fixed.hpp, so it is not included here yet. The consumed flag (CMessage +0x3c) is not
-// written. The stub returns 0.
+// CMsgAttackResult in c_msg_fixed.hpp, so it is not included here yet. The stub returns 0 (and does not mark the
+// message consumed).
 std::int32_t MultiplayerCallback::HandleAttackMessage(void* /*message*/) { return 0; }
 
 // 0x49af74 _ZN19MultiplayerCallback23HandleQuestsSyncMessageEPv
-// Partial: the consumed flag (CMessage +0x3c) is not written (layout request). Otherwise complete. On a server the
-// handler asserts (ASSERT trace at MultiplayerCallbacks.cpp:562, recovered from the pseudocode). At gAssertLevel 2 the
+// On a server the handler asserts (ASSERT trace at MultiplayerCallbacks.cpp:562, recovered from the pseudocode). At gAssertLevel 2 the
 // original stores to address 0 to fault; the port aborts instead. Off the server the block goes to
 // PlayerManager::HandleQuestSyncMsg.
 std::int32_t MultiplayerCallback::HandleQuestsSyncMessage(void* /*message*/) {
@@ -140,13 +160,12 @@ std::int32_t MultiplayerCallback::HandleQuestsSyncMessage(void* /*message*/) {
         PlayerManager* players = ApplicationGetInstance().m_playerManager;  // dword_99F76C = s_inst +0x40
         players->HandleQuestSyncMsg(message->BlockData(), message->BlockSizeValue());
     }
-    // +0x3c consumed flag: not written (layout request)
+    message->SetFinished();  // +0x3c
     return 0;
 }
 
 // 0x49b054 _ZN19MultiplayerCallback20HandleInitialMessageEPv
-// Partial: the consumed flag (CMessage +0x3c) is not written (layout request). Otherwise complete. CMsgInitialSetup
-// has no named fields yet, so the three payload words (original +0x50, +0x54, +0x58) are read through GetDataPtr
+// CMsgInitialSetup has no named fields yet, so the three payload words (original +0x50, +0x54, +0x58) are read through GetDataPtr
 // as raw 32-bit words and their bits become the Point3D<float> position.
 std::int32_t MultiplayerCallback::HandleInitialMessage(void* /*message*/) {
     CMessage* message = CMessaging::GetInstance()->GetMessageFromQueue("CMsgInitialSetup");
@@ -160,7 +179,7 @@ std::int32_t MultiplayerCallback::HandleInitialMessage(void* /*message*/) {
         std::memcpy(&position, words, sizeof position);
         players->InitialSetup(position);
     }
-    // +0x3c consumed flag: not written (layout request)
+    message->SetFinished();  // +0x3c
     return 0;
 }
 
@@ -168,7 +187,7 @@ std::int32_t MultiplayerCallback::HandleInitialMessage(void* /*message*/) {
 // Partial: the body reads OnlineGameState fields that the class does not declare (+0x24, +0x34, +0x4c), the
 // CMsgStartGame payload (no named fields), and the Arrays::LevelList table (level name at element +0x20), which is not in the tree.
 // Application::LoadLevel, Level::SG_SaveAllPlayer, Character::ReloadSkills and PlayerSavegame::SG_GetNextFreeSlot
-// are declared and defined. The consumed flag (CMessage +0x3c) is not written. The stub returns 0.
+// are declared and defined. The stub returns 0 (and does not mark the message consumed).
 std::int32_t MultiplayerCallback::HandleStartGameMessage(void* /*message*/) { return 0; }
 
 // 0x49b3c8 _ZN19MultiplayerCallback15roomLobbyUpdateEPv
@@ -205,7 +224,7 @@ std::int32_t MultiplayerCallback::searchRoom(void* /*context*/) { return 100; }
 std::int32_t MultiplayerCallback::HandleMenuBackButton(void* /*message*/) { return 0; }
 
 // 0x49c5e4 _ZN19MultiplayerCallback15HandleScriptCmdEPv
-// Partial: the consumed flag (CMessage +0x3c) is not written (layout request). Case 3 (the dialog message queue
+// Partial: case 3 (the dialog message queue
 // at dword_99FB8C and dword_99FB9C, DialogMsg::s_SkipFuncName and MenuMessageManager<DialogMsg,1>::Invoke) is not
 // reconstructed and does nothing here. The other cases are complete. The command and its two arguments are the
 // three payload words (original +0x50, +0x54, +0x58), read through GetDataPtr since CMsgScriptCmd has no named fields.
@@ -219,7 +238,8 @@ std::int32_t MultiplayerCallback::HandleScriptCmd(void* /*message*/) {
     const auto arg1 = static_cast<std::int32_t>(words[1]);
     const auto arg2 = static_cast<std::int32_t>(words[2]);
     if (message->IsFrom(CMatching::Get()->LocalMemberId())) {
-        return 0;  // the local member sent it: nothing to do (the original's LABEL_9)
+        message->SetFinished();  // +0x3c (the original's LABEL_9)
+        return 0;                // the local member sent it: nothing to do
     }
     switch (command) {
         case 0:
@@ -242,7 +262,7 @@ std::int32_t MultiplayerCallback::HandleScriptCmd(void* /*message*/) {
         default:
             break;
     }
-    // +0x3c consumed flag: not written (layout request)
+    message->SetFinished();  // +0x3c
     return 0;
 }
 

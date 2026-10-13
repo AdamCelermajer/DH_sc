@@ -59,19 +59,19 @@ void testMappingCopy() {
 }
 
 void testFrustum() {
-    ViewFrustum fr{};
+    glitch::scene::SViewFrustum fr{};
     fr.box = box(-100, -100, -100, 100, 100, 100);
     for (auto& p : fr.planes) {
-        p.normal[0] = 0.0f;
-        p.normal[1] = 0.0f;
-        p.normal[2] = 0.0f;
-        p.d = -1000.0f;  // never separates anything
+        p.Normal.X = 0.0f;
+        p.Normal.Y = 0.0f;
+        p.Normal.Z = 0.0f;
+        p.D = -1000.0f;  // never separates anything
     }
     // Plane 0 keeps x <= 10 (the test vertex is x = min when nx >= 0).
-    fr.planes[0].normal[0] = 1.0f;
-    fr.planes[0].d = -10.0f;
-    fr.planes[2].d = -1000.0f;
-    fr.planes[3].d = -1000.0f;
+    fr.planes[0].Normal.X = 1.0f;
+    fr.planes[0].D = -10.0f;
+    fr.planes[2].D = -1000.0f;
+    fr.planes[3].D = -1000.0f;
 
     CHECK(fr.intersects(box(0, 0, 0, 1, 1, 1)));
     CHECK(!fr.intersects(box(20, 0, 0, 21, 1, 1)));

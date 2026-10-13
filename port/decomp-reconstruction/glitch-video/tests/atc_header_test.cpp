@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "glitch-video/texture_loaders.hpp"
+#include "read_file_stub.hpp"
 
 using namespace glitch::video;
 
@@ -14,10 +15,9 @@ static int failures = 0;
 
 namespace {
 
-class MemoryReadFile : public glitch::io::IReadFile {
+class MemoryReadFile : public glitch::video::test::StubReadFile {
 public:
     explicit MemoryReadFile(std::vector<uint8_t> bytes) : m_bytes(std::move(bytes)) {}
-    void unidentifiedBaseSlot() override {}
     int32_t read(void* buffer, uint32_t size) override {
         const uint32_t available = static_cast<uint32_t>(m_bytes.size()) - m_pos;
         const uint32_t n = size < available ? size : available;
@@ -25,11 +25,12 @@ public:
         m_pos += n;
         return static_cast<int32_t>(n);
     }
-    bool seek(int32_t position, bool relative) override {
-        m_pos = static_cast<uint32_t>(relative ? static_cast<int32_t>(m_pos) + position : position);
+    bool seek(long position, bool relative) override {
+        m_pos = static_cast<uint32_t>(relative ? static_cast<long>(m_pos) + position : position);
         return true;
     }
-    uint32_t getSize() const override { return static_cast<uint32_t>(m_bytes.size()); }
+    long getSize() const override { return static_cast<long>(m_bytes.size()); }
+    long getPos() const override { return static_cast<long>(m_pos); }
 
 private:
     std::vector<uint8_t> m_bytes;

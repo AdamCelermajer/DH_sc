@@ -26,15 +26,15 @@ ConnectionLobby::~ConnectionLobby() = default;
 // Partial: the original returns the time when a copy was sent, and the object pointer otherwise.
 // Hex-Rays shows that value as the return (R0 left by the calls). No direct caller exists in the
 // Hex-Rays output, so the return type cannot be confirmed; the function returns void. The body
-// (lobby slot +0x64) is read before the length (slot +0x60), as in the original.
+// (slot +0x64) is read before the length (slot +0x60), as in the original.
 void ConnectionLobby::sendRetryData() {
-    if (retry_packet_ == nullptr) {
+    if (!retry_packet_) {
         return;
     }
     auto* packet = new DataPacketLobby();
-    const std::uint8_t* body = retry_packet_->getMessageBody();
-    const std::size_t length = retry_packet_->getMessageLen();
-    packet->setMessageBody(body, length);
+    const char* body = retry_packet_->getMessageBody();
+    const int length = retry_packet_->getMessageLen();
+    packet->setMessageBody(reinterpret_cast<const unsigned char*>(body), length);
     addOutgoingPacket(packet);
     last_request_time_ = platform_calls::GetTime();
 }
@@ -52,21 +52,19 @@ bool ConnectionLobby::keepConnectionAlive() {
 }
 
 // 0x846fb0 _ZN15ConnectionLobby13saveRetryDataEP10DataPacket
-// The original calls the lobby-table getters (slot +0x64 body, slot +0x60 length) on the DataPacket
-// argument. The DataPacket base does not declare them, so the port downcasts to DataPacketLobby,
-// which has the same getters (no override exists). Every send* caller builds a DataPacketLobby,
-// and each Hex-Rays caller uses the call as a statement, so the return value is not used (void).
+// Cleans the old copy, builds a DataPacketLobby and fills it with setMessageBody from the argument's
+// body (vtable +0x64, read first) and length (+0x60). Each Hex-Rays caller uses the call as a
+// statement, so the return value (the time, leftover r0) is not used (void).
 void ConnectionLobby::saveRetryData(DataPacket* packet) {
     if (packet == nullptr) {
         return;
     }
     cleanRetryData();
-    auto* source = static_cast<DataPacketLobby*>(packet);
     auto* copy = new DataPacketLobby();
-    retry_packet_ = copy;
-    const std::uint8_t* body = source->getMessageBody();
-    const std::size_t length = source->getMessageLen();
-    copy->setMessageBody(body, length);
+    retry_packet_.reset(copy);
+    const char* body = packet->getMessageBody();
+    const int length = packet->getMessageLen();
+    copy->setMessageBody(reinterpret_cast<const unsigned char*>(body), length);
     last_request_time_ = platform_calls::GetTime();
 }
 
@@ -526,10 +524,10 @@ void ConnectionLobby::receiveDataLen() {
         if (recv_buf_len_ == 0) {
             std::memset(recv_buffer_, 0, kReceiveBufferBytes);
         }
-        if (socket_->Select(0) < 0 || !socket_->HasPendingData()) {
+        if (socket_->Select(GLXPlayerSocket::kSelectRead) < 0 || !socket_->IsReadyForRW()) {
             return;
         }
-        const int received = socket_->Recv(recv_buffer_ + recv_buf_len_, need_recv_data_len_ - recv_buf_len_);
+        const int received = socket_->Recv(reinterpret_cast<char*>(recv_buffer_) + recv_buf_len_, need_recv_data_len_ - recv_buf_len_);
         if (received < 0) {
             return;
         }
@@ -544,8 +542,7 @@ void ConnectionLobby::receiveDataLen() {
         }
         if (filled == need_recv_data_len_) {
             auto* packet = new DataPacketLobby();
-            packet->setMessageBody(reinterpret_cast<const std::uint8_t*>(recv_buffer_),
-                                   static_cast<std::size_t>(recv_buf_len_));
+            packet->setMessageBody(recv_buffer_, recv_buf_len_);
             addIncomingPacket(packet);
             std::memset(recv_buffer_, 0, kReceiveBufferSize);
             need_recv_data_len_ = 0;
@@ -562,10 +559,10 @@ void ConnectionLobby::receiveDataLen() {
     if (recv_buf_len_ == 0) {
         std::memset(recv_buffer_, 0, kReceiveBufferBytes);
     }
-    if (socket_->Select(0) < 0 || !socket_->HasPendingData()) {
+    if (socket_->Select(GLXPlayerSocket::kSelectRead) < 0 || !socket_->IsReadyForRW()) {
         return;
     }
-    const int received = socket_->Recv(recv_buffer_ + recv_buf_len_, need_recv_data_len_ - recv_buf_len_);
+    const int received = socket_->Recv(reinterpret_cast<char*>(recv_buffer_) + recv_buf_len_, need_recv_data_len_ - recv_buf_len_);
     if (received < 0) {
         return;
     }
@@ -579,8 +576,7 @@ void ConnectionLobby::receiveDataLen() {
         recv_buf_len_ = filled;
     }
     if (filled == need_recv_data_len_) {
-        const int length = (static_cast<unsigned char>(recv_buffer_[0]) << 8) |
-                           static_cast<unsigned char>(recv_buffer_[1]);
+        const int length = (recv_buffer_[0] << 8) | recv_buffer_[1];
         need_recv_data_len_ = length;
         if (length > kMaxMessageBytes) {
             disconnect();  // "error, more than 2048 ONLINE_MAX_PACKET_SIZE" dropped; the check is 4096
@@ -597,37 +593,36 @@ void ConnectionLobby::receiveDataLen() {
 // 0x848fac _ZN15ConnectionLobby8sendDataEv
 // Sends the head of the outgoing queue, then moves to the next one. Partial: the return value of
 // the original (a Connection pointer, which is the register left by the calls) is not reproduced,
-// and the debug traces ("select error", "PPP not open") are dropped.
+// and the debug traces ("select error", "PPP not open") are dropped. A missing socket on a connected
+// link disconnects (the original would dereference it). The head's body (slot +0x64) is read before
+// its length (+0x60) and sent as is (the lobby packet carries its own 2-byte length header); the
+// head is then popped (next link +0x6c, deleting destructor +0x04) and sendData recurses (vtable
+// +0x08) while packets remain.
 void ConnectionLobby::sendData() {
-    if (outgoing_ == nullptr) {
+    if (outgoing_.empty()) {
         return;
     }
-    if (!isConnected()) {
+    if (!isConnected() || !socket_) {
         disconnect();
         return;
     }
-    if (socket_->Select(1) < 0) {
+    if (socket_->Select(GLXPlayerSocket::kSelectWrite) < 0) {
         return;
     }
-    auto* head = static_cast<DataPacketLobby*>(outgoing_);
-    const std::uint8_t* body = head->getMessageBody();  // lobby slot +0x64, read before the length
-    const int length = static_cast<int>(head->getMessageLen());  // lobby slot +0x60
+    DataPacket& head = *outgoing_.front();
+    const char* body = head.getMessageBody();
+    const int length = head.getMessageLen();
     if (socket_->Send(body, length) < 0) {
         disconnect();
         return;
     }
     last_send_time_ = platform_calls::GetTime();
-    DataPacket* next = head->getNextPacket();
-    outgoing_ = next;
-    delete head;
-    if (outgoing_ != nullptr) {
+    outgoing_.pop_front();
+    if (!outgoing_.empty()) {
         sendData();
-    } else {
-        outgoing_active_ = 0;
     }
 }
 
-// 0x84? 
 // Helper (not an original function): packs the message, keeps a copy for resend and queues it. Every send* except the connection
 // handshake messages ends this way.
 int ConnectionLobby::QueueMessage(DataPacketLobby* packet) {

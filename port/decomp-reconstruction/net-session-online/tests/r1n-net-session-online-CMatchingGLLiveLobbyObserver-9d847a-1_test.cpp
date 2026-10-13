@@ -8,6 +8,7 @@
 #include "net-session-online/c_matching_gl_live.hpp"
 #include "net-session-online/c_matching_gl_live_observers.hpp"
 #include "net-transport/data_packet.hpp"
+#include "net-transport/default_data_packet.hpp"
 
 // The two GLLive statics that the observer's bodies touch. Their definitions live in
 // src/c_matching_gl_live_glx04.cpp, which pulls in the whole GLLive class, so this test defines them.
@@ -27,23 +28,20 @@ int failures = 0;
 
 // A packet that counts the two accessors PrintDatapacket calls (vptr +0x64 and +0x60). The blob
 // accessors are overridden here so the test does not need net-transport's definitions.
-class CountingPacket : public DataPacket {
+class CountingPacket : public DefaultDataPacket {
 public:
-    std::size_t getMessageLen() const override {
+    int getMessageLen() override {
         ++lenCalls;
         return length;
     }
-    const std::uint8_t* getMessageBody() const override {
+    char* getMessageBody() override {
         ++bodyCalls;
         return nullptr;
     }
-    int getDataType() const override { return 0; }
-    int addBlob(char* /*data*/, std::int16_t /*length*/) override { return 0; }
-    int getBlob(char*& /*data*/, std::int16_t& /*length*/) override { return 0; }
 
-    std::size_t length = 42;
-    mutable int lenCalls = 0;
-    mutable int bodyCalls = 0;
+    int length = 42;
+    int lenCalls = 0;
+    int bodyCalls = 0;
 };
 
 }  // namespace

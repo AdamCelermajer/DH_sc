@@ -7,10 +7,20 @@
 // NetStruct::DeclareMember in the same order.
 //
 //   +0x130  unk_150      NetStructInt<17u>   value at +0x150, name not recovered
-//   +0x158  member_id_   NetStructInt<8u>    value at +0x178: network member id (compared with the host
-//                                            member id in IsHost, passed to the net player manager events)
-//   +0x180  conn_index_  NetStructInt<17u>   value at +0x1a0: connection slot index, -1 when none
-//   +0x1a8  unk_1c8      NetStructInt<16u>   value at +0x1c8: -1 when none (its name is not known)
+//   +0x158  member_id_   NetStructInt<8u>    value at +0x178: the player's own id. CNetPlayerManager::AddPlayer
+//                                            stores the free slot index there, IsHost compares it with the
+//                                            manager's host id, and the manager events carry it. (The name is
+//                                            the earlier pass's; the binary uses it as a player slot id.)
+//   +0x180  matching_member_id_  NetStructInt<17u>   value at +0x1a0: the CMatching member id of the device the
+//                                            player belongs to, -1 when none. IsLocal compares it with
+//                                            CMatching::LocalMemberId (vtable +0x6c), IsInRoom passes it to
+//                                            CMatching::IsInRoom(int) (vtable +0x68), IsLocalTo compares it with
+//                                            a member id, ReassignPlayer stores its member argument here, and the
+//                                            manager's two-key lookup matches it. (Renamed from conn_index_: the
+//                                            'connection slot index' reading is not supported by the binary.)
+//   +0x1a8  gamepad_id_      NetStructInt<16u>   value at +0x1c8: the local gamepad of the player, -1 when none.
+//                                            CNetPlayerManager::SetPlayerGamepadId writes it and ReassignPlayer's
+//                                            third argument is stored in it.
 //   +0x1d0  state_       NetStructUInt<8u>   value at +0x1f0. Values seen: 1 and 2 are the activating
 //                                            states (IsActivating), 3 is active (IsActive), 4 and 5 are the
 //                                            disconnect states (4 on the server, 5 on a client), 6 is
@@ -22,8 +32,8 @@
 //   +0x280  applied_state_  copy of state_ made by Update (the original's +0x280 word).
 //   (object size 0x288, from CNetPlayerInfo::Create's operator new)
 //
-// Initial values after the constructor: every block starts at 0, then Reset() writes -1 to conn_index_ and
-// unk_1c8 and 0 to state_ (it does not touch member_id_, which therefore ends at 0); applied_state_ is 0.
+// Initial values after the constructor: every block starts at 0, then Reset() writes -1 to matching_member_id_ and
+// gamepad_id_ and 0 to state_ (it does not touch member_id_, which therefore ends at 0); applied_state_ is 0.
 //
 // Virtual slots (tools/decomp_vtable.py): NetStruct's +0x00..+0x44, then +0x48 Update, +0x4c Reset,
 // +0x50 IsLocal, +0x54 IsLocalTo, +0x58 IsInRoom, +0x5c IsActive, +0x60 IsActivating.
@@ -50,7 +60,7 @@ public:
     void SetState(char state);  // 0x36f40c
 
     // Slots after NetStruct's.
-    virtual void Update();                  // +0x48, 0x80f3d0, partial (the event-queue calls are not ported)
+    virtual void Update();                  // +0x48, 0x80f3d0 (posts to the manager's two event queues)
     virtual void Reset();                   // +0x4c, 0x80f27c
     virtual bool IsLocal() const;           // +0x50, 0x80f1ec
     virtual bool IsLocalTo(int member_index) const;  // +0x54, 0x80f1a0
@@ -67,8 +77,8 @@ public:
     // Replicated members, in the original order (32-bit offsets of the block in the comments).
     NetStructInt<17u> unk_150;              // +0x130
     NetStructInt<8u> member_id_;            // +0x158
-    NetStructInt<17u> conn_index_;          // +0x180
-    NetStructInt<16u> unk_1c8;              // +0x1a8
+    NetStructInt<17u> matching_member_id_;          // +0x180
+    NetStructInt<16u> gamepad_id_;              // +0x1a8
     NetStructUInt<8u> state_;               // +0x1d0
     NetStructUInt<8u> unk_218;              // +0x1f8
     NetStructUInt<8u> unk_240;              // +0x220

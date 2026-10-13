@@ -27,7 +27,7 @@
 //   +0xc8 game icon (owned)                 +0xcc, +0xd0 unknown owned strings
 //   +0xd4 trophy-icon mode (-1 by the ctor, 0..2 by processUserTrophyIcon)
 //   +0xdc unk_dc_ owned string (game icon field 3)   +0xe4 unk_e4_ int (game icon field 5)
-//   +0xe8 advRss_ and +0xf8 promoRss_ (rss feeds, each a vector<channel>)
+//   +0xe8 advRss_ and +0xf8 promoRss_ (rss feeds, core-platform rss: a vector<channel>)
 //   +0xf4 RSS attachment (owned)            +0x104 promo attachment (owned)
 //   +0x108 avatar keys (owned, array)       +0x10c avatar last updates (owned, array)
 //   +0x110 avatar status (array)            +0x114 avatar count
@@ -43,6 +43,7 @@
 #include <string>
 #include <vector>
 
+#include "core-platform/rss.hpp"  // rss: vector<channel> with rss::read (the same layout as the original feed)
 #include "net-session-online/channel.hpp"
 #include "net-session-online/glx_player_web_component.hpp"
 #include "net-session-online/live_feed.hpp"
@@ -228,9 +229,9 @@ private:
     std::int32_t trophyIconMode_ = -1;                               // +0xd4
     std::unique_ptr<char[]> unk_dc_;                                 // +0xdc
     std::int32_t unk_e4_ = 0;                                        // +0xe4
-    std::vector<channel> advRss_;                                    // +0xe8 (rss, filled by processGetADV_RSS)
+    rss advRss_;                                                     // +0xe8 (filled by processGetADV_RSS)
     std::unique_ptr<char[]> rssAttachment_;                          // +0xf4
-    std::vector<channel> promoRss_;                                  // +0xf8 (rss, filled by processGetPromo_RSS)
+    rss promoRss_;                                                   // +0xf8 (filled by processGetPromo_RSS)
     std::unique_ptr<char[]> promoAttachment_;                        // +0x104
     std::vector<std::unique_ptr<char[]>> avatarKeys_;                // +0x108
     std::vector<std::unique_ptr<char[]>> avatarLastUpdates_;         // +0x10c

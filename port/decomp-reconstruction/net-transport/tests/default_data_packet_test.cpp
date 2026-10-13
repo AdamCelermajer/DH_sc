@@ -35,7 +35,7 @@ int main() {
         DefaultDataPacket p;
         CHECK(p.addShort(0x1234) == 1);
         CHECK(p.addInt(0x0a0b0c0d) == 1);
-        const std::uint8_t* body = p.getMessageBody();
+        const unsigned char* body = reinterpret_cast<const unsigned char*>(p.getMessageBody());
         CHECK(static_cast<unsigned char>(body[0]) == 0x12);
         CHECK(static_cast<unsigned char>(body[1]) == 0x34);
         CHECK(static_cast<unsigned char>(body[2]) == 0x0a);
