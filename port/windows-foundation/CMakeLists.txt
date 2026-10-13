@@ -1138,6 +1138,10 @@ add_test(NAME runtime_skill_session_training COMMAND runtime_skill_session_train
 add_executable(runtime_skill_use_profile_v1_tests features/generic_skills/runtime_skill_use_profile_v1_tests.cpp)
 add_test(NAME runtime_skill_use_profile_v1 COMMAND runtime_skill_use_profile_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# v21.8 skills-knight: Knight-tree (Berserker/Paladin) use profile rows, transcribed from the original skill Lua.
+add_executable(runtime_skill_use_profile_knight_v1_tests features/generic_skills/runtime_skill_use_profile_knight_v1_tests.cpp)
+add_test(NAME runtime_skill_use_profile_knight_v1 COMMAND runtime_skill_use_profile_knight_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
 # v21.8 skills-a: reusable timed buff / temporary property owner (Rogue Quickness), against a real source Session.
 add_executable(runtime_timed_buff_v1_tests features/generic_skills/runtime_timed_buff_v1_tests.cpp)
 target_link_libraries(runtime_timed_buff_v1_tests PRIVATE foundation_runtime_skill_cast)

@@ -37,6 +37,9 @@ struct RuntimeSkillBuffProfileV1 {
     const char* fx_set;           // AnimatedEffectTable name of BUFF_FX (spell_dh2_prince_rogue_quickness)
     float fallback_base_ms;       // TIME_BASE: used only when the projected SnS_Duration is 0
     float fallback_inc_ms;        // TIME_INC per skill level
+    // v21.8 skills-knight: authored BUFF_TIME constant (Paladin auras: CreateBuff(BUFF_ID, 12000, ...)).
+    // 0 = use the projected SnS_Duration / fallback as Quickness does.
+    float fixed_duration_ms = 0.0f;
 };
 
 struct RuntimeSkillUseProfileV1 {
@@ -74,6 +77,9 @@ struct RuntimeSkillUseProfileV1 {
     // v21.8 mage: the Lua OnPreSkill_/OnSkill_ bodies are executed by the host-supplied
     // RuntimeSkillExternalOwnerV1 (skill projectiles / timers) instead of the generic SkillCombatRoll loop.
     bool external_owner = false;
+    // v21.8 skills-knight: false when the authored Use loop applies no SkillCombatRoll (Paladin auras: buff only;
+    // Warcry: SetScareState/SetStunState only). The Use still runs its target list and mana/cooldown prefix.
+    bool rolls_combat = true;
 };
 
 inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;
