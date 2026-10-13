@@ -47,7 +47,8 @@ void blur(State& s,const Facts& f,const Services& c,const CombatFacts* combat=nu
  case 11:if(combat)call(s,c,look_at,1,0,0,0,combat->last_target);break;
  }
 }
-void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr){
+void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr,
+           const AnimFacts* anim=nullptr){
  switch(s.current){
  case 3:
   if(s.idle_suppressed)return;
@@ -110,13 +111,24 @@ void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Service
  case 11:
   if(!combat)break;
   s.flags=11073;call(s,c,set_animation,-1);call(s,c,cancel_sneaking);break;
+ case 14:{
+  // CSAnim::OnFocus 0x3c324c: Character+0x520 is 0x2240 when the +0x45 byte is
+  // set, else 0x2340, then SM_SetAnim(-1) 0x3c0b50 plays the machine's pending
+  // AnimTable row (+0x28) and resets it to -1.
+  if(!anim)break;
+  s.flags=anim->idle_on_update_541?8768:9024;
+  const int row=s.animation_override;
+  if(row!=-1)s.animation_override=-1;
+  call(s,c,set_animation,row);break;
+ }
  }
 }
-int transition(State& s,const Facts& f,int next,int event,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr){
+int transition(State& s,const Facts& f,int next,int event,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr,
+               const AnimFacts* anim=nullptr){
  const int prior=s.current;
  if(combat&&prior==11&&!combat->last_target_available)return -1;
  blur(s,f,c,combat);s.current=next;if(prior!=next)s.elapsed_ms=0;
- focus(s,f,prior,payload,c,combat);call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
+ focus(s,f,prior,payload,c,combat,anim);call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
  (void)event;return 1;
 }
 bool interrupted(const State& s,const CombatFacts& f,int target,bool& known){
@@ -129,7 +141,8 @@ bool interrupted(const State& s,const CombatFacts& f,int target,bool& known){
 bool skill_id(int value){return (id(value)&&value!=2)||value==6;}
 int skill_transition(State& s,const Facts& f,
  dh2::character_skill_state_dispatch_v1::Projection& projection,
- int next,int event,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr){
+ int next,int event,std::uint64_t payload,const Services& c,const CombatFacts* combat=nullptr,
+ const AnimFacts* anim=nullptr){
  namespace skill=dh2::character_skill_state_dispatch_v1;
  const int prior=s.current;
  if(combat&&prior==11&&!combat->last_target_available)return -1;
@@ -143,14 +156,14 @@ int skill_transition(State& s,const Facts& f,
   skill::Result callback{};
   if(skill::callback(&projection,dh2::character_skill_fsm_callbacks_v1::Callback::focus,
                      &callback)!=skill::Status::complete)return -1;
- }else focus(s,f,prior,payload,c,combat);
+ }else focus(s,f,prior,payload,c,combat,anim);
  call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
  (void)event;return 1;
 }
 int cast_transition(State& s,const Facts& f,
  dh2::character_cast_lifecycle_v1::Projection& projection,
  int next,int event,std::uint64_t payload,const Services& c,
- const CombatFacts* combat=nullptr){
+ const CombatFacts* combat=nullptr,const AnimFacts* anim=nullptr){
  namespace cast=dh2::character_cast_lifecycle_v1;
  const int prior=s.current;
  if(prior==7){
@@ -161,9 +174,26 @@ int cast_transition(State& s,const Facts& f,
  if(next==7){
   cast::Result callback{};
   if(cast::execute(&projection,cast::Callback::focus,&callback)!=cast::Status::complete)return -1;
- }else focus(s,f,prior,payload,c,combat);
+ }else focus(s,f,prior,payload,c,combat,anim);
  call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
  (void)event;return 1;
+}
+bool anim_facts_valid(const AnimFacts* a){
+ return a&&a->wait_for_end_540<=255&&a->idle_on_update_541<=255&&a->scripted_1480<=255;
+}
+// The non-CSAnim side of a transition that has CSAnim on exactly one side (or
+// both). Spawn/Limbus states and the skill/cast pair have their own entry points.
+bool anim_partner(const State& s,int next,bool combat_present){
+ if(s.current!=14&&next!=14)return false;
+ if(s.current==14&&next==14)return true;
+ if(next==14){
+  const int from=s.current;
+  return from==-1||from==2||from==3||from==4||from==5||from==12||from==13||
+         (combat_id(from)&&combat_present);
+ }
+ // Leaving CSAnim: Despawn (2) needs a dead source state, never CSAnim; -1 is
+ // not a target.
+ return next==3||next==4||next==5||next==12||next==13||(combat_id(next)&&combat_present);
 }
 bool spawn_state_id(int value){return value==-1||value==0||value==1||value==3||value==17;}
 bool valid_spawn(const State* s,const Facts* f,const SpawnFacts* sf,const Services* c){
@@ -414,6 +444,86 @@ extern "C" int dh2_character_cast_state_transition(dh2::character::State* s,
  if((next==7&&(s->current!=3&&s->current!=4&&s->current!=5))||
     (s->current==7&&next!=3&&next!=12))return -1;
  return cast_transition(*s,*f,*projection,next,event,payload,*c);
+}
+extern "C" int dh2_character_anim_state_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::AnimFacts* anim,
+ const dh2::character::CombatFacts* combat,std::int32_t next,std::int32_t event,
+ std::uint64_t payload,const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!anim_facts_valid(anim))return -1;
+ if(combat&&(combat->controller_present>1||combat->interrupted_byte_441>1||
+    combat->interrupted_byte_available>1||combat->last_target_available>1))return -1;
+ if(!anim_partner(*s,next,combat!=nullptr))return -1;
+ return transition(*s,*f,next,event,payload,*c,combat,anim);
+}
+extern "C" int dh2_character_anim_spawn_state_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::SpawnFacts* sf,
+ const dh2::character::AnimFacts* anim,std::int32_t event,
+ const dh2::character::Services* c){
+ using namespace dh2::character;
+ // Idle (3) and the uninitialised machine use the base entry point.
+ if(!valid_spawn(s,f,sf,c)||!anim_facts_valid(anim)||s->current==3||s->current==-1)return -1;
+ const int prior=s->current;
+ source_blur(*s,*f,*sf,*c);s->current=14;s->elapsed_ms=0;
+ focus(*s,*f,prior,0,*c,nullptr,anim);
+ call(*s,*c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
+ (void)event;return 1;
+}
+extern "C" int dh2_character_anim_skill_state_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::AnimFacts* anim,
+ dh2::character_skill_state_dispatch_v1::Projection* projection,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,
+ const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!anim_facts_valid(anim)||!projection||projection->machine!=s||
+    !((s->current==6&&next==14)||(s->current==14&&next==6)))return -1;
+ return skill_transition(*s,*f,*projection,next,event,payload,*c,nullptr,anim);
+}
+extern "C" int dh2_character_anim_cast_state_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::AnimFacts* anim,
+ dh2::character_cast_lifecycle_v1::Projection* projection,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,
+ const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!anim_facts_valid(anim)||!projection||s->current!=7||next!=14)return -1;
+ return cast_transition(*s,*f,*projection,next,event,payload,*c,nullptr,anim);
+}
+extern "C" int dh2_character_anim_state_event(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::AnimFacts* anim,
+ dh2::character_skill_state_dispatch_v1::Projection* projection,
+ std::uint32_t event,std::uint64_t payload,const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!anim_facts_valid(anim)||s->current!=14)return -1;
+ if(event>=0x2a&&event<=0x2c)s->attack_gate&=~(1u<<(event-0x2a));
+ // CSAnim::OnEvent 0x3c1a14: event 34 with Character+0x540 set calls
+ // SM_SetIdleState(false), i.e. the idle-suppression byte is cleared first.
+ if(event==34){
+  if(!anim->wait_for_end_540)return 0;
+  s->idle_suppressed=0;
+  return transition(*s,*f,3,34,payload,*c,nullptr,anim);
+ }
+ // CSAnim::OnInit 0x3c8b28 registers 50001 -> CSMove and 50005 -> CSSkill, both
+ // without a predicate.
+ if(event==50001)return transition(*s,*f,4,std::int32_t(event),payload,*c,nullptr,anim);
+ if(event==50005){
+  if(!projection||projection->machine!=s)return -1;
+  return skill_transition(*s,*f,*projection,6,std::int32_t(event),payload,*c,nullptr,anim);
+ }
+ return 0;
+}
+extern "C" int dh2_character_anim_state_update(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::AnimFacts* anim,
+ std::uint32_t dt,const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_base(s,f,c)||!anim_facts_valid(anim)||s->current!=14)return -1;
+ s->elapsed_ms+=dt;
+ // CSAnim::OnUpdate 0x3c1a3c: a Character that is not scripted and carries the
+ // +0x541 byte calls SM_SetIdleState(Character+0x1480), which is zero here.
+ if(!anim->scripted_1480&&anim->idle_on_update_541){
+  s->idle_suppressed=anim->scripted_1480;
+  return transition(*s,*f,3,0,0,*c,nullptr,anim);
+ }
+ return 1;
 }
 extern "C" int dh2_character_attack_speed(float* out,const std::int32_t* properties){
  if(!out||!properties)return -1;

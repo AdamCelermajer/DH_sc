@@ -9,25 +9,30 @@ extern "C" unsigned dh2_animation_complete(std::int32_t type,std::uint32_t count
  return 0;
 }
 namespace dh2::data {
-void AnimationScheduler::enter(const AnimationTables& table,std::int32_t id,AnimationRandom& random,bool enabled){
+bool AnimationScheduler::enter(const AnimationTables& table,std::int32_t id,AnimationRandom& random,bool enabled,bool allow_stop){
  if(id<0||std::size_t(id)>=table.sequences.size()||stack.size()>=3)throw std::runtime_error("Animation scheduler reference/depth outside limit");
  const auto& sequence=table.sequences[id];if(sequence.steps.empty()||sequence.steps.size()>10000)throw std::runtime_error("Animation scheduler has invalid step count");
  const unsigned index=sequence.type==2&&enabled?dh2_animation_random(&random.seed,&random.calls,sequence.steps.size()):0;
- stack.push_back({id,sequence.loop,index});activate(table,random,enabled);
+ stack.push_back({id,sequence.loop,index});return activate(table,random,enabled,allow_stop);
 }
-void AnimationScheduler::activate(const AnimationTables& table,AnimationRandom& random,bool enabled){
+bool AnimationScheduler::activate(const AnimationTables& table,AnimationRandom& random,bool enabled,bool allow_stop){
  const auto& frame=stack.back();const auto& sequence=table.sequences.at(frame.sequence);
  if(frame.step>=sequence.steps.size())throw std::runtime_error("Animation scheduler step outside sequence");
  const auto& step=sequence.steps[frame.step];
- if(step.redir==1){enter(table,step.anim,random,enabled);return;}
- if(step.redir!=0||step.anim<0)throw std::runtime_error("Animation scheduler has no clip");
- current=step;playing=true;
+ if(step.redir==1)return enter(table,step.anim,random,enabled,allow_stop);
+ if(step.redir!=0)throw std::runtime_error("Animation scheduler has no clip");
+ if(step.anim<0){
+  if(!allow_stop)throw std::runtime_error("Animation scheduler has no clip");
+  stop();return false;
+ }
+ current=step;playing=true;return true;
 }
 bool AnimationScheduler::start(const AnimationTables& table,std::int32_t id,AnimationRandom& random,std::string& error,bool enabled){
  error.clear();try{AnimationScheduler next;auto rng=random;next.enter(table,id,rng,enabled);*this=std::move(next);random=rng;return true;}catch(const std::exception& e){error=e.what();return false;}
 }
 bool AnimationScheduler::enter_with_services(const AnimationTables& table,std::int32_t id,std::size_t depth,
-                                             AnimationRandom& random,bool enabled,const AnimationSelectionServices& services){
+                                             AnimationRandom& random,bool enabled,const AnimationSelectionServices& services,
+                                             bool allow_stop){
  if(id<0||std::size_t(id)>=table.sequences.size()||depth>=3)throw std::runtime_error("Animation scheduler reference/depth outside limit");
  const auto& sequence=table.sequences[id];
  if(sequence.steps.empty()||sequence.steps.size()>10000)throw std::runtime_error("Animation scheduler has invalid step count");
@@ -36,18 +41,27 @@ bool AnimationScheduler::enter_with_services(const AnimationTables& table,std::i
  // _SetAnim retains its authored sequence pointer across event24. Its live
  // current frame may have been changed by a synchronous metadata swap.
  const unsigned index=sequence.type==2&&enabled?dh2_animation_random(&random.seed,&random.calls,sequence.steps.size()):0;
- return activate_with_services(table,index,random,enabled,services);
+ return activate_with_services(table,index,random,enabled,services,allow_stop);
 }
 bool AnimationScheduler::activate_with_services(const AnimationTables& table,std::uint32_t index,
-                                                AnimationRandom& random,bool enabled,const AnimationSelectionServices& services){
+                                                AnimationRandom& random,bool enabled,const AnimationSelectionServices& services,
+                                                bool allow_stop){
  if(stack.empty())throw std::runtime_error("Animation selection frame is absent");
  const auto& sequence=table.sequences.at(stack.back().sequence);
  if(index>=sequence.steps.size())throw std::runtime_error("Animation scheduler step outside sequence");
  const auto& step=sequence.steps[index]; // retained before event26
  stack.back().step=index;
  if(services.event)services.event(services.context,*this,0x26);
- if(step.redir==1)return enter_with_services(table,step.anim,stack.size(),random,enabled,services);
- if(step.redir!=0||step.anim<0)throw std::runtime_error("Animation scheduler has no clip");
+ if(step.redir==1)return enter_with_services(table,step.anim,stack.size(),random,enabled,services,allow_stop);
+ if(step.redir!=0)throw std::runtime_error("Animation scheduler has no clip");
+ if(step.anim<0){
+  if(!allow_stop)throw std::runtime_error("Animation scheduler has no clip");
+  // ANIM_Stop 0x3c9924: depth reset, controller stop, then the once-only
+  // closed-latch Character event 34 (scheduler event 0x22).
+  stop();
+  if(services.event)services.event(services.context,*this,0x22);
+  return true;
+ }
  current=step;playing=true;
  if(services.prepare&&!services.prepare(services.context,*this))return false;
  // The selected frame index is already stored, and prepare has now installed
@@ -107,8 +121,9 @@ bool AnimationScheduler::complete_with_services(const AnimationTables& table,Ani
    if(type==1&&stack[depth].step<count){
     emit(0x23);
     if(!playing)return finish();
-    if(services.selection){if(!activate_with_services(table,stack.back().step,random,enabled,*services.selection))return false;}
-    else {activate(table,random,enabled);if(services.prepare&&!services.prepare(services.context,*this))return false;}
+    if(services.selection){if(!activate_with_services(table,stack.back().step,random,enabled,*services.selection,true))return false;}
+    else if(!activate(table,random,enabled,true))emit(0x22); // leaf without an AnimDict: ANIM_Stop
+    else if(services.prepare&&!services.prepare(services.context,*this))return false;
     return finish();
    }
    if(stack[depth].loops==0){
@@ -129,11 +144,17 @@ bool AnimationScheduler::complete_with_services(const AnimationTables& table,Ani
    if(!services.has_pending||!services.has_pending(services.context)){
     const auto id=stack[depth].sequence,remaining=stack[depth].loops;
     if(services.initialize)services.initialize(services.context,*this,id,static_cast<std::uint32_t>(depth));
-    if(services.selection){if(!enter_with_services(table,id,depth,random,enabled,*services.selection))return false;}
-    else {stack.resize(depth);enter(table,id,random,enabled);if(services.prepare&&!services.prepare(services.context,*this))return false;}
+    bool selected=true;
+    if(services.selection){if(!enter_with_services(table,id,depth,random,enabled,*services.selection,true))return false;}
+    else {
+     stack.resize(depth);selected=enter(table,id,random,enabled,true);
+     if(!selected)emit(0x22); // leaf without an AnimDict: ANIM_Stop
+     else if(services.prepare&&!services.prepare(services.context,*this))return false;
+    }
     // _SetAnim/replay may write StopLoop, but source restores its captured
-    // remaining repeat word AFTER that synchronous service returns.
-    stack.at(depth).loops=remaining<0?-1:remaining;
+    // remaining repeat word AFTER that synchronous service returns. ANIM_Stop
+    // reset the stack to its root frame, which owns no repeat word to restore.
+    if(selected&&playing)stack.at(depth).loops=remaining<0?-1:remaining;
    }
    return finish();
   };
