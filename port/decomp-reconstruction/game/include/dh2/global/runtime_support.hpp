@@ -9,6 +9,7 @@
 
 void* LuaAlloc(unsigned int size);                     // 0x3104fc
 void LuaFree(void* p);                                 // 0x310448
+void* LuaAllocator(void* ud, void* ptr, unsigned int osize, unsigned int nsize);  // 0x310500: the lua_Alloc hook
 void PushProfilingContext(const char* name);           // 0x3136b4
 void PopProfilingContext(const char* name);            // 0x3136b8
 void GetConfigFilePath(char* out, const char* name);   // 0x31f4ec

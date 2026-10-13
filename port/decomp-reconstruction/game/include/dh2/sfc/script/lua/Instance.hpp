@@ -71,6 +71,11 @@ public:
     std::uint8_t pad_09[3];                                             // +0x09 alignment, untouched
 };
 
+// The Lua state of the default Instance (0x31b224): lua_newstate with LuaAllocator, then the panic handler (0x31a9e8),
+// which returns 0. A null state is returned when lua_newstate fails.
+lua_State* newstate();
+int panic(lua_State* state);
+
 }  // namespace lua
 }  // namespace script
 }  // namespace sfc

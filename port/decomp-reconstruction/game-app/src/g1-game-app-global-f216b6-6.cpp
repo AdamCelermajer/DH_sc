@@ -18,7 +18,10 @@
 #include "core-platform/debug_out.hpp"
 #include "core-platform/device.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/MenuManager.hpp"
 #include "dh2/SavegameManager.hpp"
+#include "gameswf/gameswf_environment.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/native_app_hud_level.hpp"  // nativeOpenGLive (0x532b20)
 #include "dh2/global/native_online_gc.hpp"
@@ -77,30 +80,28 @@ void NativeCreateMultiplayerLobby(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43a124 NativeSetMultitouch(gameswf::fn_call const&)
-// PARTIAL: the original reads the argument count (fn_call +0x10) and, when it is 1, stores to_bool(argument 0)
-// in MenuManager::unk_110 (+0x110); otherwise it stores 1. The fn_call members and to_bool are not in the tree,
-// so the body is left out. MenuManager +0x110 is declared (unk_110) and can take the store once the argument
-// accessors exist.
+// 0x43a124 NativeSetMultitouch(gameswf::fn_call const&): with one argument, stores to_bool(argument 0) in
+// MenuManager::unk_110 (+0x110); otherwise stores 1.
 void NativeSetMultitouch(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1) {
+        const bool multitouch = call.arg(0).to_bool();
+        MenuManager::GetInstance()->unk_110 = multitouch;
+    } else {
+        MenuManager::GetInstance()->unk_110 = true;
+    }
 }
 
-// 0x43a16c NativeIsKorean(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to (SavegameManager::getOption(Application +0x4c, "Language") == 5), 5
-// being the Korean language index. dh2/SavegameManager.hpp does not exist yet, and set_bool is not in the tree.
+// 0x43a16c NativeIsKorean(gameswf::fn_call const&): the result is (SavegameManager::getOption("Language") == 5), 5
+// being the Korean language index. The savegame manager is Application +0x4c (dword_99F778 is Singleton<Application>::s_inst + 0x4c).
 void NativeIsKorean(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_bool(ApplicationGetInstance().m_savegameManager->getOption("Language") == 5);
 }
 
 // 0x43a1c8 NativeEnableBluetooth(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to Device::IsBluetoothSupported(). The value is computed here; the
-// gameswf set_bool is not in the tree, so it is not written to the call. (The Hex-Rays call passes a spurious
-// argument, the function is static with no parameters.)
+// The result is set to Device::IsBluetoothSupported(). (The Hex-Rays call passes a spurious argument; the function is
+// static with no parameters.)
 void NativeEnableBluetooth(const gameswf::fn_call& call) {
-    (void)call;
-    const bool supported = Device::IsBluetoothSupported();
-    (void)supported;
+    call.result->set_bool(Device::IsBluetoothSupported());
 }
 
 // 0x43a1e4 NativeAddFriend(gameswf::fn_call const&)
@@ -132,13 +133,9 @@ void NativeIsMultiplayerHost(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43a358 NativeWiFiCheck(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to Application::IsWifiEnabled() on the singleton. The value is computed
-// here; the gameswf set_bool is not in the tree, so it is not written to the call.
+// 0x43a358 NativeWiFiCheck(gameswf::fn_call const&): the result is Application::IsWifiEnabled() on the singleton.
 void NativeWiFiCheck(const gameswf::fn_call& call) {
-    (void)call;
-    const bool wifi = ApplicationGetInstance().IsWifiEnabled();
-    (void)wifi;
+    call.result->set_bool(ApplicationGetInstance().IsWifiEnabled());
 }
 
 // 0x43a38c NativeGCAutoMatch(gameswf::fn_call const&)
@@ -150,12 +147,10 @@ void NativeGCAutoMatch(const gameswf::fn_call& call) {
     OnlineSingleton<OnlineGameState>::GetInstance()->Init(4);
 }
 
-// 0x43a3a0 NativeGCLeaderboards(gameswf::fn_call const&)
-// PARTIAL: the original converts argument 0 with gameswf::as_value::to_string and discards it, then returns
-// Application::IsWifiEnabled(). The to_string call is left out because the argument accessors are not in the
-// tree. The Wi-Fi result is evaluated here and discarded (the void native has no result slot).
+// 0x43a3a0 NativeGCLeaderboards(gameswf::fn_call const&): converts argument 0 with to_string and discards it, then
+// evaluates Application::IsWifiEnabled() and discards that too (the void native has no result slot).
 void NativeGCLeaderboards(const gameswf::fn_call& call) {
-    (void)call;
+    (void)call.arg(0).to_string();
     (void)ApplicationGetInstance().IsWifiEnabled();
 }
 
@@ -192,14 +187,12 @@ void NativeLaunchTwitter(const gameswf::fn_call& call) {
     (void)ApplicationGetInstance().m_savegameManager->getLanguage();
 }
 
-// 0x43a6c4 NativeGCAchievements(gameswf::fn_call const&)
-// PARTIAL: the original converts argument 0 with to_string and discards it. Argument 0 is not read here, because
-// gameswf::fn_call has no definition in the tree (no arg() accessor). The rest is written: the language is
-// SavegameManager::getLanguage() on Application +0x4c, and nativeOpenGLive(region) is called with
-// region = NativeGCAchievementsOpenGLiveId(language) (dh2/global/native_online_gc.hpp, tested). nativeOpenGLive
+// 0x43a6c4 NativeGCAchievements(gameswf::fn_call const&): converts argument 0 with to_string and discards it, then
+// opens the Game Center achievements for the language (SavegameManager::getLanguage() on Application +0x4c) through
+// nativeOpenGLive(NativeGCAchievementsOpenGLiveId(language)) (dh2/global/native_online_gc.hpp). nativeOpenGLive
 // (0x532b20) is the Android JNI bridge, declared in dh2/global/native_app_hud_level.hpp and not defined in the tree.
 void NativeGCAchievements(const gameswf::fn_call& call) {
-    (void)call;
+    (void)call.arg(0).to_string();
     const int language = ApplicationGetInstance().m_savegameManager->getLanguage();
     nativeOpenGLive(NativeGCAchievementsOpenGLiveId(language));
 }

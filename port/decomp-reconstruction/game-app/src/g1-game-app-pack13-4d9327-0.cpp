@@ -22,6 +22,9 @@
 #include "dh2/StreamReader.hpp"
 #include "dh2/TestUD.hpp"
 #include "dh2/TestUD2.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/sfc/script/lua/Binder.hpp"
+#include "dh2/sfc/script/lua/ReturnValues.hpp"
 #include "dh2/VectorSet.hpp"
 #include "dh2/lstr.hpp"
 
@@ -47,43 +50,35 @@ TestUD::~TestUD() {}
 // emits it from the virtual destructor declared in dh2/TestUD.hpp.
 
 // 0x386d00 void TestUD::createBindings(sfc::script::lua::Binder&)
-// PARTIAL. Reproduced: printf("Bindings for %p\n", this). Missing, all waiting on dh2/sfc/script/lua/Binder.hpp (absent):
-// bindFunction("TestFunc", TestFunc, this), bindMethod<TestUD>(TestMethod, nullptr) and bindMethod("TestStaticMethod",
-// TestStaticMethod). The original's last call is a tail call whose result is not a return value, so the function is void
-// as the UserData slot is.
+// Prints the object, then binds TestFunc as a function with this as the user pointer, TestMethod as a method, and
+// TestStaticMethod as a plain callback method (the calls of the listing, in order).
 void TestUD::createBindings(sfc::script::lua::Binder& binder) {
     std::printf("Bindings for %p\n", static_cast<void*>(this));
-    (void)binder;
+    binder.bindFunction("TestFunc", TestFunc, this);
+    binder.bindMethod("TestMethod", &TestUD::TestMethod);
+    binder.bindMethod("TestStaticMethod", TestStaticMethod);
 }
 
 // 0x386e08 void TestUD::TestStaticMethod(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Here the first argument is args (r0), not a TestUD. Missing: printf("In TestStaticMethod(), This|Ref=%p,
-// Args=%u\n", user, count) and ret.pushUserData(static_cast<UserData*>(user)) (the asm is a tail call to pushUserData).
-// count is (end - begin) / 112 over the Arguments +0x04 pair (layout request). Waits on dh2/sfc/script/lua/Arguments.hpp and
-// dh2/sfc/script/lua/ReturnValues.hpp (both absent).
+// Prints the user pointer and the argument count, then pushes the user pointer as userdata.
 void TestUD::TestStaticMethod(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* user) {
-    (void)args;
-    (void)ret;
-    (void)user;
+    std::printf("In TestStaticMethod(), This|Ref=%p, Args=%u\n", user, static_cast<unsigned int>(args.m_values->size()));
+    ret.pushUserData(static_cast<UserData*>(user));
 }
 
 // 0x386e64 void TestUD::TestMethod(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)
-// PARTIAL. this is the TestUD (r0), args is r1, ret is r2. Missing: printf("In TestMethod(), This=%p, Args=%u\n", this,
-// count) and ret.pushUserData(this), with this converted to UserData* (base at offset 0, unchanged). Waits on
-// dh2/sfc/script/lua/Arguments.hpp and dh2/sfc/script/lua/ReturnValues.hpp (absent); count is the layout request.
+// Prints this and the argument count, then pushes this as userdata.
 void TestUD::TestMethod(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret) {
-    (void)args;
-    (void)ret;
+    std::printf("In TestMethod(), This=%p, Args=%u\n", static_cast<void*>(this), static_cast<unsigned int>(args.m_values->size()));
+    ret.pushUserData(this);
 }
 
 // 0x386ec0 void TestUD::TestFunc(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Here the first argument is args (r0), not a TestUD. Missing: printf("In TestFunc(), Ref=%p, Args=%u\n", user,
-// count), then ret.pushUserData(static_cast<UserData*>(user)) twice. count as in TestStaticMethod. Waits on
-// dh2/sfc/script/lua/Arguments.hpp and dh2/sfc/script/lua/ReturnValues.hpp (absent).
+// Prints the user pointer and the argument count, then pushes the user pointer as userdata twice.
 void TestUD::TestFunc(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* user) {
-    (void)args;
-    (void)ret;
-    (void)user;
+    std::printf("In TestFunc(), Ref=%p, Args=%u\n", user, static_cast<unsigned int>(args.m_values->size()));
+    ret.pushUserData(static_cast<UserData*>(user));
+    ret.pushUserData(static_cast<UserData*>(user));
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -112,10 +107,11 @@ TestUD2::~TestUD2() {}
 // store) and calls CustomFree(this).
 
 // 0x386da4 void TestUD2::createBindings(sfc::script::lua::Binder&)
-// PARTIAL. Reproduced: TestUD::createBindings(binder) first, as the original calls it. Missing: bindFunction("Test2", Test2,
-// this) and bindMethod("Test2", Test2), both waiting on dh2/sfc/script/lua/Binder.hpp (absent).
+// The base bindings first, then Test2 as a function and as a plain callback method.
 void TestUD2::createBindings(sfc::script::lua::Binder& binder) {
     TestUD::createBindings(binder);
+    binder.bindFunction("Test2", Test2, this);
+    binder.bindMethod("Test2", Test2);
 }
 
 // ---------------------------------------------------------------------------------------------------------------

@@ -18,6 +18,8 @@
 #include "dh2/global/native_player_actions.hpp"
 
 #include "dh2/Application.hpp"
+#include "gameswf/gameswf_environment.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/CameraLevel.hpp"
 #include "dh2/CharProperties.hpp"
 #include "dh2/Character.hpp"
@@ -85,10 +87,9 @@ void UsePotionOnPlayer(int player) {
     }
 }
 
-// 0x43d3b4 NativeSetCurrentQuest(gameswf::fn_call const&)
-// PARTIAL: arguments 0 (player) and 1 (quest) are not read.
+// 0x43d3b4 NativeSetCurrentQuest(gameswf::fn_call const&): SetCurrentQuestOfPlayer(argument 0 = player, argument 1 = quest).
 void NativeSetCurrentQuest(const gameswf::fn_call& call) {
-    (void)call;
+    SetCurrentQuestOfPlayer(static_cast<int>(call.arg(0).to_number()), static_cast<int>(call.arg(1).to_number()));
 }
 
 // Body of NativeSetCurrentQuest: Character::SG_SetCurrentQuest(quest, -1) on the player's character.
@@ -129,10 +130,10 @@ bool TrainSkillOfPlayer(int player, int skill, bool flag) {
     return ch ? ch->IncSkill(skill, flag) : false;
 }
 
-// 0x43d63c NativeEquipSkill(gameswf::fn_call const&)
-// PARTIAL: arguments 0 (slot), 1 (skill) and 2 (player) are not read.
+// 0x43d63c NativeEquipSkill(gameswf::fn_call const&): EquipSkillInSlotOfPlayer(player = argument 2, slot = argument 0, skill = argument 1).
 void NativeEquipSkill(const gameswf::fn_call& call) {
-    (void)call;
+    EquipSkillInSlotOfPlayer(static_cast<int>(call.arg(2).to_number()), static_cast<int>(call.arg(0).to_number()),
+                             static_cast<int>(call.arg(1).to_number()));
 }
 
 // Body of NativeEquipSkill: when the character can equip the skill, Character::SG_SetSkillInSlot(slot, skill).
@@ -143,12 +144,9 @@ void EquipSkillInSlotOfPlayer(int player, int slot, int skill) {
     }
 }
 
-// 0x43d6f8 NativePinchZoom(gameswf::fn_call const&)
-// PARTIAL: argument 0 (the pinch amount) is not read, because the gameswf argument accessors are not usable (see the
-// header comment; vendor-gameswf/include/vendor-gameswf/as_value.hpp does not compile). PinchZoomBy, the body, makes
-// the camera write (CameraLevel +0x88 from ZoomHandler::m_sensitivity, guarded by +0x86).
+// 0x43d6f8 NativePinchZoom(gameswf::fn_call const&): PinchZoomBy(argument 0), which holds the DPad gate.
 void NativePinchZoom(const gameswf::fn_call& call) {
-    (void)call;
+    PinchZoomBy(static_cast<int>(call.arg(0).to_number()));
 }
 
 // Body of NativePinchZoom. Runs only when the DPad option is set, and only with a bound camera. Then the zoom request
@@ -201,10 +199,11 @@ bool GetEquippedItemInfo(int player, int slot, int* color, int* index, int* numP
     return true;
 }
 
-// 0x43da2c NativeInvAutoEquipSlot(gameswf::fn_call const&)
-// PARTIAL: arguments 0 (slot) and 1 (player) are not read.
+// 0x43da2c NativeInvAutoEquipSlot(gameswf::fn_call const&): with two arguments, AutoEquipSlotOfPlayer(player = argument 1, slot = argument 0).
 void NativeInvAutoEquipSlot(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 2) {
+        AutoEquipSlotOfPlayer(static_cast<int>(call.arg(1).to_number()), static_cast<int>(call.arg(0).to_number()));
+    }
 }
 
 // Body of NativeInvAutoEquipSlot. Dispatch is in ClassifyAutoEquipSlot. Character vtable slots: +0x138 is
@@ -237,10 +236,10 @@ void NativeOnHUDOpenEvent(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43dbb8 NativeReloadSkills(gameswf::fn_call const&)
-// PARTIAL: the optional argument 0 (player; 0 when there is no argument) is not read.
+// 0x43dbb8 NativeReloadSkills(gameswf::fn_call const&): ReloadSkillsOfPlayer(argument 0, or the player 0 when there is no argument).
 void NativeReloadSkills(const gameswf::fn_call& call) {
-    (void)call;
+    const int player = call.nargs == 1 ? static_cast<int>(call.arg(0).to_number()) : 0;
+    ReloadSkillsOfPlayer(player);
 }
 
 // Body of NativeReloadSkills.
@@ -251,10 +250,10 @@ void ReloadSkillsOfPlayer(int player) {
     }
 }
 
-// 0x43dc08 NativeSaveGame(gameswf::fn_call const&)
-// PARTIAL: the optional argument 0 (player; 0 when there is no argument) is not read.
+// 0x43dc08 NativeSaveGame(gameswf::fn_call const&): SaveGameOfPlayer(argument 0, or the player 0 when there is no argument).
 void NativeSaveGame(const gameswf::fn_call& call) {
-    (void)call;
+    const int player = call.nargs == 1 ? static_cast<int>(call.arg(0).to_number()) : 0;
+    SaveGameOfPlayer(player);
 }
 
 // Body of NativeSaveGame: Character::SG_Save, then the skill trophies. For each skill row (PlayerSavegame
@@ -378,11 +377,11 @@ void EquipItemInSlotOfPlayer(int player, int item, int slot) {
     }
 }
 
-// 0x43e734 NativeHUDSkill(gameswf::fn_call const&)
-// PARTIAL: argument 0 (slot, a number) is not read. The local player's character is PlayerInfo +0x660 (unk_660 in
-// dh2/PlayerInfo.hpp, now declared), and HudSkillForLocalPlayer makes the call once the slot is read.
+// 0x43e734 NativeHUDSkill(gameswf::fn_call const&): with one numeric argument, HudSkillForLocalPlayer(slot).
 void NativeHUDSkill(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        HudSkillForLocalPlayer(call.arg(0).to_int());
+    }
 }
 
 // Body of NativeHUDSkill on the local player's character. Acts only when the character may act (CTRLIsAllowed) and
@@ -421,10 +420,11 @@ void NativeMoveCharacter(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43ea0c NativeUnlockCharacter(gameswf::fn_call const&)
-// PARTIAL: argument 0 (player, a number) is not read, and the boolean result is not set (it is always false).
+// 0x43ea0c NativeUnlockCharacter(gameswf::fn_call const&): with one numeric argument, UnlockCharacterControl(player).
 void NativeUnlockCharacter(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        UnlockCharacterControl(call.arg(0).to_int());
+    }
 }
 
 // Body of NativeUnlockCharacter: clears the controller's block flag and the zoom lock.
@@ -437,10 +437,11 @@ void UnlockCharacterControl(int player) {
     NativeSetLockZoom(false);
 }
 
-// 0x43eac0 NativeLockCharacter(gameswf::fn_call const&)
-// PARTIAL: argument 0 (player, a number) is not read, and the boolean result is not set (it is always false).
+// 0x43eac0 NativeLockCharacter(gameswf::fn_call const&): with one numeric argument, LockCharacterControl(player).
 void NativeLockCharacter(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        LockCharacterControl(call.arg(0).to_int());
+    }
 }
 
 // Body of NativeLockCharacter: stops the character, sets the controller's block flag and the zoom lock.

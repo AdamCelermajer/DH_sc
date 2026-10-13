@@ -6,6 +6,8 @@
 // Reconstructed from libDungeonHunter2.so pseudocode (dtor 0x31b57c / 0x31bb54, bindMethod 0x319af4, bindFunction 0x31a4d4).
 #pragma once
 
+#include <cstring>
+
 struct lua_State;
 
 namespace sfc {
@@ -45,6 +47,19 @@ public:
     Instance* m_instance;                                               // +0x04 the Instance that registerFunction writes to (bindFunction)
     lua_State* m_state;                                                 // +0x08 the state used by bindMethod and _bindMethod; zero until the owner sets it
 };
+
+// Definition of the member template declared above (0x386c20 is its instantiation for TestUD). The two words of
+// the member function pointer are passed to _bindMethod unchanged, so the host's own layout (virtual dispatch
+// included) is what __methodCallback rebuilds. The name is the one the caller gives.
+template <typename T>
+void Binder::bindMethod(const char* funcName, void (T::*method)(const Arguments& args, ReturnValues& ret)) {
+    static_assert(sizeof(method) == 2 * sizeof(void*), "a member function pointer is two words");
+    if (m_state != nullptr) {
+        void* words[2];
+        std::memcpy(words, &method, sizeof(method));
+        _bindMethod(funcName, words[0], words[1]);
+    }
+}
 
 }  // namespace lua
 }  // namespace script

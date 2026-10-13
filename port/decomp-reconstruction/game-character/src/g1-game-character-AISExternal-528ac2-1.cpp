@@ -3,14 +3,15 @@
 // Declarations come from dh2/AISExternal.hpp, which already declares every method in this batch.
 //
 // Two blockers keep some functions partial. Each affected function names the one that applies.
-//  - sfc::script::lua::Arguments has no header in this tree (dh2/sfc/script/lua/Arguments.hpp is absent). The Lua
-//    hooks build one, push their argument (pushPointer or pushUserData), call LuaScript::Call(name, args) and destroy
-//    it. Those calls are not written.
+//  - The Lua hooks build an sfc::script::lua::Arguments, push their argument and call LuaScript::Call(name, args).
+//    The Arguments header is in the tree now, so those hooks are written.
 //  - AISDefault declares no constructor that takes the skip-bindings flag. The AISExternal(bool) constructors pass
 //    their flag through the AISDefault base to CharAIScript(bool). They are not written until dh2/AISDefault.hpp
 //    declares AISDefault(bool).
 
 #include "dh2/AISExternal.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
 
 // 0x3dcec8 AISExternal::InitVCB(void)
 // Calls the base InitVCB (AISDefault, 0x3dc7d8) first. Then each Lua hook that the external script defines sets its
@@ -52,45 +53,62 @@ AISExternal::~AISExternal() {}
 // It needs AISDefault(bool) declared in dh2/AISDefault.hpp, which is absent (layout request).
 
 // 0x3dd250 AISExternal::OnCombatResults(GameObject*, void*)
-// PARTIAL: the Lua call is not written. The original builds an sfc::script::lua::Arguments, pushes the results pointer
-// (pushPointer(a3)), calls LuaScript::Call(this, "OnCombatResults", args) and destroys the Arguments. Waits on
-// dh2/sfc/script/lua/Arguments.hpp (absent).
-void AISExternal::OnCombatResults(GameObject* /*other*/, void* /*results*/) {}
+// Builds an Arguments with the results pointer, calls the external script's OnCombatResults, and destroys the Arguments.
+// The GameObject argument is not pushed (the original passes only the results pointer).
+void AISExternal::OnCombatResults(GameObject* /*other*/, void* results) {
+    sfc::script::lua::Arguments args;
+    args.pushPointer(results);
+    LuaScript::Call("OnCombatResults", args);
+}
 
 // 0x3dd2a0 AISExternal::OnProjectileHit(GameObject*)
-// PARTIAL: the base hook runs. The Lua call is not written: the original pushes target as userdata into an
-// sfc::script::lua::Arguments and calls LuaScript::Call(this, "OnProjectileHit", args). Waits on
-// dh2/sfc/script/lua/Arguments.hpp (absent).
+// The base hook runs first, then the external script's OnProjectileHit gets the target as userdata.
 void AISExternal::OnProjectileHit(GameObject* target) {
     AISDefault::OnProjectileHit(target);
+    sfc::script::lua::Arguments args;
+    args.pushUserData(target);
+    LuaScript::Call("OnProjectileHit", args);
 }
 
 // 0x3dd2f4 AISExternal::OnEnemySpotted(Character*)
-// PARTIAL: not written. The original pushes c as userdata into an sfc::script::lua::Arguments and calls
-// LuaScript::Call(this, "OnEnemySpotted", args) unconditionally. Waits on dh2/sfc/script/lua/Arguments.hpp (absent).
-void AISExternal::OnEnemySpotted(Character* /*c*/) {}
+// Calls OnEnemySpotted with the character as userdata, unconditionally.
+void AISExternal::OnEnemySpotted(Character* c) {
+    sfc::script::lua::Arguments args;
+    args.pushUserData(c);
+    LuaScript::Call("OnEnemySpotted", args);
+}
 
 // 0x3dd344 AISExternal::OnNeutralSpotted(Character*)
-// PARTIAL: not written. The original pushes c as userdata and calls LuaScript::Call(this, "OnNeutralSpotted", args)
-// unconditionally. Waits on dh2/sfc/script/lua/Arguments.hpp (absent).
-void AISExternal::OnNeutralSpotted(Character* /*c*/) {}
+// Calls OnNeutralSpotted with the character as userdata, unconditionally.
+void AISExternal::OnNeutralSpotted(Character* c) {
+    sfc::script::lua::Arguments args;
+    args.pushUserData(c);
+    LuaScript::Call("OnNeutralSpotted", args);
+}
 
 // 0x3dd394 AISExternal::OnFriendSpotted(Character*)
-// PARTIAL: the gate is written. Only when bit 1 of unk_b8 (0x2, set by InitVCB when OnFriendSpotted is in the function
-// table) does the original push c as userdata and call LuaScript::Call(this, "OnFriendSpotted", args). That call is
-// not written. It waits on dh2/sfc/script/lua/Arguments.hpp (absent).
-void AISExternal::OnFriendSpotted(Character* /*c*/) {
+// Only when bit 1 of unk_b8 (0x2, set by InitVCB when OnFriendSpotted is in the function table) does the original push c
+// as userdata and call OnFriendSpotted.
+void AISExternal::OnFriendSpotted(Character* c) {
     if ((unk_b8 & 0x2u) != 0) {
-        // Lua call not written (see above).
+        sfc::script::lua::Arguments args;
+        args.pushUserData(c);
+        LuaScript::Call("OnFriendSpotted", args);
     }
 }
 
 // 0x3dd3f0 AISExternal::OnRevived(GameObject*)
-// PARTIAL: not written. The original pushes reviver as userdata and calls LuaScript::Call(this, "OnRevived", args)
-// unconditionally. Waits on dh2/sfc/script/lua/Arguments.hpp (absent).
-void AISExternal::OnRevived(GameObject* /*reviver*/) {}
+// Calls OnRevived with the reviver as userdata, unconditionally.
+void AISExternal::OnRevived(GameObject* reviver) {
+    sfc::script::lua::Arguments args;
+    args.pushUserData(reviver);
+    LuaScript::Call("OnRevived", args);
+}
 
 // 0x3dd440 AISExternal::OnDied(GameObject*)
-// PARTIAL: not written. The original pushes killer as userdata and calls LuaScript::Call(this, "OnDied", args)
-// unconditionally. Waits on dh2/sfc/script/lua/Arguments.hpp (absent).
-void AISExternal::OnDied(GameObject* /*killer*/) {}
+// Calls OnDied with the killer as userdata, unconditionally.
+void AISExternal::OnDied(GameObject* killer) {
+    sfc::script::lua::Arguments args;
+    args.pushUserData(killer);
+    LuaScript::Call("OnDied", args);
+}

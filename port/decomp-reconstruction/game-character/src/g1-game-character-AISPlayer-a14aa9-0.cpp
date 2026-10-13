@@ -15,6 +15,7 @@
 #include "dh2/CharAI.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/LuaScript.hpp"
 #include "dh2/v2Controller.hpp"
 
@@ -81,14 +82,14 @@ void AISPlayer::OnEnemySpotted(Character* c) {
 }
 
 // 0x3ddb10 _ZN9AISPlayer6OnKillEP9Character AISPlayer::OnKill(Character*)
-// PARTIAL: waits on dh2/sfc/script/lua/Arguments.hpp. The Arguments class is only forward-declared in the tree and
-// its pushUserData is not declared, so the Lua call cannot be built. Written: the AISDefault hook and the test of the
-// OnKill bit (0x400) in the callback mask at +0xb8. Not written: the Arguments object that pushes the victim as user
-// data, and LuaScript::Call("OnKill", args) inside the bit test.
+// The AISDefault hook runs; then, when bit 0x400 of the callback mask at +0xb8 is set, the victim is pushed as userdata
+// and the script's OnKill is called.
 void AISPlayer::OnKill(Character* victim) {
     AISDefault::OnKill(victim);
     if ((unk_b8 & 0x400u) != 0) {
-        // PARTIAL: the script call is not written (see above).
+        sfc::script::lua::Arguments args;
+        args.pushUserData(victim);
+        LuaScript::Call("OnKill", args);
     }
 }
 

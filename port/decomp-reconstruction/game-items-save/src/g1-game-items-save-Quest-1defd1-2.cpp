@@ -83,7 +83,7 @@ void Quest::UpdatePreActive() {
     // original calls the vtable slot +0x08 of the room attributes (CRoomAttributes::SetAttributeInt, see the vtable
     // listing) and slot +0xa4 of CMatching (GetRoomAttributes). Both are called here directly.
     CRoomAttributes* roomAttributes = CMatching::Get()->GetRoomAttributes();
-    roomAttributes->SetAttributeInt(6, m_pyDataIndex);
+    roomAttributes->SetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(6), m_pyDataIndex);
     // Not written: the SendGameParameters branch, see the comment at the top of this function.
 }
 

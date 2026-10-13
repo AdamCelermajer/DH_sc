@@ -14,6 +14,8 @@
 
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance()
 #include "dh2/Application.hpp"
+#include "gameswf/gameswf_environment.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/GSKeyboard.hpp"
 #include "dh2/HUDMinimap.hpp"
 #include "dh2/Level.hpp"
@@ -47,13 +49,9 @@ void NativeRefreshHudManager(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43a82c NativeDoWeHaveInternet(gameswf::fn_call const&)
-// PARTIAL: the value is Application::IsInternetAccessEnabled(), computed here. Missing: gameswf::as_value::set_bool on the
-// result (fn_call +0x00), which needs the as_value declaration.
+// 0x43a82c NativeDoWeHaveInternet(gameswf::fn_call const&): the result is Application::IsInternetAccessEnabled().
 void NativeDoWeHaveInternet(const gameswf::fn_call& call) {
-    const bool internet = ApplicationGetInstance().IsInternetAccessEnabled();
-    (void)internet;
-    (void)call;
+    call.result->set_bool(ApplicationGetInstance().IsInternetAccessEnabled());
 }
 
 // 0x43a860 NativeCloseKeyboard(gameswf::fn_call const&)
@@ -85,13 +83,9 @@ void NativeIPodControl(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43a974 NativeUseIpodPlayer(gameswf::fn_call const&)
-// PARTIAL: the value is nativeIsSupportMM() == 1, computed here (the JNI bridge is declared in the header). Missing:
-// gameswf::as_value::set_bool on the result (fn_call +0x00).
+// 0x43a974 NativeUseIpodPlayer(gameswf::fn_call const&): the result is nativeIsSupportMM() == 1 (JNI bridge, declared).
 void NativeUseIpodPlayer(const gameswf::fn_call& call) {
-    const bool supported = nativeIsSupportMM() == 1;
-    (void)supported;
-    (void)call;
+    call.result->set_bool(nativeIsSupportMM() == 1);
 }
 
 // 0x43a9a8 NativeResetZoom(gameswf::fn_call const&)
@@ -100,18 +94,15 @@ void NativeResetZoom(const gameswf::fn_call& /*call*/) {
     ApplicationGetInstance().m_zoomHandler->ResetZoom();
 }
 
-// 0x43aa18 NativeShowStatusBar(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original converts argument 0 with gameswf::as_value::to_bool and calls
-// Application::ShowStatubBar(bool), declared in dh2/Application.hpp. The as_value accessors are not in the tree.
+// 0x43aa18 NativeShowStatusBar(gameswf::fn_call const&): Application::ShowStatubBar(to_bool(argument 0)).
 void NativeShowStatusBar(const gameswf::fn_call& call) {
-    (void)call;
+    ApplicationGetInstance().ShowStatubBar(call.arg(0).to_bool());
 }
 
-// 0x43aa58 NativeShowMinimapLegend(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original converts argument 0 with gameswf::as_value::to_bool, then stores it at byte
-// +0x1e4 (484) of MenuCharMenu_Map::GetInstance(). dh2/MenuCharMenu_Map.hpp does not exist yet.
+// 0x43aa58 NativeShowMinimapLegend(gameswf::fn_call const&): stores to_bool(argument 0) in MenuCharMenu_Map::unk_1e4 (+0x1e4).
 void NativeShowMinimapLegend(const gameswf::fn_call& call) {
-    (void)call;
+    const bool show = call.arg(0).to_bool();
+    MenuCharMenu_Map::GetInstance()->unk_1e4 = show;
 }
 
 // 0x43aa84 NativeResetMapZoom(gameswf::fn_call const&)
@@ -156,12 +147,16 @@ void NativeEndLoading(const gameswf::fn_call& /*call*/) {
     }
 }
 
-// 0x43ab40 NativeSetLevelPause(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original reads argument 0 only when call.nargs (fn_call +0x10) is 1, converts it with
-// gameswf::as_value::to_bool, and stores it at Level +0x1a8 (424, Level::unk_1a8) when GetCurrentLevel() is non-null.
-// The nargs test and the to_bool conversion are missing.
+// 0x43ab40 NativeSetLevelPause(gameswf::fn_call const&): with one argument, stores to_bool(argument 0) in
+// Level::unk_1a8 (+0x1a8) when the current level is non-null.
 void NativeSetLevelPause(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1) {
+        const bool pause = call.arg(0).to_bool();
+        Level* level = ApplicationGetInstance().GetCurrentLevel();
+        if (level != nullptr) {
+            level->unk_1a8 = pause;
+        }
+    }
 }
 
 // 0x43ab98 NativeAwayFromHud(gameswf::fn_call const&)

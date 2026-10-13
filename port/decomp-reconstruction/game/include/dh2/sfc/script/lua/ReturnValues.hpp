@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <vector>
 
+#include "dh2/sfc/script/lua/Error.hpp"
 #include "dh2/sfc/script/lua/Value.hpp"
 
 struct lua_State;
@@ -35,8 +36,8 @@ public:
     Value& operator[](unsigned int index) const;            // 0x3da43c, throws "vector" when index is out of range
 
     // Original 32-bit offsets. The vptr is at +0x00 (virtual destructor).
-    uint8_t pad_04[0x20];                                   // +0x04 sfc::script::lua::Error, constructed and destroyed in place
-                                                            // (ctor 0x31b434 calls Error::Error(this+4)). No Error layout recovered.
+    Error m_error;                                          // +0x04 the status and message of the call (ctor 0x31b434 builds it in
+                                                            // place, Error::Error(this+4)); Instance::pCall_ and execFile write it.
     std::vector<Value>* m_valueList;                        // +0x24 values returned by the call, from Value::allocValueList
 };
 

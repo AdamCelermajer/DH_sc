@@ -27,9 +27,10 @@ inline constexpr float kPreviewCharacterRoll = static_cast<float>(3.1416 * -0.12
 extern bool Is_In_Multiplayer_IGM;   // ELF 0x9a5b5a, .bss, 1 byte
 extern bool Is_In_Multiplayer_Mode;  // ELF 0x9a5b59, .bss, 1 byte
 
-// nativeOpenIGP (0x532ad4): the JNI bridge that opens the in-game page. core-platform skipped its body (Android glue);
-// the declaration here is what the MenuMainMenu call needs. The Hex-Rays body returns the JNI call result.
-int nativeOpenIGP(int language);
+// nativeOpenIGP (0x532ad4): the JNI bridge that opens the in-game page. It is a C symbol (core-platform defines it with C linkage,
+// void: the Java method returns nothing and the r0 left behind has no defined value). Declared with the same linkage and type
+// here; it was a C++ declaration returning int, which asked for _Z13nativeOpenIGPi and linked to nothing (link-1).
+extern "C" void nativeOpenIGP(int language);
 
 // The language argument of nativeOpenIGP in MenuMainMenu::OnEvent. The original switch is the same table as
 // GLLiveLanguageArg (dh2/global/native_app_hud_level.hpp): languages 4, 5, 6 and 7 become 5, 6, 7 and 4, every other value

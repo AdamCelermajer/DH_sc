@@ -22,6 +22,9 @@
 #include "dh2/Application.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "gameswf/gameswf_environment.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/Quest.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
@@ -120,21 +123,21 @@ void NativeMustWaitForHost(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43b158 NativePopMenu(gameswf::fn_call const&)
-// PARTIAL: with no argument the original calls the virtual at vtable +0x38 of the MultiMenuManager at MenuManager
-// +0xf4 (PopMenu with no name). With an argument it converts it with to_xstring and calls MenuManager::PopMenu(name),
-// which is declared. Missing: the gameswf argument count and accessors, and dh2/MultiMenuManager.hpp (absent). The
-// body is left out.
+// 0x43b158 NativePopMenu(gameswf::fn_call const&): with no argument, pops the multi-menu stack (the virtual PopMenu(bool)
+// of MenuManager::m_multiMenuManager, +0xf4, with false). With an argument, pops the named menu.
 void NativePopMenu(const gameswf::fn_call& call) {
-    (void)call;
+    MenuManager* manager = MenuManager::GetInstance();
+    if (call.nargs == 0) {
+        manager->m_multiMenuManager->PopMenu(false);
+        return;
+    }
+    manager->PopMenu(call.arg(0).to_string());
 }
 
-// 0x43b1b4 NativePushMenu(gameswf::fn_call const&)
-// PARTIAL: the original converts argument 0 with to_xstring (no argument-count check) and calls
-// MenuManager::GetInstance()->PushMenu(name). PushMenu(const char*) is declared. Missing: the gameswf argument
-// accessors and to_xstring. The body is left out.
+// 0x43b1b4 NativePushMenu(gameswf::fn_call const&): MenuManager::GetInstance()->PushMenu(name) for argument 0 (no
+// argument-count check in the original).
 void NativePushMenu(const gameswf::fn_call& call) {
-    (void)call;
+    MenuManager::GetInstance()->PushMenu(call.arg(0).to_string());
 }
 
 // 0x43b1e4 NativeReviveAllPlayers(gameswf::fn_call const&)

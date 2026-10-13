@@ -29,6 +29,8 @@
 #include <string>
 
 #include "core-platform/device.hpp"
+#include "gameswf/gameswf_environment.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "core-platform/deps/application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/PlayerSavegame.hpp"
@@ -128,11 +130,10 @@ int SaveGameIdsCount() {
     return static_cast<int>(PlayerSavegame::SG_GetSavegameList(false).size());
 }
 
-// 0x43f5c8 NativeGetSaveIDsListSize(gameswf::fn_call const&)
-// PARTIAL. Takes no arguments. The result is the number of entries (SaveGameIdsCount). Missing: set_double. The gameswf
-// value setters are declared in vendor-gameswf/include/vendor-gameswf/as_value.hpp, but that header does not compile.
+// 0x43f5c8 NativeGetSaveIDsListSize(gameswf::fn_call const&): the number of save ids (SaveGameIdsCount, the size of the
+// PlayerSavegame::SG_GetSavegameList result), as a number.
 void NativeGetSaveIDsListSize(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_double(SaveGameIdsCount());
 }
 
 // 0x43f630 NativeCreateSaveSlot(gameswf::fn_call const&)

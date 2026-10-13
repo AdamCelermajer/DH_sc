@@ -8,6 +8,8 @@
 
 #include <cstdint>
 
+#include "dh2/sfc/script/lua/Arguments.hpp"
+
 class Character;
 class Projectile;
 
@@ -36,7 +38,7 @@ public:
     // Object layout. The vptr sits at +0x00.
     Character* m_character;                                             // +0x04 owning character (asserted non-null by the ctor)
     const char* m_scriptName;                                           // +0x08 skill script name (pushed into the Lua arguments)
-    uint8_t pad_0c[8];                                                  // +0x0c sfc::script::lua::Arguments, embedded (8 bytes at 32-bit). Its type is not declared here.
+    sfc::script::lua::Arguments m_arguments;                            // +0x0c the Lua arguments the constructor fills (8 bytes at 32-bit)
     unsigned int m_skillIndex;                                          // +0x14 skill index, pushed into the Lua arguments
     int m_cooldownTimerId;                                              // +0x18 CharTimers slot of the skill cooldown, -1 = none (ctor). GetCooldown reads it; Character::_SetSpellCooldownTimerId writes it
 };

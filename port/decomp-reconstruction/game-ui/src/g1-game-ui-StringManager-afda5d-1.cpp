@@ -193,12 +193,8 @@ void closeSheetStream(IStreamBase*& stream) {
 
 }  // namespace
 
-// 0x507d6c StringManager::StringManager() (C2; C1 is 0x507d10 in part 1)
-StringManager::StringManager() {
-    m_currentPack = -1;
-    std::memset(m_lists, 0, sizeof m_lists);
-    std::memset(m_list_count, 0, sizeof m_list_count);
-}
+// 0x507d6c StringManager::StringManager() (C2) has the same body as C1 (0x507d10), which part 0 defines. One C++
+// definition emits both symbols, so there is no second definition here (link-1: it duplicated C1 and C2).
 
 // 0x507ea4 StringManager::parseColors(std::string&, char const*)
 // The markup characters: ^ starts an escape, | writes byte 17, and the escapes d f g h i k p s t v # * ^ are kept with

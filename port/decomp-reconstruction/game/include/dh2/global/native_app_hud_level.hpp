@@ -17,8 +17,8 @@ class PlayerInfo;
 
 // Android JNI bridges, queued to core-platform (0x532b20 returns the JNI result, 0x533570 logs and returns it).
 // Not defined in the tree yet.
-int nativeOpenGLive(int language);  // 0x532b20
-int nativeIsSupportMM();            // 0x533570
+extern "C" void nativeOpenGLive(int language);  // 0x532b20, a C symbol; core-platform defines it with C linkage and void (link-1)
+extern "C" int nativeIsSupportMM();  // 0x533570, a C symbol (core-platform tb/android_jni_app_events.hpp, link-1)
 
 // The switch of NativeGLLive (0x43a758): languages 4, 5, 6 and 7 are passed to nativeOpenGLive as 5, 6, 7 and 4;
 // every other language is passed through unchanged.

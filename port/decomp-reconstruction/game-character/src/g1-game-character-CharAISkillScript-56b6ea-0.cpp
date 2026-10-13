@@ -52,8 +52,7 @@ CharAIScript* LiveScript(const CharAISkillScript* skill) {
 }  // namespace
 
 // 0x3cc238 CharAISkillScript::~CharAISkillScript()   (D1, complete-object destructor)
-// PARTIAL: the original sets the vptr (the compiler does that here) and then runs sfc::script::lua::Arguments::~Arguments on
-// the embedded Arguments at +0x0c. That call waits on dh2/sfc/script/lua/Arguments.hpp (absent). Body empty until then.
+// The embedded Arguments (m_arguments, +0x0c) is destroyed after this body, as the original's ~Arguments call does.
 CharAISkillScript::~CharAISkillScript() {}
 
 // 0x3cc448 CharAISkillScript::~CharAISkillScript()   (D0, deleting destructor)
@@ -61,9 +60,8 @@ CharAISkillScript::~CharAISkillScript() {}
 // pointer emits. Not written.
 
 // 0x3cde2c CharAISkillScript::CharAISkillScript(Character*,char const*,unsigned int)
-// PARTIAL: the Arguments constructor and the two pushes (pushString of the script name, pushInteger of the skill index) are
-// not written; they wait on dh2/sfc/script/lua/Arguments.hpp (absent). The stores, the cooldown slot of -1 and both asserts
-// are written in the original order: "user" then "name", each at line 46 of the header.
+// The stores, the Arguments constructor (m_arguments), the cooldown slot of -1 and both asserts ("user" then "name", line 46)
+// run in the original order; the script name and the skill index are then pushed onto the Lua arguments.
 CharAISkillScript::CharAISkillScript(Character* character, const char* scriptName, unsigned int skillIndex)
     : m_character(character),
       m_scriptName(scriptName),
@@ -75,6 +73,8 @@ CharAISkillScript::CharAISkillScript(Character* character, const char* scriptNam
     if (!scriptName) {
         AssertFailed("name", 46);
     }
+    m_arguments.pushString(scriptName);
+    m_arguments.pushInteger(static_cast<int>(skillIndex));
 }
 
 // 0x3da3d0 CharAISkillScript::GetCooldown()

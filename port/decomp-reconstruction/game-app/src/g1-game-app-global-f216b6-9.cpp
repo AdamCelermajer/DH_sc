@@ -20,6 +20,12 @@
 #include "dh2/Character.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/Savegame.hpp"
+#include "dh2/SavegameManager.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"
+#include "gameswf/gameswf_environment.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/Quest.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/native_app_bindings.hpp"
@@ -127,30 +133,21 @@ void NativeGetMonsterHUDHP(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43ccc8 NativeFindFreeSaveSlot(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original stores (double)(int)PlayerSavegame::SG_GetNextFreeSlot() with
-// as_value::set_double on the fn_call's result. The assembly (0x43ccc8) calls SG_GetNextFreeSlot with no receiver
-// (R0 is not set for the call), but dh2/PlayerSavegame.hpp declares it a non-static member (0x4660c8). That
-// declaration needs checking against the asm. Missing: the as_value::set_double accessor.
+// 0x43ccc8 NativeFindFreeSaveSlot(gameswf::fn_call const&): the result is the next free save slot as a number.
 void NativeFindFreeSaveSlot(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_double(static_cast<double>(static_cast<int>(PlayerSavegame::SG_GetNextFreeSlot())));
 }
 
-// 0x43ccec NativeGetCreditMovement(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original stores the value of CreditMovementValue (below) with set_double. The value
-// is 2.0 when the global HTC_DEVICES is set. Otherwise it is (double)(int)(Application::GetDt() / 25u + 1), with
-// Application::GetDt on the Application singleton (ApplicationGetInstance(), dh2/global/ctrl_camera.hpp). The
-// set_double store is missing.
+// 0x43ccec NativeGetCreditMovement(gameswf::fn_call const&): the credit movement for the frame (CreditMovementValue,
+// which takes the HTC flag and the frame time in ms from Application::GetDt on the singleton).
 void NativeGetCreditMovement(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_double(CreditMovementValue(HTC_DEVICES, ApplicationGetInstance().GetDt()));
 }
 
-// 0x43cd68 NativeSetCurrentDifficulty(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original converts argument 0 with to_number and stores the int at +0x0c of the object
-// at dword_99F778 (unnamed global, see net-session-online/include/net-session-online/game_center.hpp). Missing: the
-// to_number accessor, and the type of that object (layout request: dword_99F778 object, +0x0c int difficulty).
+// 0x43cd68 NativeSetCurrentDifficulty(gameswf::fn_call const&): stores (int)to_number(argument 0) at +0x0c of the
+// savegame manager (the object at dword_99F778, which is Application +0x4c). The field is SavegameManager::unk_0c.
 void NativeSetCurrentDifficulty(const gameswf::fn_call& call) {
-    (void)call;
+    ApplicationGetInstance().m_savegameManager->unk_0c = static_cast<std::int32_t>(call.arg(0).to_number());
 }
 
 // 0x43cdac NativeChangeRolloverInputBehavior(gameswf::fn_call const&)
@@ -225,12 +222,14 @@ void NativeSetSaveSlotIDToMainMenu(const gameswf::fn_call& call) {
     (void)call;
 }
 
-// 0x43d288 NativeEraseSaveSlot(gameswf::fn_call const&)
-// PARTIAL: stub, no body. Argument 0 (to_number) is a save slot. When it is not negative, the original calls
-// Savegame::FlushJobs(nullptr) and then Savegame::DeleteAllSlotFiles(slot). Both are declared in dh2/Savegame.hpp.
-// Missing: the as_value::to_number accessor.
+// 0x43d288 NativeEraseSaveSlot(gameswf::fn_call const&): for a slot that is not negative, flushes the save jobs and
+// deletes the slot's files.
 void NativeEraseSaveSlot(const gameswf::fn_call& call) {
-    (void)call;
+    const int slot = static_cast<int>(call.arg(0).to_number());
+    if (slot >= 0) {
+        Savegame::FlushJobs(nullptr);
+        Savegame::DeleteAllSlotFiles(slot);
+    }
 }
 
 // Helper of NativeGetLoadingTipStrID: the page pick (inline arithmetic of 0x43cb24, not a separate function).
