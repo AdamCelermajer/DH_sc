@@ -324,9 +324,15 @@ namespace gameswf
 	}
 #endif /* DH2 */
 
+#if 0 /* DH2: r1714 takes the norm of column 1 (m01, m11). The binary has no symbol for get_y_scale: it is inlined at every call site (character::get_member 0x75409c, character::set_member 0x75361c) and always reads row 1 (m10, m11), as get_x_scale (0x75329c) reads row 0. */
 	float	matrix::get_y_scale() const
 	{
 		return sqrtf(m_[1][1] * m_[1][1] + m_[0][1] * m_[0][1]);
+	}
+#endif /* DH2 */
+	float	matrix::get_y_scale() const
+	{
+		return sqrtf(m_[1][1] * m_[1][1] + m_[1][0] * m_[1][0]);	// DH2: the norm of row 1
 	}
 
 	float	matrix::get_rotation() const

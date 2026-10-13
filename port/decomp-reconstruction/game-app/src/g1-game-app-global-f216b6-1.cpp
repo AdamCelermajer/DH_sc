@@ -117,18 +117,10 @@ CMessage* GetNewInstance<CMsgSpawnObject>(bool withSerial) {
 }
 
 // 0x32a710 CMessage* GetNewInstance<CMsgScriptCmd>(bool)
-// PARTIAL: the original runs CMessage::CMessage("CMsgScriptCmd", bool) on the new object, so the serial gate is
-// applied. The original then stores the vptr, the type name (through std::string::_M_assign), sendMode_ = 1
-// (+0x2c), flag32_ = 1 (+0x32), reliable_ = 1 (+0x30) and includeLocalMember_ = 1 (+0x33). c_msg_fixed.hpp has no
-// CMsgScriptCmd(bool) constructor, so the bool is dropped: the default constructor is followed by SetProperties(),
-// which makes the same type-name, sendMode_, flag32_, reliable_ and includeLocalMember_ stores. Missing: the
-// serial gate of the base constructor. Layout request: add an explicit CMsgScriptCmd(bool) constructor
-// (CMessage("CMsgScriptCmd", withSerial)) to net-session-online/include/net-session-online/c_msg_fixed.hpp.
-// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
-// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
+// Asm: operator new(0x5c, hint 2), then CMessage(name, bool), vptr, typeName_, sendMode_ = 1 (+0x2c),
+// includeLocalMember_ = 1 (+0x33), flag32_ = 1 (+0x32) and reliable_ = 1 (+0x30). The explicit
+// CMsgScriptCmd(bool) constructor makes the same stores.
 template <>
-CMessage* GetNewInstance<CMsgScriptCmd>([[maybe_unused]] bool withSerial) {
-    auto* msg = new CMsgScriptCmd();
-    msg->SetProperties();
-    return msg;
+CMessage* GetNewInstance<CMsgScriptCmd>(bool withSerial) {
+    return new CMsgScriptCmd(withSerial);
 }

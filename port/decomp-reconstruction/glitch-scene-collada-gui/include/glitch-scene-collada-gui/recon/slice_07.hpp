@@ -83,9 +83,7 @@ boost::intrusive_ptr<scene::IMesh> createMeshWelded(const boost::intrusive_ptr<s
 // The stand-in member view and the seven SAnimatedMesh_* / createAnimatedMesh free functions moved to the canonical class
 // glitch::scene::SAnimatedMesh (scene/SAnimatedMesh.hpp, src/scene/SAnimatedMesh.cpp) in the unification wave.
 
-// 0x59af20 / 0x59afb8 Partial: primitive counts need CPrimitiveStream and vtable slots 0x10..0x34.
-std::int32_t getPolyCount(const boost::intrusive_ptr<scene::IMesh>& mesh);
-std::int32_t getPolyCount(const boost::intrusive_ptr<scene::IAnimatedMesh>& mesh);
+// 0x59af20 / 0x59afb8 getPolyCount: reconstructed in scene/mesh_functions.hpp (src/r3a-...-glitch_scene-00081f-0.cpp).
 
 // Mesh transforms, colours, tangents and normals: partial stubs (see ledger).
 boost::intrusive_ptr<scene::IMesh> flipSurfaces(const boost::intrusive_ptr<scene::IMesh>& mesh);
@@ -96,9 +94,6 @@ boost::intrusive_ptr<scene::IMesh> createMeshWith2TCoords(
 void setVertexColors(const boost::intrusive_ptr<scene::IMesh>& mesh, video::SColor color);
 void setVertexColorAlpha(const boost::intrusive_ptr<scene::IMesh>& mesh, int alpha);
 void makePlanarTextureMapping(const boost::intrusive_ptr<scene::IMesh>& mesh, float scale);
-void scaleTCoords(const boost::intrusive_ptr<scene::CMeshBuffer>& buffer,
-                  const core::vector2d<float>& scale);
-void scaleTCoords(const boost::intrusive_ptr<scene::IMesh>& mesh, const core::vector2d<float>& scale);
 boost::intrusive_ptr<scene::IMesh> createMeshWithTangents(
     const boost::intrusive_ptr<scene::IMesh>& mesh, video::IVideoDriver* driver);
 void scale(const boost::intrusive_ptr<scene::CMeshBuffer>& buffer, const core::vector3d<float>& s);

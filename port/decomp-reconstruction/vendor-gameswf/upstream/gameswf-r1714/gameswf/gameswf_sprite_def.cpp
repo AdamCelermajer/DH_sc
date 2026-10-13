@@ -37,6 +37,7 @@
 namespace gameswf
 {
 
+	#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_sprite_definition-9a9a59-0.cpp (constructor, destructor, read) */
 	sprite_definition::sprite_definition(player* player, movie_definition_sub* m) : 
 		movie_definition_sub(player),
 		m_movie_def(m)
@@ -106,4 +107,5 @@ namespace gameswf
 
 		IF_VERBOSE_PARSE(log_msg("  -- sprite END --\n"));
 	}
+	#endif /* DH2 */
 }

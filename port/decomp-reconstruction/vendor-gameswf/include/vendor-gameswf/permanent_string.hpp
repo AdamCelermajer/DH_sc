@@ -1,26 +1,37 @@
 // gameswf::permanent_string (Gameloft, not in gameswf r1714).
 //
-// Only the layout that the destructor reads is recovered: a flag byte at +0x00 and a buffer pointer
-// at +0x0c. When the flag is 0xff the buffer is heap memory owned by the object, and ~permanent_string
-// frees it. The other fields are not identified and are not declared here. The constructors, the
-// string accessors and permanent_string_cache are not in batch v1-vendor-gameswf-pack0-157e56-0.
+// An interned string. The binary allocates it with operator new(0x14) in permanent_string_cache::get (0x75c2cc),
+// builds it with the tu_string copy constructor and then sets bit 0 of byte +0x13 (the interned bit of the hash
+// cache word at +0x10). Its destructor (0x752e64, 40 bytes) frees the heap text when the flag byte at +0x00 is 0xff,
+// which is what ~tu_string does, and destruct<permanent_string> (0x76c870) runs the same test before it frees the
+// object itself. So the class has no members of its own: it is a ::tu_string (20 bytes in the binary) that is always
+// interned. gameswf::s_empty_name (static initialiser 0x753318) is built the same way but is declared as a plain
+// ::tu_string in gameswf_character.h; a permanent_string converts to ::tu_string& for every consumer
+// (character::m_name, as_value::set_tu_string ...), and a ::tu_string converts to a permanent_string by copying
+// (the copy is interned).
 //
-// Body: vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp.
+// Body: inline here (~permanent_string), vendor-gameswf/src/v1-vendor-gameswf-pack3-a95b99-0.cpp (destruct<permanent_string>).
 
 #pragma once
 
-#include <cstdint>
+#include "base/container.h"                // ::tu_string (upstream, global namespace)
+#include "vendor-gameswf/ref_counted.hpp"  // gameswf::destruct<T>
 
 namespace gameswf {
 
-class permanent_string {
-public:
-	// 0x752e64 gameswf::permanent_string::~permanent_string() (D1, no vtable).
-	~permanent_string();
+struct permanent_string : public ::tu_string {
+	// What the binary does after the tu_string copy constructor: sets the interned bit (+0x13 bit 0).
+	permanent_string() { set_interned(true); }
+	permanent_string(const ::tu_string& text) : ::tu_string(text) { set_interned(true); }  // 0x75c2cc
 
-	int8_t unk_0x00 = 0;        // +0x00: flag byte; -1 (0xff) = the buffer at +0x0c is owned heap memory
-	uint8_t pad_0x01[0x0b];     // +0x01..+0x0b: not identified
-	void* unk_0x0c = nullptr;   // +0x0c: buffer pointer (host width; the 32-bit offset is kept as a comment)
+	// 0x752e64 gameswf::permanent_string::~permanent_string() (D1, no vtable). The binary tests the flag byte for 0xff and
+	// frees the heap text (+0x0c); the ~tu_string that runs after this empty body does exactly that.
+	~permanent_string() {}
 };
+
+// 0x76c870 void gameswf::destruct<gameswf::permanent_string>(gameswf::permanent_string const*):
+// null check, ~permanent_string, free_internal(p). Defined in pack3 next to permanent_string_cache::clear.
+template <>
+void destruct<permanent_string>(const permanent_string* object);
 
 }  // namespace gameswf

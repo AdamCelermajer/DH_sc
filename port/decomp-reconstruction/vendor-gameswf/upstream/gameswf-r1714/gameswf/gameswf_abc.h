@@ -46,6 +46,7 @@ namespace gameswf
 			m_kind(CONSTANT_UNDEFINED),
 			m_flags(0),
 			m_ns(0),
+			m_ns_set(0),	// DH2: all five fields start at 0 (r1714 leaves m_ns_set uninitialised)
 			m_name(0)
 		{
 		}
@@ -81,6 +82,7 @@ namespace gameswf
 
 	};
 
+	// DH2: 12 bytes (ref_counted only), vtable off_991200; read() is empty (0x7b7fb0)
 	struct metadata_info : public ref_counted
 	{
 		void	read(stream* in, abc_def* abc);
@@ -90,7 +92,9 @@ namespace gameswf
 	//
 	// instance_info
 	//
-#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/abc_info.hpp (binary layout: m_interface at +0x1c, m_trait at +0x30) */
+	// DH2: 0x40 bytes (new instance_info(), 0x40): ref_counted +0x00, m_name +0x0c, m_super_name +0x10, m_flags +0x14, m_protectedNs
+	// DH2: +0x18, m_interface +0x1c (array<int>, 16 bytes), m_iinit +0x2c, m_trait +0x30 (array<smart_ptr<traits_info> >, 16 bytes).
+	// DH2: r1714's weak_ptr<abc_def> m_abc is not in the binary (read() never sets it). Vtable off_991210: D1 0x7b9938, D0 0x7b99d0.
 	struct instance_info : public ref_counted
 	{
 
@@ -109,7 +113,9 @@ namespace gameswf
 		array<int> m_interface;
 		int m_iinit;
 		gc_array<gc_ptr<traits_info> > m_trait;
+		#if 0 /* DH2: not in the binary (the object is 0x40 bytes and read() never stores the definition) */
 		weak_ptr<abc_def> m_abc;
+		#endif /* DH2 */
 
 		instance_info() :
 			m_name(0),
@@ -120,27 +126,37 @@ namespace gameswf
 		{
 		}
 
-		void	read(stream* in, abc_def* abc);
-	};
-#endif  // DH2: instance_info replaced, see above
+		void	read(stream* in, abc_def* abc);	// DH2: 0x7b970c
 
+		~instance_info();	// DH2: 0x7b9938 (D1); the body is empty, the arrays and ref_counted are destroyed after it
+	};
+
+	// DH2: 0x20 bytes: ref_counted +0x00, m_cinit +0x0c, m_trait +0x10 (array, 16 bytes). Vtable off_991220: D1 0x7b931c, D0 0x7b926c.
 	struct class_info : public ref_counted
 	{
+		#if 0 /* DH2: not in the binary (m_cinit is the first member, +0x0c) */
 		weak_ptr<abc_def> m_abc;
-		int m_cinit;
-		gc_array<gc_ptr<traits_info> > m_trait;
+		#endif /* DH2 */
+		int m_cinit;	// DH2: +0x0c
+		gc_array<gc_ptr<traits_info> > m_trait;	// DH2: +0x10
 
-		void	read(stream* in, abc_def* abc);
+		void	read(stream* in, abc_def* abc);	// DH2: 0x7b90f8
 	};
 
+	// DH2: 0x20 bytes: ref_counted +0x00, m_init +0x0c, m_trait +0x10. Vtable off_991230: D1 0x7b92c8, D0 0x7b9370.
 	struct script_info : public ref_counted
 	{
-		int m_init;
-		gc_array<gc_ptr<traits_info> > m_trait;
+		int m_init;	// DH2: +0x0c
+		gc_array<gc_ptr<traits_info> > m_trait;	// DH2: +0x10
 
 		void	read(stream* in, abc_def* abc);
 	};
 
+	// DH2: 0xcc bytes. ref_counted +0x00, then twelve arrays of 16 bytes (each with its borrowed flag): m_integer +0x0c, m_uinteger
+	// DH2: +0x1c, m_double +0x2c, m_string +0x3c, m_namespace +0x4c, m_ns_set +0x5c, m_multiname +0x6c, m_method +0x7c, m_metadata
+	// DH2: +0x8c, m_instance +0x9c, m_class +0xac, m_script +0xbc. Vtable off_991250: D1 0x7b94c4 (D2 0x7b99ec), D0 0x7b96f0.
+	// DH2: The binary has no out-of-line get_instance_info, get_class_info, get_class_from_constructor or get_script_function
+	// DH2: (they are r1714's and nothing in the queue defines them); find_instance below stands in for the instance lookup.
 	struct abc_def : public ref_counted
 	{
 		// constant pool
@@ -219,26 +235,25 @@ namespace gameswf
 		void	read(stream* in, movie_definition_sub* m);
 		void	read_cpool(stream* in);
 
-#if 0 /* DH2: the body reads instance_info::m_super_name, which the DH2 binary layout does not recover (vendor-gameswf/include/vendor-gameswf/abc_info.hpp, pad_0c). Layout request. */
 		inline const char * get_super_class(tu_string& name) const
 		{
 			return get_multiname( get_instance_info( name )->m_super_name );
 		}
-#endif  // DH2: get_super_class body not reconstructed, see above
-		const char * get_super_class(tu_string& name) const;  // DH2: declared only, the definition needs m_super_name (see above)
 
 		const char * get_class_from_constructor(int method);
 
 		// get class constructor
-		as_function* get_class_constructor(const tu_string& name) const;
+		// DH2: 0x7b7fc0, takes tu_string& (not const) and goes through find_instance
+		as_function* get_class_constructor(tu_string& name) const;
 
 		// find instance info by name
 		instance_info* get_instance_info(const tu_string& class_name) const;
 		class_info* get_class_info(const tu_string& full_class_name) const;
 		class_info* get_class_info(int class_index) const;
-		// DH2: Gameloft addition, binary 0x7b7fb4 (first word of m_instance[0], name unused). Body is in
-		// DH2: vendor-gameswf/src/v1-vendor-gameswf-pack16-133bd3-0.cpp behind VENDOR_GAMESWF_DH2_CORE_HEADERS.
-		int find_instance(const tu_string& name) const;
+		// DH2: Gameloft addition, binary 0x7b7fb4: returns m_instance[0] whatever the name is (the buffer is read without a size
+		// DH2: check; Hex-Rays types the result int). get_class_constructor reads m_iinit (+0x2c) of the result. Body:
+		// DH2: vendor-gameswf/src/v1-vendor-gameswf-pack16-133bd3-0.cpp.
+		instance_info* find_instance(const tu_string& name) const;
 	};
 }
 

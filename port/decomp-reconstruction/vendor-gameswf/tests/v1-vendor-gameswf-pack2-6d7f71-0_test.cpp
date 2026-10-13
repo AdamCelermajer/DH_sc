@@ -1,19 +1,22 @@
 // Test for batch v1-vendor-gameswf-pack2-6d7f71-0. Returns non-zero when a check fails.
 //
-// Run: bash tools/trackb/check_tu.sh --test <this file> port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack2-6d7f71-0.cpp
-//
 // The batch .cpp defines the D1 destructors and the virtual methods of the tag classes, so its vtables refer to the
 // virtuals that other batches own. This test defines those as empty stubs. It also stubs the allocator
 // (free_internal and malloc_internal) and the membuf base (base/membuf.cpp is not in this batch). free_internal only
 // records the call, so the test frees its own allocations. hash::clear reaches free through tu_free (base/utility.h).
 //
 // Covered: the execute_tag and place_object_2 return values (through virtual dispatch), counted_buffer's reference
-// count and its destructor (zeroing below unk_14, ownership flag, word count for the free size), and the bucket
+// count and its destructor (the dictionary array is released, then the membuf base), and the bucket
 // count and rehash of the cxform and matrix tables (DH2 minimum 4, values kept across growth and clear).
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack2-6d7f71-0.cpp
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <new>
 
 #include "base/container.h"
@@ -81,12 +84,18 @@ void free_internal(void* p, unsigned int size) {
 	g_last_free_size = size;
 }
 
-// Tag classes: the virtuals that the batch's vtables refer to and that other batches define.
-void execute_tag::execute_state_reverse(character*, int) {}
-bool execute_tag::is_remove_tag() const { return false; }
-bool execute_tag::is_action_tag() const { return false; }
-std::uint32_t execute_tag::get_depth_id_of_replace_or_add_tag() const { return 0; }
+// The arrays grow through realloc_internal (container.h); the old block is released with the C heap here, not recorded.
+void* realloc_internal(void* p, unsigned int new_size, unsigned int old_size, swf::MemHint) {
+	void* block = std::malloc(new_size ? new_size : 1);
+	if (p != nullptr) {
+		std::memcpy(block, p, old_size < new_size ? old_size : new_size);
+		std::free(p);
+	}
+	return block;
+}
 
+// Tag classes: the virtuals that the batch's vtables refer to and that other batches define. (execute_tag's own virtuals,
+// including execute_state_reverse, is_remove_tag, is_action_tag and get_depth_id_of_replace_or_add_tag, are in the batch.)
 place_object_2::~place_object_2() {}
 void place_object_2::execute(character*) {}
 void place_object_2::execute_state(character*) {}
@@ -136,6 +145,28 @@ static void test_execute_tags() {
 	gameswf::execute_tag* removed_base = &removed;
 	CHECK(removed_base->is_remove_tag());
 	CHECK(!removed_base->is_place_tag());
+
+	// The four virtuals that r1714 defines inline in gameswf_impl.h: false, false, all ones, and a call of execute_state.
+	CHECK(!tag.is_remove_tag());
+	CHECK(!tag.is_action_tag());
+	CHECK(tag.get_depth_id_of_replace_or_add_tag() == 0xFFFFFFFFu);
+	CHECK(!place.is_remove_tag());   // inherited by place_object_2
+	CHECK(!place.is_action_tag());
+
+	// execute_state_reverse(m, frame) forwards to the virtual execute_state(m), whatever the frame. set_background_color does
+	// not override it, so it also goes through the base.
+	struct recorder : gameswf::execute_tag {
+		int state_calls = 0;
+		gameswf::character* last = nullptr;
+		void execute_state(gameswf::character* m) override { ++state_calls; last = m; }
+	};
+	recorder rec;
+	gameswf::character* fake = reinterpret_cast<gameswf::character*>(&rec);  // never dereferenced
+	rec.execute_state_reverse(fake, 7);
+	CHECK(rec.state_calls == 1 && rec.last == fake);
+	gameswf::execute_tag& rec_base = rec;
+	rec_base.execute_state_reverse(nullptr, -3);
+	CHECK(rec.state_calls == 2 && rec.last == nullptr);
 }
 
 static void test_counted_buffer() {
@@ -155,59 +186,33 @@ static void test_counted_buffer() {
 	CHECK(g_last_free_size == 0u);
 	std::free(mem);  // free_internal only records
 
-	// Destructor, not owned (unk_20 != 0) with unk_18 = -2: zeroes the two words before unk_14 and nothing else.
-	std::uint32_t* base_words = static_cast<std::uint32_t*>(std::malloc(8 * sizeof(std::uint32_t)));
-	for (int i = 0; i < 8; ++i) {
-		base_words[i] = 0xAAAAAAAAu;
-	}
+	// The dictionary (array<const tu_string*> at +0x14) is released by the destructor with reserve(0): a buffer that was
+	// allocated is freed once, through free_internal, with the capacity in bytes; an empty dictionary frees nothing.
 	void* mem2 = std::malloc(sizeof(gameswf::counted_buffer));
 	gameswf::counted_buffer* cb2 = new (mem2) gameswf::counted_buffer();
-	cb2->unk_14 = base_words + 2;
-	cb2->unk_18 = -2;
-	cb2->unk_20 = 1;
-	cb2->unk_1c = 6;
+	static const tu_string kText;
+	cb2->m_dictionary.push_back(&kText);
+	cb2->m_dictionary.push_back(&kText);
+	CHECK(cb2->m_dictionary.size() == 2);
+	CHECK(cb2->m_dictionary[1] == &kText);
+	const void* dictionary_buffer = &cb2->m_dictionary[0];
 	reset_counters();
 	cb2->~counted_buffer();
-	CHECK(base_words[0] == 0u && base_words[1] == 0u);
-	CHECK(base_words[2] == 0xAAAAAAAAu && base_words[7] == 0xAAAAAAAAu);
-	CHECK(cb2->unk_18 == 0);
-	CHECK(cb2->unk_14 == base_words + 2);  // not owned: pointer kept
-	CHECK(cb2->unk_1c == 6);               // not owned: word count kept
-	CHECK(g_free_calls == 0);
+	CHECK(g_free_calls == 1);
+	CHECK(g_last_free_ptr == dictionary_buffer);
 	CHECK(g_membuf_dtor_calls == 1);
 	std::free(mem2);
-	std::free(base_words);
 
-	// Destructor, owned (unk_20 == 0), unk_18 = 0: frees unk_14 with size 4 * unk_1c and clears the fields.
-	std::uint32_t* owned_words = static_cast<std::uint32_t*>(std::malloc(4 * sizeof(std::uint32_t)));
+	// A fresh counted buffer has count 0 and an empty dictionary.
 	void* mem3 = std::malloc(sizeof(gameswf::counted_buffer));
 	gameswf::counted_buffer* cb3 = new (mem3) gameswf::counted_buffer();
-	cb3->unk_14 = owned_words;
-	cb3->unk_18 = 0;
-	cb3->unk_20 = 0;
-	cb3->unk_1c = 4;
+	CHECK(cb3->m_ref_count == 0);
+	CHECK(cb3->m_dictionary.size() == 0);
 	reset_counters();
 	cb3->~counted_buffer();
-	CHECK(g_free_calls == 1);
-	CHECK(g_last_free_ptr == static_cast<void*>(owned_words));
-	CHECK(g_last_free_size == 16u);
-	CHECK(cb3->unk_14 == nullptr);
-	CHECK(cb3->unk_1c == 0);
-	CHECK(cb3->unk_18 == 0);
-	std::free(owned_words);
-	std::free(mem3);
-
-	// Owned with a null pointer: no free call; the word count is still cleared.
-	void* mem4 = std::malloc(sizeof(gameswf::counted_buffer));
-	gameswf::counted_buffer* cb4 = new (mem4) gameswf::counted_buffer();
-	cb4->unk_14 = nullptr;
-	cb4->unk_20 = 0;
-	cb4->unk_1c = 3;
-	reset_counters();
-	cb4->~counted_buffer();
 	CHECK(g_free_calls == 0);
-	CHECK(cb4->unk_1c == 0);
-	std::free(mem4);
+	CHECK(g_membuf_dtor_calls == 1);
+	std::free(mem3);
 }
 
 // Bucket count and rehash for the cxform and matrix tables. set_capacity(n) asks for raw capacity 3n/2, which

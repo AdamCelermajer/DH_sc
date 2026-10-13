@@ -12,7 +12,9 @@
 #include "gameswf/gameswf_log.h"
 #include "gameswf/gameswf_shape.h"
 #include "gameswf/gameswf_movie_def.h"
+#if 0 /* DH2: the font does not use the FreeType provider of r1714 */
 #include "gameswf/gameswf_freetype.h"
+#endif
 #include "base/tu_file.h"
 
 
@@ -305,6 +307,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_font-a42405-0.cpp (bitmap glyph provider, glyph provider, code table) */
 	bool	font::get_glyph(glyph* g, Uint16 code, int fontsize) const
 	{
 		// defaults
@@ -358,12 +361,14 @@ namespace gameswf
 
 		return false;
 	}
+#endif /* DH2 */
 
 	shape_character_def*	font::get_glyph_by_index(int glyph_index) const
 	{
 		return glyph_index < m_glyphs.size() ? m_glyphs[glyph_index].get_ptr() : NULL;
 	}
 
+#if 0 /* DH2: not in the binary (it only served the r1714 text_character_def::display) */
 	int	font::get_code_by_index(int glyph_index) const
 	{
 		for (hash<Uint16, int, simple_code_hash<Uint16> >::const_iterator it = m_code_table.begin(); it != m_code_table.end(); ++it)
@@ -375,6 +380,7 @@ namespace gameswf
 		}
 		return -1;
 	}
+#endif /* DH2 */
 
 	float	font::get_kerning_adjustment(int last_code, int code) const
 	// Return the adjustment in advance between the given two

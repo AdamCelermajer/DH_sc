@@ -41,6 +41,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack21-d2e85b-0.cpp (0x7d2e38, 0x7d2f10: the prototype is the as_function member, there is no per-instance "call" method) */
 	as_s_function::as_s_function(player* player,
 		const action_buffer* ab, int start, const array<with_stack_entry>& with_stack) :
 		as_function(player),
@@ -66,6 +67,7 @@ namespace gameswf
 
 		builtin_member("call", as_s_function_call);
 	}
+#endif /* DH2 */
 
 #if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack21-d2e85b-0.cpp */
 	as_s_function::~as_s_function()
@@ -112,7 +114,9 @@ namespace gameswf
 			character* ch = cast_to<character>(m_target.get_ptr());
 			if (ch)
 			{
-				if (ch->is_alive())
+				// DH2: 0x7d2fe8 inlines this test: a character is alive when its depth is not 0, or when it has no parent
+				// DH2: and its id is -1 (the root); character::is_alive() of r1714 is m_depth > 0 only
+				if (ch->m_depth != 0 || (ch->get_parent() == NULL && ch->m_id == -1))
 				{
 					env = m_target->get_environment();
 				}
@@ -196,11 +200,10 @@ namespace gameswf
 			{
 				arg_array = new as_array(env->get_player());
 
-				as_value	index_number;
+				// DH2: 0x7d2fe8 stores the arguments through the integer overload of set_member (vtable +0x24)
 				for (int i = 0; i < fn.nargs; i++)
 				{
-					index_number.set_int(i);
-					arg_array->set_member(index_number.to_string(), fn.arg(i));
+					arg_array->set_member(i, fn.arg(i));
 				}
 			}
 

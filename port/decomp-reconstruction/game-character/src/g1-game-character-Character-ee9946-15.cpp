@@ -158,11 +158,12 @@ bool Character::SG_IsLevelLocked(int level, int difficulty) {
 }
 
 // 0x3bbca4 Character::SG_SetLevelState(int, int, int)
-// Calls PlayerSavegame::SG_SetLevelState(state, level, difficulty), arguments in the same order.
-void Character::SG_SetLevelState(int state, int level, int difficulty) {
+// Calls PlayerSavegame::SG_SetLevelState(level, state, difficulty), arguments in the same order (the binary passes a2, a3, a4
+// through unchanged; a2 is the level id, as the PlayerSavegame assert text shows).
+void Character::SG_SetLevelState(int level, int state, int difficulty) {
     PlayerSavegame* save = m_savegame;
     if (save != nullptr) {
-        save->SG_SetLevelState(state, level, ResolveDifficulty(difficulty));
+        save->SG_SetLevelState(level, state, ResolveDifficulty(difficulty));
     }
 }
 
@@ -195,10 +196,11 @@ bool Character::SG_IsMapLocLocked(int location, int difficulty) {
 }
 
 // 0x3bbda0 Character::SG_SetMapLocState(int, int, int)
-// Calls PlayerSavegame::SG_SetMapLocState(state, location, difficulty), arguments in the same order.
-void Character::SG_SetMapLocState(int state, int location, int difficulty) {
+// Calls PlayerSavegame::SG_SetMapLocState(location, state, difficulty), arguments in the same order (a2 is the map
+// location id, as the PlayerSavegame assert text shows).
+void Character::SG_SetMapLocState(int location, int state, int difficulty) {
     PlayerSavegame* save = m_savegame;
     if (save != nullptr) {
-        save->SG_SetMapLocState(state, location, ResolveDifficulty(difficulty));
+        save->SG_SetMapLocState(location, state, ResolveDifficulty(difficulty));
     }
 }

@@ -234,6 +234,10 @@ namespace gameswf
 	// Numerical indices for standard member names.	 Can use this
 	// to help speed up get/set member calls, by using a switch()
 	// instead of nasty string compares.
+	// DH2: the binary's numbering, read from the 46-entry name table that get_standard_member (0x772030) fills. r1714 has no
+	// DH2: htmlText, textHeight, Stage, transform, matrix, concatenatedMatrix, colorTransform and concatenatedColorTransform,
+	// DH2: so the ids from M_TEXTWIDTH on are shifted. M_PASSWORD and M_MOUSE_MOVE are r1714's: the DH2 table does not contain
+	// DH2: them (their names never map), they stay after the DH2 range so the upstream sources that name them still compile.
 	enum as_standard_member
 	{
 		M_INVALID_MEMBER = -1,
@@ -260,7 +264,9 @@ namespace gameswf
 		M_YMOUSE,
 		M_PARENT,
 		M_TEXT,
+		M_HTMLTEXT,	// DH2: 23
 		M_TEXTWIDTH,
+		M_TEXTHEIGHT,	// DH2: 25
 		M_TEXTCOLOR,
 		M_BORDER,
 		M_MULTILINE,
@@ -274,16 +280,25 @@ namespace gameswf
 		MDOT2,
 		M_LEVEL0,
 		M_GLOBAL,
+		M_STAGE,	// DH2: 39
 		M_ENABLED,
-		M_PASSWORD,
-		M_MOUSE_MOVE,
+		M_TRANSFORM,	// DH2: 41
+		M_MATRIX,	// DH2: 42
+		M_CONCATENATEDMATRIX,	// DH2: 43
+		M_COLORTRANSFORM,	// DH2: 44
+		M_CONCATENATEDCOLORTRANSFORM,	// DH2: 45
 
-		AS_STANDARD_MEMBER_COUNT
+		AS_STANDARD_MEMBER_COUNT,	// DH2: 46 entries in the name table
+
+		M_PASSWORD = AS_STANDARD_MEMBER_COUNT,	// r1714 only, not in the DH2 name table
+		M_MOUSE_MOVE	// r1714 only, not in the DH2 name table
 	};
 	// Return the standard enum, if the arg names a standard member.
 	// Returns M_INVALID_MEMBER if there's no match.
 	as_standard_member	get_standard_member(const tu_stringi& name);
 
+	// DH2: eight tables. Ids 0 to 4 are r1714's; standard_method_map_init (0x76f5c0) fills 5 (as_s_function: "call"), 6 (text field:
+	// DH2: setTextFormat, getTextFormat) and 7 (Array: toString ... splice and the length property) as well.
 	enum builtin_object
 	{
 		BUILTIN_OBJECT_METHOD,
@@ -291,6 +306,9 @@ namespace gameswf
 		BUILTIN_NUMBER_METHOD,
 		BUILTIN_BOOLEAN_METHOD,
 		BUILTIN_STRING_METHOD,
+		BUILTIN_FUNCTION_METHOD,	// DH2: 5, read by as_s_function::get_member (0x7d2878)
+		BUILTIN_TEXTFIELD_METHOD,	// DH2: 6, read by edit_text_character::get_member
+		BUILTIN_ARRAY_METHOD,	// DH2: 7, read by as_array::get_member (0x7984b8)
 		// and so far
 
 		BUILTIN_COUNT
@@ -300,6 +318,12 @@ namespace gameswf
 	stringi_hash<as_value>* new_standard_method_map(builtin_object id);
 
 }	// end namespace gameswf
+
+// DH2: 0x76dbd0 hash<tu_stringi, as_standard_member, stringi_hash_functor<tu_stringi> >::set_raw_capacity(int): the rehash of the
+// DH2: standard member name table (minimum 4 entries, 32-byte entries; the key's heap text is released). Declared here so that
+// DH2: every translation unit that adds to the table uses it; body in vendor-gameswf/src/v1-vendor-gameswf-pack6-a8bd9d-0.cpp.
+template <>
+void hash<tu_stringi, gameswf::as_standard_member, stringi_hash_functor<tu_stringi> >::set_raw_capacity(int new_size);
 
 
 #endif // GAMESWF_ACTION_H

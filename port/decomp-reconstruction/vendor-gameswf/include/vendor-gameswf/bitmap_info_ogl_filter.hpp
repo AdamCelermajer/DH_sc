@@ -5,9 +5,8 @@
 // 15..17), mip count at +0x3e (a byte) and the dirty word at +0x40 (bit 0x4 for min, bit 0x8 for mag). The new
 // filter value is kFilterMap[mode], where kFilterMap is s_filter_map (binary 0x90c044, int32[6] = {0..5}).
 //
-// These are written against plain words so that the test can run them. The texture fields they read are not
-// declared on the stand-in glitch::video::ITexture (layout request M1), so the two member functions that call
-// them are partial in their ledger rows.
+// They are written against plain words so that the test can run them without a texture. set_min_filter and
+// set_mag_filter call them on the words of the glitch::video::ITexture (m_flags38, m_dirtyFlags40, m_mipCount3e).
 
 #ifndef VENDOR_GAMESWF_BITMAP_INFO_OGL_FILTER_HPP
 #define VENDOR_GAMESWF_BITMAP_INFO_OGL_FILTER_HPP

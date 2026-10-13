@@ -1,5 +1,5 @@
 // Batch v1-vendor-gameswf-pack10-9a32ad-0 (vendor-gameswf, part 1 of 1). Eighteen binary functions, one ledger row each
-// (ledger.d/v1-vendor-gameswf-pack10-9a32ad-0.csv).
+// (ledger.d/gameswf-core-sprite-text.csv).
 //
 // Reconstructed and compiled here (3):
 //   hash<tu_stringi, tu_string, stringi_hash_functor<tu_stringi>>::set_raw_capacity(int)  0x78c6cc
@@ -8,30 +8,12 @@
 //   (the two set_raw_capacity declarations are in vendor-gameswf/gameswf_hash_dh2.hpp and texture_cache.hpp; the
 //   parse_tag declaration is in vendor-gameswf/html_reader.hpp).
 //
-// Written behind VENDOR_GAMESWF_DH2_CORE_HEADERS, not compiled in the tree (1):
-//   text_character_def::~text_character_def() D1  0x78be3c. gameswf_text.h needs gc_ptr, and gc_ptr fails to compile
-//   here (DECLARE_GC_TYPES). The owner header carries the declaration `virtual ~text_character_def();` (DH2 line).
+// Moved to vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-1.cpp, so that the test of this file
+// links without the text classes' vtables:
+//   text_character_def::~text_character_def() D1 0x78be3c, text_character_def::display(character*) 0x790a7c and
+//   html_reader::parse(edit_text_character*) 0x78e354 (all three have bodies there).
 //
-// Partial, no body here (6):
-//   text_character_def::display(character*)  0x790a7c. The binary is one call, display_glyph_records(&m_matrix, inst,
-//     &m_text_glyph_records, m_root_def, nullptr, 0, 0, 0). The upstream static display_glyph_records takes four
-//     arguments and the upstream display() has a glyph-provider preamble that the binary does not have. The DH2
-//     display_glyph_records signature is not in the tree.
-//   edit_text_character_def::~edit_text_character_def() D1 0x78c4dc and D2 0x78c57c (same body). The binary releases
-//     m_default_text (tag byte at +0x7c) and then m_var_name (tag byte at +0x34), then the base. The upstream empty
-//     destructor (gameswf_text.cpp:550) relies on implicit member destruction, but the DH2 layout places fields
-//     differently from upstream (see the edit_text_character_def layout note below), so no body is written.
-//   edit_text_character_def::edit_text_character_def(player*, int, int) C1 0x78d970 and C2 0x78dad8 (same body).
-//     The DH2 layout differs from upstream: an rgba at +0x44 (set to white, alpha & 0xFE), nine bool flags at +0x48..+0x50,
-//     m_font_id -1 at +0x54, m_font at +0x58, m_text_height 240.0 at +0x5c, an rgba at +0x60 (opaque black), and fields
-//     at +0x8c and +0x9c that the upstream class does not have. The upstream ctor writes black for the color, so it is
-//     not the binary body. Layout request.
-//   html_reader::parse(edit_text_character*)  0x78e354. About 20 KB of Hex-Rays output. It uses
-//     edit_text_character::text_attributes (not declared in the tree), the html_reader array layout, the DH2 edit_text
-//     layout (html flag at +0x138, font pointer at +0x178 and others), as_object::get_player, font::copy_from, the
-//     append_text / append_image helpers and the tolower_tab_ table. Not rebuilt.
-//
-// Upstream, no body here (4):
+// Upstream, no body here (6):
 //   cxform::concatenate(cxform const&)              0x794d38  gameswf_types.cpp:372
 //   cxform::transform(rgba) const                   0x794f8c  gameswf_types.cpp:389
 //   cxform::clamp()                                  0x795130  gameswf_types.cpp:459
@@ -40,17 +22,15 @@
 //   operator= maps values outside +/-3.4028e38 (and NaN) to 0, the same guard the binary applies to each result.
 //   The binary's clamp return value is a leftover comparison flag, so void is kept. The binary's transform packs the
 //   four channels into an int, the same bits as upstream rgba. Each row names its upstream definition.
-//
-// Upstream, no body here (2): text_character_def ctor C1 0x78dc40 and C2 0x78dd68 (gameswf_text.cpp:251). The
-//   binary sets m_root_def, leaves the matrix as the identity, and zeroes the array and flags. The upstream member
-//   initializers and the default matrix constructor (identity) do the same. The binary does not write m_rect, which
-//   upstream zeroes. Layout note: the binary puts m_is_glyphs_drawn at +0x5c, not after m_sharpness as upstream does.
+//   text_character_def ctor C1 0x78dc40 and C2 0x78dd68: now a DH2 body in the 77beb0-1 file (the layout note about
+//   m_is_glyphs_drawn was wrong: the binary has no such member).
 //
 // Skipped (2): the deleting destructors D0 at 0x78bde0 (text_character_def) and 0x78c560 (edit_text_character_def).
 //   Compiler-generated: each runs the complete destructor, then operator delete (LC_API_FREE_0).
 //
-// Layout requests (the integrator applies them to the owner headers): see the ledger notes. Each name used here is
-// a field the upstream headers already declare, except html_reader, which is declared in vendor-gameswf/html_reader.hpp.
+// edit_text_character_def D1 0x78c4dc / D2 0x78c57c and the (player*, int, int) constructors C1 0x78d970 / C2 0x78dad8 are
+// upstream (gameswf_text.cpp): the layout of the definition is r1714's (the earlier notes took the hash cache words of the
+// two tu_string members for an rgba and other fields).
 
 #include <cmath>
 #include <cstddef>
@@ -61,10 +41,6 @@
 #include "vendor-gameswf/gameswf_hash_dh2.hpp"  // hash<tu_stringi, tu_string> declaration; dh2_hash::bucket_count
 #include "vendor-gameswf/html_reader.hpp"       // gameswf::html_reader
 #include "vendor-gameswf/texture_cache.hpp"     // gameswf::texture_cache::region and the region table declaration
-
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
-#include "gameswf/gameswf_text.h"               // gameswf::text_character_def (gc_ptr; does not compile in this tree)
-#endif
 
 // ---------------------------------------------------------------------------------------------------------------------
 // hash<> rebuild, shared shape for the two tables below (binary: the table of set_raw_capacity, one body each).
@@ -247,25 +223,3 @@ int html_reader::parse_tag(stringi_hash<tu_string>& attrs, const char* tag)
 }
 
 }  // namespace gameswf
-
-// ---------------------------------------------------------------------------------------------------------------------
-// text_character_def::~text_character_def, D1 (0x78be3c). Behind VENDOR_GAMESWF_DH2_CORE_HEADERS: not compiled here.
-//
-// Binary: the vtable store (the compiler's), then array<text_glyph_record>::resize(this+0x4c, 0) and
-// reserve(this+0x4c, 0), then the base destructor. The DH2 array's destructor frees the buffer, which the upstream
-// array::~array (clear(), resize(0) only, base/container.h:216) does not, so the reserve(0) is written here. The base
-// destructor runs after this body, as usual.
-// ---------------------------------------------------------------------------------------------------------------------
-
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
-namespace gameswf {
-
-// 0x78be3c gameswf::text_character_def::~text_character_def()   [D1]
-text_character_def::~text_character_def()
-{
-	m_text_glyph_records.resize(0);
-	m_text_glyph_records.reserve(0);
-}
-
-}  // namespace gameswf
-#endif  // VENDOR_GAMESWF_DH2_CORE_HEADERS

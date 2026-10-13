@@ -1,5 +1,11 @@
 // Test for batch v1-vendor-gameswf-pack8-c43a3a-0: gameswf::stream constructor (DH2, two arguments) and
 // destructor. Returns non-zero on failure.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack8-c43a3a-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_as_runtime_stubs.cpp
 
 #include <cstdio>
 

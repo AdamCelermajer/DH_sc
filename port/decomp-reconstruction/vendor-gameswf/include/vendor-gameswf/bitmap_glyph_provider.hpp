@@ -75,8 +75,7 @@ struct default_bitmap_font_entity : public bitmap_font_entity {
                        bitmap_glyph_metrics* metrics) override;
 
     // DH2 (pack19) members, binary offsets from the constructor and get_char_image. Size 0x64 in the binary.
-    ::array<std::uint32_t> m_glyph_pixels;  // +0x2c: decoded glyph pixels, array<unsigned int> (count +0x30, capacity +0x34)
-    std::uint8_t unk_38 = 0;                // +0x38: zeroed by the constructor, not read in batch pack19
+    ::array<std::uint32_t> m_glyph_pixels;  // +0x2c: decoded glyph pixels, array<unsigned int> (count +0x30, capacity +0x34, borrowed flag +0x38)
     ::membuf m_glyph_buffer;                // +0x3c: one glyph's bytes, read from the file when m_preloaded is null
     ::membuf m_index_table;                 // +0x4c: the 40-byte header, then the glyph offset table; its size is the base of the glyph offsets
     ::membuf* m_preloaded = nullptr;        // +0x5c: the file bytes after the table, read by the constructor when m_flag is set

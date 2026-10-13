@@ -12,8 +12,20 @@ namespace {
 int g_failures = 0;
 int g_dt = 0;             // Application::GetDt
 int g_language = 0;       // SavegameManager::getLanguage
-int g_dropCount = 0;      // IReferenceCounted::drop calls (the splash texture release)
 int g_savegameTag = 0;    // address stands in for the SavegameManager object
+
+// A concrete texture for the splash reference. ITexture is abstract; the splash is released through the canonical
+// glitch::IReferenceCounted::drop (inline in its header), so the count is checked on the object itself.
+class TestTexture : public glitch::video::ITexture {
+public:
+    TestTexture() : glitch::video::ITexture("splash", nullptr, glitch::video::STextureDesc{}) {}
+    bool bindImpl(bool) override { return false; }
+    void unbindImpl() override {}
+    uint8_t* mapImpl(uint8_t, glitch::video::E_TEXTURE_CUBE_MAP_FACE, uint8_t) override { return nullptr; }
+    void unmapImpl() const override {}
+    uint8_t* getMappedPtr() const override { return nullptr; }
+    void generateMipmapsImpl() override {}
+};
 
 void Check(bool ok, const char* what) {
     if (!ok) {
@@ -34,7 +46,6 @@ void ResetState() {
     currentProgress = 0;
     g_dt = 0;
     g_language = 0;
-    g_dropCount = 0;
     Width_Screen = 960;
     Musicplayerpause = false;
     JAVA_SOUNDS = false;
@@ -61,12 +72,6 @@ int Application::GetDt() {
 
 int SavegameManager::getLanguage() const {
     return g_language;
-}
-
-bool glitch::IReferenceCounted::drop() const {
-    ++g_dropCount;
-    --referenceCounter;
-    return false;
 }
 
 // The StateBase vtable is emitted with the base subobject, so every StateBase slot must be defined.
@@ -106,7 +111,8 @@ void TestCtorSetsFlags() {
 void TestDtorReleasesSplashAndClearsFlags() {
     ResetState();
     GS_InterruptLoading splash;
-    static glitch::video::ITexture texture;  // reference count 1
+    static TestTexture texture;
+    texture.referenceCounter = 1;            // reference count 1
     m_loadBackground = &texture;             // reference count 2
     InterLoad = true;
     Musicplayerpause = true;
@@ -116,8 +122,7 @@ void TestDtorReleasesSplashAndClearsFlags() {
     splash.Dtor(nullptr);
 
     Check(m_loadBackground.get() == nullptr, "Dtor releases m_loadBackground");
-    Check(g_dropCount == 1, "Dtor drops the splash texture once");
-    Check(texture.referenceCounter == 1, "the splash texture count is back to 1");
+    Check(texture.referenceCounter == 1, "Dtor drops the splash texture once (count back to 1)");
     Check(!InterLoad, "Dtor clears InterLoad");
     Check(!Musicplayerpause, "Dtor clears Musicplayerpause");
     Check(Resume_Sound_Interrupt, "Dtor sets Resume_Sound_Interrupt under JAVA_SOUNDS");
@@ -131,7 +136,7 @@ void TestDtorWithoutJavaSounds() {
     JAVA_SOUNDS = false;
     splash.Dtor(nullptr);
     Check(!Resume_Sound_Interrupt, "Dtor leaves Resume_Sound_Interrupt alone without JAVA_SOUNDS");
-    Check(g_dropCount == 0, "Dtor with no splash texture drops nothing");
+    Check(m_loadBackground.get() == nullptr, "Dtor with no splash texture leaves m_loadBackground null");
 }
 
 void TestUpdateFrameCounter() {

@@ -9,6 +9,14 @@
 
 #include <cstddef>
 #include <cstring>
+#include <new>
+
+#include "vendor-gameswf/bitmap_glyph_provider.hpp"  // bitmap_glyph_provider::m_texture_cache (unlock_all)
+#include "vendor-gameswf/gameswf_alloc.hpp"          // operator new(size, swf::MemHint)
+#include "vendor-gameswf/glyph_provider.hpp"         // glyph_provider::m_texture_cache (unlock_all)
+#include "vendor-gameswf/image_rgba.hpp"             // the cleared image the first texture is made from
+#include "vendor-gameswf/player_context.hpp"         // player_context::m_glyph_provider, m_bitmap_glyph_provider
+#include "vendor-gameswf/ref_counted.hpp"            // destruct<T>
 
 namespace gameswf {
 namespace {
@@ -35,26 +43,37 @@ int round_up_to_cells(int pixels) {
 
 // 0x794030 gameswf::texture_cache::texture_cache(int, int, int, bool)   [C1]
 // 0x7941c0 gameswf::texture_cache::texture_cache(int, int, int, bool)   [C2, same body]
-// PARTIAL: the member zeroing, the bytes-per-pixel field and the size rounding are written. The
-// texture itself is not created, so m_texture stays null and reset() is not called (reset() reads
-// the texture). The original picks one of three branches:
-//   bpp == 1           : s_render_handler vtable +0x0c (create_bitmap_info_alpha) with no data.
-//   bpp != 1, !render  : builds a gameswf::image_rgba of the rounded size, clears its pixels, passes
-//                        it to vtable +0x14 (create_bitmap_info_rgba) and destroys the image.
-//   bpp != 1, render   : vtable +0x20 with (width, height) (no upstream method matches that slot).
-// Each branch then stores the texture in m_texture, calls its +0x14 virtual (set_writable) and ends
-// in reset(). The glitch render handler, gameswf::image_rgba and the +0x20 slot are not in the tree.
+// The members are zeroed (the member initialisers), the size is rounded up to whole cells, then the texture
+// comes from the current render handler (no null test, as in the binary). The original picks one of three
+// branches:
+//   bpp == 1           : create_bitmap_info_alpha (vtable +0x0c) with the rounded size and no data.
+//   bpp != 1, !render  : builds a gameswf::image_rgba of the rounded size (operator new(0x18, hint 0)), clears
+//                        its pixels, passes it to create_bitmap_info_rgba (+0x14) and destroys the image.
+//   bpp != 1, render   : create_bitmap_info_target (+0x20) with (width, height).
+// Each branch stores the texture in m_texture, calls its set_writable (+0x14) and ends in reset().
 texture_cache::texture_cache(int width, int height, int bpp, bool render_target)
     : m_bpp(bpp) {
     get_region_size_requirement(width, height);
-    (void)render_target;
+    if (m_bpp == 1) {
+        m_texture = s_render_handler->create_bitmap_info_alpha(width, height, nullptr);
+    } else if (!render_target) {
+        image_rgba* image = new (swf::MEM_UNRECOVERED) image_rgba(width, height);
+        std::memset(image->m_data, 0, static_cast<std::size_t>(image->m_pitch) * static_cast<std::size_t>(image->m_height));
+        m_texture = s_render_handler->create_bitmap_info_rgba(image);
+        m_texture->set_writable();
+        destruct(image);
+        reset();
+        return;
+    } else {
+        m_texture = s_render_handler->create_bitmap_info_target(width, height);
+    }
+    m_texture->set_writable();
+    reset();
 }
 
 // 0x758b8c gameswf::texture_cache::~texture_cache()   [D2]
-// PARTIAL: the owned free-list branch is written. When m_free_list_borrowed is set (+0x2c), the
-// original keeps the free-list buffer and only clears its count. gameswf::array frees its buffer in
-// its own destructor, so that branch cannot be expressed without an array that gives up ownership.
-// Nothing in this batch sets the flag.
+// The free list is an array whose borrowed flag (+0x2c) keeps its buffer when set: the original then only clears
+// the count, which array::resize(0) and reserve(0) do for a borrowed array. Nothing sets the flag in the tree.
 texture_cache::~texture_cache() {
     if (m_locked != nullptr) {
         m_texture->unlock();
@@ -62,9 +81,7 @@ texture_cache::~texture_cache() {
     }
     m_texture = nullptr;
     m_used.clear();
-    if (!m_free_list_borrowed) {
-        m_free.resize(0);
-    }
+    m_free.resize(0);
     m_regions.resize(0);
 }
 
@@ -242,22 +259,43 @@ texture_cache::region* texture_cache::find_available_region(int width, int heigh
 }
 
 // 0x7c44d8 gameswf::texture_cache::lock()
-// PARTIAL: the lock is not taken. The original calls the texture's lock (vtable +0x18), stores the
-// returned pixel pointer in m_locked, and when the used hash is empty clears the pixels with
-// bytes-per-pixel * height * width. bitmap_info declares lock() as int (gameswf.h, DH2), so the
-// pointer cannot be carried on a 64-bit host yet. The clear is written as reset() writes it, but
-// needs m_locked to be set first. Returns m_locked unchanged for now.
+// Locks the texture once: when no pixel pointer is held, the texture's lock (vtable +0x18) is called and the pointer
+// is stored in m_locked. If the used-region table is absent or empty (hash table pointer null, or its entry count
+// zero), the whole texture is cleared with bytes-per-pixel * height * width (memset, m_bpp at +0x38). Returns m_locked.
 void* texture_cache::lock() {
-    return m_locked;
+    void* pixels = m_locked;
+    if (pixels == nullptr) {
+        pixels = m_texture->lock();
+        m_locked = pixels;
+        if (m_used.is_empty()) {
+            const int width = m_texture->get_width();
+            const int height = m_texture->get_height();
+            std::memset(pixels, 0, static_cast<std::size_t>(m_bpp) * static_cast<std::size_t>(height) * static_cast<std::size_t>(width));
+            return m_locked;
+        }
+    }
+    return pixels;
 }
 
 // 0x7935ec gameswf::texture_cache::unlock_all(gameswf::player_context*)
-// PARTIAL: the original is static. Its argument is the player context, and r1 is not read. It reaches
-// two texture caches through player_context fields that are not in the tree: the object at +0x0c has
-// a cache at +0x28, and the object at +0x10 has a cache at +0x0c. For each cache, if m_locked is set,
-// the original calls the texture's unlock (vtable +0x1c) and clears m_locked, as the destructor does.
-// Nothing is unlocked here until the player context layout is known.
-void texture_cache::unlock_all(player_context*) {
+// Static in the original; the context is the first (and only read) argument. Two caches are reached from it: the glyph
+// provider's (player_context +0x0c, then glyph_provider +0x28) and the bitmap glyph provider's (player_context +0x10,
+// then +0x0c). For each cache that holds a locked pixel pointer, the texture is unlocked (vtable +0x1c) and the pointer
+// cleared, as the destructor does. The first cache is tested for null (the provider always exists in the binary: the
+// context builds it); the second provider is tested for a null cache.
+void texture_cache::unlock_all(player_context* context) {
+    texture_cache* glyph_cache = context->m_glyph_provider->m_texture_cache;
+    if (glyph_cache != nullptr && glyph_cache->m_locked != nullptr) {
+        glyph_cache->m_texture->unlock();
+        glyph_cache->m_locked = nullptr;
+    }
+    texture_cache* bitmap_cache = context->m_bitmap_glyph_provider->m_texture_cache;
+    if (bitmap_cache != nullptr) {
+        if (bitmap_cache->m_locked != nullptr) {
+            bitmap_cache->m_texture->unlock();
+            bitmap_cache->m_locked = nullptr;
+        }
+    }
 }
 
 }  // namespace gameswf

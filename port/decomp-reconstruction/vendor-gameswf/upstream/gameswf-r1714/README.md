@@ -17,7 +17,23 @@ Third-party upstream code, not Track A reconstruction.
 
 ## DH2 changes
 
-None applied. This is upstream as found, with no `// DH2:` markers.
+Applied in the Track B core-layout pass (2026-10-13). Every change is marked `// DH2:` (or sits in an `#if 0 /* DH2: ... */` block that
+replaces upstream code). The list of changed classes, with the settled layouts, is in `../../NOTES.md`. In short:
+
+- `compatibility_include.h` (the upstream hook for project settings): containers allocate through `gameswf::malloc_internal`,
+  `realloc_internal` and `free_internal`; `TU_CONFIG_LINK_STATIC` is 1.
+- `gameswf/gameswf.h`: `gc_ptr` is a `smart_ptr` (`vendor-gameswf/gc_ptr.hpp`), `ref_counted` is the 12-byte DH2 class, `as_classes` has the DH2
+  values, `bitmap_info` and `render_handler` carry the DH2 vtables, `s_render_handler` is a global.
+- `base/container.h`, `base/container.cpp`: `array<T>` is 16 bytes (borrowed flag, DH2 growth), `tu_string` is 20 bytes (hash cache, interned bit).
+- `base/weak_ptr.h`: the weak proxy is released with `free_internal`.
+- `base/tu_file.h/.cpp`: the open hook `m_open` at +0x04; `read_fully`. `base/tu_config.h`: `TU_USES_FLOAT_AS_COORDINATE_COMPONENT` is 1.
+- `gameswf/gameswf.h`: `sound_handler` is the DH2 interface (no `set_max_volume`, `play_sound(handle, loops)`), `bitmap_info::lock()` returns the
+  pixel pointer, `render_handler::create_bitmap_info_rgb/rgba` take `gameswf::image_rgb*/image_rgba*` (the r1714 `image::` classes are replaced by
+  `vendor-gameswf/image_io.hpp` in `gameswf_impl.cpp`, `gameswf_styles.cpp`, `gameswf_environment.cpp`, `gameswf_render.*`).
+- `vendor-gameswf/ref_counted.hpp`: every `ref_counted` allocation goes through the gameswf heap (class-level `operator new/delete`).
+- `gameswf/gameswf_object.h` (`as_object`, 0x38 bytes), `gameswf_character.h` (`character`, 0xa0 bytes, `character::custom`, `drag_state`),
+  `gameswf_environment.h` (`as_environment`, 0x6c bytes), `gameswf_function.h` (`as_function`), `gameswf_morph2.h`, `gameswf_render.h`
+  and the headers of the classes listed in the notes (player, root, sprite, text, font, movie definition, styles, shape, listener, abc).
 
 ## Unresolved includes (conditional, expected)
 

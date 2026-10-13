@@ -1,5 +1,4 @@
 // Test for batch v1-vendor-gameswf-gameswf_membuf-3351d8-0 (gameswf::membuf capacity, reserve, shrink).
-//   bash tools/trackb/check_tu.sh --test <this file> port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_membuf-3351d8-0.cpp
 //
 // The test supplies what is not in this batch, so the sizing and reallocation logic runs on its own:
 //   gameswf::malloc_internal(size, hint) (0x752b9c)            records the call, uses malloc()
@@ -8,6 +7,10 @@
 //   membuf default, read-only constructors and destructor      (base/membuf.cpp, not in this batch)
 // The read-only constructor sets size() without a capacity, which reaches shrink() with capacity != size.
 // Capacity is not public, so it is observed through the old_size argument of realloc_internal.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_membuf-3351d8-0.cpp
 
 #include <cstddef>
 #include <cstdio>

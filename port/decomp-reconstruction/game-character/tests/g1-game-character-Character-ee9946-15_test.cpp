@@ -170,12 +170,11 @@ std::time_t PlayerSavegame::SG_SetSaveDate() {
     return 0;
 }
 
-int PlayerSavegame::SG_SetLevelState(int state, int level, int difficulty) {
+void PlayerSavegame::SG_SetLevelState(int level, int state, int difficulty) {
     ++g_setLevelState.calls;
-    g_setLevelState.a = state;
-    g_setLevelState.b = level;
+    g_setLevelState.a = level;
+    g_setLevelState.b = state;
     g_setLevelState.c = difficulty;
-    return 0;
 }
 
 int PlayerSavegame::SG_GetLevelState(int level, int difficulty) const {
@@ -206,12 +205,11 @@ bool PlayerSavegame::SG_IsMapLocLocked(int location, int difficulty) const {
     return g_answerMapLocked;
 }
 
-int PlayerSavegame::SG_SetMapLocState(int state, int location, int difficulty) {
+void PlayerSavegame::SG_SetMapLocState(int location, int state, int difficulty) {
     ++g_setMapLocState.calls;
-    g_setMapLocState.a = state;
-    g_setMapLocState.b = location;
+    g_setMapLocState.a = location;
+    g_setMapLocState.b = state;
     g_setMapLocState.c = difficulty;
-    return 0;
 }
 
 void PlayerSavegame::__SaveQuests(IStreamBase* stream, void* user) {
@@ -255,7 +253,7 @@ void TestForwarding() {
 
     ch->SG_SetLevelState(4, 7, -1);
     Check(g_setLevelState.a == 4 && g_setLevelState.b == 7 && g_setLevelState.c == 2,
-          "SetLevelState forwards state, level and resolved difficulty in order");
+          "SetLevelState forwards level, state and resolved difficulty in order");
 
     Check(ch->SG_GetLevelState(7, 1) == g_answerLevelState, "GetLevelState returns the savegame answer");
     Check(g_getLevelState.b == 7 && g_getLevelState.c == 1, "GetLevelState forwards level and explicit difficulty");
@@ -270,7 +268,7 @@ void TestForwarding() {
 
     ch->SG_SetMapLocState(4, 9, -1);
     Check(g_setMapLocState.a == 4 && g_setMapLocState.b == 9 && g_setMapLocState.c == 2,
-          "SetMapLocState forwards state, location and resolved difficulty in order");
+          "SetMapLocState forwards location, state and resolved difficulty in order");
 
     ch->SG_SetFastTravelIdUnlocked("town", true, -1);
     Check(g_setFastTravelName.name != nullptr && std::strcmp(g_setFastTravelName.name, "town") == 0,

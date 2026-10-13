@@ -242,10 +242,7 @@ std::uint32_t CSceneNodeAnimatorFlyCircle::getType() const { return 0; }
 // 0x6cc070 _ZNK6glitch5scene29CSceneNodeAnimatorFlyStraight7getTypeEv
 std::uint32_t CSceneNodeAnimatorFlyStraight::getType() const { return 1; }
 
-// 0x6cc330 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight25recalculateImidiateValuesEv
-float CSceneNodeAnimatorFlyStraight::recalculateImidiateValues() const {
-    return end.X - start.X;
-}
+// 0x6cc330 recalculateImidiateValues: the body is in src/r3a-glitch-scene-collada-gui-glitch_scene_CSceneNodeAnimatorFlyStraig-7b1009-0.cpp
 
 // 0x6cc754 _ZNK6glitch5scene30CSceneNodeAnimatorFollowSpline7getTypeEv
 std::uint32_t CSceneNodeAnimatorFollowSpline::getType() const { return 2; }

@@ -140,9 +140,12 @@ def main() -> int:
                     continue
                 # STLport's std::string and the map family are 12 bytes larger than libc++'s; each one that precedes
                 # the member explains a delta of -12
+                expected, unknown = runmod.stl_expected_delta(rec, layouts, comp)
                 before = sum(1 for o, _t in runmod.stl_members(rec, layouts) if o < comp)
-                if before and comp - off == -12 * before:
+                if before and not unknown and comp - off == expected:
                     status = "stl"
+                elif before and not unknown:
+                    status = "shifted_behind_stl"      # the STL members explain part of it; the rest is a real error
                 elif before:
                     status = "stl_other"
                 else:
@@ -153,7 +156,7 @@ def main() -> int:
         classes[(r[0], r[2])].append(r)
     first_dev: dict[tuple[str, str], list] = {}
     for key, rs in classes.items():
-        dev = [r for r in rs if r[7] in ("stl", "stl_other", "shifted")]
+        dev = [r for r in rs if r[7] in ("stl", "stl_other", "shifted", "shifted_behind_stl")]
         if dev:
             first_dev[key] = min(dev, key=lambda r: r[4])
     Path(a.csv).parent.mkdir(parents=True, exist_ok=True)
@@ -168,8 +171,10 @@ def main() -> int:
     kinds = Counter(r[7] for r in first_dev.values())
     print(f"{len(first_dev)} classes have at least one member whose compiled offset differs from its comment; "
           f"first deviation per class: " + ", ".join(f"{k} {v}" for k, v in sorted(kinds.items())))
-    print("first deviation 'shifted' = no std::string/map before it, so the class or a base is the wrong size or a member is missing/extra:")
-    real = [(sum(1 for r in classes[k] if r[7] in ("shifted", "stl_other", "stl")), k, r) for k, r in first_dev.items() if r[7] == "shifted"]
+    print("first deviation 'shifted' = no STL member before it, 'shifted_behind_stl' = the STL members before it explain only part of the "
+          "delta: the class or a base is the wrong size or a member is missing/extra:")
+    real = [(sum(1 for r in classes[k] if r[7] in ("shifted", "stl_other", "stl", "shifted_behind_stl")), k, r) for k, r in first_dev.items()
+            if r[7] in ("shifted", "shifted_behind_stl")]
     real.sort(key=lambda t: -t[0])
     for n, (h, cls), r in real[:a.classes]:
         print(f"  {cls:34s} {n:3d} members off, first {r[3]:24s} comment +{r[4]:#x} compiled +{r[5]:#x} (delta {r[6]:+d})  [{h}:{r[1]}]")

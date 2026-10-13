@@ -148,7 +148,4 @@ public:
 // glitch::scene::CBatchMesh (with SBatch and SSegment) and CBatchSceneNode: canonical classes in scene/CBatchMesh.hpp and
 // scene/CBatchSceneNode.hpp; the declarations that stood here had no definitions.
 
-// 0x578d9c _ZN6glitch5scene30getNbVertexAttributeMapsDataSizeERKN5boost13intrusive_ptrINS_5video24CMaterialVertexAttributeMapEEE
-unsigned int getNbVertexAttributeMapsDataSize(const void* mapRef);
-
 }  // namespace glitch::collada::recon_04

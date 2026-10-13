@@ -4,10 +4,12 @@
 // of mem_read_func, the grow decision and offset clamp of mem_write_func, the chunk size of buffered_read, the tell and
 // eof rules of the buffered file, and one hand-computed trace of the window state across two reads.
 //
-//   bash tools/trackb/check_tu.sh --test port/decomp-reconstruction/vendor-gameswf/tests/v1-vendor-gameswf-gameswf-fddef6-6_test.cpp
-//
 // The batch .cpp is not linked here. Its bodies need the upstream tu_file and membuf code and the allocator, which are in
 // other units.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 
 #include <cstdint>
 #include <cstdio>

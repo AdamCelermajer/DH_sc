@@ -5,8 +5,10 @@
 // as_object_interface and bitmap_character_def are upstream rows (no body is written). The base_fill_style and
 // base_line_style D1 destructors are the empty inline destructors of gameswf_styles.h. The D0 (deleting)
 // destructors are compiler-generated and skipped.
-// Partial rows have no body: permanent_string_cache::get, as_environment::~as_environment, get_root, set_target,
-// add_frame_barrier, and listener::alive. Their notes in the ledger say what is missing.
+// The other as_environment rows of this batch are bodies in upstream gameswf_environment.cpp (DH2 edits there): the destructor
+// (the members release themselves), get_root, set_target(character*) and add_frame_barrier. listener::alive is in upstream
+// gameswf_listener.cpp.
+// permanent_string_cache::get and destruct<permanent_string> (0x76c870) are written here.
 
 #include "vendor-gameswf/as_environment.hpp"
 #include "vendor-gameswf/gameswf_alloc.hpp"           // free_internal (0x752b38)
@@ -35,6 +37,38 @@ void array<gameswf::swf_event*>::release_buffer() {
 }
 
 namespace gameswf {
+
+// gameswf::s_static_strings: the global cache of get_static_string (0x76d594); a data symbol, so it has no queue row.
+permanent_string_cache s_static_strings;
+
+// 0x76c870 void gameswf::destruct<gameswf::permanent_string>(gameswf::permanent_string const*)
+//
+// Null check, then ~permanent_string (the binary frees the heap text when the flag byte is 0xff, which is what the
+// tu_string destructor does), then free_internal of the object itself.
+template <>
+void destruct<permanent_string>(const permanent_string* object) {
+	if (object) {
+		object->~permanent_string();
+		free_internal(const_cast<permanent_string*>(object), 0);
+	}
+}
+
+// 0x75c2cc gameswf::permanent_string_cache::get(gameswf::tu_string const&)
+//
+// Looks the text up through the hash (find_index, 0x75a918). A hit returns the stored permanent string. A miss builds a
+// 20-byte permanent_string (operator new with the gameswf heap hint in the binary) from the text, which sets the interned
+// bit, stores it in the table under a key that points at the string itself (operator[], 0x75c274), and returns it.
+permanent_string* permanent_string_cache::get(const ::tu_string& name) {
+	const string_pointer key = {&name};
+	permanent_string* found = nullptr;
+	if (::hash<string_pointer, permanent_string*, string_pointer_hash_functor<string_pointer> >::get(key, &found)) {
+		return found;
+	}
+	permanent_string* interned = new (swf::MEM_UNRECOVERED) permanent_string(name);	// operator new(0x14, hint 0): destruct<permanent_string> frees it with free_internal
+	const string_pointer own_key = {interned};
+	(*this)[own_key] = interned;
+	return interned;
+}
 
 // 0x76c8ac gameswf::permanent_string_cache::clear()
 //
@@ -75,19 +109,9 @@ as_value as_environment::pop() {
 // (the proxy is freed by free_internal at zero) and clears both fields, then returns null. The members are mutable
 // because the binary writes them from a const method.
 player* as_environment::get_player() const {
-	player* result = m_player;
-	if (result != nullptr) {
-		weak_proxy* proxy = m_player_proxy;
-		if (!proxy->is_alive()) {
-			if (proxy->m_ref_count-- == 1) {
-				free_internal(proxy, 0);
-			}
-			m_player_proxy = nullptr;
-			m_player = nullptr;
-			return nullptr;
-		}
-	}
-	return result;
+	// weak_ptr::get_ptr tests the proxy: a dead proxy loses one reference (freed at zero) and both fields
+	// are cleared, which is the sequence of the binary.
+	return m_player.get_ptr();
 }
 
 }  // namespace gameswf

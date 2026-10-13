@@ -1,11 +1,15 @@
 // Batch v1-vendor-gameswf-pack21-d2e85b-0 (part 1 of 1). Gameloft code in libDungeonHunter2.so, rebuilt from the
-// Hex-Rays pseudocode. Status of each function: vendor-gameswf/ledger.d/v1-vendor-gameswf-pack21-d2e85b-0.csv.
+// Hex-Rays pseudocode. Status of each function: vendor-gameswf/ledger.csv (the as_* rows in ledger.d/gameswf-core-asruntime.csv).
 //
 // Covers: gameswf::face_entity (constructors and destructor), gameswf::glyph_texture_cache (destructor, add and
-// get glyph region), gameswf::as_s_function (get_member, destructors), gameswf::as_c_function (constructors,
-// destructor), render_handler_glitch::fill_style::set_bitmap, render_handler_glitch::TransformState::TransformState,
-// and the array<array<vector2d<float>>>::push_back<> instantiation. Declarations: glyph_provider.hpp,
-// glyph_texture_cache.hpp, render_handler_glitch.hpp, upstream gameswf_function.h (DH2 additions marked).
+// get glyph region), gameswf::as_s_function (constructors, get_member, destructors) and gameswf::as_c_function
+// (constructors, destructor). Declarations: glyph_provider.hpp, glyph_texture_cache.hpp, upstream gameswf_function.h (DH2
+// additions marked). render_handler_glitch::fill_style::set_bitmap, render_handler_glitch::TransformState::TransformState and
+// the array<array<vector2d<float>>>::push_back<> instantiation that the batch used to hold are with the class, in
+// src/v1-vendor-gameswf-render_handler_glitch-fd003c-{0,1,2}.cpp.
+//
+// The as_c_function (0x40 bytes) and as_s_function (0x7c bytes) layouts are in gameswf_function.h: both keep their prototype
+// in the as_function member m_prototype (+0x38), where r1714 has a "prototype" builtin member.
 
 #include <cstddef>
 #include <cstdint>
@@ -21,13 +25,8 @@
 #include "vendor-gameswf/glyph_provider.hpp"
 #include "vendor-gameswf/glyph_texture_cache.hpp"
 #include "vendor-gameswf/ref_counted.hpp"
-#include "vendor-gameswf/render_handler_glitch.hpp"
 
-// The as_object / as_function headers do not compile in this tree (gameswf_object.h, see vendor-gameswf/as_function.hpp).
-// The as_c_function and as_s_function bodies below are compiled only when DH2_AS_OBJECT_HEADER_OK is set.
-#if defined(DH2_AS_OBJECT_HEADER_OK)
 #include "gameswf/gameswf_function.h"
-#endif
 
 namespace gameswf {
 
@@ -107,10 +106,10 @@ face_entity::~face_entity() {
 }
 
 // 0x7d1a28 gameswf::glyph_texture_cache::~glyph_texture_cache()  [D1]
-// PARTIAL: the binary first runs a loop that zeroes bytes from a negative m_pixels size up to index 0 (a write
-// below the buffer, reachable only for a negative size, which a valid array never has). That branch is not
-// reproduced. The size is set to 0 and the buffer released, as in the binary. The texture_cache base destructor runs
-// after this body.
+// The binary empties the pixel array (size 0) and releases its buffer (reserve 0), then runs the texture_cache base destructor.
+// The listing also has a loop that zeroes bytes from a negative size up to index 0, which only runs for a negative size and
+// writes below the buffer; an array never has one (it is the inlined resize(0)). Here the body empties the array and the
+// member destructor releases the buffer, before the base destructor, as in the binary.
 glyph_texture_cache::~glyph_texture_cache() {
     m_pixels.resize(0);
 }
@@ -323,11 +322,13 @@ int glyph_texture_cache::add_glyph_region(std::uint16_t code, void* face_arg, in
 }
 
 // 0x7d266c gameswf::glyph_texture_cache::get_glyph_region(ushort, void*, int, gameswf::glyph_texture_cache::filter_info&, gameswf::rect&)
-// PARTIAL: the binary returns a float in r0. On a miss that the add cannot satisfy the value is the region index
-// reinterpreted as float bits, and on a hit it is whatever texture_cache::get_region_bounds leaves in r0 (that
-// function is void in this tree). Neither is reproduced. This returns true when the region's bounds were written.
-// The caller (glyph_provider::get_char_image, 0x7d1614) is not reconstructed, so the return contract is not confirmed.
-bool glyph_texture_cache::get_glyph_region(std::uint16_t code, void* face, int font_size,
+// Looks the glyph up in the used table by its key (face, code | size << 16, the three filter bytes packed as
+// offset_y << 8 | offset_x << 16 | blur). When it is missing: add_glyph_region (an available region); if that fails the render
+// handler is flushed (vtable +0x94, no null test) and the glyph is added from a used region (used_only); if that fails too the
+// cache is reset and the glyph is added once more. The table is searched again and, when the glyph is there with a region, the
+// region bounds are written. The binary returns a float in r0: the table index on a miss that the add cannot fix, or whatever
+// get_region_bounds leaves there on a hit. Callers (edit_text_character, preload_glyph_codes) ignore it; the function is void.
+void glyph_texture_cache::get_glyph_region(std::uint16_t code, void* face, int font_size,
                                            const filter_info& filter, rect& bounds) {
     const texture_cache::key k = glyph_region_key(face, code, font_size, filter);
     region* r = nullptr;
@@ -341,105 +342,68 @@ bool glyph_texture_cache::get_glyph_region(std::uint16_t code, void* face, int f
         }
         r = nullptr;
         if (!m_used.get(k, &r)) {
-            return false;
+            return;
         }
     }
     if (r == nullptr) {
-        return false;
+        return;
     }
     get_region_bounds(r, bounds);
-    return true;
 }
 
-#if defined(DH2_AS_OBJECT_HEADER_OK)
 
 // 0x7d2878 gameswf::as_s_function::get_member(gameswf::tu_stringi const&, gameswf::as_value*)
-// The DH2 builtin table with id 5 (the as_s_function methods, past BUILTIN_COUNT) is tried first; then the
+// The DH2 builtin table with id 5 (BUILTIN_FUNCTION_METHOD, the as_s_function methods: "call") is tried first; then the
 // inherited lookup.
 bool as_s_function::get_member(const tu_stringi& name, as_value* val) {
-    if (gameswf::get_builtin(static_cast<builtin_object>(5), name, val)) {
+    if (gameswf::get_builtin(BUILTIN_FUNCTION_METHOD, name, val)) {
         return true;
     }
     return as_function::get_member(name, val);
 }
 
+// 0x7d2e38 gameswf::as_s_function::as_s_function(gameswf::player*, gameswf::action_buffer const*, int, gameswf::array<gameswf::with_stack_entry> const&)  [C1]
+// 0x7d2f10 gameswf::as_s_function::as_s_function(...)  [C2, same body]
+// Replaces the upstream constructor in gameswf_function.cpp (wrapped in #if 0 there). Binary order: as_object(player), the
+// vtable, m_prototype cleared, the action buffer default-constructed (it makes a counted buffer of its own), the with-stack array
+// copied from the argument, m_start_pc, then m_length 0, the argument array empty, the function2 bytes 0 and the target
+// cleared. Then the body: the action buffer takes over the argument's buffer (operator=, which drops the one just made),
+// m_this_ptr points at the function itself, and a new as_object becomes the prototype. r1714 adds a "prototype" builtin member
+// and a "call" builtin member instead; the binary registers neither (get_member answers "call" from the builtin table 5).
+as_s_function::as_s_function(player* p, const action_buffer* ab, int start, const array<with_stack_entry>& with_stack)
+    : as_function(p),
+      m_with_stack(with_stack),
+      m_start_pc(start),
+      m_length(0),
+      m_is_function2(false),
+      m_local_register_count(0),
+      m_function2_flags(0) {
+    m_action_buffer = *ab;
+    m_this_ptr = this;
+    m_prototype = new as_object(p);
+}
+
 // 0x7d2c8c gameswf::as_s_function::~as_s_function()  [D1]
 // 0x7d2d70 gameswf::as_s_function::~as_s_function()  [D2, same body]
-// PARTIAL: the binary also releases three DH2 fields that this layout does not declare: a ref_counted at +0x38
-// (drop_ref), a counted buffer at +0x3c (counted_buffer::drop_ref) and a counted word buffer at +0x74 (freed at zero).
-// It resets the arguments array (+0x60) and the with-stack array (+0x48). Here the upstream members are destroyed
-// implicitly, and the DH2 fields are not released.
+// The binary releases, in order: the weak target proxy (+0x74), the argument array (resize 0, reserve 0), the with-stack array,
+// the action buffer's counted buffer (+0x3c), then (with the vtable reset to as_function's) the prototype (+0x38), then
+// ~as_object. The members do exactly that, in reverse declaration order, after this empty body.
 as_s_function::~as_s_function() {
 }
 
 // 0x7d28b4 gameswf::as_c_function::as_c_function(gameswf::player*, void (*)(gameswf::fn_call const&))  [C1]
 // 0x7d291c gameswf::as_c_function::as_c_function(gameswf::player*, void (*)(gameswf::fn_call const&))  [C2, same body]
-// PARTIAL: the binary stores a new as_object(player) in a smart pointer at +0x38 (the prototype) and the function at
-// +0x3c. The upstream constructor calls builtin_member("prototype") instead, and the +0x38 member is not declared.
-// Only the function pointer is stored here.
+// as_object(player), the function pointer at +0x3c, the vtable, then a new as_object(player) becomes the prototype
+// (+0x38, smart pointer). r1714 has a "prototype" builtin member instead.
 as_c_function::as_c_function(player* p, as_c_function_ptr func) : as_function(p), m_func(func) {
+    m_prototype = new as_object(p);
 }
 
 // 0x7d2c44 gameswf::as_c_function::~as_c_function()  [D1, the destructor without delete]
-// PARTIAL: the binary releases the prototype at +0x38 (drop_ref) before the as_object destructor. The +0x38 member is
-// not declared, so the release is not written.
+// The binary resets the vtable to as_function's, releases the prototype (+0x38) and runs ~as_object. That release is
+// ~as_function's, which runs after this empty body.
 as_c_function::~as_c_function() {
 }
 
-#endif  // DH2_AS_OBJECT_HEADER_OK
 
 }  // namespace gameswf
-
-// 0x7d4430 render_handler_glitch::fill_style::set_bitmap(gameswf::bitmap_info*, gameswf::matrix const&, gameswf::render_handler::bitmap_wrap_mode, gameswf::cxform const&)
-// Sets the fill side for a bitmap fill: the fill type (3 for a clamped wrap, 2 for repeat), the bitmap pointer, the
-// matrix, and a copy of the colour transform, clamped. The four colour bytes are the clamped multipliers (r, g, b, a)
-// times 255. The flag is set when any of the four additive terms is above 1. The return value is that flag.
-bool render_handler_glitch::fill_style::set_bitmap(gameswf::bitmap_info* bitmap, const gameswf::matrix& m,
-                                                   gameswf::render_handler::bitmap_wrap_mode wrap,
-                                                   const gameswf::cxform& cx) {
-    unk_00 = static_cast<int>(wrap) != 0 ? 3 : 2;
-    source_bitmap = bitmap;
-    bitmap_matrix = m;
-    bitmap_cxform = cx;
-    bitmap_cxform.clamp();
-    for (int c = 0; c < 4; ++c) {
-        color[c] = static_cast<std::uint8_t>(
-            static_cast<unsigned int>(static_cast<float>(bitmap_cxform.m_[c][0] * 255.0)));
-    }
-    const bool over = bitmap_cxform.m_[0][1] > 1.0f || bitmap_cxform.m_[1][1] > 1.0f ||
-                      bitmap_cxform.m_[2][1] > 1.0f || bitmap_cxform.m_[3][1] > 1.0f;
-    unk_44 = over ? 1 : 0;
-    return over;
-}
-
-// 0x7d6050 render_handler_glitch::TransformState::TransformState(void)
-// PARTIAL: the binary constructor writes three identity blocks, 0x44 bytes apart (at +0x00, +0x44 and +0x88, flags at
-// +0x40, +0x84 and +0xc8 set to 1), and zeroes the 16 bytes at +0xcc..+0xdb (object size 0xdc). The TransformState
-// declared in render_handler_glitch.hpp is 0x41 bytes (m_elems and unk_40), so only the first block is written here.
-// Layout request for the integrator: the object size in the binary and the two extra blocks.
-render_handler_glitch::TransformState::TransformState() {
-    for (float& e : m_elems) {
-        e = 0.0f;
-    }
-    m_elems[0] = 1.0f;
-    m_elems[5] = 1.0f;
-    m_elems[10] = 1.0f;
-    m_elems[15] = 1.0f;
-    unk_40 = 1;
-}
-
-// 0x7d7c18 gameswf::array<gameswf::array<glitch::core::vector2d<float> > >::push_back<gameswf::array<glitch::core::vector2d<float> > >(gameswf::array<glitch::core::vector2d<float> > const&)
-// Appends a copy of val. The new slot is constructed in the reserved storage, which the binary also does by zeroing it
-// and copying the points.
-template <>
-template <>
-void array<array<glitch::core::vector2d<float>>>::push_back<array<glitch::core::vector2d<float>>>(
-        const array<glitch::core::vector2d<float>>& val) {
-    const int old_size = m_size;
-    const int new_size = old_size + 1;
-    if (new_size > m_buffer_size) {
-        reserve(new_size + (new_size >> 1));
-    }
-    new (m_buffer + old_size) array<glitch::core::vector2d<float>>(val);
-    m_size = new_size;
-}

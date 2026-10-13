@@ -1,16 +1,20 @@
 // Batch v1-vendor-gameswf-pack2-6d7f71-0 (category vendor-gameswf, gameswf r1714 with Gameloft changes).
 //
-// Reconstructed here (18 rows, ledger.d/v1-vendor-gameswf-pack2-6d7f71-0.csv):
+// Reconstructed here (rows in vendor-gameswf/ledger.csv, with the counted_buffer and string-cache rows in ledger.d/gameswf-core-asruntime.csv):
 //   execute_tag: D1, execute, execute_state, get_depth, get_action_offset, is_place_tag  (execute_tags.hpp)
-//   place_object_2: get_depth, is_place_tag; remove_object_2 and set_background_color: D1 (execute_tags.hpp)
+//     and, added by the gameswf_impl pass (their r1714 bodies were inline in the struct that execute_tags.hpp replaces):
+//     execute_state_reverse, is_remove_tag, is_action_tag, get_depth_id_of_replace_or_add_tag
+//   place_object_2: get_depth, is_place_tag; remove_object_2 and set_background_color: D1 (execute_tags.hpp). The rest of
+//     place_object_2 (read, execute, execute_state, execute_state_reverse, get_depth_id_of_replace_or_add_tag, D1) is in
+//     v1-vendor-gameswf-gameswf_impl-0.cpp; the other members of remove_object_2 and set_background_color are in upstream
+//     gameswf_impl.cpp.
 //   counted_buffer: D1 and drop_ref (counted_buffer.hpp)
 //   hash<int, cxform*> and hash<int, matrix*>: set_raw_capacity (gameswf_hash_dh2.hpp)
 // Skipped: the three deleting destructors (D0) at 0x759ff0 (execute_tag), 0x75a004 (remove_object_2) and 0x75a018
 //   (set_background_color). Each is PUSH, BL LC_API_FREE_0 (operator delete, 0x30e2b0), POP, which the compiler
 //   generates from the virtual destructor. They are not rebuilt.
-// Partial, not written: hash<gameswf::string_pointer, gameswf::permanent_string*, ...>::set_raw_capacity (0x75c0e8).
-//   string_pointer, string_pointer_hash_functor and permanent_string are not in the tree, so the table's key type
-//   and its add() cannot be built.
+//   hash<gameswf::string_pointer, gameswf::permanent_string*, ...>::set_raw_capacity (0x75c0e8): the string cache's table
+//   (permanent_string_cache.hpp), through the shared rehash body of gameswf_dh2_hash.hpp.
 //
 // set_raw_capacity: the bucket count is computed in single precision with the binary's constant 0x3F317218 (ln 2).
 // The loader table in v1-vendor-gameswf-gameswf-fddef6-1.cpp divides by the same float (0x3F317218), so the two agree.
@@ -26,7 +30,9 @@
 #include "vendor-gameswf/counted_buffer.hpp"
 #include "vendor-gameswf/execute_tags.hpp"
 #include "vendor-gameswf/gameswf_alloc.hpp"  // gameswf::malloc_internal, gameswf::free_internal
+#include "vendor-gameswf/gameswf_dh2_hash.hpp"  // dh2_hash_access::set_raw_capacity
 #include "vendor-gameswf/gameswf_hash_dh2.hpp"
+#include "vendor-gameswf/permanent_string_cache.hpp"  // string_pointer, string_pointer_hash_functor
 
 namespace {
 
@@ -68,6 +74,33 @@ void execute_tag::execute(character* /*m*/) {}
 // asm: BX LR. Empty.
 void execute_tag::execute_state(character* /*m*/) {}
 
+// 0x759ad0 gameswf::execute_tag::execute_state_reverse(gameswf::character*, int)   (_ZN7gameswf11execute_tag21execute_state_reverseEPNS_9characterEi)
+// asm: PUSH {R4,LR}; LDR R3,[R0]; LDR PC,[R3,#0xC] (a call of the virtual execute_state with the same arguments); POP.
+// Added by the gameswf_impl pass: r1714 defines it inline in gameswf_impl.h (execute_state_reverse calls execute_state), and
+// that struct is replaced by execute_tags.hpp.
+void execute_tag::execute_state_reverse(character* m, int /*frame*/) {
+	execute_state(m);
+}
+
+// 0x759ae4 gameswf::execute_tag::is_remove_tag() const   (_ZNK7gameswf11execute_tag13is_remove_tagEv)
+// asm: MOV R0, #0; BX LR.
+bool execute_tag::is_remove_tag() const {
+	return false;
+}
+
+// 0x759aec gameswf::execute_tag::is_action_tag() const   (_ZNK7gameswf11execute_tag13is_action_tagEv)
+// asm: MOV R0, #0; BX LR.
+bool execute_tag::is_action_tag() const {
+	return false;
+}
+
+// 0x759af4 gameswf::execute_tag::get_depth_id_of_replace_or_add_tag() const   (_ZNK7gameswf11execute_tag34get_depth_id_of_replace_or_add_tagEv)
+// asm: MOV R0, #0xFFFFFFFF; BX LR. "depth_id" is the 16-bit depth and 16-bit id packed in one word; a tag that is neither a
+// place nor a replace has none.
+std::uint32_t execute_tag::get_depth_id_of_replace_or_add_tag() const {
+	return static_cast<std::uint32_t>(-1);
+}
+
 // 0x759afc gameswf::execute_tag::get_depth() const   (_ZNK7gameswf11execute_tag9get_depthEv)
 // asm: MOV R0, #0xFFFFFFFF; BX LR. Returns -1 (the tag has no depth).
 int execute_tag::get_depth() const {
@@ -93,8 +126,7 @@ bool execute_tag::is_place_tag() const {
 // ---- place_object_2 ----
 
 // 0x759b14 gameswf::place_object_2::get_depth() const   (_ZNK7gameswf14place_object_29get_depthEv)
-// asm: LDRH R0, [R0, #0xC]; BX LR. Returns the u16 at +0x0c, which is m_depth here. Other members of this class are
-// not recovered (see execute_tags.hpp).
+// asm: LDRH R0, [R0, #0xC]; BX LR. Returns the u16 at +0x0c, which is m_depth (execute_tags.hpp).
 int place_object_2::get_depth() const {
 	return m_depth;
 }
@@ -127,29 +159,15 @@ set_background_color::~set_background_color() {}
 
 // 0x75b974 gameswf::counted_buffer::~counted_buffer()   (_ZN7gameswf14counted_bufferD1Ev)
 // asm, in order:
-//   1. If [+0x18] (unk_18) is negative, store 0 into the words unk_14[unk_18] through unk_14[-1].
-//   2. Read the byte at [+0x20] (unk_20), then store 0 to [+0x18] (unk_18).
-//   3. If unk_20 is zero: read [+0x1c] (unk_1c), store 0 to it, then if unk_14 is not null, free_internal(unk_14,
-//      unk_1c << 2). Then store 0 to unk_14.
-//   4. Tail into the base destructor, gameswf::membuf::~membuf (upstream base/membuf.cpp). Here that is the implicit
-//      call the compiler makes after this body, so it is not written out (writing it would run it twice).
+//   1. If the size word at +0x18 is negative, store 0 into the words from that index up to -1 (the inlined resize(0) of the
+//      dictionary array; a valid array never has a negative size).
+//   2. Read the byte at +0x20 (the array's borrowed flag), then store 0 to +0x18 (size).
+//   3. If the borrowed flag is zero: read +0x1c (capacity), store 0 to it, then if the buffer at +0x14 is not null,
+//      free_internal(buffer, capacity << 2). Then store 0 to +0x14. (The inlined reserve(0).)
+//   4. Tail into the base destructor, gameswf::membuf::~membuf (upstream base/membuf.cpp).
+// All four steps are the destructor of the m_dictionary member (array<const tu_string*>: clear(), then reserve(0)) and the
+// ::membuf base destructor, which C++ runs after this empty body.
 counted_buffer::~counted_buffer() {
-	if (unk_18 < 0) {
-		for (int i = unk_18; i < 0; ++i) {
-			unk_14[i] = 0;
-		}
-	}
-	const bool owned = (unk_20 == 0);
-	unk_18 = 0;
-	if (owned) {
-		std::uint32_t* words = unk_14;
-		const unsigned int word_count = static_cast<unsigned int>(unk_1c);
-		unk_1c = 0;
-		if (words != nullptr) {
-			free_internal(words, word_count << 2);
-		}
-		unk_14 = nullptr;
-	}
 }
 
 // 0x75b9f4 gameswf::counted_buffer::drop_ref()   (_ZN7gameswf14counted_buffer8drop_refEv)
@@ -251,9 +269,11 @@ void hash<int, gameswf::matrix*, fixed_size_hash<int> >::set_raw_capacity(int ne
 }
 
 // ---- hash<gameswf::string_pointer, gameswf::permanent_string*> ----
-// 0x75c0e8 gameswf::hash<gameswf::string_pointer, gameswf::permanent_string*, gameswf::string_pointer_hash_functor<...> >::set_raw_capacity(int)
-// PARTIAL, not written. The allocation, the empty-entry setup, the rebuild loop and the free match 0x75aa70. The key
-// is one word at entry +0x08 and the value is at +0x0c, so both are 16-byte entries as in the int tables. The rebuild
-// calls hash::add for each live entry, and add() hashes the key with string_pointer_hash_functor<string_pointer>. That
-// functor and the complete key type string_pointer are not in the tree.
-// Layout request: declare gameswf::string_pointer and string_pointer_hash_functor (or the header that defines them).
+// 0x75c0e8 gameswf::hash<gameswf::string_pointer, gameswf::permanent_string*, gameswf::string_pointer_hash_functor<gameswf::string_pointer> >::set_raw_capacity(int)
+// The same rehash as 0x75aa70 (minimum 4 entries, power of two from the single-precision logf, 16-byte entries: next at
+// +0, hash at +4, the one-word key at +8, the value at +12; each live entry is add()ed to the new table, which hashes
+// the key with the case-folded text hash, and then cleared). The shared body is dh2_hash_access::set_raw_capacity.
+template <>
+void hash<gameswf::string_pointer, gameswf::permanent_string*, gameswf::string_pointer_hash_functor<gameswf::string_pointer> >::set_raw_capacity(int new_size) {
+	dh2_hash_access::set_raw_capacity(*this, new_size);
+}

@@ -1,15 +1,12 @@
 // Batch v1-vendor-gameswf-gameswf-fddef6-1 (part 2 of 8, class owner: gameswf).
 //
-// Compiled here (no gameswf.h dependency):
-//   get/set_verbose_dlist, register_texture_loader_callback, define_video_loader (thunk),
-//   define_native_image_loader (partial), destructp<T>, destruct<gameswf::image_rgb>, destruct<gameswf::image_rgba>,
-//   destruct<ref_counted>, destruct<jpeg::input>, hash<int, loader_function>::set_raw_capacity.
-// Written but not compiled (PARTIAL, behind VENDOR_GAMESWF_DH2_CORE_HEADERS): substitute_bitmap_character,
-//   define_debug_id_loader, destruct<shape_character_def>, destruct<execute_tag>. They need gameswf.h or
-//   gameswf_movie_def.h, which do not compile in the tree yet (see the header comment).
+// Compiled here: get/set_verbose_dlist, register_texture_loader_callback, define_video_loader (thunk),
+//   define_native_image_loader, define_debug_id_loader, substitute_bitmap_character, destructp<T>,
+//   destruct<gameswf::image_rgb>, destruct<gameswf::image_rgba>, destruct<ref_counted>, destruct<jpeg::input>,
+//   destruct<shape_character_def>, destruct<execute_tag>, destruct<character::custom>,
+//   hash<int, loader_function>::set_raw_capacity.
 // Upstream r1714 code, ledgered as "upstream" without a body here: null_loader, end_loader,
 //   jpeg_tables_loader, frame_label_loader.
-// Not written: destruct<gameswf::character::custom> (class not declared in the tree).
 //
 // Naming: the binary puts base-library types in namespace gameswf (gameswf::tu_string, gameswf::image_rgb,
 // gameswf::hash). The vendored source has tu_string and hash in the global namespace, and the upstream names
@@ -19,20 +16,21 @@
 #include "vendor-gameswf/gameswf_dh2_runtime.hpp"
 #include "vendor-gameswf/image_rgb.hpp"
 #include "vendor-gameswf/image_rgba.hpp"
+#include "vendor-gameswf/gameswf_alloc.hpp"  // operator new(size, swf::MemHint)
 
 #include <cmath>
 #include <cstdint>
 
 #include "base/jpeg.h"
+#include "base/membuf.h"
 #include "base/tu_file.h"
 #include "gameswf/gameswf_stream.h"
 
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_impl.h"
 #include "gameswf/gameswf_movie_def.h"
+#include "gameswf/gameswf_render.h"  // render::create_bitmap_info_native
 #include "gameswf/gameswf_shape.h"
-#endif
 
 namespace gameswf {
 
@@ -65,8 +63,7 @@ void register_texture_loader_callback(texture_loader_callback callback) {
 
 // 0x759d9c gameswf::define_debug_id_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 // 0x759cfc gameswf::substitute_bitmap_character(gameswf::tu_string&, gameswf::bitmap_character_def*, gameswf::movie_definition_sub*)
-// and the destruct<shape_character_def> / destruct<execute_tag> instances are below, behind
-// VENDOR_GAMESWF_DH2_CORE_HEADERS.
+// and the destruct<shape_character_def> / destruct<execute_tag> / destruct<character::custom> instances are below.
 
 // 0x75a4b8 gameswf::define_video_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 // Thunk in the binary: forwards to stream::read_u16 and drops the value (no video character is created).
@@ -77,42 +74,42 @@ void define_video_loader(stream* in, int tag_type, movie_definition_sub* m) {
 	in->read_u16();
 }
 
+// 0x75afb0 gameswf::inflate_wrapper(gameswf::tu_file*, void*, int): upstream gameswf_impl.cpp (the zlib inflate of a whole stream into a
+// buffer); the loader below calls it, and it is declared here only.
+void inflate_wrapper(::tu_file* in, void* buffer, int buffer_bytes);
+
 // 0x75fbf8 gameswf::define_native_image_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
-// PARTIAL. The header is read in the binary's order: u16 character id, u16 (first int argument of
-// render::create_bitmap_info_native), u16 (second int argument), u8 (inflate flag), u32 (data size).
-// MISSING, each a separate gap:
-//   - the image data: membuf sized to the u32 value, then inflate_wrapper(tu_file, membuf, size) when the
-//     flag is set, otherwise tu_file::read_fully(membuf, -1). inflate_wrapper is not in the tree.
-//   - render::create_bitmap_info_native(int, int, membuf const*) (glitch backend, not in the tree).
-//   - the movie definition's two fields at +0x18 and +0x1c (binary: a reference-counted pointer checked
-//     through its flag byte at +4, and a second pointer passed to bitmap_character's constructor).
-//   - bitmap_character(movie definition, bitmap_info*) constructor arguments, then
-//     m->add_bitmap_character(character id, character) (vtable +0x9c, add_bitmap_character(int, bitmap_character_def*)).
+// A bitmap whose pixels the render handler takes as they are (tag read by the Gameloft build: the data is a native texture file).
+// Header: u16 character id, u16 width, u16 height, u8 inflate flag, u32 data size. The data goes into a new membuf (operator new(0x10,
+// hint 0), resized to the size): inflated with inflate_wrapper when the flag is set, otherwise read whole with tu_file::read_fully(-1).
+// The membuf then belongs to the bitmap_info that render::create_bitmap_info_native(width, height, membuf) returns (the glitch
+// bitmap releases it). The bitmap_character (operator new(0x34, 0)) is built with the definition's player (the weak pointer at the
+// character_def +0x18/+0x1c, a dead proxy is dropped and gives null), the bitmap_info and no rectangle, and added to the definition with
+// add_bitmap_character (vtable +0x9c). The width and height are the two u16 values in the order they are read.
 void define_native_image_loader(stream* in, int tag_type, movie_definition_sub* m) {
 	(void)tag_type;
-	(void)m;
 	Uint16 character_id = in->read_u16();
-	Uint16 arg_a = in->read_u16();      // binary v7: first int of create_bitmap_info_native (name not recovered)
-	Uint16 arg_b = in->read_u16();      // binary v8: second int of create_bitmap_info_native (name not recovered)
-	Uint8 inflate_flag = in->read_u8(); // binary u8: nonzero means inflate
-	Uint32 data_size = in->read_u32();  // binary u32: membuf size
-	(void)character_id;
-	(void)arg_a;
-	(void)arg_b;
-	(void)inflate_flag;
-	(void)data_size;
-	// MISSING: image data read and bitmap creation (see the comment above).
+	Uint16 width = in->read_u16();
+	Uint16 height = in->read_u16();
+	Uint8 inflate_flag = in->read_u8();
+	Uint32 data_size = in->read_u32();
+	::membuf* data = new (swf::MEM_UNRECOVERED) ::membuf();
+	data->resize(static_cast<int>(data_size));
+	if (inflate_flag) {
+		inflate_wrapper(in->get_underlying_stream(), data->data(), static_cast<int>(data_size));
+	} else {
+		in->get_underlying_stream()->read_fully(data, -1);
+	}
+	bitmap_info* bi = render::create_bitmap_info_native(width, height, data);
+	bitmap_character* ch = new (swf::MEM_UNRECOVERED) bitmap_character(m->get_player(), bi, nullptr);
+	m->add_bitmap_character(character_id, ch);
 }
 
 // 0x75cb14 gameswf::destruct<gameswf::character::custom>(gameswf::character::custom const*)
-// PARTIAL, not written: gameswf::character::custom is not declared anywhere in the tree, so its members
-// cannot be named. Binary (Hex-Rays and asm agree):
-//   if (p) {
-//     if (the tu_string at +0x4c has tag byte -1) free_internal(heap pointer at +0x58, capacity at +0x54);
-//     array<gameswf::filter> at +0x3c: resize(0), then reserve(0);
-//     free_internal(p, 0);
-//   }
-// Layout request: declare character::custom (its +0x3c array<filter> member and its +0x4c tu_string member).
+// Binary (Hex-Rays and asm agree): when the pointer is set, the tu_string name at +0x4c frees its heap buffer, the
+// array<filter> at +0x3c is emptied (resize(0), reserve(0)), and the block is freed with free_internal(p, 0). The
+// generic body above (virtual-free destructor call, then free_internal) does exactly that through custom::~custom.
+template void destruct<character::custom>(const character::custom* p);
 
 }  // namespace gameswf
 
@@ -219,22 +216,24 @@ template void destruct<ref_counted>(const ref_counted* p);
 // 0x763dc0 gameswf::destruct<gameswf::jpeg::input>(gameswf::jpeg::input const*)
 template void destruct<jpeg::input>(const jpeg::input* p);
 
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
-// ---- PARTIAL: written, not compiled in the tree yet (needs gameswf.h / gameswf_impl.h / gameswf_shape.h) ----
+// ---- loaders and substitution (need gameswf.h / gameswf_impl.h / gameswf_shape.h) ----
 
 // 0x759d9c gameswf::define_debug_id_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
-// PARTIAL. Reads the 16-byte debug id when the movie definition is a movie_definition_sub (is(AS_MOVIE_DEF_SUB),
-// vtable +0x08). MISSING: the binary stores the 16 bytes at movie_definition_sub +0xf4 (244). The upstream
-// class does not declare that member, so the store is not written. The binary's int result (the read's
-// return value on the tail) is dropped because the loader table is void-typed.
+// For a movie_def_impl (the virtual is(8), AS_MOVIE_DEF; a sprite definition does not answer to it) the 16-byte debug id of the tag is read
+// from the stream into the definition's four words at +0xf4 (unk_f4 .. unk_100 in gameswf_movie_def.h). Anything else ignores the tag.
+// The binary's int result (the read's return value) is dropped because the loader table is void-typed.
 void define_debug_id_loader(stream* in, int tag_type, movie_definition_sub* m) {
 	(void)tag_type;
-	if (m == nullptr || !m->is(AS_MOVIE_DEF_SUB)) {
+	if (m == nullptr || !m->is(AS_MOVIE_DEF)) {
 		return;
 	}
-	uint8_t debug_id[16];
-	in->get_underlying_stream()->read_bytes(debug_id, 16);
-	// MISSING: store debug_id into the movie definition's field at +0xf4 (layout request for movie_definition_sub).
+	movie_def_impl* impl = static_cast<movie_def_impl*>(m);
+	Uint32 words[4];
+	in->get_underlying_stream()->read_bytes(words, 16);
+	impl->unk_f4 = words[0];
+	impl->unk_f8 = words[1];
+	impl->unk_fc = words[2];
+	impl->unk_100 = words[3];
 }
 
 // 0x759cfc gameswf::substitute_bitmap_character(gameswf::tu_string&, gameswf::bitmap_character_def*, gameswf::movie_definition_sub*)
@@ -255,13 +254,12 @@ void substitute_bitmap_character(::tu_string& name, bitmap_character_def* ch, mo
 	}
 }
 
-// 0x75fbf8 is above (partial, compiled). 0x75cb14 is a comment block above.
+// 0x75fbf8 and 0x75cb14 are above.
 
 // 0x7613b8 gameswf::destruct<gameswf::shape_character_def>(gameswf::shape_character_def const*)
 template void destruct<shape_character_def>(const shape_character_def* p);
 
 // 0x763e6c gameswf::destruct<gameswf::execute_tag>(gameswf::execute_tag const*)
 template void destruct<execute_tag>(const execute_tag* p);
-#endif  // VENDOR_GAMESWF_DH2_CORE_HEADERS
 
 }  // namespace gameswf

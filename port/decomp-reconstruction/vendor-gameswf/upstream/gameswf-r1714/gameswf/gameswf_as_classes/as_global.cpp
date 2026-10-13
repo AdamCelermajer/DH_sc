@@ -16,72 +16,50 @@ namespace gameswf
 	// Built-in objects
 	//
 
+	// DH2: 0x79ec04. The text of the first argument comes from to_string(tu_string&), which converts undefined, numbers,
+	// DH2: booleans and objects; there is no assert on the argument count and no special case for undefined.
 	void	as_global_trace(const fn_call& fn)
 	{
-		assert(fn.nargs >= 1);
-
-		// Log our argument.
-		//
-		// @@ what if we get extra args?
-
-		const char* val = "";
-		if (fn.arg(0).is_undefined())
-		{
-			val = "undefined";
-		} 
-		else
-		{
-			val = fn.arg(0).to_string();
-		}
-		log_msg("%s\n", val);
+		tu_string buf;
+		log_msg("%s\n", fn.arg(0).to_string(buf).c_str());
 	}
 
 	// setInterval(functionReference:Function, interval:Number, [param1:Object, param2, ..., paramN]) : Number
 	// setInterval(objectReference:Object, methodName:String, interval:Number, [param1:Object, param2, ..., paramN]) : Number
+	// DH2: 0x79ecd0. With a function as the first argument the timer has no target (the this value stays undefined); with an
+	// DH2: object the method is looked up on it (get_member, vtable +0x20; the binary does not test the object) and the
+	// DH2: object is the target. The timer is built with the five-argument constructor, which adds it to the root listener.
+	// DH2: Without a function and an interval argument the result is null.
 	void  as_global_setinterval(const fn_call& fn)
 	{
-		if (fn.nargs >= 2)
+		as_value this_value;
+		as_value function;
+		int first_arg_index;
+		if (fn.arg(0).is_function())
 		{
-			gc_ptr<as_timer> t = new as_timer(fn.get_player());
-
-			int first_arg_index = 2;
-			if (fn.arg(0).is_function())
-			{
-				t->m_func = fn.arg(0).to_function();
-				t->m_interval = fn.arg(1).to_float() / 1000.0f;
-				assert(fn.env);
-				t->m_this_ptr = fn.env->get_target();
-			}
-			else
-			if (fn.arg(0).to_object() != NULL)
-			{
-				as_value func;
-				as_object* this_ptr = fn.arg(0).to_object();
-				this_ptr->get_member(fn.arg(1).to_tu_string(), &func);
-
-				t->m_func = func.to_function();
-				t->m_interval = fn.arg(2).to_float() / 1000.0f;
-				t->m_this_ptr = this_ptr;
-				first_arg_index = 3;
-			}
-			else
-			{
-				// invalid args
-				return;
-			}
-
-			// pass args
-			t->m_arg.resize(fn.nargs - first_arg_index);
-			for (int i = first_arg_index; i < fn.nargs; i++)
-			{
-				t->m_arg.push_back(fn.arg(i));
-			}
-
-			fn.get_root()->add_listener(t);
-			fn.result->set_as_object(t);
+			function = fn.arg(0);
+			first_arg_index = 1;
 		}
+		else
+		{
+			this_value = fn.arg(0);
+			as_value method_name;
+			method_name = fn.arg(1);
+			this_value.to_object()->get_member(method_name.to_tu_string(), &function);
+			first_arg_index = 2;
+		}
+
+		as_timer* t = NULL;
+		if (function.is_function() && fn.nargs > first_arg_index)
+		{
+			as_value interval;
+			interval = fn.arg(first_arg_index);
+			t = new as_timer(this_value, function, interval.to_number(), fn, first_arg_index + 1);
+		}
+		fn.result->set_as_object(t);
 	}
 
+#if 0 /* DH2: not in the binary (no setTimeout and clearTimeout; as_timer has no m_do_once) */
 	// setTimeout(functionReference:Function, interval:Number, [param1:Object, param2, ..., paramN]) : Number
 	// setTimeout(objectReference:Object, methodName:String, interval:Number, [param1:Object, param2, ..., paramN]) : Number
 	void  as_global_settimeout(const fn_call& fn)
@@ -95,12 +73,19 @@ namespace gameswf
 			t->m_do_once = true;
 		}
 	}
+#endif /* DH2 */
 
+	// DH2: 0x79e738. With exactly one argument that is an as_timer object (class id 37), the timer removes itself from the
+	// DH2: root listener (as_timer::clear).
 	void  as_global_clearinterval(const fn_call& fn)
 	{
-		if (fn.nargs > 0)
+		if (fn.nargs == 1)
 		{
-			fn.get_root()->remove_listener(fn.arg(0).to_object());
+			as_timer* t = cast_to<as_timer>(fn.arg(0).to_object());
+			if (t)
+			{
+				t->clear();
+			}
 		}
 	}
 

@@ -2,12 +2,71 @@
 // The expected values are worked out by hand from the binary's control flow (Hex-Rays pseudocode):
 // *e0_vs_e1 and *e1_vs_e0 take -1, 0 or +1, and the return value is det00 <= 0.
 // Returns non-zero on failure.
+//
+// The source also holds math_init and the destruct specializations, which reach the as_object and as_value bodies and
+// the math functions of other batches. This test does not run them, so it supplies stand-ins that abort when reached.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-4.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
 
 #include "base/tu_types.h"
 #include "base/utility.h"
 #include "base/vert_types.h"
 
 #include <cstdio>
+#include <cstdlib>
+
+#include "gameswf/gameswf_object.h"
+#include "gameswf/gameswf_as_classes/as_math.h"
+
+namespace gameswf {
+
+#define STUB_MATH(name) void name(const fn_call&) { std::abort(); }
+STUB_MATH(math_acos)
+STUB_MATH(math_asin)
+STUB_MATH(math_atan)
+STUB_MATH(math_atan2)
+STUB_MATH(math_ceil)
+STUB_MATH(math_cos)
+STUB_MATH(math_exp)
+STUB_MATH(math_fabs)
+STUB_MATH(math_floor)
+STUB_MATH(math_log)
+STUB_MATH(math_max)
+STUB_MATH(math_min)
+STUB_MATH(math_pow)
+STUB_MATH(math_random)
+STUB_MATH(math_round)
+STUB_MATH(math_sin)
+STUB_MATH(math_sqrt)
+STUB_MATH(math_tan)
+#undef STUB_MATH
+
+ref_counted::ref_counted() { std::abort(); }
+ref_counted::~ref_counted() {}
+void ref_counted::drop_ref() { std::abort(); }
+as_object::as_object(player*) { std::abort(); }
+void as_object::builtin_member(const tu_stringi&, const as_value&) { std::abort(); }
+as_value::as_value(int) { std::abort(); }
+void as_value::set_double(double) { std::abort(); }
+void as_value::drop_refs() {}
+void as_value::operator=(const as_value&) { std::abort(); }
+void as_value::set_as_c_function(void (*)(const fn_call&)) { std::abort(); }
+void free_internal(void*, unsigned int) { std::abort(); }
+void* malloc_internal(unsigned int, swf::MemHint) { std::abort(); }
+
+}  // namespace gameswf
+
+// as_object has no out-of-line key function in this test, so its vtable (referenced by the stand-in constructor above)
+// is supplied by name. Nothing ever dispatches through it.
+#if defined(__GNUC__)
+__asm__(".globl _ZTVN7gameswf9as_objectE\n\t.data\n\t.p2align 3\n_ZTVN7gameswf9as_objectE:\n\t.space 1024\n\t.text\n");
+#endif
+
+void tu_string::resize(int) { std::abort(); }
+int tu_string::stricmp(const char*, const char*) { std::abort(); }
 
 namespace {
 

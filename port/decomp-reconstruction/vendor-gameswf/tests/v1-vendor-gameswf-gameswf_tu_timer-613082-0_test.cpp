@@ -2,6 +2,11 @@
 // Link with the batch source and the upstream base/tu_timer.cpp, which defines
 // profile_ticks_to_seconds(), the target of ticks_to_seconds(). sleep() is not called: the binary's
 // body never returns.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_timer-613082-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/tu_timer.cpp
 
 #include <cstdint>
 #include <cstdio>

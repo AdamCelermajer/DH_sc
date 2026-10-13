@@ -81,6 +81,7 @@ namespace gameswf
 	// public splice(startIndex:Number, [deleteCount:Number], [value:Object]) : Array
 	// adds elements to and removes elements from an array.
 	// This method modifies the array without making a copy.
+#if 0 /* DH2: replaced by the definition that follows (as_array_splice, 0x79a4d8) */
 	void	as_array_splice(const fn_call& fn)
 	{
 		as_array* a = cast_to<as_array>(fn.this_ptr);
@@ -139,6 +140,61 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
+	// DH2: 0x79a4d8. Differs from r1714: the end is startIndex + deleteCount (start before clamping, both then clamped to
+	// DH2: 0..size); the result array is always returned; one value (argument 2) is inserted as a single element, never
+	// DH2: flattened, only when it is not undefined and only when start < size; the array is rebuilt in one pass.
+	void	as_array_splice(const fn_call& fn)
+	{
+		as_array* a = cast_to<as_array>(fn.this_ptr);
+		int size = a->size();
+
+		int start = 0;
+		int end = size;
+		as_value insert_value;	// undefined: nothing is inserted
+		if (fn.nargs > 0)
+		{
+			start = fn.arg(0).to_int();
+			if (start < 0)
+			{
+				start += size;
+			}
+			if (fn.nargs > 1)
+			{
+				end = fn.arg(1).to_int() + start;
+				if (fn.nargs > 2)
+				{
+					insert_value = fn.arg(2);
+				}
+			}
+		}
+
+		if (end > size) end = size;
+		if (end < 0) end = 0;
+		if (start > size) start = size;
+		if (start < 0) start = 0;
+
+		gc_ptr<as_array> deleted_items = new as_array(fn.get_player());
+		array<as_value> items;
+		for (int i = 0; i < size; i++)
+		{
+			as_value item = a->m_array[i];
+			if (i == start && !insert_value.is_undefined())
+			{
+				items.push_back(insert_value);
+			}
+			if (i >= start && i < end)
+			{
+				deleted_items->push(item);
+			}
+			else
+			{
+				items.push_back(item);
+			}
+		}
+		a->m_array = items;
+		fn.result->set_as_object(deleted_items.get_ptr());
+	}
 
 	// public concat([value:Object]) : Array
 	// Concatenates the elements specified in the parameters with the elements
@@ -146,6 +202,7 @@ namespace gameswf
 	// If the value parameters specify an array, the elements of that array are concatenated,
 	// rather than the array itself. The array my_array is left unchanged.
 	// If you don't pass any values, a duplicate of an array is created.
+#if 0 /* DH2: replaced by the definition that follows (as_array_concat, 0x79926c) */
 	void	as_array_concat(const fn_call& fn)
 	{
 		as_array* a = cast_to<as_array>(fn.this_ptr);
@@ -179,12 +236,42 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
+	// DH2: 0x79926c. Differs from r1714: an argument that is not an Array is ignored (r1714 appends it as an element);
+	// DH2: no null check; the player comes from the fn_call environment.
+	void	as_array_concat(const fn_call& fn)
+	{
+		as_array* a = cast_to<as_array>(fn.this_ptr);
+
+		gc_ptr<as_array> res = new as_array(fn.get_player());
+
+		// duplicate the array
+		for (int i = 0, n = a->size(); i < n; i++)
+		{
+			res->push(a->m_array[i]);
+		}
+
+		for (int i = 0; i < fn.nargs; i++)
+		{
+			as_array* arg = cast_to<as_array>(fn.arg(i).to_object());
+			if (arg)
+			{
+				// concat the elements of an array
+				for (int j = 0, n = arg->size(); j < n; j++)
+				{
+					res->push(arg->m_array[j]);
+				}
+			}
+		}
+		fn.result->set_as_object(res.get_ptr());
+	}
 
 	// public slice([startIndex:Number], [endIndex:Number]) : Array
 	// Returns a new array that consists of a range of elements from the original array,
 	// without modifying the original array. The returned array includes the startIndex 
 	// element and all elements up to, but not including, the endIndex element. 
 	// If you don't pass any parameters, a duplicate of the original array is created.
+#if 0 /* DH2: replaced by the definition that follows (as_array_slice, 0x79913c) */
 	void	as_array_slice(const fn_call& fn)
 	{
 		as_array* a = cast_to<as_array>(fn.this_ptr);
@@ -224,9 +311,49 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
+	// DH2: 0x79913c. Differs from r1714: start and end are both clamped to 0..size (r1714 returns an empty array when
+	// DH2: start is still negative after adding the size); no null check; the player comes from the fn_call environment.
+	void	as_array_slice(const fn_call& fn)
+	{
+		as_array* a = cast_to<as_array>(fn.this_ptr);
+		int size = a->size();
+
+		// If you don't pass any parameters, a duplicate of the original array is created.
+		int start = 0;
+		int end = size;
+		if (fn.nargs > 0)
+		{
+			start = fn.arg(0).to_int();
+			if (start < 0)
+			{
+				start += size;
+			}
+			if (fn.nargs > 1)
+			{
+				end = fn.arg(1).to_int();
+				if (end < 0)
+				{
+					end += size;
+				}
+			}
+		}
+		if (end > size) end = size;
+		if (start > size) start = size;
+		if (start < 0) start = 0;
+		if (end < 0) end = 0;
+
+		gc_ptr<as_array> res = new as_array(fn.get_player());
+		for (int i = start; i < end; i++)
+		{
+			res->push(a->m_array[i]);
+		}
+		fn.result->set_as_object(res.get_ptr());
+	}
 
 	// public unshift(value:Object) : Number
 	// Adds one or more elements to the beginning of an array and returns the new length
+#if 0 /* DH2: replaced by the definition that follows (as_array_unshift, 0x7993a4) */
 	void	as_array_unshift(const fn_call& fn)
 	{
 		as_array* a = cast_to<as_array>(fn.this_ptr);
@@ -254,7 +381,28 @@ namespace gameswf
 			fn.result->set_int(a->size());
 		}
 	}
+#endif /* DH2 */
+	// DH2: 0x7993a4. Differs from r1714: arguments are never flattened (an Array argument becomes one element); the old
+	// DH2: elements are copied, the array is emptied, then the arguments (arg(0) first) and the old elements are pushed.
+	void	as_array_unshift(const fn_call& fn)
+	{
+		as_array* a = cast_to<as_array>(fn.this_ptr);
 
+		array<as_value> old_items;
+		old_items = a->m_array;
+		a->resize(0);
+		for (int i = 0; i < fn.nargs; i++)
+		{
+			a->push(fn.arg(i));
+		}
+		for (int i = 0; i < old_items.size(); i++)
+		{
+			a->push(old_items[i]);
+		}
+		fn.result->set_int(a->size());
+	}
+
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack11-4edfaf-0.cpp (as_array_sort, 0x79b124: std::sort with standard_array_sorter or custom_array_sorter) */
 	// public sort([compareFunction:Object], [options:Number]) : Array
 	// Sorts the elements in an array according to Unicode values.
 	void	as_array_sort(const fn_call& fn)
@@ -292,6 +440,8 @@ namespace gameswf
 		}
 	}
 
+#endif /* DH2 */
+
 	void	as_array_length(const fn_call& fn)
 	{
 		as_array* a = cast_to<as_array>(fn.this_ptr);
@@ -301,6 +451,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by the definition that follows (as_global_array_ctor, 0x79980c) */
 	void	as_global_array_ctor(const fn_call& fn)
 	// Constructor for ActionScript class Array.
 	{
@@ -344,6 +495,49 @@ namespace gameswf
 
 		fn.result->set_as_object(ao.get_ptr());
 	}
+#endif /* DH2 */
+	// DH2: 0x79980c. Same results as r1714 for non-negative counts; the elements are pushed one at a time (r1714
+	// DH2: resizes first), so a negative count gives an empty array.
+	void	as_global_array_ctor(const fn_call& fn)
+	// Constructor for ActionScript class Array.
+	{
+		gc_ptr<as_array>	ao = new as_array(fn.get_player());
+
+		if (fn.nargs == -1)
+		{
+			// case of "var x = ["abc","def", 1,2,3,4,..];" called from "init array" operation only
+			if (fn.first_arg_bottom_index == -1)
+			{
+				as_value count = fn.env->pop();
+				int size = count.to_int();
+				for (int i = 0; i < size; i++)
+				{
+					as_value item = fn.env->pop();
+					ao->push(item);
+				}
+			}
+		}
+		else if (fn.nargs == 1)
+		{
+			// case of "var x = new Array(777)": that many undefined elements
+			int size = fn.arg(0).to_int();
+			for (int i = 0; i < size; i++)
+			{
+				as_value item;
+				ao->push(item);
+			}
+		}
+		else if (fn.nargs > 0)
+		{
+			// case of "var x = new Array(1,2,3,4,5,6,7,8,..);"
+			for (int i = 0; i < fn.nargs; i++)
+			{
+				ao->push(fn.arg(i));
+			}
+		}
+
+		fn.result->set_as_object(ao.get_ptr());
+	}
 
 	as_global_array::as_global_array(player* player) :
 		as_c_function(player, as_global_array_ctor)
@@ -355,6 +549,7 @@ namespace gameswf
 		builtin_member("NUMERIC", NUMERIC);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack11-4edfaf-0.cpp (0x79855c, 0x798608: the binary registers no per-instance methods, they are in the builtin table 7 that standard_method_map_init fills) */
 	as_array::as_array(player* player) :
 		as_object(player)
 	{
@@ -374,6 +569,7 @@ namespace gameswf
 
 		set_ctor(as_global_array_ctor);
 	}
+#endif /* DH2 */
 
 	const char* as_array::to_string()
 	{
@@ -389,6 +585,7 @@ namespace gameswf
 		return m_string_value.c_str();
 	}
 
+#if 0 /* DH2: not in the binary (Array.sort is as_array_sort in pack11-4edfaf-0.cpp) */
 	// By default, Array.sort() works as described in the following list:
 	// Sorting is case-sensitive (Z precedes a). 
 	// Sorting is ascending (a precedes b). 
@@ -446,6 +643,9 @@ namespace gameswf
 		}
 	}
 
+#endif /* DH2 */
+
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack11-4edfaf-0.cpp (0x7984b8, 0x79844c: the builtin table 7, as_object, then the integer overloads of get_member and set_member) */
 	bool	as_array::get_member(const tu_stringi& name, as_value* val)
 	{
 		int index;
@@ -477,6 +677,7 @@ namespace gameswf
 		}
 		return as_object::set_member(name, val);
 	}
+#endif /* DH2 */
 
 	void as_array::clear_refs(hash<as_object*, bool>* visited_objects, as_object* this_ptr)
 	{

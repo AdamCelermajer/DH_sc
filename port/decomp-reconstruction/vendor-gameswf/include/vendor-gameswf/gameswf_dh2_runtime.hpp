@@ -8,9 +8,8 @@
 // (tu_string, hash, fixed_size_hash, image::rgb, jpeg::input); the binary puts them in
 // namespace gameswf (gameswf::tu_string, gameswf::hash, gameswf::image_rgb). Upstream names are used.
 //
-// This header does not include gameswf.h or gameswf_movie_def.h: they do not compile in the tree yet
-// (DECLARE_GC_TYPES in gameswf.h instantiates gc_ptr<as_object> against the DH2 ref_counted, which has no
-// gc base). The types needed here are forward declared; the loader_function typedef is the one in
+// This header does not include gameswf.h or gameswf_movie_def.h, so that tests which link only the container
+// code can use it. The types needed here are forward declared; the loader_function typedef is the one in
 // gameswf_movie_def.h, repeated verbatim.
 #pragma once
 
@@ -44,7 +43,7 @@ extern texture_loader_callback s_texture_loader_callback;
 void register_texture_loader_callback(texture_loader_callback callback);  // 0x759cdc
 
 // DH2: called for each exported bitmap character (0x759cfc). The third argument is not read by the binary.
-// Declared here; defined in the batch .cpp only when VENDOR_GAMESWF_DH2_CORE_HEADERS is set (see there).
+// Declared here; defined in the batch .cpp.
 void substitute_bitmap_character(::tu_string& name, bitmap_character_def* ch, movie_definition_sub* m);
 
 // DH2: tag loaders of the DH2 build (void-typed loader table; see the batch notes).

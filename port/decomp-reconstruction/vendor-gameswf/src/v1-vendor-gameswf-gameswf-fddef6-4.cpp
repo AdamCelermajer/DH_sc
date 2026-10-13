@@ -8,14 +8,15 @@
 //   edges_intersect_sub (float overload; the binary returns bool, the upstream one is inline void),
 //   as_number_valueof (the binary is a bare bx lr; upstream asserts).
 //
-// Written, not compiled, behind VENDOR_GAMESWF_DH2_CORE_HEADERS: math_init, destruct<player_context>,
-//   destruct<render_handler>. They need gameswf.h (as_object, as_value, player_context.hpp, render_handler),
-//   which does not compile in the tree yet (see the fddef6-2 header note).
+// Compiled with the core headers (no guard macro): math_init, destruct<player_context>, destruct<render_handler>. They
+//   need gameswf.h (as_object, as_value, player_context.hpp, render_handler).
+//
+// Compiled here as well: destructa<array<grid_entry_box<float,bool>*>> (0x7b21a8; the DH2 array<T> is 16 bytes, so the binary's
+// 16-byte stride is the array itself).
 //
 // Not written here (partial in the ledger):
-//   destruct<array<RenderFX::SearchIndex::Entry>> (0x7a9988): the element is game-ui's RenderFX type.
-//   destructa<array<grid_entry_box<float,bool>*>> (0x7b21a8): the binary steps 16 bytes per element,
-//   but upstream array<T> is 12 bytes (m_buffer, m_size, m_buffer_size), so the layout is unresolved.
+//   destruct<array<RenderFX::SearchIndex::Entry>> (0x7a9988): the element is game-ui's RenderFX type, which the game header
+//   (dh2/RenderFX.hpp) does not declare yet; the body is one line once it does (see the note at the end of this file).
 //
 // Upstream, ledgered without a body (the binary matches the upstream code):
 //   math_pow, math_atan2, math_tan, math_sqrt, math_sin, math_log, math_exp, math_cos, math_ceil,
@@ -29,6 +30,10 @@
 #include "base/tu_types.h"
 #include "base/utility.h"     // compiler_assert, used by vert_types.h (which has no includes of its own)
 #include "base/vert_types.h"
+#include "base/grid_index.h"  // grid_entry_box (destructa)
+#include "base/container.h"
+#include "vendor-gameswf/gameswf_alloc.hpp"
+#include "vendor-gameswf/ref_counted.hpp"  // destructa, free_internal
 
 namespace gameswf {
 struct fn_call;
@@ -119,9 +124,7 @@ void as_number_valueof(const fn_call& fn)
 
 }  // namespace gameswf
 
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
-// The bodies below need gameswf.h (through gameswf_object.h and player_context.hpp), which does not
-// compile in the tree yet. They are written from the pseudocode and have not been compiled.
+// The bodies below need gameswf.h (through gameswf_object.h and player_context.hpp).
 
 #include "gameswf/gameswf_as_classes/as_math.h"  // math_init declaration (as_object, player)
 #include "gameswf/gameswf_object.h"              // as_object, as_value, fn_call
@@ -161,6 +164,15 @@ void builtin_c_function(as_object* obj, const char* name, void (*func)(const fn_
 	v.drop_refs();
 }
 
+// Stores a number as a builtin member (the DH2 as_value has no constructor from a double): set_double on a value, then
+// builtin_member, as the binary does for each constant.
+static void builtin_number(as_object* obj, const char* name, double number)
+{
+	as_value v;
+	v.set_double(number);
+	obj->builtin_member(name, v);
+}
+
 // 0x7a0690 _ZN7gameswf9math_initEPNS_6playerE
 // gameswf::math_init(gameswf::player*)
 //
@@ -174,14 +186,14 @@ as_object* math_init(player* p)
 	math_obj->m_members.set_capacity(32);
 
 	// constants (IEEE bit patterns in the binary: E, LN2, LOG2E, LN10, LOG10E, PI, SQRT1_2, SQRT2)
-	math_obj->builtin_member("e", 2.7182818284590452354);
-	math_obj->builtin_member("ln2", 0.69314718055994530942);
-	math_obj->builtin_member("log2e", 1.4426950408889634074);
-	math_obj->builtin_member("ln10", 2.30258509299404568402);
-	math_obj->builtin_member("log10e", 0.43429448190325182765);
-	math_obj->builtin_member("pi", 3.14159265358979323846);
-	math_obj->builtin_member("sqrt1_2", 0.7071067811865475244);
-	math_obj->builtin_member("sqrt2", 1.4142135623730950488);
+	builtin_number(math_obj, "e", 2.7182818284590452354);
+	builtin_number(math_obj, "ln2", 0.69314718055994530942);
+	builtin_number(math_obj, "log2e", 1.4426950408889634074);
+	builtin_number(math_obj, "ln10", 2.30258509299404568402);
+	builtin_number(math_obj, "log10e", 0.43429448190325182765);
+	builtin_number(math_obj, "pi", 3.14159265358979323846);
+	builtin_number(math_obj, "sqrt1_2", 0.7071067811865475244);
+	builtin_number(math_obj, "sqrt2", 1.4142135623730950488);
 
 	// math methods
 	builtin_c_function(math_obj, "abs", math_fabs);
@@ -233,7 +245,25 @@ void destruct<render_handler>(const render_handler* p)
 
 }  // namespace gameswf
 
-#endif  // VENDOR_GAMESWF_DH2_CORE_HEADERS
 
-// Not written (see the header comment): destruct<array<RenderFX::SearchIndex::Entry>> at 0x7a9988 and
-// destructa<array<grid_entry_box<float,bool>*>> at 0x7b21a8.
+// 0x7b21a8 gameswf::destructa<gameswf::array<gameswf::grid_entry_box<float,bool>*>>(gameswf::array<...> const*, unsigned int)
+// With a non-null pointer: each of the count arrays is emptied and released, from the last to the first (the binary sets the size to 0
+// and reserves 0 for each element, which is the array destructor), then the block is freed with free_internal.
+namespace gameswf {
+
+template <class T>
+void destructa(const T* objects, unsigned int count) {
+	if (objects != nullptr) {
+		for (int i = static_cast<int>(count) - 1; i >= 0; --i) {
+			const_cast<T*>(objects)[i].~T();
+		}
+		free_internal(const_cast<T*>(objects), 0);
+	}
+}
+
+template void destructa< ::array<grid_entry_box<float, bool>*> >(const ::array<grid_entry_box<float, bool>*>* objects, unsigned int count);
+
+}  // namespace gameswf
+
+// Not written: destruct<array<RenderFX::SearchIndex::Entry>> at 0x7a9988. The binary empties the array (size 0, reserve 0) and frees
+// the block with free_internal; the element type is game-ui's, so the instance is written where RenderFX::SearchIndex::Entry is complete.

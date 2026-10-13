@@ -16,6 +16,7 @@
 namespace gameswf
 {
 	// use safe container
+#if 0 /* DH2: not in the binary: the DH2 on_event inserts the key code itself (vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp) */
 	static array<char> s_gameswf_key_to_ascii;
 	static array<char> s_gameswf_key_to_ascii_shifted;
 
@@ -77,6 +78,7 @@ namespace gameswf
 		s_gameswf_key_to_ascii[key::COMMA]         = ','; s_gameswf_key_to_ascii_shifted[key::COMMA]         = '<';
 		s_gameswf_key_to_ascii[key::PERIOD]        = '.'; s_gameswf_key_to_ascii_shifted[key::PERIOD]        = '>';
 	}
+#endif /* DH2 */
 
 	void	as_global_textfield_ctor(const fn_call& fn)
 	// Constructor for ActionScript class XMLSocket
@@ -86,6 +88,7 @@ namespace gameswf
 		fn.result->set_as_object(ch);
 	}
 
+#if 0 /* DH2: replaced by display_glyph_records in vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-1.cpp */
 	// Render the given glyph records.
 
 	static void	display_glyph_records(
@@ -246,14 +249,16 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
 
-
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-1.cpp (no m_is_glyphs_drawn) */
 	text_character_def::text_character_def(player* player, movie_definition_sub* root_def) :
 		character_def(player), m_root_def(root_def), m_use_flashtype(false), m_grid_fit(0), m_thickness(0.0f), m_sharpness(0.0f),
 		m_is_glyphs_drawn(false)
 	{
 		assert(m_root_def);
 	}
+#endif /* DH2 */
 
 	void	text_character_def::read(stream* in, int tag_type, movie_definition_sub* m)
 	{
@@ -362,6 +367,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-1.cpp */
 	void	text_character_def::display(character* inst)
 	// Draw the string.
 	{
@@ -422,6 +428,7 @@ namespace gameswf
 		}
 		display_glyph_records(m_matrix, inst, m_text_glyph_records, m_root_def);
 	}
+#endif /* DH2 */
 
 	void	text_character_def::csm_textsetting(stream* in, int tag_type)
 	{
@@ -551,6 +558,7 @@ namespace gameswf
 	{
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-1.cpp (removeHTML on the default text) */
 	void	edit_text_character_def::read(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(m != NULL);
@@ -612,6 +620,7 @@ namespace gameswf
 		IF_VERBOSE_PARSE(log_msg("edit_text_char, varname = %s, text = %s\n",
 			m_var_name.c_str(), m_default_text.c_str()));
 	}
+#endif /* DH2 */
 
 	void	edit_text_character_def::csm_textsetting(stream* in, int tag_type)
 	{
@@ -659,6 +668,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp */
 	edit_text_character::edit_text_character(player* player, character* parent,
 			edit_text_character_def* def, int id)	:
 		character(player, parent, id),
@@ -699,6 +709,7 @@ namespace gameswf
 		m_dummy_style.push_back(fill_style());
 		reset_bounding_box(0, 0);
 	}
+#endif /* DH2 */
 
 #if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp */
 	edit_text_character::~edit_text_character() 
@@ -708,6 +719,7 @@ namespace gameswf
 	} 
 #endif
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp */
 	void edit_text_character::reset_format(as_textformat* tf)
 	{
 		assert(tf);
@@ -816,6 +828,7 @@ namespace gameswf
 
 		format_text();
 	}
+#endif /* DH2 */
 
 	root* edit_text_character::get_root()
 	{
@@ -834,13 +847,14 @@ namespace gameswf
 		box[2] = x; 
 		box[3] = y + h; 
 
-		matrix mat = get_world_matrix(); 
+		matrix mat = *get_world_matrix();	// DH2: get_world_matrix returns a pointer
 		render::set_matrix(mat); 
 		render::line_style_color(rgba(255, 0, 0, 255));   // red cursor 
 		render::line_style_width(PIXELS_TO_TWIPS(2));
 		render::draw_line_strip(box, 2);        // draw line 
 	} 
 
+#if 0 /* DH2: display and on_event are replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp */
 	void edit_text_character::display() 
 	{ 
 		// if world matrix was updated we should reformat a text
@@ -1030,12 +1044,14 @@ namespace gameswf
 		} 
 		return true; 
 	} 
+#endif /* DH2 */
 
 	bool edit_text_character::can_handle_mouse_event() 
 	{
 		return m_def->m_readonly == false;
 	}
 
+#if 0 /* DH2: replaced by the 2-argument form in vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp */
 	bool edit_text_character::get_topmost_mouse_entity( character * &te, float x, float y)
 	{ 
 		if (get_visible() == false) 
@@ -1056,6 +1072,7 @@ namespace gameswf
 
 		return false; 
 	} 
+#endif /* DH2 */
 
 	const tu_string&	edit_text_character::get_var_name() const
 	{
@@ -1077,6 +1094,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: set_text, set_text_value, to_string, set_member and get_member are replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp */
 	void	edit_text_character::set_text(const tu_string& new_text)
 	// Local. Set our text to the given string.
 	{
@@ -1282,6 +1300,7 @@ namespace gameswf
 
 		return character::get_member(name, val);
 	}
+#endif /* DH2 */
 
 	// @@ WIDTH_FUDGE is a total fudge to make it match the Flash player!  Maybe
 	// we have a bug?
@@ -1333,6 +1352,7 @@ namespace gameswf
 		m_xcursor += shift_right; 
 	}
 
+#if 0 /* DH2: format_text, the html_* parsers and format_plain_text are replaced by format_text and append_text in vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp and html_reader::parse in vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-1.cpp */
 	// Convert the characters in m_text into a series of
 	// text_glyph_records to be rendered.
 	void	edit_text_character::format_text()
@@ -1930,7 +1950,9 @@ namespace gameswf
 		m_text_glyph_records.push_back(rec);
 		align_line(m_alignment, last_line_start_record, m_x);
 	}
+#endif /* DH2 */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-1.cpp */
 	character*	edit_text_character_def::create_character_instance(character* parent, int id)
 	{
 		if (m_font == NULL)
@@ -1951,7 +1973,7 @@ namespace gameswf
 
 		return ch;
 	}
-
+#endif /* DH2 */
 
 	void	define_edit_text_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// Read a DefineText tag.

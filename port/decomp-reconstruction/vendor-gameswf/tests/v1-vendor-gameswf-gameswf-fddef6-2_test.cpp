@@ -1,6 +1,10 @@
 // Test for batch v1-vendor-gameswf-gameswf-fddef6-2: the pure helpers in
 // vendor-gameswf/gameswf_dh2_helpers.hpp (sort comparator and collect<T> vertex walk).
 // Returns non-zero on failure. Needs no gameswf or glitch code to link.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 
 #include <cmath>
 #include <cstdint>

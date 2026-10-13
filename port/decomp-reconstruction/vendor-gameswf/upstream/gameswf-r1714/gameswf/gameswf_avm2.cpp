@@ -18,11 +18,14 @@
 namespace gameswf
 {
 
+	// DH2: 0x7c32fc (C1), 0x7c347c (C2). The binary stores the definition with add_ref (+0x44), the method index (+0x74), points
+	// DH2: m_this_ptr at the function and adds the prototype member; it writes none of the other scalars (read() and read_body()
+	// DH2: set them all), so they are zero here only because the host allocator does not clear memory.
 	as_3_function::as_3_function(abc_def* abc, int method, player* player) :
 		as_function(player),
 		m_abc(abc),
-		m_return_type( -1 ),
-		m_name( -1 ),
+		m_return_type( 0 ),
+		m_name( 0 ),
 		m_flags( 0 ),
 		m_method(method),
 		m_max_stack( 0 ),
@@ -40,6 +43,7 @@ namespace gameswf
 	{
 	}
 
+#if 0 /* DH2: replaced by the definition that follows (as_3_function::operator(), 0x7c4130) */
 	void	as_3_function::operator()(const fn_call& fn)
 	// dispatch
 	{
@@ -131,8 +135,61 @@ namespace gameswf
 		}
 
 	}
+#endif /* DH2 */
+	// DH2: 0x7c4130. Differs from r1714: no argument copy into the registers (the binary never reads m_param_type or fn.arg()),
+	// DH2: no JIT, no stack-size check, no env->m_scope. The scope stack is a local array holding the global object and
+	// DH2: global.flash.Events (no NULL check on the flash object, as in the binary).
+	void	as_3_function::operator()(const fn_call& fn)
+	// dispatch
+	{
+		assert(fn.env);
+
+		// try to use caller environment
+		// if the caller object has own environment then we use its environment
+		as_environment* env = fn.env;
+		if (fn.this_ptr)
+		{
+			if (fn.this_ptr->get_environment())
+			{
+				env = fn.this_ptr->get_environment();
+			}
+		}
+
+		// set 'this'
+		as_object* this_ptr = env->get_target();
+		if (fn.this_ptr)
+		{
+			this_ptr = fn.this_ptr;
+			if (this_ptr->m_this_ptr != NULL)
+			{
+				this_ptr = this_ptr->m_this_ptr.get_ptr();
+			}
+		}
+
+		// Create local registers.
+		array<as_value>	local_register;
+		local_register.resize(m_local_count + 1);
+
+		// Register 0 holds the 'this' object. This value is never null.
+		assert(this_ptr);
+		local_register[0] = this_ptr;
+
+		array<as_value> stack;
+		array<as_value> scope;
+
+		scope.push_back(as_value(get_global()));
+
+		as_value events;
+		get_global()->get_member("flash", &events);
+		as_object* flash = events.to_object();
+		flash->get_member("Events", &events);
+		scope.push_back(events);
+
+		execute(local_register, stack, scope, fn.result);
+	}
 
 	// interperate action script bytecode
+#if 0 /* DH2: replaced by the definition that follows (as_3_function::execute, 0x7c35fc) */
 	void	as_3_function::execute(array<as_value>& lregister, as_environment* env, as_value* result)
 	{
 		// m_abc may be destroyed
@@ -851,6 +908,212 @@ namespace gameswf
 		}
 		while (ip < m_code.size());
 	}
+#endif /* DH2 */
+	// DH2: 0x7c35fc. The binary implements only the opcodes below; any other logs "TODO opcode" and returns. returnvoid does
+	// DH2: not return (it sets the result to undefined and the loop goes on). There is no empty-code check.
+	void	as_3_function::execute(array<as_value>& lregister, array<as_value>& stack, array<as_value>& scope, as_value* result)
+	{
+		int ip = 0;
+		do
+		{
+			Uint8 opcode = m_code[ip++];
+			switch (opcode)
+			{
+				case 0x24:	// pushbyte
+				{
+					int byte_value;
+					ip += read_vu30(byte_value, &m_code[ip]);
+					stack.push_back(as_value(byte_value));
+					break;
+				}
+
+				case 0x2C:	// pushstring
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					const char* val = m_abc->get_string(index);
+					stack.push_back(as_value(val));
+					break;
+				}
+
+				case 0x2D:	// pushint
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					int val = m_abc->get_integer(index);
+					stack.push_back(as_value(val));
+					break;
+				}
+
+				case 0x2F:	// pushdouble
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					double val = m_abc->get_double(index);
+					stack.push_back(as_value(val));
+					break;
+				}
+
+				case 0x30:	// pushscope
+				{
+					scope.push_back(stack[stack.size() - 1]);
+					stack.resize(stack.size() - 1);
+					break;
+				}
+
+				case 0x47:	// returnvoid (no return: the loop continues)
+				{
+					result->set_undefined();
+					break;
+				}
+
+				case 0x49:	// constructsuper (only drops the object and the arguments)
+				{
+					int arg_count;
+					ip += read_vu30(arg_count, &m_code[ip]);
+					stack.resize(stack.size() - 1);
+					for (int i = 0; i < arg_count; i++)
+					{
+						stack.resize(stack.size() - 1);
+					}
+					break;
+				}
+
+				case 0x4F:	// callpropvoid
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					const char* name = m_abc->get_multiname(index);
+
+					int arg_count;
+					ip += read_vu30(arg_count, &m_code[ip]);
+
+					as_environment env(get_player());
+					for (int i = 0; i < arg_count; i++)
+					{
+						env.m_stack.push_back(stack[stack.size() - 1 - i]);
+					}
+					stack.resize(stack.size() - arg_count);
+
+					as_object* obj = stack[stack.size() - 1].to_object();
+					stack.resize(stack.size() - 1);
+
+					as_value func;
+					if (obj != NULL && obj->get_member(name, &func))
+					{
+						call_method(func, &env, as_value(obj), arg_count, env.get_top_index(), "???");
+					}
+					break;
+				}
+
+				case 0x5D:	// findpropstrict (scope scan only; NULL when not found)
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					const char* name = m_abc->get_multiname(index);
+
+					as_object* obj = NULL;
+					for (int i = scope.size() - 1; i >= 0; i--)
+					{
+						as_value value;
+						if (scope[i].get_member(name, &value))
+						{
+							obj = scope[i].to_object();
+							break;
+						}
+					}
+					stack.push_back(as_value(obj));
+					break;
+				}
+
+				case 0x5E:	// findproperty (same body as 0x5D; NULL when not found, not the global)
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					const char* name = m_abc->get_multiname(index);
+
+					as_object* obj = NULL;
+					for (int i = scope.size() - 1; i >= 0; i--)
+					{
+						as_value value;
+						if (scope[i].get_member(name, &value))
+						{
+							obj = scope[i].to_object();
+							break;
+						}
+					}
+					stack.push_back(as_value(obj));
+					break;
+				}
+
+				case 0x60:	// getlex (scope scan only; undefined when not found)
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					const char* name = m_abc->get_multiname(index);
+
+					as_value val;
+					for (int i = scope.size() - 1; i >= 0; i--)
+					{
+						if (scope[i].get_member(name, &val))
+						{
+							break;
+						}
+					}
+					stack.push_back(val);
+					break;
+				}
+
+				case 0x66:	// getproperty
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					const char* name = m_abc->get_multiname(index);
+
+					as_value& top = stack[stack.size() - 1];
+					as_object* obj = top.to_object();
+					if (obj != NULL)
+					{
+						obj->get_member(name, &top);
+					}
+					else
+					{
+						top.set_undefined();
+					}
+					break;
+				}
+
+				case 0x68:	// initproperty
+				{
+					int index;
+					ip += read_vu30(index, &m_code[ip]);
+					const char* name = m_abc->get_multiname(index);
+
+					as_object* obj = stack[stack.size() - 2].to_object();
+					if (obj != NULL)
+					{
+						obj->set_member(name, stack[stack.size() - 1]);
+					}
+					stack.resize(stack.size() - 2);
+					break;
+				}
+
+				case 0xD0:	// getlocal_0
+				case 0xD1:	// getlocal_1
+				case 0xD2:	// getlocal_2
+				case 0xD3:	// getlocal_3
+				{
+					stack.push_back(lregister[opcode & 0x03]);
+					break;
+				}
+
+				default:
+					log_msg("TODO opcode 0x%02X\n", opcode);
+					return;
+			}
+		}
+		while (ip < m_code.size());
+	}
 
 	void as_3_function::read(stream* in)
 	// read method_info
@@ -932,6 +1195,7 @@ namespace gameswf
 
 	}
 
+#if 0 /* DH2: not in the binary (the DH2 execute reads the multiname straight from the pool) */
 	tu_string as_3_function::get_multiname(int index, vm_stack & stack) const
 	{
 		multiname::kind kind = (multiname::kind)m_abc->get_multiname_type( index );
@@ -949,5 +1213,6 @@ namespace gameswf
 			return "";
 		}
 	}
+#endif /* DH2 */
 }
 

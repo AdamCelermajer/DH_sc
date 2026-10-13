@@ -81,6 +81,7 @@ namespace gameswf
 	}
 #endif /* DH2: root::set_active_entity */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void	root::generate_mouse_button_events(mouse_button_state* ms)
 	{
 		gc_ptr<character> active_entity  = ms->m_active_entity; // entity that currently owns the mouse pointer
@@ -237,6 +238,7 @@ namespace gameswf
 		ms->m_x_last = ms->m_x;
 		ms->m_y_last = ms->m_y;
 	}
+#endif /* DH2: root::generate_mouse_button_events */
 
 	// movie info
 
@@ -262,6 +264,7 @@ namespace gameswf
 
 	void notify_key_object(player* player, key::code k, bool down);
 
+#if 0 /* DH2: no counterpart in the binary (the helper of the r1714 TAB focus handling, which the DH2 notify_key_event does not have) */
 	void change_focus_character(character *movie, character *active_entity, bool shift)
 	{
 		bool killfocus = false;
@@ -321,6 +324,7 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2: change_focus_character */
 
 #if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void	root::notify_key_event(player* player, key::code k, bool down)
@@ -419,6 +423,7 @@ namespace gameswf
 		assert(m_movie != NULL);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void	root::set_display_viewport(int x0, int y0, int w, int h)
 	{
 		m_viewport_x0 = x0;
@@ -431,7 +436,7 @@ namespace gameswf
 		float	scale_y = m_viewport_height / TWIPS_TO_PIXELS(m_def->m_frame_size.height());
 		m_pixel_scale = tu_fmax(scale_x, scale_y);
 	}
-
+#endif /* DH2: root::set_display_viewport */
 
 #if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void	root::notify_mouse_state(int x, int y, int buttons)
@@ -463,7 +468,9 @@ namespace gameswf
 		*buttons = m_mouse_buttons;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp (the binary symbol is not const) */
 	character*	root::get_root_movie() const { return m_movie.get_ptr(); }
+#endif /* DH2: root::get_root_movie */
 
 #if 0 /* DH2: not a gameswf::root member in the binary; character::set_drag_state is 0x752d0c */
 	void	root::set_drag_state(character::drag_state& ds)
@@ -497,10 +504,12 @@ namespace gameswf
 	}
 #endif /* DH2: root::set_drag_state */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp (the binary clears the dragged character only) */
 	void	root::stop_drag()
 	{
 		m_drag_state.Reset();
 	}
+#endif /* DH2: root::stop_drag */
 
 #if 0 /* DH2: not a gameswf::root member in the binary; character::do_mouse_drag is 0x75e3a8 */
 	// Implement mouse-dragging for this movie.
@@ -693,6 +702,7 @@ namespace gameswf
 
 	bool	root::has_looped() const { return m_movie->has_looped(); }
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void	root::display()
 	{
 		if (m_movie->get_visible() == false)
@@ -712,7 +722,9 @@ namespace gameswf
 
 		gameswf::render::end_display();
 	}
+#endif /* DH2: root::display */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	bool	root::goto_labeled_frame(const char* label)
 	{
 		int	target_frame = -1;
@@ -728,6 +740,7 @@ namespace gameswf
 			return false;
 		}
 	}
+#endif /* DH2: root::goto_labeled_frame */
 
 	void	root::set_play_state(character::play_state s) { m_movie->set_play_state(s); }
 	character::play_state	root::get_play_state() const { return m_movie->get_play_state(); }

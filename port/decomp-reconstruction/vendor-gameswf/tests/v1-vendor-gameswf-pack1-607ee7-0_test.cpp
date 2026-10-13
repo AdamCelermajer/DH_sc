@@ -1,6 +1,10 @@
 // Test for batch v1-vendor-gameswf-pack1-607ee7-0: the arithmetic and class-id rules behind the
 // generic_character, bitmap_character, hash::set_raw_capacity and effect::~effect bodies.
 // Returns non-zero when a check fails.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 
 #include <cstdint>
 #include <cstdio>

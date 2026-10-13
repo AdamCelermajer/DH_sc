@@ -4,12 +4,14 @@
 //
 // GLU is not in this tree. This file defines recording stand-ins for the GLU entry points the batch
 // calls (gluNewTess, gluDeleteTess, gluTessProperty, gluTessCallback, gluTessVertex, gluTessEndPolygon).
-// The GLU callbacks are driven directly, the way GLU would call them. The mesh_set path is disabled in
-// the batch source and is not covered here.
+// The GLU callbacks are driven directly, the way GLU would call them. The mesh_set functions that
+// end_shape(mesh_set*, int) calls (add_line_strip, set_tri_strip, get_mutable_mesh, mesh::set_triangles)
+// are recording stand-ins as well.
 
 #include <cstdio>
 #include <cstdlib>
 
+#include "gameswf/gameswf_shape.h"
 #include "vendor-gameswf/tesselator_accepter.hpp"
 
 // Stand-in tessellator object (the header only forward-declares GLUtesselator).
@@ -120,6 +122,60 @@ void gluTessVertex(GLUtesselator*, double*, void*) {
 
 void gluTessEndPolygon(GLUtesselator*) {
     ++g_end_polygon_calls;
+}
+
+// ---- mesh_set stand-ins (upstream gameswf_shape.cpp is not linked) ---------------------------------------------
+
+namespace {
+
+struct MeshLog {
+    int line_strips = 0;
+    int line_style = -1;
+    int line_count = 0;
+    float line_first_x = 0.0f;
+    int tri_strips = 0;
+    int strip_style = -1;
+    int strip_count = 0;
+    int meshes = 0;
+    int mesh_style = -1;
+    int triangle_calls = 0;
+    int float_count = 0;
+    int index_count = 0;
+    float first_float = 0.0f;
+    unsigned short last_index = 0;
+    void clear() { *this = MeshLog(); }
+};
+MeshLog g_mesh_log;
+alignas(16) unsigned char g_mesh_storage[64];  // the stand-in functions never touch the mesh_set or the mesh
+
+}  // namespace
+
+void gameswf::mesh_set::add_line_strip(int style, const point coords[], int coord_count) {
+    ++g_mesh_log.line_strips;
+    g_mesh_log.line_style = style;
+    g_mesh_log.line_count = coord_count;
+    g_mesh_log.line_first_x = coord_count > 0 ? coords[0].m_x : -1.0f;
+}
+
+void gameswf::mesh_set::set_tri_strip(int style, const point pts[], int count) {
+    (void)pts;
+    ++g_mesh_log.tri_strips;
+    g_mesh_log.strip_style = style;
+    g_mesh_log.strip_count = count;
+}
+
+gameswf::mesh* gameswf::mesh_set::get_mutable_mesh(int style) {
+    ++g_mesh_log.meshes;
+    g_mesh_log.mesh_style = style;
+    return reinterpret_cast<gameswf::mesh*>(g_mesh_storage);
+}
+
+void gameswf::mesh::set_triangles(const float* verts, int float_count, const unsigned short* indices, int index_count) {
+    ++g_mesh_log.triangle_calls;
+    g_mesh_log.float_count = float_count;
+    g_mesh_log.index_count = index_count;
+    g_mesh_log.first_float = float_count > 0 ? verts[0] : -1.0f;
+    g_mesh_log.last_index = index_count > 0 ? indices[index_count - 1] : 0;
 }
 
 // tu_string::resize and tu_string::utf8_char_count belong to other batches and are not in this tree yet.
@@ -376,7 +432,94 @@ void test_vertex_and_begin() {
 
 }  // namespace
 
+gameswf::mesh_set* fake_mesh_set() {
+    return reinterpret_cast<gameswf::mesh_set*>(g_mesh_storage);
+}
+
+void test_end_shape_into_mesh_set() {
+    // Direct mode (line strips): the output is flushed through callback_end_tris, then handed to add_line_strip for the
+    // style when it has more than one point; the output is emptied.
+    {
+        reset_stubs();
+        g_mesh_log.clear();
+        tesselator_accepter acc(false, true, false);
+        acc.init();
+        tesselator_accepter::callback_begin(gl_prim::LINE_STRIP, &acc);
+        point p0(0.5f, 0.0f), p1(1.5f, 1.0f), p2(2.5f, 2.0f);
+        acc.add_point(p0);
+        acc.add_point(p1);
+        acc.add_point(p2);
+        acc.end_shape(fake_mesh_set(), 7);
+        CHECK(g_end_polygon_calls == 1);
+        CHECK(g_mesh_log.line_strips == 1 && g_mesh_log.line_style == 7 && g_mesh_log.line_count == 3);
+        CHECK(g_mesh_log.line_first_x == 0.5f);
+        CHECK(g_mesh_log.tri_strips == 0 && g_mesh_log.meshes == 0);
+        array<point> pts;
+        array<unsigned short> idx;
+        acc.end_shape(pts, idx);
+        CHECK(pts.size() == 0);  // emptied by the mesh set path
+    }
+    // Direct mode with one point: no line strip.
+    {
+        reset_stubs();
+        g_mesh_log.clear();
+        tesselator_accepter acc(false, true, false);
+        acc.init();
+        tesselator_accepter::callback_begin(gl_prim::LINE_STRIP, &acc);
+        point p0(0.5f, 0.0f);
+        acc.add_point(p0);
+        acc.end_shape(fake_mesh_set(), 1);
+        CHECK(g_mesh_log.line_strips == 0 && g_mesh_log.tri_strips == 0 && g_mesh_log.meshes == 0);
+    }
+    // Strip mode: the points go to set_tri_strip.
+    {
+        reset_stubs();
+        g_mesh_log.clear();
+        tesselator_accepter acc(true, false, false);
+        acc.init();
+        tesselator_accepter::callback_begin(gl_prim::TRIANGLE_STRIP, &acc);
+        feed(acc, 4);
+        tesselator_accepter::callback_end_strip(&acc);
+        acc.end_shape(fake_mesh_set(), 3);
+        CHECK(g_mesh_log.tri_strips == 1 && g_mesh_log.strip_style == 3 && g_mesh_log.strip_count == 4);
+        CHECK(g_mesh_log.line_strips == 0 && g_mesh_log.meshes == 0);
+    }
+    // Strip mode with nothing in the output: nothing.
+    {
+        reset_stubs();
+        g_mesh_log.clear();
+        tesselator_accepter acc(true, false, false);
+        acc.init();
+        acc.end_shape(fake_mesh_set(), 3);
+        CHECK(g_mesh_log.tri_strips == 0 && g_mesh_log.meshes == 0 && g_mesh_log.line_strips == 0);
+    }
+    // Neither flag (triangle lists): the points as floats (two per point) and the indices go to the mesh of the style.
+    {
+        reset_stubs();
+        g_mesh_log.clear();
+        tesselator_accepter acc(false, false, false);
+        acc.init();
+        tesselator_accepter::callback_begin(gl_prim::TRIANGLES, &acc);
+        feed(acc, 6);
+        tesselator_accepter::callback_end_tris(&acc);
+        acc.end_shape(fake_mesh_set(), 2);
+        CHECK(g_mesh_log.meshes == 1 && g_mesh_log.mesh_style == 2);
+        CHECK(g_mesh_log.triangle_calls == 1 && g_mesh_log.float_count == 12 && g_mesh_log.index_count == 6);
+        CHECK(g_mesh_log.first_float == 0.0f && g_mesh_log.last_index == 5);
+    }
+    // Neither flag and no points: nothing is made.
+    {
+        reset_stubs();
+        g_mesh_log.clear();
+        tesselator_accepter acc(false, false, false);
+        acc.init();
+        acc.end_shape(fake_mesh_set(), 2);
+        CHECK(g_mesh_log.meshes == 0 && g_mesh_log.triangle_calls == 0);
+    }
+}
+
 int main() {
+    test_end_shape_into_mesh_set();
     test_constructor();
     test_init_returns_this();
     test_tris_modes();

@@ -127,8 +127,10 @@ void* realloc_internal(void* p, unsigned int new_size, unsigned int old_size, sw
 void create_filter_engine()
 {
     if (filter_engine::s_instance == nullptr) {
-        // The binary calls operator new(0x68, 0) and then the constructor without a null check.
-        void* mem = operator new(0x68u, static_cast<swf::MemHint>(0));
+        // The binary calls operator new(0x68, 0) and then the constructor without a null check. 0x68 is the 32-bit object
+        // size; the host object has pointer-width members (sizeof is larger), so the host allocation is sizeof(filter_engine),
+        // as the other creators of this library do (create_alpha, create_render_handler_irrlicht).
+        void* mem = operator new(sizeof(filter_engine), static_cast<swf::MemHint>(0));
         filter_engine* engine = new (mem) filter_engine();
         filter_engine::s_instance = engine;
     }

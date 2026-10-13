@@ -161,6 +161,9 @@ namespace gameswf
 		return -1;
 	}
 
+	#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_dlist-d5206d-2.cpp (get_character_by_name_i, remove, add_display_object, move_display_object,
+	         replace_display_object, remove_display_object(int, int), add_keypress_listener, remove_keypress_listener) and, for
+	         remove_display_object(character*), by v1-vendor-gameswf-pack0-157e56-0.cpp */
 	character*	display_list::get_character_by_name_i(const tu_stringi& name)
 	// Return first character with matching (case insensitive) name, if any.
 	{
@@ -436,6 +439,8 @@ namespace gameswf
 		}
 	}
 	
+	#endif /* DH2 */
+
 	void	display_list::clear()
 	// clear the display list.
 	{
@@ -445,6 +450,7 @@ namespace gameswf
 		}
 	}
 	
+	#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_dlist-d5206d-2.cpp (advance goes through the player's construct stack, display skips zero-alpha children) */
 	void	display_list::advance(float delta_time)
 	// advance referenced characters.
 	{
@@ -550,6 +556,8 @@ namespace gameswf
 			render::disable_mask();
 		}
 	}
+
+	#endif /* DH2 */
 
 	void display_list::clear_unaffected(array<int>& affected_depths) 
 	{ 

@@ -1,66 +1,30 @@
 // Test for the texture_cache batch v1-vendor-gameswf-gameswf_texture_cache-d731ee-0.
 //
-// Covers the region arithmetic and the free and used region lists against a fake texture. The
-// out-of-line members of ref_counted and bitmap_info that other batches define are stubbed here.
+// Covers the constructor (three texture branches), lock, the region arithmetic and the free and used region lists
+// against a fake texture. The link-only stand-ins (ref_counted, bitmap_info, the image classes, the allocator, the two region
+// tables' set_raw_capacity) and the fake texture and handler are in test-support/dh2_texture_stubs.hpp.
 // Reference counts are never driven to zero, so no fake texture is freed by smart_ptr.
 //
-// The hash tables need their set_raw_capacity bodies: the used-region table (key) is in pack19 and the
-// region-pointer table (verify_integrity) is in pack10, and the test links both. Those two files also
-// reference the DH2 allocator, the font entity's destructor and tu_file::read_fully; the test stands in
-// for those. Link line (check_tu.sh --test, after this file):
-//   batch .cpp, pack10 .cpp, pack19 .cpp, upstream base/container.cpp, base/utf8.cpp, base/membuf.cpp,
-//   base/tu_file.cpp, the membuf batch source (membuf::capacity, reserve, resize) and the tu_string batch source.
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_texture_cache-d731ee-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_render_handler-1ca9d1-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
 
-#include "base/membuf.h"
-#include "base/tu_file.h"
-#include "vendor-gameswf/gameswf_alloc.hpp"
-#include "vendor-gameswf/bitmap_glyph_provider.hpp"
-#include "vendor-gameswf/texture_cache.hpp"
-
-namespace gameswf {
-
-// Stubs for out-of-line members of ref_counted and bitmap_info that are defined in other batches.
-ref_counted::ref_counted() {}
-ref_counted::~ref_counted() {}
-void ref_counted::add_ref() const {}
-void ref_counted::drop_ref() {}
-weak_proxy* ref_counted::get_weak_proxy() const { return nullptr; }
-void ref_counted::detach_weak_proxy() {}
-
-bitmap_info::~bitmap_info() {}
-void bitmap_info::unlayout() {}
-void bitmap_info::set_writable() {}
-int bitmap_info::lock() { return 0; }
-void bitmap_info::unlock() {}
-void bitmap_info::set_texture(glitch::video::ITexture*) {}
-void bitmap_info::set_min_filter(filter_mode) {}
-void bitmap_info::set_mag_filter(filter_mode) {}
-int bitmap_info::is_layout() const { return 0; }
-int bitmap_info::get_internal_width() const { return get_width(); }
-int bitmap_info::get_internal_height() const { return get_height(); }
-
-// Host stand-ins for the DH2 allocator, and for the font entity's destructor (the key function that
-// emits bitmap_font_entity's vtable). Their bodies are in other batches' sources. The test does not reach
-// them.
-void* malloc_internal(unsigned int size, swf::MemHint) { return std::malloc(size); }
-void free_internal(void* p, unsigned int) { std::free(p); }
-void* realloc_internal(void* p, unsigned int new_size, unsigned int, swf::MemHint) {
-    return std::realloc(p, new_size);
-}
-bitmap_font_entity::~bitmap_font_entity() {}
-
-}  // namespace gameswf
-
-// pack15's tu_file::read_fully (a DH2 member of tu_file). pack19 references it. The test does not reach it.
-int tu_file::read_fully(membuf*, int) { return 0; }
+#include "../test-support/dh2_texture_stubs.hpp"
 
 namespace {
 
 using gameswf::texture_cache;
+using gameswf::test::fake_texture;
 using region = texture_cache::region;
 
 int g_failures = 0;
@@ -73,24 +37,7 @@ int g_failures = 0;
         }                                                                    \
     } while (0)
 
-// Texture with a fixed size. Its lock returns no pointer here (texture_cache::lock is partial).
-class fake_texture : public gameswf::bitmap_info {
-public:
-    fake_texture(int width, int height) : m_width(width), m_height(height) {}
-
-    int lock() override {
-        ++m_lock_calls;
-        return 0;
-    }
-    void unlock() override { ++m_unlock_calls; }
-    int get_width() const override { return m_width; }
-    int get_height() const override { return m_height; }
-
-    int m_width;
-    int m_height;
-    int m_lock_calls = 0;
-    int m_unlock_calls = 0;
-};
+gameswf::test::texture_handler g_handler;
 
 void test_region_size_requirement() {
     int w = 1;
@@ -122,6 +69,67 @@ void test_region_size_requirement() {
     CHECK(r == 16);
 }
 
+// The constructor takes the texture from the current handler by its three branches, rounded up to whole cells.
+void test_constructor_branches() {
+    {
+        texture_cache alpha(20, 20, 1, false);  // bytes per pixel 1: the alpha factory, no data
+        CHECK(g_handler.alpha_calls == 1);
+        CHECK(g_handler.last_width == 32 && g_handler.last_height == 32);
+        CHECK(alpha.m_bpp == 1);
+        CHECK(alpha.m_texture.get_ptr() == g_handler.last);
+        CHECK(alpha.m_regions.size() == 4);  // reset() ran: a 2 x 2 cell grid
+        CHECK(alpha.m_free.size() == 1);
+    }
+    {
+        texture_cache color(33, 17, 4, false);  // not a render target: a cleared image goes to the rgba factory
+        CHECK(g_handler.rgba_calls == 1);
+        CHECK(g_handler.rgba_image_was_clear);
+        CHECK(g_handler.last_width == 48 && g_handler.last_height == 32);
+        CHECK(color.m_regions.size() == 6);
+    }
+    {
+        texture_cache target(64, 16, 4, true);  // render target: the target factory
+        CHECK(g_handler.target_calls >= 1);
+        CHECK(g_handler.last_width == 64 && g_handler.last_height == 16);
+    }
+}
+
+// lock() locks the texture once, clears it while no region is in use, and returns the same pointer afterwards.
+void test_lock() {
+    texture_cache tc(64, 64, 4, true);
+    fake_texture tex(8, 4);
+    std::vector<unsigned char> pixels(8 * 4 * 4, 0xFF);
+    tex.m_pixels = pixels.data();
+    tc.m_texture = &tex;
+    tc.m_locked = nullptr;
+    tc.m_used.clear();
+
+    void* first = tc.lock();
+    CHECK(first == pixels.data());
+    CHECK(tex.m_lock_calls == 1);
+    bool cleared = true;
+    for (unsigned char v : pixels) {
+        if (v != 0) {
+            cleared = false;
+        }
+    }
+    CHECK(cleared);  // bytes per pixel * height * width, with an empty used table
+    CHECK(tc.lock() == first);
+    CHECK(tex.m_lock_calls == 1);
+
+    // With a region in use the pixels are kept.
+    tc.m_locked = nullptr;
+    std::fill(pixels.begin(), pixels.end(), static_cast<unsigned char>(0x7F));
+    region used;
+    texture_cache::key k;
+    k.unk_0 = 5;
+    tc.m_used.add(k, &used);
+    CHECK(tc.lock() == pixels.data());
+    CHECK(pixels[0] == 0x7F);
+    tc.m_used.clear();
+    tc.m_locked = nullptr;
+}
+
 void test_region_bounds() {
     texture_cache tc(64, 64, 4, true);
     fake_texture tex(64, 64);
@@ -144,6 +152,7 @@ void test_subdivide() {
     fake_texture tex(64, 64);
     tc.m_texture = &tex;
     tc.m_regions.resize(16);
+    tc.m_free.resize(0);  // the constructor's reset() left the whole grid on the free list; this test starts empty
     region* r = &tc.m_regions[0];
     r->cells_w = 4;
     r->cells_h = 4;
@@ -186,6 +195,7 @@ void test_find_used() {
     fake_texture tex(64, 64);
     tc.m_texture = &tex;
     tc.m_regions.resize(16);
+    tc.m_free.resize(0);  // the constructor's reset() left the whole grid on the free list; this test starts empty
 
     region* a = &tc.m_regions[0];  // newer
     a->cells_w = 4;
@@ -278,7 +288,10 @@ void test_destructor_unlocks() {
 }  // namespace
 
 int main() {
+    gameswf::s_render_handler = &g_handler;
     test_region_size_requirement();
+    test_constructor_branches();
+    test_lock();
     test_region_bounds();
     test_subdivide();
     test_find_available();

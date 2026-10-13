@@ -16,18 +16,22 @@
 #if TU_CONFIG_LINK_TO_LIB3DS == 1
 	#include "extensions/lib3ds/gameswf_3ds_inst.h"
 #endif
+#include "vendor-gameswf/gameswf_dh2_runtime.hpp"	// DH2: s_texture_loader_callback
+#include "vendor-gameswf/player_context.hpp"	// DH2: player::m_context, the video driver
+#include "glitch-video/video_driver.hpp"	// DH2: the driver and its texture manager (load_file)
+#include "glitch-video/texture_manager.hpp"
 
 namespace gameswf
 {
 	// misc
+	// DH2: the binary's file types (get_file_type 0x7cd620): .swf is 1, .jpg is 2, .3ds is 3 and everything else (a texture file
+	// DH2: such as a png) is 0. There is no URL type and no text type (r1714 had TXT and URL).
 	enum file_type
 	{
 		UNKNOWN,
 		SWF,
 		JPG,
-		X3DS,
-		TXT,
-		URL
+		X3DS
 	};
 
 	// static
@@ -39,30 +43,18 @@ namespace gameswf
 			return UNKNOWN;
 		}
 
-		if (strncasecmp(url, "http://", 7) == 0)
-		{
-			return URL;
-		}
-
-		tu_stringi fn_ext = fn.utf8_substring(fn.size() - 4, fn.size());
-		if (fn_ext == ".swf")
+		tu_string fn_ext = fn.utf8_substring(fn.size() - 4, fn.size());
+		if (tu_string::stricmp(fn_ext.c_str(), ".swf") == 0)
 		{
 			return SWF;
 		}
-		else
-		if (fn_ext == ".jpg")
+		if (tu_string::stricmp(fn_ext.c_str(), ".jpg") == 0)
 		{
 			return JPG;
 		}
-		else
-		if (fn_ext == ".3ds")
+		if (tu_string::stricmp(fn_ext.c_str(), ".3ds") == 0)
 		{
 			return X3DS;
-		}
-		else
-		if (fn_ext == ".txt")
-		{
-			return TXT;
 		}
 		return UNKNOWN;
 	}
@@ -73,9 +65,9 @@ namespace gameswf
 		 tu_string fn;
 
 		// is path relative ?
-		if (url[1] == ':' || url[0] == '/' || strncasecmp(url, "http://", 7) == 0)
+		if (url[1] == ':' || url[0] == '/')
 		{
-			// path like c:\my.swf or /home/my.swf or URL is absolute
+			// path like c:\my.swf or /home/my.swf is absolute (DH2: 0x7cd230, no "http://" test)
 			fn = "";
 		}
 		else
@@ -107,6 +99,7 @@ namespace gameswf
 		return NULL;
 	}
 
+	#if 0 /* DH2: vm_stack is not part of the DH2 environment (the environment holds a plain array<as_value>); the AVM2 scope stack is not in the binary */
 	void vm_stack::resize(int new_size)
 	{
 		assert(new_size <= ::array<as_value>::size());
@@ -219,6 +212,21 @@ namespace gameswf
 	{
 	}
 
+	#endif /* DH2 */
+
+	// DH2: 0x75eb4c. Every member starts empty (the value stack, the four global registers, the local registers, no target, no
+	// DH2: frames) and the player is held weakly. r1714 pushed _global onto an AVM2 scope stack for AVM2 movies; there is none here.
+	as_environment::as_environment(player* player) :
+		m_player(player)
+	{
+	}
+
+	// DH2: 0x75e03c. The members release themselves in reverse order, as the binary does: the weak player, the frames (each slot's
+	// DH2: value and name), the target, the local registers, the global registers and the stack.
+	as_environment::~as_environment()
+	{
+	}
+
 	// Implementation of:
 	//
 	// loadVariables(url:String, target:Object, [method:String]) : Void
@@ -229,17 +237,18 @@ namespace gameswf
 	//
 	// url=="" means that the load_file() works as unloadMovie(target)
 	// TODO: implement [method]
-	character* as_environment::load_file(const char* url, const as_value& target_value, int method)
+	// DH2: 0x7cdaac, two arguments (r1714 had a send-method argument and loaded text files, URLs and jpg files; the binary
+	// DH2: loads swf files into the target, reports jpg and 3ds files as unsupported and takes any other file for a texture).
+	character* as_environment::load_file(const char* url, const as_value& target_value)
 	{
 		character* target = cast_to<character>(find_target(target_value));
 		if (target == NULL)
 		{
-			IF_VERBOSE_ACTION(log_msg("load_file: target %s is't found\n", target_value.to_string()));
 			return NULL;
 		}
 
 		// is unloadMovie() ?
-		if (strlen(url) == 0)
+		if (url[0] == 0)
 		{
 			character* parent = target->get_parent();
 			if (parent)
@@ -257,135 +266,94 @@ namespace gameswf
 		tu_string file_name = get_full_url(get_player()->get_workdir(), url);
 		switch (get_file_type(file_name.c_str()))
 		{
-			default:
-				break;
+			case JPG:
+				log_error("gameswf is not linked to jpeglib -- can't load jpeg image data!\n");
+				return NULL;
 
-			case TXT:
-			{
-				// Reads data from an external file, such as a text file and sets the values for
-				// variables in a target movie clip. This action can also be used
-				// to update variables in the active SWF file with new values. 
-				tu_file fi(file_name.c_str(), "r");
-				if (fi.get_error() == TU_FILE_NO_ERROR)
-				{
-					fi.go_to_end();
-					int len = fi.get_position();
-					fi.set_position(0);
+			case X3DS:
+				log_error("gameswf is not linked to lib3ds -- can't load 3DS file\n");
+				return NULL;
 
-					char* buf = (char*) malloc(len);
-					if (fi.read_string(buf, len) > 0)
-					{
-						// decode data in the standard MIME format and copy theirs into target
-#if TU_ENABLE_NETWORK == 1
-						as_loadvars lv(get_player());
-						lv.decode(buf);
-						lv.copy_to(target);
-#else
-						log_error("Compile gameswf with TU_ENABLE_NETWORK=1 to use loadVariable() function");
-#endif
-					}
-					free(buf);
-				}
-				break;
-			}
-
-			case URL:
 			case SWF:
 			{
 				movie_definition*	md = get_player()->create_movie(file_name.c_str());
-				if (md && md->get_frame_count() > 0)
+				if (md)
 				{
 					return target->replace_me(md);
 				}
-				break;
+				return NULL;
 			}
 
-			case X3DS:
-			{
-#if TU_CONFIG_LINK_TO_LIB3DS == 0
-				log_error("gameswf is not linked to lib3ds -- can't load 3DS file\n");
-#else
-				x3ds_definition* x3ds = create_3ds_definition(get_player(), file_name.c_str());
-				if (x3ds)
-				{
-					if (x3ds->is_loaded())
-					{
-						rect bound;
-						target->get_bound(&bound);
-						x3ds->set_bound(bound);
-						return target->replace_me(x3ds);
-					}
-				}
-#endif
+			default:
 				break;
-			}
-
-			case JPG:
-			{
-#if TU_CONFIG_LINK_TO_JPEGLIB == 0
-				log_error("gameswf is not linked to jpeglib -- can't load jpeg image data!\n");
-#else
-				image::rgb* im = image::read_jpeg(file_name.c_str());
-				if (im)
-				{
-					bitmap_info* bi = render::create_bitmap_info_rgb(im);
-					delete im;
-
-					movie_definition* rdef = get_root()->get_movie_definition();
-					assert(rdef);
-					bitmap_character*	jpeg = new bitmap_character(rdef, bi);
-					return target->replace_me(jpeg);
-				}
-#endif
-				break;
-			}
 		}
 
-		return NULL;
-
+		// Any other file is a texture. The loader callback of the game gets the first try (name, 0, 0); without one, or when it gives
+		// nothing, the video driver's texture manager loads it. The texture becomes a bitmap character that takes the place of the
+		// target in its parent (the target must have a parent: _root cannot be replaced).
+		character* parent = target->get_parent();
+		if (parent == NULL)
+		{
+			log_error("character can't replace _root\n");
+			return NULL;
+		}
+		glitch::video::ITexture* texture = NULL;
+		if (s_texture_loader_callback)
+		{
+			texture = s_texture_loader_callback(file_name.c_str(), 0, 0);
+		}
+		if (texture == NULL)
+		{
+			boost::intrusive_ptr<glitch::video::ITexture> loaded =
+				get_player()->m_context->m_video_driver->m_textureManager->getTexture(file_name.c_str(), static_cast<const char*>(NULL));
+			if (!loaded)
+			{
+				return NULL;
+			}
+			texture = loaded.get();	// the manager keeps the texture; the local reference is dropped as in the binary
+		}
+		bitmap_info* bi = s_render_handler->create_bitmap_info_texture(texture);
+		bitmap_character* bitmap = new (swf::MEM_UNRECOVERED) bitmap_character(get_player(), bi, NULL);
+		character* replacement = get_player()->create_generic_character(bitmap, parent, 0);
+		replacement->m_parent = parent;
+		parent->replace_display_object(replacement, target->get_name().c_str(), target->get_depth(), NULL, NULL, NULL,
+			target->get_ratio(), target->get_clip_depth());
+		return replacement;
 	}
 
 
-	as_value	as_environment::get_variable(const tu_string& varname, const ::array<with_stack_entry>& with_stack) const
-	// Return the value of the given var, if it's defined.
+	as_value	as_environment::get_variable(const tu_string& varname, const ::array<with_stack_entry>& with_stack, int* with_index) const
+	// Return the value of the given var, if it's defined. DH2: 0x7ce120, the with index of a plain name is reported through with_index.
 	{
 		// Path lookup rigamarole.
-		as_object*	target = get_target();
 		tu_string	path;
 		tu_string	var;
 		if (parse_path(varname, &path, &var))
 		{
 			// @@ Use with_stack here too???  Need to test.
-			target = find_target(path.c_str());
+			as_object*	target = find_target(path.c_str());
+			if (target == NULL)
+			{
+				target = get_player()->get_global()->find_target(path.c_str());
+			}
+			as_value	val;
 			if (target)
 			{
-				as_value	val;
 				target->get_member(var, &val);
-				return val;
 			}
-			else if ((target = get_player()->get_global()->find_target(path.c_str())))
-			{
-				as_value	val;
-				target->get_member(var, &val);
-				return val;
-			}
-			else
-			{
-				IF_VERBOSE_ACTION(log_msg("find_target(\"%s\") failed\n", path.c_str()));
-				return as_value();
-			}
+			return val;
 		}
-		else
-		{
-			return get_variable_raw(varname, with_stack);
-		}
+		return get_variable_raw(varname, with_stack, with_index);
 	}
 
 
 	as_value	as_environment::get_variable_raw(
 		const tu_string& varname,
-		const ::array<with_stack_entry>& with_stack) const
-	// varname must be a plain variable name; no path parsing.
+		const ::array<with_stack_entry>& with_stack,
+		int* with_index) const
+	// varname must be a plain variable name; no path parsing. DH2: 0x7cdf2c. The search order is the with-stack (last entry first,
+	// DH2: its index goes to *with_index), the locals, the members of the target, then this / _root / _level0 / _global / _stage,
+	// DH2: and any other name is looked up in _global.
 	{
 		as_value	val;
 
@@ -396,6 +364,10 @@ namespace gameswf
 			if (obj && obj->get_member(varname, &val))
 			{
 				// Found the var in this context.
+				if (with_index)
+				{
+					*with_index = i;
+				}
 				return val;
 			}
 		}
@@ -413,35 +385,32 @@ namespace gameswf
 			return val;
 		}
 
-		// Check this, _global, _root
+		// Check this, _root, _level0, _global, _stage
 		as_standard_member	varname_id = get_standard_member(varname);
 		switch (varname_id)
 		{
-			default:
-				break;
-
-			case M_GLOBAL:
-				val.set_as_object(get_player()->get_global());
-				return val;
-
 			case MTHIS:
 				val.set_as_object(get_target());
-				return val;
+				break;
 
 			case M_ROOT:
 			case M_LEVEL0:
 				val.set_as_object(get_root()->get_root_movie());
-				return val;
-		}
+				break;
 
-		// check _global.member
-		if (get_player()->get_global()->get_member(varname, &val))
-		{
-			return val;
-		}
+			case M_GLOBAL:
+				val.set_as_object(get_player()->get_global());
+				break;
 
-		// Fallback.
-		IF_VERBOSE_ACTION(log_msg("get_variable_raw(\"%s\") failed, returning UNDEFINED.\n", varname.c_str()));
+			case M_STAGE:
+				val.set_as_object(get_player()->get_stage());
+				break;
+
+			default:
+				// check _global.member
+				get_player()->get_global()->get_member(varname, &val);
+				break;
+		}
 		return val;
 	}
 
@@ -617,6 +586,12 @@ namespace gameswf
 		}
 	}
 
+	// DH2: 0x7d2b94. A frame barrier is a slot with an empty name and an undefined value; find_local stops at it.
+	void as_environment::add_frame_barrier()
+	{
+		m_local_frames.push_back(frame_slot());
+	}
+
 	as_value* as_environment::get_register(int reg)
 	{
 		as_value* val = local_register_ptr(reg);
@@ -735,13 +710,24 @@ namespace gameswf
 		return false;
 	}
 
+	// DH2: 0x7cd120. The binary has no fallback to the argument: without a target the result is null.
 	as_object*	as_environment::find_target(const as_value& target) const
 	{
 		if (m_target != NULL)
 		{
 			return m_target->find_target(target);
 		}
-		return target.to_object();
+		return NULL;
+	}
+
+	// DH2: 0x7cd110.
+	as_object*	as_environment::find_target(const char* path) const
+	{
+		if (m_target != NULL)
+		{
+			return m_target->find_target(path);
+		}
+		return NULL;
 	}
 
 	bool	as_environment::set_member(const tu_stringi& name, const as_value& val)
@@ -762,10 +748,11 @@ namespace gameswf
 		return false;
 	}
 
+	// DH2: 0x7cced4. The order is the target, the local frames, the value stack, the global registers, the local registers.
 	void as_environment::clear_refs(hash<as_object*, bool>* visited_objects, as_object* this_ptr)
 	{
 		// target
-		if (m_target.get() == this_ptr)
+		if (m_target.get_ptr() == this_ptr)
 		{
 			m_target = NULL;
 		}
@@ -788,10 +775,21 @@ namespace gameswf
 		}
 
 		// clear refs to 'this_ptr' from stack
-		vm_stack::clear_refs(visited_objects, this_ptr);
-
-		// clear refs to 'this_ptr' from scope stack
-		m_scope.clear_refs(visited_objects, this_ptr);
+		for (int i = 0, n = m_stack.size(); i < n; i++)
+		{
+			as_object* obj = m_stack[i].to_object();
+			if (obj)
+			{
+				if (obj == this_ptr)
+				{
+					m_stack[i].set_undefined();
+				}
+				else
+				{
+					obj->clear_refs(visited_objects, this_ptr);
+				}
+			}
+		}
 
 		// global register
 		for (int i = 0, n = GLOBAL_REGISTER_COUNT; i < n; i++)
@@ -828,10 +826,12 @@ namespace gameswf
 		}
 	}
 
+	#if 0 /* DH2: defined by vendor-gameswf/src/v1-vendor-gameswf-pack3-a95b99-0.cpp (0x7bc1dc) */
 	player* as_environment::get_player() const
 	{
 		return m_player.get_ptr();
 	}
+	#endif /* DH2 */
 
 	root* as_environment::get_root() const
 	{

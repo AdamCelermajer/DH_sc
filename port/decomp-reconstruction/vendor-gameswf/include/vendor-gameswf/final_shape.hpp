@@ -8,9 +8,9 @@
 //   +0x04 int             m_style          style passed to tesselator_accepter::end_shape by flush
 //   +0x08 float           m_tolerance      flatness tolerance of add_curve
 //   +0x0c array<segment>  m_segments       finished segments
-//   +0x1c segment         m_cur            the path being built: points (buffer +0x1c, size +0x20, capacity
-//                                          +0x24) and the flag byte at +0x28. No body in this batch writes the
-//                                          flag; it is zero from the constructor.
+//   +0x1c segment         m_cur            the path being built: one array<point> (buffer +0x1c, size +0x20, capacity
+//                                          +0x24, and the array's own borrowed flag at +0x28, zero from its
+//                                          constructor).
 //   +0x2c point           m_last           the last point add_curve stored (the pen position)
 // The constructor is not in this batch, and the object size past +0x34 is not recovered.
 // Bodies: vendor-gameswf/src/v1-vendor-gameswf-pack9-22190e-0.cpp
@@ -26,12 +26,11 @@ namespace gameswf {
 
 class final_shape {
 public:
-    // A path's points, plus the flag at +0x0c. push_back<segment> (the batch .cpp) stores a copy with the
-    // flag cleared; the copy does not carry the flag over.
+    // A path's points: one array<point>, 16 bytes. The byte the binary keeps at +0x0c is the array's own
+    // borrowed flag; push_back<segment> stores a copy with the flag cleared (array copies do not carry it over).
     struct segment {
-        segment() : m_points(), m_flag(false) {}
-        array<point> m_points;  // +0x00 (buffer +0, size +4, capacity +8)
-        bool m_flag;            // +0x0c
+        segment() : m_points() {}
+        array<point> m_points;  // +0x00 (buffer +0, size +4, capacity +8, borrowed flag +0x0c)
     };
 
     // 0x787fc8 (D1). Clears the current path and the segments, freeing their buffers.

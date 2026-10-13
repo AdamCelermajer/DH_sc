@@ -8,12 +8,9 @@
 //   +0x00 int                    m_type       primitive mode from the begin callback (the constructor
 //                                             does not set it; 0 until a begin callback arrives)
 //   +0x04 array<point>           m_vertices   vertices of the current primitive (buffer +4, size +8,
-//                                             capacity +0x0c)
-//   +0x10 uint8                  unk_10       zeroed by the constructor, never read by these bodies
-//   +0x14 array<point>           m_points     output points
-//   +0x20 uint8                  unk_20       zeroed by the constructor, never read by these bodies
-//   +0x24 array<unsigned short>  m_indices    output indices into m_points (triangle lists)
-//   +0x30 uint8                  unk_30       zeroed by the constructor, never read by these bodies
+//                                             capacity +0x0c, borrowed flag +0x10: 16 bytes)
+//   +0x14 array<point>           m_points     output points (flag +0x20)
+//   +0x24 array<unsigned short>  m_indices    output indices into m_points (triangle lists; flag +0x30)
 //   +0x34 bool                   m_direct     second constructor argument
 //   +0x35 bool                   m_strip      first constructor argument
 //   +0x38 GLUtesselator*         m_tess
@@ -33,8 +30,8 @@
 
 namespace gameswf {
 
-// Declared in gameswf/gameswf_shape.h (upstream). That header does not compile in this tree yet
-// (gameswf_impl.h), so this header only forward-declares it.
+// Declared in gameswf/gameswf_shape.h (upstream), which the source file includes; this header only forward-declares it
+// so that it stays light.
 struct mesh_set;
 
 class tesselator_accepter {
@@ -70,11 +67,8 @@ public:
 private:
     int m_type;                          // +0x00
     array<point> m_vertices;             // +0x04
-    std::uint8_t unk_10;                 // +0x10
     array<point> m_points;               // +0x14
-    std::uint8_t unk_20;                 // +0x20
     array<unsigned short> m_indices;     // +0x24
-    std::uint8_t unk_30;                 // +0x30
     bool m_direct;                       // +0x34
     bool m_strip;                        // +0x35
     GLUtesselator* m_tess;               // +0x38

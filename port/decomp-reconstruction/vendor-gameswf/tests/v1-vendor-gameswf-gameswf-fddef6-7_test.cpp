@@ -1,10 +1,5 @@
 // Test for batch v1-vendor-gameswf-gameswf-fddef6-7: gameswf::get_color_transform_member (0x7da144) and
 // gameswf::destruct<gameswf::image_alpha> (0x7d0444).
-//   bash tools/trackb/check_tu.sh --test <this file> port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-7.cpp
-//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack22-8e8f27-0.cpp
-//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
-//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
-//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
 //
 // The batch source is linked with the pack22 source, which supplies hash<tu_stringi, as_color_transform_member>::
 // set_raw_capacity (the table this batch builds). The tu_string batch and the two upstream base units give tu_string and
@@ -13,8 +8,20 @@
 // The destructor test uses a fake object: its first word is a vtable whose slot 0 is a recording stand-in, which is what
 // the virtual destructor call reaches. The image_alpha constructor and its vtable are in another batch and are not linked.
 //
-// create_render_handler_irrlicht and transform_point are not tested. They need objects that are not built in this tree
-// (see the batch header comment).
+// create_render_handler_irrlicht, transform_point and mouse_event_init are not tested. They need objects that are not built in
+// this tree (see the batch header comment): the as_object runtime, as_mouse_event and render_handler_glitch constructors they
+// name are the weak aborting stubs of test-support/dh2_as_runtime_stubs.cpp.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-7.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack22-8e8f27-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_as_runtime_stubs.cpp
 
 #include <cstddef>
 #include <cstdio>

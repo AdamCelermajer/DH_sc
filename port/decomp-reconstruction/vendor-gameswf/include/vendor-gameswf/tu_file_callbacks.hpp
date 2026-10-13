@@ -35,14 +35,14 @@ inline constexpr int kBufferedWindowSize = 4096;
 // The appdata of a buffered tu_file (binary size 0x1010, allocated by get_buffered_file). The underlying tu_file is
 // at +0x00, the read window at +0x04. The three words after the window are the window state:
 //   m_base_pos  file position where the window was filled (tell before the read)
-//   unk_1008    unread bytes left in the window (buffered_read counts it down; it was the unidentified word)
+//   m_unread    unread bytes left in the window (buffered_read counts it down)
 //   m_offset    bytes already taken from the window
-// The valid window bytes are m_offset + unk_1008, and buffered_tell is m_base_pos + m_offset.
+// The valid window bytes are m_offset + m_unread, and buffered_tell is m_base_pos + m_offset.
 struct buffered_file {
     ::tu_file* m_file;                             // +0x00: the underlying file; its callbacks are used
     std::uint8_t m_window[kBufferedWindowSize];    // +0x04: read window, filled by buffered_read
     int m_base_pos;                                // +0x1004: file position the window starts at (set from tell)
-    std::intptr_t unk_1008;                        // +0x1008: unread bytes left in m_window (see above)
+    std::intptr_t m_unread;                        // +0x1008: unread bytes left in m_window (see above)
     int m_offset;                                  // +0x100c: bytes taken from m_window; the seek path moves it
 };
 

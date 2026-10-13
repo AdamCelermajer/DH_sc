@@ -15,6 +15,10 @@
 #include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-scene-collada-gui/scene/scene_types.hpp"
 
+namespace glitch::video {
+class ITexture;
+}
+
 namespace glitch::scene {
 
 // 0x6b9cec (D1; empty), 0x6b9e44 (D0, skipped).
@@ -54,6 +58,10 @@ public:
 class IShadowReceiverTarget : public glitch::IReferenceCounted {
 public:
     ~IShadowReceiverTarget() override;
+
+    // +0x0c: the texture the target is registered for. Evidence: CSceneManager::removeShadowReceiverTarget (0x589754)
+    // reads this word of each list entry and compares it with the texture argument (null matches null).
+    glitch::video::ITexture* texture = nullptr;
 };
 
 }  // namespace glitch::scene

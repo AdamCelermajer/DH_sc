@@ -435,6 +435,7 @@ namespace gameswf
 #endif
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack7-2f63b3-0.cpp (no blend mode; the triangle list is drawn with its indices) */
 	void	mesh::display(const base_fill_style& style, float ratio, render_handler::bitmap_blend_mode bm) const
 	{
 		// pass mesh to renderer.
@@ -450,6 +451,7 @@ namespace gameswf
 	}
 
 
+#endif /* DH2 */
 	void	mesh::output_cached_data(tu_file* out)
 	// Dump our data to *out.
 	{
@@ -500,6 +502,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack7-2f63b3-0.cpp (the render handler is called directly) */
 	void	line_strip::display(const base_line_style& style, float ratio) const
 	// Render this line strip in the given style.
 	{
@@ -511,6 +514,7 @@ namespace gameswf
 	}
 
 
+#endif /* DH2 */
 	void	line_strip::output_cached_data(tu_file* out)
 	// Dump our data to *out.
 	{
@@ -837,11 +841,21 @@ namespace gameswf
 	}
 
 	mesh_set::layer::~layer() {
+		// DH2: 0x77c004. The binary destroys each object in place and frees it with free_internal (the objects are made with
+		// DH2: operator new(size, MemHint)); r1714 used delete. Line strips first, then meshes.
 		for (int i = 0; i < m_line_strips.size(); i++) {
-			delete m_line_strips[i];
+			line_strip* ls = m_line_strips[i];
+			if (ls != NULL) {
+				ls->~line_strip();
+				free_internal(ls, 0);
+			}
 		}
 		for (int i = 0; i < m_meshes.size(); i++) {
-			delete m_meshes[i];
+			mesh* m = m_meshes[i];
+			if (m != NULL) {
+				m->~mesh();
+				free_internal(m, 0);
+			}
 		}
 	}
 
@@ -852,6 +866,7 @@ namespace gameswf
 		m_layers.resize(m_layers.size() + 1);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack7-2f63b3-0.cpp (no blend mode; the morph overload is added) */
 	void	mesh_set::display(
 		const matrix& mat,
 		const cxform& cx,
@@ -886,6 +901,7 @@ namespace gameswf
 	}
 
 
+#endif /* DH2 */
 	void mesh_set::expand_styles_to_include(int style)
 	// 
 	{
@@ -900,7 +916,9 @@ namespace gameswf
 		}
 
 		if (l->m_meshes[style] == NULL) {
-			l->m_meshes[style] = new mesh;
+			// DH2: 0x779ef8, operator new(0x30, MemHint 0) and the constructor (r1714: new mesh)
+			void* mem = operator new(sizeof(mesh), static_cast<swf::MemHint>(0));
+			l->m_meshes[style] = new (mem) mesh;
 		}
 	}
 
@@ -926,7 +944,9 @@ namespace gameswf
 		assert(coords != NULL);
 		assert(coord_count > 1);
 
-		m_layers.back().m_line_strips.push_back(new line_strip(style, coords, coord_count));
+		// DH2: 0x77bccc, operator new(0x14, MemHint 0) and the constructor (r1714: new line_strip)
+		void* mem = operator new(sizeof(line_strip), static_cast<swf::MemHint>(0));
+		m_layers.back().m_line_strips.push_back(new (mem) line_strip(style, coords, coord_count));
 	}
 
 
@@ -979,7 +999,9 @@ namespace gameswf
 			{
 				bool non_null = in->read_byte() > 0;
 				if (non_null) {
-					l->m_meshes[i] = new mesh;
+					// DH2: 0x77c25c, operator new(0x30, MemHint 0) (r1714: new mesh)
+					void* mem = operator new(sizeof(mesh), static_cast<swf::MemHint>(0));
+					l->m_meshes[i] = new (mem) mesh;
 					l->m_meshes[i]->input_cached_data(in);
 				}
 			}
@@ -988,7 +1010,9 @@ namespace gameswf
 			l->m_line_strips.resize(lines_n);
 			{for (int i = 0; i < lines_n; i++)
 			{
-				l->m_line_strips[i] = new line_strip;
+				// DH2: operator new(0x14, MemHint 0) (r1714: new line_strip)
+				void* mem = operator new(sizeof(line_strip), static_cast<swf::MemHint>(0));
+				l->m_line_strips[i] = new (mem) line_strip;
 				l->m_line_strips[i]->input_cached_data(in);
 			}}
 		}
@@ -1318,6 +1342,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_shape_character_def-7e2b97-0.cpp (no blend mode switch) */
 	void	shape_character_def::display(character* inst)
 	// Draw the shape using our own inherent styles.
 	{
@@ -1378,6 +1403,7 @@ namespace gameswf
 	}
 
 
+#endif /* DH2 */
 #ifdef DEBUG_DISPLAY_SHAPE_PATHS
 
 	static void	point_normalize(point* p)
@@ -1546,6 +1572,7 @@ namespace gameswf
 #endif // DEBUG_DISPLAY_SHAPE_PATHS
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_shape_character_def-7e2b97-0.cpp (no blend mode; the mesh is allocated with operator new(size, MemHint)) */
 	void	shape_character_def::display( const matrix& mat, const cxform& cx, float pixel_scale, const array<fill_style>& fill_styles, const array<line_style>& line_styles, render_handler::bitmap_blend_mode bm) const
 	// Display our shape.  Use the fill_styles arg to
 	// override our default set of fill styles (e.g. when
@@ -1614,6 +1641,7 @@ namespace gameswf
 	}
 
 
+#endif /* DH2 */
 #if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp */
 	static int	sort_by_decreasing_error(const void* A, const void* B)
 	{
@@ -1778,7 +1806,9 @@ namespace gameswf
 
 		for (int i = 0; i < n; i++)
 		{
-			mesh_set*	ms = new mesh_set();
+			// DH2: 0x77c47c, operator new(0x14, MemHint 0) (r1714: new mesh_set)
+			void* mem = operator new(sizeof(mesh_set), static_cast<swf::MemHint>(0));
+			mesh_set*	ms = new (mem) mesh_set();
 			ms->input_cached_data(in);
 			m_cached_meshes[i] = ms;
 		}
@@ -1786,9 +1816,14 @@ namespace gameswf
 	
 	void    shape_character_def::flush_cache()
 	{
+		// DH2: 0x77c6ac. The binary destroys each mesh_set in place and frees it with free_internal (r1714: delete).
 		for (int i = 0; i < m_cached_meshes.size(); i++) {
-			delete m_cached_meshes[i];
+			mesh_set* ms = m_cached_meshes[i];
+			if (ms != NULL) {
+				ms->~mesh_set();
+				free_internal(ms, 0);
 			}
+		}
 
 		m_cached_meshes.resize( 0 );
 	}

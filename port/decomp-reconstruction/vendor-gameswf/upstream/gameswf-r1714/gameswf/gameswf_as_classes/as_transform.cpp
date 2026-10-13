@@ -9,7 +9,7 @@
 namespace gameswf
 {
 
-#if 0 /* DH2: upstream layout (gc_ptr m_color_transform and m_movie). The DH2 bodies are not in the tree: queue rows 0x7a7ae4 (as_global_transform_ctor), 0x7a7360 (set_member), 0x7a74b4 (get_member); the ledger names them upstream by size and name only. The ctor is in v1-vendor-gameswf-pack14-1a21ee-0.cpp. */
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack14-1a21ee-0.cpp (as_global_transform_ctor 0x7a7ae4, set_member 0x7a7360, get_member 0x7a74b4, constructor, init and destructor): the binary has no gc_ptr members, no pixelBounds and no member map of its own; it uses get_standard_member */
 	enum as_transform_member
 	{
 		colorTransform = 1, 

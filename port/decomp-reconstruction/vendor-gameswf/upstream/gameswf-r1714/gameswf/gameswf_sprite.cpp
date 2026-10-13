@@ -27,6 +27,11 @@ namespace gameswf
 	const char*	next_slash_or_dot(const char* word);
 	void	execute_actions(as_environment* env, const array<action_buffer*>& action_list);
 
+	#if 0 /* DH2: every sprite_instance function of this file is replaced by a DH2 body:
+	         v1-vendor-gameswf-gameswf_sprite_instance-d5206d-0.cpp, ...-1.cpp (the class), v1-vendor-gameswf-gameswf_dlist-d5206d-2.cpp
+	         (the display list, which lives in gameswf_dlist.cpp). The DH2 layout (gameswf_sprite.h) has a heap environment, a
+	         smart-pointer definition, byte flags and pointer-form display-list calls, so none of the r1714 bodies below fits.
+	         local_to_global and global_to_local have no out-of-line symbol in the binary; their bodies are in the -1 file. */
 	// this stuff should be high optimized
 	// thus I can't use here set_member(...);
 	sprite_instance::sprite_instance(player* player, movie_definition_sub* def,	root* r, character* parent, int id) :
@@ -412,7 +417,7 @@ namespace gameswf
 					if (m_def->m_ss_id >= 0)
 					{
 						sound->stop_sound(m_def->m_ss_id);
-						sound->play_sound(NULL, m_def->m_ss_id, 0);
+						sound->play_sound(m_def->m_ss_id, 0);	// DH2: no listener argument
 					}
 				}
 			}
@@ -1542,4 +1547,5 @@ namespace gameswf
 			}
 		}
 	}
+	#endif /* DH2 */
 }

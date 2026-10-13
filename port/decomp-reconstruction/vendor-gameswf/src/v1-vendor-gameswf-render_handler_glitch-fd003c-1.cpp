@@ -1,18 +1,29 @@
 // Batch v1-vendor-gameswf-render_handler_glitch-fd003c-1 (render_handler_glitch, part 2 of 3).
 //
 // Gameloft class, not in upstream GameSWF r1714. Layout and member offsets are in
-// vendor-gameswf/include/vendor-gameswf/render_handler_glitch.hpp. The bodies that are still PARTIAL need
-// glitch::video::IVideoDriver vtable slots that have no name in the tree (+0x6c, +0x70, +0x78, +0x1e0, +0x1e4),
-// gameswf::render_cache, gameswf::triangle_intersector, the collada effect database, CMaterial parameters or a
-// BufferedRenderer::flush that takes the player context. Each body says what is missing; the ledger repeats it.
+// vendor-gameswf/include/vendor-gameswf/render_handler_glitch.hpp. Written against the canonical glitch-video classes:
+// IVideoDriver (setTransform +0x6c, getTransform +0x70, createBuffer +0x78, setOption +0xa0, clearBuffers +0xa8, the
+// render target stack at +0xc8, setMaterial, draw), IRenderTarget::setViewport, CVertexStreams (allocate, setStream) and
+// gameswf::render_cache (render_cache.hpp).
+//
+// Partial rows of this file: the constructor (the blend-mode materials need glitch::collada::CColladaDatabase, whose file
+// constructor and DefaultFactory are not in the canonical header), begin_display and end_display (the saved
+// detail::driver::SRenderState has no layout in glitch-video) and draw_line_strip (CMaterial has no setParameter for the
+// texture). Each body says what is missing; the ledger repeats it.
 #include "vendor-gameswf/render_handler_glitch.hpp"
 
 #include <cmath>
 #include <cstdint>
+#include <cstring>
 
 #include "gameswf/gameswf_types.h"  // gameswf::rgba and gameswf::rect (complete types)
+#include "glitch-video/material.hpp"
+#include "glitch-video/primitive_stream.hpp"
+#include "glitch-video/render_target.hpp"
+#include "glitch-video/tb/renderpass_srenderstate.hpp"
 #include "glitch-video/video_driver.hpp"
 #include "glitch-video/vertex_streams.hpp"
+#include "vendor-gameswf/render_cache.hpp"
 
 namespace {
 
@@ -38,8 +49,8 @@ unsigned char s_no_bitmap_data[16] = {
 // 0x7d4624 render_handler_glitch::fill_style_color(int, gameswf::rgba const&)
 // The original first calls fill_style::set_bitmap on this fill side with the default bitmap (m_default_bitmap,
 // +0x37c), an identity matrix, wrap mode 0 (WRAP_REPEAT) and the batch colour transform (m_cxform, +0x324). Then it
-// writes the colour after the colour transform, sets the fill type to 1 and stores the bytes in rgba order. The
-// original returns HIBYTE of the transformed colour in r0; the void interface ignores it, so the value is dropped.
+// writes the colour after the colour transform, sets the fill type to 1 and stores the bytes in rgba order. The alpha
+// byte the listing leaves in r0 is the register of the last byte store; the function is void.
 void render_handler_glitch::fill_style_color(int fill_side, const gameswf::rgba& color) {
     fill_style& fill = m_fill_styles[fill_side];
     gameswf::matrix identity;
@@ -59,68 +70,84 @@ void render_handler_glitch::fill_style_color(int fill_side, const gameswf::rgba&
 // height and the data. Plain operator new here; the original's allocator hint is not reproduced.
 gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_native(int width, int height,
                                                                        const membuf* data) {
-    return new gameswf::bitmap_info_ogl(m_driver, width, height, data);
+    return new ::bitmap_info_ogl(m_driver, width, height, data);
 }
 
 // 0x7d4d00 render_handler_glitch::create_bitmap_info_texture(glitch::video::ITexture*)
 // The original allocates 0x34 bytes and runs bitmap_info_ogl(driver, texture).
 gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_texture(glitch::video::ITexture* texture) {
-    return new gameswf::bitmap_info_ogl(m_driver, texture);
+    return new ::bitmap_info_ogl(m_driver, texture);
 }
 
 // 0x7d4e28 render_handler_glitch::create_bitmap_info_empty(void)
 // The original allocates 0x34 bytes and runs bitmap_info_ogl(driver).
 gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_empty() {
-    return new gameswf::bitmap_info_ogl(m_driver);
+    return new ::bitmap_info_ogl(m_driver);
 }
 
 // 0x7d4f8c render_handler_glitch::set_render_cache(gameswf::render_cache*)
-// PARTIAL: the cache pointer is stored (+0x0c). The original then clears the cache: when the cache's count
-// (+0x14) is negative it zeroes the 24-byte entries from the count up to zero, and it zeroes the count
-// (+0x14), the word at +0x34 and the word at +0x24. gameswf::render_cache is not in the tree, so those
-// writes are not made. The original's return value (the loop index) is not used by callers.
+// Stores the cache pointer (+0x0c). With a cache, the entry, vertex and uv arrays are emptied: each is resize(0), the
+// size word set to zero (the listing's loop that zeroes entries from a negative size up to zero is the inlined resize and
+// cannot run). The index array (+0x40) is not touched: the listing has no store to its size (+0x44).
 void render_handler_glitch::set_render_cache(gameswf::render_cache* cache) {
     m_render_cache = cache;
+    if (cache != nullptr) {
+        cache->m_entries.resize(0);   // +0x14
+        cache->m_uvs.resize(0);       // +0x34
+        cache->m_vertices.resize(0);  // +0x24
+    }
 }
 
 // 0x7d53cc render_handler_glitch::create_bitmap_info_target(int, int)
 // The original allocates 0x34 bytes and runs bitmap_info_ogl(driver, width, height).
 gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_target(int width, int height) {
-    return new gameswf::bitmap_info_ogl(m_driver, width, height);
+    return new ::bitmap_info_ogl(m_driver, width, height);
 }
 
 // 0x7d551c render_handler_glitch::create_bitmap_info_alpha(int, int, unsigned char*)
 // The original allocates 0x34 bytes and runs bitmap_info_ogl(driver, width, height, data).
 gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_alpha(int width, int height,
                                                                       unsigned char* data) {
-    return new gameswf::bitmap_info_ogl(m_driver, width, height, data);
+    return new ::bitmap_info_ogl(m_driver, width, height, data);
 }
 
-// 0x7d57b0 render_handler_glitch::create_bitmap_info_rgba(image::rgba*)
+// 0x7d57b0 render_handler_glitch::create_bitmap_info_rgba(gameswf::image_rgba*)
 // The original allocates 0x34 bytes and runs bitmap_info_ogl(driver, image).
-gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_rgba(image::rgba* im) {
-    return new gameswf::bitmap_info_ogl(m_driver, im);
+gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_rgba(gameswf::image_rgba* im) {
+    return new ::bitmap_info_ogl(m_driver, im);
 }
 
-// 0x7d5a6c render_handler_glitch::create_bitmap_info_rgb(image::rgb*)
+// 0x7d5a6c render_handler_glitch::create_bitmap_info_rgb(gameswf::image_rgb*)
 // The original allocates 0x34 bytes and runs bitmap_info_ogl(driver, image).
-gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_rgb(image::rgb* im) {
-    return new gameswf::bitmap_info_ogl(m_driver, im);
+gameswf::bitmap_info* render_handler_glitch::create_bitmap_info_rgb(gameswf::image_rgb* im) {
+    return new ::bitmap_info_ogl(m_driver, im);
+}
+
+// 0x7d6050 render_handler_glitch::TransformState::TransformState(void)
+// The binary writes three identity blocks, 0x44 bytes apart (at +0x00, +0x44 and +0x88, identity flags at +0x40,
+// +0x84 and +0xc8 set to 1), and zeroes the 16 bytes at +0xcc..+0xdb: the viewport rectangle (object size 0xdc).
+render_handler_glitch::TransformState::TransformState()
+    : projection(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY),
+      view(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY),
+      world(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY),
+      viewport{} {
 }
 
 // 0x7d60f4 render_handler_glitch::render_handler_glitch(glitch::video::IVideoDriver*)   [C1]
-// PARTIAL. Written: the scalar fields, the identity line matrix and colour transform, the three fill sides
-// (colour 0xff, identity bitmap matrix and colour transform, flag 0), the BufferedRenderer and TransformState
-// members (their constructors run as member initialisers), the vertex streams m_vertex_streams =
-// CVertexStreams::allocate(1, 0x40000) (+0x378), the default bitmap m_default_bitmap = bitmap_info_ogl(driver, 4, 4,
-// s_no_bitmap_data) (+0x37c), and the ensureBufferCapacity(256) call. Not written:
-//   - the driver reference: the original adds one (++refcount at +4 of the driver); the glitch reference
-//     API is not declared in this batch;
-//   - the three setStream calls on m_vertex_streams: each one takes a vertex buffer that driver vtable slot
-//     +0x78 creates (not named in the tree), and the three stream descriptors are set from it;
-//   - gameswf::triangle_intersector's constructor (+0x36c, not in the tree);
-//   - the collada effect database (gameswf_effects.bdae) and the eight BufferedRenderer::createBlendModeMaterial
-//     calls that follow it.
+// PARTIAL. Written, in the original's order: the scalar fields (unk_14 = 0x001f00ff, unk_04 = 1), the identity line matrix
+// and colour transform, the two TransformStates and the BufferedRenderer (member initialisers), the triangle intersector
+// (its constructor allocates the tesselator), the vertex streams m_vertex_streams = CVertexStreams::allocate(1, 0x40000),
+// the default bitmap m_default_bitmap = bitmap_info_ogl(driver, 4, 4, s_no_bitmap_data), the three fill sides (colour
+// 0xff, identity bitmap matrix and colour transform, flag 0), then, when there is a driver: a reference on it, the vertex
+// buffer from createBuffer (type 0, usage 4, size 0, no data, flag true) and the three setStream calls on the streams
+// (position: offset 12, value type 6, 3 components; texture coordinates: offset 0, type 6, 2 components; colour: offset 8,
+// type 1, 4 components; stride 24; the colour stream is the one set without the flag), and ensureBufferCapacity(256).
+// Not written: the blend-mode materials. The original opens the effect database "gameswf_effects.bdae"
+// (glitch::collada::CColladaDatabase(file, &DefaultFactory)), builds the effect "_1_-_Default-fx" with constructEffect
+// (driver, name, null), and calls BufferedRenderer::createBlendModeMaterial(renderer, index, technique) seven times:
+// (0, "default"), (1, "default"), (3, "multiply"), (4, "screen"), (13, "overlay"), (15, "default"), (16, "default").
+// The canonical CColladaDatabase header has no file constructor and no DefaultFactory, so the batch renderer has no
+// materials after this constructor.
 // The original leaves fill_style::source_bitmap (+0x08) and unk_48 (+0x48) unset; here they take their member
 // defaults (null and 0).
 render_handler_glitch::render_handler_glitch(glitch::video::IVideoDriver* driver)
@@ -151,7 +178,34 @@ render_handler_glitch::render_handler_glitch(glitch::video::IVideoDriver* driver
         fill.unk_44 = 0;
     }
 
+    if (driver != nullptr) {
+        boost::intrusive_ptr_add_ref(driver);  // the handler keeps a reference, dropped by the destructor
+        const boost::intrusive_ptr<glitch::video::IBuffer> vertex_buffer = driver->createBuffer(0, 4, 0, nullptr, true);
+        glitch::video::CVertexStreams& streams = *m_vertex_streams;
+        glitch::video::SVertexStreamData data;
+        data.buffer = vertex_buffer;
+        data.offset = 12;
+        data.field08 = 6;
+        data.field0c = 3;
+        data.field0e = 24;
+        streams.setStream(&streams.m_streams[0], data, true);
+        data.buffer = vertex_buffer;
+        data.offset = 0;
+        data.field08 = 6;
+        data.field0c = 2;
+        data.field0e = 24;
+        streams.setStream(&streams.m_streams[1], data, true);
+        data.buffer = vertex_buffer;
+        data.offset = 8;
+        data.field08 = 1;
+        data.field0c = 4;
+        data.field0e = 24;
+        streams.setStream(&streams.m_streams[2], data, false);
+    }
+
     ensureBufferCapacity(256);
+
+    // NOT WRITTEN: the effect database and the seven createBlendModeMaterial calls (see the note above).
 }
 
 // 0x7d6680 render_handler_glitch::get_matrix(gameswf::matrix const&)
@@ -190,53 +244,57 @@ glitch::core::CMatrix4<float> render_handler_glitch::get_matrix(const gameswf::m
 }
 
 // 0x7d6a40 render_handler_glitch::begin_display_callback(void)
-// PARTIAL: forwards to BufferedRenderer::flush. The original passes its r1 register as the player context
-// (gameswf::player_context, used by texture_cache::unlock_all). The symbol has no declared argument, and the
-// game header's BufferedRenderer::flush() takes none, so no context is passed here.
+// Forwards to BufferedRenderer::flush. The player context that the listing shows as a second argument is the caller's r1
+// left over: flush() takes none, and passes its own m_playerContext (set by set_context) to texture_cache::unlock_all.
 void render_handler_glitch::begin_display_callback() {
     m_buffered.flush();
 }
 
 // 0x7d6afc render_handler_glitch::reset(void)
-// PARTIAL: the original first calls IVideoDriver::setMaterial with a null material (the function is not
-// declared in the tree), then clears the textures of the batch renderer and drops two null material
-// references. Only the texture clear is written.
+// Gives the driver an empty material (the listing builds a null material and a null renderer, both with parameter ids
+// 0xffff, and passes the material to IVideoDriver::setMaterial, whose clone at 0x7d4ef8 has the attribute map fixed to
+// null), then clears the textures of the batch renderer.
 void render_handler_glitch::reset() {
+    const boost::intrusive_ptr<glitch::video::CMaterial> no_material;
+    m_driver->setMaterial(no_material, static_cast<const boost::intrusive_ptr<glitch::video::CVertexAttributeMap>*>(nullptr));
     m_buffered.clearTextures();
 }
 
 // 0x7d6ddc render_handler_glitch::flush(void)
-// PARTIAL: forwards to BufferedRenderer::flush. Same gap as begin_display_callback: the original passes its
-// r1 register as the player context, which the game header's flush() does not take.
+// Forwards to BufferedRenderer::flush (see begin_display_callback for the second register).
 void render_handler_glitch::flush() {
     m_buffered.flush();
 }
 
 // 0x7d6de4 render_handler_glitch::end_display(void)
-// PARTIAL: flushes the batch, then restores the driver state the original saved in begin_display. Omitted,
-// in the original's order: setTransform(2, m_saved_state.projection), setTransform(0, m_saved_state.view),
-// setTransform(1, m_saved_state.world) through driver vtable slot +0x6c (not named in the tree); the viewport
-// restore on the current render target (driver+0xcc, IRenderTarget::setViewport, slot +0x0c) with
-// m_saved_state.viewport. Written: setOption(256, m_saved_option_256), which the original calls through slot +0xa0
-// (named IVideoDriver::setOption in the tree, but not declared virtual there). Omitted last: driver slot
-// +0x1e4 with the address of unk_14.
+// PARTIAL. Flushes the batch, then restores the driver state that begin_display saved, in the original's order:
+// setTransform(2, m_saved_state.projection), setTransform(0, m_saved_state.view), setTransform(1, m_saved_state.world)
+// (driver vtable +0x6c), the viewport of the current render target (the last entry of the driver's target stack, +0xc8)
+// with m_saved_state.viewport (IRenderTarget::setViewport, slot +0x0c), setOption(256, m_saved_option_256) (slot +0xa0) and
+// the render state (slot +0x1e4, setRenderState with the 8 bytes at +0x14). The last call is NOT written: the
+// detail::driver::SRenderState type is an empty placeholder in glitch-video/video_types.hpp (see the layout requests).
 void render_handler_glitch::end_display() {
     m_buffered.flush();
+    m_driver->setTransform(2, m_saved_state.projection);
+    m_driver->setTransform(0, m_saved_state.view);
+    m_driver->setTransform(1, m_saved_state.world);
+    m_driver->m_renderTargets.back()->setViewport(m_saved_state.viewport);
     m_driver->setOption(256, m_saved_option_256);
+    // NOT WRITTEN: m_driver->setRenderState(<8 bytes at +0x14>) (vtable +0x1e4).
 }
 
 // 0x7d71bc render_handler_glitch::render_mask_intersection(void)
-// PARTIAL: the texture bind and the vertex and batch loop are written. The original's flush calls (the one in
-// the loop and the one at the end) pass its r1 register as the player context, as begin_display_callback does;
-// the game header's BufferedRenderer::flush() takes none, so no context is passed. The loop keeps the original's
-// exit: when the point index reaches the run size, it flushes and returns without queueing the vertices still
-// pending in the current batch.
+// The default bitmap's texture (its +0x10 word, +0x38c in the original) is bound first. Then the last mask run is drawn as
+// triangle-list vertices, at most 256 at a time: each point gets the white colour and the mask z, and a full batch (256
+// vertices, or the whole run) goes to the batch renderer with queueBuffer(streams, 6). The loop keeps the original's exit:
+// when the point index reaches the run size, it flushes and returns without queueing the vertices still pending in the
+// current batch. The flush calls pass nothing: the listing's second register is the caller's r1 (see
+// begin_display_callback).
 void render_handler_glitch::render_mask_intersection() {
-    // The default bitmap's texture (its +0x10 word, +0x38c in the original) is bound first.
     m_buffered.setTexture(m_default_bitmap.m_texture);
 
     const MaskRun& run = m_mask_stack[m_mask_depth - 1];
-    const int run_count = run.points.size();
+    const int run_count = run.size();
 
     ensureBufferCapacity(256);
     if (run_count > 0) {
@@ -247,7 +305,7 @@ void render_handler_glitch::render_mask_intersection() {
             for (;;) {
                 Vertex& v = verts[vertex++];
                 bool full = vertex > 255;
-                const glitch::core::vector2d<float> p = run.points[point];
+                const glitch::core::vector2d<float> p = run[point];
                 if (vertex == run_count) {
                     full = true;
                 }
@@ -273,43 +331,52 @@ void render_handler_glitch::render_mask_intersection() {
 }
 
 // 0x7d73d0 render_handler_glitch::begin_display(gameswf::rgba, int, int, int, int, float, float, float, float)
-// PARTIAL. Written: the display width and height (fabs of x1-x0, y1-y0), mask depth and z reset, mask run sizes
-// set to zero, BufferedRenderer::reset, setOption(256, false), the projection matrix (m_state.projection, state 2)
-// and the view matrix (m_state.view, state 0: ortho with translation -(x1+x0)/w, -(y1+y0)/h). The background colour
-// is not used by the original. Omitted, in the original's order:
-//   - the saves of the driver's transform states 2, 0 and 1 into m_saved_state (getTransform through vtable slot +0x70);
-//   - the saves of the current render target's viewport and of the driver's option 256 bit (driver+0x88);
-//   - driver slot +0x1e0 with the address of unk_14;
-//   - driver slot +0xa8 with argument 2;
-//   - setTransform(2, m_state.projection), setTransform(0, m_state.view) (slot +0x6c, not named in the tree);
-//   - the IRenderTarget::setViewport call with the rectangle (viewport_x0, viewport_y0, viewport_x0 + width,
-//     viewport_y0 + height);
-//   - the world matrix (state 1): the original copies glitch::core::IdentityMatrix (not in the tree) and
-//     passes it to setTransform, so m_state.world is left as it was.
-// The mask stack is reset to size zero for each run. The original also writes a zero for any run with a
-// negative size; a gameswf::array never has one, so that path is not written.
+// PARTIAL. In the original's order: the display width and height (fabs of x1-x0, y1-y0); the driver's transform states 2, 0
+// and 1 saved into m_saved_state (getTransform, slot +0x70); the viewport of the current render target (the last entry of
+// the driver's target stack) saved into m_saved_state.viewport; the driver's option 256 saved (bit 8 of the option word
+// +0x88) in m_saved_option_256; [NOT WRITTEN: the render state saved into the 8 bytes at +0x14 with getRenderState, slot
+// +0x1e0]; the viewport of that render target set to (viewport_x0, viewport_y0, viewport_x0 + viewport_width,
+// viewport_y0 + viewport_height); BufferedRenderer::reset; setOption(256, false); clearBuffers(2) (slot +0xa8); the mask
+// depth and z set to zero and every mask run emptied; the projection matrix (m_state.projection, state 2) and the view
+// matrix (m_state.view, state 0: maps the display rectangle to clip space) built and given to the driver with setTransform;
+// the world matrix (state 1) set to the identity and given to the driver. The background colour is not used.
+// The missing driver call is the render state: glitch-video declares detail::driver::SRenderState as an empty placeholder.
+// The mask stack is reset to size zero for each run. The original also writes a zero for any run with a negative size; a
+// gameswf::array never has one, so that path is not written.
 void render_handler_glitch::begin_display(gameswf::rgba background_color, int viewport_x0,
                                           int viewport_y0, int viewport_width, int viewport_height,
                                           float x0, float x1, float y0, float y1) {
     (void)background_color;
-    (void)viewport_x0;
-    (void)viewport_y0;
-    (void)viewport_width;
-    (void)viewport_height;
 
     const float w = x1 - x0;
     const float h = y1 - y0;
     m_display_width = std::fabs(w);
     m_display_height = std::fabs(h);
 
-    m_mask_depth = 0;
-    m_mask_z = 0.0f;
-    for (int i = 0; i < m_mask_stack.size(); ++i) {
-        m_mask_stack[i].points.resize(0);
-    }
+    m_saved_state.projection = m_driver->getTransform(2);
+    m_saved_state.view = m_driver->getTransform(0);
+    m_saved_state.world = m_driver->getTransform(1);
+    glitch::video::IRenderTarget* target = m_driver->m_renderTargets.back().get();
+    m_saved_state.viewport = target->m_viewport;
+    m_saved_option_256 = ((m_driver->m_options >> 8) & 1) != 0;
+    // NOT WRITTEN: m_driver->getRenderState(<8 bytes at +0x14>) (vtable +0x1e0).
+
+    glitch::core::rect<int32_t> viewport;
+    viewport.UpperLeftCorner.X = viewport_x0;
+    viewport.UpperLeftCorner.Y = viewport_y0;
+    viewport.LowerRightCorner.X = viewport_x0 + viewport_width;
+    viewport.LowerRightCorner.Y = viewport_y0 + viewport_height;
+    m_driver->m_renderTargets.back()->setViewport(viewport);
 
     m_buffered.reset();
     m_driver->setOption(256, false);
+    m_driver->clearBuffers(2);
+
+    m_mask_depth = 0;
+    m_mask_z = 0.0f;
+    for (int i = 0; i < m_mask_stack.size(); ++i) {
+        m_mask_stack[i].resize(0);
+    }
 
     // State 2 (projection): an orthographic-style matrix with depth mapped to 0..1.
     float* p = m_state.projection.M;
@@ -330,7 +397,7 @@ void render_handler_glitch::begin_display(gameswf::rgba background_color, int vi
     p[14] = 0.5f;
     p[15] = 1.0f;
     m_state.projection.flag = false;
-    // Omitted: setTransform(2, m_state.projection).
+    m_driver->setTransform(2, m_state.projection);
 
     // State 0 (view): maps the display rectangle to clip space.
     float* v = m_state.view.M;
@@ -351,18 +418,24 @@ void render_handler_glitch::begin_display(gameswf::rgba background_color, int vi
     v[14] = -0.0f;
     v[15] = 1.0f;
     m_state.view.flag = false;
-    // Omitted: setTransform(0, m_state.view).
+    m_driver->setTransform(0, m_state.view);
 
-    // Omitted: setTransform(1, m_state.world) after copying glitch::core::IdentityMatrix into m_state.world.
+    // State 1 (world): glitch::core::IdentityMatrix, copied with its 0x41 bytes.
+    m_state.world = glitch::core::CMatrix4<float>(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY);
+    m_driver->setTransform(1, m_state.world);
 }
 
 // 0x7d77b0 render_handler_glitch::draw_line_strip(void const*, int)
-// PARTIAL. The coordinates are float (x, y) pairs (8 bytes each), as the original reads them. Written: the batch
-// flush, the line scale, the material choice, the vertex transform and colour, and the vertex count on the vertex
-// streams. Omitted: the write of the line width into the selected material's parameter block (CMaterial's technique
-// table at +0x18 is not in the tree), the texture parameter (setParameter of m_default_bitmap.m_texture, the +0x38c
-// word of the default bitmap, on the material; the CMaterial parameter API is not in the tree),
-// IVideoDriver::setMaterial, and the one-argument IVideoDriver::draw call that sends the batch (no declaration in the tree).
+// PARTIAL. The coordinates are float (x, y) pairs (8 bytes each), as the original reads them. In the original's order:
+// the batch flush; the line scale; the material (the batch renderer's slot for m_materialIndex, or slot 0 when that slot has
+// no material); the line width written into the first render pass of the material's current technique (state float at
+// +0x0c, with the pass's change flag set when the value changed: the same pass edit as BufferedRenderer::applyMaskState);
+// [NOT WRITTEN: the texture parameter, IMaterialParameters<CMaterial>::setParameter<intrusive_ptr<ITexture>>(id of the slot,
+// index 0, m_default_bitmap.m_texture)]; IVideoDriver::setMaterial(material); the vertex transform (matrix from get_matrix,
+// z from m_mask_z) and the colour of fill side 2 into the staging vertices; the vertex count on the vertex streams; and a
+// non-indexed line-strip draw of the streams (primitive type 1, vertex range 0..count).
+// The texture parameter is missing because CMaterial in glitch-video has no setParameter: the parameter block is a
+// separate object there.
 void render_handler_glitch::draw_line_strip(const void* coords, int vertex_count) {
     m_buffered.flush();
 
@@ -378,19 +451,33 @@ void render_handler_glitch::draw_line_strip(const void* coords, int vertex_count
     }
     const float axis_y = std::sqrt(e * e + d * d);
     float scale = ((std::fabs(axis_x) + std::fabs(axis_y)) * m_fill_styles[2].unk_48) * 0.5f / 20.0f;
-    // The original writes this value into the selected material's line-width parameter (omitted).
-    const float line_width = scale <= 1.0f ? 1.0f : scale;
-    (void)line_width;
+    if (scale <= 1.0f) {
+        scale = 1.0f;
+    }
 
-    // Material selection: the batch renderer's material for m_materialIndex, or entry 0 when that slot has
-    // no material. Only the selection is written; the parameter write is omitted.
+    // Material selection: the batch renderer's material for m_materialIndex, or entry 0 when that slot has no material.
     const int material_index = m_buffered.m_materialIndex;
-    const BufferedRenderer::MaterialData& selected =
-        m_buffered.m_materials[material_index].material ? m_buffered.m_materials[material_index]
+    BufferedRenderer::MaterialData& selected =
+        m_buffered.m_materials[material_index].m_material ? m_buffered.m_materials[material_index]
                                                        : m_buffered.m_materials[0];
-    (void)selected;
-    // Omitted: setParameter<intrusive_ptr<ITexture>>(selected.material, selected.textureParam, 0, m_default_bitmap.m_texture),
-    // IVideoDriver::setMaterial(driver, selected.material).
+
+    // The line width goes into the first render pass of the material's technique (state float +0x0c). The pass is read with
+    // its 32 state bytes, edited and written back through the renderer, which marks the pass changed only when the bytes
+    // differ (the listing sets the flag byte when the new width differs from the old one).
+    {
+        glitch::video::CMaterial& material = *selected.m_material;
+        glitch::video::CMaterialRenderer& renderer = *material.m_renderer;
+        const int32_t technique = material.getTechnique();
+        const glitch::video::SRenderPass* pass = renderer.m_techniques[technique].passes;
+        glitch::video::detail::renderpass::SRenderState state;
+        std::memcpy(&state, pass->stateWords, sizeof(state));
+        state.m_float0c = scale;
+        renderer.setRenderState(static_cast<uint8_t>(technique), 0, state);
+    }
+    // NOT WRITTEN: setParameter<intrusive_ptr<ITexture>>(selected.m_material, selected.m_parameterId2, 0,
+    // m_default_bitmap.m_texture).
+    m_driver->setMaterial(selected.m_material,
+                          static_cast<const boost::intrusive_ptr<glitch::video::CVertexAttributeMap>*>(nullptr));
 
     // The line colour is fill side 2's colour.
     const uint8_t cr = m_fill_styles[2].color[0];
@@ -420,32 +507,32 @@ void render_handler_glitch::draw_line_strip(const void* coords, int vertex_count
     }
 
     m_vertex_streams->m_field08 = static_cast<uint32_t>(vertex_count);
-    // Omitted: IVideoDriver::draw(driver) with the vertex streams, then the reference drop.
+    {
+        const boost::intrusive_ptr<const glitch::video::CVertexStreams> batch = m_vertex_streams;
+        glitch::video::CPrimitiveStream primitives;  // no index buffer
+        primitives.m_offset = 0;
+        primitives.m_count = static_cast<uint32_t>(vertex_count);
+        primitives.m_vertexStart = 0;
+        primitives.m_vertexEnd = static_cast<uint32_t>(vertex_count);
+        primitives.m_indexType = 255;
+        primitives.m_primitiveType = 1;  // line strip
+        m_driver->draw(batch, primitives, nullptr);
+    }
 }
 
 // 0x7d7cf4 render_handler_glitch::~render_handler_glitch(void)   [D1]
-// PARTIAL. Released in the original's order: the vertex streams and the vertex pointer, the triangle point
-// array, each mask run, the mask stack. The members are then destroyed in reverse declaration order: the default
-// bitmap (m_default_bitmap, the bitmap_info_ogl destructor) first, then the batch renderer (m_buffered), as the
-// original does. Omitted: the destructor of triangle_intersector (+0x36c, not in the tree), and the driver
-// reference drop (the reference is a raw pointer here; the drop is not declared in this batch).
+// The body clears the vertex streams and the vertex pointer, then drops the driver reference (dropped and cleared). The rest
+// of the listing is the member destructors, in reverse declaration order: the default bitmap (~bitmap_info_ogl), the
+// triangle intersector (deletes its tesselator), the triangle point array and each mask run and the mask stack (the DH2
+// array destructor empties the array and releases the buffer: resize(0), reserve(0)), and last the batch renderer.
 render_handler_glitch::~render_handler_glitch() {
     m_vertex_streams = nullptr;
     m_vertices = nullptr;
 
-    // Omitted: ~triangle_intersector on pad_36c.
-
-    m_triangle_points.resize(0);
-    m_triangle_points.reserve(0);
-
-    for (int i = 0; i < m_mask_stack.size(); ++i) {
-        m_mask_stack[i].points.resize(0);
-        m_mask_stack[i].points.reserve(0);
+    if (m_driver != nullptr) {
+        m_driver->drop();
+        m_driver = nullptr;
     }
-    m_mask_stack.resize(0);
-    m_mask_stack.reserve(0);
-
-    // Omitted: IReferenceCounted::drop on m_driver, then m_driver = nullptr.
 }
 
 // 0x7d7f0c render_handler_glitch::~render_handler_glitch(void)   [D0, deleting destructor]

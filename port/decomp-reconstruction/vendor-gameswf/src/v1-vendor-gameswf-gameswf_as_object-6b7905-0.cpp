@@ -49,11 +49,75 @@ int as_object::get_member(int, as_value*)
 as_object::as_object(player* p)
 	:
 	m_watch(NULL),
-	m_player(p)
+	m_player(p),
+	m_alive_stamp(0)
 {
 	if (p)
 	{
-		p->unk_0c.push_back(smart_ptr<as_object>(this));	// player +0x0c
+		p->m_heap.push_back(smart_ptr<as_object>(this));	// player +0x0c: every live as_object
+	}
+}
+
+// 0x768d08 _ZN7gameswf9as_object8set_ctorERKNS_8as_valueE
+// Binary: a tail call to as_value::operator= on the field at +0x10. r1714 stores the constructor in the members
+// hash under "__constructor__".
+void as_object::set_ctor(const as_value& val)
+{
+	m_ctor = val;
+}
+
+// 0x768d10 _ZNK7gameswf9as_object8get_ctorEPNS_8as_valueE
+// Binary: the field at +0x10 is copied to *val and 1 is returned when it holds a function; otherwise 0 and *val is
+// left alone.
+bool as_object::get_ctor(as_value* val) const
+{
+	if (m_ctor.is_function())
+	{
+		*val = m_ctor;
+		return true;
+	}
+	return false;
+}
+
+// 0x76c518 _ZN7gameswf9as_object10this_aliveEv
+// Marks this object and everything it holds as alive for the current garbage generation. Binary: with a live player
+// (a dead proxy is released and cleared, as weak_ptr::get_ptr does), an object whose alive stamp (+0x34) already equals
+// the player's garbage count (player +0x30) is done. Otherwise the stamp is set to the count, then each member value of
+// type object (type byte 5) with a non-null object whose own stamp differs gets this_alive() through vtable +0x44 (the
+// player is read again before every comparison, and the member table is re-read after each call because the call can
+// change it), then the prototype (+0x28) gets this_alive() unconditionally when set, and the constructor value (+0x10),
+// when it is an object, gets this_alive() too.
+void as_object::this_alive()
+{
+	player* p = m_player.get_ptr();
+	if (p == NULL || m_alive_stamp == p->m_garbage_count)
+	{
+		return;
+	}
+	m_alive_stamp = p->m_garbage_count;
+	for (stringi_hash<as_value>::iterator it = m_members.begin(); it != m_members.end(); ++it)
+	{
+		as_object* obj = it->second.to_object();
+		if (obj != NULL)
+		{
+			p = m_player.get_ptr();
+			if (obj->m_alive_stamp != p->m_garbage_count)
+			{
+				obj->this_alive();
+			}
+		}
+	}
+	if (m_proto.get_ptr() != NULL)
+	{
+		m_proto->this_alive();
+	}
+	if (m_ctor.is_object())
+	{
+		as_object* ctor_object = m_ctor.to_object();
+		if (ctor_object != NULL)
+		{
+			ctor_object->this_alive();
+		}
 	}
 }
 

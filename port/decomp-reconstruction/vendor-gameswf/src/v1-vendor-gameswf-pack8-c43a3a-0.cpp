@@ -8,9 +8,9 @@
 //
 // Layouts used here (32-bit binary offsets; the DH2 members are declared in the upstream headers with // DH2:):
 //   gameswf::stream (gameswf/gameswf_stream.h): +0x00 unk_00 (bool), +0x04 m_input, +0x08 m_current_byte,
-//     +0x09 m_unused_bits, +0x0c m_tag_stack (array<int>), +0x18 unk_18, +0x1c unk_1c (array<char>), +0x28 unk_28.
-//   sprite_instance::init_actions (gameswf/gameswf_sprite.h): +0x00 unk_00 (array<action_buffer*>), +0x0c unk_0c,
-//     +0x10 unk_10 (array<bool>), +0x1c unk_1c.
+//     +0x09 m_unused_bits, +0x0c m_tag_stack (array<int>, 16 bytes), +0x1c unk_1c (array<char>, 16 bytes).
+//   sprite_instance::init_actions (gameswf/gameswf_sprite.h): +0x00 m_actions (array<action_buffer*>, 16 bytes),
+//     +0x10 m_executed (array<bool>, 16 bytes).
 
 #include "gameswf/gameswf_stream.h"
 #include "base/container.h"
@@ -20,7 +20,8 @@ namespace gameswf {
 // 0x783dd4 gameswf::stream::stream(gameswf::tu_file*, bool)
 // 0x783e24 gameswf::stream::stream(gameswf::tu_file*, bool)
 // Second copy of the same body (the C1/C2 pair). Binary, in order: +0x00 = flag; +0x04 = input; +0x08 and +0x09 = 0;
-// the array<int> at +0x0c zeroed; +0x18 = 0; the array<char> at +0x1c zeroed and then reserve(0x100); +0x28 = 0.
+// the array<int> at +0x0c zeroed (16 bytes: the byte at +0x18 is the array's m_borrowed, cleared by its constructor); the
+// array<char> at +0x1c zeroed (16 bytes, the byte at +0x28 is its m_borrowed) and then reserve(0x100).
 stream::stream(tu_file* input, bool flag)
 	:
 	unk_00(flag),
@@ -28,9 +29,7 @@ stream::stream(tu_file* input, bool flag)
 	m_current_byte(0),
 	m_unused_bits(0),
 	m_tag_stack(),
-	unk_18(0),
-	unk_1c(),
-	unk_28(0)
+	unk_1c()
 {
 	unk_1c.reserve(0x100);  // binary: array<char>::reserve(this + 0x1c, 0x100)
 }
@@ -46,14 +45,13 @@ stream::~stream()
 }  // namespace gameswf
 
 // 0x77e3b8 gameswf::hash<int, gameswf::smart_ptr<gameswf::as_function>, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)
-// PARTIAL, compiled only with VENDOR_GAMESWF_DH2_CORE_HEADERS (the body needs the complete as_function type,
-// which gameswf.h does not provide in this tree). Same table rule as the loader hash (gameswf-fddef6-1, 0x76493c):
+// The body needs the complete as_function type (gameswf_function.h). Same table rule as the loader hash (gameswf-fddef6-1, 0x76493c):
 // minimum 4 entries, power of two from single-precision logf. Values are smart_ptr<as_function>: the binary copies
 // each live entry into the new table with add() (a reference is taken), releases the old value pointer with
 // ref_counted::drop_ref, and marks the old entry empty without clearing the value word. Free the old table after the move.
-#ifdef VENDOR_GAMESWF_DH2_CORE_HEADERS
 #include <cmath>
 #include "gameswf/gameswf.h"
+#include "gameswf/gameswf_function.h"  // as_function, complete for the smart_ptr values
 #include "vendor-gameswf/gameswf_alloc.hpp"
 
 template <>
@@ -108,14 +106,11 @@ void hash<int, smart_ptr<gameswf::as_function>, fixed_size_hash<int> >::set_raw_
 	m_table = new_hash.m_table;
 	new_hash.m_table = nullptr;
 }
-#endif
 
 // 0x780ea0 gameswf::sprite_instance::init_actions::~init_actions()
-// PARTIAL, compiled only with VENDOR_GAMESWF_DH2_CORE_HEADERS (gameswf_sprite.h does not compile standalone in this
-// tree). The binary clears the array<bool> at +0x10 first (size 0, reserve(0)) and the array<action_buffer*> at +0x00
+// The binary clears the array<bool> at +0x10 first (size 0, reserve(0)) and the array<action_buffer*> at +0x00
 // second. Those are the implicit member destructors in reverse declaration order, so the body is empty. The bytes at
-// +0x0c and +0x1c are not touched by the destructor and are not identified.
-#ifdef VENDOR_GAMESWF_DH2_CORE_HEADERS
+// +0x0c and +0x1c are the m_borrowed members of the two arrays (gameswf_sprite.h: m_actions, m_executed).
 #include "gameswf/gameswf_sprite.h"
 
 namespace gameswf {
@@ -125,7 +120,6 @@ sprite_instance::init_actions::~init_actions()
 }
 
 }  // namespace gameswf
-#endif
 
 // 0x786a38 gameswf::tesselate::curve(float, float, float, float, float, float)
 // PARTIAL, body not written. The binary is a subdivision loop with a tolerance test against s_tolerance, ending in a

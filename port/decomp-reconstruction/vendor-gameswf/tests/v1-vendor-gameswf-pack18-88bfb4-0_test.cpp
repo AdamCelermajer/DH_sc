@@ -119,6 +119,9 @@ void ref_counted::detach_weak_proxy() {}
 
 void log_error(const char*, ...) { ++g_log_errors; }
 
+// get_glyph_region flushes the current render handler; the texture region code is not run here, so none is needed.
+render_handler* s_render_handler = nullptr;
+
 texture_cache::texture_cache(int, int, int, bool) {}
 texture_cache::~texture_cache() {}
 void* texture_cache::lock() { return nullptr; }

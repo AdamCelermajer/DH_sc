@@ -30,6 +30,7 @@ namespace gameswf
 	}
 #endif /* DH2 */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (display and read: the DH2 differences are listed there) */
 	void	morph2_character_def::display(character* inst)
 	{
 		int i;
@@ -37,7 +38,7 @@ namespace gameswf
 
 		// bounds
 		rect	new_bound;
-		new_bound.set_lerp(m_shape1.get_bound_local(), m_shape2.get_bound_local(), ratio);
+		new_bound.set_lerp(m_shape1->get_bound_local(), m_shape2->get_bound_local(), ratio);
 		set_bound(new_bound);
 
 		// fill styles
@@ -45,8 +46,8 @@ namespace gameswf
 		{
 			fill_style* fs = &m_fill_styles[i];
 
-			const fill_style& fs1 = m_shape1.get_fill_styles()[i];
-			const fill_style& fs2 = m_shape2.get_fill_styles()[i];
+			const fill_style& fs1 = m_shape1->get_fill_styles()[i];
+			const fill_style& fs2 = m_shape2->get_fill_styles()[i];
 
 			fs->set_lerp(fs1, fs2, ratio);
 		}
@@ -55,8 +56,8 @@ namespace gameswf
 		for (i = 0; i < m_line_styles.size(); i++)
 		{
 			line_style& ls = m_line_styles[i];
-			const line_style& ls1 = m_shape1.get_line_styles()[i];
-			const line_style& ls2 = m_shape2.get_line_styles()[i];
+			const line_style& ls1 = m_shape1->get_line_styles()[i];
+			const line_style& ls2 = m_shape2->get_line_styles()[i];
 			ls.m_width = (Uint16)frnd(flerp(ls1.get_width(), ls2.get_width(), ratio));
 			ls.m_color.set_lerp(ls1.get_color(), ls2.get_color(), ratio);
 		}
@@ -66,7 +67,7 @@ namespace gameswf
 		for (i = 0; i < m_paths.size(); i++) 
 		{
 			path& p = m_paths[i];
-			const path& p1 = m_shape1.get_paths()[i];
+			const path& p1 = m_shape1->get_paths()[i];
 
 			// Swap fill styles -- for some reason, morph
 			// shapes seem to be defined with their fill
@@ -76,8 +77,8 @@ namespace gameswf
 
 			p.m_line = p1.m_line;
 
-			p.m_ax = flerp(p1.m_ax, m_shape2.get_paths()[n].m_ax, ratio);
-			p.m_ay = flerp(p1.m_ay, m_shape2.get_paths()[n].m_ay, ratio);
+			p.m_ax = flerp(p1.m_ax, m_shape2->get_paths()[n].m_ax, ratio);
+			p.m_ay = flerp(p1.m_ay, m_shape2->get_paths()[n].m_ay, ratio);
       
 			//  edges;
 			int len = p1.m_edges.size();
@@ -85,12 +86,12 @@ namespace gameswf
 
 			for (int j = 0; j < p.m_edges.size(); j++)
 			{
-				p.m_edges[j].m_cx = flerp(p1.m_edges[j].m_cx, m_shape2.get_paths()[n].m_edges[k].m_cx, ratio);
-				p.m_edges[j].m_cy = flerp(p1.m_edges[j].m_cy, m_shape2.get_paths()[n].m_edges[k].m_cy, ratio);
-				p.m_edges[j].m_ax = flerp(p1.m_edges[j].m_ax, m_shape2.get_paths()[n].m_edges[k].m_ax, ratio);
-				p.m_edges[j].m_ay = flerp(p1.m_edges[j].m_ay, m_shape2.get_paths()[n].m_edges[k].m_ay, ratio);
+				p.m_edges[j].m_cx = flerp(p1.m_edges[j].m_cx, m_shape2->get_paths()[n].m_edges[k].m_cx, ratio);
+				p.m_edges[j].m_cy = flerp(p1.m_edges[j].m_cy, m_shape2->get_paths()[n].m_edges[k].m_cy, ratio);
+				p.m_edges[j].m_ax = flerp(p1.m_edges[j].m_ax, m_shape2->get_paths()[n].m_edges[k].m_ax, ratio);
+				p.m_edges[j].m_ay = flerp(p1.m_edges[j].m_ay, m_shape2->get_paths()[n].m_edges[k].m_ay, ratio);
 				k++;
-				if (m_shape2.get_paths()[n].m_edges.size() <= k)
+				if (m_shape2->get_paths()[n].m_edges.size() <= k)
 				{
 					k = 0;
 					n++;
@@ -121,8 +122,8 @@ namespace gameswf
 		rect	bound1, bound2;
 		bound1.read(in);
 		bound2.read(in);
-		m_shape1.set_bound(bound1);
-		m_shape2.set_bound(bound2);
+		m_shape1->set_bound(bound1);
+		m_shape2->set_bound(bound2);
 
 		if(tag_type == 84)
 		{
@@ -237,8 +238,8 @@ namespace gameswf
 				assert(0);
 			}
 
-			m_shape1.m_fill_styles.push_back(fs1);
-			m_shape2.m_fill_styles.push_back(fs2);
+			m_shape1->m_fill_styles.push_back(fs1);
+			m_shape2->m_fill_styles.push_back(fs2);
 		}
 
 		int line_style_count = in->read_variable_count();
@@ -252,8 +253,8 @@ namespace gameswf
 				ls2.m_width = in->read_u16();
 				ls1.m_color.read(in, tag_type);
 				ls2.m_color.read(in, tag_type);
-				m_shape1.m_line_styles.push_back(ls1);
-				m_shape2.m_line_styles.push_back(ls2);
+				m_shape1->m_line_styles.push_back(ls1);
+				m_shape2->m_line_styles.push_back(ls2);
 			}
 		}
 		else
@@ -387,8 +388,8 @@ namespace gameswf
 					}
 				}
 
-				m_shape1.m_line_styles.push_back(ls1);
-				m_shape2.m_line_styles.push_back(ls2);
+				m_shape1->m_line_styles.push_back(ls1);
+				m_shape2->m_line_styles.push_back(ls2);
 			}
 		}
 		else
@@ -396,46 +397,47 @@ namespace gameswf
 			assert(0);
 		}
 
-		m_shape1.read(in, tag_type, false, md);
+		m_shape1->read(in, tag_type, false, md);
 		in->align();
-		m_shape2.read(in, tag_type, false, md);
+		m_shape2->read(in, tag_type, false, md);
 
-		assert(m_shape1.m_fill_styles.size() == m_shape2.m_fill_styles.size());
-		assert(m_shape1.m_fill_styles.size() == fill_style_count);
-		assert(m_shape1.m_line_styles.size() == m_shape2.m_line_styles.size());
-		assert(m_shape1.m_line_styles.size() == line_style_count);
+		assert(m_shape1->m_fill_styles.size() == m_shape2->m_fill_styles.size());
+		assert(m_shape1->m_fill_styles.size() == fill_style_count);
+		assert(m_shape1->m_line_styles.size() == m_shape2->m_line_styles.size());
+		assert(m_shape1->m_line_styles.size() == line_style_count);
 
 		// setup array size
-		m_fill_styles.resize(m_shape1.m_fill_styles.size());
+		m_fill_styles.resize(m_shape1->m_fill_styles.size());
 		for (i = 0; i < m_fill_styles.size(); i++)
 		{
 			fill_style& fs = m_fill_styles[i];
-			fill_style& fs1 = m_shape1.m_fill_styles[i];
+			fill_style& fs1 = m_shape1->m_fill_styles[i];
 			fs.m_gradients.resize(fs1.m_gradients.size());
 		}
-		m_line_styles.resize(m_shape1.m_line_styles.size());
-		m_paths.resize(m_shape1.m_paths.size());
+		m_line_styles.resize(m_shape1->m_line_styles.size());
+		m_paths.resize(m_shape1->m_paths.size());
 
 		int edges_count1 = 0;
 		for (i = 0; i < m_paths.size(); i++)
 		{
 			path& p = m_paths[i];
-			path& p1 = m_shape1.m_paths[i];
+			path& p1 = m_shape1->m_paths[i];
 			int len = p1.m_edges.size();
 			edges_count1 += len;
 			p.m_edges.resize(len);
 		}
 
 		int edges_count2 = 0;
-		for (i = 0; i < m_shape2.m_paths.size(); i++)
+		for (i = 0; i < m_shape2->m_paths.size(); i++)
 		{
-			path& p2 = m_shape2.m_paths[i];
+			path& p2 = m_shape2->m_paths[i];
 			int len = p2.m_edges.size();
 			edges_count2 += len;
 		}
 		assert(edges_count1 == edges_count2);
 	}
 
+#endif /* DH2 */
 }
 
 

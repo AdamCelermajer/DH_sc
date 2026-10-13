@@ -11,16 +11,21 @@
 //
 // These declarations must be seen by every translation unit that adds to one of these tables, or that TU
 // instantiates the upstream generic member instead. Declaring a specialization needs only the names of the
-// value types. The definitions that release a value of incomplete type are behind VENDOR_GAMESWF_DH2_CORE_HEADERS.
+// value types. The definitions are in the batch sources, where the value types are complete.
 //
-// Not declared here: hash<stringi_pointer, int, string_pointer_hash_functor<stringi_pointer> >::set_raw_capacity
-// (0x767824). stringi_pointer is not declared anywhere in the tree.
+// hash<stringi_pointer, int, string_pointer_hash_functor<stringi_pointer> >::set_raw_capacity (0x767824), the table of
+// movie_def_impl::m_named_frames and sprite_definition::m_named_frames, is declared at the end of this file.
 #pragma once
 
+#include <cmath>
+#include <cstddef>
+
 #include "base/container.h"                   // hash<>, fixed_size_hash<>, tu_stringi, stringi_hash_functor (global)
+#include "vendor-gameswf/gameswf_alloc.hpp"        // gameswf::malloc_internal, gameswf::free_internal, swf::MEM_UNRECOVERED
 #include "base/smart_ptr.h"                   // smart_ptr<T> (global in upstream)
 #include "gameswf/gameswf.h"                  // gameswf::sound_sample, font, character_def, as_object (forward)
 #include "vendor-gameswf/as_value.hpp"        // gameswf::as_value (DH2 layout)
+#include "vendor-gameswf/permanent_string_cache.hpp"  // gameswf::stringi_pointer, gameswf::string_pointer_hash_functor
 
 namespace gameswf {
 
@@ -81,22 +86,82 @@ void hash<gameswf::as_object*, bool, fixed_size_hash<gameswf::as_object*> >::set
 template <>
 void hash<tu_stringi, gameswf::as_value, stringi_hash_functor<tu_stringi> >::set_raw_capacity(int new_size);
 
-// DH2 (batch v1-vendor-gameswf-pack14-1a21ee-0): the RenderFX search index table. The value is a pointer and the key is
-// a tu_string, so the body needs only the forward declaration of the entry type. Body: vendor-gameswf/src/v1-vendor-gameswf-pack14-1a21ee-0.cpp.
-namespace RenderFX {
-namespace SearchIndex {
-struct Entry;
-}  // namespace SearchIndex
-}  // namespace RenderFX
+// The RenderFX search index table (0x7aa8f0, hash<tu_string, array<RenderFX::SearchIndex::Entry>*, string_hash_functor<tu_string>>)
+// is declared in vendor-gameswf/render_fx_search_hash.hpp, not here: RenderFX is a class in the game headers
+// (dh2/RenderFX.hpp), and this header is reached from gameswf_movie_def.h by every game translation unit.
 
-// 0x7aa8f0 gameswf::hash<gameswf::tu_string, gameswf::array<RenderFX::SearchIndex::Entry>*, gameswf::string_hash_functor<gameswf::tu_string> >::set_raw_capacity(int)
-template <>
-void hash<tu_string, array<RenderFX::SearchIndex::Entry>*, string_hash_functor<tu_string> >::set_raw_capacity(int new_size);
-
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
 // 0x76a6ec gameswf::hash<gameswf::tu_stringi, gameswf::as_object::as_watch, gameswf::stringi_hash_functor<gameswf::tu_stringi> >::set_raw_capacity(int)
-// Needs gameswf::as_object complete (as_object::as_watch is nested in it). gameswf/gameswf_object.h does not compile in the tree.
+// Needs gameswf::as_object complete (as_object::as_watch is nested in it).
 #include "gameswf/gameswf_object.h"
 template <>
 void hash<tu_stringi, gameswf::as_object::as_watch, stringi_hash_functor<tu_stringi> >::set_raw_capacity(int new_size);
-#endif
+
+// 0x767824 gameswf::hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >::set_raw_capacity(int)
+// The frame label table of movie_def_impl and sprite_definition. Entries are 16 bytes (stringi_pointer key at +8, int at
+// +12); neither has a destructor. Body: vendor-gameswf/src/v1-vendor-gameswf-pack5-64b2da-0.cpp.
+template <>
+void hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >::set_raw_capacity(int new_size);
+
+// The shared body. H is one of the hash<> instantiations above (it is defined here, in the header, so that every translation unit that
+// defines one of the specializations can use it). Reaches the table's private members through the
+// friend declared in base/container.h.
+template <class H>
+void dh2_hash_access::set_raw_capacity(H& self, int new_size) {
+	using entry = typename H::entry;
+	using table = typename H::table;
+
+	if (new_size <= 0) {
+		// Binary: clear() and return.
+		self.clear();
+		return;
+	}
+
+	// Binary: v3 = 1 << (int)(float)((float)(logf((float)(a2 - 1)) / ln2) + 1.0); then v3 = max(v3, 4). ln2 is the
+	// single-precision constant 0x3F317218 (MOV R1,#0x3F317218 before __aeabi_fdiv), which is kLn2 below.
+	// new_size == 1 gives logf(0) = -inf in the binary. The ARM shift then uses the low byte of the converted value,
+	// which is 0, so the result is 1 and the minimum makes it 4. The explicit guard gives the same result.
+	int size = 4;
+	if (new_size > 1) {
+		const float q = std::logf(static_cast<float>(new_size - 1)) / kLn2;
+		const int bits = static_cast<int>(q + 1.0f);
+		const unsigned int pow2 = (bits >= 0 && bits < 32) ? (1u << bits) : 0u;
+		size = static_cast<int>(pow2);
+		if (size < 4) {
+			size = 4;  // DH2 minimum (upstream: 16)
+		}
+	}
+
+	// Binary: if the table exists and already has this many slots, there is nothing to do.
+	if (self.m_table != nullptr && size == self.m_table->m_size_mask + 1) {
+		return;
+	}
+
+	// Binary: malloc_internal(16 * size + 8): entry count 0, size mask size - 1, and next_in_chain = -2 on every entry.
+	H new_hash;
+	new_hash.m_table = static_cast<table*>(gameswf::malloc_internal(
+		static_cast<unsigned int>(sizeof(table) + sizeof(entry) * static_cast<std::size_t>(size)), swf::MEM_UNRECOVERED));
+	new_hash.m_table->m_entry_count = 0;
+	new_hash.m_table->m_size_mask = size - 1;
+	for (int i = 0; i < size; i++) {
+		new_hash.E(i).m_next_in_chain = -2;
+	}
+
+	if (self.m_table != nullptr) {
+		// Binary: in index order, each live entry (not empty, not tombstone) goes into the new table. Its key and
+		// value are then destroyed and the slot is marked empty.
+		for (int i = 0, n = self.m_table->m_size_mask; i <= n; i++) {
+			entry* e = &self.E(i);
+			if (!e->is_empty() && !e->is_tombstone()) {
+				new_hash.add(e->first, e->second);
+				e->clear();
+			}
+		}
+		// Binary: free_internal(old table).
+		gameswf::free_internal(self.m_table, 0);
+	}
+
+	// Binary: the new table is stolen. The temporary is left empty, so its destructor does nothing.
+	self.m_table = new_hash.m_table;
+	new_hash.m_table = nullptr;
+}
+

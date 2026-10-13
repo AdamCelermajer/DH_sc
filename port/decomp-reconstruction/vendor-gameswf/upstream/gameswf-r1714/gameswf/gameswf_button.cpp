@@ -144,6 +144,11 @@ frame loop:
 
 namespace gameswf
 {
+	#if 0 /* DH2: replaced. The class is declared in gameswf_button.h and its members, with the button_record, button_action,
+	         sound_info and button_character_definition functions, are v1-vendor-gameswf-gameswf_button-7c6b4c-0.cpp,
+	         v1-vendor-gameswf-pack19-4d4603-0.cpp (hit_test, ~button_character_instance, get_root_movie, get_mouse_state,
+	         the button_record copy constructor, ~button_sound_def) and v1-vendor-gameswf-pack20-97b00f-0.cpp (the
+	         definition constructors). The binary has no set_member/get_member/is_enabled override on the instance. */
 	struct button_character_instance : public character
 	{
 		gc_ptr<button_character_definition>	m_def;
@@ -458,7 +463,7 @@ namespace gameswf
 								}
 								else
 								{
-									s->play_sound(NULL, bs.m_sam->m_sound_handler_id, bs.m_sound_style.m_loop_count);
+									s->play_sound(bs.m_sam->m_sound_handler_id, bs.m_sound_style.m_loop_count);	// DH2: no listener argument
 								}
 							}
 						}
@@ -829,6 +834,7 @@ namespace gameswf
 		// instanciate_registered_class( ch );	//TODO: test it
 		return ch;
 	}
+	#endif /* DH2 */
 };
 
 

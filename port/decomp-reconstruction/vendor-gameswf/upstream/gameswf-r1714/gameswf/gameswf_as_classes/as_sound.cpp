@@ -11,6 +11,7 @@
 namespace gameswf
 {
 
+#if 0 /* DH2: replaced by the definition that follows (sound_start, 0x7a50ec) */
 	void	sound_start(const fn_call& fn)
 	{
 		sound_handler* s = get_sound_handler();
@@ -30,6 +31,28 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
+	// DH2: 0x7a50ec. The sound handler is the DH2 interface: play_sound(handle, loops) (vtable +0x0c). With two or more arguments
+	// DH2: the offset (argument 0, converted but not used) and the loop count (argument 1) are read.
+	void	sound_start(const fn_call& fn)
+	{
+		sound_handler* s = get_sound_handler();
+		if (s != NULL)
+		{
+			as_sound*	snd = cast_to<as_sound>(fn.this_ptr);
+			if (snd)
+			{
+				int offset = 0;
+				int loops = 0;
+				if (fn.nargs >= 2)
+				{
+					offset = (int) fn.arg(0).to_number();
+					loops = (int) fn.arg(1).to_number();
+				}
+				s->play_sound(snd->m_id, loops);
+			}
+		}
+	}
 
 
 	void	sound_stop(const fn_call& fn)
@@ -43,6 +66,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by the definition that follows (sound_attach, 0x7a5594) */
 	void	sound_attach(const fn_call& fn)
 	{
 		if (fn.nargs < 1)
@@ -101,6 +125,50 @@ namespace gameswf
 		else
 		{
 			log_error("invalid sound sample id: %d\n", si);
+		}
+	}
+#endif /* DH2 */
+	// DH2: 0x7a5594. Differs from r1714: without a target (the sound's own or the caller's) the function returns silently; a
+	// DH2: resource that is not found is not reported; only a resource that is not a sound sample logs "sound sample is NULL";
+	// DH2: the handler id is taken as it is (no range check).
+	void	sound_attach(const fn_call& fn)
+	{
+		if (fn.nargs < 1)
+		{
+			log_error("attach sound needs one argument\n");
+			return;
+		}
+
+		as_sound*	snd = cast_to<as_sound>(fn.this_ptr);
+
+		// find target movieclip
+		character* target = snd->m_target.get_ptr();
+		if (target == NULL)
+		{
+			// try to find a sound from the caller target
+			target = fn.env->get_target();
+			if (target == NULL)
+			{
+				return;
+			}
+		}
+
+		// find resource
+		character_def* res = target->find_exported_resource(fn.arg(0).to_string());
+		if (res != NULL)
+		{
+			sound_sample* ss = cast_to<sound_sample>(res);
+			if (ss != NULL)
+			{
+				int si = ss->m_sound_handler_id;
+				snd->clear();
+				snd->m_is_loaded_sound = false;
+				snd->m_id = si;
+			}
+			else
+			{
+				log_error("sound sample is NULL\n");
+			}
 		}
 	}
 
@@ -172,7 +240,7 @@ namespace gameswf
 	{
 		gc_ptr<as_sound> snd = new as_sound(fn.get_player());
 
-		snd->m_target = fn.env->get_target();	// initial value
+		// DH2: 0x7a5170. No initial m_target = fn.env->get_target(): m_target stays empty unless an argument is given.
 		if (fn.nargs > 0)
 		{
 			assert(fn.env);

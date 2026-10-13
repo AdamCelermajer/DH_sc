@@ -1,10 +1,13 @@
 // Test for batch v1-vendor-gameswf-pack6-a8bd9d-0.
-//   bash tools/trackb/check_tu.sh --test <this file>
 //
 // Covers the clock comparison of render_cache::is_valid (0x7738a4) through its pure helper
 // gameswf::dh2::render_cache_clocks_valid in vendor-gameswf/render_cache.hpp. That helper has no link
 // dependencies, so this test links on its own. The rest of the batch needs the engine (as_object, the
 // render handler, the glyph provider) and is checked by the integrator's build.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 
 #include <cstdint>
 #include <cstdio>

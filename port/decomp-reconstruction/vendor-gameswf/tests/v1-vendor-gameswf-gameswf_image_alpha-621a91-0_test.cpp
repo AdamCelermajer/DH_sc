@@ -1,5 +1,4 @@
 // Test for batch v1-vendor-gameswf-gameswf_image_alpha-621a91-0 (gameswf::image_alpha).
-//   bash tools/trackb/check_tu.sh --test <this file> port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_image_alpha-621a91-0.cpp
 //
 // The test supplies the callees that belong to other batches, so the pixel, hash, comparison and
 // allocation logic can run on its own:
@@ -8,6 +7,10 @@
 //   gameswf::free_internal (0x752b38): counted, then free()
 //   gameswf::scanline, both overloads (0x7b526c, 0x7b527c): m_data + m_pitch * y, the listing's arithmetic
 //   operator new[](size, swf::MemHint) (0x752ba4): malloc(), with the last size recorded
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_image_alpha-621a91-0.cpp
 
 #include <cstddef>
 #include <cstdint>

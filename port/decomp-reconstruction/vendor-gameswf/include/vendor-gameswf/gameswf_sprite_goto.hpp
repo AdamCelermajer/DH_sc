@@ -1,4 +1,4 @@
-// DH2: frame-walk arithmetic of gameswf::sprite_instance::goto_frame(int) (binary 0x781a3c, Gameloft).
+// DH2: frame arithmetic of gameswf::sprite_instance::goto_frame(int) (binary 0x781a3c) and advance(float) (0x78240c).
 //
 // Pure code with no gameswf types, so the batch test (tests/v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1_test.cpp)
 // compiles it on its own. The batch body (src/v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1.cpp) uses these
@@ -35,6 +35,26 @@ inline frame_run sprite_goto_forward_run(int current, int target)
 {
 	return frame_run{current + 1, target > current + 1 ? target - current - 1 : 0};
 }
+
+// What advance() does with the frame of a playing clip that has already loaded: it steps to the next frame, wrapping to
+// frame 0 at the end; the frame's tags run only when the frame changed (a one-frame clip stays on frame 0); frame 0 of a
+// clip with more than one frame first clears the characters the frame does not place.
+struct advance_step
+{
+	int next_frame;
+	bool changed;
+	bool clear_before_tags;
+};
+
+inline advance_step sprite_advance_step(int current, int frame_count)
+{
+	const int next = (current + 1 >= frame_count) ? 0 : current + 1;
+	return advance_step{next, next != current, next == 0 && frame_count > 1};
+}
+
+// advance() runs the goto actions again while they queue more goto actions, with this many passes at most (it logs
+// "stop recursive loop gotoAndPlay/gotoAndStop (more than 10)" and stops after the pass numbered 11).
+const int kSpriteGotoActionPassLimit = 11;
 
 }  // namespace dh2
 }  // namespace gameswf

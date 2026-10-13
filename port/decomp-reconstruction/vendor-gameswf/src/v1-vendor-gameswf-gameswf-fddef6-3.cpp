@@ -3,11 +3,8 @@
 // gameswf r1714 with Gameloft changes, as built into libDungeonHunter2.so (32-bit ARM).
 // Per-function status and notes are in ledger.d/v1-vendor-gameswf-gameswf-fddef6-3.csv.
 //
-// Compile scope. The ungated part (write_le<float>, read_le<float>, as_boolean_valueof, removeHTML)
-// needs only base/container.h and base/tu_file.h, and is checked by check_tu.sh. Everything else is
-// behind VENDOR_GAMESWF_DH2_CORE_HEADERS, as in the pack7 batch: gameswf/gameswf.h does not build in
-// this tree (base/tu_gc_singlethreaded_refcount.h, gameswf_action.h), so those bodies are written but
-// not compiled. The ADPCM decoder is in vendor-gameswf/adpcm_dh2.hpp and is compiled and tested on its own.
+// Compile scope. Everything in this file compiles with the core headers (no guard macro). The ADPCM decoder is in
+// vendor-gameswf/adpcm_dh2.hpp and is compiled and tested on its own.
 //
 // Upstream definitions replaced by this file (each wrapped in #if 0 in the upstream source):
 //   gameswf_as_classes/as_boolean.cpp  as_boolean_valueof (binary is empty, upstream asserts)
@@ -29,7 +26,6 @@
 #include "base/tu_file.h"     // tu_file
 #include "vendor-gameswf/adpcm_dh2.hpp"
 
-#ifdef VENDOR_GAMESWF_DH2_CORE_HEADERS
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_stream.h"
 #include "gameswf/gameswf_font.h"
@@ -41,14 +37,24 @@
 #include "gameswf/gameswf_as_classes/as_global.h"
 #include "gameswf/gameswf_as_classes/as_math.h"
 #include "gameswf/gameswf_as_classes/as_boolean.h"
+#include "gameswf/gameswf_player.h"
+#include "gameswf/gameswf_root.h"
+#include "gameswf/gameswf_sound.h"
+#include "gameswf/gameswf_text.h"
 #include "vendor-gameswf/as_value.hpp"
+#include "vendor-gameswf/bitmap_glyph_provider.hpp"
+#include "vendor-gameswf/bitmap_glyph_texture_cache.hpp"
+#include "vendor-gameswf/filter.hpp"
+#include "vendor-gameswf/glyph_provider.hpp"
+#include "vendor-gameswf/glyph_texture_cache.hpp"
+#include "vendor-gameswf/player_context.hpp"
+#include "vendor-gameswf/final_shape.hpp"
 #include "vendor-gameswf/tesselator_accepter.hpp"
-#endif
 
 namespace gameswf {
 
 // ---------------------------------------------------------------------------------------------
-// Ungated: compiled by check_tu.sh.
+// Needs only base/container.h and base/tu_file.h.
 // ---------------------------------------------------------------------------------------------
 
 // Declared for the specializations below (the primary templates have no generic body).
@@ -132,9 +138,8 @@ void removeHTML(tu_string& text)
 }  // namespace gameswf
 
 // ---------------------------------------------------------------------------------------------
-// Gated: VENDOR_GAMESWF_DH2_CORE_HEADERS. Not compiled in this tree (see the header comment).
+// Needs the gameswf core headers.
 // ---------------------------------------------------------------------------------------------
-#ifdef VENDOR_GAMESWF_DH2_CORE_HEADERS
 
 namespace gameswf {
 
@@ -210,55 +215,286 @@ void define_sound_loader(stream* in, int tag_type, movie_definition_sub* m)
 }
 
 // 0x789d98 void gameswf::execute_tesselate(gameswf::mesh_set*, gameswf::shape_character_def const*, float)
-// Partial. Written: the two tesselator accepters (strip/direct flags 0,0,0 and 0,1,0) and the new_layer()
-// call. Missing: the two final_shape arrays (fill styles of the shape with keep flag 0 and style = index,
-// line styles with keep flag 1; the array sizes come from shape +40 and +56, not resolved here), and the
-// per-path loop (fills at +0/+4, line style at +8, start point at +12/+16, edge list at +20 with count at
-// +24, and a flag at +76) and its flushes. The path element stride in the loop is 40 but the flag is read
-// at +76, which does not fit a 40-byte element, so the path layout cannot be confirmed from this function
-// alone. Tolerance: the binary uses 1.0f when err <= 0.
+// Tesselates a shape into the mesh set. The listing types its arguments as (gameswf* this, mesh_set*, shape*, float); the
+// real ones are the mesh set (r0), the shape (r1) and the error tolerance (r2), which is 1.0 when it is not above zero.
+// Two accepters are built: fills (strip 0, direct 0) and lines (strip 0, direct 1). One final_shape is made for each fill
+// style (at least one) with keep flag 0, style = its index and the tolerance, and one for each line style with keep flag 1.
+// The mesh set starts a new layer. For each path that has edges, each of the three styles in turn (fill 0, fill 1, line)
+// that is not 0 (the final_shape of style - 1, from the fills for the first two and the lines for the third) gets the path:
+// the start point is stored as its pen position and its first point, each edge is added as a straight point when its control
+// point equals its anchor and as a quadratic curve from the pen position otherwise, and the path is ended. After a path the
+// lines are always flushed; the fills are flushed when the path is the last one or the next path starts a new shape (its
+// m_new_shape flag, which the listing reads as +76 from this path, +36 of the next 40-byte element); a new shape also starts
+// a new layer after the flushes. Fills go through the fill accepter and lines through the line accepter. The arrays and the
+// accepters are released in the reverse order of their construction (lines, fills, line accepter, fill accepter).
 void execute_tesselate(mesh_set* ms, const shape_character_def* sh, float error_tolerance)
 {
 	tesselator_accepter fill_tess(false, false, false);
 	tesselator_accepter line_tess(false, true, false);
 
-	(void)sh;
-	const float tolerance_fill = error_tolerance > 0.0f ? error_tolerance : 1.0f;
-	(void)tolerance_fill;  // used by the missing loop (see the comment above)
+	const float tolerance = error_tolerance > 0.0f ? error_tolerance : 1.0f;
+
+	array<final_shape> fills;
+	int fill_count = sh->get_fill_styles().size();
+	if (fill_count < 1)
+	{
+		fill_count = 1;
+	}
+	fills.resize(fill_count);
+	for (int i = 0; i < fills.size(); i++)
+	{
+		fills[i].m_keep_segments = false;
+		fills[i].m_style = i;
+		fills[i].m_tolerance = tolerance;
+	}
+
+	array<final_shape> lines;
+	lines.resize(sh->get_line_styles().size());
+	for (int i = 0; i < lines.size(); i++)
+	{
+		lines[i].m_keep_segments = true;
+		lines[i].m_style = i;
+		lines[i].m_tolerance = tolerance;
+	}
 
 	ms->new_layer();
-	// Missing: the two final_shape arrays, the path loop and the flush calls. See the comment above.
-	(void)line_tess;
+
+	const array<path>& paths = sh->get_paths();
+	const int path_count = paths.size();
+	for (int p = 0; p < path_count; p++)
+	{
+		const path& cur = paths[p];
+		if (cur.m_edges.size() == 0)
+		{
+			continue;
+		}
+
+		bool new_layer_after;
+		bool flush_lines;
+		bool flush_fills;
+		if (path_count > p + 1 && paths[p + 1].m_new_shape)
+		{
+			new_layer_after = true;
+			flush_lines = true;
+			flush_fills = true;
+		}
+		else if (path_count == p + 1)
+		{
+			new_layer_after = false;
+			flush_lines = true;
+			flush_fills = true;
+		}
+		else
+		{
+			new_layer_after = false;
+			flush_lines = false;
+			flush_fills = false;
+		}
+
+		for (int k = 0; k != 3; k++)
+		{
+			int style;
+			if (k == 0)
+			{
+				style = cur.m_fill0;
+			}
+			else
+			{
+				style = (k == 1) ? cur.m_fill1 : cur.m_line;
+				if (k != 1)
+				{
+					flush_lines = true;
+				}
+			}
+			const int index = style - 1;
+			if (index == -1)
+			{
+				continue;
+			}
+
+			final_shape& target = (k == 2) ? lines[index] : fills[index];
+			target.m_last.m_x = cur.m_ax;
+			target.m_last.m_y = cur.m_ay;
+			const int first = target.m_cur.m_points.size();
+			target.m_cur.m_points.push_back(point(cur.m_ax, cur.m_ay));
+			target.m_last = target.m_cur.m_points[first];
+
+			for (int e = 0; e < cur.m_edges.size(); e++)
+			{
+				const edge& ed = cur.m_edges[e];
+				if (ed.m_cx == ed.m_ax && ed.m_cy == ed.m_ay)
+				{
+					const int at = target.m_cur.m_points.size();
+					target.m_cur.m_points.push_back(point(ed.m_ax, ed.m_ay));
+					target.m_last = target.m_cur.m_points[at];
+				}
+				else
+				{
+					target.add_curve(target.m_last.m_x, target.m_last.m_y, ed.m_cx, ed.m_cy, ed.m_ax, ed.m_ay);
+				}
+			}
+			target.end_path();
+		}
+
+		if (flush_fills)
+		{
+			for (int m = 0; m < fills.size(); m++)
+			{
+				fills[m].flush(ms, fill_tess);
+			}
+		}
+		if (flush_lines)
+		{
+			for (int n = 0; n < lines.size(); n++)
+			{
+				lines[n].flush(ms, line_tess);
+			}
+		}
+		if (new_layer_after)
+		{
+			ms->new_layer();
+		}
+	}
 }
 
 // 0x78b240 int gameswf::preload_glyph_codes(gameswf::player_context*, unsigned short*, int, gameswf::font*, int, gameswf::filter const*)
-// Partial. Flow is as in the binary: the glyph is fetched (font::get_glyph); when the glyph's height matches the
-// texture cache's height, the glyph goes to glyph_texture_cache::get_glyph_region with a 3-byte filter record
-// (filter type 2 uses max(+32, +36) as a size, type 0 and 1 use the two floats), otherwise to
-// bitmap_glyph_texture_cache::get_glyph_region. Not confirmed: the glyph record (the binary's glyph starts with
-// a float width of 512.0 and then a pointer at +4 that is dropped at the end, which does not match the upstream
-// glyph struct), and the player_context offsets (+12, +16, +40, +52). Those are not written here.
+// Puts the glyphs of a code list into the glyph textures. Each code is looked up in the font at the given size
+// (font::get_glyph fills a local glyph whose bitmap tells which texture it lives in). Nothing happens when the context
+// has neither a glyph texture cache nor a bitmap glyph texture cache. A glyph whose bitmap is the glyph texture cache's
+// own texture goes to glyph_texture_cache::get_glyph_region with a three byte filter record: for a glow filter
+// (type 2) the blur byte is the larger of the two blur radii, for a drop shadow or blur (types 0 and 1) the two offset bytes
+// are the horizontal and vertical radii; without a filter all three are zero. Any other glyph goes to
+// bitmap_glyph_texture_cache::get_glyph_region of the bitmap glyph provider. The result is the code count (0 for a
+// count that is not positive). The binary reads through the glyph texture cache and through the bitmap glyph texture
+// cache without testing either for null after the first test; this version skips the glyph in that case.
 int preload_glyph_codes(player_context* ctx, std::uint16_t* codes, int count, font* f, int size, const filter* flt)
 {
-	(void)ctx;
-	(void)codes;
-	(void)f;
-	(void)size;
-	(void)flt;
-	return count <= 0 ? 0 : count;  // not reconstructed beyond the count result; see the comment above
+	if (count <= 0)
+	{
+		return 0;
+	}
+
+	glyph g;	// advance 512.0, no bitmap, index -1
+	g.m_fontsize = static_cast<Sint16>(size);
+	for (int i = 0; i < count; ++i)
+	{
+		g.m_code = codes[i];
+		if (!f->get_glyph(&g, g.m_code, size))
+		{
+			continue;
+		}
+
+		glyph_texture_cache* glyph_cache = ctx->m_glyph_provider->m_texture_cache;	// glyph provider +0x28
+		texture_cache* bitmap_cache = ctx->m_bitmap_glyph_provider->m_texture_cache;	// bitmap glyph provider +0x0c
+		if (glyph_cache == nullptr && bitmap_cache == nullptr)
+		{
+			continue;
+		}
+
+		rect bounds;
+		if (glyph_cache != nullptr && g.m_bitmap_info.get_ptr() == glyph_cache->m_texture.get_ptr())
+		{
+			glyph_texture_cache::filter_info record = {0, 0, 0};
+			if (flt)
+			{
+				if (flt->type == 2)
+				{
+					record.blur = static_cast<std::uint8_t>(static_cast<unsigned int>(
+						flt->blur_x > flt->blur_y ? flt->blur_x : flt->blur_y));
+				}
+				else if (flt->type >= 0 && flt->type <= 1)
+				{
+					record.offset_x = static_cast<std::uint8_t>(static_cast<unsigned int>(flt->blur_x));
+					record.offset_y = static_cast<std::uint8_t>(static_cast<unsigned int>(flt->blur_y));
+				}
+			}
+			glyph_cache->get_glyph_region(g.m_code, g.m_entity, g.m_fontsize, record, bounds);
+		}
+		else if (bitmap_cache != nullptr)
+		{
+			static_cast<bitmap_glyph_texture_cache*>(bitmap_cache)->get_glyph_region(g.m_code, g.m_entity,
+				g.m_fontsize, bounds);
+		}
+	}
+	return count;
 }
 
 // 0x791d48 void gameswf::get_textformat(gameswf::fn_call const&)
-// Partial. Creates the TextFormat object in fn.result (as_global_textformat_ctor), then sets its members from the
-// text format record of this_ptr: leftMargin, indent, rightMargin, leading, letterSpacing (twips / 20), color (the
-// four bytes at +0x170 packed as b370 | b369 << 8 | b368 << 16 | b371 << 24), size (twips / 20), align
-// (1 right, 2 center, 3 justify, otherwise left), font (name from the font record at +0x178, +0x30), bold (font
-// record +0x4d) and italic (+0x4c). The record offsets are the binary's; the header that declares them is
-// not in this tree, so the body is not written here. The align and font strings come from the player's
-// permanent_string_cache through a weak player pointer, which is not declared either.
+// Builds the TextFormat object of an edit text field (the this pointer, when it is an edit text character, class id 32).
+// as_global_textformat_ctor creates the object in fn.result; its members are then set, in this order: leftMargin,
+// indent, rightMargin, leading and letterSpacing (twips / 20), color (red << 16 | alpha << 24 | blue | green << 8 as an
+// int, from the four colour bytes at +0x170), size (twips / 20), align (the interned "left", "right", "center" or
+// "justify" from the player's permanent string cache; an alignment value above 3 sets nothing), font (the interned font
+// name of the font at +0x178), bold and italic (booleans from the font). The string values are the cache's interned
+// strings, so as_value::set_tu_string stores the pointers instead of copies. The binary does not check the cast of the
+// this pointer or the font pointer.
 void get_textformat(const fn_call& fn)
 {
-	(void)fn;
+	edit_text_character* field = nullptr;
+	if (fn.this_ptr && fn.this_ptr->is(AS_EDIT_TEXT))
+	{
+		field = static_cast<edit_text_character*>(fn.this_ptr);
+	}
+
+	as_global_textformat_ctor(fn);
+	as_object* format = fn.result->to_object();
+
+	auto set_number = [format](const char* name, double number)
+	{
+		as_value v;
+		v.set_double(number);
+		format->set_member(name, v);
+	};
+	auto set_text = [format, &fn](const char* name, const char* text)
+	{
+		as_value v;
+		v.set_tu_string(*fn.get_player()->m_permanent_strings.get(tu_string(text)));
+		format->set_member(name, v);
+	};
+
+	set_number("leftMargin", field->m_left_margin / 20.0f);
+	set_number("indent", field->m_indent / 20.0f);
+	set_number("rightMargin", field->m_right_margin / 20.0f);
+	set_number("leading", field->m_leading / 20.0f);
+	set_number("letterSpacing", field->m_letter_spacing / 20.0f);
+	set_number("color", static_cast<double>(static_cast<int>(
+		(static_cast<unsigned int>(field->m_color.m_r) << 16) | (static_cast<unsigned int>(field->m_color.m_a) << 24) |
+		static_cast<unsigned int>(field->m_color.m_b) | (static_cast<unsigned int>(field->m_color.m_g) << 8))));
+	set_number("size", field->m_text_height / 20.0f);
+
+	switch (static_cast<int>(field->m_alignment))
+	{
+	case 0:
+		set_text("align", "left");
+		break;
+	case 1:
+		set_text("align", "right");
+		break;
+	case 2:
+		set_text("align", "center");
+		break;
+	case 3:
+		set_text("align", "justify");
+		break;
+	default:
+		break;
+	}
+
+	{
+		as_value v;
+		v.set_tu_string(*fn.get_player()->m_permanent_strings.get(field->m_font->get_name()));
+		format->set_member("font", v);
+	}
+	{
+		as_value v;
+		v.set_bool(field->m_font->is_bold());
+		format->set_member("bold", v);
+	}
+	{
+		as_value v;
+		v.set_bool(field->m_font->is_italic());
+		format->set_member("italic", v);
+	}
 }
 
 // 0x798204 void gameswf::as_array_reverse(gameswf::fn_call const&)
@@ -302,28 +538,25 @@ as_c_function* array_init(player* p)
 }
 
 // 0x79e700 void gameswf::as_global_get_active_controller(gameswf::fn_call const&)
-// Partial. The binary checks the environment's player weak pointer (env +0x64 proxy, +0x68 pointer), takes
-// player::get_root() of it, and returns the int at root +0x50 as a number. The env and root members are not
-// declared in the vendored headers under these names, so they appear as unk_ placeholders. The field at root
-// +0x50 is unnamed (controller id or count; not identified).
+// The player of the environment (weak pointer), its root, and the root's active controller number as the result.
+// The binary does not test the player or the root for null.
 void as_global_get_active_controller(const fn_call& fn)
 {
-	// env +0x64 is the weak proxy (check_proxy), env +0x68 the player pointer.
-	player* p = fn.env->unk_104;
-	const auto* root = player::get_root(p);
-	fn.result->set_double(static_cast<double>(root->unk_50));   // root +0x50, int
+	const root* r = fn.env->get_player()->get_root();
+	fn.result->set_double(static_cast<double>(r->m_active_controller));
 }
 
 // 0x79f3c4 as_key* gameswf::key_init(gameswf::player*)
 // Upstream gameswf_as_classes/as_key.cpp:107 is #if 0 for this body. Same members as upstream, in binary order:
 // the 18 key codes (BACKSPACE 8, CAPSLOCK 20, CONTROL 17, DELETEKEY 46, DOWN 40, END 35, ENTER 13, ESCAPE 27,
 // HOME 36, INSERT 45, LEFT 37, PGDN 33, PGUP 34, RIGHT 39, SHIFT 16, SPACE 32, TAB 9, UP 38), then the six
-// methods. The binary also presizes the member hash (set_raw_capacity: max(size, 32) * 3 / 2, or 48 when
-// empty) before the constants. That size field is not declared, so the presize is not written. No visible
-// effect; the constants and methods are exact.
+// methods. Before the constants the binary presizes the member hash to max(entry count, 32) * 3 / 2 (48 for an empty
+// table), as player::action_init does for the global object.
 as_key* key_init(player* p)
 {
 	as_key* key_obj = new as_key(p);
+	const int member_count = key_obj->m_members.size();
+	key_obj->m_members.set_capacity(member_count < 32 ? 32 : member_count);
 
 	static const struct {
 		const char* name;
@@ -383,4 +616,3 @@ void math_max(const fn_call& fn)
 
 }  // namespace gameswf
 
-#endif  // VENDOR_GAMESWF_DH2_CORE_HEADERS

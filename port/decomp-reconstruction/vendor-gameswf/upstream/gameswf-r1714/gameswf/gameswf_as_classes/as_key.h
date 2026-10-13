@@ -10,7 +10,8 @@
 #define GAMESWF_AS_KEY_H
 
 #include "gameswf/gameswf_action.h"	// for as_object
-#include "gameswf/gameswf_root.h"	// for listener
+#include "gameswf/gameswf_listener.h"	// for listener (DH2: the 16-byte block)
+#include "gameswf/gameswf_root.h"
 
 namespace gameswf
 {
@@ -45,15 +46,11 @@ namespace gameswf
 			else return as_object::is(class_id);
 		}
 
-		// DH2: binary layout (as_object is 56 bytes): m_keymap +0x38 (28 bytes, KEYCOUNT 223),
-		// m_last_key_pressed +0x54, listener block +0x58 (16 bytes: array part, then a flag at +0x64).
+		// DH2: 0x68 bytes: as_object (0x38), m_keymap +0x38 (28 bytes, KEYCOUNT 223), m_last_key_pressed +0x54, m_listeners +0x58
+		// DH2: (the 16-byte listener of gameswf_listener.h). Vtable off_990cd8: D1 0x79f2e0, D0 0x79f3a8, is +0x08 (0x79eee4).
 		Uint8	m_keymap[key::KEYCOUNT / 8 + 1];	// bit-array
-		int	m_last_key_pressed;
-#if 0 /* DH2: replaced by the listener block members below (binary +0x58) */
-		listener m_listeners;
-#endif
-		array< weak_ptr<as_object> >	m_listener_items;	// DH2: +0x58, listener block array part (12 bytes)
-		bool	unk_64;	// DH2: +0x64, listener block flag; the binary never releases it
+		int	m_last_key_pressed;	// +0x54
+		listener m_listeners;	// +0x58
 
 		as_key(player* player);
 

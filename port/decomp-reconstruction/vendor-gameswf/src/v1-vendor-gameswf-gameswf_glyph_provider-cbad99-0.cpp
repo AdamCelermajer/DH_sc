@@ -5,6 +5,9 @@
 // vendor-gameswf/include/vendor-gameswf/glyph_provider.hpp. FreeType types: freetype_subset.hpp.
 
 #include "vendor-gameswf/glyph_provider.hpp"
+#include "vendor-gameswf/gameswf_alloc.hpp"  // free_internal, operator new(size, MemHint)
+#include "base/membuf.h"                    // membuf (the memory face)
+#include "base/tu_file.h"                    // tu_file (the memory face)
 
 #include <cstddef>
 #include <cstdint>
@@ -112,15 +115,13 @@ int glyph_provider::get_char_def(std::uint16_t, const char*, bool, bool, int, re
 
 // 0x7d0dfc gameswf::glyph_provider::glyph_provider(int, int, bool, float)  [C1]
 // 0x7d0ef0 gameswf::glyph_provider::glyph_provider(int, int, bool, float)  [C2, same body]
-// PARTIAL: the inline bytes of m_name are not reproduced. The binary writes them directly: the DH2 length
-// byte at +0x0c is set to 1 and the terminator at +0x0d to 0 (empty string), the hash-cache word at +0x1c
-// becomes (old & 0xFF000000) | 0xFFFFFF, and the byte at +0x1f becomes (top byte & 0xFE). The vendored
-// tu_string has its own layout and no hash cache (see the tu_string batch header), so the default constructor
-// here does not write those fields, and the name's representation is not the binary's.
+// The inline bytes of m_name that the binary writes directly (the DH2 length byte at +0x0c set to 1, the terminator
+// at +0x0d to 0, the hash-cache word at +0x1c becoming (old & 0xFF000000) | 0xFFFFFF, the byte at +0x1f becoming
+// (top byte & 0xFE)) are the default constructor of the DH2 tu_string (base/container.h), so m_name is default-constructed.
 // The members are set in the binary's order. FT_Init_FreeType writes the library handle at +0x00. On
 // failure the binary prints to stderr ((FILE*)&_sF + 2 is the third FILE of the C library's table) and
 // exits with status 1. The texture cache is created with bpp 4 and no render target, and its +0x50 back
-// pointer is set to this provider. m_name is default-constructed (see PARTIAL above).
+// pointer is set to this provider.
 glyph_provider::glyph_provider(int texture_width, int texture_height, bool load_faces_into_memory, float scale)
     : m_library(nullptr),
       m_scale(scale),
@@ -133,31 +134,26 @@ glyph_provider::glyph_provider(int texture_width, int texture_height, bool load_
         std::exit(1);
     }
     if (texture_width > 0 && texture_height > 0) {
-        texture_cache* cache = new texture_cache(texture_width, texture_height, 4, false);
-        cache->unk_40 = 0;
-        cache->unk_44 = 0;
-        cache->unk_48 = 0;
-        cache->unk_4c = 0;
-        cache->m_owner = this;
+        glyph_texture_cache* cache = new (swf::MEM_UNRECOVERED) glyph_texture_cache(texture_width, texture_height, 4, false);
+        cache->m_owner = this;  // +0x50; the pixel array at +0x40 starts empty
         m_texture_cache = cache;
     }
 }
 
 // 0x7d1b40 gameswf::glyph_provider::~glyph_provider()  [D1]
 // 0x7d1a7c gameswf::glyph_provider::~glyph_provider()  [D2, same body]
-// PARTIAL: the binary destroys the texture cache with gameswf::glyph_texture_cache::~glyph_texture_cache
-// followed by free_internal (glyph_texture_cache is a separate class, weak symbol _ZN7gameswf19glyph_texture_cacheD1Ev,
-// 84 bytes, not in the tree). This body calls the texture_cache destructor through delete. The layouts
-// of the two classes are not known to match, so the step is not confirmed. The order of the other steps
-// follows the listing: clear the face hash, reset and destroy the texture cache, FT_Done_FreeType (prints
-// "can't close FreeType!" on error), clear the face hash again (same member, +0x24), drop the canvas.
+// The texture cache is destroyed with gameswf::glyph_texture_cache::~glyph_texture_cache (vendor-gameswf/glyph_texture_cache.hpp)
+// followed by free_internal, as the binary does. The order of the other steps follows the listing: clear the face
+// hash, reset and destroy the texture cache, FT_Done_FreeType (prints "can't close FreeType!" on error), clear the
+// face hash again (same member, +0x24), drop the canvas.
 // The name's heap text is freed by the tu_string member destructor (the binary frees it when the flag at
 // +0x0c is 0xFF).
 glyph_provider::~glyph_provider() {
     m_faces.clear();
     if (m_texture_cache != nullptr) {
         m_texture_cache->reset();
-        delete m_texture_cache;
+        m_texture_cache->~glyph_texture_cache();
+        free_internal(m_texture_cache, 0);
     }
     const FT_Error error = FT_Done_FreeType(m_library);
     if (error != 0) {
@@ -170,11 +166,7 @@ glyph_provider::~glyph_provider() {
 }
 
 // 0x7d113c gameswf::glyph_provider::get_face_entity(gameswf::tu_string const&, bool, bool)
-// PARTIAL: the memory branch (m_load_faces_into_memory set) is not rebuilt. It reads the font file into a
-// membuf through the DH2 tu_file function slots (+0x14, +0x18, +0x1c of the tu_file object), and the
-// layout of that tu_file is not verified in this batch. This body returns null on that branch, without
-// caching anything.
-// The rest is written as the listing shows it:
+// The listing, step by step:
 //   1. m_name (the key, +0x0c) = name, plus "B" if bold and "I" if italic.
 //   2. A cached face under the key is returned (a cached null means a font that was not found).
 //   3. get_fontfile(name) finds the font file. On a miss, log_error prints it and a null is cached under
@@ -216,14 +208,37 @@ face_entity* glyph_provider::get_face_entity(const ::tu_string& name, bool is_bo
     }
 
     if (m_load_faces_into_memory) {
-        // PARTIAL: memory branch not rebuilt (see above).
+        // The memory face: the whole file is read into a membuf (file size from go_to_end and get_position, rewound to
+        // 0, membuf resized to the size, read_fully with -1) and FreeType is given that buffer. The tu_file counts as
+        // opened when its application-data pointer (+0x00) is set. On a failed open or a failed face the buffer is
+        // destroyed and freed, the error is logged and the result is null (nothing is cached).
+        FT_Face memory_face = nullptr;
+        ::tu_file file(fontfile.c_str(), "rb");
+        if (file.get_app_data_DEBUG() != nullptr) {
+            file.go_to_end();
+            const int size = file.get_position();
+            file.set_position(0);
+            ::membuf* data = new (swf::MEM_UNRECOVERED) ::membuf();
+            data->resize(size);
+            file.read_fully(data, -1);
+            FT_New_Memory_Face(m_library, static_cast<const FT_Byte*>(data->data()), size, 0, &memory_face);
+            if (memory_face != nullptr) {
+                smart_ptr<face_entity> entry;
+                entry = new (swf::MEM_UNRECOVERED) face_entity(memory_face, data, fontfile);
+                m_faces.add(m_name, entry);
+                return entry.get_ptr();
+            }
+            data->~membuf();
+            free_internal(data, 0);
+        }
+        log_error("some error opening font '%s'\n", fontfile.c_str());
         return nullptr;
     }
 
     FT_Face ft_face = nullptr;
     FT_New_Face(m_library, fontfile.c_str(), 0, &ft_face);
     smart_ptr<face_entity> entry;
-    entry = new face_entity(ft_face, fontfile);  // smart_ptr::operator=(T*): set_ref
+    entry = new (swf::MEM_UNRECOVERED) face_entity(ft_face, fontfile);  // operator new(0x2c, 0); smart_ptr::operator=(T*): set_ref
     m_faces.add(m_name, entry);
     return entry.get_ptr();
 }

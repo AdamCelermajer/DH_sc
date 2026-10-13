@@ -24,7 +24,7 @@ namespace gameswf
 		return obj;
 	}
 
-#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack22-8e8f27-0.cpp (binary local is not this listener) */
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack22-8e8f27-0.cpp (the local is the 16-byte listener, same as here) */
 	as_event::as_event(player* player) :
 		as_object(player)
 	{

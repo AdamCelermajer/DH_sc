@@ -12,7 +12,7 @@
 
 namespace gameswf 
 {
-	static render_handler* s_render_handler;
+	render_handler* s_render_handler = NULL;	// DH2: external linkage (declared in gameswf.h)
 
 	void set_render_handler(render_handler* r)
 	{
@@ -48,13 +48,13 @@ namespace gameswf
 			else return new bogus_bi;
 		}
 
-		bitmap_info*	create_bitmap_info_rgb(image::rgb* im)
+		bitmap_info*	create_bitmap_info_rgb(image_rgb* im)	// DH2: gameswf::image_rgb
 		{
 			if (s_render_handler) return s_render_handler->create_bitmap_info_rgb(im);
 			else return new bogus_bi;
 		}
 
-		bitmap_info*	create_bitmap_info_rgba(image::rgba* im)
+		bitmap_info*	create_bitmap_info_rgba(image_rgba* im)	// DH2: gameswf::image_rgba
 		{
 			if (s_render_handler) return s_render_handler->create_bitmap_info_rgba(im);
 			else return new bogus_bi;
@@ -117,7 +117,7 @@ namespace gameswf
 		}
 
 		void draw_triangle_list(const coord_component coords[], int vertex_count) {
-			if (s_render_handler) s_render_handler->draw_triangle_list(coords, vertex_count);
+			if (s_render_handler) s_render_handler->draw_triangle_list(coords, vertex_count, NULL, 0);	// DH2: the handler takes an optional index array
 		}
 		
 
@@ -151,7 +151,7 @@ namespace gameswf
 
 		void	fill_style_bitmap(int fill_side, bitmap_info* bi, const matrix& m, render_handler::bitmap_wrap_mode wm, render_handler::bitmap_blend_mode bm)
 		{
-			if (s_render_handler) s_render_handler->fill_style_bitmap(fill_side, bi, m, wm, bm);
+			if (s_render_handler) s_render_handler->fill_style_bitmap(fill_side, bi, m, wm);	// DH2: no blend mode argument
 		}
 
 		void	line_style_disable()
@@ -169,6 +169,7 @@ namespace gameswf
 			if (s_render_handler) s_render_handler->line_style_width(width);
 		}
 
+#if 0 /* DH2: the render handler has no stencil test */
 		bool test_stencil_buffer(const rect& bound, Uint8 pattern)
 		{
 			if (s_render_handler)
@@ -177,6 +178,7 @@ namespace gameswf
 			}
 			return false;
 		}
+#endif /* DH2 */
 
 		void	begin_submit_mask()
 		{

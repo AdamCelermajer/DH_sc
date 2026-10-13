@@ -9,6 +9,8 @@
 
 namespace glitch::collada {
 
+class CMorphingMesh;
+
 // Three-word link record used by the original intrusive lists
 // (the original allocates 12 bytes per node).
 template <typename T>
@@ -78,6 +80,8 @@ public:
     void addLight(void* light);                   // 0x65b244
     void addMorphingMesh(void* morphingMesh);     // 0x65b278
     void addCamera(void* camera);                 // 0x65b2ac
+    // 0x65b000: unlinks the morphing-mesh node whose value is the mesh and frees the node (the list is at +0x168).
+    void removeMorphingMesh(CMorphingMesh* morphingMesh);
 
     // Post-load step (direct calls to the attach helpers, then the flag writes).
     int onPostLoad();                             // 0x65b3dc

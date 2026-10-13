@@ -29,8 +29,11 @@ namespace gameswf
 			else return as_object::is(class_id);
 		}
 
-		as_listener(player* player);
-				virtual ~as_listener();	// DH2: 0x79b5c8 (D1); the deleting destructor 0x79b6b4 is compiler-generated
+		// DH2: 0x58 bytes: as_object (0x38), m_listeners +0x38 (the 16-byte listener), m_reentrance +0x48, m_suspended_event +0x4c
+		// DH2: (tu_queue: back +0x4c, front +0x50, size +0x54). Vtable off_990b88: D1 0x79b5c8, D0 0x79b6b4, is +0x08 (0x79b328),
+		// DH2: get_member +0x20 (0x79b49c), enumerate +0x30 (0x79b47c).
+		as_listener(player* player);	// DH2: 0x79b518 (C1), 0x79b570 (C2)
+		virtual ~as_listener();	// DH2: 0x79b5c8 (D1); the body is empty: the queue pops its elements and the listener array is released as members
 		virtual bool	get_member(const tu_stringi& name, as_value* val);
 		void add(as_object* listener);
 		void remove(as_object* listener);

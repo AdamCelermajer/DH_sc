@@ -1,12 +1,11 @@
 // Batch v1-vendor-gameswf-pack22-8e8f27-0 (vendor-gameswf, part 1 of 1). Fourteen binary symbols, one ledger row each
-// (ledger.d/v1-vendor-gameswf-pack22-8e8f27-0.csv).
+// (vendor-gameswf/ledger.csv; the as_color_transform and as_event rows in ledger.d/gameswf-core-asruntime.csv).
 //
 // Reconstructed and compiled here (1):
 //   hash<tu_stringi, as_color_transform_member, stringi_hash_functor<tu_stringi>>::set_raw_capacity(int)  0x7d9f98
 //   (declared in vendor-gameswf/as_color_transform_dh2.hpp).
 //
-// Partial, written but not compiled in this tree (4). They are behind DH2_AS_OBJECT_HEADER_OK, because
-// gameswf/gameswf_object.h does not compile here (see as_transform.hpp, as_stage.hpp). Bodies are complete:
+// Reconstructed and compiled here (4, all complete):
 //   gameswf::as_color_transform::as_color_transform(player*, cxform const*)   C1 0x7d9818, C2 0x7d9890 (same body)
 //   gameswf::as_event::as_event(player*)                                       C2 0x7dabbc, C1 0x7dac60 (same body)
 //   The as_color_transform constructor is declared in upstream gameswf_as_classes/as_color_transform.h (DH2 line).
@@ -97,12 +96,9 @@ void hash<tu_stringi, gameswf::as_color_transform_member, stringi_hash_functor<t
 	rebuilt.m_table = nullptr;
 }
 
-#if defined(DH2_AS_OBJECT_HEADER_OK)
-// The constructors below derive from gameswf::as_object. gameswf/gameswf_object.h does not compile in this tree, so this
-// block is not compiled until the build sets DH2_AS_OBJECT_HEADER_OK. Compile-verify it when that header is fixed.
-
 #include "gameswf/gameswf_as_classes/as_color_transform.h"  // gameswf::as_color_transform (upstream, with the DH2 constructor)
 #include "gameswf/gameswf_as_classes/as_event.h"            // gameswf::as_event (upstream)
+#include "gameswf/gameswf_listener.h"                       // gameswf::listener
 
 namespace gameswf {
 
@@ -132,15 +128,14 @@ as_color_transform::as_color_transform(player* p, const cxform* cx)
 as_event::as_event(player* p)
 	: as_object(p)
 {
-	// The binary also zeroes a 13-byte local (an array<weak_ptr<as_object>> of 12 bytes, then one flag byte), then destroys
-	// it with array::resize(0) and array::reserve(0). An empty array frees nothing, so neither call has an effect, and the
-	// local is not written. The upstream as_event.cpp declares a listener local here, which is not the binary's layout.
-	// The vptr store (the as_event vtable) is the implicit one.
+	// The binary zeroes a 16-byte local (the listener: an array<weak_ptr<as_object>> with its borrowed flag) and destroys it
+	// at once with array::resize(0) and array::reserve(0). An empty array frees nothing, so neither call has an effect.
+	// The upstream as_event.cpp declares the same local. The vptr store (the as_event vtable) is the implicit one.
+	listener unused;
 }
 
 }  // namespace gameswf
 
-#endif  // DH2_AS_OBJECT_HEADER_OK
 
 // Not written here (no body in this batch; see the header comment): the destructors at 0x7d97a8, 0x7d9cac, 0x7d9d88,
 // 0x7daaf4, 0x7dac24, 0x7dae70, 0x7dafb8, and the as_mouse_event constructors at 0x7dae08 and 0x7dae3c.

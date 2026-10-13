@@ -5,16 +5,17 @@
 //       definitions in upstream/gameswf-r1714/gameswf/gameswf_types.cpp are wrapped in #if 0, and
 //       set_lerp and set_inverse return bool in gameswf.h)
 //   smart_ptr_proxy::operator=(weak_proxy*)              (include/vendor-gameswf/smart_ptr_proxy.hpp)
-//   permanent_string::~permanent_string()                (include/vendor-gameswf/permanent_string.hpp)
+//   permanent_string::~permanent_string()                (inline in include/vendor-gameswf/permanent_string.hpp)
 //   filter_texture_cache::get_region_size_requirement_cellsize (include/vendor-gameswf/filter_texture_cache.hpp)
 //
-// Behind VENDOR_GAMESWF_DH2_CORE_HEADERS (PARTIAL, not compiled by check_tu.sh): gameswf_character.h
-//   and gameswf_dlist.h do not compile in the tree (base/tu_gc_singlethreaded_refcount.h:120, as_object
-//   is not a gc_object_collector_base). character::custom ctor and dtor, display_list::remove_display_object.
+// Also compiled: character::custom ctor and dtor (the members are declared at the binary's offsets in
+//   gameswf_character.h, so their default constructors write what the binary writes) and
+//   display_list::remove_display_object.
 //
-// No body (PARTIAL, layout or type missing; see the notes in the ledger):
-//   display_list::construct, display_list::~display_list, hash<stringi_pointer,...>::set_raw_capacity,
-//   weak_ptr<character>::get_ptr, filter_texture_cache::get_character_region.
+// Also here: display_list::remove_display_object(character*), the string_pointer hash rehash (0x755f94) and
+//   filter_texture_cache::get_character_region (0x758a80).
+// No body here: display_list::construct and ~display_list (vendor-gameswf/src/v1-vendor-gameswf-gameswf_dlist-d5206d-2.cpp) and
+//   weak_ptr<character>::get_ptr (the upstream template of base/weak_ptr.h).
 //
 // Skipped (compiler clones, body identical to a function in this batch or in another batch):
 //   0x43c404, 0x7c1330 smart_ptr_proxy::operator=(weak_proxy*) [clone] (argument folded to nullptr)
@@ -26,14 +27,14 @@
 
 #include "gameswf/gameswf.h"
 #include "vendor-gameswf/filter_texture_cache.hpp"
+#include "vendor-gameswf/gameswf_dh2_hash.hpp"  // dh2_hash_access::set_raw_capacity
+#include "vendor-gameswf/permanent_string_cache.hpp"  // stringi_pointer, string_pointer_hash_functor
 #include "vendor-gameswf/gameswf_alloc.hpp"
 #include "vendor-gameswf/permanent_string.hpp"
 #include "vendor-gameswf/smart_ptr_proxy.hpp"
 
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
 #include "gameswf/gameswf_character.h"
 #include "gameswf/gameswf_dlist.h"
-#endif
 
 namespace gameswf {
 namespace {
@@ -222,13 +223,37 @@ void smart_ptr_proxy::operator=(weak_proxy* p)
 }
 
 // 0x752e64 gameswf::permanent_string::~permanent_string()
-// Frees the buffer at +0x0c only when the flag byte at +0x00 is 0xff.
-permanent_string::~permanent_string()
+// Defined inline in include/vendor-gameswf/permanent_string.hpp: permanent_string is a tu_string, and ~tu_string frees the
+// heap text exactly as the binary does (0x41fed8).
+
+// 0x755f94 gameswf::hash<gameswf::stringi_pointer, gameswf::character*, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >::set_raw_capacity(int)
+// The display list's name table. The same rehash as the other DH2 tables (minimum 4 entries, power of two from the
+// single-precision logf; 16-byte entries with the one-word key at +8 and the character pointer at +12; each live entry
+// is add()ed to the new table and cleared), through the shared body.
+template <>
+void ::hash<gameswf::stringi_pointer, gameswf::character*, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >::set_raw_capacity(int new_size)
 {
-	if (unk_0x00 == -1)
+	dh2_hash_access::set_raw_capacity(*this, new_size);
+}
+
+// 0x758a80 gameswf::filter_texture_cache::get_character_region(gameswf::character*, int, int)
+// The key is four words: the character pointer, its sign extension (zero for the pointers of the 32-bit build; the
+// host key keeps the pointer at pointer width) and two zero words. A hit returns the stored region (the table value,
+// whatever it is). A miss rounds the size up to whole cells and takes a free region of that size; the table is not
+// changed here (filter_engine::run stores the region in its own cache).
+texture_cache::region* filter_texture_cache::get_character_region(character* ch, int width, int height)
+{
+	int w = width;
+	int h = height;
+	key lookup;
+	lookup.unk_0 = reinterpret_cast<std::uintptr_t>(ch);
+	region* found = nullptr;
+	if (m_used.get(lookup, &found))
 	{
-		free_internal(unk_0x0c, 0);
+		return found;
 	}
+	get_region_size_requirement_cellsize(w, h);
+	return find_available_region(w, h);
 }
 
 // 0x756cdc gameswf::filter_texture_cache::get_region_size_requirement_cellsize(int&, int&)
@@ -273,55 +298,29 @@ int filter_texture_cache::get_region_size_requirement_cellsize(int& width, int& 
 	return remainder;
 }
 
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
-// The bodies below need gameswf_character.h and gameswf_dlist.h, which do not compile in the tree
-// yet. They are PARTIAL until those headers build.
-
 // 0x412160 gameswf::character::custom::custom()
-// PARTIAL: the identity colour transform and matrix are written as the binary does. The high byte of
-// the word at +0x5c is not reproduced: the binary keeps the top byte of the old contents (masked with
-// 0xfe into byte +0x5f), and a constructor cannot read it. The top byte is written as 0 here.
-character::custom::custom()
+// The members are declared in gameswf_character.h at the offsets of the binary: an identity colour transform
+// (+0x00), an identity matrix (+0x20), an empty effect (+0x38, blend mode 0 and an empty filter array), an empty
+// tu_string name (+0x4c, hash cache "not computed" with the interned bit clear) and three zeroed words (+0x60 the
+// display callback, +0x64 its user pointer, +0x68 the scene node). The default constructors of those members write
+// exactly what the binary writes.
+character::custom::custom() :
+	m_display_callback(nullptr),
+	m_display_callback_user_ptr(nullptr),
+	m_scene_node(nullptr)
 {
-	for (int i = 0; i < 8; i += 2)
-	{
-		unk_0x00[i] = 1.0f;
-		unk_0x00[i + 1] = 0.0f;
-	}
-	m_matrix.m_[0][0] = 1.0f;
-	m_matrix.m_[0][1] = 0.0f;
-	m_matrix.m_[0][2] = 0.0f;
-	m_matrix.m_[1][0] = 0.0f;
-	m_matrix.m_[1][1] = 1.0f;
-	m_matrix.m_[1][2] = 0.0f;
-	unk_0x38 = 0;
-	unk_0x3c = nullptr;
-	unk_0x40 = 0;
-	unk_0x44 = 0;
-	unk_0x48 = 0;
-	unk_0x4c = 1;
-	unk_0x4d = 0;
-	unk_0x5c = 0x00ffffffu;  // PARTIAL: top byte, see above
-	unk_0x60 = 0;
-	unk_0x64 = 0;
-	unk_0x68 = 0;
 }
 
 // 0x7533c0 gameswf::character::custom::~custom()
-// PARTIAL: the binary loops over the array<filter> at +0x3c when its count is negative (signed compare),
-// zeroing 44-byte filter entries, then calls array<filter>::reserve(0). filter is not declared, so neither
-// step is written here.
+// The binary frees the name's heap buffer (flag 0xff at +0x4c, pointer at +0x58) and then empties the filter array
+// at +0x3c (it zeroes the elements of a negative count, then reserve(0)). The members do the same in reverse
+// declaration order: m_name, then m_effect (effect::~effect), then the matrix and the colour transform.
 character::custom::~custom()
 {
-	if (unk_0x4c == 0xff)
-	{
-		free_internal(unk_0x58, 0);
-	}
-	unk_0x40 = 0;
 }
 
 // 0x756564 gameswf::display_list::remove_display_object(gameswf::character*)
-// PARTIAL: the binary returns the index from get_character_by_ptr when it is negative (an int function
+// The binary returns the index from get_character_by_ptr when it is negative (an int function
 // in Hex-Rays), and otherwise the r0 of the tail call to remove(). Upstream remove is void, so the
 // function is void here and the negative-index return value is dropped.
 void display_list::remove_display_object(character* ch)
@@ -332,6 +331,5 @@ void display_list::remove_display_object(character* ch)
 		remove(index);
 	}
 }
-#endif  // VENDOR_GAMESWF_DH2_CORE_HEADERS
 
 }  // namespace gameswf

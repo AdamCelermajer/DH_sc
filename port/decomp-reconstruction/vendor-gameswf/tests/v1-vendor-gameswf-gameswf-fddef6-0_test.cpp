@@ -8,7 +8,10 @@
 // engine's constructor and destructor belong to other batches or categories, so this file
 // defines stand-ins for them.
 //
-//   bash tools/trackb/check_tu.sh --test <this file> <batch .cpp> <gameswf-r1714 base/utf8.cpp>
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
 
 #include <cmath>
 #include <cstdint>
@@ -60,8 +63,13 @@ void* operator new(std::size_t size, swf::MemHint hint) {
     return SwfAlloc(static_cast<unsigned>(size), hint);
 }
 
+// filter_engine derives from texture_cache (its constructor builds the texture through the glitch render handler, which
+// this test does not have), so the stand-ins cover the base as well.
 namespace gameswf {
-filter_engine::filter_engine() { ++g_fe_ctor_calls; }
+void ref_counted::drop_ref() {}  // texture_cache::m_texture is a smart_ptr<bitmap_info>
+texture_cache::texture_cache(int, int, int bpp, bool) : m_bpp(bpp) {}
+texture_cache::~texture_cache() {}
+filter_engine::filter_engine() : filter_texture_cache(256, 256, 4, false) { ++g_fe_ctor_calls; }
 filter_engine::~filter_engine() { ++g_fe_dtor_calls; }
 }  // namespace gameswf
 
@@ -185,11 +193,17 @@ static void test_allocators() {
 static void test_filter_engine() {
     g_fe_ctor_calls = g_fe_dtor_calls = 0;
     EXPECT(gameswf::filter_engine::s_instance == nullptr);
-    EXPECT(sizeof(gameswf::filter_engine) == 0x68);
+    // The object is the texture_cache base plus its own members (0x68 bytes with 32-bit pointers).
+    EXPECT(sizeof(gameswf::filter_engine) > sizeof(gameswf::texture_cache));
 
+    g_alloc2_calls = 0;
     gameswf::create_filter_engine();
     EXPECT(gameswf::filter_engine::s_instance != nullptr);
     EXPECT(g_fe_ctor_calls == 1);
+    // One allocation with hint 0, big enough for the host object (0x68 bytes only with 32-bit pointers).
+    EXPECT(g_alloc2_calls == 1);
+    EXPECT(g_last_size == sizeof(gameswf::filter_engine));
+    EXPECT(g_last_hint == 0);
     gameswf::filter_engine* first = gameswf::filter_engine::s_instance;
 
     gameswf::create_filter_engine();  // already created: no second object

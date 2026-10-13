@@ -12,7 +12,6 @@
 #include "base/weak_ptr.h"
 #include "gameswf/gameswf_function.h"
 #include "gameswf/gameswf_jit.h"
-#include "vendor-gameswf/abc_info.hpp"  // DH2: replaces traits_info (#if 0 below) and instance_info (gameswf_abc.h)
 
 namespace gameswf
 {
@@ -24,7 +23,10 @@ namespace gameswf
 		Uint8 m_kind;
 	};
 
-#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/abc_info.hpp (binary layout: m_metadata at +0x24) */
+	// DH2: 0x34 bytes (new traits_info(), 0x34, in the readers): ref_counted +0x00, m_name +0x0c, m_kind +0x10, m_attr +0x11,
+	// DH2: the trait union +0x14 (16 bytes; the slot case has m_vkind at +0x20), m_metadata +0x24 (array<int>, 16 bytes with its
+	// DH2: borrowed flag at +0x30). The same as r1714; the earlier V1 header modelled the array as 12 bytes.
+	// DH2: vtable off_991240: the two destructor slots (D1 0x7b9c18, D0 0x7ba5e4); read() is 0x7b8384.
 	struct traits_info : public ref_counted
 	{
 		enum kind
@@ -84,8 +86,9 @@ namespace gameswf
 		array<int> m_metadata;
 
 		void	read(stream* in, abc_def* abc);
+
+		~traits_info();	// DH2: 0x7b9c18 (D1); the body is empty, the array member and ref_counted are destroyed after it
 	};
-#endif  // DH2: traits_info replaced, see above
 
 	struct except_info : public ref_counted
 	{
@@ -119,8 +122,17 @@ namespace gameswf
 			HAS_PARAM_NAMES = 0x80
 		};
 
-		weak_ptr<as_object>	m_target;
+		// DH2: 0xbc bytes (operator new(0xbc) in abc_def::read): as_function (0x3c) + m_target +0x3c (weak, proxy +0x3c, pointer
+		// DH2: +0x40), m_abc +0x44, m_return_type +0x48, m_param_type +0x4c, m_name +0x5c, m_flags +0x60, m_options +0x64, m_method
+		// DH2: +0x74, m_max_stack +0x78, m_local_count +0x7c, m_init_scope_depth +0x80, m_max_scope_depth +0x84, m_code +0x88 (membuf,
+		// DH2: 16 bytes), m_exception +0x98, m_trait +0xa8, m_compiled_code +0xb8 (the empty jit_function, padded to 4 bytes).
+		// DH2: Every array is 16 bytes with its borrowed flag. Vtable off_991318: +0x08 is(int) 0x7c28a4, the two destructors
+		// DH2: (D1 0x7c3048, D0 0x7c31bc... see the ledger) and operator() +0x64 (0x7c4130).
+		weak_ptr<as_object>	m_target;	// +0x3c, the constructor points it at the function itself
+		#if 0 /* DH2: the binary holds the ABC definition strongly (the constructor add_refs it, the destructor drops it) */
 		weak_ptr<abc_def> m_abc;
+		#endif /* DH2 */
+		smart_ptr<abc_def> m_abc;	// DH2: +0x44
 
 		// method_info
 		int m_return_type;
@@ -139,24 +151,29 @@ namespace gameswf
 		int m_init_scope_depth;
 		int m_max_scope_depth;
 		membuf m_code;
-		array<gc_ptr<except_info> > m_exception;
-		array<gc_ptr<traits_info> > m_trait;
-		jit_function m_compiled_code;
+		array<gc_ptr<except_info> > m_exception;	// +0x98 (array<smart_ptr<except_info> > in the binary)
+		array<gc_ptr<traits_info> > m_trait;	// +0xa8
+		jit_function m_compiled_code;	// +0xb8, empty class: JIT is off in the DH2 build
 
 		as_3_function(abc_def* abc, int method, player* player);
-		~as_3_function();
+		~as_3_function();	// DH2: 0x7c3048 (D1), 0x7c31bc (D2, same body); D0 0x7c32e0 is compiler-generated
 
 		// Dispatch.
 		virtual void	operator()(const fn_call& fn);
 
+		#if 0 /* DH2: replaced by the four-argument form below (0x7c35fc); the binary has no compile(), compile_stack_resize() or get_multiname(int, vm_stack&) */
 		void	execute(array<as_value>& lregister, as_environment* env, as_value* result);
 		void	compile();
 
 		void	compile_stack_resize(int count);
-		void	read(stream* in);
-		void	read_body(stream* in);
+		#endif /* DH2 */
+		void	execute(array<as_value>& lregister, array<as_value>& stack, array<as_value>& scope, as_value* result);	// DH2: 0x7c35fc
+		void	read(stream* in);	// DH2: 0x7c2e50
+		void	read_body(stream* in);	// DH2: 0x7c2c60
 
+		#if 0 /* DH2: not in the binary */
 		tu_string get_multiname(int index, vm_stack & stack) const;
+		#endif /* DH2 */
 
 	};
 

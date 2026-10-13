@@ -22,7 +22,7 @@ namespace gameswf
 	struct as_object;
 	struct as_environment;
 
-	exported_module bool string_to_number(int* result, const char* str, int base = 10);
+	exported_module bool string_to_number(int* result, const char* str);	// DH2: 0x7a5974, base 10 only (r1714 has a third argument, base = 10)
 	exported_module bool string_to_number(double* result, const char* str);
 
 	typedef void (*as_c_function_ptr)(const fn_call& fn);

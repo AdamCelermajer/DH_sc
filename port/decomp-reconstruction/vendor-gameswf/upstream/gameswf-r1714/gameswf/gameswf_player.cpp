@@ -86,7 +86,9 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: no counterpart in the binary (the DH2 constructor and destructor do not count players) */
 	int player::s_player_count = 0;
+#endif /* DH2 */
 
 	// standard method map, this stuff should be high optimized
 
@@ -443,6 +445,7 @@ namespace gameswf
 	//	player
 	//
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_player-e0b31b-0.cpp */
 	player::player() :
 		m_force_realtime_framerate(false),
 		m_log_bitmap_info(false)
@@ -508,6 +511,7 @@ namespace gameswf
 
 		action_clear();
 	}
+#endif /* DH2: player::player, player::~player */
 
 	void player::set_flash_vars(const tu_string& param)
 	// Allow pass user variables to Flash
@@ -526,6 +530,7 @@ namespace gameswf
 	}
 
 	void	as_global_trace(const fn_call& fn);
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_player-e0b31b-0.cpp */
 	void	player::action_init()
 	// Create/hook built-ins.
 	{
@@ -587,7 +592,7 @@ namespace gameswf
 		m_global->builtin_member("$version", as_value(as_global_get_version, as_value()));
 		m_global->builtin_member("updateAfterEvent", as_global_update_after_event);
 	}
-
+#endif /* DH2: player::action_init */
 
 #if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_player-e0b31b-0.cpp */
 	void	player::action_clear()
@@ -660,7 +665,7 @@ namespace gameswf
 	}
 
 	// library stuff, for sharing resources among different movies.
-	string_hash<gc_ptr<character_def> >* player::get_chardef_library()
+	stringi_hash<gc_ptr<character_def> >* player::get_chardef_library()	// DH2: stringi_hash
 	{
 		return &m_chardef_library;
 	}
@@ -668,7 +673,7 @@ namespace gameswf
 	const char* player::get_root_filename(const character_def* rdef)
 	// get filename by root movie definition
 	{
-		for (string_hash<gc_ptr<character_def> >::iterator it = m_chardef_library.begin();
+		for (stringi_hash<gc_ptr<character_def> >::iterator it = m_chardef_library.begin();
 			it != m_chardef_library.end(); ++it)
 		{
 			if (it->second == rdef)
@@ -683,7 +688,7 @@ namespace gameswf
 	// Drop all library references to movie_definitions, so they
 	// can be cleaned up.
 	{
-		for (string_hash<gc_ptr<character_def> >::iterator it = 
+		for (stringi_hash<gc_ptr<character_def> >::iterator it = 
 			m_chardef_library.begin(); it != m_chardef_library.end(); ++it)
 		{
 			if (gc_collector::debug_get_ref_count(it->second) > 1)
@@ -805,6 +810,7 @@ namespace gameswf
 		return m;
 	}
 
+#if 0 /* DH2: no counterpart in the binary; the garbage manager is vendor-gameswf/src/v1-vendor-gameswf-gameswf_player-e0b31b-0.cpp (clear_heap, clear_garbage) and as_object::this_alive */
 	const bool player::get_force_realtime_framerate() const
 	{
 		return m_force_realtime_framerate;
@@ -883,6 +889,7 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2: force_realtime_framerate accessors, set_alive, is_garbage, clear_heap, clear_garbage */
 
 	bool player::use_separate_thread()
 	{

@@ -41,6 +41,22 @@ OPENING = [(B_ZERO, S_ZERO), (B_SMALL, S_SMALL), (B_PTR, S_MIXED), (B_BYTE_SPARS
            (B_WORD_SPARSE, S_MIXED), (B_MIXED, S_BOUNDARY), (B_PTR, S_RANGE)]
 
 
+# sizes of the fundamental types the record layouts print, for the element size of a std::vector member
+AUX_SIZE = 1024        # pointee blocks that pointer-valued words refer to (large enough for offsets of big game objects)
+FUND_SIZE = {"_Bool": 1, "bool": 1, "char": 1, "signed char": 1, "unsigned char": 1, "uint8_t": 1, "std::uint8_t": 1, "int8_t": 1,
+             "std::int8_t": 1, "short": 2, "unsigned short": 2, "int16_t": 2, "uint16_t": 2, "std::int16_t": 2, "std::uint16_t": 2,
+             "int": 4, "unsigned int": 4, "float": 4, "long": 4, "unsigned long": 4, "int32_t": 4, "uint32_t": 4, "std::int32_t": 4,
+             "std::uint32_t": 4, "double": 8, "long long": 8, "unsigned long long": 8, "int64_t": 8, "uint64_t": 8}
+
+
+def _strip_kw(t: str) -> str:
+    t = t.strip()
+    for kw in ("class ", "struct ", "union ", "const "):
+        while t.startswith(kw):
+            t = t[len(kw):]
+    return t.strip()
+
+
 def f2b(x: float) -> int:
     try:
         return struct.unpack("<I", struct.pack("<f", x))[0]
@@ -68,7 +84,10 @@ class Case:
 
 
 class CaseGen:
-    def __init__(self, sig: abi.IRSig, func_key: int, seed: int, *, this_size: int = 0, vptr_value: int | None = None):
+    def __init__(self, sig: abi.IRSig, func_key: int, seed: int, *, this_size: int = 0, vptr_value: int | None = None,
+                 layouts: dict | None = None, param_recs: dict | None = None):
+        self.layouts = layouts or {}
+        self.param_recs = param_recs or {}         # IR parameter index -> record layout of the object it points to
         self.sig = sig
         self.func_key = func_key
         self.seed = seed
@@ -171,6 +190,59 @@ class CaseGen:
                 buf[ln] = 0
         return buf[:size]
 
+    def _elem_size(self, t: str) -> int:
+        t = _strip_kw(t)
+        if t.endswith("*"):
+            return 4
+        if t in FUND_SIZE:
+            return FUND_SIZE[t]
+        rec = self.layouts.get(t)
+        return max(1, rec["size"]) if rec and rec.get("size") else 4
+
+    def _typed_fill(self, rng, buf: bytearray, rec: dict, base: int, depth: int, alloc, bstyle: int, ptr_pool) -> None:
+        """Values the layout says must hold: bool members 0 or 1, std::vector members a valid begin/end/capacity triple,
+        by-value members and base classes filled the same way. Everything else keeps the style's random bytes."""
+        if depth > 4 or not rec:
+            return
+        for f in rec.get("fields", []):
+            off, ty, name = f[0], f[1], f[2]
+            at = base + off
+            if ty == "base":
+                self._typed_fill(rng, buf, self.layouts.get(_strip_kw(name)), at, depth + 1, alloc, bstyle, ptr_pool)
+                continue
+            if ty == "vptr" or len(f) > 3 or at >= len(buf):
+                continue
+            t = _strip_kw(ty)
+            if t in ("_Bool", "bool"):
+                buf[at] = 0 if bstyle == B_ZERO else rng.getrandbits(1)
+            elif t.endswith("*") and "(" not in t and at + 4 <= len(buf):
+                # a pointer member holds null or the address of a block, never a stray small integer
+                v = 0 if (bstyle == B_ZERO or rng.random() < 0.25 or not ptr_pool) else rng.choice(ptr_pool)
+                buf[at:at + 4] = struct.pack("<I", v)
+            elif t.startswith("std::vector<") and at + 12 <= len(buf):
+                inner = t[len("std::vector<"):]
+                depth_a, j = 0, 0
+                while j < len(inner):
+                    ch = inner[j]
+                    if ch == "<":
+                        depth_a += 1
+                    elif ch == ">":
+                        if depth_a == 0:
+                            break
+                        depth_a -= 1
+                    elif ch == "," and depth_a == 0:
+                        break
+                    j += 1
+                es = self._elem_size(inner[:j])
+                n = 0 if bstyle == B_ZERO else rng.choice([0, 0, 1, 2, 3, 4])
+                n = min(n, 256 // max(es, 1))
+                a = alloc(max(16, es * max(n, 1) + 16))
+                if a:
+                    end = a + es * n
+                    buf[at:at + 12] = struct.pack("<III", a, end, end + es * rng.choice([0, 1, 2]))
+            elif ty.startswith(("class ", "struct ")) and not ty.rstrip().endswith("*") and not t.startswith("std::"):
+                self._typed_fill(rng, buf, self.layouts.get(t), at, depth + 1, alloc, bstyle, ptr_pool)
+
     def make(self, index: int) -> Case:
         rng = random.Random((self.seed * 1000003 + self.func_key * 7919 + index * 104729) & 0xFFFFFFFFFFFF)
         if index < len(OPENING):
@@ -207,19 +279,33 @@ class CaseGen:
         pool_blocks = []
         for k in range(3):
             cursor = (cursor + 15) & ~15
-            regions.append(Region(f"aux{k}", cursor, 96))
+            regions.append(Region(f"aux{k}", cursor, AUX_SIZE))
             pool_blocks.append(cursor)
-            cursor += 96 + 32
+            cursor += AUX_SIZE + 32
         ptr_pool = list(addr_of.values()) + pool_blocks
         assert cursor < ARENA_BASE + ARENA_SIZE
 
+        vec_cursor = [cursor]
+
+        def alloc(size: int) -> int:
+            a = (vec_cursor[0] + 15) & ~15
+            if a + size + 32 >= ARENA_BASE + ARENA_SIZE:
+                return 0
+            vec_cursor[0] = a + size + 16
+            regions.append(Region("vec", a, size))
+            buffers.append((a, bytes(self._fill(rng, size, bstyle, ptr_pool))))
+            return a
+
         for i, role, size in plan:
             buf = self._fill(rng, size, bstyle, ptr_pool)
+            rec = self.param_recs.get(i)
+            if rec is not None:
+                self._typed_fill(rng, buf, rec, 0, 0, alloc, bstyle, ptr_pool)
             if role == "this" and self.vptr_value is not None and size >= 4:
                 buf[0:4] = struct.pack("<I", self.vptr_value)
             buffers.append((addr_of[i], bytes(buf)))
         for a in pool_blocks:
-            buffers.append((a, bytes(self._fill(rng, 96, bstyle, ptr_pool))))
+            buffers.append((a, bytes(self._fill(rng, AUX_SIZE, bstyle, ptr_pool))))
 
         # scalar and pointer parameters, then AAPCS placement
         values: list[list[int]] = []

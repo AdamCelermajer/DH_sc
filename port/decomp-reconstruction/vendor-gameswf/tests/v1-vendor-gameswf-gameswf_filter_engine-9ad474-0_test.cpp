@@ -1,13 +1,29 @@
-// Tests for the pure passes of gameswf::filter_engine (batch v1-vendor-gameswf-gameswf_filter_engine-9ad474-0).
-// The gaussian kernel and the texture_cache base are owned by other rows, so the test supplies a
-// flat kernel and empty base functions. Build: check_tu.sh --test <this file> <batch .cpp>.
+// Tests for gameswf::filter_engine (batch v1-vendor-gameswf-gameswf_filter_engine-9ad474-0): the pure passes, the constructor
+// (it builds a 256 x 256 texture cache through the current render handler) and read_frame_buffer.
+// The gaussian kernel is another row's, so the test supplies a flat kernel; the character, colour transform and region lookup
+// that run and collect_filtered_characters need are link-only stand-ins here (they are not called). The texture cache base, the
+// fake texture and handler and the other stand-ins are test-support/dh2_texture_stubs.hpp.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_filter_engine-9ad474-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_texture_cache-d731ee-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_render_handler-1ca9d1-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
 
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
+#include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_log.h"
 #include "vendor-gameswf/filter.hpp"
 #include "vendor-gameswf/filter_engine.hpp"
+#include "../test-support/dh2_texture_stubs.hpp"
 
 namespace {
 float g_kernel_value = 1.0f;
@@ -21,7 +37,38 @@ void gaussian_kernel(float* kernel, int radius) {
     for (int i = 0; i < 257; ++i) kernel[i] = g_kernel_value;
 }
 
+// The alpha-to-scale table of the binary (pack21 defines the real one): the identity, so the scale is 255 / alpha.
+extern const std::uint8_t sqrt_table[256] = {
+#define R4(n) n, n + 1, n + 2, n + 3
+#define R16(n) R4(n), R4(n + 4), R4(n + 8), R4(n + 12)
+#define R64(n) R16(n), R16(n + 16), R16(n + 32), R16(n + 48)
+    R64(0), R64(64), R64(128), R64(192)
+#undef R64
+#undef R16
+#undef R4
+};
+
+// Not reached by these tests (run and collect_filtered_characters need characters and a root).
+void character::set_cxform(const cxform&) { std::abort(); }
+void character::set_matrix(const matrix&) { std::abort(); }
+const cxform* character::get_world_cxform() { std::abort(); }
+const matrix* character::get_world_matrix() { std::abort(); }
+cxform::cxform() {
+    for (int i = 0; i < 4; ++i) {
+        m_[i][0] = 1.0f;
+        m_[i][1] = 0.0f;
+    }
+}
+rgba cxform::transform(rgba c) const { return c; }
+void log_error(const char*, ...) {}
+texture_cache::region* filter_texture_cache::get_character_region(character*, int, int) { std::abort(); }
+
 }  // namespace gameswf
+
+template <>
+void hash<gameswf::character*, gameswf::filter_cache_infos, fixed_size_hash<gameswf::character*> >::set_raw_capacity(int new_size) {
+    dh2_hash_access::set_raw_capacity(*this, new_size);
+}
 
 using gameswf::filter;
 using gameswf::filter_engine;
@@ -280,7 +327,79 @@ static void test_glow_pass_is_empty() {
     CHECK(buf[0] == 1 && buf[1] == 2 && buf[2] == 3 && buf[3] == 4);
 }
 
+// A handler that hands out fake textures and answers read_frame_buffer with a canned frame.
+struct frame_handler : gameswf::test::texture_handler {
+    std::uint8_t frame[64] = {};
+    int reads = 0;
+    int last_x = 0, last_y = 0, last_w = 0, last_h = 0;
+    unsigned char* last_buffer = nullptr;
+
+    void read_frame_buffer(int x, int y, int w, int h, unsigned char* pixels) override {
+        ++reads;
+        last_x = x;
+        last_y = y;
+        last_w = w;
+        last_h = h;
+        last_buffer = pixels;
+        std::memcpy(pixels, frame, static_cast<std::size_t>(4 * w * h));
+    }
+};
+
+static void test_constructor() {
+    frame_handler h;
+    gameswf::s_render_handler = &h;
+    {
+        filter_engine eng;
+        // texture_cache(256, 256, 4, false): a cleared rgba image goes to the rgba factory, then reset() builds the 16 x 16 cell grid.
+        CHECK(h.rgba_calls == 1);
+        CHECK(h.rgba_image_was_clear);
+        CHECK(h.last_width == 256 && h.last_height == 256);
+        CHECK(eng.m_bpp == 4);
+        CHECK(eng.m_regions.size() == 256);
+        CHECK(eng.m_free.size() == 1);
+        CHECK(eng.m_current == nullptr);
+        CHECK(eng.m_filtered_characters.size() == 0);
+        CHECK(eng.m_pixels.size() == 0);
+    }
+    gameswf::s_render_handler = nullptr;
+}
+
+static void test_read_frame_buffer() {
+    frame_handler h;
+    gameswf::s_render_handler = &h;
+    {
+        filter_engine eng;
+        // Four pixels, bytes b0 b1 b2 alpha.
+        const std::uint8_t src[16] = {
+            10, 20, 30, 255,  // opaque: first and third bytes swap
+            20, 40, 60, 128,  // partial alpha: swapped and scaled by 255 / table[128]
+            5, 6, 7, 0,       // transparent: swapped, not scaled
+            1, 2, 3, 4,       // the last pixel is never converted (the binary's loop stops one pixel early)
+        };
+        std::memcpy(h.frame, src, sizeof src);
+        eng.read_frame_buffer(3, 5, 4, 1);
+        CHECK(h.reads == 1);
+        CHECK(h.last_x == 3 && h.last_y == 5 && h.last_w == 4 && h.last_h == 1);
+        CHECK(eng.m_pixels.size() == 16);
+        CHECK(h.last_buffer == &eng.m_pixels[0]);
+        CHECK(eng.m_pixels[0] == 30 && eng.m_pixels[1] == 20 && eng.m_pixels[2] == 10 && eng.m_pixels[3] == 255);
+        // 255 / 128 = 1.9921875: 60 -> 119, 40 -> 79, 20 -> 39; the alpha 128 -> 255.
+        CHECK(eng.m_pixels[4] == 119 && eng.m_pixels[5] == 79 && eng.m_pixels[6] == 39 && eng.m_pixels[7] == 255);
+        CHECK(eng.m_pixels[8] == 7 && eng.m_pixels[9] == 6 && eng.m_pixels[10] == 5 && eng.m_pixels[11] == 0);
+        CHECK(eng.m_pixels[12] == 1 && eng.m_pixels[13] == 2 && eng.m_pixels[14] == 3 && eng.m_pixels[15] == 4);
+
+        // The pixel array only grows: a smaller read keeps the size.
+        eng.read_frame_buffer(0, 0, 1, 1);
+        CHECK(eng.m_pixels.size() == 16);
+        // A one-pixel read converts nothing (the loop runs while the count is not 1).
+        CHECK(eng.m_pixels[0] == h.frame[0]);
+    }
+    gameswf::s_render_handler = nullptr;
+}
+
 int main() {
+    test_constructor();
+    test_read_frame_buffer();
     test_blend();
     test_copy();
     test_clear();

@@ -9,7 +9,7 @@
 #include "gameswf/gameswf_action.h"	// for as_object
 #include "gameswf/gameswf_character.h"
 #include "gameswf/gameswf_as_classes/as_color_transform.h"
-#include "vendor-gameswf/as_transform.hpp"	// DH2: the Gameloft layout replaces the struct below (empty until DH2_AS_OBJECT_HEADER_OK)
+#include "vendor-gameswf/as_transform.hpp"	// DH2: the Gameloft layout replaces the struct below
 
 namespace gameswf
 {

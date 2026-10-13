@@ -1,11 +1,16 @@
 // Test for batch v1-vendor-gameswf-pack9-22190e-0 (gameswf::final_shape: add_curve, merge_segment, end_path,
 // the segment push_back and the destructor).
-//   bash tools/trackb/check_tu.sh --test <this file> port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack9-22190e-0.cpp
+// (the test-support file gives the containers their allocator: gameswf::malloc_internal and friends).
 //
 // The batch .cpp also holds triangle_intersector and flush. Those call the GLU tessellator and the
 // tesselator_accepter bodies (another batch). This test supplies no-op stand-ins for exactly those symbols so the
 // .cpp links. Only the final_shape logic runs for real; process and flush are not exercised. The curve body
 // (0x786670) is in upstream gameswf_tesselate.cpp and is not linked here.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack9-22190e-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
 
 #include <cstdio>
 #include <initializer_list>
@@ -165,7 +170,6 @@ static void test_end_path_keep() {
     CHECK(fs.m_segments.size() == 1);
     CHECK(fs.m_cur.m_points.size() == 0);
     CHECK(same(fs.m_segments[0].m_points, {{0.0f, 0.0f}, {1.0f, 0.0f}}));
-    CHECK(!fs.m_segments[0].m_flag);
 }
 
 static void test_end_path_merges() {
@@ -187,7 +191,6 @@ static void test_end_path_no_merge_pushes() {
     fs.end_path();
     CHECK(fs.m_segments.size() == 2);
     CHECK(same(fs.m_segments[1].m_points, {{7.0f, 7.0f}, {8.0f, 8.0f}}));
-    CHECK(!fs.m_segments[1].m_flag);
 }
 
 static void test_end_path_empty_is_noop() {

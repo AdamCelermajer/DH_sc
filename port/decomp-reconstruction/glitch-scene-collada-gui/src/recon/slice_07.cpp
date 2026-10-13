@@ -166,18 +166,6 @@ boost::intrusive_ptr<scene::IMesh> createMeshWelded(const boost::intrusive_ptr<s
 
 // SAnimatedMesh (0x59a000 .. 0x59ae64) and createAnimatedMesh (0x59ae1c): canonical in src/scene/SAnimatedMesh.cpp.
 
-// 0x59af20 _ZN6glitch5scene12getPolyCountERKN5boost13intrusive_ptrINS0_5IMeshEEE
-// Partial: the primitive count of each buffer needs CPrimitiveStream; returns 0.
-std::int32_t getPolyCount(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/) {
-    return 0;
-}
-
-// 0x59afb8 _ZN6glitch5scene12getPolyCountERKN5boost13intrusive_ptrINS0_13IAnimatedMeshEEE
-// Partial: needs the IMesh vtable slots (+0x30, +0x34); returns 0.
-std::int32_t getPolyCount(const boost::intrusive_ptr<scene::IAnimatedMesh>& /*mesh*/) {
-    return 0;
-}
-
 // 0x59b084 _ZN6glitch5scene12flipSurfacesERKN5boost13intrusive_ptrINS0_5IMeshEEE
 // Partial stub: 3.9 KB of pseudocode, not reconstructed in this pass.
 boost::intrusive_ptr<scene::IMesh> flipSurfaces(const boost::intrusive_ptr<scene::IMesh>& mesh) {
@@ -210,15 +198,6 @@ void setVertexColorAlpha(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, int
 // 0x59c198 _ZN6glitch5scene24makePlanarTextureMappingERKN5boost13intrusive_ptrINS0_5IMeshEEEf
 // Partial stub: 9.5 KB of pseudocode, not reconstructed in this pass.
 void makePlanarTextureMapping(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, float /*scale*/) {}
-
-// 0x59c7a4 _ZN6glitch5scene11scaleTCoordsERKN5boost13intrusive_ptrINS0_11CMeshBufferEEERKNS_4core8vector2dIfEE
-// Partial stub: 2.1 KB of pseudocode, not reconstructed in this pass.
-void scaleTCoords(const boost::intrusive_ptr<scene::CMeshBuffer>& /*buffer*/,
-                  const core::vector2d<float>& /*scale*/) {}
-
-// 0x59c8e0 _ZN6glitch5scene11scaleTCoordsERKN5boost13intrusive_ptrINS0_5IMeshEEERKNS_4core8vector2dIfEE
-// Partial stub: 1.4 KB of pseudocode, not reconstructed in this pass.
-void scaleTCoords(const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, const core::vector2d<float>& /*scale*/) {}
 
 // 0x59c970 _ZN6glitch5scene22createMeshWithTangentsERKN5boost13intrusive_ptrINS0_5IMeshEEEPN6glitch5video12IVideoDriverE
 // Partial stub: 25 KB of pseudocode, not reconstructed in this pass.

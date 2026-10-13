@@ -20,6 +20,7 @@
 #include "vendor-gameswf/canvas.hpp"
 #include "vendor-gameswf/freetype_subset.hpp"
 #include "vendor-gameswf/image_alpha.hpp"
+#include "vendor-gameswf/glyph_texture_cache.hpp"
 #include "vendor-gameswf/texture_cache.hpp"
 
 // membuf is global in upstream (base/membuf.h, as tu_file.h declares it). face_entity's memory
@@ -96,7 +97,7 @@ struct glyph_provider {
     ::tu_string m_name;                   // +0x0c (20 bytes): the face key, the font name plus "B" and "I" suffixes
     canvas* m_canvas = nullptr;           // +0x20: released with drop_ref by the destructor
     ::hash<::tu_string, smart_ptr<face_entity>, ::string_hash_functor<::tu_string>> m_faces;  // +0x24
-    texture_cache* m_texture_cache = nullptr;  // +0x28: owned; null when there is no texture cache
+    glyph_texture_cache* m_texture_cache = nullptr;  // +0x28: owned; null when there is no texture cache
 };
 
 // Declared here; defined elsewhere in the DH2 build (not in this batch).

@@ -252,25 +252,24 @@ int buffered_write(const void* src, int bytes, void* appdata) {
 }
 
 // 0x7b6c94 int gameswf::buffered_seek(int, void*)
-// PARTIAL. The window is [m_base_pos, m_base_pos + 4096). A seek inside it (see buffered_seek_in_window) only moves
+// The window is [m_base_pos, m_base_pos + 4096). A seek inside it (see buffered_seek_in_window) only moves
 // the cursor and the offset and returns pos. Otherwise the underlying file is moved, its new position is read back
 // (tell), and the window restarts at that position with cursor and offset 0. Returns the position.
-// MISSING: the role of the word at +0x1008 (unk_1008). The seek arithmetic on it is exact, but the read path that
-// gives it meaning is not in this batch, and Hex-Rays types it as a pointer where this build keeps an intptr_t.
-// The 4096-byte pad at +0x04 is not identified either.
+// m_unread (+0x1008) is the number of unread bytes left in the window (buffered_read counts it down; Hex-Rays types it as a
+// pointer where this build keeps an intptr_t), and the 4096-byte block at +0x04 is the read window.
 int buffered_seek(int pos, void* appdata) {
     buffered_file* bf = static_cast<buffered_file*>(appdata);
     int new_offset = 0;
     std::intptr_t new_cursor = 0;
-    if (buffered_seek_in_window(pos, bf->m_base_pos, bf->unk_1008, bf->m_offset, &new_offset, &new_cursor)) {
-        bf->unk_1008 = new_cursor;
+    if (buffered_seek_in_window(pos, bf->m_base_pos, bf->m_unread, bf->m_offset, &new_offset, &new_cursor)) {
+        bf->m_unread = new_cursor;
         bf->m_offset = new_offset;
         return pos;
     }
     bf->m_file->set_position(pos);
     const int position = bf->m_file->get_position();
     bf->m_base_pos = position;
-    bf->unk_1008 = 0;
+    bf->m_unread = 0;
     bf->m_offset = 0;
     return position;
 }

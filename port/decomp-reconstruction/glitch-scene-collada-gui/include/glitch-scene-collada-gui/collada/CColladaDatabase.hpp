@@ -393,6 +393,14 @@ public:
     const SDatabaseTables& tables() const { return *record->data->tables; }
     const char* fileName() const { return record ? record->fileName : nullptr; }
 
+    // The original constructors (C1 and C2 share one body). Each loads through CResFileManager::Inst and takes one reference on the
+    // loaded record (the factory is stored at +0x04). The default constructor is the empty pair the tables use as a value.
+    CColladaDatabase() = default;
+    CColladaDatabase(const char* fileName, CColladaFactory* factory);                                  // 0x60f25c, 0x60f2b0
+    CColladaDatabase(glitch::io::IReadFile* file, bool flag, CColladaFactory* factory);               // 0x60f304, 0x60f364
+    CColladaDatabase(glitch::io::IReadFile* file, CColladaFactory* factory);                          // 0x60f3c4, 0x60f42c
+    CColladaDatabase(const CColladaDatabase* source, const char* name, CColladaFactory* factory);    // 0x6192f0, 0x619344
+
     // 0x60e2a8 getVersion() const
     std::uint32_t getVersion() const;
     // 0x60e334 getAnimationClipLibrary() const

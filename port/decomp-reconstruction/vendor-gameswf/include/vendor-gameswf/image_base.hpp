@@ -3,8 +3,9 @@
 //
 // Layout, 24 bytes: vptr +0x00 (virtual destructor; the vtable has only the two destructor slots),
 // m_type +0x04, m_data +0x08, m_width +0x0c, m_height +0x10, m_pitch +0x14 (bytes from one row to the
-// next). The offsets from +0x08 on are read by the image_alpha batch. m_type is not read there. Its
-// position follows upstream's member order.
+// next). The offsets from +0x08 on are read by the image_alpha batch. m_type is not read there; the constructor
+// (0x7b5224) stores its last argument in the word at +0x04, so the position follows upstream's member order
+// (confirmed from the constructor).
 //
 // Only the declarations are here. The constructors, the destructors and gameswf::scanline are bodies
 // of the image_base batch in lib-gameswf (0x7b51dc, 0x7b5224, 0x7b526c, 0x7b527c, 0x7b59bc, 0x7b5a08,

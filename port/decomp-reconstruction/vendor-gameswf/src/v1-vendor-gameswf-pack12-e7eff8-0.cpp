@@ -12,11 +12,15 @@
 //     body is empty; the members release themselves in the same order as the binary.
 //   deleting destructors D0 0x79d72c, 0x79f3a8, 0x7a1620, 0x7a312c: the destructor, then LC_API_FREE_0.
 //
-// Blocker (not this batch): this TU does not compile in this tree. gameswf_action.h:203 needs counted_buffer,
-// and gc_ptr<as_object> instantiates tu_gc::singlethreaded_refcount::write_barrier, which converts as_object*
-// to gc_object_collector_base* (base/tu_gc_singlethreaded_refcount.h:120 and :123). The as_object batch hits
-// the same blocker. The bodies are complete; there is no test because the logic needs these headers.
+// Layouts (32-bit offsets; see the headers):
+//   as_date      0x40 bytes: as_object, then the tu_datetime base (an int64 time at +0x38).
+//   as_key       0x68 bytes: as_object, m_keymap +0x38 (28 bytes), m_last_key_pressed +0x54, m_listeners +0x58 (listener, 16 bytes).
+//   as_matrix    0x50 bytes: as_object, m_matrix +0x38 (six floats).
+//   as_mcloader  0x58 bytes: as_object, m_listeners +0x38 (listener, 16 bytes), m_lm +0x48 (array<loadable_movie>, 16 bytes).
+// The listener and the loadable_movie array are default-constructed members: their zero words and borrowed flags are the
+// array constructor's, so no separate flag member exists (the earlier V1 header modelled the arrays as 12 bytes plus a flag).
 
+#include "gameswf/gameswf_movie_def.h"  // movie_def_impl, complete for as_mcloader::loadable_movie
 #include "gameswf/gameswf_as_classes/as_date.h"
 #include "gameswf/gameswf_as_classes/as_key.h"
 #include "gameswf/gameswf_as_classes/as_matrix.h"
@@ -48,14 +52,13 @@ int64_t	as_date::get_time() const
 // 0x79f020 _ZN7gameswf6as_keyC1EPNS_6playerE
 // 0x79f088 _ZN7gameswf6as_keyC2EPNS_6playerE (same body)
 // as_object(player), then the 28-byte key map at +0x38 (KEYCOUNT 223 / 8 + 1) is zeroed, m_last_key_pressed
-// (+0x54) is 0, and the listener block at +0x58 starts empty with its flag (+0x64) cleared. The binary adds
-// no members. The vtable is set by the compiler after the base constructor.
+// (+0x54) is 0, and the listener at +0x58 starts empty (its own array constructor zeroes the 16 bytes). The vtable is set
+// by the compiler after the base constructor.
 as_key::as_key(player* p) :
 	as_object(p)
 {
 	memset(m_keymap, 0, sizeof(m_keymap));
 	m_last_key_pressed = 0;
-	unk_64 = false;
 }
 
 // 0x7a179c _ZN7gameswf9as_matrixC1EPNS_6playerEPKNS_6matrixE
@@ -90,13 +93,11 @@ as_matrix::as_matrix(player* p, const matrix* m) :
 
 // 0x7a2b54 _ZN7gameswf11as_mcloaderC2EPNS_6playerE
 // 0x7a2e0c _ZN7gameswf11as_mcloaderC1EPNS_6playerE (same body)
-// as_object(player). The listener block at +0x38 starts empty and its flag (unk_44, +0x44) is cleared. The
-// loadable_movie array at +0x48 starts empty. unk_54 (+0x54) is cleared. Then the five built-in methods.
+// as_object(player). The listener at +0x38 and the loadable_movie array at +0x48 start empty (their own constructors
+// zero the 16 bytes each, including the borrowed flags at +0x44 and +0x54). Then the five built-in methods.
 as_mcloader::as_mcloader(player* p) :
 	as_object(p)
 {
-	unk_44 = false;
-	unk_54 = false;
 	add_builtin_c_function(this, "addListener", as_mcloader_addlistener);
 	add_builtin_c_function(this, "removeListener", as_mcloader_removelistener);
 	add_builtin_c_function(this, "loadClip", as_mcloader_loadclip);

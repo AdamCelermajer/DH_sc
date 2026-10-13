@@ -118,6 +118,7 @@ int texture_cache::get_region_size_requirement(int&, int&) { std::abort(); }
 void texture_cache::reset() { std::abort(); }
 texture_cache::texture_cache(int, int, int, bool) { std::abort(); }
 texture_cache::~texture_cache() { std::abort(); }
+glyph_texture_cache::~glyph_texture_cache() { std::abort(); }  // the provider destroys its cache through this one
 
 }  // namespace gameswf
 
@@ -125,13 +126,13 @@ void ::tu_string::operator+=(const char*) { std::abort(); }
 void ::tu_string::operator+=(const ::tu_string&) { std::abort(); }
 
 // Test doubles for the tu_string members the cache tests use. The test names are short, so only the local
-// buffer is needed: resize sets the length field (sizeof(buffer) - length, as base/container.h defines it).
+// buffer is needed: resize sets the length field (length + 1, as base/container.h defines it).
 bool ::tu_string::operator==(const ::tu_string& str) const { return std::strcmp(c_str(), str.c_str()) == 0; }
 void ::tu_string::resize(int new_size) {
     if (new_size < 0 || new_size >= static_cast<int>(sizeof(m_union.m_local.m_buffer))) {
         std::abort();  // heap strings are not modelled here
     }
-    m_union.m_local.m_bufsize_minus_length = static_cast<char>(sizeof(m_union.m_local.m_buffer) - new_size);
+    m_union.m_local.m_length_plus_one = static_cast<char>(new_size + 1);
 }
 int ::tu_string::utf8_char_count(const char*, int) { std::abort(); }
 

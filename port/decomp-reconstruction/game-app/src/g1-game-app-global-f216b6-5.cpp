@@ -22,6 +22,7 @@
 
 #include "core-platform/device.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/HUDControls.hpp"
 #include "dh2/DialogMsg.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuFX.hpp"
@@ -33,6 +34,8 @@
 #include "dh2/global/app_helpers.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/native_app.hpp"
+#include "gameswf/gameswf_environment.h"
+#include "vendor-gameswf/as_value.hpp"
 
 // Globals of the original. The .bss addresses are HTC_DEVICES 0x9f6403, SHARP_DEVICES 0x9f6404, NO_IGP 0x9f6405
 // and JAPANESE_BUILD 0x9f640c.
@@ -59,8 +62,8 @@ bool MenuBaseStar_sortlessthen(const MenuBase* a, const MenuBase* b) {
 // returns true for a valid dialog id. Missing:
 //   - the id asserts ("dialogId < (int)Arrays::Dialogs::size" at line 126, "dialogId >= 0" at line 127, both in
 //     MenuMessageManager.cpp) and the id bounds check. Arrays::Dialogs::size is declared in
-//     pydata-accessors/w7_arrays27.hpp, which cannot share a translation unit with dh2/PlayerManager.hpp: both pull in an
-//     IStreamBase stand-in and the two definitions conflict. Layout request: one IStreamBase for the engine stand-ins.
+//     pydata-accessors/w7_arrays27.hpp. Arrays::Dialogs holds raw bytes (uint8_t* members), so the 12-byte record (stepsSize
+//     at +4, steps at +8) is not decoded. The IStreamBase conflict with dh2/PlayerManager.hpp is gone (both compile together).
 //   - the record Arrays::Dialogs::members[dialogId] (stepsSize at +4 of a 12-byte record, steps pointer at +8). The
 //     element layout of w7_arrays27.hpp is undecided (host stride there), so the stepsSize > 0 check is missing.
 //   - the step loop over the 20-byte steps (byte +4 actor, int +8 style, string id +12 text, string id +16 title).
@@ -146,66 +149,65 @@ void NativePopAllMenus(const gameswf::fn_call& call) {
 }
 
 // 0x439dfc NativeBeginCustom(gameswf::fn_call const&)
-// PARTIAL: the original takes the HUD root (MenuManager::GetHUDRoot), reads the "HUDStyle" option, formats the HUD
-// menu name "_root.menu_HUD_<style>" and then does RenderFX::Find(root, name),
-// RenderFX::InvokeASCallback(root, character, "SetCustomText", nullptr, 0) and HUDControls::GetInstance()->BeginCustom().
-// Only the first part is rebuilt. RenderFX::Find and RenderFX::InvokeASCallback are not declared in dh2/RenderFX.hpp.
-// HUDControls::GetInstance() and BeginCustom() are declared in dh2/HUDControls.hpp, but they run after the callback, so
-// that call waits for the two RenderFX methods.
+// PARTIAL: Asm: MenuManager::GetInstance() and its GetHUDRoot(), then Application::GetSavedOption("HUDStyle") formats
+// "_root.menu_HUD_%d" in a 20-byte buffer. RenderFX::Find(root, name) gives the HUD character, RenderFX::InvokeASCallback
+// (root, character, "SetCustomText", nullptr, 0) runs the callback, and HUDControls::GetInstance()->BeginCustom() ends
+// it. GetInstance is static, so the r0 argument in the listing is a leftover and is not passed.
+// Partial: dh2/RenderFX.hpp declares Find as returning gameswf::as_object*, but the original passes the result on as a
+// gameswf::character* without an adjustment. The body uses reinterpret_cast to keep the pointer unchanged. Layout
+// request: RenderFX::Find (0x7a9160) returns gameswf::character*.
 void NativeBeginCustom(const gameswf::fn_call& call) {
     (void)call;
     MenuFX* hudRoot = MenuManager::GetInstance()->GetHUDRoot();
     const int hudStyle = ApplicationGetInstance().GetSavedOption("HUDStyle");
     char hudMenuName[20];
     std::snprintf(hudMenuName, sizeof hudMenuName, "_root.menu_HUD_%d", hudStyle);
-    (void)hudRoot;
-    (void)hudMenuName;
+    auto* hudCharacter = reinterpret_cast<gameswf::character*>(hudRoot->Find(hudMenuName));
+    hudRoot->InvokeASCallback(hudCharacter, "SetCustomText", nullptr, 0);
+    HUDControls::GetInstance()->BeginCustom();
 }
 
 // 0x439ebc NativeIsBluetoothWifiEnabled(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to true. gameswf::as_value::set_bool is not in the tree.
+// Asm: as_value::set_bool(result, 1).
 void NativeIsBluetoothWifiEnabled(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_bool(true);
 }
 
 // 0x439ec8 NativeIsJapaneseVersion(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to the JAPANESE_BUILD byte (nonzero is true) through the fn_call's result
-// as_value* (fn_call +0x00). as_value::set_bool is declared in vendor-gameswf/include/vendor-gameswf/as_value.hpp, but
-// the full fn_call (upstream gameswf_environment.h) does not build in the tree, so the result pointer is not reachable.
-// The value is computed and discarded.
+// Asm: as_value::set_bool(result, JAPANESE_BUILD ? 1 : 0).
 void NativeIsJapaneseVersion(const gameswf::fn_call& call) {
-    (void)call;
-    const bool japaneseBuild = JAPANESE_BUILD;
-    (void)japaneseBuild;
+    call.result->set_bool(JAPANESE_BUILD);
 }
 
 // 0x439f00 NativeEnableGameCenter(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to true. gameswf::as_value::set_bool is not in the tree.
+// Asm: as_value::set_bool(result, 1).
 void NativeEnableGameCenter(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_bool(true);
 }
 
 // 0x439f0c NativeBluetoothCheck(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to true. gameswf::as_value::set_bool is not in the tree.
+// Asm: as_value::set_bool(result, 1).
 void NativeBluetoothCheck(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_bool(true);
 }
 
 // 0x439f18 NativeIsMultiplayerEnabled(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to SHARP_DEVICES || HTC_DEVICES || (!NO_IGP && Device::IsHighPerformance()),
-// tested in that order (the asm calls IsHighPerformance only when the first three are clear). set_bool is not in the tree.
+// Asm: the result is SHARP_DEVICES || HTC_DEVICES || (!NO_IGP && Device::IsHighPerformance()). The flags are tested in
+// that order, and IsHighPerformance is called only when the first two are clear and NO_IGP is clear.
 void NativeIsMultiplayerEnabled(const gameswf::fn_call& call) {
-    (void)call;
-    const bool enabled = SHARP_DEVICES || HTC_DEVICES || (!NO_IGP && Device::IsHighPerformance());
-    (void)enabled;
+    if (SHARP_DEVICES || HTC_DEVICES) {
+        call.result->set_bool(true);
+        return;
+    }
+    const bool highPerformance = !NO_IGP && Device::IsHighPerformance();
+    call.result->set_bool(highPerformance);
 }
 
 // 0x439fa4 NativeScreenIsBlack(gameswf::fn_call const&)
-// PARTIAL: the only gate is Application::IsOnlineGame() (0x320668, the byte GetOnline()+5), and that function is stubbed
-// to false in game-app/src/g1-game-app-Application-b291be-1.cpp. While the stub returns false, the body never reaches
-// the store, so the native does nothing. The logic below matches the original: when the online game flag is set, the
-// global death state of the player manager (Application +0x40, PlayerManager::m_globalDeathState at +0x714) moves from
-// 1 to 2. The original returns GetOnline(), a leftover of the last call, so the native returns void.
+// Asm: when the online flag (GetOnline()+5, Application::IsOnlineGame) is set and the global death state of the
+// PlayerManager (dword_99F76C, which is Application +0x40, m_playerManager) is 1, it becomes 2. The original returns
+// GetOnline(), a leftover of the last call, so the native returns void. The flag is read through IsOnlineGame, whose
+// own row is partial (the Application batch).
 void NativeScreenIsBlack(const gameswf::fn_call& call) {
     (void)call;
     Application& app = ApplicationGetInstance();
@@ -218,10 +220,8 @@ void NativeScreenIsBlack(const gameswf::fn_call& call) {
 }
 
 // 0x439fe8 NativeIsMultiplayerGame(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to the online game flag, Application::IsOnlineGame() (GetOnline()+5).
-// set_bool is not in the tree.
+// Asm: as_value::set_bool(result, *(GetOnline() + 5)), the online game flag. Application::IsOnlineGame() (0x320668) is
+// that byte.
 void NativeIsMultiplayerGame(const gameswf::fn_call& call) {
-    (void)call;
-    const bool onlineGame = ApplicationGetInstance().IsOnlineGame();
-    (void)onlineGame;
+    call.result->set_bool(ApplicationGetInstance().IsOnlineGame());
 }

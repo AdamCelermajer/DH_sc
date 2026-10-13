@@ -158,10 +158,9 @@ Projectile* ProjectileManager::Spawn(int, GameObject*, GameObject*, int (*)(Proj
                                      int (*)(Projectile*, void*), void*, bool) {
     return nullptr;
 }
-int VisualFXManager::PlayAnimFXSet(int effectTableId, const Point3D<float>&, const GameObject*,
-                                   VisualFXManager::AnimFXSetData*) {
+void VisualFXManager::PlayAnimFXSet(int effectTableId, const Point3D<float>&, const GameObject*,
+                                    VisualFXManager::AnimFXSetData*) {
     st::effectIds.push_back(static_cast<unsigned int>(effectTableId));
-    return 0;
 }
 
 Application& ApplicationGetInstance() { return *reinterpret_cast<Application*>(g_appStorage); }

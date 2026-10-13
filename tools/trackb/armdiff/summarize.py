@@ -56,20 +56,26 @@ def summarize(path: Path) -> str:
     out.append(f"{len(rows)} ledger rows with status `reconstructed`.")
     out.append("")
     shapes = Counter((r["shape"] or "n/a") for r in rows)
-    out.append("| call shape of the original | rows | match | mismatch | excluded |")
-    out.append("|---|---:|---:|---:|---:|")
+    out.append("| call shape of the original | rows | match (trivial) | match (other) | mismatch | excluded |")
+    out.append("|---|---:|---:|---:|---:|---:|")
+
+    def is_trivial(r) -> bool:
+        return (r.get("trivial") == "yes") if "trivial" in r else 0 < int(r["orig_size"] or 0) <= 8
+
     for sh in ("none", "imports", "internal", "indirect", "n/a"):
         sub = [r for r in rows if (r["shape"] or "n/a") == sh]
         if not sub:
             continue
+        mt = [r for r in sub if r["result"] == "match"]
+        triv = sum(1 for r in mt if is_trivial(r))
         c = Counter(r["result"] for r in sub)
-        out.append(f"| {sh} | {len(sub)} | {c['match']} | {c['mismatch']} | {c['excluded']} |")
+        out.append(f"| {sh} | {len(sub)} | {triv} | {len(mt) - triv} | {c['mismatch']} | {c['excluded']} |")
     out.append("")
     ran = [r for r in rows if r["result"] in ("match", "mismatch")]
-    trivial = [r for r in ran if r["result"] == "match" and int(r["orig_size"] or 0) <= 8]
+    trivial = [r for r in ran if r["result"] == "match" and is_trivial(r)]
     lowcov = [r for r in ran if r["result"] == "match" and r["orig_coverage_pct"] and int(r["orig_coverage_pct"]) < 80]
-    out.append(f"Of the {sum(1 for r in ran if r['result'] == 'match')} matches, {len(trivial)} are functions of 8 bytes or less "
-               f"(a constant return or `bx lr`) and {len(lowcov)} reached under 80% of the original code.")
+    out.append(f"Of the {sum(1 for r in ran if r['result'] == 'match')} matches, {len(trivial)} are trivial (an original of 8 bytes or less: "
+               f"`bx lr`, a constant return) and are counted apart; {len(lowcov)} reached under 80% of the original code.")
     out.append("")
     exc = Counter(group_reason(r["reason_or_difference"]) for r in rows if r["result"] == "excluded")
     out.append("| excluded: reason | rows |")

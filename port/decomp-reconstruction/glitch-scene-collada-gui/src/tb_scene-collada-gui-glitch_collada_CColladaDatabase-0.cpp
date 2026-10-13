@@ -14,12 +14,9 @@ std::uint32_t CColladaDatabase::getVersion() const {
 }
 
 // 0x60e334 glitch::collada::CColladaDatabase::getAnimationClipLibrary() const
-// The address of the inline clip library object at holder +0x34 (count and clip base). The original does not test the record;
-// a database without a loaded file gives null here.
+// The address of the inline clip library object at holder +0x34 (count and clip base). Exact: the original reads
+// record -> data (+0x24) -> tables (+0x20) -> +0x34 without a test.
 const SLibraryAnimationClips* CColladaDatabase::getAnimationClipLibrary() const {
-    if (record == nullptr || record->data == nullptr || record->data->tables == nullptr) {
-        return nullptr;
-    }
     return &record->data->tables->animationClipLibrary;
 }
 

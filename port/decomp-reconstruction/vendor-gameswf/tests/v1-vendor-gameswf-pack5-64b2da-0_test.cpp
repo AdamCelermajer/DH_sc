@@ -1,25 +1,41 @@
 // Test for batch v1-vendor-gameswf-pack5-64b2da-0 (hash<> set_raw_capacity explicit specializations).
-//   bash tools/trackb/check_tu.sh --test <this file> \
-//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack5-64b2da-0.cpp \
-//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp \
-//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp \
-//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
-// The last three give tu_string its out-of-line members (tu_stringi and the hash keys need them).
+// The tu_string source gives tu_string its out-of-line members (tu_stringi and the hash keys need them). The ref_counted source
+// gives smart_ptr<T> its add_ref and drop_ref (the smart_ptr tables name them).
 //
 // Covers the state changes that run without the engine: growing and shrinking the tables with set_capacity, which goes
-// through the DH2 set_raw_capacity bodies, keeps every entry and its value, and clear() empties the table.
+// through the DH2 set_raw_capacity bodies, keeps every entry and its value, and clear() empties the table. The smart_ptr tables
+// (sound_sample, bitmap_character_def, font, character_def by id and by case-insensitive name), the as_watch table and the frame
+// label table (stringi_pointer keys, one pointer to an interned label) grow across several rehashes with their entries intact.
 // The slot count of each table is checked against the binary's sizing rule (ln 2 = the float 0x3F317218), at the
 // power-of-two boundaries 2^k + 1, where the wrong divisor 0.69315f gives half the slots.
 // The allocator is the test's own (std::malloc / std::free). The game's SwfAlloc is not linked here. as_value's
 // out-of-line members are stubbed because the as_value instantiation is compiled into the batch source.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack5-64b2da-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_ref_counted-0eb785-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
+#include <string>
+#include <vector>
+
 #include "vendor-gameswf/gameswf_alloc.hpp"
 #include "vendor-gameswf/gameswf_dh2_hash.hpp"
+
+#include "gameswf/gameswf_character.h"  // gameswf::character_def
+#include "gameswf/gameswf_font.h"       // gameswf::font
+#include "gameswf/gameswf_impl.h"       // gameswf::bitmap_character_def
+#include "gameswf/gameswf_object.h"     // gameswf::as_object::as_watch
+#include "gameswf/gameswf_sound.h"      // gameswf::sound_sample
 
 namespace {
 
@@ -43,6 +59,10 @@ void free_internal(void* p, unsigned int /*size*/) { std::free(p); }
 
 void as_value::operator=(const as_value& /*v*/) {}
 void as_value::drop_refs() {}
+
+// ref_counted::drop_ref calls it when a count reaches zero; the tables below only hold null smart pointers.
+template <>
+void destruct<ref_counted>(const ref_counted* /*p*/) {}
 
 }  // namespace gameswf
 
@@ -122,6 +142,111 @@ static void test_as_object_pointer_bool() {
 	}
 }
 
+// The smart_ptr tables: the values are null pointers (the classes behind them are abstract here), so the rehash moves, copies and
+// releases them without touching an object; every key must be found after each growth.
+template <class T>
+static void fill_and_check_int_table() {
+	hash<int, smart_ptr<T>, fixed_size_hash<int> > h;
+	for (int i = 0; i < 70; i++) {
+		h.add(i * 7, smart_ptr<T>());
+	}
+	CHECK(h.size() == 70);
+	for (int i = 0; i < 70; i++) {
+		smart_ptr<T> value;
+		CHECK(h.get(i * 7, &value));
+		CHECK(value == nullptr);
+	}
+	CHECK(!h.get(1, nullptr));
+	h.set_capacity(1000);
+	CHECK(h.size() == 70);
+	CHECK(h.get(69 * 7, nullptr));
+	h.clear();
+	CHECK(h.is_empty());
+}
+
+static void test_smart_ptr_tables() {
+	fill_and_check_int_table<gameswf::sound_sample>();
+	fill_and_check_int_table<gameswf::bitmap_character_def>();
+	fill_and_check_int_table<gameswf::font>();
+	fill_and_check_int_table<gameswf::character_def>();
+
+	// the export table: case-insensitive names
+	hash<tu_stringi, smart_ptr<gameswf::character_def>, stringi_hash_functor<tu_stringi> > exports;
+	char key[16];
+	for (int i = 0; i < 60; i++) {
+		std::snprintf(key, sizeof(key), "Export%d", i);
+		exports.add(tu_stringi(key), smart_ptr<gameswf::character_def>());
+	}
+	CHECK(exports.size() == 60);
+	for (int i = 0; i < 60; i++) {
+		std::snprintf(key, sizeof(key), "eXPORT%d", i);
+		CHECK(exports.get(tu_stringi(key), nullptr));
+	}
+	CHECK(!exports.get(tu_stringi("export60"), nullptr));
+}
+
+// hash<tu_stringi, as_object::as_watch>: the entry holds a function pointer and an as_value (copied by the stubbed operator=).
+static void test_as_watch_table() {
+	hash<tu_stringi, gameswf::as_object::as_watch, stringi_hash_functor<tu_stringi> > h;
+	char key[16];
+	for (int i = 0; i < 50; i++) {
+		std::snprintf(key, sizeof(key), "watch%d", i);
+		gameswf::as_object::as_watch w;
+		h.add(tu_stringi(key), w);
+	}
+	CHECK(h.size() == 50);
+	for (int i = 0; i < 50; i++) {
+		std::snprintf(key, sizeof(key), "WATCH%d", i);
+		CHECK(h.get(tu_stringi(key), nullptr));
+	}
+	h.clear();
+	CHECK(h.is_empty());
+}
+
+// hash<stringi_pointer, int>: the frame label table of movie_def_impl and sprite_definition (0x767824). The key is one pointer
+// to a tu_string that outlives the table; equality is case-insensitive, so a differently written label finds the entry.
+static void test_stringi_pointer_table() {
+	std::vector<tu_string> labels;
+	labels.reserve(100);	// no reallocation: the keys point into the vector
+	char text[16];
+	for (int i = 0; i < 100; i++) {
+		std::snprintf(text, sizeof(text), "frame_%d", i);
+		labels.push_back(tu_string(text));
+	}
+
+	hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> > h;
+	for (int i = 0; i < 100; i++) {
+		gameswf::stringi_pointer key = {&labels[i]};
+		h.add(key, i);
+	}
+	CHECK(h.size() == 100);
+	for (int i = 0; i < 100; i++) {
+		gameswf::stringi_pointer key = {&labels[i]};
+		int value = -1;
+		CHECK(h.get(key, &value));
+		CHECK(value == i);
+	}
+	tu_string shout("FRAME_42");
+	gameswf::stringi_pointer other = {&shout};
+	int found = -1;
+	CHECK(h.get(other, &found) && found == 42);
+	tu_string missing("frame_100");
+	gameswf::stringi_pointer none = {&missing};
+	CHECK(!h.get(none, nullptr));
+
+	// the sizing rule: raw capacity 5 gives 8 slots, 33 gives 64, below 4 the minimum is 4
+	hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> > sized;
+	dh2_hash_access::set_raw_capacity(sized, 5);
+	CHECK(dh2_hash_access::table_size(sized) == 8);
+	dh2_hash_access::set_raw_capacity(sized, 33);
+	CHECK(dh2_hash_access::table_size(sized) == 64);
+	dh2_hash_access::set_raw_capacity(sized, 2);
+	CHECK(dh2_hash_access::table_size(sized) == 4);
+	h.clear();
+	CHECK(h.is_empty());
+}
+
+
 // Slot count of a fresh table after set_raw_capacity(raw), through the shared body.
 static int slots_for_raw_capacity(int raw) {
 	hash<int, tu_string, fixed_size_hash<int> > h;
@@ -163,6 +288,9 @@ int main() {
 	test_int_tu_string();
 	test_tu_stringi_bool();
 	test_as_object_pointer_bool();
+	test_smart_ptr_tables();
+	test_as_watch_table();
+	test_stringi_pointer_table();
 	test_table_sizes();
 
 	if (g_failures != 0) {

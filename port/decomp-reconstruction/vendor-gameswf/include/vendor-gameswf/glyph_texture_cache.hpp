@@ -4,12 +4,9 @@
 // texture. The glyph_provider (vendor-gameswf/glyph_provider.hpp) creates it and reads its owner pointer
 // (texture_cache::m_owner). Bodies: vendor-gameswf/src/v1-vendor-gameswf-pack21-d2e85b-0.cpp.
 //
-// Layout note (open, for the integrator). In the binary the glyph fields follow the 0x40-byte texture_cache base:
-// the pixel array header (buffer, size, capacity) at +0x40..+0x4b, a byte at +0x4c and the owner at +0x50. The
-// texture_cache header in this tree declares those words as unk_40..unk_4c and m_owner on texture_cache itself,
-// which makes the base 0x54 bytes on the host. Until texture_cache.hpp is corrected, this class keeps the pixel
-// array as m_pixels after the base and uses the base's m_owner for the owner. The base's unk_40..unk_4c are not
-// read by any body here.
+// Layout. The glyph fields follow the 0x40-byte texture_cache base: the pixel array (buffer, size, capacity and
+// borrowed flag, 16 bytes) at +0x40..+0x4f and the owner at +0x50. The glyph_provider constructor (0x7d0dfc) creates
+// this class, not a bare texture_cache.
 #ifndef VENDOR_GAMESWF_GLYPH_TEXTURE_CACHE_HPP
 #define VENDOR_GAMESWF_GLYPH_TEXTURE_CACHE_HPP
 
@@ -32,7 +29,10 @@ public:
         std::uint8_t offset_y;  // +0x02
     };
 
-    // 0x7d1a28 (D1). PARTIAL, see the batch source.
+    // The glyph_provider constructor (0x7d0dfc) builds it with a 4-byte pixel format and no render target.
+    glyph_texture_cache(int width, int height, int bpp, bool render_target) : texture_cache(width, height, bpp, render_target) {}
+
+    // 0x7d1a28 (D1). Empties the pixel array, then the texture_cache base destructor runs.
     ~glyph_texture_cache();
 
     // 0x7d1da4. Rasterises the glyph of code at font_size from the face into the texture. used_only selects a used
@@ -41,12 +41,14 @@ public:
     int add_glyph_region(std::uint16_t code, void* face, int font_size, const filter_info& filter, bool used_only);
 
     // 0x7d266c. Finds the glyph's region (adding it when missing, with a flush and a texture reset as fallbacks)
-    // and writes its bounds. PARTIAL: the binary's float return is not reproduced, see the batch source.
-    bool get_glyph_region(std::uint16_t code, void* face, int font_size, const filter_info& filter, rect& bounds);
+    // and writes its bounds. The binary's float return is a register residue; the callers ignore it.
+    void get_glyph_region(std::uint16_t code, void* face, int font_size, const filter_info& filter, rect& bounds);
 
-    // +0x40 (array<unsigned char>, 12 bytes in the binary): the glyph pixel buffer, sized to the expanded glyph image.
-    // Zeroed by add_glyph_region before each glyph. Placed after the base in this tree (see the layout note above).
+    // +0x40 (array<unsigned char>, 16 bytes): the glyph pixel buffer, sized to the expanded glyph image.
+    // Zeroed by add_glyph_region before each glyph.
     ::array<std::uint8_t> m_pixels;
+    // +0x50: the glyph_provider that owns this cache (set by its constructor).
+    glyph_provider* m_owner = nullptr;
 };
 
 }  // namespace gameswf

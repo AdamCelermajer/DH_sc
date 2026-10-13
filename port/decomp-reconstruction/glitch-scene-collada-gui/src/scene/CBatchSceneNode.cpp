@@ -156,4 +156,67 @@ void CBatchSceneNode::setVisibleIndexCache(bool enabled) {
     visibleIndexCacheOn = enabled;
 }
 
+// 0x57e5b4 _ZN6glitch5scene15CBatchSceneNode15computeMaxIndicesEj
+// PARTIAL: the original sums (end - begin) of the segments listed for the batch in the visible-entry array (+0x158). The entries are
+// declared as 32-bit words (visibleEntries), but the list stores segment pointers, which are host width. Not reproduced; returns 0.
+std::int32_t CBatchSceneNode::computeMaxIndices(std::uint32_t batch) {
+    (void)batch;
+    return 0;
+}
+
+// 0x57e604 _ZN6glitch5scene15CBatchSceneNode19clearVisibleSegmentsEv
+// PARTIAL: the original zeroes the entry count of each visible segment record; the segment count comes from the mesh's virtual slot +0x10
+// (not named) and the records share the layout blocked above. Not reproduced.
+std::int32_t CBatchSceneNode::clearVisibleSegments() { return 0; }
+
+// 0x57e650 _ZN6glitch5scene15CBatchSceneNode10updateInfoEjj
+// PARTIAL: records the per-batch count, match flag, tick (glitch::os::Timer::TickCount, not declared) and flag bits in the 20-byte entries;
+// the entry layout is blocked as above. Returns 0.
+std::int32_t CBatchSceneNode::updateInfo(std::uint32_t batch, std::uint32_t segment) {
+    (void)batch;
+    (void)segment;
+    return 0;
+}
+
+// 0x57e800 _ZN6glitch5scene15CBatchSceneNode18registerSolidBatchesEv
+// PARTIAL: not reconstructed (the solid batch registration walks the mesh segments and the visible-entry array).
+void CBatchSceneNode::registerSolidBatches() {}
+
+// 0x57ea70 _ZN6glitch5scene15CBatchSceneNode25registerTransparentBatchesEv
+// PARTIAL: not reconstructed (as registerSolidBatches, for the transparent segments).
+void CBatchSceneNode::registerTransparentBatches() {}
+
+// 0x57ebec _ZN6glitch5scene15CBatchSceneNode26invalidateVisibleIndexCacheEj
+// PARTIAL: not reconstructed (clears the cache entry of the batch, blocked by the entry layout above).
+void CBatchSceneNode::invalidateVisibleIndexCache(std::uint32_t batch) {
+    (void)batch;
+}
+
+// 0x57f21c _ZN6glitch5scene15CBatchSceneNode16renderBatchBBoxesEPNS_5video12IVideoDriverEj
+// PARTIAL: not reconstructed (debug draw of the batch boxes through the driver).
+void CBatchSceneNode::renderBatchBBoxes(video::IVideoDriver* driver, std::uint32_t batch) {
+    (void)driver;
+    (void)batch;
+}
+
+// 0x5800e8 _ZN6glitch5scene15CBatchSceneNode15renderSolidBatchEPNS_5video12IVideoDriverEj
+// PARTIAL: not reconstructed (draws the visible segments of one solid batch through the driver).
+void CBatchSceneNode::renderSolidBatch(video::IVideoDriver* driver, std::uint32_t batch) {
+    (void)driver;
+    (void)batch;
+}
+
+// 0x5804f0 _ZN6glitch5scene15CBatchSceneNode21flushTransparentBatchEPNS_5video12IVideoDriverE
+// PARTIAL: not reconstructed (draws and clears the queued transparent segments).
+void CBatchSceneNode::flushTransparentBatch(video::IVideoDriver* driver) {
+    (void)driver;
+}
+
+// 0x5807a0 _ZN6glitch5scene15CBatchSceneNode22renderTransparentSegmentEPNS_5video12IVideoDriverERNS0_10CBatchMesh8SSegmentE
+// PARTIAL: not reconstructed (draws one transparent segment through the driver).
+void CBatchSceneNode::renderTransparentSegment(video::IVideoDriver* driver, CBatchMesh::SSegment& segment) {
+    (void)driver;
+    (void)segment;
+}
+
 }  // namespace glitch::scene

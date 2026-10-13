@@ -10,6 +10,19 @@
 // http://sswf.sourceforge.net/SWFalexref.html
 // http://www.openswf.org
 
+// DH2 (Track B): this unit is r1714's gameswf_impl.cpp as the DH2 binary compiles it, checked function by function against
+// 0x759b24..0x760238 (ledger vendor-gameswf/ledger.d/gameswf-core-impl.csv). What differs from r1714:
+//   - the execute tags: the classes are declared in vendor-gameswf/include/vendor-gameswf/execute_tags.hpp. place_object_2 is one
+//     variable-size block and is rebuilt in vendor-gameswf/src/v1-vendor-gameswf-gameswf_impl-0.cpp (read, execute, the reverse and
+//     depth-id members, the destructor); the other two keep their r1714 member bodies here, out of line;
+//   - ensure_loaders_registered (is_tag_loaders_initialized, plus the loaders for tags 63 and 200), precompute_cached_data
+//     (root::advance has a fixed-step flag), export_loader (substitute_bitmap_character, not the r1714 callback),
+//     define_bits_lossless_2_loader (empty-tag early out, un-premultiplied 32-bit RGBA), video_loader (a lookup only),
+//     character_def::instanciate_registered_class (no CONSTRUCT event), movie_def_impl::create_root (the player makes the sprite
+//     instance, "$version" is interned), place_object_2_loader (read makes the tag);
+//   - everything else is r1714 (the loaders in TU_CONFIG_LINK_TO_JPEGLIB == 0 form, as the DH2 build compiles them).
+// The functions that are here carry the binary's address in a comment above the definition.
+
 #include "base/tu_file.h"
 #include "base/utility.h"
 #include "gameswf/gameswf_action.h"
@@ -32,6 +45,10 @@
 #include "gameswf/gameswf_abc.h"
 #include "gameswf/gameswf_filters.h"
 #include "base/image.h"
+#include "vendor-gameswf/image_io.hpp"	// DH2: gameswf::image_rgb, image_rgba and their factories and readers
+#include "vendor-gameswf/lossless_pixels.hpp"	// DH2: the un-premultiply of the 32-bit RGBA image
+#include "vendor-gameswf/gameswf_dh2_runtime.hpp"	// DH2: substitute_bitmap_character, define_debug_id_loader, define_native_image_loader, destructp
+#include "vendor-gameswf/permanent_string_cache.hpp"	// DH2: player::m_permanent_strings (create_root interns the $version string)
 #include "base/jpeg.h"
 #include "base/zlib_adapter.h"
 #include "base/tu_random.h"
@@ -61,21 +78,25 @@ namespace gameswf
 	bool	s_verbose_debug = false;
 #endif
 
+	// 0x759b24 gameswf::get_verbose_parse()
 	bool get_verbose_parse()
 	{
 		return s_verbose_parse;
 	}
 
+	// 0x759b44 gameswf::get_verbose_debug()
 	bool get_verbose_debug()
 	{
 		return s_verbose_debug;
 	}
 
+	// 0x759b64 gameswf::get_verbose_action()
 	bool get_verbose_action()
 	{
 		return s_verbose_action;
 	}
 
+	// 0x759ba4 gameswf::set_verbose_action(bool)
 	void	set_verbose_action(bool verbose)
 		// Enable/disable log messages re: actions.
 	{
@@ -83,6 +104,7 @@ namespace gameswf
 	}
 
 
+	// 0x759bc4 gameswf::set_verbose_parse(bool)
 	void	set_verbose_parse(bool verbose)
 	// Enable/disable log messages re: parsing the movie.
 	{
@@ -93,6 +115,7 @@ namespace gameswf
 	// some utility stuff
 	//
 
+	// 0x75b810 gameswf::execute_actions(gameswf::as_environment*, gameswf::array<gameswf::action_buffer*> const&)
 	void	execute_actions(as_environment* env, const array<action_buffer*>& action_list)
 	// Execute the actions in the action list, in the given
 	// environment.
@@ -103,6 +126,7 @@ namespace gameswf
 		}
 	}
 
+	// 0x75f36c gameswf::character_def::create_character_instance(gameswf::character*, int)
 	character*	character_def::create_character_instance(character* parent, int id)
 	// Default.  Make a generic_character.
 	{
@@ -111,11 +135,13 @@ namespace gameswf
 		return ch;
 	}
 
+	// 0x75ec68 gameswf::character_def::set_registered_class_constructor(gameswf::as_value const&)
 	void character_def::set_registered_class_constructor(const as_value& value)
 	{
 		m_registered_class_constructor = value.to_function();
 	}
 
+	// 0x75fd18 gameswf::character_def::instanciate_registered_class(gameswf::character*)
 	void character_def::instanciate_registered_class (character* ch)
 	{
 		assert(ch);
@@ -143,6 +169,7 @@ namespace gameswf
 			// But we must create proto for a object a call its constructor
 
 			ch->m_this_ptr = ch;
+			#if 0 /* DH2: create_proto takes the constructor as a value; the binary (0x75fd18) has no on_event(CONSTRUCT) and calls the labelled call_method */
 			as_object* proto = ch->create_proto(m_registered_class_constructor.get_ptr());
 			UNUSED(proto);
 
@@ -151,6 +178,13 @@ namespace gameswf
 
 			as_environment env(get_player());
 			call_method(m_registered_class_constructor.get_ptr(), &env, ch, 0, 0);
+			#endif /* DH2 */
+			as_object* proto = ch->create_proto(as_value(m_registered_class_constructor.get_ptr()));
+			UNUSED(proto);
+
+			// exec constructor
+			as_environment env(get_player());
+			call_method(as_value(m_registered_class_constructor.get_ptr()), &env, as_value(ch), 0, 0, "???");
 		}
 	}
 
@@ -159,12 +193,20 @@ namespace gameswf
 	// character
 	//
 
+	bool is_tag_loaders_initialized();	// DH2: 0x764c5c, v1-vendor-gameswf-gameswf-fddef6-2.cpp
+
+	// 0x75b298 gameswf::ensure_loaders_registered()
+	// DH2: asks is_tag_loaders_initialized() (which also sizes the table) instead of get_tag_loader(0, NULL), and registers two
+	// DH2: more loaders: tag 63 (define_debug_id_loader) and tag 200 (define_native_image_loader). Same order otherwise.
 	void	ensure_loaders_registered()
 	{
 		// Last-player teardown clears the actual shared loader table. Its
 		// end-tag entry is the registration authority across later players;
 		// a process-lifetime boolean would outlive that table's contents.
+		#if 0 /* DH2: the binary asks is_tag_loaders_initialized() */
 		if (get_tag_loader(0, NULL) == false)
+		#endif /* DH2 */
+		if (!is_tag_loaders_initialized())
 		{
 			// Register the standard loaders.
 			register_tag_loader(0, end_loader);
@@ -210,6 +252,7 @@ namespace gameswf
 			register_tag_loader(62, define_font_info_loader);
 
 //			register_tag_loader(63, define_font_info_loader);
+			register_tag_loader(63, define_debug_id_loader);	// DH2: Gameloft tag (the 16-byte debug id of the movie)
 			register_tag_loader(64, define_enable_debugger_loader);
 			register_tag_loader(66, define_tabindex_loader);
 			register_tag_loader(69, define_file_attribute_loader);	// Flash 8
@@ -224,6 +267,7 @@ namespace gameswf
 			register_tag_loader(84, define_shape_morph_loader); //DefineMorphShape2 - Flash 9
 			register_tag_loader(86, define_scene_loader);		// DefineSceneAndFrameLabelData - Flash 9
 			register_tag_loader(88, define_font_name);		// DefineFontName - Flash 9
+			register_tag_loader(200, define_native_image_loader);	// DH2: Gameloft tag (a native texture file as the bitmap)
 		}
 	}
 
@@ -358,6 +402,7 @@ namespace gameswf
 	void clears_tag_loaders();
 	void clear_shared_libs();
 
+	// 0x75b11c gameswf::precompute_cached_data(gameswf::movie_definition*)
 	void	precompute_cached_data(movie_definition* movie_def)
 	// Fill in cached data in movie_def.
 	// @@@@ NEEDS TESTING -- MIGHT BE BROKEN!!!
@@ -418,7 +463,10 @@ namespace gameswf
 			// safety margin on scaled shapes.
 
 			int	last_frame = m->get_current_frame();
+			#if 0 /* DH2: root::advance takes the fixed-step flag too (the binary calls advance(0.01, 0)) */
 			m->advance(0.010f);
+			#endif /* DH2 */
+			m->advance(0.010f, false);	// DH2
 			m->display();
 
 			if (m->get_current_frame() == movie_def->get_frame_count() - 1)
@@ -460,11 +508,13 @@ namespace gameswf
 	//
 
 
+	// 0x759c74 gameswf::null_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	null_loader(stream* in, int tag_type, movie_definition_sub* m)
 		// Silently ignore the contents of this tag.
 	{
 	}
 
+	// 0x75c86c gameswf::frame_label_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	frame_label_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// Label the current frame of m with the name from the stream.
 	{
@@ -473,6 +523,7 @@ namespace gameswf
 		m->add_frame_name(n.c_str());
 	}
 
+	#if 0 /* DH2: the class is declared in vendor-gameswf/include/vendor-gameswf/execute_tags.hpp; the members follow it */
 	struct set_background_color : public execute_tag
 	{
 		rgba	m_color;
@@ -497,8 +548,35 @@ namespace gameswf
 				m_color.m_r, m_color.m_g, m_color.m_b));
 		}
 	};
+	#endif /* DH2 */
+
+	// 0x759c78 gameswf::set_background_color::execute(gameswf::character*)
+	// DH2: the r1714 body (alpha from the character, rounded with the single-precision +0.5 and a truncation).
+	void	set_background_color::execute(character* m)
+	{
+		float	current_alpha = m->get_background_alpha();
+		m_color.m_a = frnd(current_alpha * 255.0f);
+		m->set_background_color(m_color);
+	}
+
+	// 0x759cc8 gameswf::set_background_color::execute_state(gameswf::character*)
+	// DH2: the r1714 body (a call of the virtual execute).
+	void	set_background_color::execute_state(character* m)
+	{
+		execute(m);
+	}
+
+	// r1714 member, inlined into set_background_color_loader (0x75b0a8) in the binary. The verbose log is compiled out there.
+	void	set_background_color::read(stream* in)
+	{
+		m_color.read_rgb(in);
+
+		IF_VERBOSE_PARSE(log_msg("  set_background_color: (%d %d %d)\n",
+			m_color.m_r, m_color.m_g, m_color.m_b));
+	}
 
 
+	// 0x75b0a8 gameswf::set_background_color_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	set_background_color_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 9);
@@ -510,6 +588,7 @@ namespace gameswf
 		m->add_execute_tag(t);
 	}
 
+	// 0x75a4d4 gameswf::jpeg_tables_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	jpeg_tables_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// Load JPEG compression tables that can be used to load
 	// images further along in the stream.
@@ -534,6 +613,7 @@ namespace gameswf
 	}
 
 
+	// 0x75f888 gameswf::define_bits_jpeg_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_bits_jpeg_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// A JPEG image without included tables; those should be in an
 	// existing jpeg::input object stored in the movie.
@@ -553,19 +633,19 @@ namespace gameswf
 #if TU_CONFIG_LINK_TO_JPEGLIB
 
 			jpeg::input*	j_in = m->get_jpeg_loader();
-			image::rgb*	im = NULL;
+			image_rgb*	im = NULL;
 			if (j_in == NULL)
 			{
 				// there are no jpeg tables
-				im = image::read_jpeg(in->get_underlying_stream());
+				im = read_jpeg(in->get_underlying_stream());
 			}
 			else
 			{
 				j_in->discard_partial_buffer();
-				im = image::read_swf_jpeg2_with_tables(j_in);
+				im = read_swf_jpeg2_with_tables(j_in);
 			}
 			bi = render::create_bitmap_info_rgb(im);
-			delete im;
+			destruct(im);	// DH2: the image comes from the gameswf heap (create_rgb and the readers)
 
 #else
 			log_error("gameswf is not linked to jpeglib -- can't load jpeg image data!\n");
@@ -582,6 +662,7 @@ namespace gameswf
 		m->add_bitmap_character(character_id, ch);
 	}
 
+	// 0x75c348 gameswf::symbol_class_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	symbol_class_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// The SymbolClass tag creates associations between symbols in the SWF file
 	// and ActionScript 3.0 classes.
@@ -601,6 +682,7 @@ namespace gameswf
 		}
 	}
 
+	// 0x75fa00 gameswf::define_bits_jpeg2_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_bits_jpeg2_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 21);
@@ -618,9 +700,9 @@ namespace gameswf
 		if (m->get_create_bitmaps() == DO_LOAD_BITMAPS)
 		{
 #if TU_CONFIG_LINK_TO_JPEGLIB
-			image::rgb* im = image::read_swf_jpeg2(in->get_underlying_stream());
+			image_rgb* im = read_swf_jpeg2(in->get_underlying_stream());
 			bi = render::create_bitmap_info_rgb(im);
-			delete im;
+			destruct(im);	// DH2: the image comes from the gameswf heap (create_rgb and the readers)
 #else
 			log_error("gameswf is not linked to jpeglib -- can't load jpeg image data!\n");
 			bi = render::create_bitmap_info_empty();
@@ -638,6 +720,7 @@ namespace gameswf
 
 
 #if TU_CONFIG_LINK_TO_ZLIB
+	// 0x75afb0 gameswf::inflate_wrapper(gameswf::tu_file*, void*, int)
 	void	inflate_wrapper(tu_file* in, void* buffer, int buffer_bytes)
 		// Wrapper function -- uses Zlib to uncompress in_bytes worth
 		// of data from the input file into buffer_bytes worth of data
@@ -691,6 +774,7 @@ namespace gameswf
 #endif // TU_CONFIG_LINK_TO_ZLIB
 
 
+	// 0x75f6fc gameswf::define_bits_jpeg3_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_bits_jpeg3_loader(stream* in, int tag_type, movie_definition_sub* m)
 		// loads a define_bits_jpeg3 tag. This is a jpeg file with an alpha
 		// channel using zlib compression.
@@ -717,7 +801,7 @@ namespace gameswf
 			//
 
 			// Read rgb data.
-			image::rgba*	im = image::read_swf_jpeg3(in->get_underlying_stream());
+			image_rgba*	im = read_swf_jpeg3(in->get_underlying_stream());
 
 			// Read alpha channel.
 			in->set_position(alpha_position);
@@ -736,7 +820,7 @@ namespace gameswf
 
 			bi = render::create_bitmap_info_rgba(im);
 
-			delete im;
+			destruct(im);	// DH2
 #endif
 
 		}
@@ -752,6 +836,7 @@ namespace gameswf
 	}
 
 
+	#if 0 /* DH2: replaced by the function below */
 	void	define_bits_lossless_2_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 20 || tag_type == 36);
@@ -778,7 +863,7 @@ namespace gameswf
 			if (tag_type == 20)
 			{
 				// RGB image data.
-				image::rgb*	image = image::create_rgb(width, height);
+				image_rgb*	image = create_rgb(width, height);
 
 				if (bitmap_format == 3)
 				{
@@ -801,7 +886,7 @@ namespace gameswf
 					for (int j = 0; j < height; j++)
 					{
 						Uint8*	image_in_row = buffer + color_table_size * 3 + j * pitch;
-						Uint8*	image_out_row = image::scanline(image, j);
+						Uint8*	image_out_row = scanline(image, j);
 						for (int i = 0; i < width; i++)
 						{
 							Uint8	pixel = image_in_row[i * bytes_per_pixel];
@@ -828,7 +913,7 @@ namespace gameswf
 					for (int j = 0; j < height; j++)
 					{
 						Uint8*	image_in_row = buffer + j * pitch;
-						Uint8*	image_out_row = image::scanline(image, j);
+						Uint8*	image_out_row = scanline(image, j);
 						for (int i = 0; i < width; i++)
 						{
 							Uint16	pixel = image_in_row[i * 2] | (image_in_row[i * 2 + 1] << 8);
@@ -858,7 +943,7 @@ namespace gameswf
 					for (int j = 0; j < height; j++)
 					{
 						Uint8*	image_in_row = buffer + j * pitch;
-						Uint8*	image_out_row = image::scanline(image, j);
+						Uint8*	image_out_row = scanline(image, j);
 						for (int i = 0; i < width; i++)
 						{
 							Uint8	a = image_in_row[i * 4 + 0];
@@ -877,7 +962,7 @@ namespace gameswf
 
 				//				bitmap_character*	ch = new bitmap_character(image);
 				bi = render::create_bitmap_info_rgb(image);
-				delete image;
+				destruct(image);	// DH2
 
 				//				// add image to movie, under character id.
 				//				m->add_bitmap_character(character_id, ch);
@@ -887,7 +972,7 @@ namespace gameswf
 				// RGBA image data.
 				assert(tag_type == 36);
 
-				image::rgba*	image = image::create_rgba(width, height);
+				image_rgba*	image = create_rgba(width, height);
 
 				if (bitmap_format == 3)
 				{
@@ -910,7 +995,7 @@ namespace gameswf
 					for (int j = 0; j < height; j++)
 					{
 						Uint8*	image_in_row = buffer + color_table_size * 4 + j * pitch;
-						Uint8*	image_out_row = image::scanline(image, j);
+						Uint8*	image_out_row = scanline(image, j);
 						for (int i = 0; i < width; i++)
 						{
 							Uint8	pixel = image_in_row[i * bytes_per_pixel];
@@ -938,7 +1023,7 @@ namespace gameswf
 					for (int j = 0; j < height; j++)
 					{
 						Uint8*	image_in_row = buffer + j * pitch;
-						Uint8*	image_out_row = image::scanline(image, j);
+						Uint8*	image_out_row = scanline(image, j);
 						for (int i = 0; i < width; i++)
 						{
 							Uint16	pixel = image_in_row[i * 2] | (image_in_row[i * 2 + 1] << 8);
@@ -963,7 +1048,7 @@ namespace gameswf
 					// Need to re-arrange ARGB into RGBA.
 					for (int j = 0; j < height; j++)
 					{
-						Uint8*	image_row = image::scanline(image, j);
+						Uint8*	image_row = scanline(image, j);
 						for (int i = 0; i < width; i++)
 						{
 							Uint8	a = image_row[i * 4 + 0];
@@ -980,7 +1065,7 @@ namespace gameswf
 
 				bi = render::create_bitmap_info_rgba(image);
 				//				bitmap_character*	ch = new bitmap_character(image);
-				delete image;
+				destruct(image);	// DH2
 
 				//				// add image to movie, under character id.
 				//				m->add_bitmap_character(character_id, ch);
@@ -997,7 +1082,255 @@ namespace gameswf
 		// add image to movie, under character id.
 		m->add_bitmap_character(character_id, ch);
 	}
+	#endif /* DH2 */
 
+	// 0x75ed20 gameswf::define_bits_lossless_2_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
+	// DH2: three differences from r1714. (1) A tag with nothing left after the header (the stream is at the end of the tag) gives
+	// DH2: the empty bitmap, like DO_NOT_LOAD_BITMAPS does. (2) The temporary buffers are released with destructp<unsigned char>.
+	// DH2: (3) The 32-bit RGBA image (tag 36, format 5) holds ARGB with the colour premultiplied by the alpha: the DH2 code
+	// DH2: divides it back out (c = 255 * c / a, with all three colours 0 for a = 0, in integer arithmetic, kept to a byte)
+	// DH2: while it moves the ARGB bytes into RGBA, where r1714 only moves them.
+	void	define_bits_lossless_2_loader(stream* in, int tag_type, movie_definition_sub* m)
+	{
+		assert(tag_type == 20 || tag_type == 36);
+
+		Uint16	character_id = in->read_u16();
+		Uint8	bitmap_format = in->read_u8();	// 3 == 8 bit, 4 == 16 bit, 5 == 32 bit
+		Uint16	width = in->read_u16();
+		Uint16	height = in->read_u16();
+
+		IF_VERBOSE_PARSE(log_msg("  defbitslossless2: tag_type = %d, id = %d, fmt = %d, w = %d, h = %d\n",
+			tag_type,
+			character_id,
+			bitmap_format,
+			width,
+			height));
+
+		bitmap_info*	bi = NULL;
+		if (m->get_create_bitmaps() != DO_LOAD_BITMAPS || in->get_position() >= in->get_tag_end_position())
+		{
+			bi = render::create_bitmap_info_empty();
+		}
+		else
+		{
+#if TU_CONFIG_LINK_TO_ZLIB == 0
+			log_error("gameswf is not linked to zlib -- can't load zipped image data!\n");
+			return;
+#else
+			if (tag_type == 20)
+			{
+				// RGB image data.
+				image_rgb*	image = create_rgb(width, height);
+
+				if (bitmap_format == 3)
+				{
+					// 8-bit data, preceded by a palette.
+
+					const int	bytes_per_pixel = 1;
+					int	color_table_size = in->read_u8();
+					color_table_size += 1;	// !! SWF stores one less than the actual size
+
+					int	pitch = (width * bytes_per_pixel + 3) & ~3;
+
+					int	buffer_bytes = color_table_size * 3 + pitch * height;
+					Uint8*	buffer = new Uint8[buffer_bytes];
+
+					inflate_wrapper(in->get_underlying_stream(), buffer, buffer_bytes);
+					assert(in->get_position() <= in->get_tag_end_position());
+
+					Uint8*	color_table = buffer;
+
+					for (int j = 0; j < height; j++)
+					{
+						Uint8*	image_in_row = buffer + color_table_size * 3 + j * pitch;
+						Uint8*	image_out_row = scanline(image, j);
+						for (int i = 0; i < width; i++)
+						{
+							Uint8	pixel = image_in_row[i * bytes_per_pixel];
+							image_out_row[i * 3 + 0] = color_table[pixel * 3 + 0];
+							image_out_row[i * 3 + 1] = color_table[pixel * 3 + 1];
+							image_out_row[i * 3 + 2] = color_table[pixel * 3 + 2];
+						}
+					}
+
+					destructp(buffer, 0u);	// DH2: r1714: delete [] buffer
+				}
+				else if (bitmap_format == 4)
+				{
+					// 16 bits / pixel
+					const int	bytes_per_pixel = 2;
+					int	pitch = (width * bytes_per_pixel + 3) & ~3;
+
+					int	buffer_bytes = pitch * height;
+					Uint8*	buffer = new Uint8[buffer_bytes];
+
+					inflate_wrapper(in->get_underlying_stream(), buffer, buffer_bytes);
+					assert(in->get_position() <= in->get_tag_end_position());
+
+					for (int j = 0; j < height; j++)
+					{
+						Uint8*	image_in_row = buffer + j * pitch;
+						Uint8*	image_out_row = scanline(image, j);
+						for (int i = 0; i < width; i++)
+						{
+							Uint16	pixel = image_in_row[i * 2] | (image_in_row[i * 2 + 1] << 8);
+
+							// @@ How is the data packed???	 I'm just guessing here that it's 565!
+							image_out_row[i * 3 + 0] = (pixel >> 8) & 0xF8;	// red
+							image_out_row[i * 3 + 1] = (pixel >> 3) & 0xFC;	// green
+							image_out_row[i * 3 + 2] = (pixel << 3) & 0xF8;	// blue
+						}
+					}
+
+					destructp(buffer, 0u);	// DH2: r1714: delete [] buffer
+				}
+				else if (bitmap_format == 5)
+				{
+					// 32 bits / pixel, input is ARGB format (???)
+					const int	bytes_per_pixel = 4;
+					int	pitch = width * bytes_per_pixel;
+
+					int	buffer_bytes = pitch * height;
+					Uint8*	buffer = new Uint8[buffer_bytes];
+
+					inflate_wrapper(in->get_underlying_stream(), buffer, buffer_bytes);
+					assert(in->get_position() <= in->get_tag_end_position());
+
+					// Need to re-arrange ARGB into RGB.
+					for (int j = 0; j < height; j++)
+					{
+						Uint8*	image_in_row = buffer + j * pitch;
+						Uint8*	image_out_row = scanline(image, j);
+						for (int i = 0; i < width; i++)
+						{
+							Uint8	a = image_in_row[i * 4 + 0];
+							Uint8	r = image_in_row[i * 4 + 1];
+							Uint8	g = image_in_row[i * 4 + 2];
+							Uint8	b = image_in_row[i * 4 + 3];
+							image_out_row[i * 3 + 0] = r;
+							image_out_row[i * 3 + 1] = g;
+							image_out_row[i * 3 + 2] = b;
+							a = a;	// Inhibit warning.
+						}
+					}
+
+					destructp(buffer, 0u);	// DH2: r1714: delete [] buffer
+				}
+
+				//				bitmap_character*	ch = new bitmap_character(image);
+				bi = render::create_bitmap_info_rgb(image);
+				destruct(image);	// DH2
+
+				//				// add image to movie, under character id.
+				//				m->add_bitmap_character(character_id, ch);
+			}
+			else
+			{
+				// RGBA image data.
+				assert(tag_type == 36);
+
+				image_rgba*	image = create_rgba(width, height);
+
+				if (bitmap_format == 3)
+				{
+					// 8-bit data, preceded by a palette.
+
+					const int	bytes_per_pixel = 1;
+					int	color_table_size = in->read_u8();
+					color_table_size += 1;	// !! SWF stores one less than the actual size
+
+					int	pitch = (width * bytes_per_pixel + 3) & ~3;
+
+					int	buffer_bytes = color_table_size * 4 + pitch * height;
+					Uint8*	buffer = new Uint8[buffer_bytes];
+
+					inflate_wrapper(in->get_underlying_stream(), buffer, buffer_bytes);
+					assert(in->get_position() <= in->get_tag_end_position());
+
+					Uint8*	color_table = buffer;
+
+					for (int j = 0; j < height; j++)
+					{
+						Uint8*	image_in_row = buffer + color_table_size * 4 + j * pitch;
+						Uint8*	image_out_row = scanline(image, j);
+						for (int i = 0; i < width; i++)
+						{
+							Uint8	pixel = image_in_row[i * bytes_per_pixel];
+							image_out_row[i * 4 + 0] = color_table[pixel * 4 + 0];
+							image_out_row[i * 4 + 1] = color_table[pixel * 4 + 1];
+							image_out_row[i * 4 + 2] = color_table[pixel * 4 + 2];
+							image_out_row[i * 4 + 3] = color_table[pixel * 4 + 3];
+						}
+					}
+
+					destructp(buffer, 0u);	// DH2: r1714: delete [] buffer
+				}
+				else if (bitmap_format == 4)
+				{
+					// 16 bits / pixel
+					const int	bytes_per_pixel = 2;
+					int	pitch = (width * bytes_per_pixel + 3) & ~3;
+
+					int	buffer_bytes = pitch * height;
+					Uint8*	buffer = new Uint8[buffer_bytes];
+
+					inflate_wrapper(in->get_underlying_stream(), buffer, buffer_bytes);
+					assert(in->get_position() <= in->get_tag_end_position());
+
+					for (int j = 0; j < height; j++)
+					{
+						Uint8*	image_in_row = buffer + j * pitch;
+						Uint8*	image_out_row = scanline(image, j);
+						for (int i = 0; i < width; i++)
+						{
+							Uint16	pixel = image_in_row[i * 2] | (image_in_row[i * 2 + 1] << 8);
+
+							// @@ How is the data packed???	 I'm just guessing here that it's 565!
+							image_out_row[i * 4 + 0] = 255;			// alpha
+							image_out_row[i * 4 + 1] = (pixel >> 8) & 0xF8;	// red
+							image_out_row[i * 4 + 2] = (pixel >> 3) & 0xFC;	// green
+							image_out_row[i * 4 + 3] = (pixel << 3) & 0xF8;	// blue
+						}
+					}
+
+					destructp(buffer, 0u);	// DH2: r1714: delete [] buffer
+				}
+				else if (bitmap_format == 5)
+				{
+					// 32 bits / pixel, input is ARGB format
+
+					inflate_wrapper(in->get_underlying_stream(), image->m_data, width * height * 4);
+					assert(in->get_position() <= in->get_tag_end_position());
+
+					// Need to re-arrange ARGB into RGBA.
+					// DH2: the colour is stored premultiplied by the alpha; divide it out (vendor-gameswf/lossless_pixels.hpp).
+					for (int j = 0; j < height; j++)
+					{
+						Uint8*	image_row = scanline(image, j);
+						for (int i = 0; i < width; i++)
+						{
+							lossless_dh2::unpremultiply_argb_to_rgba(image_row + i * 4);
+						}
+					}
+				}
+
+				bi = render::create_bitmap_info_rgba(image);
+				//				bitmap_character*	ch = new bitmap_character(image);
+				destruct(image);	// DH2
+
+				//				// add image to movie, under character id.
+				//				m->add_bitmap_character(character_id, ch);
+			}
+#endif // TU_CONFIG_LINK_TO_ZLIB
+		}
+
+		bitmap_character*	ch = new bitmap_character(m, bi);
+
+		// add image to movie, under character id.
+		m->add_bitmap_character(character_id, ch);
+	}
+
+	// 0x75fac8 gameswf::define_abc_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_abc_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 82);
@@ -1016,6 +1349,7 @@ namespace gameswf
 		m->add_abc(name, abc);
 	}
 
+	// 0x75c9dc gameswf::define_font_name(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_font_name(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 88);
@@ -1042,6 +1376,7 @@ namespace gameswf
 
 	}
 
+	// 0x75c44c gameswf::define_scene_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_scene_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 86);
@@ -1072,6 +1407,7 @@ namespace gameswf
 
 	}
 
+	// 0x75f7d8 gameswf::define_shape_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_shape_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 2 || tag_type == 22 || tag_type == 32 || tag_type == 83);
@@ -1087,6 +1423,7 @@ namespace gameswf
 		m->add_character(character_id, ch);
 	}
 
+	// 0x75f950 gameswf::define_shape_morph_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void define_shape_morph_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 46 || tag_type == 84);
@@ -1102,6 +1439,7 @@ namespace gameswf
 	//
 
 
+	// 0x75f658 gameswf::define_font_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_font_loader(stream* in, int tag_type, movie_definition_sub* m)
 		// Load a DefineFont or DefineFont2 tag.
 	{
@@ -1121,6 +1459,7 @@ namespace gameswf
 	}
 
 
+	// 0x75ae00 gameswf::define_font_info_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_font_info_loader(stream* in, int tag_type, movie_definition_sub* m)
 		// Load a DefineFontInfo tag.  This adds information to an
 		// existing font.
@@ -1140,6 +1479,7 @@ namespace gameswf
 		}
 	}
 
+	// 0x75c92c gameswf::define_enable_debugger_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_enable_debugger_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// this tag defines characteristics of the SWF file (Flash 8)
 	{
@@ -1155,6 +1495,7 @@ namespace gameswf
 		in->read_string(&md5_password);
 	}
 
+	// 0x75a4bc gameswf::define_tabindex_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_tabindex_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 66);
@@ -1166,6 +1507,7 @@ namespace gameswf
 		UNUSED(tabindex);
 	}
 
+	// 0x75a4ec gameswf::define_file_attribute_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_file_attribute_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// this tag defines characteristics of the SWF file (Flash 8)
 	{
@@ -1179,6 +1521,7 @@ namespace gameswf
 		m->m_use_network =  attr & 0x010 ? true : false;
 	}
 
+	// 0x75ada4 gameswf::define_font_alignzones(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_font_alignzones(stream* in, int tag_type, movie_definition_sub* m)
 	// this tag defines characteristics of the SWF file (Flash 8)
 	{
@@ -1196,6 +1539,7 @@ namespace gameswf
 		}
 	}
 
+	// 0x75a7a0 gameswf::define_csm_textsetting_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	define_csm_textsetting_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// this tag defines quality & options of text filed
 	{
@@ -1222,6 +1566,7 @@ namespace gameswf
 	// place_object_2
 	//
 
+	#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_impl-0.cpp (the class is declared in execute_tags.hpp: the DH2 tag is one variable-size block, place_object_2::read makes it) */
 	struct place_object_2 : public execute_tag
 	{
 		int	m_tag_type;
@@ -1235,6 +1580,7 @@ namespace gameswf
 		Uint16	m_character_id;
 		Uint16	m_clip_depth;
 		Uint8   m_blend_mode;
+		effect	m_effect;	// DH2: the effect the character keeps a pointer to (blend mode from m_blend_mode); the DH2 add, move and replace take optional pointers
 		enum place_type {
 			PLACE,
 			MOVE,
@@ -1502,6 +1848,7 @@ namespace gameswf
 				default:
 					break;
 
+				#if 0 /* DH2: the transform arguments are optional pointers (character.h), and the blend mode is part of the effect */
 				case PLACE:
 					if ((m_blend_mode == 0) && (m->m_blend_mode != 0))
 					{
@@ -1526,6 +1873,21 @@ namespace gameswf
 
 				case REPLACE:
 					m->replace_display_object( m_character_id, m_character_name.c_str(), m_depth, m_has_cxform, m_color_transform, m_has_matrix, m_matrix, m_ratio, m_clip_depth, m_blend_mode);
+					break;
+				#endif /* DH2 */
+				case PLACE:
+					m_effect.m_blend_mode = m_blend_mode;
+					m->add_display_object( m_character_id, m_character_name, m_event_handlers, m_depth, m_tag_type != 4, m_has_cxform ? &m_color_transform : NULL, m_has_matrix ? &m_matrix : NULL, &m_effect, m_ratio, m_clip_depth);	// DH2: 10 arguments
+					break;
+
+				case MOVE:
+					m_effect.m_blend_mode = m_blend_mode;
+					m->move_display_object( m_depth, m_has_cxform ? &m_color_transform : NULL, m_has_matrix ? &m_matrix : NULL, &m_effect, m_ratio, m_clip_depth);	// DH2: 6 arguments
+					break;
+
+				case REPLACE:
+					m_effect.m_blend_mode = m_blend_mode;
+					m->replace_display_object( m_character_id, m_character_name.c_str(), m_depth, m_has_cxform ? &m_color_transform : NULL, m_has_matrix ? &m_matrix : NULL, &m_effect, m_ratio, m_clip_depth);	// DH2: 8 arguments
 					break;
 				}
 		}
@@ -1553,7 +1915,11 @@ namespace gameswf
 
 				case MOVE:
 					// reverse of move is move
+					#if 0 /* DH2: optional pointers, see execute() */
 					m->move_display_object( m_depth, m_has_cxform, m_color_transform, m_has_matrix, m_matrix, m_ratio, m_clip_depth, m->m_blend_mode);
+					#endif /* DH2 */
+					m_effect.m_blend_mode = m_blend_mode;
+					m->move_display_object( m_depth, m_has_cxform ? &m_color_transform : NULL, m_has_matrix ? &m_matrix : NULL, &m_effect, m_ratio, m_clip_depth);	// DH2
 					break;
 
 				case REPLACE:
@@ -1593,17 +1959,22 @@ namespace gameswf
 			}
 		}
 	};
+	#endif /* DH2 */
 
 
 
+	// 0x75f498 gameswf::place_object_2_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	place_object_2_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 4 || tag_type == 26 || tag_type == 70);
 
 		IF_VERBOSE_PARSE(log_msg("  place_object_2\n"));
 
+		#if 0 /* DH2: place_object_2::read makes the tag itself */
 		place_object_2*	ch = new place_object_2;
 		ch->read(m->get_player(), in, tag_type, m->get_version());
+		#endif /* DH2 */
+		place_object_2*	ch = place_object_2::read(m->get_player(), in, tag_type, m->get_version(), m);	// DH2: 0x75cb6c
 
 		m->add_execute_tag(ch);
 	}
@@ -1611,12 +1982,16 @@ namespace gameswf
 	// Create a (mutable) instance of our definition.  The
 	// instance is created to live (temporarily) on some level on
 	// the parent movie's display list.
+	#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_sprite_definition-9a9a59-0.cpp (0x75f5d0) */
 	character*	sprite_definition::create_character_instance(character* parent, int id)
 	{
 		sprite_instance*	si = new sprite_instance(get_player(), this, parent->get_root(), parent, id);
 		return si;
 	}
+	#endif /* DH2 */
 
+	// 0x76020c gameswf::movie_def_impl::create_instance()
+	// DH2: the r1714 body (create_root, then the frame-0 tags on the root movie, execute_frame_tags(0, false)).
 	root*	movie_def_impl::create_instance()
 	// Create a playable movie instance from a def.
 	{
@@ -1628,6 +2003,7 @@ namespace gameswf
 		return root;
 	}
 
+	// 0x75ffb0 gameswf::movie_def_impl::create_root()
 	root*	movie_def_impl::create_root()
 	{
 		// Is the movie instance already in the library?
@@ -1648,18 +2024,34 @@ namespace gameswf
 			m_instance = m;
 		}
 
+		#if 0 /* DH2: the player makes the sprite instance (player::create_sprite_instance, 0x76ccf0) and the $version string is interned */
 		sprite_instance*	root_movie = new sprite_instance(get_player(), this, m, NULL, -1);
 		assert(root_movie);
 
 		// By default _root has no name
 		//		root_movie->set_name("_root");
 		root_movie->set_member("$version", get_gameswf_version());	// Flash 8
+		#endif /* DH2 */
+		sprite_instance*	root_movie = get_player()->create_sprite_instance(this, m, NULL, -1);
+		assert(root_movie);
+
+		// By default _root has no name
+		//		root_movie->set_name("_root");
+		{
+			// DH2: "$version" is set to the interned copy of the version string (the player's permanent string cache), as a string value
+			tu_string version_name("$version");
+			tu_string version_text(get_gameswf_version());
+			as_value version_value;
+			version_value.set_tu_string(*get_player()->m_permanent_strings.get(version_text));
+			root_movie->set_member(version_name.to_tu_stringi(), version_value);	// Flash 8
+		}
 		m->set_root_movie(root_movie);
 		return m;
 	}
 
 
 	// Create and initialize a sprite, and add it to the movie.
+	// 0x75f534 gameswf::sprite_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	sprite_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 39);
@@ -1680,6 +2072,7 @@ namespace gameswf
 
 	// end_tag doesn't actually need to exist.
 
+	// 0x759e28 gameswf::end_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	end_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 0);
@@ -1692,6 +2085,7 @@ namespace gameswf
 	//
 
 
+	#if 0 /* DH2: the class is declared in vendor-gameswf/include/vendor-gameswf/execute_tags.hpp; the members follow it */
 	struct remove_object_2 : public execute_tag
 	{
 		int	m_depth, m_id;
@@ -1738,8 +2132,59 @@ namespace gameswf
 
 		virtual bool is_remove_tag() const { return true; }
 	};
+	#endif /* DH2 */
+
+	// r1714 member, inlined into remove_object_2_loader (0x75a804) in the binary.
+	void remove_object_2::read(stream* in, int tag_type)
+	{
+		assert(tag_type == 5 || tag_type == 28);
+
+		if (tag_type == 5)
+		{
+			// Older SWF's allow multiple objects at the same depth;
+			// this m_id disambiguates.  Later SWF's just use one
+			// object per depth.
+			m_id = in->read_u16();
+		}
+		m_depth = in->read_u16();
+	}
+
+	// 0x759e2c gameswf::remove_object_2::execute(gameswf::character*)
+	// DH2: the r1714 body.
+	void remove_object_2::execute(character* m)
+	{
+		m->remove_display_object(m_depth, m_id);
+	}
+
+	// 0x759e4c gameswf::remove_object_2::execute_state(gameswf::character*)
+	// DH2: the r1714 body (a call of the virtual execute).
+	void remove_object_2::execute_state(character* m)
+	{
+		execute(m);
+	}
+
+	// 0x75a5e4 gameswf::remove_object_2::execute_state_reverse(gameswf::character*, int)
+	// DH2: the r1714 body.
+	void remove_object_2::execute_state_reverse(character* m, int frame)
+	{
+		// reverse of remove is to re-add the previous object.
+		execute_tag* last_add = m->find_previous_replace_or_add_tag(frame, m_depth, m_id);
+		if (last_add)
+		{
+			last_add->execute_state(m);
+		}
+		else
+		{
+			log_error("reverse REMOVE can't find previous replace or add tag(%d, %d)\n", frame, m_depth);
+		}
+	}
+
+	// 0x759e60 gameswf::remove_object_2::is_remove_tag() const
+	// DH2: the r1714 body.
+	bool remove_object_2::is_remove_tag() const { return true; }
 
 
+	// 0x75a804 gameswf::remove_object_2_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	remove_object_2_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 5 || tag_type == 28);
@@ -1753,6 +2198,7 @@ namespace gameswf
 	}
 
 
+	// 0x75a8dc gameswf::button_sound_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	button_sound_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 17);
@@ -1765,6 +2211,7 @@ namespace gameswf
 	}
 
 
+	// 0x75f3f4 gameswf::button_character_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	button_character_loader(stream* in, int tag_type, movie_definition_sub* m)
 	{
 		assert(tag_type == 7 || tag_type == 34);
@@ -1785,8 +2232,11 @@ namespace gameswf
 	//
 
 
+	#if 0 /* DH2: the binary has no substitution callback of this kind; export_loader calls substitute_bitmap_character (0x759cfc, fddef6-1) */
 	static bitmap_substitution_callback s_bitmap_substitution = NULL;
 	void register_bitmap_substitution_callback(bitmap_substitution_callback p) { s_bitmap_substitution=p; }
+	#endif /* DH2 */
+	// 0x75c5f8 gameswf::export_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	export_loader(stream* in, int tag_type, movie_definition_sub* m) // Load an export tag (for exposing internal resources of m)
 	{
 		assert(tag_type == 56);
@@ -1816,7 +2266,10 @@ namespace gameswf
 			else if (bitmap_character_def* ch = m->get_bitmap_character(id))
 			{
 				m->export_resource(resource_name, ch);
+				#if 0 /* DH2 */
 				if (s_bitmap_substitution) s_bitmap_substitution(resource_name.c_str(),ch->get_bitmap_info());
+				#endif /* DH2 */
+				substitute_bitmap_character(resource_name, ch, m);	// DH2: 0x759cfc (the host's texture loader callback)
 			}
 			else if (sound_sample* ch = m->get_sound_sample(id))
 			{
@@ -1835,6 +2288,7 @@ namespace gameswf
 	//
 
 
+	// 0x760238 gameswf::import_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void	import_loader(stream* in, int tag_type, movie_definition_sub* m) // Load an import tag (for pulling in external resources)
 	{
 		assert(tag_type == 57);
@@ -1926,6 +2380,7 @@ namespace gameswf
 	}
 #endif
 
+	// 0x75a494 gameswf::video_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void video_loader(stream* in, int tag, movie_definition_sub* m)
 	{
 		assert(tag == 61); // 61
@@ -1933,12 +2388,16 @@ namespace gameswf
 		Uint16 character_id = in->read_u16();
 		character_def* chdef = m->get_character_def(character_id);
 
+		#if 0 /* DH2: the binary (0x75a494) only looks the character up; the video definition is not read */
 		video_stream_definition* ch = cast_to<video_stream_definition>(chdef);
 		assert(ch != NULL);
 
 		ch->read(in, tag, m);
+		#endif /* DH2 */
+		UNUSED(chdef);
 	}
 
+	// 0x75a524 gameswf::sound_stream_head_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void sound_stream_head_loader(stream* in, int tag, movie_definition_sub* m)
 	{
 		assert(tag == 18 || tag == 45);
@@ -1969,6 +2428,7 @@ namespace gameswf
 		}
 	}
 
+	// 0x75ba28 gameswf::sound_stream_block_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void sound_stream_block_loader(stream* in, int tag, movie_definition_sub* m)
 	{
 		assert(tag == 19);
@@ -2015,6 +2475,7 @@ namespace gameswf
 		}
 	}
 
+	// 0x75c7d4 gameswf::define_metadata_loader(gameswf::stream*, int, gameswf::movie_definition_sub*)
 	void define_metadata_loader(stream* in, int tag, movie_definition_sub* m)
 	{
 		// Flash help says: Flash Player always ignores the Metadata tag.
@@ -2023,6 +2484,7 @@ namespace gameswf
 		in->read_string(&str);
 	}
 
+	#if 0 /* DH2: replaced by v1-vendor-gameswf-pack1-607ee7-0.cpp (constructor, is, point_test_local, get_bound, display, get_bitmap_info, destructor) */
 	// Bitmap character implementation
 
 	bitmap_character::bitmap_character(movie_definition* rdef, bitmap_info* bi) :
@@ -2125,6 +2587,7 @@ namespace gameswf
 		return m_bitmap_info.get_ptr();
 	}
 
+	#endif /* DH2 */
 }
 
 // Local Variables:

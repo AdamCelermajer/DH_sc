@@ -34,6 +34,7 @@ namespace gameswf
 	// Helper to generate mouse events, given mouse state & history.
 	//
 
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/gameswf_root.hpp (12 bytes, no pointer position) */
 	struct mouse_button_state
 	{
 		gc_ptr<character> m_active_entity;	// entity that currently owns the mouse pointer
@@ -57,6 +58,7 @@ namespace gameswf
 		{
 		}
 	};
+#endif /* DH2: mouse_button_state */
 
 	//
 	// root

@@ -115,7 +115,7 @@ namespace gameswf
 	//	}
 	void instance_info::read(stream* in, abc_def* abc)
 	{
-		m_abc = abc;
+		// DH2: instance_info has no m_abc (0x7b970c does not store the definition)
 		m_name = in->read_vu30();
 		m_super_name = in->read_vu30();
 
@@ -153,7 +153,7 @@ namespace gameswf
 	{
 		// This is an index into the method array of the abcFile
 		m_cinit = in->read_vu30();
-		m_abc = abc;
+		// DH2: class_info has no m_abc (0x7b90f8 does not store the definition)
 		assert(m_cinit < abc->m_method.size());
 
 		int n = in->read_vu30();
@@ -473,6 +473,7 @@ namespace gameswf
 			IF_VERBOSE_PARSE(log_msg("cpool_info: no namespace sets\n"));
 		}
 
+#if 0 /* DH2: replaced by the multiname block that follows (0x7b9c90) */
 		// multiname pool
 		n = in->read_vu30();
 		if (n > 0)
@@ -539,6 +540,49 @@ namespace gameswf
 		{
 			IF_VERBOSE_PARSE(log_msg("cpool_info: no multiname pool\n"));
 		}
+#endif /* DH2 */
+		// multiname pool
+		// DH2: 0x7b9c90. Differs from r1714: Multiname/MultinameA read ns_set first and then name; MultinameL/MultinameLA read only
+		// DH2: ns_set and leave m_name as the previous entry had it (no m_name = -1); mn starts all zero (see multiname()).
+		n = in->read_vu30();
+		if (n > 0)
+		{
+			m_multiname.resize(n);
+			multiname mn;
+			m_multiname[0] = mn;	// default value
+			for (int i = 1; i < n; i++)
+			{
+				Uint8 kind = in->read_u8();
+				mn.m_kind = kind;
+				switch (kind)
+				{
+					case multiname::CONSTANT_QName:
+					case multiname::CONSTANT_QNameA:
+						mn.m_ns = in->read_vu30();
+						mn.m_name = in->read_vu30();
+						break;
+
+					case multiname::CONSTANT_Multiname:
+					case multiname::CONSTANT_MultinameA:
+						mn.m_ns_set = in->read_vu30();
+						mn.m_name = in->read_vu30();
+						break;
+
+					case multiname::CONSTANT_MultinameL:
+					case multiname::CONSTANT_MultinameLA:
+						mn.m_ns_set = in->read_vu30();
+						break;
+
+					default:
+						break;
+				}
+				m_multiname[i] = mn;
+			}
+		}
+		else
+		{
+			IF_VERBOSE_PARSE(log_msg("cpool_info: no multiname pool\n"));
+		}
 
 
 	}
@@ -561,10 +605,10 @@ namespace gameswf
 	// 'name' is the fully-qualified name of the ActionScript 3.0 class 
 	// with which to associate this symbol.
 	// The class must have already been declared by a DoABC tag.
-	as_function* abc_def::get_class_constructor(const tu_string& name) const
+	as_function* abc_def::get_class_constructor(tu_string& name) const	// DH2: 0x7b7fc0, non-const argument, goes through find_instance
 	{
 		// find instance_info by name
-		instance_info* ii = get_instance_info(name);
+		instance_info* ii = find_instance(name);
 		if (ii != NULL)
 		{
 			// 'ii->m_iinit' is an index into the method array of the abcFile; 

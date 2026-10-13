@@ -17,13 +17,17 @@
 #include "gameswf/gameswf_font.h"
 #include "gameswf/gameswf_sound.h"
 #include "gameswf/gameswf_stream.h"
+#if 0 /* DH2: unused here (only in comments), and the header needs the r1714 glyph_provider */
 #include "gameswf/gameswf_fontlib.h"
+#endif /* DH2 */
 #include "base/jpeg.h"
 #include "base/zlib_adapter.h"
 
+#if 0 /* DH2: nothing here uses zlib any more (read() is in vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp, which goes through zlib_adapter) */
 #if TU_CONFIG_LINK_TO_ZLIB
 #include <zlib.h>
 #endif // TU_CONFIG_LINK_TO_ZLIB
+#endif /* DH2 */
 
 
 namespace gameswf
@@ -121,6 +125,7 @@ namespace gameswf
 
 #endif /* DH2 */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (the binary frees the thread object, uses destruct<execute_tag>, and has no jpeg assert) */
 	movie_def_impl::~movie_def_impl()
 	{
 		break_loading();
@@ -150,6 +155,7 @@ namespace gameswf
 		assert(m_jpeg_in == NULL);	// It's supposed to be cleaned up in read()
 	}
 
+#endif /* DH2 */
 	// ...
 	float	movie_def_impl::get_frame_rate() const { return m_frame_rate; }
 	void	movie_def_impl::set_frame_rate(float rate) { m_frame_rate = rate; }
@@ -208,7 +214,7 @@ namespace gameswf
 	// Get the named exported resource, if we expose it.
 	// Otherwise return NULL.
 	{
-		gc_ptr<character_def>	res;
+		smart_ptr<character_def>	res;
 		m_exports.get(symbol, &res);
 		return res.get_ptr();
 	}
@@ -296,18 +302,20 @@ namespace gameswf
 		}
 #endif // not NDEBUG
 
-		gc_ptr<character_def>	ch;
+		smart_ptr<character_def>	ch;
 		m_characters.get(character_id, &ch);
-		assert(ch == NULL || gc_collector::debug_get_ref_count(ch) > 1);
+		// DH2: no collector, so no reference-count assert (the binary returns the pointer, 0x764160 and its siblings)
 		return ch.get_ptr();
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (the binary has only the tu_stringi form, vtable +0x60) */
 	bool	movie_def_impl::get_labeled_frame(const char* label, int* frame_number)
 		// Returns 0-based frame #
 	{
 		return m_named_frames.get(label, frame_number);
 	}
 
+#endif /* DH2 */
 	void	movie_def_impl::add_font(int font_id, font* f)
 	{
 		assert(f);
@@ -325,15 +333,15 @@ namespace gameswf
 		}
 #endif // not NDEBUG
 
-		gc_ptr<font>	f;
+		smart_ptr<font>	f;
 		m_fonts.get(font_id, &f);
-		assert(f == NULL || gc_collector::debug_get_ref_count(f) > 1);
+		// DH2: no collector, so no reference-count assert (the binary returns the pointer, 0x764160 and its siblings)
 		return f.get_ptr();
 	}
 
 	font*	movie_def_impl::find_font(const char* name) const
 	{
-		for (hash<int, gc_ptr<font> >::const_iterator it = m_fonts.begin(); it != m_fonts.end(); ++it)
+		for (hash<int, smart_ptr<font> >::const_iterator it = m_fonts.begin(); it != m_fonts.end(); ++it)
 		{
 			if (it->second->get_name() == name)
 			{
@@ -345,9 +353,9 @@ namespace gameswf
 
 	bitmap_character_def*	movie_def_impl::get_bitmap_character(int character_id)
 	{
-		gc_ptr<bitmap_character_def>	ch;
+		smart_ptr<bitmap_character_def>	ch;
 		m_bitmap_characters.get(character_id, &ch);
-		assert(ch == NULL || gc_collector::debug_get_ref_count(ch) > 1);
+		// DH2: no collector, so no reference-count assert (the binary returns the pointer, 0x764160 and its siblings)
 		return ch.get_ptr();
 	}
 
@@ -361,9 +369,9 @@ namespace gameswf
 
 	sound_sample*	movie_def_impl::get_sound_sample(int character_id)
 	{
-		gc_ptr<sound_sample>	ch;
+		smart_ptr<sound_sample>	ch;
 		m_sound_samples.get(character_id, &ch);
-		assert(ch == NULL || gc_collector::debug_get_ref_count(ch) > 1);
+		// DH2: no collector, so no reference-count assert (the binary returns the pointer, 0x764160 and its siblings)
 		return ch.get_ptr();
 	}
 
@@ -379,6 +387,7 @@ namespace gameswf
 		m_playlist[get_loading_frame()].push_back(e);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (add_init_action sets has_init_actions; add_frame_name interns the label) */
 	void	movie_def_impl::add_init_action(int sprite_id, execute_tag* e)
 	// Need to execute the given tag before entering the
 	// currently-loading frame for the first time.
@@ -406,6 +415,7 @@ namespace gameswf
 		m_named_frames.add(n, get_loading_frame());	// stores 0-based frame #
 	}
 
+#endif /* DH2 */
 	void	movie_def_impl::set_jpeg_loader(jpeg::input* j_in)
 	// Set an input object for later loading DefineBits
 	// images (JPEG images without the table info).
@@ -429,6 +439,7 @@ namespace gameswf
 		return &m_init_action_list[frame_number];
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (read: buffered or inflated file, no loader thread; read_tags: destroys and frees the files) */
 	void	movie_def_impl::read(tu_file* in)
 	// Read a .SWF movie.
 	{
@@ -559,6 +570,7 @@ namespace gameswf
 	}
 
 
+#endif /* DH2 */
 	void	movie_def_impl::get_owned_fonts(array<font*>* fonts)
 	// Fill up *fonts with fonts that we own.
 	{
@@ -567,7 +579,7 @@ namespace gameswf
 
 		array<int>	font_ids;
 
-		for (hash<int, gc_ptr<font> >::iterator it = m_fonts.begin();
+		for (hash<int, smart_ptr<font> >::iterator it = m_fonts.begin();
 			it != m_fonts.end();
 			++it)
 		{
@@ -614,7 +626,7 @@ namespace gameswf
 //		fontlib::output_cached_data(out, fonts, this, options);
 
 		// Write character data.
-		{for (hash<int, gc_ptr<character_def> >::iterator it = m_characters.begin();
+		{for (hash<int, smart_ptr<character_def> >::iterator it = m_characters.begin();
 		it != m_characters.end();
 		++it)
 		{
@@ -666,7 +678,7 @@ namespace gameswf
 			Sint16	id = in->read_le16();
 			if (id == (Sint16) -1) { break; }	// done
 
-			gc_ptr<character_def> ch;
+			smart_ptr<character_def> ch;
 			m_characters.get(id, &ch);
 			if (ch != NULL)
 			{
@@ -697,9 +709,9 @@ namespace gameswf
 		{
 			assert(m_abc != NULL);
 
-			instance_info* ii = m_abc->get_instance_info(class_name);
-
-			ch->set_instance( ii );
+			// DH2: the binary reads the instance info straight from the abc table at the symbol id (0x7679fc);
+			// DH2: character has no set_instance.
+			instance_info* ii = m_abc->m_instance[symbol_id].get_ptr();
 
 			// create traits
 			for (int i = 0; i < ii->m_trait.size(); i++)
@@ -726,11 +738,12 @@ namespace gameswf
 
 					case traits_info::Trait_Class:
 					case traits_info::Trait_Function:
-						assert(0&&"todo");
+						// DH2: r1714 asserts "todo" here; the binary leaves the value undefined and sets it
 						break;
 
 					default:
-						assert(0);
+						// DH2: no assert in the binary either
+						break;
 				}
 
 				ch->set_member(name, val);

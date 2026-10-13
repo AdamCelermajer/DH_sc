@@ -9,17 +9,17 @@
 //   0x7d4340  ensureBufferCapacity: operator new[](uint, glitch::memory::E_MEMORY_HINT) with hint 0; zeroes words 0,1,3,4,5 of each 24-byte entry;
 //             stores the block at +0x374 and the capacity at +0x370; IBuffer::reset(size, block, true) is called on
 //             the IBuffer* at [m_vertex_streams] + 0x14 between the two stores
-//   0x7d43cc  line_style_color: cxform::transform(rgba) at this+0x324; line flag at +0x448 = 1; colour at +0x44c;
-//             returns the alpha byte (LSR #24) in r0
+//   0x7d43cc  line_style_color: cxform::transform(rgba) at this+0x324; line flag at +0x448 = 1; colour at +0x44c
+//             (the alpha byte left in r0 is the register of the last byte store, not a return value)
 //   0x7d4558  fill_style_bitmap: tail call to fill_style::set_bitmap (0x7d4430), which returns bool
 //
 // The line style is fill entry 2 (+0x448 = +0x3b0 + 2 * 76): its unk_00 is the flag that fill_style_color sets to 1,
 // its color[4] starts at +0x44c and its unk_48 is the width at +0x490.
 //
-// Not reproduced (see the partial notes): the driver calls in set_target and end_display_callback (IVideoDriver
-// methods with no declaration in glitch-video), the IBuffer::reset call in ensureBufferCapacity, the second context
-// store in set_context (it lands in BufferedRenderer::m_textureCache), and the alpha return of line_style_color (the
-// render_handler interface declares that function void).
+// All 20 functions of the batch are complete against the canonical glitch-video headers (IVideoDriver pushRenderTarget,
+// popRenderTarget and setTransform; IBuffer::reset on the first stream of CVertexStreams; BufferedRenderer::m_playerContext).
+// The returns of the binary's register r0 (line_style_color returns the alpha byte, set_target and end_display_callback
+// return a driver result) are leftovers of the code generation: the interface functions are void.
 
 #include "vendor-gameswf/render_handler_glitch.hpp"
 
@@ -28,6 +28,9 @@
 
 #include "gameswf/gameswf_types.h"  // gameswf::rgba (full definition)
 #include "glitch-core-io/core/memory_hint.hpp"  // glitch::memory::E_MEMORY_HINT (canonical), the hint of 0x7d4340
+#include "glitch-video/buffer.hpp"              // IBuffer::reset
+#include "glitch-video/vertex_streams.hpp"      // CVertexStreams::m_streams
+#include "glitch-video/video_driver.hpp"        // IVideoDriver
 
 // Tagged global operator new[] that 0x7d4340 calls (_ZnajN6glitch6memory13E_MEMORY_HINTE), defined in
 // core-platform/src/memory.cpp. core-platform/memory.hpp also declares it, but this TU cannot include that header:
@@ -57,17 +60,14 @@ gameswf::video_handler* render_handler_glitch::create_video_handler() {
 }
 
 // 0x7d3e0c _ZN21render_handler_glitch10set_targetEPN7gameswf11bitmap_infoE
-// partial: both branches are present, but their driver calls are not made. With a target, the original calls
-// the driver's pushRenderTarget at vtable +0x8c with the bitmap_info field at +0x14 (an intrusive_ptr to a render
-// target, passed by const reference). With no target, it calls popRenderTarget at vtable +0x90 and drops the
-// returned value. The base IVideoDriver symbols name both slots (decomp_vtable.py glitch::video::IVideoDriver),
-// but the glitch-video header video_driver.hpp declares neither method, and the bitmap_info layout (the field at
-// +0x14) is not in the tree.
+// With a target, the driver's pushRenderTarget (vtable +0x8c) gets the target's render target (the bitmap_info_ogl field
+// at +0x14, passed by const reference). With none, the driver's popRenderTarget (vtable +0x90) runs and the returned
+// reference is dropped.
 void render_handler_glitch::set_target(gameswf::bitmap_info* target) {
     if (target != nullptr) {
-        // missing: m_driver->pushRenderTarget(<bitmap_info +0x14>)
+        m_driver->pushRenderTarget(static_cast<::bitmap_info_ogl*>(target)->m_render_target);
     } else {
-        // missing: m_driver->popRenderTarget(), result discarded
+        m_driver->popRenderTarget();
     }
 }
 
@@ -89,24 +89,21 @@ void render_handler_glitch::set_wire_frame(bool wire) {
 }
 
 // 0x7d3e78 _ZN21render_handler_glitch11set_contextEPN7gameswf14player_contextE
-// partial: the store at +0x08 is made. The second store, of the same pointer at +0x228 (552), is not made:
-// +0x228 is BufferedRenderer::m_textureCache (BufferedRenderer at +0x1f0, its +0x38), which the BufferedRenderer
-// header types as gameswf::texture_cache*, not as a player context. Layout conflict for the integrator.
+// Stores the context in the batch renderer (this+0x228, BufferedRenderer::m_playerContext, which flush passes to
+// texture_cache::unlock_all), then in this+0x08 (m_context).
 void render_handler_glitch::set_context(gameswf::player_context* context) {
+    m_buffered.m_playerContext = context;
     m_context = context;
 }
 
 // 0x7d3e84 _ZN21render_handler_glitch20end_display_callbackEv
-// partial: the original makes three driver calls, in this order, each taking a transform state and a matrix:
-//   vtable +0x6c, state 2 (projection) with &m_projection (+0x114)
-//   vtable +0x6c, state 0 (view)       with &m_view       (+0x158)
-//   vtable +0x6c, state 1 (world)      with &m_world      (+0x19c)
-// The state numbering follows the glitch E_TRANSFORMATION_STATE used by glitch-scene SViewFrustum. The slot is pure
-// in the glitch-video IVideoDriver base and its method name is not in the tree, so the calls are not made.
+// Gives the driver the matrices of m_state, in this order (setTransform, driver vtable +0x6c): state 2 (projection,
+// +0x114), state 0 (view, +0x158) and state 1 (world, +0x19c). The state numbers are the values of
+// E_TRANSFORMATION_STATE that the enumerators of glitch-video do not name.
 void render_handler_glitch::end_display_callback() {
-    // missing: m_driver, vtable +0x6c, (state 2, &m_projection)
-    // missing: m_driver, vtable +0x6c, (state 0, &m_view)
-    // missing: m_driver, vtable +0x6c, (state 1, &m_world)
+    m_driver->setTransform(2, m_state.projection);
+    m_driver->setTransform(0, m_state.view);
+    m_driver->setTransform(1, m_state.world);
 }
 
 // 0x7d3ee4 _ZN21render_handler_glitch10set_matrixERKN7gameswf6matrixE
@@ -157,16 +154,12 @@ void render_handler_glitch::set_buffer_capacity(gameswf::render_handler::buffer_
 }
 
 // 0x7d4340 _ZN21render_handler_glitch20ensureBufferCapacityEi
-// partial: the growth path is reproduced except the IBuffer::reset call. Growing allocates 24 * n bytes with
-// ::operator new[](size, glitch::memory::E_MEMORY_HINT(0)). The binary calls _ZnajN6glitch6memory13E_MEMORY_HINTE
-// with R1 = 0, the hinted overload and not plain new[]. It then zeroes words 0, 1, 3, 4 and 5 of each entry (word 2
-// is left as allocated), stores the block at +0x374, calls IBuffer::reset(size, block, true) on the IBuffer* at
-// +0x14 of the object in m_vertex_streams (+0x378), and stores the new capacity at +0x370. The reset call is
-// missing. Its target is the buffer of the object's first stream entry (entry 0 is at +0x14 and SVertexStream::buffer
-// is its +0x00 in glitch-video/vertex_streams.hpp), but that header keeps the entries in a std::vector, so the mapping
-// is left to the integrator. reset takes ownership of the block, so the hinted allocation above is the one that
-// matches it. glitch-video's IBuffer::reset (src/buffer.cpp) releases owned data with plain delete[]; that release
-// path is not checked against the binary. The old block is not freed (as in the original).
+// Grows the staging vertices to vertex_count entries of 24 bytes. The block comes from ::operator new[](size,
+// glitch::memory::E_MEMORY_HINT(0)): the binary calls _ZnajN6glitch6memory13E_MEMORY_HINTE with R1 = 0, the hinted
+// overload and not plain new[]. Words 0, 1, 3, 4 and 5 of each entry are zeroed (word 2, the colour, is left as
+// allocated). The block is stored at +0x374 and handed to the buffer of the first stream of m_vertex_streams
+// (the IBuffer at +0x14 of the streams object) with IBuffer::reset(size, block, true), which keeps ownership of it; then the
+// new capacity is stored at +0x370. The old block is not freed here: reset releases the data the buffer owned.
 void render_handler_glitch::ensureBufferCapacity(int vertex_count) {
     if (m_vertex_capacity >= vertex_count) {
         return;
@@ -186,15 +179,14 @@ void render_handler_glitch::ensureBufferCapacity(int vertex_count) {
         }
     }
     m_vertices = block;
-    // missing: IBuffer::reset(byte_size, block, true) on the IBuffer* at m_vertex_streams->+0x14
+    m_vertex_streams->m_streams[0].buffer->reset(byte_size, block, true);
     m_vertex_capacity = vertex_count;
 }
 
 // 0x7d43cc _ZN21render_handler_glitch16line_style_colorEN7gameswf4rgbaE
-// partial: the stores are reproduced. The colour goes through the cxform at this+0x324, then the line style's flag
-// (fill entry 2, unk_00) is set to 1 and the four colour bytes are stored at +0x44c in rgba order. The original also
-// returns the alpha byte of the transformed colour in r0 (HIBYTE of the packed value). The render_handler interface
-// declares this function void, so that return value is not produced.
+// The colour goes through the cxform at this+0x324, then the line style's flag (fill entry 2, unk_00) is set to 1 and the
+// four colour bytes are stored at +0x44c in rgba order. The alpha byte that the listing leaves in r0 is the register
+// the last byte store used (UBFX/LSR into r0, then STRB r0); the function is void.
 void render_handler_glitch::line_style_color(gameswf::rgba color) {
     const gameswf::rgba transformed = m_cxform.transform(color);
     fill_style& line = m_fill_styles[2];
@@ -203,6 +195,28 @@ void render_handler_glitch::line_style_color(gameswf::rgba color) {
     line.color[1] = transformed.m_g;
     line.color[2] = transformed.m_b;
     line.color[3] = transformed.m_a;
+}
+
+// 0x7d4430 render_handler_glitch::fill_style::set_bitmap(gameswf::bitmap_info*, gameswf::matrix const&, gameswf::render_handler::bitmap_wrap_mode, gameswf::cxform const&)
+// Sets the fill side for a bitmap fill: the fill type (3 for a clamped wrap, 2 for repeat), the bitmap pointer, the
+// matrix, and a copy of the colour transform, clamped. The four colour bytes are the clamped multipliers (r, g, b, a)
+// times 255. The flag is set when any of the four additive terms is above 1. The return value is that flag.
+bool render_handler_glitch::fill_style::set_bitmap(gameswf::bitmap_info* bitmap, const gameswf::matrix& m,
+                                                   gameswf::render_handler::bitmap_wrap_mode wrap,
+                                                   const gameswf::cxform& cx) {
+    unk_00 = static_cast<int>(wrap) != 0 ? 3 : 2;
+    source_bitmap = bitmap;
+    bitmap_matrix = m;
+    bitmap_cxform = cx;
+    bitmap_cxform.clamp();
+    for (int c = 0; c < 4; ++c) {
+        color[c] = static_cast<std::uint8_t>(
+            static_cast<unsigned int>(static_cast<float>(bitmap_cxform.m_[c][0] * 255.0)));
+    }
+    const bool over = bitmap_cxform.m_[0][1] > 1.0f || bitmap_cxform.m_[1][1] > 1.0f ||
+                      bitmap_cxform.m_[2][1] > 1.0f || bitmap_cxform.m_[3][1] > 1.0f;
+    unk_44 = over ? 1 : 0;
+    return over;
 }
 
 // 0x7d4558 _ZN21render_handler_glitch17fill_style_bitmapEiPN7gameswf11bitmap_infoERKNS0_6matrixENS0_14render_handler16bitmap_wrap_modeE

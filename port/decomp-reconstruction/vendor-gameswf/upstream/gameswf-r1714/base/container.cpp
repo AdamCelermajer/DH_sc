@@ -34,6 +34,7 @@ void tu_string::append_wide_char(uint32 c)
 }
 
 
+#if 0 /* DH2: replaced by the DH2 body below (20-byte tu_string, 14 characters inline) */
 void	tu_string::resize(int new_size)
 {
 	assert(new_size >= 0);
@@ -112,6 +113,61 @@ void	tu_string::resize(int new_size)
 
 			assert(m_union.m_local.m_bufsize_minus_length == (char) ~0);
 		}
+	}
+}
+#endif /* DH2 */
+
+// DH2: 0x751d14 gameswf::tu_string::resize(int). Sets the length to new_size. The text stays inline up to 14
+// DH2: characters, the heap block is a multiple of 16 bytes (new_size + 16 rounded down to 16), and the hash
+// DH2: cache is not touched here (the mutators invalidate it).
+void	tu_string::resize(int new_size)
+{
+	assert(new_size >= 0);
+
+	if (new_size == size()) {
+		return;
+	}
+
+	if (using_heap())
+	{
+		if (new_size <= 14)
+		{
+			// Back to inline storage. Take the heap pointer first, the inline text overlaps the heap fields.
+			char*	old_buffer = m_union.m_heap.m_buffer;
+			int	old_capacity = m_union.m_heap.m_capacity;
+			m_union.m_local.m_length_plus_one = (char) (new_size + 1);
+			strncpy(m_union.m_local.m_buffer, old_buffer, 15);
+			m_union.m_local.m_buffer[new_size] = 0;
+			tu_free(old_buffer, old_capacity);
+		}
+		else
+		{
+			int	capacity = (new_size + 16) & ~15;
+			if (capacity != m_union.m_heap.m_capacity)
+			{
+				m_union.m_heap.m_buffer = (char*) tu_realloc(m_union.m_heap.m_buffer, capacity, m_union.m_heap.m_capacity);
+				m_union.m_heap.m_capacity = capacity;
+			}
+			m_union.m_heap.m_size_plus_one = new_size + 1;
+			m_union.m_heap.m_buffer[new_size] = 0;
+		}
+	}
+	else if (new_size > 14)
+	{
+		// Inline to heap.
+		int	capacity = (new_size + 16) & ~15;
+		char*	buf = (char*) tu_malloc(capacity);
+		memset(buf, 0, capacity);
+		strcpy(buf, m_union.m_local.m_buffer);
+		m_union.m_heap.m_capacity = capacity;
+		m_union.m_heap.m_buffer = buf;
+		m_union.m_heap.m_flag = (char) ~0;
+		m_union.m_heap.m_size_plus_one = new_size + 1;
+	}
+	else
+	{
+		m_union.m_local.m_length_plus_one = (char) (new_size + 1);
+		m_union.m_local.m_buffer[new_size] = 0;
 	}
 }
 

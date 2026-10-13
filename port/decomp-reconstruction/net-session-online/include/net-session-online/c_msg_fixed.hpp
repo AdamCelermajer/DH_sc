@@ -11,6 +11,13 @@
 
 class CMsgIsHost : public CMessage {
 public:
+    // 0x328da8 GetNewInstance<CMsgIsHost>(bool) inlines this: CMessage(name, bool), then sendMode_ 0 (+0x2c)
+    // and flag32_ 1 (+0x32).
+    explicit CMsgIsHost(bool withSerial) : CMessage("CMsgIsHost", withSerial) {
+        typeName_ = "CMsgIsHost";
+        sendMode_ = 0;   // +0x2c
+        flag32_ = true;  // +0x32
+    }
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 4; }
     // 0x3278d4 _ZN10CMsgIsHost13SetPropertiesEv
@@ -26,6 +33,11 @@ private:
 
 class CMsgMenuReady : public CMessage {
 public:
+    // 0x328afc GetNewInstance<CMsgMenuReady>(bool) inlines this: CMessage(name, bool), then sendMode_ 1 (+0x2c).
+    explicit CMsgMenuReady(bool withSerial) : CMessage("CMsgMenuReady", withSerial) {
+        typeName_ = "CMsgMenuReady";
+        sendMode_ = 1;  // +0x2c
+    }
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 8; }
     // 0x3279e0 _ZN13CMsgMenuReady13SetPropertiesEv
@@ -40,6 +52,13 @@ private:
 
 class CMsgAskResendAttributes : public CMessage {
 public:
+    // 0x328d30 GetNewInstance<CMsgAskResendAttributes>(bool) inlines this: CMessage(name, bool), then sendMode_ 0
+    // (+0x2c) and flag32_ 1 (+0x32).
+    explicit CMsgAskResendAttributes(bool withSerial) : CMessage("CMsgAskResendAttributes", withSerial) {
+        typeName_ = "CMsgAskResendAttributes";
+        sendMode_ = 0;   // +0x2c
+        flag32_ = true;  // +0x32
+    }
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 1; }
     // 0x327ad8 _ZN23CMsgAskResendAttributes13SetPropertiesEv
@@ -55,6 +74,15 @@ private:
 
 class CMsgScriptCmd : public CMessage {
 public:
+    // 0x32a710 GetNewInstance<CMsgScriptCmd>(bool) inlines this: CMessage(name, bool), then sendMode_ 1 (+0x2c),
+    // flag32_ 1 (+0x32), reliable_ 1 (+0x30) and includeLocalMember_ 1 (+0x33).
+    explicit CMsgScriptCmd(bool withSerial) : CMessage("CMsgScriptCmd", withSerial) {
+        typeName_ = "CMsgScriptCmd";
+        sendMode_ = 1;
+        flag32_ = true;
+        reliable_ = true;
+        includeLocalMember_ = true;
+    }
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 12; }
     // 0x3279a8 _ZN13CMsgScriptCmd13SetPropertiesEv
@@ -72,6 +100,14 @@ private:
 
 class CMsgStartGame : public CMessage {
 public:
+    // 0x32a140 GetNewInstance<CMsgStartGame>(bool) inlines this: CMessage(name, bool), then flag32_ 1 (+0x32),
+    // includeLocalMember_ 0 (+0x33) and sendMode_ 1 (+0x2c).
+    explicit CMsgStartGame(bool withSerial) : CMessage("CMsgStartGame", withSerial) {
+        typeName_ = "CMsgStartGame";
+        flag32_ = true;
+        includeLocalMember_ = false;
+        sendMode_ = 1;
+    }
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 28; }
     // 0x327aa0 _ZN13CMsgStartGame13SetPropertiesEv
@@ -188,6 +224,14 @@ private:
 // CMsgGlobalDeath has no payload: GetDataPtr is the base CMessage one.
 class CMsgGlobalDeath : public CMessage {
 public:
+    // 0x329298 GetNewInstance<CMsgGlobalDeath>(bool) inlines this: CMessage(name, bool), then reliable_ 1 (+0x30),
+    // sendMode_ 1 (+0x2c) and flag32_ 1 (+0x32).
+    explicit CMsgGlobalDeath(bool withSerial) : CMessage("CMsgGlobalDeath", withSerial) {
+        typeName_ = "CMsgGlobalDeath";
+        reliable_ = true;
+        sendMode_ = 1;
+        flag32_ = true;
+    }
     std::uint32_t GetDataSize() const override { return 0; }
     // 0x327868 _ZN15CMsgGlobalDeath13SetPropertiesEv
     void SetProperties() {

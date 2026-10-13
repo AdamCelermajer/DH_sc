@@ -12,6 +12,7 @@
 namespace gameswf
 {
 
+#if 0 /* DH2: replaced by the 4-argument constructor in vendor-gameswf/src/v1-vendor-gameswf-gameswf_character-670fee-2.cpp (0x754a1c) */
 	character::character(player* player, character* parent, int id)	:
 		as_object(player),
 		m_id(id),
@@ -27,6 +28,7 @@ namespace gameswf
 		// loadMovieClip() requires that the following will be commented out
 		// assert((parent == NULL && m_id == -1)	|| (parent != NULL && m_id >= 0));
 	}
+#endif /* DH2 */
 
 	bool	character::get_member(const tu_stringi& name, as_value* val)
 	// Set *val to the value of the named member and
@@ -184,7 +186,7 @@ namespace gameswf
 				int	x, y, buttons;
 				get_mouse_state(&x, &y, &buttons);
 
-				matrix	m = get_world_matrix();
+				matrix	m = *get_world_matrix();	// DH2: returns a pointer
 
 				point	a(PIXELS_TO_TWIPS(x), PIXELS_TO_TWIPS(y));
 				point	b;
@@ -200,7 +202,7 @@ namespace gameswf
 				int	x, y, buttons;
 				get_mouse_state(&x, &y, &buttons);
 
-				matrix	m = get_world_matrix();
+				matrix	m = *get_world_matrix();	// DH2: returns a pointer
 
 				point	a(PIXELS_TO_TWIPS(x), PIXELS_TO_TWIPS(y));
 				point	b;

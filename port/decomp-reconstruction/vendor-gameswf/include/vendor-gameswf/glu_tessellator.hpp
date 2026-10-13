@@ -18,8 +18,9 @@ void gluTessProperty(GLUtesselator* tess, int which, double value);         // _
 void gluTessCallback(GLUtesselator* tess, int which, void (*callback)());   // _Z15gluTessCallbackP13GLUtesselatoriPFvvE
 void gluTessEndPolygon(GLUtesselator* tess);                                // _Z17gluTessEndPolygonP13GLUtesselator
 void gluTessVertex(GLUtesselator* tess, double* location, void* vertex_data);  // _Z13gluTessVertexP13GLUtesselatorPdPv
-// DH2: called by triangle_intersector::process (0x7889ec) and final_shape::flush (0x7893bc). The linkage names
-// are not checked against the binary's symbols.
+// DH2: called by triangle_intersector::process (0x7889ec) and final_shape::flush (0x7893bc). C++ linkage as the others:
+// the binary calls _Z19gluTessBeginPolygonP13GLUtesselatorPv, _Z19gluTessBeginContourP13GLUtesselator and
+// _Z17gluTessEndContourP13GLUtesselator, which these declarations mangle to.
 void gluTessBeginPolygon(GLUtesselator* tess, void* polygon_data);  // DH2
 void gluTessBeginContour(GLUtesselator* tess);                       // DH2
 void gluTessEndContour(GLUtesselator* tess);                         // DH2

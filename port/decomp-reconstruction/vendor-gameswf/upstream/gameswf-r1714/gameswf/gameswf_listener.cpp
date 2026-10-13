@@ -8,19 +8,33 @@
 namespace gameswf
 {
 
+	// DH2: the three notifiers iterate over a COPY of the weak-pointer array (array::operator=), and hold a strong reference
+	// DH2: only for the duration of one call (add_ref before, drop_ref after). r1714 copies strong pointers (clone_listener)
+	// DH2: and keeps all of them alive for the whole loop. An entry that died during the loop is cleared by get_ptr() and
+	// DH2: skipped. The size is read once, before the loop.
+
 	// for Key, keyPress, ...
+	// DH2: 0x7607b8, the event handler is the virtual on_event (vtable +0x2c)
 	void listener::notify(const event_id& ev)
 	{
 		// event handler may affects m_listeners using addListener & removeListener
 		// iterate through a copy of it
-		clone_listener listeners(m_listeners);
+		array< weak_ptr<as_object> > listeners;
+		listeners = m_listeners;
 		for (int i = 0, n = listeners.size(); i < n; i++)
 		{
-			listeners[i]->on_event(ev);
+			as_object* obj = listeners[i].get_ptr();
+			if (obj != NULL)
+			{
+				smart_ptr<as_object> hold(obj);	// ref_counted::add_ref / drop_ref around the call
+				obj->on_event(ev);
+			}
 		}
 	}
 
 	// for asBroadcaster, ...
+	// DH2: 0x760aec. The call runs on the caller's environment (r1714 pushes copies of the arguments into a fresh one):
+	// DH2: nargs from the fn_call, first argument index = the top of the caller's stack, debug label "???".
 	void listener::notify(const tu_string& event_name, const fn_call& fn)
 	{
 		// may be called from multithread plugin ==>
@@ -32,36 +46,52 @@ namespace gameswf
 
 		// event handler may affects m_listeners using addListener & removeListener
 		// iterate through a copy of it
-		clone_listener listeners(m_listeners);
-
-		// iterate through a copy of environment
-		int nargs = fn.nargs;
-		as_environment env(fn.get_player());
-		for (int i = 0; i < nargs; i++)
-		{
-			env.push(fn.env->top(nargs - i - 1));
-		}
-
+		array< weak_ptr<as_object> > listeners;
+		listeners = m_listeners;
 		for (int i = 0, n = listeners.size(); i < n; i++)
 		{
-			as_value function;
-			if (listeners[i]->get_member(event_name, &function))
+			as_object* obj = listeners[i].get_ptr();
+			if (obj != NULL)
 			{
-				call_method(function, &env, listeners[i].get_ptr(),
-					nargs, env.get_top_index());
+				smart_ptr<as_object> hold(obj);
+				as_value function;
+				if (obj->get_member(event_name, &function))
+				{
+					call_method(function, fn.env, as_value(obj), fn.nargs, fn.env->get_top_index(), "???");
+				}
 			}
 		}
 	}
 
 	// for video, timer, ...
+	// DH2: 0x760d58, the virtual advance (vtable +0x5c)
 	void	listener::advance(float delta_time)
 	{
 		// event handler may affects m_listeners using addListener & removeListener
 		// iterate through a copy of it
-		clone_listener listeners(m_listeners);
+		array< weak_ptr<as_object> > listeners;
+		listeners = m_listeners;
 		for (int i = 0, n = listeners.size(); i < n; i++)
 		{
-			listeners[i]->advance(delta_time);
+			as_object* obj = listeners[i].get_ptr();
+			if (obj != NULL)
+			{
+				smart_ptr<as_object> hold(obj);
+				obj->advance(delta_time);
+			}
+		}
+	}
+
+	// DH2: Gameloft addition (0x760940). Keeps the listeners alive for the player's garbage pass: root::advance calls it
+	// DH2: on the +0xb8 listener right before it marks the movie alive. A dead entry loses its proxy and its pointer.
+	void listener::alive()
+	{
+		for (int i = 0; i < m_listeners.size(); i++)
+		{
+			if (m_listeners[i] != NULL)
+			{
+				m_listeners[i].get_ptr()->this_alive();
+			}
 		}
 	}
 

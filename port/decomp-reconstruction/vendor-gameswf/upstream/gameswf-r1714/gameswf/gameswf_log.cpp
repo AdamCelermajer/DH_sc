@@ -33,7 +33,10 @@ namespace gameswf
 	static void (*s_log_callback)(bool error, const char* message) = standard_logger;
 
 	// Workspace for vsnprintf formatting.
+	#if 0 /* DH2: the binary's s_buffer (0x9fc588) is 0x1f4 bytes and log_msg / log_error pass 0x1f4 to vsnprintf: messages are cut at 499 characters */
 	static const int	BUFFER_SIZE = 4096;
+	#endif /* DH2 */
+	static const int	BUFFER_SIZE = 500;	// DH2: 0x1f4
 	static char	s_buffer[BUFFER_SIZE];
 
 

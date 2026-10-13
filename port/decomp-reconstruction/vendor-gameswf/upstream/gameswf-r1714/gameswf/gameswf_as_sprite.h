@@ -13,8 +13,12 @@
 #ifndef GAMESWF_AS_SPRITE_H
 #define GAMESWF_AS_SPRITE_H
 
+#include "gameswf/gameswf_environment.h"	// DH2: fn_call (the header was not self-contained)
+
 namespace gameswf
 {
+
+	struct sprite_instance;
 
 	//
 	// sprite built-in ActionScript methods
@@ -32,6 +36,10 @@ namespace gameswf
 	void	sprite_prev_frame(const fn_call& fn);
 	void	sprite_get_bytes_loaded(const fn_call& fn);
 	void	sprite_get_bytes_total(const fn_call& fn);
+	// DH2: the Gameloft build exports these two (0x7c07f8, 0x7c0f7c); r1714 keeps sprite_getptr private to
+	// DH2: gameswf_as_sprite.cpp and has no sprite_instance_at_depth.
+	sprite_instance*	sprite_getptr(const fn_call& fn);	// DH2
+	void	sprite_instance_at_depth(const fn_call& fn);	// DH2
 	void sprite_swap_depths(const fn_call& fn) ;
 	void sprite_duplicate_movieclip(const fn_call& fn);
 	void sprite_get_depth(const fn_call& fn);

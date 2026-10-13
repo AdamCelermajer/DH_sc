@@ -1,10 +1,13 @@
-// Test for batch v1-vendor-gameswf-pack0-157e56-0. Build and run with:
-//   bash tools/trackb/check_tu.sh --test port/decomp-reconstruction/vendor-gameswf/tests/v1-vendor-gameswf-pack0-157e56-0_test.cpp port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp
+// Test for batch v1-vendor-gameswf-pack0-157e56-0. Build and run with the link line at the end of this comment.
 //
 // The test supplies two definitions that live in other batches: gameswf::free_internal (fddef6-0,
 // the allocator) and gameswf::matrix::matrix() (the r1714 default constructor). free_internal counts
 // the frees and releases the block with std::free, so every block the test hands it must come from
 // std::malloc.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp
 
 #include <cfloat>
 #include <cmath>
@@ -14,7 +17,10 @@
 #include <new>
 
 #include "gameswf/gameswf.h"
+#include "gameswf/gameswf_dlist.h"
+#include "vendor-gameswf/effect.hpp"
 #include "vendor-gameswf/filter_texture_cache.hpp"
+#include "vendor-gameswf/gameswf_dh2_hash.hpp"  // dh2_hash_access::set_raw_capacity, the shared rehash body
 #include "vendor-gameswf/permanent_string.hpp"
 #include "vendor-gameswf/smart_ptr_proxy.hpp"
 
@@ -214,20 +220,20 @@ void test_smart_ptr_proxy()
 
 void test_permanent_string()
 {
-	// The buffer is freed only when the flag byte is 0xff.
+	// A permanent_string is a tu_string that is always interned (bit 0 of byte +0x13). An empty one keeps its text
+	// inline, so the destructor frees nothing (the heap buffer is only freed when the flag byte is 0xff, by ~tu_string).
 	g_frees = 0;
-	gameswf::permanent_string* owned = new gameswf::permanent_string();
-	owned->unk_0x00 = -1;
-	owned->unk_0x0c = std::malloc(4);
-	delete owned;
-	CHECK(g_frees == 1);
-
-	g_frees = 0;
-	gameswf::permanent_string* not_owned = new gameswf::permanent_string();
-	not_owned->unk_0x00 = 0;
-	not_owned->unk_0x0c = nullptr;
-	delete not_owned;
+	gameswf::permanent_string* inline_text = new gameswf::permanent_string();
+	CHECK(inline_text->is_interned());
+	CHECK(inline_text->length() == 0);
+	const ::tu_string& as_tu_string = *inline_text;  // converts to its base for every consumer
+	CHECK(as_tu_string.is_interned());
+	delete inline_text;
 	CHECK(g_frees == 0);
+
+	// A plain tu_string is not interned.
+	::tu_string plain;
+	CHECK(!plain.is_interned());
 }
 
 void test_filter_texture_cache()
@@ -258,7 +264,59 @@ void test_filter_texture_cache()
 	CHECK(r == 0);
 }
 
+// filter_texture_cache::get_character_region: a hit in the used-region table returns the stored region, a miss rounds the size up
+// to whole cells and asks the texture cache for a free region of that size.
+int g_find_calls = 0;
+int g_find_w = 0;
+int g_find_h = 0;
+gameswf::texture_cache::region g_sentinel_region;
+
+void test_get_character_region()
+{
+	alignas(gameswf::filter_texture_cache) unsigned char storage[sizeof(gameswf::filter_texture_cache)] = {};
+	auto* self = reinterpret_cast<gameswf::filter_texture_cache*>(storage);
+	auto* ch = reinterpret_cast<gameswf::character*>(static_cast<std::uintptr_t>(0x1000));
+
+	// Miss: 20 x 20 pixels becomes 32 x 32 (2 x 2 cells); the region comes from find_available_region.
+	gameswf::texture_cache::region* got = self->get_character_region(ch, 20, 20);
+	CHECK(got == &g_sentinel_region);
+	CHECK(g_find_calls == 1);
+	CHECK(g_find_w == 32 && g_find_h == 32);
+
+	// Hit: the key is the character pointer; the stored value is returned whatever the size, and the free list is not asked.
+	gameswf::texture_cache::region stored;
+	gameswf::texture_cache::key k;
+	k.unk_0 = reinterpret_cast<std::uintptr_t>(ch);
+	self->m_used.add(k, &stored);
+	got = self->get_character_region(ch, 99, 99);
+	CHECK(got == &stored);
+	CHECK(g_find_calls == 1);
+
+	// Another character is still a miss.
+	got = self->get_character_region(reinterpret_cast<gameswf::character*>(static_cast<std::uintptr_t>(0x2000)), 1, 1);
+	CHECK(got == &g_sentinel_region);
+	CHECK(g_find_calls == 2);
+	CHECK(g_find_w == 16 && g_find_h == 16);
+	self->m_used.clear();
+}
+
 }  // namespace
+
+// The region lookup behind get_character_region lives in the texture_cache batch; the test counts the calls.
+gameswf::texture_cache::region* gameswf::texture_cache::find_available_region(int width, int height)
+{
+	++g_find_calls;
+	g_find_w = width;
+	g_find_h = height;
+	return &g_sentinel_region;
+}
+
+// The used-region table's rehash (pack19 defines it with the font machinery): the shared body.
+template <>
+void hash<gameswf::texture_cache::key, gameswf::texture_cache::region*, fixed_size_hash<gameswf::texture_cache::key> >::set_raw_capacity(int new_size)
+{
+	dh2_hash_access::set_raw_capacity(*this, new_size);
+}
 
 // Stand-ins for definitions in other batches (see the header comment above).
 namespace gameswf {
@@ -271,6 +329,29 @@ void free_internal(void* p, unsigned int)
 }
 
 matrix::matrix() {}
+
+// The allocator entry points that the arrays in the same source reach (the test never grows an array).
+void* malloc_internal(unsigned int size, swf::MemHint)
+{
+	return std::malloc(size);
+}
+void* realloc_internal(void* p, unsigned int new_size, unsigned int, swf::MemHint)
+{
+	return std::realloc(p, new_size);
+}
+
+// The character::custom constructor and destructor in the same source reach these. The test never builds a custom block.
+cxform::cxform() {}
+effect::~effect() {}
+int display_list::get_character_by_ptr(const character*)
+{
+	std::abort();
+	return 0;
+}
+void display_list::remove(int)
+{
+	std::abort();
+}
 
 }  // namespace gameswf
 
@@ -303,6 +384,20 @@ void tu_string::operator+=(const char*)
 	std::abort();
 }
 
+// The case-insensitive compare behind stringi_pointer::operator== (the display list's name table, rehashed by the batch).
+int tu_string::stricmp(const char* a, const char* b)
+{
+	for (;; ++a, ++b)
+	{
+		const int ca = (*a >= 'A' && *a <= 'Z') ? *a + 32 : *a;
+		const int cb = (*b >= 'A' && *b <= 'Z') ? *b + 32 : *b;
+		if (ca != cb || ca == 0)
+		{
+			return ca - cb;
+		}
+	}
+}
+
 int main()
 {
 	test_matrix();
@@ -310,6 +405,7 @@ int main()
 	test_smart_ptr_proxy();
 	test_permanent_string();
 	test_filter_texture_cache();
+	test_get_character_region();
 	if (g_failures != 0)
 	{
 		std::printf("%d failure(s)\n", g_failures);

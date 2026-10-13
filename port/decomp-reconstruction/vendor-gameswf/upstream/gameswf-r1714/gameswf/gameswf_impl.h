@@ -21,6 +21,7 @@
 #include "base/container.h"
 #include "base/utility.h"
 #include <stdarg.h>
+#include "vendor-gameswf/execute_tags.hpp"	// DH2: gameswf::execute_tag and the tag classes of the DH2 binary (replaces the struct below)
 
 
 namespace jpeg { struct input; }
@@ -63,11 +64,19 @@ namespace gameswf
 
 
 	// For characters that don't store unusual state in their instances.
+	//
+	// DH2: 0xa4 bytes (operator new(0xA4) in player::create_generic_character): the 0xa0-byte character base with the kind
+	// DH2: AS_GENERIC_CHARACTER (3), then the definition. The binary's byte at +0x9d is character::m_need_advance, which the
+	// DH2: constructor clears (a generic character never needs advancing). The definition is a smart pointer: the pool
+	// DH2: (player::notify_unused_instance, create_generic_character) sets it through smart_ptr<character_def>::set_ref.
 	struct generic_character : public character
 	{
+		#if 0 /* DH2: replaced by the smart_ptr below */
 		gc_ptr<character_def>	m_def;
+		#endif /* DH2 */
+		smart_ptr<character_def>	m_def;	// DH2: +0xa0
 
-#if 0 /* DH2: replaced by v1-vendor-gameswf-pack1-607ee7-0.cpp */
+		#if 0 /* DH2: replaced by v1-vendor-gameswf-pack1-607ee7-0.cpp */
 		generic_character(player* player, character_def* def, character* parent, int id) :
 			character(player, parent, id),
 			m_def(def)
@@ -78,22 +87,36 @@ namespace gameswf
 		~generic_character()
 		{
 		}
-#endif /* DH2 */
+		#endif /* DH2 */
 		generic_character(player* player, character_def* def, character* parent, int id);	// DH2: 0x75b75c, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
-		~generic_character();	// DH2: 0x75dde0 (D1), body in v1-vendor-gameswf-pack1-607ee7-0.cpp; 0x75de28 is compiler-generated
-		virtual bool is(int class_id) const;	// DH2: 0x7599cc, vtable +0x08, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
-		virtual bool hit_test(float x, float y);	// DH2: 0x7599f8, vtable +0x6c, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
-		virtual character* get_topmost_mouse_entity(float x, float y);	// DH2: two-float overload at vtable +0x68, returns this or NULL (not bool; 0x75b6fc, other batch); hit_test calls it
-		unsigned char unk_009d;	// DH2: +0x9d, zeroed by the constructor (name not recovered). Layout request: m_def above is a raw counted pointer at +0xa0 in the binary.
+		virtual ~generic_character();	// DH2: 0x75dde0 (D1), body in v1-vendor-gameswf-pack1-607ee7-0.cpp; 0x75de28 is compiler-generated
+		virtual bool is(int class_id) const override;	// DH2: +0x08, 0x7599cc, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
+		virtual character* get_topmost_mouse_entity(float x, float y) override	// DH2: +0x68, 0x75b6fc; this or NULL, hit_test calls it
+		{
+			point	p;
+			get_matrix().transform_by_inverse(&p, point(x, y));
 
-		virtual character_def* get_character_def() { return m_def.get_ptr();	}
+			if (m_def->point_test_local(p.m_x, p.m_y))
+			{
+				// The mouse is inside the shape.
+				return this;
+			}
+			return NULL;
+		}
+		virtual bool hit_test(float x, float y) override;	// DH2: +0x6c, 0x7599f8, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
 
-		virtual void	display()
+		virtual void	display() override	// DH2: +0x120, 0x75b7c8
 		{
 			m_def->display(this);	// pass in transform info
-			do_display_callback();
+			if (m_custom != NULL && m_custom->m_display_callback != NULL)
+			{
+				do_display_callback();
+			}
 		}
 
+		virtual character_def* get_character_def() override { return m_def.get_ptr();	}	// DH2: +0x130, 0x7599f0
+
+		#if 0 /* DH2: r1714's three-argument form is not in the binary */
 		virtual bool get_topmost_mouse_entity( character * &te, float x, float y)
 		{
 			assert(get_visible());	// caller should check this.
@@ -110,6 +133,7 @@ namespace gameswf
 			}
 			return false;
 		}
+		#endif /* DH2 */
 	};
 
 
@@ -120,29 +144,35 @@ namespace gameswf
 		{
 		}
 
-		virtual gameswf::bitmap_info*	get_bitmap_info() = 0;
+		virtual gameswf::bitmap_info*	get_bitmap_info() = 0;	// DH2: +0x2c
 	};
 
 	// Bitmap character
+	//
+	// DH2: 0x34 bytes: the 0x20-byte character_def base, the bitmap (a counted pointer) and the rectangle it is drawn into.
+	// DH2: The rectangle is set by the constructor to the bitmap's size in twips unless one is given.
 	struct bitmap_character : public bitmap_character_def
 	{
-		bitmap_character(movie_definition* rdef, bitmap_info* bi);
+		bitmap_character(movie_definition* rdef, bitmap_info* bi) : bitmap_character(rdef->get_player(), bi, NULL) {}	// DH2: not in the binary (the loaders there call the three-argument form, 0x75eaa4); keeps the r1714 callers valid
 		bitmap_character(player* p, bitmap_info* bi, rect* r);	// DH2: 0x7ae1c8 (clone 0x75eaa4 with r NULL), body in v1-vendor-gameswf-pack1-607ee7-0.cpp
-		~bitmap_character();	// DH2: 0x75df40 (D1), body in v1-vendor-gameswf-pack1-607ee7-0.cpp; 0x75dfd8 is compiler-generated
-		virtual bool is(int class_id) const;	// DH2: 0x759a14, vtable +0x08, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
-		rect m_rect;	// DH2: +0x24..+0x33 (x_min, x_max, y_min, y_max), stored at construction; layout request, see v1-vendor-gameswf-pack1-607ee7-0.cpp
+		virtual ~bitmap_character();	// DH2: 0x75df40 (D1), body in v1-vendor-gameswf-pack1-607ee7-0.cpp; 0x75dfd8 is compiler-generated
+		virtual bool is(int class_id) const override;	// DH2: +0x08, 0x759a14, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
 
-		// Return true if the specified point is on the interior of our shape.
-		// Incoming coords are local coords.
-		bool	point_test_local(float x, float y);
-
-		virtual void get_bound(rect* bound);
-		virtual void	display(character* ch);
-		gameswf::bitmap_info*	get_bitmap_info();
-
+		#if 0 /* DH2: the bitmap and the rectangle are declared in the binary's order below */
 		private:
 
 			gc_ptr<gameswf::bitmap_info>	m_bitmap_info;
+		#endif /* DH2 */
+		smart_ptr<gameswf::bitmap_info>	m_bitmap_info;	// DH2: +0x20, counted by hand in the binary (add_ref / drop_ref)
+		rect m_rect;	// DH2: +0x24..+0x33 (x_min, x_max, y_min, y_max), stored at construction
+
+		virtual void	display(character* ch) override;	// DH2: +0x0c, 0x75aea0, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
+		// Return true if the specified point is on the interior of our shape.
+		// Incoming coords are local coords.
+		virtual bool	point_test_local(float x, float y) override;	// DH2: +0x10, 0x759a30
+
+		virtual void get_bound(rect* bound) override;	// DH2: +0x14, 0x759aa8
+		virtual gameswf::bitmap_info*	get_bitmap_info() override;	// DH2: +0x2c, 0x759abc, body in v1-vendor-gameswf-pack1-607ee7-0.cpp
 	};
 
 #if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/execute_tags.hpp (binary vtable has no execute_now slot; adds get_depth, get_action_offset, is_place_tag) */

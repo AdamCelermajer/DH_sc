@@ -12,6 +12,7 @@
 #include "gameswf/gameswf_render.h"
 #include "gameswf/gameswf_stream.h"
 #include "gameswf/gameswf_movie_def.h"
+#include "vendor-gameswf/image_io.hpp"	// DH2: gameswf::image_rgba and create_rgba
 
 
 namespace gameswf
@@ -53,6 +54,7 @@ namespace gameswf
 	}
 #endif /* DH2 */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (the focal gradient parse differs) */
 	void	fill_style::read(stream* in, int tag_type, movie_definition_sub* md)
 	{
 		m_type = in->read_u8();
@@ -194,6 +196,7 @@ namespace gameswf
 	}
 
 
+#endif /* DH2 */
 	rgba	fill_style::sample_gradient(int ratio) const
 	// Return the color at the specified ratio into our gradient.
 	// Ratio is in [0, 255].
@@ -225,18 +228,19 @@ namespace gameswf
 		return m_gradients.back().m_color;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (the image is a gameswf::image_rgba made by gameswf::create_rgba) */
 	bitmap_info*	fill_style::create_gradient_bitmap() const
 	// Make a bitmap_info* corresponding to our gradient.
 	// We can use this to set the gradient fill style.
 	{
 		assert(m_type == 0x10 || m_type == 0x12);
 
-		image::rgba*	im = NULL;
+		image_rgba*	im = NULL;	// DH2: gameswf::image_rgba
 
 		if (m_type == 0x10)
 		{
 			// Linear gradient.
-			im = image::create_rgba(256, 1);
+			im = create_rgba(256, 1);
 
 			for (int i = 0; i < im->m_width; i++)
 			{
@@ -247,7 +251,7 @@ namespace gameswf
 		else if (m_type == 0x12)
 		{
 			// Radial gradient.
-			im = image::create_rgba(64, 64);
+			im = create_rgba(64, 64);
 
 			for (int j = 0; j < im->m_height; j++)
 			{
@@ -268,12 +272,14 @@ namespace gameswf
 		}
 
 		bitmap_info*	bi = render::create_bitmap_info_rgba(im);
-		delete im;
+		destruct(im);	// DH2
 
 		return bi;
 	}
 
 
+#endif /* DH2 */
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (no blend mode, the handler is called directly) */
 	void	fill_style::apply(int fill_side, float ratio, render_handler::bitmap_blend_mode bm) const
 	// Push our style parameters into the renderer.
 	{
@@ -338,6 +344,7 @@ namespace gameswf
 	}
 
 
+#endif /* DH2 */
 	void	fill_style::set_lerp(const fill_style& a, const fill_style& b, float t)
 	// Sets this style to a blend of a and b.  t = [0,1]
 	{
@@ -460,6 +467,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp (the handler is called directly) */
 	void	line_style::apply(float ratio) const
 	{
 		UNUSED(ratio);
@@ -467,6 +475,7 @@ namespace gameswf
 		render::line_style_width(m_width);
 	}
 
+#endif /* DH2 */
 }
 
 

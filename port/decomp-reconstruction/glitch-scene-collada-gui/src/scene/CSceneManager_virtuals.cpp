@@ -4,6 +4,8 @@
 // the original does that this body does not (the driver, GUI and batch-driver types are not ported).
 #include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 
+#include "glitch-core-io/io/iattributes.hpp"
+#include "glitch-core-io/os/logging.hpp"
 #include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
@@ -82,12 +84,33 @@ CSceneManager::~CSceneManager() {
 }
 
 // 0x588fe8 _ZNK6glitch5scene13CSceneManager19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// PARTIAL: writes no attributes (the attribute writers for the clear colour and the ambient light are not reconstructed).
-void CSceneManager::serializeAttributes(io::IAttributes* /*attributes*/, io::SAttributeReadWriteOptions* /*options*/) const {}
+// Writes the root node's name ("Name"), its id ("Id") and the ambient light ("AmbientLight", four floats).
+void CSceneManager::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* /*options*/) const {
+    attributes->addString("Name", rootNode->getName(), false);
+    attributes->addInt("Id", rootNode->getID(), false);
+    attributes->addColorf("AmbientLight", ambientLight, false);
+}
 
 // 0x58bbc4 _ZN6glitch5scene13CSceneManager21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// PARTIAL: reads no attributes.
-void CSceneManager::deserializeAttributes(io::IAttributes* /*attributes*/, io::SAttributeReadWriteOptions* /*options*/) {}
+// Reads "Name", "Id" and "AmbientLight" into the root node and the ambient light, then resets the root's transform (zero
+// position, identity rotation, unit scale), makes it visible, clears culling and the debug flag, and updates its matrix.
+void CSceneManager::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* /*options*/) {
+    rootNode->setName(attributes->getString("Name"));
+    rootNode->setID(attributes->getInt("Id"));
+    ambientLight = attributes->getColorf("AmbientLight");
+    rootNode->setPosition(core::vector3d<float>{0.0f, 0.0f, 0.0f});
+    core::quaternion identity;
+    identity.X = 0.0f;
+    identity.Y = 0.0f;
+    identity.Z = 0.0f;
+    identity.W = 1.0f;
+    rootNode->setRotation(identity);
+    rootNode->setScale(core::vector3d<float>{1.0f, 1.0f, 1.0f});
+    rootNode->setVisible(true);
+    rootNode->setAutomaticCulling(static_cast<E_CULLING_TYPE>(0));
+    rootNode->setIsDebugObject(false);
+    rootNode->updateAbsolutePosition(false);
+}
 
 // 0x58f348 _ZN6glitch5scene13CSceneManager24registerNodeForRenderingEPNS0_10ISceneNodeERKN5boost13intrusive_ptrINS_5video9CMaterialEEEPvNS0_24E_SCENE_NODE_RENDER_PASSEPKNS_4core8vector3dIfEEi
 // PARTIAL. The original is a switch on the render pass that appends SDefaultNodeEntry, SDistanceNodeEntry and
@@ -103,11 +126,44 @@ bool CSceneManager::registerNodeForRendering(ISceneNode* /*node*/, const boost::
 // 0x589128 _ZN6glitch5scene13CSceneManager18registerSceneNodesERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
 // PARTIAL: registers nothing (needs the render lists and onRegisterSceneNode through the visibility and culling tests).
 void CSceneManager::registerSceneNodes(ISceneNode* /*node*/) {}
-void CSceneManager::registerSceneNodes(const std::vector<ISceneNode*>& /*nodes*/) {}
 
-// 0x589fa4 and 0x589168: the compile variants of the same registration. PARTIAL: registers nothing.
-void CSceneManager::registerSceneNodesCompile(ISceneNode* /*node*/) {}
-void CSceneManager::registerSceneNodesCompile(const std::vector<ISceneNode*>& /*nodes*/) {}
+// 0x589128: registers each node of the vector through the virtual single-node overload (vptr+0x28).
+void CSceneManager::registerSceneNodes(const std::vector<ISceneNode*>& nodes) {
+    for (ISceneNode* node : nodes) {
+        registerSceneNodes(node);
+    }
+}
+
+namespace {
+
+// The walk of 0x589fa4: the children of a node are compiled when the node reports itself registered. The original walks
+// the tree with parent links and explicit state; this recursion visits the same nodes in the same order.
+void registerCompileChildren(ISceneNode* owner) {
+    for (ISceneNode* child : owner->getChildren()) {
+        if ((child->flags & ESNF_VISIBLE) != 0 && child->onRegisterSceneNode() != 0) {
+            registerCompileChildren(child);
+        }
+    }
+}
+
+}  // namespace
+
+// 0x589fa4 _ZN6glitch5scene13CSceneManager24registerSceneNodesCompileEPNS0_10ISceneNodeE
+// A null node means the root. The node itself is registered when it is visible and onRegisterSceneNode returns non-zero;
+// then its visible children are walked the same way.
+void CSceneManager::registerSceneNodesCompile(ISceneNode* node) {
+    ISceneNode* start = node != nullptr ? node : rootNode;
+    if ((start->flags & ESNF_VISIBLE) != 0 && start->onRegisterSceneNode() != 0) {
+        registerCompileChildren(start);
+    }
+}
+
+// 0x589168 _ZN6glitch5scene13CSceneManager24registerSceneNodesCompileERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
+void CSceneManager::registerSceneNodesCompile(const std::vector<ISceneNode*>& nodes) {
+    for (ISceneNode* node : nodes) {
+        registerSceneNodesCompile(node);
+    }
+}
 
 // 0x58b728 _ZN6glitch5scene13CSceneManager7drawAllERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
 // 0x58b7f4 _ZN6glitch5scene13CSceneManager7drawAllEPNS0_10ISceneNodeE
@@ -181,13 +237,26 @@ CBatchSceneNode* CSceneManager::compileInternal(ISceneNode* /*node*/, CBatchScen
 }
 
 // 0x58b9f0 _ZN6glitch5scene13CSceneManager6updateEfb
-// PARTIAL. Advances the clock by `elapsed` (the reset sentinel -123460 re-reads the timer in the original; the timer path is
-// not reproduced) and rebuilds the node lists when the hierarchy changed. Missing: the animator and root update calls.
-void CSceneManager::update(float elapsed, bool /*updateAnimators*/) {
-    if (elapsed != kUpdateResetTime) {
+// The reset sentinel (-123460) re-reads the clock from the timer; otherwise `elapsed` is added. The time is then truncated
+// to milliseconds. The node lists are rebuilt when the hierarchy changed. With updateAnimators the animated nodes take
+// onUpdateTime; without it the root node takes onAnimate.
+void CSceneManager::update(float elapsed, bool updateAnimators) {
+    if (elapsed == kUpdateResetTime) {
+        time = static_cast<float>(os::Timer::getTime());
+    } else {
         time += elapsed;
     }
-    collectAllNodes();
+    const auto timeMs = static_cast<std::uint32_t>(time);
+    if (hierarchyChanged) {
+        collectAllNodes();
+    }
+    if (updateAnimators) {
+        for (std::size_t i = 0; i < animatedNodes.size(); ++i) {
+            animatedNodes[i]->onUpdateTime(timeMs);
+        }
+    } else {
+        rootNode->onAnimate(timeMs);
+    }
 }
 
 // 0x589888 _ZN6glitch5scene13CSceneManager5clearEv
@@ -208,17 +277,49 @@ CSceneManager* CSceneManager::createNewSceneManager(bool /*copyRoot*/) {
     return nullptr;
 }
 
-// 0x589364 and 0x58d36c (saveScene), 0x589b84 and 0x58e768 (loadScene): PARTIAL, the scene file reader and writer are not
-// reconstructed; each reports failure.
-bool CSceneManager::saveScene(const char* /*fileName*/, ISceneUserDataSerializer* /*userData*/) {
-    return false;
+// 0x589364 _ZN6glitch5scene13CSceneManager8saveSceneEPKcPNS0_24ISceneUserDataSerializerE
+// Creates the file through the file system (not appending), saves into it, and drops the file.
+bool CSceneManager::saveScene(const char* fileName, ISceneUserDataSerializer* userData) {
+    io::IWriteFile* file = fileSystem->createAndWriteFile(fileName, false);
+    if (file == nullptr) {
+        return false;
+    }
+    const bool result = saveScene(file, userData);
+    file->drop();
+    return result;
 }
-bool CSceneManager::saveScene(io::IWriteFile* /*file*/, ISceneUserDataSerializer* /*userData*/) {
-    return false;
+
+// 0x58d36c _ZN6glitch5scene13CSceneManager8saveSceneEPNS_2io10IWriteFileEPNS0_24ISceneUserDataSerializerE
+// Creates the XML writer over the file, writes the header and the root node tree, and drops the writer.
+bool CSceneManager::saveScene(io::IWriteFile* file, ISceneUserDataSerializer* userData) {
+    if (file == nullptr) {
+        return false;
+    }
+    io::IXMLWriter* writer = fileSystem->createXMLWriter(file);
+    if (writer == nullptr) {
+        return false;
+    }
+    writer->writeXMLHeader();
+    writeSceneNode(writer, rootNode, userData);
+    writer->drop();
+    return true;
 }
-bool CSceneManager::loadScene(const char* /*fileName*/, ISceneUserDataSerializer* /*userData*/) {
-    return false;
+
+// 0x589b84 _ZN6glitch5scene13CSceneManager8loadSceneEPKcPNS0_24ISceneUserDataSerializerE
+// Opens the file through the file system; on failure logs "Unable to open scene file" with the name and returns false.
+bool CSceneManager::loadScene(const char* fileName, ISceneUserDataSerializer* userData) {
+    io::IReadFile* file = fileSystem->createAndOpenFile(fileName);
+    if (file == nullptr) {
+        os::Printer::log("Unable to open scene file", fileName, ELL_ERROR);
+        return false;
+    }
+    const bool result = loadScene(file, userData);
+    file->drop();
+    return result;
 }
+
+// 0x58e768 _ZN6glitch5scene13CSceneManager8loadSceneEPNS_2io9IReadFileEPNS0_24ISceneUserDataSerializerE
+// PARTIAL: the scene reader (readSceneNode) is not reconstructed; reports failure.
 bool CSceneManager::loadScene(io::IReadFile* /*file*/, ISceneUserDataSerializer* /*userData*/) {
     return false;
 }
@@ -242,8 +343,19 @@ ISceneNode* CSceneManager::readSceneNode(io::IXMLReader* /*reader*/, ISceneNode*
 void CSceneManager::writeSceneNode(io::IXMLWriter* /*writer*/, const ISceneNode* /*node*/, ISceneUserDataSerializer* /*userData*/) {}
 
 // 0x589754 _ZN6glitch5scene13CSceneManager26removeShadowReceiverTargetEN5boost13intrusive_ptrINS_5video8ITextureEEE
-// PARTIAL: the entries are compared by their texture (target +0x0c), which IShadowReceiverTarget does not expose; nothing removed.
-void CSceneManager::removeShadowReceiverTarget(boost::intrusive_ptr<video::ITexture> /*texture*/) {}
+// Removes the first registered target whose texture (IShadowReceiverTarget +0x0c) is the given texture, null included, and
+// drops the list's use of it.
+void CSceneManager::removeShadowReceiverTarget(boost::intrusive_ptr<video::ITexture> texture) {
+    video::ITexture* raw = texture.get();
+    for (auto it = shadowReceiverTargets.begin(); it != shadowReceiverTargets.end(); ++it) {
+        if ((*it)->texture == raw) {
+            IShadowReceiverTarget* removed = *it;
+            shadowReceiverTargets.erase(it);
+            removed->drop();
+            return;
+        }
+    }
+}
 
 // 0x58ca64 _ZNK6glitch5scene13CSceneManager8isCulledERKNS_4core8aabbox3dIfEENS0_14E_CULLING_TYPEE (skipped, 280 bytes)
 // PARTIAL: the box-only form of the test (no node). Returns false (not culled).

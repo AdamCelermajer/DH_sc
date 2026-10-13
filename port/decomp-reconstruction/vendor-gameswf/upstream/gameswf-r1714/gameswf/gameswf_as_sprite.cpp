@@ -65,58 +65,51 @@ namespace gameswf
 		}
 	}
 
+	// DH2: 0x7c1ea8. startDrag(lock, left, top, right, bottom): the lock flag is the first argument, the bounds are the next four
+	// DH2: (taken as given, no twips conversion and no swapping of the corners, a missing right or bottom is 199980, a missing
+	// DH2: top is -199980; the left is read whenever there are at least two arguments). The root starts the drag (root::start_drag,
+	// DH2: 0x775154) with the sprite, the lock flag, the bound flag (set when there are two or more arguments) and the rectangle.
 	void	sprite_start_drag(const fn_call& fn)
 	{
 		sprite_instance* sprite = sprite_getptr(fn);
 
-		character::drag_state ds;
-		ds.SetCharacter(sprite);
-
+		bool lock_center = false;
+		bool bound = false;
+		rect r;
 		if (fn.nargs > 0)
 		{
-			// arguments have been given to startDrag
-			ds.SetLockCentered(fn.arg(0).to_bool());
-
-			if (fn.nargs >= 5)
+			lock_center = fn.arg(0).to_bool();
+			if (fn.nargs > 1)
 			{
-				// bounds have been given
-				tu_float x0 = PIXELS_TO_TWIPS(fn.arg(1).to_float());
-				tu_float y0 = PIXELS_TO_TWIPS(fn.arg(2).to_float());
-				tu_float x1 = PIXELS_TO_TWIPS(fn.arg(3).to_float());
-				tu_float y1 = PIXELS_TO_TWIPS(fn.arg(4).to_float());
-
-				float bx0, bx1, by0, by1;
-				if (x0 < x1)
+				r.m_x_min = static_cast<float>(fn.arg(1).to_number());
+				if (fn.nargs <= 2)
 				{
-					bx0 = x0; bx1 = x1; 
+					r.m_y_min = -199980.0f;
+					r.m_x_max = 199980.0f;
+					r.m_y_max = 199980.0f;
 				}
 				else
 				{
-					bx0 = x1; bx1 = x0; 
+					r.m_y_min = static_cast<float>(fn.arg(2).to_number());
+					r.m_x_max = fn.nargs > 3 ? static_cast<float>(fn.arg(3).to_number()) : 199980.0f;
+					r.m_y_max = fn.nargs > 4 ? static_cast<float>(fn.arg(4).to_number()) : 199980.0f;
 				}
-
-				if (y0 < y1)
-				{
-					by0 = y0; by1 = y1; 
-				}
-				else
-				{
-					by0 = y1; by1 = y0; 
-				}
-
-				// we've got bounds
-				ds.SetBounds(bx0, by0, bx1, by1);
+				bound = true;
 			}
 		}
 
 		// inform the root
-		fn.get_root()->set_drag_state(ds);
+		fn.get_root()->start_drag(sprite, lock_center, bound, r);
 	}
 
+	// DH2: 0x7c1e70. Stops the drag only when this sprite is the one being dragged.
 	void	sprite_stop_drag(const fn_call& fn)
 	{
-		//sprite_instance* sprite = sprite_getptr(fn);
-		fn.get_root()->stop_drag();
+		sprite_instance* sprite = sprite_getptr(fn);
+		if (fn.get_root()->m_drag_state.m_character == sprite)
+		{
+			fn.get_root()->stop_drag();
+		}
 	}
 
 	void	sprite_play(const fn_call& fn)
@@ -623,12 +616,12 @@ namespace gameswf
 		matrix m;
 		if (parent)
 		{
-			m = parent->get_world_matrix();
+			m = *parent->get_world_matrix();	// DH2: pointer to the cached world matrix
 			m.transform(&bound);
 		}
 
 		// global coords ==> target local coords
-		m.set_inverse(target->get_world_matrix());
+		m.set_inverse(*target->get_world_matrix());	// DH2: pointer to the cached world matrix
 		m.transform(&bound);
 
 		bound.twips_to_pixels();
@@ -648,6 +641,7 @@ namespace gameswf
 		sprite_get_bounds(fn);
 	}
 
+	#if 0 /* DH2: no setMask native in the binary, and the DH2 sprite_instance has no mask clip member (gameswf_sprite.h) */
 	// public setMask(mc:Object) : Void
 	void	sprite_set_mask(const fn_call& fn)
 	{
@@ -671,4 +665,5 @@ namespace gameswf
 
 	}
 
+	#endif /* DH2 */
 }

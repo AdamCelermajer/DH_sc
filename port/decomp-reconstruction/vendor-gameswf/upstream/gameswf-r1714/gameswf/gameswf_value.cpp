@@ -20,13 +20,13 @@
 namespace gameswf
 {
 
-	bool string_to_number(int* result, const char* str, int base)
+	bool string_to_number(int* result, const char* str)	// DH2: 0x7a5974, base 10 only
 	// Utility.  Try to convert str to a number.  If successful,
 	// put the result in *result, and return true.  If not
 	// successful, put 0 in *result, and return false.
 	{
 		char* tail = 0;
-		*result = strtol(str, &tail, base);
+		*result = strtol(str, &tail, 10);
 		if (tail == str || *tail != 0)
 		{
 			// Failed conversion to Number.
@@ -50,6 +50,7 @@ namespace gameswf
 		return true;
 	}
 
+#if 0 /* DH2: every as_value member below is replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp or is inline in vendor-gameswf/include/vendor-gameswf/as_value.hpp: the DH2 as_value has another layout (flags and type bytes, no m_string cache, no find_property or abstract comparisons) */
 #if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	as_value::as_value(as_object* obj) :
 		m_type(OBJECT),
@@ -879,6 +880,8 @@ namespace gameswf
 		// todo
 	}
 
+#endif /* DH2: as_value members */
+
 	//
 	//	as_property
 	//
@@ -893,6 +896,7 @@ namespace gameswf
 	{
 	}
 
+#if 0 /* DH2: replaced by the definition that follows (as_property::set, 0x797834) */
 	void	as_property::set(as_object* target, const as_value& val)
 	{
 		if (target != NULL)
@@ -906,7 +910,20 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
+	// DH2: 0x797834. The binary does not test target for NULL; the fn_call carries the label "set".
+	void	as_property::set(as_object* target, const as_value& val)
+	{
+		as_environment env(target->get_player());
+		env.m_stack.push_back(val);
+		if (m_setter != NULL)
+		{
+			gc_ptr<as_object> tar = target;
+			(*m_setter.get_ptr())(fn_call(NULL, tar.get_ptr(), &env, 1, env.get_top_index(), "set"));
+		}
+	}
 
+#if 0 /* DH2: replaced by the definition that follows (as_property::get, 0x797540) */
 	void as_property::get(as_object* target, as_value* val) const
 	{
 		if (target == NULL)
@@ -923,13 +940,35 @@ namespace gameswf
 			(*m_getter.get_ptr())(fn_call(val, tar.get_ptr(), &env, 0,	0));
 		}
 	}
+#endif /* DH2 */
+	// DH2: 0x797540. No NULL-target check (the binary reads the target's player first); label "get".
+	void as_property::get(as_object* target, as_value* val) const
+	{
+		// env is used when m_getter->m_env is NULL
+		as_environment env(target->get_player());
+		if (m_getter != NULL)
+		{
+			gc_ptr<as_object> tar = target;
+			(*m_getter.get_ptr())(fn_call(val, tar.get_ptr(), &env, 0, 0, "get"));
+		}
+	}
 
 	// call static method
+#if 0 /* DH2: replaced by the definition that follows (as_property::get(primitive), 0x796ae0) */
 	void as_property::get(const as_value& primitive, as_value* val) const
 	{
 		if (m_getter != NULL)
 		{
 			(*m_getter.get_ptr())(fn_call(val, primitive, NULL, 0,	0));
+		}
+	}
+#endif /* DH2 */
+	// DH2: 0x796ae0. As r1714 plus the fn_call label "get".
+	void as_property::get(const as_value& primitive, as_value* val) const
+	{
+		if (m_getter != NULL)
+		{
+			(*m_getter.get_ptr())(fn_call(val, primitive, NULL, 0, 0, "get"));
 		}
 	}
 

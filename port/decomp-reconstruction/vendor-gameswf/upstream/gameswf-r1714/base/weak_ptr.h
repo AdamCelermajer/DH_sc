@@ -10,6 +10,7 @@
 #define WEAK_PTR_H
 
 #include "base/smart_ptr.h"
+#include "vendor-gameswf/gameswf_alloc.hpp"	// DH2: gameswf::free_internal
 
 namespace gameswf { struct ref_counted; class smart_ptr_proxy; }  // DH2: friend of weak_proxy below
 namespace gameswf { struct as_environment; }  // DH2: friend of weak_proxy below
@@ -43,7 +44,9 @@ public:
 		if (m_ref_count == 0)
 		{
 			// Now we die.
-			delete this;
+			// DH2: the proxy is an 8-byte block from operator new(8, MemHint) (ref_counted::get_weak_proxy),
+			// DH2: and the binary releases it with free_internal, never with delete.
+			gameswf::free_internal(this, 0);
 		}
 	}
 

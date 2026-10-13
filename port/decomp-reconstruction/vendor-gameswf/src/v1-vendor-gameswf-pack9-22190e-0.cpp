@@ -50,7 +50,7 @@ void triangle_intersector::process(point* a2, point* a3, array<point>& out) {
     gluTessBeginPolygon(tess, acc);
     if (acc->m_direct) {
         acc->m_type = gl_prim::LINE_STRIP;  // *(int*)this = 3
-        acc->m_vertices.resize(0);          // size 0; the binary keeps the buffer (values identical)
+        acc->m_vertices.resize(0);          // size 0; the buffer stays, as in the binary
     }
 
     const auto side = [](const point* t) {
@@ -128,19 +128,10 @@ final_shape::~final_shape() {
 }
 
 // 0x787eec gameswf::array<gameswf::final_shape::segment>::push_back<gameswf::final_shape::segment>(gameswf::final_shape::segment const&)
-//   Body of the member-template instance, written as a file-local helper. An explicit specialization of the
-//   DH2 member template did not emit the binary's symbol here (it came out as the non-template overload),
-//   so end_path calls this helper instead. The new element gets a copy of val's points and its flag is cleared
-//   (the flag is not copied). Growth follows array::resize (new + new/2), as in the binary's reserve call.
-static void push_segment(array<final_shape::segment>& segs, const final_shape::segment& val) {
-    segs.resize(segs.size() + 1);
-    final_shape::segment& dst = segs.back();
-    dst.m_points.resize(val.m_points.size());
-    for (int k = 0; k < val.m_points.size(); ++k) {
-        dst.m_points[k] = val.m_points[k];
-    }
-    dst.m_flag = false;
-}
+//   The instance of the member template push_back<U> defined in base/container.h (DH2): reserve(n + n/2) only when the new
+//   count is above the buffer size, then the segment is copy-constructed into the open slot (its point array is copied with
+//   the array growth rule, and its borrowed flag starts cleared). end_path calls it as m_segments.push_back<segment>(m_cur).
+//   No body in this file.
 
 // 0x78956c gameswf::final_shape::merge_segment(gameswf::final_shape::segment*)
 //   Tries to join cur onto one stored segment at a shared end point. Segments are tested in order; empty ones and
@@ -151,7 +142,8 @@ static void push_segment(array<final_shape::segment>& segs, const final_shape::s
 //     D. sf == cf: c is reversed and drops its last point (its old first); s is appended to it, and the result
 //        replaces s. Returns 1.
 //   Returns 0 when no segment joins. Precondition: cur has points (end_path checks this).
-//   Only the values are reproduced. The binary keeps the capacity on a shrink, and resize can compact it.
+//   The array resizes follow the DH2 rule of base/container.h (grow by new + new/2 above the capacity, never compact), which is
+//   the rule of the binary's inlined resizes, so capacities match as well as values.
 int final_shape::merge_segment(segment* cur) {
     if (m_segments.size() <= 0) {
         return 0;
@@ -275,15 +267,15 @@ void final_shape::flush(mesh_set* out, tesselator_accepter& tess) {
 // 0x789cfc gameswf::final_shape::end_path()
 //   If the current path has points: a path is kept as its own segment when m_keep_segments is set, or
 //   merged into a stored segment; if the merge fails, it is kept as its own segment. Then the current path is
-//   emptied. The binary keeps the buffer (only the count is zeroed); resize(0) also frees it.
+//   emptied. The binary keeps the buffer (only the count is zeroed), as resize(0) does in the DH2 container.
 void final_shape::end_path() {
     if (m_cur.m_points.size() == 0) {
         return;
     }
     if (m_keep_segments) {
-        push_segment(m_segments, m_cur);
+        m_segments.push_back<segment>(m_cur);
     } else if (!merge_segment(&m_cur)) {
-        push_segment(m_segments, m_cur);
+        m_segments.push_back<segment>(m_cur);
     }
     m_cur.m_points.resize(0);
 }

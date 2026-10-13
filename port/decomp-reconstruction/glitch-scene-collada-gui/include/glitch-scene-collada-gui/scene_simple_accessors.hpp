@@ -266,10 +266,20 @@ public:
     void setLODOfPatch(std::int32_t row, std::int32_t column, std::int32_t lod);
     // 0x6d03f0 _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesEi
     void setCurrentLODOfPatches(std::int32_t lod);
+    // 0x6d042c _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesERKSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
+    void setCurrentLODOfPatches(const std::vector<std::int32_t>& lods);
+    // 0x6d21ac _ZNK6glitch5scene17CTerrainSceneNode22getCurrentLODOfPatchesERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
+    void getCurrentLODOfPatches(std::vector<std::int32_t>& lods) const;
+    // 0x6d0238 _ZN6glitch5scene17CTerrainSceneNode19overrideLODDistanceEid
+    // Returns 1 when the index is inside the LOD table (the squared distance is stored), else 0.
+    std::int32_t overrideLODDistance(std::int32_t index, double distance);
 
     core::aabbox3d<float> boundingBox;  // +0x184
     core::vector3d<float> rotationPivot;  // +0x150
     std::uint8_t rotationPivotFlag = 0;   // +0x1be (cleared by setRotationPivot)
+    std::uint8_t lodDistanceOverridden = 0;  // +0x1bd (set to 1 by overrideLODDistance)
+    std::int32_t lodDistanceCount = 0;       // +0x180 (entries of the squared LOD distance table)
+    std::vector<double> lodDistanceSquared;  // +0x19c (squared LOD distances, lodDistanceCount entries)
     std::int32_t patchesPerSide = 0;      // +0x17c
     std::vector<STerrainPatch> patches;   // +0x1a8, patchesPerSide squared entries
 };
@@ -487,10 +497,12 @@ class CSceneNodeAnimatorFlyStraight {
 public:
     // 0x6cc070 _ZNK6glitch5scene29CSceneNodeAnimatorFlyStraight7getTypeEv (returns 1)
     std::uint32_t getType() const;
-    // 0x6cc330 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight25recalculateImidiateValuesEv
-    // Partial: the original tail-calls __aeabi_fsub(+0x18, +0x0c), so the difference of the X components of end and start is
-    // returned; the vector, length and time factor are not stored here.
-    float recalculateImidiateValues() const;
+    // 0x6cc330 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight25recalculateImidiateValuesEv (non-const: it stores the
+    // direction, the way length and the time factor). Returns the time factor.
+    float recalculateImidiateValues();
+    // 0x6cc138 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight11animateNodeEPNS0_10ISceneNodeEj
+    // Places the node on the segment for the elapsed time (looping, or clamped at the end when not looping).
+    void animateNode(ISceneNode* node, std::uint32_t timeMs);
 
     core::vector3d<float> start;   // +0x0c constructor argument
     core::vector3d<float> end;     // +0x18 constructor argument

@@ -11,6 +11,8 @@
 #include "gameswf/gameswf_function.h"
 #include "gameswf/gameswf_log.h"
 #include "gameswf/gameswf_movie_def.h"
+#include "gameswf/gameswf_root.h"	// DH2: find_target(char const*) asks the player for its root
+#include <stdlib.h>	// DH2: abort in dump
 
 namespace gameswf
 {
@@ -35,6 +37,7 @@ namespace gameswf
 	}
 	
 	//static registerClass(name:String, theClass:Function) : Boolean
+#if 0 /* DH2: as_object_registerclass 0x769420: the binary does not test the target, does not create a character_def for an unknown name (it logs an error) and has no verbose log */
 	void	as_object_registerclass(const fn_call& fn)
 	{
 		fn.result->set_bool(false);
@@ -77,6 +80,29 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
+	void	as_object_registerclass(const fn_call& fn)	// DH2: 0x769420
+	{
+		fn.result->set_bool(false);
+		if (fn.nargs == 2)
+		{
+			character_def* def = fn.env->get_target()->find_exported_resource(fn.arg(0).to_tu_string());
+			if (def)
+			{
+				as_function* func = cast_to<as_function>(fn.arg(1).to_object());
+				if (func)
+				{
+					fn.result->set_bool(true);
+					def->set_registered_class_constructor(func);
+				}
+			}
+			else
+			{
+				log_error("can't find exported resource '%s'\n", fn.arg(0).to_string());
+			}
+		}
+	}
+
 
 	// public hasOwnProperty(name:String) : Boolean
 	// Indicates whether an object has a specified property defined. 
@@ -90,7 +116,7 @@ namespace gameswf
 		{
 			assert(fn.this_ptr);
 			as_value m;
-			if (fn.this_ptr->m_members.get(fn.arg(0).to_tu_stringi(), &m))
+			if (fn.this_ptr->m_members.get(tu_stringi(fn.arg(0).to_tu_string()), &m))	// DH2: the key is the argument text (the binary passes the tu_string as the tu_stringi key)
 			{
 				fn.result->set_bool(true);
 				return;
@@ -191,12 +217,21 @@ namespace gameswf
 		delete m_watch;
 	}
 
+#if 0 /* DH2: builtin_member 0x768b54: the binary sets the flag byte and calls the virtual set_member (+0x1c) */
 	// called from a object constructor only
 	void	as_object::builtin_member(const tu_stringi& name, const as_value& val)
 	{
 		val.set_flags(as_value::DONT_ENUM);
 		m_members.set(name, val);
 	}
+#endif /* DH2 */
+	// called from a object constructor only
+	void	as_object::builtin_member(const tu_stringi& name, const as_value& val)	// DH2: 0x768b54
+	{
+		val.set_flags(as_value::DONT_ENUM);
+		set_member(name, val);
+	}
+
 
 	void as_object::call_watcher(const tu_stringi& name, const as_value& old_val, as_value* new_val)
 	{
@@ -217,6 +252,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: set_member 0x76c1e0: only an own property member runs its setter, the watcher result is not stored, notify_set_member (+0x60) is called before the store */
 	bool	as_object::set_member(const tu_stringi& name, const as_value& new_val)
 	{
 //		printf("SET MEMBER: %s at %p for object %p\n", name.c_str(), val.to_object(), this);
@@ -251,6 +287,67 @@ namespace gameswf
 		}
 		return true;
 	}
+#endif /* DH2 */
+	bool	as_object::set_member(const tu_stringi& name, const as_value& new_val)	// DH2: 0x76c1e0
+	{
+		stringi_hash<as_value>::iterator it = m_members.find(name);
+		const bool found = (it != m_members.end());
+		if (found && it->second.is_property())
+		{
+			// DH2: only a property held by this object runs its setter (r1714 also follows the prototype chain)
+			as_value prop;
+			if (get_member(name, &prop))
+			{
+				prop.set_property(new_val);
+			}
+			return true;
+		}
+
+		if (m_watch)
+		{
+			// DH2: the watcher is inlined. The old value is the member of this object (undefined when there is none).
+			as_value old_val;
+			if (found)
+			{
+				old_val = it->second;
+			}
+			as_value val;
+			val = new_val;
+			as_watch watch;
+			m_watch->get(name, &watch);
+			if (watch.m_func)
+			{
+				as_environment env(get_player());
+				env.push(watch.m_user_data);	// params
+				env.push(val);		// newVal
+				env.push(old_val);	// oldVal
+				env.push(name.c_str());	// property
+				val.set_undefined();
+				as_value this_value(this);
+				(*watch.m_func)(fn_call(&val, this_value, &env, 4, env.get_top_index(), name.c_str()));
+				// DH2: the result in val is dropped; the value stored below is new_val
+			}
+		}
+
+		notify_set_member(name, new_val);	// DH2: +0x60
+
+		if (found)
+		{
+			// update a old members
+			// is the member read-only ?
+			if (it->second.is_readonly() == false)
+			{
+				it->second = new_val;
+			}
+		}
+		else
+		{
+			// create a new members
+			m_members.set(name, new_val);
+		}
+		return true;
+	}
+
 
 	as_object* as_object::get_proto() const
 	{
@@ -289,6 +386,7 @@ namespace gameswf
 		return true;
 	}
 
+#if 0 /* DH2: find_property (AVM2) is not in the DH2 binary */
 	bool	as_object::find_property( const tu_stringi & name, as_value * val )
 	{
 		as_value dummy;
@@ -327,6 +425,8 @@ namespace gameswf
 		return false;
 	}
 
+#endif /* DH2 */
+
 	void	as_object::clear_refs(hash<as_object*, bool>* visited_objects, as_object* this_ptr)
 	{
 		// Is it a reentrance ?
@@ -363,8 +463,33 @@ namespace gameswf
 				}
 			}
 		}
+
+		// DH2: 0x769db0 also walks the prototype and the constructor value (r1714 does not)
+		if (m_proto.get_ptr() != NULL)
+		{
+			if (m_proto.get_ptr() == this_ptr)
+			{
+				m_proto = NULL;
+			}
+			else
+			{
+				m_proto->clear_refs(visited_objects, this_ptr);
+			}
+		}
+		if (m_ctor.is_object() && m_ctor.to_object() != NULL)
+		{
+			if (m_ctor.to_object() == this_ptr)
+			{
+				m_ctor.set_undefined();
+			}
+			else
+			{
+				m_ctor.to_object()->clear_refs(visited_objects, this_ptr);
+			}
+		}
 	}
 
+#if 0 /* DH2: on_event 0x76b694: the binary calls the handler on a private environment, not on the _root environment */
 	bool	as_object::on_event(const event_id& id)
 	{
 		// Check for member function.
@@ -405,6 +530,34 @@ namespace gameswf
 
 		return called;
 	}
+#endif /* DH2 */
+	bool	as_object::on_event(const event_id& id)	// DH2: 0x76b694
+	{
+		// Check for member function.
+		const tu_stringi&	method_name = id.get_function_name().to_tu_stringi();
+		if (method_name.length() > 0)
+		{
+			as_value	method;
+			if (get_member(method_name, &method))
+			{
+				as_environment env(get_player());
+
+				int nargs = 0;
+				if (id.m_args)
+				{
+					nargs = id.m_args->size();
+					for (int i = nargs - 1; i >=0; i--)
+					{
+						env.push((*id.m_args)[i]);
+					}
+				}
+				call_method(method, &env, as_value(this), nargs, env.get_top_index(), "???");
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	void as_object::enumerate(as_environment* env)
 	// retrieves members & pushes them into env
@@ -496,10 +649,15 @@ namespace gameswf
 			const as_value& val = it->second;
 			if (val.is_property())
 			{
+#if 0 /* DH2: 0x76a8a8 reads the property and its target and then calls abort(); the print of the getter and setter is not in the binary */
 				printf("%s%s: <as_property 0x%p, target 0x%p, getter 0x%p, setter 0x%p>\n",
-								tabs.c_str(), 
+								tabs.c_str(),
 								it->first.c_str(), val.to_property(), val.get_property_target(),
 								val.to_property()->m_getter.get_ptr(), val.to_property()->m_setter.get_ptr());
+#endif /* DH2 */
+				val.to_property();
+				val.get_property_target();
+				abort();
 			}
 			else
 			if (val.is_function())
@@ -604,6 +762,53 @@ namespace gameswf
 	}
 #endif /* DH2 */
 
+	// DH2: 0x76b284. The path form of the lookup (r1714 has it inside find_target(const as_value&), which the binary
+	// DH2: splits in two). A name that is not found gives NULL, with no log message.
+	as_object*	as_object::find_target(const char* path)
+	{
+		if (*path == 0)
+		{
+			return this;
+		}
+
+		as_value val;
+		as_object* target;
+
+		// absolute path ?
+		if (*path == '/')
+		{
+			target = get_player()->get_root()->get_root_movie()->find_target(path + 1);
+		}
+		else
+		{
+			const char* slash = strchr(path, '/');
+			if (slash == NULL)
+			{
+				slash = strchr(path, '.');
+				if (slash && slash[1] == '.')
+				{
+					slash = NULL;
+				}
+			}
+
+			if (slash)
+			{
+				tu_string name(path, int(slash - path));
+				get_member(name.to_tu_stringi(), &val);
+				as_object* tar = val.to_object();
+				target = tar ? tar->find_target(slash + 1) : NULL;
+			}
+			else
+			{
+				tu_string name(path);
+				get_member(name.to_tu_stringi(), &val);
+				target = val.to_object();
+			}
+		}
+		return target;
+	}
+
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_object-6b7905-0.cpp (alive stamp, no garbage hash) */
 	// mark 'this' as alive
 	void as_object::this_alive()
 	{
@@ -624,6 +829,9 @@ namespace gameswf
 		}
 	}
 
+#endif /* DH2 */
+
+#if 0 /* DH2: to_number 0x768e98: string_to_number of to_string(), NaN when it fails (r1714: atof) */
 	double	as_object::to_number()
 	{
 		const char* str = to_string();
@@ -633,6 +841,17 @@ namespace gameswf
 		}
 		return 0;
 	}
+#endif /* DH2 */
+	double	as_object::to_number()	// DH2: 0x768e98
+	{
+		double result = 0;
+		if (string_to_number(&result, to_string()))
+		{
+			return result;
+		}
+		return get_nan();
+	}
+
 
 	// for optimization I don't want to put '__constructor__' into as_object
 	// so the missing of '__constructor__' in a object means 
@@ -680,6 +899,7 @@ namespace gameswf
 		return m_player->get_root(); 
 	}
 
+#if 0 /* DH2: get_ctor and set_ctor use the m_ctor field (batch 6b7905-0); set_instance is AVM2 and not in the binary */
 	static tu_string s_constructor("__constructor__");
 	bool as_object::get_ctor(as_value* val) const
 	{
@@ -695,6 +915,8 @@ namespace gameswf
 	{
 		m_instance = info;
 	}
+
+#endif /* DH2 */
 
 	#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_object-6b7905-0.cpp */
 	as_object* as_object::create_proto(const as_value& constructor)

@@ -2,10 +2,11 @@
 // gameswf::define_sound_loader (0x77d0d0) runs inline. The decoder is in
 // vendor-gameswf/adpcm_dh2.hpp, so it runs without the gameswf core headers.
 //
-//   bash tools/trackb/check_tu.sh --test port/decomp-reconstruction/vendor-gameswf/tests/v1-vendor-gameswf-gameswf-fddef6-3_test.cpp
+// The batch .cpp is not linked here: it needs the gameswf core, and this test needs only the header.
 //
-// The batch .cpp is not linked here: its gameswf-dependent parts are gated behind
-// VENDOR_GAMESWF_DH2_CORE_HEADERS, and this test needs only the header.
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 
 #include <cstddef>
 #include <cstdint>

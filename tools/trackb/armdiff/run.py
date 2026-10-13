@@ -217,6 +217,39 @@ def stl_members(rec: dict | None, layouts: dict | None = None, _depth: int = 0) 
     return sorted(found)
 
 
+# Size of the container in the original (STLport, ARM32) minus its size in the ARM32 libc++ build, per type. These are the
+# differences the layout audit and the STL triage use to tell a pure STL shift from a real layout error behind it:
+# string 24 against 12, map and set (an _Rb_tree without the empty comparator) 20 against 12, list 8 against 12, deque 40 against 24.
+STL_SIZE_DELTA = (("std::string", -12), ("std::wstring", -12), ("std::basic_string", -12), ("std::map", -8), ("std::multimap", -8),
+                  ("std::set", -8), ("std::multiset", -8), ("std::list", 4), ("std::deque", -16), ("std::queue", -16),
+                  ("std::stack", -16))
+
+
+def stl_type_delta(type_text: str) -> int | None:
+    """libc++ size minus STLport size of one std:: member type, or None when the layout is not known."""
+    t = type_text.strip()
+    for kw in ("class ", "struct ", "union "):
+        if t.startswith(kw):
+            t = t[len(kw):]
+    for prefix, d in STL_SIZE_DELTA:
+        if t.startswith(prefix) and (len(t) == len(prefix) or t[len(prefix)] in "< "):
+            return d
+    return None
+
+
+def stl_expected_delta(rec: dict | None, layouts: dict | None, before_offset: int) -> tuple[int, int]:
+    """(sum of the size differences of the STL members that precede `before_offset`, how many of them have an unknown size)."""
+    total = unknown = 0
+    for o, ty in stl_members(rec, layouts):
+        if o < before_offset:
+            d = stl_type_delta(ty)
+            if d is None:
+                unknown += 1
+            else:
+                total += d
+    return total, unknown
+
+
 def stl_incompatible(rec: dict | None, layouts: dict | None = None):
     """(offset, type text) of the lowest-offset STL member whose layout differs, or None."""
     m = stl_members(rec, layouts)
@@ -334,7 +367,23 @@ def run_function(m: mc.Machine, row: manifest.Row, tu: TuData, sig: abi.IRSig, r
         out.flags.append("stl_class")
         out.notes.append(f"class has an STL member ({stl[1]}) at +{stl[0]:#x}; differences at or after it are not counted")
     try:
-        gen = cases_mod.CaseGen(sig, row.addr, a.seed, this_size=this_size, vptr_value=vptr_value)
+        param_recs: dict[int, dict] = {}
+        if rec:
+            for pi, p in enumerate(sig.params):
+                if p.is_this:
+                    param_recs[pi] = rec
+        dsc = build_arm._scan_demangled(ci.demangled.get(row.msym, row.msym)) if row.msym.startswith("_Z") else None
+        if dsc:
+            dparams = build_arm._split_params(dsc[2]) if dsc[2].strip() not in ("", "void") else []
+            irp = [pi for pi, p in enumerate(sig.params) if not p.is_this and not p.sret]
+            if len(irp) == len(dparams):
+                for pi, dp in zip(irp, dparams):
+                    if sig.params[pi].ty == "ptr":
+                        nm = cases_mod._strip_kw(dp.replace("&", "").replace("*", "").replace("const", "").replace("volatile", ""))
+                        if nm in tu.layouts:
+                            param_recs[pi] = tu.layouts[nm]
+        gen = cases_mod.CaseGen(sig, row.addr, a.seed, this_size=this_size, vptr_value=vptr_value, layouts=tu.layouts,
+                                param_recs=param_recs)
     except ValueError as e:
         out.reason = f"unsupported signature: {e}"
         return
@@ -355,8 +404,12 @@ def run_function(m: mc.Machine, row: manifest.Row, tu: TuData, sig: abi.IRSig, r
     idx = -1
     last_cov = 0
 
+    t_start = time.time()
     while True:
         idx += 1
+        if time.time() - t_start > a.fn_timeout:
+            out.notes.append(f"stopped after {out.cases} cases: wall-clock limit of {a.fn_timeout}s per function")
+            break
         if idx >= ncases:
             # more cases while the original function still has code the inputs have not reached
             if idx >= cap or stall >= 32 or len(m.cover_exec) >= n_code:
@@ -463,7 +516,7 @@ def run_all(a) -> int:
             if (DR / cat / "src").is_dir():
                 build_arm.build_category(cat, a.opt, a.force_build, a.jobs)
     common = ["--cases", str(a.cases), "--extend", str(a.extend), "--seed", str(a.seed), "--budget", str(a.budget),
-              "--shape", a.shape, "--callee", a.callee, "--opt", a.opt, "--library", a.library, "--skip-tu-build"]
+              "--shape", a.shape, "--fn-timeout", str(a.fn_timeout), "--callee", a.callee, f"--opt={a.opt}", "--library", a.library, "--skip-tu-build"]
     if a.no_call_only:
         common.append("--no-call-only")
     if a.no_build:
@@ -476,9 +529,14 @@ def run_all(a) -> int:
 
     def one(cat: str):
         t = time.time()
-        p = subprocess.run([sys.executable, str(Path(__file__).resolve()), "-c", cat] + common, capture_output=True, text=True)
-        (logdir / f"{cat}.log").write_text(p.stdout + "\n" + p.stderr, encoding="utf-8")
-        return cat, p.returncode, time.time() - t
+        try:
+            p = subprocess.run([sys.executable, str(Path(__file__).resolve()), "-c", cat] + common, capture_output=True, text=True,
+                               timeout=a.category_timeout)
+            (logdir / f"{cat}.log").write_text(p.stdout + "\n" + p.stderr, encoding="utf-8")
+            return cat, p.returncode, time.time() - t
+        except subprocess.TimeoutExpired as e:
+            (logdir / f"{cat}.log").write_text(f"timeout after {a.category_timeout}s\n" + str(e.stdout or "")[-4000:], encoding="utf-8")
+            return cat, -9, time.time() - t
 
     print(f"[armdiff --all] {len(cats)} categories, {workers} processes", flush=True)
     done = []
@@ -497,7 +555,7 @@ def run_all(a) -> int:
         rows = list(csv.DictReader(path.open(encoding="utf-8")))
         ran = [r for r in rows if int(r["cases"] or 0) > 0]
         mt = [r for r in rows if r["result"] == "match"]
-        triv = sum(1 for r in mt if r["trivial"] == "yes")
+        triv = sum(1 for r in mt if r.get("trivial") == "yes")
         vals = [len(rows), len(ran), len(mt), triv, len(mt) - triv, sum(1 for r in rows if r["result"] == "mismatch"),
                 sum(1 for r in rows if r["result"] == "excluded")]
         lines.append([cat] + vals)
@@ -527,6 +585,8 @@ def main() -> int:
                          "up to this multiple of --cases (default 4)")
     ap.add_argument("--seed", type=int, default=1, help="global seed (default 1); cases are reproducible from it")
     ap.add_argument("--budget", type=int, default=400000, help="instruction budget per call")
+    ap.add_argument("--fn-timeout", type=int, default=90, help="wall-clock seconds per function before its remaining cases are dropped (default 90)")
+    ap.add_argument("--category-timeout", type=int, default=2400, help="--all: seconds before a category process is killed (default 2400)")
     ap.add_argument("--no-call-only", action="store_true", help="only functions whose original body makes no call")
     ap.add_argument("--shape", default="default", help="call shapes to include: default (none,imports), any, or a comma list")
     ap.add_argument("--callee", choices=["original", "recon"], default="original",

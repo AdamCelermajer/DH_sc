@@ -29,7 +29,7 @@ class Unmodeled(Exception):
 
 MODELS: dict[str, Callable] = {}
 
-MAX_BLOCK = 1 << 24      # a memory helper asked to touch more than 16 MiB has been given a wild size
+MAX_BLOCK = 1 << 18      # a memory helper asked to touch more than 256 KiB has been given a wild size (and a loop of such calls would take hours)
 
 
 def _len_ok(n: int) -> int:

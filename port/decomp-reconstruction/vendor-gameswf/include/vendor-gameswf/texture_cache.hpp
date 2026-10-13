@@ -51,10 +51,10 @@ public:
         int32_t cells_h = 0;     // +0xc: height in cells
     };
 
-    // Constructor (C1 0x794030, C2 0x7941c0). PARTIAL: only the field setup and the size rounding
-    // are written; see texture_cache.cpp.
+    // Constructor (C1 0x794030, C2 0x7941c0). Takes the texture from the current render handler (alpha, rgba image or
+    // render target), makes it writable and builds the cell grid with reset().
     texture_cache(int width, int height, int bpp, bool render_target);
-    // D2 0x758b8c. PARTIAL: see texture_cache.cpp.
+    // D2 0x758b8c.
     ~texture_cache();
 
     // 0x793560. Rounds both sizes up to whole cells (minimum one cell). Returns height + 15 from
@@ -76,21 +76,18 @@ public:
     region* find_available_region(int width, int height);
     // 0x7c44d8. Locks the texture once and returns its pixel buffer.
     void* lock();
-    // 0x7935ec. PARTIAL: static in the original. Unlocks the caches reached from the player context.
+    // 0x7935ec. Static in the original. Unlocks the caches reached from the player context.
     static void unlock_all(player_context* ctx);
 
     // +0x00 (int64): clock, incremented by reset().
     int64_t m_clock = 0;
     // +0x08 (int64): clock value taken by reset() and find_used_region().
     int64_t m_last_clock = 0;
-    // +0x10 (array<region>, 12 bytes in the original): the cell grid, one region per cell.
+    // +0x10 (array<region>, 16 bytes with its borrowed flag at +0x1c): the cell grid, one region per cell.
     ::array<region> m_regions;
-    // +0x1c (byte): zeroed by the constructor. No function in this batch reads it.
-    uint8_t unk_1c = 0;
-    // +0x20 (array<region*>, 12 bytes in the original): free regions.
+    // +0x20 (array<region*>, 16 bytes; its borrowed flag at +0x2c means the free-list buffer is not owned by
+    // this cache, see ~texture_cache): free regions.
     ::array<region*> m_free;
-    // +0x2c (byte): when set, the free-list buffer is not owned by this cache (see ~texture_cache).
-    bool m_free_list_borrowed = false;
     // +0x30 (hash<key, region*>, a pointer to the table in the original): used regions by key.
     ::hash<key, region*, ::fixed_size_hash<key>> m_used;
     // +0x34 (smart_ptr<bitmap_info>): the texture. bitmap_info's DH2 vtable gives lock +0x18,
@@ -100,14 +97,8 @@ public:
     int m_bpp = 0;
     // +0x3c (void*): pixel buffer while the texture is locked, otherwise null.
     void* m_locked = nullptr;
-    // DH2: +0x40..+0x4c are written by the glyph_provider constructor (0x7d0dfc) right after the cache
-    // is created. Their meaning is not recovered, and no texture_cache function reads them.
-    int32_t unk_40 = 0;  // +0x40
-    int32_t unk_44 = 0;  // +0x44
-    int32_t unk_48 = 0;  // +0x48
-    uint8_t unk_4c = 0;  // +0x4c
-    // DH2: +0x50, the glyph_provider that owns this cache (set by its constructor).
-    glyph_provider* m_owner = nullptr;
+    // The object is 0x40 bytes in the binary. filter_engine and glyph_texture_cache derive from it and start
+    // their own members at +0x40.
 };
 
 }  // namespace gameswf

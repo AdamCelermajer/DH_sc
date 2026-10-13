@@ -28,8 +28,9 @@ public:
     // Returns 1 when the glyph was added, 0 when there is no bitmap or no region fits.
     int add_glyph_region(std::uint16_t code, void* glyph_data, int size);
 
-    // 0x7c55d8. Writes the region bounds of the glyph into bounds, adding the glyph first when it is not cached.
-    // The original returns a float that is only a register residue here (see texture_cache::get_region_bounds).
+    // 0x7c55d8. Writes the region bounds of the glyph into bounds, adding the glyph first when it is not cached (when the
+    // add fails, the render handler is flushed, the cache reset and the glyph added once more). The original returns a float
+    // that is only a register residue (see texture_cache::get_region_bounds).
     void get_glyph_region(std::uint16_t code, void* glyph_data, int size, rect& bounds);
 };
 

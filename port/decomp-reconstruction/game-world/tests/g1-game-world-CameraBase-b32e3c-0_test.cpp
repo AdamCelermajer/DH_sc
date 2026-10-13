@@ -4,10 +4,9 @@
 // destructor, the empty virtual hooks, the null-camera branches (the zero vector is read from the Vec3f_Origin global),
 // the camera branches of the vector getters and GetCenterOffset, and SetData's setter calls.
 //
-// The scene-node code is not linked here, so this test supplies the few link symbols the batch source needs:
-//  - ISceneNode::getAbsoluteTransformation returns a test-owned 4x4 matrix (the camera's absolute transform);
-//  - the ICameraSceneNode constructor and its non-pure virtuals (getTargetNode, isOrthogonal) are empty stubs;
-//  - FakeCamera derives from ICameraSceneNode and records every setter the batch calls, in order.
+// The scene-node classes come from the glitch-scene-collada-gui library, which the test links. FakeCamera derives from
+// the canonical ICameraSceneNode, overrides the pure slots, returns a test-owned 4x4 matrix from
+// getAbsoluteTransformation (the camera's absolute transform), and records every setter the batch calls, in order.
 // Vec3f_Origin is defined here, as dh2/global/Vec3f_Origin.hpp says the integrator defines it once.
 
 #include <cstdio>
@@ -67,6 +66,14 @@ class FakeCamera : public glitch::scene::ICameraSceneNode {
 public:
     FakeCamera() : glitch::scene::ICameraSceneNode(0, V3{}, V3{}, V3{1.0f, 1.0f, 1.0f}) {}
 
+    void render(void*) override {}
+    const glitch::core::aabbox3d<float>& getBoundingBox() const override { return box_; }
+    const M4& getAbsoluteTransformation() const override {
+        for (int i = 0; i < 16; ++i) {
+            absolute_.M[i] = g_absolute[i];
+        }
+        return absolute_;
+    }
     void setProjectionMatrix(const M4&, bool) override {}
     const M4& getProjectionMatrix() const override { return matrix_; }
     const M4& getViewMatrix() const override { return matrix_; }
@@ -108,36 +115,12 @@ private:
     static void record(CallCode code) { g_calls[g_callCount++] = code; }
 
     M4 matrix_;
+    mutable M4 absolute_;  // filled from g_absolute on each call
     V3 zero_{0.0f, 0.0f, 0.0f};
+    glitch::core::aabbox3d<float> box_{};
 };
 
 }  // namespace
-
-// Link stubs for the scene-node code that scene_node.cpp and scene_nodes.cpp would define.
-namespace glitch {
-namespace scene {
-
-const float* ISceneNode::getAbsoluteTransformation() const {
-    return g_absolute;
-}
-
-ICameraSceneNode::ICameraSceneNode(int, const core::vector3d<float>&, const core::vector3d<float>&,
-                                   const core::vector3d<float>&) {}
-
-ISceneNode* ICameraSceneNode::getTargetNode() const {
-    return nullptr;
-}
-
-ISceneNode* ICameraSceneNode::getTargetNode() {
-    return nullptr;
-}
-
-bool ICameraSceneNode::isOrthogonal() const {
-    return false;
-}
-
-}  // namespace scene
-}  // namespace glitch
 
 int main() {
     EXPECT(CameraBase::s_activeCamera == nullptr);

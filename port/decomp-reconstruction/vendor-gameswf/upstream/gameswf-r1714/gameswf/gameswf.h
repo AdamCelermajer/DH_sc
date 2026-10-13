@@ -24,6 +24,7 @@
 #include "base/tu_gc_singlethreaded_refcount.h"
 #include "base/weak_ptr.h"
 #include "vendor-gameswf/ref_counted.hpp"  // DH2: replaces the upstream ref_counted struct below
+#include "vendor-gameswf/gc_ptr.hpp"  // DH2: gc_ptr is a smart_ptr (no tu_gc layer in the binary)
 
 class tu_file;
 class render_handler;
@@ -46,10 +47,14 @@ struct IDirect3DDevice8;
 
 namespace gameswf
 {
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/gc_ptr.hpp (gc_ptr is smart_ptr, gc_array is array<smart_ptr>) */
 	DECLARE_GC_TYPES(tu_gc::singlethreaded_refcount);
 	SPECIALIZE_GC_CONTAINER(gc_array, array);
+#endif /* DH2 */
 
 	// Forward declarations.
+	struct image_rgb;	// DH2: vendor-gameswf/image_rgb.hpp (Gameloft; the binary's handler takes these, not image::rgb)
+	struct image_rgba;	// DH2: vendor-gameswf/image_rgba.hpp
 	struct player;
 	struct as_value;
 	struct bitmap_info;
@@ -161,11 +166,16 @@ namespace gameswf
 #endif /* DH2: ref_counted (declared in ref_counted.hpp) */
 
 	// Unique id of all gameswf resources
+	// DH2: the values of the DH2 build, read from the is(int) bodies of the binary (character 1, sprite 2,
+	// DH2: generic character 3, function 4 ... stage 21, edit text 32, bitmap character 33, timer 37, mouse
+	// DH2: event 40). Added over r1714: AS_GENERIC_CHARACTER, AS_STAGE and AS_BITMAP_CHARACTER. AS_LOADVARS
+	// DH2: has no class in the binary and moved to the end.
 	enum as_classes
 	{
 		AS_OBJECT,
 		AS_CHARACTER,
 		AS_SPRITE,
+		AS_GENERIC_CHARACTER,	// DH2
 		AS_FUNCTION,
 		AS_C_FUNCTION,
 		AS_S_FUNCTION,
@@ -183,6 +193,7 @@ namespace gameswf
 		AS_SOUND,
 		AS_FONT,
 		AS_CANVAS,
+		AS_STAGE,	// DH2
 		AS_NETSTREAM,
 		AS_STRING,
 		AS_SELECTION,
@@ -194,16 +205,18 @@ namespace gameswf
 		AS_LISTENER,
 		AS_DATE,
 		AS_EDIT_TEXT,
+		AS_BITMAP_CHARACTER,	// DH2
 		AS_XML_SOCKET,
 		AS_TEXTFORMAT,
 		AS_MCLOADER,
-		AS_LOADVARS,
 		AS_TIMER,
 		AS_MOUSE,
 
 		// flash9
 		AS_EVENT,
 		AS_MOUSE_EVENT,
+
+		AS_LOADVARS,	// DH2: moved here, the binary has no as_loadvars
 
 		// plugins
 		AS_PLUGIN_MYDB,
@@ -445,6 +458,13 @@ namespace gameswf
 
 	// You may define a subclass of this, and pass an instance to
 	// set_sound_handler().
+	//
+	// DH2: the binary's vtable (verified from the callers; the concrete handler is outside the gameswf library):
+	// DH2:   +0x00 create_sound (6 arguments), +0x04 load_sound, +0x08 append_sound, +0x0c play_sound(handle, loops),
+	// DH2:   +0x10 set_volume, +0x14 stop_sound, +0x18 stop_all_sounds, +0x1c delete_sound, +0x20..+0x28 the aux streamer
+	// DH2:   pair and cvt (not called by the library), +0x2c/+0x30 destructors, +0x34 is_open, +0x38 pause,
+	// DH2:   +0x3c get_position, then advance. Compared with r1714 set_max_volume is gone and play_sound has no
+	// DH2:   listener object argument.
 	struct sound_handler
 	{
 		// audio for video
@@ -488,12 +508,14 @@ namespace gameswf
 		// gameswf calls this when it wants you to play the defined sound.
 		//
 		// loop_count == 0 means play the sound once (1 means play it twice, etc)
-		virtual void	play_sound(as_object* listener_obj, int sound_handle, int loop_count /* , volume, pan, etc? */) = 0;
+		virtual void	play_sound(int sound_handle, int loop_count /* , volume, pan, etc? */) = 0;	// DH2: no listener object (+0x0c)
 
 		virtual void	set_volume(int sound_handle, int volume) = 0;
 
+#if 0	// DH2: not in the binary's sound_handler vtable
 		// set max volume in percent, [0..100]
 		virtual void	set_max_volume(int vol) = 0;
+#endif
 
 		// Stop the specified sound if it's playing.
 		// (Normally a full-featured sound API would take a
@@ -717,54 +739,71 @@ namespace gameswf
 	// need to subclass bitmap_info in order to add the
 	// information and functionality your app needs to render
 	// using textures.
+	// DH2: the vtable of the DH2 binary has 16 slots (72 bytes with the thunk header): D1 +0x00, D0 +0x04, layout +0x08,
+	// DH2: unlayout +0x0c, activate +0x10, set_writable +0x14, lock +0x18, unlock +0x1c, set_texture +0x20, get_width +0x24,
+	// DH2: get_height +0x28, set_min_filter +0x2c, set_mag_filter +0x30, is_layout +0x34, get_internal_width +0x38,
+	// DH2: get_internal_height +0x3c. r1714's get_data and get_bpp are not in the binary. Bodies are in
+	// DH2: vendor-gameswf/src/v1-vendor-gameswf-gameswf_bitmap_info-d3c4c6-0.cpp.
 	struct bitmap_info : public ref_counted
 	{
-		virtual void layout() {};
-		virtual void activate() {};
-		virtual int get_width() const { return 0; }
-		virtual int get_height() const { return 0; }
+		virtual ~bitmap_info();  // DH2: vtable slots D1 and D0
+		virtual void layout() {};	// +0x08
+		virtual void unlayout();  // DH2: +0x0c
+		virtual void activate() {};	// +0x10
+		virtual void set_writable();  // DH2: +0x14
+		virtual void* lock();  // DH2: +0x18, returns the pixel buffer of the locked texture (Hex-Rays types it int on the 32-bit target)
+		virtual void unlock();  // DH2: +0x1c
+		virtual void set_texture(glitch::video::ITexture* texture);  // DH2: +0x20
+		virtual int get_width() const { return 0; }	// +0x24
+		virtual int get_height() const { return 0; }	// +0x28
+		#if 0 /* DH2: not in the binary */
 		virtual unsigned char* get_data() const { return 0; }
 		virtual int get_bpp() const { return 0; }	// byte per pixel
-
-		// DH2: Gameloft members (DH2 vtable of bitmap_info has 16 slots: D1 +0x00, D0 +0x04, layout +0x08,
-		// DH2: unlayout +0x0c, activate +0x10, set_writable +0x14, lock +0x18, unlock +0x1c, set_texture +0x20,
-		// DH2: get_width +0x24, get_height +0x28, set_min_filter +0x2c, set_mag_filter +0x30, is_layout +0x34,
-		// DH2: get_internal_width +0x38, get_internal_height +0x3c; no get_data or get_bpp). Bodies are in
-		// DH2: vendor-gameswf/src/v1-vendor-gameswf-gameswf_bitmap_info-d3c4c6-0.cpp.
-		virtual ~bitmap_info();  // DH2: vtable slots D1 and D0
-		virtual void unlayout();  // DH2
-		virtual void set_writable();  // DH2
-		virtual int lock();  // DH2
-		virtual void unlock();  // DH2
-		virtual void set_texture(glitch::video::ITexture* texture);  // DH2
+		#endif /* DH2 */
 		enum filter_mode : int {};  // DH2: enumerators not recovered; set_min_filter and set_mag_filter never read the value
-		virtual void set_min_filter(filter_mode mode);  // DH2
-		virtual void set_mag_filter(filter_mode mode);  // DH2
-		virtual int is_layout() const;  // DH2
-		virtual int get_internal_width() const;  // DH2: returns the virtual get_width()
-		virtual int get_internal_height() const;  // DH2: returns the virtual get_height()
+		virtual void set_min_filter(filter_mode mode);  // DH2: +0x2c
+		virtual void set_mag_filter(filter_mode mode);  // DH2: +0x30
+		virtual int is_layout() const;  // DH2: +0x34
+		virtual int get_internal_width() const;  // DH2: +0x38, returns the virtual get_width()
+		virtual int get_internal_height() const;  // DH2: +0x3c, returns the virtual get_height()
 	};
 
 	// DH2: Gameloft enum used by render_handler::set_orientation (gameswf::orientation_mode in the binary).
 	// DH2: Only its name is recovered: no enumerators, and int is assumed as the underlying type.
 	enum orientation_mode : int;  // DH2: opaque
+
+	// DH2: gameswf::blend_mode::id (Gameloft): the argument of render_handler::set_blend_mode. The enumerators are not
+	// DH2: recovered; the values are the batch renderer's material slots 0 to 15 (slot 15 is the mask slot).
+	struct blend_mode
+	{
+		enum id : int {};
+	};
+
+	struct player_context;	// DH2: vendor-gameswf/player_context.hpp
+	struct render_cache;	// DH2: vendor-gameswf/render_cache.hpp
+
 	// You must define a subclass of render_handler, and pass an
 	// instance to set_render_handler().
+	//
+	// DH2: the virtuals are those of the DH2 binary, in vtable slot order (192-byte vtable, 47 slots, dump with
+	// DH2: tools/decomp_vtable.py gameswf::render_handler). Changes from r1714: Gameloft adds create_bitmap_info_texture,
+	// DH2: create_bitmap_info_native and create_bitmap_info_target, set_blend_mode, set_target, clear_frame_buffer,
+	// DH2: read_frame_buffer, set_wire_frame, set_buffer_capacity, set_context, set_render_cache, draw, flush, open, reset,
+	// DH2: the orientation pair and the display-callback pair; fill_style_bitmap loses its blend mode argument,
+	// DH2: draw_triangle_list takes an index array, and test_stencil_buffer is gone.
 	struct render_handler
 	{
-		virtual ~render_handler() {}
+		virtual ~render_handler() {}	// DH2: +0x00 (D1), +0x04 (D0)
 
 		// Your handler should return these with a ref-count of 0.  (@@ is that the right policy?)
-		virtual bitmap_info*	create_bitmap_info_empty() = 0;	// used when DO_NOT_LOAD_BITMAPS is set
-		virtual bitmap_info*	create_bitmap_info_alpha(int w, int h, unsigned char* data) = 0;
-		virtual bitmap_info*	create_bitmap_info_rgb(image::rgb* im) = 0;
-		virtual bitmap_info*	create_bitmap_info_rgba(image::rgba* im) = 0;
-		// DH2: Gameloft virtuals, binary vtable +0x18 and +0x1c (between rgba and create_bitmap_info_target).
-		// DH2: The binary's base slots are pure; they are not pure here so the upstream PureBase test still builds.
-		// DH2: render_handler_glitch overrides both (render_handler_glitch-fd003c-1). The default returns null.
-		virtual bitmap_info*	create_bitmap_info_texture(glitch::video::ITexture* texture) { return nullptr; }  // DH2
-		virtual bitmap_info*	create_bitmap_info_native(int w, int h, const membuf* data) { return nullptr; }  // DH2
-		virtual video_handler*	create_video_handler() = 0;
+		virtual bitmap_info*	create_bitmap_info_empty() = 0;	// +0x08; used when DO_NOT_LOAD_BITMAPS is set
+		virtual bitmap_info*	create_bitmap_info_alpha(int w, int h, unsigned char* data) = 0;	// +0x0c
+		virtual bitmap_info*	create_bitmap_info_rgb(image_rgb* im) = 0;	// +0x10 (DH2: gameswf::image_rgb, r1714: image::rgb)
+		virtual bitmap_info*	create_bitmap_info_rgba(image_rgba* im) = 0;	// +0x14 (DH2: gameswf::image_rgba, r1714: image::rgba)
+		virtual bitmap_info*	create_bitmap_info_texture(glitch::video::ITexture* texture) = 0;	// DH2: +0x18
+		virtual bitmap_info*	create_bitmap_info_native(int w, int h, const membuf* data) = 0;	// DH2: +0x1c
+		virtual bitmap_info*	create_bitmap_info_target(int w, int h) = 0;	// DH2: +0x20, a texture the handler can render into
+		virtual video_handler*	create_video_handler() = 0;	// +0x24
 
 		// Bracket the displaying of a frame from a movie.
 		// Fill the background color, and set up default
@@ -773,12 +812,23 @@ namespace gameswf
 			rgba background_color,
 			int viewport_x0, int viewport_y0,
 			int viewport_width, int viewport_height,
-			float x0, float x1, float y0, float y1) = 0;
-		virtual void	end_display() = 0;
+			float x0, float x1, float y0, float y1) = 0;	// +0x28
+		virtual void	end_display() = 0;	// +0x2c
+
+		// DH2: +0x30 .. +0x4c, the render-target and batching controls.
+		enum buffer_mode : int {};	// DH2: enumerators not recovered
+		virtual void	set_blend_mode(blend_mode::id mode) = 0;	// DH2: +0x30
+		virtual void	set_target(bitmap_info* target) = 0;	// DH2: +0x34
+		virtual void	clear_frame_buffer() = 0;	// DH2: +0x38
+		virtual void	read_frame_buffer(int x, int y, int width, int height, unsigned char* pixels) = 0;	// DH2: +0x3c
+		virtual void	set_wire_frame(bool wire) = 0;	// DH2: +0x40
+		virtual void	set_buffer_capacity(buffer_mode mode, int vertex_count) = 0;	// DH2: +0x44
+		virtual void	set_context(player_context* context) = 0;	// DH2: +0x48
+		virtual void	set_render_cache(render_cache* cache) = 0;	// DH2: +0x4c
 
 		// Geometric and color transforms for mesh and line_strip rendering.
-		virtual void	set_matrix(const matrix& m) = 0;
-		virtual void	set_cxform(const cxform& cx) = 0;
+		virtual void	set_matrix(const matrix& m) = 0;	// +0x50
+		virtual void	set_cxform(const cxform& cx) = 0;	// +0x54
 
 		// Draw triangles using the current fill-style 0.
 		// Clears the style list after rendering.
@@ -786,16 +836,18 @@ namespace gameswf
 		// coords is a list of (x,y) coordinate pairs, in
 		// triangle-strip order.  The type of the array should
 		// be Sint16[vertex_count*2]
-		virtual void	draw_mesh_strip(const void* coords, int vertex_count) = 0;
+		virtual void	draw_mesh_strip(const void* coords, int vertex_count) = 0;	// +0x58
 		// As above, but coords is in triangle list order.
-		virtual void	draw_triangle_list(const void* coords, int vertex_count) = 0;
+		// DH2: with an optional index array (indices may be null).
+		virtual void	draw_triangle_list(const void* coords, int vertex_count, const unsigned short* indices, int index_count) = 0;	// DH2: +0x5c
 
 		// Draw a line-strip using the current line style.
 		// Clear the style list after rendering.
 		//
 		// Coords is a list of (x,y) coordinate pairs, in
 		// sequence.  Each coord is a 16-bit signed integer.
-		virtual void	draw_line_strip(const void* coords, int vertex_count) = 0;
+		virtual void	draw_line_strip(const void* coords, int vertex_count) = 0;	// +0x60
+		virtual void	draw(render_cache* cache) = 0;	// DH2: +0x64, replays a cached batch
 
 		// Set line and fill styles for mesh & line_strip
 		// rendering.
@@ -823,14 +875,14 @@ namespace gameswf
 			BLEND_HARDLIGHT
 		};
 
-		virtual void	fill_style_disable(int fill_side) = 0;
-		virtual void	fill_style_color(int fill_side, const rgba& color) = 0;
-		virtual void	fill_style_bitmap(int fill_side, bitmap_info* bi, const matrix& m,
-							bitmap_wrap_mode wm, bitmap_blend_mode bm) = 0;
+		virtual void	fill_style_disable(int fill_side) = 0;	// +0x68
+		virtual void	fill_style_color(int fill_side, const rgba& color) = 0;	// +0x6c
+		virtual bool	fill_style_bitmap(int fill_side, bitmap_info* bi, const matrix& m,
+							bitmap_wrap_mode wm) = 0;	// DH2: +0x70, no blend mode argument; returns whether the style was set
 
-		virtual void	line_style_disable() = 0;
-		virtual void	line_style_color(rgba color) = 0;
-		virtual void	line_style_width(float width) = 0;
+		virtual void	line_style_disable() = 0;	// +0x74
+		virtual void	line_style_color(rgba color) = 0;	// +0x78
+		virtual void	line_style_width(float width) = 0;	// +0x7c
 
 		// Special function to draw a rectangular bitmap;
 		// intended for textured glyph rendering.  Ignores
@@ -840,18 +892,16 @@ namespace gameswf
 			bitmap_info*	bi,
 			const rect&		coords,
 			const rect&		uv_coords,
-			rgba			color) = 0;
-		virtual void	set_antialiased(bool enable) = 0;
+			rgba			color) = 0;	// +0x80
+		virtual void	set_antialiased(bool enable) = 0;	// +0x84
 
-		// DH2: Gameloft enum used by render_handler_glitch::set_buffer_capacity (BufferedRenderer::unk_00 keeps
-		// DH2: its value). Enumerators not recovered.
-		enum buffer_mode : int {};  // DH2
-
+		#if 0 /* DH2: the stencil test is not in the DH2 vtable */
 		virtual bool test_stencil_buffer(const rect& bound, Uint8 pattern) = 0;
-		virtual void begin_submit_mask() = 0;
-		virtual void end_submit_mask() = 0;
-		virtual void disable_mask() = 0;
-		virtual void	flush();  // DH2: Gameloft addition, empty default. Binary vtable +0x94; the host offset is 0x2c lower because 11 binary slots before it are not declared here.
+		#endif /* DH2 */
+		virtual void begin_submit_mask() = 0;	// +0x88
+		virtual void end_submit_mask() = 0;	// +0x8c
+		virtual void disable_mask() = 0;	// +0x90
+		virtual void	flush();	// DH2: +0x94, empty default
 
 		// Mouse cursor handling.
 		enum cursor_type
@@ -861,15 +911,19 @@ namespace gameswf
 			VISIBLE_CURSOR,			// show cursor
 			INVISIBLE_CURSOR		// hide cursor
 		};
-		virtual void set_cursor(cursor_type cursor) {}
-		virtual bool is_visible(const rect& bound) = 0;
-		virtual void open() = 0;
-		virtual void reset();  // DH2: Gameloft addition, empty default. Binary vtable +0xa4.
-		virtual void set_orientation(orientation_mode mode);  // DH2: Gameloft addition, empty default. Binary vtable +0xa8.
-		virtual int get_orientation();  // DH2: Gameloft addition, default returns 0. Binary vtable +0xac.
-		virtual void begin_display_callback();  // DH2: Gameloft addition, empty default. Binary vtable +0xb0.
-		virtual void end_display_callback();  // DH2: Gameloft addition, empty default. Binary vtable +0xb4.
+		virtual void set_cursor(cursor_type cursor) {}	// +0x98
+		virtual bool is_visible(const rect& bound) = 0;	// +0x9c
+		virtual void open() = 0;	// +0xa0
+		virtual void reset();	// DH2: +0xa4, empty default
+		virtual void set_orientation(orientation_mode mode);	// DH2: +0xa8, empty default
+		virtual int get_orientation();	// DH2: +0xac, default returns 0
+		virtual void begin_display_callback();	// DH2: +0xb0, empty default
+		virtual void end_display_callback();	// DH2: +0xb4, empty default
 	};
+
+	// DH2: the render handler set by set_render_handler(). The binary keeps it in gameswf::s_render_handler, a global
+	// DH2: that character::do_display_callback and other Gameloft code read (r1714 keeps it static in gameswf_render.cpp).
+	extern render_handler* s_render_handler;
 
 	// Some optional helpers.
 	namespace tools

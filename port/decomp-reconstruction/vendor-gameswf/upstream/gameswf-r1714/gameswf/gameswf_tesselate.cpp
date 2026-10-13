@@ -461,6 +461,7 @@ namespace tesselate
 		output_current_segments();
 		s_accepter = NULL;
 		s_current_path.clear();
+		s_current_path.reserve(0);	// DH2: 0x7873dc releases the path buffer (r1714 keeps it)
 	}
 
 

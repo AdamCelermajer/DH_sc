@@ -203,13 +203,14 @@ class array {
 public:
 	typedef T value_type;
 
-	array() : m_buffer(0), m_size(0), m_buffer_size(0) {}
-	array(int size_hint) : m_buffer(0), m_size(0), m_buffer_size(0) { resize(size_hint); }
+	array() : m_buffer(0), m_size(0), m_buffer_size(0), m_borrowed(false) {}
+	array(int size_hint) : m_buffer(0), m_size(0), m_buffer_size(0), m_borrowed(false) { resize(size_hint); }
 	array(const array<T>& a)
 		:
 		m_buffer(0),
 		m_size(0),
-		m_buffer_size(0)
+		m_buffer_size(0),
+		m_borrowed(false)
 	{
 		operator=(a);
 	}
@@ -237,8 +238,19 @@ public:
 		(*this)[new_size-1] = val;
 	}
 
-	template<class U>	// DH2: Gameloft member template; binary push_back<U> (0x7619b8 for line_style), parameter is const U& (mangled ...EvRKT_)
-	void	push_back(const U& val);	// DH2: copy-constructs the new slot, defined in vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp
+	template<class U>	// DH2: Gameloft member template; binary push_back<U> (0x7619b8 for line_style, 0x437ccc for smart_ptr<as_object>), parameter is const U& (mangled ...EvRKT_)
+	void	push_back(const U& val)
+	// DH2: copy-constructs the new slot in the reserved storage (the binary does not default-construct and assign):
+	// DH2: grows by one and a half times when the new count is above the buffer size. U may be a type T converts from,
+	// DH2: for example a character* pushed into an array<smart_ptr<character>>.
+	{
+		int	new_size = m_size + 1;
+		if (new_size > m_buffer_size) {
+			reserve(new_size + (new_size >> 1));
+		}
+		new (m_buffer + m_size) T(val);
+		m_size = new_size;
+	}
 
 	void	pop_back()
 	// Remove the last element.
@@ -347,6 +359,7 @@ public:
 			(m_buffer + i)->~T();
 		}}
 
+		#if 0 /* DH2: replaced by the growth rule below (the binary never shrinks the buffer; the destructor releases it) */
 		if (new_size == 0) {
 			m_buffer_size = 0;
 			reserve(0);
@@ -356,6 +369,11 @@ public:
 		} else {
 			int	new_buffer_size = new_size + (new_size >> 1);
 			reserve(new_buffer_size);
+		}
+		#endif /* DH2 */
+		if (new_size != 0 && new_size > m_buffer_size) {
+			// DH2: the binary grows by one and a half times and never compacts (array<glyph>::resize 0x78a4ec).
+			reserve(new_size + (new_size >> 1));
 		}
 
 		// Copy default T into new elements.
@@ -374,6 +392,10 @@ public:
 	// realloc?
 	{
 		assert(m_size >= 0);
+
+		if (m_borrowed) {
+			return;	// DH2: 0x779df0, a borrowed buffer is never resized or freed
+		}
 
 		int	old_size = m_buffer_size;
 		old_size = old_size;	// don't warn that this is unused.
@@ -403,10 +425,12 @@ public:
 		m_buffer = a->m_buffer;
 		m_size = a->m_size;
 		m_buffer_size = a->m_buffer_size;
+		m_borrowed = a->m_borrowed;	// DH2
 
 		a->m_buffer = 0;
 		a->m_size = 0;
 		a->m_buffer_size = 0;
+		a->m_borrowed = false;	// DH2
 	}
 
 	// Iterator API, for STL compatibility.
@@ -427,9 +451,11 @@ public:
 	}
 
 private:
-	T*	m_buffer;
-	int	m_size;
-	int	m_buffer_size;
+	friend struct dh2_array_access;	// DH2: vendor-gameswf code that reads the members (effect, render_cache, display_list)
+	T*	m_buffer;			// +0x00
+	int	m_size;				// +0x04
+	int	m_buffer_size;			// +0x08
+	bool	m_borrowed;			// +0x0c DH2: set when the buffer belongs to someone else; reserve() then does nothing (16 bytes in the binary)
 };
 
 // there are problem with STL
@@ -1384,8 +1410,7 @@ class tu_string
 {
 public:
 	tu_string() {
-		m_union.m_local.m_bufsize_minus_length = sizeof(m_union.m_local.m_buffer);
-		m_union.m_local.m_buffer[0] = 0;
+		init_empty();  // DH2
 	}
 	// TODO: add 'explicit' here
 	tu_string(int val)
@@ -1393,8 +1418,7 @@ public:
 		char str[50];
 		snprintf(str, 50, "%d", val);
 
-		m_union.m_local.m_bufsize_minus_length = sizeof(m_union.m_local.m_buffer);
-		m_union.m_local.m_buffer[0] = 0;
+		init_empty();  // DH2
 
 		int	new_size = (int) strlen(str);
 		resize(new_size);
@@ -1406,8 +1430,7 @@ public:
 		char str[50];
 		snprintf(str, 50, "%.14g", val);
 
-		m_union.m_local.m_bufsize_minus_length = sizeof(m_union.m_local.m_buffer);
-		m_union.m_local.m_buffer[0] = 0;
+		init_empty();  // DH2
 
 		int	new_size = (int) strlen(str);
 		resize(new_size);
@@ -1415,8 +1438,7 @@ public:
 	}
 	tu_string(const char* str)
 	{
-		m_union.m_local.m_bufsize_minus_length = sizeof(m_union.m_local.m_buffer);
-		m_union.m_local.m_buffer[0] = 0;
+		init_empty();  // DH2
 
 		if (str)
 		{
@@ -1427,8 +1449,7 @@ public:
 	}
 	tu_string(const char* buf, int buflen)
 	{
-		m_union.m_local.m_bufsize_minus_length = sizeof(m_union.m_local.m_buffer);
-		m_union.m_local.m_buffer[0] = 0;
+		init_empty();  // DH2
 
 		int	new_size = buflen;
 		resize(new_size);
@@ -1437,23 +1458,21 @@ public:
 	}
 	tu_string(const tu_string& str)
 	{
-		m_union.m_local.m_bufsize_minus_length = sizeof(m_union.m_local.m_buffer);
-		m_union.m_local.m_buffer[0] = 0;
+		init_empty();  // DH2
 
 		resize(str.size());
 		memcpy(get_buffer(), str.get_buffer(), size() + 1);
+		m_hash_cache = (m_hash_cache & 0xFF000000u) | ((unsigned int) str.get_hashi() & 0xFFFFFFu);	// DH2: 0x75302c takes the source hash, as operator= does
 	}
 	tu_string(const uint32* wide_char_str)
 	{
-		m_union.m_local.m_bufsize_minus_length = sizeof(m_union.m_local.m_buffer);
-		m_union.m_local.m_buffer[0] = 0;
+		init_empty();  // DH2
 
 		*this = wide_char_str;
 	}
 	tu_string(const uint16* wide_char_str)
 	{
-		m_union.m_local.m_bufsize_minus_length = sizeof(m_union.m_local.m_buffer);
-		m_union.m_local.m_buffer[0] = 0;
+		init_empty();  // DH2
 
 		*this = wide_char_str;
 	}
@@ -1462,7 +1481,7 @@ public:
 	{
 		if (using_heap())
 		{
-			tu_free(m_union.m_heap.m_buffer, m_heap.m_capacity);
+			tu_free(m_union.m_heap.m_buffer, m_union.m_heap.m_capacity);	// DH2: 0x41fed8, free_internal(buffer)
 		}
 	}
 
@@ -1489,6 +1508,7 @@ public:
 			resize((int) strlen(str));
 			memcpy(get_buffer(), str, size() + 1);
 			assert(get_buffer()[size()] == 0);
+			invalidate_hash();	// DH2: 0x76c818
 		}
 	}
 
@@ -1498,6 +1518,9 @@ public:
 			resize(str.size());
 			memcpy(get_buffer(), str.get_buffer(), size() + 1);
 			assert(get_buffer()[size()] == 0);
+			// DH2: 0x752f50. The source computes its hash if it has none yet, and the target takes the
+			// DH2: low 24 bits. The target's flag byte (interned bit) is kept.
+			m_hash_cache = (m_hash_cache & 0xFF000000u) | ((unsigned int) str.get_hashi() & 0xFFFFFFu);
 		}
 	}
 
@@ -1531,12 +1554,11 @@ public:
 	{
 		if (using_heap() == false)
 		{
-			return sizeof(m_union.m_local.m_buffer) -
-				m_union.m_local.m_bufsize_minus_length;
+			return m_union.m_local.m_length_plus_one - 1;	// DH2: the flag byte holds length + 1
 		}
 		else
 		{
-			return m_union.m_heap.m_size;
+			return m_union.m_heap.m_size_plus_one - 1;
 		}
 	}
 
@@ -1551,6 +1573,7 @@ public:
 		memmove(get_buffer() + index, get_buffer() + index + count,
 			size() - index - count);
 		resize(size() - count);
+		invalidate_hash();	// DH2: 0x78b94c (the binary removes the one character at index)
 	}
 
 	// insert char before index
@@ -1563,6 +1586,7 @@ public:
 		// actual memory size of the empty string is 1 (zero at the end)
 		memmove(buf + index + 1, buf + index, len + 1 - index);
 		*(buf + index) = ch;
+		invalidate_hash();	// DH2: 0x78b0c0
 	}
 
 	exported_module char&	operator[](int index)
@@ -1714,9 +1738,48 @@ public:
 	exported_module tu_string	utf8_substring(int start, int end) const;
 
 	// DH2: Gameloft addition (tu_string::get_hashi, 0x7635c8): case-folded hash, sign-extended from 24 bits.
-	exported_module int	get_hashi() const;  // DH2: partial (hash cache not modelled), body in the src file
+	// DH2: 0x7635c8. The case-insensitive hash of the text, cached in the low 24 bits of m_hash_cache and returned
+	// DH2: sign-extended. h = 5381; from the last byte to the first, h = lower(c) ^ (33 * h). The empty string gives 5381.
+	// DH2: Inline here because the binary computes it inside the copy constructor and operator= as well.
+	exported_module int	get_hashi() const
+	{
+		if ((m_hash_cache & 0xFFFFFFu) != 0xFFFFFFu) {
+			return (int) (m_hash_cache << 8) >> 8;
+		}
+		const int text_length = length();
+		unsigned int h = 5381u;
+		if (text_length > 0) {
+			const char* text = get_buffer();
+			for (int i = text_length - 1; i >= 0; --i) {
+				unsigned int c = (unsigned char) text[i];
+				if (c - 'A' <= 25u) {	// 'A'..'Z'
+					c += 'a' - 'A';
+				}
+				h = c ^ (33u * h);
+			}
+		}
+		m_hash_cache = (m_hash_cache & 0xFF000000u) | (h & 0xFFFFFFu);
+		return (int) (h << 8) >> 8;
+	}
+
+	// DH2: bit 0 of the hash cache's top byte (byte +0x13) marks an interned string (permanent_string_cache).
+	// DH2: Every constructor clears it. as_value::set_tu_string and character::set_name read it.
+	bool	is_interned() const { return (m_hash_cache & 0x01000000u) != 0; }
+	void	set_interned(bool interned) { m_hash_cache = (m_hash_cache & ~0x01000000u) | (interned ? 0x01000000u : 0u); }
 
 private:
+	void	init_empty()	// DH2: what every constructor does first (0x413a7c): empty inline text, hash not computed
+	{
+		m_union.m_local.m_length_plus_one = 1;
+		m_union.m_local.m_buffer[0] = 0;
+		m_hash_cache = 0x00FFFFFFu;
+	}
+
+	void	invalidate_hash() const	// DH2: low 24 bits of the cache back to 0xFFFFFF (not computed)
+	{
+		m_hash_cache = (m_hash_cache & 0xFF000000u) | 0x00FFFFFFu;
+	}
+
 	char*	get_buffer()
 	{
 		if (using_heap() == false)
@@ -1737,7 +1800,7 @@ private:
 
 	bool	using_heap() const
 	{
-		bool heap = (m_union.m_local.m_bufsize_minus_length == (char) ~0);
+		bool heap = (m_union.m_local.m_length_plus_one == (char) ~0);
 		return heap;
 	}
 
@@ -1753,6 +1816,7 @@ private:
 	// Also, a zero-length string still needs a terminator
 	// character, which with vector<char> means an unfortunate
 	// heap alloc just to hold a single '0'.
+#if 0 /* DH2: replaced by the 20-byte layout below (the 16-byte union of r1714 does not match the binary) */
 	union
 	{
 		// Heap storage.
@@ -1785,6 +1849,33 @@ private:
 			// active string data is in m_heap.
 		} m_local;
 	} m_union;
+#endif /* DH2 */
+
+	// DH2: gameswf::tu_string in the DH2 binary is 20 bytes (ARM32 offsets in comments; the host build has
+	// DH2: a pointer-sized text pointer, so its sizeof is larger). It keeps text of up to 14 characters inline.
+	//   +0x00 byte   inline: length + 1 (1..15), text from +0x01. 0xFF means the text is on the heap.
+	//   +0x04 int    heap: length + 1
+	//   +0x08 int    heap: capacity, a multiple of 16
+	//   +0x0c char*  heap: text
+	//   +0x10 uint32 hash cache: low 24 bits are the case-insensitive hash (0xFFFFFF = not computed).
+	//                The top byte holds flags; bit 0 of byte +0x13 is the interned bit.
+	union
+	{
+		struct heap_metadata
+		{
+			char m_flag;			// +0x00, 0xFF
+			int m_size_plus_one;		// +0x04
+			int m_capacity;			// +0x08
+			char* m_buffer;			// +0x0c
+		} m_heap;
+
+		struct local_data
+		{
+			char m_length_plus_one;		// +0x00
+			char m_buffer[15];		// +0x01
+		} m_local;
+	} m_union;
+	mutable unsigned int m_hash_cache;	// +0x10
 };
 
 

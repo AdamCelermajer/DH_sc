@@ -9,15 +9,15 @@
 // (part 2 of 3). The other members of this class (parts 1 and 3) are added by the integrator.
 //
 // Layout requests (open, for the integrator):
-//   - TransformState is 0xdc bytes: three glitch matrices (projection, view, world) and the viewport. The
-//     0x41-byte stand-in is gone, and get_matrix returns glitch::core::CMatrix4<float> instead. Two batches
-//     still use the old names and must be updated to this layout: pack21 (the TransformState constructor at
-//     0x7d6050 and its test, which use m_elems and unk_40) and fd003c-2 (draw_mesh_primitive, which reads
-//     world.m_elems from get_matrix).
-//   - gameswf::render_cache: fields at +0x10, +0x14, +0x24 and +0x34 are written by set_render_cache.
-//   - gameswf::triangle_intersector: 4 bytes at +0x36c (ctor 0x785b08, dtor 0x788204).
-//   - glitch::video::IVideoDriver: vtable slots +0x6c, +0x70, +0x78, +0xa8, +0x1e0 and +0x1e4 are not
-//     named in the tree; setMaterial and the one-argument draw call are not declared.
+//   - glitch::video::detail::driver::SRenderState (glitch-video/video_types.hpp) is an empty placeholder. The original keeps
+//     one in this class at +0x14..+0x1b (8 bytes: the word 0x001f00ff and a zero word after the constructor), reads it
+//     with IVideoDriver::getRenderState (vtable +0x1e0) in begin_display and gives it back with setRenderState (+0x1e4) in
+//     end_display. Until the type has its layout the two members stay unk_14 and unk_18 and begin_display and
+//     end_display do not make those two driver calls.
+//   - glitch::collada::CColladaDatabase has no constructor from a file name and no DefaultFactory in the canonical header
+//     (glitch-scene-collada-gui/collada/CColladaDatabase.hpp), and constructEffect(driver, name, root) returns a raw
+//     pointer where the binary returns a counted reference. The render_handler_glitch constructor needs them to build the
+//     seven blend-mode materials from "gameswf_effects.bdae".
 #pragma once
 
 #include <cstdint>
@@ -28,6 +28,7 @@
 #include "glitch-shared/glitch_core.hpp"
 #include "gameswf/gameswf.h"
 #include "vendor-gameswf/bitmap_info_ogl.hpp"
+#include "vendor-gameswf/triangle_intersector.hpp"
 
 struct membuf;  // base/membuf.h (global in upstream)
 
@@ -38,8 +39,8 @@ class CVertexStreams;
 }  // namespace glitch::video
 
 namespace gameswf {
-struct render_cache;  // layout not in the tree; only a pointer is needed here
-struct player_context;  // part 1 (set_context): layout not in the tree; only a pointer is needed here
+struct render_cache;    // vendor-gameswf/render_cache.hpp
+struct player_context;  // vendor-gameswf/player_context.hpp
 }  // namespace gameswf
 
 // Part 3 (batch v1-vendor-gameswf-render_handler_glitch-fd003c-2) adds the staging vertex and the blend mode
@@ -54,13 +55,7 @@ struct Vertex {
     float z;         // +0x14 depth (m_mask_z)
 };
 
-namespace gameswf {
-// gameswf::blend_mode::id (Gameloft): the argument of set_blend_mode. The enumerators are not recovered; the
-// values are BufferedRenderer material slots 0 to 15, and slot 15 is the mask slot (see kMaskBlendIndex in the .cpp).
-struct blend_mode {
-    enum id : int {};
-};
-}  // namespace gameswf
+// gameswf::blend_mode::id is declared in gameswf.h (the argument of render_handler::set_blend_mode).
 
 class render_handler_glitch : public gameswf::render_handler {
 public:
@@ -72,7 +67,7 @@ public:
         glitch::core::CMatrix4<float> projection;  // +0x00: transform state 2
         glitch::core::CMatrix4<float> view;        // +0x44: transform state 0
         glitch::core::CMatrix4<float> world;       // +0x88: transform state 1
-        int32_t viewport[4] = {};                  // +0xcc: x0, y0, x1, y1
+        glitch::core::rect<int32_t> viewport{};    // +0xcc: x0, y0, x1, y1 (the render target's viewport rectangle)
     };
 
     // One fill side. Three entries from +0x3b0, 76 bytes each in the original.
@@ -95,12 +90,9 @@ public:
         float unk_48 = 0.0f;              // +0x48: read by draw_line_strip as a scale (on entry 2); writer not in this batch
     };
 
-    // One mask run: 16 bytes in the original. The first three words are a gameswf::array header
-    // (buffer, size, capacity). The points are glitch::core::vector2d<float> pairs.
-    struct MaskRun {
-        ::array<glitch::core::vector2d<float>> points;  // +0x00..+0x0b
-        uint8_t unk_0c = 0;                              // +0x0c
-    };
+    // One mask run: a gameswf::array of glitch::core::vector2d<float> points (16 bytes in the original: buffer, size,
+    // capacity, borrowed flag at +0x0c). The mask stack is an array of them.
+    using MaskRun = ::array<glitch::core::vector2d<float>>;
 
     // render_handler_glitch(glitch::video::IVideoDriver*) 0x7d60f4 (C1; the binary has no C2).
     explicit render_handler_glitch(glitch::video::IVideoDriver* driver);
@@ -112,8 +104,8 @@ public:
     gameswf::bitmap_info* create_bitmap_info_empty() override;                                  // 0x7d4e28
     gameswf::bitmap_info* create_bitmap_info_alpha(int width, int height,
                                                    unsigned char* data) override;               // 0x7d551c
-    gameswf::bitmap_info* create_bitmap_info_rgb(image::rgb* im) override;                      // 0x7d5a6c
-    gameswf::bitmap_info* create_bitmap_info_rgba(image::rgba* im) override;                    // 0x7d57b0
+    gameswf::bitmap_info* create_bitmap_info_rgb(gameswf::image_rgb* im) override;                      // 0x7d5a6c
+    gameswf::bitmap_info* create_bitmap_info_rgba(gameswf::image_rgba* im) override;                    // 0x7d57b0
     void begin_display(gameswf::rgba background_color, int viewport_x0, int viewport_y0,
                        int viewport_width, int viewport_height, float x0, float x1, float y0,
                        float y1) override;                                                      // 0x7d73d0
@@ -122,7 +114,7 @@ public:
     void draw_line_strip(const void* coords, int vertex_count) override;                        // 0x7d77b0
 
     // Part 3 (batch fd003c-2): the mask stack, the quad and mesh draw paths and the render cache replay.
-    virtual void set_blend_mode(gameswf::blend_mode::id mode);                                 // 0x7d81e4, slot +0x030
+    void set_blend_mode(gameswf::blend_mode::id mode) override;                                 // 0x7d81e4, slot +0x030
     void begin_submit_mask() override;                                                         // 0x7d825c, slot +0x088
     void end_submit_mask() override;                                                           // 0x7d85bc, slot +0x08c
     void disable_mask() override;                                                              // 0x7d8340, slot +0x090
@@ -130,25 +122,25 @@ public:
                                    int index_count, glitch::video::E_PRIMITIVE_TYPE primitive); // 0x7d860c, not virtual
     void draw_bitmap(const gameswf::matrix& m, gameswf::bitmap_info* bi, const gameswf::rect& coords,
                      const gameswf::rect& uv_coords, gameswf::rgba color) override;            // 0x7d8df4, slot +0x080
-    virtual void draw(gameswf::render_cache* cache);                                           // 0x7d93ac, slot +0x064
+    void draw(gameswf::render_cache* cache) override;                                           // 0x7d93ac, slot +0x064
     void draw_mesh_primitive(glitch::video::E_PRIMITIVE_TYPE primitive, const void* coords, int vertex_count,
                              const uint16_t* indices, int index_count);                        // 0x7d94f8, not virtual
     // Four-argument form; the DH2 vtable has it at slot +0x05c.
-    virtual void draw_triangle_list(const void* coords, int vertex_count, const uint16_t* indices,
-                                    int index_count);                                          // 0x7d9734
+    void draw_triangle_list(const void* coords, int vertex_count, const uint16_t* indices,
+                                    int index_count) override;                                          // 0x7d9734
     void draw_mesh_strip(const void* coords, int vertex_count) override;                       // 0x7d9764, slot +0x058
 
     // Members of this class that are not overrides.
     gameswf::bitmap_info* create_bitmap_info_native(int width, int height,
-                                                    const membuf* data);                        // 0x7d4bb4
-    gameswf::bitmap_info* create_bitmap_info_texture(glitch::video::ITexture* texture);         // 0x7d4d00
-    gameswf::bitmap_info* create_bitmap_info_target(int width, int height);                     // 0x7d53cc
-    void set_render_cache(gameswf::render_cache* cache);                                        // 0x7d4f8c
+                                                    const membuf* data) override;                        // 0x7d4bb4
+    gameswf::bitmap_info* create_bitmap_info_texture(glitch::video::ITexture* texture) override;         // 0x7d4d00
+    gameswf::bitmap_info* create_bitmap_info_target(int width, int height) override;                     // 0x7d53cc
+    void set_render_cache(gameswf::render_cache* cache) override;                                        // 0x7d4f8c
     // 0x7d6680: the gameswf matrix in glitch's 4x4 layout, returned by value (M[16] and the flag at +0x40).
     glitch::core::CMatrix4<float> get_matrix(const gameswf::matrix& m) const;                   // 0x7d6680
-    void begin_display_callback();                                                              // 0x7d6a40
-    void reset();                                                                               // 0x7d6afc
-    void flush();                                                                               // 0x7d6ddc
+    void begin_display_callback() override;                                                              // 0x7d6a40
+    void reset() override;                                                                               // 0x7d6afc
+    void flush() override;                                                                               // 0x7d6ddc
     void render_mask_intersection();                                                            // 0x7d71bc
     void ensureBufferCapacity(int count);                                                       // 0x7d4340 (another part)
 
@@ -158,12 +150,12 @@ public:
     int get_orientation() override;                                                            // 0x7d3df8, slot +0x0ac
     void set_antialiased(bool enable) override;                                                // 0x7d3e00, slot +0x084
     gameswf::video_handler* create_video_handler() override;                                   // 0x7d3e04, slot +0x024
-    virtual void set_target(gameswf::bitmap_info* target);                                     // 0x7d3e0c, slot +0x034
-    virtual void clear_frame_buffer();                                                         // 0x7d3e68, slot +0x038
-    virtual void read_frame_buffer(int x, int y, int width, int height,
-                                   unsigned char* pixels);                                     // 0x7d3e6c, slot +0x03c
-    virtual void set_wire_frame(bool wire);                                                    // 0x7d3e70, slot +0x040
-    virtual void set_context(gameswf::player_context* context);                                // 0x7d3e78, slot +0x048
+    void set_target(gameswf::bitmap_info* target) override;                                     // 0x7d3e0c, slot +0x034
+    void clear_frame_buffer() override;                                                         // 0x7d3e68, slot +0x038
+    void read_frame_buffer(int x, int y, int width, int height,
+                                   unsigned char* pixels) override;                                     // 0x7d3e6c, slot +0x03c
+    void set_wire_frame(bool wire) override;                                                    // 0x7d3e70, slot +0x040
+    void set_context(gameswf::player_context* context) override;                                // 0x7d3e78, slot +0x048
     void end_display_callback() override;                                                      // 0x7d3e84, slot +0x0b4
     void set_matrix(const gameswf::matrix& m) override;                                        // 0x7d3ee4, slot +0x050
     void set_cxform(const gameswf::cxform& cx) override;                                       // 0x7d3f08, slot +0x054
@@ -171,12 +163,11 @@ public:
     void line_style_disable() override;                                                        // 0x7d3f40, slot +0x074
     void line_style_width(float width) override;                                               // 0x7d3f4c, slot +0x07c
     bool is_visible(const gameswf::rect& bound) override;                                      // 0x7d3f54, slot +0x09c
-    virtual void set_buffer_capacity(gameswf::render_handler::buffer_mode mode,
-                                     int vertex_count);                                        // 0x7d4334, slot +0x044
+    void set_buffer_capacity(gameswf::render_handler::buffer_mode mode,
+                                     int vertex_count) override;                                        // 0x7d4334, slot +0x044
     void line_style_color(gameswf::rgba color) override;                                       // 0x7d43cc, slot +0x078
-    using gameswf::render_handler::fill_style_bitmap;  // keeps the upstream five-argument overload visible
-    virtual bool fill_style_bitmap(int fill_side, gameswf::bitmap_info* bitmap, const gameswf::matrix& m,
-                                   gameswf::render_handler::bitmap_wrap_mode wrap);           // 0x7d4558, slot +0x070
+    bool fill_style_bitmap(int fill_side, gameswf::bitmap_info* bitmap, const gameswf::matrix& m,
+                                   gameswf::render_handler::bitmap_wrap_mode wrap) override;           // 0x7d4558, slot +0x070
 
     // +0x04 (byte): set to 1 by the constructor. draw_bitmap (part 3) rounds the quad corners to whole pixels when it is
     // non-zero; no other function of the batches reads it.
@@ -188,9 +179,10 @@ public:
     // +0x10: the glitch video driver. The original owns one reference (added by the constructor and
     // dropped by the destructor); the reference handling is not written in this batch.
     glitch::video::IVideoDriver* m_driver = nullptr;
-    // +0x14 (4 bytes): 0x001f00ff from the constructor. Its address is passed to a driver slot in begin_display.
+    // +0x14..+0x1b: the driver's detail::driver::SRenderState (8 bytes), 0x001f00ff and 0 from the constructor. begin_display
+    // saves the driver's state here (getRenderState, vtable +0x1e0) and end_display restores it (setRenderState, +0x1e4).
+    // glitch-video declares the type as an empty placeholder, so the two calls are not made (see the layout requests).
     uint32_t unk_14 = 0x001f00ffu;
-    // +0x18 (4 bytes): zeroed by the constructor.
     uint8_t unk_18[4] = {};
     // +0x1c..+0x33: 1.0f, 0, 1.0f, 0, 0, 0, 0 from the constructor. Not read in this batch.
     float unk_1c = 1.0f;                  // +0x1c
@@ -223,16 +215,13 @@ public:
     int32_t m_mask_depth = 0;             // +0x344
     // +0x348: z value written into the mask vertices (float bits in the original).
     float m_mask_z = 0.0f;                // +0x348
-    // +0x34c (array of MaskRun, 12-byte header in the original): the mask stack.
+    // +0x34c (array of MaskRun, 16 bytes with its borrowed flag at +0x358): the mask stack.
     ::array<MaskRun> m_mask_stack;        // +0x34c
-    // +0x358 (byte): not read in this batch.
-    uint8_t unk_358 = 0;                  // +0x358
-    // +0x35c (array of vector2d<float>): triangle points, released by the destructor.
+    // +0x35c (array of vector2d<float>, flag at +0x368): triangle points, released by the destructor.
     ::array<glitch::core::vector2d<float>> m_triangle_points;  // +0x35c
-    // +0x368 (byte): not read in this batch.
-    uint8_t unk_368 = 0;                  // +0x368
-    // +0x36c (4 bytes): gameswf::triangle_intersector, not in the tree.
-    uint8_t pad_36c[4] = {};              // +0x36c
+    // +0x36c (4 bytes in the original): the triangle_intersector of the mask paths. Its constructor (0x785b08) allocates a
+    // tesselator_accepter; the destructor (0x788204) deletes it.
+    gameswf::triangle_intersector m_triangle_intersector;  // +0x36c
     // +0x370 (int): vertex capacity of m_vertices, grown by ensureBufferCapacity (part 1). Zeroed by the constructor.
     int32_t m_vertex_capacity = 0;        // +0x370
     // +0x374: the batch vertex buffer, 24-byte entries (owned by the vertex streams).
@@ -242,7 +231,7 @@ public:
     // +0x37c (52 bytes in the original): the default 4x4 bitmap, a bitmap_info_ogl embedded by value. The
     // constructor builds it from the driver, 4, 4 and the 16-byte opaque alpha block. Its texture, the member
     // m_texture (+0x10 in the original, so +0x38c), is what render_mask_intersection binds.
-    gameswf::bitmap_info_ogl m_default_bitmap;  // +0x37c..+0x3af
+    ::bitmap_info_ogl m_default_bitmap;  // +0x37c..+0x3af
     // +0x3b0: fill sides 0..2, 76 bytes each.
     fill_style m_fill_styles[3];          // +0x3b0..+0x4ab
 };

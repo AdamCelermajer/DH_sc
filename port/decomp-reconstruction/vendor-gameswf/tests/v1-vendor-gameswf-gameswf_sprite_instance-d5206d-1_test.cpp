@@ -1,10 +1,17 @@
-// Test for batch v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1: the frame-walk arithmetic of
-// gameswf::sprite_instance::goto_frame(int) (DH2). Returns non-zero on failure.
+// Test for batch v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1: the frame arithmetic of
+// gameswf::sprite_instance::goto_frame(int) and advance(float) (DH2). Returns non-zero on failure.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 #include "vendor-gameswf/gameswf_sprite_goto.hpp"
 
 #include <cstdio>
 
+using gameswf::dh2::advance_step;
 using gameswf::dh2::frame_run;
+using gameswf::dh2::kSpriteGotoActionPassLimit;
+using gameswf::dh2::sprite_advance_step;
 using gameswf::dh2::sprite_goto_forward_run;
 using gameswf::dh2::sprite_goto_rejected;
 using gameswf::dh2::sprite_goto_reverse_run;
@@ -60,6 +67,35 @@ int main()
 	CHECK(f.first == 1);
 	CHECK(f.count == 8);
 	CHECK(f.first + f.count - 1 == 8);
+
+	// advance(): the next frame of a loaded, playing clip.
+	advance_step a = sprite_advance_step(2, 10);  // middle of the clip
+	CHECK(a.next_frame == 3);
+	CHECK(a.changed);
+	CHECK(!a.clear_before_tags);
+
+	a = sprite_advance_step(8, 10);  // second to last frame
+	CHECK(a.next_frame == 9);
+	CHECK(a.changed);
+	CHECK(!a.clear_before_tags);
+
+	a = sprite_advance_step(9, 10);  // last frame wraps to 0: the frame's tags run after the display list is trimmed
+	CHECK(a.next_frame == 0);
+	CHECK(a.changed);
+	CHECK(a.clear_before_tags);
+
+	a = sprite_advance_step(0, 1);  // one-frame clip: stays on frame 0, nothing runs
+	CHECK(a.next_frame == 0);
+	CHECK(!a.changed);
+	CHECK(!a.clear_before_tags);
+
+	a = sprite_advance_step(0, 2);  // two frames: 0 -> 1 -> 0
+	CHECK(a.next_frame == 1);
+	a = sprite_advance_step(1, 2);
+	CHECK(a.next_frame == 0);
+	CHECK(a.clear_before_tags);
+
+	CHECK(kSpriteGotoActionPassLimit == 11);
 
 	if (failures != 0) {
 		std::printf("%d failure(s)\n", failures);

@@ -63,9 +63,9 @@ public:
                                const boost::intrusive_ptr<const video::IBuffer>& source);  // 0x57f704
 
     // Non-virtual members (direct calls; bodies are the recon_05 stand-ins or not reconstructed).
-    void computeMaxIndices(std::uint32_t batch);                                // 0x57e5b4
-    void clearVisibleSegments();                                                // 0x57e604
-    void updateInfo(std::uint32_t batch, std::uint32_t segment);                // 0x57e650
+    std::int32_t computeMaxIndices(std::uint32_t batch);                        // 0x57e5b4 (int in the binary)
+    std::int32_t clearVisibleSegments();                                        // 0x57e604 (int in the binary)
+    std::int32_t updateInfo(std::uint32_t batch, std::uint32_t segment);        // 0x57e650 (int in the binary)
     void registerSolidBatches();                                                // 0x57e800
     void registerTransparentBatches();                                          // 0x57ea70
     void invalidateVisibleIndexCache(std::uint32_t batch);                      // 0x57ebec

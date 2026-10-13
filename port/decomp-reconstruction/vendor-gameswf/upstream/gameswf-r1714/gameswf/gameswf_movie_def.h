@@ -17,6 +17,9 @@
 
 #include "base/container.h"
 #include "base/utility.h"
+#include "vendor-gameswf/gameswf_dh2_hash.hpp"	// DH2: set_raw_capacity specializations of the smart_ptr tables below (declared before first use)
+#include "vendor-gameswf/gameswf_hash_dh2.hpp"	// DH2: set_raw_capacity specializations of hash<int, cxform*> and hash<int, matrix*>
+#include "vendor-gameswf/permanent_string_cache.hpp"	// DH2: gameswf::stringi_pointer, the key of m_named_frames
 
 namespace gameswf
 {
@@ -119,7 +122,13 @@ namespace gameswf
 
 
 	// Extra internal interfaces added to movie_definition
-	struct movie_definition_sub : public movie_definition 
+	//
+	// DH2: 0x44 bytes in the binary (ARM32 offsets in the member comments). The base character_def ends at +0x20. The
+	// DH2: constructor has no body of its own: movie_def_impl (0x765ec8) and sprite_definition (0x783650) write the
+	// DH2: members inline. The destructor (0x765048 D2, 0x7650c8 D1, 0x765148 D0) sets m_break_loading, deletes the stream
+	// DH2: sound, and clears the two tables at +0x30 and +0x34. There is no thread member: TU_CONFIG_LINK_TO_THREAD is 0,
+	// DH2: tu_condition is an empty class (one byte at +0x40) and signal() / wait() do nothing.
+	struct movie_definition_sub : public movie_definition
 	{
 		// Unique id of a gameswf resource
 		enum { m_class_id = AS_MOVIE_DEF_SUB };
@@ -199,7 +208,10 @@ namespace gameswf
 		virtual character_def*	get_exported_resource(const tu_string& symbol) = 0;
 		virtual character_def*	get_character_def(int id) = 0;
 
+		#if 0 /* DH2: the binary's slot +0x60 takes a tu_stringi (movie_def_impl 0x764da0, sprite_definition 0x7832e4) */
 		virtual bool	get_labeled_frame(const char* label, int* frame_number) = 0;
+		#endif /* DH2 */
+		virtual bool	get_labeled_frame(const tu_stringi& label, int* frame_number) = 0;	// DH2: +0x60
 
 		// For use during creation.
 		virtual void	add_symbol_class(int character_id, const tu_string& class_name) = 0;
@@ -211,6 +223,7 @@ namespace gameswf
 		virtual font*	get_font(int id) = 0;
 		virtual void	add_execute_tag(execute_tag* c) = 0;
 		virtual void	add_init_action(int sprite_id, execute_tag* c) = 0;
+		virtual int	has_init_actions() = 0;	// DH2: +0x88, movie_def_impl 0x7636b4, sprite_definition 0x783268
 		virtual void	add_frame_name(const char* name) = 0;
 		virtual void	set_jpeg_loader(jpeg::input* j_in) = 0;
 		virtual jpeg::input*	get_jpeg_loader() = 0;
@@ -232,14 +245,21 @@ namespace gameswf
 
                 // TODO: make these private!
 		// stream sound variables
-		int m_ss_id;	// stream sound handler_id
-		sound_handler::format_type m_ss_format;	// used in tag 19
-		int m_ss_start;	// start frame
+		int m_ss_id;	// +0x20, stream sound handler_id
+		sound_handler::format_type m_ss_format;	// +0x24, used in tag 19
+		int m_ss_start;	// +0x28, start frame
 
 		// flash9
-		bool m_has_metadata;
-		bool m_is_avm2;
-		bool m_use_network;
+		bool m_has_metadata;	// +0x2c
+		bool m_is_avm2;	// +0x2d
+		bool m_use_network;	// +0x2e
+
+		// DH2: the tag-4 (PlaceObject) loader keeps, per depth, the matrix and the colour transform of the latest
+		// DH2: placement, as pointers into the placement tag (place_object_2::read 0x75cb6c, which reads both tables with find_index and
+		// DH2: stores them with set, keyed by the depth it reads after the character id). Not owned: the destructor only
+		// DH2: clears the tables. One table pointer each; every constructor writes 0.
+		hash<int, cxform*>	m_depth_cxforms;	// DH2: +0x30
+		hash<int, matrix*>	m_depth_matrices;	// DH2: +0x34
 
 	private:
 
@@ -249,20 +269,21 @@ namespace gameswf
 			m_frame.signal();
 		}
 
-		int	m_frame_count;
-		int	m_loading_frame;
-		tu_condition m_frame;
-		bool m_break_loading;
+		int	m_frame_count;	// +0x38 (get_frame_count 0x76367c)
+		int	m_loading_frame;	// +0x3c
+		tu_condition m_frame;	// +0x40, empty class (single-thread build)
+		bool m_break_loading;	// +0x41 (set to 1 by the destructors)
 	};
 
 	//
 	// Helper for movie_def_impl
 	//
 	struct import_info
+	// DH2: 44 bytes in the binary (array<import_info> stride in in_import_table 0x763718 and visit_imported_movies 0x768444).
 	{
-		tu_string	m_source_url;
-		int		m_character_id;
-		tu_string	m_symbol;
+		tu_string	m_source_url;	// +0x00
+		int		m_character_id;	// +0x14
+		tu_string	m_symbol;	// +0x18
 
 		import_info():
 			m_character_id(-1)
@@ -296,49 +317,70 @@ namespace gameswf
 			else return movie_definition_sub::is(class_id);
 		}
 
+		// DH2: the tables hold smart_ptr<T> (the binary's symbols are hash<int, smart_ptr<character_def>> and so on), so the
+		// DH2: explicit set_raw_capacity specializations of gameswf_dh2_hash.hpp apply to them. 0x128 bytes in all.
+		#if 0 /* DH2: replaced by the smart_ptr tables below */
 		hash<int, gc_ptr<character_def> >	m_characters;
 		hash<int, gc_ptr<font> >	 m_fonts;
 		hash<int, gc_ptr<bitmap_character_def> >	m_bitmap_characters;
 		hash<int, gc_ptr<sound_sample> >	m_sound_samples;
-		array<array<execute_tag*> >	   m_playlist;	// A list of movie control events for each frame.
-		array<array<execute_tag*> >	   m_init_action_list;	// Init actions for each frame.
+		#endif /* DH2 */
+		hash<int, smart_ptr<character_def> >	m_characters;	// +0x44 (one table pointer, as is every hash member)
+		hash<int, smart_ptr<font> >	 m_fonts;	// +0x48
+		hash<int, smart_ptr<bitmap_character_def> >	m_bitmap_characters;	// +0x4c
+		hash<int, smart_ptr<sound_sample> >	m_sound_samples;	// +0x50
+		array<array<execute_tag*> >	   m_playlist;	// +0x54, A list of movie control events for each frame (16 bytes).
+		array<array<execute_tag*> >	   m_init_action_list;	// +0x64, Init actions for each frame.
+		#if 0 /* DH2: the key is a pointer to an interned label (permanent_string_cache), not a tu_stringi copy */
 		stringi_hash<int>		   m_named_frames;	// 0-based frame #'s
 		stringi_hash<gc_ptr<character_def> > m_exports;
+		#endif /* DH2 */
+		hash<stringi_pointer, int, string_pointer_hash_functor<stringi_pointer> >	m_named_frames;	// DH2: +0x74, 0-based frame #'s; same table type as sprite_definition::m_named_frames
+		hash<tu_stringi, smart_ptr<character_def>, stringi_hash_functor<tu_stringi> > m_exports;	// +0x78
 
 		// Items we import.
-		array<import_info>	m_imports;
+		array<import_info>	m_imports;	// +0x7c
 
 		// Movies we import from; hold a ref on these, to keep them alive
-		array<gc_ptr<movie_definition> >	m_import_source_movies;
+		array<smart_ptr<movie_definition> >	m_import_source_movies;	// +0x8c
 
 		// Bitmaps used in this movie; collected in one place to make
 		// it possible for the host to manage them as textures.
-		array<gc_ptr<bitmap_info> >	m_bitmap_list;
+		array<smart_ptr<bitmap_info> >	m_bitmap_list;	// +0x9c
 
-		create_bitmaps_flag	m_create_bitmaps;
-		create_font_shapes_flag	m_create_font_shapes;
+		create_bitmaps_flag	m_create_bitmaps;	// +0xac
+		create_font_shapes_flag	m_create_font_shapes;	// +0xb0
 
-		rect	m_frame_size;
-		float	m_frame_rate;
-		int	m_version;
-		volatile uint32	m_loaded_length;
+		rect	m_frame_size;	// +0xb4 (x_min, x_max, y_min, y_max; the binary constructor does not write it)
+		float	m_frame_rate;	// +0xc4
+		int	m_version;	// +0xc8
+		volatile uint32	m_loaded_length;	// +0xcc
 
-		jpeg::input*	m_jpeg_in;
+		jpeg::input*	m_jpeg_in;	// +0xd0
 
-		stream*	m_str;
-		Uint32	m_file_end_pos;
-		tu_file*	m_zlib_in;
-		tu_file*	m_origin_in;
+		stream*	m_str;	// +0xd4
+		Uint32	m_file_end_pos;	// +0xd8
+		tu_file*	m_zlib_in;	// +0xdc
+		tu_file*	m_origin_in;	// +0xe0
+		#if 0 /* DH2: replaced by the raw pointer below (the destructor frees it with free_internal, no reference is dropped) */
 		gc_ptr<tu_thread> m_thread;
 		gc_ptr<root> m_instance;	// cached movie instance.
+		#endif /* DH2 */
+		tu_thread*	m_thread;	// DH2: +0xe4, never assigned in this build (read() calls read_tags() directly); is_multithread() is m_thread != NULL
+		smart_ptr<root> m_instance;	// +0xe8, cached movie instance.
+		bool	m_has_init_actions;	// DH2: +0xec, has_init_actions() returns it; add_init_action() sets it, the constructor clears it
+		int	m_unique_id;	// DH2: +0xf0, the constructor takes the next number of the player context (player::m_context, unk_24) and increments it
+		uint32_t	unk_f4;	// DH2: +0xf4, the constructor clears it, no other reader recovered
+		uint32_t	unk_f8;	// DH2: +0xf8, as +0xf4
+		uint32_t	unk_fc;	// DH2: +0xfc, as +0xf4
+		uint32_t	unk_100;	// DH2: +0x100, as +0xf4
 
 		// for AVM2, Flash9
-		tu_string m_abc_name;
-		gc_ptr<abc_def> m_abc;
-		hash<int, tu_string>	m_symbol_class;
-		hash<int, tu_string>	m_scene;
-		hash<int, tu_string>	m_frame_label;	// this is't labeled_frame !!!
-		bool	m_has_init_actions;	// +0xec (236), DH2: the byte has_init_actions returns; zeroed by the constructor
+		tu_string m_abc_name;	// +0x104
+		smart_ptr<abc_def> m_abc;	// +0x118
+		hash<int, tu_string>	m_symbol_class;	// +0x11c
+		hash<int, tu_string>	m_scene;	// +0x120
+		hash<int, tu_string>	m_frame_label;	// +0x124, this is't labeled_frame !!!
 
 		movie_def_impl(player* player, create_bitmaps_flag cbf, create_font_shapes_flag cfs);
 		~movie_def_impl();
@@ -371,8 +413,10 @@ namespace gameswf
 		virtual void	add_frame_label(int character_id, const tu_string& class_name);
 		void	add_character(int character_id, character_def* c);
 		character_def*	get_character_def(int character_id);
+		#if 0 /* DH2: the binary has only the tu_stringi form (vtable +0x60) */
 		bool	get_labeled_frame(const char* label, int* frame_number);
-		bool	get_labeled_frame(const tu_stringi& label, int* frame_number);	// DH2: 0x764da0
+		#endif /* DH2 */
+		virtual bool	get_labeled_frame(const tu_stringi& label, int* frame_number);	// DH2: +0x60, 0x764da0
 		virtual int	has_init_actions();	// DH2: 0x7636b4, non-const, returns the byte at +0xec as int; same vtable slot +0x88 as sprite_definition::has_init_actions
 		void	add_font(int font_id, font* f);
 		font*	get_font(int font_id);
@@ -398,7 +442,7 @@ namespace gameswf
 		void	output_cached_data(tu_file* out, const cache_options& options);
 		void	input_cached_data(tu_file* in);
 
-		virtual bool is_multithread() const { return m_thread != NULL; }
+		virtual bool is_multithread() const { return m_thread != NULL; }	// DH2: +0xbc, 0x7636bc
 
 		// flash9
 		virtual as_function* instanciate_class(character* ch) const;

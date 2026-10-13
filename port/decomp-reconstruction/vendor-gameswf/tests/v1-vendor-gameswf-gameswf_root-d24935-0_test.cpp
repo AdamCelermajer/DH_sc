@@ -1,6 +1,10 @@
 // Test for batch v1-vendor-gameswf-gameswf_root-d24935-0: the screen <-> logical arithmetic of
 // gameswf::root (0x773dc0, 0x773f50), through vendor-gameswf/gameswf_root_transform.hpp.
 // Returns non-zero on any mismatch.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 #include <cmath>
 #include <cstdio>
 

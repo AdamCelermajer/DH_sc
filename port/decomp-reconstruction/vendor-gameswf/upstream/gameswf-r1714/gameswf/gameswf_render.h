@@ -32,8 +32,8 @@ namespace gameswf
 			~bogus_bi() override;  // DH2
 		};
 		bitmap_info*	create_bitmap_info_alpha(int w, int h, unsigned char* data);
-		bitmap_info*	create_bitmap_info_rgb(image::rgb* im);
-		bitmap_info*	create_bitmap_info_rgba(image::rgba* im);
+		bitmap_info*	create_bitmap_info_rgb(image_rgb* im);	// DH2: gameswf::image_rgb (0x773b3c)
+		bitmap_info*	create_bitmap_info_rgba(image_rgba* im);	// DH2: gameswf::image_rgba (0x773acc)
 		video_handler*	create_video_handler();
 
 		// Bracket the displaying of a frame from a movie.
@@ -82,7 +82,9 @@ namespace gameswf
 		void	line_style_color(rgba color);
 		void	line_style_width(float width);
 
+		#if 0 /* DH2: the render handler has no stencil test */
 		bool	test_stencil_buffer(const rect& bound, Uint8 pattern);
+		#endif /* DH2 */
 		void	begin_submit_mask();
 		void	end_submit_mask();
 		void	disable_mask();

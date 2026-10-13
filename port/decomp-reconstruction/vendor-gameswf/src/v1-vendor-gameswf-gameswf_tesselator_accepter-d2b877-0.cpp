@@ -3,7 +3,9 @@
 // Gameloft class, not in upstream gameswf r1714. Declared in
 // vendor-gameswf/include/vendor-gameswf/tesselator_accepter.hpp; the GLU calls go to the tessellator
 // declared in glu_tessellator.hpp. The mesh_set and mesh calls use the upstream declarations in
-// gameswf/gameswf_shape.h, plus mesh::set_triangles (a DH2 addition marked there).
+// gameswf/gameswf_shape.h, plus mesh::set_triangles (a DH2 addition marked there). Every function of the batch is complete.
+// The returns of the listings (add_point, the callbacks) are the register left over by the last operation, not values: the
+// functions are void, as in upstream.
 //
 // Vertex pool. The binary's static gameswf::s_tesselator_accepter_allocator (196616 bytes, LOCAL) is a
 // block of 24-byte vertex slots: x, y, z as doubles, which is the layout GLU reads for a vertex
@@ -15,6 +17,7 @@
 // The pool has no bounds check, as in the binary: more than 8192 slots between init() calls overruns it.
 
 #include "gameswf/gameswf.h"
+#include "gameswf/gameswf_shape.h"  // mesh_set, mesh
 #include "vendor-gameswf/glu_tessellator.hpp"
 #include "vendor-gameswf/tesselator_accepter.hpp"
 
@@ -35,6 +38,20 @@ void copy_array(array<T>& dst, const array<T>& src) {
     dst.resize(src.size());
     for (int i = 0; i < src.size(); ++i) {
         dst[i] = src[i];
+    }
+}
+
+// Appends every element of src to dst the way the listing does: the array is resized to the new size (growing by one and a
+// half times above the capacity) and the elements are copied.
+template <class T>
+void append_array(array<T>& dst, const array<T>& src) {
+    const int count = src.size();
+    if (count > 0) {
+        const int old_size = dst.size();
+        dst.resize(old_size + count);
+        for (int i = 0; i < count; ++i) {
+            dst[old_size + i] = src[i];
+        }
     }
 }
 
@@ -78,11 +95,8 @@ void tesselator_accepter::callback_error(int error, tesselator_accepter* self) {
 tesselator_accepter::tesselator_accepter(bool strip, bool direct, bool winding_abs_geq_two)
     : m_type(0),
       m_vertices(),
-      unk_10(0),
       m_points(),
-      unk_20(0),
       m_indices(),
-      unk_30(0),
       m_direct(direct),
       m_strip(strip),
       m_tess(nullptr) {
@@ -144,9 +158,8 @@ tesselator_accepter::~tesselator_accepter() {
 //   Stores the point in the next pool slot (x, y as doubles, z = 0) and advances the count. Without the
 //   direct flag, the slot is passed to GLU as both location and vertex data. With it, the point is
 //   appended to the vertex array as floats.
-//   Partial: the Hex-Rays return is float. The direct path returns y, and the GLU path returns whatever
-//   r0 holds after gluTessVertex (not a defined value). This rebuild returns void; the callers were not
-//   checked, so a caller that uses the return value needs this resolved.
+//   The listing's float return is the register left over by the last operation: gluTessVertex's r0 on the GLU path, the y
+//   coordinate on the direct path (loaded last, as the value of the append). Nothing in the tree reads it; the function is void.
 void tesselator_accepter::add_point(point& p) {
     const int v5 = s_pool.count;
     s_pool.count = v5 + 1;
@@ -172,9 +185,9 @@ void tesselator_accepter::add_point(point& p) {
 //                 g, g+1, g+2, and when another triangle follows, appends g+2 and g+3 (the next
 //                 triangle's first vertex is written again by its own pass).
 //   Other modes append nothing.
-//   Partial: the binary reads vertex entries past the end when the count is not a multiple of 3 (tris)
-//   and when the count is below 2 with output present (fan). Those reads are stale memory and are not
-//   reproduced: this rebuild reads only valid entries.
+//   The binary reads vertex entries past the end when the vertex count is not a multiple of 3 (tris) and, in fan mode with
+//   output present, when there is a single vertex. GLU never ends a triangle batch that way (it gives whole triangles and fans
+//   of at least three vertices), and those reads are stale memory; this body reads only valid entries in those cases.
 void tesselator_accepter::callback_end_strip(tesselator_accepter* self) {
     array<point>& in = self->m_vertices;
     array<point>& out = self->m_points;
@@ -193,9 +206,7 @@ void tesselator_accepter::callback_end_strip(tesselator_accepter* self) {
         if (out.size() > 0) {
             out.push_back(in[0]);
         }
-        for (int i = 0; i < in.size(); ++i) {
-            out.push_back(in[i]);
-        }
+        append_array(out, in);
         break;
 
     case gl_prim::TRIANGLE_FAN:  // 6
@@ -255,8 +266,8 @@ void tesselator_accepter::end_shape(array<point>& out_points, array<unsigned sho
 //     5 (strip):     appends every vertex; for k = 0 .. n-3 indices base+k, base+k+1, base+k+2.
 //     6 (fan):       appends every vertex; for k = 0 .. n-3 indices base, base+1+k, base+2+k.
 //   Other modes do nothing.
-//   Partial: a line loop with no vertices appends whatever the binary finds at vertex buffer[0] (stale
-//   or null). This rebuild appends nothing in that case.
+//   A line loop with no vertices makes the binary append whatever it finds at vertex buffer[0] (stale memory, or a null
+//   read); GLU never ends an empty loop, and this body appends nothing in that case.
 void tesselator_accepter::callback_end_tris(tesselator_accepter* self) {
     array<point>& in = self->m_vertices;
     array<point>& out = self->m_points;
@@ -265,33 +276,25 @@ void tesselator_accepter::callback_end_tris(tesselator_accepter* self) {
 
     switch (self->m_type) {
     case gl_prim::LINE_LOOP:  // 2
-        for (int i = 0; i < in.size(); ++i) {
-            out.push_back(in[i]);
-        }
+        append_array(out, in);
         if (in.size() > 0) {
             out.push_back(in[0]);
         }
         break;
 
     case gl_prim::LINE_STRIP:  // 3
-        for (int i = 0; i < in.size(); ++i) {
-            out.push_back(in[i]);
-        }
+        append_array(out, in);
         break;
 
     case gl_prim::TRIANGLES:  // 4
-        for (int i = 0; i < in.size(); ++i) {
-            out.push_back(in[i]);
-        }
+        append_array(out, in);
         for (int i = 0; i < in.size(); ++i) {
             idx.push_back(static_cast<unsigned short>(base + i));
         }
         break;
 
     case gl_prim::TRIANGLE_STRIP:  // 5
-        for (int i = 0; i < in.size(); ++i) {
-            out.push_back(in[i]);
-        }
+        append_array(out, in);
         for (int k = 0; k + 2 < in.size(); ++k) {
             idx.push_back(static_cast<unsigned short>(base + k));
             idx.push_back(static_cast<unsigned short>(base + k + 1));
@@ -300,9 +303,7 @@ void tesselator_accepter::callback_end_tris(tesselator_accepter* self) {
         break;
 
     case gl_prim::TRIANGLE_FAN:  // 6
-        for (int i = 0; i < in.size(); ++i) {
-            out.push_back(in[i]);
-        }
+        append_array(out, in);
         for (int k = 0; k + 2 < in.size(); ++k) {
             idx.push_back(base);
             idx.push_back(static_cast<unsigned short>(base + 1 + k));
@@ -323,12 +324,8 @@ void tesselator_accepter::callback_end_tris(tesselator_accepter* self) {
 //     otherwise:    the output points (two floats each) and the indices as a triangle list in
 //                   get_mutable_mesh(style), when there are any points.
 //   The output points are emptied in every case.
-//   Partial: the body is disabled. It calls mesh_set::add_line_strip, mesh_set::set_tri_strip,
-//   mesh_set::get_mutable_mesh and mesh::set_triangles, which need the complete mesh_set and mesh types
-//   from gameswf/gameswf_shape.h. That header does not compile in this tree (gameswf_impl.h: 'bitmap_info'
-//   does not name a type; gc_ptr<as_object> instantiation). Enable the block once it does.
-#if 0  // BLOCKED: needs gameswf/gameswf_shape.h (mesh_set, mesh), which does not compile in this tree yet.
-       // When enabled, add that include at the top of this file, outside the namespace.
+//   mesh_set::add_line_strip, mesh_set::set_tri_strip, mesh_set::get_mutable_mesh and mesh::set_triangles come from
+//   gameswf/gameswf_shape.h.
 void tesselator_accepter::end_shape(mesh_set* out, int style) {
     gluTessEndPolygon(m_tess);
     if (m_direct) {
@@ -347,6 +344,5 @@ void tesselator_accepter::end_shape(mesh_set* out, int style) {
     }
     m_points.clear();
 }
-#endif
 
 }  // namespace gameswf

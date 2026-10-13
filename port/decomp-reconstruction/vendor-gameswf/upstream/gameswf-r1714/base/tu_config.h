@@ -87,7 +87,9 @@
 #endif
 
 #ifndef TU_USES_FLOAT_AS_COORDINATE_COMPONENT
-#define TU_USES_FLOAT_AS_COORDINATE_COMPONENT 0
+// DH2: the DH2 build uses float coordinates: mesh, line_strip and mesh_set::set_tri_strip hold array<float> and copy the
+// DH2: 8-byte points as two floats (mesh::set_tri_strip 0x77ba0c, line_strip::line_strip 0x77bc0c).
+#define TU_USES_FLOAT_AS_COORDINATE_COMPONENT 1
 #endif
 
 // define TU_CONFIG_LINK_STATIC to 1 to link gameswf statically 

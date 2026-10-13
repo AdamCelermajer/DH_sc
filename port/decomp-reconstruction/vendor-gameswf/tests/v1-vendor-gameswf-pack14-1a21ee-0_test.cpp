@@ -1,16 +1,14 @@
 // Test for batch v1-vendor-gameswf-pack14-1a21ee-0: the RenderFX search index hash, set_raw_capacity specialization (0x7aa8f0).
-// Run it with check_tu.sh and these sources (paths under port/decomp-reconstruction/):
-//   vendor-gameswf/src/v1-vendor-gameswf-pack14-1a21ee-0.cpp
-//   vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
-//   vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
-//   vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
-// The last three give tu_string its out-of-line members (the hash keys need operator== and the constructors).
+// The container, utf8 and tu_string sources give tu_string its out-of-line members (the hash keys need operator== and the
+// constructors). The batch source also holds the as_transform bodies, which reach the object runtime; the stubs file defines
+// those symbols as weak aborting functions (this test never constructs an object).
 //
 // set_raw_capacity is private, so the test drives it through the public API, the way the game does:
 //   - set_capacity(c) calls set_raw_capacity(c * 3 / 2). set_capacity(6) calls set_raw_capacity(9).
 //   - add() calls check_expand() before it counts the entry. An empty table gets set_raw_capacity(16). A table with
 //     3 * entries > 2 * slots is doubled.
-// Every table is allocated by gameswf::malloc_internal, and this test counts those calls. A table is allocated only by
+// Every table is allocated by gameswf::malloc_internal, and this test counts those calls (of table size: the heap text of a key
+// is allocated by the same function). A table is allocated only by
 // set_raw_capacity, so the add() that causes a growth is the one where the count changes. With S slots the first growth is
 // add number floor(2 * S / 3) + 2, which gives the slot count without reading private members.
 //
@@ -21,6 +19,16 @@
 // references and this test does not run. default_bitmap_font_entity's constructor stub matches the declaration in
 // include/vendor-gameswf/bitmap_glyph_provider.hpp. Do not link this test with the pack19 source, which defines that
 // constructor and the glyph hash's set_raw_capacity.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack14-1a21ee-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_as_runtime_stubs.cpp
 
 #include <cstdint>
 #include <cstdio>
@@ -29,7 +37,7 @@
 #include "base/container.h"
 #include "vendor-gameswf/bitmap_glyph_provider.hpp"  // declarations of the symbols stubbed below
 #include "vendor-gameswf/gameswf_alloc.hpp"
-#include "vendor-gameswf/gameswf_dh2_hash.hpp"
+#include "vendor-gameswf/render_fx_search_hash.hpp"
 
 namespace RenderFX {
 namespace SearchIndex {
@@ -50,7 +58,10 @@ int g_table_allocs = 0;  // malloc_internal calls: one per table set_raw_capacit
 // dlfree and so the C free (base/utility.h maps dlfree to free). Both use the C library heap here.
 namespace gameswf {
 void* malloc_internal(unsigned int size, swf::MemHint) {
-	g_table_allocs++;
+	// The heap text of a key (tu_string longer than 14 bytes) comes from here too; a table is at least four 32-byte entries.
+	if (size >= 96) {
+		g_table_allocs++;
+	}
 	return std::malloc(size);
 }
 void free_internal(void* p, unsigned int) {

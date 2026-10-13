@@ -4,9 +4,9 @@
 // Input channels: Keyboard and Mouse keep 32-byte channels (dh2/Keyboard.hpp, dh2/Mouse.hpp). UpdateFrame steps every
 // channel the same way (StepChannel), and the constructors reset them (ResetChannel).
 //
-// glitch::SEvent: core-platform's stand-in (core-platform/deps/glitch_core.hpp) names the words by the mouse event.
-// A key event keeps its key code at +0x0c (mouseY in the stand-in) and PressedDown in the byte at +0x10 (reserved4).
-// A wheel delta is a float at +0x10 (reserved4 bit pattern). These are the original's a2[3], byte a2+16 and float a2+4.
+// glitch::SEvent: the canonical record (glitch-core-io/os/event_receiver.hpp). A key event keeps its key code at +0x0c
+// (KeyInput.Key) and PressedDown in the byte at +0x10. A wheel delta is a float at +0x10 (MouseInput.Wheel). These are
+// the original's a2[3], byte a2+16 and float a2+4.
 //
 // LuaManager: the buffered files are std::map<std::string, StreamBuffer*> (dh2/LuaManager.hpp). This translation unit
 // includes net-transport/stream_buffer.hpp, whose IStreamBase is the one ApplicationOpenStream returns, and does not
@@ -87,9 +87,9 @@ InputDevice::InputDevice(Type type) : m_type(type), unk_08(0) {}
 // delta (float at +0x10) to m_wheelDelta. Every event returns false. Key codes are expected below 0x100, the size of
 // m_keyDown; the original does not check this either.
 bool InputManagerEventReceiver::onEvent(const glitch::SEvent& event) {
-    if (event.type == 2) {
-        const int key = event.mouseY;                                     // +0x0c, key code
-        const auto pressed = static_cast<std::uint8_t>(event.reserved4);  // +0x10, PressedDown (low byte)
+    if (event.EventType == glitch::EET_KEY_INPUT_EVENT) {
+        const int key = event.KeyInput.Key;                                              // +0x0c, key code
+        const auto pressed = static_cast<std::uint8_t>(event.KeyInput.PressedDown);      // +0x10, PressedDown
         m_keyDown[key] = pressed;
         if (key == 16) {
             m_keyDown[0xa0] = pressed;
@@ -102,22 +102,20 @@ bool InputManagerEventReceiver::onEvent(const glitch::SEvent& event) {
             m_keyDown[0xa5] = pressed;
         }
     }
-    if (event.type != 1) {
+    if (event.EventType != glitch::EET_MOUSE_INPUT_EVENT) {
         return false;
     }
 
-    const int action = event.mouseEvent;  // +0x14
-    m_mouseX = event.mouseX;              // +0x08 read into +0x104
-    m_mouseY = event.mouseY;              // +0x0c read into +0x108
+    const int action = event.MouseInput.Event;  // +0x14
+    m_mouseX = event.MouseInput.X;              // +0x08 read into +0x104
+    m_mouseY = event.MouseInput.Y;              // +0x0c read into +0x108
     unk_112 = UpdateLatch(unk_112, action, 0, 3);
     unk_113 = UpdateLatch(unk_113, action, 1, 4);
     unk_114 = UpdateLatch(unk_114, action, 2, 5);
-    if (action != 7) {
+    if (action != glitch::EMIE_MOUSE_WHEEL) {
         return false;
     }
-    float wheel = 0.0f;
-    std::memcpy(&wheel, &event.reserved4, sizeof wheel);  // +0x10 as a float
-    m_wheelDelta += wheel;
+    m_wheelDelta += event.MouseInput.Wheel;  // +0x10 as a float
     return false;
 }
 

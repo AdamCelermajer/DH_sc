@@ -1,17 +1,18 @@
 // Test for batch v1-vendor-gameswf-render_handler_glitch-fd003c-0 (render_handler_glitch, part 1 of 3).
-//   bash tools/trackb/check_tu.sh --test <this file> port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-render_handler_glitch-fd003c-0.cpp
-//        port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
+// Link line (run from the worktree root; the libraries are the cmake targets dh2_glitch_video, dh2_glitch_core_io and
+// dh2_core_platform, linked after the sources; all sources are under vendor-gameswf/src/):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     <render_handler_glitch-fd003c-0 .cpp> <render_handler_glitch-fd003c-1 .cpp> <render_handler_glitch-fd003c-2 .cpp>
+//     <pack21 .cpp> <bitmap_info_ogl-434136-0 .cpp> <bitmap_info_ogl-434136-1 .cpp> <gameswf_bitmap_info .cpp>
+//     <gameswf_ref_counted .cpp> <pack15 .cpp> <gameswf_render_handler .cpp> <test-support/dh2_test_support.cpp>
+//     -Wl,--start-group libdh2_glitch_video.a libdh2_glitch_core_io.a libdh2_core_platform.a -Wl,--end-group
 //
-// The class's constructor, destructor and vtable belong to other parts of the class, so the test never constructs
-// the object. It keeps zeroed storage of the class size and calls only non-virtual members, through qualified names,
-// so no vtable is needed. The stand-ins below are the code outside this batch that these functions call:
-//   BufferedRenderer::ensureBufferCapacity(int)                 (0x7d4284), records the call
-//   render_handler_glitch::fill_style::set_bitmap(...)          (0x7d4430), records its arguments and returns true
-//   operator new[](std::size_t, glitch::memory::E_MEMORY_HINT)  (core-platform/src/memory.cpp), malloc(), records the
-//       size and the hint; the memory is not zeroed
-//   gameswf::cxform::transform(rgba) const, gameswf::cxform::cxform(), gameswf::matrix::matrix()   (upstream), identity
-// The tu_string batch source is linked too: the inline tu_string members that the headers pull in (dllexport) call
-// tu_string::resize and friends, which that batch defines.
+// The handler is built with its real constructor over a null driver with the doubles of render_handler_glitch_test_types.hpp
+// (batch renderer, triangle intersector, the driver's setMaterial and draw, the texture manager). The checks cover the 20
+// functions of the batch: the empty ones, set_target (pushRenderTarget / popRenderTarget with the bitmap's render target),
+// set_context (both stores), end_display_callback (the three setTransform calls), set_matrix and set_cxform, the fill and line
+// style stores, is_visible, set_buffer_capacity and ensureBufferCapacity (the hinted allocation, the zeroed words, the
+// reset of the first stream's buffer).
 
 #include <cstddef>
 #include <cstdint>
@@ -20,56 +21,62 @@
 #include <cstring>
 
 #include "gameswf/gameswf_types.h"
-#include "glitch-core-io/core/memory_hint.hpp"
-#include "vendor-gameswf/render_handler_glitch.hpp"
+#include "render_handler_glitch_test_types.hpp"
 
 // ---- stand-ins -------------------------------------------------------------------------------------------------
 
 namespace {
-int g_bufferCapacityCalls = 0;
-int g_bufferCapacityLast = -1;
-const void* g_setBitmapThis = nullptr;
-gameswf::render_handler::bitmap_wrap_mode g_setBitmapWrap = gameswf::render_handler::WRAP_REPEAT;
-int g_hintedNewCalls = 0;
-std::size_t g_hintedNewSize = 0;
-int g_hintedNewHint = -1;
 }  // namespace
 
-void BufferedRenderer::ensureBufferCapacity(int vertexCount) {
-    ++g_bufferCapacityCalls;
-    g_bufferCapacityLast = vertexCount;
-}
-
-void* operator new[](std::size_t size, glitch::memory::E_MEMORY_HINT hint) {
-    ++g_hintedNewCalls;
-    g_hintedNewSize = size;
-    g_hintedNewHint = static_cast<int>(hint);
-    return std::malloc(size);
-}
-
-bool render_handler_glitch::fill_style::set_bitmap(gameswf::bitmap_info* /*bitmap*/, const gameswf::matrix& /*m*/,
-                                                   gameswf::render_handler::bitmap_wrap_mode wrap,
-                                                   const gameswf::cxform& /*cx*/) {
-    g_setBitmapThis = this;
-    g_setBitmapWrap = wrap;
-    return true;
-}
-
-gameswf::rgba gameswf::cxform::transform(const gameswf::rgba in) const {
+// The upstream colour transform and matrix (gameswf_types.cpp is not linked): identity, and the transform returns its input.
+__attribute__((weak)) gameswf::rgba gameswf::cxform::transform(const gameswf::rgba in) const {
     return in;
 }
-gameswf::cxform::cxform() {}
-gameswf::matrix::matrix() {}
+__attribute__((weak)) gameswf::cxform::cxform() {
+    for (int c = 0; c < 4; ++c) {
+        m_[c][0] = 1.0f;
+        m_[c][1] = 0.0f;
+    }
+}
+__attribute__((weak)) void gameswf::cxform::clamp() {}
+__attribute__((weak)) gameswf::matrix::matrix() {
+    m_[0][0] = 1.0f;
+    m_[0][1] = 0.0f;
+    m_[0][2] = 0.0f;
+    m_[1][0] = 0.0f;
+    m_[1][1] = 1.0f;
+    m_[1][2] = 0.0f;
+}
 
-// tu_string::resize and tu_string::utf8_char_count (upstream base/container.cpp, not linked here): the tu_string
-// batch source references them. This test never reaches a string member, so they abort if called.
+// The membuf destructor and the inline tu_string members the gameswf.h chain emits.
+membuf::~membuf() {}
 void tu_string::resize(int) {
     std::abort();
 }
-
 int tu_string::utf8_char_count(const char*, int) {
     std::abort();
 }
+bool tu_string::operator==(const tu_string&) const { std::abort(); }
+void tu_string::operator+=(const char*) { std::abort(); }
+void tu_string::operator+=(const tu_string&) { std::abort(); }
+
+namespace gameswf {
+template <class T>
+void destruct(const T* object) {
+    delete const_cast<T*>(object);
+}
+template void destruct<ref_counted>(const ref_counted* object);
+
+__attribute__((weak)) image_base::~image_base() {
+    if (m_data != nullptr) {
+        free_internal(m_data, 0);
+        m_data = nullptr;
+    }
+}
+__attribute__((weak)) std::uint8_t* scanline(image_base* surf, int y) {
+    return surf->m_data + surf->m_pitch * y;
+}
+}  // namespace gameswf
 
 // ---- checks ----------------------------------------------------------------------------------------------------
 
@@ -83,12 +90,24 @@ int g_failures = 0;
             ++g_failures;                                        \
         }                                                        \
     } while (0)
+
+using rhg_test::Event;
 }  // namespace
 
 int main() {
-    alignas(render_handler_glitch) unsigned char storage[sizeof(render_handler_glitch)];
-    std::memset(storage, 0, sizeof storage);
-    render_handler_glitch& g = *reinterpret_cast<render_handler_glitch*>(storage);
+    rhg_test::reset_logs();
+    rhg_test::RecordingDriver driver;
+    glitch::video::CTextureManager manager;
+    driver.m_textureManager = &manager;
+    render_handler_glitch* handler = new render_handler_glitch(&driver);
+    render_handler_glitch& g = *handler;
+
+    // The constructor built the staging vertices (256 entries) and handed them to the first stream's buffer.
+    CHECK(g.m_vertex_capacity == 256);
+    CHECK(g.m_vertices != nullptr);
+    CHECK(g.m_vertex_streams->m_streams[0].buffer->m_data == g.m_vertices);
+    CHECK(g.m_vertex_streams->m_streams[0].buffer->m_size == 24u * 256u);
+    CHECK((g.m_vertex_streams->m_streams[0].buffer->m_flags12 & glitch::video::IBuffer::kFlagOwnsData) != 0);
 
     // get_orientation, create_video_handler, the empty functions.
     CHECK(g.render_handler_glitch::get_orientation() == 0);
@@ -161,50 +180,106 @@ int main() {
     CHECK(!g.m_buffered.m_wireFrame);
 
     // Buffer capacity: the mode goes to unk_00 and the count goes to BufferedRenderer::ensureBufferCapacity.
+    rhg_test::g_events.clear();
     g.render_handler_glitch::set_buffer_capacity(static_cast<gameswf::render_handler::buffer_mode>(2), 64);
     CHECK(g.m_buffered.unk_00 == 2);
-    CHECK(g_bufferCapacityCalls == 1);
-    CHECK(g_bufferCapacityLast == 64);
+    CHECK(rhg_test::count_of(Event::EnsureCapacity) == 1);
+    CHECK(rhg_test::nth_of(Event::EnsureCapacity, 0)->arg == 64);
 
-    // Context: the +0x08 pointer is stored.
+    // Context: both stores, the batch renderer's player context (+0x228) and m_context (+0x08).
     int context_marker = 0;
-    g.render_handler_glitch::set_context(reinterpret_cast<gameswf::player_context*>(&context_marker));
-    CHECK(g.m_context == reinterpret_cast<gameswf::player_context*>(&context_marker));
+    gameswf::player_context* context = reinterpret_cast<gameswf::player_context*>(&context_marker);
+    g.render_handler_glitch::set_context(context);
+    CHECK(g.m_context == context);
+    CHECK(g.m_buffered.m_playerContext == context);
 
-    // Bitmap fill forwards to fill entry 1 with the wrap mode and returns set_bitmap's result.
-    const bool filled = g.render_handler_glitch::fill_style_bitmap(1, nullptr, mm, gameswf::render_handler::WRAP_CLAMP);
-    CHECK(filled);
-    CHECK(g_setBitmapThis == &g.m_fill_styles[1]);
-    CHECK(g_setBitmapWrap == gameswf::render_handler::WRAP_CLAMP);
+    // Bitmap fill forwards to fill entry 1 with the wrap mode and returns set_bitmap's result (pack21's body: the default
+    // bitmap colour transform is the identity here, so no additive term is above 1 and it returns false).
+    const bool over = g.render_handler_glitch::fill_style_bitmap(1, nullptr, mm, gameswf::render_handler::WRAP_CLAMP);
+    CHECK(!over);
+    CHECK(g.m_fill_styles[1].unk_00 == 3);  // clamp
+    CHECK(g.m_fill_styles[1].bitmap_matrix.m_[1][2] == 6.0f);
 
-    // ensureBufferCapacity: growth allocates 24 * n bytes through operator new[](size, E_MEMORY_HINT 0), the call the
-    // binary makes, and zeroes words 0, 1, 3, 4, 5 of each 24-byte entry. A smaller request keeps the block and
-    // allocates nothing.
-    CHECK(g.m_vertex_capacity == 0);
-    g.ensureBufferCapacity(10);
-    CHECK(g.m_vertex_capacity == 10);
-    CHECK(g.m_vertices != nullptr);
-    CHECK(g_hintedNewCalls == 1);
-    CHECK(g_hintedNewSize == 240);
-    CHECK(g_hintedNewHint == 0);
+    // fill_style::set_bitmap (0x7d4430): fill type from the wrap mode, bitmap pointer, colour bytes (the multipliers times 255,
+    // truncated) and the flag for an additive term above 1 (the cxform clamp is a no-op in this test).
+    {
+        gameswf::matrix m;
+        gameswf::cxform cx2;
+        cx2.m_[0][0] = 0.5f;  cx2.m_[0][1] = 0.0f;
+        cx2.m_[1][0] = 1.0f;  cx2.m_[1][1] = 0.0f;
+        cx2.m_[2][0] = 0.25f; cx2.m_[2][1] = 0.0f;
+        cx2.m_[3][0] = 0.0f;  cx2.m_[3][1] = 0.0f;
+        int dummy_bitmap = 0;
+        gameswf::bitmap_info* bitmap = reinterpret_cast<gameswf::bitmap_info*>(&dummy_bitmap);
+        render_handler_glitch::fill_style fs;
+        const bool flag = fs.set_bitmap(bitmap, m, gameswf::render_handler::WRAP_CLAMP, cx2);
+        CHECK(fs.unk_00 == 3);
+        CHECK(fs.source_bitmap == bitmap);
+        CHECK(fs.color[0] == 127 && fs.color[1] == 255 && fs.color[2] == 63 && fs.color[3] == 0);
+        CHECK(!flag && fs.unk_44 == 0);
+        cx2.m_[2][1] = 1.5f;  // additive blue term above 1
+        const bool flag2 = fs.set_bitmap(bitmap, m, gameswf::render_handler::WRAP_REPEAT, cx2);
+        CHECK(fs.unk_00 == 2);
+        CHECK(flag2 && fs.unk_44 == 1);
+    }
+
+    // set_target: a target pushes its render target on the driver's stack, none pops it.
+    {
+        const size_t depth = driver.m_renderTargets.size();
+        bitmap_info_ogl* target = new bitmap_info_ogl(&driver, 8, 8);
+        CHECK(target->m_render_target.get() != nullptr);
+        g.render_handler_glitch::set_target(target);
+        CHECK(driver.m_renderTargets.size() == depth + 1);
+        CHECK(driver.m_renderTargets.back().get() == target->m_render_target.get());
+        g.render_handler_glitch::set_target(nullptr);
+        CHECK(driver.m_renderTargets.size() == depth);
+        CHECK(driver.m_renderTargets.back().get() != target->m_render_target.get());
+        bio_test::g_manager_log.lastTexture->drop();  // the manager's own use of the render-target texture
+        delete target;
+    }
+
+    // end_display_callback: setTransform for states 2, 0 and 1 with the matrices of m_state, in that order.
+    for (int i = 0; i < 16; ++i) {
+        g.m_state.projection.M[i] = 100.0f + static_cast<float>(i);
+        g.m_state.view.M[i] = 200.0f + static_cast<float>(i);
+        g.m_state.world.M[i] = 300.0f + static_cast<float>(i);
+    }
+    rhg_test::g_events.clear();
+    g.render_handler_glitch::end_display_callback();
+    CHECK(rhg_test::count_of(Event::SetTransform) == 3);
+    {
+        const Event* e0 = rhg_test::nth_of(Event::SetTransform, 0);
+        const Event* e1 = rhg_test::nth_of(Event::SetTransform, 1);
+        const Event* e2 = rhg_test::nth_of(Event::SetTransform, 2);
+        CHECK(e0 && e0->arg == 2 && e0->matrix[0] == 100.0f && e0->matrix[15] == 115.0f);
+        CHECK(e1 && e1->arg == 0 && e1->matrix[0] == 200.0f && e1->matrix[15] == 215.0f);
+        CHECK(e2 && e2->arg == 1 && e2->matrix[0] == 300.0f && e2->matrix[15] == 315.0f);
+    }
+
+    // ensureBufferCapacity: growth allocates 24 * n bytes through operator new[](size, E_MEMORY_HINT 0) (core-platform),
+    // zeroes words 0, 1, 3, 4, 5 of each 24-byte entry and hands the block to the first stream's buffer (which owns it).
+    // A smaller request keeps the block.
+    CHECK(g.m_vertex_capacity == 256);
+    uint8_t* old_block = g.m_vertices;
+    g.ensureBufferCapacity(100);
+    CHECK(g.m_vertex_capacity == 256);
+    CHECK(g.m_vertices == old_block);
+    g.ensureBufferCapacity(300);
+    CHECK(g.m_vertex_capacity == 300);
+    CHECK(g.m_vertices != nullptr && g.m_vertices != old_block);
+    CHECK(g.m_vertex_streams->m_streams[0].buffer->m_data == g.m_vertices);
+    CHECK(g.m_vertex_streams->m_streams[0].buffer->m_size == 7200u);
     {
         const uint32_t* words = reinterpret_cast<const uint32_t*>(g.m_vertices);
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 300; ++i) {
             const uint32_t* entry = words + 6 * i;
             CHECK(entry[0] == 0 && entry[1] == 0 && entry[3] == 0 && entry[4] == 0 && entry[5] == 0);
         }
     }
-    const uint8_t* block = g.m_vertices;
-    g.ensureBufferCapacity(5);
-    CHECK(g.m_vertex_capacity == 10);
-    CHECK(g.m_vertices == block);
-    CHECK(g_hintedNewCalls == 1);
-    g.ensureBufferCapacity(20);
-    CHECK(g.m_vertex_capacity == 20);
-    CHECK(g_hintedNewCalls == 2);
-    CHECK(g_hintedNewSize == 480);
-    CHECK(g_hintedNewHint == 0);
 
+    delete handler;
+    CHECK(rhg_test::g_intersector.constructed == 1);
+    CHECK(rhg_test::g_intersector.destroyed == 1);
     if (g_failures == 0) {
         std::printf("render_handler_glitch part 1: all checks passed\n");
         return 0;

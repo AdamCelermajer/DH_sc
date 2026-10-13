@@ -9,7 +9,14 @@
 
 #pragma once
 
+#include <cstddef>
+
 #include "core-platform/deps/swf_types.hpp"  // swf::MemHint
+
+// 0x752ba8 operator new(unsigned int, swf::MemHint): the allocation function that DH2 code uses for objects of the
+// gameswf heap (characters' custom blocks, morph shapes, weak proxies ...). Defined by core-platform/src/memory.cpp,
+// which also declares it in core-platform/memory.hpp; declared here so gameswf sources do not need that header.
+void* operator new(std::size_t size, swf::MemHint hint);
 
 namespace gameswf {
 

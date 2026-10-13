@@ -1,16 +1,24 @@
 // Test for batch v1-vendor-gameswf-pack22-8e8f27-0: hash<tu_stringi, as_color_transform_member, stringi_hash_functor<tu_stringi>>
 // ::set_raw_capacity (0x7d9f98), and the stringi_hash<as_color_transform_member> table that uses it (its destructor is the
 // implicit one, which calls hash::clear()).
-//   bash tools/trackb/check_tu.sh --test <this file> src/v1-vendor-gameswf-pack22-8e8f27-0.cpp
-//     upstream/gameswf-r1714/base/container.cpp upstream/gameswf-r1714/base/utf8.cpp
-//     src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp   (paths relative to vendor-gameswf/)
-// The last three give tu_string its out-of-line members (tu_stringi and the hash keys need them). The allocator is the
-// test's own (std::malloc / std::free). The batch source compiles only the hash specialization in this tree, because the
-// as_object constructors sit behind DH2_AS_OBJECT_HEADER_OK, so nothing else from it is linked.
+// The container, utf8 and tu_string sources give tu_string its out-of-line members (tu_stringi and the hash keys need them).
+// The batch source also defines the as_color_transform and as_event constructors; the object runtime they reach (as_object,
+// the vtables of those classes) is defined by test-support/dh2_as_runtime_stubs.cpp as weak aborting functions, because this
+// test never constructs an object.
 //
 // Covers the state changes that run without the engine: growing, rehashing and shrinking the table keeps every key and its
 // value, repeated sizing with the same bucket count keeps the table, lookups ignore case, and clear() empties the table.
 // Bucket counts are chosen away from the power-of-two boundaries where the single-precision log rounds (see gameswf_hash_dh2.hpp).
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack22-8e8f27-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_test_support.cpp
+//     port/decomp-reconstruction/vendor-gameswf/test-support/dh2_as_runtime_stubs.cpp
 
 #include <cstdio>
 #include <cstdlib>

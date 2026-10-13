@@ -2,7 +2,7 @@
 // dependency on gameswf.h, so a test can include this header without linking the engine.
 //
 // They are factorings of loops in the binary, not functions of the binary: the constructors and layout() that run
-// them are partial (see vendor-gameswf/src/v1-vendor-gameswf-bitmap_info_ogl-434136-1.cpp).
+// them are in vendor-gameswf/src/v1-vendor-gameswf-bitmap_info_ogl-434136-1.cpp.
 #ifndef VENDOR_GAMESWF_BITMAP_INFO_OGL_PIXELS_HPP
 #define VENDOR_GAMESWF_BITMAP_INFO_OGL_PIXELS_HPP
 

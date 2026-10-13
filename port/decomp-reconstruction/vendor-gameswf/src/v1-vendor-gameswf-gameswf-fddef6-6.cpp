@@ -1,7 +1,7 @@
 // Batch v1-vendor-gameswf-gameswf-fddef6-6 (vendor-gameswf, owner gameswf, part 7 of 8), 20 functions.
 //
 // gameswf r1714 with Gameloft changes, as built into libDungeonHunter2.so (32-bit ARM). Per-function status and
-// notes are in ledger.d/v1-vendor-gameswf-gameswf-fddef6-6.csv.
+// notes are in the vendor-gameswf ledger (ledger.csv, merged from ledger.d/).
 //
 //   0x7b6d9c..0x7b6f20  buffered_seek_to_end, buffered_tell, buffered_get_eof, get_buffered_file, buffered_close,
 //                       buffered_read: external linkage. Declared in tu_file_callbacks.hpp, bodies here.
@@ -10,8 +10,8 @@
 //   0x7badb4            gameswf::swap<gameswf::as_value>: explicit specialization here.
 //   0x7bb3e0            gameswf::clear_standard_fnames: body here. It needs s_fnames_string with external linkage
 //                       (see the note at the definition).
-//   0x7bbbfc            gameswf::call_method (tu_string form): gated, partial.
-//   0x7c0f7c            gameswf::sprite_instance_at_depth: gated, partial.
+//   0x7bbbfc            gameswf::call_method (tu_string form): body here.
+//   0x7c0f7c            gameswf::sprite_instance_at_depth: body here.
 //
 // The memory and buffered callbacks use the binary's tu_file layout only through the tu_file methods (get_position,
 // read_bytes, go_to_end, get_eof), never by offset. The memory callbacks read the membuf through its public size,
@@ -30,10 +30,14 @@
 #include "base/membuf.h"             // membuf
 #include "base/tu_file.h"            // ::tu_file, TU_FILE_SEEK_ERROR, TU_FILE_CLOSE_ERROR
 #include "core-platform/memory.hpp"  // operator new(size, swf::MemHint)
-#include "vendor-gameswf/as_environment.hpp"  // gameswf::as_environment (DH2 layout), used by the gated call_method
+#include "vendor-gameswf/as_environment.hpp"  // gameswf::as_environment (DH2 layout), used by call_method
 #include "vendor-gameswf/as_value.hpp"        // gameswf::as_value
 #include "vendor-gameswf/gameswf_alloc.hpp"   // gameswf::free_internal(void*, unsigned int)
 #include "vendor-gameswf/tu_file_callbacks.hpp"
+#include "gameswf/gameswf_action.h"      // call_method with the debug label
+#include "gameswf/gameswf_as_sprite.h"   // sprite_getptr, sprite_instance_at_depth
+#include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_sprite.h"      // sprite_instance::m_display_list
 
 namespace gameswf {
 
@@ -48,7 +52,7 @@ int buffered_seek_to_end(void* appdata) {
     buffered_file* bf = static_cast<buffered_file*>(appdata);
     bf->m_file->go_to_end();
     bf->m_base_pos = bf->m_file->get_position();
-    bf->unk_1008 = 0;
+    bf->m_unread = 0;
     bf->m_offset = 0;
     return 0;
 }
@@ -61,11 +65,11 @@ int buffered_tell(const void* appdata) {
 }
 
 // 0x7b6e00 bool gameswf::buffered_get_eof(void*)
-// The binary returns the underlying eof only when the window has nothing unread left (unk_1008 == 0). Its result is an
+// The binary returns the underlying eof only when the window has nothing unread left (m_unread == 0). Its result is an
 // int; the tu_file callback type is bool, and 0 or 1 is the same value.
 bool buffered_get_eof(void* appdata) {
     buffered_file* bf = static_cast<buffered_file*>(appdata);
-    return buffered_get_eof_state(bf->m_file->get_eof(), bf->unk_1008);
+    return buffered_get_eof_state(bf->m_file->get_eof(), bf->m_unread);
 }
 
 // 0x7b6e34 gameswf::tu_file* gameswf::get_buffered_file(gameswf::tu_file* underlying)
@@ -77,7 +81,7 @@ bool buffered_get_eof(void* appdata) {
     buffered_file* bf = new (window_mem) buffered_file;
     bf->m_file = underlying;
     bf->m_base_pos = 0;
-    bf->unk_1008 = 0;
+    bf->m_unread = 0;
     bf->m_offset = 0;
 
     void* file_mem = ::operator new(sizeof(::tu_file), swf::MEM_UNRECOVERED);
@@ -96,7 +100,7 @@ int buffered_close(void* appdata) {
 }
 
 // 0x7b6f20 int gameswf::buffered_read(void*, int, void*)
-// Copies up to `bytes` bytes into dst through the 4096-byte window. When the window has unread bytes (unk_1008 != 0),
+// Copies up to `bytes` bytes into dst through the 4096-byte window. When the window has unread bytes (m_unread != 0),
 // they are taken from m_offset. Otherwise the window is refilled from the underlying file: base = underlying tell,
 // the read asks for 4096 bytes, offset = 0, and a zero read ends the call with the bytes copied so far. The chunk is
 // min(unread, wanted). Returns the total copied.
@@ -108,7 +112,7 @@ int buffered_read(void* dst, int bytes, void* appdata) {
     std::uint8_t* out = static_cast<std::uint8_t*>(dst);
     int total = 0;
     int left = bytes;                              // v4: bytes still wanted
-    int remaining = static_cast<int>(bf->unk_1008);  // v8: unread bytes in the window
+    int remaining = static_cast<int>(bf->m_unread);  // v8: unread bytes in the window
     for (;;) {
         int cursor = 0;                            // v11: window index of the first byte taken
         if (remaining != 0) {
@@ -116,7 +120,7 @@ int buffered_read(void* dst, int bytes, void* appdata) {
         } else {
             bf->m_base_pos = bf->m_file->get_position();
             remaining = bf->m_file->read_bytes(bf->m_window, kBufferedWindowSize);
-            bf->unk_1008 = remaining;
+            bf->m_unread = remaining;
             bf->m_offset = 0;
             if (remaining == 0) {
                 return total;
@@ -126,7 +130,7 @@ int buffered_read(void* dst, int bytes, void* appdata) {
         std::memcpy(out, bf->m_window + cursor, static_cast<std::size_t>(count));
         left -= count;
         remaining -= count;
-        bf->unk_1008 = remaining;
+        bf->m_unread = remaining;
         bf->m_offset += count;
         total += count;
         if (left <= 0) {
@@ -274,21 +278,17 @@ void clear_standard_fnames() {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// call_method and sprite_instance_at_depth: gated and partial (see the notes; not compiled in this tree).
+// call_method and sprite_instance_at_depth.
 // ---------------------------------------------------------------------------------------------------------------------
 
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
 
 // 0x7bbbfc gameswf::tu_string gameswf::call_method(gameswf::as_environment*, gameswf::as_object*, char const*,
 //          gameswf::as_value const*, int)
-// PARTIAL. The control flow of the binary is written. Three callees are missing from every header that builds here:
-//   1. get_variable: the binary calls as_environment::get_variable(result, env, name, with_stack, 0). Its declaration is
-//      not in as_environment.hpp. The trailing 0 is not identified.
-//   2. array<with_stack_entry>: the binary creates an empty dummy with-stack, then resizes and reserves it. The entry
-//      type (upstream gameswf_environment.h, #if 0 here) is incomplete in this tree.
-//   3. The six-argument call_method with the debug label (binary 0x7ba904). It is declared in upstream gameswf_action.h,
-//      which does not compile here (gc_object_collector_base error in tu_gc_singlethreaded_refcount.h).
-// The v19 byte at [sp+0x30] of the binary has no use in this body and is not written.
+// The arguments are pushed last to first, the method is read with as_environment::get_variable(name, an empty dummy
+// with-stack, null with-index), the call is the six-argument call_method with the debug label (0x7ba904; the label is the
+// method name, the first-argument index is the stack top), the stack is released by the number of values the call
+// consumed, and the result is converted with to_tu_string unless it is undefined. The dummy with-stack is emptied and
+// released at the end. The v19 byte at [sp+0x30] of the binary is the dummy array's borrowed flag.
 ::tu_string call_method(as_environment* env, as_object* this_obj, const char* method_name, const as_value* arguments,
                         int argument_count) {
     const int starting_index = env->m_stack.size();
@@ -319,12 +319,9 @@ void clear_standard_fnames() {
 }
 
 // 0x7c0f7c void gameswf::sprite_instance_at_depth(gameswf::fn_call const&)
-// PARTIAL. With at least one argument and a sprite (sprite_getptr), the result is the character at depth
+// With at least one argument and a sprite (sprite_getptr), the result is the character at depth
 // (to_number(arg 0) + 0x4000, the binary's depth bias) in the sprite's display list at +0xa8. Otherwise the result is
-// null. Missing: fn_call is incomplete in this tree (as_value.hpp forward-declares it; the upstream definition is in
-// gameswf_environment.h), so arg() and the members cannot be used; sprite_getptr is not declared in a header that builds
-// (upstream is in gameswf_as_sprite.cpp, and the binary's call passes a second register that the upstream one-argument
-// signature does not take); and the sprite_instance layout (display list at +0xa8) is not declared.
+// null. (The binary passes a second register to sprite_getptr that the one-argument function does not read.)
 void sprite_instance_at_depth(const fn_call& fn) {
     if (fn.nargs > 0) {
         sprite_instance* sprite = sprite_getptr(fn);
@@ -338,6 +335,5 @@ void sprite_instance_at_depth(const fn_call& fn) {
     fn.result->set_as_object(nullptr);
 }
 
-#endif  // VENDOR_GAMESWF_DH2_CORE_HEADERS
 
 }  // namespace gameswf

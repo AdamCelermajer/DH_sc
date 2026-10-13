@@ -23,16 +23,14 @@
 namespace gameswf {
 namespace {
 
-// The region key of the texture cache: the owner (the font entity pointer), the glyph code, and the low byte of the
-// size. In the binary the owner is one word and the code word is second. Here the owner takes two words (the low and
-// high halves of the host pointer), the code word is third and the last word is zero. A key is only compared and
-// hashed, so the order of the words does not change any result.
+// The region key of the texture cache, as the binary builds it in add_glyph_region and get_glyph_region: the owner (the font
+// entity pointer, host width), then the glyph code with the low byte of the size in bits 16..23, then two zero words.
 texture_cache::key make_glyph_key(const void* owner, std::uint16_t code, int size) {
-    const std::uint64_t bits = static_cast<std::uint64_t>(reinterpret_cast<std::uintptr_t>(owner));
     texture_cache::key k;
-    k.unk_0 = static_cast<std::int32_t>(static_cast<std::uint32_t>(bits & 0xffffffffu));
-    k.unk_4 = static_cast<std::int32_t>(static_cast<std::uint32_t>(bits >> 32));
-    k.unk_8 = static_cast<std::int32_t>(code) | (static_cast<std::int32_t>(static_cast<std::uint8_t>(size)) << 16);
+    k.unk_0 = reinterpret_cast<std::uintptr_t>(owner);
+    k.unk_4 = static_cast<std::int32_t>(static_cast<std::uint32_t>(code) |
+                                        (static_cast<std::uint32_t>(static_cast<std::uint8_t>(size)) << 16));
+    k.unk_8 = 0;
     k.unk_c = 0;
     return k;
 }
@@ -118,15 +116,19 @@ bitmap_info* bitmap_font_entity::get_char_image(std::uint16_t code, int font_siz
 
 // 0x7c4648 gameswf::bitmap_glyph_texture_cache::bitmap_glyph_texture_cache(int, int)   [C1]
 // 0x7c4670 gameswf::bitmap_glyph_texture_cache::bitmap_glyph_texture_cache(int, int)   [C2, same body]
-// PARTIAL: the body is the forwarding call. texture_cache's constructor (0x794030, partial in its own row) does not
-// create the texture yet, so the cache has no texture until that constructor is completed.
+// Forwards to texture_cache(width, height, 4, false): four bytes per pixel, not a render target. The base constructor makes the
+// texture from the current render handler (a cleared rgba image of the rounded size) and builds the cell grid.
 bitmap_glyph_texture_cache::bitmap_glyph_texture_cache(int width, int height)
     : texture_cache(width, height, 4, false) {}
 
 // 0x7c53c4 gameswf::bitmap_glyph_texture_cache::add_glyph_region(unsigned short, void*, int)
-// PARTIAL: the logic is complete, but the pixels are written through texture_cache::lock() (0x7c44d8). That function
-// is a stub in texture_cache.cpp and returns m_locked, which is null, so the copy has nowhere to go until lock() is
-// written. The owner (glyph_data) is a bitmap_font_entity and its virtual get_char_image gives the bitmap.
+// Locks the texture (texture_cache::lock) first. The owner (glyph_data) is a bitmap_font_entity and its virtual get_char_image
+// (vtable +0x08) gives the bitmap; no bitmap returns 0. The region is the bitmap size plus one pixel in each direction, rounded
+// to whole cells, taken from the free list (none that fits returns 0). The region takes the clock value, the clock advances,
+// and the region is entered in the used table under the key of the owner, the code and the size. The pixel origin of the
+// region is computed in float, as the listing does: (y_min * texture width) * bpp + bpp * x_min, truncated. The region's rows are
+// cleared (region width * bpp bytes in each of the region's rows), then the bitmap rows are copied over its top left corner
+// (width * bpp bytes in each of the bitmap's rows, one source stride apart, one texture row apart in the destination).
 int bitmap_glyph_texture_cache::add_glyph_region(std::uint16_t code, void* glyph_data, int size) {
     unsigned char* pixels = static_cast<unsigned char*>(lock());
 
@@ -155,8 +157,8 @@ int bitmap_glyph_texture_cache::add_glyph_region(std::uint16_t code, void* glyph
     const int bpp = m_bpp;
     const int width = m_texture->get_width();
     const int row_bytes = width * bpp;  // bytes per row of the texture
-    unsigned char* origin =
-        pixels + (static_cast<int>(bounds.m_y_min) * width + static_cast<int>(bounds.m_x_min)) * bpp;
+    const float row_offset = (bounds.m_y_min * static_cast<float>(width)) * static_cast<float>(bpp);
+    unsigned char* origin = pixels + static_cast<int>(row_offset + static_cast<float>(bpp) * bounds.m_x_min);
 
     // Clear the region (its rows and columns are the rounded size), then copy the bitmap rows over its top left corner.
     for (int row = 0; row < region_h; ++row) {
@@ -170,17 +172,17 @@ int bitmap_glyph_texture_cache::add_glyph_region(std::uint16_t code, void* glyph
 }
 
 // 0x7c55d8 gameswf::bitmap_glyph_texture_cache::get_glyph_region(unsigned short, void*, int, gameswf::rect&)
-// PARTIAL: when the glyph is not cached and add_glyph_region fails, the original calls render handler slot +0x94
-// (s_render_handler, a void call with no arguments) before it resets the cache. That slot is not declared in
-// render_handler_glitch.hpp, so that call is left out here and the flow goes straight to reset(). The original's
-// float return is a register residue (the same as texture_cache::get_region_bounds), so the result is the bounds.
+// Looks the glyph up in the used table. When it is not there, add_glyph_region runs; if that fails the render handler's flush
+// (vtable +0x94, s_render_handler, no null test) runs, the cache is reset, and the glyph is added once more. The table is
+// searched again and, when the glyph is there with a region, the region bounds are written. The original's float return is a
+// register residue (the same as texture_cache::get_region_bounds); the function is void.
 void bitmap_glyph_texture_cache::get_glyph_region(std::uint16_t code, void* glyph_data, int size, rect& bounds) {
     const texture_cache::key k = make_glyph_key(glyph_data, code, size);
     texture_cache::region* r = nullptr;
     bool found = m_used.get(k, &r);
     if (!found) {
         if (add_glyph_region(code, glyph_data, size) == 0) {
-            // PARTIAL: the render handler slot +0x94 call belongs here (see above).
+            s_render_handler->flush();
             reset();
             add_glyph_region(code, glyph_data, size);
         }

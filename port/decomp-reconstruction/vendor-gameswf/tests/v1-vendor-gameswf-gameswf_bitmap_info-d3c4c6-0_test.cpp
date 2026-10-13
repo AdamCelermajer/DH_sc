@@ -1,12 +1,14 @@
 // Test for batch v1-vendor-gameswf-gameswf_bitmap_info-d3c4c6-0 (gameswf::bitmap_info).
-//   bash tools/trackb/check_tu.sh --test <this file> <bitmap_info .cpp> <ref_counted .cpp>
-//   (the bitmap_info .cpp is src/v1-vendor-gameswf-gameswf_bitmap_info-d3c4c6-0.cpp, the ref_counted
-//   .cpp is src/v1-vendor-gameswf-gameswf_ref_counted-0eb785-0.cpp, both under vendor-gameswf/)
 //
 // The bitmap_info bodies need gameswf::ref_counted (its constructor and destructor are in the
 // ref_counted batch). This test supplies the same callees that the ref_counted test supplies, so the
 // virtual forwarding and the destructor can run on their own:
 //   gameswf::free_internal, gameswf::destruct<ref_counted>, operator new(size_t, swf::MemHint)
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_bitmap_info-d3c4c6-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_ref_counted-0eb785-0.cpp
 
 #include <cstdint>
 #include <cstdio>

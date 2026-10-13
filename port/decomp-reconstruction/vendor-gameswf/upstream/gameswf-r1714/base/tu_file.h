@@ -49,6 +49,7 @@ public:
 	typedef int (* tell_func)(const void* appdata);
 	typedef bool (* get_eof_func)(void* appdata);
 	typedef int (* close_func)(void* appdata);
+	typedef void* (* open_func)(const char* name, const char* mode);	// DH2: the file system hook the filename constructor opens with (binary fs_open_func)
 
 	// The generic constructor; supply functions for the implementation.
 	exported_module tu_file(
@@ -149,8 +150,8 @@ public:
 
 	// DH2: Gameloft member, binary 0x7b6a80. Reads into buf until bytes are in, or the stream ends or fails.
 	// DH2: bytes == -1 means buf->size(). Returns the last step value. Body: vendor-gameswf/src/v1-vendor-gameswf-pack15-a0a47d-0.cpp
-	// DH2: The binary keeps read, eof and error at +0x08, +0x1c and +0x24: one more 4-byte field before the read
-	// DH2: callback than this header. That field is not identified, so it is not declared here.
+	// DH2: The binary keeps read, eof and error at +0x08, +0x1c and +0x24: one more 4-byte field (m_open, +0x04) sits before
+	// DH2: the read callback than in r1714.
 	int	read_fully(membuf* buf, int bytes);	// DH2: Gameloft addition, binary 0x7b6a80
 
 	// printf-style convenience function.
@@ -174,6 +175,7 @@ private:
 	void	close();
 
 	void * 	m_data;
+	open_func	m_open;	// DH2: +0x04, the open hook of the filename constructor (0x7b67e4 stores fs_open_func here); the other constructors leave it unset
 	read_func 	m_read;
 	write_func 	m_write;
 	seek_func 	m_seek;

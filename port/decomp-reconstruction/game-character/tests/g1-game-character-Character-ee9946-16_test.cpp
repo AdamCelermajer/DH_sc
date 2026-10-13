@@ -317,11 +317,10 @@ bool PlayerSavegame::SG_HasSkillSlots() const {
     return g_answerHasSkillSlots;
 }
 
-int PlayerSavegame::SG_SetSkillLevel(std::uint32_t row, int level) {
+void PlayerSavegame::SG_SetSkillLevel(std::uint32_t row, int level) {
     ++g_setSkillLevel.calls;
     g_setSkillLevel.a = static_cast<int>(row);
     g_setSkillLevel.b = level;
-    return 0;
 }
 
 int PlayerSavegame::SG_GetSkillLevel(std::uint32_t row) const {

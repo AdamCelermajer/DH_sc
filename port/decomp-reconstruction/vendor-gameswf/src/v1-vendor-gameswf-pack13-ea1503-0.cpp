@@ -5,7 +5,7 @@
 //   - constructors: the bodies in upstream/gameswf-r1714/gameswf/gameswf_as_classes/as_*.cpp;
 //   - destructors: compiler-generated (the headers declare none), or the inline body in as_sound.h.
 // Nothing is defined in this file. A second definition would collide with the upstream unit in the DH2 build,
-// so the ledger rows are `upstream` and name the upstream source (ledger.d/v1-vendor-gameswf-pack13-ea1503-0.csv).
+// so the ledger rows are `upstream` and name the upstream source (vendor-gameswf/ledger.csv).
 //
 // Checked against the binary (Hex-Rays and ARM listings):
 //   - as_netconnection C2 0x7a3acc: the constant-folded tu_string clone at 0x7a3a64 holds "connect", so the
@@ -20,9 +20,10 @@
 // Deleting destructors (D0) store the vtable, run D1 and then call LC_API_FREE_0 (operator delete). They are
 // not reconstructed on their own.
 //
-// No test: none of these functions has logic that runs without gameswf::as_object. Their only effect is the
-// as_object base and the vtable, and gameswf/gameswf_object.h does not compile in the tree (see the blocker
-// note in v1-vendor-gameswf-gameswf_as_object-6b7905-0.cpp).
+// No test: none of these functions has logic that runs without a constructed gameswf::as_object (their only effects are the
+// as_object base, the vtable and the built-in members). Layouts (see the headers): as_netconnection, as_selection and
+// as_textformat add no members (0x38 bytes); as_point adds gameswf::point m_point at +0x38 (0x40 bytes); as_sound adds
+// m_id +0x38, m_is_loaded_sound +0x3c and the weak m_target +0x40 (0x48 bytes).
 //
 // Address map:
 //   0x7a39b4  ~as_netconnection D1   as_netconnection.h (implicit)

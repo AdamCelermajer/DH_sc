@@ -207,7 +207,7 @@ namespace gameswf
 				}
 				else
 				{
-					s_sound_handler->play_sound(NULL, m_handler_id, m_loop_count);
+					s_sound_handler->play_sound(m_handler_id, m_loop_count);	// DH2: no listener argument
 				}
 			}
 		}

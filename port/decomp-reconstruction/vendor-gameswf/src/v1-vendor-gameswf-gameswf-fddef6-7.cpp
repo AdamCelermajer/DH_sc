@@ -1,5 +1,5 @@
 // Batch v1-vendor-gameswf-gameswf-fddef6-7 (vendor-gameswf, part 8 of 8). Five binary symbols, one ledger row each
-// (ledger.d/v1-vendor-gameswf-gameswf-fddef6-7.csv).
+// (vendor-gameswf ledger).
 //
 // Reconstructed and compiled here (1):
 //   gameswf::destruct<gameswf::image_alpha>(gameswf::image_alpha const*)    0x7d0444
@@ -11,15 +11,12 @@
 //     reference), and it probes its own table inline. Upstream tu_stringi has no cache field, so the probe is
 //     hash::get (upstream find_index, the same functor on both sides).
 //
-// Partial, not compiled in this tree (3):
+// Also compiled here (3):
 //   gameswf::create_render_handler_irrlicht(void*)                          0x7d6658
-//     Behind DH2_RENDER_HANDLER_GLITCH_CONCRETE. render_handler_glitch is abstract in the tree: three pure virtuals of
-//     gameswf::render_handler are not overridden by its header (fd003c batches).
+//     render_handler_glitch is concrete now that gameswf::render_handler carries the DH2 vtable.
 //   gameswf::transform_point(gameswf::as_object*, gameswf::matrix const&)   0x7c1574 (Gameloft, not in upstream)
 //   gameswf::mouse_event_init(gameswf::player*)                             0x7daea4
-//     Both sit behind DH2_AS_OBJECT_HEADER_OK, because gameswf/gameswf_object.h does not compile here (as in batch
-//     pack22). mouse_event_init does not intern "click" in the player's permanent_string_cache (the player member at
-//     +0x2c). That member is not declared in the tree, so the value is a copy of the same text.
+//     (the CLICK value is the interned "click" of the player's permanent string cache)
 //
 // Vtable slots (tools/decomp_vtable.py gameswf::as_object): +0x1c set_member(tu_stringi const&, as_value const&),
 // +0x20 get_member(tu_stringi const&, as_value*). transform_point uses those two.
@@ -36,11 +33,9 @@
 #include "vendor-gameswf/ref_counted.hpp"            // gameswf::destruct<T> (primary template: fddef6-1)
 #include "vendor-gameswf/render_handler_glitch.hpp"  // render_handler_glitch and its constructor (fd003c-1)
 
-#if defined(DH2_AS_OBJECT_HEADER_OK)
 #include "gameswf/gameswf_as_classes/as_mouse_event.h"  // gameswf::as_mouse_event, mouse_event_init (upstream)
 #include "gameswf/gameswf_object.h"                     // gameswf::as_object (upstream, with DH2 declarations)
 #include "vendor-gameswf/as_value.hpp"                  // gameswf::as_value (DH2 layout)
-#endif
 
 // The binary's operator new(size, swf::MemHint) (core-platform/src/memory.cpp:141). core-platform/memory.hpp is not
 // included: it clashes with the glitch headers that render_handler_glitch.hpp uses (see fd003c-0).
@@ -60,12 +55,8 @@ void destruct<image_alpha>(const image_alpha* p) {
 	}
 }
 
-#if defined(DH2_RENDER_HANDLER_GLITCH_CONCRETE)
 
 // 0x7d6658 gameswf::create_render_handler_irrlicht(void*)
-// PARTIAL, not compiled in this tree. render_handler_glitch is abstract here: the header does not override three
-// pure virtuals of gameswf::render_handler (draw_triangle_list(const void*, int), fill_style_bitmap(...) and
-// test_stencil_buffer(...)), so new-expression is ill-formed. The body is written for when the class is concrete.
 // Binary: operator new(0x494, MemHint 0), then render_handler_glitch's constructor with the argument as the driver,
 // then return the object. The argument is the IVideoDriver pointer (the Hex-Rays view types it as the object's this).
 render_handler_glitch* create_render_handler_irrlicht(void* driver) {
@@ -73,7 +64,6 @@ render_handler_glitch* create_render_handler_irrlicht(void* driver) {
 	return new (mem) render_handler_glitch(static_cast<glitch::video::IVideoDriver*>(driver));
 }
 
-#endif  // DH2_RENDER_HANDLER_GLITCH_CONCRETE
 
 // ---- get_color_transform_member (0x7da144) ----
 
@@ -82,12 +72,12 @@ render_handler_glitch* create_render_handler_irrlicht(void* driver) {
 static ::stringi_hash<as_color_transform_member> s_color_transform_member_map;
 
 // 0x7da144 gameswf::get_color_transform_member(gameswf::tu_stringi const&)
-// PARTIAL. Build: when the table is empty, set the raw capacity to 16 and add the nine names in binary order
+// Build: when the table is empty, set the raw capacity to 16 and add the nine names in binary order
 // (redMultiplier=1 .. rgb=9). If the table is still empty after that, the binary returns invalidMember (10). The
 // private set_raw_capacity is reached through set_capacity(11): (11 * 3) / 2 = 16, so the table is the same.
-// Lookup: the binary probes its own table and returns the stored value or invalidMember. This body calls hash::get.
-// The binary's hash cache write into the key (tu_stringi +0x10) is not reproduced, because the upstream tu_stringi
-// has no such field. The return value is the same for every key.
+// Lookup: the binary probes its own table inline and returns the stored value or invalidMember. This body calls hash::get,
+// which gives the same value for every key. The binary also caches the key's hash in the key (tu_string +0x10 of the
+// tu_stringi), which the DH2 tu_string::get_hashi does when the hash functor asks for it.
 as_color_transform_member get_color_transform_member(const ::tu_stringi& name) {
 	if (s_color_transform_member_map.is_empty()) {
 		s_color_transform_member_map.set_capacity(11);
@@ -110,10 +100,9 @@ as_color_transform_member get_color_transform_member(const ::tu_stringi& name) {
 	return result;
 }
 
-#if defined(DH2_AS_OBJECT_HEADER_OK)
 
 // 0x7c1574 gameswf::transform_point(gameswf::as_object*, gameswf::matrix const&)
-// PARTIAL, not compiled in this tree (see the header comment). Binary order: start x and y as number 0, read x and y
+// Binary order: start x and y as number 0, read x and y
 // with get_member (+0x20), take each as (float)(value * 20.0) (twips), apply the matrix (row 0 gives the x result, row 1
 // the y result, each with the translation last), then write x and y back with set_member (+0x1c), each as
 // (float)(result / 20.0) stored in a double. The matrix is read as its six floats in order a, b, tx, c, d, ty. The
@@ -156,20 +145,17 @@ void transform_point(as_object* obj, const matrix& m) {
 }
 
 // 0x7daea4 gameswf::mouse_event_init(gameswf::player*)
-// PARTIAL, not compiled in this tree. Binary: operator new(0x38, MemHint 0), as_mouse_event(player) (0x7dae08), then
-// builtin_member("CLICK", v) where v is set to the interned "click" from the player's permanent_string_cache (player
-// +0x2c, not declared in the tree). This body sets v to a copy of the same text, so the member's value text is the same.
-// The interning side effect on the player's cache is not reproduced.
+// Binary: operator new(0x38, MemHint 0), as_mouse_event(player) (0x7dae08), then builtin_member("CLICK", v) where v
+// is set to the interned "click" from the player's permanent_string_cache (player +0x2c, player::m_permanent_strings):
+// the member's value points at the cache's string instead of holding a copy.
 as_mouse_event* mouse_event_init(player* p) {
 	as_mouse_event* obj = new (::operator new(sizeof(as_mouse_event), swf::MEM_UNRECOVERED)) as_mouse_event(p);
 
-	::tu_string click_text("click");
 	as_value click_value;
-	click_value.set_tu_string(click_text);
+	click_value.set_tu_string(*p->m_permanent_strings.get(::tu_string("click")));
 	obj->builtin_member(::tu_string("CLICK"), click_value);
 	return obj;
 }
 
-#endif  // DH2_AS_OBJECT_HEADER_OK
 
 }  // namespace gameswf

@@ -9,6 +9,7 @@
 
 #include "gameswf/gameswf_disasm.h"
 #include "gameswf/gameswf_log.h"
+#include "vendor-gameswf/inst_info_avm2.hpp"	// DH2: arg_format_avm2, inst_info_avm2
 #include <stdarg.h>
 
 namespace gameswf
@@ -30,27 +31,7 @@ namespace gameswf
 	// Action Script 3.0
 	//
 
-	enum arg_format_avm2
-	{
-		ARG_END=0,
-		ARG_MULTINAME,
-		ARG_NAMESPACE,
-		ARG_BYTE,
-		ARG_SHORT,
-		ARG_INT,
-		ARG_UINT,
-		ARG_DOUBLE,
-		ARG_STRING,
-		ARG_COUNT,
-		ARG_CLASSINFO,
-		ARG_FUNCTION,
-		ARG_EXCEPTION,
-		ARG_REGISTER,
-		ARG_SLOTINDEX,
-		ARG_OFFSET,
-		ARG_OFFSETLIST,
-	};
-
+	// DH2: arg_format_avm2 is declared in vendor-gameswf/inst_info_avm2.hpp.
 	int read_vu30( int& result, const uint8 *args )
 	{
 		result = args[0];
@@ -82,161 +63,155 @@ namespace gameswf
 		return 5;
 	}
 
-	struct inst_info_avm2
+	// DH2: the type is declared in vendor-gameswf/inst_info_avm2.hpp (the hash<int, inst_info_avm2> member functions of the
+	// DH2 build need it outside this file); the member bodies stay here.
+	inst_info_avm2::inst_info_avm2(const char* opname) :
+		m_instruction(opname)
 	{
-		const char*	m_instruction;
-		array<arg_format_avm2> m_arg_formats;
+	}
 
-		inst_info_avm2(const char* opname) :
-			m_instruction(opname)
+	inst_info_avm2::inst_info_avm2(const char* opname, const arg_format_avm2 arg_format_0, ...) :
+		m_instruction(opname)
+	{
+		va_list arg;
+
+		m_arg_formats.push_back( arg_format_0 );
+		va_start( arg, arg_format_0 );
+
+		arg_format_avm2 current_format;
+		while( ( current_format = (arg_format_avm2)va_arg( arg, int ) ) != ARG_END )
 		{
+			m_arg_formats.push_back( current_format );
 		}
+	}
 
-		inst_info_avm2(const char* opname, const arg_format_avm2 arg_format_0, ...) :
-			m_instruction(opname)
+	int inst_info_avm2::process(const abc_def* def, const uint8 *args)
+	{
+		int byte_count = 1;
+		for( int i=0; i<m_arg_formats.size();++i)
 		{
-			va_list arg;
-
-			m_arg_formats.push_back( arg_format_0 );
-			va_start( arg, arg_format_0 );
-
-			arg_format_avm2 current_format;
-			while( ( current_format = (arg_format_avm2)va_arg( arg, int ) ) != ARG_END )
+			int value;
+			switch( m_arg_formats[i] )
 			{
-				m_arg_formats.push_back( current_format );
-			}
-		}
-
-		int process(const abc_def* def, const uint8 *args)
-		{
-			int byte_count = 1;
-			for( int i=0; i<m_arg_formats.size();++i)
-			{
-				int value;
-				switch( m_arg_formats[i] )
+			case ARG_MULTINAME:
+				byte_count += read_vu30(value, &args[byte_count]);
+				if( value >= def->m_multiname.size() )
 				{
-				case ARG_MULTINAME:
-					byte_count += read_vu30(value, &args[byte_count]);
-					if( value >= def->m_multiname.size() )
-					{
-						log_msg( "\t\tmultiname: runtime %i\n", value);
-					}
-					else
-					{
-						switch( def->m_multiname[value].m_kind )
-						{
-							case multiname::CONSTANT_Multiname:
-							case multiname::CONSTANT_QName:
-								log_msg( "\t\tmultiname: %s\n", def->m_string[def->m_multiname[value].m_name].c_str());
-								break;
-
-							default:
-								log_msg( "\t\tmultiname ( todo kind: %i )\n", def->m_multiname[value].m_kind );
-						};
-					}
-					break;
-
-				case ARG_NAMESPACE:
-					byte_count += read_vu30(value, &args[byte_count]);
-					log_msg( "\t\tnamespace: %s\n", def->m_string[ def->m_namespace[value].m_name ].c_str());
-					break;
-
-				case ARG_BYTE:
-					value = args[byte_count];
-					log_msg("\t\tvalue: %i\n", value);
-					byte_count++;
-					break;
-
-				case ARG_SHORT:
-					byte_count += read_vu30(value, &args[byte_count]);
-					log_msg("\t\tvalue: %i\n", value);
-					break;
-
-				case ARG_INT:
-					byte_count += read_vu30(value, &args[byte_count]);
-					log_msg("\t\tvalue: %i\n", def->m_integer[value]);
-					break;
-
-				case ARG_UINT:
-					byte_count += read_vu30(value, &args[byte_count]);
-					log_msg("\t\tvalue: %ui\n", def->m_uinteger[value]);
-					break;
-
-				case ARG_DOUBLE:
-					byte_count += read_vu30(value, &args[byte_count]);
-					log_msg("\t\tvalue: %f\n", def->m_double[value]);
-					break;
-
-				case ARG_STRING:
-					byte_count += read_vu30(value, &args[byte_count]);
-					log_msg( "\t\tstring: %s\n", def->m_string[value].c_str());
-					break;
-
-				case ARG_COUNT:
-					byte_count += read_vu30(value, &args[byte_count]);
-					log_msg( "\t\tcount: %i\n", value);
-					break;
-
-				case ARG_CLASSINFO:
-					byte_count += read_vu30(value, &args[byte_count]);
-					log_msg( "\t\tclass: %i\n", value);
-					break;
-
-				case ARG_FUNCTION:
-					byte_count += read_vu30( value, &args[byte_count] );
-					//TODO: print signature
-					log_msg( "\t\tfunction: %s\n", def->m_string[def->m_method[value]->m_name].c_str());
-					break;
-
-				case ARG_EXCEPTION:
-					byte_count += read_vu30( value, &args[byte_count] );
-					//TODO: print exception info
-					log_msg( "\t\texception: %i\n", value);
-					break;
-
-				case ARG_REGISTER:
-					byte_count += read_vu30( value, &args[byte_count] );
-					log_msg( "\t\tregister: %i\n", value);
-					break;
-
-				case ARG_SLOTINDEX:
-					byte_count += read_vu30( value, &args[byte_count] );
-					log_msg( "\t\tslot index: %i\n", value);
-					break;
-
-				case ARG_OFFSET:
-					value = args[byte_count] | args[byte_count+1]<<8 | args[byte_count+2]<<16;
-					byte_count += 3;
-					log_msg( "\t\toffset: %i\n", value);
-					break;
-
-				case ARG_OFFSETLIST:
-					value = args[byte_count] | args[byte_count+1]<<8 | (*(int8*)&args[byte_count+2])<<16; //sign extend the high byte
-					log_msg( "\t\tdefault offset: %i\n", value);
-					byte_count += 3;
-
-					int offset_count;
-					byte_count += read_vu30( offset_count, &args[byte_count] );
-
-					for(int i=0;i<offset_count+1;i++)
-					{
-						value = args[byte_count] | args[byte_count+1]<<8 | (*(int8*)&args[byte_count+2])<<16;
-						log_msg("\t\toffset %i: %i\n", i, value);
-						byte_count +=3;
-					}
-					break;
-
-				case ARG_END:
-					assert(0 && "forbidden");
-					break;
+					log_msg( "\t\tmultiname: runtime %i\n", value);
 				}
-			}
+				else
+				{
+					switch( def->m_multiname[value].m_kind )
+					{
+						case multiname::CONSTANT_Multiname:
+						case multiname::CONSTANT_QName:
+							log_msg( "\t\tmultiname: %s\n", def->m_string[def->m_multiname[value].m_name].c_str());
+							break;
 
-			return byte_count;
+						default:
+							log_msg( "\t\tmultiname ( todo kind: %i )\n", def->m_multiname[value].m_kind );
+					};
+				}
+				break;
+
+			case ARG_NAMESPACE:
+				byte_count += read_vu30(value, &args[byte_count]);
+				log_msg( "\t\tnamespace: %s\n", def->m_string[ def->m_namespace[value].m_name ].c_str());
+				break;
+
+			case ARG_BYTE:
+				value = args[byte_count];
+				log_msg("\t\tvalue: %i\n", value);
+				byte_count++;
+				break;
+
+			case ARG_SHORT:
+				byte_count += read_vu30(value, &args[byte_count]);
+				log_msg("\t\tvalue: %i\n", value);
+				break;
+
+			case ARG_INT:
+				byte_count += read_vu30(value, &args[byte_count]);
+				log_msg("\t\tvalue: %i\n", def->m_integer[value]);
+				break;
+
+			case ARG_UINT:
+				byte_count += read_vu30(value, &args[byte_count]);
+				log_msg("\t\tvalue: %ui\n", def->m_uinteger[value]);
+				break;
+
+			case ARG_DOUBLE:
+				byte_count += read_vu30(value, &args[byte_count]);
+				log_msg("\t\tvalue: %f\n", def->m_double[value]);
+				break;
+
+			case ARG_STRING:
+				byte_count += read_vu30(value, &args[byte_count]);
+				log_msg( "\t\tstring: %s\n", def->m_string[value].c_str());
+				break;
+
+			case ARG_COUNT:
+				byte_count += read_vu30(value, &args[byte_count]);
+				log_msg( "\t\tcount: %i\n", value);
+				break;
+
+			case ARG_CLASSINFO:
+				byte_count += read_vu30(value, &args[byte_count]);
+				log_msg( "\t\tclass: %i\n", value);
+				break;
+
+			case ARG_FUNCTION:
+				byte_count += read_vu30( value, &args[byte_count] );
+				//TODO: print signature
+				log_msg( "\t\tfunction: %s\n", def->m_string[def->m_method[value]->m_name].c_str());
+				break;
+
+			case ARG_EXCEPTION:
+				byte_count += read_vu30( value, &args[byte_count] );
+				//TODO: print exception info
+				log_msg( "\t\texception: %i\n", value);
+				break;
+
+			case ARG_REGISTER:
+				byte_count += read_vu30( value, &args[byte_count] );
+				log_msg( "\t\tregister: %i\n", value);
+				break;
+
+			case ARG_SLOTINDEX:
+				byte_count += read_vu30( value, &args[byte_count] );
+				log_msg( "\t\tslot index: %i\n", value);
+				break;
+
+			case ARG_OFFSET:
+				value = args[byte_count] | args[byte_count+1]<<8 | args[byte_count+2]<<16;
+				byte_count += 3;
+				log_msg( "\t\toffset: %i\n", value);
+				break;
+
+			case ARG_OFFSETLIST:
+				value = args[byte_count] | args[byte_count+1]<<8 | (*(int8*)&args[byte_count+2])<<16; //sign extend the high byte
+				log_msg( "\t\tdefault offset: %i\n", value);
+				byte_count += 3;
+
+				int offset_count;
+				byte_count += read_vu30( offset_count, &args[byte_count] );
+
+				for(int i=0;i<offset_count+1;i++)
+				{
+					value = args[byte_count] | args[byte_count+1]<<8 | (*(int8*)&args[byte_count+2])<<16;
+					log_msg("\t\toffset %i: %i\n", i, value);
+					byte_count +=3;
+				}
+				break;
+
+			case ARG_END:
+				assert(0 && "forbidden");
+				break;
+			}
 		}
 
-		bool has_argument() const { return m_arg_formats.size() != 0;}
-	};
+		return byte_count;
+	}
 
 	static hash<int, inst_info_avm2> s_instr;
 

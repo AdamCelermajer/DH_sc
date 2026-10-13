@@ -1,8 +1,11 @@
 // Test for batch v1-vendor-gameswf-pack19-4d4603-0 (default_bitmap_font_entity::get_char_image's decoding).
-//   bash tools/trackb/check_tu.sh --test port/decomp-reconstruction/vendor-gameswf/tests/v1-vendor-gameswf-pack19-4d4603-0_test.cpp
 // The decode helpers in vendor-gameswf/bitmap_glyph_decode.hpp are the arithmetic that get_char_image runs on the font
 // file: big-endian fields, the packed pixel runs (with and without the repeat bit), and the scaled advance. The test
 // needs no engine and no file: each case builds the bytes it decodes.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 
 #include <cstdint>
 #include <cstdio>

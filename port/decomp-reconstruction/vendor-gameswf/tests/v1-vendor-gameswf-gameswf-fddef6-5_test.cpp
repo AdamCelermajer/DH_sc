@@ -5,10 +5,12 @@
 // average of make_next_miplevel, the TGA header of write_tga, the clamp of the memory seek callback, and the
 // window decision of buffered_seek.
 //
-//   bash tools/trackb/check_tu.sh --test port/decomp-reconstruction/vendor-gameswf/tests/v1-vendor-gameswf-gameswf-fddef6-5_test.cpp
-//
 // The batch .cpp is not linked here. Its bodies need the image constructors, the jpeg and tu_file code and the
 // allocator, which are in other units (as in the fddef6-3 batch).
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//   (no other source is linked)
 
 #include <climits>
 #include <cstdint>

@@ -2,6 +2,15 @@
 // that the rebuilt tables keep every entry (tu_stringi key, region-pointer key), and html_reader::parse_tag.
 // set_raw_capacity is private in base/container.h, so the tables are resized through the public set_capacity(),
 // which calls it. Returns non-zero when a check fails.
+//
+// The stand-ins below replace the allocator and ref_counted bodies, which are other batches.
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack10-9a32ad-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/container.cpp
+//     port/decomp-reconstruction/vendor-gameswf/upstream/gameswf-r1714/base/utf8.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
 
 #include <cstdio>
 #include <cstdlib>
@@ -16,6 +25,11 @@
 namespace gameswf {
 void* malloc_internal(unsigned int size, swf::MemHint) { return std::malloc(size); }
 void free_internal(void* p, unsigned int) { std::free(p); }
+void* realloc_internal(void* p, unsigned int new_size, unsigned int, swf::MemHint) { return std::realloc(p, new_size); }
+// html_reader holds an array of edit_text_character::text_attributes, whose font pointer calls drop_ref when the array
+// destroys an element. The reader in these tests never holds an element, so the counting functions are never reached.
+void ref_counted::add_ref() const {}
+void ref_counted::drop_ref() {}
 }  // namespace gameswf
 
 namespace {

@@ -186,13 +186,9 @@ void BlendedAnimSetController::StopClip(bool, unsigned int) {}
 void BlendedAnimSetController::SetScale(float, unsigned int) {}
 void BlendedAnimSetController::SetCallbacks(AnimCallback, void*, EventCallback, void*) {}
 
-int VisualFXManager::PlayAnimFXSet(int, const GameObject*, VisualFXManager::AnimFXSetData*) {
-    return 0;
-}
-int VisualFXManager::PlayAnimFXSet(int, const Point3D<float>&, const Point3D<float>&, const GameObject*,
-                                   VisualFXManager::AnimFXSetData*) {
-    return 0;
-}
+void VisualFXManager::PlayAnimFXSet(int, const GameObject*, VisualFXManager::AnimFXSetData*) {}
+void VisualFXManager::PlayAnimFXSet(int, const Point3D<float>&, const Point3D<float>&, const GameObject*,
+                                    VisualFXManager::AnimFXSetData*) {}
 void VisualFXManager::RegisterFXSetToLoad(int) {}
 VisualFXManager::VisualFXManager() {}
 VisualFXManager::~VisualFXManager() {}

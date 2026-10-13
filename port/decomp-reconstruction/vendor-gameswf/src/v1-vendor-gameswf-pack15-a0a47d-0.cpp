@@ -127,9 +127,9 @@ image_rgb::~image_rgb() {}
 // returned no bytes. Otherwise it subtracts the bytes read and goes on with i advanced by the same count. The
 // return value is the last result: the eof flag, or the last read count.
 //
-// The binary's tu_file has one more 4-byte field before the read callback than the vendored base/tu_file.h, so
-// its read, eof and error fields are at +0x08, +0x1c and +0x24, where the vendored header has them at +0x04,
-// +0x18 and +0x20. The extra field is not identified, so it is not declared here (see the DH2 note in tu_file.h).
+// The binary's tu_file has one more 4-byte field before the read callback than r1714: the open hook at +0x04
+// (m_open in base/tu_file.h, which the filename constructor fills with the file system's open function), so its read, eof
+// and error fields are at +0x08, +0x1c and +0x24.
 // buf->data() asserts that buf is not read-only. The binary has no such check. read_fully is only called with a
 // writable buffer.
 int tu_file::read_fully(membuf* buf, int bytes) {

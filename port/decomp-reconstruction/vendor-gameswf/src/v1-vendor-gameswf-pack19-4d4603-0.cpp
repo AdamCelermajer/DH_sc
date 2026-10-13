@@ -7,14 +7,13 @@
 //   0x7c56ec hash<int, glyph_entity*, fixed_size_hash<int>>::set_raw_capacity (declared in bitmap_hash_dh2.hpp)
 //   0x7c5e58 hash<tu_stringi, smart_ptr<bitmap_font_entity>, stringi_hash_functor<tu_stringi>>::set_raw_capacity
 //            (declared in bitmap_hash_dh2.hpp)
-// Partial, written (2): 0x7c663c and 0x7c68c4 default_bitmap_font_entity constructors (C2 and C1, one body). See the
-//   comment on the constructor for the two stores that are not reproduced.
+// Reconstructed (2): 0x7c663c and 0x7c68c4 default_bitmap_font_entity constructors (C2 and C1, one body). The stores the
+//   binary makes into the name bytes first are the inlined tu_string default constructor (see the comment on the constructor).
 // Upstream, no body here (2): hash<tu_stringi, smart_ptr<bitmap_font_entity>>::entry constructors 0x7c5c10 (key, value,
 //   next, hash) and 0x7c5c4c (copy). Both are base/container.h's inline entry members, instantiated for this table.
-// Partial, not written (6): button_character_instance::hit_test (0x7c6ba0), ~button_character_instance (0x7c7ac0),
-//   get_root_movie (0x7c8020), get_mouse_state (0x7c873c), button_record copy constructor (0x7c708c) and
-//   button_character_definition::button_sound_def destructor (0x7c72ec). The class and layouts are not declared in the
-//   tree (see the comments at the end of this file).
+// Reconstructed (6, at the end of this file): button_character_instance::hit_test (0x7c6ba0), ~button_character_instance
+//   (0x7c7ac0), get_root_movie (0x7c8020), get_mouse_state (0x7c873c), button_record copy constructor (0x7c708c) and
+//   button_character_definition::button_sound_def destructor (0x7c72ec). The classes are declared in gameswf_button.h.
 // Skipped (2): deleting destructors 0x7c6554 (default_bitmap_font_entity D0) and 0x7c7b24 (button_character_instance D0).
 //   Each is D1 followed by the delete of the object, which the compiler emits from delete.
 //
@@ -27,6 +26,7 @@
 #include <cstdint>
 
 #include "base/container.h"
+#include "gameswf/gameswf_button.h"  // button_character_instance, button_record, button_sound_def
 #include "base/membuf.h"
 #include "base/smart_ptr.h"
 #include "base/tu_file.h"
@@ -254,11 +254,9 @@ default_bitmap_font_entity::~default_bitmap_font_entity() {
 
 // 0x7c663c gameswf::default_bitmap_font_entity::default_bitmap_font_entity(gameswf::bitmap_glyph_provider*, gameswf::tu_string const&)   [C2]
 // 0x7c68c4 gameswf::default_bitmap_font_entity::default_bitmap_font_entity(gameswf::bitmap_glyph_provider*, gameswf::tu_string const&)   [C1, same body]
-// PARTIAL. Written in full except for the stores the binary makes first, into the name (+0x10 and +0x11) and into the
-// word at +0x20 and its top byte at +0x23. Those bytes are inside the name's 20 bytes, and the binary then copies the
-// name over them. The +0x20 store takes its value from the word that was there before the constructor ran, so it has
-// no meaning here. Whether the name copy writes every one of those bytes depends on the tu_string layout, which is not in
-// the tree. So the stores are not reproduced.
+// The stores the binary makes first, into the name (+0x10, +0x11) and into the word at +0x20 with its top byte at +0x23, are the
+// inlined default constructor of the 20-byte tu_string member (init_empty: length byte 1, empty text, hash cache 0xFFFFFF,
+// interned bit clear); the member's own default constructor does the same, then the name is assigned.
 // The file is opened "rb". The constructor reads the 40-byte header and then the offset table. When the provider's
 // m_flag is set, it reads the rest of the file into m_preloaded (the table's size is the base of the glyph offsets) and
 // closes the file. Otherwise the file stays open for get_char_image. A file that does not open is closed and dropped.
@@ -299,33 +297,64 @@ default_bitmap_font_entity::default_bitmap_font_entity(bitmap_glyph_provider* pr
 
 }  // namespace gameswf
 
-// ---- Button records and button sound definitions: not written -----------------------------------------------------
-// These functions are in gameswf/gameswf_button.cpp upstream, and the class gameswf::button_character_instance has no
-// declaration in the tree. gameswf/gameswf_button.h does not compile in this tree (tu_gc_singlethreaded_refcount.h,
-// decrement_ref), so button_record and button_sound_def cannot be included either. Nothing below is written.
-//
-// 0x7c6ba0 gameswf::button_character_instance::hit_test(float,float)   PARTIAL, not written.
-//   The body is one virtual call: vtable slot +0x68 (decomp_vtable: button_character_instance::get_topmost_mouse_entity
-//   (float, float)), compared with 0. The result is returned as bool. The class declaration is missing.
-// 0x7c7ac0 gameswf::button_character_instance::~button_character_instance()   PARTIAL, not written.
-//   Sets the vtable, resizes and reserves(0) the array<smart_ptr<character>> at +0xa4, drops the ref at +0xa0, then calls
-//   gameswf::character::~character(this). The members +0xa0 and +0xa4 and the base layout are not in the tree.
-// 0x7c7b24 gameswf::button_character_instance::~button_character_instance()   SKIPPED: the deleting destructor. It calls
-//   D1 and then LC_API_FREE_0 (operator delete), which the compiler emits from delete.
-// 0x7c8020 gameswf::button_character_instance::get_root_movie()   PARTIAL, not written.
-//   Reads a weak reference: the raw pointer at +0x40 and the proxy at +0x3c, whose byte at +4 is the alive flag. The
-//   decompile calls a virtual at +0x134 on the null branch and ends with a call to 0x464c46b3, which is not code. The
-//   assembly of the tail has to be checked before the function can be written.
-// 0x7c873c gameswf::button_character_instance::get_mouse_state(int*, int*, int*)   PARTIAL, not written.
-//   The same weak-reference release as get_root_movie, then a virtual at +0x70 called with the first argument only. The
-//   symbol takes three int pointers and the decompile shows four arguments, so the signature is not settled.
-// 0x7c708c gameswf::button_record::button_record(gameswf::button_record const&)   PARTIAL, not written.
-//   The layout of gameswf/gameswf_button.h's button_record matches the binary up to +0x4c (matrix at +0x14, cxform at
-//   +0x2c, blend mode at +0x4c). The binary adds a filter array at +0x50 (array<filter>, count +0x54), a byte at +0x5c
-//   that the copy zeroes rather than copying, and an int at +0x60 that it copies. The filter type is not declared in the
-//   tree, and the header does not compile.
-// 0x7c72ec gameswf::button_character_definition::button_sound_def::~button_sound_def()   PARTIAL, not written.
-//   The destructor destroys the four array<sound_envelope> members at +0x1c of each element, in reverse order. Its element
-//   stride is 44 bytes; gameswf_button.h's button_sound_info is 40 bytes, so the struct differs by a 4-byte field the
-//   binary has and the header does not. The destruction order is what an implicit destructor gives, but the layout
-//   difference is not identified.
+// ---- Button instance rows and button records ----------------------------------------------------------------------
+// The button classes are declared in gameswf_button.h (layouts in the comments there); the rest of the button instance and
+// definition is v1-vendor-gameswf-gameswf_button-7c6b4c-0.cpp.
+
+namespace gameswf {
+
+// 0x7c6ba0 gameswf::button_character_instance::hit_test(float, float)
+// One virtual call: slot +0x68, get_topmost_mouse_entity(float, float), compared with null.
+bool button_character_instance::hit_test(float x, float y) {
+	return get_topmost_mouse_entity(x, y) != nullptr;
+}
+
+// 0x7c7ac0 gameswf::button_character_instance::~button_character_instance()   [D1]
+// The binary empties and frees the record character array (+0xa4), drops the definition (+0xa0) and runs
+// character::~character. The member destructors do the same, in that order. 0x7c7b24 is the deleting destructor (D0):
+// compiler-generated.
+button_character_instance::~button_character_instance() {
+}
+
+// 0x7c8020 gameswf::button_character_instance::get_root_movie()
+// The parent's get_root_movie (slot +0x134). The asm releases a dead parent link and then calls through the null pointer
+// it left, so a button without a live parent crashes in the binary; the call below does the same.
+character* button_character_instance::get_root_movie() {
+	return get_parent()->get_root_movie();
+}
+
+// 0x7c873c gameswf::button_character_instance::get_mouse_state(int*, int*, int*)
+// The parent's get_mouse_state (slot +0x70) with the same three pointers (the decompile shows only the first: the asm keeps
+// r2 and r3). A dead parent link is released first, and the call goes through the null pointer left behind.
+void button_character_instance::get_mouse_state(int* x, int* y, int* buttons) {
+	get_parent()->get_mouse_state(x, y, buttons);
+}
+
+// 0x7c708c gameswf::button_record::button_record(gameswf::button_record const&)
+// Copies the six flag bytes, the id, the definition pointer, the layer, the matrix, the colour transform and the effect's
+// blend word; the filter array is a new array resized to the source's size with every 44-byte filter copied; then the
+// blend mode word (+0x60).
+button_record::button_record(const button_record& rec) :
+	m_has_blend_mode(rec.m_has_blend_mode),
+	m_has_filter_list(rec.m_has_filter_list),
+	m_hit_test(rec.m_hit_test),
+	m_down(rec.m_down),
+	m_over(rec.m_over),
+	m_up(rec.m_up),
+	m_character_id(rec.m_character_id),
+	m_character_def(rec.m_character_def),
+	m_button_layer(rec.m_button_layer),
+	m_button_matrix(rec.m_button_matrix),
+	m_button_cxform(rec.m_button_cxform),
+	m_blend_mode(rec.m_blend_mode) {
+	m_effect.m_blend_mode = rec.m_effect.m_blend_mode;
+	m_effect.m_filters = rec.m_effect.m_filters;
+}
+
+// 0x7c72ec gameswf::button_character_definition::button_sound_def::~button_sound_def()
+// The binary walks the four sound infos from the last to the first and empties each envelope array (resize 0, reserve 0).
+// The member destructors of button_sound_info[4] do that in the same order.
+button_character_definition::button_sound_def::~button_sound_def() {
+}
+
+}  // namespace gameswf

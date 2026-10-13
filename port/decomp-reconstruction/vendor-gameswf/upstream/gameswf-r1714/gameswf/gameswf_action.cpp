@@ -78,6 +78,33 @@ namespace gameswf
 	// Function/method dispatch.
 	//
 
+	// DH2: 0x7ba904. The only call_method in the binary: the dispatch takes a debug label that goes into the fn_call. The result
+	// DH2: starts undefined; a method that is not a function leaves it so (the r1714 error log is verbose-only and absent).
+	// DH2: The definition is in vendor-gameswf/src/v1-vendor-gameswf-pack17-c88d12-0.cpp (declared in gameswf_action.h).
+
+	// DH2: r1714's five-argument forms, kept for the upstream call sites that have no label yet; they call that definition with
+	// DH2: the label "???".
+	as_value	call_method(
+		as_function* func,
+		as_environment* env,
+		const as_value& this_ptr,
+		int nargs,
+		int first_arg_bottom_index)
+	{
+		return call_method(as_value(func), env, this_ptr, nargs, first_arg_bottom_index, "???");
+	}
+
+	as_value	call_method(
+		const as_value& method,
+		as_environment* env,
+		const as_value& this_ptr,
+		int nargs,
+		int first_arg_bottom_index)
+	{
+		return call_method(method, env, this_ptr, nargs, first_arg_bottom_index, "???");
+	}
+
+#if 0 /* DH2: the two r1714 definitions above (as_function* and as_value method) are replaced by the 0x7ba904 body and the forwarders */
 	as_value	call_method(
 		as_function* func,
 		as_environment* env,
@@ -126,6 +153,8 @@ namespace gameswf
 
 		return val;
 	}
+
+#endif /* DH2 */
 
 	const char*	call_method_parsed(
 		as_environment* env,
@@ -353,6 +382,7 @@ namespace gameswf
 #endif  // DH2: action_buffer ctor replaced, see above
 
 
+#if 0 /* DH2: replaced by v1-vendor-gameswf-pack17-c88d12-0.cpp (action_buffer::read, 0x7bafa4: reserves the rest of the tag, records m_action_offset) */
 	void	action_buffer::read(stream* in)
 	{
 		// Read action bytes.
@@ -388,9 +418,10 @@ namespace gameswf
 			}
 		}
 	}
+#endif  // DH2: action_buffer::read replaced, see above
 
 
-#if 0 /* DH2: process_decl_dict uses m_dictionary (upstream array<tu_string>), which is not in the DH2 binary layout (vendor-gameswf/include/vendor-gameswf/action_buffer.hpp). Not reconstructed; layout request. */
+#if 0 /* DH2: replaced by v1-vendor-gameswf-pack17-c88d12-0.cpp (action_buffer::process_decl_dict, 0x7bb9a0): the dictionary is counted_buffer::m_dictionary (array<const tu_string*>) and its strings are interned in the player's permanent string cache */
 	void	action_buffer::process_decl_dict(int start_pc, int stop_pc)
 	// Interpret the decl_dict opcode.  Don't read stop_pc or
 	// later.  A dictionary is some static strings embedded in the
@@ -477,7 +508,7 @@ namespace gameswf
 			i++;
 		}
 	}
-#endif  // DH2: process_decl_dict body not reconstructed, see above
+#endif  // DH2: process_decl_dict replaced, see above
 
 #if 0 /* DH2: replaced by v1-vendor-gameswf-pack17-c88d12-0.cpp (action_buffer::execute(as_environment*), 0x7c0690; same call, the assert is compiled out there) */
 	void	action_buffer::execute(as_environment* env)
@@ -555,7 +586,7 @@ namespace gameswf
 		return NULL;
 	}
 	
-#if 0 /* DH2: operator= copies m_dictionary, which is not in the DH2 binary layout (action_buffer.hpp). Not reconstructed; layout request. */
+#if 0 /* DH2: replaced by v1-vendor-gameswf-pack17-c88d12-0.cpp (action_buffer::operator=, 0x7bb1e4: shares the counted buffer by hand-counted reference, copies the two ints and m_action_offset) */
 	void action_buffer::operator=(const action_buffer& ab)
 	{
 		// TODO: optimize
@@ -563,7 +594,7 @@ namespace gameswf
 		m_dictionary = ab.m_dictionary;
 		m_decl_dict_processed_at = ab.m_decl_dict_processed_at;
 	}
-#endif  // DH2: action_buffer::operator= body not reconstructed, see above
+#endif  // DH2: action_buffer::operator= replaced, see above
 
 	void	action_buffer::execute(
 		as_environment* env,
@@ -933,12 +964,15 @@ namespace gameswf
 					}
 					env->drop(3);
 
-					if (targetChar)
+					// DH2: the drag state goes to the target's root movie (virtual character::set_drag_state, +0xe0), which keeps it
+					// DH2: in the root (the binary calls get_target()->get_root_movie()->set_drag_state(&st) when both exist)
 					{
-						root* swfRoot = env->get_root();
-						assert( swfRoot );
-						swfRoot->set_drag_state(st);
-					}					
+						character* root_movie = env->get_target()->get_root_movie();
+						if (root_movie && targetChar)
+						{
+							root_movie->set_drag_state(st);
+						}
+					}
 					break;
 				}
 
@@ -1224,10 +1258,12 @@ namespace gameswf
 					}
 
 					// places new object to heap
+#if 0 /* DH2: player::set_alive has no counterpart in the binary; as_object::as_object registers every object in player::m_heap */
 					if (new_obj.to_object())
 					{
 						env->get_player()->set_alive(new_obj.to_object());
 					}
+#endif /* DH2 */
 
 					env->drop(nargs);
 					env->push(new_obj);
@@ -1366,7 +1402,7 @@ namespace gameswf
 					{
 						// try property/method of a primitive type, like String.length
 						as_value val;
-						env->top(1).find_property(env->top(0).to_tu_string(), &val);
+						env->top(1).get_member(env->top(0).to_tu_string(), &val);	// DH2: as_value::get_member (0x796fd0) replaces find_property
 						if (val.is_property())
 						{
 							val.get_property(env->top(1), &val);
@@ -1454,7 +1490,7 @@ namespace gameswf
 					const tu_string&	method_name = env->top(0).to_tu_string();
 
 					as_value func;
-					if (env->top(1).find_property(method_name, &func))
+					if (env->top(1).get_member(method_name, &func))	// DH2: as_value::get_member (0x796fd0) replaces find_property
 					{
 						result = call_method(
 							func,
@@ -1611,7 +1647,9 @@ namespace gameswf
 
 
 					// places new object to heap
+#if 0 /* DH2: player::set_alive has no counterpart in the binary; as_object::as_object registers every object in player::m_heap */
 					env->get_player()->set_alive(new_obj.get_ptr());
+#endif /* DH2 */
 
 					env->drop(nargs);
 					env->push(new_obj.get_ptr());
@@ -1760,7 +1798,7 @@ namespace gameswf
 						if (get_fscommand_callback())
 						{
 							// Call into the app.
-							character* mroot = env->get_player()->get_root_movie();
+							character* mroot = env->get_target()->get_root_movie();	// DH2: the target's root movie (vtable +0x134)
 							assert(mroot);
 							(*get_fscommand_callback())(mroot, url + 10, target);
 						}
@@ -1810,7 +1848,7 @@ namespace gameswf
 					//int	count = buffer[pc + 3] | (buffer[pc + 4] << 8);
 					i += 2;
 
-					const_cast<action_buffer*>( this )->process_decl_dict(pc, next_pc);
+					const_cast<action_buffer*>( this )->process_decl_dict(pc, next_pc, env->get_player());	// DH2: 0x7bb9a0 takes the player (permanent strings)
 
 					break;
 				}
@@ -2112,13 +2150,15 @@ namespace gameswf
 						{
 							int	id = buffer[3 + i];
 							i++;
-								UNUSED(id);  // DH2: the dictionary push (PUSH type 8) is not reconstructed, see the #if 0 below
-#if 0 /* DH2: PUSH type 8 dictionary lookup needs m_dictionary, which is not in the DH2 binary layout (action_buffer.hpp). Not reconstructed; layout request. */
-							if (id < m_dictionary.size())
+							// DH2: the dictionary is in the counted buffer (array<const tu_string*>) and holds interned strings, which the
+							// DH2: value borrows (as_value type 3, no owner) instead of copying
+							if (id < m_buffer->m_dictionary.size())
 							{
-								env->push(m_dictionary[id]);
+								as_value	dict_value;
+								dict_value.set_tu_string(*m_buffer->m_dictionary[id]);
+								env->push(dict_value);
 
-								IF_VERBOSE_ACTION(log_msg("-------------- pushed '%s'\n", m_dictionary[id].c_str()));
+								IF_VERBOSE_ACTION(log_msg("-------------- pushed '%s'\n", m_buffer->m_dictionary[id]->c_str()));
 							}
 							else
 							{
@@ -2126,18 +2166,18 @@ namespace gameswf
 								env->push(0);
 								IF_VERBOSE_ACTION(log_msg("-------------- pushed 0\n"));
 							}
-#endif  // DH2: PUSH type 8 dictionary lookup not reconstructed, see above
 						}
 						else if (type == 9)
 						{
 							int	id = buffer[3 + i] | (buffer[4 + i] << 8);
 							i += 2;
-								UNUSED(id);  // DH2: the dictionary push (PUSH type 9) is not reconstructed, see the #if 0 below
-#if 0 /* DH2: PUSH type 9 dictionary lookup needs m_dictionary, which is not in the DH2 binary layout (action_buffer.hpp). Not reconstructed; layout request. */
-							if (id < m_dictionary.size())
+							// DH2: same as type 8 (borrowed interned string from the counted buffer's dictionary)
+							if (id < m_buffer->m_dictionary.size())
 							{
-								env->push(m_dictionary[id]);
-								IF_VERBOSE_ACTION(log_msg("-------------- pushed '%s'\n", m_dictionary[id].c_str()));
+								as_value	dict_value;
+								dict_value.set_tu_string(*m_buffer->m_dictionary[id]);
+								env->push(dict_value);
+								IF_VERBOSE_ACTION(log_msg("-------------- pushed '%s'\n", m_buffer->m_dictionary[id]->c_str()));
 							}
 							else
 							{
@@ -2146,7 +2186,6 @@ namespace gameswf
 
 								IF_VERBOSE_ACTION(log_msg("-------------- pushed 0"));
 							}
-#endif  // DH2: PUSH type 9 dictionary lookup not reconstructed, see above
 						}
 					}
 					
@@ -2163,7 +2202,7 @@ namespace gameswf
 				case 0x9A:	// get url2
 				{
 					CHECK_STACK(2);
-					int	method = buffer[pc + 3];
+					// DH2: the send-method byte (buffer[pc + 3]) is not read; load_file takes the url and the target only
 					const char*	url = env->top(1).to_string();
 
 					// If the url starts with "FSCommand:", then this is
@@ -2173,14 +2212,14 @@ namespace gameswf
 						if (get_fscommand_callback())
 						{
 							// Call into the app.
-							character* mroot = env->get_player()->get_root_movie();
+							character* mroot = env->get_target()->get_root_movie();	// DH2: the target's root movie (vtable +0x134)
 							assert(mroot);
 							(*get_fscommand_callback())(mroot, url + 10, env->top(0).to_string());
 						}
 					}
 					else
 					{
-						env->load_file(url, env->top(0), method);
+						env->load_file(url, env->top(0));	// DH2: 0x7cdaac, no method argument
 					}
 					env->drop(2);
 					break;

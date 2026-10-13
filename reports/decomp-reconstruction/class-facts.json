@@ -5926,6 +5926,24 @@
   "functions": 6,
   "vtable_bytes": null
  },
+ "lib-box2d": {
+  "alloc_sizes": [],
+  "bases": [],
+  "category": "vendor-box2d",
+  "ctors": [],
+  "embedded": [],
+  "functions": 318,
+  "vtable_bytes": null
+ },
+ "lib-gameswf": {
+  "alloc_sizes": [],
+  "bases": [],
+  "category": "vendor-gameswf",
+  "ctors": [],
+  "embedded": [],
+  "functions": 2474,
+  "vtable_bytes": null
+ },
  "lib-image-zip-font": {
   "alloc_sizes": [],
   "bases": [],
@@ -5942,6 +5960,15 @@
   "ctors": [],
   "embedded": [],
   "functions": 15,
+  "vtable_bytes": null
+ },
+ "lib-lua": {
+  "alloc_sizes": [],
+  "bases": [],
+  "category": "vendor-lua",
+  "ctors": [],
+  "embedded": [],
+  "functions": 577,
   "vtable_bytes": null
  },
  "lib-online-glx": {

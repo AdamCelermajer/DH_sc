@@ -185,8 +185,8 @@ VisualFXManager::~VisualFXManager() {}
 VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
 VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
 template class Singleton<VisualFXManager>;
-int VisualFXManager::PlayAnimFXSet(int, const GameObject*, AnimFXSetData*) { return 0; }
-int VisualFXManager::PlayAnimFXSet(int, const Point3D<float>&, const GameObject*, AnimFXSetData*) { return 0; }
+void VisualFXManager::PlayAnimFXSet(int, const GameObject*, AnimFXSetData*) {}
+void VisualFXManager::PlayAnimFXSet(int, const Point3D<float>&, const GameObject*, AnimFXSetData*) {}
 AnimatedFX* VisualFXManager::GrabAnimFX(int, GameObject*) { return nullptr; }
 
 int main() {

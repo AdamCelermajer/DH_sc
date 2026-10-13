@@ -11,6 +11,7 @@
 
 #include "gameswf/gameswf_action.h"	// for as_object
 #include "gameswf/gameswf_listener.h"	// for listener
+#include "gameswf/gameswf_movie_def.h"	// DH2: movie_def_impl must be complete for loadable_movie (its destructor releases the definition)
 
 namespace gameswf
 {
@@ -46,15 +47,11 @@ namespace gameswf
 			character* m_ch;
 		};
 
-		// DH2: binary layout (as_object is 56 bytes). Listener block +0x38 (16 bytes: array part,
-		// then a flag at +0x44); m_lm +0x48; unk_54 +0x54. The listener class is not DH2-defined yet.
-#if 0 /* DH2: replaced by the listener block members below (binary +0x38) */
-		listener m_listeners;
-#endif
-		array< weak_ptr<as_object> >	m_listener_items;	// DH2: +0x38, listener block array part (12 bytes)
-		bool	unk_44;	// DH2: +0x44, listener block flag; the binary never releases it
+		// DH2: 0x58 bytes: as_object (0x38), m_listeners +0x38 (the 16-byte listener), m_lm +0x48 (array<loadable_movie>, 16 bytes;
+		// DH2: each loadable_movie is 16 bytes: m_def +0x00, m_target +0x04 (weak, proxy and pointer), m_ch +0x0c).
+		// DH2: Vtable off_990db8: D1 0x7a30c4 (D2 0x7a2aec), D0 0x7a312c, is +0x08 (0x7a2584), advance +0x5c (0x7a3148).
+		listener m_listeners;	// +0x38
 		array<loadable_movie> m_lm;	// +0x48
-		bool	unk_54;	// DH2: +0x54, cleared by the constructor; no batch reads it yet
 
 		as_mcloader(player* player);
 		~as_mcloader();

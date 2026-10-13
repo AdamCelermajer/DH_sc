@@ -2,23 +2,14 @@
 //
 // gameswf r1714 with Gameloft changes, as built into libDungeonHunter2.so (32-bit ARM).
 // Bodies follow the Hex-Rays pseudocode. Per-function status and notes are in
-// ledger.d/v1-vendor-gameswf-gameswf-fddef6-2.csv.
+// vendor-gameswf/ledger.csv (the rows of this file in ledger.d/gameswf-core-asruntime.csv).
 //
 // Globals defined here have external linkage, as in the binary. The matching upstream
 // statics in gameswf_movie_def.cpp and gameswf_player.cpp are now extern declarations.
 //
-// BUILD STATUS (fix pass, 2026-10-13): check_tu.sh FAILS on this file, and on every other TU that
-// includes gameswf/gameswf.h. The batch's own code has no errors. Every error that remains comes
-// from the vendored tree, and the integrator owns those fixes:
-//   1. gameswf/gameswf.h:49 (DECLARE_GC_TYPES(tu_gc::singlethreaded_refcount)) instantiates
-//      gc_ptr<as_object> and gc_ptr<character>. base/tu_gc_singlethreaded_refcount.h:120,123
-//      then needs a gc_object_collector_base, but as_object_interface derives from ref_counted
-//      (gameswf/gameswf.h:225). Pre-existing; game-app
-//      g1-game-app-global-f216b6-21_gameswf.cpp fails the same way.
-//   2. gameswf/gameswf_abc.h:224: abc_def::get_super_class reads instance_info::m_super_name,
-//      which the tree's instance_info does not declare.
-// The earlier blockers (bitmap_info duplicate declarations, action_buffer, traits_info) no longer
-// reproduce. Every row stays partial until the headers build.
+// The tables in this file use the DH2 declarations in gameswf_action.h: the as_standard_member numbering (46 names, from
+// _x to concatenatedColorTransform) and the builtin_object ids 0 to 7 (BUILTIN_FUNCTION_METHOD, BUILTIN_TEXTFIELD_METHOD and
+// BUILTIN_ARRAY_METHOD are the binary-only 5, 6 and 7).
 
 #include <cstddef>
 #include <cstdint>
@@ -102,59 +93,59 @@ void add_getter_property(stringi_hash<as_value>* map, const char* name, as_c_fun
 struct standard_member_name
 {
 	const char* name;
-	int id;  // binary value of as_standard_member
+	as_standard_member id;  // the DH2 numbering of gameswf_action.h
 };
 
-// Standard property names in the binary's insertion order. The ids are the DH2 numbering.
-// It differs from the r1714 enum in gameswf_action.h: htmlText (23) and textHeight (25) are
-// absent there, and ids 32 to 45 are shifted. See the notes in the ledger.
+// Standard property names in the binary's insertion order, with the DH2 numbering of the enum in gameswf_action.h
+// (46 entries; r1714 lacks htmlText, textHeight, Stage, transform, matrix, concatenatedMatrix, colorTransform and
+// concatenatedColorTransform and has password and onMouseMove, which this table does not contain).
 const standard_member_name kStandardMembers[] = {
-	{"_x", 0},
-	{"_y", 1},
-	{"_xscale", 2},
-	{"_yscale", 3},
-	{"_currentframe", 4},
-	{"_totalframes", 5},
-	{"_alpha", 6},
-	{"_visible", 7},
-	{"_width", 8},
-	{"_height", 9},
-	{"_rotation", 10},
-	{"_target", 11},
-	{"_framesloaded", 12},
-	{"_name", 13},
-	{"_droptarget", 14},
-	{"_url", 15},
-	{"_highquality", 16},
-	{"_focusrect", 17},
-	{"_soundbuftime", 18},
-	{"_xmouse", 19},
-	{"_ymouse", 20},
-	{"_parent", 21},
-	{"text", 22},
-	{"htmlText", 23},
-	{"textWidth", 24},
-	{"textHeight", 25},
-	{"textColor", 26},
-	{"border", 27},
-	{"multiline", 28},
-	{"wordWrap", 29},
-	{"type", 30},
-	{"backgroundColor", 31},
-	{"_this", 32},
-	{"this", 33},
-	{"_root", 34},
-	{".", 35},
-	{"..", 36},
-	{"_level0", 37},
-	{"_global", 38},
-	{"Stage", 39},
-	{"enabled", 40},
-	{"transform", 41},
-	{"matrix", 42},
-	{"concatenatedMatrix", 43},
-	{"colorTransform", 44},
-	{"concatenatedColorTransform", 45},
+	{"_x", M_X},
+	{"_y", M_Y},
+	{"_xscale", M_XSCALE},
+	{"_yscale", M_YSCALE},
+	{"_currentframe", M_CURRENTFRAME},
+	{"_totalframes", M_TOTALFRAMES},
+	{"_alpha", M_ALPHA},
+	{"_visible", M_VISIBLE},
+	{"_width", M_WIDTH},
+	{"_height", M_HEIGHT},
+	{"_rotation", M_ROTATION},
+	{"_target", M_TARGET},
+	{"_framesloaded", M_FRAMESLOADED},
+	{"_name", M_NAME},
+	{"_droptarget", M_DROPTARGET},
+	{"_url", M_URL},
+	{"_highquality", M_HIGHQUALITY},
+	{"_focusrect", M_FOCUSRECT},
+	{"_soundbuftime", M_SOUNDBUFTIME},
+	{"_xmouse", M_XMOUSE},
+	{"_ymouse", M_YMOUSE},
+	{"_parent", M_PARENT},
+	{"text", M_TEXT},
+	{"htmlText", M_HTMLTEXT},
+	{"textWidth", M_TEXTWIDTH},
+	{"textHeight", M_TEXTHEIGHT},
+	{"textColor", M_TEXTCOLOR},
+	{"border", M_BORDER},
+	{"multiline", M_MULTILINE},
+	{"wordWrap", M_WORDWRAP},
+	{"type", M_TYPE},
+	{"backgroundColor", M_BACKGROUNDCOLOR},
+	{"_this", M_THIS},
+	{"this", MTHIS},
+	{"_root", M_ROOT},
+	{".", MDOT},
+	{"..", MDOT2},
+	{"_level0", M_LEVEL0},
+	{"_global", M_GLOBAL},
+	{"Stage", M_STAGE},
+	{"enabled", M_ENABLED},
+	{"transform", M_TRANSFORM},
+	{"matrix", M_MATRIX},
+	{"concatenatedMatrix", M_CONCATENATEDMATRIX},
+	{"colorTransform", M_COLORTRANSFORM},
+	{"concatenatedColorTransform", M_CONCATENATEDCOLORTRANSFORM},
 };
 
 // Body of gameswf::collect<T>. The binary maps the stream's buffer, walks the vertices, then
@@ -181,15 +172,7 @@ void collect_stream(const unsigned int* indices, unsigned int count,
 
 }  // namespace
 
-// Standard method tables (BUILTIN ids 0 to 4 are upstream; 5 to 7 are binary-only).
-// The r1714 builtin_object enum and the array sized by BUILTIN_COUNT stop at 4. Upstream
-// BUILTIN_COUNT (gameswf_action.h) has to grow to 8 before ids 5 to 7 are safe.
-namespace {
-inline builtin_object builtin_id(int id)
-{
-	return static_cast<builtin_object>(id);
-}
-}  // namespace
+// Standard method tables (BUILTIN ids 0 to 4 are r1714's; 5 to 7 are binary-only and have enumerators in gameswf_action.h).
 
 // 0x764c5c bool gameswf::is_tag_loaders_initialized()
 bool is_tag_loaders_initialized()
@@ -215,20 +198,15 @@ stringi_hash<as_standard_member>* get_standard_property_map()
 }
 
 // 0x76c870 void gameswf::destruct<gameswf::permanent_string>(gameswf::permanent_string const*)
-// SKIPPED: permanent_string is not declared in r1714 or in this tree. The body (free the
-// heap buffer when the flag byte is 0xff, then free the object) needs its layout.
 // 0x76c9ac void gameswf::destruct<gameswf::bitmap_glyph_provider>(gameswf::bitmap_glyph_provider const*)
-// SKIPPED: bitmap_glyph_provider is not declared in r1714 or in this tree. The binary calls
-// vtable slot 0 and then frees the object. Whether slot 0 is the deleting destructor is not
-// established, so the template cannot be written yet.
+// Both are defined in other files now: the first in v1-vendor-gameswf-pack3-a95b99-0.cpp (with the permanent string
+// cache), the second in v1-vendor-gameswf-pack6-a8bd9d-0.cpp (with ~player_context).
 
 // 0x76d594 gameswf::tu_string* gameswf::get_static_string(gameswf::tu_string const&)
-// PARTIAL: the binary returns permanent_string_cache::get(&s_static_strings, name). The
-// cache and its global are Gameloft types with no definition in r1714 or this tree.
+// The interned copy of the text in the global cache gameswf::s_static_strings (permanent_string_cache::get).
 tu_string* get_static_string(const tu_string& name)
 {
-	(void)name;
-	return nullptr;
+	return s_static_strings.get(name);
 }
 
 // 0x76ef5c void gameswf::register_as_native_function(char const*, void (*)(gameswf::fn_call const&))
@@ -281,7 +259,7 @@ void standard_method_map_init()
 	add_getter_property(v4, "length", string_length);
 
 	// as_s_function builtins (binary id 5)
-	stringi_hash<as_value>* v5 = new_standard_method_map(builtin_id(5));
+	stringi_hash<as_value>* v5 = new_standard_method_map(BUILTIN_FUNCTION_METHOD);
 	add_c_function(v5, "call", as_s_function_call);
 
 	// sprite_instance builtins
@@ -322,12 +300,12 @@ void standard_method_map_init()
 	add_c_function(v6, "addFrameScript", sprite_add_script);
 
 	// text field builtins (binary id 6)
-	stringi_hash<as_value>* v7 = new_standard_method_map(builtin_id(6));
+	stringi_hash<as_value>* v7 = new_standard_method_map(BUILTIN_TEXTFIELD_METHOD);
 	add_c_function(v7, "setTextFormat", set_textformat);
 	add_c_function(v7, "getTextFormat", get_textformat);
 
 	// array builtins (binary id 7)
-	stringi_hash<as_value>* v8 = new_standard_method_map(builtin_id(7));
+	stringi_hash<as_value>* v8 = new_standard_method_map(BUILTIN_ARRAY_METHOD);
 	add_c_function(v8, "toString", as_array_tostring);
 	add_c_function(v8, "push", as_array_push);
 	add_c_function(v8, "pop", as_array_pop);
@@ -352,7 +330,7 @@ as_standard_member get_standard_member(const tu_stringi& name)
 		s_standard_property_map.set_capacity(count);
 		for (const standard_member_name& m : kStandardMembers)
 		{
-			s_standard_property_map.add(tu_stringi(m.name), static_cast<as_standard_member>(m.id));
+			s_standard_property_map.add(tu_stringi(m.name), m.id);
 		}
 		if (s_standard_property_map.size() == 0)
 		{

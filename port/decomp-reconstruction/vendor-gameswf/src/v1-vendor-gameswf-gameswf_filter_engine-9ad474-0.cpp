@@ -17,7 +17,11 @@
 #include <limits>
 #include <utility>
 
+#include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_log.h"
+#include "gameswf/gameswf_sprite.h"
 #include "vendor-gameswf/filter.hpp"
+#include "vendor-gameswf/gameswf_root.hpp"
 
 namespace gameswf {
 namespace {
@@ -80,12 +84,47 @@ void filter_engine::blend(raster& src, raster& dst) {
 void filter_engine::apply_glow(params&) {}
 
 // 0x7572a0 _ZN7gameswf13filter_engine17read_frame_bufferEiiii
-// PARTIAL. The binary grows m_frame_pixels to 4 * width * height bytes, reads the frame through
-// the render handler (vtable +0x3c) and un-premultiplies each pixel with a sqrt table while it
-// swaps the first and third bytes. The render handler and the texture lock calls are not declared
-// yet, so the body is stubbed. The pixel loop in the binary also stops one pixel early (its
-// do-while tests count != 1).
-void filter_engine::read_frame_buffer(int, int, int, int) {}
+// Grows m_pixels to 4 * width * height bytes (new bytes zero), reads the frame into it through the render handler's
+// read_frame_buffer (vtable +0x3c: x, y, width, height and the buffer), then converts the pixels in place: the first and
+// third bytes swap, and a pixel with alpha 1..254 is scaled by 255 / sqrt_table[alpha] (each channel and the alpha, a
+// result above 254 stored as 255). The binary's loop is a do-while that tests the count against 1, so it never
+// converts the last pixel; that is reproduced. A count of zero would run the original loop on a wrapped count; here
+// nothing is converted for a count below two.
+void filter_engine::read_frame_buffer(int x, int y, int width, int height) {
+    int pixel_count = width * height;
+    const int byte_count = 4 * width * height;
+    if (byte_count > m_pixels.size()) {
+        m_pixels.resize(byte_count);
+    }
+    std::uint8_t* pixels = m_pixels.size() > 0 ? &m_pixels[0] : nullptr;
+    s_render_handler->read_frame_buffer(x, y, width, height, pixels);
+    if (pixel_count < 2) {
+        return;
+    }
+    std::uint8_t* p = pixels;
+    for (; pixel_count != 1; --pixel_count, p += 4) {
+        const int b0 = p[0];
+        const int b1 = p[1];
+        const int b2 = p[2];
+        const int alpha = p[3];
+        if (static_cast<std::uint8_t>(alpha - 1) <= 0xFD) {
+            const float scale = 255.0f / static_cast<float>(sqrt_table[alpha]);
+            int v = f2iz(static_cast<float>(b2) * scale);
+            p[0] = v > 254 ? std::uint8_t{255} : static_cast<std::uint8_t>(v);
+            v = f2iz(static_cast<float>(b1) * scale);
+            p[1] = v > 254 ? std::uint8_t{255} : static_cast<std::uint8_t>(v);
+            v = f2iz(static_cast<float>(b0) * scale);
+            p[2] = v > 254 ? std::uint8_t{255} : static_cast<std::uint8_t>(v);
+            v = f2iz(static_cast<float>(alpha) * scale);
+            p[3] = v > 254 ? std::uint8_t{255} : static_cast<std::uint8_t>(v);
+        } else {
+            p[0] = static_cast<std::uint8_t>(b2);
+            p[1] = static_cast<std::uint8_t>(b1);
+            p[2] = static_cast<std::uint8_t>(b0);
+            p[3] = static_cast<std::uint8_t>(alpha);
+        }
+    }
+}
 
 // 0x7575b0 _ZN7gameswf13filter_engine7prepareERNS0_6paramsE
 // Sets the destination rectangle (offset and size) from the source rectangle and the filter.
@@ -338,38 +377,190 @@ void filter_engine::apply(params& p) {
 }
 
 // 0x75830c _ZN7gameswf13filter_engine27collect_filtered_charactersEPNS_9characterE
-// PARTIAL. The binary appends the character to m_filtered_characters when it has a filter, then
-// recurses into its children (its children array and count sit in the character object). The
-// character layout (flag +0x9b, world colour transform, child list +0xa8 and count +0xac) is not
-// declared yet, so the body is stubbed.
-void filter_engine::collect_filtered_characters(character*) {}
+// A character takes part when it is visible (byte +0x9b) and the alpha multiplier of its world colour transform
+// (float 6 of the cxform) is not zero. If its effect (+0x50) has filters it is appended to m_filtered_characters
+// (the array grows to 1.5 times the new count when the buffer is full). A sprite (virtual is(2), the sprite class id) then
+// recurses into the characters of its display list (+0xa8: buffer, count at +0xac), in order.
+void filter_engine::collect_filtered_characters(character* c) {
+    if (!c->m_visible) {
+        return;
+    }
+    if (c->get_world_cxform()->m_[3][0] == 0.0f) {
+        return;
+    }
+    if (c->m_effect->m_filters.size() != 0) {
+        m_filtered_characters.push_back(c);
+    }
+    if (c->is(2)) {
+        sprite_instance* sprite = static_cast<sprite_instance*>(c);
+        const int count = sprite->m_display_list.size();
+        for (int i = 0; i < count; ++i) {
+            collect_filtered_characters(sprite->m_display_list.get_character(i));
+        }
+    }
+}
 
 // 0x758434 _ZN7gameswf13filter_engine14display_cachedEPNS_9characterE
-// PARTIAL. The binary looks the character up in the filter cache hash (filter_cache_infos is not
-// declared), draws the cached texture region through the render handler and returns 1, or returns
-// 0 when the character is the current one or has no cache entry. Stubbed; returns false.
-bool filter_engine::display_cached(character*) {
-    return false;
+// Draws the cached filter result of a character. Binary: the character is looked up in the cache table (m_cache).
+// It returns 0 when the character is the one being rendered (m_current), has no entry, or the entry has no region.
+// Otherwise the destination rectangle is (0, w, 0, h) with w and h the entry's bound size in twips, and the source
+// rectangle is the entry's region of the texture: the region's pixel bounds with the far corner moved to
+// (origin + size / 20) and every coordinate divided by the texture size (virtual get_width, get_height). The colour is
+// the cached character's world colour transform applied to opaque white. The render handler's draw_bitmap
+// (slot +0x80) draws the texture with the character's world matrix. Returns 1.
+bool filter_engine::display_cached(character* c) {
+    filter_cache_infos info;
+    character* key = c;
+    if (m_current == c || !m_cache.get(key, &info) || info.m_region == nullptr) {
+        return false;
+    }
+    rect destination;
+    destination.m_x_min = 0.0f;
+    destination.m_x_max = info.m_bound.m_x_max - info.m_bound.m_x_min;
+    destination.m_y_min = 0.0f;
+    destination.m_y_max = info.m_bound.m_y_max - info.m_bound.m_y_min;
+
+    rect source;
+    get_region_bounds(info.m_region, source);
+    source.m_x_max = source.m_x_min + (info.m_bound.m_x_max - info.m_bound.m_x_min) / 20.0f;
+    source.m_y_max = source.m_y_min + (info.m_bound.m_y_max - info.m_bound.m_y_min) / 20.0f;
+    const float texture_width = static_cast<float>(m_texture->get_width());
+    const float texture_height = static_cast<float>(m_texture->get_height());
+    source.m_x_min = source.m_x_min / texture_width;
+    source.m_x_max = source.m_x_max / texture_width;
+    source.m_y_min = source.m_y_min / texture_height;
+    source.m_y_max = source.m_y_max / texture_height;
+
+    const cxform world_cxform = *info.m_character->get_world_cxform();
+    const rgba color = world_cxform.transform(rgba(0xff, 0xff, 0xff, 0xff));
+    const matrix world_matrix = *info.m_character->get_world_matrix();
+    if (s_render_handler != nullptr) {
+        s_render_handler->draw_bitmap(world_matrix, m_texture.get_ptr(), destination, source, color);
+    }
+    return true;
 }
 
 // 0x7590a4 _ZN7gameswf13filter_engineD1Ev
-// PARTIAL. The binary clears the filter cache hash, zeroes the array tails and reserves 0 bytes in
-// its two arrays, then runs the texture_cache destructor. The base and members are not declared
-// yet (see filter_engine.hpp), so the body is stubbed.
-filter_engine::~filter_engine() {}
+// Binary: clears the cache table, empties and releases the pixel array (+0x50) and the character array (+0x40),
+// then runs the texture_cache destructor. The negative-count zeroing loops of the binary are the inlined tail of
+// resize(0) and are not reachable with a valid count.
+filter_engine::~filter_engine() {
+    m_cache.clear();
+    m_pixels.resize(0);
+    m_pixels.reserve(0);
+    m_filtered_characters.resize(0);
+    m_filtered_characters.reserve(0);
+}
 
 // 0x757500 _ZN7gameswf13filter_engineC1Ev
-// PARTIAL. The binary runs texture_cache(256, 256, 4, false), zeroes its members, and then calls
-// virtual slot +0x08 of the texture object (the bitmap_info vtable). That slot's meaning is not
-// identified, so it is not called. The base and members are not declared yet, so the body is
-// stubbed. The create/close test defines its own constructor stub for this symbol.
-filter_engine::filter_engine() {}
+// Binary: texture_cache(256, 256, 4, false), the members zeroed (their default state here), then the texture's
+// virtual slot +0x08 (bitmap_info::layout) is called, with no null test.
+filter_engine::filter_engine()
+    : filter_texture_cache(256, 256, 4, false), m_current(nullptr) {
+    m_texture->layout();
+}
 
 // 0x75918c _ZN7gameswf13filter_engine3runEPNS_4rootE
-// PARTIAL. The binary collects the filtered characters of the root's display list, rebuilds the
-// filter cache hash, renders each filtered character into its cache region (with the frame buffer
-// read by read_frame_buffer), and then draws the cached results. The hash, character, root and
-// render handler layouts are not declared, so the body is stubbed.
-void filter_engine::run(root*) {}
+// Called once a frame. Collects the characters that have filters (the movie's display tree, from the root's movie at
+// +0x10) and makes sure each has a cache entry with a texture region of its size:
+//   1. An entry is (re)built for a character that has none or whose entry is dirty: bounds from get_bound (slot +0x12c),
+//      region from get_character_region(width, height) for the bound size in pixels (twips / 20).
+//   2. If any region could not be had, the texture cache is reset and every entry gets a region again (the entries
+//      keep their bounds); a failure is logged.
+//   3. Each entry with a region that is dirty is rendered into the texture: the handler's frame buffer is cleared,
+//      the character is detached from its parent and given an identity colour transform, a begin_display on the
+//      region (white background, region viewport, the character bound as the logical rectangle), the character's
+//      display, end_display, the character's matrix, colour transform and parent are restored, and the pixels are
+//      read back (read_frame_buffer) and copied row by row into the locked texture. The entry is clean afterwards.
+// The binary copies the rows to the start of the locked buffer, with the texture width as the row pitch, not to the
+// region origin; that is reproduced.
+void filter_engine::run(root* r) {
+    m_filtered_characters.resize(0);
+    collect_filtered_characters(r->m_movie.get_ptr());
+    if (m_filtered_characters.size() == 0) {
+        return;
+    }
+
+    bool allocation_failed = false;
+    for (int i = 0; i < m_filtered_characters.size(); ++i) {
+        character* ch = m_filtered_characters[i];
+        filter_cache_infos info;
+        const bool found = m_cache.get(ch, &info);
+        if (!found || info.m_dirty) {
+            rect bound;
+            ch->get_bound(&bound);  // slot +0x12c
+            texture_cache::region* region = get_character_region(
+                ch, static_cast<int>((bound.m_x_max - bound.m_x_min) / 20.0f), static_cast<int>((bound.m_y_max - bound.m_y_min) / 20.0f));
+            info.m_region = region;
+            if (region == nullptr) {
+                allocation_failed = true;
+            }
+            info.m_character = ch;
+            info.m_bound = bound;
+            m_cache.set(ch, info);
+        }
+    }
+
+    if (allocation_failed) {
+        reset();
+        for (auto it = m_cache.begin(); it != m_cache.end(); ++it) {
+            filter_cache_infos& entry = it->second;
+            entry.m_region = get_character_region(
+                it->first, static_cast<int>((entry.m_bound.m_x_max - entry.m_bound.m_x_min) / 20.0f),
+                static_cast<int>((entry.m_bound.m_y_max - entry.m_bound.m_y_min) / 20.0f));
+            if (entry.m_region == nullptr) {
+                log_error("filter texture cache allocation failed\n");
+            }
+        }
+    }
+
+    for (auto it = m_cache.begin(); it != m_cache.end(); ++it) {
+        filter_cache_infos& entry = it->second;
+        if (entry.m_region == nullptr || !entry.m_dirty) {
+            continue;
+        }
+        render_handler* handler = s_render_handler;
+        handler->clear_frame_buffer();  // slot +0x38
+        character* ch = entry.m_character;
+
+        // What the character is drawn with is set aside: matrix, colour transform and the parent link.
+        const matrix saved_matrix = *ch->m_local_matrix;
+        const cxform saved_cxform = *ch->m_local_cxform;
+        character* saved_parent = ch->m_parent.get_ptr();
+        ch->m_parent = nullptr;
+        ch->set_cxform(cxform());
+        m_current = ch;
+
+        rect region_bounds;
+        get_region_bounds(entry.m_region, region_bounds);
+        region_bounds.m_x_max = (entry.m_bound.m_x_max - entry.m_bound.m_x_min) / 20.0f + region_bounds.m_x_min;
+        region_bounds.m_y_max = (entry.m_bound.m_y_max - entry.m_bound.m_y_min) / 20.0f + region_bounds.m_y_min;
+        handler->begin_display(rgba(0xff, 0xff, 0xff, 0xff), static_cast<int>(region_bounds.m_x_min), static_cast<int>(region_bounds.m_y_min),
+                               static_cast<int>(region_bounds.m_x_max - region_bounds.m_x_min), static_cast<int>(region_bounds.m_y_max - region_bounds.m_y_min),
+                               entry.m_bound.m_x_min, entry.m_bound.m_x_max, entry.m_bound.m_y_max, entry.m_bound.m_y_min);
+        ch->display();  // slot +0x120
+        handler->end_display();
+
+        ch->set_matrix(saved_matrix);
+        ch->set_cxform(saved_cxform);
+        ch->m_parent = saved_parent;
+        m_current = nullptr;
+
+        const int width = static_cast<int>(region_bounds.m_x_max - region_bounds.m_x_min);
+        const int height = static_cast<int>(region_bounds.m_y_max - region_bounds.m_y_min);
+        read_frame_buffer(static_cast<int>(region_bounds.m_x_min), r->m_viewport_height - height - static_cast<int>(region_bounds.m_y_min), width, height);
+
+        std::uint8_t* destination = static_cast<std::uint8_t*>(m_texture->lock());
+        const std::uint8_t* source = m_pixels.size() > 0 ? &m_pixels[0] : nullptr;
+        const int texture_width = m_texture->get_width();
+        for (int row = 0; row < height; ++row) {
+            std::memcpy(destination, source, 4 * static_cast<std::size_t>(width));
+            source += 4 * static_cast<std::size_t>(width);
+            destination += 4 * static_cast<std::size_t>(texture_width);
+        }
+        m_texture->unlock();
+        entry.m_dirty = false;
+    }
+}
 
 }  // namespace gameswf

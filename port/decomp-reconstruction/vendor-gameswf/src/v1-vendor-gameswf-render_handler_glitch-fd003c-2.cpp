@@ -1,12 +1,13 @@
-// Batch v1-vendor-gameswf-render_handler_glitch-fd003c-2: render_handler_glitch, part 3 of 3 (10 functions).
+// Batch v1-vendor-gameswf-render_handler_glitch-fd003c-2: render_handler_glitch, part 3 of 3 (10 functions), and
+// render_handler_glitch::fill_style::apply (0x7d6b54), which draw_mesh_primitive calls.
 //
 // Layout and declarations: vendor-gameswf/include/vendor-gameswf/render_handler_glitch.hpp (shared with parts 1 and 2),
 // and the float helpers in vendor-gameswf/include/vendor-gameswf/render_handler_glitch_detail.hpp (tested by
 // tests/v1-vendor-gameswf-render_handler_glitch-fd003c-2_test.cpp).
 //
-// The render cache is not written by this batch: gameswf::render_cache is owned by the pack6 batch (its header is
-// render_cache.hpp), and that header does not yet type the entry, vertex and uv blocks the way draw_bitmap and draw use
-// them. Those two functions are partial until the layout is agreed (see their notes).
+// Written against the typed gameswf::render_cache (render_cache.hpp: entries, vertices, uvs, indices),
+// gameswf::triangle_intersector::process (0x7889ec, vendor-gameswf/src/v1-vendor-gameswf-pack9-22190e-0.cpp) and the glitch
+// material classes (the first render pass of the current technique, edited as BufferedRenderer::applyMaskState does).
 //
 // Checked against the assembly (tools/decomp_asm.py) where the pseudocode was ambiguous:
 //   - BufferedRenderer::flush is flush(void) (the symbol and the call sites pass only this). The second register that
@@ -14,17 +15,30 @@
 //   - the mask depth increment is single precision (__aeabi_fadd with 0x3a83126f = 0.001f).
 //   - the mesh gate byte at this+0x3b7 is colour alpha of fill side 0 (m_fill_styles[0].color[3]).
 //   - draw_mesh_primitive calls fill_style::apply and get_matrix in the order apply, get_matrix, then the transform.
-//   - draw_bitmap copies 48 staging entries into the render cache (asm bound 0x480); see its note.
+//   - fill_style::apply is float arithmetic throughout (__aeabi_i2f, __aeabi_fdiv with 0x3f800000, fmul, fadd).
+//   - draw_bitmap copies 48 staging entries into the render cache (asm 0x7d9294: bound CMP #0x480, step 0x18); see its note.
 #include "vendor-gameswf/render_handler_glitch.hpp"
 
 #include <cstdint>
 #include <cstring>
+#include <new>
 
 #include "gameswf/gameswf_types.h"  // gameswf::rgba (full definition)
+#include "glitch-video/material.hpp"
+#include "glitch-video/tb/renderpass_srenderstate.hpp"
 #include "glitch-video/texture.hpp"
 #include "glitch-video/vertex_streams.hpp"
 #include "vendor-gameswf/bitmap_info_ogl.hpp"
+#include "vendor-gameswf/render_cache.hpp"
 #include "vendor-gameswf/render_handler_glitch_detail.hpp"
+#include "vendor-gameswf/triangle_intersector.hpp"
+
+namespace glitch::video {
+// 0x7d4f34 glitch::video::setColorMask(boost::intrusive_ptr<CMaterial> const&, bool, bool, bool, bool): the colour mask of the
+// material's driver (the listing's clone passes alpha as true). Declared as in the game's BufferedRenderer file; the
+// glitch-video batch defines it.
+void setColorMask(const boost::intrusive_ptr<CMaterial>& material, bool r, bool g, bool b, bool a);
+}  // namespace glitch::video
 
 namespace {
 
@@ -42,7 +56,107 @@ using Point = vector2d<float>;
 constexpr glitch::video::E_PRIMITIVE_TYPE kPrimitiveStrip = 4;
 constexpr glitch::video::E_PRIMITIVE_TYPE kPrimitiveTriangles = 6;
 
+// Applies edit to the first render pass of the material's current technique. The original reaches that pass through the
+// renderer (material +0x04) technique table (+0x18, 12-byte entries, passes at entry +0x08) and edits the state words in
+// place, setting the pass's change byte (+0x30) when a bit changed. Here the 32 state bytes are read into an SRenderState,
+// edited, and written back with CMaterialRenderer::setRenderState, which copies only when the bytes changed and sets the
+// flag. (The same helper is in the game's BufferedRenderer file.)
+template <typename Edit>
+void edit_first_pass(glitch::video::CMaterial& material, Edit edit) {
+    glitch::video::CMaterialRenderer& renderer = *material.m_renderer;
+    const int32_t technique = material.getTechnique();
+    const glitch::video::SRenderPass* pass = renderer.m_techniques[technique].passes;
+    glitch::video::detail::renderpass::SRenderState state;
+    std::memcpy(&state, pass->stateWords, sizeof(state));
+    edit(state);
+    renderer.setRenderState(static_cast<uint8_t>(technique), 0, state);
+}
+
+// The batch renderer's material for the current blend slot, or slot 0 when that slot has no material.
+BufferedRenderer::MaterialData& current_material(BufferedRenderer& buffered) {
+    BufferedRenderer::MaterialData& slot = buffered.m_materials[buffered.m_materialIndex];
+    return slot.m_material ? slot : buffered.m_materials[0];
+}
+
 }  // namespace
+
+// 0x7d7c18 gameswf::array<gameswf::array<glitch::core::vector2d<float> > >::push_back<gameswf::array<glitch::core::vector2d<float> > >(gameswf::array<glitch::core::vector2d<float> > const&)
+// Appends a copy of val to the mask stack (begin_submit_mask calls it with the new, empty run). The new slot is constructed
+// in the reserved storage, which the binary also does by zeroing it and copying the points. It is a specialization of the
+// member template of base/container.h, so it is defined before its first use below.
+template <>
+template <>
+void array<array<glitch::core::vector2d<float>>>::push_back<array<glitch::core::vector2d<float>>>(
+        const array<glitch::core::vector2d<float>>& val) {
+    const int old_size = m_size;
+    const int new_size = old_size + 1;
+    if (new_size > m_buffer_size) {
+        reserve(new_size + (new_size >> 1));
+    }
+    new (m_buffer + old_size) array<glitch::core::vector2d<float>>(val);
+    m_size = new_size;
+}
+
+// 0x7d6b54 _ZNK21render_handler_glitch10fill_style5applyEPN6glitch5video12IVideoDriverER16BufferedRendererP6Vertexi
+// Applies this fill side to count staging vertices. The driver argument is not used (the listing passes it on in r1 to the
+// bitmap's layout call, which takes none). By the fill type:
+//   1 (solid colour, set up by fill_style_color with the default bitmap): the bitmap is laid out, its texture is bound to the
+//     buffer, and the u and v of every vertex are zeroed;
+//   2 or 3 (bitmap fill: repeat or clamp): the bitmap is laid out and bound, its texture gets wrap mode 0 for type 2 and 2
+//     for type 3, and every vertex gets u and v from its position through the bitmap matrix scaled by 1 / width and
+//     1 / height: u = tx' + (a' * x + b' * y), v = ty' + (c' * x + d' * y), with the matrix entries multiplied by the
+//     reciprocals first;
+//   any other type: nothing but the colour.
+// Every vertex then gets the fill colour as its four colour bytes (r, g, b, a at +8..+11).
+void render_handler_glitch::fill_style::apply(glitch::video::IVideoDriver* driver, BufferedRenderer& buffer,
+                                              Vertex* vertices, int vertex_count) const {
+    (void)driver;
+    ::bitmap_info_ogl* bitmap = static_cast<::bitmap_info_ogl*>(source_bitmap);
+    if (unk_00 == 1) {
+        bitmap->layout();
+        buffer.setTexture(bitmap->m_texture);
+        if (vertex_count <= 0) {
+            return;
+        }
+        for (int i = 0; i < vertex_count; ++i) {
+            vertices[i].u = 0.0f;
+            vertices[i].v = 0.0f;
+        }
+    } else if (static_cast<unsigned int>(unk_00 - 2) > 1u) {
+        if (vertex_count <= 0) {
+            return;
+        }
+    } else {
+        bitmap->layout();
+        buffer.setTexture(bitmap->m_texture);
+        if (bitmap->m_texture) {
+            bitmap->m_texture->setWrap(unk_00 == 2 ? 0 : 2);
+        }
+        const float inv_width = 1.0f / static_cast<float>(source_bitmap->get_width());
+        const float inv_height = 1.0f / static_cast<float>(source_bitmap->get_height());
+        const float a = inv_width * bitmap_matrix.m_[0][0];
+        const float b = inv_width * bitmap_matrix.m_[0][1];
+        const float tx = inv_width * bitmap_matrix.m_[0][2];
+        const float c = inv_height * bitmap_matrix.m_[1][0];
+        const float d = inv_height * bitmap_matrix.m_[1][1];
+        const float ty = inv_height * bitmap_matrix.m_[1][2];
+        for (int i = 0; i < vertex_count; ++i) {
+            const float x = vertices[i].x;
+            const float y = vertices[i].y;
+            vertices[i].u = tx + (a * x + b * y);
+            vertices[i].v = ty + (c * x + d * y);
+        }
+    }
+    if (vertex_count > 0) {
+        for (int i = 0; i < vertex_count; ++i) {
+            uint8_t* rgba = reinterpret_cast<uint8_t*>(&vertices[i].color);
+            rgba[0] = color[0];
+            rgba[1] = color[1];
+            rgba[2] = color[2];
+            rgba[3] = color[3];
+        }
+    }
+}
 
 // 0x7d81e4 _ZN21render_handler_glitch14set_blend_modeEN7gameswf10blend_mode2idE
 // Switches the material slot used by the next quads. Nothing happens when the current slot is the mask slot. While
@@ -85,26 +199,41 @@ void render_handler_glitch::begin_submit_mask() {
         // The pseudocode builds a zeroed run (empty points, flag 0) and pushes it. Its zero-fill and reserve steps
         // act on an empty local array and change nothing.
         MaskRun run;
-        m_mask_stack.push_back(run);
+        m_mask_stack.push_back<MaskRun>(run);
     }
     m_buffered.applyMaskState(1);
 }
 
 // 0x7d8340 _ZN21render_handler_glitch12disable_maskEv
-// PARTIAL. Closes the innermost mask level: the buffer is flushed, the depth goes down by one, the mask state 0 is
-// applied and the run that was closed is emptied. While a mask is still open, the original then changes the glitch
-// material of the current slot (its technique pass state, the colour-write mask through glitch::video::setColorMask,
-// and render_mask_intersection between two colour-mask writes). Those steps are not recovered: the material pass
-// state (CMaterial +0x04 owner, the technique table at owner +0x18, the pass words and their dirty bytes) and the
-// free function setColorMask are not in the tree, so the rest of the body is missing.
+// Closes the innermost mask level: the buffer is flushed, the depth goes down by one, the mask state 0 is applied and the
+// run that was closed is emptied. While a mask is still open (depth above zero), the original then edits the first render
+// pass of the current slot's material in two steps around render_mask_intersection: first the mask-write state (bit 19 and
+// bit 20 of the second state word set, bits 27-29 of the first word set to 3, bit 16 cleared) and the colour mask off
+// (setColorMask(material, 0, 0, 0)); then, after render_mask_intersection draws the remaining mask, the mask-as-stencil
+// state (bit 16 set, bits 27-29 set to 2, bit 20 cleared) and the colour mask on (1, 1, 1). Each pass edit sets the pass's
+// change byte when a bit changed.
 void render_handler_glitch::disable_mask() {
     m_buffered.flush();
     --m_mask_depth;
     m_buffered.applyMaskState(0);
-    m_mask_stack[m_mask_depth].points.resize(0);
+    m_mask_stack[m_mask_depth].resize(0);
     if (m_mask_depth > 0) {
-        // NOT RECOVERED: material pass-state updates on the slot (see the comment above), then
-        // render_mask_intersection(), then the colour mask set back to (1, 1, 1, 1).
+        BufferedRenderer::MaterialData& slot = current_material(m_buffered);
+        using SRenderState = glitch::video::detail::renderpass::SRenderState;
+        edit_first_pass(*slot.m_material, [](SRenderState& s) {
+            s.m_word04 |= 0x00080000u;
+            s.m_word00 = (s.m_word00 & 0xC7FFFFFFu) | 0x18000000u;
+            s.m_word04 |= 0x00100000u;
+            s.m_word04 &= ~0x00010000u;
+        });
+        glitch::video::setColorMask(slot.m_material, false, false, false, true);
+        render_mask_intersection();
+        edit_first_pass(*slot.m_material, [](SRenderState& s) {
+            s.m_word04 |= 0x00010000u;
+            s.m_word00 = (s.m_word00 & 0xC7FFFFFFu) | 0x10000000u;
+            s.m_word04 &= ~0x00100000u;
+        });
+        glitch::video::setColorMask(slot.m_material, true, true, true, true);
     }
 }
 
@@ -124,31 +253,17 @@ void render_handler_glitch::end_submit_mask() {
 }
 
 // 0x7d860c _ZN21render_handler_glitch25process_mask_intersectionEP6VertexiPKtiN6glitch5video16E_PRIMITIVE_TYPEE
-// PARTIAL. Turns a draw into triangle points for the mask stack. Returns false when nothing is to be done (no mask
-// open, the slot is not the mask slot, or fewer than three vertices), in which case the caller draws the quads or
-// mesh normally. Otherwise:
-//   - the scratch points (+0x35c) get the triangle list of the draw: a strip is expanded to triangles (t, t+1, t+2),
-//     an indexed list gathers its vertices through the indices, and a plain list copies its vertices;
-//   - at depth 1 the scratch points are appended to the first mask run and the result is false;
+// Turns a draw into triangle points for the mask stack. Returns false when nothing is to be done (no mask open, the slot
+// is not the mask slot, or fewer than three vertices), in which case the caller draws the quads or mesh normally.
+// Otherwise:
+//   - the scratch points (+0x35c) get the triangle list of the draw: a strip is expanded to triangles (t, t+1, t+2), an
+//     indexed list gathers its vertices through the indices, and a plain list copies its vertices;
+//   - at depth 1 the scratch points are appended to the first mask run (resize, then copy) and the result is false;
 //   - at depth 2 or more, each scratch triangle is intersected with every triangle of the run below it
-//     (gameswf::triangle_intersector::process, 0x7889ec), and the intersection points are appended to the current run
-//     as triangles (a strip of the result is expanded to a list); the result is true.
-// NOT RECOVERED: triangle_intersector::process. Its class is 4 bytes at +0x36c and its body is not in the tree, so
-// the stub below yields no intersection points. Every depth-2-or-more result is therefore wrong until it is replaced.
-// The pseudocode pushes three result points whenever the count is positive; a count of 1 or 2 would read past the
-// result, so only counts of 3 or more are pushed here.
-namespace {
-
-// Stand-in for gameswf::triangle_intersector::process(point*, point*, array<point>&). Clears the result and produces
-// no points. Replace with the recovered process when the class is in the tree.
-void intersect_triangle_pair(const Point* a, const Point* b, ::array<Point>& out) {
-    (void)a;
-    (void)b;
-    out.resize(0);
-}
-
-}  // namespace
-
+//     (gameswf::triangle_intersector::process, 0x7889ec, scratch triangle first), and the intersection points are appended
+//     to the current run as triangles (a strip of the result is expanded to a list); the result is true.
+// The listing pushes three result points whenever the count is positive; a count of 1 or 2 would read past the result, and
+// the tesselator never produces one, so only counts of 3 or more are pushed here.
 bool render_handler_glitch::process_mask_intersection(Vertex* vertices, int vertex_count, const uint16_t* indices,
                                                       int index_count,
                                                       glitch::video::E_PRIMITIVE_TYPE primitive) {
@@ -185,30 +300,35 @@ bool render_handler_glitch::process_mask_intersection(Vertex* vertices, int vert
     if (depth <= 1) {
         // First mask level: the scratch points are the region of run 0.
         MaskRun& first = m_mask_stack[depth - 1];
-        for (int i = 0; i < m_triangle_points.size(); ++i) {
-            first.points.push_back(m_triangle_points[i]);
+        const int count = m_triangle_points.size();
+        if (count > 0) {
+            const int old_size = first.size();
+            first.resize(old_size + count);
+            for (int i = 0; i < count; ++i) {
+                first[old_size + i] = m_triangle_points[i];
+            }
         }
         return false;
     }
 
-    MaskRun& current = m_mask_stack[depth - 1];
-    MaskRun& parent = m_mask_stack[depth - 2];
     for (int t = 0; t < triangles; ++t) {
-        ::array<Point> out;
-        const Point* tri = &m_triangle_points[3 * t];
-        const int parent_triangles = parent.points.size() / 3;
+        MaskRun& current = m_mask_stack[m_mask_depth - 1];
+        MaskRun& parent = m_mask_stack[m_mask_depth - 2];
+        ::array<gameswf::point> out;
+        gameswf::point* tri = reinterpret_cast<gameswf::point*>(&m_triangle_points[3 * t]);
+        const int parent_triangles = parent.size() / 3;
         for (int u = 0; u < parent_triangles; ++u) {
-            const Point* parent_tri = &parent.points[3 * u];
-            intersect_triangle_pair(tri, parent_tri, out);
+            gameswf::point* parent_tri = reinterpret_cast<gameswf::point*>(&parent[3 * u]);
+            m_triangle_intersector.process(tri, parent_tri, out);
             const int n = out.size();
             if (n >= 3) {
-                current.points.push_back(out[0]);
-                current.points.push_back(out[1]);
-                current.points.push_back(out[2]);
+                current.push_back(Point{out[0].m_x, out[0].m_y});
+                current.push_back(Point{out[1].m_x, out[1].m_y});
+                current.push_back(Point{out[2].m_x, out[2].m_y});
                 for (int k = 3; k < n; ++k) {
-                    current.points.push_back(out[k - 2]);
-                    current.points.push_back(out[k - 1]);
-                    current.points.push_back(out[k]);
+                    current.push_back(Point{out[k - 2].m_x, out[k - 2].m_y});
+                    current.push_back(Point{out[k - 1].m_x, out[k - 1].m_y});
+                    current.push_back(Point{out[k].m_x, out[k].m_y});
                 }
             }
         }
@@ -220,11 +340,15 @@ bool render_handler_glitch::process_mask_intersection(Vertex* vertices, int vert
 // PARTIAL. Draws one bitmap quad. Nothing is drawn when the colour's alpha is zero. Otherwise the four corners come
 // from the matrix and the coordinate rect (quad_positions), the texture coordinates from the uv rect, and every
 // staging entry gets the current depth and the colour. The quad is snapped to whole pixels when the byte at +0x04
-// is set. The bitmap's texture gets wrap mode 1 and is bound to the buffer, the quad is handed to process_mask_intersection
-// and, when that returns false, to queueIndexedTriangles.
-// NOT RECONSTRUCTED: the render cache record, which the pseudocode appends when m_render_cache is set. The record
-// layout is not agreed in the shared render_cache header (see the note in the body). The pseudocode's cache copy also
-// loops 48 staging entries (asm 0x7d9294, bound 0x480) while the entry counts four; that bound needs checking too.
+// is set. The bitmap is laid out (virtual layout), its texture gets wrap mode 1 and is bound to the buffer, the quad is
+// handed to process_mask_intersection and, when that returns false, to queueIndexedTriangles. With a render cache set
+// (set_render_cache), the quad is then recorded in it: six indices (0, 1, 2, 1, 2, 3, relative to the entry's vertices) at the
+// end of the index array, four positions and four uv pairs at the ends of the vertex and uv arrays, and one entry
+// {bitmap, the red byte of the colour, vertex base, 4, index base, 6}.
+// PARTIAL because of the copy into the cache: the listing's loop (asm 0x7d9294..0x7d92cc: counter step 0x18, bound
+// CMP #0x480) copies 48 staging entries to the cache, although only four were appended to the vertex and uv arrays (the
+// arrays are reserved for four more elements). That is an overrun of the cache arrays in the original. This body copies the
+// four entries of the quad; whether the original's bound is intended needs a decision.
 void render_handler_glitch::draw_bitmap(const gameswf::matrix& m, gameswf::bitmap_info* bi,
                                         const gameswf::rect& coords, const gameswf::rect& uv_coords,
                                         gameswf::rgba color) {
@@ -237,7 +361,7 @@ void render_handler_glitch::draw_bitmap(const gameswf::matrix& m, gameswf::bitma
     const QuadPositions quad = render_handler_glitch_detail::quad_positions(mat, rect);
 
     bi->layout();
-    gameswf::bitmap_info_ogl* ogl = static_cast<gameswf::bitmap_info_ogl*>(bi);
+    ::bitmap_info_ogl* ogl = static_cast<::bitmap_info_ogl*>(bi);
     if (ogl->m_texture) {
         ogl->m_texture->setWrap(1);
     }
@@ -274,36 +398,65 @@ void render_handler_glitch::draw_bitmap(const gameswf::matrix& m, gameswf::bitma
         m_buffered.queueIndexedTriangles(m_vertex_streams, kQuadIndices, 6);
     }
 
-    // NOT RECONSTRUCTED: the render cache record (see the note above). With m_render_cache set, the pseudocode appends
-    // six indices, four vertices (x, y, z), four uv pairs and one entry (bitmap, colour, vertex and index bases,
-    // counts 4 and 6). The shared render_cache header (vendor-gameswf/include/vendor-gameswf/render_cache.hpp, batch
-    // pack6) types those words as an entry of six int32 words and as owned blocks with a void* buffer, so a bitmap
-    // pointer and typed vertex and uv arrays cannot be stored there yet. Nothing is recorded by this rebuild.
-    (void)m_render_cache;
+    if (m_render_cache != nullptr) {
+        gameswf::render_cache& cache = *m_render_cache;
+        const int index_base = cache.m_indices.size();
+        const int vertex_base = cache.m_vertices.size();
+        cache.m_indices.resize(index_base + 6);
+        std::memcpy(cache.m_indices.begin() + index_base, kQuadIndices, sizeof(kQuadIndices));
+        cache.m_vertices.resize(vertex_base + 4);
+        cache.m_uvs.resize(cache.m_uvs.size() + 4);  // the uv pairs go to the same base as the positions
+        for (int i = 0; i < 4; ++i) {
+            glitch::core::vector3d<float>& position = cache.m_vertices[vertex_base + i];
+            position.X = staging[i].x;
+            position.Y = staging[i].y;
+            position.Z = staging[i].z;
+            glitch::core::vector2d<float>& texcoord = cache.m_uvs[vertex_base + i];
+            texcoord.X = staging[i].u;
+            texcoord.Y = staging[i].v;
+        }
+        gameswf::render_cache::entry entry;
+        entry.m_bitmap = bi;
+        entry.m_color = packed & 0xffu;
+        entry.m_vertex_base = vertex_base;
+        entry.m_vertex_count = 4;
+        entry.m_index_base = index_base;
+        entry.m_index_count = 6;
+        const int entry_count = cache.m_entries.size();
+        cache.m_entries.resize(entry_count + 1);
+        cache.m_entries[entry_count] = entry;
+    }
 }
 
 // 0x7d93ac _ZN21render_handler_glitch4drawEPN7gameswf12render_cacheE
-// Replays a render cache. For each entry: the entry's bitmap texture is bound to the buffer; while a mask is open the
-// cache's vertices of the entry get the current depth as z; the staging buffer is grown to the entry's vertex count;
-// each staging entry gets the entry's colour byte; the entry's indices go through process_mask_intersection, and when
-// that returns false, into queueIndexedTriangles. The staging positions are not copied from the cache in this
-// function (the pseudocode and the assembly at 0x7d93ac have no such loop), so the replay draws whatever positions
-// the staging buffer holds.
-// PARTIAL: the replay loop is written in the pseudocode's order in the comment below, but the body is not compiled
-// yet. Each entry holds a bitmap pointer (bitmap +0x10 is the texture), a colour byte, a vertex base and count, and an
-// index base and count. The shared render_cache header (batch pack6) types the entries as six int32 words and the
-// vertex and uv blocks as owned blocks, so none of those fields can be read as typed values yet. Layout request in the
-// batch notes: entry {bitmap_info* texture; uint32_t colour; int vertex_base, vertex_count, index_base, index_count}
-// (24 bytes at +0x10, array<entry>), vertices array<vector3df> at +0x20 with borrowed flag +0x2c, uvs array<vector2df>
-// at +0x30 with borrowed flag +0x3c, indices array<uint16_t> at +0x40 (already typed in that header).
-//
-// Pseudocode order, for the integrator: for each entry, bind its texture to the buffer; while masks are open
-// (depth > 0) set the z of the entry's cache vertices to m_mask_z; ensureBufferCapacity(vertex_count); set the low byte
-// of each staging colour from the entry colour; set the streams' vertex count; process_mask_intersection on the entry's
-// indices (6 for a quad) and queueIndexedTriangles when that returns false. The pseudocode has no loop that copies
-// cache positions into the staging buffer (checked in the assembly of 0x7d93ac), so the replay draws staging positions.
+// Replays a render cache. For each entry: the entry's bitmap texture is bound to the buffer; while a mask is open (the depth
+// read once at the start) the cache's vertices of the entry get the current mask z as their z; the staging buffer is grown
+// to the entry's vertex count; the low byte of each staging colour (the red byte) is set from the entry's colour; the
+// streams get the entry's vertex count; the entry's indices (index base into the cache's index array) go through
+// process_mask_intersection with the triangle-list primitive, and when that returns false, into queueIndexedTriangles.
+// The staging positions and uvs are not copied from the cache (the listing and the assembly at 0x7d93ac have no such loop),
+// so the replay draws whatever positions the staging buffer holds; this is how the original behaves.
 void render_handler_glitch::draw(gameswf::render_cache* cache) {
-    (void)cache;
+    const int depth = m_mask_depth;
+    for (int i = 0; i < cache->m_entries.size(); ++i) {
+        gameswf::render_cache::entry& entry = cache->m_entries[i];
+        m_buffered.setTexture(static_cast<::bitmap_info_ogl*>(entry.m_bitmap)->m_texture);
+        if (depth > 0) {
+            for (int k = 0; k < entry.m_vertex_count; ++k) {
+                cache->m_vertices[k + entry.m_vertex_base].Z = m_mask_z;
+            }
+        }
+        ensureBufferCapacity(entry.m_vertex_count);
+        Vertex* staging = reinterpret_cast<Vertex*>(m_vertices);
+        for (int k = 0; k < entry.m_vertex_count; ++k) {
+            reinterpret_cast<uint8_t*>(&staging[k].color)[0] = static_cast<uint8_t>(entry.m_color);
+        }
+        m_vertex_streams->m_field08 = static_cast<uint32_t>(entry.m_vertex_count);
+        const uint16_t* indices = cache->m_indices.begin() + entry.m_index_base;
+        if (!process_mask_intersection(staging, entry.m_vertex_count, indices, entry.m_index_count, kPrimitiveTriangles)) {
+            m_buffered.queueIndexedTriangles(m_vertex_streams, indices, entry.m_index_count);
+        }
+    }
 }
 
 // 0x7d94f8 _ZN21render_handler_glitch19draw_mesh_primitiveEiPKviPKti
@@ -329,9 +482,9 @@ void render_handler_glitch::draw_mesh_primitive(glitch::video::E_PRIMITIVE_TYPE 
     }
 
     m_fill_styles[0].apply(m_driver, m_buffered, staging, vertex_count);
-    const TransformState world = get_matrix(m_matrix);
+    const glitch::core::CMatrix4<float> world = get_matrix(m_matrix);
     for (int i = 0; i < vertex_count; ++i) {
-        render_handler_glitch_detail::transform_xyz(world.m_elems, staging[i].x, staging[i].y, staging[i].z);
+        render_handler_glitch_detail::transform_xyz(world.M, staging[i].x, staging[i].y, staging[i].z);
     }
 
     m_vertex_streams->m_field08 = static_cast<uint32_t>(vertex_count);

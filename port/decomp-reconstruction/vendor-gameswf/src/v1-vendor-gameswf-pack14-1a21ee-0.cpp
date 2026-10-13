@@ -6,9 +6,10 @@
 //   0x7c4e34 bitmap_glyph_provider::~bitmap_glyph_provider() (D2); 0x7c63f8 (D1) is the same body in C++
 //   0x7a9664 default_bitmap_glyph_provider::~default_bitmap_glyph_provider() (D1)
 //   0x7a9634 default_bitmap_glyph_provider::get_font_entity_impl: new default_bitmap_font_entity (constructor: pack19)
-// PARTIAL (6), written but not complete (see each comment):
-//   0x7a7a8c, 0x7a7bd8 as_transform C1/C2; 0x7a72e8 as_transform D1; 0x7a75c0 as_transform::init. Behind
-//     DH2_AS_OBJECT_HEADER_OK: gameswf/gameswf_object.h does not compile in this tree (see as_stage.hpp).
+// as_transform (rows 0x7a72e8 D1, 0x7a7360 set_member, 0x7a74b4 get_member, 0x7a75c0 init, 0x7a7a8c / 0x7a7bd8 C1 and C2,
+//   0x7a7ae4 as_global_transform_ctor): written here against the DH2 layout, compiled. The class is in
+//   include/vendor-gameswf/as_transform.hpp (m_movie weak_ptr<character> at +0x38, 0x40 bytes).
+// PARTIAL (2), written but not complete (see each comment):
 //   0x7a9698 bitmap_glyph_provider C2: the new bitmap_glyph_texture_cache is not wired (see its comment).
 //   0x7c6048 bitmap_glyph_provider::get_font_entity: the scan over the loaded entities is not written.
 // SKIPPED (3): deleting destructors 0x7a7344 (as_transform D0), 0x7a99f8 (default_bitmap_glyph_provider D0) and
@@ -18,11 +19,12 @@
 //   (0x7b3cd8) and debug_make_x (0x7b4130). Their bodies match the upstream templates in base/grid_index.h and
 //   base/ear_clip_triangulate_impl.h; the debug helpers sit under #ifdef DEBUG_MARKUP upstream.
 //
-// The as_transform layout (weak movie clip at +0x38) differs from upstream's gc_ptr members. The upstream class and
-// ctor are marked #if 0 /* DH2 */ and replaced by vendor-gameswf/include/vendor-gameswf/as_transform.hpp.
+// The as_transform layout (weak movie clip at +0x38) differs from upstream's gc_ptr members. The upstream class, its
+// constructor, members and the constructor function are marked #if 0 /* DH2 */ and replaced by
+// vendor-gameswf/include/vendor-gameswf/as_transform.hpp and the bodies below.
 // The bitmap glyph provider has no upstream source; its header is vendor-gameswf/include/vendor-gameswf/bitmap_glyph_provider.hpp.
-// The hash specialization is declared in vendor-gameswf/include/vendor-gameswf/gameswf_dh2_hash.hpp so that every
-// translation unit uses it instead of the generic upstream member (which uses a 16-entry minimum).
+// The hash specialization is declared in vendor-gameswf/include/vendor-gameswf/render_fx_search_hash.hpp so that every
+// translation unit that adds to the table uses it instead of the generic upstream member (which uses a 16-entry minimum).
 
 #include <cmath>
 #include <cstddef>
@@ -32,15 +34,15 @@
 #include "base/smart_ptr.h"
 #include "vendor-gameswf/bitmap_glyph_provider.hpp"  // bitmap_glyph_provider, default_bitmap_glyph_provider (DH2)
 #include "vendor-gameswf/gameswf_alloc.hpp"          // gameswf::malloc_internal, gameswf::free_internal
-#include "vendor-gameswf/gameswf_dh2_hash.hpp"       // the set_raw_capacity specialization declared there
+#include "vendor-gameswf/render_fx_search_hash.hpp"  // the set_raw_capacity specialization for the RenderFX search table
 #include "vendor-gameswf/texture_cache.hpp"          // gameswf::texture_cache
 
-#if defined(DH2_AS_OBJECT_HEADER_OK)
 #include "gameswf/gameswf_as_classes/as_color_transform.h"  // as_color_transform (upstream; DH2 ctor is not declared)
 #include "gameswf/gameswf_as_classes/as_matrix.h"           // as_matrix (upstream; DH2 ctor is not declared)
 #include "vendor-gameswf/as_transform.hpp"                  // gameswf::as_transform (DH2 layout)
 #include "vendor-gameswf/as_value.hpp"                      // gameswf::as_value
-#endif
+#include "gameswf/gameswf_action.h"                         // get_standard_member, as_standard_member
+#include "gameswf/gameswf_character.h"                      // character: set_matrix, set_cxform, get_world_cxform
 
 // 0x7aa8f0 gameswf::hash<gameswf::tu_string, gameswf::array<RenderFX::SearchIndex::Entry>*, gameswf::string_hash_functor<gameswf::tu_string> >::set_raw_capacity(int)
 // Binary: entry 32 bytes (next_in_chain at +0, hash value at +4, key tu_string at +8, value pointer at +28). The value
@@ -139,10 +141,10 @@ bitmap_glyph_provider::~bitmap_glyph_provider()
 }
 
 // 0x7c6048 gameswf::bitmap_glyph_provider::get_font_entity(gameswf::tu_string const&, bool, bool)
-// PARTIAL: the binary first scans the raw entries of the entity hash for an entity whose name at +0x10 equals the font
-// file name (and, on a match, stores that entity under the new key and returns it). The scan reads the hash's raw table,
-// and the DH2 hash in this tree has no iteration API for it, so it is not written. This body creates a new entity in
-// that case, which differs from the binary when a matching entity is already loaded under another key.
+// A font name is looked up under the key name + "B" + "I". On a miss, and when the file the name resolves to is a .fnt file,
+// the entities loaded so far are scanned for one whose file name (m_name, +0x10) equals that file: it is stored under the new
+// key too and returned, so two keys that resolve to one file share one entity. Otherwise the virtual get_font_entity_impl
+// (vtable +0x08) creates the entity. The result is stored under the key even when it is null.
 gameswf::ref_counted* bitmap_glyph_provider::get_font_entity(const ::tu_string& name, bool is_bold, bool is_italic)
 {
 	// Binary: key = name, plus "B" when bold, plus "I" when italic.
@@ -162,7 +164,14 @@ gameswf::ref_counted* bitmap_glyph_provider::get_font_entity(const ::tu_string& 
 		std::memset(fontfile, 0, sizeof(fontfile));  // binary: LC_API_MEMSET_0(buffer, 0, 256)
 		if (get_fontfile(name.c_str(), is_bold, is_italic, fontfile, static_cast<int>(sizeof(fontfile))) &&
 		    (std::strstr(fontfile, ".fnt") != nullptr || std::strstr(fontfile, ".FNT") != nullptr)) {
-			// MISSING: the scan over loaded entities (see the comment above).
+			for (auto it = m_font_entities.begin(); it != m_font_entities.end(); ++it) {
+				bitmap_font_entity* loaded = it->second.get_ptr();
+				if (loaded != nullptr && std::strcmp(loaded->m_name.c_str(), fontfile) == 0) {
+					smart_ptr<bitmap_font_entity> shared(loaded);
+					m_font_entities.add(::tu_stringi(key), shared);
+					return loaded;
+				}
+			}
 			// Binary: the virtual create, vtable slot +0x08 (get_font_entity_impl), on the font file name.
 			entity = get_font_entity_impl(::tu_string(fontfile));
 		}
@@ -191,10 +200,6 @@ default_bitmap_font_entity* default_bitmap_glyph_provider::get_font_entity_impl(
 
 }  // namespace gameswf
 
-#if defined(DH2_AS_OBJECT_HEADER_OK)
-// Everything below needs gameswf::as_object complete. gameswf/gameswf_object.h does not compile in this tree, so these
-// bodies are not compiled by the tree check. Status PARTIAL for all of them.
-
 namespace gameswf {
 
 // 0x7a7a8c (C1) and 0x7a7bd8 (C2). Same body in C++. The binary order is kept: as_object base, vptr, the empty weak
@@ -206,66 +211,137 @@ as_transform::as_transform(player* p, character* movie_clip)
 	init();
 }
 
-// 0x7a72e8 (D1). PARTIAL: the binary releases the proxy at +0x38 with count-- and free_internal when it reaches zero. The
-// upstream weak_ptr releases its proxy with delete, and the DH2 smart_ptr<weak_proxy> release is not declared here.
-// The member m_movie and the base as_object are destroyed by C++ after this body.
+// 0x7a72e8 (D1). The binary: vptr, release of the weak proxy at +0x38 (count minus one, free_internal at zero), then
+// ~as_object. The member m_movie and the base as_object are destroyed by C++ after this empty body.
 as_transform::~as_transform()
 {
 }
 
-// 0x7a75c0 gameswf::as_transform::init(void). PARTIAL: four blocks in binary order: colorTransform,
-// concatenatedColorTransform, matrix and concatenatedMatrix. Each block first checks the weak player link
-// (as_object::m_player, +0x2c proxy and +0x30 player) and the weak movie link (m_movie, +0x38 and +0x3c), as
-// weak_ptr::get_ptr does, then builds one as_color_transform or as_matrix and stores it with builtin_member.
-// Differences from the binary:
-//   - The binary reads the movie's local cxform (+0x48) with no null test. After a dead link it reads address 0x48.
-//     Here a null movie gives a null cxform.
-//   - get_world_cxform and get_world_matrix are called on the movie without a null test in the binary. The DH2 form of
-//     those accessors returns a pointer, which the upstream header does not declare yet (upstream returns by value).
-//   - The DH2 constructors as_color_transform(player*, cxform const*) and as_matrix(player*, matrix const*) are not
-//     declared by the upstream headers; they must be added there (// DH2) by their own batch.
+// 0x7a75c0 gameswf::as_transform::init(void). Four blocks in binary order: colorTransform, concatenatedColorTransform,
+// matrix and concatenatedMatrix. Each block reads the weak player link (as_object::m_player, +0x2c proxy and +0x30 player)
+// and the weak movie link (m_movie, +0x38 and +0x3c) through get_ptr (a dead link is cleared), then builds one
+// as_color_transform or as_matrix and stores it with builtin_member. The colour transform and the matrix are copied
+// from the movie: the local ones for the first and third block (character +0x48 and +0x4c), the world ones for the
+// other two (character::get_world_cxform and get_world_matrix). Like the binary, nothing here tests the movie for null.
 void as_transform::init()
 {
-	// Block 1: colorTransform. The local cxform is at character +0x48.
+	// Block 1: colorTransform.
 	{
 		player* p = m_player.get_ptr();
 		character* movie = m_movie.get_ptr();
-		const cxform* local = movie != nullptr ? movie->m_local_cxform : nullptr;  // +0x48, not declared in gameswf_character.h yet
-		as_color_transform* color = new as_color_transform(p, local);  // binary: operator new(0x58), then the constructor
-		as_value value(color);  // binary: type 5 and add_ref; the DH2 as_value(as_object*) takes that reference
-		builtin_member(tu_stringi("colorTransform"), value);
+		as_color_transform* color = new as_color_transform(p, movie->m_local_cxform);
+		builtin_member(tu_stringi("colorTransform"), as_value(color));
 	}
 
-	// Block 2: concatenatedColorTransform. The world cxform comes from the movie (pointer form).
+	// Block 2: concatenatedColorTransform.
 	{
 		player* p = m_player.get_ptr();
 		character* movie = m_movie.get_ptr();
-		const cxform* world = movie->get_world_cxform();  // binary: character::get_world_cxform(movie)
-		as_color_transform* color = new as_color_transform(p, world);
-		as_value value(color);
-		builtin_member(tu_stringi("concatenatedColorTransform"), value);
+		as_color_transform* color = new as_color_transform(p, movie->get_world_cxform());
+		builtin_member(tu_stringi("concatenatedColorTransform"), as_value(color));
 	}
 
-	// Block 3: matrix. The local matrix is at character +0x4c (m_local_matrix).
+	// Block 3: matrix.
 	{
 		player* p = m_player.get_ptr();
 		character* movie = m_movie.get_ptr();
-		const matrix* local = movie != nullptr ? movie->m_local_matrix : nullptr;  // +0x4c
-		as_matrix* mat = new as_matrix(p, local);  // binary: operator new(0x50), then the constructor
-		as_value value(mat);
-		builtin_member(tu_stringi("matrix"), value);
+		as_matrix* mat = new as_matrix(p, movie->m_local_matrix);
+		builtin_member(tu_stringi("matrix"), as_value(mat));
 	}
 
-	// Block 4: concatenatedMatrix. The world matrix comes from the movie (pointer form).
+	// Block 4: concatenatedMatrix.
 	{
 		player* p = m_player.get_ptr();
 		character* movie = m_movie.get_ptr();
-		const matrix* world = movie->get_world_matrix();  // binary: character::get_world_matrix(movie)
-		as_matrix* mat = new as_matrix(p, world);
-		as_value value(mat);
-		builtin_member(tu_stringi("concatenatedMatrix"), value);
+		as_matrix* mat = new as_matrix(p, movie->get_world_matrix());
+		builtin_member(tu_stringi("concatenatedMatrix"), as_value(mat));
+	}
+}
+
+// 0x7a7360 gameswf::as_transform::set_member(gameswf::tu_stringi const&, gameswf::as_value const&)
+// The name is looked up in the standard member table (get_standard_member). "matrix": when the value is a Matrix object
+// (class id 26), the member is stored through as_object::set_member and the movie's local matrix is set from it
+// (character::set_matrix with the matrix inside the object). "colorTransform": the same with a ColorTransform object (class
+// id 28) and character::set_cxform. "concatenatedMatrix" and "concatenatedColorTransform" are read-only and ignored. Anything
+// else is stored by as_object::set_member. All of the transform names answer true. Like the binary, the movie is not tested
+// for null.
+bool as_transform::set_member(const tu_stringi& name, const as_value& val)
+{
+	switch (get_standard_member(name))
+	{
+		case M_MATRIX:
+		{
+			as_matrix* mat = cast_to<as_matrix>(val.to_object());
+			if (mat == NULL)
+			{
+				return true;
+			}
+			as_object::set_member(name, val);
+			m_movie.get_ptr()->set_matrix(mat->m_matrix);
+			return true;
+		}
+		case M_CONCATENATEDMATRIX:
+		case M_CONCATENATEDCOLORTRANSFORM:
+			return true;
+		case M_COLORTRANSFORM:
+		{
+			as_color_transform* color = cast_to<as_color_transform>(val.to_object());
+			if (color != NULL)
+			{
+				as_object::set_member(name, val);
+				m_movie.get_ptr()->set_cxform(color->m_color_transform);
+			}
+			return true;
+		}
+		default:
+			return as_object::set_member(name, val);
+	}
+}
+
+// 0x7a74b4 gameswf::as_transform::get_member(gameswf::tu_stringi const&, gameswf::as_value*)
+// "concatenatedMatrix" answers the stored member as it is (always true). "concatenatedColorTransform" first fetches the
+// stored member; when that is a ColorTransform object (class id 28) its colour transform is refreshed from the movie's
+// world colour transform before the answer (true in every case). Every other name is as_object::get_member.
+bool as_transform::get_member(const tu_stringi& name, as_value* val)
+{
+	const as_standard_member member = get_standard_member(name);
+	if (member == M_CONCATENATEDMATRIX)
+	{
+		as_object::get_member(name, val);
+		return true;
+	}
+	if (member != M_CONCATENATEDCOLORTRANSFORM)
+	{
+		return as_object::get_member(name, val);
+	}
+	if (!as_object::get_member(name, val))
+	{
+		return true;
+	}
+	as_color_transform* color = cast_to<as_color_transform>(val->to_object());
+	if (color == NULL)
+	{
+		return true;
+	}
+	color->m_color_transform = *m_movie.get_ptr()->get_world_cxform();
+	return true;
+}
+
+// 0x7a7ae4 gameswf::as_global_transform_ctor(gameswf::fn_call const&)
+// Transform(mc:MovieClip): with exactly one argument that is a character object, makes an as_transform on the call's player
+// and stores it in the result. Any other single argument leaves the result as null (set_as_object(NULL)). With another
+// argument count nothing happens. The temporary reference is dropped at the end.
+void as_global_transform_ctor(const fn_call& fn)
+{
+	if (fn.nargs == 1)
+	{
+		smart_ptr<as_transform> obj;
+		if (character* movie = cast_to<character>(fn.arg(0).to_object()))
+		{
+			obj = new as_transform(fn.get_player(), movie);
+		}
+		fn.result->set_as_object(obj.get_ptr());
 	}
 }
 
 }  // namespace gameswf
-#endif  // DH2_AS_OBJECT_HEADER_OK

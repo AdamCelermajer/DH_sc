@@ -1,0 +1,2 @@
+r3b-game-app-global-f216b6-0 | reconstructed 17 | partial 3 | skipped 0 | upstream 0 | compiles yes | CMsg factories completed via bool constructors in c_msg_fixed.hpp; CMsgAttackResult and CMsgRaisedEvent stay partial (duplicate classes); subtitle layout request open
+r3b-game-app-global-f216b6-1 | reconstructed 6 | partial 14 | skipped 0 | upstream 0 | compiles yes | gameswf natives completed on fn_call (set_bool); GetNewState, LightPoint kept with link gaps; GameObject-derived factories wait for their constructors

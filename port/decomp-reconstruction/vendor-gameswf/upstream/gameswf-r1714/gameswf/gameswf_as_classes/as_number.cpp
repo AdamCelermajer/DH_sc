@@ -14,6 +14,7 @@ namespace gameswf
 
 	static const char s_hex_digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVXYZW";
 
+#if 0 /* DH2: replaced by the definition that follows (as_global_parse_float, 0x7a40f8) */
 	void as_global_parse_float(const fn_call& fn)
 	{
 		if (fn.nargs > 0)  
@@ -27,7 +28,23 @@ namespace gameswf
 		}
 		fn.result->set_nan();
 	}
+#endif /* DH2 */
+	void as_global_parse_float(const fn_call& fn)
+	{
+		// DH2: 0x7a40f8. Exactly one argument; two or more give NaN.
+		if (fn.nargs == 1)
+		{
+			double res;
+			if (string_to_number(&res, fn.arg(0).to_string()))
+			{
+				fn.result->set_double(res);
+				return;
+			}
+		}
+		fn.result->set_nan();
+	}
 
+#if 0 /* DH2: replaced by the definition that follows (as_global_parse_int, 0x7a4058) */
 	void as_global_parse_int(const fn_call& fn)
 	{
 		if (fn.nargs > 0)
@@ -35,6 +52,26 @@ namespace gameswf
 			int res;
 			int base = fn.nargs > 1 ? fn.arg(1).to_int() : 10;
 			if (string_to_number(&res, fn.arg(0).to_string(), base))
+			{
+				fn.result->set_int(res);
+				return;
+			}
+		}
+		fn.result->set_nan();
+	}
+#endif /* DH2 */
+	void as_global_parse_int(const fn_call& fn)
+	{
+		// DH2: 0x7a4058. The radix is logged (exactly two arguments) and ignored; parsing needs at least two arguments, so
+		// DH2: parseInt(str) with one argument gives NaN. string_to_number here is the base-10 form.
+		if (fn.nargs == 2)
+		{
+			log_error("parseInt: radix is not yet supported\n");
+		}
+		if (fn.nargs > 1)
+		{
+			int res;
+			if (string_to_number(&res, fn.arg(0).to_string()))
 			{
 				fn.result->set_int(res);
 				return;

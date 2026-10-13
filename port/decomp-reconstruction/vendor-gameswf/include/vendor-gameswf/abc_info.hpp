@@ -1,47 +1,22 @@
-// gameswf::traits_info and gameswf::instance_info as the DH2 binary has them (Gameloft AVM2 support). Replaces the
-// upstream structs in vendor-gameswf/upstream/gameswf-r1714/gameswf/gameswf_avm2.h (traits_info) and gameswf_abc.h
-// (instance_info), wrapped in #if 0 there. The upstream instance_info holds m_trait as gc_array; the binary holds an
-// array<smart_ptr<traits_info>>, which the destructor calls resize and reserve on.
+// gameswf::traits_info, instance_info, class_info, script_info, metadata_info and abc_def (the AVM2 definition classes).
 //
-// Only the members the batch touches are named. The other bytes are padding until their functions are reconstructed.
+// The DH2 layouts are declared once, in the upstream headers gameswf/gameswf_avm2.h (traits_info) and gameswf/gameswf_abc.h
+// (the rest), as DH2 changes to the r1714 structs. Once the array is 16 bytes (buffer, size, capacity and the borrowed flag)
+// the binary's classes are r1714's with two removals: class_info and instance_info have no weak_ptr<abc_def> m_abc. The V1
+// header that stood here modelled arrays as 12 bytes and filled the gaps with pads; it is gone. This header only pulls the
+// definitions in for the batch sources that include it by this name.
 //
-//   traits_info (ref_counted base, 12 bytes: vptr +0x00, count +0x04, weak proxy +0x08)
-//     +0x0c..+0x23  pad_0c   upstream name, kind, attr and the trait union (not recovered)
-//     +0x24         m_metadata  array<int> (buffer +0x24, size +0x28, buffer size +0x2c)
+//   traits_info   0x34 bytes: ref_counted +0x00, m_name +0x0c, m_kind +0x10, m_attr +0x11, union +0x14 (16 bytes),
+//                 m_metadata +0x24 (array<int>)
+//   instance_info 0x40 bytes: ref_counted +0x00, m_name +0x0c, m_super_name +0x10, m_flags +0x14, m_protectedNs +0x18,
+//                 m_interface +0x1c, m_iinit +0x2c, m_trait +0x30 (array<smart_ptr<traits_info>>)
+//   class_info    0x20 bytes: m_cinit +0x0c, m_trait +0x10
+//   script_info   0x20 bytes: m_init +0x0c, m_trait +0x10
+//   abc_def       0xcc bytes: twelve arrays from +0x0c in steps of 0x10 (m_integer ... m_script)
 //
-//   instance_info (ref_counted base)
-//     +0x0c..+0x1b  pad_0c   upstream name, super name, flags and protected namespace (not recovered)
-//     +0x1c         m_interface  array<int>
-//     +0x28..+0x2f  pad_28   not recovered (upstream m_iinit and m_abc)
-//     +0x30         m_trait      array<smart_ptr<traits_info>>
-//
-// Bodies: vendor-gameswf/src/v1-vendor-gameswf-pack17-c88d12-0.cpp (0x7b9938, 0x7b9c18; the deleting destructors
-// 0x7b99d0 and 0x7ba5e4 are compiler-generated).
+// Bodies: vendor-gameswf/src/v1-vendor-gameswf-pack17-c88d12-0.cpp (traits_info and instance_info destructors),
+// v1-vendor-gameswf-pack16-133bd3-0.cpp (abc_def constructors, class_info destructor, find_instance and others).
 
 #pragma once
 
-#include <cstdint>
-
-#include "base/container.h"         // array<> (DH2 destructor: clear() and reserve(0))
-#include "base/smart_ptr.h"         // smart_ptr<T> (global in upstream)
-#include "vendor-gameswf/ref_counted.hpp"  // gameswf::ref_counted (DH2)
-
-namespace gameswf {
-
-struct traits_info : public ref_counted {
-	~traits_info() override;  // 0x7b9c18 (D1). Destroys m_metadata. The base destructor runs after this body.
-
-	std::uint8_t pad_0c[0x18];  // +0x0c..+0x23
-	array<int> m_metadata;      // +0x24
-};
-
-struct instance_info : public ref_counted {
-	~instance_info() override;  // 0x7b9938 (D1). Destroys m_trait, then m_interface. The base destructor runs after this body.
-
-	std::uint8_t pad_0c[0x10];                // +0x0c..+0x1b
-	array<int> m_interface;                   // +0x1c
-	std::uint8_t pad_28[0x08];                // +0x28..+0x2f
-	array<smart_ptr<traits_info> > m_trait;   // +0x30
-};
-
-}  // namespace gameswf
+#include "gameswf/gameswf_abc.h"

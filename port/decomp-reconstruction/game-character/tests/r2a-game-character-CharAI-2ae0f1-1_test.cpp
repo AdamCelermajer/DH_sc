@@ -147,9 +147,7 @@ Projectile* ProjectileManager::Spawn(int, GameObject*, GameObject*, int (*)(Proj
 template <> ProjectileManager Singleton<ProjectileManager>::s_inst{};
 VisualFXManager::VisualFXManager() {}
 VisualFXManager::~VisualFXManager() {}
-int VisualFXManager::PlayAnimFXSet(int, const Point3D<float>&, const GameObject*, VisualFXManager::AnimFXSetData*) {
-    return 0;
-}
+void VisualFXManager::PlayAnimFXSet(int, const Point3D<float>&, const GameObject*, VisualFXManager::AnimFXSetData*) {}
 VisualFXManager VisualFXManager::s_inst{};
 VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
 VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}

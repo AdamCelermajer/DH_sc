@@ -284,6 +284,7 @@ tu_file::tu_file(
 // Create a file using the custom callbacks.
 {
 	m_data = appdata;
+	m_open = NULL;
 	m_read = rf;
 	m_write = wf;
 	m_seek = sf;
@@ -299,6 +300,7 @@ tu_file::tu_file(FILE* fp, bool autoclose=false)
 // Create a file from a standard file pointer.
 {
 	m_data = (void *)fp;
+	m_open = NULL;
 	m_read = std_read_func;
 	m_write = std_write_func;
 	m_seek = std_seek_func;
@@ -312,6 +314,7 @@ tu_file::tu_file(FILE* fp, bool autoclose=false)
 tu_file::tu_file(const char * name, const char * mode) :
 // Create a file from the given name and the given mode.
 	m_data(NULL),
+	m_open(NULL),
 	m_read(NULL),
 	m_write(NULL),
 	m_seek(NULL),
@@ -346,6 +349,7 @@ tu_file::tu_file(memory_buffer_enum m)
 	//	should actually be
 	m_data = new filebuf();	// thanks to Eli Curtz 
 
+	m_open = NULL;
 	m_read = mem_read_func;
 	m_write = mem_write_func;
 	m_seek = mem_seek_func;
@@ -364,6 +368,7 @@ tu_file::tu_file(memory_buffer_enum m, int size, void* data)
 	//	should actually be
 	m_data = new filebuf(size, data);	// thanks to Eli Curtz 
 
+	m_open = NULL;
 	m_read = mem_read_func;
 	m_write = mem_write_func;
 	m_seek = mem_seek_func;

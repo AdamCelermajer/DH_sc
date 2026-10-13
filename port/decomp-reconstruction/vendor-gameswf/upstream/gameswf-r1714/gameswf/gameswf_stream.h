@@ -16,9 +16,12 @@ class tu_file;
 
 namespace gameswf
 {
+	struct action_buffer;	// DH2: friend of stream below
+
 	// stream is used to encapsulate bit-packed file reads.
 	struct stream
 	{
+		friend struct action_buffer;	// DH2: action_buffer::read (0x7bafa4) tests the flag at +0x00
 		stream(tu_file* input);
 		stream(tu_file* input, bool flag);  // DH2: binary ctor 0x783dd4 / 0x783e24 (second argument stored at +0x00)
 		~stream();
@@ -79,15 +82,13 @@ namespace gameswf
 		tu_file*	get_underlying_stream() { return m_input; }
 
 	private:
-		bool	unk_00;  // DH2 +0x00: second constructor argument (binary ctor 0x783dd4)
-		tu_file*	m_input;
-		Uint8	m_current_byte;
-		Uint8	m_unused_bits;
+		bool	unk_00;  // DH2 +0x00: second constructor argument (binary ctor 0x783dd4), not read by any stream member
+		tu_file*	m_input;	// +0x04
+		Uint8	m_current_byte;	// +0x08
+		Uint8	m_unused_bits;	// +0x09
 
-		array<int>	m_tag_stack;	// position of end of tag
-		Uint8	unk_18;  // DH2 +0x18: cleared by the DH2 constructor, not identified
-		array<char>	unk_1c;  // DH2 +0x1c: the DH2 constructor reserves 256 bytes; destroyed before m_tag_stack
-		Uint8	unk_28;  // DH2 +0x28: cleared by the DH2 constructor, not identified
+		array<int>	m_tag_stack;	// +0x0c, position of end of tag (16 bytes: the byte at +0x18 is the array's m_borrowed)
+		array<char>	unk_1c;  // DH2 +0x1c: the DH2 constructor reserves 256 bytes (16 bytes: the byte at +0x28 is the array's m_borrowed)
 	};
 
 

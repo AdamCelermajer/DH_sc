@@ -1,6 +1,5 @@
 // Test for batch v1-vendor-gameswf-pack15-a0a47d-0 (image_base, image_rgba, image_rgb, tu_file::read_fully,
 // tu_loadlib).
-//   bash tools/trackb/check_tu.sh --test <this file> port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack15-a0a47d-0.cpp
 //
 // The test supplies the callees that belong to other batches or to upstream files this batch does not link,
 // so the constructor arithmetic, pixel store, read loop and stream stubs can run on their own:
@@ -15,7 +14,11 @@
 //   tu_string::resize and tu_string::utf8_char_count (upstream base/container.cpp): the MSVC/MinGW dllexport on
 //       exported_module makes every tu_string member inline-emitted in each TU that includes container.h, so these
 //       two are referenced even though this test never calls a string member. They abort if reached.
-// Link line: the batch source and the tu_string batch source (src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp).
+//
+// Link line (run from the repository root; <this file> is this test file):
+//   bash tools/trackb/check_tu.sh --test <this file>
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-pack15-a0a47d-0.cpp
+//     port/decomp-reconstruction/vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp
 
 #include <cstddef>
 #include <cstdint>

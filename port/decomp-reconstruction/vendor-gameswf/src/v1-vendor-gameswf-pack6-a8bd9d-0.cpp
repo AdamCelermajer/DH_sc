@@ -10,18 +10,22 @@
 //   gameswf::string_hash<U> and stringi_hash<U> dtors, hash<...>::set_raw_capacity
 //                                  upstream base/container.h (templates)
 //
-// Not reconstructed here (see ledger rows for the reason): the bodies of as_stage::get_member,
-// player_context destructors, render_cache::is_valid and ~render_cache (partial), and
-// hash<tu_stringi, as_standard_member, ...>::set_raw_capacity (partial, no body). The deleting destructors
-// (0x76d490, 0x76d578, 0x773cf8) are compiler-generated and skipped.
+// The deleting destructors (0x76d490, 0x76d578, 0x773cf8) are compiler-generated and skipped.
 
 #include <cstdint>
 
 #include "base/container.h"
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_render.h"
-#include "vendor-gameswf/as_stage.hpp"  // the class is defined only when DH2_AS_OBJECT_HEADER_OK is set
+#include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_player.h"
+#include "gameswf/gameswf_action.h"  // as_standard_member and the declaration of its table's set_raw_capacity
+#include "vendor-gameswf/gameswf_dh2_hash.hpp"  // dh2_hash_access::set_raw_capacity, the shared rehash body
+#include "gameswf/gameswf_root.h"
+#include "vendor-gameswf/as_stage.hpp"
+#include "vendor-gameswf/bitmap_glyph_provider.hpp"
 #include "vendor-gameswf/glyph_provider.hpp"
+#include "vendor-gameswf/glyph_texture_cache.hpp"
 #include "vendor-gameswf/player_context.hpp"
 #include "vendor-gameswf/ref_counted.hpp"  // gameswf::free_internal
 #include "vendor-gameswf/render_cache.hpp"
@@ -30,17 +34,13 @@ namespace gameswf {
 
 // ---------------------------------------------------------------------------------------------------------------
 // gameswf::as_stage
-// BLOCKED: everything in this section is compiled only with DH2_AS_OBJECT_HEADER_OK, because gameswf_object.h does
-// not compile in this tree (see as_stage.hpp). The rows are partial until the build can include it.
 // ---------------------------------------------------------------------------------------------------------------
 
-#if defined(DH2_AS_OBJECT_HEADER_OK)
 
 // 0x76c728 gameswf::as_stage::is(int) const
-// Returns true for class id 0 (AS_OBJECT, the base id) and for 21, the binary's id for as_stage. The id 21 has no
-// enumerator in gameswf.h (as_classes), so it is written as a literal.
+// Returns true for class id 0 (AS_OBJECT, the base id) and for AS_STAGE (21).
 bool as_stage::is(int class_id) const {
-    return class_id == 21 || class_id == AS_OBJECT;
+    return class_id == AS_STAGE || class_id == AS_OBJECT;
 }
 
 // 0x76ccbc gameswf::as_stage::~as_stage()   [D1, complete-object destructor]
@@ -53,19 +53,19 @@ as_stage::~as_stage() {
 // Compiler-generated: runs D1, then operator delete (LC_API_FREE_0 in the binary). C++ delete produces it.
 
 // 0x76d724 gameswf::as_stage::get_member(gameswf::tu_stringi const&, gameswf::as_value*)
-// PARTIAL. The name dispatch matches the binary: a case-insensitive comparison with "width", then with
-// "height"; any other name returns 0. For those names the binary sets *val to the root movie's get_width() or
-// get_height() and returns 1. The root movie is the player's weak pointer at player +0x48 (proxy) and +0x4c
-// (cached character). The player layout is not in the tree, so the value is not produced here and the call
-// returns 0 for both names. The binary's dead-proxy branch (weak pointer released, then a second read through
-// a null pointer in the decompiled code) is unresolved, which is one more reason this stays partial.
+// The names "width" and "height" (compared ignoring case, width first) answer with the root's movie size: the player's
+// root (player +0x48/+0x4c through the weak pointer, as player::get_root) and its get_movie_width (vtable +0x50) or
+// get_movie_height (+0x54), as a number. Any other name returns 0 and leaves the value alone. The player is read
+// through the weak pointer without a null test, and so is the root: a dead player or a missing root crashes there too.
 bool as_stage::get_member(const tu_stringi& name, as_value* val) {
-    (void)val;
     const char* s = name.c_str();
-    const bool is_width = tu_string::stricmp(s, "width") == 0;
-    const bool is_height = !is_width && tu_string::stricmp(s, "height") == 0;
-    if (!is_width && !is_height) {
-        return false;
+    if (tu_string::stricmp(s, "width") == 0) {
+        val->set_double(static_cast<double>(get_player()->get_root()->get_movie_width()));
+        return true;
+    }
+    if (tu_string::stricmp(s, "height") == 0) {
+        val->set_double(static_cast<double>(get_player()->get_root()->get_movie_height()));
+        return true;
     }
     return false;
 }
@@ -81,7 +81,6 @@ as_stage::as_stage(player* p) : as_object(p) {
     as_object::set_member(tu_stringi("height"), one);
 }
 
-#endif  // DH2_AS_OBJECT_HEADER_OK
 
 // ---------------------------------------------------------------------------------------------------------------
 // gameswf::player_context
@@ -90,27 +89,36 @@ as_stage::as_stage(player* p) : as_object(p) {
 // 0x76ce38 gameswf::player_context::player_context()   [C1]
 // 0x76ce90 gameswf::player_context::player_context()   [C2]
 // The binary runs the ref_counted constructor, then zeroes +0x0c, +0x10, +0x14 (array data), +0x18 (size),
-// +0x1c (buffer size), +0x20 (byte), +0x24 and +0x28, and stores the vptr. The member initializers in the
-// header do the same.
+// +0x1c (buffer size), +0x20 (the array's borrowed byte), +0x24 and +0x28, and stores the vptr. The member
+// initializers in the header do the same.
 player_context::player_context() {
 }
 
 // 0x76cee8 gameswf::player_context::~player_context()   [D2, base-object destructor]
 // 0x76d4cc gameswf::player_context::~player_context()   [D1, complete-object destructor]
-// Same code for both. PARTIAL:
-//   - The glyph provider at +0x0c: ~glyph_provider, then free. Done.
-//   - The bitmap glyph provider at +0x10 is destroyed with gameswf::destruct<bitmap_glyph_provider> (0x76c9ac).
-//     That type is absent from the tree, and the destruct template for it is not defined in this tree, so the
-//     call is not made here and the object is not released by this function.
-//   - unk_14 (array<player*>): when its size field is negative, the binary zeroes the elements from the size up
-//     to -1. The upstream array never has a negative size, so that loop is not reproduced. The normal path (size
-//     0 or more) is the array's clear(), which matches the binary's reserve(0) with the size set to 0.
+// Same code for both. The glyph provider at +0x0c: ~glyph_provider, then free. The bitmap glyph provider at +0x10 goes
+// through destruct<bitmap_glyph_provider> (0x76c9ac). Then the array of players is emptied and its buffer released
+// (the binary's loop that zeroes the elements from a negative size is the array destructor's own; the size is never
+// negative here), which the member destructor does after this body.
 player_context::~player_context() {
     if (m_glyph_provider) {
         m_glyph_provider->~glyph_provider();
         free_internal(m_glyph_provider, 0);
     }
-    unk_14.clear();
+    if (m_bitmap_glyph_provider) {
+        destruct<bitmap_glyph_provider>(m_bitmap_glyph_provider);
+    }
+}
+
+// 0x76c9ac gameswf::destruct<gameswf::bitmap_glyph_provider>(gameswf::bitmap_glyph_provider const*)
+// Null check, then the complete-object destructor through vtable slot 0, then free_internal (the deleting destructor is
+// slot 1, so this is not a double free).
+template <>
+void destruct<bitmap_glyph_provider>(const bitmap_glyph_provider* object) {
+    if (object) {
+        object->~bitmap_glyph_provider();
+        free_internal(const_cast<bitmap_glyph_provider*>(object), 0);
+    }
 }
 
 // 0x76d578 gameswf::player_context::~player_context()   [D0, deleting destructor]: not rebuilt.
@@ -129,58 +137,57 @@ player_context::~player_context() {
 // Upstream: same as string_hash above, with stringi_hash<U> and clear(). No DH2 body. Ledger row: upstream.
 
 // 0x76dbd0 gameswf::hash<gameswf::tu_stringi, gameswf::as_standard_member, gameswf::stringi_hash_functor<gameswf::tu_stringi>>::set_raw_capacity(int)
-// PARTIAL, no body. The binary's version differs from base/container.h hash::set_raw_capacity: it rounds the size
-// up to a power of two with 1 << (int)(logf(n - 1) / ln 2 + 1.0), ln 2 the float 0x3F317218, its minimum table size is 4 (the upstream
-// minimum is 16), it allocates 32 * size + 8 bytes with malloc_internal and 32-byte entries (next at +0, hash at
-// +4, key tu_stringi at +8, value at +0x1c), and it frees the key's heap buffer when the key's first byte is -1.
-// The upstream member is the one set_raw_capacity for every hash instantiation (add() calls it), and
-// as_standard_member is also used by upstream code (gameswf_player.cpp and others). Replacing it for one
-// instantiation would change the others, and the table member is private to hash. The binary body is not
-// installed here. Needs a decision from the integrator (see the ledger row).
+// The binary's rehash differs from the upstream generic member: the table size is the power of two 1 << (int)(logf(n - 1) / ln 2 + 1.0) (ln 2 the
+// float 0x3F317218) with a minimum of 4 (upstream 16), the table comes from malloc_internal (32 * size + 8 bytes on ARM: 32-byte entries, next
+// at +0, hash at +4, the tu_stringi key at +8, the value at +0x1c), and each moved entry's key heap text is released. It is the shared body,
+// dh2_hash_access::set_raw_capacity (gameswf_dh2_hash.hpp). Declared in gameswf_action.h.
+template <>
+void ::hash<tu_stringi, gameswf::as_standard_member, stringi_hash_functor<tu_stringi> >::set_raw_capacity(int new_size) {
+    dh2_hash_access::set_raw_capacity(*this, new_size);
+}
 
 // ---------------------------------------------------------------------------------------------------------------
 // gameswf::render_cache
 // ---------------------------------------------------------------------------------------------------------------
 
 // 0x7738a4 gameswf::render_cache::is_valid(gameswf::character*)
-// PARTIAL. Returns false, so the caller rebuilds the cache. The binary: checks the character's weak player pointer
-// (+0x2c/+0x30), reads player +0xac (a player_context*), calls get_world_cxform() and get_world_matrix() (results
-// unused), then compares the texture cache's m_last_clock (glyph provider +0x28 -> texture_cache +0x08) and the
-// second clock (the object at bitmap glyph provider +0x0c, its words at +0x08 and +0x0c). The comparison itself is dh2::render_cache_clocks_valid in
-// render_cache_clocks.hpp (tested). Not reproduced: player +0xac and the bitmap glyph provider are not in the tree.
+// The character's player (as_object::m_player, +0x2c/+0x30) gives the context (player +0xac). The character's world
+// colour transform and matrix are fetched and dropped (the calls refresh them). The first clock is the glyph
+// provider's glyph texture cache (glyph provider +0x28, then its m_last_clock at +0x08, two words), absent when the
+// provider has no cache; the second is the bitmap glyph provider's texture cache (+0x0c, clock at +0x08), absent
+// likewise. The comparison and the stores are dh2::render_cache_clocks_valid (render_cache_clocks.hpp). The provider
+// pointers of the context are not tested for null, as in the binary.
 bool render_cache::is_valid(character* ch) {
-    (void)ch;
-    return false;
+    player_context* context = ch->get_player()->m_context;
+    ch->get_world_cxform();
+    ch->get_world_matrix();
+
+    std::int32_t texture_words[2];
+    const std::int32_t* texture_clock = nullptr;
+    if (glyph_texture_cache* glyphs = context->m_glyph_provider->m_texture_cache) {
+        const std::int64_t clock = glyphs->m_last_clock;
+        texture_words[0] = static_cast<std::int32_t>(static_cast<std::uint32_t>(static_cast<std::uint64_t>(clock)));
+        texture_words[1] = static_cast<std::int32_t>(static_cast<std::uint32_t>(static_cast<std::uint64_t>(clock) >> 32));
+        texture_clock = texture_words;
+    }
+
+    std::int32_t bitmap_words[2];
+    const std::int32_t* bitmap_clock = nullptr;
+    if (texture_cache* bitmaps = context->m_bitmap_glyph_provider->m_texture_cache) {
+        const std::int64_t clock = bitmaps->m_last_clock;
+        bitmap_words[0] = static_cast<std::int32_t>(static_cast<std::uint32_t>(static_cast<std::uint64_t>(clock)));
+        bitmap_words[1] = static_cast<std::int32_t>(static_cast<std::uint32_t>(static_cast<std::uint64_t>(clock) >> 32));
+        bitmap_clock = bitmap_words;
+    }
+
+    return dh2::render_cache_clocks_valid(m_texture_clock, m_bitmap_clock, texture_clock, bitmap_clock);
 }
 
 // 0x78ba28 gameswf::render_cache::~render_cache()
-// PARTIAL. Order and effects of the binary: unk_40 (array<uint16_t>) is cleared; the owned block at +0x30 has its
-// +0x04 cleared, and when its flag at +0x3c is zero, its +0x08 is cleared, the block is freed and its pointer
-// cleared; the same for the block at +0x20 (flag at +0x2c); then unk_10 (array<entry>) is cleared. Not reproduced:
-// when a size field is negative, the binary zeroes the elements from the size up to -1 (the same pattern as
-// player_context; the upstream array never has a negative size).
+// The binary releases the four arrays in reverse order (indices, uvs, vertices, entries): each has its elements
+// zeroed when the size is negative, the size set to zero, and the buffer freed unless it is borrowed. That is the
+// array destructor, which the member destructors run after this empty body in the same order.
 render_cache::~render_cache() {
-    unk_40.clear();
-
-    unk_30.unk_04 = 0;
-    if (unk_30.flag_0c == 0) {
-        unk_30.unk_08 = 0;
-        if (unk_30.unk_00) {
-            free_internal(unk_30.unk_00, 0);
-        }
-        unk_30.unk_00 = nullptr;
-    }
-
-    unk_20.unk_04 = 0;
-    if (unk_20.flag_0c == 0) {
-        unk_20.unk_08 = 0;
-        if (unk_20.unk_00) {
-            free_internal(unk_20.unk_00, 0);
-        }
-        unk_20.unk_00 = nullptr;
-    }
-
-    unk_10.clear();
 }
 
 // ---------------------------------------------------------------------------------------------------------------

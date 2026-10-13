@@ -1,8 +1,9 @@
 // Batch v1-vendor-gameswf-pack17-c88d12-0 (vendor-gameswf, DH2 gameswf r1714 with Gameloft changes).
 //
-// Twenty binary functions in eight owners:
-//   instance_info D1 (0x7b9938), traits_info D1 (0x7b9c18), do_action get_action_offset (0x7ba68c) and D1 (0x7bb234),
-//   action_buffer C1 (0x7bae08) and C2 (0x7bae5c), action_buffer::execute(as_environment*) (0x7c0690),
+// Binary functions in eight owners (the rows are in the ledger part gameswf-core-asruntime.csv):
+//   instance_info D1 (0x7b9938), traits_info D1 (0x7b9c18), do_action execute (0x7ba664), is_action_tag (0x7ba684),
+//   get_action_offset (0x7ba68c), call_method with the debug label (0x7ba904) and do_action D1 (0x7bb234), action_buffer C1 (0x7bae08) and C2 (0x7bae5c), read (0x7bafa4),
+//   operator= (0x7bb1e4), process_decl_dict (0x7bb9a0), execute(as_environment*) (0x7c0690),
 //   event_id::get_function_name (0x7baef8), array<tu_stringi>::~array (0x7bb410),
 //   hash<tu_string, tu_loadlib*, string_hash_functor<tu_string> >::set_raw_capacity (0x7bb580),
 //   as_function _typeof (0x7c2894), clear_refs (0x7c28c8), get_member (0x7c2990), set_member (0x7c29f0),
@@ -13,18 +14,14 @@
 //
 // Layouts used here (32-bit binary offsets; host pointers are 8 bytes, see TRACK-B decision 2):
 //   ref_counted (vendor-gameswf/ref_counted.hpp): 12 bytes, vptr +0x00, count +0x04, weak proxy +0x08.
-//   array<T> (base/container.h): buffer +0x00, size +0x04, buffer size +0x08. The binary's array at struct offset N is
-//     the buffer at N, size at N+4.
-//   instance_info, traits_info, do_action, action_buffer: vendor-gameswf/include/vendor-gameswf/abc_info.hpp,
-//     do_action.hpp and action_buffer.hpp.
+//   array<T> (base/container.h): buffer +0x00, size +0x04, buffer size +0x08, borrowed flag +0x0c (16 bytes).
+//   instance_info (0x40 bytes) and traits_info (0x34 bytes): gameswf_abc.h and gameswf_avm2.h (vendor-gameswf/abc_info.hpp
+//     pulls them in). do_action (16 bytes) and action_buffer (12 bytes): vendor-gameswf/do_action.hpp and action_buffer.hpp.
+//     The decl_dict table is counted_buffer::m_dictionary (counted_buffer.hpp), not part of the action_buffer.
 //   tu_stringi and tu_string: 20 bytes. A tu_string with first byte -1 keeps its heap text pointer at +0x0c.
 //
 // Not recorded here: the array<T>::~array change (0x7bb410) is in base/container.h, marked DH2. It is the same two steps
 // as every array destructor in the binary (clear, then reserve(0)), so one edit covers all instantiations.
-//
-// Upstream bodies that need action_buffer's dictionary (m_dictionary is not in the DH2 layout; layout request) are #if 0 in
-// gameswf_action.cpp: process_decl_dict, operator=, and the PUSH type 8 and 9 dictionary branches of action_buffer::execute.
-// The do_action::read forwarder is declared in do_action.hpp and has no body here.
 
 #include <cstddef>
 
@@ -32,9 +29,16 @@
 #include "vendor-gameswf/abc_info.hpp"
 #include "vendor-gameswf/action_buffer.hpp"
 #include "vendor-gameswf/do_action.hpp"
+#include "vendor-gameswf/as_function.hpp"
 #include "vendor-gameswf/gameswf_alloc.hpp"  // gameswf::malloc_internal, gameswf::free_internal, swf::MEM_UNRECOVERED
 #include "core-platform/memory.hpp"  // operator new(std::size_t, swf::MemHint), the counted buffer's allocation (0x7bae08)
 #include "vendor-gameswf/gameswf_hash_dh2.hpp"  // dh2_hash::bucket_count, and the tu_loadlib hash declaration
+#include "gameswf/gameswf_action.h"       // event_id, with_stack_entry
+#include "gameswf/gameswf_character.h"    // character::add_action_buffer
+#include "gameswf/gameswf_environment.h"  // with_stack_entry
+#include "gameswf/gameswf_log.h"          // log_error
+#include "gameswf/gameswf_player.h"       // player::m_permanent_strings, m_garbage_count
+#include "gameswf/gameswf_stream.h"       // stream
 
 namespace gameswf {
 
@@ -49,6 +53,22 @@ instance_info::~instance_info() {}
 // Binary: vptr store; the array<int> at +0x24 is resized to 0 and reserved to 0; then ref_counted::~ref_counted.
 traits_info::~traits_info() {}
 
+// 0x7ba904 gameswf::call_method(gameswf::as_value const&, gameswf::as_environment*, gameswf::as_value const&, int, int, char const*)
+// The only call_method in the binary. The result starts undefined. When the method converts to a function (to_function(), null
+// for anything that is not a function object), the function is called through its virtual operator() with a fn_call built from
+// the result, the this value, the environment, the argument count, the stack index of the first argument and the debug label.
+// A method that is not a function leaves the result undefined; the binary logs nothing. r1714 had two five-argument forms with
+// a verbose-only error log: they remain in gameswf_action.cpp as forwarders that pass the label "???".
+as_value call_method(const as_value& method, as_environment* env, const as_value& this_ptr, int nargs,
+                     int first_arg_bottom_index, const char* name) {
+	as_value val;
+	as_function* func = method.to_function();
+	if (func) {
+		(*func)(fn_call(&val, this_ptr, env, nargs, first_arg_bottom_index, name));
+	}
+	return val;
+}
+
 // 0x7ba68c gameswf::do_action::get_action_offset() const
 // Binary: returns the word at this+0x0c, which is m_buf.m_action_offset (action_buffer +0x08).
 int do_action::get_action_offset() const {
@@ -57,18 +77,26 @@ int do_action::get_action_offset() const {
 
 // 0x7bb234 gameswf::do_action::~do_action()   [D1]
 // Binary: vptr store; if the counted buffer at +0x04 is set, drop its reference (counted_buffer::drop_ref, the manual count).
-// The base destructor (execute_tag) runs after this body.
-do_action::~do_action() {
-	if (m_buf.m_buffer != nullptr) {
-		m_buf.m_buffer->drop_ref();
-	}
+// That is the inlined destructor of the action_buffer member, which runs after this empty body; then ~execute_tag.
+do_action::~do_action() {}
+
+// 0x7ba664 gameswf::do_action::execute(gameswf::character*)
+// Binary: a virtual call on the character at vtable +0xcc (add_action_buffer) with the address of the action buffer (this+4).
+void do_action::execute(character* m) {
+	m->add_action_buffer(&m_buf);
+}
+
+// 0x7ba684 gameswf::do_action::is_action_tag() const
+// Binary: returns 1.
+bool do_action::is_action_tag() const {
+	return true;
 }
 
 // 0x7bae08 gameswf::action_buffer::action_buffer()   [C1]
 // 0x7bae5c gameswf::action_buffer::action_buffer()   [C2]
 // Same body in both. Binary: operator new(0x24, swf::MemHint 0) (SwfAlloc) for the counted buffer; its membuf base constructor;
-// the count, the word at +0x14, +0x18, +0x1c and the byte at +0x20 set to 0; the pointer stored in this+0x00 and the count
-// incremented (the reference this object holds). Then this+0x04 = -1 and this+0x08 = 0.
+// the count and the dictionary array (+0x10..+0x20) zeroed; the pointer stored in this+0x00 and the count incremented (the
+// reference this object holds). Then this+0x04 = -1 and this+0x08 = 0.
 // The block is freed by counted_buffer::drop_ref through free_internal (SwfFree), so it is allocated with the same hint,
 // swf::MEM_UNRECOVERED, not with the plain global new. The host sizeof(counted_buffer) stands in for 0x24 (TRACK-B decision 2).
 action_buffer::action_buffer()
@@ -77,12 +105,103 @@ action_buffer::action_buffer()
 	m_decl_dict_processed_at(-1),
 	m_action_offset(0)
 {
-	m_buffer->m_ref_count = 0;
-	m_buffer->unk_14 = nullptr;
-	m_buffer->unk_18 = 0;
-	m_buffer->unk_1c = 0;
-	m_buffer->unk_20 = 0;
 	++m_buffer->m_ref_count;
+}
+
+// 0x7bafa4 gameswf::action_buffer::read(gameswf::stream*)
+// Reads the action records of one tag into the counted buffer. First the buffer is reserved for the rest of the tag
+// (its size plus tag end minus current position). Then m_action_offset is the stream position of the first record, plus 8
+// when the stream's flag byte (+0x00, the second constructor argument) is set. Then the records are read as in r1714: one
+// action byte appended, and for an action byte with bit 7 set a 16-bit length (low byte, high byte) and that many data
+// bytes; an action byte of 0 ends the buffer.
+void action_buffer::read(stream* in) {
+	counted_buffer* buffer = m_buffer;
+	const int tag_end_position = in->get_tag_end_position();
+	const int position = in->get_position();
+	buffer->reserve(buffer->size() + tag_end_position - position);
+	m_action_offset = in->unk_00 ? in->get_position() + 8 : in->get_position();
+
+	for (;;) {
+		const int action_id = in->read_u8();
+		buffer->append(static_cast<Uint8>(action_id));
+		if (action_id & 0x80) {
+			const int length = in->read_u16();
+			buffer->append(static_cast<Uint8>(length & 0xFF));
+			buffer->append(static_cast<Uint8>((length >> 8) & 0xFF));
+			for (int i = 0; i < length; i++) {
+				buffer->append(static_cast<Uint8>(in->read_u8()));
+			}
+		}
+		if (action_id == 0) {
+			break;
+		}
+	}
+}
+
+// 0x7bb1e4 gameswf::action_buffer::operator=(gameswf::action_buffer const&)
+// Shares the other buffer: when it is a different pointer, the current buffer (if any) loses a reference, the pointer is
+// taken and the new buffer (if any) gains one by hand. The two ints (m_decl_dict_processed_at and m_action_offset) are
+// always copied. The dictionary is inside the shared buffer.
+void action_buffer::operator=(const action_buffer& ab) {
+	counted_buffer* other = ab.m_buffer;
+	if (other != m_buffer) {
+		if (m_buffer != nullptr) {
+			m_buffer->drop_ref();
+		}
+		m_buffer = other;
+		if (other != nullptr) {
+			++other->m_ref_count;
+		}
+	}
+	m_decl_dict_processed_at = ab.m_decl_dict_processed_at;
+	m_action_offset = ab.m_action_offset;
+}
+
+// 0x7bb9a0 gameswf::action_buffer::process_decl_dict(int, int, gameswf::player*)
+// Interprets the decl_dict opcode at start_pc; the first one found is remembered in m_decl_dict_processed_at and the same
+// opcode again does nothing. A different opcode later logs an error and is ignored. The dictionary has count entries
+// (the 16-bit word at start_pc+3), each the interned (permanent) copy of one NUL-terminated string from the opcode data,
+// found through the player's permanent string cache. A string that runs past stop_pc logs "action buffer dict length
+// exceeded" and fills the remaining entries (this one included) with the interned text "<invalid>".
+void action_buffer::process_decl_dict(int start_pc, int stop_pc, player* p) {
+	counted_buffer* buffer = m_buffer;
+	if (m_decl_dict_processed_at == start_pc) {
+		return;
+	}
+	if (m_decl_dict_processed_at != -1) {
+		log_error("error: process_decl_dict(%d, %d): decl_dict was already processed at %d\n", start_pc, stop_pc,
+		          m_decl_dict_processed_at);
+		return;
+	}
+	m_decl_dict_processed_at = start_pc;
+
+	const Uint8* data = static_cast<const Uint8*>(buffer->data());
+	const int count = data[start_pc + 3] | (data[start_pc + 4] << 8);
+	buffer->m_dictionary.resize(count);
+
+	int i = start_pc + 2;
+	for (int ct = 0; ct < count; ct++) {
+		buffer->m_dictionary[ct] = p->m_permanent_strings.get(tu_string(reinterpret_cast<const char*>(&data[3 + i])));
+		if (data[3 + i] != 0) {
+			bool exceeded = stop_pc <= i;
+			int j = i + 1;
+			while (!exceeded && data[3 + j] != 0) {
+				j++;
+				if (j == stop_pc + 1) {
+					exceeded = true;
+				}
+			}
+			if (exceeded) {
+				log_error("error: action buffer dict length exceeded\n");
+				for (; ct < count; ct++) {
+					buffer->m_dictionary[ct] = p->m_permanent_strings.get(tu_string("<invalid>"));
+				}
+				return;
+			}
+			i = j;
+		}
+		i++;
+	}
 }
 
 // 0x7bb410 gameswf::array<gameswf::tu_stringi>::~array()
@@ -135,14 +254,8 @@ void hash<tu_string, tu_loadlib*, string_hash_functor<tu_string> >::set_raw_capa
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// action_buffer::execute(as_environment*) and event_id::get_function_name. Behind VENDOR_GAMESWF_DH2_CORE_HEADERS: the
-// upstream gameswf_action.h and gameswf_environment.h do not compile in this tree yet (with_stack_entry needs the object
-// header, and event_id is declared there).
+// action_buffer::execute(as_environment*) and event_id::get_function_name.
 // ---------------------------------------------------------------------------------------------------------------------
-
-#if defined(VENDOR_GAMESWF_DH2_CORE_HEADERS)
-#include "gameswf/gameswf_action.h"       // event_id, with_stack_entry (upstream)
-#include "gameswf/gameswf_environment.h"  // with_stack_entry (upstream)
 
 namespace gameswf {
 
@@ -178,8 +291,8 @@ array<tu_stringi> s_fnames_string;
 // Binary: on first use (size 0), reserve(27), then one element per table entry in order, each constructed in place from the
 // C string. The binary's growth branch (reserve when the count would pass the capacity) cannot run after reserve(27), so
 // it is not written. The element at index m_id is returned.
-// PARTIAL: m_id 27 (ON_SOUND_COMPLETE in upstream's enum) is past the 27-entry table. The binary reads the memory after the
-// table. operator[] asserts here, so the case is not defined.
+// m_id 27 (ON_SOUND_COMPLETE in upstream's enum) is past the 27-entry table: the binary reads the memory after the table
+// there (no defined result), and operator[] asserts here. Every m_id inside the table gives the binary's string.
 const tu_string& event_id::get_function_name() const {
 	if (s_fnames_string.size() == 0) {
 		s_fnames_string.reserve(27);
@@ -191,15 +304,11 @@ const tu_string& event_id::get_function_name() const {
 }
 
 }  // namespace gameswf
-#endif  // VENDOR_GAMESWF_DH2_CORE_HEADERS
 
 // ---------------------------------------------------------------------------------------------------------------------
-// as_function. Behind DH2_AS_OBJECT_HEADER_OK, like as_stage (vendor-gameswf/include/vendor-gameswf/as_stage.hpp): the
-// upstream gameswf_object.h does not compile in this tree. The class is in vendor-gameswf/include/vendor-gameswf/as_function.hpp.
+// as_function: the Gameloft additions to the r1714 struct (m_prototype at +0x38, the _typeof, clear_refs, get_member,
+// set_member and this_alive overrides). The class is in gameswf_function.h (vendor-gameswf/as_function.hpp pulls it in).
 // ---------------------------------------------------------------------------------------------------------------------
-
-#if defined(DH2_AS_OBJECT_HEADER_OK)
-#include "vendor-gameswf/as_function.hpp"
 
 namespace gameswf {
 
@@ -254,11 +363,18 @@ bool as_function::set_member(const tu_stringi& name, const as_value& val) {
 as_function::~as_function() {}
 
 // 0x7c40a4 gameswf::as_function::this_alive()
-// Not written. Binary: the word at +0x30 (v1) and the block pointer at +0x2c (v3). When v1 is set and the byte at v3+0x04 is
-// nonzero, the function returns early if the word at +0x34 equals v1's word at +0x30. Otherwise v3's count is decremented
-// (freed at 1) and +0x30 and +0x2c are cleared. Then as_object::this_alive(this) runs, and a virtual call at vtable +0x44
-// is made on the object at +0x38 when it is set. The meanings of +0x2c, +0x30 and +0x34 are not recovered, so the body is
-// not written and the function stays partial.
+// Binary: reads the player through as_object::m_player (+0x2c proxy, +0x30 player; a dead proxy is released and both words
+// cleared), and returns at once when the player is set and its garbage count (player +0x30) equals this object's alive stamp
+// (+0x34). Otherwise as_object::this_alive() runs, and then this_alive() (vtable +0x44) on the prototype at +0x38 when set.
+void as_function::this_alive() {
+	player* p = m_player.get_ptr();
+	if (p != nullptr && m_alive_stamp == p->m_garbage_count) {
+		return;
+	}
+	as_object::this_alive();
+	if (m_prototype.get_ptr() != nullptr) {
+		m_prototype->this_alive();
+	}
+}
 
 }  // namespace gameswf
-#endif  // DH2_AS_OBJECT_HEADER_OK

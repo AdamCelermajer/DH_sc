@@ -7,16 +7,15 @@
 // gameswf_action.h (DH2).
 //
 // Binary field offsets (32-bit): m_interval +0x38, m_this_ptr +0x3c (as_value, 12 bytes), m_func +0x48
-// (as_value), m_time_remainder +0x54, m_arg +0x58 (array<as_value>: buffer, size, capacity), m_do_once
-// +0x64. The declaration order in as_global.h follows these offsets. m_interval is the first field the
-// constructor writes after the base constructor. The size of the as_object base (0x38) is not confirmed
-// here: as_function.hpp puts its m_prototype at +0x38, which fits but does not prove it.
+// (as_value), m_time_remainder +0x54, m_arg +0x58 (array<as_value>, 16 bytes with its borrowed flag at +0x64).
+// The object is 0x68 bytes. r1714's m_do_once is not in the binary: the byte at +0x64 is m_arg's flag. The
+// declaration order in as_global.h follows these offsets; m_interval is the first field the constructor writes
+// after the base constructor, so as_object (0x38 bytes) is directly in front of it.
 //
 // Not defined here: the call_method overload that takes the debug label (binary 0x7ba904). The
 // callees of advance() and clear_refs() are the upstream/DH2 functions named in each body.
 //
-// Not written: a unit test. Every body runs on as_object, root or the environment, and this TU does not
-// compile yet (gc_ptr blocker in base/tu_gc_singlethreaded_refcount.h), so no part runs on its own.
+// Not written: a unit test. Every body runs on as_object, root or the environment, which need the engine.
 //
 // Pairs with one body each: C1 0x7a7064 and C2 0x7a6f24, D1 0x7a6e48 and D2 0x7a6ec4. The deleting
 // destructor D0 0x7a6ea8 is compiler-generated and is not written here (see the ledger).
@@ -51,7 +50,7 @@ as_value cleared_reference()
 // index inclusive (the binary's loop pushes the index before it increments it). The timer is then added to
 // the listener block at root +0xb8: the binary calls gameswf::listener::add(root+0xb8, this) after a
 // non-virtual call to as_object::get_root(). That block is declared on the DH2 root as add_listener()
-// (vendor-gameswf/include/vendor-gameswf/gameswf_root.hpp); its definition is the listener batch's.
+// (vendor-gameswf/include/vendor-gameswf/gameswf_root.hpp), an inline forwarder to listener::add (gameswf_listener.cpp).
 as_timer::as_timer(as_value& target, as_value& func, double interval_ms, const fn_call& fn, int first_arg_index)
 	:
 	as_object(fn.env->m_player.get_ptr())
@@ -60,7 +59,6 @@ as_timer::as_timer(as_value& target, as_value& func, double interval_ms, const f
 	m_this_ptr = target;	// +0x3c: as_value::operator=
 	m_func = func;	// +0x48
 	m_time_remainder = 0.0f;	// +0x54
-	m_do_once = false;	// +0x64
 	// m_arg (+0x58) starts empty.
 
 	for (int i = first_arg_index; i < fn.nargs; ++i)

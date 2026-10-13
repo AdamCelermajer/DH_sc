@@ -24,6 +24,12 @@ int g_streamBufferDeletes = 0;  // counts the destructor of each StreamBuffer
 IStreamBase* ApplicationOpenStream(const char*) { return nullptr; }
 void ApplicationCloseStream(IStreamBase*) {}
 
+// IStreamBase's destructor and vtable are emitted here because StreamBuffer's destructor below reaches them. The two
+// non-pure virtuals forward as game-app/src/g1-game-app-IStreamBase-e228fc-0.cpp does.
+IStreamBase::~IStreamBase() {}
+void IStreamBase::seekWrite(std::uint64_t pos) { seek(pos); }
+std::uint64_t IStreamBase::tellWrite() const { return tell(); }
+
 Buffer::~Buffer() {}
 StreamBuffer::StreamBuffer(IStreamBase*) {}
 StreamBuffer::~StreamBuffer() { ++g_streamBufferDeletes; }
@@ -54,24 +60,24 @@ int g_failures = 0;
 
 glitch::SEvent MakeKey(int key, bool down) {
     glitch::SEvent event{};
-    event.type = 2;
-    event.mouseY = key;                 // +0x0c, key code (named mouseY in the stand-in)
-    event.reserved4 = down ? 1 : 0;     // +0x10, PressedDown (named reserved4 in the stand-in)
+    event.EventType = glitch::EET_KEY_INPUT_EVENT;
+    event.KeyInput.Key = key;        // +0x0c, key code
+    event.KeyInput.PressedDown = down;  // +0x10, PressedDown
     return event;
 }
 
 glitch::SEvent MakeMouse(int x, int y, int action) {
     glitch::SEvent event{};
-    event.type = 1;
-    event.mouseX = x;
-    event.mouseY = y;
-    event.mouseEvent = action;
+    event.EventType = glitch::EET_MOUSE_INPUT_EVENT;
+    event.MouseInput.X = x;
+    event.MouseInput.Y = y;
+    event.MouseInput.Event = action;
     return event;
 }
 
 glitch::SEvent MakeWheel(float delta) {
-    glitch::SEvent event = MakeMouse(0, 0, 7);
-    std::memcpy(&event.reserved4, &delta, sizeof delta);  // +0x10 holds the float
+    glitch::SEvent event = MakeMouse(0, 0, glitch::EMIE_MOUSE_WHEEL);
+    event.MouseInput.Wheel = delta;  // +0x10 holds the float
     return event;
 }
 

@@ -29,8 +29,8 @@ void bitmap_info::set_writable() {
 
 // 0x7737e0 gameswf::bitmap_info::lock()
 // vtable slot 6 (+0x18). Returns 0 (MOV R0, #0; BX LR).
-int bitmap_info::lock() {
-	return 0;
+void* bitmap_info::lock() {
+	return nullptr;
 }
 
 // 0x7737e8 gameswf::bitmap_info::unlock()
