@@ -141,6 +141,11 @@ std::string debug_player_skill_check(std::uint32_t slot);
 std::string debug_player_mana(std::uint32_t amount);
 std::string debug_player_scalar(std::int32_t value,bool write);
 std::string debug_player_death();
+// Development fixture for scenarios that observe sustained hazards: writes the
+// Player's resolved HP word (properties[36]) back to Max_HP (properties[38]); a
+// positive `raise_max_to` (whole HP) first raises Max_HP, so a level-1 test
+// Character survives a boss's first blow.
+std::string debug_player_refill_hp(std::int32_t raise_max_to=0);
 std::string set_combat_target(int index,int target);
 std::string player_attack(int target=-1);
 std::array<int,7> player_vitals();
@@ -190,6 +195,10 @@ bool level_script_probe(LevelScriptProbeV1&,std::string&);
 // GetIDFromName(name, true) + StartScript(id, -1, true) on the Level's session,
 // the same entry the quest owner uses for its state scripts.
 bool boss_probe_start_level_script(const std::string& name,std::string&);
+// Development probe: GameObject::_SummonTimerTrap with the named ObjectManager
+// object as the owner (the call a Character script reaches through SummonTimerTrap).
+bool boss_probe_summon_timer_trap(const std::string& owner_name,const std::string& trap_name,
+                                  const std::array<float,3>& position,std::string& message);
 // Development check: dropped world items (ItemManager projections) and the
 // one nearest the Player.
 struct GameplayWorldItemSnapshotV1 {

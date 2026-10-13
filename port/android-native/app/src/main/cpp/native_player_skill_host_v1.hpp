@@ -33,6 +33,7 @@
 //   SetMaster     Character::_SetMaster      0x3b9084
 //   SetLevel      Character::_SetLevel       0x3b73a4
 //   Summon        GameObject::_Summon        0x39193c
+//   SummonTimerTrap GameObject::_SummonTimerTrap 0x390c50
 //   RegisterAnim  Character::_RegisterAnim   0x3b70d8
 //   PlayAnim      Character::_PlayAnim       0x3ba388
 //   SetProp/ApplyPropClass on a receiver other than the Player
@@ -125,6 +126,17 @@ struct SummonRequest {
     std::uint32_t forward_anim_ms=0;
 };
 
+// GameObject::_SummonTimerTrap (0x390c50) after its argument checks: the
+// TimerTraps row, Create's third argument (the trap's hurt-chance word) and the
+// optional placement. `has_position` is false when the script passed no point,
+// leaving the trap at its owner's position (TimerTrap::Create copies it).
+struct SummonTimerTrapRequest {
+    std::uint32_t trap_id=0;
+    std::uint32_t hurt_chance=0;
+    bool has_position=false;
+    float position[3]{};
+};
+
 // Character::_PlayAnim after argument decoding (see do_play_anim).
 struct PlayAnimRequest {
     std::uint32_t anim_dict=0;
@@ -208,6 +220,12 @@ struct Services {
     // is the new Character, or 0 when the source pushes nothing.
     int (*summon)(void*,std::uintptr_t summoner,const SummonRequest&,
                   std::uintptr_t* created,std::string& error)=nullptr;
+    // GameObject::_SummonTimerTrap: TimerTrap::Create(owner = receiver) +
+    // GameObject::SetPosition. The provider applies the source table bounds
+    // (trap < Arrays::TimerTraps::size, damager < Arrays::GameObjectDamager::size)
+    // and reports `created` = 0 when the source creates nothing.
+    int (*summon_timer_trap)(void*,std::uintptr_t owner,const SummonTimerTrapRequest&,
+                             std::uintptr_t* created,std::string& error)=nullptr;
     // CharAnimator::ANIM_AddAnimDictToSet(receiver's animator, dict); a negative
     // dict is the source's silent no-op after the animator's set id assignment.
     int (*register_anim)(void*,std::uintptr_t receiver,std::int32_t anim_dict,

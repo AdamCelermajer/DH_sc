@@ -20,7 +20,8 @@ namespace dh2::monster_external_script {
 namespace {
 constexpr char projectile_identity_transport[] = R"lua(
 function __dh2_monster_projectile_delayed(callback_name, target, skill_script)
-    return _G[callback_name]({_this = target}, skill_script)
+    -- A GameObject handed to a script is a method-bearing table (target:GetPosition()).
+    return _G[callback_name](__dh2_monster_projectile_object(target), skill_script)
 end
 )lua";
 int discard_projectile_returns(void*,const dh2_script_first_return_v1*,
@@ -117,6 +118,9 @@ function GetTarget()
     if identity == nil then return nil end
     return __dh2_object(identity)
 end
+function __dh2_monster_projectile_object(identity)
+    return __dh2_object(identity)
+end
 function __dh2_monster_external_object(callback_name, identity)
     if identity == nil then return _G[callback_name](nil) end
     return _G[callback_name](__dh2_object(identity))
@@ -143,6 +147,15 @@ local __dh2_native_Summon = Summon
 if __dh2_native_Summon then
     function Summon(...)
         local identity = __dh2_native_Summon(...)
+        if identity == nil then return nil end
+        return __dh2_object(identity)
+    end
+end
+-- GameObject::_SummonTimerTrap pushUserData(the new trap), or nothing.
+local __dh2_native_SummonTimerTrap = SummonTimerTrap
+if __dh2_native_SummonTimerTrap then
+    function SummonTimerTrap(...)
+        local identity = __dh2_native_SummonTimerTrap(...)
         if identity == nil then return nil end
         return __dh2_object(identity)
     end

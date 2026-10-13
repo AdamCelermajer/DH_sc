@@ -69,6 +69,9 @@
 #include "../../../../../../port/level-world/destructible_container_source_owner_v1.hpp"
 #include "../../../../../../port/level-world/destructible_container_table_v1.hpp"
 #include "../../../../../../port/level-world/trigger_interaction_table_v1.hpp"
+#include "../../../../../../port/level-world/game_object_trap_tables_v1.hpp"
+#include "../../../../../../port/level-world/timer_trap_v1.hpp"
+#include "../../../../../../port/level-world/timer_trap_external_script_v1.hpp"
 #include "../../../../../../port/level-world/trigger_zone_exit_level_update_v1.hpp"
 #include "../../../../../../port/level-world/trigger_zone_source_v1.hpp"
 #include "../../../../../../port/level-world/destructible_container_visual_provider_v1.hpp"
@@ -969,10 +972,33 @@ struct SourceTriggerZone {
  dh2::trigger_zone_source_v1::Definition definition;
  dh2::trigger_zone_source_v1::State state;
 };
+// A `TimerTrap` GameObject (Zone -> ZoneEx -> TriggerTrap -> TimerTrap) spawned
+// by GameObject::_SummonTimerTrap through TimerTrap::Create (0x39d724). The
+// ObjectManager row is the canonical object; the kernel (timer_trap_v1) owns the
+// Trap/Timer/victim state, the external script is its one LuaScript (+0x300) and
+// the BDAE VisualObject (+0x2d8) drives Activate/idle/remove through its clips.
+struct NativeCryptRoomRuntime;
+struct SourceTimerTrap {
+ NativeCryptRoomRuntime* runtime=nullptr;
+ std::string name,script_name,visual_path;
+ std::int32_t trap_id=-1;
+ std::uintptr_t identity=0;
+ dh2::object_manager_runtime_owner_v1::GameObject* object=nullptr;
+ dh2::timer_trap_v1::Trap trap;
+ std::unique_ptr<dh2::timer_trap_external_script_v1::Owner> script;
+ std::unique_ptr<dh2::destructible_container_visual_owner_v1::Owner> visual;
+ std::shared_ptr<SourceAnimatedDecorGpu> gpu;
+ Matrix placement{};
+ // GameObject position (+0x160) and the absolute Zone AABB (+0x12c..) derived
+ // from it: Zone::InitPost halves the default 200x200x200 dimensions.
+ std::array<float,3> position{};
+ std::array<float,3> half_extents{100.f,100.f,100.f};
+ std::int32_t dt_ms=0;
+ bool deleted=false;
+};
 bool source_container_visual_event(void*,const char*,std::int32_t,
                                   std::string&);
 bool source_container_visual_completion(void*,std::string&);
-struct NativeCryptRoomRuntime;
 struct NativeCharAIProjection;
 bool construct_direct_source_character_v1(ObjectActor&,std::string&);
 dh2::character_ai_queue_owner_v1::OwnerProjection native_char_ai_owner(
@@ -1074,6 +1100,11 @@ struct NativeCryptRoomRuntime {
  std::vector<std::unique_ptr<SourceExitLevelZone>> source_exit_level_zones;
  std::vector<std::unique_ptr<SourceDummyObject>> source_dummies;
  std::vector<std::unique_ptr<SourceTriggerZone>> source_trigger_zones;
+ // TimerTrap objects created by GameObject::_SummonTimerTrap, their PyData
+ // tables and the per-BDAE GPU banks shared by every trap of that visual.
+ std::vector<std::unique_ptr<SourceTimerTrap>> source_timer_traps;
+ std::unique_ptr<dh2::game_object_trap_tables_v1::Tables> trap_tables;
+ std::map<std::string,std::shared_ptr<SourceAnimatedDecorGpu>> trap_visual_gpu;
  std::unique_ptr<dh2::destructible_container_table_v1::Tables>
      destructible_container_tables;
  std::unique_ptr<dh2::trigger_interaction_table_v1::Tables>
@@ -1100,6 +1131,13 @@ struct NativeCryptRoomRuntime {
  bool initialize_source_dummies(std::string&);
  bool initialize_source_trigger_zones(std::string&);
  bool update_source_trigger_zones(std::string&);
+ bool ensure_trap_tables(std::string&);
+ bool create_timer_trap(std::uintptr_t owner,std::int32_t trap_id,
+                        std::int32_t hurt_chance,const float (&position)[3],
+                        std::uintptr_t& identity,std::string& error);
+ SourceTimerTrap* find_timer_trap(std::uintptr_t identity) noexcept;
+ bool update_timer_trap(SourceTimerTrap&,std::uint32_t dt_ms,std::string&);
+ void detach_source_timer_traps() noexcept;
  // Application::GetDt of the frame in flight, for Trigger::UpdateTimer.
  std::uint32_t trigger_zone_dt_ms=0;
  bool resolve_source_trigger_zone(SourceTriggerZone&,std::string&);
@@ -9132,6 +9170,7 @@ bool NativeCryptRoomRuntime::clear() noexcept {
  source_exit_level_zones.clear();
  source_dummies.clear();
  source_trigger_zones.clear();
+ detach_source_timer_traps();
  source_destructible_containers.clear();
  trigger_interaction_tables.reset();
  destructible_container_tables.reset();
@@ -15721,6 +15760,42 @@ struct NativeMonsterInitialization {
   if(!std::strcmp(category,"ClassTable")){
    const auto it=std::find(actor_class_tables.names.begin(),actor_class_tables.names.end(),name);
    *output=it==actor_class_tables.names.end()?-1:std::int32_t(it-actor_class_tables.names.begin());return 0;
+  }
+  if(!std::strcmp(category,"TimerTraps")||!std::strcmp(category,"GameObjectDamager")){
+   // game_objects_pyarraynames carries one name group per GameObject array:
+   // group 3 is GameObjectDamager and group 7 TimerTraps.
+   *output=-1;
+   if(!raw)return 0;
+   auto& s=self(raw);
+   if(!s.asset_manager)return 0;
+   static std::map<int,std::vector<std::string>> game_object_groups;
+   if(game_object_groups.empty()){
+    try{
+     const auto bytes=read(s.asset_manager,"game_objects_pyarraynames.bin","original-cache/data/pydata");
+     std::size_t at=0;
+     const auto word=[&](std::uint32_t& value)->bool{
+      if(bytes.size()-at<4||at>bytes.size())return false;
+      std::memcpy(&value,bytes.data()+at,4);at+=4;return true;
+     };
+     for(int group=0;at<bytes.size()&&group<16;++group){
+      std::uint32_t total=0;
+      if(!word(total)||total>65536)break;
+      std::vector<std::string> names;
+      for(std::uint32_t i=0;i<total;++i){
+       std::uint32_t length=0;
+       if(!word(length)||length>bytes.size()-at)break;
+       names.emplace_back(reinterpret_cast<const char*>(bytes.data()+at),length);at+=length;
+      }
+      game_object_groups.emplace(group,std::move(names));
+     }
+    }catch(...){return 0;}
+   }
+   const auto group=game_object_groups.find(!std::strcmp(category,"TimerTraps")?7:3);
+   if(group!=game_object_groups.end()){
+    const auto it=std::find(group->second.begin(),group->second.end(),name);
+    if(it!=group->second.end())*output=std::int32_t(it-group->second.begin());
+   }
+   return 0;
   }
   const char* file=!std::strcmp(category,"AnimatedEffectTable")?"effects_pyarraynames.bin":
       !std::strcmp(category,"ProjectileTable")?"projectiles_pyarraynames.bin":
@@ -29883,6 +29958,18 @@ bool update_ordered_character_v1(void* raw,
  // exact handle-3 slot. Do not run a second update through ObjectActor.
  if(object->identity==prince_character.identity())return true;
  if(!active_crypt_room_runtime)return true;
+ if(auto* trap=active_crypt_room_runtime->find_timer_trap(object->identity)) {
+  // TriggerTrap::Update (0x39eedc); a trap Remove()d earlier in this traversal
+  // has setUpdating(false) and takes no further Update.
+  const bool updating=object->live_fields.updating_85?
+      *object->live_fields.updating_85!=0:object->updating_85!=0;
+  if(!updating||trap->deleted)return true;
+  if(!active_crypt_room_runtime->update_timer_trap(*trap,context.dt_ms,context.error)) {
+   if(context.error.empty())context.error="TimerTrap::Update failed";
+   return false;
+  }
+  return true;
+ }
  const auto actor_it=active_crypt_room_runtime->actors.find(object->identity);
  if(actor_it==active_crypt_room_runtime->actors.end()) {
   // Authored Faeries share the canonical Character factory Record and
@@ -31349,6 +31436,9 @@ struct PlayerSpellCombatContext {
  PlayerToNpcKillContextV1 kill{};
  NativeSctActorContextV1 player_text{};
  PlayerCritCameraContext camera{};
+ // Character::F_ApplyResult's GameObject-attacker overload (0x3b01b8): the
+ // attacker is a TimerTrap/other GameObject with no Character owners.
+ std::uintptr_t go_attacker{};
  dh2::data::PropertyView attacker_properties{},defender_properties{};
  std::unordered_map<std::uintptr_t,std::unique_ptr<std::string>> apply_strings;
  CombatAggroBeforeHit aggro{};
@@ -31882,26 +31972,31 @@ int spell_apply_result_invoke(void* raw,
     dh2::character_apply_result::Reply* reply) {
  using namespace dh2::character_apply_result;
  auto* context=static_cast<PlayerSpellCombatContext*>(raw);
+ const bool go_attack=context&&request&&context->go_attacker&&
+     request->attacker==context->go_attacker;
  if(!context||!request||!reply||!context->apply_attacker||
     !context->apply_defender||request->attacker!=context->apply_attacker||
     request->defender!=context->apply_defender||
-    !spell_combat_actor_owner(context,request->attacker)||
+    (!go_attack&&!spell_combat_actor_owner(context,request->attacker))||
     !spell_combat_actor_owner(context,request->defender))return 1;
  *reply={};
  auto* attacker_actor=request->attacker==prince_character.identity()?nullptr:
      spell_actor_by_identity(request->attacker);
  auto* defender_actor=request->defender==prince_character.identity()?nullptr:
      spell_actor_by_identity(request->defender);
- auto* attacker_property_state=spell_apply_properties(context,request->attacker);
+ auto* attacker_property_state=go_attack?nullptr:
+     spell_apply_properties(context,request->attacker);
  auto* defender_property_state=spell_apply_properties(context,request->defender);
- auto* attacker_aggro=spell_apply_aggro(context,request->attacker);
+ auto* attacker_aggro=go_attack?nullptr:spell_apply_aggro(context,request->attacker);
  auto* defender_aggro=spell_apply_aggro(context,request->defender);
- const auto attacker_dead=spell_apply_dead(context,request->attacker);
+ const auto attacker_dead=go_attack?0u:spell_apply_dead(context,request->attacker);
  const auto defender_dead=spell_apply_dead(context,request->defender);
  if(!attacker_actor&&!native_actor_ready)return 1;
- if(!attacker_property_state||!defender_property_state||!attacker_aggro||
-    !defender_aggro||attacker_dead>1||defender_dead>1)return 1;
- auto attacker_properties=dh2::data::property_view(actor_property_rules,*attacker_property_state);
+ if((!go_attack&&(!attacker_property_state||!attacker_aggro))||
+    !defender_property_state||!defender_aggro||attacker_dead>1||defender_dead>1)return 1;
+ dh2::data::PropertyView attacker_properties{};
+ if(attacker_property_state)
+  attacker_properties=dh2::data::property_view(actor_property_rules,*attacker_property_state);
  auto defender_properties=dh2::data::property_view(actor_property_rules,*defender_property_state); switch(request->operation) {
  case Operation::online_mode:
   reply->word=native_host.online?1u:0u;return 0;
@@ -32102,7 +32197,7 @@ int spell_apply_result_invoke(void* raw,
    if(defender_actor)defender_actor->combat_state.lifecycle=change.lifecycle_write;
    else prince_combat.life.lifecycle=change.lifecycle_write;
   }
-  if(change.raw_add) {
+  if(change.raw_add&&!go_attack) {
    std::uint32_t attacker_is_player=0;
    if(!native_character_classification_for_identity(request->attacker,
         dh2::character_ai_classification::Query::player,attacker_is_player))return 1;
@@ -32128,8 +32223,17 @@ int spell_apply_result_invoke(void* raw,
   if(change.kill_requested) {
    if(!request->result)return 1;
    if(defender_actor) {
-    context->kill={defender_actor,request->attacker,false,{}};
-    if(!source_npc_kill_ready(*defender_actor,request->attacker)||
+    // Character::HitFor reaches v2Controller::Cmd_Kill(controller, attacker);
+    // a non-Character attacker (the trap) earns no XP, loot or credit, which is
+    // the port's null-killer continuation.
+    struct NullKillerScope{
+     explicit NullKillerScope(bool on):active(on){if(active)native_script_null_killer_kill=true;}
+     ~NullKillerScope(){if(active)native_script_null_killer_kill=false;}
+     bool active;
+    } null_killer(go_attack);
+    const std::uintptr_t killer=go_attack?0:request->attacker;
+    context->kill={defender_actor,killer,false,{}};
+    if(!source_npc_kill_ready(*defender_actor,killer)||
        player_to_npc_before_dead_v1(&context->kill,*request->result)!=0||
        !context->kill.source_kill_completed||!defender_actor->combat_state.dead||
        defender_properties.resolved[36]!=0)return 1;
@@ -32997,6 +33101,527 @@ int skill_apply_result(void* raw,std::uintptr_t attacker_id,
     dh2::data::CombatResult* result,std::string& error) {
  return spell_apply_result(raw,attacker_id,defender_id,mode,result,error);
 }
+// ---------------------------------------------------------------------------
+// TimerTrap (TimerTrap::Create 0x39d724, TriggerTrap::Update 0x39eedc): the
+// renderer side of the timer_trap_v1 kernel. The ObjectManager row, the BDAE
+// VisualObject, the one per-GameObject external script and the Character damage
+// application are the existing owners; this block only connects them.
+// ---------------------------------------------------------------------------
+bool native_timer_trap_deal_damage(SourceTimerTrap& trap,std::uintptr_t victim,
+    std::int32_t damager_oid,std::int32_t hurt_chance,bool& character,
+    std::int32_t& amount,std::string& error);
+bool timer_trap_visual_event(void*,const char*,std::int32_t,std::string&);
+bool timer_trap_visual_completion(void*,std::string&);
+
+dh2::timer_trap_v1::Services timer_trap_services(SourceTimerTrap& trap) {
+ using namespace dh2::timer_trap_v1;
+ Services services;
+ services.context=&trap;
+ services.dt_ms=[](void* raw)->std::int32_t {
+  return static_cast<SourceTimerTrap*>(raw)->dt_ms;
+ };
+ services.is_character=[](void*,Identity object)->bool {
+  if(object==prince_character.identity())return native_actor_ready;
+  auto* actor=native_char_ai_actor(object);
+  return actor&&actor->kind==1&&actor->identity==object;
+ };
+ services.can_trigger=[](void* raw,Identity object,bool& allowed)->bool {
+  auto* trap=static_cast<SourceTimerTrap*>(raw);
+  allowed=true;
+  if(!trap->script)return true;
+  std::string error;
+  if(trap->script->on_trigger(object,allowed,error)!=
+       dh2::timer_trap_external_script_v1::Status::complete) {
+   // LuaScript::Call discards a failed call, so CanTrigger sees no ReturnValues.
+   allowed=true;
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "TimerTrap %s OnTrigger failed; the call is discarded | %s",
+       trap->name.c_str(),error.c_str());
+  }
+  return true;
+ };
+ services.script_damage_roll=[](void* raw,Identity victim)->bool {
+  auto* trap=static_cast<SourceTimerTrap*>(raw);
+  if(!trap->script)return false;
+  std::string error;
+  if(trap->script->on_damage_roll(victim,error)!=
+       dh2::timer_trap_external_script_v1::Status::complete)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "TimerTrap %s OnDamageRoll failed; the call is discarded | %s",
+       trap->name.c_str(),error.c_str());
+  return true;
+ };
+ services.go_attack=[](void* raw,Identity victim,std::int32_t damager,
+                       std::int32_t hurt_chance)->bool {
+  auto* trap=static_cast<SourceTimerTrap*>(raw);
+  bool character=false;std::int32_t amount=0;std::string error;
+  if(!native_timer_trap_deal_damage(*trap,victim,damager,hurt_chance,character,
+        amount,error)) {
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "TimerTrap %s F_GOAttack failed | %s",trap->name.c_str(),error.c_str());
+   return false;
+  }
+  return true;
+ };
+ services.script_anim_event=[](void* raw,const char* name)->bool {
+  auto* trap=static_cast<SourceTimerTrap*>(raw);
+  if(!trap->script)return true;
+  std::string error;
+  if(trap->script->on_anim_event(name,error)!=
+       dh2::timer_trap_external_script_v1::Status::complete)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "TimerTrap %s OnAnimEvent failed; the call is discarded | %s",
+       trap->name.c_str(),error.c_str());
+  return true;
+ };
+ services.start_clip=[](void* raw,const char* name,bool loop)->bool {
+  auto* trap=static_cast<SourceTimerTrap*>(raw);
+  if(!trap->visual||!trap->visual->has_clip(name))return false;
+  std::string error;
+  if(!trap->visual->play_named(name,loop,timer_trap_visual_event,
+        timer_trap_visual_completion,trap,error)) {
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "TimerTrap %s clip %s rejected | %s",trap->name.c_str(),name,error.c_str());
+   return false;
+  }
+  return true;
+ };
+ services.play_sound=[](void* raw,std::int32_t sound)->bool {
+  static bool warned=false;
+  if(!warned) {
+   warned=true;
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "TimerTrap %s Play3D(sound %d): the Sounds row has no retained spatial backend; no launch",
+       static_cast<SourceTimerTrap*>(raw)->name.c_str(),sound);
+  }
+  return true;
+ };
+ services.delete_self=[](void* raw)->bool {
+  // TriggerTrap::_Remove / __Callback: SetVisible(false) then ObjectBase::Delete.
+  auto* trap=static_cast<SourceTimerTrap*>(raw);
+  if(!trap->deleted)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "TimerTrap removed | %s | SetVisible(false) + ObjectBase::Delete",trap->name.c_str());
+  trap->deleted=true;
+  if(!trap->runtime)return true;
+  bool changed=false;
+  (void)trap->runtime->manager.set_visible(trap->identity,0);
+  (void)trap->runtime->manager.delete_object(trap->identity,&changed);
+  (void)trap->runtime->manager.set_updating(trap->identity,0);
+  return true;
+ };
+ return services;
+}
+
+bool timer_trap_visual_event(void* raw,const char* name,std::int32_t,
+                             std::string& error) {
+ auto* trap=static_cast<SourceTimerTrap*>(raw);
+ if(!trap||!trap->runtime||!name) {
+  error="TimerTrap animation event lost its owner";return false;
+ }
+ return trap->trap.clip_event(timer_trap_services(*trap),name);
+}
+
+bool timer_trap_visual_completion(void* raw,std::string& error) {
+ auto* trap=static_cast<SourceTimerTrap*>(raw);
+ if(!trap||!trap->runtime) {
+  error="TimerTrap animation completion lost its owner";return false;
+ }
+ return trap->trap.clip_ended(timer_trap_services(*trap));
+}
+
+dh2::timer_trap_external_script_v1::Services timer_trap_script_services(
+    SourceTimerTrap& trap) {
+ dh2::timer_trap_external_script_v1::Services services;
+ services.context=&trap;
+ services.get_py_oid=[](void* raw,const char* category,const char* member,
+                        std::int32_t& value,std::string&)->bool {
+  // PyDataArrays::GetOID: the first matching member of the array, else -1.
+  auto* trap=static_cast<SourceTimerTrap*>(raw);
+  value=-1;
+  if(!category||!member)return true;
+  const std::string_view group=category;
+  if(trap&&trap->runtime&&trap->runtime->trap_tables) {
+   if(group=="GameObjectDamager")(void)trap->runtime->trap_tables->find_damager(member,&value);
+   else if(group=="TimerTraps")(void)trap->runtime->trap_tables->find_timer_trap(member,&value);
+  }
+  if(group=="CharacterTable") {
+   const auto found=std::find(actor_character_names.begin(),actor_character_names.end(),member);
+   if(found!=actor_character_names.end())
+    value=static_cast<std::int32_t>(found-actor_character_names.begin());
+  }
+  return true;
+ };
+ services.get_py_constant=[](void*,const char* category,const char* member,
+                             std::int32_t& value,std::string&)->bool {
+  // LuaScript::_GetPyCst reads every constant table (design, then AI).
+  value=-1;
+  if(!category||!member)return true;
+  dh2_pycst_result found{};
+  if(actor_design.bytes&&!dh2_pycst_get(&actor_design,category,
+       static_cast<std::uint32_t>(std::strlen(category)),member,
+       static_cast<std::uint32_t>(std::strlen(member)),&found)&&found.found) {
+   value=found.value;return true;
+  }
+  found={};
+  if(actor_skill_catalogue&&actor_skill_catalogue->ai_constants.bytes&&
+     !dh2_pycst_get(&actor_skill_catalogue->ai_constants,category,
+       static_cast<std::uint32_t>(std::strlen(category)),member,
+       static_cast<std::uint32_t>(std::strlen(member)),&found)&&found.found)
+   value=found.value;
+  return true;
+ };
+ services.deal_damages=[](void* raw,std::uintptr_t victim,std::int32_t damager,
+                          bool& character,std::int32_t& amount,
+                          std::string& error)->bool {
+  // GameObject::_DealDamages passes hurt chance 0 to F_GOAttack (0x3906fc).
+  return native_timer_trap_deal_damage(*static_cast<SourceTimerTrap*>(raw),victim,
+      damager,0,character,amount,error);
+ };
+ services.remove=[](void* raw,std::string& error)->bool {
+  auto* trap=static_cast<SourceTimerTrap*>(raw);
+  if(!trap->trap.remove(timer_trap_services(*trap))) {
+   error="TriggerTrap::_Remove could not play or finish its remove path";return false;
+  }
+  return true;
+ };
+ services.owner=[](void* raw)->std::uintptr_t {
+  return static_cast<SourceTimerTrap*>(raw)->trap.state().owner;
+ };
+ services.damager=[](void* raw)->std::int32_t {
+  return static_cast<SourceTimerTrap*>(raw)->trap.config().damager_id;
+ };
+ return services;
+}
+
+SourceTimerTrap* NativeCryptRoomRuntime::find_timer_trap(std::uintptr_t identity) noexcept {
+ if(!identity||source_timer_traps.empty())return nullptr;
+ for(auto& trap:source_timer_traps)
+  if(trap&&trap->identity==identity)return trap.get();
+ return nullptr;
+}
+
+bool NativeCryptRoomRuntime::ensure_trap_tables(std::string& error) {
+ error.clear();
+ if(trap_tables)return true;
+ if(!assets) {error="GameObject trap PyData needs the active Level asset manager";return false;}
+ try {
+  const auto packed=read(assets,"game_objects_pyarray.bin","original-cache/data/pydata");
+  const auto names=read(assets,"game_objects_pyarraynames.bin","original-cache/data/pydata");
+  const auto fields=read(assets,"game_objects_pystructnames.bin","original-cache/data/pydata");
+  const auto dictionary=read(assets,"game_objects_dictionary_pyarray.bin","original-cache/data/pydata");
+  const auto dictionary_names=read(assets,"game_objects_dictionary_pyarraynames.bin","original-cache/data/pydata");
+  auto tables=std::make_unique<dh2::game_object_trap_tables_v1::Tables>();
+  if(!tables->load({packed.data(),packed.size()},{names.data(),names.size()},
+       {fields.data(),fields.size()},{dictionary.data(),dictionary.size()},
+       {dictionary_names.data(),dictionary_names.size()},error))return false;
+  trap_tables=std::move(tables);
+  return true;
+ } catch(const std::exception& failure) {
+  error=std::string("GameObject trap PyData load failed: ")+failure.what();return false;
+ }
+}
+
+bool NativeCryptRoomRuntime::create_timer_trap(std::uintptr_t owner_identity,
+    std::int32_t trap_id,std::int32_t hurt_chance,const float (&position)[3],
+    std::uintptr_t& identity,std::string& error) {
+ identity=0;
+ error.clear();
+ if(!assets) {error="TimerTrap::Create has no active Level asset manager";return false;}
+ if(!owner_identity) {error="TimerTrap::Create requires its owner GameObject";return false;}
+ for(const float value:position)
+  if(!std::isfinite(value)) {error="TimerTrap::Create position is not finite";return false;}
+ try {
+  if(!ensure_trap_tables(error))return false;
+  // GameObject::_SummonTimerTrap pushes nothing when the trap row is outside
+  // Arrays::TimerTraps or the damager word outside Arrays::GameObjectDamager.
+  const auto* row=trap_tables->timer_trap(trap_id);
+  if(!row||!trap_tables->damager(hurt_chance))return true;
+  static unsigned counter=0;
+  char name[24]{};
+  std::snprintf(name,sizeof(name),"TimerTrap_%04u",++counter);
+
+  auto trap=std::make_unique<SourceTimerTrap>();
+  trap->runtime=this;
+  trap->name=name;
+  trap->trap_id=trap_id;
+  trap->identity=reinterpret_cast<std::uintptr_t>(trap.get());
+  std::copy_n(position,3,trap->position.begin());
+
+  dh2::timer_trap_v1::Config config;
+  config.damager_id=row->damage;
+  config.delay_ms=row->delay;
+  config.row_hurt_chance=row->hurt_chance;
+  config.sound=row->sound;
+
+  // TriggerTrap::InitPost: the object's script is GetScript(), loaded by
+  // GameObject::LoadExternalScript from data/scripts/objects/.
+  if(!row->script.empty()) {
+   trap->script_name=row->script;
+   std::string file=row->script;
+   if(file.find(".lua")==std::string::npos)file+=".luac";
+   const auto bytes=read(assets,"objects/"+file,"scripts");
+   trap->script=std::make_unique<dh2::timer_trap_external_script_v1::Owner>();
+   const auto status=trap->script->initialize(
+       {bytes.data(),bytes.size(),("data/scripts/objects/"+file).c_str()},
+       timer_trap_script_services(*trap),error);
+   if(status!=dh2::timer_trap_external_script_v1::Status::complete) {
+    if(error.empty())error="TimerTrap external script load failed";
+    return false;
+   }
+   config.has_script=true;
+  }
+
+  // The VisualObject: GameObjectDict[Visual] loaded as the object's BDAE.
+  const auto* visual_path=trap_tables->visual_path(row->visual);
+  if(visual_path) {
+   trap->visual_path=*visual_path;
+   std::string normalized=*visual_path;
+   std::transform(normalized.begin(),normalized.end(),normalized.begin(),
+       [](unsigned char ch){return static_cast<char>(std::tolower(ch=='\\'?'/':ch));});
+   const auto bytes=read(assets,normalized,"actors");
+   trap->visual=std::make_unique<dh2::destructible_container_visual_owner_v1::Owner>();
+   if(!trap->visual->load(bytes.data(),bytes.size(),error)) {
+    if(error.empty())error="TimerTrap VisualObject load failed";
+    return false;
+   }
+   auto& bank=trap_visual_gpu[normalized];
+   if(!bank) {
+    auto candidate=std::make_shared<SourceAnimatedDecorGpu>();
+    if(!prepare_source_container_visual_gpu(assets,*trap->visual,candidate->draws,
+         candidate->images,error)) {
+     release(candidate->draws,candidate->images);
+     if(error.empty())error="TimerTrap GPU VisualObject preparation failed";
+     return false;
+    }
+    bank=std::move(candidate);
+   }
+   trap->gpu=bank;
+   const float rotation[]{0.f,0.f,0.f,1.f};
+   const float scale[]{1.f,1.f,1.f};
+   dh2_node_matrix(trap->placement.data(),trap->position.data(),rotation,scale);
+   config.has_visual=trap->visual->controller_present();
+  }
+
+  // ObjectManager::Spawn(\"TimerTrap\", name): a keyed row at the next handle.
+  using ObjectManagerGameObject=dh2::object_manager_runtime_owner_v1::GameObject;
+  dh2::object_manager_runtime_owner_v1::SourceHandle handle=-1;
+  bool created=false;
+  if(manager.get_or_reserve_named_handle(name,true,&handle,&created)!=
+       dh2::object_manager_runtime_owner_v1::Status::ok||!created) {
+   error="TimerTrap::Create could not reserve its ObjectManager handle";return false;
+  }
+  ObjectManagerGameObject projection{};
+  projection.identity=trap->identity;
+  projection.source_handle=handle;
+  projection.name=name;
+  projection.world_x=position[0];
+  projection.world_y=position[1];
+  projection.zoning_enabled_2ee=1;
+  projection.visible_80=1;projection.visible_80_ready=1;
+  projection.serialized_flag_8a=1;projection.serialized_flag_8a_ready=1;
+  projection.source_module_index=std::numeric_limits<std::uint32_t>::max();
+  projection.source_record=std::numeric_limits<std::uint32_t>::max();
+  projection.source_provenance_ready=0;
+  projection.save_facts_ready=0;projection.save_eligibility_28=0;
+  projection.deleted_81=0;
+  projection.go_ids_0f4=0;projection.go_ids_0f4_ready=0;
+  projection.object_init_post_ready=1;
+  ObjectManagerGameObject* stored=nullptr;
+  if(manager.add_named_object(handle,name,projection,&stored)!=
+       dh2::object_manager_runtime_owner_v1::Status::ok||!stored) {
+   error="TimerTrap::Create could not register its ObjectManager row";return false;
+  }
+  trap->object=stored;
+  ObjectManagerGameObject::LiveFields fields{};
+  fields.world_x=&trap->position[0];
+  fields.world_y=&trap->position[1];
+  stored->bind_live_fields(fields);
+  // TriggerTrap::IsUpdatable is constant true: stage the new object's Update.
+  bool staged=false;
+  if(manager.set_updating(trap->identity,1)!=dh2::object_manager_runtime_owner_v1::Status::ok||
+     manager.stage_spawn_update_object(trap->identity,true,&staged)!=
+       dh2::object_manager_runtime_owner_v1::Status::ok||!staged) {
+   error="TimerTrap::Create could not stage its ObjectManager update";return false;
+  }
+
+  trap->trap=dh2::timer_trap_v1::Trap(config,trap_id,owner_identity,hurt_chance);
+  // TriggerTrap::InitPost begins with GameObject::CheckSpawnProbability, which
+  // draws one Random::GetRandom(99) (the default 100% never culls the trap).
+  (void)dh2_random_next(&dh2::random_lifecycle::process_state(),99,0);
+  if(!trap->trap.init_post(timer_trap_services(*trap))) {
+   error="TimerTrap::InitPost could not start its visual";return false;
+  }
+  identity=trap->identity;
+  source_timer_traps.push_back(std::move(trap));
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "TimerTrap::Create | %s | %s | owner %p | delay %d ms | script %s | visual %s | at %.2f %.2f %.2f",
+      name,row->name.c_str(),reinterpret_cast<void*>(owner_identity),row->delay,
+      row->script.c_str(),visual_path?visual_path->c_str():"-",
+      position[0],position[1],position[2]);
+  return true;
+ } catch(const std::exception& failure) {
+  error=std::string("TimerTrap::Create failed: ")+failure.what();return false;
+ } catch(...) {
+  error="TimerTrap::Create failed";return false;
+ }
+}
+
+bool NativeCryptRoomRuntime::update_timer_trap(SourceTimerTrap& trap,
+    std::uint32_t dt_ms,std::string& error) {
+ error.clear();
+ if(trap.deleted)return true;
+ trap.dt_ms=static_cast<std::int32_t>(dt_ms);
+ // Zone::IsInside without a _colzone node: the object has a PhysicalObject and
+ // its position lies inside the absolute zone AABB. ZoneEx::OnCollisionBegins
+ // inserts and ZoneEx::Update / OnCollisionEnds erase on that predicate.
+ const auto inside=[&](const float* point)->bool {
+  for(unsigned axis=0;axis<3;++axis)
+   if(!(point[axis]>=trap.position[axis]-trap.half_extents[axis]&&
+        point[axis]<=trap.position[axis]+trap.half_extents[axis]))return false;
+  return true;
+ };
+ if(native_actor_ready&&prince_character.identity())
+  trap.trap.observe(prince_character.identity(),
+      prince_body.body!=nullptr&&inside(prince_runtime.subobjects.position));
+ for(const auto& entry:actors) {
+  auto* actor=entry.second;
+  if(!actor||actor->kind!=1||actor->identity!=entry.first)continue;
+  const bool body=actor->spawn_owner&&actor->spawn_owner->body.body;
+  const float* point=actor->spawn_owner&&actor->spawn_owner->runtime_ready
+      ?actor->spawn_owner->runtime.subobjects.position:actor->position.data();
+  trap.trap.observe(entry.first,body&&inside(point));
+ }
+ if(!trap.trap.update(timer_trap_services(trap))) {
+  error="TriggerTrap::Update stopped at a required provider";return false;
+ }
+ return true;
+}
+
+void NativeCryptRoomRuntime::detach_source_timer_traps() noexcept {
+ for(auto& trap:source_timer_traps) {
+  if(!trap)continue;
+  try {
+   if(trap->visual)(void)trap->visual->detach();
+   trap->script.reset();
+   trap->visual.reset();
+  } catch(...) {}
+  trap->gpu.reset();
+ }
+ for(auto& bank:trap_visual_gpu)
+  if(bank.second)
+   release_source_container_visual_gpu(bank.second->draws,bank.second->images,program!=0);
+ trap_visual_gpu.clear();
+ source_timer_traps.clear();
+ trap_tables.reset();
+}
+
+// Character::F_GOAttack (0x3b061c) followed by the GameObject-attacker
+// Character::F_ApplyResult (0x3b01b8) for a Character defender: the damage roll,
+// the NoDamages/GOD/invulnerable gates, HitFor (health change and the lethal
+// Ctrl_Kill continuation), the hurt reaction and CancelSneaking. The scrolling
+// combat text, combat sound and AIS result callbacks of that overload need an
+// attacker Character (the SCT/audio/AIS bridges bind an ObjectActor) and are not
+// attached for a trap attacker.
+bool native_timer_trap_deal_damage(SourceTimerTrap& trap,std::uintptr_t victim,
+    std::int32_t damager_oid,std::int32_t hurt_chance,bool& character,
+    std::int32_t& amount,std::string& error) {
+ character=false;amount=0;error.clear();
+ const bool player=victim==prince_character.identity();
+ ObjectActor* defender_actor=player?nullptr:spell_actor_by_identity(victim);
+ if(!player&&(!defender_actor||defender_actor->kind!=1))return true;
+ if(player&&!native_actor_ready) {
+  error="GameObject::_DealDamages Player is not live";return false;
+ }
+ const auto* damager=trap.runtime&&trap.runtime->trap_tables
+     ?trap.runtime->trap_tables->damager(damager_oid):nullptr;
+ if(!damager) {
+  error="GameObject::_DealDamages damager id is outside Arrays::GameObjectDamager";
+  return false;
+ }
+ if(!native_debug||!native_application.identity) {
+  error="F_ApplyResult DebugSwitches/Application owners are unavailable";return false;
+ }
+ character=true;
+ auto& defender_state=defender_actor?defender_actor->properties:prince_combat.properties;
+ if(defender_state.resolved.size()!=224) {
+  error="F_ApplyResult defender has no 224-word property sheet";return false;
+ }
+ // F_GOAttack: a GameObjectDamager with an immunity timer index (Damage >= 0)
+ // and a delay first consults Character::GetImmunityTimer, which is not retained.
+ if(damager->damage>=0&&damager->immunity_delay!=0) {
+  error="Character::GetImmunityTimer is not attached for this GameObjectDamager";
+  return false;
+ }
+ const auto roll=dh2_combat_random(&combat_random,damager->max+1-damager->min);
+ dh2::data::CombatResult result{};
+ result.amount=(roll+damager->min)*256;
+ result.element=damager->type;
+ if(result.amount>0&&defender_state.resolved[134]<hurt_chance*256)
+  result.outcomes|=0x10u;
+ amount=result.amount;
+
+ PlayerSpellCombatContext context{};
+ context.go_attacker=trap.identity;
+ context.apply_attacker=trap.identity;
+ context.apply_defender=victim;
+ context.defender=defender_actor;
+ using Operation=dh2::character_apply_result::Operation;
+ const auto request=[&](Operation operation,std::uintptr_t subject,std::uint32_t word0)
+     ->dh2::character_apply_result::Request {
+  return {operation,subject,trap.identity,0,nullptr,&result,trap.identity,victim,
+          word0,0,0,0};
+ };
+ const auto switch_value=[&](const char* key)->bool {
+  std::uint8_t value=0;
+  return native_debug->runtime().load(native_debug->globals(),native_debug->services())==
+      dh2::debug_switches::Status::complete&&
+      native_debug->runtime().get_switch(key,native_debug->globals(),
+          native_debug->services(),value)==dh2::debug_switches::Status::complete&&value!=0;
+ };
+ const std::int32_t hp_before=defender_state.resolved[36];
+ bool skip_damage=switch_value("NoDamages");
+ if(!skip_damage) {
+  bool god=switch_value("GOD");
+  if(!god) {
+   const dh2::data::savegame_options_v1::Application app{
+       native_application.identity,&native_saved_options};
+   (void)dh2::data::savegame_options_v1::is_saved_option_on(&app,"GOD",&god);
+  }
+  const std::uint8_t invulnerable=defender_actor?defender_actor->source_byte_14f0:
+      prince_combat.mana_exempt_14f0;
+  skip_damage=(god&&player)||invulnerable!=0;
+ }
+ dh2::character_apply_result::Reply reply{};
+ if(!skip_damage&&result.amount>0) {
+  if(defender_actor)defender_actor->combat_state.push_death=0;
+  auto hit=request(Operation::hit_for,victim,static_cast<std::uint32_t>(result.amount));
+  if(spell_apply_result_invoke(&context,&hit,&reply)!=0) {
+   error="Character::HitFor stopped inside the GameObject-attacker F_ApplyResult";
+   return false;
+  }
+  if(spell_apply_dead(&context,victim)==1)result.outcomes&=~0x160u;
+ }
+ const bool dead=spell_apply_dead(&context,victim)==1;
+ if(!dead&&(result.outcomes&0x10u)!=0) {
+  auto hurt=request(Operation::hurt,victim,0);
+  if(spell_apply_result_invoke(&context,&hurt,&reply)!=0)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "TimerTrap %s hurt reaction was not applied to the victim",trap.name.c_str());
+ }
+ auto sneak=request(Operation::cancel_sneaking,victim,0);
+ if(spell_apply_result_invoke(&context,&sneak,&reply)!=0) {
+  error="Character::CancelSneaking stopped inside the GameObject-attacker F_ApplyResult";
+  return false;
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "TimerTrap damage | %s | %s | damager %s | amount %.2f | HP %.2f -> %.2f | dead %d%s",
+     trap.name.c_str(),player?"Player":defender_actor->name.c_str(),
+     damager->name.c_str(),result.amount/256.0,hp_before/256.0,
+     defender_state.resolved[36]/256.0,dead?1:0,skip_damage?" | gated":"");
+ return true;
+}
+
 struct NativeSkillProjectileBridgeV1 {
  dh2::projectile_product_owner_v1::Owner* owner{};
 };
@@ -33903,6 +34528,11 @@ ProjectileStatus native_projectile_hit_v1(void* raw,
     user_data!=context->payload->user_data)return ProjectileStatus::hook_failed;
  try {
   context->error.clear();
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "Projectile hit callback | row %d | owner %p | target %p | OnDelayedSkill",
+      context->payload->projectile_id,
+      reinterpret_cast<void*>(context->payload->owner_identity),
+      reinterpret_cast<void*>(context->target));
   const auto status=native_projectile_vm_callback_v1(*context,
       "OnDelayedSkill",context->error);
   if(status!=0&&status!=kProjectileLuaScriptAbsentV1) {
@@ -34130,6 +34760,16 @@ bool process_native_projectile_pending_collision_v1(ProjectileOwner& owner,
    source_return=keep_flying?1:0;
   } else {
   const auto status=native_projectile_vm_callback_v1(context,"OnDelayedSkill",error);
+  // LuaScript::Call discards a failed OnDelayedSkill; keep the failure visible.
+  if(status>0)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Projectile OnDelayedSkill failed | row %d | target %p | status %d | %s",
+       payload.projectile_id,reinterpret_cast<void*>(context.target),status,error.c_str());
+  else if(status==0)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Projectile OnDelayedSkill completed | row %d | owner %p | target %p",
+       payload.projectile_id,reinterpret_cast<void*>(payload.owner_identity),
+       reinterpret_cast<void*>(context.target));
   if(status<0&&status!=kProjectileLuaScriptAbsentV1) {
    if(error.empty())error="Projectile delayed hit lost its source skill owner";
    return true;
@@ -34299,6 +34939,15 @@ bool update_native_projectile_v1(std::uintptr_t identity,std::uint32_t dt_ms,
  body->body_owner.projectile_identity=identity;
  body->body_owner.native=&body->body;
  body->body_owner.contact={1,0,1,1,{0,32,0x51f,1},{}};
+ {
+  static unsigned flight_trace=0;
+  if(flight_trace++%30==0&&flight_trace<400)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "PROJTRACE row %d | pos %.0f %.0f | dest %.0f %.0f (%d) | speed %.1f | life %d",
+       payload->projectile_id,native->GetPosition().x*100.f,native->GetPosition().y*100.f,
+       payload->destination.x,payload->destination.y,int(payload->has_destination),
+       payload->vertical_velocity,int(payload->remaining_lifetime_ms));
+ }
  // GameObject::Update is part of ObjectManager's retained update object. The
  // existing PhysicalWorld phase advances this body's motion and contacts.
  (void)dt_ms;
@@ -34373,6 +35022,14 @@ void sync_native_projectile_positions_after_step_v1(std::uint32_t dt_ms) {
    }
   }
   if(expire) {
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Projectile expired | row %d | owner %p | from %.0f %.0f | to %.0f %.0f | travelled %.0f | lifetime left %d ms | dest %.0f %.0f",
+       payload->projectile_id,reinterpret_cast<void*>(payload->owner_identity),
+       payload->start_position.x,payload->start_position.y,
+       current_target_position.x,current_target_position.y,
+       std::hypot(current_target_position.x-payload->start_position.x,
+                  current_target_position.y-payload->start_position.y),
+       int(payload->remaining_lifetime_ms),payload->destination.x,payload->destination.y);
    const dh2::projectile_lifecycle_runtime_v1::ExpireFields expire_fields{
        &payload->collision_target_identity,&payload->collision_expired};
    const auto expired=dh2::projectile_lifecycle_runtime_v1::on_expire(
@@ -35532,6 +36189,38 @@ int skill_host_summon(void*,std::uintptr_t summoner,const skill_host::SummonRequ
   return native_actor_summon_character(&summon,rotation,created,error)==0?0:1;
  return native_player_summon_character(&summon,rotation,created,error)==0?0:1;
 }
+// GameObject::_SummonTimerTrap: the owner is the receiver Character (the
+// SwampKing / sandworm spit skills run in the Monster's AIS VM).
+int skill_host_summon_timer_trap(void*,std::uintptr_t owner,
+    const skill_host::SummonTimerTrapRequest& request,std::uintptr_t* created,
+    std::string& error){
+ if(created)*created=0;
+ if(!created||!owner||!active_crypt_room_runtime) {
+  error="GameObject::_SummonTimerTrap has no live Level owner";return 1;
+ }
+ if(native_host.online) {
+  error="online TimerTrap replication is not attached";return 1;
+ }
+ auto& runtime=*active_crypt_room_runtime;
+ float position[3]{};
+ if(request.has_position) {
+  std::copy_n(request.position,3,position);
+ } else {
+  skill_host::ObjectFacts facts{};
+  if(skill_host_object_facts(nullptr,owner,&facts)!=0) {
+   error="GameObject::_SummonTimerTrap owner has no position";return 1;
+  }
+  std::copy_n(facts.position,3,position);
+ }
+ if(!runtime.assets) {
+  error="GameObject::_SummonTimerTrap has no Level asset manager";return 1;
+ }
+ // TimerTrap::Create takes (owner, trap, hurt); Arrays::TimerTraps::size and
+ // Arrays::GameObjectDamager::size bound the two numeric arguments inside
+ // create_timer_trap, which leaves `created` zero (the source pushes nothing).
+ return runtime.create_timer_trap(owner,static_cast<std::int32_t>(request.trap_id),
+     static_cast<std::int32_t>(request.hurt_chance),position,*created,error)?0:1;
+}
 std::uint32_t skill_host_anim_dict_size(void*){
  return static_cast<std::uint32_t>(actor_clip_table.values.size());
 }
@@ -35592,6 +36281,7 @@ dh2::native::player_skill_host_v1::Services native_player_skill_host_services_v1
  services.set_master=skill_host_set_master;
  services.set_level=skill_host_set_level;
  services.summon=skill_host_summon;
+ services.summon_timer_trap=skill_host_summon_timer_trap;
  services.register_anim=skill_host_register_anim;
  services.anim_dict_size=skill_host_anim_dict_size;
  services.play_anim=skill_host_play_anim;
@@ -35888,7 +36578,10 @@ std::int32_t NativeMonsterInitialization::monster_character_native(
               return row?row->identity:std::uintptr_t(0);}();
    else other=object_arg(0);
    if(!other)return 0;
-   if(!skill_host_position(other,point))return fail("SetPosition target has no GameObject position");
+   // GameObject::_SetPosition reads the named object's position: a Character, or
+   // a waypoint/SpawnPoint marker (the SwampKing dive spots) from its row.
+   if(!skill_host_position(other,point)&&!native_level_script_position_for_target(other,point))
+    return fail("SetPosition target has no GameObject position");
   }else if(count==3){
    if(a[0].type!=DH2_SCRIPT_NUMBER||a[1].type!=DH2_SCRIPT_NUMBER||a[2].type!=DH2_SCRIPT_NUMBER)
     return 0;
@@ -36705,6 +37398,31 @@ bool boss_probe_start_level_script(const std::string& name,std::string& error){
      id,name.c_str(),active_level_assets.name.c_str());
 
  error.clear();return true;
+}
+bool boss_probe_summon_timer_trap(const std::string& owner_name,const std::string& trap_name,
+    const std::array<float,3>& position,std::string& message){
+ if(!enabled||!world_mode||!native_actor_ready||!active_crypt_room_runtime){
+  message="Boss probe TimerTrap summon requires an active world";return false;
+ }
+ auto& runtime=*active_crypt_room_runtime;
+ if(!runtime.ensure_trap_tables(message))return false;
+ std::int32_t trap_id=-1;
+ if(!runtime.trap_tables->find_timer_trap(trap_name,&trap_id)){
+  message="Arrays::TimerTraps has no member "+trap_name;return false;
+ }
+ const auto* owner=source_level_owner.object_manager().find_by_name(owner_name,-1);
+ if(!owner||!owner->identity){message="no ObjectManager owner named "+owner_name;return false;}
+ // The probe issues the same provider call GameObject::_SummonTimerTrap reaches
+ // from a Character's script: (owner, TimerTraps row, damager word, point).
+ skill_host::SummonTimerTrapRequest request{};
+ request.trap_id=static_cast<std::uint32_t>(trap_id);
+ request.hurt_chance=0;
+ request.has_position=true;
+ std::copy(position.begin(),position.end(),request.position);
+ std::uintptr_t created=0;
+ if(skill_host_summon_timer_trap(nullptr,owner->identity,request,&created,message)!=0)return false;
+ if(!created){message="the source pushed no trap";return false;}
+ message="created";return true;
 }
 bool boss_probe_script_command(unsigned command_id,const std::string& name,std::string& error){
  if(!enabled||!world_mode||!native_actor_ready){
@@ -46478,6 +47196,18 @@ std::string debug_player_scalar(std::int32_t value,bool write){
  if(!world_mode||!native_actor_ready||!prince_skills)return "Player scalar probe rejected";
  return prince_skills->scalar_probe(value,write);
 }
+std::string debug_player_refill_hp(std::int32_t raise_max_to){
+ if(!world_mode||!native_actor_ready||prince_combat.life.dead||
+    prince_combat.properties.resolved.size()<=38)return "Player HP refill fixture rejected";
+ // PROPS_Set writes the saved sheet and recalculates the resolved one, so the
+ // raised Max_HP and the refilled HP survive the next RecalcProperties.
+ auto view=dh2::data::property_view(actor_property_rules,prince_combat.properties);
+ if(raise_max_to>0&&raise_max_to<(1<<22)&&
+    dh2_property_set(&view,38,raise_max_to*256))return "Player Max_HP fixture rejected";
+ if(dh2_property_set(&view,36,prince_combat.properties.resolved[38]))
+  return "Player HP fixture rejected";
+ return "Player HP refilled";
+}
 std::string debug_player_death(){
  if(!world_mode||!native_actor_ready||!prince_skills||!prince_skills->initialized()||prince_combat.life.dead)return "Player death fixture rejected";
  // Shell-only lifecycle fixture: a forced raw CombatResult goes through the
@@ -51504,6 +52234,43 @@ void draw(int width,int height){
    }
   }
   if(world_mode&&!source_map_render_pass&&active_crypt_room_runtime){
+    // TimerTrap VisualObjects: the BDAE timeline (spawn/idle/activate/remove)
+    // advances on the shared scene clock, firing the TriggerTrap animation-end and
+    // triggered-event callbacks (OnAnimEvent) from this update.
+    for(auto& retained:active_crypt_room_runtime->source_timer_traps){
+      if(!retained||retained->deleted||!retained->visual||!retained->gpu||
+         !retained->visual->controller_present()||retained->gpu->draws.empty())continue;
+      const auto trap_clock=native_scene_clock_ms();
+      if(!std::isfinite(trap_clock)||trap_clock<0.f||trap_clock>4294967040.f)
+        throw std::runtime_error("TimerTrap VisualObject lost the shared scene timestamp");
+      std::string visual_error;
+      if(!frozen&&retained->visual->clip_active()&&
+         !retained->visual->update(static_cast<std::uint32_t>(trap_clock),visual_error)) {
+        __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+            "TimerTrap %s Animator update failed; the object is deleted | %s",
+            retained->name.c_str(),visual_error.c_str());
+        retained->deleted=true;
+        continue;
+      }
+      if(retained->deleted)continue;
+      auto& resource=retained->visual->resource();
+      const auto& batches=retained->gpu->draws;
+      for(std::size_t i=0;i<resource.primitives.size()&&i<batches.size();++i){
+        const auto& primitive=resource.primitives[i];
+        const auto& batch=batches[i];
+        if(primitive.node>=resource.scene.graph.size())continue;
+        if(!primitive.skin.nodes.empty()){
+          glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);
+          glBufferSubData(GL_ARRAY_BUFFER,0,
+              primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data());
+        }
+        auto transform=dh2::scene::multiply(projection,retained->placement);
+        if(primitive.skin.nodes.empty())
+          transform=dh2::scene::multiply(transform,
+              resource.scene.graph[primitive.node].world);
+        submit(batch,transform);
+      }
+    }
     auto& containers=active_crypt_room_runtime->source_destructible_containers;
     const auto scene_time_value=native_scene_clock_ms();
     if(!std::isfinite(scene_time_value)||scene_time_value<0.f||

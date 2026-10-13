@@ -93,6 +93,13 @@ struct Options {
     // (HG2_boss_intro), started the way Quest::ExecScript does. The scenario then
     // follows the running Level scripts until the boss leaves Limbus.
     bool boss_natural = false, boss_entry_given = false;
+    // --boss-summon-trap NAME: once the fight is running, the boss owns a TimerTraps
+    // member NAME (for example SwampkingSteamCloud) summoned at the Player's feet.
+    std::string boss_summon_trap;
+    // --boss-refill: development fixture that tops the Player's HP back up to Max_HP
+    // once per second so hazards with long lifetimes (TimerTrap clouds) can be observed.
+    bool boss_refill = false;
+    int boss_refill_hp = 0;  // --boss-refill-hp N: also raises Max_HP to N
     std::array<float, 3> boss_entry{};
     // Distance (planar) from the Player to the intro trigger centre / intro script name.
     std::string boss_intro_script;
@@ -151,6 +158,12 @@ Options parse(int argc, char** argv) {
         }
         else if (arg == "--boss-passive") options.boss_passive = true;
         else if (arg == "--boss-natural") options.boss_natural = true;
+        else if (arg == "--boss-refill") options.boss_refill = true;
+        else if (arg == "--boss-refill-hp") {
+            options.boss_refill = true;
+            options.boss_refill_hp = std::stoi(value("--boss-refill-hp"));
+        }
+        else if (arg == "--boss-summon-trap") options.boss_summon_trap = value("--boss-summon-trap");
         else if (arg == "--boss-intro") options.boss_intro_script = value("--boss-intro");
         else if (arg == "--boss-trigger") {
             const auto text = value("--boss-trigger");
@@ -960,7 +973,9 @@ private:
     enum class BossPhase { spawn, wait_init, place, fight, done, nat_place, nat_walk, nat_intro };
     BossPhase bf_phase_ = BossPhase::spawn;
     std::uint64_t bf_phase_frame_ = 0, bf_done_frame_ = 0;
-    bool bf_ever_initialized_ = false, bf_ever_targeted_ = false, bf_boss_died_ = false;
+    bool bf_ever_initialized_ = false, bf_ever_targeted_ = false, bf_boss_died_ = false,
+         bf_trap_summoned_ = false;
+    unsigned bf_refills_ = 0;
     double bf_player_hp_start_ = -1.0, bf_player_hp_min_ = 1e9, bf_boss_hp_start_ = -1.0,
            bf_boss_hp_min_ = 1e9;
     std::uint32_t bf_max_callbacks_ = 0, bf_max_failed_ = 0, bf_max_commands_ = 0,
@@ -1194,6 +1209,27 @@ private:
             return;
         }
         case BossPhase::fight:
+            if (options_.boss_refill && !snap.dead &&
+                ((options_.boss_refill_hp > 0 && vitals[1] != options_.boss_refill_hp * 256) ||
+                 (frame_ % 60 == 0 && vitals[0] < vitals[1] / 2))) {
+                const auto result = model_renderer::debug_player_refill_hp(options_.boss_refill_hp);
+                if (frame_ % 600 == 0 || bf_refills_++ == 0)
+                    plog(fmt("boss refill | frame %llu | %s | HP %d/%d", (unsigned long long)frame_,
+                             result.c_str(), vitals[0] / 256, vitals[1] / 256));
+            }
+            if (!options_.boss_summon_trap.empty() && !bf_trap_summoned_ && have_pose_ &&
+                frame_ - bf_phase_frame_ >= 120) {
+                bf_trap_summoned_ = true;
+                std::string message;
+                const bool ok = model_renderer::boss_probe_summon_timer_trap(
+                    options_.boss_name, options_.boss_summon_trap,
+                    {pose_.player_position[0], pose_.player_position[1], pose_.player_position[2]},
+                    message);
+                plog(fmt("boss trap | frame %llu | %s from %s at %s | %s%s", (unsigned long long)frame_,
+                         options_.boss_summon_trap.c_str(), options_.boss_name.c_str(),
+                         vec_text(pose_.player_position).c_str(), ok ? "" : "ERROR ", message.c_str()));
+                if (!ok) failure_ = "boss-fight: summoning the TimerTrap failed: " + message;
+            }
             if (frame_ % 15 == 0 && have && have_pose_ && !snap.dead) {
                 const Vec3 player = pose_.player_position;
                 const Vec3 target{snap.position[0], snap.position[1], snap.position[2]};
