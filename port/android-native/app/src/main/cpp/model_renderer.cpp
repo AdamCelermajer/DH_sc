@@ -27469,6 +27469,25 @@ struct OrderedCharacterUpdateContextV1 {
 };
 void apply_actor_attack(ObjectActor& attacker,
                         const dh2::data::CombatEventAction& action);
+// Ranged basic attack (CharAI::_OnAnimEvent state-5 projectile branch and
+// CharAI::_HandleProjectile): the spawn is shared by the Player and nonplayer
+// animation-event handlers; the hit appliers are the Player/nonplayer halves of
+// F_MeleeAttack + F_ApplyResult, defined beside their melee callers.
+namespace {
+bool spawn_basic_attack_projectile_v1(std::uintptr_t owner_identity,
+                                      std::int32_t projectile_id);
+}
+bool apply_actor_hit_to_player(ObjectActor& attacker,unsigned offhand,
+                               std::uint32_t& outcomes);
+bool apply_actor_hit_to_actor(ObjectActor& attacker,ObjectActor* defender,
+                              unsigned offhand,std::uint32_t& outcomes);
+namespace {
+bool player_basic_attack_hit_actor_v1(ObjectActor& target,unsigned offhand,
+                                      std::uint32_t& outcomes);
+}
+// CharAI::_HandleProjectile's source address: the hit callback the basic-attack
+// ProjectileManager::Spawn stores in Projectile+0x3bc.
+constexpr std::uintptr_t kCharAIHandleProjectileV1=0x3cc280u;
 // CharAnimator::Update runs inside Character::Update, before GameObject::Update.
 // Keep the existing one-cursor scheduler and its synchronous marker/completion
 // callbacks here; the later renderer pass only samples and draws the pose.
@@ -28282,9 +28301,15 @@ bool apply_melee_statuses(const std::int32_t* attacker_sheet,
     std::string& error);
 }
 }
-void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAction& action){
- if(prince_combat.life.dead)return;
- if(attacker.ai_attack&&enemy_ai_enabled&&!actor_player_range(attacker).melee)return;
+// Character::F_MeleeAttack (0x3b3368) followed by Character::F_ApplyResult
+// (0x3b10b4) for a nonplayer attacker against the Player. This is the damage
+// body shared by the Monster melee animation event (behind its melee-range
+// gate, below) and CharAI::_HandleProjectile (0x3cc280), which runs the very
+// same pair against whatever Character the projectile struck. `outcomes` is
+// AttackResult+24, the byte _HandleProjectile masks with 3 (miss/dodge).
+bool apply_actor_hit_to_player(ObjectActor& attacker,unsigned offhand,std::uint32_t& outcomes){
+ outcomes=0;
+ if(prince_combat.life.dead)return false;
  // The prototype supplies state 3 when standing and 13 while walking.
  // Original SM_IsIdle(false) accepts both; do not suppress its hit reaction
  // merely because movement input is held. Full original FSM producers remain pending.
@@ -28297,13 +28322,14 @@ void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAct
  PlayerKillBridgeContextV1 kill_context{&dp,attacker.identity,{}};
  const dh2::data::melee_pipeline::Request request{
      &source_attacker, &source_player, &combat_random,
-     static_cast<std::uint32_t>(action.offhand),
+     static_cast<std::uint32_t>(offhand),
      static_cast<std::uint32_t>(idle),
      &add_combat_threat_before_hit, &aggro,
      &player_before_dead_v1, &kill_context};
  dh2::data::melee_pipeline::Exchange exchange;
- if(dh2::data::melee_pipeline::monster_to_player(&request,&exchange)!=dh2::data::melee_pipeline::Status::complete){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Player defender application failed");enabled=false;return;}
+ if(dh2::data::melee_pipeline::monster_to_player(&request,&exchange)!=dh2::data::melee_pipeline::Status::complete){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Player defender application failed");enabled=false;return false;}
  auto& result=exchange.result;auto& applied=exchange.application;
+ outcomes=result.outcomes;
  // Character::HitFor 0x3a8bc4 tail on the Player: at or below half of Max_HP
  // (checked after the lethal Kill block) cinematic_Tuto_potionUse starts once.
  if(applied.hit_called)
@@ -28317,7 +28343,7 @@ void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAct
        prince_character.identity(),nullptr,result,status_error)){
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
        "Incoming Monster result stopped | Character::F_ApplyResult status tail failed | %s",
-       status_error.c_str());enabled=false;return;
+       status_error.c_str());enabled=false;return false;
   }
  }
  // Character::F_ApplyResult source order after HitFor/HP/death: cancel
@@ -28330,17 +28356,17 @@ void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAct
        &prince_character_byte_415,result_tail_error)){
   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
       "Incoming Monster result stopped | Character::CancelSneaking failed | %s",
-      result_tail_error.c_str());enabled=false;return;
+      result_tail_error.c_str());enabled=false;return false;
  }
  NativeSctActorContextV1 incoming_text{};
  if(native_sct_apply_to_player_v1(incoming_text,attacker,result,result_tail_error)){
   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
       "Incoming Monster result stopped | Character::F_ApplyScrollingCombatText failed | %s",
-      result_tail_error.c_str());enabled=false;return;
+      result_tail_error.c_str());enabled=false;return false;
  }
  apply_monster_source_combat_sound(attacker,result);
  // Source F_ApplyCombatSound is void and its caller ignores playback status.
- if(!dispatch_combat_result(&attacker,nullptr,attacker.identity,prince_character.identity(),result)){enabled=false;return;}
+ if(!dispatch_combat_result(&attacker,nullptr,attacker.identity,prince_character.identity(),result)){enabled=false;return false;}
  ++combat_hits;++prince_combat.received;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Prince damage received | attacker %s | attempt %u | result %d %d %d %d %d %d %u %u %d %d | HP %d %d | dead %u | combo %u | RNG %u %u | statuses %u | low health armed %u | cue %u | checksum %016llx",attacker.name.c_str(),prince_combat.received,result.amount,result.dot_element,result.dot_duration,result.dot_amount,result.hp_leech,result.mp_leech,result.outcomes,result.mask,result.weapon_category,result.element,applied.health.before,applied.health.after,prince_combat.life.dead,attacker.combat_state.combo_hits,combat_random.seed,combat_random.calls,applied.status_requests,prince_combat.life.low_health_armed,applied.health.low_health_cue,static_cast<unsigned long long>(snapshot_checksum(prince_combat.properties.resolved)));
  if(applied.health.low_health_cue)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Player low health request | HP %d | maximum %d | audio pending",applied.health.after,prince_combat.properties.resolved[38]);
@@ -28351,34 +28377,27 @@ void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAct
   prince_combat.pending_death=false;prince_combat.death_target=attacker.identity;
   move_x=move_y=0;
  }
+ return true;
 }
-void apply_actor_attack(ObjectActor& attacker,const dh2::data::CombatEventAction& action){
- if(action.kind!=dh2::data::CombatEventKind::melee||attacker.combat_state.dead)return;
- const auto* native_ai=attacker.native_ai.get();
- const auto* initialization=native_ai?native_ai->initialization.get():nullptr;
- const dh2::native_monster_attack_request_v1::AttackLifecycle lifecycle{
-  std::uint32_t(attacker.gated_spawn),std::uint32_t(attacker.source_updates_enabled),
-  std::uint32_t(attacker.spawn_owner&&attacker.spawn_owner->source_visible),
-  attacker.spawn_owner?attacker.spawn_owner->character.state.current:0,
-  std::uint32_t(initialization&&initialization->initialized&&initialization->vm.ready()),
-  attacker.identity,attacker.spawn_owner?attacker.spawn_owner->character.owner():0,
-  native_ai?native_ai->character_identity:0,initialization?initialization->lifecycle.owner:0,
-  native_ai?native_ai->state.active_ais_1c:0,
-  initialization?initialization->lifecycle.active:0,
-  initialization?initialization->ais.identity:0};
- if(!dh2::native_monster_attack_request_v1::allows_combat_event(lifecycle))return;
- if(attacker.combat_target==-2){apply_actor_to_player(attacker,action);return;}
- if(attacker.combat_target<0)return;
- const auto& target_record=world_objects.at(attacker.combat_target);ObjectActor* defender=nullptr;
- for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.room==target_record.room&&actor.name==target_record.name)defender=&actor;
- if(!defender||defender->kind!=1||defender->combat_state.dead||defender->gated_spawn)return;
+void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAction& action){
+ if(prince_combat.life.dead)return;
+ if(attacker.ai_attack&&enemy_ai_enabled&&!actor_player_range(attacker).melee)return;
+ std::uint32_t outcomes=0;
+ (void)apply_actor_hit_to_player(attacker,static_cast<unsigned>(action.offhand),outcomes);
+}
+// Character::F_MeleeAttack + F_ApplyResult for a nonplayer attacker against
+// another nonplayer Character; shared by the melee animation event and by
+// CharAI::_HandleProjectile (see apply_actor_hit_to_player).
+bool apply_actor_hit_to_actor(ObjectActor& attacker,ObjectActor* defender,unsigned offhand,std::uint32_t& outcomes){
+ outcomes=0;
  dh2::data::CombatantView av{attacker.properties.resolved.data(),-1,-1,0,0,0,5,attacker.combat_state.combo_hits},dv{defender->properties.resolved.data(),-1,-1,0,0,0,defender->state=="Attack"?5:-1,defender->combat_state.combo_hits};
  dh2::data::CombatResult result;dh2::data::MonsterApplication applied;
  auto ap=dh2::data::property_view(actor_property_rules,attacker.properties),dp=dh2::data::property_view(actor_property_rules,defender->properties);
  const unsigned aggro_facts=(defender->combat_state.dead?dh2::data::aggro_owner_dead:0u)|(attacker.combat_state.dead?dh2::data::aggro_target_dead:0u);
  CombatAggroBeforeHit aggro{&defender->aggro,&attacker.aggro,defender->identity,attacker.identity,aggro_facts};
  const dh2::data::MonsterApplicationRequest request{&result,&ap,&dp,&attacker.combat_state,&defender->combat_state,&add_combat_threat_before_hit,&aggro};
- if(dh2_combat_melee(&result,&av,&dv,&combat_random,action.offhand,0)||dh2_combat_apply_monster(&applied,&request)){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native combat application failed");enabled=false;return;}
+ if(dh2_combat_melee(&result,&av,&dv,&combat_random,offhand,0)||dh2_combat_apply_monster(&applied,&request)){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native combat application failed");enabled=false;return false;}
+ outcomes=result.outcomes;
  // F_ApplyResult status tail (living defender) precedes the AIS result callbacks.
  {
   std::string status_error;
@@ -28386,10 +28405,10 @@ void apply_actor_attack(ObjectActor& attacker,const dh2::data::CombatEventAction
        defender->identity,defender,result,status_error)){
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
        "Native combat result stopped | Character::F_ApplyResult status tail failed | %s | %s",
-       defender->name.c_str(),status_error.c_str());enabled=false;return;
+       defender->name.c_str(),status_error.c_str());enabled=false;return false;
   }
  }
- if(!dispatch_combat_result(&attacker,defender,attacker.identity,defender->identity,result)){enabled=false;return;}
+ if(!dispatch_combat_result(&attacker,defender,attacker.identity,defender->identity,result)){enabled=false;return false;}
  ++combat_hits;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native combat hit | %s | target %s | hit %u | result %d %d %d %d %d %d %u %u %d %d | HP %d %d | dead %u | combo %u | RNG %u %u | statuses %u | threat %.9g",attacker.name.c_str(),defender->name.c_str(),combat_hits,result.amount,result.dot_element,result.dot_duration,result.dot_amount,result.hp_leech,result.mp_leech,result.outcomes,result.mask,result.weapon_category,result.element,applied.health.before,applied.health.after,defender->combat_state.dead,attacker.combat_state.combo_hits,combat_random.seed,combat_random.calls,applied.status_requests,double(applied.threat));
  if(applied.health.kill_requested){
@@ -28412,6 +28431,41 @@ void apply_actor_attack(ObjectActor& attacker,const dh2::data::CombatEventAction
   }
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Combat death event queued | %s | source killer %zu | HP %d | dead %u | lifecycle %d",defender->name.c_str(),std::size_t(attacker.identity),defender->properties.resolved[36],defender->combat_state.dead,defender->combat_state.lifecycle);
  }
+ return true;
+}
+void apply_actor_attack(ObjectActor& attacker,const dh2::data::CombatEventAction& action){
+ if((action.kind!=dh2::data::CombatEventKind::melee&&
+     action.kind!=dh2::data::CombatEventKind::projectile)||attacker.combat_state.dead)return;
+ const auto* native_ai=attacker.native_ai.get();
+ const auto* initialization=native_ai?native_ai->initialization.get():nullptr;
+ const dh2::native_monster_attack_request_v1::AttackLifecycle lifecycle{
+  std::uint32_t(attacker.gated_spawn),std::uint32_t(attacker.source_updates_enabled),
+  std::uint32_t(attacker.spawn_owner&&attacker.spawn_owner->source_visible),
+  attacker.spawn_owner?attacker.spawn_owner->character.state.current:0,
+  std::uint32_t(initialization&&initialization->initialized&&initialization->vm.ready()),
+  attacker.identity,attacker.spawn_owner?attacker.spawn_owner->character.owner():0,
+  native_ai?native_ai->character_identity:0,initialization?initialization->lifecycle.owner:0,
+  native_ai?native_ai->state.active_ais_1c:0,
+  initialization?initialization->lifecycle.active:0,
+  initialization?initialization->ais.identity:0};
+ if(!dh2::native_monster_attack_request_v1::allows_combat_event(lifecycle))return;
+ if(action.kind==dh2::data::CombatEventKind::projectile){
+  // CharAI::_OnAnimEvent state 5 (0x3d4778..0x3d4824): a ranged-capable
+  // Character's attack_ranged / attack_mainhand / do_skill marker calls
+  // ProjectileManager::Spawn with CanRangeAttack's projectile id and
+  // CharAI::_HandleProjectile as the hit callback. The shot is not tied to the
+  // attack target: it flies along the owner's look vector and damages whatever
+  // Character it collides with.
+  (void)spawn_basic_attack_projectile_v1(attacker.identity,action.sequence_step);
+  return;
+ }
+ if(attacker.combat_target==-2){apply_actor_to_player(attacker,action);return;}
+ if(attacker.combat_target<0)return;
+ const auto& target_record=world_objects.at(attacker.combat_target);ObjectActor* defender=nullptr;
+ for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.room==target_record.room&&actor.name==target_record.name)defender=&actor;
+ if(!defender||defender->kind!=1||defender->combat_state.dead||defender->gated_spawn)return;
+ std::uint32_t outcomes=0;
+ (void)apply_actor_hit_to_actor(attacker,defender,static_cast<unsigned>(action.offhand),outcomes);
 }
 ObjectActor* player_target(int index){
  if(index<0||unsigned(index)>=world_objects.size())return nullptr;
@@ -30619,6 +30673,68 @@ int native_skill_projectile_read_point_v1(void*,std::uintptr_t identity,
  *point={position[0],position[1],position[2]};
  return 0;
 }
+// CharAI::_OnAnimEvent (0x3d4434) state 5, after Character::CanRangeAttack:
+// ProjectileManager::Spawn (0x3e701c)(projectile id, owner GameObject, no target,
+// no check callback, CharAI::_HandleProjectile as the hit callback, no user
+// data, flag false). Projectile::SetInfo (0x3e58cc) then puts the shot at the
+// owner's target position and, having no target and a false node-aim flag,
+// sets its destination 1000 units along GameObject::GetLookAtVec (0x393ae4):
+// {sin(z), -cos(z), 0} of the owner's Z rotation. The shot therefore flies in
+// the direction the owner faces, not at the attack target. The pool, ObjectManager
+// row, update staging and collision stay the same ones skill projectiles use.
+bool spawn_basic_attack_projectile_v1(std::uintptr_t owner_identity,
+                                      std::int32_t projectile_id) {
+ const auto fail=[&](const char* reason){
+  static unsigned warned=0;
+  if(warned++<8)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Basic attack projectile not spawned | owner %p | projectile row %d | %s",
+       reinterpret_cast<void*>(owner_identity),projectile_id,reason);
+  return false;
+ };
+ if(!owner_identity||projectile_id<0)return fail("owner or projectile row is invalid");
+ if(!active_crypt_level_projection||!active_crypt_level_projection->projectile_owner||
+    source_level_owner.snapshot().source_level!=
+       active_crypt_level_projection->source_level_identity)
+  return fail("no active same-Level ProjectileManager owner");
+ float heading=0.f;
+ if(owner_identity==prince_character.identity()) {
+  heading=prince_runtime.rotation.heading_angle;
+ } else {
+  const auto* actor=spell_actor_by_identity(owner_identity);
+  if(!actor)return fail("owner is not a live Character");
+  heading=actor->spawn_owner&&actor->spawn_owner->runtime_ready
+      ?actor->spawn_owner->runtime.rotation.heading_angle
+      :actor->rotation_degrees[2]*(3.14159265358979f/180.f);
+ }
+ dh2::skill_projectile_delivery_v1::Point3f origin{};
+ if(native_skill_projectile_read_point_v1(nullptr,owner_identity,&origin)!=0)
+  return fail("owner target position is unavailable");
+ dh2::skill_projectile_delivery_v1::Launch launch{};
+ launch.character=owner_identity;
+ launch.skill_script=0;
+ launch.skill_index=-1;
+ launch.projectile_id=projectile_id;
+ launch.info_kind=dh2::projectile_lifecycle_runtime_v1::SetInfoKind::flag_bool;
+ launch.flag=false;
+ launch.collision_check_callback=0;
+ launch.collision_hit_callback=kCharAIHandleProjectileV1;
+ auto& owner=*active_crypt_level_projection->projectile_owner;
+ const auto spawned=owner.spawn(launch);
+ if(spawned.status!=dh2::projectile_product_owner_v1::Status::ok||!spawned.projectile)
+  return fail("ProjectileManager::Spawn returned no product");
+ const dh2::skill_projectile_delivery_v1::Point3f destination{
+     origin.x+std::sin(heading)*1000.f,origin.y-std::cos(heading)*1000.f,origin.z};
+ if(owner.set_destination(spawned.projectile,destination)!=
+      dh2::projectile_product_owner_v1::Status::ok)
+  return fail("Projectile::SetDestination rejected the look-vector destination");
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Basic attack projectile spawned | owner %p | projectile row %d | object %p | heading %.4f | origin %.2f %.2f %.2f | destination %.2f %.2f",
+     reinterpret_cast<void*>(owner_identity),projectile_id,
+     reinterpret_cast<void*>(spawned.projectile),heading,origin.x,origin.y,origin.z,
+     destination.x,destination.y);
+ return true;
+}
 using ProjectileOwner=dh2::projectile_product_owner_v1::Owner;
 using ProjectilePayload=dh2::projectile_product_owner_v1::Payload;
 using ProjectileHooks=dh2::projectile_lifecycle_runtime_v1::Hooks;
@@ -30743,6 +30859,14 @@ bool ensure_native_projectile_body_v1(ProjectilePayload& payload,
  auto* native=actor_world.create(&definition);
  if(!native) {error="Shared PhysicalWorld rejected Projectile body";return false;}
  b2CircleDef circle;circle.radius=body->radius;
+ // Projectile::SetInfo (0x3e58cc) builds PhysicalObject(world, this, 0, 1, 1,
+ // 1, 0, 0x20, 0x51f, 0); the third bool lands in b2ShapeDef::isSensor
+ // (PhysicalObject ctor 0x46f2f0, v32 at the isSensor slot). The shot reports
+ // overlaps to the contact listener but never collides physically, so a shot
+ // that spawns at its owner's centre is not shoved away from the line of fire
+ // by the owner's pinned body, and walls end it only through the PF floor/room
+ // gate in Projectile::Update.
+ circle.isSensor=true;
  circle.localPosition.Set(center[0],center[1]);circle.density=.1f;
  circle.friction=0.f;circle.restitution=0.f;
  circle.filter.groupIndex=0;circle.filter.categoryBits=32;
@@ -31023,6 +31147,69 @@ ProjectileStatus native_projectile_set_active_v1(void* raw,
  return ProjectileStatus::ok;
 }
 
+// CharAI::_HandleProjectile (0x3cc280), the hit callback of a basic-attack
+// projectile (Projectile+0x3bc), invoked from Projectile::Update's pending
+// branch with the Character stored in Projectile+0x3cc. The source runs
+// F_MeleeAttack(owner, target, offhand=false, projectile flag) then
+// F_ApplyResult(result, owner, target, false) and returns `outcomes & 3 ? 1 : 0`:
+// a miss or dodge returns 1 and Projectile::Update re-arms the shot, any other
+// result returns 0 and the shot impacts and despawns. The owner's
+// CharAI::OnProjectileHit (AISDefault no-op; AISExternal forwards to the Lua
+// OnProjectileHit, which only _commons.lua defines, as an empty body) precedes it.
+bool native_basic_attack_projectile_hit_v1(const ProjectilePayload& payload,
+    std::uintptr_t target_identity,bool& keep_flying,std::string& error) {
+ keep_flying=false;
+ if(!payload.owner_identity||!target_identity||
+    payload.hit_callback!=kCharAIHandleProjectileV1) {
+  error="Basic attack projectile hit has no owner, target, or CharAI::_HandleProjectile callback";
+  return false;
+ }
+ std::uint32_t outcomes=0;
+ bool applied=false;
+ try {
+  const bool owner_is_player=payload.owner_identity==prince_character.identity();
+  if(owner_is_player) {
+   auto* defender=spell_actor_by_identity(target_identity);
+   // A target that is not a nonplayer Character (including the Player's own
+   // body) takes no F_MeleeAttack from the Player's shot.
+   if(!defender||defender->kind!=1||defender->combat_state.dead) {
+    error.clear();return true;
+   }
+   applied=player_basic_attack_hit_actor_v1(*defender,0u,outcomes);
+  } else {
+   auto* attacker=spell_actor_by_identity(payload.owner_identity);
+   if(!attacker) {
+    error="Basic attack projectile lost its owning Character";return false;
+   }
+   if(target_identity==prince_character.identity()) {
+    applied=apply_actor_hit_to_player(*attacker,0u,outcomes);
+   } else {
+    auto* defender=spell_actor_by_identity(target_identity);
+    if(!defender||defender->kind!=1||defender->combat_state.dead) {
+     error.clear();return true;
+    }
+    applied=apply_actor_hit_to_actor(*attacker,defender,0u,outcomes);
+   }
+  }
+ } catch(const std::exception& failure) {
+  error=std::string("Basic attack projectile hit failed: ")+failure.what();
+  return false;
+ } catch(...) {
+  error="Basic attack projectile hit failed with an unknown error";
+  return false;
+ }
+ // A refused hit (dead Player, combat provider failure) leaves the shot's
+ // pending state to the caller exactly like a zero return: it impacts and ends.
+ keep_flying=applied&&(outcomes&3u)!=0;
+ error.clear();
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Basic attack projectile hit | owner %p | target %p | row %d | applied %d | outcomes %u | %s",
+     reinterpret_cast<void*>(payload.owner_identity),
+     reinterpret_cast<void*>(target_identity),payload.projectile_id,int(applied),
+     outcomes,keep_flying?"missed or dodged, keeps flying":"impact");
+ return true;
+}
+
 bool process_native_projectile_pending_collision_v1(ProjectileOwner& owner,
     ProjectilePayload& payload,std::string& error) {
  if(!payload.collision_expired)return false;
@@ -31037,6 +31224,12 @@ bool process_native_projectile_pending_collision_v1(ProjectileOwner& owner,
    error="Projectile collision lost its same-ObjectManager target";
    return true;
   }
+  if(payload.hit_callback==kCharAIHandleProjectileV1) {
+   bool keep_flying=false;
+   if(!native_basic_attack_projectile_hit_v1(payload,context.target,keep_flying,error))
+    return true;
+   source_return=keep_flying?1:0;
+  } else {
   const auto status=native_projectile_vm_callback_v1(context,"OnDelayedSkill",error);
   if(status<0&&status!=kProjectileLuaScriptAbsentV1) {
    if(error.empty())error="Projectile delayed hit lost its source skill owner";
@@ -31044,6 +31237,7 @@ bool process_native_projectile_pending_collision_v1(ProjectileOwner& owner,
   }
   source_return=status==kProjectileLuaScriptAbsentV1||
       (status==0&&context.delayed_false)?1:0;
+  }
  }
  if(source_return==1) {
   payload.collision_expired=0;
@@ -31070,6 +31264,9 @@ bool process_native_projectile_pending_collision_v1(ProjectileOwner& owner,
  hooks.set_updating=native_projectile_set_updating_v1;
  hooks.stop=native_projectile_stop_v1;
  hooks.set_active=native_projectile_set_active_v1;
+ // Projectile::Update (0x3e5208): blocked byte +0x3d0 = 1 and pending byte
+ // +0x3d1 = 0 immediately before ProjectileManager::DeSpawn.
+ payload.collision_blocked=1;payload.collision_expired=0;
  const auto result=owner.manager().despawn(payload.source_handle,hooks);
  if(result.status!=ProjectileStatus::ok) {
   error="Projectile pending-contact DeSpawn lost its canonical manager pool slot";
@@ -31122,6 +31319,15 @@ bool update_native_projectile_v1(std::uintptr_t identity,std::uint32_t dt_ms,
  auto* payload=const_cast<ProjectilePayload*>(
      active_crypt_level_projection->projectile_owner->find(identity));
  auto* object=source_level_owner.object_manager().find_by_identity(identity);
+ // ObjectManager::Update (0x34a620) walks the +0x2c list but calls a member's
+ // Update only while its updating byte (+0x85) is set. ProjectileManager::DeSpawn
+ // clears that byte and leaves the pooled Projectile in the list, so a despawned
+ // shot is simply skipped until a later Spawn reuses it.
+ if(payload&&object) {
+  const std::uint8_t updating=object->live_fields.updating_85
+      ?*object->live_fields.updating_85:object->updating_85;
+  if(!updating) {error.clear();return true;}
+ }
  if(!payload||!object||!payload->active) {
   error="Projectile ordered update lost its canonical ObjectManager product";
   return false;
@@ -31151,6 +31357,7 @@ bool update_native_projectile_v1(std::uintptr_t identity,std::uint32_t dt_ms,
  auto* native=body->body.body;
  if(!native) {error="Projectile body disappeared before ordered update";return false;}
  std::uintptr_t target=0;
+ bool target_locked=false;
  if(native_projectile_target_identity_v1(*active_crypt_level_projection->projectile_owner,
       *payload,target)) {
   dh2::skill_projectile_delivery_v1::Point3f target_position{};
@@ -31160,6 +31367,7 @@ bool update_native_projectile_v1(std::uintptr_t identity,std::uint32_t dt_ms,
   if(payload->source_row.target_lock||!payload->has_destination) {
    payload->destination={target_position.x,target_position.y,target_position.z};
    payload->has_destination=true;
+   target_locked=payload->source_row.target_lock;
   }
  }
  if(payload->has_destination) {
@@ -31168,14 +31376,20 @@ bool update_native_projectile_v1(std::uintptr_t identity,std::uint32_t dt_ms,
   const float dx=payload->destination.x-px,dy=payload->destination.y-py;
   const float length=std::sqrt(dx*dx+dy*dy);
   if(length>0.001f&&std::isfinite(length)) {
-   const float speed=std::max(0.f,payload->source_row.velocity)*.01f;
+   // GameObject::UpdateSubObjects (0x3943cc): PhysicalObject::setLinearVelocity
+   // (normalize(destination - position) * GetSpeed()). Projectile::GetSpeed
+   // (0x3e4da8) is Projectile+0x3ac, row.velocity decayed by row.velocity_damping,
+   // and Box2D takes metres per second, so no centimetre scale applies.
+   const float speed=std::max(0.f,payload->vertical_velocity);
    native->SetLinearVelocity(b2Vec2((dx/length)*speed,(dy/length)*speed));
+   // Projectile::Update (0x3e5404..0x3e54c8): unless a target lock tracks the
+   // target, every update re-aims the destination 1000 units ahead along the
+   // current heading, so the shot keeps its line past its original end point.
+   if(!target_locked) {
+    payload->destination.x=px+dx/length*1000.f;
+    payload->destination.y=py+dy/length*1000.f;
+   }
   }
- }
- payload->position.z+=payload->vertical_velocity*
-     (static_cast<float>(dt_ms)/1000.0f);
- if(!std::isfinite(payload->position.z)) {
-  error="Projectile vertical update produced a nonfinite position";return false;
  }
  body->body_owner.projectile_identity=identity;
  body->body_owner.native=&body->body;
@@ -32042,7 +32256,47 @@ int clear_kill_selection_projection(void* raw,std::uintptr_t victim){
   prince_combat.target=-1;
  return 0;
 }
+// Character::CanRangeAttack(min, max, projectile) (0x3a4cd0) for the Player's
+// current main-hand weapon: the capability CharAI::_OnAnimEvent reads before it
+// picks the projectile branch and CharAI::AI_CanAttack/AI_DoMeleeAttack read to
+// choose the ranged attack. The same V4 inventory route feeds all of them.
+bool player_range_capability(dh2::character::combat_event_v1::Result& range){
+ range={};
+ if(!prince_combat.inventory||
+    prince_combat.inventory->character()!=prince_character.identity()||
+    prince_combat.inventory->properties()!=&prince_combat.properties)return false;
+ const dh2::data::CombatEventContext context{5,0,0,0,-1};
+ const auto status=dh2::character::combat_event_v1::route_character(
+     &prince_combat.properties,prince_combat.inventory.get(),&context,
+     "attack_ranged",&range);
+ return status==dh2::character::combat_event_v1::Status::complete&&range.can_range!=0;
+}
+// CharAI::AI_IsInRange (0x3d6604): squared distance between both GetTargetPosition
+// values lies in [min^2, max^2] (integers from CanRangeAttack).
+bool player_in_ranged_range(const ObjectActor& target,
+    const dh2::character::combat_event_v1::Result& range){
+ float npc_position[3]{},player_position[3]{};
+ if(!native_character_position_for_target(target.identity,npc_position)){
+  const float* live=target.spawn_owner&&target.spawn_owner->runtime_ready?
+      target.spawn_owner->runtime.subobjects.position:target.position.data();
+  std::copy(live,live+3,npc_position);
+ }
+ if(!native_character_position_for_target(prince_character.identity(),player_position))
+  std::copy(prince_runtime.subobjects.position,prince_runtime.subobjects.position+3,player_position);
+ const float dx=player_position[0]-npc_position[0];
+ const float dy=player_position[1]-npc_position[1];
+ const float dz=player_position[2]-npc_position[2];
+ const float distance_squared=dx*dx+dy*dy+dz*dz;
+ return float(range.range_min)*float(range.range_min)<=distance_squared&&
+        float(range.range_max)*float(range.range_max)>=distance_squared;
+}
+// CharAI::AI_CanAttack (0x3d67f4), minus its AI_IsEnemy gate (callers filter
+// hostility): a melee weapon needs AI_IsInMeleeRange; a Character with
+// CanRangeAttack needs AI_IsInRange instead (ItemInventory::CanMeleeAttack is
+// "no ranged weapon", so the two never both apply to a weapon).
 bool player_reach(const ObjectActor& target){
+ dh2::character::combat_event_v1::Result range{};
+ if(player_range_capability(range))return player_in_ranged_range(target,range);
  return actor_player_range(target).melee;
 }
 } // namespace
@@ -32069,6 +32323,8 @@ std::string player_attack(int supplied_target){
  if(accepted<0)return "Player attack state request failed";
  if(!accepted)return "Attack is cooling down";
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Player attack selected | target %d | %s | root %d | clip %d | canonical V4 equipment | native state %d",target,defender->name.c_str(),prince_state.current_animation,prince_locomotion.current_clip(),prince_state.current);
+ if(dh2::character::combat_event_v1::Result range{};player_range_capability(range))
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Player ranged attack | Character::CanRangeAttack range %d..%d | projectile row %d | target %d",range.range_min,range.range_max,range.projectile,target);
  return "Attacking";
 }
 std::array<int,7> player_vitals(){return {prince_combat.properties.resolved[36],prince_combat.properties.resolved[38],prince_combat.properties.resolved[41],prince_combat.properties.resolved[43],int(prince_combat.life.dead),int(prince_combat.life.low_health_armed),prince_state.current};}
@@ -38023,8 +38279,30 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
       std::to_string(unsigned(route_status))+")");
  const auto& action=routed.action;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Player animation event | clip %d | name %s | sequence %d | attack step %d | kind %d | ranged %d projectile %d | lag %d | %s | Step %u | position %.4f %.4f %.4f",clip,event.name,action.sequence_step,action.attack_step,int(action.kind),routed.can_range,routed.projectile,event.lag_ms,prince_scene_phase?"scene before Step":"synchronous actor replay",native_physics_steps,prince_runtime.subobjects.position[0],prince_runtime.subobjects.position[1],prince_runtime.subobjects.position[2]);
+ if(action.kind==dh2::data::CombatEventKind::projectile){
+  // CharAI::_OnAnimEvent state 5 (0x3d4778..0x3d4824): with CanRangeAttack true,
+  // attack_ranged / attack_mainhand / do_skill spawn the weapon's projectile
+  // (action.sequence_step carries CanRangeAttack's id) with
+  // CharAI::_HandleProjectile as its hit callback. No target is needed here: the
+  // shot flies along the Player's look vector and the hit applies the
+  // F_MeleeAttack + F_ApplyResult pair to whatever Character it strikes.
+  (void)spawn_basic_attack_projectile_v1(prince_character.identity(),action.sequence_step);
+  return;
+ }
  if(action.kind!=dh2::data::CombatEventKind::melee)return;
  auto* target=player_target(prince_combat.target);if(!target||!player_reach(*target))return;
+ std::uint32_t outcomes=0;
+ (void)player_basic_attack_hit_actor_v1(*target,static_cast<unsigned>(action.offhand),outcomes);
+}
+// Character::F_MeleeAttack (0x3b3368) + Character::F_ApplyResult (0x3b10b4)
+// for the Player against an NPC. Shared by the melee animation event and
+// CharAI::_HandleProjectile, which runs the same pair against the Character a
+// basic-attack projectile collided with (0x3cc310/0x3cc324). `outcomes` is
+// AttackResult+24, whose low two bits (miss, dodge) make _HandleProjectile
+// return 1 so the shot keeps flying.
+bool player_basic_attack_hit_actor_v1(ObjectActor& target_actor,unsigned offhand,std::uint32_t& outcomes){
+ auto* target=&target_actor;
+ outcomes=0;
  auto ap=dh2::data::property_view(actor_property_rules,prince_combat.properties),dp=dh2::data::property_view(actor_property_rules,target->properties);
  dh2::data::CombatantView av{prince_combat.properties.resolved.data(),-1,-1,0,0,0,prince_state.current,prince_combat.life.combo_hits},dv{target->properties.resolved.data(),-1,-1,0,0,0,target->state=="Attack"?5:-1,target->combat_state.combo_hits};
  if(!prince_combat.inventory)throw std::runtime_error("Player combat has no canonical V4 inventory");
@@ -38041,7 +38319,7 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
      &aggro,source_npc_kill_ready(*target,prince_character.identity())?
        &player_to_npc_before_dead_v1:nullptr,&result_context.kill,
      &player_critical_camera_before_regen,&camera_context};
- if(dh2_combat_melee(&result,&av,&dv,&combat_random,action.offhand,0))throw std::runtime_error("Player melee calculation failed");
+ if(dh2_combat_melee(&result,&av,&dv,&combat_random,offhand,0))throw std::runtime_error("Player melee calculation failed");
  const auto result_step=[](void* raw,dh2::data::player_attack_result_edge_v1::Step step,
      std::uintptr_t attacker_id,std::uintptr_t defender_id,dh2::data::CombatResult& applied_result){
   auto* context=static_cast<PlayerAttackResultContext*>(raw);
@@ -38104,6 +38382,8 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
  applied=result_edge.application;
  ++combat_hits;++prince_combat.attempts;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Prince combat hit | target %s | attempt %u | result %d %d %d %d %d %d %u %u %d %d | HP %d %d | dead %u | combo %u | RNG %u %u | statuses %u",target->name.c_str(),prince_combat.attempts,result.amount,result.dot_element,result.dot_duration,result.dot_amount,result.hp_leech,result.mp_leech,result.outcomes,result.mask,result.weapon_category,result.element,applied.health.before,applied.health.after,target->combat_state.dead,prince_combat.life.combo_hits,combat_random.seed,combat_random.calls,applied.status_requests);
+ outcomes=result.outcomes;
+ return true;
 }
 }
 namespace {

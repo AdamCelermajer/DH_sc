@@ -141,7 +141,11 @@ lifecycle::Status Owner::set_active(void* raw, objects::GameObject& object,
 
 SpawnResult Owner::spawn(const skill_projectile_delivery_v1::Launch& launch) {
     SpawnResult output{};
-    if (!launch.character || !launch.skill_script || launch.projectile_id < 0 ||
+    // Skill projectiles carry their CharAISkillScript as user data (Launch::
+    // skill_script, validated by skill_projectile_delivery_v1::spawn). A basic
+    // attack ProjectileManager::Spawn from CharAI::_OnAnimEvent passes a null
+    // user-data pointer, so only the owning Character is required here.
+    if (!launch.character || launch.projectile_id < 0 ||
         static_cast<std::size_t>(launch.projectile_id) >= table_.rows.size()) {
         output.status = Status::invalid_request;
         return output;
