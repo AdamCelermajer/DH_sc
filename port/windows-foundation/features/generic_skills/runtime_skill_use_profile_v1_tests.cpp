@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
         const auto class_names = read_file(root + "/original-cache/data/pydata/character_classes_pyarraynames.bin");
 
         const std::size_t table_size = sizeof(kRuntimeSkillUseProfilesV1) / sizeof(kRuntimeSkillUseProfilesV1[0]);
-        check(table_size == 6, "Use profile table admitted-row count changed");
+        check(table_size == 7, "Use profile table admitted-row count changed");
         for (const auto& profile : kRuntimeSkillUseProfilesV1) {
             check(contains_name(skill_names, profile.skill_name),
                   std::string("Skill name is absent from the authored SkillTable names: ") + profile.skill_name);
@@ -55,7 +55,11 @@ int main(int argc, char** argv) {
         check(find_skill_use_profile_v1("ViciousStrike", "prince_warrior_bashdown") == nullptr,
               "Use profile lookup must require the exact (name, script) pair");
         check(find_skill_use_profile_v1("Cyclone", "prince_mage_cyclone") == nullptr,
-              "Mage rows are outside this owner");
+              "Cyclone needs its projectile/tick owner before it is admitted");
+        check(find_skill_use_profile_v1("ChainLightning", "prince_mage_chain_lightning") == nullptr,
+              "ChainLightning needs its chain projectile owner before it is admitted");
+        check(find_skill_use_profile_v1("StoneEscape", "prince_mage_stone_escape") == nullptr,
+              "StoneEscape needs its teleport/statue owner before it is admitted");
 
         // prince_warrior_bashdown.luac: RANGE 160; OnSkill_ uses the OnPre-selected target only.
         const auto* bashdown = find_skill_use_profile_v1("BashDown", "prince_warrior_bashdown");
@@ -94,10 +98,19 @@ int main(int argc, char** argv) {
               roundhouse->use_targets == SkillUseTargetsV1::pre_list_all && roundhouse->rolls_objects &&
               roundhouse->post_clear_target && !roundhouse->sets_cooldown,
               "Roundhouse Lua transcription changed");
+        // prince_mage_coldray.luac: RANGE 650, ANGLE 90 (MaxAngleSearch), FrontalFirst + LookAt; every popped target
+        // (objects too) gets SkillCombatRoll; no SetSkillCooldown; Post ClearTarget.
+        const auto* cold_ray = find_skill_use_profile_v1("ColdRay", "prince_mage_coldray");
+        check(cold_ray && near(cold_ray->pre_range, 650.0f) && cold_ray->pre_look_at &&
+              near(cold_ray->use_range, 650.0f) && near(cold_ray->use_cone_radians, 1.5707964f) &&
+              cold_ray->use_targets == SkillUseTargetsV1::requery_at_use && cold_ray->rolls_objects &&
+              cold_ray->post_clear_target && !cold_ray->sets_cooldown && !cold_ray->shield_variant &&
+              std::string(cold_ray->class_token) == "Skill_Mage_ColdRay",
+              "ColdRay Lua transcription changed");
     } catch (const std::exception& error) {
         std::fprintf(stderr, "FAIL runtime_skill_use_profile_v1: %s\n", error.what());
         return 1;
     }
-    std::puts("PASS runtime_skill_use_profile_v1: six authored rows, exact admission, Lua-transcribed values");
+    std::puts("PASS runtime_skill_use_profile_v1: seven authored rows, exact admission, Lua-transcribed values");
     return 0;
 }

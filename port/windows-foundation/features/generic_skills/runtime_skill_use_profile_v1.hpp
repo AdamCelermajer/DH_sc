@@ -58,6 +58,9 @@ struct RuntimeSkillUseProfileV1 {
     bool post_clear_target;
     // Charge: a shielded caster uses Skill_Warrior_Charge_ShieldBonus at Use.
     bool shield_variant;
+    // v21.8 mage: the Lua `target:PlayFX(GetPyOID("AnimatedEffectTable", NAME))` run for every Character target whose
+    // SkillCombatRoll returned dmg > 0 (ColdRay: elem_dmg_02_water). Presentation only; nullptr when the Lua has none.
+    const char* target_hit_fx_name = nullptr;
 };
 
 inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;
@@ -69,6 +72,9 @@ inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;
 //   JumpKick        prince_rogue_jump_kick.luac         INIT_RANGE 250 + MaxAngleSearch + LookAt; OnSkill_ RANGE 160, ANGLE 270; Post ClearTarget.
 //   ViciousStrike   prince_rogue_vicious_strike.luac    SEARCH_RANGE 300 + MaxAngleSearch + LookAt; OnSkill_ RANGE 160, ANGLE 180, character-only rolls; CLASS = _Stun; Post ClearTarget.
 //   Roundhouse      prince_rogue_roundhouse.luac        RANGE 220 FrontalFirst + LookAt; OnSkill_ pops the OnPre list (no re-search), objects rolled; Post ClearTarget.
+//   ColdRay         prince_mage_coldray.luac            RANGE 650 FrontalFirst + MaxAngleSearch backup + LookAt(top); OnSkill_ TargetListSearch(RANGE, ANGLE 90, "MaxAngleSearch"),
+//                                                       ApplyPropClass(Skill_Mage_ColdRay), SkillCombatRoll for every popped target (objects too); no SetSkillCooldown;
+//                                                       target:PlayFX(elem_dmg_02_water) per Character with dmg > 0 (presentation, see runtime_skill_use_fx); Post ClearTarget.
 inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesV1[] = {
     {"BashDown", "prince_warrior_bashdown", "Skill_Warrior_BashDown",
      160.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
@@ -106,6 +112,13 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesV1[] = {
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::frontal_first, false,
      true, true, false},
+    // v21.8 mage. ANGLE 90 degrees -> 1.57079637 rad (same degree->radian convention as JumpKick 270 / Charge 120).
+    {"ColdRay", "prince_mage_coldray", "Skill_Mage_ColdRay",
+     650.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
+     false,
+     SkillUseTargetsV1::requery_at_use, 650.0f, false, 1.57079637050628662109375f,
+     SkillTargetSortV1::frontal_first, false,
+     true, true, false, "elem_dmg_02_water"},
 };
 
 // Returns the profile whose SkillTable (name, script) pair matches exactly, or nullptr.

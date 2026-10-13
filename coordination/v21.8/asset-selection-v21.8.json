@@ -135,6 +135,13 @@
       "pydata/worldmap_pyarray.bin",
       "pydata/worldmap_pyarraynames.bin",
       "pydata/worldmap_pycst.bin"
+    ],
+    "mage_hurt_fx": [
+      "3d/interface/spell_dh2_hurt_water.bdae",
+      "3d/interface/spell_dh2_hurt_earth.bdae",
+      "3d/interface/spell_dh2_hurt_lightning.bdae",
+      "3d/interface/spell_dh2_hurt_electric.bdae",
+      "3d/interface/spell_dh2_hurt_simplified_chain_lightning.bdae"
     ]
   },
   "group_destinations": {

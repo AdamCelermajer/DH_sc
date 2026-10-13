@@ -1138,6 +1138,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     }
 
     active.receipt.applied_results.clear();
+    active.receipt.target_hit_fx_name.clear();
+    active.receipt.target_hit_fx_targets.clear();
     std::uint32_t event_index = 0;
     // Legacy Character-only callers retain their exact target order.
     const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
@@ -1186,6 +1188,13 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
                 active.receipt.detail = "Source SkillCombatRoll loop failed after its applied ordered hit prefix";
                 output = active.receipt;
                 return false;
+            }
+            // Lua: if(character) and (dmg > 0) then target:PlayFX(...). dmg is the SkillCombatRoll return (requested damage).
+            if (profile.target_hit_fx_name && result.requested_damage > 0.0f) {
+                active.receipt.target_hit_fx_name = profile.target_hit_fx_name;
+                if (std::find(active.receipt.target_hit_fx_targets.begin(), active.receipt.target_hit_fx_targets.end(),
+                              target) == active.receipt.target_hit_fx_targets.end())
+                    active.receipt.target_hit_fx_targets.push_back(target);
             }
             active.receipt.applied_results.push_back(std::move(result));
         }

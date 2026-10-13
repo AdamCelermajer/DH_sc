@@ -79,6 +79,10 @@ struct RuntimeSkillCastReceiptV1 {
     std::vector<ActorId> target_order;
     std::vector<DamageEvent> applied_results;
     std::vector<ObjectId> delivered_object_interactions;
+    // v21.8 mage: authored per-target hit FX (profile.target_hit_fx_name): the AnimatedEffectTable name and the Character
+    // targets whose SkillCombatRoll returned dmg > 0. Filled when Use is applied; the host plays the FX at each target.
+    std::string target_hit_fx_name;
+    std::vector<ActorId> target_hit_fx_targets;
     // Formula-only Celest rolls against a target killed by the prior source
     // roll consume the exact RNG occurrence but do not apply a second hit.
     std::vector<faery_menu::CelestDeadTargetCalculationV1> celest_dead_target_calculations;

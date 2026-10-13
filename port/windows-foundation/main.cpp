@@ -1452,7 +1452,7 @@ int main(int argc,char** argv) {
         // Original GameOption GOD_MANA defaults off; Character0x14F0 is
         // constructor-zero and only an explicit debug-console toggle changes it.
         struct OrdinarySkillManaPolicy {bool savedGodMana=false,actorDebugBypass=false;} skillManaPolicy;
-        int lastSkillPhase=-1;std::uint64_t lastSkillGeneration=0;
+        int lastSkillPhase=-1;std::uint64_t lastSkillGeneration=0,lastSkillFxGeneration=0;
         const auto playerPolicy=options.combat.profiles.find(options.combat.playerProfileId);
         const bool sourcePlayerStanceEnabled=!options.meleeBindings.empty()&&playerPolicy!=options.combat.profiles.end()&&playerPolicy->second.retainedPhaseClock;
         dh2::data::ItemTable locomotionItems;
@@ -2101,7 +2101,7 @@ int main(int argc,char** argv) {
             if(equipmentStateInitialized&&!refreshPlayerMetadataOwner(error))
                 throw std::runtime_error("Selected player item metadata: "+error);
             skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();
-            lastSkillPhase=-1;lastSkillGeneration=0;
+            lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
             if(equipmentStateInitialized) {
                 options.combat.equippedItemIds.clear();options.combat.mainItemId.clear();options.combat.offItemId.clear();
                 options.combat.selectedPlayerGear.clear();
@@ -3480,9 +3480,9 @@ int main(int argc,char** argv) {
                 std::cout<<"Source root constructor scopes root="<<currentSourceRoot<<" modules="<<sourceScopes->count()<<"; full Level initialization remains incomplete\n";
                 for(const auto& module:sourceScopes->modules().entries())std::cout<<"Source module scope id="<<module.runtimeId<<" occurrence="<<module.occurrence.hostOccurrence<<'\n';
             }
-            if(options.campaignTriggers) {
+            if(options.campaignTriggers||combatSession) { // v21.8 mage: the player FX anchor is needed by animation-step FX even without campaign scripts
                 std::size_t actorAnchors=0;
-                for(const auto& definition:population.definitions()) {
+                if(options.campaignTriggers)for(const auto& definition:population.definitions()) {
                     if(definition.name.empty())continue;
                     const f::ActorId object=definition.stableId;int module=-1;
                     if(!sourceObjects.module_context(object,module,error)) {error.clear();continue;}
@@ -6676,7 +6676,7 @@ int main(int argc,char** argv) {
             bindContainerLoot();
             bindQuestRuntime(false);
             bindSourcePresentations();
-            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
+            skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
             faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
             if(restored)scriptRoutes.clear();
             if(options.combatText)combatText.clear_for_reload();
@@ -7863,7 +7863,7 @@ int main(int argc,char** argv) {
                     bindContainerLoot();
                     bindQuestRuntime(false); // P16 QUESTS (P17 DOORS2: restore shows no bind banners)
                     bindSourcePresentations();
-                    skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
+                    skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;lastSkillFxGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
                     traceState("restore-after");
                     std::cout<<"Restored live checkpoint frame="<<drawn<<" HP="<<player->health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
@@ -8557,6 +8557,21 @@ int main(int argc,char** argv) {
                         lastSkillPhase=int(receipt->phase);lastSkillGeneration=receipt->generation;
                         const auto rng=combatSession->world()->random_state();
                         std::cout<<"Source skill lifecycle frame="<<drawn<<" generation="<<receipt->generation<<" phase="<<int(receipt->phase)<<" skill="<<receipt->skill_name<<" hits="<<receipt->applied_results.size()<<" MP="<<state.stats.resource<<" RNG="<<rng.seed<<'/'<<rng.calls<<" diagnostic="<<receipt->detail<<'\n';
+                        // v21.8 mage: authored per-target hit FX (Lua `target:PlayFX(elem_dmg_..)` for dmg > 0), played once at Use.
+                        if((receipt->phase==f::generic_skills::RuntimeSkillCastPhaseV1::use_applied||receipt->phase==f::generic_skills::RuntimeSkillCastPhaseV1::completed)&&!receipt->target_hit_fx_name.empty()&&sourceEffectsFactory&&lastSkillFxGeneration!=receipt->generation) {
+                            lastSkillFxGeneration=receipt->generation;
+                            const auto setNames=sourceEffectsTables.borrow().set_names();
+                            const auto setFound=std::find(setNames.begin(),setNames.end(),receipt->target_hit_fx_name);
+                            if(setFound==setNames.end())std::cerr<<"Skill target FX diagnostic: AnimatedEffectTable row is absent: "<<receipt->target_hit_fx_name<<'\n';
+                            else for(const auto target:receipt->target_hit_fx_targets) {
+                                const auto* hit=combatSession->actor(target);if(!hit)continue;
+                                const float at[3]={hit->transform.position[0],hit->transform.position[1],hit->transform.position[2]};
+                                std::uintptr_t created=0;std::string fxError;
+                                if(!sourceEffectsFactory->manager().play_set(std::int32_t(setFound-setNames.begin()),at,nullptr,0,&created,fxError))
+                                    std::cerr<<"Skill target FX diagnostic: "<<fxError<<'\n';
+                                else std::cout<<"Source skill target FX frame="<<drawn<<" skill="<<receipt->skill_name<<" name="<<receipt->target_hit_fx_name<<" set="<<(setFound-setNames.begin())<<" target="<<target<<" created="<<created<<'\n';
+                            }
+                        }
                     }
                 }
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update
