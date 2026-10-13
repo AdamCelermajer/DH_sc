@@ -66,8 +66,20 @@ public:
     void _setMenuAnimList();
     void _setMenuVFXList();
     void _setMenuVFXSetList();
+    void _setMenuLoadModuleList(unsigned int);  // 0x33394c
+    void _addToList(const char* name);          // 0x330198
+    int _getMaxNumberOfItem() const;            // 0x3307ac
+    void _cmdReloadLevel();                     // 0x3309d4
+    void _selectItem(int index);                // 0x334d1c
+    void UpdateToggleDisplayList();             // 0x331cfc
+    void UpdateCharacterShowRoom();
+    void InitShowRoomCameraPos();
+    void CreateQuestSaveFile();
+    void LoadQuestSaveFile(const char* name);
+    void DBG_TryStartingLevel(const char* name);
 
     void Toggle();              // 0x334bd8
+    void Update(double dt);     // 0x330270
 
 private:
     bool open_ = false;                     // +0x04

@@ -13,6 +13,7 @@
 // the modular module name and the box normalise-and-centre step (CenterMeshBox, called once the box reads are bound).
 
 #include <cfloat>
+#include <cstdint>
 #include <cstddef>
 #include <string>
 #include <utility>
@@ -22,8 +23,11 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/SceneManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/ShadowModularSkinnedMeshSceneNode.hpp"
+#include "dh2/XrayModularSkinnedMeshSceneNode.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
@@ -90,26 +94,32 @@ SceneManager* DeviceSceneManager() {
 }
 
 // 0x471f1c _ZN12VisualObject14SetMeshVisibleEb
-// partial: the three typed node lists under m_node (getSceneNodesFromType for tags 1835360612, 1936023908 and
-// 1298489700) are not bound, and each of their nodes needs setVisible(visible) (vptr+0x48). setVisible is not declared
-// on glitch::scene::ISceneNode, and m_node is a RootSceneNode*. The shadow and x-ray lists below are walked as in the
-// original. Their node calls are not bound either, because setVisible is not declared on those classes.
+// PARTIAL: the three typed node lists under m_node (tags 1835360612, 1936023908, 1298489700) get setVisible. The
+// shadow-modular and x-ray loops are made. The shadow-skinned loop is not made: ShadowSkinnedMeshSceneNode does not
+// compile in this tree (BaseMeshSceneNode<CSkinnedMeshSceneNode>), so its setVisible is not reachable.
 void VisualObject::SetMeshVisible(bool visible) {
-    (void)visible;
     if (m_node == nullptr) {
         return;
     }
+    const std::uint32_t tags[3] = {1835360612u, 1936023908u, 1298489700u};
+    for (std::uint32_t tag : tags) {
+        std::vector<glitch::scene::ISceneNode*> nodes;
+        m_node->getSceneNodesFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(tag), nodes);
+        for (glitch::scene::ISceneNode* node : nodes) {
+            node->setVisible(visible);
+        }
+    }
     if (m_shadowCreated) {
         for (ShadowSkinnedMeshSceneNode* node : m_shadowSkinned) {
-            (void)node;  // node->setVisible(visible): not bound
+            (void)node;  // node->setVisible(visible): class does not compile yet
         }
         for (ShadowModularSkinnedMeshSceneNode* node : m_shadowModular) {
-            (void)node;  // node->setVisible(visible): not bound
+            node->setVisible(visible);
         }
     }
     if (m_xrayCreated) {
         for (XrayModularSkinnedMeshSceneNode* node : m_xrayModular) {
-            (void)node;  // node->setVisible(visible): not bound
+            node->setVisible(visible);
         }
     }
 }
@@ -137,26 +147,31 @@ void VisualObject::CalcMeshBox() {
 }
 
 // 0x472708 _ZN12VisualObject10SetScalingEf
-// partial: the original compares m_node's scale (getScale, vptr+0x90) with (uniform, uniform, uniform). When any axis
-// differs, it sets that vector (setScale, vptr+0x94), then runs CalcMeshBox and ApplyMeshBox. The comparison and the
-// set are not bound because RootSceneNode is not an ISceneNode in the headers. The CalcMeshBox and ApplyMeshBox calls
-// are written where they belong once the comparison is bound.
+// Compares m_node's scale with (uniform, uniform, uniform); when any axis differs, sets it, then CalcMeshBox and ApplyMeshBox.
 void VisualObject::SetScaling(float uniform) {
-    (void)uniform;
     if (m_node == nullptr) {
         return;
     }
-    // Compare and set: not bound (see the comment above).
+    const glitch::core::vector3d<float>& current = m_node->getScale();
+    if (current.X != uniform || current.Y != uniform || current.Z != uniform) {
+        m_node->setScale(glitch::core::vector3d<float>{uniform, uniform, uniform});
+        CalcMeshBox();
+        ApplyMeshBox();
+    }
 }
 
 // 0x4727ac _ZN12VisualObject10SetScalingERK7Point3DIfE
-// partial: same as the uniform overload, with the vector (scale.X, scale.Y, scale.Z) and the per-axis comparison.
+// Same as the uniform overload, with the vector (scale.X, scale.Y, scale.Z).
 void VisualObject::SetScaling(const Point3D<float>& scale) {
-    (void)scale;
     if (m_node == nullptr) {
         return;
     }
-    // Compare and set: not bound (see the comment above).
+    const glitch::core::vector3d<float>& current = m_node->getScale();
+    if (current.X != scale.X || current.Y != scale.Y || current.Z != scale.Z) {
+        m_node->setScale(glitch::core::vector3d<float>{scale.X, scale.Y, scale.Z});
+        CalcMeshBox();
+        ApplyMeshBox();
+    }
 }
 
 // 0x472860 _ZN12VisualObject11SyncScalingEv
@@ -168,17 +183,20 @@ void VisualObject::SyncScaling() {
 }
 
 // 0x472874 _ZN12VisualObject11SetRotationERK7Point3DIfE
-// partial: builds the quaternion from the Euler angles in radians as (Y, -X, -Z), as the original does. The comparison
-// with m_node's rotation (getRotation, vptr+0x98) and the set (setRotation, vptr+0x9c) are not bound, because
-// RootSceneNode is not an ISceneNode in the headers. CalcMeshBox and ApplyMeshBox follow the set in the original.
+// Builds the quaternion from the angles as (Y, -X, -Z). When it differs from m_node's rotation in any component, sets it,
+// then CalcMeshBox and ApplyMeshBox.
 void VisualObject::SetRotation(const Point3D<float>& rotation) {
     if (m_node == nullptr) {
         return;
     }
     glitch::core::quaternion q;
     q.set(rotation.Y, -rotation.X, -rotation.Z);
-    // Compare with getRotation and, when different, setRotation(q): not bound. Then CalcMeshBox and ApplyMeshBox.
-    (void)q;
+    const glitch::core::quaternion& current = m_node->getRotation();
+    if (current.X != q.X || current.Y != q.Y || current.Z != q.Z || current.W != q.W) {
+        m_node->setRotation(q);
+        CalcMeshBox();
+        ApplyMeshBox();
+    }
 }
 
 // 0x472948 _ZN12VisualObject12SyncRotationEv
@@ -287,27 +305,22 @@ void VisualObject::CreateXrayMesh() {
 }
 
 // 0x473abc _ZN12VisualObjectD2Ev
-// partial. 0x473884 (_ZN12VisualObjectD1Ev) is the complete-object copy of the same destructor.
-// Bound: SetAnimController(nullptr); the collision box node (+0x0c) gets a plain drop, which is all the original does to
-// it; each weapon node (+0x30 main, +0x34 off) gets removeAnimators (vptr+0x74), remove (vptr+0x68) and drop, the same
-// sequence the original uses for the model root.
-// Missing:
-//   - the model root m_node (+0x08): the same three calls. RootSceneNode is not a glitch::scene::ISceneNode in the tree
-//     (glitch::collada::CRootSceneNode has no base), so they cannot be made. Layout request: CRootSceneNode derives from
-//     ISceneNode at offset 0 (its flags word unk_011c at +0x11c is the ISceneNode flags word).
-//   - ForceRegister on the device scene manager: the scene manager is the word at IDevice +0x1c (dword_99F73C + 28), and
-//     glitch::IDevice is not declared, so DeviceSceneManager() returns null. Application::unk_1c is Application +0x1c, not
-//     the device, and is not used here.
-//   - the unk_44 light-filter block (size unk_54 - unk_44): CustomFree above 0x80 bytes, the std node allocator below
-//     (not declared). Nothing in the port allocates the block yet, so there is nothing to free.
-// The three node vectors' storage is released by their members. The nodes themselves are owned by the scene.
+// 0x473884 (_ZN12VisualObjectD1Ev) is the complete-object copy of the same destructor.
+// SetAnimController(nullptr); the collision box node (+0x0c) gets a plain drop; the model root m_node (+0x08) and each weapon
+// node (+0x30 main, +0x34 off) get removeAnimators (vptr+0x74), remove (vptr+0x68) and drop; then ForceRegister on the device
+// scene manager. The light filter (+0x44) and the node vectors are std::vector members, released with the object.
 VisualObject::~VisualObject() {
     SetAnimController(nullptr);
     if (m_colBoxNode != nullptr) {
         m_colBoxNode->drop();
         m_colBoxNode = nullptr;
     }
-    // m_node: removeAnimators, remove, drop and the slot cleared. Not bound (see above).
+    if (m_node != nullptr) {
+        m_node->removeAnimators();
+        m_node->remove();
+        m_node->drop();
+        m_node = nullptr;
+    }
     ReleaseSceneNode(m_weaponNodeMain);
     ReleaseSceneNode(m_weaponNodeOff);
     if (SceneManager* sm = DeviceSceneManager()) {
@@ -344,26 +357,27 @@ glitch::scene::ISceneNode* VisualObject::SetWeaponSkin(const char* weapon, int k
 }
 
 // 0x473ea0 _ZN12VisualObject17ApplyXrayMaterialEv
-// partial. Bound: the x-ray guard (m_xrayCreated, +0xa8) and the walk over m_xrayModular (+0x9c). For each x-ray node the
-// original calls regenerateXrayMaterial(), then for each of the node's x-ray materials (m_xrayMaterials, +0x1b0):
+// For each x-ray node: regenerateXrayMaterial(). Then, for each material in the node's m_xrayMaterials (+0x1b0):
 // ChangeCustomXrayTechnique(sm, material, 1, 1), updateXrayMaterial() on the node, SetMaterialRimLightEffects(sm, material,
-// 4.0, "char_rim_light_xray.tga"), and SetMaterialEffects(sm, material, (0, 0, 1), 0.98, -1.0). Missing:
-//   - the node side. dh2/XrayModularSkinnedMeshSceneNode.hpp does not compile in this tree: BaseMeshSceneNode<T> marks
-//     ~BaseMeshSceneNode and render() override, but the engine glitch::collada::CModularSkinnedMeshSceneNode
-//     (collada_scene_accessors.hpp) is a standalone stand-in with no ISceneNode base and no such virtuals. So
-//     m_xrayMaterials, regenerateXrayMaterial() and updateXrayMaterial() cannot be named from this file. That header is
-//     another owner's and is not edited.
-//   - the scene-manager call is declared with three flags, ChangeCustomXrayTechnique(material, bool, bool, bool). The
-//     symbol agrees, but 0x355704 reads only its a3 and a4 arguments, so the third is unused and the call can pass a
-//     value for it without changing behaviour. Left out until the material list is reachable.
-//   - the node's vptr+0xbc getType() result is discarded in the pseudocode and the call has no other effect, so it is
-//     omitted.
+// 4.0, "char_rim_light_xray.tga") and SetMaterialEffects(sm, material, (0, 0, 1), 0.98, -1.0). The engine's routine reads
+// only the second and third flags of ChangeCustomXrayTechnique, so the third header flag is passed as false. The getType()
+// result at vptr+0xbc is discarded and left out.
 void VisualObject::ApplyXrayMaterial() {
     if (!m_xrayCreated) {
         return;
     }
+    SceneManager* sm = DeviceSceneManager();
+    if (sm == nullptr) {
+        return;
+    }
     for (XrayModularSkinnedMeshSceneNode* node : m_xrayModular) {
-        (void)node;  // node->regenerateXrayMaterial(), the per-material passes, node->updateXrayMaterial(): not bound
+        node->regenerateXrayMaterial();
+        for (auto& material : node->m_xrayMaterials) {
+            sm->ChangeCustomXrayTechnique(material, true, true, false);
+            node->updateXrayMaterial();
+            sm->SetMaterialRimLightEffects(material, 4.0f, std::string("char_rim_light_xray.tga"));
+            sm->SetMaterialEffects(material, glitch::core::vector3d<float>{0.0f, 0.0f, 1.0f}, 0.98f, -1.0f);
+        }
     }
 }
 
@@ -384,24 +398,31 @@ std::string VisualObject::FlushMeshes() {
 }
 
 // 0x474318 _ZN12VisualObject22ApplyMaterialBaseParamEv
-// partial: for each node under m_node (SearchByType on tags 1835360612, 1936023908 and 1298489700, not bound), the
-// original does two things. With m_rimLight set, it sets the rim light of the node to 1.9, using the current level's
-// rim light file (Application::GetCurrentLevel, then Level::GetRimLightFile). With m_xrayMask set, it reloads the debug
-// switches and, when "RENDERING_EnableXray" is on, sets the x-ray mask on the node. The per-node loop below runs over an
-// empty list, because the node search is not bound. The calls inside it are written as the original makes them.
+// For each node of the three typed lists under m_node (SearchByType tags 1835360612, 1936023908, 1298489700): with m_rimLight
+// set, SetMaterialRimLightEffects(node, 1.9, the current level's rim light file); with m_xrayMask set, reload the debug switches
+// and, when "RENDERING_EnableXray" is on, SetMaskXray(node, true).
 void VisualObject::ApplyMaterialBaseParam() {
     SceneManager* sm = DeviceSceneManager();
-    std::vector<glitch::scene::ISceneNode*> nodes;  // the three typed searches under m_node: not bound, stays empty
-    for (glitch::scene::ISceneNode* node : nodes) {
-        if (m_rimLight && sm != nullptr) {
-            Level* level = ApplicationGetInstance().GetCurrentLevel();
-            sm->SetMaterialRimLightEffects(node, 1.9f, level->GetRimLightFile());
-        }
-        if (m_xrayMask) {
-            DebugSwitches* switches = DebugSwitches::GetInstance();
-            switches->load();
-            if (switches->GetSwitch("RENDERING_EnableXray") && sm != nullptr) {
-                sm->SetMaskXray(node, true);
+    if (sm == nullptr || m_node == nullptr) {
+        return;
+    }
+    const std::uint32_t tags[3] = {1835360612u, 1936023908u, 1298489700u};
+    for (std::uint32_t tag : tags) {
+        std::vector<glitch::scene::ISceneNode*> nodes;
+        sm->SearchByType(m_node, nodes, tag);
+        for (glitch::scene::ISceneNode* node : nodes) {
+            if (m_rimLight) {
+                Level* level = ApplicationGetInstance().GetCurrentLevel();
+                if (level != nullptr) {
+                    sm->SetMaterialRimLightEffects(node, 1.9f, level->GetRimLightFile());
+                }
+            }
+            if (m_xrayMask) {
+                DebugSwitches* switches = DebugSwitches::GetInstance();
+                switches->load();
+                if (switches->GetSwitch("RENDERING_EnableXray")) {
+                    sm->SetMaskXray(node, true);
+                }
             }
         }
     }

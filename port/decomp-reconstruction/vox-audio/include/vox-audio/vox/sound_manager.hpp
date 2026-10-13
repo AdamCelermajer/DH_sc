@@ -50,6 +50,12 @@ public:
     // not reconstructed) sets it. Defined in src/link1_VoxSoundManager_statics.cpp.
     static VoxSoundManager* s_instance;
 
+    VoxSoundManager();                                                          // 0x36c7b0 C1 and 0x36cad0 C2
+    static VoxSoundManager* CreateInstance();                                   // 0x36ca88
+    static void DeleteInstance();                                               // 0x36b048
+    void Initialize();                                                          // 0x36c2e4
+    void SetLevelRouting(int level);                                            // 0x3695f4
+
     // 0x369348 VoxSoundManager::SetIPodShuffle(void). The original body is empty.
     void SetIPodShuffle();
 

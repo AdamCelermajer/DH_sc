@@ -13,7 +13,11 @@
 #include "dh2/AnimController.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/RootSceneNode.hpp"
+#include "dh2/SceneManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/XrayModularSkinnedMeshSceneNode.hpp"
+#include "dh2/ShadowModularSkinnedMeshSceneNode.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 
 // 0x38ba74 _ZN12VisualObject4SyncEv
 void VisualObject::Sync() {
@@ -23,20 +27,23 @@ void VisualObject::Sync() {
 }
 
 // 0x4709dc _ZNK12VisualObject15GetSpecificNodeEi
-// partial: the original calls getSceneNodeFromType(typeTag, m_node) (glitch::scene::CSceneManager, vptr+0x1c)
-// on the scene manager at IDevice +0x1c of Application::m_device (dword_99F73C + 28). IDevice declares no
-// scene manager member (layout request), and m_node is a RootSceneNode, which is not an ISceneNode, so it
-// cannot be passed as the start node. Returns null until both are declared.
+// getSceneNodeFromType(typeTag, m_node) on the device scene manager (CSceneManager, vptr+0x1c).
 glitch::scene::ISceneNode* VisualObject::GetSpecificNode(int typeTag) const {
-    (void)typeTag;
-    return nullptr;
+    SceneManager* sm = DeviceSceneManager();
+    if (sm == nullptr || m_node == nullptr) {
+        return nullptr;
+    }
+    return sm->getSceneNodeFromType(static_cast<glitch::scene::E_SCENE_NODE_TYPE>(typeTag), m_node);
 }
 
 // 0x470a18 _ZNK12VisualObject15GetSpecificNodeEPKc
-// partial: same as the int overload, through getSceneNodeFromName(name, m_node) (vptr+0x18). Same two gaps.
+// getSceneNodeFromName(name, m_node) on the device scene manager (vptr+0x18).
 glitch::scene::ISceneNode* VisualObject::GetSpecificNode(const char* name) const {
-    (void)name;
-    return nullptr;
+    SceneManager* sm = DeviceSceneManager();
+    if (sm == nullptr || m_node == nullptr) {
+        return nullptr;
+    }
+    return sm->getSceneNodeFromName(name, m_node);
 }
 
 // 0x470a54 _ZN12VisualObject12ApplyMeshBoxEv
@@ -89,9 +96,8 @@ void VisualObject::SetShadowSkinnedMeshVisible(bool visible) {
 // partial: the original passes visible to vptr+0x48 (setVisible(bool)) of every node in m_xrayModular
 // (+0x9c). The x-ray node class is not declared, so the call is not bound.
 void VisualObject::SetXraySkinnedMeshVisible(bool visible) {
-    (void)visible;
     for (XrayModularSkinnedMeshSceneNode* node : m_xrayModular) {
-        (void)node;  // node->setVisible(visible): not bound
+        node->setVisible(visible);
     }
 }
 
@@ -108,7 +114,13 @@ void VisualObject::ForceUpdatePosition() {
 // which returns a const vector3d<float>&) into out when m_node is set. RootSceneNode does not derive from ISceneNode
 // (layout request), so getPosition is not callable and out is not written.
 void VisualObject::GetPosition(Point3D<float>& out) {
-    (void)out;
+    if (m_node == nullptr) {
+        return;
+    }
+    const glitch::core::vector3d<float>& position = m_node->getPosition();
+    out.X = position.X;
+    out.Y = position.Y;
+    out.Z = position.Z;
 }
 
 // 0x470c24 _ZN12VisualObject11SetPositionERK7Point3DIfE
@@ -117,9 +129,8 @@ void VisualObject::GetPosition(Point3D<float>& out) {
 // that RootSceneNode does not declare (layout request: CRootSceneNode derives from ISceneNode), so it is not bound.
 // updateAbsolutePosition is declared on RootSceneNode (same slot, decomp_vtable shows it 0x0c higher) and is called.
 void VisualObject::SetPosition(const Point3D<float>& position) {
-    (void)position;
     if (m_node != nullptr) {
-        // m_node->setPosition(position): not bound, see above.
+        m_node->setPosition(glitch::core::vector3d<float>{position.X, position.Y, position.Z});
         m_node->updateAbsolutePosition(false);
     }
 }
