@@ -145,6 +145,48 @@
       "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swamp_intro/cs_swamp_intro_camera_scene18.bdae",
       "bytes": 3620,
       "sha256": "378e05d9f2b11c2c3854c0c6bda339d08047ba907356f2b9c92b62ffe453fc7f"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene01.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene01.bdae",
+      "bytes": 7264,
+      "sha256": "6184c46cb8abee19a1ba9c0dec4e69fbc4ff7caa0f6642d534acc916b3e8dff1"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene02.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene02.bdae",
+      "bytes": 4004,
+      "sha256": "a6248d2e6b46060750ae375aa4a7b4b8b2e30d494d5921a2a41134313b5ae0aa"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene03.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene03.bdae",
+      "bytes": 2860,
+      "sha256": "fa13cdafe3d6a51a648c87cd206cc89e955c3a84e7374dfe04e3e9bffb37654b"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene04.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene04.bdae",
+      "bytes": 2856,
+      "sha256": "7c7ac1eb133bbde70d07ba63c4408aef97eb43c26763372318de392d99671c83"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene05.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene05.bdae",
+      "bytes": 4560,
+      "sha256": "74d1013a0fa76de1d8b0e9a6e33da3b71146fed9440a9ff249688763f170abfa"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene06.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene06.bdae",
+      "bytes": 2860,
+      "sha256": "9f80a1449f8031bc0ef3cc65b5da635c934d7cf259f6fd9b4c77490df04d3ca2"
+    },
+    {
+      "asset": "original-cache/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene07.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/camera/animations/cs_swampking_outro/cs_swampking_outro_camera_scene07.bdae",
+      "bytes": 2856,
+      "sha256": "cb4b6fb0f36bfec61dca90f398857af16dfb451c53bd4f37df0e3adf51f9ec8b"
     }
   ]
 }

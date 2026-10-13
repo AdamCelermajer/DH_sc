@@ -169,6 +169,7 @@ bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&);
 // callback / CharAI skill-command counters of its one Lua VM.
 struct BossProbeSnapshotV1 {
  bool present=false,initialized=false,dead=false,source_visible=false,renderer_visible=false;
+ std::uint8_t enabled=0;
  std::string script,animation_state;
  std::int32_t fsm_state=-1,hp=0,max_hp=0,world_index=-1;
  std::array<float,3> position{};
@@ -180,6 +181,12 @@ bool boss_probe_snapshot(const std::string& exact_name,BossProbeSnapshotV1&,std:
 // Places the local Player at a world position with GameObject::SetPosition's
 // bookkeeping (Script_SetActorPosition); development scenarios only.
 bool boss_probe_place_player(const std::array<float,3>&,std::string&);
+// The Player's selected object of interest (Character::UpdateObjectOfInterest): its
+// name and interaction type, empty/-1 when nothing is selected (development scenarios).
+bool ooi_probe_snapshot(std::string& name,std::int32_t& type,std::string&);
+// World position of a named source QuestMoveInZone volume (development scenarios).
+bool quest_zone_probe_status(const std::string& exact_name,std::string& text);
+bool quest_zone_probe_position(const std::string& exact_name,std::array<float,3>&,std::string&);
 // One-name Level script commands (ShowActor 42 / HideActor 43 / PutCharacterInIdle 31
 // / StopActor 39) through the generic host provider; development scenarios only.
 bool boss_probe_script_command(unsigned command_id,const std::string& name,std::string&);

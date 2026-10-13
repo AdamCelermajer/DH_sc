@@ -6,7 +6,6 @@
 #include "quest_objective_factory_v1.hpp"
 #include "quest_reward_factory_v1.hpp"
 #include "quest_reward_execution_v1.hpp"
-#include "quest_update_completed_v1.hpp"
 #include "quest_compile_v1.hpp"
 #include "quest_objective_payload_v1.hpp"
 #include "quest_stream_read_v1.hpp"
@@ -15,6 +14,7 @@
 #include "../../../../../quest-kill/quest.h"
 #include "../../../../../level-world/open_game_object_objective_v1.hpp"
 #include <algorithm>
+#include <android/log.h>
 #include <map>
 #include <cstring>
 #include <stdexcept>
@@ -33,7 +33,6 @@ namespace of=data::quest_objective_factory_v1;
 namespace r=data::quest_reward_list_v1;
 namespace rf=data::quest_reward_factory_v1;
 namespace re=data::quest_reward_execution_v1;
-namespace qu=data::quest_update_completed_v1;
 namespace ce=data::quest_condition_eval_v1;
 namespace qc=data::quest_compile_v1;
 namespace og=level_world::open_game_object_objective_v1;
@@ -257,8 +256,16 @@ struct Owner::Impl {
   [](void* raw,logs::QuestRef* ref)->qc::Runtime*{
    return static_cast<Impl*>(raw)->resolve_compile_quest(ref);
   }};}
+ // A Quest's accept (+0x18) and end (+0x1c) Objectives are ActionRefs outside its
+ // ObjectiveList. The bindings below address every Objective as (Quest, ordinal);
+ // these two sentinels name the actions so the one Talk/MoveInZone/Automatic
+ // implementation serves list children and quest actions alike.
+ static constexpr std::uint32_t accept_action_ordinal=0xFFFFFFF0u,
+                                end_action_ordinal=0xFFFFFFF1u;
  of::Record* objective_at(std::uintptr_t quest_identity,std::uint32_t ordinal){
   auto* quest=resolve_quest_identity(quest_identity);if(!quest)return nullptr;
+  if(ordinal==accept_action_ordinal)return resolve_compile_objective(quest->record().action_18);
+  if(ordinal==end_action_ordinal)return resolve_compile_objective(quest->record().action_1c);
   auto& list=quest->objectives();
   if(list.count_0<0||ordinal>=std::uint32_t(list.count_0)||!list.children_4||
      !list.children_4->identity||std::uint64_t(std::uint32_t(list.count_0))>list.children_4->slots.size())return nullptr;
@@ -808,7 +815,28 @@ bool Owner::update_active(std::uintptr_t quest_identity,std::uint32_t log,
  auto& mutable_record=quest->record();
  mutable_record.state_0=post_active_state;
  mutable_record.word_4=services.application_time;
+ if(!unregister_objectives(quest_identity,error))return false;
+ auto& current_log=log?impl_->save->source_quest_log_118():
+                        impl_->save->source_quest_log_b8();
+ current_log.word_2c[difficulty]=-1;
+ if(!value.post_active_script.empty()){
+  if(!services.start_script){error="Quest::ExecScript(PostActive slot 5) requires the current ScriptManager start provider";return false;}
+  if(!services.start_script(services.context,value.post_active_script,-1,true,error)){
+   if(error.empty())error="Quest::ExecScript(PostActive slot 5) failed";
+   return false;
+  }
+ }
+ value.new_state=post_active_state;value.outcome=QuestUpdateActiveOutcomeV1::state_transitioned;
+ out=std::move(value);error.clear();return true;
+}
+bool Owner::unregister_objectives(std::uintptr_t quest_identity,std::string& error){
+ auto* quest=impl_->resolve_quest_identity(quest_identity);
+ if(!quest){error="ObjectiveList::Unregister requires a Quest published in this Save";return false;}
  auto& unregister_list=quest->objectives();
+ if(unregister_list.count_0<0||(unregister_list.count_0>0&&(!unregister_list.children_4||
+    std::uint64_t(std::uint32_t(unregister_list.count_0))>unregister_list.children_4->slots.size()))){
+  error="ObjectiveList::Unregister found invalid canonical ObjectiveList backing";return false;
+ }
  for(std::uint32_t ordinal=0;ordinal<std::uint32_t(unregister_list.count_0);++ordinal){
   auto* objective=impl_->resolve_objective(unregister_list.children_4->slots[ordinal]);
   if(!objective){error="Quest::SetState could not resolve an Objective during Unregister";return false;}
@@ -837,18 +865,7 @@ bool Owner::update_active(std::uintptr_t quest_identity,std::uint32_t log,
   }
   if(!ok)return false;
  }
- auto& current_log=log?impl_->save->source_quest_log_118():
-                        impl_->save->source_quest_log_b8();
- current_log.word_2c[difficulty]=-1;
- if(!value.post_active_script.empty()){
-  if(!services.start_script){error="Quest::ExecScript(PostActive slot 5) requires the current ScriptManager start provider";return false;}
-  if(!services.start_script(services.context,value.post_active_script,-1,true,error)){
-   if(error.empty())error="Quest::ExecScript(PostActive slot 5) failed";
-   return false;
-  }
- }
- value.new_state=post_active_state;value.outcome=QuestUpdateActiveOutcomeV1::state_transitioned;
- out=std::move(value);error.clear();return true;
+ error.clear();return true;
 }
 bool Owner::update_active_log(std::uint32_t log,std::uint32_t difficulty,
  const QuestUpdateActiveServicesV1& services,
@@ -868,42 +885,6 @@ bool Owner::update_active_log(std::uint32_t log,std::uint32_t difficulty,
  }
  out=std::move(values);error.clear();return true;
 }
-bool Owner::update_gameplay_log(std::uint32_t log,std::uint32_t difficulty,
- const QuestUpdateActiveServicesV1& active_services,
- const QuestUpdateCompletedServicesV1& completed_services,
- std::vector<QuestUpdateActiveResultV1>& active_out,
- std::vector<QuestUpdateCompletedResultV1>& completed_out,
- std::string& error){
- if(log>1||difficulty>2||impl_->busy||impl_->closed||!impl_->save){
-  error="QuestSavegame::UpdateQuests requires its selected open Save log/difficulty";return false;
- }
- const auto& store=log?impl_->save->source_quest_log_118():
-                       impl_->save->source_quest_log_b8();
- const auto& quests=store.quests[difficulty];
- std::vector<QuestUpdateActiveResultV1> active_values;
- std::vector<QuestUpdateCompletedResultV1> completed_values;
- try{active_values.reserve(quests.size());completed_values.reserve(quests.size());}
- catch(const std::exception&){error="QuestSavegame::UpdateQuests result allocation failed";return false;}
- // QuestSavegame::UpdateQuests visits the existing vector in order and each
- // Quest::Update dispatches by its current state before moving to the next.
- for(const auto* ref:quests){
-  if(!ref){error="QuestSavegame::UpdateQuests found a null canonical Quest entry";return false;}
-  auto* quest=impl_->resolve(ref);
-  if(!quest){error="QuestSavegame::UpdateQuests could not resolve a published Quest";return false;}
-  if(quest->record().state_0==6){
-   QuestUpdateActiveResultV1 value{};
-   if(!update_active(ref->identity,log,difficulty,active_services,value,error))return false;
-   active_values.push_back(std::move(value));
-  }else if(quest->record().state_0==12){
-   QuestUpdateCompletedResultV1 value{};
-   if(!update_completed(ref->identity,log,difficulty,completed_services,value,error))return false;
-   completed_values.push_back(std::move(value));
-  }
- }
- active_out=std::move(active_values);
- completed_out=std::move(completed_values);
- error.clear();return true;
-}
 bool Owner::update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
  const QuestLifecycleServicesV1& services,
  std::vector<QuestLifecycleResultV1>& out,std::string& error){
@@ -913,6 +894,7 @@ bool Owner::update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
  }
  if(!services.current_level_index||!services.script_exists||
     !services.save_for_state_transition||!services.announce_new_quest||
+    !services.announce_quest_completed||!services.reward_text||
     !services.scripts.script_is_running||!services.scripts.start_script||
     !services.scripts.application_time_valid||!services.objectives.difficulty||
     !services.objectives.objective_member){
@@ -1063,9 +1045,147 @@ bool Owner::update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
   return true;
  };
 
- // Quest::SetState (0x480c78) for the states this lifecycle owns, entered from
- // 0..5 (never leaving Active, whose Unregister belongs to update_active).
- const auto set_state=[&](instance::Instance& quest,std::int32_t next)->bool{
+ // The accept (+0x18) / end (+0x1c) Objective virtuals SetState and the
+ // Compile-time registration reach: InstallObjectiveMarker +0x10 (priority,
+ // state), RemoveObjectiveMarker +0x14, Register +0x18, Unregister +0x1c. They
+ // run on the canonical Objective factory Record through the same Level-backed
+ // Objective member provider CompileQuests uses.
+ const auto action_virtual=[&](instance::Instance& quest,bool end_action,
+     std::uint32_t function,std::int32_t priority,std::int32_t state)->bool{
+  auto& record=quest.record();
+  auto* action=impl_->resolve_compile_objective(end_action?record.action_1c:record.action_18);
+  if(!action){
+   error=end_action?"Quest::SetState lost its end Objective":"Quest::SetState lost its accept Objective";
+   return false;
+  }
+  const qc::MemberCall call{function,0,true,priority,state};
+  if(services.objectives.objective_member(services.objectives.context,*action,call)!=0){
+   if(error.empty())error=std::string("Quest ")+(end_action?"end":"accept")+
+       " Objective virtual +"+std::to_string(function)+" failed";
+   return false;
+  }
+  return true;
+ };
+ // RewardList::Give (0x482920) through Reward_Gold/XP::Give; Quest::GiveRewards
+ // then clears Quest+0x5c whatever the list returned.
+ const auto give_rewards=[&](instance::Instance& quest)->bool{
+  auto& record=quest.record();
+  auto& list=quest.rewards();
+  const auto character=impl_->save->character();
+  if(!character||store.character_5c!=character||record.fields.character_60!=character){
+   error="Quest::GiveRewards requires the current Character bound to this Save and QEST log";
+   return false;
+  }
+  if(list.count_0<0||(list.count_0>0&&(!list.children_4||!list.children_4->identity||
+     std::uint64_t(std::uint32_t(list.count_0))>list.children_4->slots.size()))){
+   error="Quest::GiveRewards found invalid canonical RewardList backing";return false;
+  }
+  if(list.count_0>0&&(!services.rewards.resolve_character||!services.rewards.give_xp)){
+   error="Quest::GiveRewards requires Character resolution and Character::_GiveXP providers";
+   return false;
+  }
+  impl_->busy=true;
+  struct Guard{Impl& impl;~Guard(){impl.busy=false;}}guard{*impl_};
+  const re::Services reward_services{const_cast<QuestRewardServicesV1*>(&services.rewards),
+   [](void* raw,std::uintptr_t requested)->re::CharacterRef*{
+    auto& rewards=*static_cast<QuestRewardServicesV1*>(raw);
+    auto* resolved=rewards.resolve_character(rewards.context,requested);
+    return resolved&&resolved->identity==requested?resolved:nullptr;
+   },
+   [](void* raw,re::Record& reward,re::CharacterRef& resolved,std::int32_t amount)->std::int32_t{
+    auto& rewards=*static_cast<QuestRewardServicesV1*>(raw);
+    return rewards.add_gold?rewards.add_gold(rewards.context,reward,resolved,amount):1;
+   },
+   [](void* raw,re::Record& reward,re::CharacterRef& resolved,std::int32_t fixed_point,
+      std::uint8_t source_flag,bool* granted)->std::int32_t{
+    auto& rewards=*static_cast<QuestRewardServicesV1*>(raw);
+    return rewards.give_xp(rewards.context,reward,resolved,fixed_point,source_flag,granted);
+   }};
+  for(std::int32_t index=0;index<list.count_0;++index){
+   auto* reward=impl_->resolve_compile_reward(list.children_4->slots[std::size_t(index)]);
+   if(!reward||reward->fields.character_10!=character){
+    error="Quest::GiveRewards reached a foreign Reward or Character owner";return false;
+   }
+   re::Runtime runtime(*reward,reward_services);re::Result result{};
+   re::Status status=re::Status::source_fault;
+   switch(reward->dispatch_0){
+    case rf::Dispatch::gold:status=runtime.give_gold(&result);break;
+    case rf::Dispatch::xp:status=runtime.give_xp(&result);break;
+    default:
+     error="Quest::GiveRewards reached a Reward kind without a recovered Give implementation";
+     return false;
+   }
+   if(status!=re::Status::complete){
+    error="Recovered Reward::Give failed at operation "+
+          std::to_string(static_cast<unsigned>(result.last_operation));
+    return false;
+   }
+   if(result.value==0)break; // RewardList::Give stops at the first zero result.
+  }
+  record.byte_5c=0;
+  return true;
+ };
+ // Reward::GetParam1 (0x482874): the amount, the second word of the reward stub.
+ const auto reward_param1=[&](rf::Record& reward,std::int32_t& value)->bool{
+  const auto& definition=reward.fields.py_data_c;
+  dh2_quest_span span{};data::quest_table_bindings_v1::Span bytes{};
+  if(!definition.list||definition.list->kind<2||definition.list->kind>4||
+     !definition.view.list_record(*definition.list,definition.index,&span,error)||
+     !definition.view.bytes(span,&bytes,error)||bytes.size!=12||!bytes.data){
+   if(error.empty())error="Reward::GetParam1 could not read its retained reward row";
+   return false;
+  }
+  std::uint32_t raw=std::uint32_t(bytes.data[4])|(std::uint32_t(bytes.data[5])<<8)|
+                    (std::uint32_t(bytes.data[6])<<16)|(std::uint32_t(bytes.data[7])<<24);
+  std::memcpy(&value,&raw,sizeof(value));
+  return true;
+ };
+ // RewardList::CreateRewardString (0x4835a0): the list's own string gains one
+ // line per compiled Gold/XP reward; nothing produced assigns the "none" text.
+ const auto create_reward_string=[&](instance::Instance& quest)->bool{
+  auto& list=quest.rewards();
+  if(list.count_0<=0)return true;
+  if(!list.children_4||!list.children_4->identity||
+     std::uint64_t(std::uint32_t(list.count_0))>list.children_4->slots.size()){
+   error="RewardList::CreateRewardString found invalid canonical RewardList backing";return false;
+  }
+  if(!services.reward_text){error="RewardList::CreateRewardString requires the StringManager provider";return false;}
+  bool first=true;
+  for(std::int32_t index=0;index<list.count_0;++index){
+   auto* reward=impl_->resolve_compile_reward(list.children_4->slots[std::size_t(index)]);
+   if(!reward){error="RewardList::CreateRewardString lost a canonical Reward";return false;}
+   if(!reward->compiled_8)continue;
+   std::string line;
+   const auto type=reward->fields.type_4;
+   if(type==0||type==1){
+    std::int32_t amount=0;
+    if(!reward_param1(*reward,amount))return false;
+    if(!services.reward_text(services.context,type==0?QuestRewardTextKindV1::gold:
+                             QuestRewardTextKindV1::xp,amount,line,error)){
+     if(error.empty())error="RewardList::CreateRewardString text provider failed";
+     return false;
+    }
+    if(!first)list.text_8.append("\n");
+   }
+   list.text_8.append(line);
+   first=false;
+  }
+  if(first){
+   std::string none;
+   if(!services.reward_text(services.context,QuestRewardTextKindV1::none,0,none,error)){
+    if(error.empty())error="RewardList::CreateRewardString none-text provider failed";
+    return false;
+   }
+   list.text_8=none;
+  }
+  return true;
+ };
+
+ // Quest::SetState (0x480c78): store state and time, leave the old state
+ // (Active: ObjectiveList::Unregister; Completed/Available: the end/accept
+ // Objective's Unregister), save across a volatile state, then enter `next`.
+ const auto set_state=[&](instance::Instance& quest,std::int32_t next,
+                          QuestLifecycleResultV1& trace)->bool{
   auto& record=quest.record();
   if(next<0||next>13)return true;
   const auto old=record.state_0;
@@ -1073,36 +1193,49 @@ bool Owner::update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
   if(old!=next)record.word_4=services.scripts.application_time;
   else if(!record.byte_64)return true;
   else record.word_4=services.scripts.application_time;
+  trace.path.push_back(next);
   if(old==6){
-   error="Quest lifecycle cannot leave the Active state";return false;
+   if(!unregister_objectives(record.ref.identity,error))return false;
+  }else if(old==9){
+   if(!action_virtual(quest,true,0x1c,0,0))return false;
+  }else if(old==3){
+   if(!action_virtual(quest,false,0x1c,0,0))return false;
   }
-  // Leaving Available/Completed calls the accept/end Objective's virtual+28;
-  // the base and Automatic kinds admitted here implement it as a no-op.
   if(scalar::is_volatile_state(next)&&!record.byte_64){
-   // Quest::HandleSaveInStateTransitonIfNeeded (0x47fb74).
-   bool save=false,first=false,second=false;
-   switch(next){
-   case 2:if(!script_present(quest,11,first)||!script_present(quest,1,second))return false;
-    save=first||second;break;
-   case 4:if(!script_present(quest,6,first))return false;save=first;break;
-   case 5:if(!script_present(quest,10,first)||!script_present(quest,0,second))return false;
-    save=first||second;break;
-   default:break;
+   // Quest::HandleSaveInStateTransitonIfNeeded (0x47fb74): save when the entered
+   // state starts a script that exists.
+   static constexpr std::int32_t save_slots[14][2]{
+     {-1,-1},{-1,-1},{11,1},{-1,-1},{6,-1},{10,0},{-1,-1},
+     {5,-1},{13,3},{-1,-1},{8,-1},{12,2},{-1,-1},{7,-1}};
+   bool save=false;
+   for(const auto slot:save_slots[next]){
+    if(slot<0)continue;
+    bool present=false;
+    if(!script_present(quest,std::uint32_t(slot),present))return false;
+    save=save||present;
    }
    if(save&&!services.save_for_state_transition(services.context,error))return false;
   }
+  const auto* definition=impl_->definitions.record(*record.py_data_68);
+  if(!definition){error="Quest::SetState lost its retained Quest row";return false;}
+  const auto priority=definition->priority;
   switch(record.state_0){
   case 0:return true;
   case 1:return exec_script(quest,9);
-  case 2:return exec_script(quest,11); // accept InstallObjectiveMarker: base no-op
-  case 3:return exec_script(quest,old==6?4:1); // accept Register: no-op
-  case 4:return exec_script(quest,6);  // accept RemoveObjectiveMarker: base no-op
+  case 2:
+   if(!action_virtual(quest,false,0x10,priority,2))return false;
+   return exec_script(quest,11);
+  case 3:
+   if(!action_virtual(quest,false,0x18,0,0))return false;
+   return exec_script(quest,old==6?4:1);
+  case 4:
+   if(!action_virtual(quest,false,0x14,0,0))return false;
+   return exec_script(quest,6);
   case 5:{
-   const auto* definition=impl_->definitions.record(*record.py_data_68);
    auto* runtime=impl_->resolve_compile_quest(&record.ref);
-   if(!definition||!runtime){error="Quest::SetState(PreActive) lost its canonical compile runtime";return false;}
+   if(!runtime){error="Quest::SetState(PreActive) lost its canonical compile runtime";return false;}
    qc::Result installed;
-   if(runtime->install_markers(definition->priority,5,&installed)!=qc::Status::complete){
+   if(runtime->install_markers(priority,5,&installed)!=qc::Status::complete){
     if(error.empty())error="ObjectiveList::InstallObjectiveMarkers stopped at operation "+
         std::to_string(unsigned(installed.last_operation));
     return false;
@@ -1119,16 +1252,43 @@ bool Owner::update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
         std::to_string(unsigned(registered.last_operation));
     return false;
    }
-   const auto* definition=impl_->definitions.record(*record.py_data_68);
-   if(!definition){error="Quest::SetState(Active) lost its retained Quest row";return false;}
    if(!services.announce_new_quest(services.context,definition->ids[0],error))return false;
    // Character::SG_SetCurrentQuest / SG_SetCurrentPrimaryQuest (difficulty -1).
    store.word_2c[difficulty]=record.fields.row_8;
    if(definition->priority==primary_priority)store.word_38[difficulty]=record.fields.row_8;
    return true;
   }
-  default:
-   error="Quest lifecycle reached an unowned Quest::SetState state";return false;
+  case 7:
+   store.word_2c[difficulty]=-1; // Character::SG_SetCurrentQuest(-1,-1)
+   return exec_script(quest,5);
+  case 8:
+   if(!action_virtual(quest,true,0x10,priority,8))return false;
+   return exec_script(quest,13);
+  case 9:{
+   if(!action_virtual(quest,true,0x18,0,0))return false;
+   auto* runtime=impl_->resolve_compile_quest(&record.ref);
+   if(!runtime){error="Quest::SetState(Completed) lost its canonical compile runtime";return false;}
+   qc::Result removed;
+   if(runtime->loop_objectives(0x14,1,&removed)!=qc::Status::complete){
+    if(error.empty())error="ObjectiveList::RemoveObjectiveMarkers stopped at operation "+
+        std::to_string(unsigned(removed.last_operation));
+    return false;
+   }
+   if(!exec_script(quest,3))return false;
+   // Character::SG_SetCurrentAct keeps the highest act reached.
+   if(record.word_c>store.word_44[difficulty])store.word_44[difficulty]=record.word_c;
+   return true;
+  }
+  case 10:
+   if(!action_virtual(quest,true,0x14,0,0))return false;
+   return exec_script(quest,8);
+  case 11:return exec_script(quest,12);
+  case 12:
+   if(!exec_script(quest,2)||!create_reward_string(quest))return false;
+   return services.announce_quest_completed(services.context,definition->ids[0],
+                                            quest.rewards().text_8,error);
+  case 13:return exec_script(quest,7);
+  default:return true;
   }
  };
 
@@ -1144,13 +1304,19 @@ bool Owner::update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
   QuestLifecycleResultV1 result;result.quest_identity=record.ref.identity;
   result.quest_id=record.fields.row_8;
   result.prior_state=result.new_state=record.state_0;
-  if(record.state_0<0||record.state_0>5)continue;
+  if(record.state_0<0||record.state_0>13)continue;
   const auto* accept=impl_->resolve_compile_objective(record.action_18);
-  if(!accept||(accept->dispatch_0!=of::Dispatch::base&&
-               accept->dispatch_0!=of::Dispatch::automatic&&
-               accept->dispatch_0!=of::Dispatch::event_receiver)){
+  const auto* end=impl_->resolve_compile_objective(record.action_1c);
+  const auto supported_action=[](const of::Record* action){
+   return action&&(action->dispatch_0==of::Dispatch::base||
+                   action->dispatch_0==of::Dispatch::automatic||
+                   action->dispatch_0==of::Dispatch::event_receiver||
+                   action->dispatch_0==of::Dispatch::talk_to_npc||
+                   action->dispatch_0==of::Dispatch::move_in_zone);
+  };
+  if(!supported_action(accept)||!supported_action(end)){
    result.outcome=QuestLifecycleOutcomeV1::unsupported;
-   result.reason="accept Objective kind has no InstallObjectiveMarker/Register owner";
+   result.reason="accept or end Objective kind has no InstallObjectiveMarker/Register owner";
    out.push_back(std::move(result));continue;
   }
   if(!conditions_supported(*quest)){
@@ -1159,45 +1325,127 @@ bool Owner::update_lifecycle(std::uint32_t log,std::uint32_t difficulty,
    out.push_back(std::move(result));continue;
   }
   // Quest::Update (0x481818): a Quest loaded in a volatile state re-enters it.
-  if(record.byte_64&&record.state_0>=2){
-   if(!set_state(*quest,record.state_0))return false;
+  if(record.byte_64){
+   if(!set_state(*quest,record.state_0,result))return false;
    record.byte_64=0;
   }
   bool running=false,holds=false;
+  // Each state test re-reads Quest+0 (see the dispatch in Quest::Update), so a
+  // Quest cascades through every following state its scripts allow in one pass.
   if(record.state_0==0){ // UpdateLocked 0x4817b4
    if(!eval_conditions(*quest,holds))return false;
-   if(holds&&!set_state(*quest,1))return false;
+   if(holds&&!set_state(*quest,1,result))return false;
   }
   if(record.state_0==1){ // UpdatePostLocked 0x4813e4
    if(!script_running(*quest,9,running))return false;
-   if(!running&&!set_state(*quest,2))return false;
+   if(!running&&!set_state(*quest,2,result))return false;
   }
   if(record.state_0==2){ // UpdatePreAvailable 0x481380
    if(!script_running(*quest,11,running))return false;
-   if(!running&&!set_state(*quest,3))return false;
+   if(!running&&!set_state(*quest,3,result))return false;
   }
   if(record.state_0==3){ // UpdateAvailable 0x481700
    if(!eval_conditions(*quest,holds))return false;
-   if(!holds){if(!set_state(*quest,0))return false;}
+   if(!holds){if(!set_state(*quest,0,result))return false;}
    else{
     if(!script_running(*quest,1,running))return false;
-    // The accept Objective's done byte (+0x14) is set by its Compile.
-    if(accept->done_14&&!running&&!set_state(*quest,4))return false;
+    // The accept Objective's done byte (+0x14) is set by its completion event.
+    if(accept->done_14&&!running&&!set_state(*quest,4,result))return false;
    }
   }
   if(record.state_0==4){ // UpdatePostAvailable 0x48131c
    if(!script_running(*quest,6,running))return false;
-   if(!running&&!set_state(*quest,5))return false;
+   if(!running&&!set_state(*quest,5,result))return false;
   }
   if(record.state_0==5){ // UpdatePreActive 0x4815d4 (offline)
    if(!script_running(*quest,10,running))return false;
-   if(!running&&!set_state(*quest,6))return false;
+   if(!running&&!set_state(*quest,6,result))return false;
+  }
+  if(record.state_0==6){ // UpdateActive 0x481688: ObjectiveList::Eval, then slot 0
+   // ObjectiveList::Eval (0x47a444) is a byte scan: every child's done byte set.
+   auto& objectives=quest->objectives();
+   if(objectives.count_0<0||(objectives.count_0>0&&(!objectives.children_4||
+      std::uint64_t(std::uint32_t(objectives.count_0))>objectives.children_4->slots.size()))){
+    error="Quest::UpdateActive found invalid canonical ObjectiveList backing";return false;
+   }
+   bool all_done=true;
+   for(std::int32_t index=0;index<objectives.count_0&&all_done;++index){
+    const auto* child=impl_->resolve_objective(objectives.children_4->slots[std::size_t(index)]);
+    if(!child){error="Quest::UpdateActive could not resolve a canonical ObjectiveList child";return false;}
+    all_done=child->done_14!=0;
+   }
+   if(all_done){
+    if(!script_running(*quest,0,running))return false;
+    if(!running&&!set_state(*quest,7,result))return false;
+   }
+  }
+  if(record.state_0==7){ // UpdatePostActive 0x4812b8 tests slot 8, not 5 (source quirk).
+   if(!script_running(*quest,8,running))return false;
+   if(!running&&!set_state(*quest,8,result))return false;
+  }
+  if(record.state_0==8){ // UpdatePreCompleted 0x481254
+   if(!script_running(*quest,13,running))return false;
+   if(!running&&!set_state(*quest,9,result))return false;
+  }
+  if(record.state_0==9){ // UpdateCompleted 0x4814d8 (offline: no room-attribute sync)
+   if(end->done_14){
+    if(!script_running(*quest,3,running))return false;
+    if(!running){
+     if(!give_rewards(*quest)||!set_state(*quest,10,result))return false;
+    }
+   }
+  }
+  if(record.state_0==10){ // UpdatePostCompleted 0x4811f0
+   if(!script_running(*quest,8,running))return false;
+   if(!running&&!set_state(*quest,11,result))return false;
+  }
+  if(record.state_0==11){ // UpdatePreClosed 0x481184
+   if(!script_running(*quest,12,running))return false;
+   if(!running){
+    record.byte_5d=1;
+    if(!set_state(*quest,12,result))return false;
+   }
+  }
+  if(record.state_0==12){ // UpdateClosed 0x481448
+   if(!script_running(*quest,2,running))return false;
+   if(!running){
+    if(!set_state(*quest,13,result))return false;
+    record.byte_5d=1;
+    // Character::CheckForAllQuestsTrophy (0x3a3fe4): every Quest past Closed.
+    bool all_past_closed=!quests.empty();
+    for(const auto* other:quests){
+     const auto* other_quest=impl_->resolve(other);
+     if(!other_quest){error="Quest trophy scan found a foreign canonical Quest";return false;}
+     if(other_quest->record().state_0<=12){all_past_closed=false;break;}
+    }
+    if(all_past_closed&&services.all_quests_trophy&&
+       !services.all_quests_trophy(services.context,error)){
+     if(error.empty())error="Character::CheckForAllQuestsTrophy could not unlock its trophy";
+     return false;
+    }
+   }
   }
   result.new_state=record.state_0;
-  if(result.new_state!=result.prior_state){
+  if(result.new_state!=result.prior_state||!result.path.empty()){
    result.outcome=QuestLifecycleOutcomeV1::advanced;
    out.push_back(std::move(result));
   }
+ }
+ error.clear();return true;
+}
+bool Owner::state_summary(std::uint32_t log,std::uint32_t difficulty,std::string& out,
+ std::string& error) const{
+ out.clear();
+ if(log>1||difficulty>2||impl_->busy||impl_->closed||!impl_->save){
+  error="Quest state summary requires the open canonical Save/QEST owner";return false;
+ }
+ const auto& store=log?impl_->save->source_quest_log_118():impl_->save->source_quest_log_b8();
+ for(const auto* ref:store.quests[difficulty]){
+  auto* quest=impl_->resolve(ref);
+  if(!quest){error="Quest state summary found a foreign canonical Quest";return false;}
+  if(quest->record().state_0==0)continue;
+  const char* name=impl_->definitions.definition_name(std::uint32_t(quest->record().fields.row_8));
+  out+=(out.empty()?"":" ")+std::string(name?name:"?")+"="+std::to_string(quest->record().state_0);
  }
  error.clear();return true;
 }
@@ -1216,205 +1464,6 @@ bool Owner::has_state_in_log(std::uint32_t log,std::uint32_t difficulty,
   auto* quest=impl_->resolve(ref);
   if(!quest){error="Quest state query found a foreign canonical Quest";return false;}
   if(quest->record().state_0==state){found=true;break;}
- }
- error.clear();return true;
-}
-bool Owner::gameplay_log_states_supported(std::uint32_t log,
- std::uint32_t difficulty,std::string& error) const{
- if(log>1||difficulty>2||impl_->busy||impl_->closed||!impl_->save){
-  error="QuestSavegame::UpdateQuests state audit requires its selected open Save log/difficulty";return false;
- }
- const auto& store=log?impl_->save->source_quest_log_118():
-                       impl_->save->source_quest_log_b8();
- if(!impl_->save->character()||store.character_5c!=impl_->save->character()){
-  error="QuestSavegame::UpdateQuests state audit crossed its bound Character";return false;
- }
- for(const auto* ref:store.quests[difficulty]){
-  if(!ref){error="QuestSavegame::UpdateQuests state audit found a null Quest";return false;}
-  auto* quest=impl_->resolve(ref);
-  if(!quest){error="QuestSavegame::UpdateQuests state audit found a foreign Quest";return false;}
-  const auto state=quest->record().state_0;
-  // States 0..5 (Locked .. PreActive) run through update_lifecycle, 6 through
-  // update_active and 12 through update_completed.
-  if((state<0||state>6)&&state!=12){
-   error="Character::SG_Update(true) reached an unowned Quest::Update state "+
-         std::to_string(state);
-   return false;
-  }
- }
- error.clear();return true;
-}
-bool Owner::update_completed(std::uintptr_t quest_identity,std::uint32_t log,
- std::uint32_t difficulty,
- const QuestUpdateCompletedServicesV1& services,
- QuestUpdateCompletedResultV1& out,std::string& error){
- out={};
- if(log>1||difficulty>2||impl_->busy||impl_->closed||!impl_->save){
-  error="Quest::UpdateCompleted requires the open canonical Save/QEST owner";return false;
- }
- auto* quest=impl_->resolve_quest_identity(quest_identity);
- if(!quest||!quest->record().py_data_68||
-    impl_->definitions.resolve(quest->record().py_data_68->identity)!=
-      quest->record().py_data_68){
-  error="Quest::UpdateCompleted requires a published Quest in this definition generation";return false;
- }
- auto& selected_log=log?impl_->save->source_quest_log_118():
-                        impl_->save->source_quest_log_b8();
- const auto& selected_quests=selected_log.quests[difficulty];
- if(std::none_of(selected_quests.begin(),selected_quests.end(),[&](const auto* ref){
-     return ref&&ref->identity==quest_identity&&ref==&quest->record().ref;
-    })){
-  error="Quest::UpdateCompleted Quest is outside the selected Save log/difficulty";return false;
- }
- const auto character=impl_->save->character();
- if(!character||selected_log.character_5c!=character||
-    quest->record().fields.character_60!=character){
-  error="Quest::UpdateCompleted requires the current Character bound to this Save and QEST log";return false;
- }
- if(quest->record().state_0!=12){
-  out.outcome=qu::Outcome::skipped_not_completed;error.clear();return true;
- }
-
- auto& list=quest->rewards();
- if(list.count_0<0||(list.count_0>0&&(!list.children_4||
-    !list.children_4->identity||
-    std::uint64_t(std::uint32_t(list.count_0))>list.children_4->slots.size()))){
-  error="Quest::UpdateCompleted found invalid canonical RewardList backing";return false;
- }
- if(!services.resolve_character||!services.give_xp||!services.application_time){
-  error="Quest::UpdateCompleted requires Character resolution, Character::_GiveXP, and Application time providers";return false;
- }
- const auto reward_count=static_cast<std::uint32_t>(list.count_0);
- std::vector<std::uintptr_t> reward_identities;
- try{
-  reward_identities.reserve(reward_count);
-  for(std::uint32_t i=0;i<reward_count;++i){
-   const auto* ref=list.children_4->slots[i];
-   reward_identities.push_back(ref?ref->identity:0);
-  }
- }catch(const std::exception&){
-  error="Quest::UpdateCompleted could not capture canonical RewardList iteration";return false;
- }
-
- struct CallContext {
-  Impl* owner=nullptr;
-  const QuestUpdateCompletedServicesV1* services=nullptr;
-  std::uintptr_t character=0;
-  r::Array* children=nullptr;
-  std::uint32_t ordinal=0;
- } context{impl_.get(),&services,character,list.children_4,0};
- impl_->busy=true;
- struct Guard{Impl& owner;~Guard(){owner.busy=false;}}guard{*impl_};
-
- const qu::Services kernel_services{&context,
-  [](void* raw,std::uintptr_t identity,std::int32_t& source_result,
-     std::string& callback_error)->bool{
-   auto& c=*static_cast<CallContext*>(raw);
-   if(c.ordinal>=c.children->slots.size()){
-    callback_error="RewardList changed beyond its captured source prefix";return false;
-   }
-   auto* ref=c.children->slots[c.ordinal++];
-   if(!ref||ref->identity!=identity||!ref->fields||
-      ref->fields->character_10!=c.character){
-    callback_error="Quest::GiveRewards reached a foreign Reward or Character owner";return false;
-   }
-   const auto found=c.owner->rewards.find(identity);
-   if(found==c.owner->rewards.end()||&found->second->ref!=ref||
-      found->second->ref.fields!=&found->second->fields){
-    callback_error="Quest::GiveRewards could not resolve the canonical Reward factory Record";return false;
-   }
-   auto& reward=*found->second;
-   const re::Services reward_services{&c,
-    [](void* raw,std::uintptr_t requested)->re::CharacterRef*{
-     auto& context=*static_cast<CallContext*>(raw);
-     if(requested!=context.character)return nullptr;
-     auto* resolved=context.services->resolve_character(context.services->context,requested);
-     if(!resolved||resolved->identity!=requested)return nullptr;
-     return resolved;
-    },
-    [](void* raw,re::Record& record,re::CharacterRef& resolved,std::int32_t amount)->std::int32_t{
-     auto& context=*static_cast<CallContext*>(raw);
-     if(!context.services->add_gold||resolved.identity!=context.character)return 1;
-     return context.services->add_gold(context.services->context,record,resolved,amount);
-    },
-    [](void* raw,re::Record& record,re::CharacterRef& resolved,
-       std::int32_t fixed_point,std::uint8_t source_flag,bool* granted)->std::int32_t{
-     auto& context=*static_cast<CallContext*>(raw);
-     if(!context.services->give_xp||resolved.identity!=context.character)return 1;
-     return context.services->give_xp(context.services->context,record,resolved,
-                                      fixed_point,source_flag,granted);
-    }};
-   re::Runtime runtime(reward,reward_services);re::Result result{};
-   re::Status status=re::Status::source_fault;
-   switch(reward.dispatch_0){
-    case rf::Dispatch::gold:status=runtime.give_gold(&result);break;
-    case rf::Dispatch::xp:status=runtime.give_xp(&result);break;
-    default:
-     callback_error="Quest::GiveRewards reached a Reward kind without a recovered Give implementation";
-     return false;
-   }
-   if(status!=re::Status::complete){
-    callback_error="Recovered Reward::Give failed at operation "+
-      std::to_string(static_cast<unsigned>(result.last_operation));
-    return false;
-   }
-   source_result=static_cast<std::int32_t>(result.value);
-   callback_error.clear();return true;
-  },
-  [](void* raw,std::int32_t& value,std::string& callback_error)->bool{
-   auto& c=*static_cast<CallContext*>(raw);
-   if(c.owner->constant("v2QuestState","PostCompleted",&value)){
-    callback_error="Actual v2QuestState.PostCompleted constant unavailable";return false;
-   }
-   callback_error.clear();return true;
-  },
-  [](void* raw,std::int32_t& value,std::string& callback_error)->bool{
-   auto& c=*static_cast<CallContext*>(raw);
-   return c.services->application_time(c.services->context,value,callback_error);
-  }};
- auto status=qu::update({&quest->record().state_0,&quest->record().word_4},
-     {reward_identities.data(),reward_count},kernel_services,&out,error);
- if(status!=qu::Status::complete)return false;
- if(out.outcome==qu::Outcome::transitioned){
-  // ARM Quest::SetState(0x480c78) calls HandleSaveInStateTransitonIfNeeded(13),
-  // whose slot-7 check conditionally saves Character before the state switch.
-  const auto* definition=impl_->definitions.record(*quest->record().py_data_68);
-  if(!definition){error="PostCompleted Quest definition record is unavailable";return false;}
-  const auto& span=definition->scripts[7];
-  if(!quest->record().byte_64&&span.size){
-   if(!services.save_character){
-    error="Quest::SetState(PostCompleted) requires canonical Character::SG_Save for script slot 7";
-    return false;
-   }
-   if(!services.save_character(services.context,character,error)){
-    if(error.empty())error="Quest::SetState(PostCompleted) Character::SG_Save failed";
-    return false;
-   }
-  }
-  // The same SetState(13) switch dispatches ExecScript(7), (-1,true).
-  if(span.size){
-   if(!services.start_script){
-    error="Quest::SetState(PostCompleted) requires the current ScriptManager provider for slot 7";
-    return false;
-   }
-   data::quest_table_bindings_v1::Span bytes{};
-   if(!impl_->definitions.bytes(span,&bytes,error)||!bytes.data||!bytes.size){
-    if(error.empty())error="PostCompleted slot 7 source script span is invalid";
-    return false;
-   }
-   std::string source(reinterpret_cast<const char*>(bytes.data),bytes.size);
-   const auto nul=source.find('\0');if(nul!=std::string::npos)source.resize(nul);
-   const auto dot=source.find('.');
-   if(dot==std::string::npos||dot+1==source.size()){
-    error="PostCompleted slot 7 script reference has no resolvable ScriptManager name";
-    return false;
-   }
-   const auto script_name=source.substr(dot+1);
-   if(!services.start_script(services.context,script_name,-1,true,error)){
-    if(error.empty())error="Quest::ExecScript(PostCompleted slot 7) failed";
-    return false;
-   }
-  }
  }
  error.clear();return true;
 }
@@ -1875,7 +1924,13 @@ bool Owner::dispatch_objective_compile_member_v1(
   error="Objective member dispatch saw invalid canonical ObjectiveList storage";return false;
  }
  std::uint32_t ordinal=UINT32_MAX;
- for(std::uint32_t i=0;i<std::uint32_t(list.count_0);++i){
+ // The accept/end ActionRefs are not ObjectiveList children; they keep their
+ // own sentinel ordinals so every binding below serves them unchanged.
+ if(&objective==impl_->resolve_compile_objective(quest->record().action_18))
+  ordinal=Impl::accept_action_ordinal;
+ else if(&objective==impl_->resolve_compile_objective(quest->record().action_1c))
+  ordinal=Impl::end_action_ordinal;
+ else for(std::uint32_t i=0;i<std::uint32_t(list.count_0);++i){
   auto* candidate=impl_->resolve_objective(list.children_4->slots[i]);
   if(candidate==&objective){ordinal=i;break;}
  }
@@ -1951,7 +2006,7 @@ bool Owner::dispatch_objective_compile_member_v1(
                             services.start_script,error))return false;
      if(impl_->talk_to_npc.find(objective.ref.action.identity)!=impl_->talk_to_npc.end()){
       if(!unregister_talk_to_npc_objective(quest_identity,ordinal,error))return false;
-     }else if(definition.common[1]==5){
+     }else if(definition.common[0]==5){
       if(!services.talk_marker){error="TalkToNPC Compile completion needs the current-Level target marker provider";return false;}
       if(!services.talk_marker(services.talk_marker_context,
           objective.ref.action.identity,&objective.derived_28,target,
@@ -2093,7 +2148,7 @@ bool Owner::dispatch_objective_compile_member_v1(
    if(definition.common[0]!=objective.fields.type_4||objective.derived_24.index()!=0){
     error="TalkToNPC Register requires its compiled source target projection";return false;
    }
-   const bool marks_target=definition.common[1]==5;
+   const bool marks_target=definition.common[0]==5;
    if(marks_target&&!services.talk_marker){error="TalkToNPC Register requires the current-Level CharacterList marker provider";return false;}
    const auto identity=objective.ref.action.identity;
    const auto existing=impl_->talk_to_npc.find(identity);
@@ -2173,6 +2228,8 @@ bool Owner::dispatch_objective_compile_member_v1(
   }
   case of::Dispatch::base:case of::Dispatch::event_receiver:
    return clear_error(); // no registration override on the base Objective.
+  case of::Dispatch::automatic:
+   return clear_error(); // Objective_Automatic::Register (0x47a1dc) is a bare return.
   default:
    error="Objective Register dispatch has no source owner for this canonical kind";return false;
   }
@@ -2191,7 +2248,7 @@ bool Owner::dispatch_objective_compile_member_v1(
   if(!services.talk_marker){error="TalkToNPC InstallObjectiveMarker requires the current-Level CharacterList/VisualFX provider";return false;}
   dh2_quest_objective definition{};
   if(!objective_definition(objective,definition,error))return false;
-  if(definition.common[1]!=5)return clear_error();
+  if(definition.common[0]!=5)return clear_error();
   const auto target=std::get_if<std::int32_t>(&objective.derived_24);
   if(!target){error="TalkToNPC marker target projection is unavailable";return false;}
   return services.talk_marker(services.talk_marker_context,
@@ -2209,7 +2266,7 @@ bool Owner::dispatch_objective_compile_member_v1(
    if(!services.talk_marker){error="TalkToNPC RemoveObjectiveMarker requires the current-Level CharacterList/VisualFX provider";return false;}
    dh2_quest_objective definition{};
    if(!objective_definition(objective,definition,error))return false;
-   if(definition.common[1]!=5)return clear_error();
+   if(definition.common[0]!=5)return clear_error();
    const auto target=std::get_if<std::int32_t>(&objective.derived_24);
    if(!target){error="TalkToNPC marker target projection is unavailable";return false;}
    return services.talk_marker(services.talk_marker_context,
@@ -2223,6 +2280,8 @@ bool Owner::dispatch_objective_compile_member_v1(
   switch(objective.dispatch_0){
   case of::Dispatch::base:case of::Dispatch::event_receiver:
    return clear_error();
+  case of::Dispatch::automatic:
+   return clear_error(); // Objective_Automatic::Unregister (0x47a1e0) is a bare return.
   case of::Dispatch::kill_enemies:
    return unregister_kill_x_enemies_objective(quest_identity,ordinal,error);
   case of::Dispatch::clear_enemies:
@@ -2335,11 +2394,11 @@ bool Owner::dispatch_game_event_objective_member_v1(
    auto prior=impl_->talk_to_npc.find(identity);
    if(prior==impl_->talk_to_npc.end()){
     std::int32_t event_type=-1;if(impl_->constant("v2QuestObjectiveType","TalkToNPC",&event_type)||event_type<0){error="Actual TalkToNPC event type constant unavailable";return false;}
-    if(definition.common[1]==5&&!services.talk_marker){error="GameEvent TalkToNPC marker requires current-Level marker services";return false;}
+    if(definition.common[0]==5&&!services.talk_marker){error="GameEvent TalkToNPC marker requires current-Level marker services";return false;}
     auto binding=std::make_unique<Impl::TalkToNpcBinding>();binding->owner=this;binding->objective=objective;binding->level_identity=level_identity;binding->game_event_manager_identity=manager_identity;binding->event_type=event_type;binding->target_props_id=std::get<std::int32_t>(objective->derived_24);binding->target_count=definition.args[2];binding->script_id=definition.common[2];binding->script_context=services.script_context;binding->start_script=services.start_script;binding->marker_context=services.talk_marker_context;binding->marker=services.talk_marker;binding->game_event_trigger=true;auto* context=binding.get();
     if(!impl_->talk_to_npc.emplace(identity,std::move(binding)).second){error="GameEvent TalkToNPC receiver metadata collision";return false;}
     bool attached=false;auto status=impl_->current_level_events.attach(event_type,identity,0,context,Impl::TalkToNpcBinding::receive,attached,error);if(status!=LevelEventStatus::complete||!attached){impl_->talk_to_npc.erase(identity);if(error.empty())error="GameEvent TalkToNPC EventManager attach failed";return false;}context->attached=true;
-    if(definition.common[1]==5){if(!services.talk_marker(services.talk_marker_context,identity,&objective->derived_28,context->target_props_id,TalkObjectiveMarkerOperationV1::register_target,0,0,error))return false;context->target_marked=true;}
+    if(definition.common[0]==5){if(!services.talk_marker(services.talk_marker_context,identity,&objective->derived_28,context->target_props_id,TalkObjectiveMarkerOperationV1::register_target,0,0,error))return false;context->target_marked=true;}
    }else if(prior->second->objective!=objective||prior->second->level_identity!=level_identity||prior->second->game_event_manager_identity!=manager_identity||prior->second->target_props_id!=std::get<std::int32_t>(objective->derived_24)||prior->second->script_context!=services.script_context||prior->second->start_script!=services.start_script){error="GameEvent TalkToNPC receiver services changed";return false;}
    error.clear();return true;
   }
@@ -2363,114 +2422,20 @@ bool Owner::dispatch_objective_compile_member_v1(
     objective_factory_record->second.get()==&objective&&
     objective.ref.fields==&objective.fields&&
     objective.ref.action.character_10==&objective.fields.character_10){
-  bool quest_action=false;
+  // Quest actions (accept +0x18 / end +0x1c) are canonical Objective factory
+  // Records outside the ObjectiveList. They run through the same Compile /
+  // Register / marker / Unregister leaves as list children, addressed by the
+  // owning Quest and the action sentinel ordinal.
+  std::uintptr_t action_quest=0;
   for(const auto& entry:impl_->slots){
    const auto& slot=*entry.second;
    if(!slot.value||slot.value->record().ref.identity!=entry.first)continue;
    const auto& quest=slot.value->record();
    if(quest.action_18==&objective.ref.action||
-      quest.action_1c==&objective.ref.action){quest_action=true;break;}
+      quest.action_1c==&objective.ref.action){action_quest=entry.first;break;}
   }
-  if(quest_action){
-   if(objective.dispatch_0==of::Dispatch::talk_to_npc&&call.is_virtual&&
-      call.adjustment==0&&call.function==8){
-    dh2_quest_objective definition{};
-    if(!objective_definition(objective,definition,error))return false;
-    if(definition.common[0]!=objective.fields.type_4){
-     error="TalkToNPC Quest action Compile found a changed retained source selector";return false;
-    }
-    // IDA 0x47ec80 (v2QuestTalkToNPC::Compile): target props ID -> +0x24,
-    // compiled iff target != -1; already-satisfied saved counts complete now.
-    objective.derived_24=definition.args[0];
-    if(definition.args[0]!=-1){
-     objective.compiled_8=1;
-     if(static_cast<std::int32_t>(objective.quantity_20)>=definition.args[2]&&
-        !objective.done_14){
-      objective.done_14=1; // Objective::SetIsCompleted writes before its script call.
-      if(definition.common[2]>=0){
-       if(!services.start_script){error="TalkToNPC Quest action completion requires the current ScriptManager provider";return false;}
-       if(!services.start_script(services.script_context,definition.common[2],error)){
-        if(error.empty())error="TalkToNPC Quest action completion script activation failed";
-        return false;
-       }
-      }
-     }
-    }
-    error.clear();return true;
-   }
-   if(objective.dispatch_0==of::Dispatch::automatic&&call.is_virtual&&
-      call.adjustment==0&&call.function==8){
-    dh2_quest_objective definition{};
-    if(!objective_definition(objective,definition,error))return false;
-    if(definition.common[0]!=objective.fields.type_4){
-     error="Automatic Compile found a changed retained source selector";return false;
-    }
-    // IDA 0x47bd80: Objective_Automatic::Compile stores compiled_8=1,
-    // then calls Objective::SetIsCompleted on this same Quest action record.
-    objective.compiled_8=1;
-    if(objective.done_14){error.clear();return true;}
-    objective.done_14=1;
-    if(definition.common[2]>=0){
-     if(!services.start_script){error="Automatic SetIsCompleted requires the current ScriptManager provider";return false;}
-     if(!services.start_script(services.script_context,definition.common[2],error)){
-      if(error.empty())error="Automatic SetIsCompleted source script activation failed";
-      return false;
-     }
-    }
-    error.clear();return true;
-   }
-   if(objective.dispatch_0==of::Dispatch::move_in_zone&&call.is_virtual&&
-      call.adjustment==0&&call.function==8){
-    dh2_quest_objective definition{};std::string target_name;
-    if(!objective_definition(objective,definition,error)||
-       !objective_string(objective,definition,1,target_name,error))return false;
-    if(definition.common[0]!=objective.fields.type_4){
-     error="MoveInZone Compile found a changed retained source selector";return false;
-    }
-    if(!services.object_manager){
-     error="MoveInZone Compile requires the current Level's canonical ObjectManager";return false;
-    }
-    auto* target=services.object_manager->find_by_name(target_name,-1);
-    objective.derived_24=std::int32_t(-1);objective.derived_28=0;
-    if(!target){objective.compiled_8=0;error.clear();return true;}
-    if(!target->identity){error="MoveInZone ObjectManager target lacks its canonical identity";return false;}
-    if(definition.args[1]!=-1){
-     const auto& population=services.population.kill_enemies;
-     if(!population.read_current_level_population||!population.expected_level_identity){
-      error="MoveInZone Compile requires current-Level TestCharPropId population services";return false;
-     }
-     ClearEnemiesPopulationSnapshotV1 snapshot{};
-     if(!population.read_current_level_population(population.context,
-         reinterpret_cast<std::uintptr_t>(this),population.expected_level_identity,
-         definition.args[1],snapshot,error)){
-      if(error.empty())error="MoveInZone current-Level TestCharPropId query failed";
-      return false;
-     }
-     if(snapshot.event_owner_identity!=reinterpret_cast<std::uintptr_t>(this)||
-        snapshot.level_identity!=population.expected_level_identity||
-        snapshot.level_id<0||snapshot.loaded_match_count<0){
-      error="MoveInZone population query returned a stale Level or invalid count";return false;
-     }
-     if(snapshot.loaded_match_count==0){objective.compiled_8=0;error.clear();return true;}
-    }
-    objective.derived_24=target->source_handle;objective.derived_28=target->identity;
-    objective.compiled_8=1;error.clear();return true;
-   }
-   if((objective.dispatch_0==of::Dispatch::base&&call.is_virtual&&
-       call.adjustment==0&&(call.function==8||call.function==0x18||
-        call.function==0x10||call.function==0x14||call.function==0x1c))||
-      (objective.dispatch_0==of::Dispatch::automatic&&call.is_virtual&&
-       call.adjustment==0&&(call.function==0x18||call.function==0x10||
-        call.function==0x14||call.function==0x1c))){
-    error.clear();return true;
-   }
-   error="Quest action Objective dispatch "+
-     std::to_string(static_cast<unsigned>(objective.dispatch_0))+" member "+
-     std::to_string(call.function)+" virtual "+
-     std::to_string(call.is_virtual)+" adjustment "+
-     std::to_string(call.adjustment)+" is unsupported";
-   return false;
-  }
+  if(action_quest)
+   return dispatch_objective_compile_member_v1(action_quest,objective,call,services,error);
  }
  std::uintptr_t parent=0;unsigned matches=0;
  for(const auto& entry:impl_->slots){
@@ -2955,7 +2920,9 @@ bool Owner::unregister_talk_to_npc_objective(std::uintptr_t quest_identity,
   error="TalkToNPC Unregister requires its canonical Quest Objective";return false;
  }
  const auto found=impl_->talk_to_npc.find(objective->ref.action.identity);
- if(found==impl_->talk_to_npc.end()){error="TalkToNPC Objective is not registered by this Owner";return false;}
+ // Objective_EventReceiver::Unregister (0x47adbc) is a DelayedDetach that finds
+ // nothing for a receiver this Level never attached; that is not a fault.
+ if(found==impl_->talk_to_npc.end()){error.clear();return true;}
  auto& binding=*found->second;
  if(binding.objective!=objective||binding.quest_identity!=quest_identity||
     binding.ordinal!=objective_ordinal){error="TalkToNPC receiver identity/projection changed";return false;}
@@ -2989,7 +2956,7 @@ bool Owner::unregister_move_in_zone_objective(std::uintptr_t quest_identity,
   error="MoveInZone Unregister requires its canonical Quest Objective";return false;
  }
  const auto found=impl_->move_in_zone.find(objective->ref.action.identity);
- if(found==impl_->move_in_zone.end()){error="MoveInZone Objective has no source Compile binding";return false;}
+ if(found==impl_->move_in_zone.end()){error.clear();return true;} // never attached: DelayedDetach finds nothing
  auto& binding=*found->second;
  if(binding.objective!=objective||binding.quest_identity!=quest_identity||
     binding.ordinal!=objective_ordinal){error="MoveInZone receiver identity/projection changed";return false;}

@@ -3290,10 +3290,9 @@ struct OriginalUiSession::Impl {
         source_dialog_table_loaded=true;
         error.clear();return true;
     }
-    bool source_dialog_string(std::int32_t id,std::string& out,std::string& error) {
-        if(id<0){error="Source DialogMsg has a negative StringManager ID";return false;}
-        if(!ensure_localization_ready(error)||
-           !localization.string_id(static_cast<std::uint32_t>(id),text_services(),out,error))return false;
+    // ParsePlayerName (0x433d00): the DialogMsg constructors rewrite the Player
+    // name placeholder of every string they take.
+    bool source_dialog_parse_player(std::string& out,std::string& error) {
         std::uintptr_t character=0;
         if(!player_character(this,character,error))return false;
         if(!character){error.clear();return true;}
@@ -3302,6 +3301,12 @@ struct OriginalUiSession::Impl {
            !ui::localization_player(out,name,localization.pack()>=4&&localization.pack()<=6,
                                     parsed,error))return false;
         out=std::move(parsed);error.clear();return true;
+    }
+    bool source_dialog_string(std::int32_t id,std::string& out,std::string& error) {
+        if(id<0){error="Source DialogMsg has a negative StringManager ID";return false;}
+        if(!ensure_localization_ready(error)||
+           !localization.string_id(static_cast<std::uint32_t>(id),text_services(),out,error))return false;
+        return source_dialog_parse_player(out,error);
     }
     bool source_dialog_style_name(std::int32_t style,std::string& out,std::string& error) {
         if(!ensure_dialog_metadata_ready(error))return false;
@@ -4681,6 +4686,60 @@ bool OriginalUiSession::enqueue_source_new_quest_message(std::int32_t quest_name
     bool start_now=false;
     if(!self.source_dialog_messages.enqueue(std::move(message),start_now)){
         error="Source DialogMsg queue rejected the new-quest message";return false;
+    }
+    if(start_now&&!self.movie->action_script(&self,Impl::invoke_source_dialog_start,error))
+        return false;
+    error.clear();return true;
+}
+bool OriginalUiSession::source_quest_reward_text(std::int32_t kind,std::int32_t amount,
+    std::string& line,std::string& error){
+    auto& self=*impl_;
+    // RewardList::CreateRewardString (0x4835a0): kind 0 Gold and 1 XP format
+    // their StrID detail string with the reward amount through StringManager::
+    // parse; kind 2 is StrID.MENU_AUTOTRANSMUTE_1, assigned verbatim when no
+    // reward produced a line.
+    const char* name=kind==0?"GAMEPLAYMENUS_REWARD_DETAIL_GOLD":
+                     kind==1?"GAMEPLAYMENUS_REWARD_DETAIL_EXP":"MENU_AUTOTRANSMUTE_1";
+    std::uint32_t id=0;
+    std::string pattern;
+    if(!Impl::constant(&self,"StrID",name,id,error)||!self.ensure_localization_ready(error)||
+       !self.localization.string_id(id,self.text_services(),pattern,error))return false;
+    line.clear();
+    if(kind==2){line=std::move(pattern);error.clear();return true;}
+    return Impl::format_integer_text(self,pattern.c_str(),amount,line,error);
+}
+bool OriginalUiSession::enqueue_source_quest_completed_message(std::int32_t quest_name_string_id,
+    const std::string& reward_text,std::string& error){
+    auto& self=*impl_;
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()&&
+       !self.load(error))return false;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie){
+        error="Quest::SetState(Closed) DialogMsg requires the retained gameplay HUD session";
+        return false;
+    }
+    // Quest::SetState(Closed) 0x4810d8: DialogMsg(StringManager name of the
+    // Quest, its RewardList text, DialogStyles.QuestCompletedMsgDialog, actor 1).
+    if(!self.ensure_dialog_metadata_ready(error))return false;
+    dh2_pycst_result style_constant{};
+    if(dh2_pycst_get(&self.dialog_constants,"DialogStyles",sizeof("DialogStyles")-1,
+           "QuestCompletedMsgDialog",sizeof("QuestCompletedMsgDialog")-1,&style_constant)!=0||
+       !style_constant.found){error="DialogStyles.QuestCompletedMsgDialog constant is missing";return false;}
+    ui::SourceDialogMessageQueueV1::Message message;
+    message.style=static_cast<std::int8_t>(static_cast<std::uint8_t>(style_constant.value));
+    message.text=reward_text;
+    if(!self.source_dialog_string(quest_name_string_id,message.title,error)||
+       !self.source_dialog_parse_player(message.text,error)||
+       !self.source_dialog_style_name(message.style,message.style_name,error))return false;
+    constexpr std::size_t actor_id=1;
+    if(actor_id>=self.dialog_actor_name_ids.size()){
+        error="Source DialogMsg actor index exceeds DialogActors";return false;
+    }
+    if(!self.source_dialog_string(self.dialog_actor_name_ids[actor_id],message.actor_name,error))
+        return false;
+    bool start_now=false;
+    if(!self.source_dialog_messages.enqueue(std::move(message),start_now)){
+        error="Source DialogMsg queue rejected the quest-completed message";return false;
     }
     if(start_now&&!self.movie->action_script(&self,Impl::invoke_source_dialog_start,error))
         return false;

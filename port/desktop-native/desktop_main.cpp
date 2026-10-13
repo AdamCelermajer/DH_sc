@@ -102,6 +102,9 @@ struct Options {
     // fixture (the existing nonlethal source health kernel) so one Player blow kills it.
     bool boss_fight_scenario = false, boss_passive = false, boss_offset_given = false,
          boss_weaken = false;
+    // boss-fight keeps running this many frames after the boss dies (the boss
+    // outro scripts, quest completion and rewards run in them).
+    std::uint64_t post_death_frames = 180;
     std::string boss_name;
     std::array<float, 3> boss_offset{};
     // Planar distance from the boss at which the Player is placed (the direction
@@ -125,8 +128,16 @@ struct Options {
     double follow_exit_entry = 0.0;
     bool probe_scenario() const {
         return faery_follow_scenario || faery_skill_scenario || skill_matrix_scenario ||
-               boss_fight_scenario;
+               boss_fight_scenario || talk_npc_scenario || enter_zone_scenario;
     }
+    // talk-npc: stand the Player next to a named quest-giver Character and press the
+    // authored HUD attack button (Character::Interact on the selected NPC); the run
+    // follows quest `watch_quest` until it has left Available. enter-zone: stand the
+    // Player inside a named QuestMoveInZone volume instead.
+    bool talk_npc_scenario = false, enter_zone_scenario = false;
+    std::string npc_name = "_prim_NPC_LizBlood", zone_name = "_prim_WitchQuestStart";
+    float npc_distance = 150.0f;
+    std::int32_t watch_quest = -1;
     bool tutorial_potion_scenario = false;
     // first-kill-ui: move-kill on a fresh SWAMP profile where every dialog a script
     // starts (tutorials, quest updates) is dismissed by a real touch on the
@@ -159,6 +170,11 @@ Options parse(int argc, char** argv) {
         }
         else if (arg == "--boss-passive") options.boss_passive = true;
         else if (arg == "--boss-weaken") options.boss_weaken = true;
+        else if (arg == "--npc") options.npc_name = value("--npc");
+        else if (arg == "--npc-distance") options.npc_distance = std::stof(value("--npc-distance"));
+        else if (arg == "--zone") options.zone_name = value("--zone");
+        else if (arg == "--watch-quest") options.watch_quest = std::stoi(value("--watch-quest"));
+        else if (arg == "--post-death-frames") options.post_death_frames = std::stoull(value("--post-death-frames"));
         else if (arg == "--boss-distance") options.boss_distance = std::stof(value("--boss-distance"));
         else if (arg == "--runtime-dir") options.runtime = value("--runtime-dir");
         else if (arg == "--level-row") {
@@ -257,6 +273,8 @@ Options parse(int argc, char** argv) {
             else if (scenario == "faery-skill") options.faery_skill_scenario = true;
             else if (scenario == "skill-matrix") options.skill_matrix_scenario = true;
             else if (scenario == "boss-fight") options.boss_fight_scenario = true;
+            else if (scenario == "talk-npc") options.talk_npc_scenario = true;
+            else if (scenario == "enter-zone") options.enter_zone_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -299,7 +317,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
                          "  --scenario skill-matrix train/equip every class skill, use it in melee range of an enemy, log state/HP/MP effects\n"
-                         "  --scenario boss-fight [--boss NAME] [--boss-offset X,Y,Z] [--boss-passive] [--boss-weaken] spawn the level boss, place the Player at its arena entry spot, fight it and log its AIS counters\n"
+                         "  --scenario boss-fight [--boss NAME] [--boss-offset X,Y,Z] [--boss-passive] [--boss-weaken] [--post-death-frames N] spawn the level boss, place the Player at its arena entry spot, fight it and log its AIS counters\n"
                          "  --matrix-only N       skill-matrix: test only SkillTree row N\n"
                          "  --follow-faery N      faery-follow: select Faery Save slot N (0..4) at frame 30\n"
                          "  --hud-tap-xy X,Y      touch point for --faery-hud-tap on the 1280x720 layout (default 1176,281; skill slot 0 is 980,445)\n"
@@ -322,7 +340,8 @@ Options parse(int argc, char** argv) {
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
         unsigned(options.faery_follow_scenario) + unsigned(options.faery_skill_scenario) +
-        unsigned(options.skill_matrix_scenario) + unsigned(options.boss_fight_scenario);
+        unsigned(options.skill_matrix_scenario) + unsigned(options.boss_fight_scenario) +
+        unsigned(options.talk_npc_scenario) + unsigned(options.enter_zone_scenario);
     if (scenario_count > 1) throw std::runtime_error("Select only one gameplay scenario per run");
     if (options.return_entry >= 0 &&
         (options.transition_to.empty() || options.level_row < 0 ||
@@ -729,6 +748,7 @@ public:
         else if (options_.faery_skill_scenario) faery_skill_tick();
         else if (options_.skill_matrix_scenario) matrix_tick();
         else if (options_.boss_fight_scenario) boss_tick();
+        else if (options_.talk_npc_scenario || options_.enter_zone_scenario) quest_tick();
     }
 
     void finish() {
@@ -740,6 +760,7 @@ public:
         else if (options_.faery_skill_scenario) faery_skill_finish();
         else if (options_.skill_matrix_scenario) matrix_finish();
         else if (options_.boss_fight_scenario) boss_finish();
+        else if (options_.talk_npc_scenario || options_.enter_zone_scenario) quest_finish();
     }
 
     bool failed() const { return !failure_.empty(); }
@@ -749,8 +770,10 @@ public:
         return (options_.boss_fight_scenario && death_frame_ && frame_ >= death_frame_ + 15) ||
                (options_.skill_matrix_scenario && mx_phase_ == MxPhase::done) ||
                (options_.faery_skill_scenario && fs_phase_ == FsPhase::done) ||
+               ((options_.talk_npc_scenario || options_.enter_zone_scenario) &&
+                qs_phase_ == QuestScenarioPhase::done && frame_ >= qs_done_frame_ + 300) ||
                (options_.boss_fight_scenario && bf_phase_ == BossPhase::done &&
-                frame_ >= bf_done_frame_ + 180);
+                frame_ >= bf_done_frame_ + options_.post_death_frames);
     }
     // HUD touch hand-off for --faery-hud-tap: action 0 = press, 1 = release.
     bool take_tap(int& action) {
@@ -760,6 +783,13 @@ public:
             return true;
         }
         return false;
+    }
+    // HUD attack-button hand-off for talk-npc: 0 = press, 1 = release.
+    bool take_attack_touch(int& action) {
+        if (qs_touch_ < 0) return false;
+        action = qs_touch_;
+        qs_touch_ = -1;
+        return true;
     }
     const std::string& failure() const { return failure_; }
 
@@ -788,7 +818,9 @@ private:
                  (unsigned long long)frame_, (unsigned long long)player_, options_.level_row,
                  options_.faery_follow_scenario ? "faery-follow" :
                  options_.faery_skill_scenario ? "faery-skill" :
-                 options_.boss_fight_scenario ? "boss-fight" : "skill-matrix"));
+                 options_.boss_fight_scenario ? "boss-fight" :
+                 options_.talk_npc_scenario ? "talk-npc" :
+                 options_.enter_zone_scenario ? "enter-zone" : "skill-matrix"));
         return true;
     }
 
@@ -1189,6 +1221,138 @@ private:
                  bf_max_commands_, bf_max_events_, bf_attacks_, int(bf_ever_targeted_), deaths_));
         if (!bf_ever_initialized_ && failure_.empty())
             failure_ = "boss-fight: the boss AIS VM never initialised";
+    }
+
+    // ----- talk-npc / enter-zone --------------------------------------------
+    // Quest-giver acceptance through the authored controls. talk-npc stands the
+    // Player at --npc-distance from the named Character and presses the HUD attack
+    // button once the NPC is the selected interaction target; enter-zone stands the
+    // Player in the named QuestMoveInZone. Both then follow the quest row.
+    enum class QuestScenarioPhase { place, settle, press, watch, done };
+    QuestScenarioPhase qs_phase_ = QuestScenarioPhase::place;
+    std::uint64_t qs_phase_frame_ = 0, qs_done_frame_ = 0;
+    int qs_touch_ = -1;
+    std::int32_t qs_first_state_ = -1, qs_last_state_ = -1, qs_presses_ = 0;
+    Vec3 qs_zone_center_{};
+
+    std::int32_t quest_state_of(std::int32_t row) {
+        std::vector<model_renderer::UiQuestReadV1> rows;
+        std::string error;
+        if (!model_renderer::ui_player_quest_rows(player_, rows, error, nullptr) || row < 0 ||
+            std::size_t(row) >= rows.size())
+            return -1;
+        return rows[std::size_t(row)].state;
+    }
+    void quest_tick() {
+        const bool talk = options_.talk_npc_scenario;
+        const std::int32_t watch = options_.watch_quest >= 0 ? options_.watch_quest : (talk ? 51 : 52);
+        const std::int32_t state = quest_state_of(watch);
+        if (state != qs_last_state_) {
+            plog(fmt("quest %d state %d -> %d | frame %llu", watch, qs_last_state_, state,
+                     (unsigned long long)frame_));
+            qs_last_state_ = state;
+            if (qs_first_state_ < 0) qs_first_state_ = state;
+        }
+        if (frame_ % 60 == 0) {
+            std::string ooi_name, ooi_error;
+            std::int32_t ooi_type = -1;
+            if (model_renderer::ooi_probe_snapshot(ooi_name, ooi_type, ooi_error))
+                plog(fmt("quest scenario | frame %llu | selected object '%s' interaction type %d",
+                         (unsigned long long)frame_, ooi_name.c_str(), ooi_type));
+        }
+        if (!talk && frame_ % 60 == 0) {
+            std::string zone_status;
+            if (model_renderer::quest_zone_probe_status(options_.zone_name, zone_status))
+                plog(fmt("enter-zone | frame %llu | Player at %s | sensor %s", (unsigned long long)frame_,
+                         have_pose_ ? vec_text(pose_.player_position).c_str() : "?", zone_status.c_str()));
+        }
+        const auto since = frame_ - qs_phase_frame_;
+        switch (qs_phase_) {
+        case QuestScenarioPhase::place: {
+            if (frame_ < 30) return;
+            std::array<float, 3> spot{};
+            std::string place_error;
+            if (talk) {
+                model_renderer::BossProbeSnapshotV1 snap;
+                if (!model_renderer::boss_probe_snapshot(options_.npc_name, snap, place_error)) {
+                    failure_ = "talk-npc: " + options_.npc_name + " not found: " + place_error;
+                    return;
+                }
+                spot = {snap.position[0] + options_.npc_distance, snap.position[1], snap.position[2]};
+                plog(fmt("talk-npc | %s (enabled %d) at %s | Player to %s", options_.npc_name.c_str(),
+                         int(snap.enabled),
+                         vec_text({snap.position[0], snap.position[1], snap.position[2]}).c_str(),
+                         vec_text(spot).c_str()));
+                for (const char* sibling : {"_prim_NPC_LizBloodPOST", "_prim_NPC_LizBlood", "_prim_NPC_Mothgiver"}) {
+                    model_renderer::BossProbeSnapshotV1 other;
+                    std::string other_error;
+                    if (model_renderer::boss_probe_snapshot(sibling, other, other_error))
+                        plog(fmt("talk-npc | %s enabled %d", sibling, int(other.enabled)));
+                }
+            } else if (!model_renderer::quest_zone_probe_position(options_.zone_name, spot, place_error)) {
+                failure_ = "enter-zone: zone " + options_.zone_name + " not found: " + place_error;
+                return;
+            } else {
+                qs_zone_center_ = spot;
+                plog(fmt("enter-zone | %s centre %s", options_.zone_name.c_str(), vec_text(spot).c_str()));
+                // The Player walks in from where it stands; no teleport.
+                qs_phase_ = QuestScenarioPhase::watch;
+                qs_phase_frame_ = frame_;
+                return;
+            }
+            if (!model_renderer::boss_probe_place_player(spot, place_error)) {
+                failure_ = "quest scenario: placing the Player failed: " + place_error;
+                return;
+            }
+            qs_phase_ = QuestScenarioPhase::settle;
+            qs_phase_frame_ = frame_;
+            return;
+        }
+        case QuestScenarioPhase::settle:
+            if (since >= 45) {
+                qs_phase_ = talk ? QuestScenarioPhase::press : QuestScenarioPhase::watch;
+                qs_phase_frame_ = frame_;
+            }
+            return;
+        case QuestScenarioPhase::press:
+            // One press per 90 frames until the NPC answers; the release follows 6 frames later.
+            if (since % 90 == 0) {
+                qs_touch_ = 0;
+                ++qs_presses_;
+                plog(fmt("talk-npc | HUD attack press %d | frame %llu", qs_presses_, (unsigned long long)frame_));
+            } else if (since % 90 == 6) {
+                qs_touch_ = 1;
+            }
+            if (state != qs_first_state_ || qs_presses_ >= 6) {
+                qs_phase_ = QuestScenarioPhase::watch;
+                qs_phase_frame_ = frame_;
+            }
+            return;
+        case QuestScenarioPhase::watch:
+            if (!talk && frame_ % 15 == 0 && have_pose_ && state == qs_first_state_) {
+                // Walk through the normal movement controller toward the zone centre.
+                if (march_to(pose_.player_position, qs_zone_center_, 60.0f) == March::no_route)
+                    steer_world(qs_zone_center_[0] - pose_.player_position[0],
+                                qs_zone_center_[1] - pose_.player_position[1]);
+            }
+            if (since > 1800 || (state > qs_first_state_ && state >= 6)) {
+                qs_phase_ = QuestScenarioPhase::done;
+                qs_done_frame_ = frame_;
+            }
+            return;
+        case QuestScenarioPhase::done:
+            return;
+        }
+    }
+    void quest_finish() {
+        const bool talk = options_.talk_npc_scenario;
+        const std::int32_t watch = options_.watch_quest >= 0 ? options_.watch_quest : (talk ? 51 : 52);
+        const std::int32_t state = quest_state_of(watch);
+        plog(fmt("%s summary | quest %d | state %d -> %d | presses %d", talk ? "talk-npc" : "enter-zone",
+                 watch, qs_first_state_, state, qs_presses_));
+        if (state <= qs_first_state_ && failure_.empty())
+            failure_ = fmt("%s: quest %d never left state %d", talk ? "talk-npc" : "enter-zone", watch,
+                           qs_first_state_);
     }
 
     // ----- faery-skill ------------------------------------------------------
@@ -2521,6 +2685,12 @@ int main(int argc, char** argv) {
                         plog("HUD faery button tap failed: " + ui_error);
                     else plog(tap_action == 2 ? "HUD pointer moved onto the tap point" :
                               tap_action == 0 ? "HUD tap point pressed" : "HUD tap point released");
+                }
+                int attack_action = -1;
+                if (probe_runner.take_attack_touch(attack_action)) {
+                    const bool touched = attack_action == 0 ? touch_driver.press_attack(ui_error)
+                                                             : touch_driver.release_all(ui_error);
+                    if (!touched) plog("HUD attack touch failed: " + ui_error);
                 }
                 if (probe_runner.failed()) {
                     plog("scenario failure: " + probe_runner.failure());
