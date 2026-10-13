@@ -19,8 +19,10 @@
 #include <string>
 #include <vector>
 
+#include "dh2/LightBase.hpp"
 #include "dh2/SceneManager.hpp"
 #include "glitch-core-io/core/memory_hint.hpp"
+#include "glitch-scene-collada-gui/scene/CLightSceneNode.hpp"
 
 // Engine allocator, declared by hand: core-platform/memory.hpp redefines the glitch_core types that
 // glitch-shared/glitch_core.hpp already defines (the game-world sources declare these the same way).
@@ -82,10 +84,18 @@ void SceneManager::registerSkinnedMesh(void* skinnedMeshNode) {
 }
 
 // 0x353bac SceneManager::_RegisterAutomacticLights(void)
-// PARTIAL. The original clears the distance list (CSceneManager +0x48, raw bytes in the base layout) and appends
-// {light->m_irrLight, null, index} for each LightBase* in LightSetManager::unk_190 (inside the byte storage at +0x294).
-// Neither list is reachable from this class yet (see the layout requests in the batch notes).
+// The original clears the distance list (CSceneManager +0x48, lightNodes) and appends {light->m_irrLight (LightBase +0x120),
+// null user data, index as a double} for each LightBase* in LightSetManager::unk_190 (+0x424 .. +0x428 of this object).
 void SceneManager::_RegisterAutomacticLights() {
+    lightNodes.clear();                                                     // +0x48: the original sets end to begin
+    for (std::size_t index = 0; index < m_lightSetManager.unk_190.size(); ++index) {
+        LightBase* light = m_lightSetManager.unk_190[index];
+        SDistanceNodeEntry entry;
+        entry.node = light->m_irrLight;                                     // LightBase +0x120
+        entry.userData = nullptr;
+        entry.distance = static_cast<double>(index);                        // +0x08 stored as a double
+        lightNodes.push_back(entry);
+    }
 }
 
 // 0x353dec SceneManager::renderCustomList<glitch::scene::CSceneManager::SUnsortedNodeEntry>(

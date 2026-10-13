@@ -55,11 +55,17 @@ void SceneManager::renderCustomList<glitch::scene::CSceneManager::SDefaultNodeEn
 }
 
 // 0x357dc0 SceneManager::clearRenderLists()
-// PARTIAL: stub. The original resizes the seven render-list vectors of the engine base to zero: +0x3c (unsorted entries),
+// The original resizes the seven render-list vectors of the engine base to zero, in this order: +0x3c (unsorted entries),
 // +0x48 (distance entries), +0x54 and +0x60 (render-data sort entries), +0x6c (second unsorted list), +0x78 (default
-// entries) and +0x84 (transparent entries). Those vectors are inside CSceneManager's unk_30[0x60] and have no declared
-// members, so nothing is cleared here. Layout request.
+// entries) and +0x84 (transparent entries). The canonical CSceneManager header declares each of them.
 void SceneManager::clearRenderLists() {
+    cameraNodes.clear();          // +0x3c
+    lightNodes.clear();           // +0x48
+    shadowVolumeNodes.clear();    // +0x54
+    shadowMeshNodes.clear();      // +0x60
+    preSolidNodes.clear();        // +0x6c
+    defaultNodes.clear();         // +0x78
+    transparentNodes.clear();     // +0x84
 }
 
 // 0x357ea4 SceneManager::_registerSceneNodes(glitch::scene::ISceneNode*)
@@ -158,13 +164,15 @@ void SceneManager::_drawAll(glitch::scene::ISceneNode* node) {
 }
 
 // 0x359338 SceneManager::drawAll(glitch::scene::ISceneNode*)
-// PARTIAL. Rebuilt: the frame draw (_drawAll) and the screenshot request (the flag at +0x290 is cleared, the
-// ToggleGamepadScreenShot debug switch is read after DebugSwitches::load). Not rebuilt:
-//  - LightSetManager::Update(this + 0x294) runs before the draw in the original. m_lightSetManager is a byte array in
-//    SceneManager.hpp (the LightSetManager header cannot be included there), so the object cannot be named. Layout request.
-//  - the screenshot file. The original names it screenshot_<time>.tga, has the driver fill a frame through vtable +0x98,
-//    and writes it with glitch::io::createWriteFile and CImageWriterTGA. Neither the driver slot nor the writer is declared.
+// PARTIAL. Rebuilt: the light set update (LightSetManager::Update on m_lightSetManager, +0x294), the frame draw (_drawAll)
+// and the screenshot request (the flag at +0x290 is cleared, the ToggleGamepadScreenShot debug switch is read after
+// DebugSwitches::load). Not rebuilt:
+//  - the screenshot file. The original names it screenshot_<time>.tga, takes the frame from the driver's createScreenShot
+//    (vptr+0x98) and writes it through CImageWriterTGA. The original passes three arguments to glitch::io::createWriteFile;
+//    the canonical declaration takes two (name, append), and the third argument is not recovered. CImageWriterTGA's write
+//    slot (vptr+0x10) is not confirmed against the canonical header.
 void SceneManager::drawAll(glitch::scene::ISceneNode* node) {
+    m_lightSetManager.Update();                                            // +0x294 light set update, before the draw
     _drawAll(node);
     if (m_screenshotRequested) {                                           // +0x290
         m_screenshotRequested = false;
