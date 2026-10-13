@@ -490,6 +490,10 @@ public:
         ActorId victim = invalid_actor_id;
         ActorId killer = invalid_actor_id;
     };
+    // v21.8 es-passive: observer for the combat-result fan-out (original AISDefault::OnCombatResults, attacker receiver
+    // first, then target receiver). Called after a source hit was applied; outcomes & 3 != 0 means a miss.
+    using CombatResultObserver=std::function<void(ActorId attacker,ActorId target,std::uint32_t outcomes)>;
+    void set_combat_result_observer(CombatResultObserver observer);
     bool script_kill_actor(ActorId,std::string& error);
     bool script_kill_actor(ActorId victim,ActorId killer,std::string& error);
     const std::vector<ScriptKillRecordV1>& script_kill_records() const noexcept;

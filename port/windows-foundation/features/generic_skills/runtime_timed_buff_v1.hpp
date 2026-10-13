@@ -38,6 +38,11 @@ struct TimedBuffSpecV1 {
     // Permanent buff: no expiry timer (original CreateBuff with duration 0 -> PROPS_AddBuff starts no TMR). Ends only by
     // RemoveBuff. Used by the Celest faery passive (faerie_celest.luac CheckFaeries); skills keep positive durations.
     bool permanent = false;
+    // CreateBuff capacity (3rd argument; IDA CharProperties::PROPS_AddBuff a4). 1 = the Lua `false` (one instance per class),
+    // N = keep up to N instances of the class, 0 = unlimited (the Lua `true` and any value <= 0 map to 128 in the native).
+    // Admission when the class is full: an instance with strength <= the new strength is replaced (weakest first, then
+    // oldest; the tie-break beyond capacity 1 is an inference); otherwise the new buff is rejected and nothing changes.
+    std::uint32_t capacity = 1;
     std::string fx_set_name;      // optional EffectsTables set (AnimatedEffectTable name); presentation only
     std::string source;           // label for logs
 };
@@ -83,7 +88,7 @@ bool resolve_timed_buffs_v1(const dh2::data::PropertyRules&, dh2::data::Property
                             bool& changed, std::string& error);
 
 struct TimedBuffEventV1 {
-    enum class Kind : std::uint8_t { applied, replaced, removed, expired, reasserted, dropped } kind = Kind::applied;
+    enum class Kind : std::uint8_t { applied, replaced, removed, expired, reasserted, dropped, rejected } kind = Kind::applied;
     ActorId actor = invalid_actor_id;
     std::string class_name, source;
     std::uint32_t strength = 0;

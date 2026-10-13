@@ -98,6 +98,7 @@ struct CombatSession::Impl {
     std::map<ActorId,Entry> entries;
     std::vector<DamageEvent> events;
     std::vector<DamageEvent> pendingSourceHits;
+    CombatSession::CombatResultObserver combatResultObserver; // v21.8 es-passive
     struct SourceHitBatch {
         std::uint64_t generation=0;
         std::set<std::pair<ActorId,std::uint32_t>> delivered;
@@ -1869,8 +1870,13 @@ bool CombatSession::apply_source_result(const CombatSessionSourceHit& hit,
         const dh2::data::PropertySheet* slowSheet=hit.attacker_formula_sheet?hit.attacker_formula_sheet:(attackerProps?&attackerProps->sheets.resolved:nullptr);
         if(slowSheet)receipt.source_slow_duration_raw=(*slowSheet)[(result.original.mask&0x10000u)?189:146];
         s.pendingSourceHits.push_back(receipt);
+        // v21.8 es-passive: OnCombatResults fan-out for passive listeners (attacker receiver, then target receiver).
+        if(s.combatResultObserver)s.combatResultObserver(hit.attacker,hit.target,result.original.outcomes);
     }
     return applied;
+}
+void CombatSession::set_combat_result_observer(CombatResultObserver observer){
+    if(impl_)impl_->combatResultObserver=std::move(observer);
 }
 void CombatSession::clear_retained_frame_audio_observer(){if(impl_)impl_->retainedFrameAudioObserver={};}
 const std::vector<RetainedFrameAudioObserverDiagnostic>& CombatSession::retained_frame_audio_diagnostics()const noexcept{
