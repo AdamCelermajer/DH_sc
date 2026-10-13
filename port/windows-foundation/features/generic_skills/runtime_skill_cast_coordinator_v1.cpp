@@ -1,4 +1,5 @@
 #include "runtime_skill_cast_coordinator_v1.hpp"
+#include "runtime_skill_use_profile_knight_v1.hpp"
 #include "../faery_menu/faery_cast_sound_v1.hpp"
 #include "pc_cooldown_frame_v1.hpp"
 
@@ -122,7 +123,7 @@ bool source_supported_skill(const dh2::data::SkillTables::Borrow& tables,
     const auto& name = tables.skill_names()[std::size_t(table_id)];
     // Admission is by the exact SkillTable (name, script) pair of a row in
     // kRuntimeSkillUseProfilesV1, transcribed from the original skill Lua.
-    profile = find_skill_use_profile_v1(name, skill.script);
+    profile = find_skill_use_profile_registered_v1(name, skill.script);
     if (!profile) return false;
     token = profile->class_token;
     return true;
@@ -1175,6 +1176,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         double duration_ms = original_signed256(active.formula_sheet[176]); // CharacterProperties.SnS_Duration
         if (!(duration_ms > 0.0) || !std::isfinite(duration_ms))
             duration_ms = double(profile.buff->fallback_base_ms) + double(profile.buff->fallback_inc_ms) * double(rank);
+        // Paladin auras: CreateBuff(BUFF_ID, BUFF_TIME, ...) with the authored constant, not the projected duration.
+        if (profile.buff->fixed_duration_ms > 0.0f) duration_ms = double(profile.buff->fixed_duration_ms);
         TimedBuffSpecV1 spec;
         spec.class_name = profile.buff->buff_class;
         spec.fx_set_name = profile.buff->fx_set ? profile.buff->fx_set : "";
@@ -1198,6 +1201,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     // Legacy Character-only callers retain their exact target order.
     const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
     for (const auto target : ordered) {
+        // v21.8 skills-knight: rows with rolls_combat=false (auras, Warcry) run their Use without any SkillCombatRoll.
+        if (!profile.rolls_combat) break;
         if (session.world()->find_object(target)) {
             // Authored loops that guard SkillCombatRoll with IsCharacter() pop the object and skip it.
             if (!profile.rolls_objects) continue;
