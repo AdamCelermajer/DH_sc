@@ -4,13 +4,18 @@ Source contracts, a staging ledger, and per-scene reconstruction dossiers. Origi
 
 | Package | Work rows | Processed | States |
 | --- | --- | --- | --- |
-| A | 271 | 170 | {"DONE": 153, "NOT-NEEDED": 4, "TODO": 101, "UNRESOLVED": 13} |
+| A | 271 | 271 | {"DONE": 255, "NOT-NEEDED": 15, "TODO": 0, "UNRESOLVED": 1} |
 | B | 33378 | 33378 | {"NOT_NEEDED": 25169, "ORIGINAL_EXISTS_NOT_STAGED": 318, "RESOLVED_STAGED": 1344, "UNRESOLVED": 6547} |
-| C | 671 | 632 | {"DONE": 617, "NOT-NEEDED": 11, "TODO": 39, "UNRESOLVED": 4} |
+| C | 671 | 671 | {"DONE": 656, "NOT-NEEDED": 11, "UNRESOLVED": 4} |
 
 Processed includes explicit UNRESOLVED and NOT-NEEDED dispositions. TODO means investigation remains. Contract completion does not establish Windows gameplay parity.
 
 [Native contract index](natives/INDEX.md) · [Staging classifications and selections](staging/CLASSIFICATION-AND-SELECTIONS.md) · [Level dossiers](act2/dossier.md) · [Progress](PROGRESS-R2.md)
+
+| Unresolved native/helper | Reason |
+| --- | --- |
+| CF__CalcDodge | NOT-FOUND after exact Binder/string/symbol search; only a four-argument Lua reference retained. Nearby six-argument CF__CalcMissOrDodge has no proven alias/adapter; dodge result semantics/address remain unavailable, not inferred from push/stun chances. |
+
 
 Package B covers 33,378 act/reference pairs, 27,430 distinct source IDs, and 5,948 IDs shared across act labels. Typed non-file keys retain a staging-only disposition; their table/resource dependencies must still be followed.
 
@@ -62,22 +67,30 @@ The source-transition closure contains 39 scenes and 121 edges. It includes late
 
 | Highest-reaching blocker | Affected scenes |
 | --- | --- |
-| Windows_production_runtime_verification | 39 |
-| integrated_visual_runtime_verification | 39 |
-| native:AddToVFTable | 39 |
-| native:ClearTarget | 39 |
-| native:GetPyCst | 39 |
-| native:GetState | 39 |
-| native:MoveTo | 39 |
-| native:Stop | 39 |
-| package_A_native_contract_cross_join | 39 |
-| package_B_resource_staging_cross_join | 39 |
-| resource:loot | 39 |
-| native:HasMaster | 38 |
+| native:MoveTo:PARTIAL | 39 |
+| native:Stop:PARTIAL | 39 |
+| native:HasMaster:MISSING | 38 |
+| native:SetMaster:PARTIAL | 38 |
+| native:WarpBehind:PARTIAL | 38 |
+| native:Attack:PARTIAL | 37 |
+| native:GetHostPlayerLevel:PARTIAL | 37 |
+| native:ApplyBuff:REVIEW_REQUIRED | 31 |
+| native:CreateBuff:REVIEW_REQUIRED | 31 |
+| native:HasPath:PARTIAL | 31 |
+| native:RemoveBuff:REVIEW_REQUIRED | 31 |
+| native:EnableCollisions:MISSING | 30 |
 
 The conservative playable-support metric is {'denominator': 234, 'numerator': 0, 'percent': 0.0}. Its denominator counts required per-level capabilities. Zero verified support here means this static investigation supplied no integrated runtime/visual proof; it does not assert every existing port feature fails.
 
 [Coverage and denominator](act2/coverage.md) · [Implementation ranking](act2/blocker-reach.md) · [Scope expansions and retained frontier records](act2/scope-expansion.json)
+
+| Unresolved transition frontier | Reason |
+| --- | --- |
+| module_source_missing | gc02_corner_ws_01.mgp |
+| other_transition_mechanisms_not_closed | The scope follows authored TriggerZoneExitLevel.levelName values, direct and rule-candidate MGP includes, and serialized Script_ChangeLevel commands. Fast-travel menu membership, every Lua/native route, opaque rule conditions, and cross-platform differences are not yet proven closed. |
+| possible_ios_only_source_candidate | No exact case-insensitive match was found in the explicit Android, Android original-cache, or extracted iOS data roots. The packed iOS logical-path index has not yet been joined for this filename; membership and any exit declarations remain unknown. |
+| module_parse_failed | Current transition frontier remains unresolved; see scope-current.json. |
+
 
 ## Rebuild and verification
 

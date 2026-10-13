@@ -1411,6 +1411,667 @@
         }
       ],
       "unresolved_reasons": []
+    },
+    {
+      "name": "GetPyOID",
+      "status": "DONE",
+      "binding": {
+        "public_name": "GetPyOID",
+        "kind": "Function",
+        "handler": "LuaScript::_GetPyOID",
+        "registration_owner": "LuaScript::BindFunction",
+        "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037b5a0.c",
+        "line": 107
+      },
+      "signature": "void __fastcall LuaScript::_GetPyOID(         LuaScript *this,         const sfc::script::lua::Arguments *a2,         sfc::script::lua::ReturnValues *a3,         void *a4); Decompiled declaration; actual registered callback is void(const Arguments&, ReturnValues&, void* receiver). Decompiled this/a2/a3 identify args/returns/bound receiver. C return does not imply Lua output.",
+      "arguments": [
+        {
+          "index": 1,
+          "type": "Exact Lua string tag4",
+          "unit": "Namespace name",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f5fc.c",
+              "line": 20
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "type": "Exact Lua string tag4",
+          "unit": "Registered member/row name; no coercion or fixed-point conversion",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f5fc.c",
+              "line": 21
+            }
+          ]
+        }
+      ],
+      "behavior": [
+        {
+          "text": "GetPyOID and GetPyStruct both call global PyDataArrays::GetOID. Registry selects namespace callback; missing namespace returns -1. Registered Struct namespace callbacks return field indices; Array callbacks return row-name indices. The name GetPyStruct does not imply an object return.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f5fc.c",
+              "line": 41
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004b/004bd640.c",
+              "line": 13
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004b/004bd640.c",
+              "line": 15
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004a/004af110.c",
+              "line": 10
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0036/00364b80.c",
+              "line": 17
+            }
+          ]
+        },
+        {
+          "text": "AnimDict callback scans case-sensitive member names from row0; CharacterProperties scans 224 property descriptor names from index0; not-found returns -1.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0036/00364b80.c",
+              "line": 12
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004a/004af110.c",
+              "line": 7
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004a/004af110.c",
+              "line": 13
+            }
+          ]
+        }
+      ],
+      "gates": [
+        {
+          "text": "Missing required argument or non-string required value emits zero Lua values and skips the manager lookup.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f5fc.c",
+              "line": 20
+            }
+          ]
+        }
+      ],
+      "state_timers_events": [
+        {
+          "text": "This query emits an integer result; it does not set properties, start timers or raise game events.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f5fc.c",
+              "line": 42
+            }
+          ]
+        }
+      ],
+      "return": [
+        "One integer on an accepted lookup; zero results for a guard. Native pushInteger eventually projects signed32 to float32 Lua number."
+      ],
+      "port_status": "PORTED",
+      "port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "port_evidence": [
+        {
+          "source": "port/script-runtime/script_design_bindings.c",
+          "line": 20
+        },
+        {
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "line": 20
+        }
+      ],
+      "known_answers": [
+        {
+          "given": "GetPyOID(\"missing_namespace\",\"x\") against absent registry namespace",
+          "expected": "Returns one integer -1.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004b/004bd640.c",
+              "line": 13
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f5fc.c",
+              "line": 42
+            }
+          ]
+        },
+        {
+          "given": "AnimDict fixture row names [\"foo\",\"bar\"]; GetPyOID(\"AnimDict\",\"bar\")",
+          "expected": "Returns row index 1; array position is used, not an authored UID.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0036/00364b80.c",
+              "line": 17
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f5fc.c",
+              "line": 41
+            }
+          ]
+        },
+        {
+          "given": "GetPyOID(\"AnimDict\",4)",
+          "expected": "Zero Lua outputs; no lookup.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f5fc.c",
+              "line": 21
+            }
+          ]
+        }
+      ],
+      "unresolved_reasons": []
+    },
+    {
+      "name": "GetPyStruct",
+      "status": "DONE",
+      "binding": {
+        "public_name": "GetPyStruct",
+        "kind": "Function",
+        "handler": "LuaScript::_GetPyStruct",
+        "registration_owner": "LuaScript::BindFunction",
+        "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037b5a0.c",
+        "line": 102
+      },
+      "signature": "void __fastcall LuaScript::_GetPyStruct(         LuaScript *this,         const sfc::script::lua::Arguments *a2,         sfc::script::lua::ReturnValues *a3,         void *a4); Decompiled declaration; actual registered callback is void(const Arguments&, ReturnValues&, void* receiver). Decompiled this/a2/a3 identify args/returns/bound receiver. C return does not imply Lua output.",
+      "arguments": [
+        {
+          "index": 1,
+          "type": "Exact Lua string tag4",
+          "unit": "Namespace name",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f4a8.c",
+              "line": 20
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "type": "Exact Lua string tag4",
+          "unit": "Registered member/row name; no coercion or fixed-point conversion",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f4a8.c",
+              "line": 21
+            }
+          ]
+        }
+      ],
+      "behavior": [
+        {
+          "text": "GetPyOID and GetPyStruct both call global PyDataArrays::GetOID. Registry selects namespace callback; missing namespace returns -1. Registered Struct namespace callbacks return field indices; Array callbacks return row-name indices. The name GetPyStruct does not imply an object return.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f4a8.c",
+              "line": 41
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004b/004bd640.c",
+              "line": 13
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004b/004bd640.c",
+              "line": 15
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004a/004af110.c",
+              "line": 10
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0036/00364b80.c",
+              "line": 17
+            }
+          ]
+        },
+        {
+          "text": "AnimDict callback scans case-sensitive member names from row0; CharacterProperties scans 224 property descriptor names from index0; not-found returns -1.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0036/00364b80.c",
+              "line": 12
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004a/004af110.c",
+              "line": 7
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004a/004af110.c",
+              "line": 13
+            }
+          ]
+        }
+      ],
+      "gates": [
+        {
+          "text": "Missing required argument or non-string required value emits zero Lua values and skips the manager lookup.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f4a8.c",
+              "line": 20
+            }
+          ]
+        }
+      ],
+      "state_timers_events": [
+        {
+          "text": "This query emits an integer result; it does not set properties, start timers or raise game events.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f4a8.c",
+              "line": 42
+            }
+          ]
+        }
+      ],
+      "return": [
+        "One integer on an accepted lookup; zero results for a guard. Native pushInteger eventually projects signed32 to float32 Lua number."
+      ],
+      "port_status": "PORTED",
+      "port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "port_evidence": [
+        {
+          "source": "port/script-runtime/script_design_bindings.c",
+          "line": 20
+        },
+        {
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "line": 20
+        }
+      ],
+      "known_answers": [
+        {
+          "given": "GetPyStruct(\"missing_namespace\",\"x\") against absent registry namespace",
+          "expected": "Returns one integer -1.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004b/004bd640.c",
+              "line": 13
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f4a8.c",
+              "line": 42
+            }
+          ]
+        },
+        {
+          "given": "AnimDict fixture row names [\"foo\",\"bar\"]; GetPyStruct(\"AnimDict\",\"bar\")",
+          "expected": "Returns row index 1; array position is used, not an authored UID.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0036/00364b80.c",
+              "line": 17
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f4a8.c",
+              "line": 41
+            }
+          ]
+        },
+        {
+          "given": "GetPyStruct(\"AnimDict\",4)",
+          "expected": "Zero Lua outputs; no lookup.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f4a8.c",
+              "line": 21
+            }
+          ]
+        }
+      ],
+      "unresolved_reasons": []
+    },
+    {
+      "name": "GetPyCst",
+      "status": "DONE",
+      "binding": {
+        "public_name": "GetPyCst",
+        "kind": "Function",
+        "handler": "LuaScript::_GetPyCst",
+        "registration_owner": "LuaScript::BindFunction",
+        "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037b5a0.c",
+        "line": 97
+      },
+      "signature": "void __fastcall LuaScript::_GetPyCst(         LuaScript *this,         const sfc::script::lua::Arguments *a2,         sfc::script::lua::ReturnValues *a3,         void *a4); Decompiled declaration; actual registered callback is void(const Arguments&, ReturnValues&, void* receiver). Decompiled this/a2/a3 identify args/returns/bound receiver. C return does not imply Lua output.",
+      "arguments": [
+        {
+          "index": 1,
+          "type": "Exact Lua string tag4",
+          "unit": "Namespace name",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f354.c",
+              "line": 20
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "type": "Exact Lua string tag4",
+          "unit": "Registered member/row name; no coercion or fixed-point conversion",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f354.c",
+              "line": 21
+            }
+          ]
+        }
+      ],
+      "behavior": [
+        {
+          "text": "Queries global PyDataConstants manager: exact namespace tree then exact member tree. Missing namespace/member returns integer 0, indistinguishable from an authored zero.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f354.c",
+              "line": 41
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004c/004c4bdc.c",
+              "line": 17
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004c/004c4bdc.c",
+              "line": 25
+            }
+          ]
+        }
+      ],
+      "gates": [
+        {
+          "text": "Missing required argument or non-string required value emits zero Lua values and skips the manager lookup.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f354.c",
+              "line": 20
+            }
+          ]
+        }
+      ],
+      "state_timers_events": [
+        {
+          "text": "This query emits an integer result; it does not set properties, start timers or raise game events.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f354.c",
+              "line": 42
+            }
+          ]
+        }
+      ],
+      "return": [
+        "One integer on an accepted lookup; zero results for a guard. Native pushInteger eventually projects signed32 to float32 Lua number."
+      ],
+      "port_status": "PORTED",
+      "port_difference": "Frozen reusable callback and generic owner registration implement this source-facing wrapper; lookup provider must supply actual native registry/table semantics. No integrated runtime parity is claimed.",
+      "port_evidence": [
+        {
+          "source": "port/script-runtime/script_design_bindings.c",
+          "line": 20
+        },
+        {
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "line": 20
+        }
+      ],
+      "known_answers": [
+        {
+          "given": "GetPyCst(\"missing_namespace\",\"x\") against a registry without that namespace",
+          "expected": "Returns one integer 0, not zero Lua values.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004c/004c4bdc.c",
+              "line": 17
+            }
+          ]
+        },
+        {
+          "given": "Fixture namespace Proof stores value=512; GetPyCst(\"Proof\",\"value\")",
+          "expected": "Returns raw integer 512; no /256 conversion.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/004c/004c4bdc.c",
+              "line": 25
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f354.c",
+              "line": 42
+            }
+          ]
+        },
+        {
+          "given": "GetPyCst(4,\"value\")",
+          "expected": "Zero Lua outputs; no lookup.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037f354.c",
+              "line": 20
+            }
+          ]
+        }
+      ],
+      "unresolved_reasons": []
+    },
+    {
+      "name": "CallPyScript",
+      "status": "DONE",
+      "binding": {
+        "public_name": "CallPyScript",
+        "kind": "Function",
+        "handler": "LuaScript::_CallPyScript",
+        "registration_owner": "LuaScript::BindFunction",
+        "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037b5a0.c",
+        "line": 112
+      },
+      "signature": "int __fastcall LuaScript::_CallPyScript(         int this,         const sfc::script::lua::Arguments *a2,         sfc::script::lua::ReturnValues *a3,         void *a4); Decompiled declaration; actual registered callback is void(const Arguments&, ReturnValues&, void* receiver). Decompiled this/a2/a3 identify args/returns/bound receiver. C return does not imply Lua output.",
+      "arguments": [
+        {
+          "index": 1,
+          "type": "Exact Lua string tag4",
+          "unit": "Script bank name; case-insensitive ScriptManager lookup",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 15
+            }
+          ]
+        }
+      ],
+      "behavior": [
+        {
+          "text": "Gets first case-insensitive script-bank name match scanning all names from index0 (include global=1). Only ID != -1 and IsScriptRunning=false call StartScript(id,-1,0); this is a script-bank request, not an arbitrary .lua file include.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 19
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/004591f0.c",
+              "line": 16
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/004591f0.c",
+              "line": 13
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 25
+            }
+          ]
+        },
+        {
+          "text": "IsScriptRunning is state-word !=2. StartScript gates ID bounds and AllPlayersDead, allowing online with player count>1. With admitted offline startup it sets current module=-1, script cursor=0, state=0, increments active count. Online mode may send CMsgScriptCmd before local state setup; SkipAllScripts/debug tracing are queried.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/00455bec.c",
+              "line": 3
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 14
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 32
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 35
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 52
+            }
+          ]
+        }
+      ],
+      "gates": [
+        {
+          "text": "Missing required argument or non-string required value emits zero Lua values and skips the manager lookup.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 15
+            }
+          ]
+        },
+        {
+          "text": "A found already-running script is not restarted. Unknown name does not call StartScript. StartScript admission is additional to wrapper checks.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 21
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 24
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 12
+            }
+          ]
+        }
+      ],
+      "state_timers_events": [
+        {
+          "text": "No Lua result push or timer start. Admitted script manager startup changes script execution state and may send an online command as listed above.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 25
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 32
+            }
+          ]
+        }
+      ],
+      "return": [
+        "Zero Lua outputs; decompiled C integer is never pushed through ReturnValues."
+      ],
+      "port_status": "MISSING",
+      "port_difference": "GenericLuaScriptOwnerV13 contains descriptor0x37ef3c but no built-in switch implementation; it asks resolve_native or installs explicit required-backend failure. Exact address/name search in level-world/windows-foundation/level-loader found no production callback backend. An arbitrary Include substitute would not preserve script-bank execution gates.",
+      "port_evidence": [
+        {
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "line": 20
+        },
+        {
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "line": 111
+        },
+        {
+          "source": "port/level-world/generic_lua_script_owner_v13.cpp",
+          "line": 115
+        }
+      ],
+      "known_answers": [
+        {
+          "given": "Offline, live players, SkipAllScripts off; script Foo index3 state2; CallPyScript(\"fOo\")",
+          "expected": "Case-insensitive match3; cursor0/state0/module-1; active count increments once. No Lua outputs.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/004591f0.c",
+              "line": 16
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 25
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 35
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 52
+            }
+          ]
+        },
+        {
+          "given": "Foo already has state0; CallPyScript(\"Foo\")",
+          "expected": "No restart and no new active-count increment.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0045/00455bec.c",
+              "line": 3
+            },
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0037/0037ef3c.c",
+              "line": 24
+            }
+          ]
+        },
+        {
+          "given": "Offline AllPlayersDead=true; known stopped Foo; CallPyScript(\"Foo\")",
+          "expected": "StartScript admission fails; script state and active count unchanged.",
+          "confidence": "PROVEN",
+          "evidence": [
+            {
+              "source": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/0046/004605c0.c",
+              "line": 14
+            }
+          ]
+        }
+      ],
+      "unresolved_reasons": []
     }
   ]
 }

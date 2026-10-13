@@ -160,6 +160,9 @@ def check(ctx):
         if q.get('state') not in ('DONE','UNRESOLVED','NOT-NEEDED'):errors.append(f'Q{q.get("id")}: no terminal disposition')
         if not q.get('attempts'):errors.append(f'Q{q.get("id")}: missing investigation attempts')
         if not q.get('claims') or len(q.get('known_answers',[]))<2:errors.append(f'Q{q.get("id")}: answer/cases missing')
+        for case in q.get('known_answers',[]):
+            if not case.get('given') or not case.get('expected') or case.get('confidence') not in ('PROVEN','LIKELY','GUESS'):
+                errors.append(f'Q{q.get("id")}: malformed behavioral case')
         for c in q.get('claims',[]):
             if c.get('confidence') not in ('PROVEN','LIKELY','GUESS') or not c.get('evidence'):
                 errors.append(f'Q{q.get("id")}: claim confidence/evidence missing')

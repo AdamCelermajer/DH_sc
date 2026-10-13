@@ -1,0 +1,33 @@
+{
+  "rows": [
+    {
+      "call_sites": 69,
+      "name": "RegisterSkill",
+      "page": "RegisterSkill.md",
+      "scope": "Audited Lua helper dependency supplement, outside sealed 271 native rows.",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "call_sites": 10,
+      "name": "RegisterSkillEx",
+      "page": "RegisterSkillEx.md",
+      "scope": "Audited Lua helper dependency supplement, outside sealed 271 native rows.",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "call_sites": 33,
+      "name": "StartSkillTimerCB",
+      "page": "StartSkillTimerCB.md",
+      "scope": "Audited Lua helper dependency supplement, outside sealed 271 native rows.",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "call_sites": 15,
+      "name": "StealAIEvent",
+      "page": "StealAIEvent.md",
+      "scope": "Audited Lua helper dependency supplement, outside sealed 271 native rows.",
+      "status": "NOT-NEEDED"
+    }
+  ],
+  "schema": "atlas-r2-native-helper-supplement-v1"
+}

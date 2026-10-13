@@ -1,0 +1,92 @@
+{
+  "fixture_location": "ignored tools/atlas/.runtime scratch",
+  "passed": true,
+  "schema": "atlas-r2-checker-rejection-v1",
+  "source_mutation": false,
+  "tests": [
+    {
+      "errors": [],
+      "expected": "accept",
+      "name": "valid native package accepted",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "expected": "accept",
+      "name": "valid staging ledger accepted",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "expected": "accept",
+      "name": "valid seven answers accepted",
+      "passed": true
+    },
+    {
+      "errors": [
+        "contract page set incomplete or invalid: pages=270, scope=271"
+      ],
+      "expected": "reject",
+      "name": "missing native page rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "GetPyOID: DONE lacks two behavioral known answers"
+      ],
+      "expected": "reject",
+      "name": "DONE native without behavioral cases rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "duplicate path across selection files/groups: ('assets-extra/android/data', '3d/interface/marker_poisoned.bdae')",
+        "duplicate destination across selection files/groups: assets/data/3d/interface/marker_poisoned.bdae",
+        "preflight receipt selection hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json"
+      ],
+      "expected": "reject",
+      "name": "duplicate copy path across groups rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "classification coverage mismatch: rows=33377 scope=33378 progress=33378"
+      ],
+      "expected": "reject",
+      "name": "missing source-site classification rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "missing classification reason: ('act_1', '820f6d444319152af1f9')"
+      ],
+      "expected": "reject",
+      "name": "unresolved site without reason rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "Q1: source evidence drift: .local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003b/003b10b4.c"
+      ],
+      "expected": "reject",
+      "name": "stale original-source question evidence rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "Q1: malformed behavioral case"
+      ],
+      "expected": "reject",
+      "name": "empty expected result rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "initial dossier work row missing: 6b2f662bc32e54797884"
+      ],
+      "expected": "reject",
+      "name": "dropped initial dossier row rejected",
+      "passed": true
+    }
+  ]
+}

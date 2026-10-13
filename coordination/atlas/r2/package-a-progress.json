@@ -1,37 +1,2201 @@
 {
-  "contract_status": "Not started; awaiting root Step 0 release.",
+  "contract_status": "Source contracts generated; unknown behavior remains explicitly unresolved.",
   "counts": {
-    "act1_actor_assignment_rows": 23,
-    "act1_direct_lua_script_roots": 10,
-    "act1_entity_roots_unique": 23,
-    "act1_level_roots": 2,
-    "act1_lua_import_closure": 10,
-    "act1_module_script_references": 37,
-    "act1_module_script_refs_unmatched_to_lua": 37,
-    "all_lua_scripts_independently_scanned": 219,
-    "all_original_call_sites_in_rows": 6594,
-    "autoloaded_common_scripts": 2,
-    "distinct_native_rows": 271,
-    "player_skill_lua_scripts": 72,
-    "ranked_functions": 240,
-    "scoped_engine_native_candidate_sites": 2713,
-    "scoped_lua_helper_wrapper_sites": 619,
-    "scoped_source_call_sites": 3332,
-    "source_lua_scripts": 84
+    "body_found": 255,
+    "port_status": {
+      "MISSING": 55,
+      "NOT-APPLICABLE": 4,
+      "PARTIAL": 162,
+      "PORTED": 50
+    },
+    "registration_found": 255,
+    "rows": 271
   },
   "expected_contract_pages": 271,
   "package": "A-native-contract-specs",
-  "phase": "STEP0_SCOPE_ENUMERATION",
-  "processed": 0,
+  "page_manifest": [
+    {
+      "global_call_sites": 428,
+      "known_answers": 3,
+      "name": "GetPyOID",
+      "path": "r2/natives/GetPyOID.md",
+      "sha256": "17f7084d85eb0c4a34756af1d182ecf8ba5a2594d5d334fea3148cb3cc26b309",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 442,
+      "known_answers": 3,
+      "name": "GetPyStruct",
+      "path": "r2/natives/GetPyStruct.md",
+      "sha256": "50fb5ed112c6cbc0505e7212860a37dc52bc75867f6450c48be1386404b7747b",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 608,
+      "known_answers": 3,
+      "name": "GetPyCst",
+      "path": "r2/natives/GetPyCst.md",
+      "sha256": "cf92c6dc72cf2ac9e6bcd366173a424730e30b1343a45992c32babd128dc1568",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 233,
+      "known_answers": 2,
+      "name": "IsTargetListEmpty",
+      "path": "r2/natives/IsTargetListEmpty.md",
+      "sha256": "6cf3f60e2bcdcedd06b04f1dabeceaa686686f86198002d49a7c43c5b7055e98",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 157,
+      "known_answers": 3,
+      "name": "GetTargetListTop",
+      "path": "r2/natives/GetTargetListTop.md",
+      "sha256": "6eb093b420a9023cbc733429e92c82451037704dcc53a49bfba67ffd07003204",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 140,
+      "known_answers": 3,
+      "name": "TargetListSearch",
+      "path": "r2/natives/TargetListSearch.md",
+      "sha256": "777c13ae4db7deeb373569dd7b50068ea7e90dc57b531744f39cd66dcddbf994",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 130,
+      "known_answers": 3,
+      "name": "SetTargetListSorting",
+      "path": "r2/natives/SetTargetListSorting.md",
+      "sha256": "433c97e0943e13a88ee9cb982fbbc65a639ec78cd8c1e661f76ec68a06185543",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 128,
+      "known_answers": 2,
+      "name": "SetTargetListCharacterFilter",
+      "path": "r2/natives/SetTargetListCharacterFilter.md",
+      "sha256": "601fa628ea6aec8caf949c8cd42ab7bcfa3a2508bc9443141206a16337998a0a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 127,
+      "known_answers": 2,
+      "name": "SetTargetListObjectFilter",
+      "path": "r2/natives/SetTargetListObjectFilter.md",
+      "sha256": "6b0ce90bcee78e1f0366c0dc52d52709fd6dc9ce4ea95303a9ce82845de60a8c",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 106,
+      "known_answers": 3,
+      "name": "LookAt",
+      "path": "r2/natives/LookAt.md",
+      "sha256": "74742c7e345bdba1b8cdd9d72145b231d9ccde96754656c35187e0b21aadae9e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 725,
+      "known_answers": 2,
+      "name": "Trace",
+      "path": "r2/natives/Trace.md",
+      "sha256": "5ac226a650a8a164a5232584708fc7fa905f416ebb9e04a7e40e7d3a028de189",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 85,
+      "known_answers": 3,
+      "name": "ApplyPropClass",
+      "path": "r2/natives/ApplyPropClass.md",
+      "sha256": "5a3bde091ecbc29d399b85d2f2db7107675abc701b9e499dfb3f916717489959",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 83,
+      "known_answers": 2,
+      "name": "PopTargetList",
+      "path": "r2/natives/PopTargetList.md",
+      "sha256": "6986f4c9bdc4d3a3c2e629af8102fb9de112752bb67f4b66b7d70a9888b30cc2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 49,
+      "known_answers": 3,
+      "name": "Include",
+      "path": "r2/natives/Include.md",
+      "sha256": "d35560af1435832644743b0754bc1a7eaaeefce01403512d80225eab46fd6ba9",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 137,
+      "known_answers": 3,
+      "name": "SetProp",
+      "path": "r2/natives/SetProp.md",
+      "sha256": "315a23ae52dc23a3cb866e62050a1b22a9a4e5064a67f144c44826e56cbc2663",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 116,
+      "known_answers": 3,
+      "name": "DoSkill",
+      "path": "r2/natives/DoSkill.md",
+      "sha256": "5ef0c3da87bb7c169581c04ecf71a892df8a151cc8602562549312d23d0e3c44",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 68,
+      "known_answers": 3,
+      "name": "GetRand",
+      "path": "r2/natives/GetRand.md",
+      "sha256": "fce0c0c16f2f940d4c6097608bb173e50014e43edadc41de78817b16a2440a58",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 61,
+      "known_answers": 3,
+      "name": "MoveTo",
+      "path": "r2/natives/MoveTo.md",
+      "sha256": "ca61942ed967f3cc1ce75413daf9d1ec7085368df73c7e06e8baab8100d954ce",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 59,
+      "known_answers": 3,
+      "name": "Stop",
+      "path": "r2/natives/Stop.md",
+      "sha256": "344ac71bf8cefda5fa7d5f25c18b71304f8f5ebf1b1c3ef14442c11339a67c49",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 30,
+      "known_answers": 3,
+      "name": "AddAggro",
+      "path": "r2/natives/AddAggro.md",
+      "sha256": "d3d09fa05e0e7d237154abae0c5ad4ac4173dac9bc89cb6016fea8cb6949082d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 36,
+      "known_answers": 3,
+      "name": "PlayFX",
+      "path": "r2/natives/PlayFX.md",
+      "sha256": "15d924bf6cd07ebc48a44b5099696b35344676873035872f7124debab267ae45",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 30,
+      "known_answers": 3,
+      "name": "ClearAggro",
+      "path": "r2/natives/ClearAggro.md",
+      "sha256": "716d5bfb2eee490d8d66c5227f4192e041d2d67115842113b98bcc31c162e9f4",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 15,
+      "known_answers": 2,
+      "name": "GetHostPlayerDifficulty",
+      "path": "r2/natives/GetHostPlayerDifficulty.md",
+      "sha256": "3f94718c01394c05c6056d4bece91bf230fe1f83e587f0bbe513ecc7ff1c0232",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 17,
+      "known_answers": 3,
+      "name": "CallPyScript",
+      "path": "r2/natives/CallPyScript.md",
+      "sha256": "f56be4b7a1a6b1d65c2e800bcb8fef86a94aa98f3bd95fc136f1e70cc665d891",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 54,
+      "known_answers": 3,
+      "name": "ApplyBuff",
+      "path": "r2/natives/ApplyBuff.md",
+      "sha256": "505616ec273a8402c7476656ff0d28b8a88958b9fc5a71787a9f6582a5ae20f6",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 54,
+      "known_answers": 3,
+      "name": "CreateBuff",
+      "path": "r2/natives/CreateBuff.md",
+      "sha256": "0b358a77ea2164c5e8590d8483e2e5746d730a94f3709ce8405e0356ffc142ea",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 37,
+      "known_answers": 2,
+      "name": "GetSelf",
+      "path": "r2/natives/GetSelf.md",
+      "sha256": "1f2bf18db53d62571b0cdab2c19aff03b6ea723f2d3ecb036ffb015f69027599",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 25,
+      "known_answers": 3,
+      "name": "GetDistanceBetween",
+      "path": "r2/natives/GetDistanceBetween.md",
+      "sha256": "5d8df72a69cfedda2abafcbbc7dfbebafe3b6c5b8480c9cf2d75e7eaee032dd5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 15,
+      "known_answers": 2,
+      "name": "GetHostPlayerLevel",
+      "path": "r2/natives/GetHostPlayerLevel.md",
+      "sha256": "99d98218f1a2e2e18aeaeede42ae5a6fc65f43c495adbcf2dfee5b45404e7f9f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 14,
+      "known_answers": 3,
+      "name": "GetCurrentLevelRange",
+      "path": "r2/natives/GetCurrentLevelRange.md",
+      "sha256": "cdc8149cc86d39b93bcb23c688a9900c1aa30e1bd99781d817a73103c173ec98",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 20,
+      "known_answers": 3,
+      "name": "PlayMusic",
+      "path": "r2/natives/PlayMusic.md",
+      "sha256": "fc4ec0398a25266b50f69a67273d201d914b72ee739d9aea1fe4ba9e35500e4d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 41,
+      "known_answers": 3,
+      "name": "PlaySound",
+      "path": "r2/natives/PlaySound.md",
+      "sha256": "b0f34f76ea790373ff0bf0264ca7f1fc31aabe413d1323fce02f62359de890db",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 16,
+      "known_answers": 3,
+      "name": "GetPropHP",
+      "path": "r2/natives/GetPropHP.md",
+      "sha256": "f161174b5d0c246622e9cf1ff365b84b888af13069119e2129ef348d25daab8f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 31,
+      "known_answers": 3,
+      "name": "target:PlayFX",
+      "path": "r2/natives/target_PlayFX.md",
+      "sha256": "1acd16f1ba61ae163729f8dac54ff19d239eed35954fbb0a3621418a14e53f07",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 28,
+      "known_answers": 2,
+      "name": "target:GetName",
+      "path": "r2/natives/target_GetName.md",
+      "sha256": "b80c97f2aa6fefa4f2be9530d657392adfe8f822815ab9ae9f34e7d8f806c899",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 30,
+      "known_answers": 3,
+      "name": "Attack",
+      "path": "r2/natives/Attack.md",
+      "sha256": "12b5971b8ebbe353d59ac83f2c30cbb303b6d2f5f966814107c5155b3d07f6fe",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 14,
+      "known_answers": 3,
+      "name": "TargetListBackup",
+      "path": "r2/natives/TargetListBackup.md",
+      "sha256": "e6c3de7ee95090f992240910d9dfa607f787918b049d1f12a440bc492d281c38",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 64,
+      "known_answers": 3,
+      "name": "RemoveBuff",
+      "path": "r2/natives/RemoveBuff.md",
+      "sha256": "096a26e753b2eb3e1729d57ff1ff25e7ecfe19d01b424fd17d75efcea6aa9246",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 15,
+      "known_answers": 2,
+      "name": "GetCurrentSpellInfo",
+      "path": "r2/natives/GetCurrentSpellInfo.md",
+      "sha256": "dbce55e187f4631114153a15784276003037511bda8a50a1f6eb39ea887f91ea",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 21,
+      "known_answers": 3,
+      "name": "PlayAnim",
+      "path": "r2/natives/PlayAnim.md",
+      "sha256": "f25855691b4a82db1779c6dc3374a68f39e6514264dd21b1035827edbf672a3a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "MarkAsFlying",
+      "path": "r2/natives/MarkAsFlying.md",
+      "sha256": "b4f9e694f0632388eeb74a78e786d57dd0b2c13fb31fb6dfb90883ce205208b9",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 40,
+      "known_answers": 3,
+      "name": "HasMana",
+      "path": "r2/natives/HasMana.md",
+      "sha256": "3426761b95157cd2fdcb345f5b47ba3b8b426bc8a7f66c70e0e8351dc6632be8",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 40,
+      "known_answers": 3,
+      "name": "UseMana",
+      "path": "r2/natives/UseMana.md",
+      "sha256": "d7c8e2655348b2f6d95ed3f1ee86f2cc6846812ae2ec5f03eafebe7b9238818b",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 19,
+      "known_answers": 2,
+      "name": "GetName",
+      "path": "r2/natives/GetName.md",
+      "sha256": "4595a7ebfd4b2e65d5a494397d4dd2eaae7fdadf8f3a704181df539ab60ea60f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 32,
+      "known_answers": 2,
+      "name": "HasPath",
+      "path": "r2/natives/HasPath.md",
+      "sha256": "eab08da520af2224b7d088e1886ab3fb8ab52384793a995d97116656b5eec80d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 7,
+      "known_answers": 3,
+      "name": "Kill",
+      "path": "r2/natives/Kill.md",
+      "sha256": "03ecf66fda6a3fa26bc5664ada3e789e1ecc44dbae0cb29b11da94b46772ff17",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 6,
+      "known_answers": 2,
+      "name": "LookAtTarget",
+      "path": "r2/natives/LookAtTarget.md",
+      "sha256": "dc456534b7d6395dfccbecab3417b8c65682cf27d0bd5e434c3fd778de322ee8",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 9,
+      "known_answers": 2,
+      "name": "GetTargetListSize",
+      "path": "r2/natives/GetTargetListSize.md",
+      "sha256": "a792cbd3937d7ae5b1af1419315695510590420ab7632d29f7cad12187d3105d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 9,
+      "known_answers": 2,
+      "name": "target:IsCharacter",
+      "path": "r2/natives/target_IsCharacter.md",
+      "sha256": "704257303997a709eaaa9597873e74361deb7f2a3867fc546c2f151faf72df0f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 9,
+      "known_answers": 3,
+      "name": "target:IsPlayer",
+      "path": "r2/natives/target_IsPlayer.md",
+      "sha256": "df52e41f68d44f9d9a3d94eae468e18b7ab028b788ab1cc1af809df73841e408",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 10,
+      "known_answers": 2,
+      "name": "SetIsTargetable",
+      "path": "r2/natives/SetIsTargetable.md",
+      "sha256": "fb5f32ecb4eef835ee2ed60cce3c169f3a079fa62f45b5c05f05f456ad324686",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "SetActorPosition",
+      "path": "r2/natives/SetActorPosition.md",
+      "sha256": "396a1fe70dc4ae21cc256ec76f3b168c0e834e91795052934f3956b571504f67",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 15,
+      "known_answers": 3,
+      "name": "target:ApplyBuff",
+      "path": "r2/natives/target_ApplyBuff.md",
+      "sha256": "75e1665d2566707367e2a74422f4f64d3ed8f6331682c60b287edc50a7b26386",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 15,
+      "known_answers": 3,
+      "name": "target:CreateBuff",
+      "path": "r2/natives/target_CreateBuff.md",
+      "sha256": "8b5fe1786489d54c1c4069d59421b1e0bc10a50b16d6493b9ea750f215765f03",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 29,
+      "known_answers": 3,
+      "name": "Summon",
+      "path": "r2/natives/Summon.md",
+      "sha256": "8f887462ade72a66f3cc526a45360770098de6e81576b4faa6b6496d3704b796",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 8,
+      "known_answers": 3,
+      "name": "SetMaster",
+      "path": "r2/natives/SetMaster.md",
+      "sha256": "d17bd925e81777790afcc1132409eea79242dfa553909f225e3e7bf5515905e5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 9,
+      "known_answers": 2,
+      "name": "HasMaster",
+      "path": "r2/natives/HasMaster.md",
+      "sha256": "2d85922c7b758463412935dd421a2f291b0779f245980750965c9073be7e5c57",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "target:SetStunState",
+      "path": "r2/natives/target_SetStunState.md",
+      "sha256": "702f024e7dc2367894bd9aa95b8934967812573e16652669c25e904e5daa0d2a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "WarpBehind",
+      "path": "r2/natives/WarpBehind.md",
+      "sha256": "d0f7205dc686ce06009e3955cb8bd576bf2e8c3875ecffb0eb2965952db5be42",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 2,
+      "name": "SetIsActorTargetable",
+      "path": "r2/natives/SetIsActorTargetable.md",
+      "sha256": "f82d3cbcc41bda3cd43435bee8ddd664af201923b3ca5fb2e1402822f457e149",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "target:GetPropHP",
+      "path": "r2/natives/target_GetPropHP.md",
+      "sha256": "baa1a0cc19a464c6d9732482f9f6a6d70b16b62479f8f025b8590d0fc673adb7",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "SummonTimerTrap",
+      "path": "r2/natives/SummonTimerTrap.md",
+      "sha256": "7689b06f0ea34495c0cc8b177aa3fa5c9ca61cc77609aafed48c664df82aa498",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "RegisterSummon",
+      "path": "r2/natives/RegisterSummon.md",
+      "sha256": "cc7e4669dea4a37e19fd6e847f69e56e1d7ec6c2b6bdba5273549a5508d89c57",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "friend:GetName",
+      "path": "r2/natives/friend_GetName.md",
+      "sha256": "827d475b8c67873b582c3de2c49a7894ab0df1435bb7b067381f42f1782ad5c8",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "g_master:GetName",
+      "path": "r2/natives/g_master_GetName.md",
+      "sha256": "acb74ebb4249d66bfe1a640766fd0b57e90bf3b2916c4c5c4d78b004b7e71e35",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "g_target:GetName",
+      "path": "r2/natives/g_target_GetName.md",
+      "sha256": "414b175d62e6b9a11724b167c3b348874d8d5177fd29cd8efaff1fc3cf0ae793",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "obj:GetPropHP",
+      "path": "r2/natives/obj_GetPropHP.md",
+      "sha256": "3c7a30f35800fb701704e6190fdeab3645a383f17285665e538d4a77985a91cc",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "target:GetMaster",
+      "path": "r2/natives/target_GetMaster.md",
+      "sha256": "cb69ed46cb887288dc21094149b320e2d9aee1f04b8783074189f5feaf71592e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "target:HasMaster",
+      "path": "r2/natives/target_HasMaster.md",
+      "sha256": "98cc4a588c6b07d5178bb8c1acbfdb0da537043a08b7cf10cf920a84a272d609",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 14,
+      "known_answers": 3,
+      "name": "WarpTo",
+      "path": "r2/natives/WarpTo.md",
+      "sha256": "51c29b095805749c30c21d5f9751c613a4ff58d32439d936f79431d199e24d67",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "attacker:TargetInMeleeRange",
+      "path": "r2/natives/attacker_TargetInMeleeRange.md",
+      "sha256": "40b804b0d375fde0d95ec09a21c75ec9629caeccb5bd65914f64ac0fc71438a7",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 2,
+      "name": "CanAttackFromRange",
+      "path": "r2/natives/CanAttackFromRange.md",
+      "sha256": "03856c4bd3055698e40346c9d8aa0c8beb12a1e7c7add77919db6437b9fb33a9",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 2,
+      "name": "CanAttackInMelee",
+      "path": "r2/natives/CanAttackInMelee.md",
+      "sha256": "e359fcc4bed67baabf6ddd6a1c21c0066390ed716a76337e2b9c81e17d94bf0c",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "GetGameObjectsByType",
+      "path": "r2/natives/GetGameObjectsByType.md",
+      "sha256": "1fcd5d908c183b4d75b7098948dc6d78c471364d80ba323cde4e957edb2275cb",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "obj:GetName",
+      "path": "r2/natives/obj_GetName.md",
+      "sha256": "fc9c74457880d90164d0b719450d109985cb6698127a1a2d39cd566f1b205776",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "object:GetName",
+      "path": "r2/natives/object_GetName.md",
+      "sha256": "00bbaa9496920e8b1a2ee6a81a0ad23eebad91d02b052e74e8c5065c5f5cc8e0",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "DealDamages",
+      "path": "r2/natives/DealDamages.md",
+      "sha256": "8e67d7d21897f43fb2e5176bebd714385fd7a413f4740214a1eaf81d000e64d0",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "attacker:ApplyBuff",
+      "path": "r2/natives/attacker_ApplyBuff.md",
+      "sha256": "70e25baef23259320380df698cb7414b2a4d38b718c1159deb848c0a96704537",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "attacker:CreateBuff",
+      "path": "r2/natives/attacker_CreateBuff.md",
+      "sha256": "f820e6bce5bcd9b35c210bce466e0e0b48068ce2dfa17fb5b5b9406bceda2c6a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "myTarget:IsPlayer",
+      "path": "r2/natives/myTarget_IsPlayer.md",
+      "sha256": "3e0e575a478e57594e2bc2ba11b18ac1e6de3480e563d48e23c89d4e4d409ee2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "objspawns:GetName",
+      "path": "r2/natives/objspawns_GetName.md",
+      "sha256": "491025b6334ee32001b77cf68090f2b881ccfc1686d3906cd5842fa81e3fa2b2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "object:PlayFX",
+      "path": "r2/natives/object_PlayFX.md",
+      "sha256": "49dd79da06834e94cbc6f46e61d66e9cf6f8f40a054d0f6b698a8bb59b94838c",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "attackedObject:GetName",
+      "path": "r2/natives/attackedObject_GetName.md",
+      "sha256": "86af8220100d21caaf905b77b43b4c4a2c968b309429deaa699f4f1c22b888bb",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "invisible_man:WarpTo",
+      "path": "r2/natives/invisible_man_WarpTo.md",
+      "sha256": "581c00740b70d0ccc99989ac0fd5faccf4c69e260eb74bfeb20d577ae8df753b",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "ChangeAIState",
+      "path": "r2/natives/ChangeAIState.md",
+      "sha256": "4877334f93f26f46dd4390037ee8fc42e433eb8193f62f0eff8294f2cee51454",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "RegisterAIState",
+      "path": "r2/natives/RegisterAIState.md",
+      "sha256": "b749ff5d4fe81faf21a76f6f95fcac18534eb501892e9eba586335846658d5e1",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "RegisterActorAnim",
+      "path": "r2/natives/RegisterActorAnim.md",
+      "sha256": "2c3dcb60a98450c77fe996a91dbefade94d31b469ed25fd1dcb975213dcdbeea",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "Remove",
+      "path": "r2/natives/Remove.md",
+      "sha256": "611feb75669ae73e82f977f28dd7886f32500d004d91a343c11ba5796dc15e39",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "invisible_man:PlayFX",
+      "path": "r2/natives/invisible_man_PlayFX.md",
+      "sha256": "ec5b2e1a36fd3a10001e78288b5b4010e90c92a48cb08715395b44f2f8f9cc91",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:EnableCollisions",
+      "path": "r2/natives/target_EnableCollisions.md",
+      "sha256": "8432b6f085f2079a3f66930bfa696135f9f3d910eeea5302ac3edb9e6ead0f96",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:HeadTo",
+      "path": "r2/natives/target_HeadTo.md",
+      "sha256": "a2e0b0b601dee750c9343fb8b0ddda11e0d5f217b3562a7022e79240d84ded33",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:Kill",
+      "path": "r2/natives/target_Kill.md",
+      "sha256": "41f118689ad7261fc58b493d81867f0901a5a12de7b61b09208b20ba4d054c8a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:PlayActorAnim",
+      "path": "r2/natives/target_PlayActorAnim.md",
+      "sha256": "77344af2a1e535f943671948c0d4fa05ebccc4f7c9e4aa1c222ac619f1d07238",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:SetProp",
+      "path": "r2/natives/target_SetProp.md",
+      "sha256": "dab82686e3661ddc420f61616ee59b99d502a36ba95f307c004835fb0a90e8cd",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:TargetListSearch",
+      "path": "r2/natives/target_TargetListSearch.md",
+      "sha256": "db7b87758ebee700611af5199262279df3de93564a71fbcf062f7f28935796ec",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:WarpTo",
+      "path": "r2/natives/target_WarpTo.md",
+      "sha256": "796d8f288e75df62ce45138ff1526233957eaef8c76b347c53ae5505eb16b0cd",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 8,
+      "known_answers": 3,
+      "name": "HasBow",
+      "path": "r2/natives/HasBow.md",
+      "sha256": "8e9d6d9456cb9d361f3e5fc338565dc6ff899f37e95e227f0dcac317994fb0b0",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 16,
+      "known_answers": 3,
+      "name": "PlaySound3D",
+      "path": "r2/natives/PlaySound3D.md",
+      "sha256": "c09641c6c3ee7fa5f53d950da581eaa29515a20b9d2cd2a0718b89c3b74cba3a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 15,
+      "known_answers": 3,
+      "name": "SpellCombatRoll",
+      "path": "r2/natives/SpellCombatRoll.md",
+      "sha256": "63d2cb433cff18c2c6552849550d2926bd5c164b14a26bdd1b823dbf2939a9b3",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 7,
+      "known_answers": 3,
+      "name": "SetBuffProp",
+      "path": "r2/natives/SetBuffProp.md",
+      "sha256": "36de500f8128d56fb61f19f26b1b30494d41515d6e20bd407a98b865c3c21c21",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "GetInt",
+      "path": "r2/natives/GetInt.md",
+      "sha256": "ee8a2095be03d7d80dacd58ef5a1c70f682d708af56bf4c030be3df0e59be1f5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "actor:PlayFX",
+      "path": "r2/natives/actor_PlayFX.md",
+      "sha256": "f92c400ccf8feaaf4f3f3a2dc252b1bf0746991522cfd4e4ee23cbfbb78b4a49",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 18,
+      "known_answers": 3,
+      "name": "SetInt",
+      "path": "r2/natives/SetInt.md",
+      "sha256": "a76b5635241436c1ceb1eaa94d1070a558810e5aadceca4b4dd8473678d170f1",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 7,
+      "known_answers": 3,
+      "name": "Flee",
+      "path": "r2/natives/Flee.md",
+      "sha256": "938633c1013c3767b26cf9bf46d6eb02ec4c927b883cff19d14fe283156a9fcc",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 6,
+      "known_answers": 3,
+      "name": "ClearProps",
+      "path": "r2/natives/ClearProps.md",
+      "sha256": "47b15dc24affd9bf32cb59c99b330c96a1156e83ff01483182fe6afa53692a72",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "EnableCollisions",
+      "path": "r2/natives/EnableCollisions.md",
+      "sha256": "095302b3abba0f8db5d6b4f086c6566b58d6c3642e30dd53ffaa86d0dcbe22e5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "actor:ApplyBuff",
+      "path": "r2/natives/actor_ApplyBuff.md",
+      "sha256": "c74c05669b7ff9e4006851cb40ceb366e6844ef302f4c18fda868bc3359b2573",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "actor:CreateBuff",
+      "path": "r2/natives/actor_CreateBuff.md",
+      "sha256": "a4a8136415238db37e140f61af866a2a151c5c8eca3346b45e45c826c22b88ac",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "GetHP",
+      "path": "r2/natives/GetHP.md",
+      "sha256": "20d02064ccb8c0df03579ad7e8e8df19e251a376890e7f939a226abcd3e84104",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "HeadTo",
+      "path": "r2/natives/HeadTo.md",
+      "sha256": "ee4654502222b1b206f3c07c2c3ff9588fb27abe799604f884d4b4159abc9269",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "target:SetKnockBackState",
+      "path": "r2/natives/target_SetKnockBackState.md",
+      "sha256": "0fed8e678bd8d3cf79a3154d07f5f332379a8abdaae9ae4f9d7218dee9f85f69",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "defender:IsDead",
+      "path": "r2/natives/defender_IsDead.md",
+      "sha256": "524f274a1a147b82a4d84692fae0cac1ea4b1ce0077aae29096fbf852ebcf7e9",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "monster:IsDead",
+      "path": "r2/natives/monster_IsDead.md",
+      "sha256": "d4afc35643a9764a32dca8261d5a381e07e5d84e7ac00de6929229e38331d017",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "monster:Kill",
+      "path": "r2/natives/monster_Kill.md",
+      "sha256": "dccc2326c5cd2701c22b2463619ff6526250ed40f39ba06bd3177213991d03f9",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "player:GetName",
+      "path": "r2/natives/player_GetName.md",
+      "sha256": "7eb74aea6e269293fb1a7b3d3086a2bcb988da3f6faab0a4a13d0dde072d057b",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 6,
+      "known_answers": 3,
+      "name": "GetEquippedFaeryElement",
+      "path": "r2/natives/GetEquippedFaeryElement.md",
+      "sha256": "b3bbc24249ad57aba9ebc20230049a3502fa4a1eec3d8ba5a25e1c395dc8874e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "GetHostPlayer",
+      "path": "r2/natives/GetHostPlayer.md",
+      "sha256": "7c3786b269597c0d7c2b103a9a7cee0d2a604a0367bd96688bfbb1425e4f8717",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "SetProjectileTarget",
+      "path": "r2/natives/SetProjectileTarget.md",
+      "sha256": "dfa0ec70d7ea7390e966230d035c02cb19bbbab7a8bf57422b5116fe90a8d469",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "attacker:Stop",
+      "path": "r2/natives/attacker_Stop.md",
+      "sha256": "61cff4a4a4d30e5418c395093cb0785c276b7369a56aefdf9b97ee7dd33add51",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "defender:GetName",
+      "path": "r2/natives/defender_GetName.md",
+      "sha256": "4a7666b18c8c74f7159215e787cc9883e0f575a3c7566fda0601dac2af4ecc9d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "target:IsDoor",
+      "path": "r2/natives/target_IsDoor.md",
+      "sha256": "ac41aa24d81a0713ec4f7ac8dc3f25e85a4aca481c74595329db2a671f858de5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "attacker:SetKnockBackState",
+      "path": "r2/natives/attacker_SetKnockBackState.md",
+      "sha256": "2adf88063e17b4d431898f02895f259d2258332df2af01c80805bb3acd2e1f2f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "attacker:SetStunState",
+      "path": "r2/natives/attacker_SetStunState.md",
+      "sha256": "cca0e1b1d458845a6b001c2641ba1209f74f473f3def5e1f4838dcb8d7e58e7f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "defender:ApplyBuff",
+      "path": "r2/natives/defender_ApplyBuff.md",
+      "sha256": "527cfc2efba4f32b3e59488be4549ca2614a4c9a218cac2bb9e2bf7c77337184",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "defender:CreateBuff",
+      "path": "r2/natives/defender_CreateBuff.md",
+      "sha256": "1635c4496148d7343b889caa8f0fa934e43da9aae20197d94e5e4ae08cf64030",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "object:IsDead",
+      "path": "r2/natives/object_IsDead.md",
+      "sha256": "e5333b0c1736c7bfe1647d0e4d5b9fd3f939ee30f8a11b712ad195feadbbcaac",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "target:IsDead",
+      "path": "r2/natives/target_IsDead.md",
+      "sha256": "1e09632c254698493358838dda34151e00bda101fc8383c255f76c4d01af4bce",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "wave.precb",
+      "path": "r2/natives/wave.precb.md",
+      "sha256": "ef429578c918fccfc1a7679a3a8668d7a14c7c1d71452e72b9a9bef75f1c1bf2",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 2,
+      "name": "GetCurrentEquippedFaeryLevel",
+      "path": "r2/natives/GetCurrentEquippedFaeryLevel.md",
+      "sha256": "3c5ba4a19f26152d56b38be3756512268d3831fd881b3a78da9ee7a531a46690",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 2,
+      "name": "GetMaster",
+      "path": "r2/natives/GetMaster.md",
+      "sha256": "d59faed8198884cc02008bb7a54e1d7f659cc8bc25f5c46eecf49d5e5ea08da0",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 3,
+      "name": "Rand",
+      "path": "r2/natives/Rand.md",
+      "sha256": "72e87593b0674626d15fb33692ef236e912f417a3fe030eb9a8c90a1f83b4b9e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 2,
+      "name": "KillRemainingMonsters",
+      "path": "r2/natives/KillRemainingMonsters.md",
+      "sha256": "89bfcfc31dab229a30e57810c5492c0b2bca0deb7e54189d91042bdac1abe2ca",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 2,
+      "name": "attacker:GetName",
+      "path": "r2/natives/attacker_GetName.md",
+      "sha256": "3ae1cfb26fdaa976845ff6c819060f03bdd73abff887a886e5157c72f22eaa84",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "GetObjectByName",
+      "path": "r2/natives/GetObjectByName.md",
+      "sha256": "97734857f383d3a337ff39f6f7cfbc0ae9b28299838936eff934d65f704ffcb9",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "item:ApplyBuff",
+      "path": "r2/natives/item_ApplyBuff.md",
+      "sha256": "665e512f5ca1f9b7be17d473eab10045315bd493ff2180c4cfb92491f5b041a4",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "item:CreateBuff",
+      "path": "r2/natives/item_CreateBuff.md",
+      "sha256": "21d944fca22e89859b63c252131a474e849b084971d433760c31643708cf6196",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "item:GetName",
+      "path": "r2/natives/item_GetName.md",
+      "sha256": "7edb4a5a457b6bce2e7ad945adc927051ea99278683e2826bdd3b9564b792788",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "target:GetCharAIFlags",
+      "path": "r2/natives/target_GetCharAIFlags.md",
+      "sha256": "e1044d2abe6ca9e076fd8e82e09cc432276c6cf3c5dd16b70acd84c0344c5309",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 3,
+      "name": "target:SetScareState",
+      "path": "r2/natives/target_SetScareState.md",
+      "sha256": "d404710b98e957c858b8f07e7bb1f09a267ec9a5cede2234e51647519ef60193",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "GetNumPlayers",
+      "path": "r2/natives/GetNumPlayers.md",
+      "sha256": "6ae3acd5dcab720c32e8961bc2f33b7803e928ab5055c95b71babf78916982ce",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "HasShield",
+      "path": "r2/natives/HasShield.md",
+      "sha256": "7fcd7d7655a5a7e6f1d44c91596b0c29d0ce1f0a487b12239123dce135e120b0",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "SetSkillCooldownTimerId__",
+      "path": "r2/natives/SetSkillCooldownTimerId__.md",
+      "sha256": "aa269bda408300e1d86c67b1c81de239a071302353fcd14de70a874bd1f1db03",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "SetSpellCooldownTimerId__",
+      "path": "r2/natives/SetSpellCooldownTimerId__.md",
+      "sha256": "6100c065ded116f8c31f453df81fd43cd34635c0c33fa295079109ae810401ba",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "attacker:SetProp",
+      "path": "r2/natives/attacker_SetProp.md",
+      "sha256": "8b0865e854e378827a46d43ab0f94c4a26f0dd353a5ad3527ff282e16b35b26f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "hasReachDestination",
+      "path": "r2/natives/hasReachDestination.md",
+      "sha256": "50919afde2047f91814626a386e2891ec82ec87da0f66a4e495c3cf3056b3214",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "monster:MoveTo",
+      "path": "r2/natives/monster_MoveTo.md",
+      "sha256": "e213bb788db344ca0419974746003322fe01cfb9f2c1eb0e54fe15d8c14669dd",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "monster:UNLOCK",
+      "path": "r2/natives/monster_UNLOCK.md",
+      "sha256": "c6c2e9bc6b76139f459c0c376652f43996eb90ff93e78a53beda1b54a4174007",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "mothSlot1:UNLOCK",
+      "path": "r2/natives/mothSlot1_UNLOCK.md",
+      "sha256": "dfeeb3e67f255f625a7e15d0a2a1fb25ee194b7f741be57dae54bd227f53eca2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "mothSlot2:UNLOCK",
+      "path": "r2/natives/mothSlot2_UNLOCK.md",
+      "sha256": "9e8ef930a13169988edb89c7dadf1fe6de94af08bd4501acf826166f17c15193",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "mothSlot3:UNLOCK",
+      "path": "r2/natives/mothSlot3_UNLOCK.md",
+      "sha256": "e19de420fa615c72e0ffc9783db0c8f0444dc96be5ee2f747c801bf96125a992",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "mothSlot4:UNLOCK",
+      "path": "r2/natives/mothSlot4_UNLOCK.md",
+      "sha256": "30c8f1b322d3cac15c52b4c0e2f9c7db7183e36095bb978069a20756c3661474",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "oldTarget:GetName",
+      "path": "r2/natives/oldTarget_GetName.md",
+      "sha256": "b3f9ec2a57c676bc5f00e4811dfffc50ae7ab64b5655cfb5d88b92497d6421a6",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "player:WarpTo",
+      "path": "r2/natives/player_WarpTo.md",
+      "sha256": "3799628fdccb082d4529a669d703d0e147d48f8f1805952e4fafec346e414199",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 0,
+      "name": "refData.callback",
+      "path": "r2/natives/refData.callback.md",
+      "sha256": "ffd0a02deb8c6cd223fa13f107071c6bc0e6129186319ef623de482cc5f611f3",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "target:SetBuffProp",
+      "path": "r2/natives/target_SetBuffProp.md",
+      "sha256": "fe10da8631d333640daf3bf3872b96c9c66637f98d9aaca122ecbbd4bb73c3d1",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "victim:LOCK",
+      "path": "r2/natives/victim_LOCK.md",
+      "sha256": "dadf63d87a9cfc7e4ad12de3e7762ab5eab983460a7bbd6b456863cf7eb2638b",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 3,
+      "known_answers": 2,
+      "name": "AddPlayer",
+      "path": "r2/natives/AddPlayer.md",
+      "sha256": "a84a83650868c3788de9b4e659890d20beb37fc1330a6d5b99c25624d9443c7a",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 0,
+      "name": "CF__CalcDodge",
+      "path": "r2/natives/CF__CalcDodge.md",
+      "sha256": "41b5965a52a1af7113bc84ede17c18bd6d5c852d6368a8e92f13b9e6d6985512",
+      "status": "UNRESOLVED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "GetCurrentSkillInfo__",
+      "path": "r2/natives/GetCurrentSkillInfo__.md",
+      "sha256": "d8bc70e6a828593d54a99d1635c11f06a0eb89512b3e95c273c98d6f4dc83f50",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "InitPathingLocations",
+      "path": "r2/natives/InitPathingLocations.md",
+      "sha256": "3638cb0a08611e99d6a739f46c9e0bd66b427dfb34fc3ebde993557b813a2b9a",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "IsMasterHostPlayer",
+      "path": "r2/natives/IsMasterHostPlayer.md",
+      "sha256": "56b112194b5c6d45f97ecc6e7a4fc9da609eeed1fb14fe1256f740bcd699631d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "PlayActorAnim",
+      "path": "r2/natives/PlayActorAnim.md",
+      "sha256": "fd77f60faf8a1655d952ff7ab7295ce69985816dd52f55095a755c6a3edbc81f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "RegenHP",
+      "path": "r2/natives/RegenHP.md",
+      "sha256": "3e6620b6455f14ddc8d2e1241c6f32d1b006487ec8e6e4c67c0ebd7363a77241",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "SLOT1_ITEM:GetName",
+      "path": "r2/natives/SLOT1_ITEM_GetName.md",
+      "sha256": "9c99da3809fe64380cc13bd739507dc73c45413cc3642825d3e9adbf5dba46e8",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "SLOT2_ITEM:GetName",
+      "path": "r2/natives/SLOT2_ITEM_GetName.md",
+      "sha256": "173865e7c2ef08cf8c1193074e619d9f8f79247df3232a3d603224546e3f31e8",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "SLOT3_ITEM:GetName",
+      "path": "r2/natives/SLOT3_ITEM_GetName.md",
+      "sha256": "b38c1b26ca2b3587ded88a939030f3bd813a4578bb70267db537c94093d173ae",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "SetGameType",
+      "path": "r2/natives/SetGameType.md",
+      "sha256": "311e5cfe8ce8b553d87ccef87468fe4fa44df74a153ddf64ebffa8c3b0433d99",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "SetMaxPath",
+      "path": "r2/natives/SetMaxPath.md",
+      "sha256": "5ed768ea0c214a39d5dd3f4aca19760aa2e73d5e56f11a169bfa41aeca2969e1",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "SkillCombatRoll__",
+      "path": "r2/natives/SkillCombatRoll__.md",
+      "sha256": "2f4e624ede42a9c33b3273db112acfc33b34a74d5efcb0dfac231f01fef4a4c0",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "SpawnSkillProjectile__",
+      "path": "r2/natives/SpawnSkillProjectile__.md",
+      "sha256": "10809507fae63f144dff577c5fe942ec59464cb2ecad73a3aeeb5cc756a4fada",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "StopSkill__",
+      "path": "r2/natives/StopSkill__.md",
+      "sha256": "4411317066cb828cccb695d8edb5252862ceb6cc8f25101bf11c968c36c97f3b",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "TargetInMeleeRange",
+      "path": "r2/natives/TargetInMeleeRange.md",
+      "sha256": "9b9f689592edb2331b3fcfa030f1235e0f3e7651929a7dd8cb2b514132608b5e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "UpdatePlayerPosition",
+      "path": "r2/natives/UpdatePlayerPosition.md",
+      "sha256": "26df745aa07407442dc8fe0b153027af0c39cea66530f259dc676df7bc23666f",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 2,
+      "name": "UpdatePlayers",
+      "path": "r2/natives/UpdatePlayers.md",
+      "sha256": "9984b5b277a2b67a434339bb4e4b6186ed564d610cc47c8fc74171d10064102f",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "actor:RegenHP",
+      "path": "r2/natives/actor_RegenHP.md",
+      "sha256": "79e42276e78fe3279ea9fcb359c764bdc4347d1e2c699a860f62d4fd55029890",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "actor:RegenMP",
+      "path": "r2/natives/actor_RegenMP.md",
+      "sha256": "c594183dba7496462f5c8cece02dcbab30b2f1c63736f8b1875b4fc2ba74ef91",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "attackTarget:GetName",
+      "path": "r2/natives/attackTarget_GetName.md",
+      "sha256": "14a5e0ff48d2910d64932c3bf4e22ae6056dcd7eb0654039235f4367c01cd9be",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "attackTarget:LOCK",
+      "path": "r2/natives/attackTarget_LOCK.md",
+      "sha256": "ce6bfa7bf2faed4220b83abe7526ad5a12b5d42bc2fb56af63f4991ca0a3f09a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "attacker:ApplyPropClass",
+      "path": "r2/natives/attacker_ApplyPropClass.md",
+      "sha256": "b83828e3bdbd566457d3c840ee296ba682ffc1ca1683081c61e889ddcfdf8181",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "attacker:GetAttackRatingBonus",
+      "path": "r2/natives/attacker_GetAttackRatingBonus.md",
+      "sha256": "f5c6cd3cf0a99a1d113da31624865fa6b37c1ab9520b2d7fd6681f424c7136b2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "attacker:GetDamageBonus",
+      "path": "r2/natives/attacker_GetDamageBonus.md",
+      "sha256": "75e5e0bccbf927b23ae0bde099e368bde824a990518c00cb24984040440d7943",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "attacker:GetHP",
+      "path": "r2/natives/attacker_GetHP.md",
+      "sha256": "86ab6b5c3bb70e757453f3008817400bce082e0ad48dc778376e58676774585e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "attacker:GetHitCount",
+      "path": "r2/natives/attacker_GetHitCount.md",
+      "sha256": "b237c5608cb94130d5c808f9670e38f394d75a99e7a5072ae25ebd3c8afcdef4",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "attacker:Kill",
+      "path": "r2/natives/attacker_Kill.md",
+      "sha256": "81cf48925b4c0504b5d6d09b134b8c239eb7056bb9fa788a7ec70f0ea4f6b9d8",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 0,
+      "name": "cb_info.callback",
+      "path": "r2/natives/cb_info.callback.md",
+      "sha256": "919b8b65b8e99af2b44573b217e605971165e627afbcf9fd35b807c994432686",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "defender:GetHP",
+      "path": "r2/natives/defender_GetHP.md",
+      "sha256": "99d2f2a34c0ceff4fd16156c97a5099f7199028366b5f5397b71c9ced510869c",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "defender:HasShield",
+      "path": "r2/natives/defender_HasShield.md",
+      "sha256": "83c7e31816256dc158c4489ca74fbb1ab566716f9d6980858b1b0768ac6acabc",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "defender:IsCharacter",
+      "path": "r2/natives/defender_IsCharacter.md",
+      "sha256": "84e1c819834d1b90d8723bd36ef9e20da5acc74c13342ba27d6a156367a7aaa3",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "defender:RemoveBuff",
+      "path": "r2/natives/defender_RemoveBuff.md",
+      "sha256": "61fe57afd548637963b59b2e9fb94d7b7d284014972321d7eb523db35dc12c0d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "defender:SetIsTargetable",
+      "path": "r2/natives/defender_SetIsTargetable.md",
+      "sha256": "8ab9ac0d2878b9b5f9f07794b55d23939b6a4ed6df048e81a6082a56448cb34e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "defender:Stop",
+      "path": "r2/natives/defender_Stop.md",
+      "sha256": "4af4c6daa847167f053fae59f233f2b25cf7e7f68b9379683ab46e675d415c37",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 0,
+      "name": "fdata.func",
+      "path": "r2/natives/fdata.func.md",
+      "sha256": "5a04efe893c6d6c51bead0222f475ef2d6f9e70132f0ddbfc557976445bc5053",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "firstTarget:GetName",
+      "path": "r2/natives/firstTarget_GetName.md",
+      "sha256": "664e6ec4b4d28ccf33e565174aab98f7d607f53785fd75678e8872f84abae5cc",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "firstTarget:PlayFX",
+      "path": "r2/natives/firstTarget_PlayFX.md",
+      "sha256": "db04dafcaf7847f99c9eff91bea94f1d843e7bcf344a8ac9aa4ede0655a5424a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "goToNextDestination",
+      "path": "r2/natives/goToNextDestination.md",
+      "sha256": "824ba97c3fb80bdcc2dd5fb49c118264e4be42b05e4f60fffa925abaa8c7b566",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "hellhole:GetHP",
+      "path": "r2/natives/hellhole_GetHP.md",
+      "sha256": "30feeaa2fd5b9b1ff3b8666bab854b3139280cc1e51c18cd01f0b4811dd99638",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "hellhole:IsDead",
+      "path": "r2/natives/hellhole_IsDead.md",
+      "sha256": "343e97582bef5e85cae7e5857a32346b6156548f9d814588ac1fb649feed2d57",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "monster:GetName",
+      "path": "r2/natives/monster_GetName.md",
+      "sha256": "1ab44994c6879b9a830de17699beb09d3f21829199aaf146538b2905bca259d5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "mothSlot1:IsDead",
+      "path": "r2/natives/mothSlot1_IsDead.md",
+      "sha256": "1a5b359491d9b306d7b84e08e27577e777c69f8beb174c36412eb324f27e5b77",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "mothSlot1:Kill",
+      "path": "r2/natives/mothSlot1_Kill.md",
+      "sha256": "29279d967ae6bce1ab3f9029127795c27bbff1fdd227e6b5a6fe59ec94a3c6b2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "mothSlot1:LOCK",
+      "path": "r2/natives/mothSlot1_LOCK.md",
+      "sha256": "20da4041e84884fbd747ca2b456e5b55bebf536a929b6722a4e7c909b52a4b1d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "mothSlot2:IsDead",
+      "path": "r2/natives/mothSlot2_IsDead.md",
+      "sha256": "74f1b9f7ba4a787f507d98560fb6487b27b865dbc65a8ba6fe929ba1f71ae344",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "mothSlot2:Kill",
+      "path": "r2/natives/mothSlot2_Kill.md",
+      "sha256": "aac24ebbcd3ca065aa04cdc92dca3db79429917e4042fe9b784f067c95bbb106",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "mothSlot2:LOCK",
+      "path": "r2/natives/mothSlot2_LOCK.md",
+      "sha256": "3e2d313dfe72ad6e18204a1b39056f3af56bae533684d054feb256d9e6907ab5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "mothSlot3:IsDead",
+      "path": "r2/natives/mothSlot3_IsDead.md",
+      "sha256": "6d867f7d36698b9c7581d1904b27a92f29fbabf32f3dcd48ed453232f899554d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "mothSlot3:Kill",
+      "path": "r2/natives/mothSlot3_Kill.md",
+      "sha256": "8969087e5aa02f212ac5924e67ae83de06d327106f04fc3c22f7483a86eda565",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "mothSlot3:LOCK",
+      "path": "r2/natives/mothSlot3_LOCK.md",
+      "sha256": "552a7b20d8c67faac2e9d8981c690257f4a3d5faf6271203b72d0b399965cb68",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "mothSlot4:IsDead",
+      "path": "r2/natives/mothSlot4_IsDead.md",
+      "sha256": "edddcdf433085a928cebe2ef656deb95ec27a9ec77c7f7adbc2c889e223f6126",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "mothSlot4:Kill",
+      "path": "r2/natives/mothSlot4_Kill.md",
+      "sha256": "40c2a193eb3ca7cc614365bbef648a95f74672ab27ef49641a6b0d29197d7cb1",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "mothSlot4:LOCK",
+      "path": "r2/natives/mothSlot4_LOCK.md",
+      "sha256": "5e75cf597c2741ff051e2803e67c157a6b20d7439d2e35090a7340dae4730250",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "object:ApplyBuff",
+      "path": "r2/natives/object_ApplyBuff.md",
+      "sha256": "cee6cfd7ab42e622bd3f5bc3b9bbd0ca4948e21a657050fd08803f5d62342167",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "object:CreateBuff",
+      "path": "r2/natives/object_CreateBuff.md",
+      "sha256": "0bd0f6f55a01687b36634f100e308f7f3faa623c020fb01e3ae5473126196936",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "object:IsConnected",
+      "path": "r2/natives/object_IsConnected.md",
+      "sha256": "50dff92cdb5a3ad5221efe33fbcd4f827ac237e0a377af34f001f05d00710db2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "objpath:GetName",
+      "path": "r2/natives/objpath_GetName.md",
+      "sha256": "bc3ca74a5e892a3c86f9d8edc8bed54ffe62fd56134cad92b50f57f834ced4b3",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "playAlarmAnimation",
+      "path": "r2/natives/playAlarmAnimation.md",
+      "sha256": "0c143c35849828411b461fa8bfc47d1ec7f911e675cc18a85f19093eb6442193",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "player:GetHP",
+      "path": "r2/natives/player_GetHP.md",
+      "sha256": "3a7405471d2efbc4df1ae872c0142aa45621afeaa693230b4d77e5076c980857",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "player:IsConnected",
+      "path": "r2/natives/player_IsConnected.md",
+      "sha256": "6d4d588727b6f668eb245e04efbce31e513be4d29484e51f7f8f5e398444fb5c",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "player:IsDead",
+      "path": "r2/natives/player_IsDead.md",
+      "sha256": "8809cd69bb0282c643413e7ceecf65a41763044feab4d214412050ded3701f0f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "player:Kill",
+      "path": "r2/natives/player_Kill.md",
+      "sha256": "904d6abb257512421a4c78610ecee1cbc0741c316d388ff76fad94b32169c059",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "player:RemoveBuff",
+      "path": "r2/natives/player_RemoveBuff.md",
+      "sha256": "167aae9d2cca726108c37574c331b8e3fddac15546767fd8f13c93a56bd9e05b",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "secondTarget:GetName",
+      "path": "r2/natives/secondTarget_GetName.md",
+      "sha256": "1f7aa1578a504fdd2007495f5c820fd9130372cb1be1b6839dfc5c03ba081a71",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "startDebuffTimer",
+      "path": "r2/natives/startDebuffTimer.md",
+      "sha256": "399cf023a03e5f1fcc14fb134121e63ddd2d6b6fd1e4b4125b4f6fe55a9493c0",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "statue:SetMaster",
+      "path": "r2/natives/statue_SetMaster.md",
+      "sha256": "0e1e5e7d912488fdfd1a77dd171625c233404dc9e53014d5badc25a922153198",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "statue:SetProp",
+      "path": "r2/natives/statue_SetProp.md",
+      "sha256": "759408e899b3e4346a246e0dd491817e067fb0c6a29351318721c0a1f32f508b",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "statueDummy:GetHP",
+      "path": "r2/natives/statueDummy_GetHP.md",
+      "sha256": "1d7f802e4b800a1e1fa0d81974398144b7409900cea73d2a91aa521cbb98a757",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "statueDummy:Kill",
+      "path": "r2/natives/statueDummy_Kill.md",
+      "sha256": "967fa01e1a65200991e496be9e3ded6b53e4c3eaf12bc855b2957f0a328d8041",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:AddAggro",
+      "path": "r2/natives/target_AddAggro.md",
+      "sha256": "5d6c5f3879ee4701c8aa825300e8a932733b2b3d9690ea3693ba9e1069b4fc56",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:ClearAggro",
+      "path": "r2/natives/target_ClearAggro.md",
+      "sha256": "ee6d1306b15c6891026fdfbaec744e1347086eba1a64fd22fe9c6a231ffda8f4",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "target:IsDecor",
+      "path": "r2/natives/target_IsDecor.md",
+      "sha256": "4297f58230c86bbfb2d47510cf69d5dde5c4ff43b38e8feacef18872d6aa2269",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:RegenHP",
+      "path": "r2/natives/target_RegenHP.md",
+      "sha256": "b3ab56a7782cc5707f816199048cd9576b91735a42e36ef361833f3b3137ae80",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "target:RegenMP",
+      "path": "r2/natives/target_RegenMP.md",
+      "sha256": "f0a06e2c970a9a89fc61b6ab96bed2739cce70421219cdf709bcb66967d1db2f",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "target:SetIsTargetable",
+      "path": "r2/natives/target_SetIsTargetable.md",
+      "sha256": "5cc881974fcd51a5406f41261cc01e804af390efcf99f31cb171c4ffe1c8d95e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 0,
+      "name": "tcallback.mycallback",
+      "path": "r2/natives/tcallback.mycallback.md",
+      "sha256": "0ec77c656c14f0faeffbefa5e014ec3c65a1d009849da019efcc88e8e765c4d3",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "thisTarget:GetName",
+      "path": "r2/natives/thisTarget_GetName.md",
+      "sha256": "9095bc10a99fab6186c7c8e42dc1e3c2e895e183f401e005c1264274ffd7107e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "v:ApplyBuff",
+      "path": "r2/natives/v_ApplyBuff.md",
+      "sha256": "ce6450d2c355253e9fbebd26e4a2199e7a2edb12a5a108ada31dd262796cf3bb",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "v:CreateBuff",
+      "path": "r2/natives/v_CreateBuff.md",
+      "sha256": "9c1c3718b70390f4196c7961a74416c68a3b3ae462f202843571cc000adb3cc3",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "victim:GetName",
+      "path": "r2/natives/victim_GetName.md",
+      "sha256": "3ab45f53c1883d2af59f85b5aa9ffa59b42b2911febf39b7302dddca23cba884",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "victim:IsCharacter",
+      "path": "r2/natives/victim_IsCharacter.md",
+      "sha256": "b45460fc32ffb3397e6f2f07ebc7b90287e7865827e670243732c56003054670",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 3,
+      "name": "victim:PlayFX",
+      "path": "r2/natives/victim_PlayFX.md",
+      "sha256": "4848d5a4c5f4a7647ede08c78f2097942843e223ad6b167fd626db9982e1e512",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "wave.postcb",
+      "path": "r2/natives/wave.postcb.md",
+      "sha256": "bd26ce83b6ad005977fee7c7c0e93ee46e7ca85035ca3db4db2c9dc1c3e03c1e",
+      "status": "NOT-NEEDED"
+    },
+    {
+      "global_call_sites": 256,
+      "known_answers": 3,
+      "name": "AddToVFTable",
+      "path": "r2/natives/AddToVFTable.md",
+      "sha256": "6e31755ce177d75f23a50ae63617e14ee090dcc5eee4548c0789c54b33665222",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "BitAnd",
+      "path": "r2/natives/BitAnd.md",
+      "sha256": "f5fd207f42ddeb0700db1808039518ba8234c0e932b3c12021da8a86c4d1d9ed",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 73,
+      "known_answers": 2,
+      "name": "ClearTarget",
+      "path": "r2/natives/ClearTarget.md",
+      "sha256": "04f2dedb1ddf9935ede95587d8d9b37ab36603fcb62e3b95e73cdcc5b77c5cc9",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 215,
+      "known_answers": 3,
+      "name": "FromFixed",
+      "path": "r2/natives/FromFixed.md",
+      "sha256": "44b9478776d7a1d346b9bd41df566cc01846148527934a105b412ea62e1ca4f5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 17,
+      "known_answers": 2,
+      "name": "GetID",
+      "path": "r2/natives/GetID.md",
+      "sha256": "6bf7cd5ad32b5a052abd17c7c0b8780d5bc7796b3c013a1a63d758d3882404e1",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 16,
+      "known_answers": 2,
+      "name": "GetPosition",
+      "path": "r2/natives/GetPosition.md",
+      "sha256": "01f63c868fc01a6f84ac105109cd8beb42ef200c0e389cac90eb2068a7ba98c3",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 195,
+      "known_answers": 3,
+      "name": "GetProp",
+      "path": "r2/natives/GetProp.md",
+      "sha256": "5d2b9dba6c5c6893af665a32f7391229a7685b53b7c5a25ed699cb8e7c5751e1",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 42,
+      "known_answers": 2,
+      "name": "GetState",
+      "path": "r2/natives/GetState.md",
+      "sha256": "3cb8db77e21b8fff029d50db7fa9488d6fbd29b7cc1182dbf4e1337a14e06895",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "GetStateTime",
+      "path": "r2/natives/GetStateTime.md",
+      "sha256": "2ad483cbbdc66fd8a7d7211351ec7cd89965ed9692d314754d154012972b6cc4",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 99,
+      "known_answers": 2,
+      "name": "GetTarget",
+      "path": "r2/natives/GetTarget.md",
+      "sha256": "b296a6001e7029b28c0ca73468f7a47855bd87dbbf461442edf4afee12239631",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 57,
+      "known_answers": 2,
+      "name": "HasTarget",
+      "path": "r2/natives/HasTarget.md",
+      "sha256": "5bf7ebd931137a69d04eab118d725029147b156d1ba7ef947eb8c83090e22bd5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 29,
+      "known_answers": 3,
+      "name": "RegisterAnim",
+      "path": "r2/natives/RegisterAnim.md",
+      "sha256": "52543727e80b00ed6a2401b766e6bb2d90b7b343546d9420cb2ccdd8e041891d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 16,
+      "known_answers": 3,
+      "name": "SetLevel",
+      "path": "r2/natives/SetLevel.md",
+      "sha256": "8e52eea08650f84d32bf180f2ed490e87ddc62eccc2da055bba8d6b73c1bc643",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 38,
+      "known_answers": 3,
+      "name": "SetTarget",
+      "path": "r2/natives/SetTarget.md",
+      "sha256": "78957e8bb872f18bba6a9a63f6314bf19cf763c2a553c40feec1246072788544",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 9,
+      "known_answers": 3,
+      "name": "StartTimer",
+      "path": "r2/natives/StartTimer.md",
+      "sha256": "50bbb789c69b90582aef28f43be8001401da47934a66ca5d611e37f8bc1026d2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "StopSound",
+      "path": "r2/natives/StopSound.md",
+      "sha256": "8de65acffb91a68cc50664b377d91d6dbe9f2187988c56c165783942e741c3ce",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 3,
+      "name": "StopTimer",
+      "path": "r2/natives/StopTimer.md",
+      "sha256": "7f065415230de99930cb396ab4ab9e45c9c46bd6760205107bc9828bc52a926e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 221,
+      "known_answers": 3,
+      "name": "ToFixed",
+      "path": "r2/natives/ToFixed.md",
+      "sha256": "425b52792b03562b8f41365beb9f3408b445fe257176c4e5eebbad624abc0594",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "aoe_target:GetID",
+      "path": "r2/natives/aoe_target_GetID.md",
+      "sha256": "174bd8b7540513e144cf6967502803d26f18e01802f2a6022cf882fc5f2ac7d5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 8,
+      "known_answers": 2,
+      "name": "attacker:GetID",
+      "path": "r2/natives/attacker_GetID.md",
+      "sha256": "36c2b08b27f0efc15ac4553eac678fd242ed82441c7f5263dc0dd0e05183c4ac",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 58,
+      "known_answers": 3,
+      "name": "attacker:GetProp",
+      "path": "r2/natives/attacker_GetProp.md",
+      "sha256": "6282f42a1295ba1875350d3897da52bbd5eca8e7b9e2d35f9937289eb8a2e2b0",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 10,
+      "known_answers": 2,
+      "name": "defender:GetID",
+      "path": "r2/natives/defender_GetID.md",
+      "sha256": "3a73861dc7498ecb5224327419c0e1991971f63f08bfc047e129c03fadecdee0",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 10,
+      "known_answers": 2,
+      "name": "hack:GetPosition",
+      "path": "r2/natives/hack_GetPosition.md",
+      "sha256": "f34dda3a29d66e51f5049edfcc04e731ed89438ec8773668f9ac7c756ee4b43d",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "hack_self:GetPosition",
+      "path": "r2/natives/hack_self_GetPosition.md",
+      "sha256": "43be95295620edf9e1ab8bba9851270a0c35f72ebc0e71c6a3824fdd115a87de",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 7,
+      "known_answers": 2,
+      "name": "object:GetID",
+      "path": "r2/natives/object_GetID.md",
+      "sha256": "c69f1ca999014b22ff099d8ed454be86a5a4840c68243e684bff9bd94278b77a",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 6,
+      "known_answers": 2,
+      "name": "object:GetState",
+      "path": "r2/natives/object_GetState.md",
+      "sha256": "007246db5f07106d327c164c4afd48a7e586515994858cb9b51fff6d52bc5de2",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 2,
+      "name": "target:GetID",
+      "path": "r2/natives/target_GetID.md",
+      "sha256": "bada7c1dd61804bbf6dc84ce6977638921c3583f4fcc7838922fb17bb07cc4c5",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 2,
+      "known_answers": 2,
+      "name": "target:GetPosition",
+      "path": "r2/natives/target_GetPosition.md",
+      "sha256": "ef936b8a780cd70c7814a6886b0d0633a0bee85250d52fa1b3d758ae78aede3e",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 4,
+      "known_answers": 3,
+      "name": "target:GetProp",
+      "path": "r2/natives/target_GetProp.md",
+      "sha256": "5628038bcf37c07b917c2a90cbc6cb4013373dce59275cab16da23658da5b882",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 1,
+      "known_answers": 2,
+      "name": "target:GetState",
+      "path": "r2/natives/target_GetState.md",
+      "sha256": "33b3a61d39efd9799a96dc05a7bca1d12da29c3d9787f63a2a9a006094024fa8",
+      "status": "DONE"
+    },
+    {
+      "global_call_sites": 5,
+      "known_answers": 2,
+      "name": "victim:GetID",
+      "path": "r2/natives/victim_GetID.md",
+      "sha256": "284e4c9f44d40980ad6809ea320404bf464ddfacb568dd59d6eefc41131f9cee",
+      "status": "DONE"
+    }
+  ],
+  "phase": "CONTRACT_SPEC_GENERATION",
+  "processed": 271,
   "schema": "atlas-r2-package-progress-v1",
   "scope_files": [
-    "r2/natives/scope.json"
+    "r2/natives/scope.json",
+    "r2/natives/scope-refined.json",
+    "r2/natives/INDEX.md"
   ],
   "status_counts": {
-    "DONE": 0,
-    "NOT-NEEDED": 0,
-    "TODO": 271,
-    "UNRESOLVED": 0
+    "DONE": 255,
+    "NOT-NEEDED": 15,
+    "TODO": 0,
+    "UNRESOLVED": 1
   },
   "total": 271
 }

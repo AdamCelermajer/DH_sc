@@ -75,6 +75,8 @@ def progress(ctx, phase='ENUMERATING'):
     return result
 
 def size_recommendation(ctx):
+    baseline=ctx.out/'r2/tracked-size-baseline.json'
+    existing=read_json(baseline,{})
     tracked = subprocess.run(['git','ls-files','coordination/atlas'],cwd=ctx.root,
                              capture_output=True,text=True,check=True).stdout.splitlines()
     large = []
@@ -84,7 +86,10 @@ def size_recommendation(ctx):
             large.append({'path':rel,'bytes':p.stat().st_size,
                           'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
     large.sort(key=lambda r:(-r['bytes'],r['path']))
-    write_json(ctx.out/'r2/tracked-size-baseline.json',{'limit_bytes':MAX_GENERATED_BYTES,'oversized_round1_files':large})
+    if existing.get('oversized_round1_files'):
+        large=existing['oversized_round1_files']
+    else:
+        write_json(baseline,{'limit_bytes':MAX_GENERATED_BYTES,'oversized_round1_files':large})
     text = ['# Generated-file tracking recommendation','',
             'Preserve the existing round-1 files for this round. A later repository cleanup should stop tracking the regenerable files below, keep source generators and compact checks/manifests, and use ignored runtime output or release artifacts for full snapshots.',
             '',markdown_table(['Existing generated file','Bytes','Action'],[[r['path'],r['bytes'],'Untrack in a separate reviewed cleanup; regenerate locally'] for r in large]),
@@ -129,9 +134,11 @@ def retention_check(ctx):
     for row in initial['B']:
         if (row['act'],row['reference_id']) not in b:
             errors.append('initial reference missing: '+row['act']+'/'+row['reference_id'])
-    c={(r.get('row_type'),r.get('id')):r for r in current['C'].get('rows',[])}
+    def c_key(row):return (row.get('row_type'),row.get('id'),row.get('label'))
+    c={c_key(r):r for r in current['C'].get('rows',[])}
+    if len(c)!=len(current['C'].get('rows',[])):errors.append('duplicate dossier work identity')
     for row in initial['C']:
-        if (row.get('row_type'),row.get('id')) not in c:
+        if c_key(row) not in c:
             errors.append('initial dossier work row missing: '+str(row.get('id')))
     for row in c.values():
         if row.get('state') in ('NOT-NEEDED','UNRESOLVED') and not (row.get('reason') or row.get('resolution_reason')):
@@ -142,6 +149,50 @@ def retention_check(ctx):
         if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=row['sha256']:
             errors.append('old oversized generated file changed: '+row['path'])
     return {'name':'immutable initial identities and unchanged round-1 oversized files','passed':not errors,'errors':errors}
+
+def semantic_contract_check(ctx):
+    """Reject successful-looking inventories without audited behavior cases."""
+    errors=[]
+    p=package_progress(ctx,'A')
+    refined=read_json(ctx.out/'r2/natives/scope-refined.json',{})
+    byname={r.get('name'):r for r in refined.get('rows',[])}
+    from r2_native_contracts import QUESTION_MAP
+    line_counts={}
+    def evidence(item,name):
+        path=item.get('source') or item.get('path')
+        line=item.get('line')
+        if not path or not isinstance(line,int):
+            errors.append(name+': incomplete evidence path/line');return
+        file=ctx.inputs/path[len('.local-inputs/'):] if path.startswith('.local-inputs/') else ctx.root/path
+        if path not in line_counts:
+            line_counts[path]=sum(1 for _ in file.open(encoding='utf-8',errors='replace')) if file.is_file() else 0
+        if not 1<=line<=line_counts[path]:errors.append(name+': missing/out-of-range evidence '+path+':'+str(line))
+    def walk(value,name):
+        if isinstance(value,dict):
+            if ('source' in value or 'path' in value) and 'line' in value:evidence(value,name)
+            for child in value.values():walk(child,name)
+        elif isinstance(value,list):
+            for child in value:walk(child,name)
+    for row in p.get('page_manifest',[]):
+        name=row['name'];manual=byname.get(name,{}).get('manual_contract') or {}
+        walk(manual,name)
+        if row.get('status')=='UNRESOLVED' and not manual.get('unresolved_reasons'):
+            errors.append(name+': unresolved name lacks a curated trace and specific source-gap reason')
+        if row.get('status')=='DONE':
+            if row.get('known_answers',0)<2:errors.append(name+': DONE lacks two behavioral known answers')
+            page=ctx.out/row['path']
+            text=page.read_text(encoding='utf-8') if page.is_file() else ''
+            if not any(s in text for s in ('C handler signature:','C signature:','Recovered declaration:','Lua helper signature:')):
+                errors.append(name+': DONE lacks explicit C signature or source helper classification')
+            base=name.split(':')[-1].split('.')[-1]
+            has_question=any(base in names for names in QUESTION_MAP.values())
+            if not manual and not has_question:
+                errors.append(name+': DONE has no semantic contract or applicable source question')
+        if manual.get('status')=='DONE':
+            for case in manual.get('known_answers',[]):
+                if not case.get('given') or not case.get('expected') or not case.get('evidence') or case.get('confidence')!='PROVEN':
+                    errors.append(name+': malformed behavioral known-answer case')
+    return {'name':'semantic native cases and exact source evidence locations','passed':not errors,'errors':errors}
 
 def report(ctx):
     root=ctx.out/'r2'
@@ -160,6 +211,14 @@ def report(ctx):
         for row in read_json(ctx.out/rel,{}).get('rows',[]):
             if row.get('classification') in ('UNRESOLVED','AMBIGUOUS','ABSENT_ALL_CORPORA','PORT_RULE_ABSENT'):
                 gap_counts[row.get('reason_code') or row.get('reason') or 'unspecified']+=1
+    native_gaps=[]
+    refined=read_json(root/'natives/scope-refined.json',{})
+    states={r['name']:r['status'] for r in packages['A'].get('page_manifest',[])}
+    for row in refined.get('rows',[]):
+        if states.get(row['name'])=='UNRESOLVED':
+            manual=row.get('manual_contract') or {}
+            reasons=manual.get('unresolved_reasons') or ['Registration/wrapper target remains unproven; see the individual spec and attempted traces.']
+            native_gaps.append([row['name'],'; '.join(map(str,reasons))])
     questions=read_json(root/'questions.json',{}).get('questions',[])
     coverage=read_json(root/'act2/coverage.json',{}).get('counts',{})
     blockers=read_json(root/'act2/blocker-reach.json',{}).get('blockers',[])[:12]
@@ -168,6 +227,7 @@ def report(ctx):
           '',markdown_table(['Package','Work rows','Processed','States'],rows),
           'Processed includes explicit UNRESOLVED and NOT-NEEDED dispositions. TODO means investigation remains. Contract completion does not establish Windows gameplay parity.',
           '', '[Native contract index](natives/INDEX.md) · [Staging classifications and selections](staging/CLASSIFICATION-AND-SELECTIONS.md) · [Level dossiers](act2/dossier.md) · [Progress](PROGRESS-R2.md)',
+          '',markdown_table(['Unresolved native/helper','Reason'],native_gaps) if native_gaps else 'No unresolved native/helper contracts are recorded.',
           '',f'Package B covers {b.get("act_reference_pairs",0):,} act/reference pairs, {b.get("unique_reference_sites",0):,} distinct source IDs, and {b.get("shared_reference_sites_across_acts",0):,} IDs shared across act labels. Typed non-file keys retain a staging-only disposition; their table/resource dependencies must still be followed.',
           '',markdown_table(['Act label','Before source unresolved','After source unresolved','Ready reference pairs','Already staged pairs'],
              [[act,metrics.get('before_source_unresolved_by_act',{}).get(act,0),metrics.get('after_source_unresolved_by_act',{}).get(act,0),metrics.get('staging_ready_by_act',{}).get(act,0),metrics.get('already_staged_by_act',{}).get(act,0)] for act in ('act_1','act_2_inferred')]),
@@ -185,6 +245,7 @@ def report(ctx):
              '',markdown_table(['Highest-reaching blocker','Affected scenes'],[[r.get('blocker'),r.get('blocked_scene_count')] for r in blockers]),
              'The conservative playable-support metric is '+str(coverage.get('verified_playable_fraction',{}))+'. Its denominator counts required per-level capabilities. Zero verified support here means this static investigation supplied no integrated runtime/visual proof; it does not assert every existing port feature fails.',
              '', '[Coverage and denominator](act2/coverage.md) · [Implementation ranking](act2/blocker-reach.md) · [Scope expansions and retained frontier records](act2/scope-expansion.json)',
+             '', markdown_table(['Unresolved transition frontier','Reason'],[[r.get('label'),r.get('reason') or r.get('resolution_reason')] for r in packages['C'].get('rows',[]) if r.get('state')=='UNRESOLVED']),
              '', '## Rebuild and verification','',
              'Run `./tools/atlas/regen.ps1 --round2` from the atlas2 worktree. It rebuilds source indexes in ignored scratch storage, then regenerates round-2 artifacts. Run `./tools/atlas/atlas.ps1 check --round2` for scope, contract, classification, staging, evidence and original known-answer checks. A remaining TODO makes the final check fail.',
              '', '[Check receipt](check.json) · [Immutable initial scope](STEP0.json) · [Tracked-file-size recommendation](TRACKED-FILE-SIZES.md)',
@@ -215,6 +276,12 @@ def check(ctx):
     errors.extend('oversized new generated file: '+p for p in oversize)
     retained=retention_check(ctx)
     tests.append({'name':retained['name'],'passed':retained['passed']});errors.extend(retained['errors'])
+    semantics=semantic_contract_check(ctx)
+    tests.append({'name':semantics['name'],'passed':semantics['passed']});errors.extend(semantics['errors'])
+    import r2_validation
+    validation=r2_validation.run(ctx)
+    tests.extend({'name':'rejection test: '+t['name'],'passed':t['passed']} for t in validation['tests'])
+    if not validation['passed']:errors.append('checker rejection fixtures failed; see r2/validation.json')
     result = {'passed':not errors,'tests':tests,'errors':errors,'known_answers':base['known_answers']}
     write_json(ctx.out/'r2/check.json',result)
     return result
@@ -235,6 +302,7 @@ def regenerate(ctx):
     source_ctx = SimpleNamespace(root=ctx.root,inputs=ctx.inputs,out=scratch/'atlas')
     print('Rebuilding source dependency atlas in ignored scratch: '+str(source_ctx.out),flush=True)
     atlas.generate(source_ctx)
+    print('Auditing freshly rebuilt original source indexes',flush=True)
     audited = atlas.audit(source_ctx)
     if not audited['passed']:raise RuntimeError('Scratch source atlas audit failed: '+str(audited['errors'][:10]))
     # Original ranking is a requested frozen input, not a mutable priority list.
@@ -249,10 +317,13 @@ def regenerate(ctx):
             target=source_ctx.out/'r2'/rel
             target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,target)
     import r2_act2,r2_natives,r2_staging,r2_questions
+    print('Rebuilding round-2 question evidence and native contracts',flush=True)
     r2_act2.enumerate_scope(source_ctx)
     r2_questions.run(source_ctx)
     r2_natives.run(source_ctx)
+    print('Rebuilding staging scope, classifications and copy preflights',flush=True)
     r2_staging.run(source_ctx)
+    print('Rebuilding level dossiers with current native and staging joins',flush=True)
     r2_act2.run(source_ctx)
     for p in (source_ctx.out/'r2').rglob('*'):
         if not p.is_file():continue
@@ -260,4 +331,5 @@ def regenerate(ctx):
         dest = ctx.out/'r2'/p.relative_to(source_ctx.out/'r2')
         dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,dest)
     size_recommendation(ctx)
+    print('Checking regenerated round-2 outputs and rejection fixtures',flush=True)
     return check_command(ctx)

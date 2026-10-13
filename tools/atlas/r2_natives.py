@@ -9,13 +9,20 @@ from collections import Counter, defaultdict
 import json
 from pathlib import Path
 import re
+import hashlib
+import html
+from collections import Counter, defaultdict
 
 from common import read_json, write_json
 import scripts as lua_scripts
+import r2_native_contracts
 
 
 SCOPE_PATH = Path('r2/natives/scope.json')
 PROGRESS_PATH = Path('r2/package-a-progress.json')
+REFINED_SCOPE_PATH = Path('r2/natives/scope-refined.json')
+CONTRACT_ROOT = Path('r2/natives')
+INDEX_PATH = Path('r2/natives/INDEX.md')
 COMMON_SOURCES = (
     '.local-inputs/assets-extra/android/data/scripts/skills/_commons.luac',
     '.local-inputs/assets-extra/android/data/scripts/ai/_commons.luac',
@@ -577,8 +584,10 @@ def enumerate_scope(ctx):
 
 
 def run(ctx):
-    """Generate deterministic native scope only; contract pages follow release."""
-    return enumerate_scope(ctx)
+    """Keep Step-0 scope sealed and regenerate source contracts alongside it."""
+    if not (ctx.out / SCOPE_PATH).is_file():
+        enumerate_scope(ctx)
+    return r2_native_contracts.run(ctx)
 
 
 def check(ctx):
@@ -589,10 +598,10 @@ def check(ctx):
     rows = payload.get('native_rows') or []
     progress = read_json(ctx.out / PROGRESS_PATH, {}) or {}
     todo = sum(row.get('state') == 'TODO' for row in rows)
-    tests.append({'name': 'scope_rows_present_and_todo', 'rows': len(rows),
+    tests.append({'name': 'sealed_step0_scope_preserved', 'rows': len(rows),
                   'todo_rows': todo, 'passed': bool(rows) and todo == len(rows)})
     if not rows or todo != len(rows):
-        errors.append(f'native scope must contain TODO rows only: rows={len(rows)}, todo={todo}')
+        errors.append(f'initial Step-0 scope must remain TODO-only: rows={len(rows)}, todo={todo}')
     ranked = _ranked_functions(ctx)
     ranked_names = {row.get('name') for row in rows if row.get('rank')}
     missing_ranked = [row['name'] for row in ranked if row['name'] not in ranked_names]
@@ -639,9 +648,59 @@ def check(ctx):
                   'passed': bool(size and size < limit)})
     if not size or size >= limit:
         errors.append(f'native scope output missing or exceeds 40 MB: {size}')
-    count_ok = progress.get('total') == len(rows) and progress.get('processed') == 0
-    tests.append({'name': 'package_progress_matches_step0_scope', 'passed': count_ok,
-                  'total': progress.get('total'), 'rows': len(rows)})
-    if not count_ok:
-        errors.append('package-A progress does not match current TODO scope')
+    refined_path = ctx.out / REFINED_SCOPE_PATH
+    refined = read_json(refined_path, {}) or {}
+    refined_rows = refined.get('rows') or []
+    expected_names = {row.get('name') for row in rows}
+    refined_names = {row.get('name') for row in refined_rows}
+    refinement_ok = bool(refined_rows) and expected_names == refined_names
+    tests.append({'name': 'source_refinement_covers_sealed_scope', 'expected': len(rows),
+                  'actual': len(refined_rows), 'passed': refinement_ok})
+    if not refinement_ok:
+        errors.append('source refinement must cover every sealed Step-0 row by name')
+    page_root = ctx.out / CONTRACT_ROOT
+    refined_names = [row.get('name') for row in refined_rows]
+    expected_pages = {re.sub(r'[^A-Za-z0-9_.-]+', '_', name or 'unknown') + '.md'
+                      for name in refined_names}
+    pages = [page_root / name for name in sorted(expected_pages) if (page_root / name).is_file()]
+    required = ('Binding and handler', 'Lua argument mapping and units',
+                'Recovered behavior, gates, state, timers, events and return',
+                'Lua wrapper/helper traces', 'Current frozen port source', 'Known answers',
+                'Source-backed behavior cases',
+                'Original Lua call sites', 'Related natives', 'Unresolved reasons', 'Evidence boundary')
+    bad_pages = []
+    for page in pages:
+        content = page.read_text(encoding='utf-8', errors='replace')
+        missing = [section for section in required if f'## {section}' not in content]
+        if missing:
+            bad_pages.append({'page': page.name, 'missing_sections': missing})
+        if '**PROVEN:**' in content and 'Evidence:' not in content:
+            bad_pages.append({'page': page.name, 'error': 'proven claim has no evidence marker'})
+    page_ok = len(pages) == len(expected_pages) == len(rows) and not bad_pages and (ctx.out / INDEX_PATH).is_file()
+    tests.append({'name': 'all_contract_pages_have_required_sections',
+                  'expected': len(rows), 'actual': len(pages), 'bad_pages': bad_pages[:20],
+                  'passed': page_ok})
+    if not page_ok:
+        errors.append(f'contract page set incomplete or invalid: pages={len(pages)}, scope={len(rows)}')
+    status_counts = progress.get('status_counts') or {}
+    progress_ok = (progress.get('total') == len(rows)
+                   and progress.get('processed') == status_counts.get('DONE', 0) + status_counts.get('UNRESOLVED', 0) + status_counts.get('NOT-NEEDED', 0)
+                   and status_counts.get('DONE', 0) + status_counts.get('UNRESOLVED', 0) + status_counts.get('NOT-NEEDED', 0) + status_counts.get('TODO', 0) == len(rows))
+    tests.append({'name': 'package_progress_rollup_complete', 'passed': progress_ok,
+                  'total': progress.get('total'), 'processed': progress.get('processed'),
+                  'status_counts': status_counts})
+    if not progress_ok:
+        errors.append('package-A progress counts must reconcile all rows; remaining TODO indicates unaudited linked handlers')
+    tick = chr(96)
+    unreferenced = []
+    for page in pages:
+        content = page.read_text(encoding='utf-8', errors='replace')
+        for line in content.splitlines():
+            if '**PROVEN:**' in line and ('Evidence:' not in line or not re.search(tick + r'[^' + tick + r']+' + tick, line)):
+                unreferenced.append(page.name)
+                break
+    tests.append({'name': 'proven_answers_have_source_references',
+                  'bad_pages': unreferenced[:20], 'passed': not unreferenced})
+    if unreferenced:
+        errors.append('PROVEN claims need a concrete source reference in every page')
     return {'passed': not errors, 'tests': tests, 'errors': errors}

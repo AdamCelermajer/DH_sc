@@ -1,16 +1,16 @@
 # Original Data Atlas round 2 progress
 
-Phase: **STAGING LEDGER VERIFIED; NATIVE AND DOSSIER AUDITS IN PROGRESS**.
+Phase: **NATIVE CONTRACTS VERIFIED; FINAL CROSS-JOIN AND SOURCE REBUILD PENDING**.
 
-Processed: **34,187/34,327 (99.59%)**.
+Processed: **34,327/34,327 (100.00%)**.
 
 Processed means DONE, UNRESOLVED(reason), or NOT-NEEDED(reason). It does not mean that unknown contracts are resolved or that content runs in the port.
 
 | Package | Rows | Processed | Percent | States |
 | --- | --- | --- | --- | --- |
-| A | 271 | 170 | 62.73% | {"DONE": 153, "NOT-NEEDED": 4, "TODO": 101, "UNRESOLVED": 13} |
+| A | 271 | 271 | 100.00% | {"DONE": 255, "NOT-NEEDED": 15, "TODO": 0, "UNRESOLVED": 1} |
 | B | 33378 | 33378 | 100.00% | {"NOT_NEEDED": 25169, "ORIGINAL_EXISTS_NOT_STAGED": 318, "RESOLVED_STAGED": 1344, "UNRESOLVED": 6547} |
-| C | 671 | 632 | 94.19% | {"DONE": 617, "NOT-NEEDED": 11, "TODO": 39, "UNRESOLVED": 4} |
+| C | 671 | 671 | 100.00% | {"DONE": 656, "NOT-NEEDED": 11, "UNRESOLVED": 4} |
 | Open questions | 7 | 7 | 100.00% | {"DONE": 7} |
 
 Package B counts act/reference pairs; its package ledger also records unique source-site coverage. Shared player resources can belong to both act scopes.
