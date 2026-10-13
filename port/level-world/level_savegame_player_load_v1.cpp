@@ -180,6 +180,60 @@ bool parse_image(const std::uint8_t* image, std::size_t image_size,
     return true;
 }
 
+constexpr std::size_t kNonplayerBase = 6 + 4 + 2 * 900 + 4 * 12 + 1;
+constexpr std::size_t kMaxDetailRows = 64;
+
+std::uint32_t read_word_le(const std::uint8_t* bytes) {
+    return std::uint32_t(bytes[0]) | (std::uint32_t(bytes[1]) << 8) |
+           (std::uint32_t(bytes[2]) << 16) | (std::uint32_t(bytes[3]) << 24);
+}
+
+// Character::Serialize writes GameObject(6), FSM(4), two 900-byte
+// CharacterProperties images, two vectors, dead, and two vectors; GroupInfo
+// contributes the optional six-byte suffix. A row of another layout (or with a
+// malformed boolean byte) is not a non-Player Character row.
+bool parse_character_payload(const SavedObject& row, FactoryDeserializeState* output) {
+    if (row.payload_size != kNonplayerBase &&
+        row.payload_size != kNonplayerBase + 6) return false;
+    const auto* p = row.payload;
+    if (p[0] > 1 || p[1] > 1 || p[1834] > 1 ||
+        (row.payload_size == kNonplayerBase + 6 &&
+         (p[1863] > 1 || p[1864] > 1))) return false;
+    FactoryDeserializeState state{};
+    state.object_base_flag_80 = p[0];
+    state.object_base_flag_8a = p[1];
+    state.game_object_word_270 = static_cast<std::int32_t>(read_word_le(p + 2));
+    state.state_machine_state = static_cast<std::int32_t>(read_word_le(p + 6));
+    std::copy_n(p + 10, 4, state.properties.saved_header.begin());
+    std::copy_n(p + 910, 4, state.properties.resolved_header.begin());
+    for (std::size_t i = 0; i < state.properties.saved.size(); ++i) {
+        const auto saved_word = read_word_le(p + 14 + i * 4);
+        const auto resolved_word = read_word_le(p + 914 + i * 4);
+        std::memcpy(&state.properties.saved[i], &saved_word, sizeof(saved_word));
+        std::memcpy(&state.properties.resolved[i], &resolved_word, sizeof(resolved_word));
+    }
+    std::copy_n(p + 1810, 12, state.position.begin());
+    std::copy_n(p + 1822, 12, state.rotation.begin());
+    state.dead = p[1834];
+    std::copy_n(p + 1835, 12, state.vector_1468.begin());
+    std::copy_n(p + 1847, 12, state.vector_1474.begin());
+    if (row.payload_size == kNonplayerBase + 6) {
+        state.has_group_info_tail = 1;
+        state.group_word_36 = static_cast<std::int32_t>(read_word_le(p + 1859));
+        state.group_flag_40 = p[1863];
+        state.group_flag_41 = p[1864];
+    }
+    *output = state;
+    return true;
+}
+
+void note_unsupported(FactoryLifecycleResult* output, const std::string& key,
+                      const std::string& reason) {
+    ++output->rows_unsupported;
+    if (output->unsupported_detail.size() < kMaxDetailRows)
+        output->unsupported_detail.push_back(key + " | " + reason);
+}
+
 } // namespace
 
 Status load_player(const std::uint8_t* image, std::size_t image_size,
@@ -381,51 +435,15 @@ Status restore_factory_character_rows(
     std::vector<Pending> candidates;
     for (const auto& row : rows) {
         if (row.key == "PlayerCharacter_0") continue;
-        // Character::Serialize writes GameObject(6), FSM(4), two 900-byte
-        // CharacterProperties images, two vectors, dead, and two vectors;
-        // GroupInfo contributes the optional six-byte suffix.
-        constexpr std::size_t kNonplayerBase = 6 + 4 + 2 * 900 + 4 * 12 + 1;
-        if (row.payload_size != kNonplayerBase &&
-            row.payload_size != kNonplayerBase + 6) continue;
+        FactoryDeserializeState state{};
+        if (!parse_character_payload(row, &state)) continue;
         ++output->rows_examined;
-        const auto* p = row.payload;
-        const auto read_word = [](const std::uint8_t* bytes) {
-            return std::uint32_t(bytes[0]) | (std::uint32_t(bytes[1]) << 8) |
-                   (std::uint32_t(bytes[2]) << 16) |
-                   (std::uint32_t(bytes[3]) << 24);
-        };
-        if (p[0] > 1 || p[1] > 1 || p[1834] > 1 ||
-            (row.payload_size == kNonplayerBase + 6 &&
-             (p[1863] > 1 || p[1864] > 1))) continue;
         if (std::any_of(candidates.begin(), candidates.end(),
                 [&](const Pending& prior) { return prior.key == row.key; })) {
             error = "LevelSavegame contains duplicate candidate Character manager keys";
             return Status::unsupported_record;
         }
-        FactoryDeserializeState state{};
-        state.object_base_flag_80=p[0];
-        state.object_base_flag_8a=p[1];
-        state.game_object_word_270=static_cast<std::int32_t>(read_word(p+2));
-        state.state_machine_state=static_cast<std::int32_t>(read_word(p+6));
-        std::copy_n(p+10,4,state.properties.saved_header.begin());
-        std::copy_n(p+910,4,state.properties.resolved_header.begin());
-        for (std::size_t i = 0; i < state.properties.saved.size(); ++i) {
-            const auto saved_word = read_word(p + 14 + i * 4);
-            const auto resolved_word = read_word(p + 914 + i * 4);
-            std::memcpy(&state.properties.saved[i], &saved_word, sizeof(saved_word));
-            std::memcpy(&state.properties.resolved[i], &resolved_word, sizeof(resolved_word));
-        }
-        std::copy_n(p+1810,12,state.position.begin());
-        std::copy_n(p+1822,12,state.rotation.begin());
-        state.dead=p[1834];
-        std::copy_n(p+1835,12,state.vector_1468.begin());
-        std::copy_n(p+1847,12,state.vector_1474.begin());
-        if(row.payload_size==kNonplayerBase+6){
-            state.has_group_info_tail=1;
-            state.group_word_36=static_cast<std::int32_t>(read_word(p+1859));
-            state.group_flag_40=p[1863];state.group_flag_41=p[1864];
-        }
-        candidates.push_back({row.key,row.type,state,nullptr,0,0});
+        candidates.push_back({row.key, row.type, state, nullptr, 0, 0});
     }
 
     std::vector<Pending*> resolved;
@@ -448,15 +466,23 @@ Status restore_factory_character_rows(
         }
         for (auto& pending : candidates) {
             if (object.manager_key != pending.key) continue;
-            if (!record || object.identity != live->identity ||
-                object.is_character != 1 || object.is_player != 0 ||
-                object.type_word != pending.type ||
+            // LevelSavegame::__LoadObjects 0x461e90 resolves every row with
+            // ObjectManager::GetObjectByName(key, type) 0x34aca0 and, when no
+            // object answers, seeks past the row. A same-key object that is not a
+            // factory-created non-Player Character (a record-less direct
+            // Character, a non-Character, the Player) or whose type word differs
+            // is therefore an unresolved row here, not a corrupt image: the
+            // direct-Character and non-Character passes own those objects.
+            if (!record || object.is_character != 1 || object.is_player != 0 ||
+                object.type_word != pending.type) continue;
+            if (object.identity != live->identity ||
                 record->source_handle != live->source_handle ||
                 record->character.identity != live->identity ||
                 record->game_object.identity != live->identity ||
                 !record->object_registered || !record->character_listed ||
                 characters.find(live->source_handle) != record) {
-                error = "saved non-player Character row does not resolve to one canonical factory identity";
+                error = "saved non-player Character row does not resolve to one canonical factory identity | key " +
+                        pending.key;
                 return Status::identity_mismatch;
             }
             if (pending.identity) {
@@ -472,13 +498,23 @@ Status restore_factory_character_rows(
 
     std::vector<Pending*> supported;
     for (auto* pending : resolved) {
+        if (commit->defers_factory_character_restore &&
+            commit->defers_factory_character_restore(commit->context, *pending->record)) {
+            ++output->rows_deferred;
+            continue;
+        }
         bool applies = false;
         if (commit->supports_factory_character_restore(commit->context,
                 *pending->record, pending->state, &applies, error)) {
             if (error.empty()) error = "factory Character restore admission failed";
             return Status::provider_failed;
         }
-        if (!applies) continue;
+        if (!applies) {
+            note_unsupported(output, pending->key,
+                error.empty() ? std::string("factory Character closure is unsupported by the active same-Record owners") : error);
+            error.clear();
+            continue;
+        }
         if (commit->prepare_factory_character_restore(commit->context,
                 *pending->record, pending->state,
                 error)) {
@@ -509,6 +545,152 @@ Status restore_factory_character_rows(
           return std::none_of(supported.begin(),supported.end(),
               [&](const Pending* p){return p->key==row.key;});
         }));
+    error.clear();
+    return Status::loaded_player_only;
+}
+
+Status restore_direct_character_rows(
+    const std::uint8_t* image, std::size_t image_size, manager::Owner& objects,
+    const factory::Owner& characters,
+    const level_savegame_object_manager_v1::FactsServices* facts,
+    const CommitServices* commit, FactoryLifecycleResult* output,
+    std::string& error) {
+    error.clear();
+    if (!output) {
+        error = "Direct Character restore requires a result destination";
+        return Status::invalid_argument;
+    }
+    *output = {};
+    if (!facts || !facts->read_object_facts ||
+        !facts->is_canonical_character_identity || !commit ||
+        !commit->classify_direct_character_restore ||
+        !commit->prepare_direct_character_restore ||
+        !commit->commit_direct_character_restore) {
+        error = "direct Character Deserialize providers are unavailable";
+        return Status::provider_unavailable;
+    }
+    std::vector<SavedObject> rows;
+    std::uint32_t sections{};
+    if (!parse_image(image, image_size, &rows, &sections, error))
+        return Status::malformed_save;
+    (void)sections;
+
+    struct Pending {
+        std::string key;
+        std::int32_t type{};
+        FactoryDeserializeState state{};
+        manager::SourceHandle handle{};
+        std::uintptr_t identity{};
+        bool ambiguous{};
+    };
+    std::vector<Pending> candidates;
+    for (const auto& row : rows) {
+        if (row.key == "PlayerCharacter_0") continue;
+        FactoryDeserializeState state{};
+        if (!parse_character_payload(row, &state)) continue;
+        // Duplicate saved keys: ObjectManager::GetObjectByName answers only one
+        // object per key, so the first row wins and later rows stay unresolved.
+        if (std::any_of(candidates.begin(), candidates.end(),
+                [&](const Pending& prior) { return prior.key == row.key; })) continue;
+        candidates.push_back({row.key, row.type, state, 0, 0, false});
+    }
+
+    std::vector<Pending*> resolved;
+    manager::Owner::Cursor cursor{};
+    objects.reset(&cursor);
+    for (;;) {
+        manager::GameObject* live = nullptr;
+        if (objects.next(&cursor, &live) != manager::Status::ok) {
+            error = "canonical ObjectManager key walk failed during direct Character restore";
+            return Status::manager_failed;
+        }
+        if (!live) break;
+        const auto* record = characters.find(live->source_handle);
+        if (record) continue; // Factory-created Characters belong to their own pass.
+        save::Object object{};
+        object.identity = live->identity;
+        if (facts->read_object_facts(facts->context, *live, record,
+                                      &object, error)) {
+            if (error.empty()) error = "ObjectManager direct Character facts are unavailable";
+            return Status::provider_failed;
+        }
+        if (object.identity != live->identity || object.is_character > 1 ||
+            object.is_player > 1) {
+            error = "direct Character facts conflict with the canonical ObjectManager row";
+            return Status::identity_mismatch;
+        }
+        if (object.is_character != 1 || object.is_player != 0) continue;
+        if (!facts->is_canonical_character_identity(facts->context, live->identity))
+            continue;
+        for (auto& pending : candidates) {
+            if (object.manager_key != pending.key ||
+                object.type_word != pending.type) continue;
+            if (pending.identity) {
+                // Two live objects answer one key; the first (map order) is the
+                // one GetObjectByName returns.
+                continue;
+            }
+            pending.handle = live->source_handle;
+            pending.identity = live->identity;
+            resolved.push_back(&pending);
+            ++output->rows_examined;
+        }
+    }
+
+    std::vector<Pending*> supported;
+    for (auto* pending : resolved) {
+        auto* live = objects.find_by_source_handle(pending->handle);
+        if (!live || live->identity != pending->identity) {
+            error = "canonical direct Character changed during restore admission";
+            return Status::identity_mismatch;
+        }
+        DirectCharacterDisposition disposition{DirectCharacterDisposition::unsupported};
+        std::string reason;
+        if (commit->classify_direct_character_restore(commit->context, *live,
+                pending->state, &disposition, reason)) {
+            note_unsupported(output, pending->key,
+                reason.empty() ? std::string("direct Character admission failed") : reason);
+            continue;
+        }
+        if (disposition == DirectCharacterDisposition::skipped_by_source) {
+            ++output->rows_skipped_by_source;
+            continue;
+        }
+        if (disposition != DirectCharacterDisposition::apply) {
+            note_unsupported(output, pending->key,
+                reason.empty() ? std::string("direct Character closure is unsupported") : reason);
+            continue;
+        }
+        if (commit->prepare_direct_character_restore(commit->context, *live,
+                pending->state, reason)) {
+            note_unsupported(output, pending->key,
+                reason.empty() ? std::string("direct Character restore preflight failed") : reason);
+            continue;
+        }
+        supported.push_back(pending);
+    }
+
+    for (auto* pending : supported) {
+        auto* live = objects.find_by_source_handle(pending->handle);
+        if (!live || live->identity != pending->identity ||
+            characters.find(pending->handle)) {
+            note_unsupported(output, pending->key,
+                "canonical direct Character changed during Deserialize preparation");
+            continue;
+        }
+        std::string reason;
+        // A failed commit may already have mutated the Character (the source
+        // Deserialize is incremental too); the row is reported and the remaining
+        // rows still restore.
+        if (commit->commit_direct_character_restore(commit->context, *live,
+                pending->state, reason)) {
+            note_unsupported(output, pending->key,
+                "commit failed: " + (reason.empty() ? std::string("direct Character source restore failed") : reason));
+            continue;
+        }
+        ++output->rows_fully_applied;
+    }
+    output->rows_still_unapplied = output->rows_unsupported;
     error.clear();
     return Status::loaded_player_only;
 }
@@ -545,11 +727,7 @@ Status restore_source_noncharacter_rows(
         SourceNoncharacterDeserializeState state{};
     };
     std::vector<Pending> supported;
-    auto read_word = [](const std::uint8_t* bytes) {
-        return std::uint32_t(bytes[0]) | (std::uint32_t(bytes[1]) << 8) |
-               (std::uint32_t(bytes[2]) << 16) |
-               (std::uint32_t(bytes[3]) << 24);
-    };
+    auto read_word = [](const std::uint8_t* bytes) { return read_word_le(bytes); };
     manager::Owner::Cursor cursor{};
     objects.reset(&cursor);
     for (;;) {
@@ -578,9 +756,11 @@ Status restore_source_noncharacter_rows(
             error = "source non-Character type fact conflicts with its manager row";
             return Status::identity_mismatch;
         }
+        // GetObjectByName(key, type) answers only a row whose type word matches;
+        // a saved row of another type has no object and is seeked past.
         const SavedObject* saved = nullptr;
         for (const auto& row : rows) {
-            if (row.key != object.manager_key) continue;
+            if (row.key != object.manager_key || row.type != object.type_word) continue;
             if (saved) {
                 error = "LevelSavegame contains duplicate non-Character manager keys";
                 return Status::unsupported_record;
@@ -589,10 +769,6 @@ Status restore_source_noncharacter_rows(
         }
         if (!saved) continue;
         ++output->rows_examined;
-        if (saved->type != object.type_word) {
-            error = "saved non-Character type word disagrees with the same manager row";
-            return Status::identity_mismatch;
-        }
         SourceNoncharacterKind kind{};
         bool applies = false;
         if (commit->classify_source_noncharacter_restore(commit->context, *live,
@@ -600,7 +776,16 @@ Status restore_source_noncharacter_rows(
             if (error.empty()) error = "source non-Character Deserialize admission failed";
             return Status::provider_failed;
         }
-        if (!applies) continue;
+        if (!applies) {
+            if (kind == SourceNoncharacterKind::skipped_by_source) {
+                ++output->rows_skipped_by_source;
+                continue;
+            }
+            note_unsupported(output, object.manager_key,
+                error.empty() ? std::string("source non-Character Deserialize closure is unsupported by the live owners") : error);
+            error.clear();
+            continue;
+        }
         if (kind != SourceNoncharacterKind::game_object &&
             kind != SourceNoncharacterKind::door &&
             kind != SourceNoncharacterKind::trigger &&
@@ -614,8 +799,9 @@ Status restore_source_noncharacter_rows(
         if (saved->payload_size != expected ||
             (kind != SourceNoncharacterKind::container &&
              (saved->payload[0] > 1 || saved->payload[1] > 1))) {
-            error = "source non-Character payload does not match its exact Deserialize layout";
-            return Status::unsupported_record;
+            note_unsupported(output, object.manager_key,
+                "payload does not match the exact source Deserialize layout");
+            continue;
         }
         Pending pending{};
         pending.saved = saved;
@@ -631,8 +817,9 @@ Status restore_source_noncharacter_rows(
                 static_cast<std::int32_t>(read_word(saved->payload + 6));
             if (pending.state.door_state_3a8 < 0 ||
                 pending.state.door_state_3a8 > 3) {
-                error = "saved DoorStates value is outside the source enum range";
-                return Status::unsupported_record;
+                note_unsupported(output, object.manager_key,
+                    "saved DoorStates value is outside the source enum range");
+                continue;
             }
         } else if (kind == SourceNoncharacterKind::trigger) {
             pending.state.trigger.game_object = pending.state.game_object;
@@ -667,8 +854,7 @@ Status restore_source_noncharacter_rows(
         }
         ++output->rows_fully_applied;
     }
-    output->rows_still_unapplied = static_cast<std::uint32_t>(
-        output->rows_examined - output->rows_fully_applied);
+    output->rows_still_unapplied = output->rows_unsupported;
     error.clear();
     return Status::loaded_player_only;
 }

@@ -179,5 +179,10 @@ int main(int argc,char** argv){
     f.d.identity=f.a.identity;unchanged(&f.args,&f.globals,&s,&f.attack,&f.report);f.d.identity=202;
     {alignas(ar::Actor)std::array<unsigned char,128>memory{};ar::Actor a{101,0,0,0,-1},d{202,0,0,0,-1};std::memcpy(memory.data(),&a,sizeof(a));std::memcpy(memory.data()+alignof(ar::Actor),&d,sizeof(d));args={reinterpret_cast<ar::Actor*>(memory.data()),reinterpret_cast<ar::Actor*>(memory.data()+alignof(ar::Actor)),0};unchanged(&args,&f.globals,&s,&f.attack,&f.report);}
     ar::Services missing{nullptr,nullptr};assert(ar::execute(&f.args,&f.globals,&missing,&f.attack,&f.report)==ar::Status::service_unavailable);assert(f.report.calls==1);++guards;
+    // SM_SetKnockBackState(sm,great,attacker,direct): the special (skill/spell) bool is the
+    // push request's word2 -- the slot the Character status closure routes through _SetState --
+    // and word1 stays zero; a melee hit leaves word2 clear.
+    for(unsigned special=0;special<2;++special){Fixture p;p.attack.outcomes=0x80;p.attack.mask|=(special?0x08100000u:0x00100000u);assert(p.run()==ar::Status::complete);
+        unsigned pushes=0;for(const auto& t:p.trace)if(t.w[0]==unsigned(Operation::push)){++pushes;assert(t.w[4]==1u&&t.w[5]==0u&&t.w[6]==special);}assert(pushes==1);}
     std::cout<<"{\"validation\":\"PASS\",\"host_cases\":"<<behavior<<",\"guard_cases\":"<<guards<<",\"failure_cases\":"<<failures<<",\"mismatches\":0}\n";
 }

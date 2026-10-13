@@ -354,6 +354,22 @@ int dh2_script_vm_call_first_source_v1(dh2_script_vm* vm,const char* name,
 uint64_t dh2_script_vm_required_failure_epoch(const dh2_script_vm* vm) {
   return vm?vm->required_failure_epoch:0;
 }
+int dh2_script_vm_load_nested(dh2_script_vm* vm,const void* bytes,size_t size,const char* name,
+  char* error_text,size_t error_capacity) {
+  lua_State* L; int top,status;
+  if(error_text&&error_capacity)error_text[0]=0;
+  if(!vm||!vm->busy||!bytes||!size||!name)return -1;
+  L=vm->state; top=lua_gettop(L);
+  if(!lua_checkstack(L,8))return -1;
+  status=luaL_loadbuffer(L,(const char*)bytes,size,name);
+  if(!status)status=lua_pcall(L,0,0,0);
+  if(status&&error_text&&error_capacity) {
+    const char* message=lua_type(L,-1)==LUA_TSTRING?lua_tostring(L,-1):NULL;
+    snprintf(error_text,error_capacity,"%s",message?message:"Lua error (no text)");
+  }
+  lua_settop(L,top);
+  return status;
+}
 static int bind_entry(lua_State* L) {
   Operation* op=(Operation*)lua_touserdata(L,1);Binding* binding;
   binding=(Binding*)lua_newuserdata(L,sizeof(*binding)); binding->fn=op->callback;binding->context=op->context;

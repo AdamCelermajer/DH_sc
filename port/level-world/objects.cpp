@@ -119,7 +119,11 @@ static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const 
     (i.node_index<template_nodes.size()&&template_nodes[i.node_index]);
   }),instances.end());candidate.removed_helpers=before-instances.size();
   unsigned total=0;
-  for(const auto& instance:instances){assets::Mesh mesh{};if(dh2_mesh_open(&mesh,&view,instance.geometry)!=assets::Error::ok||mesh.primitives!=instance.materials.size())throw std::runtime_error("Object mesh/binding rejected");
+  for(const auto& instance:instances){assets::Mesh mesh{};
+   // A geometry with no drawable mesh and no bound material (dragon.bdae Circle01)
+   // constructs nothing in CColladaDatabase::constructGeometry; there is nothing to draw.
+   if(instance.materials.empty()&&(dh2_mesh_open(&mesh,&view,instance.geometry)!=assets::Error::ok||mesh.primitives==0))continue;
+   if(dh2_mesh_open(&mesh,&view,instance.geometry)!=assets::Error::ok||mesh.primitives!=instance.materials.size())throw std::runtime_error("Object mesh/binding rejected: node "+instance.node+" primitives "+std::to_string(mesh.primitives)+" materials "+std::to_string(instance.materials.size()));
    for(unsigned j=0;j<mesh.primitives;++j){assets::Primitive raw{};dh2_mesh_primitive(&mesh,j,&raw);
     if(raw.collada_type||raw.index_count%3||raw.index_count>3000000||mesh.vertices>65536||total>1000000-mesh.vertices)throw std::runtime_error("Object primitive budget rejected");
     total+=mesh.vertices;

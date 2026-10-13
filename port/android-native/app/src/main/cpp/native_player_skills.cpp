@@ -1,5 +1,6 @@
 #include "native_player_skills.hpp"
 #include "../../../../../level-world/character_clear_target_v1.hpp"
+#include "../../../../../level-world/source_random_lifecycle_v1.hpp"
 #include "player_gameplay_audio.hpp"
 #include "player_skill_session_v1.hpp"
 #include "player_skill_update_session_v1.hpp"
@@ -107,6 +108,8 @@ struct Runtime::Impl {
  dh2::character_current_spell_v1::Bindings spell_callback{};
  dh2::character_equipped_faery_element_v1::Bindings element_callback{};
  dh2::character_current_equipped_faery_v1::Bindings equipped_callback{};
+ // Character+252, the per-object Random seed GameObject::_Rand uses online.
+ std::uint32_t script_object_seed=0;
  // LuaScript+0x1c belongs to this AIS and its retained VM. It is a distinct
  // source component, not the Character property sheet or a global dictionary.
  dh2::character_player_scalar_services_v1::IntegerMap script_integers;
@@ -461,6 +464,44 @@ struct Runtime::Impl {
   }
   return 1;
  }
+ // GameObject/Character natives owned by native_player_skill_host_v1. The
+ // receiver is the Player for a global call and the method table's `_this`
+ // identity otherwise; `a` excludes the receiver.
+ static int host_call(Impl& s,const dh2::player_skill_session_v1::NativeRequest& q,std::uintptr_t receiver,
+          const dh2_script_value* a,std::uint32_t count,dh2_script_value* out,std::uint32_t capacity,
+          std::uint32_t* returned,char* text,std::size_t bytes){
+  auto services=s.bindings.host;
+  services.self=s.bindings.character;
+  services.random=&dh2::random_lifecycle::process_state();
+  services.online=s.bindings.online;
+  services.object_seed=&s.script_object_seed;
+  return dh2::native::player_skill_host_v1::invoke(services,q.character_function,q.name,receiver,
+      a,count,out,capacity,returned,text,bytes);
+ }
+ // Character::_SetProp with a Pointer sheet argument (SetBuffProp(prop,value,buff)):
+ // PROPS_SetToSheet writes the buff's own sheet for type-4 properties and the
+ // shared temporary sheet for type-8 ones; any other property type is ignored.
+ static int set_buff_prop_sheet(Impl& s,const dh2::player_skill_session_v1::NativeRequest& q,
+          const dh2_script_value* a,std::uint32_t count,dh2_script_value* out,std::uint32_t capacity,
+          std::uint32_t* returned,char* text,std::size_t bytes){
+  std::int32_t prop=0,value=0;
+  if(count<3)return 0;
+  // _SetProp ignores a call whose property/value are not numbers.
+  if(a[0].type!=DH2_SCRIPT_NUMBER||a[1].type!=DH2_SCRIPT_NUMBER)return 0;
+  if(!integer(a[0],prop)||!integer(a[1],value))return fail(text,bytes,q.name);
+  if(prop<0||prop>0xdf)return 0;
+  if(!a[2].identity)return 0;
+  const auto type=s.bindings.rules->types[std::size_t(prop)];
+  if((type&8u)!=0&&(type&4u)==0)
+   return dh2::player_skill_property_services_v1::invoke(&s.property_services,q.character,q.character_function,a,2,out,capacity,returned,text,bytes);
+  if((type&4u)==0)return 0;
+  std::int32_t* sheet=nullptr;
+  if(!s.buffs||!s.buffs->owned_sheet(a[2].identity,&sheet)||!sheet)return fail(text,bytes,q.name);
+  sheet[prop]=value;
+  s.refresh_properties();
+  return dh2_class_recalc_base(s.class_rows.data(),std::uint32_t(s.class_rows.size()),
+      s.bindings.properties->base.data(),&s.property_view)?fail(text,bytes,q.name):0;
+ }
  static int native(void* raw,const dh2::player_skill_session_v1::NativeRequest& q,const dh2_script_value* a,std::uint32_t count,
           dh2_script_value* out,std::uint32_t capacity,std::uint32_t* returned,char* text,std::size_t bytes){
   auto& s=self(raw);if(!returned||!s.bindings.character||q.character!=s.bindings.character||(!a&&count))return fail(text,bytes,q.name);
@@ -520,6 +561,23 @@ struct Runtime::Impl {
    }
   }else{
    using Fn=dh2::character_native_bindings::Function;
+   if(q.method){
+    // `target:Method(...)`: the receiver GameObject table arrives as argument 0
+    // (type-7 identity from `_this`). The Player as receiver is the global call
+    // with its own owners; any other GameObject reaches only the target-object
+    // natives of the host module.
+    if(!count||(a[0].type!=DH2_SCRIPT_IDENTITY&&a[0].type!=7)||!a[0].identity)
+     return fail(text,bytes,q.name);
+    if(a[0].identity==s.bindings.character){
+     auto global_call=q;global_call.method=false;
+     return native(raw,global_call,a+1,count-1,out,capacity,returned,text,bytes);
+    }
+    if(dh2::native::player_skill_host_v1::handles(q.character_function))
+     return host_call(s,q,a[0].identity,a+1,count-1,out,capacity,returned,text,bytes);
+    if(text&&bytes)
+     std::snprintf(text,bytes,"native Player skill method %s is not bound for a non-Player GameObject receiver",q.name?q.name:"unknown");
+    return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;
+   }
    if(q.character_function==Fn::character_spell_combat_roll){
     if(!s.bindings.spell_combat_roll_native||!s.bindings.skill_gameplay_context)
      return fail(text,bytes,q.name);
@@ -556,9 +614,6 @@ struct Runtime::Impl {
    case Fn::game_object_get_target_list_top:
    case Fn::game_object_pop_target_list:
    case Fn::character_look_at:
-   // Charge's authored OnPostSkill reaches TargetInMeleeRange before its
-   // source ClearTarget tail. The gameplay adapter owns current-target range.
-   case Fn::character_target_in_melee_range:
    // Charge's authored OnSkillInfo/OnSkill branches call HasShield. Forward
    // through the existing gameplay adapter so it can query the canonical V4
    // inventory; do not infer shield state from Save/profile data here.
@@ -583,6 +638,8 @@ struct Runtime::Impl {
     return dh2::character_player_buffs_v1::remove_buff(&s.buff_callbacks,a,count,out,capacity,returned,text,bytes);
    if(q.character_function==Fn::character_apply_prop_class&&count>1&&a[1].type==DH2_SCRIPT_IDENTITY)
     return dh2::character_player_buffs_v1::apply_buff(&s.buff_callbacks,a,count,out,capacity,returned,text,bytes);
+   if(q.character_function==Fn::character_set_prop&&count>2&&a[2].type==DH2_SCRIPT_IDENTITY)
+    return set_buff_prop_sheet(s,q,a,count,out,capacity,returned,text,bytes);
    if(q.character_function==Fn::character_get_prop||q.character_function==Fn::character_set_prop||q.character_function==Fn::character_apply_prop_class||q.character_function==Fn::character_clear_props)
     return dh2::player_skill_property_services_v1::invoke(&s.property_services,q.character,q.character_function,a,count,out,capacity,returned,text,bytes);
    if(q.character_function==Fn::character_get_current_skill_info||q.character_function==Fn::character_get_skill_id_from_oid){
@@ -619,6 +676,11 @@ struct Runtime::Impl {
      dh2::character_mana_services_v1::has_mana_callback(&s.mana_callbacks,a,count,out,capacity,returned,text,bytes):
      dh2::character_mana_services_v1::use_mana_callback(&s.mana_callbacks,a,count,out,capacity,returned,text,bytes);
    }
+   // Remaining GameObject/Character natives (PlayFX, PlaySound3D, GetRand,
+   // GetSelf, GetID, GetPosition, GetHP/GetPropHP, HasBow, CanAttackInMelee,
+   // RegenHP, SetIsTargetable, SetTarget, state commands, ...).
+   if(dh2::native::player_skill_host_v1::handles(q.character_function))
+    return host_call(s,q,s.bindings.character,a,count,out,capacity,returned,text,bytes);
   }
   return fail(text,bytes,q.name);
  }
@@ -651,6 +713,11 @@ struct Runtime::Impl {
   s.timer_fields=s.preparation->lease_timer_fields(q->character);
   if(!s.timer_fields){error="Player skill field18 lease unavailable";return 1;}
   s.updates=std::make_unique<dh2::player_skill_update_session_v1::Runtime>(*s.session,*s.preparation,s.bindings.ai,q->character,s.bindings.coordinator->state.current);
+  // CharAI::UpdateAllSkills/UpdateSkills call each script's OnSkillUpdate and ignore
+  // the result: LuaScript::Call logs and swallows script failures. A native the
+  // port has not bound must not stop the walk or latch the whole runtime either;
+  // it is reported loudly through log_required_failures instead.
+  s.updates->continue_past_required_failures(true);
   s.uses=std::make_unique<dh2::player_skill_use_session_v1::Runtime>(*s.session,*s.preparation,q->character);
   s.update_slot=s.updates.get();s.use_slot=s.uses.get();return 0;
  }
@@ -659,7 +726,10 @@ struct Runtime::Impl {
   animation_constants_bytes=bindings.read(assets,"data/animations_pycst.bin");
   if(animation_constants_bytes.size()>UINT32_MAX||dh2_pycst_open(&animation_constants,animation_constants_bytes.data(),std::uint32_t(animation_constants_bytes.size())))
    throw std::runtime_error("Native Player animation constants rejected");
-  for(const auto& pair:std::vector<std::pair<std::string,std::string>>{{"AnimatedEffectTable","effects"},{"ProjectileTable","projectiles"}}){
+  // GetPyOID(category, name) rows the skill scripts resolve through the source
+  // PyData name arrays (summon skills name a CharacterTable row, animation
+  // skills an AnimDict row).
+  for(const auto& pair:std::vector<std::pair<std::string,std::string>>{{"AnimatedEffectTable","effects"},{"ProjectileTable","projectiles"},{"CharacterTable","character_properties"},{"AnimDict","animations_dictionary"}}){
    auto bytes=bindings.read(assets,"data/"+pair.second+"_pyarraynames.bin");
    const auto word=[&](std::size_t at){if(at>bytes.size()||bytes.size()-at<4)throw std::runtime_error("Player names truncated");std::uint32_t n;std::memcpy(&n,bytes.data()+at,4);return n;};
    std::size_t end=4;const auto count=word(0);
@@ -751,8 +821,12 @@ struct Runtime::Impl {
    *bindings.current_difficulty,bindings.savegame->current_faery(*bindings.current_difficulty),bindings.savegame->faery_level(0,*bindings.current_difficulty));
  }
  void log_initial_update(){
+  log_required_failures("InitProcess UpdateAllSkills",updated.required_failures,updated.first_required_failure);
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player skill update complete | attempt %u | callbacks %u | skill slots %u | faery slots %u | buffs %u | groups %u | one VM/save/property store; source InitProcess complete, activation pending",update_attempts,updated.callbacks,updated.source.skill_slots,updated.source.faery_slots,buffs->count(),property_view.group_count);
   log_buffs("initial");
+ }
+ void log_required_failures(const char* phase,std::uint32_t count,const std::string& first){
+  if(count)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native Player %s | %u OnSkillUpdate call(s) raised a required-service failure; the source ignores script failures and the update continues | first: %s",phase,count,first.c_str());
  }
  bool update_after_saved_skill_slot_write(std::string& output_error){
   if(!initialized||update_blocked||!updates){output_error="Native Player UpdateSkills owner is unavailable or blocked";return false;}
@@ -761,7 +835,9 @@ struct Runtime::Impl {
   ++update_attempts;
   // SG_SetSkillInSlot ends at CharAI::UpdateSkills: saved slot keys plus the
   // current difficulty's one Faery, through this Save/Character/VM owner.
-  if(updates->update_current_faery(*bindings.savegame,*bindings.current_difficulty,selected_updated,error)){
+  const auto selected_status=updates->update_current_faery(*bindings.savegame,*bindings.current_difficulty,selected_updated,error);
+  log_required_failures("UpdateSkills",selected_updated.required_failures,selected_updated.first_required_failure);
+  if(selected_status){
    update_blocked=true;
    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player UpdateSkills blocked | attempt %u | callbacks %u | VM status %d | faery %u | %s | source effects retained; remaining providers pending",update_attempts,selected_updated.callbacks,selected_updated.last_lua_status,selected_updated.source.faery_index,error.c_str());
    output_error=error;return false;
@@ -774,7 +850,9 @@ struct Runtime::Impl {
   catch(const std::exception& e){output_error=e.what();return false;}
   ++update_attempts;
   // ChangeFaery's source tail is UpdateAllSkills and stays distinct above.
-  if(updates->update(updated,error)){
+  const auto all_status=updates->update(updated,error);
+  log_required_failures("UpdateAllSkills",updated.required_failures,updated.first_required_failure);
+  if(all_status){
    update_blocked=true;
    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player UpdateAllSkills blocked | attempt %u | callbacks %u | VM status %d | %s | source effects retained; remaining providers pending",update_attempts,updated.callbacks,updated.last_lua_status,error.c_str());
    output_error=error;return false;
@@ -1010,6 +1088,12 @@ struct Runtime::Impl {
   const auto status=dh2::player_script_timer_dispatch_v1::dispatch(
       timer_dispatch,id,error);
   if(status==dh2::player_script_timer_dispatch_v1::Status::inactive_ais)return;
+  // The AIS OnScriptTimer result is ignored by CharAI::OnScriptTimer's caller and
+  // LuaScript::Call swallows script errors; only a structural failure is fatal.
+  if(status==dh2::player_script_timer_dispatch_v1::Status::failed){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Player source OnScriptTimer script call failed; the source ignores script failures | timer %u | %s",id,error.c_str());
+   return;
+  }
   if(status!=dh2::player_script_timer_dispatch_v1::Status::delivered)
    throw std::runtime_error("Player source OnScriptTimer dispatch failed: "+error);
   ++timer_callbacks;
@@ -1254,6 +1338,39 @@ bool Runtime::cleanup_ai_scripts(std::string& error){
  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
   "Player CharAI terminal cleanup | skill slots %u | faery slots %u | callbacks %u | completed %u | same retained VM/Character timers",
   result.skill_slots,result.faery_slots,result.cleanup_calls,result.completed);
+ return true;
+}
+bool Runtime::debug_load_lua(const std::string& source,std::string& error){
+ auto& s=*impl_;error.clear();
+ if(!s.initialized||!s.session||s.session->stage()!=dh2::player_skill_session_v1::Stage::character_bound){
+  error="Player VM is not initialized";return false;
+ }
+ if(dh2_script_vm_load(s.session->vm(),source.data(),source.size(),"debug-player-lua")){
+  error=dh2_script_vm_error(s.session->vm());return false;
+ }
+ return true;
+}
+bool Runtime::debug_call_lua(const char* entry,std::string& result,std::string& error){
+ auto& s=*impl_;error.clear();result.clear();
+ if(!s.initialized||!s.session){error="Player VM is not initialized";return false;}
+ struct Capture{std::string text;unsigned seen=0;};
+ Capture capture;
+ const auto observe=[](void* raw,const dh2_script_first_return_v1* value,char*,std::size_t)->int{
+  auto& out=*static_cast<Capture*>(raw);
+  char buffer[64];
+  out.seen=value->count;
+  switch(value->type){
+  case 1:out.text=value->boolean?"true":"false";break;
+  case 2:std::snprintf(buffer,sizeof(buffer),"ptr:%llx",static_cast<unsigned long long>(value->identity));out.text=buffer;break;
+  case 3:std::snprintf(buffer,sizeof(buffer),"%.6g",double(value->number));out.text=buffer;break;
+  case 4:out.text.assign(value->text?value->text:"",value->text_bytes);break;
+  default:out.text="nil";break;
+  }
+  return 0;
+ };
+ const int status=s.session->call(entry,nullptr,0,0,observe,&capture,error);
+ result=capture.text;
+ if(status){if(error.empty())error="Lua status "+std::to_string(status);return false;}
  return true;
 }
 bool Runtime::cancel_sneaking(std::uint8_t* character_byte_415,

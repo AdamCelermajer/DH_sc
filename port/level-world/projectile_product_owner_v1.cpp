@@ -71,6 +71,7 @@ lifecycle::Status Owner::set_info_float(void* raw, objects::GameObject& object,
         row->row_index != args.source_record->row_index)
         return lifecycle::Status::object_not_owned;
     payload->projectile_id = args.projectile_id;
+    ++payload->spawn_serial;
     payload->source_row = *args.source_record;
     payload->owner_identity = args.owner->identity;
     payload->target_identity = args.target ? args.target->identity : 0;
@@ -105,6 +106,7 @@ lifecycle::Status Owner::set_info_bool(void* raw, objects::GameObject& object,
         row->row_index != args.source_record->row_index)
         return lifecycle::Status::object_not_owned;
     payload->projectile_id = args.projectile_id;
+    ++payload->spawn_serial;
     payload->source_row = *args.source_record;
     payload->owner_identity = args.owner->identity;
     payload->target_identity = args.target ? args.target->identity : 0;
@@ -141,7 +143,11 @@ lifecycle::Status Owner::set_active(void* raw, objects::GameObject& object,
 
 SpawnResult Owner::spawn(const skill_projectile_delivery_v1::Launch& launch) {
     SpawnResult output{};
-    if (!launch.character || !launch.skill_script || launch.projectile_id < 0 ||
+    // Skill projectiles carry their CharAISkillScript as user data (Launch::
+    // skill_script, validated by skill_projectile_delivery_v1::spawn). A basic
+    // attack ProjectileManager::Spawn from CharAI::_OnAnimEvent passes a null
+    // user-data pointer, so only the owning Character is required here.
+    if (!launch.character || launch.projectile_id < 0 ||
         static_cast<std::size_t>(launch.projectile_id) >= table_.rows.size()) {
         output.status = Status::invalid_request;
         return output;

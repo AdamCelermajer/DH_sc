@@ -1,0 +1,435 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -1568.29,
+      876.68,
+      861.838
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      -15.4312
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint01_001",
+    "source_path": "data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+    "source_record": 4,
+    "world_position": [
+      -1568.29,
+      876.68,
+      861.838
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      -15.4312
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x04_root_den_backup.dae": {
+      "bytes": 360,
+      "sha256": "a412cd15f6e0b8442f74a2c5b3a905f04ac6d661a3f77b0e2b68d1002fa022b3"
+    },
+    "x04_root_den_backup.dwld": {
+      "bytes": 1048,
+      "sha256": "7d91040bcc966c32807773c51fb184f7f5f9d604f71a4298aa582e34e129ebeb"
+    },
+    "x04_root_den_backup.spwn": {
+      "bytes": 160,
+      "sha256": "49f98fe863a2e8a567cdb9da3f616c28938b0debbb8916c5d8aeefdbee1d9956"
+    }
+  },
+  "level_list": {
+    "level_file": "004_root_den.rule.xml",
+    "name": "ROOT_DEN_01",
+    "row": 39
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 8,
+  "modules": [
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+      "mgp_records": 16,
+      "module_index": 0,
+      "mvp": "data/3d/modules/root_den/mvp/objentry_rootden_e__01.mvp",
+      "mvp_records": 1,
+      "name": "objentry_rootden_e__0",
+      "node_id": "_module_objentry_rootden_e_-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/corner_rootden_nw__01.mgp",
+      "mgp_records": 17,
+      "module_index": 1,
+      "mvp": "data/3d/modules/root_den/mvp/corner_rootden_nw__01.mvp",
+      "mvp_records": 0,
+      "name": "corner_rootden_nw__1",
+      "node_id": "_module_corner_rootden_nw_-node",
+      "position": [
+        6000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/straight_rootden_ns__01.mgp",
+      "mgp_records": 14,
+      "module_index": 2,
+      "mvp": "data/3d/modules/root_den/mvp/straight_rootden_ns__01.mvp",
+      "mvp_records": 0,
+      "name": "straight_rootden_ns__2",
+      "node_id": "_module_straight_rootden_ns_-node",
+      "position": [
+        6000.0,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/objcross_rootden_nesw__01.mgp",
+      "mgp_records": 2,
+      "module_index": 3,
+      "mvp": "data/3d/modules/root_den/mvp/objcross_rootden_nesw__01.mvp",
+      "mvp_records": 0,
+      "name": "objcross_rootden_nesw__3",
+      "node_id": "_module_objcross_rootden_nesw_-node",
+      "position": [
+        6000.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/corner_rootden_se__01.mgp",
+      "mgp_records": 12,
+      "module_index": 4,
+      "mvp": "data/3d/modules/root_den/mvp/corner_rootden_se__01.mvp",
+      "mvp_records": 0,
+      "name": "corner_rootden_se__4",
+      "node_id": "_module_corner_rootden_se_-node",
+      "position": [
+        6000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+      "mgp_records": 13,
+      "module_index": 5,
+      "mvp": "data/3d/modules/root_den/mvp/objboss_rootden_w__01.mvp",
+      "mvp_records": 1,
+      "name": "objboss_rootden_w__5",
+      "node_id": "_module_objboss_rootden_w_-node",
+      "position": [
+        12000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/deadend_rootden_w__01.mgp",
+      "mgp_records": 9,
+      "module_index": 6,
+      "mvp": "data/3d/modules/root_den/mvp/deadend_rootden_w__01.mvp",
+      "mvp_records": 1,
+      "name": "deadend_rootden_w__6",
+      "node_id": "_module_deadend_rootden_w_-node",
+      "position": [
+        12000.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/root_den/mgp/deadend_rootden_e__01.mgp",
+      "mgp_records": 11,
+      "module_index": 7,
+      "mvp": "data/3d/modules/root_den/mvp/deadend_rootden_e__01.mvp",
+      "mvp_records": 0,
+      "name": "deadend_rootden_e__7",
+      "node_id": "_module_deadend_rootden_e_-node",
+      "position": [
+        0.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/corner_rootden_nw__01.mgp",
+      "bytes": 6362,
+      "path": "data/3d/modules/root_den/mgp/corner_rootden_nw__01.mgp",
+      "sha256": "6fccd7dacaf4f0c8d7687a7767594f463c09dcb1720324268ff1da7fa37b4b58"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/corner_rootden_se__01.mgp",
+      "bytes": 6832,
+      "path": "data/3d/modules/root_den/mgp/corner_rootden_se__01.mgp",
+      "sha256": "3b3a80e891a7955b1f35e6377a13aa3b76a483c4950e40bd143993cb8018bedd"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/deadend_rootden_e__01.mgp",
+      "bytes": 6044,
+      "path": "data/3d/modules/root_den/mgp/deadend_rootden_e__01.mgp",
+      "sha256": "509bb63a181208d58725b362bdf92931cacbc55402e6fef3d6ad613f37d44648"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/deadend_rootden_w__01.mgp",
+      "bytes": 4201,
+      "path": "data/3d/modules/root_den/mgp/deadend_rootden_w__01.mgp",
+      "sha256": "b8e8ba6557b77b4d0e2134dbb5f6d226bfc4d19819de2362372bdc6f7f2a0a1a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+      "bytes": 5775,
+      "path": "data/3d/modules/root_den/mgp/objboss_rootden_w__01.mgp",
+      "sha256": "70cd47509ac4c82a2d9f8492e36002f9fd6cce5e718a2dc616c4562515b86947"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/objcross_rootden_nesw__01.mgp",
+      "bytes": 937,
+      "path": "data/3d/modules/root_den/mgp/objcross_rootden_nesw__01.mgp",
+      "sha256": "d4a0b21b948d8bb3b26a4bc3040c7fc4d9dc0b1998eb4645f160f3ddfc380c1b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+      "bytes": 6623,
+      "path": "data/3d/modules/root_den/mgp/objentry_rootden_e__01.mgp",
+      "sha256": "1962660fabba01f2cfa6c81dfdbc1429fc0e82a11d31a432ea6e086132b8f070"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mgp/straight_rootden_ns__01.mgp",
+      "bytes": 6754,
+      "path": "data/3d/modules/root_den/mgp/straight_rootden_ns__01.mgp",
+      "sha256": "d133d12dcac16d7f9383cdeecdcd8cee21d51ace28e37e57d5b2d1ecfd16faa0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/corner_rootden_nw__01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/corner_rootden_nw__01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/corner_rootden_se__01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/corner_rootden_se__01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/deadend_rootden_e__01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/deadend_rootden_e__01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/deadend_rootden_w__01.mvp",
+      "bytes": 658,
+      "path": "data/3d/modules/root_den/mvp/deadend_rootden_w__01.mvp",
+      "sha256": "a120d958d6202d56ddab3aa073f5f0a40d1fc1107959e067b714d3713db4e901"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/objboss_rootden_w__01.mvp",
+      "bytes": 783,
+      "path": "data/3d/modules/root_den/mvp/objboss_rootden_w__01.mvp",
+      "sha256": "a23b645827c93ebb98eaccd75ea6607602f90ddf73aa9c971d4c3ec59b27212f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/objcross_rootden_nesw__01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/objcross_rootden_nesw__01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/objentry_rootden_e__01.mvp",
+      "bytes": 783,
+      "path": "data/3d/modules/root_den/mvp/objentry_rootden_e__01.mvp",
+      "sha256": "5480ec48c3eb24aeff33d10de2769cf8fd56ac200006e97b9ccc126ccc3c4f3a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/mvp/straight_rootden_ns__01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/root_den/mvp/straight_rootden_ns__01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/root_den/root_den_rooms.bdae",
+      "bytes": 3388468,
+      "path": "data/3d/modules/root_den/root_den_rooms.bdae",
+      "sha256": "8e241755c75d714873bde272edd2d2cfb1ffddc00ee141a178b77469272d87eb"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "bytes": 162552,
+      "path": "data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "sha256": "50b681e96d5e5f2647adee92e7344be815afd821e0a2586e61a61dd60e1b9e01"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x04_root_den_backup.mlx",
+      "bytes": 8540,
+      "path": "data/scene/x04_root_den_backup.mlx",
+      "sha256": "24f5d7498fd927c028e94c79a8c0e0c738ef34a890fb94ef4b995142ea8653fe"
+    }
+  ],
+  "source_layout": "data/scene/x04_root_den_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/root_den/root_den_rooms.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_root_den.tga",
+        "data/3d/textures/env_root_den_spec.tga",
+        "data/3d/textures/pvr2_env_root_den_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

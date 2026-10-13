@@ -75,7 +75,8 @@ Status execute(const Arguments*,const Globals*,const Services*,data::CombatResul
 // live orientation+16c is used, identity=borrowed target-position pointer,
 // word0=FX key, word1/2=the two null stack arguments. read_property word0 is
 // the source field ID; stun/fear words are duration/true/final bool; push words
-// are push-bit/special; apply_dot words are duration/amount/element. All requests
+// are great-bit/0/direct (SM_SetKnockBackState's special bool is word2, as for
+// Fear; hurt carries it in word0); apply_dot words are duration/amount/element. All requests
 // retain the mutable result and original attacker/defender identities. Virtual
 // AI result providers resolve current CharAI and active AIS at their call phase.
 // coop_player_count is the current Application+40 PlayerManager+6c4 field read,

@@ -1,8 +1,21 @@
 # Dungeon Hunter 2 — project completion checklist
 
-Updated: 2026-10-12. Branch: `feature/desktop-gameplay-loop` (off `development`).
+Updated: 2026-10-13. Branch: `feature/desktop-gameplay-loop` (off `development`).
 
-All LevelList rows round (2026-10-12, latest):
+Faery, skills and combat-status round (2026-10-13, latest):
+- [x] PORTAL_ROOM loads: Level::Level (0x3f3128) takes the first LevelList row whose LevelFile is a substring of the file name, so it resolves to row 4 (`29f3ccb2`).
+- [x] Nine more `_BACKUP` layouts staged (rows 16 24 25 27 30 31 39 49 50); absent module files load no records (Level::LoadFile 0x3f3b40); `DH2_FORCE_GENERATION_FAILURE=1` exercises the backup path (`29f3ccb2`).
+- [x] Dead monsters' AI timers count as retired at VM close (CharAI::AI_SetDead 0x3d6cdc); no more "Ghost timer owner mismatch" (`bac172ba`).
+- [x] Desktop probes `--scenario faery-follow|faery-skill|skill-matrix|tutorial-potion`, `--player-class knight|mage|rogue` (`2a5f4544`, merges below).
+- [x] Melee hits run the F_ApplyResult status tail (dodge/block/injure/knockback/stun/scare/slow) for monster defenders (`168bab64`) and the Player (`b26a8a36`); Player hurt/block observed in play, knockback/stun/scare verified with forced rolls (push chance is near zero by data).
+- [x] Level saves on generated layouts, live faery Euler in saves, absent SpawnPoint entry ids (`3d52f09b`); seven transition routes reach their destination.
+- [x] Tutorial cinematics (potionUse, levelUp, menuCharacterSheet, faery) start from the original triggers; DoTutorial/LockTutorial/BlockSaveGame/MarkCharacterAsScripted; StopActor raises the forced controller flag under LockCharacter("All"); LevelUp runs StatusMsg, PlayerLevelUp and FX 135 (`09abd722`, `6bed7c71`). FX 135's `level_up.bdae` is absent from the assets.
+- [x] Player skill VM host natives and `target:` object methods (PlayFX, PlaySound3D, GetSelf, GetID, buffs, status setters, GetTargetListTop five returns); failing skill scripts are tolerated like LuaScript::Call; faery casts work on SWAMP and DARKWOOD; Knight skill-matrix 8/8 incl. Leadership (`885a7f87`, `e8117615`).
+- [x] The Faery follows the Player (see the Faery entry below) and faeries 1-4 select and render (`3e22deec`).
+- [ ] Level exit after extended play (faery-follow probe): SWAMP→DARKWOOD Save does not publish; DARKWOOD→SWAMP after death/revive is blocked by unapplied rows.
+- [ ] Ranged basic attacks; Summon/MoveTo/WarpTo/HasPath/Stop/HeadTo/RegisterAnim/PlayAnim in the Player VM.
+
+All LevelList rows round (2026-10-12):
 - [x] Pre-release `native-static-levels-2026-10-12` published from merge `b1c76d0c` (PR #13/#14).
 - [x] Desktop HUD: enemy bar follows its target; arc skill layout is the default; empty fixed skill buttons are hidden (`ecda88bf`, `4418b884`).
 - [x] Cutscene mode drives the HUD StartCutscene/StopCutscene path (`379ecd44`, `0cfdcf0d`).
@@ -17,11 +30,11 @@ All LevelList rows round (2026-10-12, latest):
 - [x] Android emulator at `996d6939`: all 43 tested LevelList rows (0, 1, 4, 7-33, 38-50) start a playable level. Row 41 move-kill and move-defend verified; row 26 runs its `_BACKUP` level (verified note, not from a commit message).
 - [ ] MACHINE_ROOMS_01 renders sparsely on Android.
 - [ ] VOID_MAZE 01-03 are nearly empty: rules reference `vm011_*` files absent from the cache.
-- [ ] PORTAL_ROOM (row 35) does not load.
-- [ ] No `_BACKUP` level for rows 16, 23, 24, 39, 46-48.
-- [ ] Knockback not observed in play.
+- [x] PORTAL_ROOM (row 35) does not load. Fixed in `29f3ccb2`.
+- [x] No `_BACKUP` level for rows 16, 23, 24, 39, 46-48. Rows 16 24 39 staged in `29f3ccb2`; the Crypt and VOIDMAZE rows have no backup MLX in the cache.
+- [x] Knockback not observed in play. Melee and skill hits now reach SM_SetKnockBackState (`168bab64`, `b26a8a36`).
 - [ ] Save migration for profiles written before `4562ac61`.
-- [ ] Tutorial cinematics.
+- [x] Tutorial cinematics (`09abd722`, `6bed7c71`).
 
 Static-level and level-transition round (2026-10-12):
 - [x] Level transition SWAMP → DARKWOOD completes: the PROP save writer now writes the saved-delta sheet, so the PlayerManager activation accepts the new Level (`4562ac61`).
@@ -40,13 +53,15 @@ Static-level and level-transition round (2026-10-12):
 - [x] Monster root-motion delta resets on every clip (re)start, so looping walks no longer snap enemies back (`c0a4d27f`).
 - [x] Player skill state closes: CSSkill blur timer subject fixed and OnBlur ignores RaiseEvent(31) (`84b1d0f0`).
 - [x] Player skills deal damage: skill hits reach the CharAnim-layout result path; desktop `--scenario skill-kill` verifies a kill (`f2ef9b3e`, `0655f267`).
+- [x] Mage/Rogue Player animation set: the Player clip bank is derived per class from the reconstructed `CharAnimator::SetAnimationSet` (0x3c9f4c) request list over the class's CharAnimTable row and SkillList (the Knight list is asserted equal to the staged 158-request original receipt; class skill clips come from the original cache). Fixes the Mage/Rogue `set_animation failed` CSSkill focus error; desktop `--player-class knight|mage|rogue` creates the fresh profile for `--level-row` runs. Desktop exit now tears the world down on failure paths and the Player TargetList backups no longer outlive the Level owner (no exit segfault/terminate).
+- [ ] Player/NPC ranged basic attacks: combat events of kind `projectile` (Mage staff, bows) are dropped in the Player and NPC event handlers, so a Mage `--scenario move-kill` cannot kill with basic attacks. (Mage `skill-matrix` now completes all 16 rows: Doppelganger's MoveTo/HasPath/Stop/WarpTo/Summon natives are served and pooled projectile rows no longer abort the ordered update; see the Summon/movement entry below.)
 - [x] Status reaction animations use the CharAnim row layout; the monster clip bank loads Dodging, Blocking, Injured, Scared, Stunned, GreatKnockedBack and KnockedBack; missing clips keep the current animation (`b091f7c7`, `c93549cb`).
 - [x] Transparent environment pass draws back-to-front (stable sort by clip-space w, farthest first) (`22b095d3`).
 - [x] Level scripts: StopEffect (21), PutCharacterInLimbus (29) and KillActor (44) bound; DARKWOOD 104 of 105 and SWAMP 53 of 55 scripts bind (`3af20077`, `34e7e83f`). Not yet exercised in play.
 - [x] Android `debug_auto_start` (debug builds): selects or creates a profile and starts the debug level row; every debug LevelList row is accepted at launch (`9259471f`, `8ba7b94b`).
 - [x] Host tests follow rotated Crypt module bounds (DWLD v2), RoomZone relative extents and the read_object_facts true-on-failure convention (`6ac9dacd`).
 - [x] Android emulator verification (API 37/16 KiB) at `265b7af5`, verified note (not from a commit message): all 9 static levels start (rows 41 4 38 45 1 29 20 28 33); move-kill gives 6 kills plus death/revive; move-defend shows damage, death and revive.
-- [ ] Knockback entry (SM_SetKnockBackState, GreatKnockedBack/KnockedBack) not yet observed in play (`b091f7c7`).
+- [x] Knockback entry (SM_SetKnockBackState, GreatKnockedBack/KnockedBack) observed with forced rolls (`168bab64`, `b26a8a36`).
 - [ ] Spawn heading on the DWLD-start fallback.
 - [ ] Remaining level-script commands 19, 22/23, 27 and 51/52.
 - [ ] Save migration for profiles written before `4562ac61` (bad Level delta).
@@ -61,12 +76,20 @@ Combat-loop and second-level round (2026-10-12, later):
 - [ ] DARKWOOD combat: the scripted player stalls ~330 units from its target and no monster aggro was observed; Decor allowlist, QuestMoveInZone owners and conditional entrypoint 0 are deferred there.
 - [ ] Android emulator run of this round's combat/death loop (previous APK reached SWAMP gameplay with no crash).
 
+Level revisit round (2026-10-13):
+- [x] Revisiting a Level applies its LevelSavegame like `Level::_LoadProcess` step 33 (0x3f7e44): the Load now runs after the Monster AIS VMs and the retained PlayerSkills owner exist (Player row's AI_ScriptCleanUp/Init no longer fails with "no retained PlayerSkills owner"), before `PlaceFaeryAndFollowers`. Row accounting follows `__LoadObjects` 0x461e90 (applied / skipped by the source / unsupported); only unsupported rows keep the loaded image protected.
+- [x] `Character::Deserialize` 0x3a6210 for record-less Characters (Monsters, NPCs, followers): properties, dead byte, `Character::Revive` (dead -> alive, incl. checkpoint reload), Limbus for Dead/Despawn/Limbus rows, CharAI cleanup/init, target clear, Monsters back to their initial pose. Monster rows are ignored while Level +0xF3 is set (`Level::Level` 0x3f3128: both hubs 0, or a non-zero destination hub that differs from the previous one) -- so SWAMP -> DARKWOOD -> SWAMP respawns Monsters, SWAMP -> SWAMP_02 -> SWAMP and a Continue restore them dead. Non-KeepPhysics Containers follow `Container::Deserialize` 0x39f6f0 (+0xF3/+0xF4 gate).
+- [x] Second Level transition: PlayerInfo class is re-published from the Save after `RemoveCharacter` (PlayerInfo::Prepare) and the 36-byte character buffer clear accepts the already-empty member.
+- [x] Pooled `Projectile_NNN` ObjectManager rows report the `ObjectBase` +0x28 save gate (0) instead of failing the LevelSavegame Save.
+- [x] Desktop `--return-to-origin ENTRY [--return-delay N]` (A -> B -> A) and `--enemy-census-at N`.
+- [ ] Faery row at Level entry is deferred (its delayed LoadNInit has not run before the port's Load); PreSpawn/awaiting-spawn rows and Dead rows in a live state are unsupported; `AIS::OnRevived` Lua is not dispatched on revive.
+
 Desktop gameplay-loop round (2026-10-12):
 - [x] Restore the Windows desktop build (stray brace closed `model_renderer` early) and clear ~40 world-load/runtime gates; SWAMP and Crypt load and run on desktop.
 - [x] Main menu renders the selected character model; player spawns visible at full HP (offline PlayerInfo unpack and +0x144 visibility fixed per IDA `_ManageCharacters`).
 - [x] Monster aggro, player attack, monster attack and enemy death: desktop `--scenario move-kill` kills cultist07 (Crypt) and 4 SWAMP Monsters; enemy bar shows localized name, damage text and XP.
 - [x] Android API 37/16 KiB x86_64 emulator: intro → menu → new Warrior → character preview → SWAMP gameplay with visible player and HUD (APK `09fdefe0…`). Touch combat on device and audible cinematic remain unverified.
-- [ ] Monster `_InitEquipment` powered-loot gap (unequipped fallback in use); monster-VM GameObject methods beyond `GetID`; Faery AIFrameOwner48 frame binding; RoomZone culling for doors/triggers.
+- [ ] Monster `_InitEquipment` powered-loot gap (unequipped fallback in use); monster-VM GameObject methods beyond `GetID`; RoomZone culling for doors/triggers.
 
 
 Latest source round (not in R4):
@@ -78,6 +101,7 @@ Latest source round (not in R4):
 - [x] Preserve manager-owned FX handles after pool return so repeated objective-marker removal/reinstallation follows the source lifecycle; focused regression passes (`aad90a92`).
 - [x] Build `a1ac6b9f` for ARM64/x86_64 and verify intro → main menu → new Warrior → SWAMP world/HUD on API 37/16 KiB. Fixed repeated identical menu frame labels that aborted assertion-enabled builds. Android combat and audible cinematic output remain unverified.
 - [x] Connect authored Faery selection to the canonical Save/skill and Level-placement providers, with source-selected BDAE/Idle rendering. Shared Windows target compiles; full Faery factory/AI lifecycle and live selection remain open.
+- [x] The Faery companion follows the Player. `CharAI::Update` runs for it (`native_faery_ai_frame_v1`: `_UpdateTarget`, `_UpdateMaster` events 18..25, `_UpdateAggro` friend/enemy/neutral 7/8/9, `CharAI::OnUpdate`) through its own Coordinator into the one `follower.luac` AISExternal Session. Translation is VisualObject root motion (CSMove flags `0x23c1`; the walk clip travels `root_camera` about 663 units/s) applied by `GameObject::UpdateSubObjects`, not a physics velocity: `character_faery_motion_v1` adapts the Faery's retained owners to `dh2::actor::update_actor` and tracks `RootSceneNode::_HandleDisplacement` with the authored AnimStep MoveGo byte. `Character::ChangeFaery` now replaces the linked Faery's VisualObject, so Faeries 1-4 select and render. Host audits: `port/android-native/tests/run_native_faery_ai_frame_v1_host.py`, `port/level-world/tests/run_character_faery_motion_v1_host.py`; live probe `--scenario faery-follow [--follow-faery N]` (SWAMP, DARKWOOD) and `DH2_TRACE_FAERY=1`. Known gaps: MACHINE_ROOMS_01 and the VOIDMAZE rule levels author no Faery; `m_fairyPos_new` is only written on LG devices.
 - [x] Restore local-player starter-slot initialization for loaded Saves with empty slot maps; retain source CharacterList-based interaction selection and activated-enemy target eligibility. Shared Windows target compiles; fresh starter skill 7/level 1 is logged. Restored-empty grant and merchant checks remain open.
 - [x] Reconstruct Irrlicht finite/infinite/orthographic projection and GLES depth conversion (`c8610338`); recovered perspective chain now selected by the shared renderer. Camera host checks and Windows build pass; nine aspect ratios match prior coefficients bit-for-bit.
 - [x] Verify selected quest-owner libraries: 5,552 host checks, 384 actual quest instances, including authored MoveInZone/OpenGameObject delivery. Live campaign progression remains open.
@@ -474,6 +498,8 @@ the [branch-audit reconciliation](BRANCH-AUDIT-2026-10-05.md#adam-reconciliation
   saved skill levels, `LuaManager::AddFile` and lifecycle ownership.
 - [ ] Verify nonempty HUD skills through state 6, authored `do_skill` event 40, EndSkill loop stop and Blur; finish target search/LookAt/ClearTarget and exact `SkillCombatRoll` arguments. No starter grant or damaging cast is verified.
 - [x] Register `NativeHUDSpell` on the separate current-faerie cast path through state 7, CSCast Focus/Blur and retained faerie callbacks. Live casting with a selected faery remains open; do not route this action through the skill-slot API.
+- [x] Serve the Player skill VM's GameObject/Character natives and `target:Method()` layer (`native_player_skill_host_v1`, `player_skill_session_v1`, shared `{_this=identity}` convention in `script_object_methods_v1.hpp`): PlayFX/PlaySound3D/GetRand/GetSelf/GetID/GetName/GetPosition/GetHP/GetPropHP/HasBow/CanAttackInMelee/RegenHP/SetIsTargetable/SetTarget/GetCharAIFlags/TargetInMeleeRange/GetState/Is*/LOCK/UNLOCK/Kill/SetStun|Scare|KnockBackState, SetBuffProp's sheet form, CreateBuff/ApplyBuff/RemoveBuff/GetProp on monsters, and GetTargetListTop's five returns. Headless desktop evidence: faery `do_spell` casts near enemies (SpellCombatRoll hits, kills credited), `target:SetKnockBackState` drives monsters into state 10. Summon, the movement group, SetMaster/SetLevel and the remaining SetProp forms are served by the next entry; RegisterAnim/PlayAnim stay unbound. A skill script that raises a failure no longer stops the walk or the cast, as in the source (LuaScript::Call swallows script errors; CSCast/CSSkill raise OnPreSkill/OnPostSkill events regardless, so the Player cannot be left in state 7; UpdateAllSkills goes on to the next skill); Leadership's `TargetListSearch(600,360)` with the Player filter now resolves through PlayerList (the sole PlayerInfo carrying the live Player Character) and skips the searching Player itself, so solo play finds an empty list as in the original.
+- [x] Serve the Player skill VM's Summon, MoveTo, WarpTo, HasPath, Stop, HeadTo, SetMaster, SetLevel, SetProp (type-32 properties such as HP, PROPS_Set) and SetProp/ApplyPropClass on non-Player receivers (original natives 0x39193c, 0x3bada8, 0x3bb268, 0x38e98c, 0x3b56b4, 0x3ba71c, 0x3b9084, 0x3b73a4, 0x3b7eac, 0x3babdc; `native_player_skill_host_v1`, `model_renderer.cpp` providers). Movement natives gate on the v2Controller Cmd_* lock check and drive the Character Ctrl_* services (`PathTo`/`Stop`/`SetPosition`/`SetDestination`/`SetHeadingDirection` over the navigation floors); `Summon` reuses the GameObject::_Summon factory (`native_player_summon_character`, Player as summoner: ObjectManager seed from the Player row, no RoomZone so the no-room tail applies, character model groups are installed on demand) and the follower AI row receives the Player as master. Desktop evidence: Mage `skill-matrix` completes all 16 rows (4 WORKS, 4 PASSIVE OK, 8 placeholder rows, exit 0) with Doppelganger (Stone Escape) logging PathTo found=1, WarpTo, a `Dummy` Summon and SetMaster; Knight and Rogue matrices and Knight `move-kill`/`skill-kill` on SWAMP still verify. Several latent bugs of the never-run script-Summon pipeline were fixed on the way, projectile pool rows and summoned Characters are skipped by the LevelSavegame facts, and monster buff owners are retired before the FX manager is dropped. Still open: `RegisterAnim`/`PlayAnim` (CharStateMachine state 14 CSAnim and dynamic anim-set registration are not in the state kernel), external AIS scripts of summoned units (`Dummy` never `DoSkill`s so Stone Escape's statue is only removed at world teardown; the necromancer/archer follower scripts are not hosted), Stone Escape's warp distance, which comes from the live TeleportTool projectile (`SpawnSkillProjectile` now returns the product in every argument form as `Character::_SpawnSkillProjectile` 0x3b99d0 does, and a target-less shot is aimed 1000 units along the owner's look vector as in `Projectile::SetInfo`; on a scratch merge with the ranged branch's m/s projectile velocity the warp moved 685-760 units, while this branch's own base still scales the velocity by 0.01 so the projectile crawls and the warp lands on the caster), Summon's forward animation/summon-spot node/online replication, summoned Characters in the LevelSavegame, and non-Player summoners of the Player VM.
 - [ ] Complete all 265 original Character bindings and every actually used game/engine service.
 - [ ] Connect native Ghost acquisition and pursuit through real frame/path/body services.
 - [ ] Bind positive Player DoT attack/application and Ghost AI/DoT providers; Ghost timers remain paused.

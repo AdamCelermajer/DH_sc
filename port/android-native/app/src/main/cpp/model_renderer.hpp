@@ -158,6 +158,25 @@ struct GameplayPoseSnapshotV1 {
  std::int32_t player_hp=0,player_max_hp=0;
 };
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&);
+// Development probe for the boss-fight desktop scenario: the named Character's
+// external AIS script, FSM state, health, position, CharAI target and the
+// callback / CharAI skill-command counters of its one Lua VM.
+struct BossProbeSnapshotV1 {
+ bool present=false,initialized=false,dead=false,source_visible=false,renderer_visible=false;
+ std::string script,animation_state;
+ std::int32_t fsm_state=-1,hp=0,max_hp=0,world_index=-1;
+ std::array<float,3> position{};
+ std::uintptr_t target=0;
+ std::uint32_t completed_callbacks=0,failed_callbacks=0,ais_flags=0,
+               skill_commands=0,skill_events=0;
+};
+bool boss_probe_snapshot(const std::string& exact_name,BossProbeSnapshotV1&,std::string&);
+// Places the local Player at a world position with GameObject::SetPosition's
+// bookkeeping (Script_SetActorPosition); development scenarios only.
+bool boss_probe_place_player(const std::array<float,3>&,std::string&);
+// One-name Level script commands (ShowActor 42 / HideActor 43 / PutCharacterInIdle 31
+// / StopActor 39) through the generic host provider; development scenarios only.
+bool boss_probe_script_command(unsigned command_id,const std::string& name,std::string&);
 // Development check: dropped world items (ItemManager projections) and the
 // one nearest the Player.
 struct GameplayWorldItemSnapshotV1 {
@@ -178,6 +197,32 @@ struct GameplayRouteSnapshotV1 {
 };
 bool gameplay_route_snapshot(const std::array<float,3>&,
                              GameplayRouteSnapshotV1&,std::string&);
+// Read-only projection of the authored Faery companion (the Character linked
+// at Player+0x420, else the Level's first authored Faery) for the development
+// faery-follow probe. present=false when the Level has no authored Faery.
+struct GameplayFaerySnapshotV1 {
+ bool present=false;
+ std::uintptr_t identity=0;
+ // CharAI+0x50 master identity (0 = none) and whether it is the local Player.
+ std::uintptr_t master=0;
+ bool master_is_player=false;
+ // GameObject position (+0x160).
+ std::array<float,3> position{};
+ // CharStateMachine state (3 Idle, 4 Move) and v2Controller path state.
+ std::int32_t state=-1;
+ std::uint32_t path_segments=0;
+ bool moving=false;
+ // Planar distance to the local Player.
+ float player_distance=0.f;
+ // CharAI::_UpdateMaster events raised so far, indexed by event-18: died,
+ // revived, out of sight (follower.luac WarpBehind), in sight, out of range
+ // (MoveTo), ranged, close, melee range (Stop).
+ std::array<std::uint32_t,8> master_events{};
+ std::uint32_t ai_frames=0;
+ // Selected Faery (Save slot) of its VisualObject.
+ std::int32_t visual_faery_id=-1;
+};
+bool gameplay_faery_snapshot(GameplayFaerySnapshotV1&,std::string&);
 struct GameplayEnemyStateSnapshotV1 {
  std::string name;
  std::int32_t hp{},max_hp{};

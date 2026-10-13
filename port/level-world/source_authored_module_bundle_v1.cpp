@@ -80,18 +80,27 @@ Status load(const std::uint8_t* mlx, std::size_t mlx_size,
                 candidate.modules.push_back(std::move(module));
                 continue;
             }
+            // Module::LoadModule (0x38a88c) loads each file through Level::LoadFile
+            // (0x3f3b40), which finishes without records when no folder holds the
+            // file. The reader reports such an absent file as success with no bytes;
+            // it is carried as a Module document with no GameObject children.
+            static const char empty_module_xml[] = "<Module></Module>";
             if (!services.read_cache(services.context, module.mgp_path.c_str(),
-                                     module.mgp_bytes, error) ||
-                module.mgp_bytes.empty()) {
+                                     module.mgp_bytes, error)) {
                 if (error.empty()) error = "Authored MGP cache read returned no bytes";
                 return Status::cache_read_failed;
             }
+            if (module.mgp_bytes.empty())
+                module.mgp_bytes.assign(empty_module_xml,
+                                        empty_module_xml + sizeof(empty_module_xml) - 1);
             if (!services.read_cache(services.context, module.mvp_path.c_str(),
-                                     module.mvp_bytes, error) ||
-                module.mvp_bytes.empty()) {
+                                     module.mvp_bytes, error)) {
                 if (error.empty()) error = "Authored MVP cache read returned no bytes";
                 return Status::cache_read_failed;
             }
+            if (module.mvp_bytes.empty())
+                module.mvp_bytes.assign(empty_module_xml,
+                                        empty_module_xml + sizeof(empty_module_xml) - 1);
             candidate.modules.push_back(std::move(module));
         }
 

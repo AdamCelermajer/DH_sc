@@ -193,6 +193,20 @@ std::size_t loaded_path_count(const State* state) noexcept {
     return state ? state->loaded_paths_.size() : 0;
 }
 
+Status mark_loaded(State* state, const char* resolved_path) {
+    if (!state || !state->vm_identity_) return Status::invalid_argument;
+    std::size_t size = 0;
+    if (!path_length(resolved_path, size)) return Status::invalid_argument;
+    if (contains_path_unchecked(state->loaded_paths_, resolved_path, size))
+        return Status::complete;
+    try {
+        state->loaded_paths_.emplace_back(resolved_path, size);
+    } catch (...) {
+        return Status::allocation_failed;
+    }
+    return Status::complete;
+}
+
 bool contains_path(const State* state, const char* resolved_path) noexcept {
     if (!state) return false;
     std::size_t size = 0;

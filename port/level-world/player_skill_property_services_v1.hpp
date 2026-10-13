@@ -29,8 +29,9 @@ struct Bindings {
 };
 
 // Four property callbacks are implemented for the source skill path. GetProp
-// accepts every schema-valid property ID; SetProp remains bounded to recovered
-// runtime skill fields. ApplyPropClass delegates every valid class row to the
+// accepts every schema-valid property ID; SetProp is CharProperties::PROPS_Set
+// (type-32 properties write the saved sheet and recalculate, type-8 properties
+// write the resolved sheet, other types are ignored). ApplyPropClass delegates every valid class row to the
 // selected class kernel regardless of destination property type. Its false/no
 // selector resolves each linear source property through owner_view; true reads
 // the cached owner source properties

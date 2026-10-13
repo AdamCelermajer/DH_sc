@@ -94,6 +94,37 @@ static std::vector<std::uint8_t> image_with_faery_idle_row() {
     return out;
 }
 
+// Faery_0 plus Npc_0: two non-Player Character rows that share the same
+// Character::Serialize payload layout.
+static std::vector<std::uint8_t> image_with_faery_and_npc_rows() {
+    PayloadSet payloads;
+    payloads.player={0,0};put_u32(payloads.player,17);put_u32(payloads.player,3);
+    for(unsigned i=0;i!=24;++i)payloads.player.push_back(0);
+    payloads.player.push_back(0);
+    for(unsigned i=0;i!=24;++i)payloads.player.push_back(0);
+    payloads.other={0,0};put_u32(payloads.other,77);put_u32(payloads.other,3);
+    for(unsigned sheet=0;sheet!=2;++sheet) {
+        if(sheet==0)payloads.other.insert(payloads.other.end(),{0x78,0x56,0x34,0x12});
+        else payloads.other.insert(payloads.other.end(),{0xaa,0xbb,0xcc,0xdd});
+        for(unsigned i=0;i!=224;++i)put_u32(payloads.other,1000*sheet+i);
+    }
+    payloads.other.insert(payloads.other.end(),24,0);
+    payloads.other.push_back(0);
+    payloads.other.insert(payloads.other.end(),24,0);
+    assert(payloads.other.size()==1859);
+    const save::Object objects[]={{0xabc,"PlayerCharacter_0","PlayerCharacter_0",1,1,1,1,1,0},
+                                  {0xdef,"Faery_0","Faery_0",2,1,1,0,0,0},
+                                  {0x333,"Npc_0","Npc_0",2,1,1,0,0,0}};
+    const save::SerializeServices serializer{&payloads,&write_payload_set};
+    std::vector<std::uint8_t> objs,info,out;save::Result result{};std::string error;
+    assert(save::serialize_objects(objects,3,0,&serializer,objs,&result,error)==
+           save::Status::complete&&result.saved_objects==3);
+    assert(save::serialize_info_word(0x12345678,info,error));
+    const save::Section sections[]={{"INFO",std::move(info)},{"OBJS",std::move(objs)}};
+    assert(save::serialize_savegame(sections,2,out,error));
+    return out;
+}
+
 static std::vector<std::uint8_t> image_with_unapplied_row() {
     PayloadSet payloads;
     payloads.player={0,0}; put_u32(payloads.player,17); put_u32(payloads.player,4);
@@ -159,12 +190,17 @@ struct Fixture {
     unsigned prepares{}, commits{};
     std::uintptr_t generic_player_identity{}, faery_identity{};
     std::uintptr_t door_identity{}, trigger_identity{}, container_identity{};
+    std::uintptr_t npc_identity{};
     load::PlayerState applied{};
     unsigned character_prepares{}, character_commits{};
     load::FactoryDeserializeState restored_character{};
     load::SourceNoncharacterDeserializeState restored_noncharacter{};
     unsigned noncharacter_prepares{}, noncharacter_commits{};
     bool fail_prepare{}, fail_commit{};
+    load::DirectCharacterDisposition direct_disposition{load::DirectCharacterDisposition::apply};
+    bool fail_direct_commit{}, defer_factory{}, skip_noncharacter{};
+    unsigned direct_prepares{}, direct_commits{};
+    load::FactoryDeserializeState restored_direct{};
     static int component(void* raw, ctor::Component id, ctor::Identity identity,
                          factory::ComponentStorage::Slot* slot, std::string&) {
         auto& f=*static_cast<Fixture*>(raw); slot->component=id;
@@ -183,31 +219,38 @@ struct Fixture {
     static int remove_character(void*, aggro::Character*, std::size_t* removed) {
         *removed=1; return 0;
     }
+    // Returns true on failure, like FactsServices::read_object_facts.
     static bool object_facts(void* raw, const manager::GameObject& live,
                              const factory::Record* record, save::Object* out,
                              std::string&) {
         auto& f=*static_cast<Fixture*>(raw);
         if (!out || !live.identity)
-            return false;
+            return true;
         if (!record && live.identity==f.generic_player_identity) {
             out->identity=live.identity; out->name="PlayerCharacter_0";
             out->manager_key="PlayerCharacter_0"; out->type_word=1; out->enabled=1;
             out->is_character=1; out->is_player=1; out->is_local_player=1;
-            return true;
+            return false;
         }
         if (!record && live.identity==f.door_identity) {
             out->identity=live.identity; out->name="Door_0";
-            out->manager_key="Door_0"; out->type_word=3; out->enabled=1;
-            return true;
+            out->manager_key="Door_0"; out->type_word=live.module_id_64; out->enabled=1;
+            return false;
         }
         if (!record && (live.identity==f.trigger_identity||
                         live.identity==f.container_identity)) {
             out->identity=live.identity;
             out->name=live.name;out->manager_key=live.name;
             out->type_word=live.module_id_64;out->enabled=1;
-            return true;
+            return false;
         }
-        if (!record || record->game_object.identity!=live.identity) return false;
+        if (!record && f.npc_identity && live.identity==f.npc_identity) {
+            out->identity=live.identity; out->name="Npc_0";
+            out->manager_key="Npc_0"; out->type_word=2; out->enabled=1;
+            out->is_character=1; out->is_player=0; out->is_local_player=0;
+            return false;
+        }
+        if (!record || record->game_object.identity!=live.identity) return true;
         out->identity=live.identity; out->enabled=1;
         if(live.source_handle==10) {
             out->name="Faery_0";out->manager_key="Faery_0";out->type_word=2;
@@ -217,7 +260,7 @@ struct Fixture {
             out->type_word=1;out->is_character=1;out->is_player=1;
             out->is_local_player=1;
         }
-        return true;
+        return false;
     }
     static bool prepare(void* raw, const factory::Record& record,
                         const load::PlayerState&, std::string& error) {
@@ -275,11 +318,44 @@ struct Fixture {
     static bool canonical_player(void* raw, std::uintptr_t identity) {
         return canonical_character(raw,identity);
     }
+    static bool canonical_npc(void* raw, std::uintptr_t identity) {
+        const auto& f=*static_cast<Fixture*>(raw);
+        return identity && (identity==f.npc_identity||identity==f.generic_player_identity);
+    }
+    static bool defers_factory(void* raw,const factory::Record&) {
+        return static_cast<Fixture*>(raw)->defer_factory;
+    }
+    static bool classify_direct(void* raw,const manager::GameObject& live,
+        const load::FactoryDeserializeState& state,
+        load::DirectCharacterDisposition* disposition,std::string& reason) {
+        auto& f=*static_cast<Fixture*>(raw);
+        if(!disposition||live.identity!=f.npc_identity||state.state_machine_state!=3) {
+            reason="fixture direct row mismatch";return true;
+        }
+        *disposition=f.direct_disposition;
+        if(f.direct_disposition==load::DirectCharacterDisposition::unsupported)
+            reason="fixture says unsupported";
+        return false;
+    }
+    static bool prepare_direct(void* raw,const manager::GameObject&,
+        const load::FactoryDeserializeState&,std::string&) {
+        ++static_cast<Fixture*>(raw)->direct_prepares;return false;
+    }
+    static bool commit_direct(void* raw,const manager::GameObject&,
+        const load::FactoryDeserializeState& state,std::string& error) {
+        auto& f=*static_cast<Fixture*>(raw);++f.direct_commits;
+        if(f.fail_direct_commit){error="fixture direct commit rejection";return true;}
+        f.restored_direct=state;return false;
+    }
     static bool classify_noncharacter(void* raw,const manager::GameObject& live,
         const save::Object& object,load::SourceNoncharacterKind* kind,
         bool* supported,std::string& error) {
         const auto& f=*static_cast<Fixture*>(raw);
         if(!kind||!supported) {error="fixture has no outputs";return true;}
+        if(f.skip_noncharacter) {
+            *kind=load::SourceNoncharacterKind::skipped_by_source;*supported=false;
+            return false;
+        }
         if(live.identity==f.door_identity&&object.type_word==3&&live.door.definition_ready)
             *kind=load::SourceNoncharacterKind::door;
         else if(live.identity==f.trigger_identity&&object.type_word==4)
@@ -472,6 +548,25 @@ int main() {
         lifecycle_fixture.restored_character.vector_1474.size()==12&&
         lifecycle_fixture.restored_character.properties.resolved[223]==1223);
 
+    // LevelSavegame::__LoadObjects 0x461e90 skips a row whose key resolves to no
+    // object. A same-key Character without a factory Record (an NPC/Actor
+    // Character created elsewhere) has no restore owner here: that row stays
+    // unapplied and must not abort the Faery row restored next to it.
+    manager::GameObject npc_object{};
+    npc_object.identity=0x333;npc_object.source_handle=20;npc_object.name="Npc_0";
+    manager::GameObject* npc_live=nullptr;
+    assert(lifecycle_objects.add_object(20,npc_object,&npc_live)==manager::Status::ok&&
+           npc_live&&!lifecycle_characters.find(20));
+    lifecycle_fixture.npc_identity=0x333;
+    const auto npc_saved=image_with_faery_and_npc_rows();
+    load::FactoryLifecycleResult npc_result{};
+    assert(load::restore_factory_character_rows(npc_saved.data(),npc_saved.size(),
+        lifecycle_objects,lifecycle_characters,&lifecycle_facts,&lifecycle_commit,
+        &npc_result,error)==load::Status::loaded_player_only);
+    assert(npc_result.rows_examined==2&&npc_result.rows_fully_applied==1&&
+        npc_result.rows_still_unapplied==1&&
+        lifecycle_fixture.character_commits==2);
+
     // The production native Player is a canonical manager Character with no
     // factory Record. Resolve and atomically commit through that same identity.
     manager::Owner native_objects;
@@ -607,5 +702,90 @@ int main() {
                 load::SourceNoncharacterKind::container&&
             source_fixture.restored_noncharacter.container.state_394==4);
     }
-    std::puts("PASS level_savegame_player_load_v1 checks=14");
+    // Record-less direct Characters (NPC/Monster ObjectActors): each row is
+    // applied, skipped by the source (Monster rows while Level +0xF3 is set),
+    // unsupported, or fails in its commit -- and none of those aborts the pass.
+    {
+        const auto direct_facts=dh2::level_savegame_object_manager_v1::FactsServices{
+            &lifecycle_fixture,&Fixture::object_facts,nullptr,nullptr,nullptr,
+            &Fixture::canonical_npc,&Fixture::canonical_npc};
+        load::CommitServices direct_commit=lifecycle_commit;
+        direct_commit.classify_direct_character_restore=&Fixture::classify_direct;
+        direct_commit.prepare_direct_character_restore=&Fixture::prepare_direct;
+        direct_commit.commit_direct_character_restore=&Fixture::commit_direct;
+        direct_commit.defers_factory_character_restore=&Fixture::defers_factory;
+        load::FactoryLifecycleResult direct_result{};
+        lifecycle_fixture.direct_disposition=load::DirectCharacterDisposition::apply;
+        assert(load::restore_direct_character_rows(npc_saved.data(),npc_saved.size(),
+            lifecycle_objects,lifecycle_characters,&direct_facts,&direct_commit,
+            &direct_result,error)==load::Status::loaded_player_only&&
+            direct_result.rows_examined==1&&direct_result.rows_fully_applied==1&&
+            direct_result.rows_skipped_by_source==0&&direct_result.rows_unsupported==0&&
+            lifecycle_fixture.direct_prepares==1&&lifecycle_fixture.direct_commits==1&&
+            lifecycle_fixture.restored_direct.properties.resolved[223]==1223);
+        lifecycle_fixture.direct_disposition=load::DirectCharacterDisposition::skipped_by_source;
+        assert(load::restore_direct_character_rows(npc_saved.data(),npc_saved.size(),
+            lifecycle_objects,lifecycle_characters,&direct_facts,&direct_commit,
+            &direct_result,error)==load::Status::loaded_player_only&&
+            direct_result.rows_examined==1&&direct_result.rows_fully_applied==0&&
+            direct_result.rows_skipped_by_source==1&&direct_result.rows_unsupported==0&&
+            lifecycle_fixture.direct_commits==1);
+        lifecycle_fixture.direct_disposition=load::DirectCharacterDisposition::unsupported;
+        assert(load::restore_direct_character_rows(npc_saved.data(),npc_saved.size(),
+            lifecycle_objects,lifecycle_characters,&direct_facts,&direct_commit,
+            &direct_result,error)==load::Status::loaded_player_only&&
+            direct_result.rows_unsupported==1&&direct_result.rows_fully_applied==0&&
+            direct_result.unsupported_detail.size()==1&&
+            direct_result.unsupported_detail[0]=="Npc_0 | fixture says unsupported"&&
+            lifecycle_fixture.direct_commits==1);
+        lifecycle_fixture.direct_disposition=load::DirectCharacterDisposition::apply;
+        lifecycle_fixture.fail_direct_commit=true;
+        assert(load::restore_direct_character_rows(npc_saved.data(),npc_saved.size(),
+            lifecycle_objects,lifecycle_characters,&direct_facts,&direct_commit,
+            &direct_result,error)==load::Status::loaded_player_only&&
+            direct_result.rows_unsupported==1&&direct_result.rows_fully_applied==0&&
+            lifecycle_fixture.direct_commits==2);
+        lifecycle_fixture.fail_direct_commit=false;
+        // A Faery whose delayed LoadNInit has not run is deferred, not unsupported.
+        lifecycle_fixture.defer_factory=true;
+        load::FactoryLifecycleResult deferred_result{};
+        assert(load::restore_factory_character_rows(npc_saved.data(),npc_saved.size(),
+            lifecycle_objects,lifecycle_characters,&direct_facts,&direct_commit,
+            &deferred_result,error)==load::Status::loaded_player_only&&
+            deferred_result.rows_deferred==1&&deferred_result.rows_fully_applied==0&&
+            deferred_result.rows_unsupported==0);
+        lifecycle_fixture.defer_factory=false;
+    }
+
+    // __LoadObjects skips a saved row whose key resolves to an object of another
+    // type; a concrete Deserialize that returns early (non-KeepPhysics Container
+    // under Level +0xF3/+0xF4) is reported as skipped by the source.
+    {
+        door_fixture.noncharacter_commits=0;
+        manager::Owner mismatch_objects;
+        factory::Owner mismatch_characters(mismatch_objects,
+            {&door_fixture,&Fixture::enroll,&Fixture::remove_character});
+        manager::GameObject wrong_type{};wrong_type.identity=door_fixture.door_identity;
+        wrong_type.source_handle=11;wrong_type.name="Door_0";wrong_type.module_id_64=7;
+        wrong_type.door.definition_ready=1;
+        manager::GameObject* wrong_live=nullptr;
+        assert(mismatch_objects.add_named_object(11,"Door_0",wrong_type,&wrong_live)==
+            manager::Status::ok);
+        const auto door_saved_again=image_with_door_row();
+        load::FactoryLifecycleResult mismatch_result{};
+        assert(load::restore_source_noncharacter_rows(door_saved_again.data(),
+            door_saved_again.size(),mismatch_objects,mismatch_characters,&door_facts,
+            &door_commit,&mismatch_result,error)==load::Status::loaded_player_only&&
+            mismatch_result.rows_examined==0&&mismatch_result.rows_fully_applied==0&&
+            door_fixture.noncharacter_commits==0);
+        door_fixture.skip_noncharacter=true;
+        load::FactoryLifecycleResult skipped_result{};
+        assert(load::restore_source_noncharacter_rows(door_saved.data(),door_saved.size(),
+            door_objects,door_characters,&door_facts,&door_commit,&skipped_result,error)==
+            load::Status::loaded_player_only&&skipped_result.rows_examined==1&&
+            skipped_result.rows_skipped_by_source==1&&skipped_result.rows_unsupported==0&&
+            skipped_result.rows_fully_applied==0&&door_fixture.noncharacter_commits==0);
+        door_fixture.skip_noncharacter=false;
+    }
+    std::puts("PASS level_savegame_player_load_v1 checks=18");
 }

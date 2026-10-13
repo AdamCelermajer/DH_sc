@@ -1,0 +1,571 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -39.5742,
+      30.1553,
+      1935.84
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_fromIcyHub_001",
+    "source_path": "data/3d/modules/wind_temple/mgp/entry_windtemp_n_01.mgp",
+    "source_record": 1,
+    "world_position": [
+      -39.5742,
+      30.1553,
+      1935.84
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x29_wind_temple_backup.dae": {
+      "bytes": 540,
+      "sha256": "234188012e11c7bba474c930b20de700fb3aada44c4e004e353ea347141ae161"
+    },
+    "x29_wind_temple_backup.dwld": {
+      "bytes": 1560,
+      "sha256": "3e5c3467fa699dbd80dde65b1bbe108ec0a67bb0022fc95ef61f581acf63dcae"
+    },
+    "x29_wind_temple_backup.spwn": {
+      "bytes": 160,
+      "sha256": "415bd0af827a48410f208e3af1350631871dcab699248c059a34e2a48bf818c7"
+    }
+  },
+  "level_list": {
+    "level_file": "029_wind_temple.rule.xml",
+    "name": "WIND_TEMPLE_01",
+    "row": 50
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 12,
+  "modules": [
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/entry_windtemp_n_01.mgp",
+      "mgp_records": 16,
+      "module_index": 0,
+      "mvp": "data/3d/modules/wind_temple/mvp/entry_windtemp_n_01.mvp",
+      "mvp_records": 1,
+      "name": "entry_windtemp_n__0",
+      "node_id": "_module_entry_windtemp_n_-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/corner_windtemp_se_01.mgp",
+      "mgp_records": 8,
+      "module_index": 1,
+      "mvp": "data/3d/modules/wind_temple/mvp/corner_windtemp_se_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_windtemp_se__1",
+      "node_id": "_module_corner_windtemp_se_-node",
+      "position": [
+        0.0,
+        6000.0,
+        -0.280029
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/corner_windtemp_sw_01.mgp",
+      "mgp_records": 0,
+      "module_index": 2,
+      "mvp": "data/3d/modules/wind_temple/mvp/corner_windtemp_sw_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_windtemp_sw__2",
+      "node_id": "_module_corner_windtemp_sw_-node",
+      "position": [
+        6000.0,
+        6000.0,
+        -0.280029
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/corner_windtemp_ne_01.mgp",
+      "mgp_records": 0,
+      "module_index": 3,
+      "mvp": "data/3d/modules/wind_temple/mvp/corner_windtemp_ne_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_windtemp_ne__3",
+      "node_id": "_module_corner_windtemp_ne_-node",
+      "position": [
+        6000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/corner_windtemp_nw_01.mgp",
+      "mgp_records": 8,
+      "module_index": 4,
+      "mvp": "data/3d/modules/wind_temple/mvp/corner_windtemp_nw_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_windtemp_nw__4",
+      "node_id": "_module_corner_windtemp_nw_-node",
+      "position": [
+        12000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/straight_windtemp_ns_01.mgp",
+      "mgp_records": 7,
+      "module_index": 5,
+      "mvp": "data/3d/modules/wind_temple/mvp/straight_windtemp_ns_01.mvp",
+      "mvp_records": 0,
+      "name": "straight_windtemp_ns__5",
+      "node_id": "_module_straight_windtemp_ns_-node",
+      "position": [
+        12000.0,
+        6000.0,
+        -0.280029
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/corner_windtemp_sw_01.mgp",
+      "mgp_records": 0,
+      "module_index": 6,
+      "mvp": "data/3d/modules/wind_temple/mvp/corner_windtemp_sw_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_windtemp_sw__6",
+      "node_id": "_module_corner_windtemp_sw_-node",
+      "position": [
+        12000.0,
+        12000.0,
+        -0.280029
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/straight_windtemp_ew_01.mgp",
+      "mgp_records": 0,
+      "module_index": 7,
+      "mvp": "data/3d/modules/wind_temple/mvp/straight_windtemp_ew_01.mvp",
+      "mvp_records": 0,
+      "name": "straight_windtemp_ew__7",
+      "node_id": "_module_straight_windtemp_ew_-node",
+      "position": [
+        6000.0,
+        12000.0,
+        -0.280029
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/t_windtemp_esw_01.mgp",
+      "mgp_records": 10,
+      "module_index": 8,
+      "mvp": "data/3d/modules/wind_temple/mvp/t_windtemp_esw_01.mvp",
+      "mvp_records": 0,
+      "name": "t_windtemp_esw__8",
+      "node_id": "_module_t_windtemp_esw_-node",
+      "position": [
+        0.0,
+        12000.0,
+        -0.280029
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/corner_windtemp_ne_01.mgp",
+      "mgp_records": 0,
+      "module_index": 9,
+      "mvp": "data/3d/modules/wind_temple/mvp/corner_windtemp_ne_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_windtemp_ne__9",
+      "node_id": "_module_corner_windtemp_ne_-node",
+      "position": [
+        -6000.0,
+        12000.0,
+        -0.280029
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "mgp_records": 26,
+      "module_index": 10,
+      "mvp": "data/3d/modules/wind_temple/mvp/midboss_windtemp_ws_01.mvp",
+      "mvp_records": 0,
+      "name": "midboss_windtemp_ws__10",
+      "node_id": "_module_midboss_windtemp_ws_-node",
+      "position": [
+        -6000.0,
+        24000.0,
+        -0.560059
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 11
+    },
+    {
+      "dae": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+      "mgp_records": 34,
+      "module_index": 11,
+      "mvp": "data/3d/modules/wind_temple/mvp/objboss_windtemp_e_01.mvp",
+      "mvp_records": 0,
+      "name": "objboss_windtemp_e__11",
+      "node_id": "_module_objboss_windtemp_e_-node",
+      "position": [
+        -18000.0,
+        24000.0,
+        -0.560059
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 12
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/corner_windtemp_ne_01.mgp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mgp/corner_windtemp_ne_01.mgp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/corner_windtemp_nw_01.mgp",
+      "bytes": 2976,
+      "path": "data/3d/modules/wind_temple/mgp/corner_windtemp_nw_01.mgp",
+      "sha256": "900e9f9810ce431111382ab2c9ffb9439a5a4956c2b36d17591047688f0b0920"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/corner_windtemp_se_01.mgp",
+      "bytes": 3919,
+      "path": "data/3d/modules/wind_temple/mgp/corner_windtemp_se_01.mgp",
+      "sha256": "6002a0b18caf7e349c2f9b53d74512bfdecab21d90f0b592ac30190f6ee6f45e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/corner_windtemp_sw_01.mgp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mgp/corner_windtemp_sw_01.mgp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/entry_windtemp_n_01.mgp",
+      "bytes": 6993,
+      "path": "data/3d/modules/wind_temple/mgp/entry_windtemp_n_01.mgp",
+      "sha256": "b987de8aa0ae3c01239b4c5b2e641c373701698434218a921dd79c1ff96aaf1d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "bytes": 11059,
+      "path": "data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "sha256": "835b1e38c205b02c66bd2e2faceca1359e780f7f1c596bd47312cb78ab70b1e2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+      "bytes": 11044,
+      "path": "data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+      "sha256": "afe16bbba2b46a2f98c166cdd11e1bbe98d33621f8e4a7a82bf86ffeda75ff39"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/straight_windtemp_ew_01.mgp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mgp/straight_windtemp_ew_01.mgp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/straight_windtemp_ns_01.mgp",
+      "bytes": 3125,
+      "path": "data/3d/modules/wind_temple/mgp/straight_windtemp_ns_01.mgp",
+      "sha256": "6d6e693f5d0f75eb61c70761e0bf31223382fcd07d5d56258cc6c2b3c46e2bf4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mgp/t_windtemp_esw_01.mgp",
+      "bytes": 4592,
+      "path": "data/3d/modules/wind_temple/mgp/t_windtemp_esw_01.mgp",
+      "sha256": "ccf00f062d109ed04c30c719e3f2af2a9b8bcf2d62bbd5d7fa6463b2e81ee3ea"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/corner_windtemp_ne_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mvp/corner_windtemp_ne_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/corner_windtemp_nw_01.mvp",
+      "bytes": 256,
+      "path": "data/3d/modules/wind_temple/mvp/corner_windtemp_nw_01.mvp",
+      "sha256": "b4306f904bf94395678a3757020aa95d6cd64406f53a3eda5eb5d9f032399d44"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/corner_windtemp_se_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mvp/corner_windtemp_se_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/corner_windtemp_sw_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mvp/corner_windtemp_sw_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/entry_windtemp_n_01.mvp",
+      "bytes": 784,
+      "path": "data/3d/modules/wind_temple/mvp/entry_windtemp_n_01.mvp",
+      "sha256": "95ba51bd42010a99e17038821f77b6d1be719656fb63cb571d5d9e649d23de12"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/midboss_windtemp_ws_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mvp/midboss_windtemp_ws_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/objboss_windtemp_e_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mvp/objboss_windtemp_e_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/straight_windtemp_ew_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mvp/straight_windtemp_ew_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/straight_windtemp_ns_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mvp/straight_windtemp_ns_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/mvp/t_windtemp_esw_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/wind_temple/mvp/t_windtemp_esw_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/wind_temple/wind_temple.bdae",
+      "bytes": 4511392,
+      "path": "data/3d/modules/wind_temple/wind_temple.bdae",
+      "sha256": "8cd651882c93130df7462a41d5637c769da4590167231df80d24cfd6bf124c83"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_wind.bdae",
+      "bytes": 6140,
+      "path": "data/3d/skybox/skybox_wind.bdae",
+      "sha256": "0cf0f38696c98711060cf1aa98e2555208cc51e6aabe486e73d6f34be49cb38a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x29_wind_temple_backup.mlx",
+      "bytes": 12506,
+      "path": "data/scene/x29_wind_temple_backup.mlx",
+      "sha256": "80a3654299e7c542fa8ffa998a2def4a33c263261ab83b6a2facb101b74ce6bc"
+    }
+  ],
+  "source_layout": "data/scene/x29_wind_temple_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/wind_temple/wind_temple.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_icyhub.tga",
+        "data/3d/textures/env_wind_temple.tga",
+        "data/3d/textures/env_windtemple_lightmap.tga",
+        "data/3d/textures/pvr2_env_windtemple_alpha.tga",
+        "data/3d/textures/skybox_wind.tga"
+      ],
+      "missing_from_cache": [
+        "data/3d/textures/env_windtemple_alpha.tga"
+      ]
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

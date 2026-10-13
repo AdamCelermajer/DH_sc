@@ -144,9 +144,13 @@ Status validate_warp(factory::Record& record,
     navigation::PositionResult result{};
     const navigation::ObjectPositionRequest request{&geometry,&registry,
         &owner.navigation,record.character.identity,candidate,&policy};
-    if(dh2_nav_validate_object_position(&result,&request)!=0||!result.valid) {
-        error="Faery WarpTo source PFWorld::ValidatePosition rejected the destination";
+    if(dh2_nav_validate_object_position(&result,&request)!=0) {
+        error="Faery WarpTo source PFWorld::ValidatePosition request failed";
         return Status::command_failed;
+    }
+    if(!result.valid) {
+        error="Faery WarpTo source PFWorld::ValidatePosition rejected the destination";
+        return Status::rejected;
     }
     std::copy_n(candidate,3,accepted);
     *output=result;

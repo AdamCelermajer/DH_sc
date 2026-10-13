@@ -81,6 +81,9 @@ struct Request {
 // then CharStateMachine::SM_SetDeadState(true,nullptr,true). The service owns
 // those real app Character/animator/machine objects and must update this same
 // Coordinator before returning; Scheduler.StopLoop is not ANIM_Stop.
+// combat_machine_flags[0]=mask,[1]=value updates the one Character+0x528
+// machine word (State.attack_gate) as (word&~mask)|value; CSKnockedBack uses the
+// full mask 0xffffffff with value 0x20 for the great-knock replacement.
 // Callback is synchronous and may change State or reenter the coordinator.
 // Animation/body/timer/AI/FX services must preserve the emitted call order.
 using Callback=void(*)(void*,State*,const Request*);
@@ -135,8 +138,16 @@ int dh2_character_combat_state_event(dh2::character::State*,const dh2::character
  const dh2::character::Services*);
 int dh2_character_combat_state_update(dh2::character::State*,const dh2::character::Facts*,
  const dh2::character::CombatFacts*,std::uint32_t dt_ms,const dh2::character::Services*);
+// Registered edges: CSInjured(11) event 50005 -> CSSkill(6), and a direct
+// _SetState from CSSkill(6) into a combat reaction state 8..11 (F_ApplyResult
+// special hits), which runs CSSkill::OnBlur before the combat Focus.
 int dh2_character_combat_skill_state_transition(dh2::character::State*,const dh2::character::Facts*,
  const dh2::character::CombatFacts*,dh2::character_skill_state_dispatch_v1::Projection*,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,
+ const dh2::character::Services*);
+// Direct _SetState from CSCast(7) into a combat reaction state 8..11.
+int dh2_character_combat_cast_state_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::CombatFacts*,dh2::character_cast_lifecycle_v1::Projection*,
  std::int32_t next,std::int32_t event,std::uint64_t payload,
  const dh2::character::Services*);
 // Coordinator-only CSSkill transition path. The projection borrows this same

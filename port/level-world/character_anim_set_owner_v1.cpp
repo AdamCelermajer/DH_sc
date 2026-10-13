@@ -160,42 +160,26 @@ bool add_member(Compiler& compiler, const data::CharacterAnimations& row,
     const auto sequence = scalar_member(row, raw_slot);
     return compiler.add_table(sequence, stance, flags, mask, sequence, 0);
 }
-} // namespace
 
-std::vector<std::int32_t> AnimSetState::animation_dictionary_ids_for_sequence(
-    std::int32_t source_sequence_id) const {
-    std::vector<std::int32_t> result;
-    for (const auto& registration : registrations) {
-        if (registration.kind != RegistrationKind::animation ||
-            registration.source_sequence_id != source_sequence_id ||
-            registration.animation_dictionary_id < 0)
-            continue;
-        if (std::find(result.begin(), result.end(),
-                      registration.animation_dictionary_id) == result.end())
-            result.push_back(registration.animation_dictionary_id);
-    }
-    return result;
-}
-
-Result register_faery_anim_set(
-    character_faery_visual_facade_v1::CharacterVisual& visual,
-    Identity expected_character, const data::AnimationTables& animation_tables,
-    const data::SkillTables& skill_tables, std::int32_t animation_table_id,
-    std::int32_t source_skill_list_id, const Effects& effects,
-    std::string& error) {
-    error.clear();
-    if (!expected_character) {
-        error = "Faery AnimSet requires a live Character identity";
-        return Result::invalid_identity;
-    }
-    if (visual.character != expected_character) {
-        error = "Faery AnimSet CharacterVisual identity does not match factory Record";
-        return Result::identity_mismatch;
-    }
+// Character::SetAnimationSet (IDA 0x3c9f4c) for one Character whose stance count
+// is `stance_count` (COUNT_IPHONE for a Player, otherwise 1). The skill loop is
+// inside the stance loop exactly as in the source; its 0x200000 flag only passes
+// the stance mask at stance 0.
+Result compile_state(AnimSetState& state, Identity expected_character,
+                     const data::AnimationTables& animation_tables,
+                     const data::SkillTables& skill_tables,
+                     std::int32_t animation_table_id,
+                     std::int32_t source_skill_list_id,
+                     std::int32_t stance_count, std::uint32_t stance_mask,
+                     const Effects& effects, std::string& error) {
     if (animation_table_id < 0 ||
         static_cast<std::size_t>(animation_table_id) >= animation_tables.characters.size()) {
         error = "Faery AnimSet CharAnimTable row is outside retained source tables";
         return Result::invalid_animation_table;
+    }
+    if (stance_count < 1) {
+        error = "Character AnimSet stance count is not positive";
+        return Result::malformed_source;
     }
 
     auto skill_list_id = source_skill_list_id;
@@ -214,7 +198,6 @@ Result register_faery_anim_set(
         return Result::invalid_animation_table;
     }
 
-    auto& state = visual.anim_set;
     if (state.phase == Phase::ready) {
         if (state.character == expected_character &&
             state.anim_set_id == static_cast<std::int32_t>(set_id_wide))
@@ -247,8 +230,7 @@ Result register_faery_anim_set(
         return compiler.effect_failed() ? Result::effect_failed : Result::malformed_source;
     }
 
-    // Faery is a non-player Character: source stance count is exactly one.
-    // Keep the complete source table order for parity if this helper is reused.
+    // Keep the complete source table order (non-player Characters use one stance).
     constexpr std::array<StancedMember, 28> stanced{{
         {10, 0x000002}, {37, 0x000010}, {28, 0x000020}, {1, 0x000040},
         {2, 0x000080}, {31, 0x000100}, {35, 0x000200}, {18, 0x000400},
@@ -258,37 +240,89 @@ Result register_faery_anim_set(
         {14, 0x000008}, {11, 0x000008}, {13, 0}, {39, 0}, {30, 0},
         {20, 0x1000000}, {21, 0x1000000},
     }};
-    for (std::int32_t stance = 0; stance < 1; ++stance) {
+    for (std::int32_t stance = 0; stance < stance_count; ++stance) {
         for (const auto& entry : stanced) {
             if (!add_member(compiler, row, entry.raw_member, stance,
-                            entry.flags, kSourceStanceMask)) {
+                            entry.flags, stance_mask)) {
                 state.phase = Phase::failed;
                 return compiler.effect_failed() ? Result::effect_failed : Result::malformed_source;
             }
         }
-        if (!compiler.add_array_member(row, 17, stance, 0x800000, kSourceStanceMask) ||
-            !compiler.add_array_member(row, 34, stance, 0x400000, kSourceStanceMask)) {
+        if (!compiler.add_array_member(row, 17, stance, 0x800000, stance_mask) ||
+            !compiler.add_array_member(row, 34, stance, 0x400000, stance_mask)) {
             state.phase = Phase::failed;
             return compiler.effect_failed() ? Result::effect_failed : Result::malformed_source;
         }
-    }
-
-    for (const auto skill_id : skill_tables.skill_lists[
-             static_cast<std::size_t>(skill_list_id)].members) {
-        if (skill_id < 0 || static_cast<std::size_t>(skill_id) >= skill_tables.skills.size()) {
-            error = "Faery SkillList references a Skill row outside retained source tables";
-            state.phase = Phase::failed;
-            return Result::invalid_skill_list;
-        }
-        const auto sequence = skill_tables.skills[static_cast<std::size_t>(skill_id)].anim;
-        if (!compiler.add_table(sequence, 0, 0x200000, 0, sequence, 0)) {
-            state.phase = Phase::failed;
-            return compiler.effect_failed() ? Result::effect_failed : Result::malformed_source;
+        for (const auto skill_id : skill_tables.skill_lists[
+                 static_cast<std::size_t>(skill_list_id)].members) {
+            if (skill_id < 0 || static_cast<std::size_t>(skill_id) >= skill_tables.skills.size()) {
+                error = "Faery SkillList references a Skill row outside retained source tables";
+                state.phase = Phase::failed;
+                return Result::invalid_skill_list;
+            }
+            const auto sequence = skill_tables.skills[static_cast<std::size_t>(skill_id)].anim;
+            if (!compiler.add_table(sequence, stance, 0x200000, stance_mask, sequence, 0)) {
+                state.phase = Phase::failed;
+                return compiler.effect_failed() ? Result::effect_failed : Result::malformed_source;
+            }
         }
     }
 
     state.phase = Phase::ready;
     return Result::registered;
+}
+} // namespace
+
+std::vector<std::int32_t> AnimSetState::animation_dictionary_ids_for_sequence(
+    std::int32_t source_sequence_id) const {
+    std::vector<std::int32_t> result;
+    for (const auto& registration : registrations) {
+        if (registration.kind != RegistrationKind::animation ||
+            registration.source_sequence_id != source_sequence_id ||
+            registration.animation_dictionary_id < 0)
+            continue;
+        if (std::find(result.begin(), result.end(),
+                      registration.animation_dictionary_id) == result.end())
+            result.push_back(registration.animation_dictionary_id);
+    }
+    return result;
+}
+
+Result register_faery_anim_set(
+    character_faery_visual_facade_v1::CharacterVisual& visual,
+    Identity expected_character, const data::AnimationTables& animation_tables,
+    const data::SkillTables& skill_tables, std::int32_t animation_table_id,
+    std::int32_t source_skill_list_id, const Effects& effects,
+    std::string& error) {
+    error.clear();
+    if (!expected_character) {
+        error = "Faery AnimSet requires a live Character identity";
+        return Result::invalid_identity;
+    }
+    if (visual.character != expected_character) {
+        error = "Faery AnimSet CharacterVisual identity does not match factory Record";
+        return Result::identity_mismatch;
+    }
+    // Non-player Characters use one stance (source Character::IsPlayer branch).
+    return compile_state(visual.anim_set, expected_character, animation_tables,
+                         skill_tables, animation_table_id, source_skill_list_id,
+                         1, kSourceStanceMask, effects, error);
+}
+
+Result compile_character_anim_set(
+    AnimSetState& state, Identity expected_character,
+    const data::AnimationTables& animation_tables,
+    const data::SkillTables& skill_tables, std::int32_t animation_table_id,
+    std::int32_t source_skill_list_id, std::int32_t stance_count,
+    std::uint32_t stance_mask, const Effects& effects, std::string& error) {
+    error.clear();
+    if (!expected_character) {
+        error = "Character AnimSet requires a live Character identity";
+        return Result::invalid_identity;
+    }
+    return compile_state(state, expected_character, animation_tables, skill_tables,
+                         animation_table_id, source_skill_list_id, stance_count,
+                         stance_mask, effects, error);
 }
 
 bool retire(character_faery_visual_facade_v1::CharacterVisual& visual,

@@ -1,0 +1,152 @@
+{
+  "source_layout": "data/scene/x14_el_earth_backup.mlx",
+  "selected_characters": 1,
+  "source_character_records": 40,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster_welcometoearf",
+      "character": "El_Earth",
+      "model": "root_troll.bdae",
+      "model_path": "data/3d/characters/root_troll/root_troll.bdae",
+      "animation_table": 58,
+      "position": [
+        12000.0,
+        18793.127,
+        376.70329999999996
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/castle/mgp/boss_earth.mgp",
+      "source_record": 3
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 58,
+      "character": "RootTroll",
+      "state": "Idle",
+      "sequence": 539
+    },
+    {
+      "table": 58,
+      "character": "RootTroll",
+      "state": "Walk",
+      "sequence": 545
+    },
+    {
+      "table": 58,
+      "character": "RootTroll",
+      "state": "Attack",
+      "sequence": 532
+    },
+    {
+      "table": 58,
+      "character": "RootTroll",
+      "state": "Died",
+      "sequence": 537
+    }
+  ],
+  "clip_ids": [
+    1133,
+    1139,
+    1142,
+    1146,
+    1147,
+    1151
+  ],
+  "dact": {
+    "bytes": 272,
+    "sha256": "27e193fc69b51c97ba57b71498b57c12890c1cb7495f6ca68538bb53d4d04617"
+  },
+  "assets": [
+    {
+      "asset": "actors/root_troll.bdae",
+      "bytes": 65088,
+      "sha256": "f2d2819c9181f78b858a846413ad5ef41de16454bd7301852692a80c15e1800c",
+      "source": "data/3d/characters/root_troll/root_troll.bdae",
+      "source_file": "root_troll.bdae"
+    },
+    {
+      "asset": "actors/root_troll_attack_01.bdae",
+      "bytes": 40516,
+      "sha256": "4be7041221376d6c0fe7ffbddbb348255cabb5c05f84dcdd3b9edb528e15d51e",
+      "source": "data/3d/characters/root_troll/animations/root_troll_attack_01.bdae",
+      "source_file": "root_troll_attack_01.bdae"
+    },
+    {
+      "asset": "actors/root_troll_dying.bdae",
+      "bytes": 17052,
+      "sha256": "dbd77e2fe42a089e881d7c7ab2ae10c16534ee7f992263c72039c701a90cb073",
+      "source": "data/3d/characters/root_troll/animations/root_troll_dying.bdae",
+      "source_file": "root_troll_dying.bdae"
+    },
+    {
+      "asset": "actors/root_troll_idle.bdae",
+      "bytes": 30300,
+      "sha256": "6eed63b60d6f604650ff572e0f2ae1c211184703570bdfc96e83f618a38f61bc",
+      "source": "data/3d/characters/root_troll/animations/root_troll_idle.bdae",
+      "source_file": "root_troll_idle.bdae"
+    },
+    {
+      "asset": "actors/root_troll_post_attack_01.bdae",
+      "bytes": 9100,
+      "sha256": "7a4ed88775687f30b71948d079f13864f8918d581217c26ca0b17fb797ba9dd0",
+      "source": "data/3d/characters/root_troll/animations/root_troll_post_attack_01.bdae",
+      "source_file": "root_troll_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/root_troll_pre_attack_01.bdae",
+      "bytes": 12356,
+      "sha256": "dc4cfc8c853552c3d13d8bfcc598f34d3d4a2caa9b0bceb9e35083e4beab8d83",
+      "source": "data/3d/characters/root_troll/animations/root_troll_pre_attack_01.bdae",
+      "source_file": "root_troll_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/root_troll_walk_01.bdae",
+      "bytes": 17736,
+      "sha256": "a223e74f4ee92394e0a37893094f88626b49647c89045309fcd5b0e8f99faf79",
+      "source": "data/3d/characters/root_troll/animations/root_troll_walk_01.bdae",
+      "source_file": "root_troll_walk_01.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

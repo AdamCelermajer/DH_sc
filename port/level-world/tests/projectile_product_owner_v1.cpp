@@ -128,6 +128,8 @@ int main() {
         payload->owner_identity==character.identity&&payload->user_data==0x303&&
         payload->check_callback==0x3daff4&&payload->hit_callback==0x3dae7c&&
         payload->active&&payload->manager_identity==0x202);
+    // Each Projectile::SetInfo run is one VisualObject flight for the renderer.
+    assert(payload->spawn_serial==1);
     assert(objects.staged_update_object_count()==1);
     DeliveryFixture delivery{};
     delivery.projectile=spawned.projectile;delivery.target=target.identity;
@@ -154,4 +156,37 @@ int main() {
     assert(reused.status==projectile_product_owner_v1::Status::ok&&
         reused.projectile&&reused.projectile!=spawned.projectile&&
         projectiles.manager().ordinary_pool().active_count==2);
+    assert(projectiles.find(reused.projectile)->spawn_serial==1&&
+        projectiles.find(spawned.projectile)->spawn_serial==1);
+
+    // CharAI::_OnAnimEvent's ranged basic attack: ProjectileManager::Spawn with
+    // no target, no check callback, CharAI::_HandleProjectile (0x3cc280) as the
+    // hit callback and null user data. It needs no skill script, and a contact
+    // with a null check callback queues the pending hit (+0x3d1) that
+    // Projectile::Update later delivers to _HandleProjectile.
+    skill_projectile_delivery_v1::Launch basic{};
+    basic.character=character.identity;
+    basic.skill_index=-1;
+    basic.projectile_id=0;
+    basic.collision_check_callback=0;
+    basic.collision_hit_callback=0x3cc280;
+    const auto shot=projectiles.spawn(basic);
+    assert(shot.status==projectile_product_owner_v1::Status::ok&&shot.projectile);
+    const auto* shot_payload=projectiles.find(shot.projectile);
+    assert(shot_payload&&shot_payload->user_data==0&&
+        shot_payload->check_callback==0&&shot_payload->hit_callback==0x3cc280&&
+        shot_payload->target_identity==0&&shot_payload->active&&
+        shot_payload->skill_index==-1);
+    DeliveryFixture basic_delivery{};
+    basic_delivery.projectile=shot.projectile;basic_delivery.target=target.identity;
+    const auto basic_contact=projectiles.on_collision(shot.projectile,target.identity,
+        {3.0f,4.0f},basic_delivery.hooks());
+    assert(basic_contact.status==projectile_lifecycle_runtime_v1::Status::ok&&
+        basic_contact.source_return==1&&basic_delivery.callbacks==0&&
+        shot_payload->collision_expired==1&&
+        shot_payload->collision_target_identity==target.identity);
+    skill_projectile_delivery_v1::Launch ownerless{};
+    ownerless.projectile_id=0;
+    assert(projectiles.spawn(ownerless).status==
+        projectile_product_owner_v1::Status::invalid_request);
 }

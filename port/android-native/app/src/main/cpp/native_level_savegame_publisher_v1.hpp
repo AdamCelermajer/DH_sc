@@ -24,6 +24,9 @@ public:
 
     void preserve_existing_image() noexcept { preserve_existing_image_ = true; }
     void allow_replacement() noexcept { preserve_existing_image_ = false; }
+    // True while the loaded _level.savegame holds rows this port could not
+    // re-apply; Save then keeps that image instead of replacing it.
+    bool replacement_protected() const noexcept { return preserve_existing_image_; }
 
     const std::filesystem::path& directory() const noexcept { return directory_; }
 

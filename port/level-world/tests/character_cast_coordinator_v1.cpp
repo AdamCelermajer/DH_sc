@@ -178,11 +178,45 @@ void c358_death_transition_and_binding_guards() {
           "cast projection could not detach after C358 left state7");
 }
 
+void direct_set_state_leaves_cast_for_combat() {
+    // F_ApplyResult special hits call _SetState directly: CSCast::OnBlur runs, then
+    // the combat reaction state's Focus, all on the same Coordinator.
+    Fixture fixture;
+    CoordinatorBindings bindings{};
+    bindings.context = &fixture;
+    bindings.facts = Fixture::read_facts;
+    bindings.services = {&fixture, Fixture::state_service};
+    bindings.cast_projection = &fixture.projection;
+    bindings.combat_facts = [](void*) {
+        CombatFacts combat{};
+        combat.controller_present = 1;
+        combat.last_target_available = 1;
+        return combat;
+    };
+    fixture.coordinator.bind(bindings);
+    check(fixture.coordinator.transition(3) == 1 &&
+              fixture.coordinator.event(50006u) == 1 &&
+              fixture.coordinator.state.current == 7,
+          "combat fixture could not enter CSCast");
+    fixture.order.clear();
+    check(fixture.coordinator.transition(10, 50011, 0x55) == 1 &&
+              fixture.coordinator.state.current == 10 &&
+              fixture.coordinator.state.flags == 9025u &&
+              fixture.coordinator.state.controller_locked == 1,
+          "direct _SetState did not leave CSCast for CSKnockedBack");
+    const std::vector<int> expected{1, 2, 3, 4, 33, 107};
+    check(fixture.order == expected,
+          "direct _SetState did not run CSCast Blur before the combat Focus");
+    check(fixture.coordinator.unbind_cast_projection(&fixture.projection),
+          "cast projection could not detach after the combat transition");
+}
+
 void failure_prefix_retains_cast_state() {
     Fixture fixture;
     check(fixture.coordinator.transition(3) == 1,
           "failure fixture could not enter Idle");
     fixture.bind();
+    fixture.order.clear(); // drop the Idle entry's Coordinator event recorded before the bind
     fixture.fail_cast_event = true;
     fixture.coordinator.state.elapsed_ms = 91;
     check(fixture.coordinator.event(50006u) == -1 &&
@@ -199,11 +233,13 @@ int main() {
     try {
         c356_focus_update_and_c34_exit();
         c358_death_transition_and_binding_guards();
+        direct_set_state_leaves_cast_for_combat();
         failure_prefix_retains_cast_state();
         std::printf("{\"suite\":\"character_cast_coordinator_v1\","
                     "\"c356_focus_event_order\":true,"
                     "\"c34_blur_event_order\":true,"
                     "\"c358_death_transition\":true,"
+                    "\"direct_set_state_into_combat\":true,"
                     "\"elapsed_reset_and_state7_update\":true,"
                     "\"borrowed_projection_guards\":true,"
                     "\"failure_prefix\":true}\n");

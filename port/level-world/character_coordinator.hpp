@@ -84,9 +84,6 @@ class Coordinator {
     CoordinatorBindings bindings_{};
     Facts* active_facts_ = nullptr;
     std::uint32_t event_cause_ = 0;
-    // Source CharStateMachine+0x44 overlaps Character+0x528. Keep this raw
-    // persistent word on the one Coordinator; CombatFacts only borrow a copy.
-    std::uint32_t source_machine_flags_44_528_ = 0;
     // Canonical source CharStateMachine fields used by SM_SetDeadState. The
     // death sequence itself is State.animation_override (+0x28); these retain
     // the neighboring +0x38 despawn sequence and +0x3e dead byte on this same
@@ -144,11 +141,16 @@ public:
     bool retire_cast_projection(
         character_cast_lifecycle_v1::Projection* projection);
     std::uintptr_t owner() const { return timers_.owner; }
+    // Source CharStateMachine+0x2c (Character+0x528) is the one machine word
+    // that the state kernels carry as State.attack_gate: bit 0 attack-delay
+    // gate (event 0x2a), 2 stun (event 0x2b), 4 scare (event 0x2c), 0x8/0x10
+    // knock-back facts and 0x20 "not interruptible". Combat status owners read
+    // and write that same word; CombatFacts only borrow a copy.
     std::uint32_t source_machine_flags_44_528() const noexcept {
-        return source_machine_flags_44_528_;
+        return state.attack_gate;
     }
     void set_source_machine_flags_44_528(std::uint32_t value) noexcept {
-        source_machine_flags_44_528_ = value;
+        state.attack_gate = value;
     }
     std::int32_t source_despawn_animation_38() const noexcept {
         return source_despawn_animation_38_;

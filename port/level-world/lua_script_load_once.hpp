@@ -55,6 +55,7 @@ private:
     friend Status load_once(State*, const Source*, const Services*, Result*);
     friend std::size_t loaded_path_count(const State*) noexcept;
     friend bool contains_path(const State*, const char*) noexcept;
+    friend Status mark_loaded(State*, const char*);
 
     std::uintptr_t vm_identity_ = 0;
     std::vector<std::string> loaded_paths_;
@@ -77,5 +78,12 @@ Status load_once(State*, const Source*, const Services*, Result*);
 
 std::size_t loaded_path_count(const State*) noexcept;
 bool contains_path(const State*, const char* resolved_path) noexcept;
+
+// Records a path whose chunk already ran outside load_once: the AIS main script
+// and a nested LuaScript::Load (Include) executed from inside another chunk.
+// LuaManager::AddFile (0x37b23c) inserts the path into the same per-script set
+// after a successful loadFile, so a later Include of that name is a hit.
+// Idempotent. It never touches the VM and may run from a loader callback.
+Status mark_loaded(State*, const char* resolved_path);
 
 }  // namespace dh2::lua_script_load_once

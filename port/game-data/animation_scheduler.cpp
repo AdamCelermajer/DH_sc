@@ -47,6 +47,15 @@ bool AnimationScheduler::activate_with_services(const AnimationTables& table,std
  stack.back().step=index;
  if(services.event)services.event(services.context,*this,0x26);
  if(step.redir==1)return enter_with_services(table,step.anim,stack.size(),random,enabled,services);
+ if(step.redir==0&&step.anim<0&&services.event){
+  // CharAnimator::_SetAnimStep (0x3ca79c) ends with `if(!controller || Anim == -1)
+  // return ANIM_Stop()`: a step without a clip (Character::_PlayAnim's paired row
+  // when no second AnimDict is given) stops playback on the retained pose and
+  // raises the once-latched animation-end Character event (34 / 0x22).
+  stop();
+  services.event(services.context,*this,0x22);
+  return true;
+ }
  if(step.redir!=0||step.anim<0)throw std::runtime_error("Animation scheduler has no clip");
  current=step;playing=true;
  if(services.prepare&&!services.prepare(services.context,*this))return false;

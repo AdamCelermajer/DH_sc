@@ -99,8 +99,10 @@ void focus(State& s,const Facts& f,int prior,std::uint64_t payload,const Service
   if(!combat)break;
   s.flags=9025;call(s,c,set_animation,-1);
   if((combat->machine_flags_44&0x8)&&s.body_present)call(s,c,set_death_filter,0,0x51c,3);
-  call(s,c,combat_machine_flags,0x20,
-       (combat->machine_flags_44&0x10)?0x20:0);
+  // IDA 0x3c4a48: with the great-knock bit (0x10) set the whole machine word
+  // (Character+0x528) is replaced by 0x20; otherwise only bit 0x20 is cleared.
+  if(combat->machine_flags_44&0x10)call(s,c,combat_machine_flags,-1,0x20);
+  else call(s,c,combat_machine_flags,0x20,0);
   if(combat->controller_present){s.controller_locked=1;call(s,c,controller_lock,1);}
   call(s,c,look_at,0,0,0,0,payload);call(s,c,cancel_sneaking);
   if(s.body_present)call(s,c,unpin);
@@ -147,7 +149,8 @@ int skill_transition(State& s,const Facts& f,
 }
 int cast_transition(State& s,const Facts& f,
  dh2::character_cast_lifecycle_v1::Projection& projection,
- int next,int event,std::uint64_t payload,const Services& c){
+ int next,int event,std::uint64_t payload,const Services& c,
+ const CombatFacts* combat=nullptr){
  namespace cast=dh2::character_cast_lifecycle_v1;
  const int prior=s.current;
  if(prior==7){
@@ -158,7 +161,7 @@ int cast_transition(State& s,const Facts& f,
  if(next==7){
   cast::Result callback{};
   if(cast::execute(&projection,cast::Callback::focus,&callback)!=cast::Status::complete)return -1;
- }else focus(s,f,prior,payload,c);
+ }else focus(s,f,prior,payload,c,combat);
  call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
  (void)event;return 1;
 }
@@ -347,8 +350,10 @@ extern "C" int dh2_character_combat_state_update(dh2::character::State* s,
     combat->interrupted_byte_441>1||combat->interrupted_byte_available>1||
     combat->last_target_available>1||!combat_id(s->current))return -1;
  s->elapsed_ms+=dt;
- if(s->current==8){if(!(combat->machine_flags_44&0x10u))call(*s,*c,stop_loop);}
- else if(s->current==9&&!(combat->machine_flags_44&0x4u)){
+ // IDA CSScared::OnUpdate 0x3c4788 tests Character+0x528 bit 4 (SM_SetScareState's
+ // bit and timer event 44); CSStunned::OnUpdate 0x3c549c tests bit 2 (event 43).
+ if(s->current==8){if(!(combat->machine_flags_44&0x4u))call(*s,*c,stop_loop);}
+ else if(s->current==9&&!(combat->machine_flags_44&0x2u)){
   s->idle_suppressed=0;return transition(*s,*f,3,0,0,*c,combat);
  }
  return 1;
@@ -374,11 +379,29 @@ extern "C" int dh2_character_combat_skill_state_transition(dh2::character::State
  std::int32_t next,std::int32_t event,std::uint64_t payload,
  const dh2::character::Services* c){
  using namespace dh2::character;
+ // Two registered edges only: CSInjured event 50005 resumes CSSkill, and a
+ // direct _SetState (F_ApplyResult special) leaves a running CSSkill for one of
+ // the combat reaction states 8..11 through CSSkill::OnBlur.
+ const bool resume=s&&combat_id(s->current)&&event==50005&&s->current==11&&next==6;
+ const bool interrupt=s&&s->current==6&&combat_id(next);
  if(!valid_base(s,f,c)||!combat||!projection||projection->machine!=s||
-    !combat_id(s->current)||event!=50005||s->current!=11||next!=6||
+    (!resume&&!interrupt)||
     combat->controller_present>1||combat->interrupted_byte_441>1||
     combat->interrupted_byte_available>1||combat->last_target_available>1)return -1;
  return skill_transition(*s,*f,*projection,next,event,payload,*c,combat);
+}
+extern "C" int dh2_character_combat_cast_state_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::CombatFacts* combat,
+ dh2::character_cast_lifecycle_v1::Projection* projection,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,
+ const dh2::character::Services* c){
+ using namespace dh2::character;
+ // A direct _SetState (F_ApplyResult special) leaves CSCast through
+ // CSCast::OnBlur for one of the combat reaction states 8..11.
+ if(!valid_base(s,f,c)||!combat||!projection||s->current!=7||!combat_id(next)||
+    combat->controller_present>1||combat->interrupted_byte_441>1||
+    combat->interrupted_byte_available>1||combat->last_target_available>1)return -1;
+ return cast_transition(*s,*f,*projection,next,event,payload,*c,combat);
 }
 extern "C" int dh2_character_cast_state_transition(dh2::character::State* s,
  const dh2::character::Facts* f,

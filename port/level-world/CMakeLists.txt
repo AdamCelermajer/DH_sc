@@ -231,6 +231,7 @@ target_sources(dh2_level_world PRIVATE character_ai_set_skills_and_spells.cpp
  character_faery_selection_owner_v1.cpp
  character_faery_script_session_v1.cpp
  character_faery_controller_v1.cpp
+ character_faery_motion_v1.cpp
  character_faery_coordinator_v1.cpp
  character_faery_navigation_v1.cpp
  character_faery_record_session_v1.cpp
@@ -298,7 +299,7 @@ else()
   projectile_manager_runtime_owner_v1.cpp projectile_factory_owner_v1.cpp
   projectile_lifecycle_runtime_v1.cpp object_creation_map_v1.cpp
   object_manager_runtime_owner_v1.cpp game_object_zoning_visibility.cpp
-  room_zone_enrollment.cpp)
+  room_zone_enrollment.cpp character_skill_combat_roll_v1.cpp)
  target_link_libraries(projectile_product_owner_v1_audit PRIVATE dh2_game_data)
  target_compile_features(projectile_product_owner_v1_audit PRIVATE cxx_std_17)
  target_compile_options(projectile_product_owner_v1_audit PRIVATE
@@ -522,6 +523,19 @@ add_executable(object_manager_runtime_owner_v1_audit
   -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
  add_executable(player_skill_property_services_v1_audit tests/player_skill_property_services_v1.cpp)
  target_link_libraries(player_skill_property_services_v1_audit PRIVATE dh2_level_world)
+ add_executable(player_skill_target_top_v1_audit tests/player_skill_target_top_v1.cpp)
+ target_link_libraries(player_skill_target_top_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(player_skill_target_top_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(player_skill_target_top_v1_audit PRIVATE -Wall -Wextra -Werror)
+ add_executable(player_skill_object_methods_v1_audit tests/player_skill_object_methods_v1.cpp)
+ target_link_libraries(player_skill_object_methods_v1_audit PRIVATE dh2_level_world dh2_script_runtime)
+ target_compile_features(player_skill_object_methods_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(player_skill_object_methods_v1_audit PRIVATE -Wall -Wextra -Werror)
+ add_executable(player_skill_host_v1_audit tests/player_skill_host_v1.cpp
+  ../android-native/app/src/main/cpp/native_player_skill_host_v1.cpp)
+ target_link_libraries(player_skill_host_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(player_skill_host_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(player_skill_host_v1_audit PRIVATE -Wall -Wextra -Werror)
  add_executable(objects_spawn_audit tests/objects_spawn.cpp)
  target_link_libraries(objects_spawn_audit PRIVATE dh2_level_world)
  add_executable(character_coordinator_audit tests/character_coordinator.cpp)

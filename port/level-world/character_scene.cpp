@@ -78,7 +78,11 @@ bool character_scene_entries(const resources::BresView& view,const scene::Scene&
     for(unsigned i=0;i<skin.nodes.size();++i){math::Matrix4f matrix{};std::copy(scene.graph[skin.nodes[i]].world.begin(),scene.graph[skin.nodes[i]].world.end(),matrix.m);matrix.identity_hint=0;joints.push_back(matrix);if(box_count)for(unsigned k=0;k<6;++k)joint_boxes.push_back(reader.scalar(std::uint64_t(boxes)+24*i+4*k));}
     const CharacterSkinBoundsInput input{joints.data(),joint_boxes.data(),static_cast<std::uint32_t>(joints.size()),box_count};
     if(dh2_character_skin_bounds(bounds,&input)!=0)throw std::runtime_error("Character skin bounds rejected");
-   }else{assets::Mesh mesh{};if(dh2_mesh_open(&mesh,&view,instance.geometry)!=assets::Error::ok)throw std::runtime_error("Character mesh bounds rejected");std::copy(mesh.minimum,mesh.minimum+3,bounds);std::copy(mesh.maximum,mesh.maximum+3,bounds+3);}
+   }else{assets::Mesh mesh{};if(dh2_mesh_open(&mesh,&view,instance.geometry)!=assets::Error::ok){
+     // No drawable mesh and no bound material (dragon.bdae Circle01): the instance
+     // contributes no mesh bounds, as in objects.cpp.
+     if(instance.materials.empty())continue;
+     throw std::runtime_error("Character mesh bounds rejected");}std::copy(mesh.minimum,mesh.minimum+3,bounds);std::copy(mesh.maximum,mesh.maximum+3,bounds+3);}
    const auto found=std::find(nodes.begin(),nodes.end(),instance.node_index);
    if(found!=nodes.end()){
     auto& existing=result[found-nodes.begin()];if(existing.skinned!=std::uint32_t(instance.controller>=0))throw std::runtime_error("Mixed mesh provider kinds on one character node");point(existing.bounds,bounds);point(existing.bounds,bounds+3);continue;
