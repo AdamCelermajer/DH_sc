@@ -51,6 +51,9 @@ struct TimerTrapModelV1 {
 bool load_timer_trap_model_v1(const AssetCatalog&, const std::string& uri, TimerTrapModelV1& output, std::string& error);
 
 struct TimerTrapDefinitionV1 { TimerTrapRowV1 row; TimerTrapScriptV1 script; TimerTrapModelV1 model; };
+// B155 review: the counter only advances on the count event inside the activate span (RuntimeTimerTrapsV1::update). A definition
+// whose model does not author that event would never reach COUNTER_DELAY and never be removed, so it is refused before spawn.
+bool validate_timer_trap_definition_v1(const TimerTrapDefinitionV1& def, std::string& error);
 
 class RuntimeTimerTrapsV1 {
 public:

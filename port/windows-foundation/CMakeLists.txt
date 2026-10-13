@@ -502,7 +502,7 @@ foreach(test save camera asset level_manifest animation_markers combat_system ac
   add_executable(${test}_tests tests/${test}_tests.cpp)
   target_link_libraries(${test}_tests PRIVATE foundation_data)
   if(test STREQUAL "animation_markers")
-    add_test(NAME ${test} COMMAND ${test}_tests "${CMAKE_CURRENT_SOURCE_DIR}/../android-native/app/src/main/assets")
+    add_test(NAME ${test} COMMAND ${test}_tests "${CMAKE_CURRENT_SOURCE_DIR}/../android-native/app/src/main/assets" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android/data")
   elseif(test STREQUAL "original_actor_properties")
     add_test(NAME ${test} COMMAND ${test}_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-population-assets")
   else()

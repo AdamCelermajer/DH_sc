@@ -2289,10 +2289,12 @@ bool CombatSession::select_actor_state_leaf(ActorId id,const CombatSessionChoice
     }
     try{const auto& selected=choose(*entry.sequencePlan,choice);volatile float rate=static_cast<float>(actor_rate)*static_cast<float>(selected.speed);if(!std::isfinite(rate)){error="State animation effective rate overflow";return false;}
         const auto* sequence=entry.sequencePlan->sequence(choice.state,choice.variant);RetainedAnimationFrame frame;
-        // B155: the admitted transition above already represents leaving the runtime-owned pose (for example the Died pose of
-        // a killed actor that Script_SetActorPosition puts in Idle: SM_SetIdleState 0x3c1a00 has no dead guard). As in
-        // play_actor_clip, the runtime interruption must not raise a second, nested transition prefix for the same change.
-        {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
+        // B155: for a dead actor the admitted transition above already represents leaving the runtime-owned Died pose (Script_SetActorPosition
+        // puts it in Idle: SM_SetIdleState 0x3c1a00 has no dead guard), so the runtime interruption must not raise a second, nested prefix.
+        // Living actors keep the runtime's own interruption prefix. Interrupt failures are reported, not dropped.
+        const auto* interruptedActor=s.world->find_actor(id);
+        const bool deadPose=interruptedActor&&interruptedActor->is_dead();
+        {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=deadPose;
             if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;s.combat->interrupt(id);}
         if(frozen){if(!entry.retained->seed_sequence(*s.assets,selected.clipName,selected.resolvedPath,0,static_cast<int>(selected.blendOut),selected.moveGO!=0,0,frame,error))return false;}
         else if(!s.seed_source(entry,selected,sequence&&sequence->loop!=0,rate,*entry.retained,frame,error))return false;

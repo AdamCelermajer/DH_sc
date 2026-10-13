@@ -18,6 +18,10 @@
 
 namespace dh::foundation {
 namespace {
+// B155: only a clip carrying the exporter's no-key sentinel may be admitted with no animation segments (AnimationMarkers::has_no_key_sentinel).
+bool no_key_sentinel_clip(const std::vector<std::uint8_t>& data) {
+    return AnimationMarkers::has_no_key_sentinel(data.data(), data.size());
+}
 
 void require(bool success, const std::string& message) { if (!success) throw std::runtime_error(message); }
 Vec3 vec(const std::array<float,3>& p) { return {p[0],p[1],p[2]}; }
@@ -285,16 +289,18 @@ bool CharacterVisual::load_with_ranges(const AssetCatalog& assets,const Characte
         }
         require(next->clips.size()<=4096,"Character exceeds 4096 named animation clips");
         next->players.resize(next->clips.size());
+        std::vector<bool> noKeyClips(next->clips.size(),false); // B155: admitted no-key clips (see below)
         for (std::size_t i=0;i<next->clips.size();++i) {
             require(!next->clips[i].first.empty(),"Character animation name is empty");
             require(std::none_of(next->clips.begin(),next->clips.begin()+i,[&](const auto& clip){return clip.first==next->clips[i].first;}),"Duplicate character animation name: "+next->clips[i].first);
             const auto data=assets.read(next->clips[i].second);
             require(next->players[i].load(data.data(),data.size(),next->scene,error,targetPolicy), next->clips[i].second+": "+error);
-            // B155: an authored clip with no animation segments at all (the Swamp King's swampking_hurt_01/02.bdae, 7656 bytes, carry
-            // none) animates nothing: the original CSceneNodeAnimator has no value to apply. It is admitted only for actors whose
-            // policy already admits missing targets; a clip whose segments exist but bind nothing is still rejected.
+            // B155: an authored clip with no keys at all (the Swamp King's swampking_hurt_01/02.bdae carry no segments and the no-key
+            // sentinel range) animates nothing: the original CSceneNodeAnimator has no value to apply. It is admitted only for actors
+            // whose policy already admits missing targets, and only with that sentinel; every other empty clip is still rejected.
             const bool emptyAuthoredClip=config.allow_missing_animation_targets&&next->players[i].segment_count()==0&&
-                next->players[i].unbound==0&&next->players[i].skipped==0;
+                next->players[i].unbound==0&&next->players[i].skipped==0&&no_key_sentinel_clip(data);
+            noKeyClips[i]=emptyAuthoredClip;
             if(next->players[i].track_count()==0 && next->players[i].skipped==0 && !emptyAuthoredClip) {
                 std::ostringstream detail;
                 detail << "Character animation has no bound tracks: name=" << next->clips[i].first
@@ -324,24 +330,14 @@ bool CharacterVisual::load_with_ranges(const AssetCatalog& assets,const Characte
         for(std::size_t i=0;i<next->players.size();++i) {
             const auto* dynamicClip=next->dynamic_channels ? next->dynamic_set.clip(i) : nullptr;
             const auto start=!ranges.empty()?ranges.at(i).start_ms:dynamicClip ? dynamicClip->start : next->players[i].start;
-            auto markerStart=start;auto end=!ranges.empty()?ranges.at(i).end_ms:dynamicClip ? dynamicClip->end : next->players[i].end;
-            // B155: an admitted empty authored clip (see above) has no channel range; its range is the clip's authored BRES root
-            // range (root words +28/+32, the same words RetainedAnimationOwner::bind_events compares), so the clip lasts as long as
-            // authored and its (empty) marker track is valid.
-            if(end<=start&&config.allow_missing_animation_targets&&next->players[i].segment_count()==0&&next->players[i].track_count()==0) {
-                const auto data=assets.read(next->clips[i].second);
-                dh2::resources::BresView clipView{};
-                const auto rootWord=[&](std::size_t offset){const auto* p=data.data()+clipView.root_offset+offset;
-                    return std::int32_t(std::uint32_t(p[0])|std::uint32_t(p[1])<<8|std::uint32_t(p[2])<<16|std::uint32_t(p[3])<<24);};
-                require(dh2_bres_open(&clipView,data.data(),data.size())==dh2::resources::BresError::ok&&clipView.root_offset<=data.size()&&
-                        data.size()-clipView.root_offset>=36,"Empty authored clip BRES rejected: "+next->clips[i].second);
-                markerStart=rootWord(28);end=rootWord(32);
-                // The Swamp King hurt clips carry the exporter's no-key sentinel range (INT32_MAX..INT32_MIN): a clip without any
-                // key. It is admitted as a zero-length clip at 0 (no markers, completes at once); see RetainedAnimationOwner::bind_events.
-                if(markerStart==std::numeric_limits<std::int32_t>::max()&&end==std::numeric_limits<std::int32_t>::min())markerStart=end=0;
-                require(end>=markerStart,"Empty authored clip has an invalid authored range: "+next->clips[i].second);
+            const auto end=!ranges.empty()?ranges.at(i).end_ms:dynamicClip ? dynamicClip->end : next->players[i].end;
+            // B155: an admitted no-key clip (see above) has no markers and no channel range; it is a zero-length clip at 0, which
+            // completes at once (the same clip RetainedAnimationOwner::bind_events admits by its sentinel range).
+            if(noKeyClips[i]&&end<=start) {
+                require(next->marker_tracks[i].load_no_keys(next->players[i].events.view(),error),"Actor marker track: "+error+" clip="+next->clips[i].first);
+                continue;
             }
-            require(next->marker_tracks[i].load(next->players[i].events.view(),markerStart,end,error),"Actor marker track: "+error+
+            require(next->marker_tracks[i].load(next->players[i].events.view(),start,end,error),"Actor marker track: "+error+
                     " clip="+next->clips[i].first+" range="+std::to_string(start)+".."+std::to_string(end));
         }
         if(config.consume_root_motion || !config.motion_node_id.empty() || !config.motion_node_candidates.empty()) {

@@ -605,6 +605,38 @@ void scripted_clip_completion(const std::string& directory) {
     fail=true;play();rig.step(100);check(rig.host->aborts()==1&&!rig.host->scripted_clip_pose(101),"Completion failure aborts and releases host pose");
 }
 
+// B155 review (#4): a once-trigger (triggercount defaults to 1) that fired is saved with the level world (Trigger::Serialize writes the
+// activation count, IDA 0x398978, and Trigger::CanActivate blocks at the limit, IDA 0x3987ac). A revisit that restores that world must not
+// fire the zone again, and the persisted count is what carries it.
+void fired_once_trigger_stays_fired_across_level_world(const std::string& directory) {
+    const ObjectId lifecycleId = 0x43414d504c494650ull;
+    const std::string key = "once-test.mgp::once-zone";
+    dh2::data::AiTables ai{};dh2::data::CombatRandom random{1,0};
+    std::string error;
+    check(load_original_ai_tables(AssetCatalog(directory),"original-cache/data/pydata/",ai,error),"source AI tables: "+error);
+    PlayableActorWorld world(ai,random);
+    ActorDefinition zone;zone.name="once-zone";zone.sourcePath="once-test.mgp";zone.gametype="TriggerZone";
+    zone.placement={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+    zone.properties={{"name","once-zone"},{"gametype","TriggerZone"},{"type","Block"},{"script","enterLocation_StartRoom"}};
+    {
+        Rig first(directory);
+        check(first.host->build_zones({zone},error),error);
+        check(first.host->bind_lifecycle_object(world,error),error);
+        first.livePosition={0,0,0};first.host->frame(0,first.livePosition,true,1);
+        check(first.runtime.trigger_activations().at(key)==1,"entry fires the once-trigger");
+        check(first.host->persist_lifecycle(world,error),error);
+        check(world.find_object(lifecycleId)->state_components.count("campaign_lifecycle_v1")==1,"the count is written with the level world");
+    }
+    // Revisit: a fresh session restores the saved world and the player walks back in.
+    Rig second(directory);
+    check(second.host->build_zones({zone},error),error);
+    check(second.host->bind_lifecycle_object(world,error),error);
+    check(second.host->restore_lifecycle(world,error),error);
+    check(second.runtime.trigger_activations().count(key)==1,"restored count is 1 (the count is what keeps the trigger spent)");
+    second.livePosition={0,0,0};second.host->frame(0,second.livePosition,true,1);
+    check(second.runtime.trigger_activations().at(key)==1,"revisit at the zone does not re-fire the once-trigger");
+}
+
 // B145: the repair stamp rides in its own save component, is absent until a repair happened, survives persist/restore,
 // and an unreadable stamp disables the repair for that load without failing the load.
 void aborted_scene_repair_stamp_roundtrip(const std::string& directory) {
@@ -738,6 +770,7 @@ int main(int argc, char** argv) {
         lizard_intro_contract(argv[1]);
         skip_press_contract(argv[1]);
         scripted_trigger_contacts(argv[1]);
+        fired_once_trigger_stays_fired_across_level_world(argv[1]);
         skipped_cutscene_matches_played(argv[1]);
         skip_ends_captions_in_one_frame(argv[1]);
         captions_block_then_release(argv[1]);

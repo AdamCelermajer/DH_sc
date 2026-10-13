@@ -605,6 +605,18 @@ void run_retained_interaction_leaf_neutral_frame(const char* root){
           f.error=="Physical locomotion must be admitted through the current authored locomotion selection",
           "Managed-leaf exception weakened physical locomotion admission");
 }
+// B155 review (#8): a lifecycle leaf selection of a dead actor (the Died pose left by the outro) delivers the admitted transition once and no
+// nested runtime interruption prefix; the living-actor path is unchanged (it is not covered here).
+void run_dead_select_no_nested_interruption(const char* root){
+    Fixture f(root);std::vector<CombatSessionActorTransition> seen;
+    check(f.bind([&](const CombatSessionActorTransition& e,std::string&){seen.push_back(e);return true;}),f.error);
+    check(f.session.script_kill_actor(1,f.error),f.error);
+    check(f.session.owns_pose(1),"Died pose is owned before the lifecycle selection");
+    seen.clear();
+    check(f.session.select_actor_state_leaf(1,CombatSessionChoice{"Idle",0,{0}},1,false,{},f.error,3),f.error);
+    check(!seen.empty(),"the admitted lifecycle transition was delivered");
+    for(const auto& event:seen)check(event.actor==1&&event.cause!=CombatRuntimeTransitionCause::interruption,"dead actor selection delivered a nested interruption prefix");
+}
 int main(int argc,char** argv){try{
     check(argc==2,"Original shared asset root required");
     run_attack_and_restore(argv[1]);
@@ -617,6 +629,7 @@ int main(int argc,char** argv){try{
     run_scripted_kill_retirement(argv[1]);
     run_scripted_move_handoff(argv[1]);
     run_retained_interaction_leaf_neutral_frame(argv[1]);
+    run_dead_select_no_nested_interruption(argv[1]);
     std::cout<<"PASS accepted source transition stages, predecessor-selected Attack/AttackStatic roots, held full-bank sourceCombo target continuity, authored positive AttackDelay departure ordering, generic Skill/Cast normal Post ordering and failure prefix, rejected actions, pose-owned retry, zero-time Move freeze, HP-only and gated Injury, death ordering, restore rebind and failure-prefix no replay\n";
     return 0;
 }catch(const std::exception& exception){std::cerr<<"FAIL: "<<exception.what()<<'\n';return 1;}}

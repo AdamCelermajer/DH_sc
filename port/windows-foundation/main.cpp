@@ -5870,6 +5870,7 @@ int main(int argc,char** argv) {
                                 const auto script=f::read_content(assets,"data/scripts/objects/"+row->script+".luac");
                                 if(!f::bosses::parse_timer_trap_script_v1(std::string(script.begin(),script.end()),def.script,e))return false;
                                 if(!f::bosses::load_timer_trap_model_v1(assets,dict.values[std::size_t(row->visual)],def.model,e))return false;
+                                if(!f::bosses::validate_timer_trap_definition_v1(def,e))return false; // B155 review: a trap that cannot count out is refused
                                 cached=std::move(def);
                             } catch(const std::exception& problem){e=problem.what();return false;}
                         }

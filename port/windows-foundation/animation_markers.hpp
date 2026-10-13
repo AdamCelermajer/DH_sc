@@ -27,6 +27,11 @@ public:
               std::int32_t end_ms, std::string& error);
     bool load(const std::uint8_t* bres, std::size_t size, std::int32_t start_ms,
               std::int32_t end_ms, std::string& error);
+    // B155: a clip without any key (exporter sentinel range, e.g. swampking_hurt_01.bdae) has no markers and a zero-length
+    // range at 0. This is the only zero-length track admitted; load() still rejects end <= start.
+    bool load_no_keys(const dh2::animation::EventView&, std::string& error);
+    // True when the BRES root (words +28/+32) carries the exporter's no-key sentinel range INT32_MAX..INT32_MIN.
+    static bool has_no_key_sentinel(const std::uint8_t* bres, std::size_t size);
     const std::vector<AnimationMarker>& markers() const { return markers_; }
     std::int32_t start_ms() const { return start_; }
     std::int32_t end_ms() const { return end_; }
