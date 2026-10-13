@@ -5645,10 +5645,10 @@
       "total": 457
     }
   },
-  "percent": 0.0,
-  "phase": "STEP 0 ENUMERATED; ALL ROWS TODO",
-  "processed": 0,
-  "questions_processed": 0,
+  "percent": 0.023898941618299762,
+  "phase": "NATIVE QUESTIONS ANSWERED; PACKAGES A/B/C IN PROGRESS",
+  "processed": 7,
+  "questions_processed": 7,
   "questions_total": 7,
   "schema": "atlas-r2-progress-v1",
   "total": 29290

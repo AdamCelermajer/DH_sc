@@ -1,8 +1,8 @@
 # Original Data Atlas round 2 progress
 
-Phase: **STEP 0 ENUMERATED; ALL ROWS TODO**.
+Phase: **NATIVE QUESTIONS ANSWERED; PACKAGES A/B/C IN PROGRESS**.
 
-Processed: **0/29,290 (0.00%)**.
+Processed: **7/29,290 (0.02%)**.
 
 Processed means DONE, UNRESOLVED(reason), or NOT-NEEDED(reason). It does not mean that unknown contracts are resolved or that content runs in the port.
 
@@ -11,7 +11,7 @@ Processed means DONE, UNRESOLVED(reason), or NOT-NEEDED(reason). It does not mea
 | A | 271 | 0 | 0.00% | {"DONE": 0, "NOT-NEEDED": 0, "TODO": 271, "UNRESOLVED": 0} |
 | B | 28555 | 0 | 0.00% | {"TODO": 28555} |
 | C | 457 | 0 | 0.00% | {"TODO": 457} |
-| Open questions | 7 | 0 | 0.00% | {"TODO": 7} |
+| Open questions | 7 | 7 | 100.00% | {"DONE": 7} |
 
 Package B counts act/reference pairs; its package ledger also records unique source-site coverage. Shared player resources can belong to both act scopes.
 
