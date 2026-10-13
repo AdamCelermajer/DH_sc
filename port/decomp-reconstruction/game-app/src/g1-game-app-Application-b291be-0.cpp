@@ -8,6 +8,8 @@
 #include "dh2/Level.hpp"
 #include "dh2/StateBase.hpp"
 #include "dh2/StateMachine.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/video_driver.hpp"
 
 namespace {
 
@@ -46,12 +48,14 @@ bool Application::IsInIGPOrGameCenter() {
 }
 
 // 0x31f55c Application::CleanGlitch()
-// PARTIAL: no call is made. The original calls the virtual at vtable +0xAC (slot 43) of the object at
-// IDevice +0x10, reached through Singleton<Application>::s_inst.m_device (the address dword_99F73C is
-// s_inst +0x10). IDevice +0x10 is not declared in glitch-core-io/os/device.hpp and the object's class
-// is not known, so the call cannot be written yet. The original returns the callee's int; the header
-// declares void.
+// The original calls the virtual at vtable +0xAC (slot 43) of the video driver at IDevice +0x10, reached
+// through Singleton<Application>::s_inst.m_device. Slot +0xAC is IVideoDriver::removeUnused(). The callee's
+// int return is dropped because the header declares void.
 void Application::CleanGlitch() {
+    if (m_device == nullptr || m_device->videoDriver == nullptr) {
+        return;
+    }
+    m_device->videoDriver->removeUnused();
 }
 
 // 0x31f594 Application::GetCurrentLevel() const
