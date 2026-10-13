@@ -299,7 +299,7 @@ else()
   projectile_manager_runtime_owner_v1.cpp projectile_factory_owner_v1.cpp
   projectile_lifecycle_runtime_v1.cpp object_creation_map_v1.cpp
   object_manager_runtime_owner_v1.cpp game_object_zoning_visibility.cpp
-  room_zone_enrollment.cpp)
+  room_zone_enrollment.cpp character_skill_combat_roll_v1.cpp)
  target_link_libraries(projectile_product_owner_v1_audit PRIVATE dh2_game_data)
  target_compile_features(projectile_product_owner_v1_audit PRIVATE cxx_std_17)
  target_compile_options(projectile_product_owner_v1_audit PRIVATE
