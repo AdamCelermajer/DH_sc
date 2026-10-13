@@ -1,4 +1,4 @@
-# Full code audit: handoff and prompt for a fresh Fable 5.1 session
+# Full code audit: handoff and prompt for a fresh Opus 5.5 (high effort) session
 
 Written 2026-10-13. Act 1 of the Dungeon Hunter II Windows reconstruction is complete. The goal of this session is an AUDIT and refactor plan (then the refactors) so that acts 2+ are much cheaper to port. Nothing here should change shipped behaviour: every refactor must keep the full CTest green and the act-1 runtime behaviour identical.
 

@@ -6,7 +6,7 @@ Resume point for the next session. Read this first, then `AGENTS.md`, then the p
 - Haiku first for implementation/bugs; Sonnet ONLY as escalation after a Haiku agent fails or reports DID NOT WORK. If a Haiku agent spawns helpers it must pass `model: "haiku"` explicitly (the default is Sonnet).
 - For every item: investigate the ORIGINAL first (IDA via rea MCP / offline IDA export `.local-inputs/ida-apk-export-2026-10-07/` / original Lua and tables / video notes), then our code, then fix. Mark inferences as inferences.
 - One worktree + one branch per task; the lead merges; nothing is pushed. After each agent, report `WORKED / DID NOT WORK` per item to the owner.
-- The owner wants EVERY skill (3 classes + 2 subclasses each: Knight -> Berserker, Paladin; Rogue -> Archer, Assassin; Mage -> Illusionist, Necromancer), every weapon type, every faery, verified for sound + animation + effect. The full-code audit runs in a separate Fable 5.1 session: `coordination/v21.8/AUDIT-HANDOFF-FABLE.md` (paste-ready prompt inside), to start AFTER the branches below are merged.
+- The owner wants EVERY skill (3 classes + 2 subclasses each: Knight -> Berserker, Paladin; Rogue -> Archer, Assassin; Mage -> Illusionist, Necromancer), every weapon type, every faery, verified for sound + animation + effect. The full-code audit runs in a separate Opus 5.5 high-effort session: `coordination/v21.8/AUDIT-HANDOFF-OPUS.md` (paste-ready prompt inside), to start AFTER the branches below are merged.
 - Never recursive-delete under `.local-inputs` or inside worktrees' `.local-inputs` (directory junctions): remove junctions only with `cmd /c rmdir`. Use PowerShell for `subst`/`New-Item -ItemType Junction`. Run ctest from bash. `D:` is a real disk, never use it as a subst letter. Shared rules file: `C:/dh218/COMMON-RULES.md` (also has "Skill batch rules"); if it is lost, the content is summarised here.
 - Stale task-notifications from finished agents keep arriving; stop finished agents with TaskStop.
 
@@ -32,7 +32,7 @@ Merge order suggestion: mudlord2, faery, mage (resolve the cast-coordinator/mark
 5. Stun/knockback state for the player-skill tails and Mud Lord pushback (needs an original-backed state machine; not invented yet).
 6. Sound: 45 `sounds.xml` names have no file in the original data (wolf/demon/dark-queen/statue/assassin cues, level music banks, etc.); report only, never invent. Nothing has ever been verified by ear.
 7. Act 1 with Rogue and Mage end to end; tracker rows B158-B160 and I008.
-8. Full code audit on Fable 5.1 (`AUDIT-HANDOFF-FABLE.md`), after the merges.
+8. Full code audit on Opus 5.5 (high effort) (`AUDIT-HANDOFF-OPUS.md`), after the merges.
 9. Package v21.8: add the 10 Mud Lord boss files (list in `coordination/v21.7/B155-B156-HANDOFF.md` section 8) plus the staged skill/faery assets via `stage_assets_v21_8.py`.
 
 ## Recipes
