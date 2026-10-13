@@ -116,11 +116,10 @@ static void checkVisitEnter() {
     // Attributes: each on its own line with one indent (depth is 1 after the increment), then a line break, then " />".
     {
         TiXmlPrinterDH p;
-        TiXmlAttribute b("b", "2");
-        TiXmlAttribute a("a", "1");
-        a.next_ = &b;
         TiXmlElement root("root");
-        CHECK(p.VisitEnter(root, &a));
+        root.SetAttribute("a", "1");  // the attribute set chains a -> b (real TinyXML 2.5.3)
+        root.SetAttribute("b", "2");
+        CHECK(p.VisitEnter(root, root.FirstAttribute()));
         CHECK(p.buffer == "<root\n\ta=\"1\"\n\tb=\"2\"\n />\n");
         CHECK(p.depth == 1);
         CHECK(!p.simpleTextPrint);
