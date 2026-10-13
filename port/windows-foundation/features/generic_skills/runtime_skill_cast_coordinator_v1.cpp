@@ -1,5 +1,5 @@
 #include "runtime_skill_cast_coordinator_v1.hpp"
-#include "runtime_skill_use_profile_knight_v1.hpp"
+#include "runtime_skill_use_profile_registry_v1.hpp"
 #include "../faery_menu/faery_cast_sound_v1.hpp"
 #include "pc_cooldown_frame_v1.hpp"
 
@@ -1231,7 +1231,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             return fail(error, "Timed-buff Use requires its buff owner");
         }
         const std::uint32_t rank = active.receipt.mana.skill.saved_rank;
-        double duration_ms = original_signed256(active.formula_sheet[176]); // CharacterProperties.SnS_Duration
+        // CharacterProperties.SnS_Duration (176) unless the authored Lua reads another duration cell (PoisonSting: Dot_Duration 125).
+        double duration_ms = original_signed256(active.formula_sheet[std::size_t(profile.buff->duration_prop_index)]);
         if (!(duration_ms > 0.0) || !std::isfinite(duration_ms))
             duration_ms = double(profile.buff->fallback_base_ms) + double(profile.buff->fallback_inc_ms) * double(rank);
         // Paladin auras: CreateBuff(BUFF_ID, BUFF_TIME, ...) with the authored constant, not the projected duration.

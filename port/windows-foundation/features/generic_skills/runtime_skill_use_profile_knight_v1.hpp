@@ -100,14 +100,5 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesKnightV1[] = {
      false, false, false, nullptr, nullptr, false, false},
 };
 
-// Registry lookup: the shared table first, then the Knight rows. Admission stays exact on (name, script).
-inline const RuntimeSkillUseProfileV1* find_skill_use_profile_registered_v1(
-    const std::string& skill_name, const std::string& script) {
-    if (const auto* base = find_skill_use_profile_v1(skill_name, script)) return base;
-    for (const auto& profile : kRuntimeSkillUseProfilesKnightV1) {
-        if (skill_name == profile.skill_name && script == profile.script) return &profile;
-    }
-    return nullptr;
-}
 
 } // namespace dh::foundation::generic_skills

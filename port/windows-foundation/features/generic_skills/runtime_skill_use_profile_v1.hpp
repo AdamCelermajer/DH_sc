@@ -40,6 +40,9 @@ struct RuntimeSkillBuffProfileV1 {
     // v21.8 skills-knight: authored BUFF_TIME constant (Paladin auras: CreateBuff(BUFF_ID, 12000, ...)).
     // 0 = use the projected SnS_Duration / fallback as Quickness does.
     float fixed_duration_ms = 0.0f;
+    // CharacterProperties index read as the buff duration (ms) after the projection. 176 = SnS_Duration
+    // (Lua BUFF_TIME = GetProp(SnS_Duration, true)); PoisonSting reads 125 = Dot_Duration.
+    int duration_prop_index = 176;
 };
 
 struct RuntimeSkillUseProfileV1 {

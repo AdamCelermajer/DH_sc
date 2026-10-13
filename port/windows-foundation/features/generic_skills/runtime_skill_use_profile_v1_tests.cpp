@@ -2,6 +2,7 @@
 // The values are transcribed from the original skill Lua (see runtime_skill_use_profile_v1.hpp).
 // argv[1] = windows-shared-assets root (original-cache/data/pydata name tables).
 #include "runtime_skill_use_profile_v1.hpp"
+#include "runtime_skill_use_profile_rogue_v1.hpp"
 
 #include <cmath>
 #include <cstdio>
@@ -131,10 +132,52 @@ int main(int argc, char** argv) {
               !stone->post_clear_target && !stone->sets_cooldown &&
               std::string(stone->class_token) == "Skill_Mage_StoneEscape", "StoneEscape Lua transcription changed");
         check(!cold_ray->external_owner, "ColdRay is a plain SkillCombatRoll loop");
+
+        // v21.8 skills-rogue: Assassin-tree rows live in their own table (runtime_skill_use_profile_rogue_v1.hpp).
+        const std::size_t rogue_size = sizeof(kRuntimeSkillUseProfilesRogueV1) / sizeof(kRuntimeSkillUseProfilesRogueV1[0]);
+        check(rogue_size == 2, "Rogue-tree use profile row count changed");
+        for (const auto& profile : kRuntimeSkillUseProfilesRogueV1) {
+            check(contains_name(skill_names, profile.skill_name),
+                  std::string("Rogue-tree skill name is absent from the authored SkillTable names: ") + profile.skill_name);
+            check(contains_name(class_names, profile.class_token),
+                  std::string("Rogue-tree class token is absent from the authored ClassTable names: ") + profile.class_token);
+            check(profile.buff && contains_name(class_names, profile.buff->buff_class),
+                  std::string("Rogue-tree buff class is absent from the authored ClassTable names: ") + profile.skill_name);
+        }
+        // Rogue rows are admitted only through their exact pair and are not in the base table.
+        check(find_skill_use_profile_v1("Blindness", "prince_assassin_blindness") == nullptr,
+              "Blindness must not be in the base table");
+        check(find_skill_use_profile_rogue_v1("Blindness", "prince_assassin_blindness") != nullptr,
+              "Blindness row missing from the Rogue table");
+        check(find_skill_use_profile_rogue_v1("Blindness", "prince_assassin_poison_sting") == nullptr,
+              "Rogue table lookup must require the exact (name, script) pair");
+        // prince_assassin_blindness.luac: BUFF_TIME = SnS_Duration (cell 176); no OnPre query, no cooldown; no Post.
+        const auto* blindness = find_skill_use_profile_rogue_v1("Blindness", "prince_assassin_blindness");
+        check(blindness && blindness->buff && near(blindness->pre_range, 0.0f) && !blindness->sets_cooldown &&
+              !blindness->post_clear_target && std::string(blindness->class_token) == "Skill_Assassin_Blindness" &&
+              std::string(blindness->buff->buff_class) == "Skill_Assassin_Blindness" &&
+              std::string(blindness->buff->fx_set) == "spell_dh2_assassin_blindness_persist" &&
+              blindness->buff->duration_prop_index == 176 && !blindness->rolls_objects,
+              "Blindness Lua transcription changed");
+        // prince_assassin_poison_sting.luac: BUFF_TIME = Dot_Duration (cell 125), 4000 ms fallback; Post ClearTarget.
+        const auto* poison = find_skill_use_profile_rogue_v1("PoisonSting", "prince_assassin_poison_sting");
+        check(poison && poison->buff && near(poison->pre_range, 0.0f) && !poison->sets_cooldown &&
+              poison->post_clear_target && std::string(poison->class_token) == "Skill_Assassin_PoisonSting" &&
+              std::string(poison->buff->buff_class) == "Skill_Assassin_PoisonSting" &&
+              std::string(poison->buff->fx_set) == "skill_dh2_assassin_poison_sting_persist" &&
+              poison->buff->duration_prop_index == 125 && near(poison->buff->fallback_base_ms, 4000.0f),
+              "PoisonSting Lua transcription changed");
+        // Not admitted: Assassination (kill branch), GrapplingHook and the Archer actives (projectile).
+        check(find_skill_use_profile_rogue_v1("Assassination", "prince_assassin_assassination") == nullptr,
+              "Assassination must stay out until its kill branch has a Session primitive");
+        check(find_skill_use_profile_rogue_v1("GrapplingHook", "prince_assassin_grapling_hook") == nullptr,
+              "GrapplingHook is BLOCKED-PROJECTILE");
+        check(find_skill_use_profile_rogue_v1("Volley", "prince_archer_volley") == nullptr,
+              "Archer projectile skills are BLOCKED-PROJECTILE");
     } catch (const std::exception& error) {
         std::fprintf(stderr, "FAIL runtime_skill_use_profile_v1: %s\n", error.what());
         return 1;
     }
-    std::puts("PASS runtime_skill_use_profile_v1: eleven authored rows (six hit skills, Quickness buff, ColdRay, ChainLightning, Cyclone, StoneEscape), exact admission, Lua-transcribed values");
+    std::puts("PASS runtime_skill_use_profile_v1: eleven authored base rows (six hit skills, Quickness buff, ColdRay, ChainLightning, Cyclone, StoneEscape) plus two Rogue-tree buff rows (Blindness, PoisonSting), exact admission, Lua-transcribed values");
     return 0;
 }

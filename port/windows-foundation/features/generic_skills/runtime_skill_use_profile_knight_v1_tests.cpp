@@ -1,7 +1,7 @@
 // v21.8 skills-knight: unit checks for the Knight-tree (Berserker/Paladin) use profile rows.
 // The values are transcribed from the original skill Lua (see runtime_skill_use_profile_knight_v1.hpp).
 // argv[1] = windows-shared-assets root (original-cache/data/pydata name tables).
-#include "runtime_skill_use_profile_knight_v1.hpp"
+#include "runtime_skill_use_profile_registry_v1.hpp"
 
 #include <cmath>
 #include <cstdio>
