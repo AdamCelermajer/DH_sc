@@ -51,9 +51,17 @@ struct RogueSkillFixtureSpecV1 {
     const char* buff_class = "Skill_Rogue_Quickness_buff"; // buff rows: the ClassTable row the Use call applies
     double buff_duration_ms = 4000.0;                      // buff rows: the projected duration at rank 1
     bool buff_speed_cells = false;                         // Quickness only: Speed_Modifier cells 46/47/48 move
-    // The base profile row for the visual plan and session profile (subclasses have no combat binding of their own), and the mesh skin.
+    // The profile row for the visual plan and session actor. It must equal class_row (cast prepare requires
+    // actor definition_id == CharacterState.class_id); subclass rows have their own original melee binding that
+    // shares the base model/AnimTable. The mesh skin.
     const char* profile_row = "RoguePlayerBase";
     const char* skin = "_default_rogue-mesh-skin";
+    // Whether the authored Post (OnPostSkill_) calls ClearTarget. PoisonSting does (Lua ClearTarget); Blindness has an empty
+    // OnPostSkill_ in prince_assassin_blindness.luac, so its caster keeps the selected target.
+    bool post_clears_target = true;
+    // True when the authored OnPre has no target query (Figments: an area Use with TargetListSearch(1000, 360) in OnSkill_),
+    // so the pre-use prefix holds no target order and the target is not required.
+    bool no_pre_query = false;
 };
 
 void run_rogue_source_slot0_fixture(
@@ -65,13 +73,10 @@ void run_rogue_source_slot0_fixture(
     const dh2::data::Dictionary& animation_dictionary,
     const dh2::data::PropertyRules& property_rules,
     const RogueSkillFixtureSpecV1& spec) {
-    // The melee bindings input only carries the base classes (KnightPlayerBase, RoguePlayerBase, MagePlayerBase, KingPlayer), so
-    // the session actor definition (which must equal the CharacterState class) cannot be a subclass row yet. Subclass fixtures
-    // are reported as SKIP, never PASS, until the subclass actors have combat bindings.
-    if (!bindings.find_actor(spec.class_row)) {
-        std::printf("SKIP %s: no combat binding for subclass actor %s in original-melee-bindings.xml\n", spec.skill_name, spec.class_row);
-        return;
-    }
+    // Every fixture row (base or subclass) needs its own combat binding: the session actor definition must equal the
+    // CharacterState class, so a missing binding is a failure here, never a skip.
+    check(bindings.find_actor(spec.profile_row) != nullptr,
+          std::string("No combat binding in original-melee-bindings.xml for ") + spec.profile_row);
     std::string error;
     const auto rogue_row = std::find(characters.names.begin(), characters.names.end(),
                                      spec.class_row);
@@ -100,14 +105,20 @@ void run_rogue_source_slot0_fixture(
           std::string("Actual Rogue SkillList has no exact row for ") + spec.skill_name);
     const auto row_table_id = source_list[saved_row];
 
+    OriginalActorProperties base_source;
+    check(resolve_original_actor_properties(properties.characters, properties.classes,
+              spec.class_row, {256, true}, base_source, error), error);
+    // The fixture level is the authored row's level or the skill's requirement, whichever is higher. The sheets (HP/MP max)
+    // are then resolved at that level, as the original level-up grants them, so a level-21 row has its level-21 MP.
+    const auto fixture_level = std::max<std::int32_t>(static_cast<std::int32_t>(base_source.sheets.resolved[19] >> 8), static_cast<std::int32_t>(spec.min_level));
     OriginalActorProperties rogue_source;
     check(resolve_original_actor_properties(properties.characters, properties.classes,
-              spec.class_row, {256, true}, rogue_source, error), error);
+              spec.class_row, {fixture_level * 256, true}, rogue_source, error), error);
     CharacterState rogue_state;
     rogue_state.id = "same-source-rogue-jumpkick-session";
     rogue_state.name = "Same Source Rogue";
     rogue_state.class_id = spec.class_row;
-    rogue_state.stats.level = std::max<std::int32_t>(static_cast<std::int32_t>(rogue_source.sheets.resolved[19] >> 8), static_cast<std::int32_t>(spec.min_level));
+    rogue_state.stats.level = static_cast<std::uint32_t>(fixture_level);
     rogue_state.stats.health = original_signed256(rogue_source.sheets.resolved[36]);
     rogue_state.stats.max_health = original_signed256(rogue_source.sheets.resolved[38]);
     rogue_state.stats.resource = original_signed256(rogue_source.sheets.resolved[41]);
@@ -180,7 +191,7 @@ void run_rogue_source_slot0_fixture(
     player_profile.sequenceAction->state = "AttackStatic";
     player_profile.retainedPhaseClock = true;
     player_profile.damageMarkerNames = {"attack_mainhand"};
-    player_profile.propertyOptions = {256, true};
+    player_profile.propertyOptions = {fixture_level * 256, true};
     player_profile.sourceAnimationClips = rogue_base_plan.config.clips;
     config.profiles.emplace(config.playerProfileId, player_profile);
     CombatSessionProfile enemy_profile;
@@ -358,7 +369,7 @@ void run_rogue_source_slot0_fixture(
           accepted.skill_name == spec.skill_name && accepted.source_script == spec.script &&
           accepted.source_slot == 0 && accepted.saved_skill_row == saved_row &&
           accepted.class_skill_position == static_cast<int>(saved_row) && accepted.skill_table_id == row_table_id &&
-          accepted.mana.mana_spent && (spec.buff || accepted.target_order.size() == 2) &&
+          accepted.mana.mana_spent && (spec.buff || spec.no_pre_query || accepted.target_order.size() == 2) &&
           session.retained_actor_pose(1) == pose_before_empty,
           "Rogue PC key2/middle-circle/source-slot0 did not start exact authored skill pre-use prefix/root");
     for (unsigned frame = 0; frame < 180 && completion_count == 0; ++frame) {
@@ -384,7 +395,8 @@ void run_rogue_source_slot0_fixture(
                   std::fabs(original_speed_modifier(sheet[46]) - 1.215f) < 1e-4f,
                   "Quickness rank 1 did not raise Speed_Modifier_Walk by 21.5 percent");
         }
-        check(final->mana.mana_spent && final->mana.mana_after < final->mana.mana_before && session.actor(1)->target_id == invalid_actor_id,
+        check(final->mana.mana_spent && final->mana.mana_after < final->mana.mana_before &&
+              (!spec.post_clears_target || session.actor(1)->target_id == invalid_actor_id),
               name + " did not spend mana and clear its target in Post");
         const double remaining = buff_owner.remaining_ms(1, buff_class);
         check(remaining > 0.0 && remaining <= spec.buff_duration_ms + 0.5, name + " buff has no remaining time after the cast animation");
@@ -429,11 +441,26 @@ void run_rogue_source_slot0_fixture(
     // A source roll can miss or be dodged (0 HP removed with the outcome bits kept), so require damage somewhere in the first volley.
     bool first_volley_damage = false;
     for (std::size_t i = 0; i < first_volley; ++i) first_volley_damage = first_volley_damage || final->applied_results[i].health_removed > 0.0f;
-    check(first_volley_damage, "Rogue first volley removed no HP from any target");
-    check(final->target_order.size() >= 1 && final->mana.mana_spent &&
+    // Figments: the original Mage/Illusionist base CharacterTable rows have Damage_Min/Max_Main_Hand = 0, so the roll's
+    // damage comes from an equipped staff that this fixture does not equip. Only the applied roll is asserted here.
+    if (spec.no_pre_query) {
+        for (std::size_t i = 0; i < first_volley; ++i) {
+            check(final->applied_results[i].applied, std::string(spec.skill_name) + " first volley result was not applied");
+        }
+        first_volley_damage = true;
+    }
+    if (!first_volley_damage) {
+        std::string detail;
+        for (std::size_t i = 0; i < first_volley; ++i) {
+            const auto& r = final->applied_results[i];
+            detail += " [target=" + std::to_string(r.target) + " applied=" + std::to_string(r.applied) + " removed=" + std::to_string(r.health_removed) + "]";
+        }
+        check(false, std::string(spec.skill_name) + " first volley removed no HP from any target:" + detail);
+    }
+    check((spec.no_pre_query || final->target_order.size() >= 1) && final->mana.mana_spent &&
           final->mana.mana_after < final->mana.mana_before &&
           session.actor(1)->action == CharacterAction::idle &&
-          session.actor(1)->target_id == invalid_actor_id && !session.selectedactor(),
+          (!spec.post_clears_target || (session.actor(1)->target_id == invalid_actor_id && !session.selectedactor())),
           "Rogue skill Post did not clear its selected target after preserving source target order/mana");
     RuntimeSkillCastReceiptV1 duplicate;
     const auto hp2_after = session.actor(2)->health;
@@ -701,21 +728,21 @@ int main(int argc, char** argv) {
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"Blindness", "prince_assassin_blindness", "Skill_Assassin_Blindness", 518, 0, 15, true, true, false, 1, true,
-             "RoguePlayerBase_Assassin", "Skill_Assassin_Blindness", 10000.0, false});
+             "RoguePlayerBase_Assassin", "Skill_Assassin_Blindness", 10000.0, false, "RoguePlayerBase_Assassin", "_default_rogue-mesh-skin", false});
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"PoisonSting", "prince_assassin_poison_sting", "Skill_Assassin_PoisonSting", 520, 0, 18, true, true, false, 1, true,
-             "RoguePlayerBase_Assassin", "Skill_Assassin_PoisonSting", 3750.0, false});
+             "RoguePlayerBase_Assassin", "Skill_Assassin_PoisonSting", 3750.0, false, "RoguePlayerBase_Assassin"});
         // v21.8 skills-mage-sub: Necromancer DeathClaw (SkillList of the MagePlayerBase_Necromancer row, root 415, level 21)
         // and Illusionist Figments (MagePlayerBase_Illusionist row, root 417, level 18). Same full-session path.
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"DeathClaw", "prince_necromancer_deathclaw", "Skill_Necromancer_DeathClaw", 415, 1, 21, true, true, false, 1,
-             false, "MagePlayerBase_Necromancer", "", 0.0, false, "MagePlayerBase", "_default_mage-mesh-skin"});
+             false, "MagePlayerBase_Necromancer", "", 0.0, false, "MagePlayerBase_Necromancer", "_default_mage-mesh-skin"});
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"Figments", "prince_illusionist_figments", "Skill_Illusionist_Figments", 417, 1, 18, true, true, false, 1,
-             false, "MagePlayerBase_Illusionist", "", 0.0, false, "MagePlayerBase", "_default_mage-mesh-skin"});
+             false, "MagePlayerBase_Illusionist", "", 0.0, false, "MagePlayerBase_Illusionist", "_default_mage-mesh-skin", false, true});
         // One-hand dual-wield paths: only the equipped hand hits (main: row mask; off: mask|0x4000000), once per target.
         for (const bool main_only : {true, false}) {
             run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,

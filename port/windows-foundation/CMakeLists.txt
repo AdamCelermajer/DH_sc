@@ -1179,6 +1179,12 @@ add_test(NAME mage_skill_owner_v1 COMMAND mage_skill_owner_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
 add_test(NAME runtime_skill_activation_session_v1 COMMAND runtime_skill_activation_session_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../.."
   1 "${CMAKE_CURRENT_BINARY_DIR}/runtime_skill_activation_session_v1_scratch")
+# v21.8 subclass: test-only save writer for real hidden-window runs (not a CTest).
+add_executable(subclass_save_writer_v21_8 tests/subclass_save_writer_v21_8.cpp)
+target_link_libraries(subclass_save_writer_v21_8 PRIVATE foundation_runtime_skills_menu foundation_data)
+add_executable(class_family_v21_8_tests tests/class_family_v21_8_tests.cpp)
+target_link_libraries(class_family_v21_8_tests PRIVATE foundation_data)
+add_test(NAME class_family_v21_8 COMMAND class_family_v21_8_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 # Preview 14 Stats +/- route: spend, refuse at zero, failed-save rollback, recalc (features/character_menu/stat_training_v1).
 add_executable(stat_training_v1_tests features/character_menu/stat_training_v1_tests.cpp)
 target_link_libraries(stat_training_v1_tests PRIVATE foundation_runtime_skills_menu)

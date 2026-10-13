@@ -11,6 +11,7 @@
 #include "equipment_visual.hpp"
 #include "hud_geometry.hpp"
 #include "original_actor_properties.hpp"
+#include "original_class_family.hpp" // v21.8 subclass: family base row for presentation/profile lookups
 #include "player_profile_properties.hpp"
 #include "original_actor_labels.hpp"
 #include "original_camera_config.hpp"
@@ -1079,13 +1080,13 @@ int main(int argc,char** argv) {
                 if(difficulty<0||difficulty>f::character_unlocked_difficulty(*selected)){e="Selected difficulty is not unlocked for this profile";return false;}
                 selected->current_difficulty=difficulty;
                 if(selected->stats.level>std::uint32_t(INT32_MAX/256)){e="Saved level exceeds the source property scale";return false;}
-                const auto* selectedClass=creation::find_class(selected->class_id);
+                const auto* selectedClass=creation::find_class(f::playable_base_class_row(selected->class_id));
                 if(!selectedClass){e="Saved class is not an authored playable base profile";return false;}
                 options.hudPortrait=selectedClass->menu_index;
                 f::ActorProfileLibrary selectedProfiles;
                 if(options.profiles.empty())options.profiles="actor-profiles-v2.xml";
                 if(!selectedProfiles.load(assets,options.profiles.generic_string(),e))return false;
-                const auto* profile=selectedProfiles.find(selected->class_id);
+                const auto* profile=selectedProfiles.find(f::playable_base_class_row(selected->class_id));
                 if(!profile){e="Selected class source visual profile is absent";return false;}
                 f::ActorCustomization customization;customization.use_authored_modular_defaults=true;
                 customization.allow_missing_animation_targets=true;
@@ -1132,7 +1133,14 @@ int main(int argc,char** argv) {
                     if(equipped.source_slot==1)options.combat.mainItemId=item->definition_id;
                     if(equipped.source_slot==2)options.combat.offItemId=item->definition_id;
                 }
-                if(selected->class_id!="KnightPlayerBase") {
+                // v21.8 subclass: the subclass row gets the same combat policy as its family base row (startup/--combat-* policy
+                // is keyed by the base row; the subclass has the same model, AnimTable and AI).
+                if(const auto family=f::playable_base_class_row(selected->class_id);family!=selected->class_id) {
+                    const auto basePolicy=options.combat.profiles.find(family);
+                    if(basePolicy!=options.combat.profiles.end()&&options.combat.profiles.find(selected->class_id)==options.combat.profiles.end())
+                        options.combat.profiles.emplace(selected->class_id,basePolicy->second);
+                }
+                if(f::playable_base_class_row(selected->class_id)!="KnightPlayerBase") {
                     // Presentation and movement use the selected class's own
                     // source bank. Combat capability remains separate.
                     f::CombatSessionProfile animationProfile;
@@ -1586,7 +1594,7 @@ int main(int argc,char** argv) {
         };
         auto loadContent=[&](f::OriginalScene& scene,f::CharacterVisual& visual) {
         if(sourcePlayerStanceEnabled) {
-            const auto* profile=profiles.find(options.combat.playerProfileId);
+            const auto* profile=profiles.find(f::playable_base_class_row(options.combat.playerProfileId));
             if(!profile)throw std::runtime_error("Source stance profile is absent");
             if(options.character.model_path!=profile->model_uri) {
                 const auto configured=f::read_content(assets,options.character.model_path);
@@ -1596,7 +1604,7 @@ int main(int argc,char** argv) {
             }
             const auto hands=currentLocomotionItems();
             f::equipment_menu::RuntimePlayerLocomotionLibraryRequestV1 request;
-            request.profile_id=options.combat.playerProfileId;request.profile_library_uri=options.profiles.generic_string();request.role="player-source-locomotion";
+            request.profile_id=f::playable_base_class_row(options.combat.playerProfileId);request.profile_library_uri=options.profiles.generic_string();request.role="player-source-locomotion";
             request.main_hand_item_id=hands.first;request.off_hand_item_id=hands.second;
             request.preload_all_equipment_stances=true;request.max_programs=f::equipment_menu::RuntimePlayerLocomotionLibraryV1::hard_program_limit;
             const auto prefix=request.role+"/";
@@ -1769,11 +1777,17 @@ int main(int argc,char** argv) {
             for(const auto& root:skillAnimationBank->class_skill_roots)if(!root.loaded)std::cerr<<"Source skill optional root unavailable "<<root.source_skill_name<<": "<<root.diagnostic<<'\n';
             std::cout<<"Source skill bank preloaded class="<<state.class_id<<" roots="<<skillAnimationBank->class_skill_roots.size()<<" faeryCast="<<skillAnimationBank->active_faery_cast_sequence.value_or(-1)<<'\n';
             // v21.8 mage: MagePlayerBase joins the same source attack-bank path; its staff attack is ranged (no melee markers).
-            if((state.class_id=="RoguePlayerBase"||state.class_id=="MagePlayerBase")&&locomotionLibrary) {
-                const bool rangedStaff=state.class_id=="MagePlayerBase";
+            const auto familyRow=f::playable_base_class_row(state.class_id);
+            if((familyRow=="RoguePlayerBase"||familyRow=="MagePlayerBase")&&locomotionLibrary) {
+                const bool rangedStaff=familyRow=="MagePlayerBase";
                 const std::string attackClipPrefix="player-source-attack/";
                 options.character.clips.erase(std::remove_if(options.character.clips.begin(),options.character.clips.end(),[&](const auto& clip){return clip.first.compare(0,attackClipPrefix.size(),attackClipPrefix)==0;}),options.character.clips.end());
-                const auto* sourceProfile=profiles.find(options.combat.playerProfileId);
+                // v21.8 subclass: the library holds the family base profile. The bank plan and combat session identify the
+                // player by the subclass row, so the family profile is aliased under the subclass id (same model/AnimTable).
+                const auto* familyProfile=profiles.find(f::playable_base_class_row(options.combat.playerProfileId));
+                if(!familyProfile)throw std::runtime_error("Source melee player profile is absent");
+                f::ActorProfile subclassProfile=*familyProfile;subclassProfile.id=options.combat.playerProfileId;
+                const auto* sourceProfile=&subclassProfile;
                 if(!sourceProfile)throw std::runtime_error("Source melee player profile is absent");
                 const auto hands=currentLocomotionItems();
                 f::equipment_menu::RuntimePlayerLocomotionSelectionV1 selected;

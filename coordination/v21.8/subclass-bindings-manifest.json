@@ -1,0 +1,63 @@
+{
+  "generator": "coordination/v21.8/export_melee_bindings_v21_8.py",
+  "checker": "coordination/v21.8/check_subclass_bindings_v21_8.py",
+  "backup": {
+    "path": ".local-inputs/windows-melee-bindings/original-melee-bindings.base4-backup.xml",
+    "sha256": "fcea635528daa6f118666ac10bece7efdf1941f0f06d94a13f09cff8efcac2dd"
+  },
+  "output": {
+    "path": ".local-inputs/windows-melee-bindings/original-melee-bindings.xml",
+    "sha256": "7393526bff76778ee3b23f96959a49bcd90c3e8f823274c85b64ee07db2e9644"
+  },
+  "original_fields_compared": [
+    "ModelFile",
+    "AnimTable",
+    "AI",
+    "Sounds",
+    "Scale_X",
+    "Scale_Y",
+    "Scale_Z",
+    "ClassID",
+    "AIFaction",
+    "ModularVisual"
+  ],
+  "only_differing_fields_per_subclass": {
+    "KnightPlayerBase_Berserker": [
+      "ClassDescString",
+      "ClassString",
+      "Loot",
+      "SkillTree"
+    ],
+    "KnightPlayerBase_Paladin": [
+      "ClassDescString",
+      "ClassString",
+      "Loot",
+      "SkillTree"
+    ],
+    "RoguePlayerBase_Archer": [
+      "ClassDescString",
+      "ClassString",
+      "Loot",
+      "SkillTree"
+    ],
+    "RoguePlayerBase_Assassin": [
+      "ClassDescString",
+      "ClassString",
+      "Loot",
+      "SkillTree"
+    ],
+    "MagePlayerBase_Illusionist": [
+      "ClassDescString",
+      "ClassString",
+      "Loot",
+      "SkillTree"
+    ],
+    "MagePlayerBase_Necromancer": [
+      "ClassDescString",
+      "ClassString",
+      "Loot",
+      "SkillTree"
+    ]
+  },
+  "checks_passed": true
+}
