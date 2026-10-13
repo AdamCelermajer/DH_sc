@@ -348,7 +348,7 @@ Options parse(int argc, char** argv) {
                          "  --return-delay N      frames to wait in the --transition-to destination before returning (default 240)\n"
                          "  --enemy-census-at N   log every materialized Monster and the dead ones at rendered frame N (repeatable)\n"
                          "  --start-script NAME[@N] start the named Level pyscript (e.g. Swamp_Intro) on the Level ScriptManager at frame N (default 200)\n"
-                         "  --flush-dialogs     flush script dialogs every 20 frames while a script holds the controllers (unattended cutscenes)\n"
+                         "  --flush-dialogs     accepted for compatibility: gameplay scenarios flush authored cutscene dialogs every 20 frames by default (first-kill-ui excepted)\n"
                          "  --play-anim TARGET:DICT[:DICT2][:wait][@N] run Character::_RegisterAnim/_PlayAnim (AnimDict names) on 'player' or a Monster name at frame N\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
@@ -870,6 +870,9 @@ public:
         return true;
     }
     const std::string& failure() const { return failure_; }
+    // An authored cutscene hides the HUD and locks the controllers: probe HUD casts
+    // wait for it to end, and their timers pause instead of counting toward a verdict.
+    void set_hud_blocked(bool blocked) { hud_blocked_ = blocked; }
 
 private:
     // ----- shared -----------------------------------------------------------
@@ -877,6 +880,7 @@ private:
     bool& died_;
     bool& revived_;
     std::uint64_t frame_ = 0, milliseconds_ = 0;
+    bool hud_blocked_ = false;
     bool ready_ = false;
     std::uintptr_t player_ = 0;
     std::string error_, failure_;
@@ -1018,6 +1022,11 @@ private:
 
     void follow_decide() {
         if (!have_pose_) return;
+        if (hud_blocked_) {
+            // Locked behind an authored cutscene: the walk and stuck timers pause.
+            leg_progress_frame_ = frame_;
+            return;
+        }
         const Vec3& player = pose_.player_position;
         if (pose_.enemy_index >= 0 && pose_.enemy_hp > 0 && pose_.enemy_in_melee_range) {
             halt_player();
@@ -1643,6 +1652,13 @@ private:
     std::vector<FsRecord> fs_records_;
 
     void faery_skill_tick() {
+        if (hud_blocked_ && fs_phase_ != FsPhase::setup && fs_phase_ != FsPhase::done) {
+            // The HUD is hidden behind an authored cutscene: no cast goes out, and the
+            // watch / cooldown / switch clocks pause until the controls are back.
+            if (fs_phase_ == FsPhase::watch) ++fs_cast_frame_;
+            if (fs_phase_ == FsPhase::cooldown_wait || fs_phase_ == FsPhase::switch_wait) ++fs_wait_until_;
+            return;
+        }
         switch (fs_phase_) {
         case FsPhase::setup: fs_setup(); break;
         case FsPhase::switch_wait:
@@ -2694,6 +2710,11 @@ int main(int argc, char** argv) {
         // scenarios begin once those cutscenes are over, the budget does not count them.
         bool intro_released = false, intro_holding = false;
         std::uint64_t intro_held_frames = 0;
+        // Authored cutscenes (BeginScriptedCutScene hides the HUD, locks the controllers
+        // behind dialogs) met mid-scenario: the scenarios wait for the controls to return
+        // and the frames spent waiting extend the bound, capped at 9000.
+        std::uint64_t cutscene_wait_frames = 0;
+        bool cutscene_was_active = false;
         unsigned scenario_kills = 0;
         unsigned scenario_pickups = 0, scenario_loot_frames = 0;
         std::int32_t scenario_last_item_count = -1;
@@ -2711,6 +2732,9 @@ int main(int argc, char** argv) {
         touch_driver.window = window;
         bool touch_walk_attack_verified = false;
         unsigned touch_hits = 0, touch_pans_before = 0;
+        // touch_pans_before is the HUD fingers' pan count, taken once at the first free-finger press
+        // (a cutscene may release and later re-press the free finger; its pans are not HUD pans).
+        bool touch_camera_started = false;
         std::int32_t touch_prev_state = -1, touch_state_before_press = -1;
         std::int32_t touch_hit_enemy = -1, touch_hit_hp = 0;
         std::uint64_t tutorial_verified_frame = 0, tutorial_finished_frame = 0;
@@ -2901,6 +2925,14 @@ int main(int argc, char** argv) {
             return_to_authored_menu();
             sync_text_input();
             intro_holding = false;
+            const bool cutscene_now = gameplay && (model_renderer::script_controllers_blocked() ||
+                                                   original_ui.source_cutscene_active());
+            if (cutscene_now != cutscene_was_active) {
+                cutscene_was_active = cutscene_now;
+                std::cout << "Scenario cutscene " << (cutscene_now ? "started" : "over")
+                          << " | frame " << rendered_frames << " | HUD "
+                          << (cutscene_now ? "hidden, scenario waits for the controls" : "back") << std::endl;
+            }
             if (gameplay && options.level_row == 41 && !intro_released &&
                 (options.movement_attack_scenario || options.movement_defend_scenario ||
                  options.movement_kill_scenario || options.skill_kill_scenario ||
@@ -2931,9 +2963,17 @@ int main(int argc, char** argv) {
                         throw std::runtime_error("Intro dialog flush failed: " + ui_error);
                 }
             }
+            // Cutscene time is not scenario time: a frame spent waiting for the controls
+            // extends the bound by one frame, as the intro hold does below.
+            if (cutscene_now && !intro_holding && !options.first_kill_ui_scenario &&
+                cutscene_wait_frames < 9000) {
+                ++cutscene_wait_frames;
+                ++options.frames;
+            }
             if (gameplay && options.faery_follow_scenario && !options.capture_series.empty() && rendered_frames == 20)
                 copy_level_saves(options.runtime, options.capture_series, "entry");
             if (gameplay && options.probe_scenario() && rendered_frames >= 2 && !intro_holding) {
+                probe_runner.set_hud_blocked(cutscene_now);
                 probe_runner.tick(rendered_frames - intro_held_frames, SDL_GetTicks64());
                 int tap_action = -1;
                 if (probe_runner.take_tap(tap_action)) {
@@ -3025,7 +3065,15 @@ int main(int argc, char** argv) {
                               << " -> " << items.count << '\n';
                 }
                 if (have_items) scenario_last_item_count = items.count;
-                if (have_items && items.distance > 20.0f && scenario_loot_frames < 600) {
+                if (cutscene_now) {
+                    // The HUD is hidden and the Player locked behind an authored cutscene:
+                    // let go of any touch fingers and hold still until the controls return.
+                    if (touch_driver.attack_down || touch_driver.stick_down || touch_driver.camera_down) {
+                        std::string release_error;
+                        touch_driver.release_all(release_error);
+                    }
+                    keys.fill(false);update_movement(keys);model_renderer::stop_movement();
+                } else if (have_items && items.distance > 20.0f && scenario_loot_frames < 600) {
                     scenario_loot_frames += 15;
                     const float dx = items.nearest[0] - pose.player_position[0];
                     const float dy = items.nearest[1] - pose.player_position[1];
@@ -3044,13 +3092,18 @@ int main(int argc, char** argv) {
                         const float distance = std::max(std::hypot(dx, dy), 1.0f);
                         constexpr float inverse_sqrt_two = 0.7071067811865475f;
                         if (!touch_driver.drive_stick((dx + dy) * inverse_sqrt_two / distance,
-                                                      (dy - dx) * inverse_sqrt_two / distance, ui_error))
+                                                      (dy - dx) * inverse_sqrt_two / distance, ui_error)) {
+                            // A HUD that is not on screen yet (a cutscene just ended) is waited for.
+                            if (ui_error.find("no pressable area") != std::string::npos) return;
                             throw std::runtime_error("touch-kill stick drag failed: " + ui_error);
+                        }
                     }
                     if (!touch_driver.attack_down) {
                         touch_state_before_press = model_renderer::gameplay_player_state();
-                        if (!touch_driver.press_attack(ui_error))
+                        if (!touch_driver.press_attack(ui_error)) {
+                            if (ui_error.find("no pressable area") != std::string::npos) return;
                             throw std::runtime_error("touch-kill attack button press failed: " + ui_error);
+                        }
                         // The HUD attack press starts the attack inside the touch entry itself.
                         const auto state_after_press = model_renderer::gameplay_player_state();
                         std::cout << "Scenario touch | finger 1 pressed the HUD attack button at "
@@ -3068,9 +3121,10 @@ int main(int argc, char** argv) {
                     {
                         // A third, free finger on the world pans the camera; the two HUD fingers never do.
                         unsigned pans = 0, applied = 0, pinches = 0;
-                        if (!touch_driver.camera_down) {
+                        if (!touch_camera_started) {
                             original_ui.camera_gesture_counts(pans, applied, pinches);
                             touch_pans_before = pans;
+                            touch_camera_started = true;
                         }
                         if (!touch_driver.drag_camera_finger(ui_error))
                             throw std::runtime_error("touch-kill free camera finger failed: " + ui_error);
@@ -3213,8 +3267,11 @@ int main(int argc, char** argv) {
                     }
                 }
             }
+            // The 60-frame tail after the cinematic ends only once a death is revived: the
+            // move-defend driver still owes its Continue revive if the Player fell in the tail.
             if (options.tutorial_potion_scenario && tutorial_finished_frame &&
-                rendered_frames >= tutorial_finished_frame + 60) running = false;
+                rendered_frames >= tutorial_finished_frame + 60 &&
+                !(scenario_player_died && !scenario_revived)) running = false;
             // first-kill-ui: a player taps the dialog box to read on. Press and release
             // are separate frames so GameSWF sees both edges; the dialog queue is never
             // flushed, so a dialog the UI cannot show or dismiss keeps the Player locked
@@ -3251,14 +3308,17 @@ int main(int argc, char** argv) {
             // lock the controllers behind dialogs the player taps through. The
             // tutorial-potion scenario keeps its own hold-then-flush proof above once
             // cinematic_Tuto_potionUse has started; before that it taps these too.
-            if ((options.skill_matrix_scenario || options.flush_dialogs ||
-                 options.boss_natural ||
-                 ((options.movement_attack_scenario || options.movement_defend_scenario) &&
-                  (!options.tutorial_potion_scenario || !tutorial_verified_frame))) &&
-                gameplay && rendered_frames % 20 == 0 &&
-                model_renderer::script_controllers_blocked() &&
-                !original_ui.flush_source_messages(ui_error))
-                throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);
+            // Default for every gameplay scenario: while an authored cutscene holds the HUD
+            // or the controllers, its dialogs are flushed every 20 frames (what a player's
+            // taps amount to). first-kill-ui taps the DialogBox itself instead, unless
+            // --flush-dialogs asks for the flush; tutorial-potion holds its dialogs for 240
+            // frames once cinematic_Tuto_potionUse has started, before its own flush below.
+            if ((!options.first_kill_ui_scenario || options.flush_dialogs) &&
+                gameplay && rendered_frames % 20 == 0 && cutscene_now &&
+                !(options.tutorial_potion_scenario && tutorial_verified_frame) &&
+                !original_ui.flush_source_messages(ui_error) &&
+                model_renderer::script_controllers_blocked())
+                throw std::runtime_error("Cutscene dialog flush failed: " + ui_error);
             // After death, tap the authored death screen's btn_Continue (full-screen
             // hit area) so its timeline reaches NativeReviveAllPlayers.
             if ((options.movement_defend_scenario || options.movement_kill_scenario ||
@@ -3281,7 +3341,7 @@ int main(int argc, char** argv) {
             }
             if (options.movement_attack_scenario && !options.movement_kill_scenario &&
                 scenario_started && !scenario_attack_sent) {
-                if (rendered_frames >= options.frames / 2) {
+                if (rendered_frames >= options.frames / 2 && !cutscene_now) {
                     keys.fill(false);
                     update_movement(keys);
                     model_renderer::stop_movement();
@@ -3553,12 +3613,17 @@ int main(int argc, char** argv) {
                 }
             }
             if (gameplay && (options.movement_attack_scenario || options.movement_defend_scenario || options.fixed_cultist_scenario ||
-                             options.fixed_cultist_kill_scenario) && !scenario_started && !intro_holding) {
+                             options.fixed_cultist_kill_scenario) && !scenario_started && !intro_holding &&
+                !cutscene_now) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
                 model_renderer::move_axis(0.0f, 0.0f);
                 if (options.hud_touch_scenario)
                     g_scenario_axis = [&](float x, float y) {
+                        // No stick press while an authored cutscene hides the HUD: the finger
+                        // would reach the world and pan the camera instead of steering.
+                        if (model_renderer::script_controllers_blocked() || original_ui.source_cutscene_active())
+                            return;
                         std::string stick_error;
                         if (!touch_driver.drive_stick(x, y, stick_error))
                             std::cout << "Scenario touch | stick not ready yet: " << stick_error << '\n';
