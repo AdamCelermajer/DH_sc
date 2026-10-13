@@ -22,7 +22,7 @@ public:
     enum GO_IDS : std::int32_t { };         // values unknown; callers pass 0
 
     explicit ObjectBase(GO_IDS id);         // 0x33f15c / 0x33f310
-    ~ObjectBase() override;                 // 0x33e840 (D1) / 0x33e998 (D0); non-virtual thunks at 0x33e97c
+    ~ObjectBase() override;                 // 0x33e840 (D1) / 0x33e998 (D2, same body); deleting D0 at 0x33e97c is compiler generated
 
     // ---- virtual, primary vtable slot order (slots 0-3 come from UserData) ----
     void Serialize(IStreamBase* stream) override;       // +0x10 0x33e1f0: writes m_visible, m_enabled
@@ -66,24 +66,24 @@ public:
     std::uint8_t pad_61[3];
     std::int32_t unk_64;                    // +0x64 -1
     std::string m_roomName;                 // +0x68 property "roomname"
-    std::uint8_t m_visible;                 // +0x80 property "visible", default 1; serialized
+    bool m_visible;                         // +0x80 property "visible", default 1; serialized (one byte; bool& for the property table)
     std::uint8_t m_markedForDeletion;       // +0x81 set by Delete()
     std::uint8_t m_deleteMode;              // +0x82 Delete() stores 2; CheckSpawnProbability stores 0
-    std::uint8_t m_isUnderlay;              // +0x83 property "isUnderlay"
-    std::uint8_t m_static;                  // +0x84 property "static"
-    std::uint8_t unk_85;                    // +0x85 0
+    bool m_isUnderlay;                      // +0x83 property "isUnderlay" (one byte; bool& for the property table)
+    bool m_static;                          // +0x84 property "static" (one byte; bool& for the property table)
+    std::uint8_t unk_85;                    // +0x85 updating flag: setUpdating(bool) stores its argument here (rename to m_updating)
     std::uint8_t m_cullState;               // +0x86 TestCullingBeforeUpdate: 0 first call, 1 testing, 2 done
-    std::uint8_t m_isGlobal;                // +0x87 property "isGlobal"
+    bool m_isGlobal;                        // +0x87 property "isGlobal" (one byte; bool& for the property table)
     std::uint8_t unk_88;                    // +0x88 0
     std::uint8_t unk_89;                    // +0x89 0
-    std::uint8_t m_enabled;                 // +0x8a 1 initially; serialized; SetEnable()
+    bool m_enabled;                         // +0x8a 1 initially; serialized (one byte; bool& for readAs and writeAs); SetEnable()
     std::uint8_t pad_8b;
     ConditionData m_enableCond;             // +0x8c property "activate_cond" (+0x90)
     ConditionData m_disableCond;            // +0xb0 property "deactivate_cond" (+0xb4)
     std::string m_minDifficulty;            // +0xd4 property "min_difficulty"
     std::int32_t m_minDifficultyIdx;        // +0xec index into Arrays::GameDifficulties, -1 = none (set in InitPost)
-    std::uint8_t m_tutorialOnly;            // +0xf0 property "is_tutorial_only"
-    std::uint8_t m_demoOnly;                // +0xf1 property "is_demo_only"
+    bool m_tutorialOnly;                    // +0xf0 property "is_tutorial_only" (one byte; bool& for the property table)
+    bool m_demoOnly;                        // +0xf1 property "is_demo_only" (one byte; bool& for the property table)
     std::uint8_t pad_f2[2];
     GO_IDS m_goId;                          // +0xf4 constructor argument
     std::uint8_t unk_f8;                    // +0xf8 0; written to NetBitStream by ObjectManager

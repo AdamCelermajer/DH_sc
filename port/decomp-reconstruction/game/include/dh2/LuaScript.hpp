@@ -21,18 +21,18 @@ class ReturnValues;
 class LuaScript {
 public:
     explicit LuaScript(bool skipBindings);             // 0x37c584 / 0x37c674; BindFunction() runs when false
-    virtual ~LuaScript();                              // +0x00 0x37bec0 (D1), +0x04 0x37c148 (D0), 0x37c004
+    virtual ~LuaScript();                              // +0x00 0x37c004 (D1), +0x04 0x37c148 (D0); 0x37bec0 is the D2 body
 
     int Load(const char* file);                        // 0x37b574 LuaManager::AddFile(this, file)
     void BindFunction();                               // 0x37b5a0 registers the C++ callbacks below with the Lua state
-    bool IsInVFTable(const char* funcName);            // 0x37c2a0 hash lookup in m_vfTable
-    const char* _GetFuncName(const char* funcName);    // 0x37c314 mapped (virtual-function table) name, else the argument
+    bool IsInVFTable(const char* funcName) const;      // 0x37c2a0 hash lookup in m_vfTable
+    const char* _GetFuncName(const char* funcName) const;  // 0x37c314 mapped (virtual-function table) name, else the argument
     void Call(const char* funcName);                   // 0x37c514
-    bool Call(const char* funcName, const sfc::script::lua::Arguments& args,
-              sfc::script::lua::ReturnValues& ret);    // 0x37c390 clears ret, pCall, ++s_numCalls
+    int Call(const char* funcName, const sfc::script::lua::Arguments& args,
+             sfc::script::lua::ReturnValues& ret);     // 0x37c390 clears ret, pCall, ++s_numCalls; returns pCall's result
     void Call(const char* funcName, const sfc::script::lua::Arguments& args);  // 0x37c41c
-    bool Call(const char* funcName, sfc::script::lua::ReturnValues& ret);      // 0x37c494
-    int GetInt(const char* name);                      // 0x37da30 script-side integer by name hash (0 and inserted when absent)
+    int Call(const char* funcName, sfc::script::lua::ReturnValues& ret);       // 0x37c494
+    int GetInt(const char* name) const;                // 0x37da30 script-side integer by name hash (0 and inserted when absent; _ZNK symbol)
     void SetInt(const char* name, int value);          // 0x37d990
 
     // Lua callbacks (void* is the LuaScript the binding was registered with).
@@ -79,7 +79,7 @@ public:
     // +0x00 vptr
     alignas(void*) uint8_t m_instance[12];             // +0x04 sfc::script::lua::Instance (includeBase/Math/Table/String called in BindFunction)
     alignas(void*) uint8_t m_binder[12];               // +0x10 sfc::script::lua::Binder (vptr off_95b140, Instance* = &m_instance, 0)
-    std::map<uint32_t, int> m_ints;                    // +0x1c name hash -> value (GetInt/SetInt); original map is 24 bytes
+    mutable std::map<uint32_t, int> m_ints;            // +0x1c name hash -> value (GetInt/SetInt); original map is 24 bytes; mutable because const GetInt inserts absent names
     std::map<uint32_t, std::string> m_vfTable;         // +0x34 function name hash -> overriding name (IsInVFTable, _GetFuncName)
     std::map<uint32_t, std::string> m_vfTableSaved;    // +0x4c entries of m_vfTable replaced while collecting; _PopVFTable restores them
     bool m_vfTableCollecting;                          // +0x64 set by _PushVFTable, cleared by _PopVFTable

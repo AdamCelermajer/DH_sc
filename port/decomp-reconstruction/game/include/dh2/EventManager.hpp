@@ -1,4 +1,5 @@
-// EventManager: priority-ordered receivers per event id, plus a queue of events raised from Update().
+// EventManager: receivers per event id in Attach() order (the priority is stored, not used for ordering),
+// plus a queue of events raised from Update().
 // Original size 0x30 (operator new(0x30) in Application::PostInit; Level derives from it, so Level's own
 // members start at +0x30). Vtable: slots +0x00/+0x04 are the destructors, no other virtuals.
 // Container layouts are STLport 32-bit; the offsets below are the original ones.

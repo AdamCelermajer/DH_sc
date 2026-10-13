@@ -22,7 +22,7 @@ namespace sfc { namespace script { namespace lua { class Arguments; class Return
 class GameObject : public ObjectBase {
 public:
     explicit GameObject(GO_IDS id);                     // 0x38c130 / 0x38c398
-    ~GameObject() override;                             // 0x38d228 (D1) / 0x38d378 (D0); thunks 0x38d35c
+    ~GameObject() override;                             // 0x38d228 (D1) / 0x38d378 (D2, same body); deleting D0 0x38d35c is compiler generated
 
     // ---- virtual, vtable slot order ----
     const char* getUDTypeName() const override;         // +0x08 0x340124 "GameObject"
@@ -173,7 +173,7 @@ public:
     Point3D<float> m_scale;                 // +0x120 property "scale"
     float m_absAabb[6];                     // +0x12c world AABB (min xyz, max xyz) = m_relAabb + m_position
     float m_relAabb[6];                     // +0x144 local AABB, initially (-100,-100,-100)-(100,100,100)
-    std::uint8_t m_skipCheckpoint;          // +0x15c property "skip_checkpoint"
+    bool m_skipCheckpoint;                  // +0x15c property "skip_checkpoint" (bool& for the property table)
     std::uint8_t pad_15d[3];
     Point3D<float> m_position;              // +0x160 property "position"
     Point3D<float> m_rotation;              // +0x16c property "rotation" (radians after InitPost); z = yaw
@@ -202,9 +202,9 @@ public:
     PhysicalObject* m_physicalObject;       // +0x2dc
     AnchorBase* m_cameraAnchor;             // +0x2e0
     GameObject* m_pendingInteractor;        // +0x2e4 Update() calls Interact(it) then clears it
-    glitch::scene::ISceneNode* m_interactionSpotNode;  // +0x2e8 node "interaction_position"
-    std::uint8_t m_interactionSpotCached;   // +0x2ec
-    std::uint8_t m_alwaysVisible;           // +0x2ed property "alwaysVisible"
+    mutable glitch::scene::ISceneNode* m_interactionSpotNode;  // +0x2e8 node "interaction_position" (mutable: GetInteractionSpot caches it)
+    mutable std::uint8_t m_interactionSpotCached;   // +0x2ec (mutable: GetInteractionSpot caches it)
+    bool m_alwaysVisible;                   // +0x2ed property "alwaysVisible" (bool& for the property table)
     std::uint8_t m_zoningEnabled;           // +0x2ee 1 initially
     std::uint8_t unk_2ef;                   // +0x2ef 0
     std::uint8_t m_inZone;                  // +0x2f0

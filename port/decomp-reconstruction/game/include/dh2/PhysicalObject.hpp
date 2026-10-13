@@ -48,9 +48,9 @@ public:
     bool addLinearVelocity(float vx, float vy, float maxX, float maxY); // 0x46e864 clamps each axis to its maximum
     bool setLinearVelocity(float vx, float vy);                         // 0x46e918
     void setAngularVelocity(float omega);                               // 0x46e978
-    void setAngle(float angle);                                         // 0x46ea70
-    void setPosition(float x, float y);                                 // 0x46ea80 world units
-    void setPosition(const Point2D<float>& position);                   // 0x46ead4
+    bool setAngle(float angle);                                         // 0x46ea70 returns b2Body::SetXForm's result
+    bool setPosition(float x, float y);                                 // 0x46ea80 world units; returns SetXForm's result
+    bool setPosition(const Point2D<float>& position);                   // 0x46ead4 returns setPosition(float, float)
     void unpin();                                                       // 0x46eae0
     void pin();                                                         // 0x46eb20 zero mass
     void disableFilter();                                               // 0x46eb70

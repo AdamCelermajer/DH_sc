@@ -33,7 +33,7 @@ public:
     void Flush();                                 // 0x3c2a00
     void RegisterState(int stateId);              // 0x3c7318
     void SM_RegisterEvent(int stateId, int eventId, int nextState, bool (Character::*handler)(int, void*, int, int&));  // 0x3c7b18
-    void RaiseStateEvent(int eventId, void* data);  // 0x3c5684
+    int RaiseStateEvent(int eventId, void* data);  // 0x3c5684 returns int: its pseudocode returns the handler result or _SetState's int
 
     // Queries
     int SM_GetState() const;                      // 0x3c01ac (-1 when no current state)
@@ -57,7 +57,7 @@ public:
     bool SM_IsLifting() const;                    // 0x3c0420
 
     // Transitions
-    int SM_SetAnim(int anim);                     // 0x3c0b50
+    void SM_SetAnim(int anim);                    // 0x3c0b50 (void: the original tail-calls CharAnimator::ANIM_Set, which is void)
     int SM_SetIdleState(bool flag);               // 0x3c1a00
     int SM_SetPreSpawnState();                    // 0x3c1a64
     int SM_SetLimbusState(bool flag);             // 0x3c1a74

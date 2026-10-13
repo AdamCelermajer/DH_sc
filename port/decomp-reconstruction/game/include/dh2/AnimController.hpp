@@ -17,7 +17,8 @@ public:
     typedef void (*AnimCallback)(glitch::scene::ITimelineController* timeline, void* userData);
     typedef void (*EventCallback)(const glitch::collada::STriggeredEvent& event, void* userData);
 
-    // trackEvents: when set the node's own event dispatch (slot +0x74 of the node) is used instead of the do-nothing callbacks.
+    // trackEvents: when clear, every animator gets the do-nothing callbacks. When set, the ctor calls the node's virtual at
+    // vptr+0x74 instead (vtables-001.json resolves it to glitch::scene::ISceneNode::removeAnimators(); not verified in IDA).
     AnimController(RootSceneNode* node, bool trackEvents);  // 0x474d30 / 0x474e44; asserts "m_node", takes a reference on it
     virtual ~AnimController();                         // +0x00 0x474684 (D1), +0x04 0x474d14 (D0), 0x4746c8; drops the node
 
@@ -34,7 +35,7 @@ public:
                               EventCallback eventCallback, void* eventUserData);   // +0x2c 0x474d10 thunk to SetCallbacksOnAll
 
     glitch::collada::ISceneNodeAnimator* GetAnim(unsigned int index);               // 0x4748b8
-    glitch::collada::ISceneNodeAnimator* GetAnim(unsigned int index) const;         // 0x474770
+    const glitch::collada::ISceneNodeAnimator* GetAnim(unsigned int index) const;   // 0x474770 (const result: its callers use the const getTimelineCtrl, slot +0x40)
     void SetCallbacks(glitch::collada::ISceneNodeAnimator* animator, AnimCallback animCallback, void* animUserData,
                       EventCallback eventCallback, void* eventUserData);          // 0x474c78
     void SetCallbacksOnAll(AnimCallback animCallback, void* animUserData,

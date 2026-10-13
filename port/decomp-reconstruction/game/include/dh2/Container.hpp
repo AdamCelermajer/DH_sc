@@ -61,7 +61,7 @@ public:
     void InterpretIncomingNetStruct(bool force) override;              // slot 0x50: 0x39fd38
     void InitFinal() override;                                          // slot 0x58: 0x39fc98 builds a PODecor body
     bool IsAnimated() const override;                                   // slot 0x80: 0x39f37c true
-    bool IsInteractive(GameObject* by) const override;                  // slot 0x88: 0x39f384 idle and not disabled
+    bool IsInteractive(GameObject* by) const override;                  // slot 0x88: 0x39f384 idle and not marked for deletion (ObjectBase +0x81)
     void Interact(GameObject* by) override;                             // slot 0x98: 0x3a0b38
     bool IsObstacle() const override;                                   // slot 0xb4: 0x39f3a8 true
     float GetObstacleRadius() const override;                           // slot 0xb8: 0x39f3b0 150.0

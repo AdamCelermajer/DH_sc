@@ -27,7 +27,7 @@ public:
     typedef int (*Callback)(Projectile* projectile, void* userData);
 
     explicit Projectile(GO_IDS id);                    // 0x3e5e40 / 0x3e5edc
-    ~Projectile() override;                            // +0x00 0x3e5d9c (D1), +0x04 0x3e5de4 (D0), 0x3e5e00
+    ~Projectile() override;                            // D1 0x3e5d9c and D2 0x3e5e00 (same body); D0 0x3e5de4 is the compiler's deleting dtor
 
     // ---- virtual, vtable slot order ----
     void Update() override;                            // +0x2c 0x3e51b0 expiry checks, GameObject::Update, speed decay, floor check

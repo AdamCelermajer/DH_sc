@@ -46,7 +46,7 @@ public:
     // Iterator over a set of objects. vtable (40 bytes): destructors, then six slots.
     class IObjectList {
     public:
-        virtual ~IObjectList() = default;           // +0x00, +0x04 (0x38aabc D1, 0x38b2cc D0)
+        virtual ~IObjectList();                     // +0x00, +0x04 (0x38aabc D1 defined in game-world/src/g1-game-world-ObjectSearcher-3d104b-0.cpp, 0x38b2cc D0)
         virtual void Reset() = 0;                   // +0x08
         virtual bool AtEnd() = 0;                   // +0x0c
         virtual void Next() = 0;                    // +0x10
@@ -84,7 +84,7 @@ public:
         int m_index;                                // +0x08
     };
 
-    // Objects of one room (and the shared list), walking the room map. The node layout is not recovered.
+    // Objects of the active rooms: walks the room list, then each room's objects (node layout as std::list iterators).
     class RoomObjectList : public IObjectList {
     public:
         ~RoomObjectList() override;                 // 0x4a18a4 / 0x4a19c4
@@ -95,10 +95,12 @@ public:
         GameObject* Get() override;                 // 0x4a1840
         Character* GetChar() override;              // 0x4a1cfc via ObjectBase::GetHandle
         void _ValidateCurrent();                    // 0x4a18a8 skips ahead while the current entry repeats the previous one
-        void* m_list;                               // +0x04 container header (list sentinel)
-        void* m_node;                               // +0x08 current node
-        void* m_end;                                // +0x0c end node
-        void* m_current;                            // +0x10 current inner entry
+        // The room list is ObjectManager's list at +0x80. Its elements are the object lists of the rooms
+        // (std::list<GameObject*>*, see RoomZone::AddObject and ObjectManager::AddRoomObjects).
+        const std::list<std::list<GameObject*>*>* m_list;                // +0x04 the room list (ObjectManager +0x80)
+        std::list<std::list<GameObject*>*>::const_iterator m_node;       // +0x08 current room
+        std::list<std::list<GameObject*>*>::const_iterator m_end;        // +0x0c end of the room list
+        std::list<GameObject*>::const_iterator m_current;                // +0x10 current object of the current room
     };
 
     // A saved result set: a vector of GameObject* whose objects hold a reference count byte (GameObject +0x29).

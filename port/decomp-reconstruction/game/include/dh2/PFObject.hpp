@@ -50,4 +50,7 @@ public:
     std::int32_t unk_84;                    // +0x84 0
     std::int32_t unk_88;                    // +0x88 0
     std::string m_debugName;                // +0x8c (GameObject::InitFinal assigns the object name)
+    std::uint8_t pad_90[12];                // +0x90 .. +0x9b not touched by the functions recovered so far
+    void* unk_9c;                           // +0x9c pointer to m_debugName, set by the constructor (the destructor's buffer test reads it)
+    void* unk_a0;                           // +0xa0 pointer to m_debugName, set by the constructor; a different non-null value is a buffer the destructor frees
 };

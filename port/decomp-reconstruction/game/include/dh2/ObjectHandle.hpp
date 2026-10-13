@@ -7,6 +7,7 @@
 class ObjectBase;
 class GameObject;
 class Character;
+class Container;
 
 class ObjectHandle {
 public:
@@ -20,9 +21,13 @@ public:
     operator GameObject*();                 // 0x33fee4
     operator Character const*();            // 0x33ff1c
     operator Character*();                  // 0x33ff54
-    template <typename T> operator T*();    // e.g. Container* at 0x4593f4
+    template <typename T> operator T*();    // primary template has no body; only the Container* specialization below exists
 
     std::uint32_t m_id;                     // +0x00 object id (key of ObjectManager's std::map<int, ObjectListItem>)
     ObjectBase* m_cached;                   // +0x04 cached resolve result
     std::uint32_t m_generation;             // +0x08 ObjectManager generation (ObjectManager+0x78) the cache is valid for; -1 initially
 };
+
+// Explicit specialization of the template conversion for Container (0x4593f4). Defined in
+// game-world/src/g1-game-world-ObjectHandle-4d223d-0.cpp.
+template <> ObjectHandle::operator Container*();

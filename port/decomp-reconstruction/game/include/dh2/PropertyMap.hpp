@@ -12,6 +12,7 @@
 #include <string>
 
 class Property;
+class PropertyInstance;
 class TiXmlElement;
 
 class PropertyMap {
@@ -21,15 +22,15 @@ public:
     // ---- typed property registration (templates; definitions live in the owning .cpp) ----
     template <typename T> void AddProperty(const char* name, T& member, T defaultValue);   // 0x33e404 .. 0x39503c, one per type
     template <typename T> void AddProperty(const char* name, T& member);                   // 0x33ef7c (std::string)
-    void AddProperty(const char* name, Property* property);             // 0x513ce4 replaces (and frees) an existing entry
+    Property*& AddProperty(const char* name, Property* property);             // 0x513ce4 replaces (and frees) an existing entry; returns the map slot
 
     // ---- non-virtual ----
     const char* GetThisClassName();                                     // 0x510b4c asserts m_className != 0
     std::map<std::string, Property*>& GetPropertyMap();                 // 0x5134c0 s_classMap[className][m_template]
     Property* GetProp(const char* name);                                // 0x513808
-    Property* GetProperty(const char* name);                            // 0x513858
+    PropertyInstance GetProperty(const char* name);                     // 0x513858 returns {GetProp(name), this} (sret, asm checked)
     void SetProperty(const char* name, const char* value);              // 0x51387c
-    void SetTemplateParameter(const char* name, const char* value);     // 0x513830
+    int SetTemplateParameter(const char* name, const char* value);      // 0x513830 returns the SetDefaultValueFromString result, or 0
     void SetTemplate(const std::string& templateName);                  // 0x513fec
     void LoadTemplate();                                                // 0x51419c asserts false (base is never asked to load)
     void InitProperties();                                              // 0x513d78

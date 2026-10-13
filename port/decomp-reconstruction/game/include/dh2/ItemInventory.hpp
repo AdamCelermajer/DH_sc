@@ -60,7 +60,7 @@ public:
     virtual bool CanRangeAttack(int& a, int& b, int& c) const;        // slot 3, 0x3ffebc
     virtual int EquipItemAuto(unsigned int itemIdx);                  // slot 4, 0x400c84
     virtual int UnEquipItemAuto(unsigned int itemIdx);                // slot 5, 0x400630
-    virtual int EquipItemToSlot(unsigned int itemIdx, unsigned int slot);  // slot 6, 0x4009f0
+    virtual int EquipItemToSlot(unsigned int slot, unsigned int itemIdx);  // slot 6, 0x4009f0 (asserts: slotIdx first, itemIdx second)
     virtual int EquipSlotAuto(unsigned int slot, Character* c);       // slot 7, 0x401940
     virtual void UnEquipItemFromSlot(unsigned int slot, int equipSet);  // slot 8, 0x40050c
 
@@ -122,7 +122,7 @@ public:
 
     // Loot
     void AddLoot(int lootTableId, int a, int b, int c, bool flag);  // 0x40407c
-    int CalcLootItemValue(ItemInstance* item, int level);           // 0x4020b4
+    static void CalcLootItemValue(ItemInstance* item, int level);   // 0x4020b4 (returns nothing; sets the item value)
     void DBG_DropAllLoots();                      // 0x404658
 
     // Quest gathering bookkeeping (defined in a separate, later part of the binary)
@@ -134,22 +134,24 @@ private:
     int _HasItemInstanceLike(const ItemInstance* item, unsigned int& idx);   // 0x3fe1cc
     void _UnEquipItemFromSlot(unsigned int slot, int equipSet);  // 0x4003a4
     int _UnEquipItemAuto(unsigned int itemIdx);   // 0x400510
-    int _EquipItemToSlot(unsigned int itemIdx, unsigned int slot, bool flag);  // 0x400634
+    int _EquipItemToSlot(unsigned int slot, unsigned int itemIdx, bool flag);  // 0x400634 (asserts: slotIdx first, itemIdx second)
     int _EquipItemAuto(unsigned int itemIdx);     // 0x4009f8
     int _EquipSlotAuto(unsigned int slot, Character* c);  // 0x4016e4
 
-    int _GetProbQuantity(int a, int b);           // 0x401b90
-    int _GetRandomItem(const Structs::ItemListEntryList& list);              // 0x401dbc
-    int _GetRandomItemPowerEntry(const Structs::ItemPowerEntryList& list);   // 0x401f38
-    bool _IsLootEntryUsingPct(const Structs::LootEntry& entry);              // 0x4027a4
-    int _GetEffectiveProb(const Structs::LootEntry& entry);                  // 0x402854
-    unsigned int _GetRandomLootEntry(const std::vector<const Structs::LootEntry*>& entries);  // 0x4028d0
-    unsigned int _GetRandomLootEntry(const Structs::Loot& loot);             // 0x402a60
-    bool _DoPctRoll(const Structs::LootEntry& entry);                        // 0x402bdc
+    // The loot helpers below use no ItemInventory state (their first argument is the entry, list or item they work
+    // on), so they are static members in the original.
+    static int _GetProbQuantity(int numProbId, int bonus);                   // 0x401b90
+    static int _GetRandomItem(const Structs::ItemListEntryList& list);       // 0x401dbc
+    static int _GetRandomItemPowerEntry(const Structs::ItemPowerEntryList& list);  // 0x401f38
+    static bool _IsLootEntryUsingPct(const Structs::LootEntry& entry);       // 0x4027a4
+    static int _GetEffectiveProb(const Structs::LootEntry& entry);           // 0x402854
+    static unsigned int _GetRandomLootEntry(const std::vector<const Structs::LootEntry*>& entries);  // 0x4028d0
+    static unsigned int _GetRandomLootEntry(const Structs::Loot& loot);      // 0x402a60
+    static bool _DoPctRoll(const Structs::LootEntry& entry);                 // 0x402bdc
     static void _DoPctRolls(std::vector<const Structs::LootEntry*>& out, const std::vector<const Structs::LootEntry*>& in);  // 0x402ce4
     static void _DoPctRolls(std::vector<const Structs::LootEntry*>& out, const Structs::LootEntry* entry, int count);       // 0x402d70
     static void _AddLootItems(const std::vector<const Structs::LootEntry*>& entries, std::vector<LootInfo>& out, bool all);  // 0x402dfc
-    void _AddLootItemPowers(const Structs::LootEntry* entry, ItemInstance* item, int a, int b, int c);  // 0x403310
+    static void _AddLootItemPowers(const Structs::LootEntry* entry, ItemInstance* item, int a, int b, int c);  // 0x403310
     static void _AddLootTable(int lootTableId, std::vector<const Structs::LootEntry*>& out, std::vector<const Structs::LootEntry*>* extra);  // 0x4039a0
 
     // _vptr                                      // +0x00

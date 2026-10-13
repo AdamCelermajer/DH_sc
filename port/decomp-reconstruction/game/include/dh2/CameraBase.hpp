@@ -16,15 +16,16 @@ public:
     virtual void Update();                             // +0x10 0x40ea50 empty
 
     void SetActive();                                  // 0x40f45c makes this the active camera and tells the scene manager
-    // fov / aspect / near / far are inferred from the order of the four setter slots used (+0x13c.. on the camera node).
+    // fov / aspect / nearValue / farValue go to setFOV, setAspectRatio, setNearValue and setFarValue on the camera node
+    // (call offsets +0x13c, +0x138, +0x130, +0x134); the up vector is set to +Z (call +0x114).
     void SetData(float fov, float aspect, float nearValue, float farValue, bool unused);  // 0x40e9a8; also sets the up vector to +Z
-    Point3D<float> GetCameraLookAtVec();               // 0x40e8a8 row 1 of the absolute transform, Vec3f_Origin without a camera node
-    Point3D<float> GetCameraUpVec();                   // 0x40e928 row 2 of the absolute transform
+    Point3D<float> GetCameraLookAtVec() const;             // 0x40e8a8 row 1 of the absolute transform, Vec3f_Origin without a camera node
+    Point3D<float> GetCameraUpVec() const;                 // 0x40e928 row 2 of the absolute transform
     // Screen position (pixels) to the point where the view ray crosses the horizontal plane at height z.
-    bool GetWorldCoord(const Point2D<int>& screen, Point3D<float>& world, float z);    // 0x40f2f0
-    bool GetWorldCoord(const Point2D<float>& screen, Point3D<float>& world, float z);  // 0x40f394 screen in -1..1
-    bool GetCenterOffset(Point3D<float>& offset, float z);  // 0x40f4dc false without a camera node
-    void GetScreenCoord(const Point3D<float>& world, Point2D<float>& screen);  // 0x40f714 projects with the video driver's view*projection
+    static bool GetWorldCoord(const Point2D<int>& screen, Point3D<float>& world, float z);    // 0x40f2f0 static: uses no this
+    static bool GetWorldCoord(const Point2D<float>& screen, Point3D<float>& world, float z);  // 0x40f394 screen in -1..1; static
+    bool GetCenterOffset(Point3D<float>& offset, float z) const;  // 0x40f4dc false without a camera node
+    static void GetScreenCoord(const Point3D<float>& world, Point2D<float>& screen);  // 0x40f714 static: uses no this projects with the video driver's view*projection
 
     static CameraBase* s_activeCamera;                 // reset to null by the destructor of the active camera
 

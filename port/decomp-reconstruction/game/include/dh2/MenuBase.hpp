@@ -150,9 +150,9 @@ public:
     bool m_registered;                                        // +0x7c  set by MenuManager::RegisterMenu / RegisterDummyMenu
     bool m_deleteOnUnload;                                    // +0x7d  MenuManager deletes the menu on unload when set
     uint8_t pad_7e[2];                                        // +0x7e
-    std::string unk_80;                                       // +0x80  constructed empty, not read by MenuBase itself
-    uint32_t unk_98;                                          // +0x98  never touched by MenuBase
-    std::string unk_9c;                                       // +0x9c  constructed empty, not read by MenuBase itself
+    std::string m_playerName;                                 // +0x80  set by FS_SetPlayerName ("Bobb" for a null argument)
+    uint32_t unk_98;                                          // +0x98  written by FS_SetPlayerClass: CharacterTable row index, -1 when none
+    std::string m_difficultyName;                             // +0x9c  set by FS_SetDifficulty
     bool m_deadZonesRegistered;                               // +0xb4  guard in RegisterDeadZones
     uint8_t pad_b5[3];                                        // +0xb5
     std::vector<gameswf::rect> m_deadZones;                   // +0xb8  16-byte rects (xmin, xmax, ymin, ymax)

@@ -53,6 +53,7 @@ class TimerUtil;
 struct __sFILE;
 template <typename T> struct aabb;
 namespace sfc { namespace script { namespace lua { class Arguments; class ReturnValues; class Binder; } } }
+namespace Structs { class AIFactions; }  // element of Arrays::AIFactionTable (pydata w7_structs_5.hpp)
 
 class Character : public GameObject,            // +0x000
                   public v2Controllable,        // +0x374
@@ -104,7 +105,7 @@ public:
     };
 
     explicit Character(GO_IDS id);                                      // 0x3a9340 / 0x3aa1b4
-    ~Character() override;                                              // 0x3a7c84 (D1) / 0x3a7dfc (D0); thunks 0x3a7de0
+    ~Character() override;                                              // 0x3a7c84 (D1), 0x3a7dfc (D2, same body); deleting D0 0x3a7de0 is compiler generated
 
     // ---- virtual, primary vtable slot order ----
     const char* getUDTypeName() const override;                         // +0x08 0x3a2f08
@@ -185,7 +186,7 @@ public:
 
     // ---- queries on the character tables (rows are Arrays::AITable / CharAnimTable / ... records) ----
     int GetCharAIId() const;                                            // 0x3a2fec
-    const void* GetCharAI() const;                                      // 0x3a3024 AITable row, 68 bytes each
+    const Structs::AIProps* GetCharAI() const;                          // 0x3a3024 AITable row (68-byte listing stride)
     int GetCharType() const;                                            // 0x3a3054
     bool IsMonster() const;                                             // 0x3a3064
     bool IsFollower() const;                                            // 0x3a307c
@@ -199,10 +200,10 @@ public:
     bool IsBoss() const;                                                // 0x3a3158
     bool IsCharSitting() const;                                         // 0x3a316c
     int GetCharAIFactionId() const;                                     // 0x3a3180
-    const void* GetCharAIFaction() const;                               // 0x3a31b8
+    const Structs::AIFactions* GetCharAIFaction() const;                // 0x3a31b8 AIFactionTable row (12-byte listing stride)
     int GetCharModelId() const;                                         // 0x3a31e8
     int GetCharAnimTableId() const;                                     // 0x3a3228
-    const void* GetCharAnimTable() const;                               // 0x3a3264 CharAnimTable row, 160 bytes each
+    const Structs::CharAnim* GetCharAnimTable() const;                  // 0x3a3264 CharAnimTable row (160-byte listing stride)
     int GetCharSoundsId() const;                                        // 0x3a3294
     const void* GetCharSounds() const;                                  // 0x3a32d0
     int GetFXFootprint() const;                                         // 0x3a3300
@@ -216,7 +217,7 @@ public:
     int GetAnimStance() const;                                          // 0x3a53e0
     int GetCharUniqueAnimSetId() const;                                 // 0x3a54b4
     const char* GetCharModelName() const;                               // 0x3a54d4
-    int GetClassName() const;                                           // 0x3a56a4 string id from StringManager
+    const char* GetClassName() const;                                   // 0x3a56a4 StringManager::getString result (const char*)
     int GetPreSetAIState() const;                                       // 0x3a5784 3 default, "Limbus" -> 0, "PreSpawn" -> 17
     Point3D<float> GetLeftFootPosition() const;                         // 0x3a57f4
     Point3D<float> GetRightFootPosition() const;                        // 0x3a5874
@@ -250,7 +251,7 @@ public:
     void CheckForAllQuestsTrophy();                                     // 0x3a3fe4
     void ForceUseOOI(GameObject* target);                               // 0x3ad5ac
     void UseOOI();                                                      // 0x3ad614
-    static bool HasCharOIDInCache(int oid);                             // 0x3a2f48
+    static int HasCharOIDInCache(int oid);                              // 0x3a2f48 returns the cached flags (0 when absent)
     static void AddCharOIDToCache(int oid, unsigned int flags);         // 0x3ab674
 
     // Event handlers registered with CharStateMachine::SM_RegisterEvent (pointer-to-member).
@@ -285,10 +286,10 @@ public:
 
     // ---- inventory ----
     bool INV_DoesMeetRequirements(ItemInstance* item);                  // 0x3a4930
-    bool INV_TransmuteItem(ItemInstance* item, bool a);                 // 0x3a4a3c
-    bool INV_TransmuteItem(unsigned int item, bool a);                  // 0x3a4bec
+    int INV_TransmuteItem(ItemInstance* item, bool a);                  // 0x3a4a3c returns the gold value (0 when item is null)
+    int INV_TransmuteItem(unsigned int item, bool a);                   // 0x3a4bec
     void INV_UpdateSkin();                                              // 0x3a999c
-    void INV_CheckItemsRequirements();                                  // 0x3a9d10
+    int INV_CheckItemsRequirements();                                   // 0x3a9d10 (Hex-Rays int: returns ValidateHPMP's result or the check result)
     void ReloadSkills();                                                // 0x3a9db4
 
     // ---- faeries ----
@@ -304,20 +305,20 @@ public:
 
     // ---- combat ----
     void F_ApplyScrollingCombatTextGold(Character* target, int gold);   // 0x3aef68
-    void F_ApplyScrollingCombatTextXP(Character* target, int xp, int style, int color);  // 0x3af0c8
-    void F_ApplyScrollingCombatText(const AttackResult& result, GameObject* attacker, Character* target);  // 0x3af1fc
-    void F_ApplyScrollingCombatText(const AttackResult& result, Character* attacker, Character* target);   // 0x3af77c
-    void F_ApplyCombatSound(const AttackResult& result, GameObject* attacker, Character* target);          // 0x3afd38
-    void F_ApplyCombatSound(const AttackResult& result, Character* attacker, Character* target);           // 0x3afee0
-    void F_ApplyResult(const AttackResult& result, GameObject* attacker, Character* target, bool a);       // 0x3b01b8
-    void F_ApplyResult(const AttackResult& result, Character* attacker, Character* target, bool a);        // 0x3b10b4
-    void F_GOAttack(AttackResult& result, GameObject* attacker, Character* target, int a, int b);          // 0x3b061c
-    void F_DotAttack(AttackResult& result, Character* attacker, Character* target, int a, int b);          // 0x3b2e68
+    void F_ApplyScrollingCombatTextXP(Character* target, int styleId, int colorId, int unusedArg);  // 0x3af0c8
+    static void F_ApplyScrollingCombatText(const AttackResult& result, GameObject* attacker, Character* target);  // 0x3af1fc
+    static void F_ApplyScrollingCombatText(const AttackResult& result, Character* attacker, Character* target);   // 0x3af77c
+    static void F_ApplyCombatSound(const AttackResult& result, GameObject* attacker, Character* target);          // 0x3afd38
+    static void F_ApplyCombatSound(const AttackResult& result, Character* attacker, Character* target);           // 0x3afee0
+    static void F_ApplyResult(const AttackResult& result, GameObject* attacker, Character* target, bool suppressNetMessage);  // 0x3b01b8 (writes the dead-state flags back)
+    static void F_ApplyResult(const AttackResult& result, Character* attacker, Character* target, bool suppressNetMessage);  // 0x3b10b4
+    static void F_GOAttack(AttackResult& result, GameObject* attacker, Character* target, int a, int b);          // 0x3b061c
+    static void F_DotAttack(AttackResult& result, Character* attacker, Character* target, int a, int b);          // 0x3b2e68
     void F_SpellAttack(AttackResult& result, Character* attacker, Character* target, int a, int b);        // 0x3b3004
     void F_SkillAttack(AttackResult& result, Character* attacker, Character* target, int a, int b);        // 0x3b31a4
     void F_MeleeAttack(AttackResult& result, Character* attacker, Character* target, bool a, bool b);      // 0x3b3368
     static void _F_ResetResult(AttackResult& result);                                                      // 0x3af3b0
-    void _F_CalculateResult(AttackResult& result, Character* attacker, Character* target, int a, int b, int c, int d);  // 0x3b2638
+    static void _F_CalculateResult(AttackResult& result, Character* attacker, Character* target, int a, int b, int c, int d);  // 0x3b2638
 
     // ---- skills, stats and experience ----
     int GetCharSkillListId() const;                                     // 0x3bc5c0
@@ -338,7 +339,7 @@ public:
     int GetMP() const;                                                  // 0x3bd100
     int GetHP() const;                                                  // 0x3bd110
     int GetLevel() const;                                               // 0x3bd120
-    void ValidateHPMP();                                                // 0x3bd140
+    int ValidateHPMP();                                                 // 0x3bd140 (Hex-Rays int; tail-called by the equip wrappers)
     void ResetStatsChange(int a, int b, int c, int d);                  // 0x3bd1cc
     void ResetStats();                                                  // 0x3bd26c
     int GetHPPercent() const;                                           // 0x3bd2dc
@@ -512,8 +513,9 @@ public:
     // ---- Lua bindings (registered by createBindings): userData is the Character ----
 
     // ---- misc ----
-    // Unloads the script process of one entry of s_concurrentAI.
-    void UnLoadScriptProcess(const std::map<int, Character*>::iterator& it, bool a);  // 0x3b7b24
+    // Unloads the script process of one entry of s_concurrentAI. The iterator is taken by value (ELF symbol without R):
+    // the ABI passes a pointer to the caller's temporary, and the original's write-back goes to that temporary.
+    void UnLoadScriptProcess(std::map<int, Character*>::iterator it, bool a);  // 0x3a7b24
 
     // ---- statics ----
     static std::map<int, Character*> s_concurrentAI;    // monsters whose AI scripts are running, keyed by real time

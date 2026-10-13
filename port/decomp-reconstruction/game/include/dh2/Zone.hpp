@@ -24,7 +24,7 @@ public:
     ~Zone() override;                                                   // 0x397b38, 0x397ba8, 0x397bc4
 
     // Overrides of GameObject slots.
-    void DeclareProperties() override;                                  // slot 0x18: 0x397df8, adds "dimensions" (default 100,100,100)
+    void DeclareProperties() override;                                  // slot 0x18: 0x397df8, adds "dimensions" (default 200,200,200)
     void InitPost() override;                                           // slot 0x1c: 0x39771c
 
     // New virtuals at vtable slots 0xc8 .. 0xd4 (empty in Zone).
@@ -38,7 +38,7 @@ public:
     void InitWithBoundingBox(const glitch::core::aabbox3d<float>& box); // 0x397594
 
     // GameObject occupies +0x00 .. +0x373.
-    glitch::core::vector3d<float> m_dimensions;                         // +0x374 property "dimensions"; InitPost scales it by the object scale
+    Point3D<float> m_dimensions;                                        // +0x374 property "dimensions" (SimpleTypeProperty<Point3D<float>>); InitPost scales it by the object scale
     bool m_hasPhysics;                                                  // +0x380 ctor argument
     bool m_playerOnly;                                                  // +0x381 ctor argument
     uint8_t pad_382[2];                                                 // +0x382

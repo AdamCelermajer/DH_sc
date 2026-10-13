@@ -61,7 +61,7 @@ public:
     void _Update(int dtMs);                            // 0x32c438
     void _Draw();                                      // 0x32ade8
     void _CheckGamepad();                              // 0x321164
-    void ComputeDt();                                  // 0x320da4
+    float ComputeDt();                                 // 0x320da4 returns the fraction stored in +0x94 (the original returns float)
     int GetDt();                                       // 0x31f66c frame time in ms (+0x8c)
     int GetDtScaled();                                 // 0x31f674 (+0x90)
     void SetTimeScale(float scale);                    // 0x31f67c

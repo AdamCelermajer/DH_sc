@@ -42,12 +42,12 @@ public:
     };
 
     CharProperties();                             // 0x3df084
-    virtual ~CharProperties();                    // slot 0 (0x3e0c6c / 0x3e0e10), slot 1 deleting (0x3e0e2c)
+    virtual ~CharProperties();                    // slot 0 (0x3e0c6c), slot 1 deleting (0x3e0e10); 0x3e0e2c is the base-object copy
 
     void SetCharacter(Character* c);              // 0x3dec0c
 
     // Sheet access. useTemp selects s_temp instead of the live sheet m_props.
-    int PROPS_Get(int propId, bool useTemp) const;                       // 0x3af76c / 0x3bd130 (clones)
+    int PROPS_Get(int propId, bool useTemp) const;                       // 0x3af76c / 0x3bd130 (clones: read m_props only, useTemp unused)
     int PROPS_GetInt(int propId, bool useTemp) const;                    // 0x3df6e0 (value >> 8)
     int PROPS_GetIntWithBonus(int propId, bool useTemp) const;           // 0x3df980
     bool PROPS_IsBonus(int propId) const;                                // 0x3dfd18

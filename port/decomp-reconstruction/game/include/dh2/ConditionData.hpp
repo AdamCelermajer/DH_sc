@@ -9,7 +9,7 @@ class ConditionList;
 class ConditionData {
 public:
     ConditionData();                        // 0x33ed7c / 0x33edd8
-    virtual ~ConditionData();               // 0x33e7f8 (D1) / 0x33eae8 (D0); vtable slots +0x00 / +0x04
+    virtual ~ConditionData();               // 0x33e7f8 (D1) / 0x33eae8 (D2); deleting D0 at 0x33eacc is compiler generated
 
     void Init();                            // 0x33eb28: looks the name up in Arrays::v2Conditions, builds m_list
     void Clear();                           // 0x33e7c8: deletes m_list

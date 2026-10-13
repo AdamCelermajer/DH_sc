@@ -17,7 +17,7 @@ public:
     virtual InputDevice* GetKeyboard(int index) = 0;   // +0x04 pure
     virtual Gamepad* GetGamepad(int index) = 0;        // +0x08 pure (Gamepad holds the "connected" byte at +0x758)
     virtual void UpdateFrame(float dt);                // +0x0c 0x34d820 updates every mouse, keyboard, gamepad
-    virtual ~InputManager();                           // +0x10 0x34d73c (D1), +0x14 0x34d910 (D0)
+    virtual ~InputManager();                           // +0x10 0x34d740 (D1), 0x34d73c (D2), +0x14 0x34d910 (D0)
 
     int GetNumMouses() const;                          // 0x34d744
     int GetNumKeyboards() const;                       // 0x34d74c

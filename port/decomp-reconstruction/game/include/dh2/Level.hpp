@@ -33,6 +33,8 @@ public:
     struct LoadFileData {
         virtual ~LoadFileData();                       // +0x00 0x3f0310 (D1), 0x3f03ec (D0)
         // +0x00 vptr
+        // Constructor of the original's inlined body in AssignSteamToLoadDataFile (0x3f02ac): copies the stream and clears the cursor.
+        explicit LoadFileData(IStreamBase* source);
         StreamBuffer m_stream;                         // +0x08 (0x30 bytes in the original)
         TiXmlDocument* m_document;                     // +0x38 operator new(112), created on first LoadFile
         TiXmlNode* m_root;                             // +0x3c the document once parsed
@@ -81,8 +83,8 @@ public:
 
     // ---- per frame ----
     void Update(bool forceUpdate);                     // 0x3f82d8 runs _LoadProcess instead until m_loadStep == 38 unless forceUpdate
-    void Draw();                                       // 0x3f254c debug drawing only
-    void Draw2D();                                     // 0x3ef248 empty
+    void Draw() const;                                 // 0x3f254c (_ZNK5Level4DrawEv) debug drawing only
+    void Draw2D() const;                               // 0x3ef248 empty
     void UpdateListener();                             // 0x3f0ae0 sound listener from camera/player per Arrays::Listeners
     void UpdateCameraZoom();                           // 0x3f9870 co-op zoom from the players' screen positions
     void UpdateMaterial(bool a, bool b);
@@ -94,13 +96,13 @@ public:
     void DisableFog(glitch::scene::ISceneNode* node);
 
     // ---- queries ----
-    LevelConfig* GetLevelConfig();                     // 0x3ef4a8 asserts "m_levelConfig != 0"
+    LevelConfig* GetLevelConfig() const;               // 0x3ef4a8 asserts "m_levelConfig != 0"
     void SetLevelConfig(LevelConfig* config);          // 0x3f150c also resolves the music/ambience sound ids
     std::string GetRimLightFile();                     // 0x474260 copy of the config's rim-light file name
-    GameObject* GetMPReferee();                        // 0x3ef540 first object named "referee*", cached in m_mpReferee
-    int GetMPGameScript();                             // 0x3f1394 config field at +0x314
+    GameObject* GetMPReferee() const;                  // 0x3ef540 first object named "referee*", cached in m_mpReferee
+    int GetMPGameScript() const;                       // 0x3f1394 (_ZNK5Level15GetMPGameScriptEv) config field at +0x314
     GameObject* GetSpawnPoint();                       // 0x3ef614 spawn object (type 13) whose id equals m_entryPointId
-    bool hasActiveDialog();                            // 0x3ef24c
+    bool hasActiveDialog() const;                      // 0x3ef24c
     bool CanMoveTowards(const Point3D<float>& from, const Point3D<float>& direction);  // 0x3f94f4 co-op camera limits
     void CleanUpAllSkills();
     void UnlockAllObjects();
@@ -114,10 +116,10 @@ public:
     void SG_SaveLocalPlayer(bool levelChange);
     void SG_SavePlayer(Character* player, bool levelChange);
     void SG_SavePlayer(int playerIndex, bool levelChange);
-    bool SG_IsMapLocSeen(int location);                // 0x3ef7ac true when any local player has seen it
-    bool SG_IsMapLocLocked(int location);              // 0x3ef850 true when every player has it locked
-    bool SG_IsLevelLocked(int level);                  // 0x3ef8f8
-    void SG_DBG_TraceDetailedQuestInformation(int questState);
+    bool SG_IsMapLocSeen(int location) const;                // 0x3ef7ac true when any local player has seen it
+    bool SG_IsMapLocLocked(int location) const;              // 0x3ef850 true when every player has it locked
+    bool SG_IsLevelLocked(int level) const;                  // 0x3ef8f8
+    void SG_DBG_TraceDetailedQuestInformation(int questState) const;
 
     static int s_dbgLevelLoadCount;                    // ++ per Level constructed (auto-load debug mode)
 
@@ -162,7 +164,7 @@ public:
     int m_startScriptId;                               // +0x148 -1; ScriptManager::StartScript each Update when set
     rnd::RandomGenerator* m_randomGenerator;           // +0x14c operator new(400), only during GenerateRandomLevel
     void* unk_150;                                     // +0x150 0
-    GameObject* m_mpReferee;                           // +0x154 cached by GetMPReferee
+    mutable GameObject* m_mpReferee;                   // +0x154 cached by GetMPReferee (written from const GetMPReferee)
     batch::BatchNodeCompiler* m_batchNodeCompiler;     // +0x158 operator new(56) in _LoadBatchInit
     batch::BatchNodeCompiler* m_batchNodeCompiler2;    // +0x15c
     Point3D<float> m_moduleOffset;                     // +0x160 position of the module being loaded (LoadTile)

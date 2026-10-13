@@ -100,7 +100,7 @@ public:
     // Setup and per-frame update
     void SetCharacter(Character* c);              // 0x3cb7c0
     void Update();                                // 0x3cfbf4
-    void RaiseAIEvent(int eventId, void* data);   // 0x3cbb34
+    int RaiseAIEvent(int eventId, void* data);    // 0x3cbb34 (returned by Character::RaiseEvent)
     void UpdatePointers();                        // 0x3cb454 (thunk to _UpdatePointers)
     void UpdateAllSkills();                       // 0x3d8894
     void UpdateSkills();                          // 0x3d8a04
@@ -124,7 +124,7 @@ public:
     void AI_ScriptInit();                         // 0x3cfde4
     void AI_ScriptCleanUp();                      // 0x3cfd7c
     void AI_SendMessage(int msg, const void* data);  // 0x3cfd68
-    void AI_PauseUpdate(unsigned int ms);         // 0x3cb748
+    int AI_PauseUpdate(unsigned int ms);          // 0x3cb748 (returns the TMR_Start slot)
     bool IsMyTurn(const CharAI* other);           // 0x3cc484 (the argument is unused)
 
     // Targets and master
@@ -134,7 +134,7 @@ public:
     Character* AI_GetTargetAsCharacter();         // 0x3d5450
     bool AI_IsTargetACharacter() const;           // 0x3d5484
     bool AI_IsTargetSeeking() const;              // 0x3d49d0
-    void AI_PauseTargetSeeking(unsigned int ms);  // 0x3d53ec
+    int AI_PauseTargetSeeking(unsigned int ms);   // 0x3d53ec (returns the TMR_Start slot)
     void AI_SetMaster(Character* master);         // 0x3d4d80
     void AI_SetDead();                            // 0x3d6cdc
     void AI_InteractWith(GameObject* obj);        // 0x3cff34
@@ -165,8 +165,8 @@ public:
     float AI_GetAggro(Character* c) const;        // 0x3d4ac8
     void AI_GetAggroEntry(int index, Character*& c, float& aggro) const;  // 0x3d72d0
     std::map<float, Character*> AI_GetRelationsConverseMap(const std::map<Character*, float>& m) const;  // 0x3d7208
-    void AI_SetAggro(Character* c, float aggro);  // 0x3d79ec
-    void AI_AddAggro(Character* c, float aggro);  // 0x3d7c68
+    float AI_SetAggro(Character* c, float aggro);  // 0x3d79ec (returns the aggro set, or 0 when refused)
+    float AI_AddAggro(Character* c, float aggro);  // 0x3d7c68 (returns the aggro actually added: AI_SetAggro result minus the old value)
     void AI_ClearAggro(Character* c);             // 0x3d6d68
     void AI_ClearAllAggro();                      // 0x3d5fa8
     void ClearAllAggro();                         // 0x3cd384
@@ -175,18 +175,18 @@ public:
     // Spells and skills
     bool AI_IsSpellActive() const;                // 0x3d7d9c
     void AI_CancelSpell();                        // 0x3d7da4
-    bool AI_SpellInfo(float& info) const;         // 0x3d7da8
-    bool AI_SkillInfo(unsigned int a, unsigned int b, float& info) const;  // 0x3d7e88
+    void AI_SpellInfo(float& info) const;         // 0x3d7da8 (no return value: CharAISkillScript::GetInfo is void)
+    void AI_SkillInfo(unsigned int a, unsigned int b, float& info) const;  // 0x3d7e88 (no return value, as above)
     void AI_EndSpell(bool flag);                  // 0x3d7f60
     bool AI_IsSpellUsable() const;                // 0x3d80b4
     bool AI_BeginSpell(bool flag);                // 0x3d81c0
-    void AI_CastSpell();                          // 0x3d832c
+    bool AI_CastSpell();                          // 0x3d832c
     bool AI_IsSkillUsable(unsigned int skill) const;  // 0x3d8358
     void AI_EndSkill(unsigned int skill);         // 0x3d8474
     void AI_CancelSkill(unsigned int skill);      // 0x3d84e0
     bool AI_IsSkillActive(unsigned int skill) const;  // 0x3d85d4
     bool AI_BeginSkill(unsigned int skill);       // 0x3d86bc
-    void AI_UseSkill(unsigned int skill);         // 0x3d8868
+    bool AI_UseSkill(unsigned int skill);         // 0x3d8868
 
     // Process-wide state (static members seen in the binary: s_updateQueue, s_updateTimer, s_stepAvailableStep, s_groups)
     static std::deque<CharAI*> s_updateQueue;
@@ -196,11 +196,11 @@ public:
 
 private:
     void _UpdatePointers();                       // 0x3cb34c
-    void _UpdateRegen();                          // 0x3cb77c
-    void _UpdateTarget();                         // 0x3cb908
-    void _UpdateMaster();                         // 0x3cc5a4
+    int _UpdateRegen();                           // 0x3cb77c (returns the IsRemotelyUpdated result)
+    int _UpdateTarget();                          // 0x3cb908 (returns the last event result)
+    int _UpdateMaster();                          // 0x3cc5a4 (returns the last event result)
     void _UpdateAggro();                          // 0x3cf3f0
-    bool _HandleProjectile(Projectile* p, void* data);  // 0x3cc280
+    static int _HandleProjectile(Projectile* p, void* data);  // 0x3cc280 (static: the callback takes it as a plain function)
     void _ClearNonStickyTarget();                 // 0x3d8d70
 
     void StepResetAvailableStep();                // 0x3cb2f0
@@ -214,7 +214,7 @@ private:
 
     bool _OnEndOfAnimSection();                   // 0x3d3ae4
     bool _OnEndOfAnim();                          // 0x3d3aec
-    bool _ParseObjectAnimEvent(const char* name); // 0x3d3af4
+    void _ParseObjectAnimEvent(const char* name); // 0x3d3af4 (the original's return value is a leftover; no caller reads it)
     bool _OnAnimSequenceEnd();                    // 0x3d3d30
     bool _OnAnimSequenceBegin();                  // 0x3d3d4c
     bool _OnAnimStepEnd_SkillSpell();             // 0x3d3d68
