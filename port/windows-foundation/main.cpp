@@ -5990,7 +5990,7 @@ int main(int argc,char** argv) {
                     const auto monsterBank=monsterPushBanks.find(monsterProfileId);
                     if(monsterBank==monsterPushBanks.end()) {std::cout<<"[push] no source Push bank for monster profile '"<<monsterProfileId<<"'; knockback not played\n";return true;}
                     std::cout<<"[push] KnockBack monster target="<<request.target<<" profile="<<monsterProfileId<<" attacker="<<request.attacker<<" source="<<request.source_id<<" great="<<request.great<<" direct="<<request.direct
-                             <<" outcomes=0x"<<std::hex<<request.source_outcomes<<" mask=0x"<<request.source_mask<<std::dec<<" frame="<<session.update_serial()<<'\n';
+                             <<" state="<<request.target_state_before_hit<<" outcomes=0x"<<std::hex<<request.source_outcomes<<" mask=0x"<<request.source_mask<<std::dec<<" frame="<<session.update_serial()<<'\n';
                     f::CombatSessionStateAnimationServices monsterServices;
                     return f::combat::play_session_push_animation_v1(session,request,monsterBank->second,std::move(monsterServices),e);
                 }
@@ -9320,7 +9320,7 @@ int main(int argc,char** argv) {
                                      <<" died="<<hit.target_died<<" targetHP="<<(hitTarget?hitTarget->health:-1.0f)<<'/'<<(hitTarget?hitTarget->max_health:-1.0f)
                                      <<" mask=0x"<<std::hex<<(hit.source_mask?*hit.source_mask:0u)<<std::dec<<" offHand="<<((hit.source_mask&&(*hit.source_mask&0x04000000u))?1:0)
                                      <<" outcomes=0x"<<std::hex<<(hit.source_outcomes?*hit.source_outcomes:0u)<<std::dec
-                                     <<" (bits miss1 dodge2 block4 crit8 hurt16 fear32 stun64 push128 slow256; stun/push have no host state, only hurt drives a reaction)"<<'\n';
+                                     <<" (bits miss1 dodge2 block4 crit8 hurt16 fear32 stun64 push128 slow256)"<<'\n';
                         }
                     }
                 }

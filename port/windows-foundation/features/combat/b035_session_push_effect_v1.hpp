@@ -11,12 +11,15 @@ namespace dh::foundation::combat {
 // (CSSpawn 0x3c7d0c, CSIdle 0x3c7e60, CSMove 0x3c80ac, CSAttack 0x3c8284, CSSkill 0x3c8438, CSScared 0x3c861c, CSStunned 0x3c8730,
 // CSInjured 0x3c8850, CSInteract 0x3c8984, CSReviving 0x3c8b8c, CSLiftingIdle 0x3c8d5c, CSLiftingMove 0x3c8ee0). Cast7, Despawn2,
 // Dead12, Anim14, Revived16, PreSpawn17, Limbus0 and KnockedBack10 itself do not register it. Attack5/Skill6 register it with the
-// CSM_Interrupted 0x3ad244 condition (a character flag), which the Session's transition admission owns.
+// CSM_Interrupted 0x3ad244 condition (a character flag). The table is defined in combat_session.cpp (w3-status) and is the same
+// one CombatSession::play_actor_source_sequence uses for the non-direct admission.
 bool source_knockback_event_accepted_v1(std::int32_t original_state) noexcept;
 
 // Capture before CombatSession::apply_source_result: its normal Injury path
-// runs inside that call, while original F_ApplyResult gates the complete
-// status block on the defender's pre-effect Player/Idle state.
+// runs inside that call. The original F_ApplyResult gates the status tail
+// (stun, scare, knockback) on Character::IsDead only (w3-status: vtable +52 at
+// 0x3b01b8, not IsPlayer); the pre-hit state decides only whether event 50011
+// is admitted (see source_knockback_event_accepted_v1).
 struct SessionPushAdmissionV1 {
     SessionPushAdmissionV1() = default;
     SessionPushAdmissionV1(const SessionPushAdmissionV1&) = delete;
