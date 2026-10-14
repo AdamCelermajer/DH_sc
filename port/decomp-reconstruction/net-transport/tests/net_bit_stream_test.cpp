@@ -37,6 +37,9 @@ int main() {
     }
     {
         // Byte arrays and strings, with revert back to a saved point.
+        // The 0 here is the "no cap" form: the listing at 0x80edb0 branches on the third argument first
+        // (CMP R2,#0 / BNE 0x80edf4), and the argument==0 path writes the string's whole length. This
+        // round-trips in full, which is what it is checking.
         NetBitStream w(64);
         w.WriteBit(1);
         w.SetRevertPoint();
@@ -53,6 +56,22 @@ int main() {
         CHECK(w.WritePosition() == 1);
         w.Reset();
         CHECK(w.WritePosition() == 0 && w.ReadPosition() == 0);
+    }
+    {
+        // The non-zero form is a cap, and it is the form every real caller uses:
+        // NetStructString<16>::Write passes MOV R2,#0x10 (0x81e220), NetStructString<256>::Write passes
+        // MOV R2,#0x100 (0x800c00). A string longer than the bound is truncated to the bound.
+        NetBitStream capped(64);
+        capped.WriteString("hello world", 5);
+        NetBitStream cr(64);
+        cr.WriteStream(capped);
+        CHECK(cr.ReadString() == "hello");
+        // Shorter than the bound stays whole, because the clamp only fires when len >= arg3.
+        NetBitStream under(64);
+        under.WriteString("hi", 16);
+        NetBitStream ur(64);
+        ur.WriteStream(under);
+        CHECK(ur.ReadString() == "hi");
     }
     {
         // Reading past the written region sets an overflow and returns zero.
