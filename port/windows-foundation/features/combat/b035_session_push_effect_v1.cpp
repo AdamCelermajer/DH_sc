@@ -254,12 +254,3 @@ bool play_session_push_animation_v1(CombatSession& session,
 }
 
 } // namespace dh::foundation::combat
-
-namespace dh::foundation::combat {
-bool source_knockback_event_accepted_v1(std::int32_t original_state) noexcept {
-    switch (original_state) {
-    case 1: case 3: case 4: case 5: case 6: case 8: case 9: case 11: case 13: case 15: case 18: case 19: return true;
-    default: return false;
-    }
-}
-} // namespace dh::foundation::combat

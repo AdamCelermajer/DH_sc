@@ -2565,8 +2565,10 @@ bool CombatSession::play_actor_source_sequence(ActorId id,const OriginalCombatVi
         const auto* other=s.world->find_actor(policy.source_other_actor);
         const auto state=s.live_original_state(id);
         // v21.8 faery2: SM_SetKnockBackState/CSKnockedBack are Character-generic (IsPlayer is not tested), so a monster target is admitted too.
+        // w3-status: a non-direct push raises event 50011 (RaiseStateEvent), which the current state accepts per its OnInit registration
+        // (IDA 0x3c7b18 SM_RegisterEvent, CSAttack 0x3c8284, CSSkill 0x3c8438, CSScared, CSStunned, ...). The direct flag forces _SetState.
         if(!actor||!actor->alive()||!traits||!other||
-           policy.state_flags!=0x2341u||(!policy.source_direct_transition&&state!=3&&state!=11)){
+           policy.state_flags!=0x2341u||(!policy.source_direct_transition&&!combat::source_knockback_event_accepted_v1(state))){
             error="KnockedBack10 requires its live target/attacker, source flags and admitted current state";return false;
         }
     }
@@ -2717,5 +2719,21 @@ const std::vector<CombatSessionComboBoundary>& CombatSession::combo_boundaries()
     static const std::vector<CombatSessionComboBoundary> empty;return impl_?impl_->comboBoundaries:empty;
 }
 }
+
+namespace dh::foundation::combat {
+// w3-status: original states whose CharStateMachine OnInit registers event 50011 (SM_SetKnockBackState -> KnockedBack10).
+// Source: IDA SM_RegisterEvent 0x3c7b18 registrations of 50011 (CSSpawn 0x3c7d0c, CSIdle 0x3c7e60, CSMove 0x3c80ac, CSAttack
+// 0x3c8284, CSSkill 0x3c8438, CSScared 0x3c861c, CSStunned 0x3c8730, CSInjured 0x3c8850, CSInteract 0x3c8984, CSReviving 0x3c8b8c,
+// CSLiftingIdle 0x3c8d5c, CSLiftingMove 0x3c8ee0). KnockedBack10, Cast7, Dead12, Anim14 and Revived16 do not accept it here.
+// CSM_Interrupted 0x3ad244 adds a flag guard for Attack5 (asm reads byte +0x441), Skill6 (bit 16 of dword +0x520) and KnockedBack10
+// (bit 5 of +0x528). The writers of those flags are not in the IDA export, so Attack5 and Skill6 are admitted here without the
+// guard: an INFERENCE, not a measured rule. KnockedBack10 is refused (its re-knock guard is not modelled).
+bool source_knockback_event_accepted_v1(std::int32_t original_state) noexcept {
+    switch (original_state) {
+    case 1: case 3: case 4: case 5: case 6: case 8: case 9: case 11: case 13: case 15: case 18: case 19: return true;
+    default: return false;
+    }
+}
+} // namespace dh::foundation::combat
 
 
