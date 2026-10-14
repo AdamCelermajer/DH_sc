@@ -1756,6 +1756,16 @@ private:
     }
 
     void fs_cast() {
+        {
+            // AI_IsSpellUsable refuses while the Player is attacking, casting or
+            // in a hurt reaction: wait for idle instead of recording a false miss.
+            const int busy = model_renderer::gameplay_player_state();
+            if ((busy == 5 || busy == 6 || busy == 7 || busy == 11) && fs_idle_wait_ < 200) {
+                ++fs_idle_wait_;
+                return;
+            }
+            fs_idle_wait_ = 0;
+        }
         fs_target_ = pose_.enemy_index;
         fs_target_hp_before_ = fs_target_hp_min_ = pose_.enemy_hp / 256.0;
         fs_pre_vitals_ = model_renderer::player_vitals();
@@ -1938,7 +1948,7 @@ private:
     MxPhase mx_phase_ = MxPhase::setup;
     std::vector<model_renderer::UiSkillReadV1> mx_rows_;
     std::size_t mx_k_ = 0;
-    unsigned mx_attempt_ = 0, mx_level_ups_ = 0;
+    unsigned mx_attempt_ = 0, mx_level_ups_ = 0, mx_idle_wait_ = 0, fs_idle_wait_ = 0;
     std::uint64_t mx_wait_until_ = 0, mx_use_frame_ = 0;
     int mx_last_state_ = -1, mx_state6_frames_ = 0;
     bool mx_saw6_ = false, mx_use_ok_ = false;
@@ -2133,6 +2143,16 @@ private:
             mx_phase_ = MxPhase::approach;
             return;
         }
+        {
+            // AI_IsSkillUsable (0x3d8358) refuses while SM_IsUsingSkill: wait
+            // for the Player to leave attack/skill/spell states first.
+            const int busy = model_renderer::gameplay_player_state();
+            if ((busy == 5 || busy == 6 || busy == 7 || busy == 11) && mx_idle_wait_ < 200) {
+                ++mx_idle_wait_;
+                return;
+            }
+            mx_idle_wait_ = 0;
+        }
         ++mx_attempt_;
         mx_target_ = pose_.enemy_index;
         mx_target_before_ = mx_target_min_ = pose_.enemy_hp / 256.0;
@@ -2191,7 +2211,11 @@ private:
             if (mx_target_ >= 0 && model_renderer::gameplay_enemy_state_snapshot(mx_target_, target, error))
                 mx_target_min_ = std::min(mx_target_min_, target.dead ? 0.0 : target.hp / 256.0);
         }
-        const bool settled = elapsed >= 90 && state != 6;
+        // A skill projectile (Tornado, bolts) lands well after the cast and its
+        // damage-over-time ticks for seconds: keep watching until ~5.5 s.
+        const auto ec_now = dh2::native::player_skill_effect_audit_v1::counters();
+        const bool in_flight = ec_now.projectiles > mx_ec_pre_.projectiles && elapsed < 330;
+        const bool settled = elapsed >= 90 && state != 6 && !in_flight;
         if (!settled && elapsed < 360) return;
         const auto vitals = model_renderer::player_vitals();
         const auto enemies = all_enemy_hp();
@@ -2278,7 +2302,7 @@ private:
         // A state-6 use whose attack rolls all missed (or that delivered nothing
         // observable) is retried too, so one unlucky roll is not reported as a
         // skill that does nothing.
-        const bool no_effect_retry = mx_saw6_ && verdict.rfind("NO-EFFECT", 0) == 0;
+        const bool no_effect_retry = mx_saw6_ && (verdict.rfind("NO-EFFECT", 0) == 0 || verdict.rfind("PARTIAL", 0) == 0);
         const bool needs_retry = mx_use_ok_ && ((!mx_saw6_ && !cooldown && !mp_spent) || no_effect_retry) &&
                                  mx_attempt_ < 4 && !died;
         if (needs_retry) {

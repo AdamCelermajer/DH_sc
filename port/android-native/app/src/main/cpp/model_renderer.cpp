@@ -669,6 +669,7 @@ struct PlayerToNpcKillContextV1 {
 // Player-killer kills never see it, so their refusals stay unchanged.
 bool native_script_null_killer_kill=false;
 bool source_npc_kill_ready(ObjectActor&,std::uintptr_t);
+bool native_monster_dot_tick(ObjectActor&,std::string&);
 bool native_source_crypt_monster_candidate(ObjectActor&);
 int player_to_npc_before_dead_v1(void*,dh2::data::CombatResult&);
 bool native_group_ctrl_kill_player(ObjectActor&,std::uintptr_t,bool,std::string&);
@@ -13017,6 +13018,18 @@ dh2::character::TimerRouting SpawnOwner::timer_route(void* raw,
      owner->character.owner()!=owner->actor->identity)return Route::failed;
   return dispatch_native_monster_script_timer(*owner,timer.id)?
       Route::delivered:Route::failed;
+ }
+ if(event==0x34) {
+  // CharAI event 0x34 (DoT_Tick) -> CharProperties::HandleDots (0x3df3f0): every
+  // positive DoT word 126..131 is one F_DotAttack + F_ApplyResult on the
+  // Character itself. Skill DoTs (Mage Cyclone) deal all their damage here.
+  if(!owner||&owner->character!=&coordinator||!owner->actor||
+     owner->character.owner()!=owner->actor->identity)return Route::failed;
+  std::string dot_error;
+  if(!native_monster_dot_tick(*owner->actor,dot_error))
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Monster DoT tick failed | %s | %s",owner->actor->name.c_str(),dot_error.c_str());
+  return Route::delivered;
  }
  if(event!=0x36)return Route::machine;
  if(!owner||&owner->character!=&coordinator||!owner->buffs)return Route::failed;
@@ -33432,6 +33445,13 @@ int spell_apply_result(void* raw,std::uintptr_t attacker_id,
     (defender_actor&&context->defender&&context->defender!=defender_actor)) {
   error="F_ApplyResult crossed its canonical Character owners or source mode";return 1;
  }
+ // One SkillCombatRoll/SpellCombatRoll context carries several F_ApplyResult
+ // calls (one per target or dual-wield leg). The generic-started latch only
+ // guards a retry inside the same call; a stale latch from an earlier target
+ // made a later hit on an already dead target throw "cannot retry through the
+ // legacy result edge". Original HitFor (0x3a8bc4) returns at once for a dead
+ // defender, so that hit must reach the legacy edge, not an error.
+ context->generic_apply_started=false;
  auto& attacker_state=attacker_actor?attacker_actor->properties:
      prince_combat.properties;
  auto& defender_state=defender_actor?defender_actor->properties:
@@ -33517,8 +33537,16 @@ int spell_apply_result(void* raw,std::uintptr_t attacker_id,
   // with the actual Character killer. The same NPC provider handles either
   // Player or retained source-NPC killers; never demote an NPC hit to the
   // Player-only edge after the shared result has begun.
-  if(defender_actor&&!source_npc_kill_ready(*defender_actor,attacker_id))
+  if(defender_actor&&!source_npc_kill_ready(*defender_actor,attacker_id)) {
+   static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+   if(audit_on)
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+        "AUDIT lethal hit not kill-ready | defender %s | dead %d | hp %d | amount %d | attacker %llu | one_shot %d | generic_started %d",
+        defender_actor->name.c_str(),int(defender_actor->combat_state.dead),
+        int(defender_actor->properties.resolved[36]),int(result->amount),
+        static_cast<unsigned long long>(attacker_id),int(one_shot),int(context->generic_apply_started));
    use_generic=false;
+  }
   else if(!defender_actor&&defender_id!=prince_character.identity())
    use_generic=false;
  }
@@ -33827,6 +33855,16 @@ int skill_attack(void* raw,std::uintptr_t attacker_id,
      &combat_random,flags|0x08000000u,category,element,0};
  if(dh2_combat_result(result,&request)) {
   error="source _F_CalculateResult rejected F_SkillAttack arguments";return 1;
+ }
+ {
+  static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+  if(audit_on)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native","AUDIT F_SkillAttack | defender %s hp %d dead %d | flags 0x%x | element %d | category %d | outcomes 0x%x | amount %d | dot elem %d dur %d amt %d | props 172=%d 174=%d 175=%d 79=%d 80=%d 97=%d",
+       defender?defender->name.c_str():"Player",int(defender_properties.resolved[36]),defender?int(defender->combat_state.dead):0,
+       unsigned(flags|0x08000000u),int(element),int(category),unsigned(result->outcomes),int(result->amount),
+       int(result->dot_element),int(result->dot_duration),int(result->dot_amount),
+       int(attacker_state.resolved[172]),int(attacker_state.resolved[174]),int(attacker_state.resolved[175]),
+       int(attacker_state.resolved[79]),int(attacker_state.resolved[80]),int(attacker_state.resolved[97]));
  }
  context->defender=defender;
  context->apply_attacker=attacker_id;context->apply_defender=defender_id;
@@ -34356,6 +34394,59 @@ bool native_timer_trap_deal_damage(SourceTimerTrap& trap,std::uintptr_t victim,
      trap.name.c_str(),player?"Player":defender_actor->name.c_str(),
      damager->name.c_str(),result.amount/256.0,hp_before/256.0,
      defender_state.resolved[36]/256.0,dead?1:0,skip_damage?" | gated":"");
+ return true;
+}
+
+// CharProperties::HandleDots (0x3df3f0) for a Monster: the DoT_Tick timer
+// (event 0x34) reads the six DoT words, and each positive one runs F_DotAttack
+// (mask 0x20080000, element word-127) then F_ApplyResult with the Character as
+// both attacker and defender. The HitFor/Cmd_Kill tail reuses the
+// GameObject-attacker edge (as the TimerTrap damage does): no XP or credit goes
+// to the Player, which is the port's null-killer continuation.
+bool native_monster_dot_tick(ObjectActor& actor,std::string& error) {
+ error.clear();
+ if(actor.kind!=1||actor.properties.resolved.size()!=224||actor.combat_state.dead||
+    !actor.spawn_owner||!actor.spawn_owner->runtime_ready||!native_debug||
+    !native_application.identity)return true;
+ static dh2::character_dot_attack::Runtime dot_runtime;
+ const auto id=actor.identity;
+ auto& sheet=actor.properties.resolved;
+ for(std::uint32_t property=126;property<132;++property) {
+  const std::int32_t amount=sheet[property];
+  if(amount<=0||actor.combat_state.dead)continue;
+  const std::int32_t element=std::int32_t(property)-127;
+  dh2::character_dot_attack::CombatContext combat{};
+  const dh2::character_dot_attack::Actor dot_actor{id,sheet.data()};
+  const dh2::character_dot_attack::Storage storage{&dot_actor,1,&combat,
+      &combat_random,&native_debug->globals(),&native_debug->services()};
+  const dh2::character_dot_attack::Arguments arguments{id,id,
+      static_cast<std::uint32_t>(amount),element};
+  dh2::data::CombatResult result{};dh2::character_dot_attack::Result stats{};
+  if(dot_runtime.attack(&storage,&arguments,&result,&stats)!=
+       dh2::character_dot_attack::Status::complete) {
+   error="F_DotAttack failed for "+actor.name;return false;
+  }
+  if(result.amount<=0)continue;
+  PlayerSpellCombatContext context{};
+  context.go_attacker=id;context.apply_attacker=id;context.apply_defender=id;
+  context.defender=&actor;
+  using Operation=dh2::character_apply_result::Operation;
+  dh2::character_apply_result::Reply reply{};
+  const dh2::character_apply_result::Request hit{Operation::hit_for,id,id,0,
+      nullptr,&result,id,id,static_cast<std::uint32_t>(result.amount),0,0,0};
+  const auto hp_before=sheet[36];
+  actor.combat_state.push_death=0;
+  if(spell_apply_result_invoke(&context,&hit,&reply)!=0) {
+   error="Character::HitFor stopped inside the DoT F_ApplyResult for "+actor.name;
+   return false;
+  }
+  static const bool audit_on=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+  if(audit_on)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "AUDIT Monster DoT tick | %s | property %u element %d | amount %d | HP %.2f -> %.2f | dead %d",
+       actor.name.c_str(),property,element,int(result.amount),hp_before/256.0,
+       sheet[36]/256.0,int(actor.combat_state.dead));
+ }
  return true;
 }
 
@@ -39590,14 +39681,16 @@ bool ui_player_use_skill_slot(std::uintptr_t identity,std::int32_t hud_slot,std:
  // !SM_IsStunned(true). Those exact bits are Character+0x528, projected by
  // the bound Character Coordinator as attack_gate. A denied source control
  // check is the original no-op, before SG_GetSkillInSlot reads the Save map.
- if(prince_state.attack_gate&((1u<<2)|(1u<<1))){error.clear();return true;}
+ if(prince_state.attack_gate&((1u<<2)|(1u<<1))){
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NativeHUDSkill silent gate: CTRLIsAllowed denied (attack_gate 0x%x)",unsigned(prince_state.attack_gate));error.clear();return true;}
  if(!prince_combat.savegame||prince_combat.savegame->character()!=identity||
     !prince_combat.savegame->skills_initialized()){
   error="NativeHUDSkill requires the active Character's canonical initialized Save";return false;
  }
  if(hud_slot<0||hud_slot>=3){error="NativeHUDSkill HUD slot is outside the source three-slot range";return false;}
  const auto saved_skill=prince_combat.savegame->skill_in_slot(hud_slot);
- if(saved_skill==-1){error.clear();return true;}
+ if(saved_skill==-1){
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NativeHUDSkill silent gate: HUD slot %d empty",int(hud_slot));error.clear();return true;}
  if(saved_skill<0){error="NativeHUDSkill saved slot contains an invalid source skill index";return false;}
  if(!prince_skills||!prince_skills->initialized()||
     !prince_skills->skill_state_callbacks_bound()){
@@ -39641,11 +39734,13 @@ bool ui_player_use_skill_slot(std::uintptr_t identity,std::int32_t hud_slot,std:
  const auto controller_command_allowed=[](){
   return prince_controller_forced||(!controller_global_blocked&&!prince_state.controller_locked);
  };
- if(!controller_command_allowed()){error.clear();return true;}
+ if(!controller_command_allowed()){
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NativeHUDSkill silent gate: controller command blocked (forced %d global_blocked %d locked %d)",int(prince_controller_forced),int(controller_global_blocked),int(prince_state.controller_locked));error.clear();return true;}
  dh2::character_ai_skill_commands_v1::Result begin_result{};
  if(!prince_skills->begin_skill(resolved.skill_index,animation_owner,services,
        begin_result,error))return false;
- if(!controller_command_allowed()){error.clear();return true;}
+ if(!controller_command_allowed()){
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NativeHUDSkill silent gate: controller command blocked (forced %d global_blocked %d locked %d)",int(prince_controller_forced),int(controller_global_blocked),int(prince_state.controller_locked));error.clear();return true;}
  dh2::character_ai_skill_commands_v1::Result end_result{};
  if(!prince_skills->end_skill(resolved.skill_index,animation_owner,&prince_locomotion,
        [](void* context,bool complete_next_update,std::string& callback_error)->bool{

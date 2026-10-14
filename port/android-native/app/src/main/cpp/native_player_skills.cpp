@@ -2330,7 +2330,15 @@ bool Runtime::begin_skill(std::uint32_t skill_index,
        request->index,check,result,why)){
     p.error=why.empty()?"AI_BeginSkill retained Player VM query failed":why;return -1;
    }
-   response->word=result.value;return 0;
+   response->word=result.value;
+   {
+    static const bool audit=[]{const char* v=std::getenv("DH2_ABIL_AUDIT");return v&&*v&&*v!='0';}();
+    if(audit)
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native","AUDIT Skill %s | skill index %u | value %u",
+         request->operation==commands::Operation::check_active?"OnSkillCheck_Active":"OnSkillCheck_Usable",
+         request->index,result.value);
+   }
+   return 0;
   }
   case commands::Operation::pre:{
    const auto* scripts=owner.preparation?&owner.preparation->slots(
