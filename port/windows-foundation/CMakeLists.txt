@@ -1457,7 +1457,7 @@ target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundati
 # v21.8 w3-pose: Stunned9/Scared8 pose through the real CombatSession (lizard + player, original tables/clips).
 add_executable(status_states_pose_session_v1_tests features/status_states/status_states_pose_session_v1_tests.cpp)
 target_link_libraries(status_states_pose_session_v1_tests PRIVATE foundation_status_states_session foundation_runtime_equipment_menu foundation_data)
-add_test(NAME status_states_pose_session_v1 COMMAND status_states_pose_session_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-12/assets")
+add_test(NAME status_states_pose_session_v1 COMMAND status_states_pose_session_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.8-staged3/assets")
 
 # v21.8 w2-archer: test-only bow save writer (not a CTest).
 add_executable(archer_bow_save_v21_8 tests/archer_bow_save_v21_8.cpp)
