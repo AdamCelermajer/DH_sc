@@ -910,6 +910,20 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
 
         active.target_query=target;
         active.receipt.target_order=request.object_targets?target.ordered_targets:target.ordered_character_targets;
+        // v21.8 berserker: prince_berseeker_berserk.luac OnPreSkill_ self HP cost, after the target query and LookAt and
+        // before UseMana: `if HPPercentCurr > 10 then SetProp(HP, health - health/10)`. The Lua order is kept; a later
+        // UseMana failure after this write is reported as a partial failure like the other OnPre prefixes.
+        if (profile->self_hp_cost) {
+            float health = 0.0f, maximum = 0.0f;
+            auto* live_world = session.world();
+            if (!live_world || !live_world->current_health(request.actor, health, maximum) || !(maximum > 0.0f))
+                return fail(error, "Source OnPre HP cost requires the caster's live HP sheet");
+            if (health / maximum * 100.0f > profile->self_hp_cost->gate_percent) {
+                std::string hp_error;
+                if (!live_world->set_current_health(request.actor, health - health / profile->self_hp_cost->divisor, hp_error))
+                    return fail(error, ("Source OnPre HP cost SetProp(HP): " + hp_error).c_str());
+            }
+        }
         // v21.8 ES-API: OnPre `PopTargetList` + `target:PlayFX(...)` for every popped Character (unconditional).
         if (profile->pre_target_fx_name)
             for (const auto victim : target.ordered_character_targets)
@@ -1363,6 +1377,41 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::target_fx, profile.target_fx_each_name, victim});
         }
     }
+    // v21.8 berserker: prince_berseeker_warcry.luac OnSkill_ over the OnPre list (PopTargetList, no re-search). Per Character:
+    // GetRand(1, faces) == stun_face gives SetStunState(duration, true), any other face SetScareState(duration, true). The draw
+    // also happens for bosses (the Lua draws only for non-bosses; the boss refusal is inside the status owner), so the RNG
+    // sequence differs from the original, not the gameplay outcome. Sounds follow the loop, fear then stun.
+    if (profile.status_arm) {
+        const auto& arm = *profile.status_arm;
+        double duration_ms = original_signed256(active.formula_sheet[std::size_t(176)]); // SnS_Duration (ms)
+        if (!(duration_ms > 0.0) || !std::isfinite(duration_ms)) duration_ms = double(arm.fallback_ms);
+        bool scared_any = false, stunned_any = false;
+        for (const auto victim : use_targets.ordered_character_targets) {
+            std::uint32_t draw = 0;
+            std::string rng_error;
+            if (!session.world()->random_uniform(arm.faces, draw, rng_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source Warcry GetRand failed after committed OnPre: " + rng_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            const bool stun = draw + 1u == arm.stun_face;
+            bool applied = false;
+            std::string status_error;
+            if (!session.script_status_actor(victim, stun, duration_ms, applied, status_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source Warcry SetStunState/SetScareState failed after committed OnPre: " + status_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            if (applied) (stun ? stunned_any : scared_any) = true;
+        }
+        if (scared_any && arm.scare_sound)
+            active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::sound, arm.scare_sound, invalid_actor_id});
+        if (stunned_any && arm.stun_sound)
+            active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::sound, arm.stun_sound, invalid_actor_id});
+    }
+
     std::uint32_t event_index = active.next_event_index;
     // Legacy Character-only callers retain their exact target order.
     const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;

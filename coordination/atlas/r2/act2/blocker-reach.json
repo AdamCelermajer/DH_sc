@@ -1,0 +1,3020 @@
+{
+  "blockers": [
+    {
+      "blocked_scene_count": 39,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_02.rule.xml",
+        "019_light_house_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "021_gothicus_castle_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:MoveTo:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "MoveTo"
+      ],
+      "evidence_notes": [
+        "{'line': 103, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': '*context.move->error = \"Companion controller reached an unexpected MoveTo request\";'}",
+        "{'line': 121, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': '{\"ClearTarget\",Operation::clear_target,false,false},{\"MoveTo\",Operation::move_to,false,false},'}",
+        "{'line': 173, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': 'return fail(error, \"Reached MoveTo has no live same-Session master ActorId\");'}",
+        "{'line': 174, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'if (!body_of(\"OnTargetInRangedRange\", ranged) || !contains(ranged, \"MoveTo(GetTarget())\"))'}",
+        "{'line': 177, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': 'return fail(error, \"MoveTo requires fresh source controller gate facts for this Session ActorId\");'}",
+        "{'line': 186, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': 'if (error.empty()) error = \"Original MoveTo controller command failed at a reached service\";'}",
+        "{'line': 44, 'path': 'port/windows-foundation/original_controller_commands.cpp', 'source_line': 'return result(status,bridge.reached,\"point MoveTo\",error);'}",
+        "{'line': 45, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': '*context.error = \"MoveTo target handle differs from the reached same-Session master ActorId\";'}",
+        "{'line': 50, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': '*context.error = \"MoveTo master ActorId became stale before target-position read\";'}",
+        "{'line': 59, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': '{\"SetMaster\",0x3b9084},{\"SetTarget\",0x3b8f38},{\"ClearTarget\",0x3b5690},{\"MoveTo\",0x3bada8},'}",
+        "{'line': 77, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': '*context.error = \"MoveTo PF/body owner is not the same live CombatSession ActorId\";'}",
+        "{'line': 88, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': '*context.error = \"MoveTo reached an unsupported Character control service\";'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 1
+    },
+    {
+      "blocked_scene_count": 39,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_02.rule.xml",
+        "019_light_house_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "021_gothicus_castle_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:Stop:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "Stop"
+      ],
+      "evidence_notes": [
+        "{'line': 168, 'source': 'port/level-world/character_script_session.cpp'}",
+        "{'line': 34, 'source': 'port/level-world/reference/character-controller-commands/NOTES.md'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 2
+    },
+    {
+      "blocked_scene_count": 38,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_02.rule.xml",
+        "019_light_house_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "021_gothicus_castle_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:HasMaster:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "HasMaster"
+      ],
+      "evidence_notes": [
+        "{'line': 116, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': 'const Binding bindings[]={{\"HasMaster\",Operation::has_master,true,false},'}",
+        "{'line': 57, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': 'static constexpr Source source[]={{\"HasMaster\",0x3b6f3c},{\"HasTarget\",0x3b6f50},{\"GetTarget\",0x3b6c7c},'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 3
+    },
+    {
+      "blocked_scene_count": 38,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_02.rule.xml",
+        "019_light_house_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "021_gothicus_castle_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:SetMaster:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "SetMaster"
+      ],
+      "evidence_notes": [
+        "{'line': 120, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': '{\"SetMaster\",Operation::set_master,false,false},{\"SetTarget\",Operation::set_target,false,false},'}",
+        "{'line': 41, 'path': 'port/windows-foundation/features/companions/source_master.cpp', 'source_line': 'if(count&&!args){error=\"Invalid source SetMaster argument storage\";return false;}'}",
+        "{'line': 59, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': '{\"SetMaster\",0x3b9084},{\"SetTarget\",0x3b8f38},{\"ClearTarget\",0x3b5690},{\"MoveTo\",0x3bada8},'}",
+        "{'line': 73, 'path': 'port/windows-foundation/features/companions/runtime_companion_follow_consumer_v1.cpp', 'source_line': 'return fail(error, \"SetMaster publication belongs to the authenticated source Character master-field owner\");'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 4
+    },
+    {
+      "blocked_scene_count": 38,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_02.rule.xml",
+        "019_light_house_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "021_gothicus_castle_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:WarpBehind:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "WarpBehind"
+      ],
+      "evidence_notes": [
+        "{'line': 122, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': '{\"WarpTo\",Operation::warp_to_actor,false,false},{\"WarpBehind\",Operation::warp_behind,false,false},'}",
+        "{'line': 212, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': 'return fail(error, \"Reached WarpBehind has no live same-Session master ActorId\");'}",
+        "{'line': 215, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': 'return fail(error, \"WarpBehind requires the actual same-owner source-produced destination\");'}",
+        "{'line': 219, 'path': 'port/windows-foundation/features/companions/runtime_companion_movement_v1.cpp', 'source_line': 'return fail(error, \"WarpBehind body owner differs from the same CombatSession actor\");'}",
+        "{'line': 60, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': '{\"WarpTo\",0x3bb268},{\"WarpBehind\",0x3b8d98},{\"Stop\",0x3b56b4},{\"Attack\",0x3b9f44}};'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 5
+    },
+    {
+      "blocked_scene_count": 37,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:Attack:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "Attack"
+      ],
+      "evidence_notes": [
+        "{'line': 127, 'path': 'port/windows-foundation/actor_movement.cpp', 'source_line': 'state_.action=ActorAction::Attack;state_.animationName=config_.attackAnimation;return false;'}",
+        "{'line': 1331, 'path': 'port/windows-foundation/combat_session.cpp', 'source_line': 'if((sequence.state!=\"Attack\"&&sequence.state!=\"AttackStatic\")||'}",
+        "{'line': 1333, 'path': 'port/windows-foundation/combat_session.cpp', 'source_line': 'throw std::runtime_error(\"Source attack bank may replace only explicit Attack/AttackStatic roots\");'}",
+        "{'line': 1367, 'path': 'port/windows-foundation/combat_session.cpp', 'source_line': '!policy.sourceAttackBank->sequence(\"Attack\",0)||!policy.sourceAttackBank->sequence(\"AttackStatic\",0)))'}",
+        "{'line': 162, 'path': 'port/windows-foundation/actor_combat_runtime.cpp', 'source_line': 'error = \"Attack damage binding has no authored clip marker: \" + marker.marker_name; return false;'}",
+        "{'line': 173, 'path': 'port/windows-foundation/actor_movement.cpp', 'source_line': 'state_.action=ActorAction::Attack;state_.animationName=config_.attackAnimation;motionScale_=1;'}",
+        "{'line': 1795, 'path': 'port/windows-foundation/combat_session.cpp', 'source_line': 'error=\"Attack command requires a bound live session actor\";return false;'}",
+        "{'line': 22, 'path': 'port/windows-foundation/actor_movement.hpp', 'source_line': 'enum class ActorAction { Idle, Walk, Run, Attack };'}",
+        "{'line': 253, 'path': 'port/windows-foundation/combat_session.cpp', 'source_line': 'if(selection->state==\"Attack\")event.source_attack_moving=true;'}",
+        "{'line': 885, 'path': 'port/windows-foundation/combat_session.cpp', 'source_line': 'selection.state=live_original_state(id)==4?\"Attack\":\"AttackStatic\";'}",
+        "{'line': 928, 'path': 'port/windows-foundation/combat_session.cpp', 'source_line': 'if(transitionDelivering||restoreTeardown||checkingAnimationCheckpoint){error=\"Attack command cannot reenter actor transition/checkpoint/teardown\";return false;}'}",
+        "{'line': 980, 'path': 'port/windows-foundation/combat_session.cpp', 'source_line': 'if(found==entries.end()){error=\"Attack command requires a bound live session actor\";return false;}'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 6
+    },
+    {
+      "blocked_scene_count": 37,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:GetHostPlayerLevel:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "GetHostPlayerLevel"
+      ],
+      "evidence_notes": [
+        "{'line': 21, 'path': 'port/level-world/generic_lua_script_owner_v13.cpp', 'source_line': '{\"GetNumPlayers\",0x37cbd8},{\"GetHostPlayer\",0x37ca60},{\"GetHostPlayerLevel\",0x37cc00},{\"GetHostPlayerDifficulty\",0x37cb8c},'}",
+        "{'line': 72, 'path': 'port/level-world/character_host_context.cpp', 'source_line': 'auto result=dh2_script_vm_bind_source_values(vm,\"GetHostPlayerLevel\",level,const_cast<HostContextBindings16*>(b));if(result)return result;'}",
+        "{'line': 9, 'path': 'port/windows-foundation/features/enemy_ai/runtime_monster_level_policy_v1.cpp', 'source_line': 'error = \"monster_OnInit requires delivered GetHostPlayerLevel, difficulty, and current-level-range reads\";'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 7
+    },
+    {
+      "blocked_scene_count": 31,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:ApplyBuff:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "ApplyBuff"
+      ],
+      "evidence_notes": [
+        "{'line': 1257, 'path': 'port/windows-foundation/features/generic_skills/runtime_skill_cast_coordinator_v1.cpp', 'source_line': 'active.receipt.detail = \"Source CreateBuff/ApplyBuff failed after the committed OnPre prefix: \" + buff_error;'}",
+        "{'line': 89, 'path': 'port/windows-foundation/features/companions/catch_up_buff_v1.cpp', 'source_line': 'for (std::size_t at = s.find(\"ApplyBuff\"); at != std::string::npos; at = s.find(\"ApplyBuff\", at + 1)) {'}",
+        "{'line': 91, 'path': 'port/windows-foundation/features/companions/catch_up_buff_v1.cpp', 'source_line': 'std::size_t p = skip_space(s, at + std::string_view(\"ApplyBuff\").size());'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 8
+    },
+    {
+      "blocked_scene_count": 31,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:CreateBuff:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "CreateBuff"
+      ],
+      "evidence_notes": [
+        "{'line': 1257, 'path': 'port/windows-foundation/features/generic_skills/runtime_skill_cast_coordinator_v1.cpp', 'source_line': 'active.receipt.detail = \"Source CreateBuff/ApplyBuff failed after the committed OnPre prefix: \" + buff_error;'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 9
+    },
+    {
+      "blocked_scene_count": 31,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:HasPath:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "HasPath"
+      ],
+      "evidence_notes": [
+        "{'line': 119, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': '{\"HasPath\",Operation::has_path,true,false},{\"GetState\",Operation::state,false,false},'}",
+        "{'line': 162, 'path': 'port/level-world/character_script_session_v2.cpp', 'source_line': 'auto& t=*static_cast<Impl*>(opaque);return t.commands&&dh2_character_script_command(t.commands->state,script_has_path,args,count,&t.commands->services,out,capacity,returned)==1?0:fail(error,size,\"Native session HasPath delivery failed\");'}",
+        "{'line': 175, 'path': 'port/level-world/character_script_session.cpp', 'source_line': 'if(t.commands_refresh&&t.commands_refresh(t.commands_refresh_context))return fail(error,size,\"Required live NPC HasPath projection\");'}",
+        "{'line': 176, 'path': 'port/level-world/character_script_session.cpp', 'source_line': 'return t.commands&&dh2_character_script_command(t.commands->state,script_has_path,args,count,&t.commands->services,out,capacity,returned)==1?0:fail(error,size,\"Native session HasPath delivery failed\");'}",
+        "{'line': 182, 'path': 'port/level-world/character_script_session_v3.cpp', 'source_line': 'auto& t=*static_cast<Impl*>(opaque);return t.commands&&dh2_character_script_command(t.commands->state,script_has_path,args,count,&t.commands->services,out,capacity,returned)==1?0:fail(error,size,\"Native session HasPath delivery failed\");'}",
+        "{'line': 221, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'if (next.teleport.candidates.empty() || warps != next.teleport.candidates.size() || !contains(callback, \"HasPath()\"))'}",
+        "{'line': 222, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'return fail(error, \"Teleport callback does not pair each relative MoveTo/HasPath with a WarpTo\");'}",
+        "{'line': 25, 'path': 'port/level-world/player_target_out_range_v2.hpp', 'source_line': 'bool path=false;if(!s.has_path||s.has_path(s.context,path))return missing(\"HasPath before movement\");'}",
+        "{'line': 30, 'path': 'port/level-world/player_target_out_range_v2.hpp', 'source_line': 'bool path=false;if(!s.has_path||s.has_path(s.context,path))return missing(\"HasPath after movement\");'}",
+        "{'line': 58, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': '{\"GetHostPlayer\",0x37ca60},{\"IsMasterHostPlayer\",0x3b6fc4},{\"HasPath\",0x38e98c},{\"GetState\",0x3b6d78},'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 10
+    },
+    {
+      "blocked_scene_count": 31,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:RemoveBuff:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "RemoveBuff"
+      ],
+      "evidence_notes": [
+        "{'line': 939, 'path': 'port/windows-foundation/features/generic_skills/runtime_skill_cast_coordinator_v1.cpp', 'source_line': 'active.receipt.detail = \"Source OnPre RemoveBuff failed after the UseMana prefix: \" + buff_error;'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 11
+    },
+    {
+      "blocked_scene_count": 30,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:EnableCollisions:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "EnableCollisions"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 12
+    },
+    {
+      "blocked_scene_count": 29,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml"
+      ],
+      "blocker": "native:GetHostPlayer:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "GetHostPlayer"
+      ],
+      "evidence_notes": [
+        "{'line': 118, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': '{\"GetHostPlayer\",Operation::host_player,false,true},{\"IsMasterHostPlayer\",Operation::is_master_host_player,true,false},'}",
+        "{'line': 21, 'path': 'port/level-world/generic_lua_script_owner_v13.cpp', 'source_line': '{\"GetNumPlayers\",0x37cbd8},{\"GetHostPlayer\",0x37ca60},{\"GetHostPlayerLevel\",0x37cc00},{\"GetHostPlayerDifficulty\",0x37cb8c},'}",
+        "{'line': 51, 'path': 'port/windows-foundation/features/companions/live_companions.cpp', 'source_line': 'if(!b.host_player){error=\"Required source GetHostPlayer producer\";return false;}'}",
+        "{'line': 58, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': '{\"GetHostPlayer\",0x37ca60},{\"IsMasterHostPlayer\",0x3b6fc4},{\"HasPath\",0x38e98c},{\"GetState\",0x3b6d78},'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 13
+    },
+    {
+      "blocked_scene_count": 29,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml"
+      ],
+      "blocker": "native:IsMasterHostPlayer:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "IsMasterHostPlayer"
+      ],
+      "evidence_notes": [
+        "{'line': 118, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': '{\"GetHostPlayer\",Operation::host_player,false,true},{\"IsMasterHostPlayer\",Operation::is_master_host_player,true,false},'}",
+        "{'line': 58, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': '{\"GetHostPlayer\",0x37ca60},{\"IsMasterHostPlayer\",0x3b6fc4},{\"HasPath\",0x38e98c},{\"GetState\",0x3b6d78},'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 14
+    },
+    {
+      "blocked_scene_count": 29,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml"
+      ],
+      "blocker": "native:WarpTo:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "WarpTo"
+      ],
+      "evidence_notes": [
+        "{'line': 122, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': '{\"WarpTo\",Operation::warp_to_actor,false,false},{\"WarpBehind\",Operation::warp_behind,false,false},'}",
+        "{'line': 205, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'const std::regex warp_call(\"WarpTo\\\\\\\\(([^)]*)\\\\\\\\)\"), move_call(\"MoveTo\\\\\\\\(([^)]*)\\\\\\\\)\");'}",
+        "{'line': 216, 'path': 'port/windows-foundation/features/companions/source_companions.cpp', 'source_line': 'if(*b.master==invalid_actor_id){error=\"Required actual AISFaery master for WarpTo\";return false;}'}",
+        "{'line': 222, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'return fail(error, \"Teleport callback does not pair each relative MoveTo/HasPath with a WarpTo\");'}",
+        "{'line': 479, 'path': 'port/windows-foundation/features/generic_skills/runtime_mage_skill_owner_v1.cpp', 'source_line': 'if (error.empty()) error = \"StoneEscape WarpTo is unavailable\";'}",
+        "{'line': 60, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': '{\"WarpTo\",0x3bb268},{\"WarpBehind\",0x3b8d98},{\"Stop\",0x3b56b4},{\"Attack\",0x3b9f44}};'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 15
+    },
+    {
+      "blocked_scene_count": 23,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:ClearAggro:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "ClearAggro"
+      ],
+      "evidence_notes": [
+        "{'line': 15, 'path': 'port/level-world/character_world_clear_aggro_v40.cpp', 'source_line': 'if(dh2_aggro_apply(&change,&request,data::aggro_clear)){error_=\"Source ClearAggro reciprocal erase rejected\";return -1;}'}",
+        "{'line': 20, 'path': 'port/level-world/character_world_clear_aggro_v40.cpp', 'source_line': 'if(!a.target->state->owner||!b.target->state){error_=\"ClearAggro live target lifetime changed\";return -2;}'}",
+        "{'line': 24, 'path': 'port/level-world/character_world_clear_aggro_v40.cpp', 'source_line': 'if(dh2_character_ai_set_target(binding->state,0,0,&binding->services)){error_=\"Required source ClearAggro SetTarget(NULL)\";return -2;}'}",
+        "{'line': 28, 'path': 'port/level-world/character_world_clear_aggro_v40.cpp', 'source_line': 'if(fresh.target!=binding){error_=\"ClearAggro target binding lifetime changed\";return -2;}'}",
+        "{'line': 45, 'path': 'port/level-world/character_update_aggro_v108.cpp', 'source_line': 'auto clear=[&]{if(!required(bool(s.clear)&&bool(s.set_target),\"Required source ClearAggro/SetTarget\")||!s.clear(current,e)||!s.set_target(0,e))return false;return dh2_character_ai_sync_last_target(&target)==0;};'}",
+        "{'line': 46, 'path': 'port/level-world/character_clear_aggro.cpp', 'source_line': 'if(!dh2_script_callback_scope_valid(scope)){if(error&&size)std::snprintf(error,size,\"Malformed ClearAggro callback capability\");return 1;}'}",
+        "{'line': 48, 'path': 'port/level-world/character_clear_aggro.cpp', 'source_line': 'if(status&&error&&size)std::snprintf(error,size,\"Native ClearAggro delivery failed (%d)\",status);return status?1:0;'}",
+        "{'line': 5, 'path': 'port/level-world/character_world_clear_aggro_v40.cpp', 'source_line': 'if(scope&&!dh2_script_callback_scope_valid(scope)){error_=\"Required valid current ClearAggro callback scope\";return -1;}'}",
+        "{'line': 50, 'path': 'port/level-world/character_clear_aggro.cpp', 'source_line': 'extern \"C\" int dh2_character_clear_aggro_bind(dh2_script_vm* vm,ClearAggroBindings16* b){if(!aligned(b)||!aligned(b->state)||!aligned(b->services))return -1;return dh2_script_vm_bind_source_scoped(vm,\"ClearAggro\",dh2_character_clear_aggro_s'}",
+        "{'line': 7, 'path': 'port/level-world/character_world_clear_aggro_v40.cpp', 'source_line': 'if(!services_.actor||!services_.actor(services_.context,id,v,error_)){if(error_.empty())error_=\"Required SAME registered ClearAggro actor\";return false;}'}",
+        "{'line': 8, 'path': 'port/level-world/character_world_clear_aggro_v40.cpp', 'source_line': 'if(v.identity!=id||!v.lifetime||!v.target||!v.target->state||!v.target->state->owner||v.target->state->owner->identity!=id){error_=\"Required canonical Character/Target owner and lifetime for ClearAggro\";return false;}return true;'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 16
+    },
+    {
+      "blocked_scene_count": 23,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:DoSkill:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "DoSkill"
+      ],
+      "evidence_notes": [
+        "{'line': 104, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'const std::regex call(\"DoSkill\\\\\\\\(\\\\\\\\s*([0-9]+)\\\\\\\\s*\\\\\\\\)\");'}",
+        "{'line': 11, 'path': 'port/windows-foundation/features/enemy_ai/external_monster_natives.cpp', 'source_line': 'if(!b||!b->character||!b->receiver_lease)return fail(\"Required retained Character DoSkill receiver\");'}",
+        "{'line': 14, 'path': 'port/windows-foundation/features/enemy_ai/external_monster_scoped.cpp', 'source_line': 'return dh2_script_vm_bind_source_scoped_values(vm,\"DoSkill\",scoped,b);'}",
+        "{'line': 19, 'path': 'port/windows-foundation/features/bosses/runtime_boss_encounter_plan_v1.cpp', 'source_line': '{\"intimidate\", \"idle\", \"swampking_OnEndOfAnim\", \"intimidateAnim_flag == 1; otherwise DoSkill(2)\", 0},'}",
+        "{'line': 232, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!std::regex_search(end, m, std::regex(\"StartTimerCB\\\\\\\\(\\\\\\\\s*([0-9]+)\\\\\\\\s*,\\\\\\\\s*false\\\\\\\\s*,\\\\\\\\s*function\\\\\\\\(\\\\\\\\)\\\\\\\\s*DoSkill\\\\\\\\(\\\\\\\\s*([0-9]+)\\\\\\\\s*\\\\\\\\)\")))'}",
+        "{'line': 233, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'return fail(error, \"OnEndOfAnim intimidate DoSkill timer absent\");'}",
+        "{'line': 272, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'return fail(error, \"DoSkill branch layout differs from the dive-boss shape\");'}",
+        "{'line': 389, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (highest < 0 || static_cast<std::size_t>(highest) >= list.size()) { reason = \"DoSkill index outside the SkillTree list\"; return true; }'}",
+        "{'line': 871, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'log(\"DoSkill(\" + std::to_string(slot) + \") rejected actor=\" + std::to_string(id) + \" state=\" + std::to_string(state));'}",
+        "{'line': 881, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'log(\"DoSkill(\" + std::to_string(slot) + \") rejected: Anim root \" + std::to_string(skill.animation_sequence_id) + \" not in the actor bank\");'}",
+        "{'line': 961, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'log(\"DoSkill(\" + std::to_string(slot) + \") rejected actor=\" + std::to_string(id) + \": \" + problem);'}",
+        "{'line': 965, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'log(\"DoSkill(\" + std::to_string(slot) + \") actor=\" + std::to_string(id) + \" skill=\" + skill.skill_name + \" sequence=\" +'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 17
+    },
+    {
+      "blocked_scene_count": 23,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:GetCurrentLevelRange:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "GetCurrentLevelRange"
+      ],
+      "evidence_notes": [
+        "{'line': 22, 'path': 'port/level-world/generic_lua_script_owner_v13.cpp', 'source_line': '{\"GetCurrentLevelRange\",0x37f1f0},{\"GetGameObjectsByType\",0x37f03c},{\"SetGameType\",0x37f878},{\"GetGameScript\",0x37c934},'}",
+        "{'line': 74, 'path': 'port/level-world/character_host_context.cpp', 'source_line': 'return dh2_script_vm_bind_source_values(vm,\"GetCurrentLevelRange\",range,const_cast<HostContextBindings16*>(b));'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 18
+    },
+    {
+      "blocked_scene_count": 23,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:GetHostPlayerDifficulty:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "GetHostPlayerDifficulty"
+      ],
+      "evidence_notes": [
+        "{'line': 21, 'path': 'port/level-world/generic_lua_script_owner_v13.cpp', 'source_line': '{\"GetNumPlayers\",0x37cbd8},{\"GetHostPlayer\",0x37ca60},{\"GetHostPlayerLevel\",0x37cc00},{\"GetHostPlayerDifficulty\",0x37cb8c},'}",
+        "{'line': 73, 'path': 'port/level-world/character_host_context.cpp', 'source_line': 'result=dh2_script_vm_bind_source_values(vm,\"GetHostPlayerDifficulty\",difficulty,const_cast<HostContextBindings16*>(b));if(result)return result;'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 19
+    },
+    {
+      "blocked_scene_count": 21,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:AddAggro:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "AddAggro"
+      ],
+      "evidence_notes": [
+        "{'line': 55, 'path': 'port/level-world/character_update_aggro_v108.cpp', 'source_line': 'float amount{};if(!required(bool(s.spotted_amount)&&bool(s.add),\"Required actual EnemySpottedAggro/AddAggro\")||!s.spotted_amount(amount,e))return false;'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 20
+    },
+    {
+      "blocked_scene_count": 21,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:GetRand:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "GetRand"
+      ],
+      "evidence_notes": [
+        "{'line': 104, 'source': 'port/level-world/character_script_objects.cpp'}",
+        "{'line': 119, 'source': 'port/level-world/character_script_objects.cpp'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 21
+    },
+    {
+      "blocked_scene_count": 20,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:PlayMusic:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "PlayMusic"
+      ],
+      "evidence_notes": [
+        "{'line': 12, 'path': 'port/windows-foundation/features/cinematics/script_source_services_v1.cpp', 'source_line': 'if(!s.play_music)return missing(\"PlayMusic\",e);'}",
+        "{'line': 186, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'if (string_call_argument(spotted, \"PlayMusic\", next.spotted_music, &fade)) next.spotted_music_fade_ms = fade;'}",
+        "{'line': 214, 'path': 'port/windows-foundation/features/audio/frontend_menu_audio_v1.cpp', 'source_line': 'receipt.detail=\"Source PlayMusic did not reach a focused frontend output\";'}",
+        "{'line': 229, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'if (string_call_argument(died, \"PlayMusic\", next.died_music, &fade)) next.died_music_fade_ms = fade;'}",
+        "{'line': 23, 'path': 'port/level-world/generic_lua_script_owner_v13.cpp', 'source_line': '{\"OnTargetDied\",0x37ddc8},{\"PlayMusic\",0x37e420},{\"PlaySound\",0x37e578},{\"StopSound\",0x37e730}};'}",
+        "{'line': 284, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!music_call(body.at(vf.at(\"OnEnemySpotted\")), \"PlayMusic\", next.spotted_music, next.spotted_music_fade_ms))'}",
+        "{'line': 34, 'path': 'port/windows-foundation/features/audio/source_audio_runtime.cpp', 'source_line': 'if(c.kind==13){std::uint32_t flag{};if(!field(13,flag))return false;if(mode){if(!services_.play_music){error=\"Required original PlayMusic source owner\";return false;}return services_.play_music(id,flag!=0,arg!=0,2000,error);}'}",
+        "{'line': 364, 'path': 'port/windows-foundation/features/audio/runtime_session_audio_v1.cpp', 'source_line': 'if(missing_original_asset_v1(error)) {log_<<\"Script PlayMusic silent: \"<<error<<\\'\\\\n\\';error.clear();return true;}'}",
+        "{'line': 42, 'path': 'port/windows-foundation/features/audio/canonical_source_audio_adapter.cpp', 'source_line': 'std::uint32_t flag{};if(!field(13,flag))return false;if(mode){if(!leaves_.play_music){error=\"Required SAME original PlayMusic owner\";return false;}return leaves_.play_music(id,flag!=0,argument!=0,2000,error);}if(id<0)return true;'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 22
+    },
+    {
+      "blocked_scene_count": 19,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:GetTargetListTop:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "GetTargetListTop"
+      ],
+      "evidence_notes": [
+        "{'line': 105, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 106, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 107, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 108, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 43, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 52, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 54, 'source': 'port/level-world/character_skill_native_v5.cpp'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 23
+    },
+    {
+      "blocked_scene_count": 19,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:IsTargetListEmpty:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "IsTargetListEmpty"
+      ],
+      "evidence_notes": [
+        "{'line': 102, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 103, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 12, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 23, 'source': 'port/level-world/character_skill_native_v5.cpp'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 24
+    },
+    {
+      "blocked_scene_count": 19,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:SetTargetListCharacterFilter:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "SetTargetListCharacterFilter"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 25
+    },
+    {
+      "blocked_scene_count": 19,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:SetTargetListObjectFilter:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "SetTargetListObjectFilter"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 26
+    },
+    {
+      "blocked_scene_count": 19,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:SetTargetListSorting:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "SetTargetListSorting"
+      ],
+      "evidence_notes": [
+        "{'line': 100, 'source': 'port/level-world/character_skill_native_v5.cpp'}",
+        "{'line': 96, 'source': 'port/level-world/character_skill_native_v5.cpp'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 27
+    },
+    {
+      "blocked_scene_count": 19,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:TargetListSearch:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "TargetListSearch"
+      ],
+      "evidence_notes": [
+        "{'line': 236, 'path': 'port/windows-foundation/features/generic_skills/runtime_skill_target_query_v1.cpp', 'source_line': 'return fail(error, \"Source Character TargetListSearch range/cone/sort is invalid\");'}",
+        "{'line': 268, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'contains(pre, \"\\\\\"AITargetList_Sorting\\\\\", \\\\\"FrontalFirst\\\\\"\") && contains(pre, \"TargetListSearch(RANGE)\") &&'}",
+        "{'line': 308, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'contains(text, \"TargetListSearch(RANGE)\");'}",
+        "{'line': 331, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': '!contains(delayed, \"TargetListSearch(AOE_RANGE, 360\") || !contains(delayed, \"ApplyPropClass(AOE_CLASS_ID)\"))'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 28
+    },
+    {
+      "blocked_scene_count": 18,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:LookAt:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "LookAt"
+      ],
+      "evidence_notes": [
+        "{'line': 1226, 'path': 'port/windows-foundation/features/generic_skills/runtime_skill_cast_coordinator_v1.cpp', 'source_line': 'active.receipt.detail = \"GroundSlam source LookAt failed after OnPre\";'}",
+        "{'line': 269, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'contains(pre, \"LookAt(target)\");'}",
+        "{'line': 400, 'path': 'port/windows-foundation/features/generic_skills/runtime_skill_target_query_v1.cpp', 'source_line': 'return fail(error, \"BashDown LookAt requires a selected character target from its source query\");'}",
+        "{'line': 548, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'return fail(error, \"Original GameObject LookAt(Point) kernel rejected the target\");'}",
+        "{'line': 578, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'return fail(error, \"Original GameObject LookAt(Point) kernel rejected the target\");'}",
+        "{'line': 6353, 'path': 'port/windows-foundation/main.cpp', 'source_line': 'if(dh2_character_look_at_point(&look,point)){e=\"Injured Blur source LookAt failed\";return false;}'}",
+        "{'line': 6399, 'path': 'port/windows-foundation/main.cpp', 'source_line': 'if(dh2_nav_look_towards(&heading,direction)){e=\"KnockBack Focus source LookAt failed\";return false;}'}",
+        "{'line': 69, 'path': 'port/windows-foundation/features/combo_chain/source_combo_consumers.cpp', 'source_line': 'if(dh2_character_look_at_point(&look,request->position)){bridge.failure=\"Original GameObject LookAt(Point) rejected backing\";return -1;}'}",
+        "{'line': 72, 'path': 'port/windows-foundation/features/combo_chain/source_combo_consumers.cpp', 'source_line': 'bridge.failure=\"Unexpected original LookAt controllable service\";return -1;'}",
+        "{'line': 77, 'path': 'port/windows-foundation/features/combo_chain/source_combo_consumers.cpp', 'source_line': 'error=bridge.failure.empty()?\"Original controller/Character LookAt failed\":std::move(bridge.failure);return false;'}",
+        "{'line': 94, 'path': 'port/windows-foundation/features/combat/b035_native_test_fixture_v1.hpp', 'source_line': 'check(event.actor==1&&event.source_other_actor==2&&cells.at(1).locked,\"Source LookAt/CancelSneaking ordering/attacker\");'}",
+        "{'line': 97, 'path': 'port/windows-foundation/features/combat/b035_native_test_fixture_v1.hpp', 'source_line': 'float heading=actor->transform.rotation[2];check(dh2_nav_look_towards(&heading,direction)==0,\"Source LookAt heading\");'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 29
+    },
+    {
+      "blocked_scene_count": 17,
+      "blocked_scenes": [
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:CallPyScript:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "CallPyScript"
+      ],
+      "evidence_notes": [
+        "{'line': 111, 'source': 'port/level-world/generic_lua_script_owner_v13.cpp'}",
+        "{'line': 115, 'source': 'port/level-world/generic_lua_script_owner_v13.cpp'}",
+        "{'line': 20, 'source': 'port/level-world/generic_lua_script_owner_v13.cpp'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 30
+    },
+    {
+      "blocked_scene_count": 16,
+      "blocked_scenes": [
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "010_el_lightning.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:GetSelf:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "GetSelf"
+      ],
+      "evidence_notes": [
+        "{'line': 135, 'source': 'port/level-world/character_script_objects.cpp'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 31
+    },
+    {
+      "blocked_scene_count": 14,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "029_wind_temple.rule.xml",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:myTarget:IsPlayer:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "myTarget:IsPlayer"
+      ],
+      "evidence_notes": [
+        "{'line': 10, 'path': 'port/level-world/character_live_body_projection_v6.cpp', 'source_line': 'if(candidate.character_type==0||candidate.character_type==1){error=\"Required source player/archetype IsPlayer branch\";return false;}'}",
+        "{'line': 114, 'path': 'port/windows-foundation/features/cinematics/source_cinematics.cpp', 'source_line': 'auto player=[&](std::uintptr_t actor,bool& out){return providers_.isPlayer?providers_.isPlayer(actor,out,e):missing(\"SAME Character.IsPlayer\",e);};'}",
+        "{'line': 13, 'path': 'port/windows-foundation/features/cinematics/source_camera_critical.cpp', 'source_line': 'bool player=false;if(!providers_.isPlayer||!providers_.isPlayer(character,player,e))return missing(\"actual Character.IsPlayer\",e);'}",
+        "{'line': 19, 'path': 'port/level-world/character_loot_actor_binding_v31.cpp', 'source_line': 'if(!s.invoke||s.invoke(s.context,&q,&result)){e=world_.targets().error();if(e.empty())e=\"Required source IsPlayer virtual for loot\";return false;}out=result!=0;return true;'}",
+        "{'line': 22, 'path': 'port/windows-foundation/playable_actor_bodies.cpp', 'source_line': 'if(tracing) {bool ignored=false;if(!services.is_player) {error=\"Required original tracing IsPlayer query\";return false;}if(!services.is_player(owner,ignored,error))return false;}'}",
+        "{'line': 262, 'path': 'port/level-world/canonical_character_candidate_v60.cpp', 'source_line': 'b.handle_as_player_character=[weak](bool& value,std::string& e){auto same=weak.lock();if(!same){e=\"Expired canonical Handle-AsChar-IsPlayer receiver\";return false;}return same->is_player(value,e);};'}",
+        "{'line': 27, 'path': 'port/level-world/character_language_scene_connection_v1.cpp', 'source_line': 'if(skills::dh2_character_skill_target_query_v6(&value,target_providers::is_player,actor.character,nullptr,self.services_.ai_types,self.services_.target_services)){self.error_=\"Source IsPlayer delivery failed\";return -1;}'}",
+        "{'line': 273, 'path': 'port/windows-foundation/features/physics/runtime_session_contact_v1.cpp', 'source_line': 'if (!traits) { error = \"Tracing collision IsPlayer owner left Session\"; return false; }'}",
+        "{'line': 297, 'path': 'port/windows-foundation/features/physics/session_actor_transition_v1.cpp', 'source_line': 'return fail(error,\"Reached Dead Focus after flags241 requires actual source IsPlayer getter\");'}",
+        "{'line': 6, 'path': 'port/level-world/application_spawn_random_owner_v4.cpp', 'source_line': 'if(!cached||!prob||!s.handle_as_player){e=\"Required actual Handle-AsChar-IsPlayer\";return false;}'}",
+        "{'line': 6405, 'path': 'port/windows-foundation/main.cpp', 'source_line': 'const auto* traits=combatSession->world()->traits(id);if(!traits){e=\"Dead Focus requires current IsPlayer\";return false;}'}",
+        "{'line': 74, 'path': 'port/windows-foundation/features/physics/runtime_session_contact_v1.cpp', 'source_line': 'throw ContactServiceFailure(\"Source owner IsPlayer request changed Character identity\");'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 32
+    },
+    {
+      "blocked_scene_count": 14,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:target:GetName:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "target:GetName"
+      ],
+      "evidence_notes": [
+        "{'line': 158, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': 'set_error(context, error, error_capacity, \"GetName expects no arguments\");'}",
+        "{'line': 211, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': '{\"Trace\", lua_trace}, {\"GetName\", lua_get_name},'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 33
+    },
+    {
+      "blocked_scene_count": 13,
+      "blocked_scenes": [
+        "003_darkwood.mlx",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_03.rule.xml",
+        "023_watertemple.rule.xml",
+        "025_icy_hub.mlx",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "native:GetName:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "GetName"
+      ],
+      "evidence_notes": [
+        "{'line': 158, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': 'set_error(context, error, error_capacity, \"GetName expects no arguments\");'}",
+        "{'line': 211, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': '{\"Trace\", lua_trace}, {\"GetName\", lua_get_name},'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 34
+    },
+    {
+      "blocked_scene_count": 7,
+      "blocked_scenes": [
+        "002_swamp_witchcave.rule.xml",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:HeadTo:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "HeadTo"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 35
+    },
+    {
+      "blocked_scene_count": 7,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "010_el_lightning.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:PlaySound:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "PlaySound"
+      ],
+      "evidence_notes": [
+        "{'line': 203, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'string_call_argument(callback, \"PlaySound\", next.teleport.sound_name);'}",
+        "{'line': 23, 'path': 'port/level-world/generic_lua_script_owner_v13.cpp', 'source_line': '{\"OnTargetDied\",0x37ddc8},{\"PlayMusic\",0x37e420},{\"PlaySound\",0x37e578},{\"StopSound\",0x37e730}};'}",
+        "{'line': 256, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'const auto sounds = string_arguments(dive, \"PlaySound\");'}",
+        "{'line': 262, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'next.intimidate_sounds = string_arguments(intimidate, \"PlaySound\");'}",
+        "{'line': 287, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': '!music_call(body.at(vf.at(\"OnDied\")), \"PlaySound\", next.died_music, next.died_music_fade_ms))'}",
+        "{'line': 335, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'const auto pre_sounds = string_arguments(pre, \"PlaySound\");'}",
+        "{'line': 340, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'const auto sounds = string_arguments(skill, \"PlaySound\");'}",
+        "{'line': 376, 'path': 'port/windows-foundation/features/audio/runtime_session_audio_v1.cpp', 'source_line': 'if(missing_original_asset_v1(error)) {log_<<\"Script PlaySound silent: \"<<error<<\\'\\\\n\\';error.clear();return true;}'}",
+        "{'line': 387, 'path': 'port/windows-foundation/features/audio/runtime_session_audio_v1.cpp', 'source_line': 'if(missing_original_asset_v1(error)){log_<<\"Script PlaySound silent: \"<<error<<\\'\\\\n\\';error.clear();return true;}'}",
+        "{'line': 763, 'path': 'port/windows-foundation/features/campaign_host/campaign_host.cpp', 'source_line': 'std::cout << \"[campaign] PlaySound dispatch music=\" << sound.music << \" ordinal=\" << sound.ordinal << \" fade_ms=\" << sound.fade_ms'}",
+        "{'line': 766, 'path': 'port/windows-foundation/features/campaign_host/campaign_host.cpp', 'source_line': 'unsupported_.note(\"PlaySound not applied: \" + detail);'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 36
+    },
+    {
+      "blocked_scene_count": 5,
+      "blocked_scenes": [
+        "011_earth_temple_01.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:Flee:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "Flee"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 37
+    },
+    {
+      "blocked_scene_count": 5,
+      "blocked_scenes": [
+        "002_swamp_witchcave.rule.xml",
+        "010_el_lightning.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "023_watertemple.rule.xml"
+      ],
+      "blocker": "native:target:IsPlayer:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "target:IsPlayer"
+      ],
+      "evidence_notes": [
+        "{'line': 10, 'path': 'port/level-world/character_live_body_projection_v6.cpp', 'source_line': 'if(candidate.character_type==0||candidate.character_type==1){error=\"Required source player/archetype IsPlayer branch\";return false;}'}",
+        "{'line': 114, 'path': 'port/windows-foundation/features/cinematics/source_cinematics.cpp', 'source_line': 'auto player=[&](std::uintptr_t actor,bool& out){return providers_.isPlayer?providers_.isPlayer(actor,out,e):missing(\"SAME Character.IsPlayer\",e);};'}",
+        "{'line': 13, 'path': 'port/windows-foundation/features/cinematics/source_camera_critical.cpp', 'source_line': 'bool player=false;if(!providers_.isPlayer||!providers_.isPlayer(character,player,e))return missing(\"actual Character.IsPlayer\",e);'}",
+        "{'line': 19, 'path': 'port/level-world/character_loot_actor_binding_v31.cpp', 'source_line': 'if(!s.invoke||s.invoke(s.context,&q,&result)){e=world_.targets().error();if(e.empty())e=\"Required source IsPlayer virtual for loot\";return false;}out=result!=0;return true;'}",
+        "{'line': 22, 'path': 'port/windows-foundation/playable_actor_bodies.cpp', 'source_line': 'if(tracing) {bool ignored=false;if(!services.is_player) {error=\"Required original tracing IsPlayer query\";return false;}if(!services.is_player(owner,ignored,error))return false;}'}",
+        "{'line': 262, 'path': 'port/level-world/canonical_character_candidate_v60.cpp', 'source_line': 'b.handle_as_player_character=[weak](bool& value,std::string& e){auto same=weak.lock();if(!same){e=\"Expired canonical Handle-AsChar-IsPlayer receiver\";return false;}return same->is_player(value,e);};'}",
+        "{'line': 27, 'path': 'port/level-world/character_language_scene_connection_v1.cpp', 'source_line': 'if(skills::dh2_character_skill_target_query_v6(&value,target_providers::is_player,actor.character,nullptr,self.services_.ai_types,self.services_.target_services)){self.error_=\"Source IsPlayer delivery failed\";return -1;}'}",
+        "{'line': 273, 'path': 'port/windows-foundation/features/physics/runtime_session_contact_v1.cpp', 'source_line': 'if (!traits) { error = \"Tracing collision IsPlayer owner left Session\"; return false; }'}",
+        "{'line': 297, 'path': 'port/windows-foundation/features/physics/session_actor_transition_v1.cpp', 'source_line': 'return fail(error,\"Reached Dead Focus after flags241 requires actual source IsPlayer getter\");'}",
+        "{'line': 6, 'path': 'port/level-world/application_spawn_random_owner_v4.cpp', 'source_line': 'if(!cached||!prob||!s.handle_as_player){e=\"Required actual Handle-AsChar-IsPlayer\";return false;}'}",
+        "{'line': 6405, 'path': 'port/windows-foundation/main.cpp', 'source_line': 'const auto* traits=combatSession->world()->traits(id);if(!traits){e=\"Dead Focus requires current IsPlayer\";return false;}'}",
+        "{'line': 74, 'path': 'port/windows-foundation/features/physics/runtime_session_contact_v1.cpp', 'source_line': 'throw ContactServiceFailure(\"Source owner IsPlayer request changed Character identity\");'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 38
+    },
+    {
+      "blocked_scene_count": 4,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "031_firetemple.mlx"
+      ],
+      "blocker": "native:PlayAnim:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "PlayAnim"
+      ],
+      "evidence_notes": [
+        "{'line': 249, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!std::regex_search(b, m, std::regex(\"PlayAnim\\\\\\\\(\\\\\\\\s*GetPyOID\\\\\\\\(\\\\\\\\s*\\\\\"AnimDict\\\\\"\\\\\\\\s*,\\\\\\\\s*\\\\\"(\\\\\\\\w+)\\\\\"\\\\\\\\s*\\\\\\\\)\"))) return false;'}",
+        "{'line': 260, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!anim_of(intimidate, next.intimidate_anim) || !std::regex_search(intimidate, std::regex(\"PlayAnim\\\\\\\\([^\\\\\\\\n]*nil\\\\\\\\s*,\\\\\\\\s*true\\\\\\\\s*\\\\\\\\)\")))'}",
+        "{'line': 446, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'reason = \"PlayAnim AnimDict entries absent\"; return true;'}",
+        "{'line': 650, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!services_.play_clip) return fail(error, \"Boss PlayAnim requires the scripted clip owner\");'}",
+        "{'line': 656, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'log(\"PlayAnim not played actor=\" + std::to_string(id) + \" clip=\" + std::to_string(dict) + \": \" + problem);'}",
+        "{'line': 663, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'log(std::string(\"PlayAnim actor=\") + std::to_string(id) + \" \" + (dive ? def.ai.dive_anim : def.ai.intimidate_anim) +'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 39
+    },
+    {
+      "blocked_scene_count": 3,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "010_el_lightning.rule.xml"
+      ],
+      "blocker": "native:LookAtTarget:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "LookAtTarget"
+      ],
+      "evidence_notes": [
+        "{'line': 173, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'next.close_range_looks_at_target = contains(close, \"LookAtTarget()\");'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 40
+    },
+    {
+      "blocked_scene_count": 3,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "010_el_lightning.rule.xml"
+      ],
+      "blocker": "native:MarkAsFlying:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "MarkAsFlying"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 41
+    },
+    {
+      "blocked_scene_count": 3,
+      "blocked_scenes": [
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "010_el_lightning.rule.xml"
+      ],
+      "blocker": "native:PlayFX:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "PlayFX"
+      ],
+      "evidence_notes": [
+        "{'line': 117, 'path': 'port/windows-foundation/features/effects/celest_target_fx_dispatch_v1.cpp', 'source_line': 'if (!created) return fail(error, \"Original Celest PlayFX did not create a source instance\");'}",
+        "{'line': 196, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'if (std::regex_search(callback, fx, std::regex(\"PlayFX\\\\\\\\(\\\\\\\\s*(\\\\\\\\w+)\"))) {'}",
+        "{'line': 333, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': '} else if (contains(skill, \"repeat\") && contains(skill, \"SkillCombatRoll(target)\") && contains(skill, \"PlayFX(\")) {'}",
+        "{'line': 337, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!std::regex_search(skill, m, std::regex(\"PlayFX\\\\\\\\(\\\\\\\\s*GetPyOID\\\\\\\\(\\\\\\\\s*\\\\\"AnimatedEffectTable\\\\\"\\\\\\\\s*,\\\\\\\\s*\\\\\"(\\\\\\\\w+)\\\\\"\")))'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 42
+    },
+    {
+      "blocked_scene_count": 3,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:Summon:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "Summon"
+      ],
+      "evidence_notes": [
+        "{'line': 107, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': 'set_error(context, error, error_capacity, \"Summon expects (oid, spawn, x, y, z, relative)\");'}",
+        "{'line': 113, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': 'set_error(context, error, error_capacity, \"Summon oid is not a CharacterTable row\");'}",
+        "{'line': 124, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': 'set_error(context, error, error_capacity, \"Summon owner is not bound\");'}",
+        "{'line': 131, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': 'context.report->summon_lines.push_back(\"Summon character=\" + request.character +'}",
+        "{'line': 184, 'path': 'port/windows-foundation/features/enemy_ai/source_summon_backend_binding_v1.cpp', 'source_line': 'error=\"Summon callback receiver differs from the same CandidateFactory actor/record lease\";return false;'}",
+        "{'line': 190, 'path': 'port/windows-foundation/features/enemy_ai/source_summon_backend_binding_v1.cpp', 'source_line': 'error=\"Summon callback receiver lost the source Character-create request lease\";return false;'}",
+        "{'line': 193, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': 'error = \"Open script requires the GetRand and Summon services\";'}",
+        "{'line': 194, 'path': 'port/windows-foundation/features/enemy_ai/source_summon_backend_binding_v1.cpp', 'source_line': 'error=\"Summon callback Character is no longer the same ObjectManager publication\";return false;'}",
+        "{'line': 201, 'path': 'port/windows-foundation/features/enemy_ai/source_summon_backend_binding_v1.cpp', 'source_line': 'error=\"Summon callback receiver differs from the source class-receiver binding\";return false;'}",
+        "{'line': 210, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': '{\"GetRand\", lua_get_rand}, {\"GetPyOID\", lua_get_py_oid}, {\"Summon\", lua_summon},'}",
+        "{'line': 239, 'path': 'port/windows-foundation/features/containers/container_open_script_v1.cpp', 'source_line': 'const std::string summon = \"Summon(\";'}",
+        "{'line': 7685, 'path': 'port/windows-foundation/main.cpp', 'source_line': 'if(!request.spawn){reason=\"Summon spawn=false has no owner\";return false;}'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 43
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot1:IsDead:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot1:IsDead"
+      ],
+      "evidence_notes": [
+        "{'line': 10, 'path': 'port/level-world/player_manager_death_queries_v70.cpp', 'source_line': 'bool character_dead{};if(!services.character_is_dead34||!services.character_is_dead34(p->character660,character_dead,e)){if(e.empty())e=\"Required Character virtual34 IsDead\";return false;}'}",
+        "{'line': 11, 'path': 'port/windows-foundation/features/companions/source_master.cpp', 'source_line': 'if(!f.master50||!b.is_dead){error=\"Required reloaded actual master IsDead receiver\";return false;}'}",
+        "{'line': 16, 'path': 'port/level-world/player_level_quicksave_v29.cpp', 'source_line': 'if(!services_.character||!services_.character(info->character660,player,error)||!player.owner||player.identity!=info->character660||!player.dead){if(error.empty())error=\"Required actual QuickSave Character IsDead\";return false;}'}",
+        "{'line': 29, 'path': 'port/windows-foundation/features/cinematics/source_cutscene_mode.cpp', 'source_line': 'bool dead=false;if(!providers_.isDead||!providers_.isDead(info->character660,dead,e))return missing(\"actual Character.IsDead\",e);'}",
+        "{'line': 33, 'path': 'port/level-world/character_world_target_owner_v1.cpp', 'source_line': 'if(q->service==virtual_dead){if(!a.character&&a.base_target_query){std::int32_t value;if(w.query(is_dead,q->subject,0,value))return -1;*out=std::uint32_t(value);return 0;}if(!a.life){w.error_=\"Required genuine virtual IsDead owner\";return -'}",
+        "{'line': 66, 'path': 'port/windows-foundation/features/status_effects/source_status_owners.cpp', 'source_line': 'if(q->subject!=self.b_.character)fail(-1,\"Source CharAI IsDead targets foreign Character\");'}",
+        "{'line': 67, 'path': 'port/windows-foundation/features/status_effects/source_status_owners.cpp', 'source_line': 'std::int32_t dead{};if(dh2_character_timer_owner_query(&dead,self.b_.life,1)!=1)fail(-2,\"Required actual Character IsDead fields failed\");'}",
+        "{'line': 68, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'case kill_is_dead:{auto entry=actors_.find(q.subject);if(entry==actors_.end()){error_=\"Required actual Kill IsDead Character\";return -1;}out.word=std::int32_t(entry->second->borrow.life->dead);return 0;}'}",
+        "{'line': 69, 'path': 'port/level-world/character_use_ooi_v47.cpp', 'source_line': 'if(!require(bool(services_.is_dead),\"selected Character.IsDead\",e)||'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 44
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot1:Kill:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot1:Kill"
+      ],
+      "evidence_notes": [
+        "{'line': 11, 'path': 'port/level-world/character_kill_fields_v21.cpp', 'source_line': 'if(produced){e=\"Character Kill metadata adoption cannot replay\";return false;}'}",
+        "{'line': 17, 'path': 'port/level-world/character_kill_level_events_v23.cpp', 'source_line': 'const auto* constructor=current.level()->constructor_owner_v3();if(!constructor||constructor->phase()!=loader::LevelConstructorPhaseV3::complete){e=\"Required whole SAME Level C1 before Kill publication\";return false;}'}",
+        "{'line': 20, 'path': 'port/windows-foundation/features/loot/source_death_reward_binding_v1.cpp', 'source_line': 'error = \"Required retained source Kill services and owner graph\";'}",
+        "{'line': 21, 'path': 'port/level-world/character_kill_level_events_v23.cpp', 'source_line': 'if(!q.event||q.event->kind<1||q.event->kind>4||q.event->reserved||q.event->reserved2||q.event->flag0||q.event->flag1||q.event->network_id!=-1||q.subject!=q.event->level){e=\"Required exact source stack Kill QE payload\";return false;}'}",
+        "{'line': 22, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'using Kill=std::function<bool(world::CanonicalCharacterCandidateRecordV60&,std::uintptr_t,std::string&)>;'}",
+        "{'line': 23, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'bool on_died(world::CanonicalCharacterCandidateRecordV60&,std::uintptr_t,const Kill&,std::string&);'}",
+        "{'line': 27, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'e=\"Required SAME produced Character Kill/controller/metadata/property/World graph\";return false;'}",
+        "{'line': 30, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'std::uintptr_t actual_group,std::uintptr_t actual_attacker,const CharacterAiGroupV87::Kill&,std::string&);'}",
+        "{'line': 38, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'if(!b.fields->produced||b.life->dead>1){error_=\"Required valid live Kill scalar authorities\";return false;}'}",
+        "{'line': 4, 'path': 'port/level-world/character_kill_fields_v21.cpp', 'source_line': 'if(produced){e=\"Character Kill C1 fields cannot replay\";return false;}'}",
+        "{'line': 63, 'path': 'port/level-world/character_ai_groups_v87.cpp', 'source_line': 'bool CharacterAiGroupV87::on_died(Record& r,std::uintptr_t attacker,const Kill& kill,std::string& e){'}",
+        "{'line': 95, 'path': 'port/level-world/character_ai_groups_v87.cpp', 'source_line': 'bool source_character_group_on_died_v87(Record& r,std::uintptr_t group,std::uintptr_t attacker,const CharacterAiGroupV87::Kill& kill,std::string& e){'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 45
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot1:LOCK:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot1:LOCK"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 46
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot1:UNLOCK:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot1:UNLOCK"
+      ],
+      "evidence_notes": [
+        "{'line': 27, 'path': 'port/windows-foundation/features/frontend/art/original_art_data.cpp', 'source_line': 'static const std::pair<const char*,const char*> labels[]{{\"MENU_UNIQUE_CHARS\",\"\\\\n” !\\\\\"#\\'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuvwxyz\\xa0©®\"},{\"MENU_MAIN_MENU\",\"Main Menu\"},{\"MENU_NEW_GAME\",\"New Game\"},{\"MENU_CO'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 47
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot2:IsDead:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot2:IsDead"
+      ],
+      "evidence_notes": [
+        "{'line': 10, 'path': 'port/level-world/player_manager_death_queries_v70.cpp', 'source_line': 'bool character_dead{};if(!services.character_is_dead34||!services.character_is_dead34(p->character660,character_dead,e)){if(e.empty())e=\"Required Character virtual34 IsDead\";return false;}'}",
+        "{'line': 11, 'path': 'port/windows-foundation/features/companions/source_master.cpp', 'source_line': 'if(!f.master50||!b.is_dead){error=\"Required reloaded actual master IsDead receiver\";return false;}'}",
+        "{'line': 16, 'path': 'port/level-world/player_level_quicksave_v29.cpp', 'source_line': 'if(!services_.character||!services_.character(info->character660,player,error)||!player.owner||player.identity!=info->character660||!player.dead){if(error.empty())error=\"Required actual QuickSave Character IsDead\";return false;}'}",
+        "{'line': 29, 'path': 'port/windows-foundation/features/cinematics/source_cutscene_mode.cpp', 'source_line': 'bool dead=false;if(!providers_.isDead||!providers_.isDead(info->character660,dead,e))return missing(\"actual Character.IsDead\",e);'}",
+        "{'line': 33, 'path': 'port/level-world/character_world_target_owner_v1.cpp', 'source_line': 'if(q->service==virtual_dead){if(!a.character&&a.base_target_query){std::int32_t value;if(w.query(is_dead,q->subject,0,value))return -1;*out=std::uint32_t(value);return 0;}if(!a.life){w.error_=\"Required genuine virtual IsDead owner\";return -'}",
+        "{'line': 66, 'path': 'port/windows-foundation/features/status_effects/source_status_owners.cpp', 'source_line': 'if(q->subject!=self.b_.character)fail(-1,\"Source CharAI IsDead targets foreign Character\");'}",
+        "{'line': 67, 'path': 'port/windows-foundation/features/status_effects/source_status_owners.cpp', 'source_line': 'std::int32_t dead{};if(dh2_character_timer_owner_query(&dead,self.b_.life,1)!=1)fail(-2,\"Required actual Character IsDead fields failed\");'}",
+        "{'line': 68, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'case kill_is_dead:{auto entry=actors_.find(q.subject);if(entry==actors_.end()){error_=\"Required actual Kill IsDead Character\";return -1;}out.word=std::int32_t(entry->second->borrow.life->dead);return 0;}'}",
+        "{'line': 69, 'path': 'port/level-world/character_use_ooi_v47.cpp', 'source_line': 'if(!require(bool(services_.is_dead),\"selected Character.IsDead\",e)||'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 48
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot2:Kill:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot2:Kill"
+      ],
+      "evidence_notes": [
+        "{'line': 11, 'path': 'port/level-world/character_kill_fields_v21.cpp', 'source_line': 'if(produced){e=\"Character Kill metadata adoption cannot replay\";return false;}'}",
+        "{'line': 17, 'path': 'port/level-world/character_kill_level_events_v23.cpp', 'source_line': 'const auto* constructor=current.level()->constructor_owner_v3();if(!constructor||constructor->phase()!=loader::LevelConstructorPhaseV3::complete){e=\"Required whole SAME Level C1 before Kill publication\";return false;}'}",
+        "{'line': 20, 'path': 'port/windows-foundation/features/loot/source_death_reward_binding_v1.cpp', 'source_line': 'error = \"Required retained source Kill services and owner graph\";'}",
+        "{'line': 21, 'path': 'port/level-world/character_kill_level_events_v23.cpp', 'source_line': 'if(!q.event||q.event->kind<1||q.event->kind>4||q.event->reserved||q.event->reserved2||q.event->flag0||q.event->flag1||q.event->network_id!=-1||q.subject!=q.event->level){e=\"Required exact source stack Kill QE payload\";return false;}'}",
+        "{'line': 22, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'using Kill=std::function<bool(world::CanonicalCharacterCandidateRecordV60&,std::uintptr_t,std::string&)>;'}",
+        "{'line': 23, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'bool on_died(world::CanonicalCharacterCandidateRecordV60&,std::uintptr_t,const Kill&,std::string&);'}",
+        "{'line': 27, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'e=\"Required SAME produced Character Kill/controller/metadata/property/World graph\";return false;'}",
+        "{'line': 30, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'std::uintptr_t actual_group,std::uintptr_t actual_attacker,const CharacterAiGroupV87::Kill&,std::string&);'}",
+        "{'line': 38, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'if(!b.fields->produced||b.life->dead>1){error_=\"Required valid live Kill scalar authorities\";return false;}'}",
+        "{'line': 4, 'path': 'port/level-world/character_kill_fields_v21.cpp', 'source_line': 'if(produced){e=\"Character Kill C1 fields cannot replay\";return false;}'}",
+        "{'line': 63, 'path': 'port/level-world/character_ai_groups_v87.cpp', 'source_line': 'bool CharacterAiGroupV87::on_died(Record& r,std::uintptr_t attacker,const Kill& kill,std::string& e){'}",
+        "{'line': 95, 'path': 'port/level-world/character_ai_groups_v87.cpp', 'source_line': 'bool source_character_group_on_died_v87(Record& r,std::uintptr_t group,std::uintptr_t attacker,const CharacterAiGroupV87::Kill& kill,std::string& e){'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 49
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot2:LOCK:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot2:LOCK"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 50
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot2:UNLOCK:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot2:UNLOCK"
+      ],
+      "evidence_notes": [
+        "{'line': 27, 'path': 'port/windows-foundation/features/frontend/art/original_art_data.cpp', 'source_line': 'static const std::pair<const char*,const char*> labels[]{{\"MENU_UNIQUE_CHARS\",\"\\\\n” !\\\\\"#\\'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuvwxyz\\xa0©®\"},{\"MENU_MAIN_MENU\",\"Main Menu\"},{\"MENU_NEW_GAME\",\"New Game\"},{\"MENU_CO'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 51
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot3:IsDead:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot3:IsDead"
+      ],
+      "evidence_notes": [
+        "{'line': 10, 'path': 'port/level-world/player_manager_death_queries_v70.cpp', 'source_line': 'bool character_dead{};if(!services.character_is_dead34||!services.character_is_dead34(p->character660,character_dead,e)){if(e.empty())e=\"Required Character virtual34 IsDead\";return false;}'}",
+        "{'line': 11, 'path': 'port/windows-foundation/features/companions/source_master.cpp', 'source_line': 'if(!f.master50||!b.is_dead){error=\"Required reloaded actual master IsDead receiver\";return false;}'}",
+        "{'line': 16, 'path': 'port/level-world/player_level_quicksave_v29.cpp', 'source_line': 'if(!services_.character||!services_.character(info->character660,player,error)||!player.owner||player.identity!=info->character660||!player.dead){if(error.empty())error=\"Required actual QuickSave Character IsDead\";return false;}'}",
+        "{'line': 29, 'path': 'port/windows-foundation/features/cinematics/source_cutscene_mode.cpp', 'source_line': 'bool dead=false;if(!providers_.isDead||!providers_.isDead(info->character660,dead,e))return missing(\"actual Character.IsDead\",e);'}",
+        "{'line': 33, 'path': 'port/level-world/character_world_target_owner_v1.cpp', 'source_line': 'if(q->service==virtual_dead){if(!a.character&&a.base_target_query){std::int32_t value;if(w.query(is_dead,q->subject,0,value))return -1;*out=std::uint32_t(value);return 0;}if(!a.life){w.error_=\"Required genuine virtual IsDead owner\";return -'}",
+        "{'line': 66, 'path': 'port/windows-foundation/features/status_effects/source_status_owners.cpp', 'source_line': 'if(q->subject!=self.b_.character)fail(-1,\"Source CharAI IsDead targets foreign Character\");'}",
+        "{'line': 67, 'path': 'port/windows-foundation/features/status_effects/source_status_owners.cpp', 'source_line': 'std::int32_t dead{};if(dh2_character_timer_owner_query(&dead,self.b_.life,1)!=1)fail(-2,\"Required actual Character IsDead fields failed\");'}",
+        "{'line': 68, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'case kill_is_dead:{auto entry=actors_.find(q.subject);if(entry==actors_.end()){error_=\"Required actual Kill IsDead Character\";return -1;}out.word=std::int32_t(entry->second->borrow.life->dead);return 0;}'}",
+        "{'line': 69, 'path': 'port/level-world/character_use_ooi_v47.cpp', 'source_line': 'if(!require(bool(services_.is_dead),\"selected Character.IsDead\",e)||'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 52
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot3:Kill:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot3:Kill"
+      ],
+      "evidence_notes": [
+        "{'line': 11, 'path': 'port/level-world/character_kill_fields_v21.cpp', 'source_line': 'if(produced){e=\"Character Kill metadata adoption cannot replay\";return false;}'}",
+        "{'line': 17, 'path': 'port/level-world/character_kill_level_events_v23.cpp', 'source_line': 'const auto* constructor=current.level()->constructor_owner_v3();if(!constructor||constructor->phase()!=loader::LevelConstructorPhaseV3::complete){e=\"Required whole SAME Level C1 before Kill publication\";return false;}'}",
+        "{'line': 20, 'path': 'port/windows-foundation/features/loot/source_death_reward_binding_v1.cpp', 'source_line': 'error = \"Required retained source Kill services and owner graph\";'}",
+        "{'line': 21, 'path': 'port/level-world/character_kill_level_events_v23.cpp', 'source_line': 'if(!q.event||q.event->kind<1||q.event->kind>4||q.event->reserved||q.event->reserved2||q.event->flag0||q.event->flag1||q.event->network_id!=-1||q.subject!=q.event->level){e=\"Required exact source stack Kill QE payload\";return false;}'}",
+        "{'line': 22, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'using Kill=std::function<bool(world::CanonicalCharacterCandidateRecordV60&,std::uintptr_t,std::string&)>;'}",
+        "{'line': 23, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'bool on_died(world::CanonicalCharacterCandidateRecordV60&,std::uintptr_t,const Kill&,std::string&);'}",
+        "{'line': 27, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'e=\"Required SAME produced Character Kill/controller/metadata/property/World graph\";return false;'}",
+        "{'line': 30, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'std::uintptr_t actual_group,std::uintptr_t actual_attacker,const CharacterAiGroupV87::Kill&,std::string&);'}",
+        "{'line': 38, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'if(!b.fields->produced||b.life->dead>1){error_=\"Required valid live Kill scalar authorities\";return false;}'}",
+        "{'line': 4, 'path': 'port/level-world/character_kill_fields_v21.cpp', 'source_line': 'if(produced){e=\"Character Kill C1 fields cannot replay\";return false;}'}",
+        "{'line': 63, 'path': 'port/level-world/character_ai_groups_v87.cpp', 'source_line': 'bool CharacterAiGroupV87::on_died(Record& r,std::uintptr_t attacker,const Kill& kill,std::string& e){'}",
+        "{'line': 95, 'path': 'port/level-world/character_ai_groups_v87.cpp', 'source_line': 'bool source_character_group_on_died_v87(Record& r,std::uintptr_t group,std::uintptr_t attacker,const CharacterAiGroupV87::Kill& kill,std::string& e){'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 53
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot3:LOCK:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot3:LOCK"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 54
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot3:UNLOCK:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot3:UNLOCK"
+      ],
+      "evidence_notes": [
+        "{'line': 27, 'path': 'port/windows-foundation/features/frontend/art/original_art_data.cpp', 'source_line': 'static const std::pair<const char*,const char*> labels[]{{\"MENU_UNIQUE_CHARS\",\"\\\\n” !\\\\\"#\\'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuvwxyz\\xa0©®\"},{\"MENU_MAIN_MENU\",\"Main Menu\"},{\"MENU_NEW_GAME\",\"New Game\"},{\"MENU_CO'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 55
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot4:IsDead:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot4:IsDead"
+      ],
+      "evidence_notes": [
+        "{'line': 10, 'path': 'port/level-world/player_manager_death_queries_v70.cpp', 'source_line': 'bool character_dead{};if(!services.character_is_dead34||!services.character_is_dead34(p->character660,character_dead,e)){if(e.empty())e=\"Required Character virtual34 IsDead\";return false;}'}",
+        "{'line': 11, 'path': 'port/windows-foundation/features/companions/source_master.cpp', 'source_line': 'if(!f.master50||!b.is_dead){error=\"Required reloaded actual master IsDead receiver\";return false;}'}",
+        "{'line': 16, 'path': 'port/level-world/player_level_quicksave_v29.cpp', 'source_line': 'if(!services_.character||!services_.character(info->character660,player,error)||!player.owner||player.identity!=info->character660||!player.dead){if(error.empty())error=\"Required actual QuickSave Character IsDead\";return false;}'}",
+        "{'line': 29, 'path': 'port/windows-foundation/features/cinematics/source_cutscene_mode.cpp', 'source_line': 'bool dead=false;if(!providers_.isDead||!providers_.isDead(info->character660,dead,e))return missing(\"actual Character.IsDead\",e);'}",
+        "{'line': 33, 'path': 'port/level-world/character_world_target_owner_v1.cpp', 'source_line': 'if(q->service==virtual_dead){if(!a.character&&a.base_target_query){std::int32_t value;if(w.query(is_dead,q->subject,0,value))return -1;*out=std::uint32_t(value);return 0;}if(!a.life){w.error_=\"Required genuine virtual IsDead owner\";return -'}",
+        "{'line': 66, 'path': 'port/windows-foundation/features/status_effects/source_status_owners.cpp', 'source_line': 'if(q->subject!=self.b_.character)fail(-1,\"Source CharAI IsDead targets foreign Character\");'}",
+        "{'line': 67, 'path': 'port/windows-foundation/features/status_effects/source_status_owners.cpp', 'source_line': 'std::int32_t dead{};if(dh2_character_timer_owner_query(&dead,self.b_.life,1)!=1)fail(-2,\"Required actual Character IsDead fields failed\");'}",
+        "{'line': 68, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'case kill_is_dead:{auto entry=actors_.find(q.subject);if(entry==actors_.end()){error_=\"Required actual Kill IsDead Character\";return -1;}out.word=std::int32_t(entry->second->borrow.life->dead);return 0;}'}",
+        "{'line': 69, 'path': 'port/level-world/character_use_ooi_v47.cpp', 'source_line': 'if(!require(bool(services_.is_dead),\"selected Character.IsDead\",e)||'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 56
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot4:Kill:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot4:Kill"
+      ],
+      "evidence_notes": [
+        "{'line': 11, 'path': 'port/level-world/character_kill_fields_v21.cpp', 'source_line': 'if(produced){e=\"Character Kill metadata adoption cannot replay\";return false;}'}",
+        "{'line': 17, 'path': 'port/level-world/character_kill_level_events_v23.cpp', 'source_line': 'const auto* constructor=current.level()->constructor_owner_v3();if(!constructor||constructor->phase()!=loader::LevelConstructorPhaseV3::complete){e=\"Required whole SAME Level C1 before Kill publication\";return false;}'}",
+        "{'line': 20, 'path': 'port/windows-foundation/features/loot/source_death_reward_binding_v1.cpp', 'source_line': 'error = \"Required retained source Kill services and owner graph\";'}",
+        "{'line': 21, 'path': 'port/level-world/character_kill_level_events_v23.cpp', 'source_line': 'if(!q.event||q.event->kind<1||q.event->kind>4||q.event->reserved||q.event->reserved2||q.event->flag0||q.event->flag1||q.event->network_id!=-1||q.subject!=q.event->level){e=\"Required exact source stack Kill QE payload\";return false;}'}",
+        "{'line': 22, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'using Kill=std::function<bool(world::CanonicalCharacterCandidateRecordV60&,std::uintptr_t,std::string&)>;'}",
+        "{'line': 23, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'bool on_died(world::CanonicalCharacterCandidateRecordV60&,std::uintptr_t,const Kill&,std::string&);'}",
+        "{'line': 27, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'e=\"Required SAME produced Character Kill/controller/metadata/property/World graph\";return false;'}",
+        "{'line': 30, 'path': 'port/level-world/character_ai_groups_v87.hpp', 'source_line': 'std::uintptr_t actual_group,std::uintptr_t actual_attacker,const CharacterAiGroupV87::Kill&,std::string&);'}",
+        "{'line': 38, 'path': 'port/level-world/character_kill_live_v21.cpp', 'source_line': 'if(!b.fields->produced||b.life->dead>1){error_=\"Required valid live Kill scalar authorities\";return false;}'}",
+        "{'line': 4, 'path': 'port/level-world/character_kill_fields_v21.cpp', 'source_line': 'if(produced){e=\"Character Kill C1 fields cannot replay\";return false;}'}",
+        "{'line': 63, 'path': 'port/level-world/character_ai_groups_v87.cpp', 'source_line': 'bool CharacterAiGroupV87::on_died(Record& r,std::uintptr_t attacker,const Kill& kill,std::string& e){'}",
+        "{'line': 95, 'path': 'port/level-world/character_ai_groups_v87.cpp', 'source_line': 'bool source_character_group_on_died_v87(Record& r,std::uintptr_t group,std::uintptr_t attacker,const CharacterAiGroupV87::Kill& kill,std::string& e){'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 57
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot4:LOCK:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot4:LOCK"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 58
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:mothSlot4:UNLOCK:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "mothSlot4:UNLOCK"
+      ],
+      "evidence_notes": [
+        "{'line': 27, 'path': 'port/windows-foundation/features/frontend/art/original_art_data.cpp', 'source_line': 'static const std::pair<const char*,const char*> labels[]{{\"MENU_UNIQUE_CHARS\",\"\\\\n” !\\\\\"#\\'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuvwxyz\\xa0©®\"},{\"MENU_MAIN_MENU\",\"Main Menu\"},{\"MENU_NEW_GAME\",\"New Game\"},{\"MENU_CO'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 59
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml"
+      ],
+      "blocker": "native:PlayActorAnim:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "PlayActorAnim"
+      ],
+      "evidence_notes": [
+        "{'line': 101, 'path': 'port/windows-foundation/features/cinematics/runtime_troll_return_v1.cpp', 'source_line': 'if(*actorName!=next.actor_name)throw std::runtime_error(\"TrollReturn PlayActorAnim receiver changes within authored chain\");'}",
+        "{'line': 133, 'path': 'port/windows-foundation/features/companions/source_companion_campaign_animation_v1.cpp', 'source_line': 'throw std::runtime_error(\"Requested campaign script has no PlayActorAnim records for supplied companion actors\");'}",
+        "{'line': 141, 'path': 'port/windows-foundation/features/companions/source_companion_animation_bank_v1.cpp', 'source_line': 'throw std::runtime_error(\"Requested script has no PlayActorAnim records for supplied source actor owners\");'}",
+        "{'line': 3436, 'path': 'port/windows-foundation/main.cpp', 'source_line': 'std::cout<<\"[campaign] PlayActorAnim: actor \"<<id<<\" has no live instance; clip \"<<clip<<\" is a no-op\\\\n\";'}",
+        "{'line': 615, 'path': 'port/windows-foundation/features/campaign_host/campaign_host.cpp', 'source_line': 'std::cout << \"[campaign] PlayActorAnim actor=\" << id << \" clip=\" << signed_field(c, 8) << \" duration_ms=\" << duration'}",
+        "{'line': 63, 'path': 'port/windows-foundation/features/companions/source_companion_campaign_animation_v1.cpp', 'source_line': 'throw std::runtime_error(\"PlayActorAnim receiver field is missing from loaded campaign script\");'}",
+        "{'line': 75, 'path': 'port/windows-foundation/features/companions/source_companion_campaign_animation_v1.cpp', 'source_line': 'need.unsupported_reason = \"PlayActorAnim Anim/Next/Slot/Wait fields are incomplete or invalid\";'}",
+        "{'line': 77, 'path': 'port/windows-foundation/features/companions/source_companion_animation_bank_v1.cpp', 'source_line': 'throw std::runtime_error(\"PlayActorAnim receiver missing from loaded campaign source\");'}",
+        "{'line': 90, 'path': 'port/windows-foundation/features/companions/source_companion_animation_bank_v1.cpp', 'source_line': 'item.unsupported_reason = \"PlayActorAnim fields are incomplete or invalid\";'}",
+        "{'line': 96, 'path': 'port/windows-foundation/features/cinematics/runtime_troll_return_v1.cpp', 'source_line': 'throw std::runtime_error(\"TrollReturn PlayActorAnim record lacks source animation/wait/receiver fields\");'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 60
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "003_darkwood.mlx",
+        "031_firetemple.mlx"
+      ],
+      "blocker": "native:target:GetMaster:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "target:GetMaster"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 61
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "003_darkwood.mlx",
+        "031_firetemple.mlx"
+      ],
+      "blocker": "native:target:HasMaster:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "target:HasMaster"
+      ],
+      "evidence_notes": [
+        "{'line': 116, 'path': 'port/windows-foundation/features/companions/live_companion_scripts.cpp', 'source_line': 'const Binding bindings[]={{\"HasMaster\",Operation::has_master,true,false},'}",
+        "{'line': 57, 'path': 'port/windows-foundation/features/companions/source_owner_scripts.cpp', 'source_line': 'static constexpr Source source[]={{\"HasMaster\",0x3b6f3c},{\"HasTarget\",0x3b6f50},{\"GetTarget\",0x3b6c7c},'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 62
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "011_earth_temple_01.rule.xml",
+        "013_earth_temple_03.rule.xml"
+      ],
+      "blocker": "native:target:IsCharacter:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "target:IsCharacter"
+      ],
+      "evidence_notes": [
+        "{'line': 113, 'path': 'port/level-world/openable_container_owner_v1.cpp', 'source_line': 'bool character=false;if(!call(s_.is_character,\"GameObject::IsCharacter\",e,actor,character))return false;'}",
+        "{'line': 212, 'path': 'port/windows-foundation/features/actor_frame/source_campaign_backend_v1.cpp', 'source_line': 'return need(\"published object IsCharacter\", e);'}",
+        "{'line': 276, 'path': 'port/windows-foundation/features/enemy_ai/runtime_ranged_skill_monster_v1.cpp', 'source_line': 'next.delayed_check_character = contains(delayed_check, \"IsCharacter()\");'}",
+        "{'line': 31, 'path': 'port/level-world/world_item_drop_inventory_v9.cpp', 'source_line': 'bool character{};if(!services.is_character||!services.is_character(services.context,source,character,e)){if(e.empty())e=\"Required source DropInventory IsCharacter virtual24\";return false;}'}",
+        "{'line': 69, 'path': 'port/windows-foundation/features/physics/runtime_session_contact_v1.cpp', 'source_line': 'throw ContactServiceFailure(\"Source IsCharacter request was not the registered physical peer\");'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 63
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "003_darkwood.mlx",
+        "031_firetemple.mlx"
+      ],
+      "blocker": "native:TargetListBackup:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "TargetListBackup"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 64
+    },
+    {
+      "blocked_scene_count": 2,
+      "blocked_scenes": [
+        "019_light_house_03.rule.xml",
+        "021_gothicus_castle_02.rule.xml"
+      ],
+      "blocker": "unresolved_transition_source_frontiers",
+      "evidence_ids": [
+        "module_parse_failed",
+        "module_source_missing",
+        "other_transition_mechanisms_not_closed",
+        "possible_ios_only_source_candidate"
+      ],
+      "evidence_notes": [
+        "module_parse_failed",
+        "module_source_missing",
+        "other_transition_mechanisms_not_closed",
+        "possible_ios_only_source_candidate"
+      ],
+      "evidence_scope": "authored_transition_scope_completeness",
+      "rank": 65
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:CanAttackFromRange:MISSING",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "CanAttackFromRange"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "MISSING",
+      "rank": 66
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:RegisterSummon:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "RegisterSummon"
+      ],
+      "evidence_notes": [
+        "{'line': 27, 'path': 'port/level-world/character_register_summon_v81.cpp', 'source_line': 'if(!p||!r||(n&&!a))return fail(e,z,\"Malformed source RegisterSummon arguments\");'}",
+        "{'line': 34, 'path': 'port/level-world/character_register_summon_v81.cpp', 'source_line': 'if(!self.cache||!self.add)return fail(e,z,\"Required actual process RegisterSummon cachedCharOID owner\");'}",
+        "{'line': 37, 'path': 'port/level-world/character_register_summon_v81.cpp', 'source_line': 'catch(...){return fail(e,z,\"Source RegisterSummon provider threw\");}'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 67
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "001_swamp.mlx"
+      ],
+      "blocker": "native:SetActorPosition:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "SetActorPosition"
+      ],
+      "evidence_notes": [
+        "{'line': 3364, 'path': 'port/windows-foundation/main.cpp', 'source_line': 'std::cout<<\"[campaign] SetActorPosition: actor \"<<id<<\" has no live instance; command is a no-op\\\\n\";e.clear();return true;'}",
+        "{'line': 627, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!services_.waypoint || !services_.warp) return fail(error, \"Boss SetActorPosition requires the waypoint and position owners\");'}",
+        "{'line': 631, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!found) { log(\"SetActorPosition waypoint not found: \" + waypoint); error.clear(); return true; }'}",
+        "{'line': 635, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'log(\"SetActorPosition actor=\" + std::to_string(id) + \" waypoint=\" + waypoint + \" at=\" + std::to_string(at[0]) + \",\" + std::to_string(at[1]) +'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 68
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:SetIsActorTargetable:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "SetIsActorTargetable"
+      ],
+      "evidence_notes": [
+        "No linked current port evidence was recorded."
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 69
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "001_swamp.mlx"
+      ],
+      "blocker": "native:SetIsTargetable:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "SetIsTargetable"
+      ],
+      "evidence_notes": [
+        "{'line': 1325, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'log(\"SetIsTargetable(\" + std::string(runtime.targetable ? \"true\" : \"false\") + \") actor=\" + std::to_string(pair.first));'}",
+        "{'line': 255, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!anim_of(dive, next.dive_anim) || !contains(dive, \"SetIsTargetable(false)\")) return fail(error, \"dive state animation absent\");'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 70
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "native:SetProp:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "SetProp"
+      ],
+      "evidence_notes": [
+        "{'line': 31, 'source': 'port/level-world/character_skill_properties_v1.cpp'}",
+        "{'line': 33, 'source': 'port/level-world/character_skill_properties_v1.cpp'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 71
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "001_swamp.mlx"
+      ],
+      "blocker": "native:StopSound:PARTIAL",
+      "contract_page_state": "DONE",
+      "evidence_ids": [
+        "StopSound"
+      ],
+      "evidence_notes": [
+        "{'line': 23, 'path': 'port/level-world/generic_lua_script_owner_v13.cpp', 'source_line': '{\"OnTargetDied\",0x37ddc8},{\"PlayMusic\",0x37e420},{\"PlaySound\",0x37e578},{\"StopSound\",0x37e730}};'}",
+        "{'line': 286, 'path': 'port/windows-foundation/features/bosses/runtime_swampking_core_ai_v1.cpp', 'source_line': 'if (!music_call(body.at(vf.at(\"OnDied\")), \"StopSound\", next.died_stop_music, next.died_stop_fade_ms) ||'}",
+        "{'line': 739, 'path': 'port/windows-foundation/features/campaign_host/campaign_host.cpp', 'source_line': 'std::cout << \"[campaign] StopSound dispatch music=\" << sound.music << \" ordinal=\" << sound.ordinal << \" fade_ms=\" << sound.fade_ms'}",
+        "{'line': 742, 'path': 'port/windows-foundation/features/campaign_host/campaign_host.cpp', 'source_line': 'unsupported_.note(\"StopSound not applied: \" + detail);'}"
+      ],
+      "evidence_scope": "package_A_current_native_semantics_and_page_manifest",
+      "port_semantic_status": "PARTIAL",
+      "rank": 72
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:1a0d0cc511c9163a739a:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "1a0d0cc511c9163a739a"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 73
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:265295c4061cab949fe0:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "265295c4061cab949fe0"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 74
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:3832d1f36e0bd90d3097:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "3832d1f36e0bd90d3097"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 75
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:4d63798a1ed4c314e0c1:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "4d63798a1ed4c314e0c1"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 76
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:52157f2669c0310f9350:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "52157f2669c0310f9350"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 77
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "resource:540747edce9a74770cca:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "540747edce9a74770cca"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 78
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:5ecedcd8efc606b02e58:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "5ecedcd8efc606b02e58"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 79
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:6e569598d87ba6ab908d:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "6e569598d87ba6ab908d"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 80
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "015_red_desert_hub.mlx"
+      ],
+      "blocker": "resource:6e9c60091b388a4ad257:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "6e9c60091b388a4ad257"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 81
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "resource:6ea7803b569f5e0af593:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "6ea7803b569f5e0af593"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 82
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "resource:713549191b68eb4b07e1:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "713549191b68eb4b07e1"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 83
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "resource:7746c34e8f453d9773f3:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "7746c34e8f453d9773f3"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 84
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "015_red_desert_hub.mlx"
+      ],
+      "blocker": "resource:79c887844a69a59a8927:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "79c887844a69a59a8927"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 85
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:85fc61502fe36ed3cc30:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "85fc61502fe36ed3cc30"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 86
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "015_red_desert_hub.mlx"
+      ],
+      "blocker": "resource:88742fea94139317ddd9:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "88742fea94139317ddd9"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 87
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "resource:8db88b2a6a0d8ad2afd6:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "8db88b2a6a0d8ad2afd6"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 88
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "037_machine_rooms_01.mlx"
+      ],
+      "blocker": "resource:8e3b1c4ec828abe791af:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "8e3b1c4ec828abe791af"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 89
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "015_red_desert_hub.mlx"
+      ],
+      "blocker": "resource:9df08151d18934ff8a3d:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "9df08151d18934ff8a3d"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 90
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "resource:a2e0afbff4bd0063e824:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "a2e0afbff4bd0063e824"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 91
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:a9001063b9e14fae16c9:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "a9001063b9e14fae16c9"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 92
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "resource:ab533b4179bcb1a463bc:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "ab533b4179bcb1a463bc"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 93
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:b053c1a6a030ad6c7639:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "b053c1a6a030ad6c7639"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 94
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:b45a5b85a2083d9656d7:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "b45a5b85a2083d9656d7"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 95
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "resource:b6fd1b0aabd87cba4cf7:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "b6fd1b0aabd87cba4cf7"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 96
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "037_machine_rooms_01.mlx"
+      ],
+      "blocker": "resource:c06c29fe1f4e9e3bd4fc:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "c06c29fe1f4e9e3bd4fc"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 97
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "037_machine_rooms_01.mlx"
+      ],
+      "blocker": "resource:c10373beef91d717346e:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "c10373beef91d717346e"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 98
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "015_red_desert_hub.mlx"
+      ],
+      "blocker": "resource:c5c06a6d619f61afc134:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "c5c06a6d619f61afc134"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 99
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "037_machine_rooms_01.mlx"
+      ],
+      "blocker": "resource:d5984fd9abf5b5d2bf7d:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "d5984fd9abf5b5d2bf7d"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 100
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "038_dark_temple.mlx"
+      ],
+      "blocker": "resource:e7b581f1aba02fdcf25b:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "e7b581f1aba02fdcf25b"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 101
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "015_red_desert_hub.mlx"
+      ],
+      "blocker": "resource:e8fc49cc0fea078b72c4:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "e8fc49cc0fea078b72c4"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 102
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "resource:f27bb8b649db8250a61f:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "f27bb8b649db8250a61f"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 103
+    },
+    {
+      "blocked_scene_count": 1,
+      "blocked_scenes": [
+        "031_firetemple.mlx"
+      ],
+      "blocker": "resource:fda0ef1377025f9f9cd9:ORIGINAL_EXISTS_NOT_STAGED",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "classification_file": "r2/staging/classification/act_2_inferred/model-1d06a0.json",
+      "evidence_ids": [
+        "fda0ef1377025f9f9cd9"
+      ],
+      "evidence_notes": [
+        "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2."
+      ],
+      "evidence_scope": "package_B_current_classification_and_copy_selection",
+      "rank": 104
+    },
+    {
+      "blocked_scene_count": 39,
+      "blocked_scenes": [
+        "001_swamp.mlx",
+        "002_swamp_witchcave.rule.xml",
+        "003_darkwood.mlx",
+        "004_root_den.rule.xml",
+        "005_infectedvillage.mlx",
+        "006_basement.rule.xml",
+        "007_crypt_01.rule.xml",
+        "008_gothicus_castle_01.rule.xml",
+        "009_abbey.rule.xml",
+        "009a_abbey.mlx",
+        "010_el_lightning.rule.xml",
+        "011_earth_temple_01.rule.xml",
+        "012_earth_temple_02.rule.xml",
+        "013_earth_temple_03.rule.xml",
+        "014_el_earth.rule.xml",
+        "015_red_desert_hub.mlx",
+        "016_red_desert_cave_01.rule.xml",
+        "017_red_desert_cave_02.rule.xml",
+        "018_red_desert_cave_03.rule.xml",
+        "019_light_house_01.rule.xml",
+        "019_light_house_02.rule.xml",
+        "019_light_house_03.rule.xml",
+        "020_crypt_02.rule.xml",
+        "021_gothicus_castle_02.rule.xml",
+        "022_swamp2.rule.xml",
+        "022_swamp2_trollcave.rule.xml",
+        "023_watertemple.rule.xml",
+        "024_el_water.rule.xml",
+        "025_icy_hub.mlx",
+        "026_icy_cavern_01.rule.xml",
+        "027_icy_cavern_02.rule.xml",
+        "029_wind_temple.rule.xml",
+        "030_el_air.rule.xml",
+        "031_firetemple.mlx",
+        "032_el_fire.rule.xml",
+        "036_underworld_hub.mlx",
+        "037_machine_rooms_01.mlx",
+        "038_dark_temple.mlx",
+        "039_dark_temple_bossroom_01.mlx"
+      ],
+      "blocker": "Windows_production_runtime_verification",
+      "evidence_ids": [
+        "6b2f662bc32e54797884",
+        "f6ed60ebabd20b89aaf1",
+        "2e1304ff2c8ed98caa94",
+        "bf6ca7beefbed5a32c86",
+        "1ee09bcff06fac62bcc3",
+        "b392eb001343a839de27",
+        "00f4beec573704987fff",
+        "9e69404bebff0e9a7211",
+        "00d6b04d855fccf54bfd",
+        "b5c805e540ccbf63b432",
+        "fa629399ded8e23c4fb7",
+        "dedfd7d9431f2172275e",
+        "3ccb758ba39eee28aa87",
+        "45fe61c5ea04fd4f4dea",
+        "87474d560b2e8c1f85b5",
+        "145c9b75ecc0bcae66e0",
+        "5d5bf670c8e428777dbe",
+        "1670cdc190d298717e82",
+        "7cb216ae991b0f5391f8",
+        "b2b7ec3332bd71af7ff0",
+        "247b44fa30e0237397a6",
+        "7939d43105cf511cd73e",
+        "a763713c29120b2d03f7",
+        "2adb7adbe4e5653621e3",
+        "6ee863765454d115924d",
+        "a548290f261f5521bfe7",
+        "6add1b5bcc34b6249574",
+        "fc8f217aa6c8f4b41e89",
+        "4a600b19f18959411fdf",
+        "283f20b8e682c7f9b20a",
+        "9e6cb2d21b3bb5326d90",
+        "7bac2e2741f6bd3044a0",
+        "04afe51fc8b013539656",
+        "bf01948063f214749992",
+        "1803d31bc622e52e4ca3",
+        "a9e0f80e1d8689ad5593",
+        "9fc3c1a42c6b469bbf26",
+        "f5c436de2b255f87b02f",
+        "0995df95dc10822639cb"
+      ],
+      "evidence_notes": [
+        "No production-path runtime evidence; all 39 scene capabilities remain unverified."
+      ],
+      "evidence_scope": "per_scene_readiness_and_source_linked_dependencies",
+      "rank": 105
+    }
+  ],
+  "ranking_policy": "Rank actual A semantic and B classification blocker IDs by affected-scene reach; runtime proof is recorded once after source blockers. Static links do not imply runtime support.",
+  "scene_count": 39,
+  "schema": "atlas-r2-act2-blocker-reach-v1"
+}

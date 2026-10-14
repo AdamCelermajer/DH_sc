@@ -178,7 +178,7 @@ int main(int argc, char** argv) {
             const ActorId player = 1, monster = 2;
             const float heal = float(class_cells("Skill_Necromancer_CarrionEater", 2)[kTempProp1]) / 256.0f;
             check(heal > 0.0f, "CarrionEater TempProp1 must be positive at rank 2");
-            session.actor(1)->health = session.actor(1)->max_health - 3.0f * heal;
+            { std::string hp_error; check(session.world()->set_current_health(1, session.actor(1)->max_health - 3.0f * heal, hp_error), hp_error); }
             const float before = session.actor(1)->health;
             // A kill by someone else does nothing; a non-kill hit does nothing.
             bus.dispatch({monster, player, 0u, true});
@@ -187,8 +187,23 @@ int main(int argc, char** argv) {
             bus.dispatch({player, monster, 0u, true});
             check(std::fabs(session.actor(1)->health - (before + heal)) < 1e-3f,
                   "A player kill must heal TempProp1 at the rank (" + std::to_string(heal) + ")");
+            check(live(36) == std::int32_t(std::lround(session.actor(1)->health * 256.0f)),
+                  "Heal must go through the saved HP cell (the death-reward vital sync compares HP*256 with the property)");
+            {
+                const auto heals = passives.take_carrion_heals();
+                check(heals.size() == 1 && heals[0].rank == 2 && std::fabs(heals[0].heal - heal) < 1e-3f &&
+                          std::fabs(heals[0].before - before) < 1e-3f && std::fabs(heals[0].after - (before + heal)) < 1e-3f,
+                      "Exactly the player's own kill is recorded as a heal event (before/heal/after)");
+                check(passives.take_carrion_heals().empty(), "take_carrion_heals drains the list");
+            }
+            // Live damage reaches ActorState first (the property sheet lags until the next vital sync): the heal is
+            // computed from the actor HP, not from the stale property cell (real-run bug: hp 104.9 -> 166.8).
+            session.actor(1)->health -= 4.0f;
+            const float lagged = session.actor(1)->health;
+            bus.dispatch({player, monster, 0u, true});
+            check(std::fabs(session.actor(1)->health - (lagged + heal)) < 1e-3f, "Heal must start from the live actor HP");
             // Clamp: a heal larger than the missing HP fills to max.
-            session.actor(1)->health = session.actor(1)->max_health - 0.25f * heal;
+            { std::string hp_error; check(session.world()->set_current_health(1, session.actor(1)->max_health - 0.25f * heal, hp_error), hp_error); }
             bus.dispatch({player, monster, 0u, true});
             check(session.actor(1)->health == session.actor(1)->max_health, "Carrion Eater must clamp HP to max");
             check(live(36) == std::int32_t(session.actor(1)->max_health * 256.0f) || std::abs(live(36) - std::int32_t(session.actor(1)->max_health * 256.0f)) < 256,
@@ -285,8 +300,98 @@ int main(int argc, char** argv) {
             check(mirror.last_error().empty(), "Mirror must not raise a listener error: " + mirror.last_error());
         }
 
+        // ---- E2. Killing Streak (v21.8 berserker): a player kill adds the body (capacity 128) and the dummy (capacity 1) for
+        //         SnS_Cooldown ms; the second kill stacks the body and replaces the dummy ----
+        {
+            CombatResultEventBusV1 bus;
+            RuntimeEventPassiveOwnerV1 passives(buffs, properties.classes, rules, bus, 1);
+            passives.set_rank(EventPassiveKindV1::killing_streak, 2);
+            passives.bind(session);
+            const ActorId player = 1, monster = 2;
+            const auto row = class_cells("Skill_Berserk_KillingStreak", 2);
+            const double bufftime_ms = double(row[177]) / 256.0;
+            check(std::fabs(bufftime_ms - 5000.0) < 1e-6, "Killing Streak bufftime at rank 2 must be 4000 + 500 x 2 ms");
+            const auto before = buffs.active_count(1);
+            bus.dispatch({player, monster, 0u, false});
+            check(buffs.active_count(1) == before, "A non-killing hit must not start Killing Streak");
+            bus.dispatch({monster, player, 0u, true});
+            check(buffs.active_count(1) == before, "Only the player's own kill starts Killing Streak");
+            bus.dispatch({player, monster, 0u, true});
+            check(buffs.active_count(1) == before + 2, "A player kill must add the body and the dummy buff");
+            bus.dispatch({player, monster, 0u, true});
+            check(buffs.active_count(1) == before + 3, "A second kill stacks the body (capacity 128) and replaces the dummy (capacity 1)");
+            std::string streak_error;
+            check(buffs.advance(session, 4.9, streak_error) && buffs.active_count(1) == before + 3, "Killing Streak must last its bufftime");
+            check(buffs.advance(session, 0.2, streak_error) && buffs.active_count(1) == before, "Killing Streak must expire after SnS_Cooldown");
+            check(passives.last_error().empty(), "Killing Streak listener error: " + passives.last_error());
+        }
+
+        // ---- F. Ravager (v21.8 berserker): Damage_Bonus_TwoHand from rank 1; the two-hand-in-one-hand buff (cell 203) only from rank 7 ----
+        {
+            RuntimePassiveSkillOwnerV1 passives(buffs);
+            CharacterState state = make_default_character();
+            state.skills = {{"Ravager", 6}};
+            check(tables.skill_index("Ravager") >= 0, "SkillTable must know the Ravager dictionary name");
+            const auto base91 = live(91), base203 = live(203);
+            const auto r6 = class_cells("Skill_Berserk_Ravager", 6);
+            const auto flag7 = class_cells("Skill_Berserk_Ravager_buff", 7);
+            check(r6[91] > 0 && flag7[203] > 0, "Ravager rows must contribute at rank 6 and the flag at rank 7");
+            check(sync_stat_passive_ranks_v1(passives, session, 1, state, tables, error), error);
+            check(live(91) == base91 + r6[91], "Ravager rank 6 must add its two-hand damage bonus");
+            check(live(203) == base203, "Ravager rank 6 must not set the two-hand-in-one-hand flag (rank > 6 only)");
+            state.skills[0].rank = 7;
+            check(sync_stat_passive_ranks_v1(passives, session, 1, state, tables, error), error);
+            check(live(203) == base203 + flag7[203], "Ravager rank 7 must set the two-hand-in-one-hand flag");
+            state.skills[0].rank = 6;
+            check(sync_stat_passive_ranks_v1(passives, session, 1, state, tables, error) && live(203) == base203,
+                  "Ravager dropping to rank 6 must clear the flag");
+            state.skills[0].rank = 0;
+            check(sync_stat_passive_ranks_v1(passives, session, 1, state, tables, error) && live(91) == base91,
+                  "Ravager rank 0 must restore the two-hand damage cell");
+        }
+
+        // ---- G. Survival (v21.8 berserker): HP% < 35 on a hit the player takes arms the buff and an 8 s flag; the player's own
+        //         attacks do not; HP% >= 35 removes the buff ----
+        {
+            CombatResultEventBusV1 bus;
+            RuntimeEventPassiveOwnerV1 passives(buffs, properties.classes, rules, bus, 1);
+            passives.set_rank(EventPassiveKindV1::survival, 3);
+            passives.bind(session);
+            const ActorId player = 1, monster = 2;
+            float hp = 0.0f, maxhp = 0.0f;
+            check(session.world()->current_health(player, hp, maxhp) && maxhp > 0.0f, "Survival test needs the player's HP");
+            std::string hp_error;
+            const auto set_hp_percent = [&](float percent) {
+                check(session.world()->set_current_health(player, maxhp * percent / 100.0f, hp_error), hp_error);
+            };
+            const auto before = buffs.active_count(1);
+            set_hp_percent(100.0f);
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before && !passives.survival_flag(), "Full HP on a hit taken must not arm Survival");
+            set_hp_percent(30.0f);
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before + 1 && passives.survival_buff_active() && passives.survival_flag(),
+                  "HP below 35% on a hit taken must apply the Survival buff and set the flag");
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before + 1, "A second low hit while the flag is set must not stack Survival");
+            std::string survival_error;
+            check(passives.advance(session, 8.1, survival_error) && !passives.survival_flag(), "The Survival flag must clear after 8 s");
+            check(buffs.advance(session, 8.1, survival_error) && buffs.active_count(1) == before,
+                  "The Survival buff must expire with its 8000 ms duration");
+            bus.dispatch({player, monster, 0u, false});
+            check(buffs.active_count(1) == before, "The player's own attack at low HP must not arm Survival");
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before + 1, "A low hit after the flag cleared must re-arm Survival");
+            set_hp_percent(100.0f);
+            bus.dispatch({monster, player, 0u, false});
+            check(buffs.active_count(1) == before && !passives.survival_buff_active(),
+                  "HP at 35% or more must remove the Survival buff");
+            check(passives.last_error().empty(), "Survival listener error: " + passives.last_error());
+        }
+
         std::cout << "PASS event_passive_owner_v1: live stat-passive sync from SkillTable ranks (apply, idempotent, rank 0, reload), "
-                     "Killing Frenzy counter/timer/reset on bus hits, Carrion Eater kill heal with clamp\n";
+                     "Killing Frenzy counter/timer/reset on bus hits, Carrion Eater kill heal with clamp, Killing Streak stacking and "
+                     "expiry, Ravager rank-7 flag, Survival HP-threshold arm/flag/removal\n";
         return 0;
     } catch (const std::exception& ex) {
         std::cerr << "FAIL event_passive_owner_v1: " << ex.what() << '\n';

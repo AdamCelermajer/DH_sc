@@ -55,7 +55,7 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = 
      SkillUseTargetsV1::requery_at_use, 1000.0f, false, kSkillPiV1,
      SkillTargetSortV1::closest_first, false,
      false, false, false, nullptr, nullptr, false, true, 0.0f,
-     "sfx_skill_mage_ilu_nightmare", nullptr, nullptr, false, nullptr, nullptr, 0, &kFigmentsEnemyBuffV1, &kFigmentsEnemyStunV1},
+     "sfx_skill_mage_ilu_nightmare", nullptr, nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, &kFigmentsEnemyBuffV1, &kFigmentsEnemyStunV1},
     // prince_illusionist_eclipse.luac: OnPre TargetListSearch(RANGE 600, no angle, NoSort, AttackableOnly objects, Enemy) +
     // LookAt(top) + UseMana; no cooldown. OnSkill_ repeats the search, then per popped non-player Character: PlayFX(spell_...)
     // and the enemy CreateBuff/ApplyBuff. No Post, no roll (the buff is the whole effect).
@@ -65,7 +65,7 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = 
      SkillUseTargetsV1::requery_at_use, 600.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
      false, false, false, nullptr, nullptr, false, false, 0.0f,
-     nullptr, nullptr, "spell_dh2_prince_mage_illusionist_eclipse", true, nullptr, nullptr, 0, &kEclipseEnemyBuffV1, nullptr},
+     nullptr, nullptr, "spell_dh2_prince_mage_illusionist_eclipse", true, nullptr, nullptr, 0, nullptr, nullptr, &kEclipseEnemyBuffV1, nullptr},
     // prince_illusionist_timecontrol.luac: OnPre TargetListSearch(RANGE 1000, Enemy, AttackableOnly, ClosestFirst) + LookAt(top)
     // + SetSkillCooldown(SnS_Cooldown, 6000 fallback) + UseMana. OnSkill_ PlaySound(_hit), ApplyPropClass(caster), then the enemy
     // CreateBuff/ApplyBuff loop over Character targets that are not player, boss or miniboss. No roll, no Post.
@@ -75,7 +75,7 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = 
      SkillUseTargetsV1::requery_at_use, 1000.0f, false, kSkillPiV1,
      SkillTargetSortV1::closest_first, false,
      false, false, false, nullptr, nullptr, false, false, 0.0f,
-     "sfx_skill_mage_ilu_hold_time_hit", nullptr, nullptr, false, nullptr, nullptr, 0, &kTimeControlEnemyBuffV1, nullptr},
+     "sfx_skill_mage_ilu_hold_time_hit", nullptr, nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, &kTimeControlEnemyBuffV1, nullptr},
 };
 
 // Returns the subclass profile whose SkillTable (name, script) pair matches exactly, or nullptr.

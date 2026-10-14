@@ -31,6 +31,19 @@ constexpr StatPassiveScriptV1 kStatPassives[] = {
     {"prince_warrior_hardiness", "Skill_Warrior_Hardiness"},
     {"prince_warrior_potion_addict", "Skill_Warrior_PotionAddict"},
 };
+
+// v21.8 berserker: second authored CreateBuff of a stat passive, active only from a minimum rank. prince_berseeker_ravager.luac:
+// `if L > 6 then SetProp(Special_Equip_2H_In_One, ToFixed(L)); CreateBuff(Skill_Berserk_Ravager_buff, 0, false, L)`. The
+// buff sheet sets property 203 = L (two-hand weapon in one hand). Deviation: the Lua SetProp persists after a level drop
+// (OPEN-11); the buff is removed when the rank falls to 6 or below.
+struct ThresholdStatPassiveV1 {
+    const char* script;
+    const char* class_name;
+    std::uint32_t min_rank;
+};
+constexpr ThresholdStatPassiveV1 kThresholdStatPassives[] = {
+    {"prince_berseeker_ravager", "Skill_Berserk_Ravager_buff", 7},
+};
 } // namespace
 
 const char* stat_passive_class_for_script_v1(std::string_view script) {
@@ -58,6 +71,15 @@ bool sync_stat_passive_ranks_v1(RuntimePassiveSkillOwnerV1& owner, CombatSession
         row.class_name = class_name;
         row.source = "stat passive " + progress.id;
         if (!owner.set_rank(session, actor, row, progress.rank, error)) return false;
+        for (const auto& threshold : kThresholdStatPassives) {
+            if (records[static_cast<std::size_t>(index)].script != threshold.script) continue;
+            PassiveStatRowV1 gated;
+            gated.skill_key = progress.id + "#threshold";
+            gated.class_name = threshold.class_name;
+            gated.source = "stat passive " + progress.id + " (rank threshold)";
+            const std::uint32_t rank = progress.rank >= threshold.min_rank ? progress.rank : 0u;
+            if (!owner.set_rank(session, actor, gated, rank, error)) return false;
+        }
     }
     return true;
 }

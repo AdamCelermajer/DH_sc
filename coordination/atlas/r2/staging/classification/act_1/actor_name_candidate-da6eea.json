@@ -1,0 +1,123 @@
+{
+  "act": "act_1",
+  "count": 5,
+  "kind": "actor_name_candidate",
+  "rows": [
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match"
+      },
+      "kind": "actor_name_candidate",
+      "name": "DefaultFairy",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "820f6d444319152af1f9",
+      "reference_kind": "animated_character_object",
+      "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 FaeryBackFlip command[0] 24"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[3]=FaeryBackFlip/command[0]=Script_PlayActorAnim/field@24",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match"
+      },
+      "kind": "actor_name_candidate",
+      "name": "DefaultFairy",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "9bd5d25a2427e5dbc606",
+      "reference_kind": "animated_character_object",
+      "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 FaeryIdle command[0] 24"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[4]=FaeryIdle/command[0]=Script_PlayActorAnim/field@24",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match"
+      },
+      "kind": "actor_name_candidate",
+      "name": "DefaultFairy",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "c9801f2fbcdc524764d7",
+      "reference_kind": "animated_character_object",
+      "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 FaeryLoop command[0] 24"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[5]=FaeryLoop/command[0]=Script_PlayActorAnim/field@24",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match"
+      },
+      "kind": "actor_name_candidate",
+      "name": "DefaultFairy",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "f03e28007998f6201b73",
+      "reference_kind": "animated_character_object",
+      "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 FaeryTwist command[0] 24"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[6]=FaeryTwist/command[0]=Script_PlayActorAnim/field@24",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match"
+      },
+      "kind": "actor_name_candidate",
+      "name": "DefaultFairy",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "2822a1692839cc7758c2",
+      "reference_kind": "animated_character_object",
+      "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Faerycrazy command[0] 24"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[7]=Faerycrazy/command[0]=Script_PlayActorAnim/field@24",
+      "source_candidates": []
+    }
+  ],
+  "schema": "atlas-r2-staging-classification-shard-v1"
+}

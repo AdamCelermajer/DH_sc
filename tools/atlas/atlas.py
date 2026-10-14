@@ -305,7 +305,7 @@ def known_checks(ctx):
             checks.append({'name':name+' known-answer suite','passed':False,'detail':'Module has no known_checks(ctx).'})
     return checks
 
-def audit(ctx, include_sources=True):
+def audit(ctx, include_sources=True, write_result=True):
     errors=[]
     coverage={}
     sets={name:rows(ctx,name) for name in ('scripts','functions','calls','references','assets','levels','actors','bosses','tables')}
@@ -486,7 +486,8 @@ def audit(ctx, include_sources=True):
     for c in checks:
         if not c.get('passed'):errors.append('known answer failed: '+c.get('name','?')+' '+str(c.get('detail','')))
     report={'passed':not errors,'errors':errors,'coverage':coverage,'known_answers':checks}
-    write_json(ctx.out/'data/check.json',report)
+    if write_result:
+        write_json(ctx.out/'data/check.json',report)
     return report
 
 def report(ctx, check):
@@ -633,7 +634,11 @@ def main():
     ap.add_argument('--inputs')
     ap.add_argument('--port',type=int,default=18789)
     ap.add_argument('--json', action='store_true', help='Expand joined mob tables, references and calls as JSON')
+    ap.add_argument('--round2', action='store_true', help='Generate/check round-2 contracts, staging gaps and readiness without rewriting round-1 outputs')
     a=ap.parse_args();ctx=context(a.inputs)
+    if a.command in ('check','regen') and (a.round2 or (ctx.out/'r2/PROGRESS-R2.md').exists()):
+        import r2
+        return r2.regenerate(ctx) if a.command=='regen' else r2.check_command(ctx)
     if a.command=='serve':
         import explorer_server
         return explorer_server.run(ctx,a.port)

@@ -1,0 +1,40 @@
+{
+  "limit_bytes": 40000000,
+  "oversized_round1_files": [
+    {
+      "bytes": 466723460,
+      "path": "coordination/atlas/data/graph.json",
+      "sha256": "31a7b2f9d52e7b849de57d71ee3c75eecf76878369c9b13e57cf4a65971a96fe"
+    },
+    {
+      "bytes": 256903099,
+      "path": "coordination/atlas/data/references.json",
+      "sha256": "9845504b04b03282faa4f2fb2a91bf954ce2bda9d031b849cb0e96f230265b4a"
+    },
+    {
+      "bytes": 128754365,
+      "path": "coordination/atlas/data/mob-profiles.json",
+      "sha256": "7e6b57d938fab6cd53fff5bd446e32625f807ecd57ccfac6a4cf3524670d6860"
+    },
+    {
+      "bytes": 92960087,
+      "path": "coordination/atlas/data/packed-sites.json",
+      "sha256": "649c2adaf0cbf2770f713b3918cd953b367c4186cdd1cb7f2c736782d4ea6eb7"
+    },
+    {
+      "bytes": 72199016,
+      "path": "coordination/atlas/index.html",
+      "sha256": "63bfa45606ce50e3b795a9f1480a55c9672857d27dcdfecce6be5aca5c2f6854"
+    },
+    {
+      "bytes": 68719694,
+      "path": "coordination/atlas/data/references-extra.json",
+      "sha256": "1aec3c36b54e412ccf1a0ed1cdb3711fb6d387a3ecd44be1ba5525ce76f8408a"
+    },
+    {
+      "bytes": 63887735,
+      "path": "coordination/atlas/data/ui-text-index.json",
+      "sha256": "9607632b0d0300fb1cfec06bb9dcdc0eeeb1024f6c05b07666f87e98d1f21eb6"
+    }
+  ]
+}

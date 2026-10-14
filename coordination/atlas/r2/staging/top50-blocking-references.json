@@ -1,0 +1,969 @@
+{
+  "ranking": "unresolved/ambiguous/missing source states first, then number of recorded referrer chains",
+  "rows": [
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_Abbey",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "4bdd1dc5d33791a5ce35",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:123:attribute@3308:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_AbbeySafeZone2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "eea5debf02feb03cedb7",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:137:attribute@3651:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_Abbey",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "27fcd3a7fb59c573d524",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:148:attribute@3941:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_AbbeySafeZone2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "02700da19ad7904b29b8",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:162:attribute@4303:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_AbbeySafeZone",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "877f6fa4e67f1589ce55",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:215:attribute@5631:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "exitLocation_AbbeySafeZone",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "311cfac1ecc39f228a4a",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:216:attribute@5671:script_move_out"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_AbbeySafeZone2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "89b536f4546ed85c2e42",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:246:attribute@6518:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_Abbey",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "dfc3cff214acf60f92bd",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:33:attribute@820:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "Inspect_statue",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "219a556b2a63bd588606",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:490:attribute@12508:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MoveMonk1",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "34203ebb5ed45ae7c9bf",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:522:attribute@13348:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MoveMonk2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "eecb2c658ed15bcfcd8a",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:525:attribute@13411:script_move_out"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MonkLook1",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "d6b3b9444cf5893cbc5b",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:571:attribute@14557:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MonkLook2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "0ebf29eda4ac5c5a87be",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:572:attribute@14579:script_move_out"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MoveMonk3",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "271d36035c5781ee0e35",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:603:attribute@15353:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MoveMonk4",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "b5608f60eaac559aa4c4",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:642:attribute@16313:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_AbbeySafeZone2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "fb601e8c6759ed137959",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:755:attribute@19254:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_AbbeySafeZone2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "ba7f5967106ce04cea40",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:770:attribute@19628:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_AbbeySafeZone3",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "d25aa9f753bd198d3aa8",
+      "referrer_chains": [
+        "C module source 009a_abbey.mlx .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 009_abbey.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 010_el_lightning.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 014_el_earth.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 024_el_water.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 030_el_air.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "C source edge 009a_abbey.mlx -> 032_el_fire.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp:790:attribute@20192:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "TeleportTo_Level10bModule",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "45ecd1d0b742b1473c7c",
+      "referrer_chains": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C source edge 019_light_house_02.rule.xml -> 019_light_house_03.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_03.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp:24:attribute@583:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "script_name",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "2ffee1e6da558ce848e3",
+      "referrer_chains": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C source edge 019_light_house_02.rule.xml -> 019_light_house_03.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_03.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv02_close_01_01.mgp:309:attribute@8522:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "TeleportTo_Level5bModule",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "129f6bdeb05c0f861e9a",
+      "referrer_chains": [
+        "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp:24:attribute@582:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "script_name",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "60c2645cd0aab9b9f537",
+      "referrer_chains": [
+        "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_01.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp:430:attribute@11687:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "TeleportTo_Level8aModule",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "05a459ab746f182dae4e",
+      "referrer_chains": [
+        "C module source 019_light_house_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "C source edge 019_light_house_02.rule.xml -> 019_light_house_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 019_light_house_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv07_open_02_01.mgp:68:attribute@1636:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_LightHouse",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "d1381a2e52acd2656fc6",
+      "referrer_chains": [
+        "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_01.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp:33:attribute@830:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "TeleportTo_Level3aModule",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "2f0f07bd90dbcf133488",
+      "referrer_chains": [
+        "C module source 019_light_house_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C module source 019_light_house_03.rule.xml .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_01.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "C source edge 019_light_house_03.rule.xml -> 015_red_desert_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp:51:attribute@1287:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "script_name",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "d616c2d48f379d8bab1a",
+      "referrer_chains": [
+        "C module source 038_dark_temple.mlx .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "C source edge 038_dark_temple.mlx -> 036_underworld_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "C source edge 038_dark_temple.mlx -> 039_dark_temple_bossroom_01.mlx via .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp:133:attribute@3348:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "Assassin_start",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "85e231b536c7f46ef8f7",
+      "referrer_chains": [
+        "C module source 038_dark_temple.mlx .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "C source edge 038_dark_temple.mlx -> 036_underworld_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "C source edge 038_dark_temple.mlx -> 039_dark_temple_bossroom_01.mlx via .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp:35:attribute@895:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "Teleport_room",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "fa5105a4be351279e91f",
+      "referrer_chains": [
+        "C module source 038_dark_temple.mlx .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "C source edge 038_dark_temple.mlx -> 036_underworld_hub.mlx via .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "C source edge 038_dark_temple.mlx -> 039_dark_temple_bossroom_01.mlx via .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp:64:attribute@1627:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MoveRene",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "d87df557913c57577a53",
+      "referrer_chains": [
+        "C module source 003_darkwood.mlx .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "C source edge 003_darkwood.mlx -> 007_crypt_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "C source edge 003_darkwood.mlx -> 020_crypt_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp:149:attribute@4173:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MoveRene",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "e5f62f62e8a20ec4956d",
+      "referrer_chains": [
+        "C module source 003_darkwood.mlx .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "C source edge 003_darkwood.mlx -> 007_crypt_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "C source edge 003_darkwood.mlx -> 020_crypt_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp:173:attribute@4764:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MoveEddie",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "e01b168c2d790e5fb975",
+      "referrer_chains": [
+        "C module source 003_darkwood.mlx .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "C source edge 003_darkwood.mlx -> 007_crypt_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "C source edge 003_darkwood.mlx -> 020_crypt_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp:226:attribute@6092:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "MoveEddie",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "b71614be7cdf9bbcd5c3",
+      "referrer_chains": [
+        "C module source 003_darkwood.mlx .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "C source edge 003_darkwood.mlx -> 007_crypt_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "C source edge 003_darkwood.mlx -> 020_crypt_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp:265:attribute@7048:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "Ambush",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "0ac054d5df84cd43d898",
+      "referrer_chains": [
+        "C module source 005_infectedvillage.mlx .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+        "C source edge 005_infectedvillage.mlx -> 003_darkwood.mlx via .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+        "C source edge 005_infectedvillage.mlx -> 006_basement.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp:383:attribute@10615:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "WanderingA1",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "020dd4d01fbca729e170",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:301:attribute@7753:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "WanderingA2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "979ac9d0cde1111fabaa",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:302:attribute@7777:script_move_out"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "WanderingB2",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "df869bb94fe849fa9020",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:319:attribute@8220:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "WanderingB1",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "af41feb43c2ce123d72c",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:320:attribute@8244:script_move_out"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "WanderingPairA",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "e20d2394e6da3348e355",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:347:attribute@8925:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "WanderingPairB",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "dde54893a5f4c3b3b58b",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:348:attribute@8952:script_move_out"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "script_name",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "a2961eea6e37ed6f8016",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:46:attribute@1208:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "script_name",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "0ef7289bae0fd0e93017",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:58:attribute@1498:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_Sandwalker_Village",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "2dd26749cf50543b1821",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:76:attribute@1949:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "exitLocation_Sandwalker_Village",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "9ce7e1e3a0d256d11519",
+      "referrer_chains": [
+        "C module source 015_red_desert_hub.mlx .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 016_red_desert_cave_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "C source edge 015_red_desert_hub.mlx -> 017_red_desert_cave_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp:77:attribute@1994:script_move_out"
+    },
+    {
+      "act": "act_1",
+      "classification": "UNRESOLVED",
+      "confidence": "LIKELY",
+      "kind": "texture",
+      "name": null,
+      "port_candidates": [
+        "data/3d/textures/atlas_fx_particles_001.tga",
+        "data/3d/interface/data/3d/textures/atlas_fx_particles_001.tga",
+        "original-cache/data/3d/textures/atlas_fx_particles_001.tga",
+        "textures/atlas_fx_particles_001.tga",
+        "original-cache/textures/atlas_fx_particles_001.tga",
+        "data/3d/textures/pvr2_atlas_fx_particles_001.tga",
+        "data/3d/interface/data/3d/textures/pvr2_atlas_fx_particles_001.tga",
+        "original-cache/data/3d/textures/pvr2_atlas_fx_particles_001.tga",
+        "textures/pvr2_atlas_fx_particles_001.tga",
+        "original-cache/textures/pvr2_atlas_fx_particles_001.tga"
+      ],
+      "reason": "Serialized/file-like text is present, but its consumer role is not proven; matching files are diagnostic candidates only.",
+      "reference_id": "94837c4210e4c00d645b",
+      "referrer_chains": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> owned script reference",
+        "Prince player skill row owned by knightberserker -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/interface/skill_prince_mage_summoned_minion.bdae:string@0x3fc"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "LIKELY",
+      "kind": "texture",
+      "name": null,
+      "port_candidates": [
+        "data/3d/textures/atlas_fx_particles_001.tga",
+        "data/3d/interface/data/3d/textures/atlas_fx_particles_001.tga",
+        "original-cache/data/3d/textures/atlas_fx_particles_001.tga",
+        "textures/atlas_fx_particles_001.tga",
+        "original-cache/textures/atlas_fx_particles_001.tga",
+        "data/3d/textures/pvr2_atlas_fx_particles_001.tga",
+        "data/3d/interface/data/3d/textures/pvr2_atlas_fx_particles_001.tga",
+        "original-cache/data/3d/textures/pvr2_atlas_fx_particles_001.tga",
+        "textures/pvr2_atlas_fx_particles_001.tga",
+        "original-cache/textures/pvr2_atlas_fx_particles_001.tga"
+      ],
+      "reason": "Serialized/file-like text is present, but its consumer role is not proven; matching files are diagnostic candidates only.",
+      "reference_id": "94837c4210e4c00d645b",
+      "referrer_chains": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> owned script reference",
+        "Prince player skill row owned by knightberserker -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/interface/skill_prince_mage_summoned_minion.bdae:string@0x3fc"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "script_name",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "6329c43ed42cc8c0d888",
+      "referrer_chains": [
+        "C module source 021_gothicus_castle_02.rule.xml .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp",
+        "C source edge 021_gothicus_castle_02.rule.xml -> 007_crypt_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp:168:attribute@4101:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "script_name",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "e2ffe5a18583887889e1",
+      "referrer_chains": [
+        "C module source 009_abbey.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp",
+        "C source edge 009_abbey.rule.xml -> 009a_abbey.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp:31:attribute@808:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "enterLocation_Abbey_Dungeon",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "0450cea2f0f1168654ad",
+      "referrer_chains": [
+        "C module source 009_abbey.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp",
+        "C source edge 009_abbey.rule.xml -> 009a_abbey.mlx via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp",
+        "scene module source .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp:51:attribute@1287:script"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "Gate2Open",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "8f5b78efe4b6e5a74b1a",
+      "referrer_chains": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp:103:attribute@2531:scriptOff"
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "UNRESOLVED",
+      "confidence": "PROVEN",
+      "kind": "script",
+      "name": "GhostAmbush01",
+      "port_candidates": [],
+      "reason": "This MGP/XML script attribute names a script symbol, but no exact source-bank row or loaded-file relation was proven for this object site. Other campaign/script-bank rows in scope do not establish that this name resolves here.",
+      "reference_id": "2a419e34d1898cc37bb8",
+      "referrer_chains": [
+        "C module source 007_crypt_01.rule.xml .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 008_gothicus_castle_01.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+        "C source edge 007_crypt_01.rule.xml -> 021_gothicus_castle_02.rule.xml via .local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp:352:attribute@8970:script"
+    }
+  ],
+  "schema": "atlas-r2-staging-top-blockers-v1",
+  "total_blocking_pairs": 6865
+}

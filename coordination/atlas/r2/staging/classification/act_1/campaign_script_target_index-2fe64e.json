@@ -1,0 +1,1988 @@
+{
+  "act": "act_1",
+  "count": 55,
+  "kind": "campaign_script_target_index",
+  "rows": [
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "dabfc5918a9484a53e7d",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Camp_Intro command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[0]=Camp_Intro/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "6b4730e859ea3c890fc8",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Camp_Intro command[28] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[0]=Camp_Intro/command[28]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "80975d7a38f008707af3",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizBlood_Activate command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[12]=LizBlood_Activate/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "7f226b75ee97dc44506d",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizBlood_Activate command[16] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[12]=LizBlood_Activate/command[16]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "874e738647f480c92ed6",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizBlood_PostAccept command[4] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[13]=LizBlood_PostAccept/command[4]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "5edff03ff7859eba3f17",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizCaptain_Intro command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[14]=LizCaptain_Intro/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "dc12cee284a9cf638e1c",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizCaptain_Intro command[22] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[14]=LizCaptain_Intro/command[22]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "b4fe6c0275cf10a3f2fa",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizardMan_Intro command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[17]=LizardMan_Intro/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "afbcc033eea6727de984",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 LizardMan_Intro command[10] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[17]=LizardMan_Intro/command[10]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "519be4e61ca590bbe999",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 MothIntro command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[18]=MothIntro/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "dc9d0d22b0cab2ed121a",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 MothIntro command[22] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[18]=MothIntro/command[22]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "0492d80f323a3ef0eed2",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "e22a40771641226357f5",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 CombatTuto command[23] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[1]=CombatTuto/command[23]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "0e307f04dba7b21bef05",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Movement_Tuto2 command[16] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[20]=Movement_Tuto2/command[16]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "c80e44817fd37a935ad9",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Movement_Tuto2 command[1] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[20]=Movement_Tuto2/command[1]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "1ece254d03c9486cab8b",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp2_Intro command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[24]=Swamp2_Intro/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "95a1196b3007fb30d1ff",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp2_Intro command[18] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[24]=Swamp2_Intro/command[18]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "659f58a23d01aff67359",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerB_a command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[25]=Swamp_Camp_PrisonerB_a/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "a6efe844f85453c47659",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerB_a command[11] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[25]=Swamp_Camp_PrisonerB_a/command[11]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "782b414638b477b1d6a0",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerB_b command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[26]=Swamp_Camp_PrisonerB_b/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "dcf90cf90dff219e573c",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerB_b command[7] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[26]=Swamp_Camp_PrisonerB_b/command[7]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "cc5512312aa6d1b7567c",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerC_a command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[27]=Swamp_Camp_PrisonerC_a/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "44e28a97ac97ff59ab68",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerC_a command[7] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[27]=Swamp_Camp_PrisonerC_a/command[7]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "b482381f56843c4ae9ca",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerC_b command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[28]=Swamp_Camp_PrisonerC_b/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "27e48e1b002156eba375",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerC_b command[10] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[28]=Swamp_Camp_PrisonerC_b/command[10]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "58da29fdf8aab42fc85d",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerE_a command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[29]=Swamp_Camp_PrisonerE_a/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "547ce647accfce5f6ec1",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Camp_PrisonerE_a command[9] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[29]=Swamp_Camp_PrisonerE_a/command[9]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "21f74f05769a47e70372",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Door_Inspection_South command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[2]=Door_Inspection_South/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "4f367e455c40573e067c",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Door_Inspection_South command[12] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[2]=Door_Inspection_South/command[12]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "843a96349b679270f399",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "71be9474c98f5191e4de",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[163] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[163]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "fbd4f1209c79feb37d77",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "3b1561ce3ced502afb9d",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[103] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[103]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "c0a8346152233c1002ae",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "6d172f039e67686e2b60",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[112] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[112]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "66545469f5c231ae4835",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "b1f38828286c57d1fd43",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Witch_Activate command[28] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[33]=Swamp_Witch_Activate/command[28]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "570213a26376341b7bfc",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 TrollReturn command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[37]=TrollReturn/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "509069ffa7a6297fb7ab",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 TrollReturn command[18] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[37]=TrollReturn/command[18]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "0668cf6596c63e8292a5",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "60e8cf1d33617146037a",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Tutorial_Merchant command[21] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[38]=Tutorial_Merchant/command[21]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "4a786335684e322b1ce5",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 chest_tuto command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[39]=chest_tuto/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "5108ece99707e0f0f27e",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 chest_tuto command[15] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[39]=chest_tuto/command[15]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "25170f934074ee9c303e",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_levelUp command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[40]=cinematic_Tuto_levelUp/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "9a4fe4262625056aac74",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_levelUp command[13] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[40]=cinematic_Tuto_levelUp/command[13]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "41c8458c55d7ee58995a",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_potionUse command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[41]=cinematic_Tuto_potionUse/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "fc5373acf8b6260748ab",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 cinematic_Tuto_potionUse command[15] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[41]=cinematic_Tuto_potionUse/command[15]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "b0d71d19425794c029d3",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Return_Cinematic command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[16]=Return_Cinematic/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "620007645ba2144f2a76",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Return_Cinematic command[19] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[16]=Return_Cinematic/command[19]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "5c133ef8b9da92525a14",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Epic_hello command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[1]=Epic_hello/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "5428503590e4596e73e6",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Epic_hello command[14] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[1]=Epic_hello/command[14]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "8c5d738059f14466d699",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 WitchTeleport command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[20]=WitchTeleport/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "5c1f99b26a07b555e1b0",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 WitchTeleport command[18] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[20]=WitchTeleport/command[18]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "15aae244e2be74ba779f",
+            "index": 1,
+            "manager_script_index": 1,
+            "name": "BeginScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "1",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "d6720420596cd62ba1f2",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Intro_Witch command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[3]=Intro_Witch/command[0]=Script_ExecScript/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "command_count": 8,
+            "definition_evidence": "Exact decoded global name/command pair, loaded before the configured level script bank.",
+            "id": "f2927738bd6aa0394cf0",
+            "index": 3,
+            "manager_script_index": 3,
+            "name": "EndScriptedCutScene",
+            "source_commands": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscripts.bin",
+            "source_file": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "source_names": ".local-inputs/assets-extra/android/data/pydata/scripts_pyscriptnames.bin",
+            "type": "global_campaign_script"
+          }
+        ],
+        "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET"
+      },
+      "kind": "campaign_script_target_index",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "CAMPAIGN_EXEC_SCRIPT_TARGET identifies a callback, transition, condition, or table index; it is not an independent file path.",
+      "reason_code": null,
+      "reference_id": "9586acf3f4944cffe9ee",
+      "reference_kind": "absolute_script_target",
+      "rule": "CAMPAIGN_EXEC_SCRIPT_TARGET",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Intro_Witch command[66] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[3]=Intro_Witch/command[66]=Script_ExecScript/field@12",
+      "source_candidates": []
+    }
+  ],
+  "schema": "atlas-r2-staging-classification-shard-v1"
+}

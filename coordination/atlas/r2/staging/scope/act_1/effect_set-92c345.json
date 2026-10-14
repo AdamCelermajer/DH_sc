@@ -1,0 +1,2779 @@
+{
+  "act": "act_1",
+  "count": 57,
+  "kind": "effect set",
+  "rows": [
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 110,
+        "table": "character_properties#group0"
+      },
+      "id": "6ab904ad47faeeeb837b",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "6ab904ad47faeeeb837b",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=110].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 150,
+        "table": "character_properties#group0"
+      },
+      "id": "757608ac3f8529d1eb6a",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "757608ac3f8529d1eb6a",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 150 Epic_merchant_swamp (182ca511b74b336a5f8d); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=150].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 294,
+        "table": "character_properties#group0"
+      },
+      "id": "e66412c4e923d0afa311",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "e66412c4e923d0afa311",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 294 NPCmerchantCamp (b35c45d342195815c1ba); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=294].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 296,
+        "table": "character_properties#group0"
+      },
+      "id": "5ad8d79eee225e897704",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "5ad8d79eee225e897704",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 296 Prisonier (9ec6aeb5ab0c12d7a056); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=296].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 297,
+        "table": "character_properties#group0"
+      },
+      "id": "83b84a1f9f77b6b02de4",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "83b84a1f9f77b6b02de4",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 297 Prisonier2 (01ed68f07c7770cccd16); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=297].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 323,
+        "table": "character_properties#group0"
+      },
+      "id": "4de4952bce9163f9ad2d",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "4de4952bce9163f9ad2d",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=323].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 349,
+        "table": "character_properties#group0"
+      },
+      "id": "cb4a54c14f6b5198a51a",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "cb4a54c14f6b5198a51a",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 349 Slime (c052441fdd99de0663f8); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=349].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 358,
+        "table": "character_properties#group0"
+      },
+      "id": "5dbd125e0e591c90ff64",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "5dbd125e0e591c90ff64",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 358 SwampKing (debe3161f75f83cfc4a0); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=358].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 359,
+        "table": "character_properties#group0"
+      },
+      "id": "4d01b8cc02acab72c3d2",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "4d01b8cc02acab72c3d2",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 359 Swamp_ActorTroll (85e3752f001d5903f863); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=359].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 360,
+        "table": "character_properties#group0"
+      },
+      "id": "e2a20af5513106bf0c08",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "e2a20af5513106bf0c08",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 360 Swamp_LizadMan_Type1 (4857e9afd486029389df); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=360].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 362,
+        "table": "character_properties#group0"
+      },
+      "id": "c31d6357576720db196b",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "c31d6357576720db196b",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 362 Swamp_LizadMan_Type2 (32a6018452d04659b538); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=362].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 363,
+        "table": "character_properties#group0"
+      },
+      "id": "2ea0b85f596dfdbb1a32",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "2ea0b85f596dfdbb1a32",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 363 Swamp_LizadMan_Type3 (d247470ac9c21be0bc4e); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=363].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 364,
+        "table": "character_properties#group0"
+      },
+      "id": "0824270c7ca72eda81dd",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "0824270c7ca72eda81dd",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 364 Swamp_MerchantCamp_NPC_A (947922c76e6510899ab0); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=364].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 365,
+        "table": "character_properties#group0"
+      },
+      "id": "5bd3d89fad604509efa4",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "5bd3d89fad604509efa4",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 365 Swamp_MerchantCamp_NPC_B (72fca2c25f55b40c4d82); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=365].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 366,
+        "table": "character_properties#group0"
+      },
+      "id": "a1bc0995a987f8dbb091",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "a1bc0995a987f8dbb091",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 366 Swamp_MerchantCamp_NPC_C (21318615b56fef370891); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=366].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 373,
+        "table": "character_properties#group0"
+      },
+      "id": "76a6ae0bbdca707f9157",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "76a6ae0bbdca707f9157",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 373 Swamp_MovieMoth (b298df8fe9d963b41e6c); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=373].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 374,
+        "table": "character_properties#group0"
+      },
+      "id": "12d9ef68f91931a71670",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "12d9ef68f91931a71670",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 374 Swamp_SnackMan (a2c77cc142e62db476d1); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=374].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 383,
+        "table": "character_properties#group0"
+      },
+      "id": "d4f6d4cc684b15c2735e",
+      "kind": "effect set",
+      "name": "1",
+      "reason": null,
+      "reference_id": "d4f6d4cc684b15c2735e",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 79,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 0
+              }
+            },
+            "index": 1,
+            "name": "DefaultMonster",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 383 Troll (5aa52bd105935c0a1b76); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=383].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 418,
+        "table": "character_properties#group0"
+      },
+      "id": "7c5d831542890de66f62",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "7c5d831542890de66f62",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 418 WanderingEddie (2845e42f9cfb1f916815); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=418].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 419,
+        "table": "character_properties#group0"
+      },
+      "id": "8fc35393a6c301890232",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "8fc35393a6c301890232",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 419 WanderingPriest (893b2e8fb38716fa20a8); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=419].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 435,
+        "table": "character_properties#group0"
+      },
+      "id": "21e754e546f6730c0bf4",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "21e754e546f6730c0bf4",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 435 Witch (493d2e115ad25e84db5e); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=435].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 444,
+        "table": "character_properties#group0"
+      },
+      "id": "ce19cd030d2fb2eb7bb4",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "ce19cd030d2fb2eb7bb4",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 444 zKill5Lizman_Post (ffced55104feb850c42e); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=444].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Effects",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 97,
+        "table": "character_properties#group0"
+      },
+      "id": "fb5688c5760f6a00b44c",
+      "kind": "effect set",
+      "name": "0",
+      "reason": null,
+      "reference_id": "fb5688c5760f6a00b44c",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "BloodDeathEffect": -1,
+                "BloodEffect": 80,
+                "FootprintEffect": -1,
+                "SwooshEffect": -1,
+                "TriggerFloorFX": 1
+              }
+            },
+            "index": 0,
+            "name": "Default",
+            "table": "character_effects"
+          },
+          "table": "character_effects",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Effects",
+      "scope_reasons": [
+        "CharacterProperties row 97 DefaultFairy (fc65221a5384c667d68a); membership act_1 -> Effects"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=97].Effects",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a95dd3c11aaaa3a8e99a",
+      "kind": "effect set",
+      "name": "165",
+      "reason": null,
+      "reference_id": "a95dd3c11aaaa3a8e99a",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 144,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 165,
+            "name": "skill_dh2_prince_warrior_berseker_berserk",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[165]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=8].Anim -> pydata/animations_pyarray.bin[sequence=339,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=339,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "9a7b1e64830ad3a22c6f",
+      "kind": "effect set",
+      "name": "168",
+      "reason": null,
+      "reference_id": "9a7b1e64830ad3a22c6f",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 147,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 168,
+            "name": "skill_dh2_prince_warrior_berseker_intimidate",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[168]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=55].Anim -> pydata/animations_pyarray.bin[sequence=340,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=340,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8c3746761768a219e8f8",
+      "kind": "effect set",
+      "name": "171",
+      "reason": null,
+      "reference_id": "8c3746761768a219e8f8",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 150,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 171,
+            "name": "skill_dh2_prince_warrior_berseker_whirling_drift",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[171]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=116].Anim -> pydata/animations_pyarray.bin[sequence=341,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=341,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "61a298e91074baf2983d",
+      "kind": "effect set",
+      "name": "174",
+      "reason": null,
+      "reference_id": "61a298e91074baf2983d",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 153,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 174,
+            "name": "skill_dh2_prince_warrior_paladin_divine_judgement",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[174]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=28].Anim -> pydata/animations_pyarray.bin[sequence=342,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=342,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "dcfd995c7b67f35f4f47",
+      "kind": "effect set",
+      "name": "164",
+      "reason": null,
+      "reference_id": "dcfd995c7b67f35f4f47",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 143,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 164,
+            "name": "skill_dh2_prince_warrior_bash_down",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[164]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=7].Anim -> pydata/animations_pyarray.bin[sequence=347,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=347,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5775123c239917a00aa0",
+      "kind": "effect set",
+      "name": "172",
+      "reason": null,
+      "reference_id": "5775123c239917a00aa0",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 151,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 172,
+            "name": "skill_dh2_prince_warrior_charge",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[172]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=13].Anim -> pydata/animations_pyarray.bin[sequence=349,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=349,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "86db7a9530d53d1788bd",
+      "kind": "effect set",
+      "name": "173",
+      "reason": null,
+      "reference_id": "86db7a9530d53d1788bd",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 152,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 173,
+            "name": "skill_dh2_prince_warrior_ground_slam",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[173]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=51].Anim -> pydata/animations_pyarray.bin[sequence=350,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=350,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3cb48054f84944c959b2",
+      "kind": "effect set",
+      "name": "150",
+      "reason": null,
+      "reference_id": "3cb48054f84944c959b2",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 122,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067030938,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 150,
+            "name": "skill_dh2_prince_mage_cold_ray",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[150]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=14].Anim -> pydata/animations_pyarray.bin[sequence=413,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=413,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4b999c9db2a1655c02f3",
+      "kind": "effect set",
+      "name": "151",
+      "reason": null,
+      "reference_id": "4b999c9db2a1655c02f3",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 123,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 151,
+            "name": "skill_dh2_prince_mage_cyclone",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[151]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=19].Anim -> pydata/animations_pyarray.bin[sequence=414,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=414,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a53c06a028ae45e2fbf8",
+      "kind": "effect set",
+      "name": "156",
+      "reason": null,
+      "reference_id": "a53c06a028ae45e2fbf8",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 129,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 156,
+            "name": "skill_dh2_prince_necromancer_deathclaw",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[156]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=26].Anim -> pydata/animations_pyarray.bin[sequence=415,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=415,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "b9f89e95076f5d6b4620",
+      "kind": "effect set",
+      "name": "152",
+      "reason": null,
+      "reference_id": "b9f89e95076f5d6b4620",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 124,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 152,
+            "name": "skill_dh2_prince_mage_illusionist_eclipse",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[152]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=30].Anim -> pydata/animations_pyarray.bin[sequence=416,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=416,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "0c01283d950fd4f06096",
+      "kind": "effect set",
+      "name": "147",
+      "reason": null,
+      "reference_id": "0c01283d950fd4f06096",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 126,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 147,
+            "name": "skill_dh2_prince_illusionist_figments",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[147]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=45].Anim -> pydata/animations_pyarray.bin[sequence=417,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=417,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "74477c292cc9313adce4",
+      "kind": "effect set",
+      "name": "157",
+      "reason": null,
+      "reference_id": "74477c292cc9313adce4",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 130,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 157,
+            "name": "skill_dh2_prince_necromancer_fireskullrain",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[157]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=47].Anim -> pydata/animations_pyarray.bin[sequence=418,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=418,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4935ccd11e73c601ea01",
+      "kind": "effect set",
+      "name": "158",
+      "reason": null,
+      "reference_id": "4935ccd11e73c601ea01",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 131,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 158,
+            "name": "skill_dh2_prince_necromancer_pestilence",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[158]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=81].Anim -> pydata/animations_pyarray.bin[sequence=421,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=421,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a5e372b267234ac309c3",
+      "kind": "effect set",
+      "name": "159",
+      "reason": null,
+      "reference_id": "a5e372b267234ac309c3",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 132,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 159,
+            "name": "skill_dh2_prince_necromancer_rise",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[159]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=93].Anim -> pydata/animations_pyarray.bin[sequence=422,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=422,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "9396fc651cae435ad288",
+      "kind": "effect set",
+      "name": "148",
+      "reason": null,
+      "reference_id": "9396fc651cae435ad288",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 127,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 148,
+            "name": "skill_dh2_prince_illusionist_terror",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[148]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=110].Anim -> pydata/animations_pyarray.bin[sequence=424,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=424,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5bdd449bf443fe51ba6a",
+      "kind": "effect set",
+      "name": "149",
+      "reason": null,
+      "reference_id": "5bdd449bf443fe51ba6a",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 128,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 149,
+            "name": "skill_dh2_prince_illusionist_timecontrol",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[149]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=111].Anim -> pydata/animations_pyarray.bin[sequence=425,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=425,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "be323ec40510005b7ee2",
+      "kind": "effect set",
+      "name": "142",
+      "reason": null,
+      "reference_id": "be323ec40510005b7ee2",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 135,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1066192077,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 142,
+            "name": "skill_dh2_assassin_assassination",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[142]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=5].Anim -> pydata/animations_pyarray.bin[sequence=517,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=517,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "abc424dcfc5774d8880f",
+      "kind": "effect set",
+      "name": "143",
+      "reason": null,
+      "reference_id": "abc424dcfc5774d8880f",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 136,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1066192077,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 143,
+            "name": "skill_dh2_assassin_blindness",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[143]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=9].Anim -> pydata/animations_pyarray.bin[sequence=518,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=518,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8ccb3af0fef7cdf4dc77",
+      "kind": "effect set",
+      "name": "144",
+      "reason": null,
+      "reference_id": "8ccb3af0fef7cdf4dc77",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 137,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1066192077,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 144,
+            "name": "skill_dh2_assassin_poison_sting",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[144]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=85].Anim -> pydata/animations_pyarray.bin[sequence=520,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=520,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "6af5e9555b2dbbfb8e26",
+      "kind": "effect set",
+      "name": "160",
+      "reason": null,
+      "reference_id": "6af5e9555b2dbbfb8e26",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 139,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1066192077,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 160,
+            "name": "skill_dh2_prince_rogue_jump_kick",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[160]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=56].Anim -> pydata/animations_pyarray.bin[sequence=521,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=521,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "be53a21354701b9c68bc",
+      "kind": "effect set",
+      "name": "161",
+      "reason": null,
+      "reference_id": "be53a21354701b9c68bc",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 140,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1066192077,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 161,
+            "name": "skill_dh2_prince_rogue_quickness",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[161]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=90].Anim -> pydata/animations_pyarray.bin[sequence=524,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=524,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ce5bf26810208982a281",
+      "kind": "effect set",
+      "name": "162",
+      "reason": null,
+      "reference_id": "ce5bf26810208982a281",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 141,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1066192077,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 162,
+            "name": "skill_dh2_prince_rogue_roundhouse",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[162]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=97].Anim -> pydata/animations_pyarray.bin[sequence=525,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=525,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "06223b96631b1aadf0f6",
+      "kind": "effect set",
+      "name": "163",
+      "reason": null,
+      "reference_id": "06223b96631b1aadf0f6",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 142,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1066192077,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 163,
+            "name": "skill_dh2_prince_rogue_vicious_strike",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[163]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=114].Anim -> pydata/animations_pyarray.bin[sequence=528,step=0].FX"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=528,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "fa4e53a8e03186881793",
+      "kind": "effect set",
+      "name": "77",
+      "reason": null,
+      "reference_id": "fa4e53a8e03186881793",
+      "resolves_to": [
+        {
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 283,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 1,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 77,
+            "name": "Zombie_spawn",
+            "table": "effect_sets"
+          },
+          "status": "RESOLVED",
+          "table": "EffectsTables[77]",
+          "type": "source-table-cell"
+        }
+      ],
+      "rule": "AnimStep field schema in animation_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/animations_pyarray.bin[sequence=600,step=0].FX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "df34bf9353fa8b7f7363",
+      "kind": "effect set",
+      "name": "79",
+      "reason": null,
+      "reference_id": "df34bf9353fa8b7f7363",
+      "resolves_to": [
+        {
+          "index": 79,
+          "name": "bloodsplat",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 3,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 79,
+            "name": "bloodsplat",
+            "table": "effect_sets"
+          },
+          "type": "EffectTables set"
+        }
+      ],
+      "rule": "CharEffectTable field -> AnimatedEffectTable row",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[character=1].BloodEffect",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "086717aa9505bc1ec765",
+      "kind": "effect set",
+      "name": "80",
+      "reason": null,
+      "reference_id": "086717aa9505bc1ec765",
+      "resolves_to": [
+        {
+          "index": 80,
+          "name": "bloodsplat_hero",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 4,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 80,
+            "name": "bloodsplat_hero",
+            "table": "effect_sets"
+          },
+          "type": "AnimatedEffectTable row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=21].ImpactFX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8936af9a736302aa1771",
+      "kind": "effect set",
+      "name": "222",
+      "reason": null,
+      "reference_id": "8936af9a736302aa1771",
+      "resolves_to": [
+        {
+          "index": 222,
+          "name": "spell_dh2_hurt_simplified_chain_lightning",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 219,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 222,
+            "name": "spell_dh2_hurt_simplified_chain_lightning",
+            "table": "effect_sets"
+          },
+          "type": "AnimatedEffectTable row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=30].ImpactFX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5bae76b7712353e106d5",
+      "kind": "effect set",
+      "name": "222",
+      "reason": null,
+      "reference_id": "5bae76b7712353e106d5",
+      "resolves_to": [
+        {
+          "index": 222,
+          "name": "spell_dh2_hurt_simplified_chain_lightning",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 219,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 1,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1067869798,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 222,
+            "name": "spell_dh2_hurt_simplified_chain_lightning",
+            "table": "effect_sets"
+          },
+          "type": "AnimatedEffectTable row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=31].ImpactFX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2a406333a0568515b635",
+      "kind": "effect set",
+      "name": "247",
+      "reason": null,
+      "reference_id": "2a406333a0568515b635",
+      "resolves_to": [
+        {
+          "index": 247,
+          "name": "spell_wind_hurt",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 222,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 247,
+            "name": "spell_wind_hurt",
+            "table": "effect_sets"
+          },
+          "type": "AnimatedEffectTable row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=36].ImpactFX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "103e34ec4789f2d0d035",
+      "kind": "effect set",
+      "name": "221",
+      "reason": null,
+      "reference_id": "103e34ec4789f2d0d035",
+      "resolves_to": [
+        {
+          "index": 221,
+          "name": "spell_dh2_hurt_regular_arrow",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 218,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 221,
+            "name": "spell_dh2_hurt_regular_arrow",
+            "table": "effect_sets"
+          },
+          "type": "AnimatedEffectTable row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=3].ImpactFX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e45d1a6594e2560e8b07",
+      "kind": "effect set",
+      "name": "241",
+      "reason": null,
+      "reference_id": "e45d1a6594e2560e8b07",
+      "resolves_to": [
+        {
+          "index": 241,
+          "name": "spell_fire_hurt",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 208,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 241,
+            "name": "spell_fire_hurt",
+            "table": "effect_sets"
+          },
+          "type": "AnimatedEffectTable row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=4].ImpactFX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "470ccd3972f2579ef1ad",
+      "kind": "effect set",
+      "name": "221",
+      "reason": null,
+      "reference_id": "470ccd3972f2579ef1ad",
+      "resolves_to": [
+        {
+          "index": 221,
+          "name": "spell_dh2_hurt_regular_arrow",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 218,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 221,
+            "name": "spell_dh2_hurt_regular_arrow",
+            "table": "effect_sets"
+          },
+          "type": "AnimatedEffectTable row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=6].ImpactFX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d18fded67875b7257d46",
+      "kind": "effect set",
+      "name": "244",
+      "reason": null,
+      "reference_id": "d18fded67875b7257d46",
+      "resolves_to": [
+        {
+          "index": 244,
+          "name": "spell_poison_hurt",
+          "source_row": {
+            "fields": {
+              "ForceCache": 0,
+              "Loop": 0,
+              "steps": [
+                {
+                  "File": 216,
+                  "ForceCancel": 0,
+                  "Loop": 0,
+                  "OrientOnce": 0,
+                  "OrientWithAnchor": 0,
+                  "PlayTime": -1,
+                  "PoolSize": 0,
+                  "Redir": 0,
+                  "ScaleWithAnchor": 1,
+                  "SelfIllum": 1,
+                  "SpeedBits": 1065353216,
+                  "SubObject": ""
+                }
+              ],
+              "type": 0
+            },
+            "index": 244,
+            "name": "spell_poison_hurt",
+            "table": "effect_sets"
+          },
+          "type": "AnimatedEffectTable row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=7].ImpactFX",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}
