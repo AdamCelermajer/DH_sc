@@ -1,3 +1,4 @@
+#include "path_case.hpp"
 #include "original_scene.hpp"
 #include "../scene-materials/scene.hpp"
 #include <algorithm>
@@ -239,7 +240,7 @@ bool decode_original_scene(const std::vector<std::uint8_t>& bytes,
 }
 
 bool load_original_scene(const std::filesystem::path& path,OriginalScene& output,std::string& error) {
-    std::ifstream file(path,std::ios::binary|std::ios::ate);
+    std::ifstream file(existing_path_ignoring_case(path),std::ios::binary|std::ios::ate);
     if(!file) {error="Original environment asset is missing: "+path.string();return false;}
     const auto length=file.tellg();
     if(length<=0||length>std::streamoff(512*1024*1024)) {error="Invalid original environment file size";return false;}

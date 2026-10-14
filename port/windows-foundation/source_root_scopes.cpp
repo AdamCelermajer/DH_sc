@@ -1,3 +1,4 @@
+#include "path_case.hpp"
 #include "source_root_scopes.hpp"
 #include "source_world_objects.hpp"
 #include "content_paths.hpp"
@@ -25,7 +26,7 @@ struct SourceRootScopes::Impl {
                 // Actual absence is allowed by the native Debug file leaf.
                 // Existing unreadable/bad paths are errors, not invented defaults.
                 std::error_code ec;
-                const auto exists=std::filesystem::exists(self.assets->root()/name,ec);
+                const auto exists=!find_path_ignoring_case(self.assets->root(),name).empty()||std::filesystem::exists(self.assets->root()/name,ec);
                 return ec||exists?1:0;
             }
         }

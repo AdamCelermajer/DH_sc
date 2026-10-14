@@ -1,3 +1,4 @@
+#include "path_case.hpp"
 #include "hud_glyphs.hpp"
 #include "../engine-ui/hud_freetype_font.hpp"
 #include <algorithm>
@@ -39,7 +40,7 @@ const char* HudGlyphFont::version(){return dh2::ui::HudFreetypeFont::version();}
 
 bool HudGlyphFont::load(const std::filesystem::path& path,std::string& error) {
     try {
-        std::ifstream stream(path,std::ios::binary|std::ios::ate);
+        std::ifstream stream(existing_path_ignoring_case(path),std::ios::binary|std::ios::ate);
         if(!stream) {error="Original HUD font file unavailable: "+path.string();return false;}
         const auto size=stream.tellg();
         if(size<=0 || size>64*1024*1024) {error="Original font file size outside source budget";return false;}

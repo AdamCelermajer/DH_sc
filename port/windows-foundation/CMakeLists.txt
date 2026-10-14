@@ -59,7 +59,7 @@ add_library(foundation_data STATIC character_state.cpp save_store.cpp camera.cpp
   retained_sequence_playback.cpp
   original_actor_camera_anchor.cpp
   modular_defaults.cpp
-  asset_catalog.cpp world.cpp texture_loader.cpp original_scene.cpp original_character.cpp level_manifest.cpp assembled_level.cpp
+  path_case.cpp asset_catalog.cpp world.cpp texture_loader.cpp original_scene.cpp original_character.cpp level_manifest.cpp assembled_level.cpp
   content_paths.cpp collision_scene.cpp actor_definitions.cpp actor_state.cpp actor_movement.cpp gameplay_camera.cpp
   animation_markers.cpp combat_system.cpp targeting.cpp hud_art.cpp hud_geometry.cpp actor_profiles.cpp actor_population.cpp
   original_actor_properties.cpp original_camera_config.cpp equipment_visual.cpp controller_policy.cpp original_combat_properties.cpp target_selection_runtime.cpp actor_combat_runtime.cpp original_melee_bindings.cpp playable_actor_world.cpp original_combat_visual_plan.cpp original_attack_sequence.cpp combat_session.cpp game_save.cpp hud_glyphs.cpp original_actor_labels.cpp
@@ -72,6 +72,10 @@ add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp rende
 target_sources(foundation_data PRIVATE ../level-world/character_kill.cpp)
 target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp features/generic_skills/pc_gameplay_hud_button_art_v1.cpp)
 target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
+# v21.8 w4-linux: shared case-insensitive game-data resolver (case-sensitive file systems)
+add_executable(path_case_tests tests/path_case_tests.cpp)
+target_link_libraries(path_case_tests PRIVATE foundation_data)
+add_test(NAME path_case COMMAND path_case_tests)
 # v20 SCRIPTSVC: Script_PlaySound/StopSound/SaveGame orchestration (pure; owners bound in main/campaign_host).
 add_executable(script_source_services_v1_tests features/cinematics/script_source_services_v1_tests.cpp features/cinematics/script_source_services_v1.cpp)
 add_test(NAME script_source_services_v1 COMMAND script_source_services_v1_tests)
