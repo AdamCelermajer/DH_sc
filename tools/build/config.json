@@ -1,0 +1,9 @@
+{
+  "toolchain_bin": ".local-inputs/windows-toolchain/llvm-mingw-20261006-ucrt-x86_64/bin",
+  "cmake_bin": "C:/Users/adamc/AppData/Local/Android/Sdk/cmake/3.22.1/bin",
+  "package_dir": ".local-inputs/windows-source-clock-v21.8-staged3",
+  "out_dir": "C:/dh-dist",
+  "build_root": "C:/dh-build",
+  "docker_image": "fedora:40",
+  "android_build_script": "port/android-game/build.ps1"
+}

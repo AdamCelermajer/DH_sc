@@ -39,3 +39,7 @@ port/engine-resources/reports/**/fixture-O[12]
 
 # Original audio payloads (large, licensed; staged from .local-inputs/audio-v34/cache)
 port/windows-foundation/features/audio/assets/data/sounds/*.vxn
+
+# the build orchestration tool is source, not build output
+!tools/build/
+tools/build/config.local.json
