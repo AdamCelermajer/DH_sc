@@ -104,6 +104,31 @@ int main() {
         CHECK(word(bytes, 0) == 0u);
     }
 
+    // The owning constructors (0x602028 and 0x602110) allocate their own block. Format 12 is 4 bytes per
+    // pixel, so 4x4 is a 16-byte pitch and a 64-byte block; the reference count starts at 0, not at the
+    // IReferenceCounted default of 1, because that is what every original constructor stores.
+    {
+        glitch::video::CImage owned(12, glitch::core::dimension2d<std::int32_t>{4, 4});
+        CHECK(owned.referenceCounter == 0);
+        CHECK(owned.m_data != nullptr);
+        CHECK(owned.m_pitch == 16);
+        CHECK(owned.m_dataSize == 64);
+        CHECK(owned.m_ownsData == 1);
+        CHECK(owned.m_hasMipmaps == 0);
+        CHECK(owned.m_mipData == nullptr);  // no mip chain without the flag
+        owned.fill(color);
+        CHECK(word(std::vector<std::uint8_t>(owned.m_data, owned.m_data + 64), 0) == 0x563412FFu);
+    }
+    {
+        glitch::video::CImage mip(5, glitch::core::dimension2d<std::int32_t>{4, 4}, true);
+        CHECK(mip.referenceCounter == 0);
+        CHECK(mip.m_hasMipmaps == 1);
+        CHECK(mip.m_mipData != nullptr);       // a chain was built
+        CHECK(mip.m_mipData[mip.m_mipLevels] == nullptr);  // the chain is null-terminated
+        CHECK(mip.m_pitch == 8);               // 4 pixels * 16 bits / 8
+        CHECK(mip.m_dataSize == 32);
+    }
+
     std::printf("%s\n", failures ? "image_fill: FAILED" : "image_fill: ok");
     return failures != 0;
 }

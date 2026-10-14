@@ -82,6 +82,41 @@ void CImage::initData(bool allocateMips) {
     m_mipData[index] = nullptr;
 }
 
+// 0x602028 _ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEb
+// (format, size, hasMipmaps): the size and format are stored, m_hasMipmaps takes the argument, m_ownsData is 1
+// and initData allocates. The reference count is stored as 0, not left at the base's default of 1.
+CImage::CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size, bool hasMipmaps) {
+    referenceCounter = 0;
+    m_data = nullptr;
+    m_mipData = nullptr;
+    m_width = static_cast<uint32_t>(size.Width);
+    m_height = static_cast<uint32_t>(size.Height);
+    m_pitch = 0;
+    m_dataSize = 0;
+    m_format = format;
+    m_mipLevels = 0;
+    m_hasMipmaps = hasMipmaps ? 1 : 0;
+    m_ownsData = 1;
+    initData(true);
+}
+
+// 0x602110 _ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEE
+// As the hasMipmaps form with the flag clear, so no mip chain is built.
+CImage::CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size) {
+    referenceCounter = 0;
+    m_data = nullptr;
+    m_mipData = nullptr;
+    m_width = static_cast<uint32_t>(size.Width);
+    m_height = static_cast<uint32_t>(size.Height);
+    m_pitch = 0;
+    m_dataSize = 0;
+    m_format = format;
+    m_mipLevels = 0;
+    m_hasMipmaps = 0;
+    m_ownsData = 1;
+    initData(true);
+}
+
 // 0x602670 _ZN6glitch5video6CImageC1ENS0_14E_PIXEL_FORMATERKNS_4core11dimension2dIiEEPvbb
 // The (format, size, data, copy, own) form, read field by field off the binary. The size and the format go to
 // +0x10/+0x14 and +0x20, m_hasMipmaps (+0x28) is clear and m_ownsData (+0x29) takes the own flag.
@@ -98,6 +133,7 @@ void CImage::initData(bool allocateMips) {
 // chain (the loop after initData). This row therefore stays `partial` and the note names that gap.
 CImage::CImage(E_PIXEL_FORMAT format, const core::dimension2d<int32_t>& size, void* data, bool copy, bool own) {
     (void)copy;
+    referenceCounter = 0;
     m_data = nullptr;
     m_mipData = nullptr;
     m_width = static_cast<uint32_t>(size.Width);
