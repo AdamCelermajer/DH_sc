@@ -33,9 +33,9 @@ int main() {
 
     CTerrainSceneNode terrain;
     CHECK(tagIs(static_cast<std::uint32_t>(terrain.getType()), "terr"));
-    terrain.position.X = 1.0f;
+    terrain.terrain.position.X = 1.0f;
     CHECK(terrain.getPosition().X == 1.0f);
-    CHECK(&terrain.getScale() == &terrain.scale);
+    CHECK(&terrain.getScale() == &terrain.terrain.scale);
 
     CShadowVolumeSceneNode shadow;
     CHECK(tagIs(shadow.getType(), "shdw"));
@@ -69,19 +69,19 @@ int main() {
     particleNode.setBillboardType(2);
     CHECK(particleNode.billboardType == 2);
 
-    // Terrain patches are a row-major grid of patchesPerSide squared entries.
+    // Terrain patches are a row-major grid of patchCount squared entries.
     CTerrainSceneNode terrainNode;
-    terrainNode.patchesPerSide = 2;
-    terrainNode.patches.resize(4);
+    terrainNode.terrain.patchCount = 2;
+    terrainNode.terrain.patches = new STerrainPatch[4];
     terrainNode.setLODOfPatch(1, 0, 7);
-    CHECK(terrainNode.patches[2].lod == 7);
-    CHECK(&terrainNode.getBoundingBox(1, 0) == &terrainNode.patches[2].boundingBox);
+    CHECK(terrainNode.terrain.patches[2].lod == 7);
+    CHECK(&terrainNode.getBoundingBox(1, 0) == &terrainNode.terrain.patches[2].boundingBox);
     terrainNode.setCurrentLODOfPatches(3);
-    CHECK(terrainNode.patches[0].lod == 3 && terrainNode.patches[3].lod == 3);
+    CHECK(terrainNode.terrain.patches[0].lod == 3 && terrainNode.terrain.patches[3].lod == 3);
     terrainNode.rotationPivotFlag = 1;
     terrainNode.setRotationPivot(glitch::core::vector3d<float>{1.0f, 2.0f, 3.0f});
     CHECK(terrainNode.rotationPivotFlag == 0);
-    CHECK(terrainNode.rotationPivot.Y == 2.0f);
+    CHECK(terrainNode.terrain.rotationPivot.Y == 2.0f);
 
     // Particle affector flag.
     IParticleAffector affector;

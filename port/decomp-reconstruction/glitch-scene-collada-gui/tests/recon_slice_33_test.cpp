@@ -73,15 +73,6 @@ void testHardwareSkinPrepare() {
     CHECK(tech.calls == 2);
 }
 
-void testTerrainLodTable() {
-    TerrainStandIn terrain;
-    terrain.patchDimension = 2;
-    terrain.patches.resize(4);
-    setCurrentLODOfPatches(terrain, {5, 6, 7, 8});
-    CHECK(terrain.patches[0].lod == 5);
-    CHECK(terrain.patches[3].lod == 8);
-}
-
 void testSizeAffectorIndexedDeserialize() {
     // With no matching names the index comes back unchanged.
     FakeAttributes attrs;
@@ -100,7 +91,7 @@ void testEmptyBases() {
 
 int main() {
     testHardwareSkinPrepare();
-    testTerrainLodTable();
+    
     testSizeAffectorIndexedDeserialize();
     testEmptyBases();
     if (failures == 0) {

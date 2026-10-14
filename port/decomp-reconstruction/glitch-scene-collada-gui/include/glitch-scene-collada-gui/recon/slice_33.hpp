@@ -119,21 +119,6 @@ struct AnimatedMeshStandIn {
 };
 
 // ---------------------------------------------------------------------------
-// glitch::scene::CTerrainSceneNode (patch LOD table only)
-// ---------------------------------------------------------------------------
-struct TerrainPatchLodStandIn {
-    std::int32_t lod = 0;                       // +0x00 (56 byte records)
-    std::uint8_t pad_0004[52] = {};             // +0x04..+0x37 (not mapped)
-};
-
-struct TerrainStandIn {
-    std::uint8_t pad_0000[0x17c] = {};          // +0x000..+0x17b (not mapped)
-    std::int32_t patchDimension = 0;            // +0x17c (380 decimal); patch count is its square
-    std::uint8_t pad_0180[0x1a8 - 0x180] = {};  // +0x180..+0x1a7 (not mapped)
-    std::vector<TerrainPatchLodStandIn> patches;  // +0x1a8 (begin of the patch table)
-};
-
-// ---------------------------------------------------------------------------
 // glitch::collada::CCoronasSceneNode
 // ---------------------------------------------------------------------------
 struct CoronasSceneNodeStandIn {
@@ -220,11 +205,6 @@ int prepareSoftwareSkinBuffer(SoftwareSkinTechniqueStandIn& self, int step,
 // glitch::scene skybox, terrain, text, shadow volume.
 void constructSkyBoxC2(void* self, void* driver);                                                         // 0x6cebc8
 void constructSkyBoxC1(void* self, void* driver);                                                         // 0x6cf564
-void setCurrentLODOfPatches(TerrainStandIn& self, const std::vector<std::int32_t>& lods);                           // 0x6d042c
-void serializeTerrain(void* self, IAttributesStandIn& attrs, const std::uint32_t* options);               // 0x6d083c
-void deserializeTerrain(void* self, IAttributesStandIn& attrs);                                           // 0x6d5268
-void getCurrentLODOfPatches(void* self, std::vector<std::int32_t>& lods);                                 // 0x6d21ac
-void loadHeightMap(void* self, void* readFile, std::uint32_t colorKey, std::int32_t mode);                // 0x6d4454
 void constructShadowVolumeC1(void* self, void* driver, void* mesh, std::int32_t id, int type, float f);   // 0x6ffb1c
 void constructShadowVolumeC2(void* self, void* driver, void* mesh, std::int32_t id, int type, float f);   // 0x6ffc70
 void createSilhouette(void* self, const core::vector3d<float>& light, int lightType, void* mesh);         // 0x701358

@@ -5,6 +5,7 @@
 #include <cstdint>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+#include "glitch-scene-collada-gui/ps/PDomain.hpp"
 
 namespace glitch::core {
 template <typename T>
@@ -13,106 +14,7 @@ class CMatrix4;  // only named by parameter types here; the layout is not mapped
 
 namespace glitch::ps {
 
-// Random source of the shape generators (its layout is not mapped here).
-class PSRandom;
-
-// Emitter distribution shapes; the type tag is the shape index. The shapes are
-// stand-ins without the PDomain base, so each destructor is its own empty body.
-class PDPoint {
-public:
-    PDPoint() = default;
-    // 0x69ace4 _ZN6glitch2ps7PDPointC2ERKNS_4core8vector3dIfEE
-    // 0x69ad38 _ZN6glitch2ps7PDPointC1ERKNS_4core8vector3dIfEE
-    // Copies the point (the vtable store of the original has no stand-in here).
-    explicit PDPoint(const core::vector3d<float>& value);
-
-    // 0x69ac90 _ZN6glitch2ps7PDPointD1Ev (empty)
-    ~PDPoint() = default;
-    // 0x69ac94 _ZNK6glitch2ps7PDPoint7getTypeEv (returns 3)
-    std::uint32_t getType() const;
-    // 0x69ae4c _ZNK6glitch2ps7PDPoint4sizeEv (returns 1.0f)
-    float size() const;
-    // 0x69ad8c _ZNK6glitch2ps7PDPoint6withinERKNS_4core8vector3dIfEE
-    // True only when the point equals the given vector on all three components.
-    bool within(const core::vector3d<float>& value) const;
-    // 0x69ade8 _ZNK6glitch2ps7PDPoint8generateERNS0_8PSRandomE
-    // The point is its own sample: the random source is not used.
-    core::vector3d<float> generate(PSRandom& random) const;
-
-    core::vector3d<float> point;  // +0x04
-};
-
-class PDLine {
-public:
-    // 0x69ac9c _ZN6glitch2ps6PDLineD1Ev (empty)
-    ~PDLine() = default;
-    // 0x69aca0 _ZNK6glitch2ps6PDLine7getTypeEv (returns 4)
-    std::uint32_t getType() const;
-    // 0x69aec4 _ZNK6glitch2ps6PDLine4sizeEv
-    float size() const;
-
-    float sizeValue = 0.0f;  // +0x28
-};
-
-class PDBox {
-public:
-    // 0x69aca8 _ZN6glitch2ps5PDBoxD1Ev (empty)
-    ~PDBox() = default;
-    // 0x69acac _ZNK6glitch2ps5PDBox7getTypeEv (returns 0)
-    std::uint32_t getType() const;
-    // 0x69b660 _ZNK6glitch2ps5PDBox4sizeEv
-    float size() const;
-
-    float sizeValue = 0.0f;  // +0x28
-};
-
-class PDCylinder {
-public:
-    // 0x69acb4 _ZN6glitch2ps10PDCylinderD1Ev (empty)
-    ~PDCylinder() = default;
-    // 0x69acb8 _ZNK6glitch2ps10PDCylinder7getTypeEv (returns 2)
-    std::uint32_t getType() const;
-    // 0x69b7fc _ZNK6glitch2ps10PDCylinder4sizeEv
-    float size() const;
-
-    float sizeValue = 0.0f;  // +0x4c
-};
-
-class PDCone {
-public:
-    // 0x69acc0 _ZN6glitch2ps6PDConeD1Ev (empty)
-    ~PDCone() = default;
-    // 0x69acc4 _ZNK6glitch2ps6PDCone7getTypeEv (returns 5)
-    std::uint32_t getType() const;
-    // 0x69b9c0 _ZN6glitch2ps6PDCone9transformERKNS_4core8CMatrix4IfEE (empty)
-    void transform(const core::CMatrix4<float>& matrix);
-    // 0x69b9c4 _ZNK6glitch2ps6PDCone4sizeEv
-    float size() const;
-
-    float sizeValue = 0.0f;  // +0x4c
-};
-
-class PDSphere {
-public:
-    // 0x69accc _ZN6glitch2ps8PDSphereD1Ev (empty)
-    ~PDSphere() = default;
-    // 0x69acd0 _ZNK6glitch2ps8PDSphere7getTypeEv (returns 1)
-    std::uint32_t getType() const;
-    // 0x69be08 _ZNK6glitch2ps8PDSphere4sizeEv
-    float size() const;
-
-    float sizeValue = 0.0f;  // +0x24
-};
-
-class PDBlob {
-public:
-    // 0x69acd8 _ZN6glitch2ps6PDBlobD1Ev (empty)
-    ~PDBlob() = default;
-    // 0x69acdc _ZNK6glitch2ps6PDBlob7getTypeEv (returns 6)
-    std::uint32_t getType() const;
-    // 0x69bf7c _ZNK6glitch2ps6PDBlob4sizeEv (returns 1.0f)
-    float size() const;
-};
+// The shapes (PDPoint .. PDCylinder) and PSRandom are the canonical classes of ps/PDomain.hpp.
 
 // Particle system base: the world matrix is reached through a stored pointer.
 template <typename Particle>

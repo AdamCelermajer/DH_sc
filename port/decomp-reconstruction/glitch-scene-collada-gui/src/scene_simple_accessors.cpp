@@ -51,21 +51,6 @@ std::uint32_t IParticleSphereEmitter::getType() const { return 6; }
 // 0x6fe2ac _ZNK6glitch5scene21IParticleSpinAffector7getTypeEv
 std::uint32_t IParticleSpinAffector::getType() const { return 6; }
 
-// 0x6d00b4 _ZNK6glitch5scene17CTerrainSceneNode8getScaleEv
-const core::vector3d<float>& CTerrainSceneNode::getScale() const { return scale; }
-
-// 0x6d00bc _ZNK6glitch5scene17CTerrainSceneNode11getRotationEv
-const core::quaternion& CTerrainSceneNode::getRotation() const { return rotation; }
-
-// 0x6d00c4 _ZNK6glitch5scene17CTerrainSceneNode11getPositionEv
-const core::vector3d<float>& CTerrainSceneNode::getPosition() const { return position; }
-
-// 0x6d00cc _ZNK6glitch5scene17CTerrainSceneNode7getTypeEv
-E_SCENE_NODE_TYPE CTerrainSceneNode::getType() const { return ESNT_TERRAIN; }
-
-// 0x6d01e8 _ZNK6glitch5scene17CTerrainSceneNode14getBoundingBoxEv
-const core::aabbox3d<float>& CTerrainSceneNode::getBoundingBox() const { return boundingBox; }
-
 // 0x6fe854 _ZNK6glitch5scene22CShadowVolumeSceneNode7getTypeEv
 std::uint32_t CShadowVolumeSceneNode::getType() const { return kTagShadowVolume; }
 
@@ -157,30 +142,6 @@ void CParticleSystemSceneNode::setParticleSize(const core::dimension2d<float>& s
 // 0x6c0f0c _ZN6glitch5scene24CParticleSystemSceneNode16setBillboardTypeENS0_25E_PARTICLE_BILLBOARD_TYPEE
 void CParticleSystemSceneNode::setBillboardType(std::uint32_t type) {
     billboardType = type;
-}
-
-// 0x6d01c4 _ZN6glitch5scene17CTerrainSceneNode16setRotationPivotERKNS_4core8vector3dIfEE
-void CTerrainSceneNode::setRotationPivot(const core::vector3d<float>& pivot) {
-    rotationPivotFlag = 0;
-    rotationPivot = pivot;
-}
-
-// 0x6d0200 _ZNK6glitch5scene17CTerrainSceneNode14getBoundingBoxEii
-const core::aabbox3d<float>& CTerrainSceneNode::getBoundingBox(std::int32_t row, std::int32_t column) const {
-    return patches[static_cast<std::size_t>(patchesPerSide * row + column)].boundingBox;
-}
-
-// 0x6d021c _ZN6glitch5scene17CTerrainSceneNode13setLODOfPatchEiii
-void CTerrainSceneNode::setLODOfPatch(std::int32_t row, std::int32_t column, std::int32_t lod) {
-    patches[static_cast<std::size_t>(patchesPerSide * row + column)].lod = lod;
-}
-
-// 0x6d03f0 _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesEi
-// The original loops patchesPerSide squared times; the patch vector holds that many entries.
-void CTerrainSceneNode::setCurrentLODOfPatches(std::int32_t lod) {
-    for (STerrainPatch& patch : patches) {
-        patch.lod = lod;
-    }
 }
 
 // 0x6f836c _ZN6glitch5scene17IParticleAffector10setEnabledEb

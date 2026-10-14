@@ -291,6 +291,41 @@ uint32_t CVertexStreams::setupStreams(const SVertexStreamData* data, uint32_t ma
     return active;
 }
 
+// 0x5a15c0 _ZN6glitch5video14CVertexStreams12setupStreamsERKN5boost13intrusive_ptrINS0_7IBufferEEEj
+// Every entry whose attribute is in the mask points at the one buffer and takes the attribute's default value type and component count
+// (SVertexAttributeTypeInspection::Defaults); the offsets run on from 0 by count * ValueTypeSize[type] in table order, and every other
+// entry is cleared (no buffer, offset 0, type 0xff, no components, no stride). The streams that were set up get the total as their stride
+// (the sum of their component sizes). Sets the homogeneous bit and answers the total vertex size in bytes (16 bits).
+uint32_t CVertexStreams::setupStreams(const boost::intrusive_ptr<IBuffer>& buffer, uint32_t mask) {
+    uint32_t running = 0;
+    for (SVertexStream& entry : m_streams) {
+        if ((mask & (1u << entry.attribute)) == 0) {
+            entry.buffer = nullptr;
+            entry.offset = 0;
+            entry.field0a = 0xff;
+            entry.field0c = 0;
+            entry.field0e = 0;
+            continue;
+        }
+        const detail::SVertexAttributeTypeInspection::SDefault& defaults = detail::SVertexAttributeTypeInspection::Defaults[entry.attribute];
+        const uint16_t size = static_cast<uint16_t>(detail::SVertexAttributeTypeInspection::ValueTypeSize[defaults.valueType] *
+                                                    defaults.componentCount);
+        entry.buffer = buffer;
+        entry.offset = running;
+        entry.field0a = defaults.valueType;
+        entry.field0c = defaults.componentCount;
+        entry.field0e = 0;
+        running = static_cast<uint16_t>(running + size);
+    }
+    for (SVertexStream& entry : m_streams) {
+        if ((mask & (1u << entry.attribute)) != 0) {
+            entry.field0e = static_cast<uint16_t>(running);
+        }
+    }
+    m_flags |= 1u;
+    return running;
+}
+
 // 0x5a08f4 _ZN6glitch5video23makeDefaultAttributeMapEPKNS0_14CVertexStreamsEPh
 uint8_t* makeDefaultAttributeMap(const CVertexStreams* streams, uint8_t* map) {
     constexpr uint32_t kMapSize = 0x1e;

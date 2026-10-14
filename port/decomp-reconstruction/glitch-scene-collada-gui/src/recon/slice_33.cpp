@@ -106,52 +106,8 @@ void constructSkyBoxC1(void* self, void* driver) {
     (void)driver;
 }
 
-// 0x6d042c _ZN6glitch5scene17CTerrainSceneNode22setCurrentLODOfPatchesERKSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
-// The patch count is the square of the patch dimension; each patch takes one LOD value.
-// The stand-in keeps the patch table as a vector, so the loop is also bounded by its
-// size and by the size of the input; the original trusts the table to be large enough.
-void setCurrentLODOfPatches(TerrainStandIn& self, const std::vector<std::int32_t>& lods) {
-    const std::int64_t dim = self.patchDimension;
-    const std::int64_t count = dim * dim;
-    if (count <= 0) {
-        return;
-    }
-    const std::size_t n = std::min({static_cast<std::size_t>(count), self.patches.size(), lods.size()});
-    for (std::size_t i = 0; i != n; ++i) {
-        self.patches[i].lod = lods[i];
-    }
-}
-
-// 0x6d083c _ZNK6glitch5scene17CTerrainSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Base ISceneNode serialization is omitted (not mapped).
-void serializeTerrain(void* self, IAttributesStandIn& attrs, const std::uint32_t* options) {
-    (void)self;
-    (void)attrs;
-    (void)options;
-}
-
-// 0x6d5268 _ZN6glitch5scene17CTerrainSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Not reconstructed.
-void deserializeTerrain(void* self, IAttributesStandIn& attrs) {
-    (void)self;
-    (void)attrs;
-}
-
-// 0x6d21ac _ZNK6glitch5scene17CTerrainSceneNode22getCurrentLODOfPatchesERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE
-// Not reconstructed (2033 byte body).
-void getCurrentLODOfPatches(void* self, std::vector<std::int32_t>& lods) {
-    (void)self;
-    (void)lods;
-}
-
-// 0x6d4454 _ZN6glitch5scene17CTerrainSceneNode13loadHeightMapEPNS_2io9IReadFileENS_5video6SColorEi
-// Not reconstructed (17835 byte body).
-void loadHeightMap(void* self, void* readFile, std::uint32_t colorKey, std::int32_t mode) {
-    (void)self;
-    (void)readFile;
-    (void)colorKey;
-    (void)mode;
-}
+// The CTerrainSceneNode rows of this slice (0x6d042c, 0x6d083c, 0x6d5268, 0x6d21ac, 0x6d4454) are members of the canonical
+// scene/CTerrainSceneNode.hpp (src/scene/CTerrainSceneNode.cpp); their stand-ins are gone.
 
 // 0x6ffb1c _ZN6glitch5scene22CShadowVolumeSceneNodeC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrIKNS0_5IMeshEEEiNS0_20E_SHADOW_VOLUME_TYPEEf
 // Not reconstructed (2001 byte body).

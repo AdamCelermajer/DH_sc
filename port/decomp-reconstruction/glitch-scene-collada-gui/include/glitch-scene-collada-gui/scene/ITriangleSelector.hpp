@@ -17,6 +17,8 @@
 
 namespace glitch::scene {
 
+class ISceneNode;
+
 class ITriangleSelector : public glitch::IReferenceCounted {
 public:
     // 0x585634 / 0x586480 (D1 / D0, skipped in the ledger: compiler-generated).
@@ -36,6 +38,11 @@ public:
     // +0x18: as above, keeping only the triangles that the line segment passes near.
     virtual void getTriangles(core::triangle3d<float>* triangles, int arraySize, int& outTriangleCount,
                               const core::line3d<float>& line, const core::CMatrix4<float>* transform) const = 0;
+
+    // +0x1c: the slot of the terrain's own selector, which CTerrainSceneNode::preRenderIndicesCalculationsDirect (0x6d0470) calls
+    // with (terrain node, -1) after it filled the indices when its dynamic selector flag is set. The other selectors have no such
+    // slot in the original; here it does nothing.
+    virtual void update(ISceneNode* node, std::int32_t lod) { (void)node; (void)lod; }
 };
 
 }  // namespace glitch::scene

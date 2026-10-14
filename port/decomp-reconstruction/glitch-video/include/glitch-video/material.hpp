@@ -28,6 +28,7 @@
 #include <cstdint>
 
 #include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/material_parameters.hpp"
 #include "glitch-video/material_renderer.hpp"
 #include "glitch-video/video_types.hpp"
 
@@ -122,6 +123,17 @@ public:
     uint8_t m_remapSet = 0;                                // +0x14, index into the owner's remap tables in getTechnique
     mutable uint32_t* m_hashCodes = nullptr;               // +0x18, one hash word per technique
     void* m_name = nullptr;                                // +0x1c, SSharedStringHeapEntry::SData* (count at +0x00, text at +0x04)
+
+    // IMaterialParameters<CMaterial, ISharedMemoryBlockHeader<CMaterial>>: in the original the base class of CMaterial (its values start at
+    // +0x20, its parameter table is the renderer's, reached through +0x04). The port keeps the base as this member; its dirty words
+    // stand for +0x0c / +0x10. A material that is constructed from a renderer attaches the renderer's table with attachParameters
+    // (header with count and entries, the value area). Without a table every parameter write reports failure, as for a renderer
+    // without parameters.
+    detail::IMaterialParameters<CMaterial, true> parameters;
+    void attachParameters(detail::SParameterBlockHeader* header, uint8_t* values) {
+        parameters.setBlockForTest(header);
+        parameters.setValueBuffer(values);
+    }
 };
 
 // The original's inline count updates (CMaterial keeps its count at +0x00, not in IReferenceCounted).

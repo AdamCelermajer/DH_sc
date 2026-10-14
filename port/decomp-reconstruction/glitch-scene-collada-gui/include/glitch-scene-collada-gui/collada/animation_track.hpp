@@ -26,9 +26,9 @@
 //
 // Port notes: pointers are host width; the values are accessed through float / byte pointers. The statics return void (the original
 // returns the last register, which no caller reads); the virtual overrides return 0 where the original returns the register of
-// the last call. Material tracks call IMaterialParameters<CMaterial, ...>::setParameterCvt<T> in the original; the port's CMaterial has
-// no parameter storage (glitch-video keeps IMaterialParameters<CMaterial, true> as a separate object), so detail::setMaterialParameterCvt
-// is the seam (PARTIAL: it writes nothing).
+// the last call. Material tracks call IMaterialParameters<CMaterial, ...>::setParameterCvt<T> in the original, the base class of the
+// CMaterial target; the port's CMaterial carries that base as its `parameters` member (glitch-video/material.hpp), and
+// detail::setMaterialParameterCvt writes through it.
 #pragma once
 
 #include <cstdint>
@@ -36,6 +36,7 @@
 #include <type_traits>
 
 #include "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp"
+#include "glitch-video/material.hpp"
 #include "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp"
 #include "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
@@ -161,17 +162,17 @@ inline float blendPair(float first, float second, float fraction) {
     return (fraction * second) + ((inverse * first) + 0.0f);
 }
 
-// SetParameterCvt on a material (the video library's IMaterialParameters<CMaterial, ISharedMemoryBlockHeader<CMaterial>>): the target of the
-// material tracks is a CMaterial used as that base class. PARTIAL: the port's CMaterial has no parameter storage, nothing is written.
+// setParameterCvt<T>(id, index, value) of the target material: the target of the material tracks is a CMaterial used as
+// IMaterialParameters<CMaterial, ISharedMemoryBlockHeader<CMaterial>> (its base class in the original; the `parameters` member here).
 template <class TValue>
-inline int setMaterialParameterCvt(void* /*material*/, std::uint16_t /*parameterId*/, std::uint32_t /*index*/, const TValue* /*value*/) {
-    return 0;
+inline int setMaterialParameterCvt(void* material, std::uint16_t parameterId, std::uint32_t index, const TValue* value) {
+    return static_cast<video::CMaterial*>(material)->parameters.setParameterCvt(parameterId, index, *value) ? 1 : 0;
 }
 
-// The same for a matrix parameter (IMaterialParameters<...>::setParameter(id, index, CMatrix4 const&), the texture transform). PARTIAL as above.
-inline int setMaterialMatrixParameter(void* /*material*/, std::uint16_t /*parameterId*/, std::uint32_t /*index*/,
-                                      const core::CMatrix4<float>* /*matrix*/) {
-    return 0;
+// The same for a matrix parameter (IMaterialParameters<...>::setParameter(id, index, CMatrix4 const&), the texture transform).
+inline int setMaterialMatrixParameter(void* material, std::uint16_t parameterId, std::uint32_t index,
+                                      const core::CMatrix4<float>* matrix) {
+    return static_cast<video::CMaterial*>(material)->parameters.setParameter(parameterId, index, *matrix) ? 1 : 0;
 }
 
 }  // namespace detail
