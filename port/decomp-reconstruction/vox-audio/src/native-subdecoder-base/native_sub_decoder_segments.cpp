@@ -232,27 +232,144 @@ void VoxNativeSubDecoder::StopSegment(SegmentState* segment) {
     segment->ramp_step = 0;
 }
 
-// 0x884bc4 _ZN3vox19VoxNativeSubDecoder25UpdateCurrentSegmentStateEPNS_14TransitionRuleEb (partial)
-// Reproduced: the branch where the current element index is -1 and the no-rule tail. Not
-// reproduced: the element branch (index not -1), the rule branch, which needs the ARM
-// results of slots 0x1c and 0x20 and the vector copy of the element list, and the frame ramp.
+// 0x884bc4 _ZN3vox19VoxNativeSubDecoder25UpdateCurrentSegmentStateEPNS_14TransitionRuleEb
+// Verified against the ARM listing (0x884BC4..0x884EE4) and the Hex-Rays body: the element branch
+// (current_element_.field_00_ != -1) stores chunk_index = field_00_, and either takes
+// byte_offset from virtual slot +0x1C GetBytePositionFromSampleOffset(sample_position) when
+// field_04_ == 1, or takes loop_start = loop_lists_[field_00_][field_08_ != 1],
+// entry_count = entries_left = field_10_, restart_at_end = field_0c_,
+// end_frame = loop_lists_[field_00_][2], sample_position = |pending_seek_| when pending_seek_ < 0
+// (else the loop_start value it just loaded), byte_offset from slot +0x1C again and state = 3.
+// Then, with mode_ == 17 and extra set, decoding_slot = slot +0x20 GetDecodingBuffer() and the
+// reset byte at +0x160 is cleared. The element == -1 entry stores entries_left = 1, state = 4,
+// entry_count = 1 and next_event_ = -1. Without a rule the five words gain, remaining_frames,
+// field_2c, ramp_frames and ramp_step are zeroed.
+// The rule branch: field_2c = (int)((float)field_0c_ * rule->start_) (zeroing the same five words
+// when it is not positive); type 0 sets remaining_frames = (int)((float)field_0c_ *
+// (rule->end_ - rule->start_)) and carries sample_position (field_04_ != 0), loop_lists_[chunk][1]
+// (field_04_ == 0 and field_08_ == 0) or 0 into the tail; type 6 with field_04_ == 0 carries
+// loop_lists_[chunk][1] and sets remaining_frames = field_2c - (int)((float)field_0c_ *
+// rule->end_) - (field_08_ == 1 ? loop_lists_[chunk][1] : 0) + pending_seek_ (carrying 0 when
+// field_08_ == 1); any other type keeps remaining_frames and carries 0. A negative
+// remaining_frames moves into field_2c (clamped at 0) and clears remaining_frames. The tail with
+// entries_left == 1 makes the listing's stack copy of the chunk's loop list and reads its last
+// word when rule->flag_0c_ == 1 or loop_lists_[chunk][2] otherwise, storing `1 - carried + word`
+// into field_2c when that is smaller. It ends with ramp_frames = field_2c, gain = 0 and
+// ramp_step = 0x40000000 / field_2c.
+// Deviation: the return value is unobserved (UpdateSegmentsStates discards it and its own caller
+// reads the element record instead), so every path returns 0.
 int VoxNativeSubDecoder::UpdateCurrentSegmentState(TransitionRule* rule, bool extra) {
-    (void)extra;
-    if (current_element_.field_00_ != -1) {
+    const std::int32_t element = current_element_.field_00_;
+    std::int32_t carried = element;  // v19
+
+    if (element != -1) {
+        if (current_element_.field_04_ == 1) {
+            segments_[2].chunk_index = element;
+            segments_[2].byte_offset = static_cast<std::int32_t>(
+                GetBytePositionFromSampleOffset(
+                    static_cast<unsigned int>(segments_[2].sample_position)));
+        } else {
+            const auto& loops = *loop_lists_;
+            const std::size_t chunk = static_cast<std::size_t>(element);
+            segments_[2].chunk_index = element;
+            const std::int32_t loop_start = loops[chunk][(current_element_.field_08_ - 1) != 0 ? 1 : 0];
+            segments_[2].loop_start = loop_start;
+            segments_[2].entry_count = current_element_.field_10_;
+            segments_[2].entries_left = current_element_.field_10_;
+            segments_[2].restart_at_end = current_element_.field_0c_;
+            segments_[2].end_frame = loops[chunk][2];
+            segments_[2].sample_position = pending_seek_ < 0 ? -pending_seek_ : loop_start;
+            segments_[2].byte_offset = static_cast<std::int32_t>(
+                GetBytePositionFromSampleOffset(
+                    static_cast<unsigned int>(segments_[2].sample_position)));
+            segments_[2].state = 3;
+        }
+        if (mode_ == 17 && extra) {
+            segments_[2].decoding_slot = GetDecodingBuffer();
+            segments_[2].reset_pending = false;
+        }
+    } else {
+        segments_[2].entries_left = 1;
+        segments_[2].state = 4;
+        segments_[2].entry_count = 1;
+        next_event_ = -1;
+    }
+
+    if (rule == nullptr) {
+        segments_[2].gain = 0;
+        segments_[2].remaining_frames = 0;
+        segments_[2].field_2c = 0;
+        segments_[2].ramp_frames = 0;
+        segments_[2].ramp_step = 0;
         return 0;
     }
-    segments_[2].entries_left = 1;
-    segments_[2].state = 4;
-    segments_[2].entry_count = 1;
-    next_event_ = -1;
-    if (rule != nullptr) {
+
+    const float scale = static_cast<float>(field_0c_);  // v15
+    const std::int32_t base = static_cast<std::int32_t>(scale * rule->start_);  // v16
+    segments_[2].field_2c = base;
+    if (base <= 0) {
+        segments_[2].gain = 0;
+        segments_[2].remaining_frames = 0;
+        segments_[2].field_2c = 0;
+        segments_[2].ramp_frames = 0;
+        segments_[2].ramp_step = 0;
         return 0;
     }
-    segments_[2].ramp_frames = 0;
-    segments_[2].ramp_step = 0;
+
+    const auto& loops = *loop_lists_;
+    const std::size_t chunk = static_cast<std::size_t>(element);
+    std::int32_t remaining;  // v18
+    if (rule->type_ == 0) {
+        remaining = static_cast<std::int32_t>(scale * (rule->end_ - rule->start_));
+        segments_[2].remaining_frames = remaining;
+        if (current_element_.field_04_ != 0) {
+            carried = segments_[2].sample_position;
+        } else if (current_element_.field_08_ == 0) {
+            carried = loops[chunk][1];
+        } else {
+            carried = 0;
+        }
+    } else if (rule->type_ == 6 && current_element_.field_04_ == 0) {
+        carried = loops[chunk][1];
+        const std::int32_t scaled_end = static_cast<std::int32_t>(scale * rule->end_);  // v28
+        if (current_element_.field_08_ == 1) {
+            remaining = scaled_end + carried - base;
+        } else {
+            remaining = scaled_end - base;
+        }
+        remaining += pending_seek_;
+        if (current_element_.field_08_ == 1) {
+            carried = current_element_.field_04_;
+        }
+        segments_[2].remaining_frames = remaining;
+    } else {
+        remaining = segments_[2].remaining_frames;
+        carried = 0;
+    }
+
+    if (remaining < 0) {
+        // LABEL_23: the shortfall moves into field_2c, never below zero.
+        const std::int32_t previous = segments_[2].field_2c;
+        segments_[2].remaining_frames = 0;
+        const std::int32_t sum = remaining + previous;
+        segments_[2].field_2c = sum < 0 ? 0 : sum;
+    }
+    if (segments_[2].entries_left == 1) {
+        // LABEL_26: the listing copies the chunk's loop list on the stack and reads its last
+        // word (rule->flag_0c_ == 1) or word 2 (otherwise); the copy's buffer is VoxFreed.
+        const std::vector<std::int32_t> copy = loops[chunk];
+        const std::int32_t word =
+            rule->flag_0c_ == 1 ? copy[copy.size() - 1] : loops[chunk][2];
+        const std::int32_t candidate = 1 - carried + word;
+        if (candidate < segments_[2].field_2c) {
+            segments_[2].field_2c = candidate;
+        }
+    }
+    // LABEL_14
+    const std::int32_t period = segments_[2].field_2c;
+    segments_[2].ramp_frames = period;
     segments_[2].gain = 0;
-    segments_[2].field_2c = 0;
-    segments_[2].remaining_frames = 0;
+    segments_[2].ramp_step = DivArm(0x40000000, period);
     return 0;
 }
 
@@ -368,14 +485,24 @@ void VoxNativeSubDecoder::ApplyTransitionRule(TransitionRule* rule) {
     }
 }
 
-// 0x885740 _ZN3vox19VoxNativeSubDecoder20UpdateSegmentsStatesEv (partial)
-// The element lookup, the rule branch, the segment-state updates and the history shift are
-// ported in the order of the pseudocode. Returns the current element index (the word the
-// original returns, current_element_.field_00_, read after the update).
-// Missing (one item): the peek branch reads loop_lists[current chunk][2] and
-// loop_lists[peeked element][1] for next_event_ (+0x164). The original reads these words
-// without a length check; the port's loop lists are vector<int> and their length is not
-// established to be three or more, so the reads assume it.
+// 0x885740 _ZN3vox19VoxNativeSubDecoder20UpdateSegmentsStatesEv
+// Verified line by line against the ARM listing (0x885740..0x885978): the playlist index is
+// states_[field_3c_]; the branch is taken when field_3c_ == field_38_ or field_38_ < 0, and it
+// calls GetPlaylistElement(index, 0, -1) and copies the five words of the found element (or
+// writes -1 to current_element_.field_00_); otherwise it calls ApplyTransitionRule on
+// &transition_rules_[field_90_]. The element >= 0 path then calls IsExtraSegmentNeeded, and on
+// 0 extra takes active_segments_ (on 1 extra it raises active_segments_ by one unless it is
+// already above 2, which goes straight to UpdateDyingSegmentState + UpdateOldSegmentState), runs
+// UpdateOldSegmentState when the count is 2, calls UpdateCurrentSegmentState(rule, extra), sets
+// segments_[2].reset_pending when sample_position is not 0, and computes next_event_ from the
+// peeked element (-1 when there is no peek). The element < 0 path calls
+// UpdateCurrentSegmentState(rule, false) only when the element is exactly -1. The tail shifts
+// field_34_/field_38_/field_40_/field_44_ from their successors, copies the +0x64 element record
+// over the +0x50 one and the +0x78 one over the +0x64 one, stores field_8c_ = field_90_ and
+// returns the first word of the current element record. Deviation (reproduced, not dropped): the
+// loop-list reads (loops[chunk][2] - loops[peek->field_00_][1] and loops[chunk][2]) have no length
+// test in the listing either, so the port's unchecked vector indexing reproduces the original's
+// unchecked read; the values read past a short list are heap-dependent in both.
 int VoxNativeSubDecoder::UpdateSegmentsStates() {
     const std::size_t playlist = static_cast<std::size_t>(field_3c_);
     const int playlist_index = (*states_)[playlist];                       // v4
@@ -450,12 +577,18 @@ int VoxNativeSubDecoder::UpdateSegmentsStates() {
     return current_element_.field_00_;
 }
 
-// 0x885984 _ZN3vox19VoxNativeSubDecoder23InterpretTransitionRuleEi (partial)
-// The rule table flag (type word, +0x04 of the 36-byte rule), the playlist peek and the
-// next_event_ computation are ported. Missing (one item): the return value. The original
-// returns UpdateSegmentsStates' result on the first two paths, the chunk index on the
-// kind-1 path and the peeked element pointer on the other path; the port returns void, and
-// the pointer result has no integer form. SetState returns this value in the original.
+// 0x885984 _ZN3vox19VoxNativeSubDecoder23InterpretTransitionRuleEi
+// Verified against the ARM listing (0x885984..0x885A38): rules[index].type_ (the word at +0x04 of
+// the 36-byte rule, index * 0x24 from the rules data pointer) selects the tail call to
+// UpdateSegmentsStates; otherwise PeekAtNextPlaylistElement(states_[field_3c_]) is called, a null
+// peek tail-calls UpdateSegmentsStates, and a non-null peek sets next_event_ (+0x164) either to
+// loop_lists_[chunk][2] - loop_lists_[peek->field_00_][1] when peek->field_08_ is 1 or to
+// loop_lists_[chunk][2] otherwise, with chunk = segments_[2].chunk_index.
+// Deviation (host): the listing's return value is UpdateSegmentsStates' int on the two tail-call
+// paths, segments_[2].chunk_index on the field_08_ == 1 path and the PlaylistElement pointer on the
+// last path, so it has no single int form on a 64-bit host. Nothing observes it: its only caller
+// SetState(int) is tail-called by DecoderNativeCursor::Decode (0x872218), which reloads R0 at both
+// call sites, so the port keeps the void return.
 void VoxNativeSubDecoder::InterpretTransitionRule(int index) {
     if ((*transition_rules_)[static_cast<std::size_t>(index)].type_ == 0) {
         UpdateSegmentsStates();
@@ -476,21 +609,31 @@ void VoxNativeSubDecoder::InterpretTransitionRule(int index) {
     }
 }
 
-// 0x885a3c _ZN3vox19VoxNativeSubDecoder8SetStateEi (partial)
-// Reproduced: the store of the index, the current segment's chunk from the state list
-// (states[index] into segments_[2].chunk_index, the word at +0x120), and the dispatch on
-// the stored element. Missing (one item): the transition-table lookup that the original
-// makes when field_38 is 0 or more. It reads a 12-byte outer record whose first word points
-// to 8-byte entries (word at +0x00 goes to field_90, byte at +0x04 to +0x4c). The port's
-// transitions_ is vector<vector<TransitionParams>> with 36-byte records, so that layout is
-// not carried over yet. The return value of the dispatch (InterpretTransitionRule's result)
-// is not returned.
+// 0x885a3c _ZN3vox19VoxNativeSubDecoder8SetStateEi
+// Verified against the ARM listing (0x885A3C..0x885AC0): field_3c_ = index is stored first and
+// unconditionally; when the previous field_38_ is 0 or more, transitions_[field_38_] (the 12-byte
+// outer record) is indexed at the 8-byte entry `index`, and entry word 0 goes to field_90_ while
+// entry byte 4 goes to the byte at +0x4c; states_[index] is stored into field_48_ (the playlist
+// the rule code takes the element from); then field_90_ 0 or more tail-calls
+// InterpretTransitionRule(field_90_) and a previous field_38_ of exactly -1 tail-calls
+// UpdateSegmentsStates. The dispatch tests the ORIGINAL field_38_, as the listing's R3 does.
+// Deviation: the original's byte store at +0x4c leaves the three upper bytes of the word
+// untouched; the port stores the byte into the whole 32-bit reset_pending_, whose upper bytes are
+// zero anyway (the constructor and Reset set it to 0 or 1).
 void VoxNativeSubDecoder::SetState(int index) {
+    const std::int32_t previous = field_38_;
     field_3c_ = index;
-    segments_[2].chunk_index = (*states_)[static_cast<std::size_t>(index)];
+    if (previous >= 0) {
+        const std::vector<TransitionParams>& record =
+            (*transitions_)[static_cast<std::size_t>(previous)];
+        const TransitionParams& entry = record[static_cast<std::size_t>(index)];
+        field_90_ = entry.value_;
+        reset_pending_ = entry.flag_;
+    }
+    field_48_ = (*states_)[static_cast<std::size_t>(index)];
     if (field_90_ >= 0) {
         InterpretTransitionRule(field_90_);
-    } else if (field_38_ == -1) {
+    } else if (previous == -1) {
         UpdateSegmentsStates();
     }
 }

@@ -54,7 +54,13 @@ public:
     vox::SegmentState& Seg(int i) { return segments_[i]; }
     void SetField38(int value) { field_38_ = value; }
     void SetStates(vox::States* states) { states_ = states; }
+    void SetTransitions(std::vector<std::vector<vox::TransitionParams>>* transitions) {
+        transitions_ = transitions;
+    }
     int Field3c() const { return field_3c_; }
+    int Field48() const { return field_48_; }
+    int Field90() const { return field_90_; }
+    int ResetPending() const { return reset_pending_; }
     bool HasData() const { return has_data_; }
     int Field34() const { return field_34_; }
     // Pure virtual slots of the base class. The decoders are not part of this test, so each
@@ -169,16 +175,25 @@ int main() {
     idle.EmulateDecode(64);
     CHECK(idle.Seg(0).reset_pending);
 
-    // SetState(int) stores the index. field_38 is set to 0 so that neither the lookup branch
-    // (field_38 == -1) nor the rule branch runs: UpdateSegmentsStates now reads the playlist
-    // manager, which this fixture does not have.
+    // SetState(int) stores the index, looks transitions_[field_38_][index] up for field_90_ and
+    // the byte at +0x4c, and stores states_[index] into field_48_ (the playlist id). The entry's
+    // value is -1 so the dispatch takes neither the rule branch nor UpdateSegmentsStates, which
+    // would need the playlist manager this fixture does not have.
     TestSub indexed;
     vox::States states = {10, 11, 12, 13, 14};
+    vox::TransitionParams params;
+    params.value_ = -1;
+    params.flag_ = 1;
+    std::vector<std::vector<vox::TransitionParams>> transitions(1);
+    transitions[0].assign(5, params);
     indexed.SetStates(&states);
+    indexed.SetTransitions(&transitions);
     indexed.SetField38(0);
     indexed.SetState(4);
     CHECK(indexed.Field3c() == 4);
-    CHECK(indexed.Seg(2).chunk_index == 14);
+    CHECK(indexed.Field48() == 14);
+    CHECK(indexed.Field90() == -1);
+    CHECK(indexed.ResetPending() == 1);
 
     // NativeSubDecoderState: the constructor builds the defaults and the copies carry the
     // words across.

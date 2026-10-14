@@ -72,11 +72,15 @@ bool CPacketManager::IsInitialized() {
 }
 
 // 0x8164e8 _ZN14CPacketManager10InitializeEv
-// partial: the original has no "already created" test: it always runs operator new(0x118, 2), always
-// constructs the object and only then tests the pointer for the -1 result; the port returns 0 early
-// when the singleton exists, so a second call neither allocates nor constructs. The custom allocator
-// tag (the second operator new argument, MemoryHintState 2) is not reproduced, and the port's plain
-// operator new throws instead of returning null, so the -1 branch is unreachable.
+// Partial: the ARM listing IS `LDR s_packetManager / CMP #0 / BEQ 0x816510 / MOV R0,#0; POP` - an
+// already-created early return, contrary to an earlier note in this file. Only on the null path does it
+// run operator new(0x118, 2), CPacketManager::CPacketManager(v2) (0x8162a4) unconditionally, then store
+// the pointer and test v2 for the -1 result; CMP R5,#0 is after the call, so a null allocation would
+// have been constructed through anyway. The port's guard and its store match.
+// Missing: the allocator tag. The original allocates with _Znwj15MemoryHintState(the hint 2), a tag
+// nothing observes (the object is released with a plain delete), and the port's plain new cannot return
+// null, so the post-store -1 branch is unreachable here. Reproducing the tag needs the MemoryHintState
+// allocation hook, which is outside this category.
 int CPacketManager::Initialize() {
     if (s_packetManager != nullptr) {
         return 0;

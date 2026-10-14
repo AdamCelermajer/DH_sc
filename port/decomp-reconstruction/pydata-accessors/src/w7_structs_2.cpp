@@ -8,9 +8,7 @@
 // constructed in place, reached through a typed pointer, and the original 32-bit stride (Structs::ListingStride,
 // struct_strides.hpp) is only written to the stride word. A host record is never addressed with the 32-bit stride.
 //
-// Omitted bodies (see the ledger notes): the thunk of v2QuestAutomatic::read (0x504a90) needs
-// v2QuestObjectiveStub::read, which this slice does not declare. PlayEffect and ExecScript are declared in
-// script_cmd.hpp without these methods.
+// PlayEffect and ExecScript are declared in script_cmd.hpp without these methods.
 #include "pydata-accessors/w7_structs_2.hpp"
 
 #include <cstddef>
@@ -67,9 +65,13 @@ void ReleaseItemRefWords(T& self) {
     if (self.m_w20 != nullptr) CustomFree(self.m_w20);  // +0x50
 }
 
-// read body of the family, without the ItemBase::read call (not in the port). The listing's readStringEx also
-// passes a 5th, 64-bit argument (high word 1, low word undefined), which the stand-in does not take, so the
-// string read is not exact for these rows either.
+// read body shared by the family: words 17..40 (+0x44..+0xa0). Each class's read runs ItemBase::read(stream)
+// (the listing's BL 0x4ec47c, defined in tb_accessors-Structs-0.cpp) before calling this helper, because a
+// qualified base call needs an object and this helper is a free function. Verified against every call site
+// (WeaponRef 0x4f7b18, RangedWeaponRef 0x4f83c0, ShieldRef 0x4f8c68, JewelryRef 0x4f9510, ArmorRef 0x4f9db8,
+// Valuable 0x4fa670, Potion 0x4faf18, GoldItem 0x4fb7c0): each is `ItemBase::read(this, a2)` first, then
+// +0x44..+0xa0 in order. The readStringEx "5th 64-bit argument" Hex-Rays prints is a register residue the
+// callee (0x317454) never reads, so it is not passed.
 template <class T>
 void ReadItemRefWords(T& self, IStreamBase* stream) {
     self.m_w17 = StreamReader::readAs<std::int32_t>(stream);  // +0x44
@@ -129,6 +131,14 @@ v2QuestAutomatic::~v2QuestAutomatic() {
 void DeletingDestructor(v2QuestAutomatic* self) {
     self->v2QuestAutomatic::~v2QuestAutomatic();
     CustomFree(self);
+}
+
+// 0x504a90 _ZN7Structs16v2QuestAutomatic4readEP11IStreamBase
+// thunk: the whole body is `B _ZN7Structs20v2QuestObjectiveStub4readEP11IStreamBase` (0x504818), so this is a
+// forwarder with no body of its own. Hex-Rays prints the same single call. v2QuestAutomatic derives from
+// v2QuestObjectiveStub (w7_structs_2.hpp), so the qualified call compiles.
+void v2QuestAutomatic::read(IStreamBase* stream) {
+    v2QuestObjectiveStub::read(stream);
 }
 
 // ---------------------------------------------------------------- v2Quest (no base in the listing)
@@ -616,8 +626,9 @@ void WeaponRef::finalize() {
 }
 
 // 0x4f7b18 _ZN7Structs9WeaponRef4readEP11IStreamBase
-// Partial: the ItemBase::read call (0x4ec47c, not in the port) is omitted. Words 17..40 are read here.
+// Listing: ItemBase::read (BL 0x4ec47c) first, then words 17..40 (+0x44..+0xa0) via ReadItemRefWords.
 void WeaponRef::read(IStreamBase* stream) {
+    ItemBase::read(stream);  // +0x4..+0x40, base read first
     ReadItemRefWords(*this, stream);
 }
 
@@ -641,8 +652,9 @@ void RangedWeaponRef::finalize() {
 }
 
 // 0x4f83c0 _ZN7Structs15RangedWeaponRef4readEP11IStreamBase
-// Partial: the ItemBase::read call is omitted (see WeaponRef::read).
+// Listing: forwards to ReadItemRefWords, which runs ItemBase::read (0x4ec47c) then words 17..40.
 void RangedWeaponRef::read(IStreamBase* stream) {
+    ItemBase::read(stream);  // +0x4..+0x40, base read first
     ReadItemRefWords(*this, stream);
 }
 
@@ -665,8 +677,9 @@ void ShieldRef::finalize() {
 }
 
 // 0x4f8c68 _ZN7Structs9ShieldRef4readEP11IStreamBase
-// Partial: the ItemBase::read call is omitted (see WeaponRef::read).
+// Listing: forwards to ReadItemRefWords, which runs ItemBase::read (0x4ec47c) then words 17..40.
 void ShieldRef::read(IStreamBase* stream) {
+    ItemBase::read(stream);  // +0x4..+0x40, base read first
     ReadItemRefWords(*this, stream);
 }
 
@@ -689,8 +702,9 @@ void JewelryRef::finalize() {
 }
 
 // 0x4f9510 _ZN7Structs10JewelryRef4readEP11IStreamBase
-// Partial: the ItemBase::read call is omitted (see WeaponRef::read).
+// Listing: forwards to ReadItemRefWords, which runs ItemBase::read (0x4ec47c) then words 17..40.
 void JewelryRef::read(IStreamBase* stream) {
+    ItemBase::read(stream);  // +0x4..+0x40, base read first
     ReadItemRefWords(*this, stream);
 }
 
@@ -713,8 +727,9 @@ void ArmorRef::finalize() {
 }
 
 // 0x4f9db8 _ZN7Structs8ArmorRef4readEP11IStreamBase
-// Partial: the ItemBase::read call is omitted (see WeaponRef::read).
+// Listing: forwards to ReadItemRefWords, which runs ItemBase::read (0x4ec47c) then words 17..40.
 void ArmorRef::read(IStreamBase* stream) {
+    ItemBase::read(stream);  // +0x4..+0x40, base read first
     ReadItemRefWords(*this, stream);
 }
 
@@ -724,7 +739,7 @@ void BeltRef::finalize() {
 }
 
 // 0x4fa660 _ZN7Structs7BeltRef4readEP11IStreamBase
-// Forwarder to ArmorRef::read (partial, see above).
+// Listing: forwarder to ArmorRef::read (BL 0x4f9db8), which is reconstructed.
 void BeltRef::read(IStreamBase* stream) {
     ArmorRef::read(stream);
 }
@@ -735,7 +750,7 @@ void HelmRef::finalize() {
 }
 
 // 0x4fa664 _ZN7Structs7HelmRef4readEP11IStreamBase
-// Forwarder to ArmorRef::read (partial, see above).
+// Listing: forwarder to ArmorRef::read (BL 0x4f9db8), which is reconstructed.
 void HelmRef::read(IStreamBase* stream) {
     ArmorRef::read(stream);
 }
@@ -746,7 +761,7 @@ void GloveRef::finalize() {
 }
 
 // 0x4fa668 _ZN7Structs8GloveRef4readEP11IStreamBase
-// Forwarder to ArmorRef::read (partial, see above).
+// Listing: forwarder to ArmorRef::read (BL 0x4f9db8), which is reconstructed.
 void GloveRef::read(IStreamBase* stream) {
     ArmorRef::read(stream);
 }
@@ -757,7 +772,7 @@ void BootsRef::finalize() {
 }
 
 // 0x4fa66c _ZN7Structs8BootsRef4readEP11IStreamBase
-// Forwarder to ArmorRef::read (partial, see above).
+// Listing: forwarder to ArmorRef::read (BL 0x4f9db8), which is reconstructed.
 void BootsRef::read(IStreamBase* stream) {
     ArmorRef::read(stream);
 }
@@ -769,8 +784,9 @@ void Valuable::finalize() {
 }
 
 // 0x4fa670 _ZN7Structs8Valuable4readEP11IStreamBase
-// Partial: the ItemBase::read call is omitted (see WeaponRef::read).
+// Listing: forwards to ReadItemRefWords, which runs ItemBase::read (0x4ec47c) then words 17..40.
 void Valuable::read(IStreamBase* stream) {
+    ItemBase::read(stream);  // +0x4..+0x40, base read first
     ReadItemRefWords(*this, stream);
 }
 
@@ -781,8 +797,9 @@ void Potion::finalize() {
 }
 
 // 0x4faf18 _ZN7Structs6Potion4readEP11IStreamBase
-// Partial: the ItemBase::read call is omitted (see WeaponRef::read).
+// Listing: forwards to ReadItemRefWords, which runs ItemBase::read (0x4ec47c) then words 17..40.
 void Potion::read(IStreamBase* stream) {
+    ItemBase::read(stream);  // +0x4..+0x40, base read first
     ReadItemRefWords(*this, stream);
 }
 
@@ -793,8 +810,9 @@ void GoldItem::finalize() {
 }
 
 // 0x4fb7c0 _ZN7Structs8GoldItem4readEP11IStreamBase
-// Partial: the ItemBase::read call is omitted (see WeaponRef::read).
+// Listing: forwards to ReadItemRefWords, which runs ItemBase::read (0x4ec47c) then words 17..40.
 void GoldItem::read(IStreamBase* stream) {
+    ItemBase::read(stream);  // +0x4..+0x40, base read first
     ReadItemRefWords(*this, stream);
 }
 

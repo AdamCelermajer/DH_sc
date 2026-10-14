@@ -7,15 +7,21 @@
 #include "net-transport/tb/bluetooth_net_room_info.hpp"
 
 // 0x800d7c CBluetoothNetRoomInfo::CBluetoothNetRoomInfo()
-// Partial: verified in the listing - the constructor loads the value word at +0x188 (LDR R2,[R4,#0x188])
-// before storing the member's zero there, and branches on it: when the loaded word was non-zero it
-// stores 0 at +0x188 and calls NetStructMember::SetChanged on the member at +0x168. Nothing in the
-// listing initialises +0x188 before that load, so in the original the branch (and therefore the
-// SetChanged call) depends on whatever was in memory there. The port's value_ starts at 0
-// (C++ value-initialisation), so the port always stores 0 without SetChanged.
-// The base NetStruct construction, the non-virtual NetStructInt<32u> field stores (+0x16c 32, +0x170
-// zero, +0x178/-0x17c -1, +0x180 0, +0x184 0), the vptr stores and the name_-then-value_ DeclareMember
-// order all match the original.
+// Partial: re-verified in the ARM listing 0x800d7c. The base NetStruct ctor, the empty std::string
+// temporary and NetStructString<256u>(name_) at +0x130, the field stores (STR #0x20 -> sizeBits +0x16c,
+// STRD 0 -> +0x170, STR -1 -> +0x178 and +0x17c, STR 0 -> +0x180, STRB 0 -> +0x184, vptr +0x168) and
+// the name_-then-value_ DeclareMember order all match the port.
+// Missing: `LDR R2,[R4,#0x188]` at 0x800e10 reads value_'s value word before the store that zeroes it,
+// and `CMP R2,#0` at 0x800e2c selects the non-zero path (STR R2,[R4,#0x188] plus SetChanged on the
+// member at +0x168). Nothing in this constructor writes +0x188 before that load, so the branch depends
+// on whatever word the allocator handed back. The member itself is fully built by then (the field
+// stores at 0x800e3c..0x800e50 and the vptr store at 0x800e44 are unconditional and precede the branch),
+// so SetChanged on the non-zero path does exactly what a normal change would: stamp changeStamp_ from
+// NetStruct::s_changeCounter, copy the change mask into the ack and sent masks and set changed_, with
+// the module-level counter advanced - after which the value word is 0 again either way. The value_
+// member is modelled, but that branch and its SetChanged side effect are not reproducible: the port's
+// value_ starts at 0, so it always takes the set-to-zero-only path, which is the deterministic (and
+// only well-defined) outcome.
 CBluetoothNetRoomInfo::CBluetoothNetRoomInfo()
     : NetStruct(), name_(std::string()) {
     if (value_.GetValue() != 0) {

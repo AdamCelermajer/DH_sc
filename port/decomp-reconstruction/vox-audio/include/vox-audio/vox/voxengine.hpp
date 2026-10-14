@@ -21,8 +21,10 @@ public:
     virtual ~VoxEngine();                           // 0x862990 (D1), 0x862a34 (D2); D0 0x862a18
     static VoxEngine* GetVoxEngine();               // 0x862b30
     static void DestroyVoxEngine();                 // 0x8628f8
-    void Shutdown();                                // 0x862944 (partial: VoxThread dtor not ported)
-    void Initialize();                              // 0x862d10 (partial: the listing returns the low word of the start time)
+    // Initialize and Shutdown are virtual in the original: the class vtable at 0x993448 is
+    // D1, D0, Initialize (+0x08), Shutdown (+0x0c). Declared in that slot order.
+    virtual void Initialize();                      // 0x862d10
+    virtual void Shutdown();                        // 0x862944
     int UpdateEmittersThreaded();                   // 0x862c4c (VoxEngineInternal::UpdateEmitters result)
     int UpdateThreaded();                           // 0x862cf0 (the emitters update result)
     // Thread callback for the emitter thread (the 0x862d0c thunk forwards to 0x862c4c).
@@ -116,7 +118,7 @@ public:
     static int IsValid(DataHandle& data);           // 0x8624d0
     static int IsReady(DataHandle& data);           // 0x8624f8
     static void GetAllDataSources(DataHandle* out, int max_count);  // 0x862520
-    static void GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count);  // 0x862548
+    static int GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count);  // 0x862548 (returns the count)
     static void ReleaseDatasource(unsigned int id);  // 0x862570
     static void ReleaseDatasource(DataHandle& data); // 0x862598
     static int GetUid(DataHandle& data);            // 0x8625c0 (-1 without an engine)

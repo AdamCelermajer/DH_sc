@@ -2,7 +2,9 @@
 // state changes with their MultiMenuManager calls, and Update: the menu swap, the top-of-stack pop path and the update
 // path. The engine symbols the batch calls (MenuManager, MenuBase::IsVisible, DebugSwitches, Application, COnline,
 // StateMachine and the StateBase virtuals) are stubbed here, so the test links without the engine. MultiMenuManager is
-// never constructed: its virtual calls go to a fake vtable (fakemmm below). Exit status 0 means every check passed.
+// never constructed: its virtual calls go to a fake vtable (fakemmm below). COnline::GetInstance is NOT a null stand-in:
+// it returns a real COnlineImpl, because the batch dereferences the result on the update path. Exit status 0 means every
+// check passed.
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
@@ -18,6 +20,7 @@
 #include "dh2/StateMachine.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "net-session-online/c_online.hpp"
+#include "net-session-online/c_online_impl.hpp"
 
 namespace {
 
@@ -93,6 +96,7 @@ Level* g_currentLevel = nullptr; // what Application::GetCurrentLevel returns
 bool g_menuVisible = false;      // what MenuBase::IsVisible returns for the About menu
 int g_popStateCount = 0;         // StateMachine::PopState calls
 bool g_lastPopNull = false;      // whether the last PopState got a null state
+int g_recurseUpdateCount = 0;    // StateMachine::RecurseUpdate calls (the batch's online branch)
 
 // The objects the batch reaches through pointers. MenuManager and the menus are raw storage: the batch only takes their
 // addresses, reads m_multiMenuManager, and calls non-virtual members that are stubbed below.
@@ -122,6 +126,7 @@ void ResetCounters() {
     g_lastSwitchName.clear();
     g_popStateCount = 0;
     g_lastPopNull = false;
+    g_recurseUpdateCount = 0;
     fakemmm::g_pushCount = 0;
     fakemmm::g_lastPushed = nullptr;
     fakemmm::g_popBoolCount = 0;
@@ -188,8 +193,14 @@ bool DebugSwitches::GetSwitch(const std::string& name) {
     return false;
 }
 
+// A real COnlineImpl with the online flag clear, which is what the original's GetOnline() returns before any game
+// goes online. It MUST be a real object: GSFlashMenu::Update's update path (game-app/src/g1-game-app-GSFlashMenu-353474-0.cpp,
+// asm 0x384550) dereferences the GetInstance() result through COnline::IsOnlineGame() (+0x05) and only then tests it, so
+// returning null here is a null dereference on that path, not a short circuit. The object is created as COnlineImpl, the
+// same type the real singleton COnline::GetInstance() allocates (net-session-online/src/tb_session-online-COnline-0.cpp).
+static COnlineImpl g_testOnline;
 COnline* COnline::GetInstance() {
-    return nullptr;  // the batch ignores the result on the update path
+    return &g_testOnline;
 }
 
 Application::Application() {}
@@ -212,6 +223,10 @@ StateMachine::~StateMachine() {}
 void StateMachine::PopState(StateBase* state) {
     ++g_popStateCount;
     g_lastPopNull = (state == nullptr);
+}
+
+void StateMachine::RecurseUpdate(double) const {
+    ++g_recurseUpdateCount;
 }
 
 StateBase::~StateBase() {}
@@ -417,6 +432,27 @@ int main() {
         menu.Update(&machine, 0.0);
         Check(g_updateCount == 1 && !g_updateHudOnly, "Update with a visible menu runs MenuManager::Update(false)");
         Check(g_popStateCount == 0 && !menu.m_popped, "Update with a visible menu does not pop");
+        Check(g_recurseUpdateCount == 0, "Update with the online flag clear does not recurse into the state below");
+        g_menuVisible = false;
+    }
+
+    // Update, on top with a visible menu and the online flag set: the update path also recurses. This is the branch the
+    // batch reaches through COnline::GetInstance()->IsOnlineGame(); it is only observable because GetInstance returns a
+    // real COnlineImpl whose flag this test can set.
+    {
+        GSFlashMenu menu;
+        StateMachine machine;
+        ResetCounters();
+        menu.m_manager = ManagerTag();
+        menu.m_menu = AboutTag();
+        menu.m_popped = false;
+        g_menuVisible = true;
+        g_testOnline.SetIsOnlineGame(true);
+        machine.m_stack.push_back(StateMachine::StateInfo{&menu, false});
+        menu.Update(&machine, 0.0);
+        Check(g_updateCount == 1 && g_recurseUpdateCount == 1,
+              "Update with the online flag set runs MenuManager::Update(false) and RecurseUpdate");
+        g_testOnline.SetIsOnlineGame(false);
         g_menuVisible = false;
     }
 

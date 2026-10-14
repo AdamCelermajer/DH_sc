@@ -317,7 +317,13 @@ void ITexture::setDataDirty(bool flag) const {
 }
 
 // 0x5ff26c _ZN6glitch5video8ITexture4copyEv
-// Partial, see texture.hpp. Sizes follow getSizeInBytes: one face plus five 128-byte-aligned faces for cubes.
+// Verified against the listing: refuse (return 0) when bit 0 of +0x3f (the owned-data flag) is set AND the data
+// pointer at +0x2c is non-null; otherwise allocate the byte count getSizeInBytes computes (v4 + 128-byte-aligned
+// v4 * the cube multiplier 5 when (m_flags38 & 3) == 2, exactly the expression getSizeInBytes is the port's
+// spelling of), store the new pointer at +0x2c, copy the old contents over it and set bit 0 of +0x3f, then
+// return 1. Deviations: the original tail-calls memcpy with the saved source pointer even when that source is
+// null (undefined there), so the port skips the copy in that case; and the block comes from new[] where the
+// original uses operator new[] with the glitch memory hint (same released-by-delete[] ownership).
 uint32_t ITexture::copy() {
     // Bit 0 of +0x3f means the data is owned (freed by setData), as in the asm at 0x5ff26c
     // (TST R3,#1 then the non-zero check that returns 0). A copy is refused only when owned data exists.
@@ -332,6 +338,8 @@ uint32_t ITexture::copy() {
     if (source != nullptr) {
         std::memcpy(dest, source, total);
     }
+    // 0x5ff31c: STRB with the old flag word ORed with 1 -- the copy is owned from here on (setData frees it).
+    m_flags3f = static_cast<uint8_t>(m_flags3f | 1u);
     return 1;
 }
 

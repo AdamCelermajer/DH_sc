@@ -73,7 +73,7 @@ int main() {
     h = win.openFile("raw.bin", false, false);
     CHECK(h != nullptr);
     if (h != nullptr) {
-        h->obfuscated_ = true;
+        h->cfile_->obfuscated = true;  // the CFile byte at +0x24 of the real glitch::io::CFile
         std::string expect = "abcd";
         FileSystemBase::decodeObfuscatedData(0, &expect[0], 4, nullptr);
         std::string got(4, '\0');

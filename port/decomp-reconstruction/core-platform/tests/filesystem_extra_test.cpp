@@ -27,12 +27,19 @@ struct CountedStream : IFileStream {
 int CountedStream::alive = 0;
 
 int main() {
-    FileSystemBase base;
-    CHECK(base.formatFilePath("a/b\\c") == "a/b\\c");  // the base copies the path
+    // FileSystemBase is abstract, exactly as the original is: _ZTV14FileSystemBase leaves the
+    // derived system's slots (+0x6c..+0xa0, +0xb4) pure, so the test drives the one concrete
+    // implementation, FileSystemWin32 (RES_PATH is "./" in this build).
+    FileSystemWin32 base;
+    // The base's own copy (0x34e1ac) is called qualified; the virtual call would reach
+    // FileSystemWin32::formatFilePath, which rewrites the separators (checked on fs below).
+    CHECK(base.FileSystemBase::formatFilePath("a/b\\c") == "a/b\\c");
     CHECK(base.getAbsolutePath("x/y") == "x/y");
     CHECK(base.ApplyFilenameHacks("save.dat") == "save.dat");
 
-    // Existence checks: a file written here exists, a missing one does not.
+    // Existence checks: a file written here exists, a missing one does not. Each one goes through
+    // the virtual the original uses (openFile +0x88 / openResource +0x90 / openSavefile +0x94, then
+    // closeFile +0x78), so this drives the dispatch as well as the lookup.
     {
         std::FILE* f = std::fopen("dh2_fs_extra_exists.bin", "wb");
         CHECK(f != nullptr);
@@ -47,16 +54,23 @@ int main() {
     CHECK(!base.doesFileExists("dh2_fs_extra_missing.bin"));
     std::remove("dh2_fs_extra_exists.bin");
 
-    // createAndOpenFile: a plain name gets the RES_PATH prefix (default "./"); a name
-    // with ".config" is used as given.
-    base.createAndOpenFile("dh2_fs_extra_created.txt");
+    // createAndOpenFile: a plain name gets the RES_PATH prefix (default "./"). The original opens
+    // the name as a *read* file through glitch::io::CFileSystem::createAndOpenFile (0x56d4e0), so
+    // the file has to exist already; the call returns null otherwise.
     {
-        std::FILE* f = std::fopen("dh2_fs_extra_created.txt", "rb");
+        std::FILE* f = std::fopen("dh2_fs_extra_created.txt", "wb");
         CHECK(f != nullptr);
         if (f) {
+            std::fputs("x", f);
             std::fclose(f);
         }
     }
+    glitch::io::IReadFile* opened = base.createAndOpenFile("dh2_fs_extra_created.txt");
+    CHECK(opened != nullptr);
+    if (opened != nullptr) {
+        opened->drop();
+    }
+    CHECK(base.createAndOpenFile("dh2_fs_extra_missing.txt") == nullptr);
     std::remove("dh2_fs_extra_created.txt");
 
     // Win32 wrappers: closeFile deletes the stream and clears the pointer; getFolders

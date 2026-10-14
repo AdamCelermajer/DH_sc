@@ -356,6 +356,8 @@ int setParameter(const SParameterTable& t, std::uint16_t id, const T* src, int s
 }
 
 // Cvt array read (pointer types only in this slice). A zero stride copies nothing and reports success.
+// The pointer slots are part1c::SPointerSlots entries keyed by the original 4-byte slot offset, because a
+// 64-bit pointer does not fit the value area; a null slot map fails the row.
 template <class T>
 int getParameterCvt(const SParameterTable& t, std::uint16_t id, T* out, int stride) {
     static_assert(PartTraits<T>::kPointer, "numeric getParameterCvt rows are not in this slice");
@@ -373,7 +375,9 @@ int getParameterCvt(const SParameterTable& t, std::uint16_t id, T* out, int stri
 // Cvt array write. Numeric: the Convertions gate, the dirty mark after the gate, then either a copy
 // (stored type = own type and stride 0 or the element size) or a per-element conversion. A stride of
 // 0 with another stored type does nothing. Pointer types: the dirty mark, then the slots (stride 0
-// does nothing).
+// does nothing). Those slots are part1c::SPointerSlots entries keyed by the original 4-byte slot offset, and
+// their reference counts are the counting boost::intrusive_ptr of glitch-core-io (add before the store,
+// release of the replaced element after it).
 template <class T>
 int setParameterCvt(const SParameterTable& t, std::uint16_t id, const T* src, int stride) {
     const SParameterEntry* e = findEntry(t, id);
@@ -424,7 +428,8 @@ int getParameter(const SParameterTable& t, std::uint16_t id, std::uint32_t index
 }
 
 // Indexed Cvt read (pointer types only in this slice): the index is checked, then the entry's first
-// element is read (the index is not added to the offset, as in the listing).
+// element is read (the index is not added to the offset, as in the listing). The slot comes from
+// part1c::SPointerSlots, and its intrusive_ptr assignment addrefs the new value and releases the old one.
 template <class T>
 int getParameterCvt(const SParameterTable& t, std::uint16_t id, std::uint32_t index, T& out) {
     static_assert(PartTraits<T>::kPointer, "numeric indexed getParameterCvt rows are not in this slice");
@@ -463,7 +468,9 @@ int setParameter(const SParameterTable& t, std::uint16_t id, std::uint32_t index
 
 // Indexed Cvt write. Pointer types write the entry's first element (the index is checked but not
 // added to the offset, as in the listing). Numeric types write the first element through the
-// conversion table; the dirty mark is set when the stored element changed (M only).
+// conversion table; the dirty mark is set when the stored element changed (M only). Pointer types set the
+// dirty words only when the stored pointer changes, addref the new value before the store and release the old
+// one after it, all through the counting boost::intrusive_ptr, with the slot in part1c::SPointerSlots.
 template <class T>
 int setParameterCvt(const SParameterTable& t, std::uint16_t id, std::uint32_t index, const T& value) {
     const SParameterEntry* e = findEntry(t, id);

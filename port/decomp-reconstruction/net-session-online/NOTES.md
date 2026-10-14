@@ -567,10 +567,58 @@ Applies the net-session-online side of the layout requests of the r1n result (th
   `...ForTest` reads, and the multiplayer message handlers write the consumed flag.
 - **Not applied** (each needs more than a declaration; the reason is in the ledger row or in the request list of the report):
   the `CMatchingLocal`/`CMatching` NetStruct rework (requests 40, 46 to 52, 95: members_ at +0x4be0, the server backup array, the
-  room info NetStruct blocks, moving the other NetStruct classes off `deps/net_struct_stub.hpp`), `CRoomAttributes` Serialize and
+  room info NetStruct blocks, moving the other NetStruct classes off `deps/net_struct_stub.hpp`) -- **APPLIED in the
+  net-session-online sweep batch, see the next section**, `CRoomAttributes` Serialize and
   Unserialize and the `Resend` slot (41, 67, 76), the `CMatchingGLLiveLobbyObserver` member vector and room id (55, 56, 62, 63, 71),
   `tFriendInfo` name (54), `GLXPlayerUserFriend` text storage and the string-typed `GetUserNumber` (23, 73, 98),
   `GLXPlayerMPLobby::Update` (89: needs the lobby members at +0x68 and +0x6c), `tMemberInfo` fields (77, 78),
   the `field60_`/`state_` duplicate (100) and the `LoadConfig` overlap (101), the static singleton getters (87), `vtWritePacketData`
   (45), the `CMsg*` payload field names and duplicate class definitions (26, 27, 34, 90), and the requests whose definitions belong to
   other categories (28, 29, 35, 19).
+
+## Member-record pass (net-session-online sweep batch, 0x7ffd04 / 0x806b98 and the rows that needed them)
+
+**What the earlier layout notes got wrong.** Three separate errors had the same root: the member records were read as
+plain field structs rather than as `NetStruct` records.
+
+1. `CMatching`'s element array. `c_matching_base.hpp` declared `struct MemberInfo { int memberId; int teamId;
+   std::vector<uint8_t> roomAttribute; int previousMemberId; }` and said the `NetStruct` base was "not modelled". Every
+   value write in the binary is `NetStructMemberType<T>::SetValue` through member vtable +0x1c, and the element itself is
+   a `NetStruct` whose +0x40/+0x44 slots `CMatching::ProcessAcknowledgedPacket` / `ProcessLostPacket` call for every
+   element. The element is now `class CMatching::MemberInfoNetStruct : public NetStruct` with `NetStructInt<32> idMember_`
+   (element +0x130, value +0x150), `NetStructUInt<8> teamMember_` (+0x158 / +0x178), `NetStructByteArray<64>
+   roomAttributeMember_` (+0x180 / +0x1a0) and the cached `previousMemberId_` (+0x1a8, not a NetStruct member). Element
+   stride 432, array base +0x20, `NetStructArray<CMatching::MemberInfoNetStruct,32>` header at +0x18. The array's count
+   (+0x1c) is the class's `memberCount_`, which the constructor sets to 32.
+2. `CMatchingLocal`'s records. `c_matching_local.hpp` carried only a forward `class MemberInfoNetStruct;` and no members,
+   so five rows were partial for want of them. The class's OWN record type is a different class from `CMatching`'s (the
+   symbols `_ZN14CMatchingLocal19MemberInfoNetStruct{C1,D1,D0}Ev` and `_ZTVN14CMatchingLocal19MemberInfoNetStructE` are
+   its own; the only `NetStructArray` instantiation in the binary names the `CMatching` one). The class now declares
+   `RoomInfoNetStruct` (+0x4A20, two `NetStructBool` and two `NetStructInt<32>`), `localMembers_[32]` (+0x4BE0, stride
+   408, `NetStructInt<32>` id at the element's +0x130 plus the listen `CNetworkId` at +0x158) and
+   `serverBackup_[32]` (+0x7EE8, stride 344, one `NetStructInt<32>`). `RoomInfoNetStruct::unk130_` / `unk150_` are the
+   room-closed / room-hidden flags the port used to keep as the plain bytes `roomClosed_` (+0x4b6d) and
+   `roomHiddenFlag_` (+0x4b8d); those fields are gone and every read and write goes through the record's members.
+3. `IsInRoom(int)` (0x805c1c). Its note called the last term "the member-id word (element +0x150) of the base member table
+   (+0x20)". `102*index + 4940` dwords is `408*index + 0x4D30`, i.e. `CMatchingLocal`'s own table at +0x4BE0.
+
+**Host-necessitated deviations of this pass** (all named in the source):
+
+- `roomInfo_` and `serverBackup_` are heap objects (a nested type cannot be complete before its owner), allocated in the
+  constructor and released in the destructor. `localMembers_` is a real member.
+- `CMatchingLocal::MemberInfoNetStruct::networkId_` is a plain `CNetworkId`, not a `NetStructMemberType<CNetworkId>`: its
+  vtable (`off_992008`) is not identified, so it does not take part in the record's serialize.
+- `CMatching` keeps the `NetStructArray` header's count as the plain int `memberCount_` instead of net-transport's
+  `NetStructArray` template, whose `count_` is protected and whose element type would have to be declared inside
+  `CMatching`; the four array-wide operations (Load/Erase/Serialize/Process*) are therefore inlined in the callers.
+
+**Rows unblocked** (all now `reconstructed`): `CMatching::ProcessLostPacket` 0x7fed84, `ProcessAcknowledgedPacket`
+0x7fed08, `SetRoomMemberAttibute` 0x7ff008, `UpdateMemberIdList` 0x8002bc, `SetTeamId` 0x8008ac, `CreateJoinRoom`
+0x7ff350, `ReadPacketData` 0x7fea14, `ResendMemberData` 0x7feac4, `MemberInfoNetStruct::MemberInfoNetStruct` 0x7ffd04,
+`CMatchingLocal::Reset` 0x8074a4, `CMatchingLocal` ctor/dtor 0x807e44/0x807f80, `CMatchingLocal::ProcessLostPacket`
+0x8057f0, `ProcessAcknowledgedPacket` 0x80585c, `ReadPacketData` 0x805b14, `WritePacketData` 0x8063c4, plus the
+`CMatchingLocal` record constructors/destructors 0x806b98/0x806258/0x806344, 0x806964/0x8061bc/0x80623c and
+0x806cac/0x8062d0/0x806140. `CMatchingLocal::CreateJoinRoomInternal` 0x8079d4, `CMatching::JoinRoom` 0x7ff120,
+`CMatching::Initialize` 0x7ff85c, `CMatching::WritePacketData` 0x8010a4, `CMatchingLocal::Update` 0x80890c and
+`CMatchingGLLive`'s member records stay `partial` for the reasons in their rows (vtable slot dispatch, remaining body
+gaps, and the separate 360-byte `CMatchingGLLive::MemberInfoNetStruct` table this pass did not model).

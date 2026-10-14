@@ -36,9 +36,10 @@ public:
     const char* GetUserUid() const { return userUid_.get(); }
     // 0x4991cc _ZN10GameCenter10GetHostUidEv
     const char* GetHostUid() const { return hostUid_.get(); }
-    // 0x499324 _ZN10GameCenter6IsHostEv: true when the host UID equals the user UID.
-    // Partial: the original calls strcmp on both, so a null UID is undefined there. This
-    // port treats a null UID as not the host.
+    // 0x499324 _ZN10GameCenter6IsHostEv. Re-verified from the asm: `return LC_API_STRCMP_0(*(this+12),
+    // *(this+13)) == 0` -- two dword loads at +0x30 and +0x34 (hostUid_, userUid_) straight into strcmp,
+    // with no null test. Reproduced as those two members; deviation (host-necessitated): a null UID would
+    // fault inside strcmp in the binary, so the port answers false instead of dereferencing null.
     bool IsHost() const;
 
     // 0x4999b8 _ZN10GameCenter15ResetPlayerListEv: the list is replaced by the local user.
@@ -75,9 +76,9 @@ public:
     // 0x4995a0 _ZN10GameCenter19ReportGCAchievementEPc. Partial: the gate and the flags are on the
     // singleton, as for ReportGCScore. A null name is taken as "" (the original calls strdup on it).
     void ReportGCAchievement(const char* name);
-    // 0x499efc _ZN10GameCenter15CoinTossForHostEv. Partial: the list is sorted as in the
-    // original, but the returned word is read from the STL node storage in the original and
-    // is not reproduced. This returns 0.
+    // 0x499efc _ZN10GameCenter15CoinTossForHostEv: sorts the player list at +0x24 ascending and returns the
+    // first element's char* as a word (there is no random toss). The sort is a real std::list::sort here;
+    // the returned address cannot be reproduced, so 0 is returned instead (see the .cpp).
     std::int32_t CoinTossForHost();
     // 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc. Partial: a null ID is taken as ""
     // (the original would construct a string from a null pointer).
@@ -86,18 +87,19 @@ public:
     // and the timevaldiff call goes to the OnlineSingleton<OnlineGameState> instance. timevaldiff (0x4a00a0)
     // reads only its two timevals, so the receiver does not change the result.
     bool GCStartGameTimeoutExpired() const;
-    // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv. Partial: the gate (+0x15), the start flag (+0x11),
-    // the start time (+0x1c) and the coin toss are on the GameCenter singleton, as in the original.
-    // OnlineGameState::Init(4) runs on the OnlineSingleton instance. Not ported: the OnlineGameState flag at
-    // +0x28 (no such member in online_game_state.hpp), the MenuManager "GoToVerificationScreen" callback
-    // (MenuManager::GetInstance has no body in the tree), and the coin-toss result. The original writes that
-    // int into the host UID pointer slot (+0x30), which is a decompile type clash with the char* here.
-    // The original's return value is not reproduced (void here; no caller in the corpus reads it).
-    void GCStartMultiplayerGame();
-    // 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb. The bool argument is unused in the original. It clears
-    // the start gate (+0x15) on the GameCenter singleton, then calls the no-argument overload on this. Partial,
-    // as that overload is.
-    void GCStartMultiplayerGame(bool /*unused*/);
+    // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv. Partial. The gate (+0x15), the start flag (+0x11),
+    // the start time (+0x1c), the CoinTossForHost sort, OnlineGameState flag28_ (+0x28) and
+    // OnlineGameState::Init(4) on the OnlineSingleton instance are reproduced; the return value is the Init
+    // result, as the binary's tail branch leaves in r0. Not ported: the MenuManager
+    // "GoToVerificationScreen" chain (MenuManager::GetInstance 0x42ca8c has no body in the tree and
+    // MenuManager::GetRoot 0x42cb80 is one of the outstanding game-ui rows), and the store of the
+    // CoinTossForHost word into the singleton's +0x30 (the address of the first sorted player ID; not a
+    // reproducible value, and no reader of that slot exists in this port).
+    int GCStartMultiplayerGame();
+    // 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb. The bool argument is unused in the original (a2 is
+    // never read). It clears the start gate (+0x15) on the GameCenter singleton and tail-branches to the
+    // no-argument overload, whose result is passed through as the caller's r0 (hence the int return here).
+    int GCStartMultiplayerGame(bool /*unused*/);
     // 0x499fe8 _ZN10GameCenter17GetJoinPlayerListEv. The original returns the list by value
     // (hidden result pointer); the copy is the same as the list at +0x24.
     std::list<std::string> GetJoinPlayerList() const { return playerList_; }

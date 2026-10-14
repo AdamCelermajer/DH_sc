@@ -1,17 +1,21 @@
 symbol,kind,size,category,address,demangled
 _Z12get_fontfilePKcbbPci,function,0,see link-missing.csv,0x42b38c,get_fontfile(char const*| bool| bool| char*| int)
+_Z14mpc_demux_exitP9mpc_demux,function,0,see link-missing.csv,,mpc_demux_exit(mpc_demux*)
+_Z14mpc_demux_initP12mpc_reader_t,function,0,see link-missing.csv,,mpc_demux_init(mpc_reader_t*)
 _Z14setCullingModePN6glitch5scene10ISceneNodeEi,function,0,see link-missing.csv,0x50f744,setCullingMode(glitch::scene::ISceneNode*| int)
 _Z15fillLeaderBoardv,function,0,see link-missing.csv,0x441dcc,fillLeaderBoard()
 _Z15gluTessCallbackP13GLUtesselatoriPFvvE,function,0,see link-missing.csv,0x7aefc4,gluTessCallback(GLUtesselator*| int| void (*)())
 _Z15gluTessPropertyP13GLUtesselatorid,function,0,see link-missing.csv,0x7aed6c,gluTessProperty(GLUtesselator*| int| double)
+_Z16mpc_demux_decodeP9mpc_demuxP12MpcFrameInfo,function,0,see link-missing.csv,,mpc_demux_decode(mpc_demux*| MpcFrameInfo*)
 _Z18DBG_TraceSceneNodePN6glitch5scene10ISceneNodeEiPFbS2_E,function,0,see link-missing.csv,0x50e7c4,DBG_TraceSceneNode(glitch::scene::ISceneNode*| int| bool (*)(glitch::scene::ISceneNode*))
-_Z18DbgDrawOwnerDriverv,function,0,see link-missing.csv,,DbgDrawOwnerDriver()
 _Z18DeviceFeatureFlagsv,function,0,see link-missing.csv,,DeviceFeatureFlags()
+_Z18mpc_demux_get_infoP9mpc_demuxPj,function,0,see link-missing.csv,,mpc_demux_get_info(mpc_demux*| unsigned int*)
 _Z21ApplicationOpenStreamPKc,function,0,see link-missing.csv,,ApplicationOpenStream(char const*)
+_Z21mpc_demux_seek_sampleP9mpc_demuxjii,function,0,see link-missing.csv,,mpc_demux_seek_sample(mpc_demux*| unsigned int| int| int)
 _Z22ApplicationCloseStreamP11IStreamBase,function,0,see link-missing.csv,,ApplicationCloseStream(IStreamBase*)
 _Z22DBG_GetLoadingStepNamei,function,0,see link-missing.csv,0x3ef18c,DBG_GetLoadingStepName(int)
-_Z25DbgDrawBoxViaDriverSlot28PvPKfj,function,0,see link-missing.csv,,DbgDrawBoxViaDriverSlot28(void*| float const*| unsigned int)
 _Z27DBG_TraceSceneNodePolyStatsPN6glitch5scene10ISceneNodeEiPFbS2_E,function,0,see link-missing.csv,0x51073c,DBG_TraceSceneNodePolyStats(glitch::scene::ISceneNode*| int| bool (*)(glitch::scene::ISceneNode*))
+_Z29DBG_DrawGlitchNodeBoundingBoxPN6glitch5scene10ISceneNodeE,function,0,see link-missing.csv,0x50e6a0,DBG_DrawGlitchNodeBoundingBox(glitch::scene::ISceneNode*)
 _Z36DBG_TraceAllLoadedResfileInformationv,function,0,see link-missing.csv,0x50e228,DBG_TraceAllLoadedResfileInformation()
 _Z36DBG_TraceAllLoadedTextureInformationv,function,0,see link-missing.csv,0x50e2b8,DBG_TraceAllLoadedTextureInformation()
 _Z48TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalissePN6glitch5scene10ISceneNodeE,function,0,see link-missing.csv,0x381a10,TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalisse(glitch::scene::ISceneNode*)
@@ -20,10 +24,8 @@ _ZN15VoxSoundManager10InitializeEv,function,0,see link-missing.csv,0x36c2e4,VoxS
 _ZN15VoxSoundManager14CreateInstanceEv,function,0,see link-missing.csv,0x36ca88,VoxSoundManager::CreateInstance()
 _ZN15VoxSoundManager14DeleteInstanceEv,function,0,see link-missing.csv,0x36b048,VoxSoundManager::DeleteInstance()
 _ZN15VoxSoundManager15SetLevelRoutingEi,function,0,see link-missing.csv,0x3695f4,VoxSoundManager::SetLevelRouting(int)
-_ZN15VoxSoundManagerC1Ev,function,0,see link-missing.csv,0x36c7b0,VoxSoundManager::VoxSoundManager()
 _ZN3sfc4math5graph11GraphSparseI12PFGOuterEdgeE5clearEv,function,0,see link-missing.csv,0x522f70,sfc::math::graph::GraphSparse<PFGOuterEdge>::clear()
 _ZN3sfc4math5graph9AlgoAStarI13PFGInnerGraph17DijkstraHeuristicE8findNodeEjRKNS1_5ITestI12PFGInnerEdge12PFGInnerNodeEEjPNSt7__cxx114listIPKS7_SaISF_EEE,function,0,see link-missing.csv,,sfc::math::graph::AlgoAStar<PFGInnerGraph| DijkstraHeuristic>::findNode(unsigned int| sfc::math::graph::ITest<PFGInnerEdge| PFGInnerNode> const&| unsigned int| std::__cxx11::list<PFGInnerEdge const*| std::allocator<PFGInnerEdge const*> >*)
-_ZN3vox10EmitterObj17ProcessNativeDataEf,function,0,see link-missing.csv,0x866b30,vox::EmitterObj::ProcessNativeData(float)
 _ZN3vox18DecoderMPC8FactoryEPv,function,0,see link-missing.csv,0x8704dc,vox::DecoderMPC8Factory(void*)
 _ZN5DecorC1EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Decor::Decor(ObjectBase::GO_IDS)
 _ZN5DecorC2EN10ObjectBase6GO_IDSE,function,0,see link-missing.csv,,Decor::Decor(ObjectBase::GO_IDS)
@@ -68,8 +70,6 @@ _ZN6glitch7collada20CDynamicAnimationSet19remAnimationLibraryEj,function,0,see l
 _ZN6glitch7collada20CDynamicAnimationSet27remAnimationLibraryBindingsEj,function,0,see link-missing.csv,0x62fa44,glitch::collada::CDynamicAnimationSet::remAnimationLibraryBindings(unsigned int)
 _ZN6glitch7collada20CDynamicAnimationSet33overwriteAnimationLibraryBindingsERKNS0_16CColladaDatabaseEj,function,0,see link-missing.csv,0x62e204,glitch::collada::CDynamicAnimationSet::overwriteAnimationLibraryBindings(glitch::collada::CColladaDatabase const&| unsigned int)
 _ZN6glitch7collada8CResFile22releaseRemovableBufferEh,function,0,see link-missing.csv,0x657d58,glitch::collada::CResFile::releaseRemovableBuffer(unsigned char)
-_ZN7Console11_createListERSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS6_EEPc,function,0,see link-missing.csv,,Console::_createList(std::vector<std::__cxx11::basic_string<char| std::char_traits<char>| std::allocator<char> >| std::allocator<std::__cxx11::basic_string<char| std::char_traits<char>| std::allocator<char> > > >&| char*)
-_ZN7Console12_destroyListEv,function,0,see link-missing.csv,0x32fdc0,Console::_destroyList()
 _ZN7Console13_setMenuMenusEv,function,0,see link-missing.csv,0x331140,Console::_setMenuMenus()
 _ZN7Console13_setMenuStatsEv,function,0,see link-missing.csv,0x33169c,Console::_setMenuStats()
 _ZN7Console14COMMAND_LABELSE,data,60,see link-missing.csv,0x999708,Console::COMMAND_LABELS
@@ -91,7 +91,6 @@ _ZN7Console6UpdateEd,function,0,see link-missing.csv,0x330270,Console::Update(do
 _ZN7Console7onEventEPK6IEventPK12EventManager,function,0,see link-missing.csv,0x335b14,Console::onEvent(IEvent const*| EventManager const*)
 _ZN7gameswf12get_fontfileEPKcR9tu_stringbb,function,0,see link-missing.csv,,gameswf::get_fontfile(char const*| tu_string&| bool| bool)
 _ZN7gameswf16read_filter_listEPNS_6streamERNS_6effectE,function,0,see link-missing.csv,0x758ca8,gameswf::read_filter_list(gameswf::stream*| gameswf::effect&)
-_ZN7gameswf7tu_fileC1EPKcS2_,function,0,see link-missing.csv,0x7b68c8,gameswf::tu_file::tu_file(char const*| char const*)
 _ZNK15TouchScreenBase15isRegionPressedERKN6glitch4core4rectIfEE,function,0,see link-missing.csv,0x33aebc,TouchScreenBase::isRegionPressed(glitch::core::rect<float> const&) const
 _ZNK6glitch4core8CMatrix4IfEmlERKS2_,function,0,see link-missing.csv,0x35e998,glitch::core::CMatrix4<float>::operator*(glitch::core::CMatrix4<float> const&) const
 _ZNK6glitch5video15CTextureManager19makeColorKeyTextureERKN5boost13intrusive_ptrINS0_8ITextureEEENS0_6SColorE,function,0,see link-missing.csv,0x5ebf8c,glitch::video::CTextureManager::makeColorKeyTexture(boost::intrusive_ptr<glitch::video::ITexture> const&| glitch::video::SColor) const
@@ -108,6 +107,5 @@ appPause,function,0,see link-missing.csv,0x5309d8,
 appResume,function,0,see link-missing.csv,0x530974,
 appTrackBall,function,0,see link-missing.csv,0x52f0dc,
 appUpdate,function,0,see link-missing.csv,0x530fc8,
-g_consoleFileLister,data,8,see link-missing.csv,,
 g_eventManager,data,8,see link-missing.csv,,
 g_pyDataLoader,data,8,see link-missing.csv,,

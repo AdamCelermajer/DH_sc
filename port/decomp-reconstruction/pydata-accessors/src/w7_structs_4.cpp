@@ -556,4 +556,34 @@ void DeletingDestructor(ItemPowerDexterity* self) {
     CustomFree(self);
 }
 
+// 0x4d980c _ZN7Structs17ItemPowerStrengthD1Ev
+// 0x4d98ac _ZN7Structs17ItemPowerStrengthD2Ev
+// Listing 0x4d980c: LDR r1,[this+0x10]; store the class vtable; when r1 is set, walk its 16-byte elements from
+// the last back to the first through vtable slot +0x0, then CustomFree(members - 8); then
+// Structs::ItemPowerRef::~ItemPowerRef (BL 0x4d69f0) repeats the loop. DestroyElementArray does the walk and
+// the free, and the base destructor runs after this body, so the double free the listing has is kept.
+ItemPowerStrength::~ItemPowerStrength() {
+    DestroyElementArray(m_w4);
+}
+
+// 0x4d9890 _ZN7Structs17ItemPowerStrengthD0Ev
+void DeletingDestructor(ItemPowerStrength* self) {
+    self->ItemPowerStrength::~ItemPowerStrength();
+    CustomFree(self);
+}
+
+// 0x4d9930 _ZN7Structs17ItemPowerAllStatsD1Ev
+// 0x4d99d0 _ZN7Structs17ItemPowerAllStatsD2Ev
+// Same body as ItemPowerStrength's destructor at 0x4d980c (the only difference is the stored vtable,
+// off_96B338 against off_96B320); ItemPowerRef::~ItemPowerRef runs after it here too.
+ItemPowerAllStats::~ItemPowerAllStats() {
+    DestroyElementArray(m_w4);
+}
+
+// 0x4d99b4 _ZN7Structs17ItemPowerAllStatsD0Ev
+void DeletingDestructor(ItemPowerAllStats* self) {
+    self->ItemPowerAllStats::~ItemPowerAllStats();
+    CustomFree(self);
+}
+
 }  // namespace Structs

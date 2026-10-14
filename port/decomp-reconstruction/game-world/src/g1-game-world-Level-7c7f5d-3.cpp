@@ -4,8 +4,8 @@
 // A PARTIAL body names what it waits on. A "SEAM" comment marks one step of the original that is left out, with its owner.
 //
 // The COnline online flag (COnline::isOnlineGame_ at +0x05) is protected and has no accessor, so every test on it is a SEAM.
-// PFWorld and HUDControls cannot share this translation unit with core-platform/memory.hpp (the glitch stand-ins conflict),
-// so their calls are SEAMs too.
+// The earlier note that PFWorld and HUDControls cannot share this translation unit with core-platform/memory.hpp was wrong:
+// both headers are included below next to it and the file compiles, so the destructor and Update use them.
 
 #include <algorithm>
 #include <cmath>
@@ -76,6 +76,7 @@
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/RootSceneNode.hpp"                 // RootSceneNode complete: the VisualObject::m_node upcast of _LoadBatchMap
 #include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
@@ -189,21 +190,30 @@ void Level::_FlushMeshes() {
 }
 
 // 0x3f5ea0 Level::_LoadBatchMap()
-// PARTIAL: the IsDisablingCompiledBatching gate is reconstructed. With the gate clear and a batch compiler present, the
-// original walks the GameObject* list at BatchNodeCompiler +0x10 .. +0x14. For each object whose m_visualObject (+0x2d8)
-// has a scene node at VisualObject +0x08, it calls BatchNodeCompiler::_MapMeshNode(object, node). The walk is left out.
-// dh2/batch/BatchNodeCompiler.hpp declares the list as m_gameObjects (+0x10), so the list is no longer the blocker. The
-// blocker is VisualObject::m_node, which is a RootSceneNode* and needs a conversion to glitch::scene::ISceneNode* before
-// _MapMeshNode.
+// The IsDisablingCompiledBatching gate, then the object walk: BatchNodeCompiler::m_gameObjects (+0x10 .. +0x14) is walked
+// in order and each GameObject whose m_visualObject (+0x2d8) has a scene node at VisualObject +0x08 is mapped with
+// BatchNodeCompiler::_MapMeshNode (0x3f5dcc). The original tests neither the object nor the compiler list for null beyond
+// what is written here (the compiler test is the only one). RootSceneNode is an ISceneNode through
+// glitch::collada::CRootSceneNode, glitch::scene::CSceneNode and CEmptySceneNode, so m_node upcasts to the ISceneNode*
+// _MapMeshNode takes.
 void Level::_LoadBatchMap() {
     if (ReadDebugSwitch("IsDisablingCompiledBatching")) {
         return;
     }
-    if (!m_batchNodeCompiler) {
+    batch::BatchNodeCompiler* compiler = m_batchNodeCompiler;  // +0x158
+    if (compiler == nullptr) {
         return;
     }
-    // SEAM: the object walk over m_gameObjects (BatchNodeCompiler +0x10) and _MapMeshNode. The VisualObject scene node
-    // (m_node, a RootSceneNode*) needs a conversion to glitch::scene::ISceneNode* first.
+    for (GameObject* object : compiler->m_gameObjects) {
+        VisualObject* visual = object->m_visualObject;  // GameObject +0x2d8
+        if (visual == nullptr) {
+            continue;
+        }
+        glitch::scene::ISceneNode* node = visual->m_node;  // VisualObject +0x08
+        if (node != nullptr) {
+            compiler->_MapMeshNode(object, node);
+        }
+    }
 }
 
 // 0x3f6990 Level::_LoadProcess()

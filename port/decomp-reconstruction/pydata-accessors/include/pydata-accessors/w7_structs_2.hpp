@@ -18,6 +18,7 @@ class v2QuestAutomatic : public v2QuestObjectiveStub {
 public:
     ~v2QuestAutomatic() override;
     void finalize() override;
+    void read(IStreamBase* stream) override;  // 0x504a90, thunk: forwards to v2QuestObjectiveStub::read
     std::int32_t m_w4 = 0;  // +0x10, zeroed by finalize, stored by no read in this slice
     std::int32_t m_w6 = 0;  // +0x18, zeroed by finalize, stored by no read in this slice
 };

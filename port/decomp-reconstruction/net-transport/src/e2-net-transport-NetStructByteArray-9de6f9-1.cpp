@@ -108,10 +108,14 @@ void NetStructByteArray<256u>::SetBuffer(const void* src, std::size_t size) {
 
 // 0x8182e0 _ZN18NetStructByteArrayILj256EE4ReadER12NetBitStream
 // Reads a 16-bit byte count, then that many bytes, then SetValue on a temporary ByteArray holding them.
-// PARTIAL: the original reads the bytes into a fixed 256-byte stack buffer (v7) with no bound on the
-// count. For a count above 256 it writes past the buffer (undefined in the original), which is not
-// reproduced. The port reads the full count into a heap buffer instead, so every in-range count
-// behaves the same.
+// The same body as 0x3702f8 (the e1 file): ReadU32(16), ReadByteArray into the fixed stack buffer v7
+// (256 bytes here), p = {nullptr, nullptr}, ByteArray::SetBuffer(v7, count), the SetValue virtual
+// (vtable +0x1c), CustomFree(p.data).
+// PARTIAL: identical to the other instances - the 16-bit count is not bounded by 256, so a count above
+// 256 makes the original write past v7. ReadByteArray_BitSize gates on the stream carrying count * 8
+// bits and writes nothing when it does not, so the overflow needs a stream that really carries the
+// bytes and is then deterministic; the stack-smashing guard aborts. The port reads the count into a
+// heap vector instead, so in-range counts match exactly and the out-of-range write is not reproduced.
 template <>
 void NetStructByteArray<256u>::Read(NetBitStream& stream) {
     std::uint32_t count = stream.ReadU32(16u);

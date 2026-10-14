@@ -2,6 +2,10 @@
 
 #include <cmath>
 
+#include "dh2/EventManager.hpp"
+#include "dh2/EvAcceleration.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"  // dword_99F740, the Application's EventManager
+
 namespace {
 // The listing stores the float bit patterns 0x3FC90FDB (+pi/2) and 0xBFC90FDB
 // (-pi/2) when the other component is too small for atan2. The sign comes from
@@ -32,13 +36,11 @@ void AccelerometerBase::clear() {
 void AccelerometerBase::update(double) { clear(); }
 
 // 0x33d8dc _ZN17AccelerometerBase5movedEfff
-// Stores the sample, lowers the min and raises the max of each axis, and
-// recomputes the angles. Partial: the listing then raises an EvAcceleration event
-// (vtable off_95C580, from the vtable listing; IEvent base with type 6 at +4, and x, y, z
-// at +8, +0xc, +0x10 as stored by the listing) through EventManager::Raise on the global
-// at dword_99F740 (Application's event manager). Neither EvAcceleration nor
-// EventManager::Raise is declared in core-platform (the stand-in EventManager in
-// w7_console_01.hpp has Attach/Detach only), so the raise is not reproduced here.
+// Verified against the listing: the sample is stored at +0x04/+0x08/+0x0c, each axis lowers
+// its minimum (+0x1c/+0x20/+0x24) and raises its maximum (+0x28/+0x2c/+0x30) with the
+// listing's two comparisons (min: >, max: >=), _calcAngles runs, and the three sample words
+// are then raised as an EvAcceleration (event id 6, x/y/z at +8/+0xc/+0x10) through the
+// EventManager at dword_99F740. Exact.
 void AccelerometerBase::moved(float x, float y, float z) {
     x_ = x;
     y_ = y;
@@ -50,6 +52,10 @@ void AccelerometerBase::moved(float x, float y, float z) {
     minZ_ = minZ_ > z ? z : minZ_;
     maxZ_ = maxZ_ >= z ? maxZ_ : z;
     _calcAngles();
+
+    // The listing reloads this+1, this+2 and this+3 for the event, in that order.
+    EvAcceleration event(x_, y_, z_);
+    dword_99F740->Raise(event);
 }
 
 // 0x33d798 AccelerometerBase::_calcAngles()

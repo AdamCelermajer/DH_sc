@@ -12,6 +12,11 @@
 //     returns 1 without writing;
 //   - index forms of the Cvt family read or write the entry's first element, not element 'index'
 //     (the listings add nothing to the offset; kept as they are).
+// Binding: the numeric Cvt rows of this owner are emitted by material_parameters_bind_g.cpp, which instantiates
+// IMaterialParametersTyped<SGlobalParameterOwner>::getParameterCvt / setParameterCvt for the ten value types and
+// both forms; MixinBackend<SGlobalParameterOwner> forwards each to the row of that address below (the six index
+// setter rows of the owner are in part 1b). The emitted instance names IMaterialParametersTyped<SGlobalParameterOwner>
+// where the original names IMaterialParameters<CGlobalMaterialParameterManager, SEmptyBase>.
 // Conversions of the Cvt rows, from the listings:
 //   SColor code 16 (4 bytes), SColorf code 17 and vector4d<float> code 8 (16 bytes).
 //   float <-> int (int code 1, float code 5). Colour bytes are scaled by 1/255 (constant 0.0039216 in

@@ -526,10 +526,12 @@ void CNumbersAttribute::setMatrix(const glitch::core::CMatrix4<float>& value) {
 }
 
 // 0x32d220 _ZNK6glitch2io17CNumbersAttribute9getStringEv
-// PARTIAL: the Hex-Rays body is noisy. Integer lists print each value in decimal. Float lists
-// print each value through a default std::ostream (precision 6, as the original's
-// __put_num<double> does); this formatting is inferred, not read from the listing.
-// Values are separated by ", ".
+// Re-decompiled and disassembled: the listing loops i over the count at +0x3c; the separator ", "
+// (asc_8BF310) is appended only when i < count - 1, so there is no trailing separator. An int list
+// (+0x40 clear) appends int2stringc(values[i]) for each element; a float list builds an
+// ostringstream, streams the element through std::priv::__put_num<char,char_traits<char>,double>
+// (0x30f5d8) and appends the stream's text. The port's loop, its std::to_string (the same "%d" as
+// int2stringc, core_strings.cpp) and its `os << static_cast<double>(value)` reproduce all three.
 std::string CNumbersAttribute::getString() const {
     std::string out;
     for (std::size_t i = 0; i < count; ++i) {
@@ -546,8 +548,11 @@ std::string CNumbersAttribute::getString() const {
 }
 
 // 0x32d52c _ZNK6glitch2io17CNumbersAttribute10getStringWEv
-// PARTIAL: same as getString, widened to wide characters (the original converts the narrow
-// text with stringc2stringw). The float formatting is inferred as in getString.
+// Re-decompiled: same loop as getString (separator added only while i < count - 1, wide ", " at
+// asc_8BEC10, appended with wcslen). An int list appends int2stringw (0x325f7c), a float list streams
+// the element through __put_num<char,char_traits<char>,double> and widens the stream text with
+// stringc2stringw (0x3262c8, the each-byte widening the port inlines). Both branches and the
+// separator match.
 std::wstring CNumbersAttribute::getStringW() const {
     std::wstring out;
     for (std::size_t i = 0; i < count; ++i) {

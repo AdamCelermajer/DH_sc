@@ -65,8 +65,12 @@ void* malloc_internal(unsigned int, swf::MemHint) { std::abort(); }
 __asm__(".globl _ZTVN7gameswf9as_objectE\n\t.data\n\t.p2align 3\n_ZTVN7gameswf9as_objectE:\n\t.space 1024\n\t.text\n");
 #endif
 
-void tu_string::resize(int) { std::abort(); }
-int tu_string::stricmp(const char*, const char*) { std::abort(); }
+// tu_string::resize and tu_string::stricmp are NOT stubbed here any more. They are real definitions in the vendored
+// library this test links (vendor-gameswf/upstream/gameswf-r1714/base/container.cpp, in dh2_vendor_gameswf), and this
+// test's definition would win over them for the whole executable (the tests link with --allow-multiple-definition, first
+// definition kept). tu_string::resize is called from a gameswf static initializer (_GLOBAL__sub_I_... set_glyph_provider)
+// that runs before main(), so the aborting stand-in that used to sit here killed the process at startup with 0xC0000409
+// instead of running any test. The real bodies do the work the callers expect.
 
 namespace {
 

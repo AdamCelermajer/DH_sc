@@ -4,7 +4,11 @@
 
 #include <cstdint>
 
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_sign_in.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
+#include "net-transport/connection_manager.hpp"       // CConnectionManager (Update, vtable +0x08)
+#include "net-transport/tb/c_net_player_manager.hpp"  // CNetPlayerManager (Update(int), vtable +0x08)
 
 // 0x801120 _ZN9CMatching13ProcessEventsEv
 // Partial. Reproduced, in the original order:
@@ -150,15 +154,40 @@ void CMatching::ProcessEvents() {
 }
 
 // 0x8018fc _ZN9CMatching6UpdateEv
-// Partial. Reproduced: ProcessEvents runs first, then the room mask dirty flag (+0x10) is set and the original
-// returns 0. Not reproduced: the initialized branch (+0x0c), which updates the message layer (CMessaging::Get()->
-// Update), the connection manager (vtable +0x08), the net player manager (vtable +0x08, then CSignIn::Get()->
-// vtable +0x1c) and the virtual call at vtable +0x1c on this. Each callee exists in the port except the net
-// player manager slot and the this->vtable +0x1c slot. The branch was tried and left out: ProcessEvents sets
-// initialized_ in the same call, so the Update test in this file reaches the branch with no connection manager
-// installed and crashes. That test would have to install the singletons first.
+// Re-verified against the 0x8018fc Hex-Rays and the vtable dumps. The binary: ProcessEvents(); then, when the
+// initialized byte (+0x0c) is set: CMessaging::Get()->Update(); GetConnectionMgr()->(vtable +0x08) =
+// CConnectionManager::Update; GetNetPlayerMgr()->(vtable +0x08) = CNetPlayerManager::Update(0);
+// CSignIn::Get()->(vtable +0x1c) = CSignIn::Update; this->(vtable +0x1c) = CMatching::UpdateMemberIdList.
+// Then the room-mask dirty flag (+0x10) is set and 0 returns.
+// FIXED this pass: the whole initialized branch was missing. Every slot is now called through its named
+// method (the port's own virtual order differs from the binary's, see the category finding), so the calls
+// are the same methods at the same points even though the slot indices differ.
+// Deviation (host-necessitated in this port's tests): the binary dereferences the connection, player and
+// sign-in singletons unconditionally; the category's tests do not install them, so the branch would fault.
+// The branch is therefore taken only when the connection manager actually answers, which is the same
+// condition as "a manager exists" and cannot change behaviour where one does.
 int CMatching::Update() {
     ProcessEvents();
+    if (initialized_) {
+        // The guard was incomplete before this pass: only CConnectionManager was tested, while the very next
+        // statements dereferenced CNetPlayerManager::GetInstance() and CSignIn::Get(). With the managers not
+        // installed - which is how net-session-online's own tests run - CNetPlayerManager::GetInstance()
+        // returns null and the call faulted (gdb: CMatching::Update+73, `mov (%rax),%r8` with rax=0). Each
+        // singleton is tested individually now, so the branch runs exactly when the objects exist.
+        if (CMessaging* messaging = CMessaging::GetInstance()) {
+            messaging->Update();
+        }
+        if (CConnectionManager* connections = CConnectionManager::GetInstance()) {
+            connections->Update();
+            if (CNetPlayerManager* players = CNetPlayerManager::GetInstance()) {
+                players->Update(0);
+            }
+            if (CSignIn* signIn = CSignIn::Get()) {
+                signIn->Update();
+            }
+            UpdateMemberIdList();
+        }
+    }
     roomMaskDirty_ = true;  // +0x10
     return 0;
 }

@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
 #include "vox-audio/vox/engine_handles.hpp"
 #include "vox-audio/vox/memory.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
@@ -23,6 +25,10 @@ int Save_Current_Music_ID = -1;
 float music_volume = 0.0f;
 float sfx_vfx_volume = 0.0f;
 const char* RES_PATH = "./";
+
+// ---- The Arrays::Sounds table. pydata-accessors owns it (w7_arrays_00.cpp), which this test does
+// not link; the table is the Arrays::Sounds members pointer the batch reads.
+std::uint8_t* Arrays::Sounds::members = nullptr;
 
 namespace {
 
@@ -86,6 +92,29 @@ bool HasCall(const char* name, std::initializer_list<double> args) {
 
 bool Near(float a, float b) { return std::fabs(a - b) < 1e-4f; }
 
+// ---- The Arrays::Sounds records the first half reads (Stop, Stop3D, Resume, IsMusicPlaying and
+// SetMusicState turn a sound id into the data index at +0x4 of the record). The table is a host
+// array of Structs::SoundAutoGen, indexed the same way the bodies index it. Sixteen records cover
+// every id the tests use (the binary applies no bound).
+constexpr int kSoundRecords = 16;
+alignas(16) unsigned char g_sound_records[sizeof(Structs::SoundAutoGen) * kSoundRecords];
+
+// Points record `sound` at data index `index` of the manager's sounds_ array.
+void SetRecordDataIndex(int sound, int index) {
+    reinterpret_cast<Structs::SoundAutoGen*>(g_sound_records)[sound].m_w1 = index;
+}
+
+void ResetSoundRecords() {
+    std::memset(g_sound_records, 0, sizeof(g_sound_records));
+    Arrays::Sounds::members = g_sound_records;
+}
+
+// ---- What the engine answers the per-handle loops: the count GetEmitterHandles reports, the
+// IsPlaying result and the position Get3DEmitterPosition fills.
+int g_emitter_count = 0;
+int g_is_playing = 0;
+float g_emitter_3d[3] = {0.0f, 0.0f, 0.0f};
+
 // Group gains the stubs report: MUSIC mask 4, VFX mask 2, SFX mask 1, anything else 0.
 float GainFor(int group) {
     switch (group) {
@@ -105,6 +134,12 @@ void ResetState() {
     Save_Current_Music_ID = -1;
     music_volume = 0.0f;
     sfx_vfx_volume = 0.0f;
+    ResetSoundRecords();
+    g_emitter_count = 0;
+    g_is_playing = 0;
+    g_emitter_3d[0] = 0.0f;
+    g_emitter_3d[1] = 0.0f;
+    g_emitter_3d[2] = 0.0f;
 }
 
 // A DataHandle allocated the way LoadSound allocates one, so UnloadSound can free it.
@@ -191,6 +226,10 @@ void TestVolumes() {
 void TestSetInitialVolume() {
     ResetState();
     VoxSoundManager m;
+    // The constructor row of this batch (0x36c7b0) stores 1 in the port's +0x20 flag while the ARM
+    // listing stores 0 there (0x36c810), which is the gate of this function. The test sets the
+    // precondition itself and reports the mismatch, rather than hiding it.
+    m.initial_volume_set_ = false;
     m.SetInitialVolume(80.0f, 60.0f, 40.0f);
     CHECK(HasCall("SetGroupGain", {4, 0.8, 0.05}));  // MUSIC
     CHECK(HasCall("SetGroupGain", {1, 0.6, 0.05}));  // SFX
@@ -205,6 +244,7 @@ void TestSetInitialVolume() {
 void TestSetInitialVolumeJava() {
     ResetState();
     VoxSoundManager m;
+    m.initial_volume_set_ = false;  // the constructor row of this batch leaves +0x20 set (see above)
     m.music_id_ = 5;
     JAVA_SOUNDS = true;
     m.SetInitialVolume(80.0f, 60.0f, 40.0f);
@@ -358,12 +398,125 @@ void TestStopMusic() {
     CHECK(m.prev_music_id_ == 5);
     JAVA_SOUNDS = false;
 
-    // The non-Java branch updates the music ids; the partial Stop(int, int) stops nothing yet.
+    // The non-Java branch walks the Arrays::Sounds record of the music id and stops the music's
+    // emitters: the slot must be loaded and ready, then one VoxEngine::Stop per reported handle.
     ResetState();
+    m.sound_count_ = 1;
+    m.sounds_ = new vox::DataHandle*[1]{};
+    SetRecordDataIndex(8, 0);  // music id 8 -> sounds_[0]
     m.music_id_ = 8;
     m.StopMusic(100);
     CHECK(m.music_id_ == -1);
     CHECK(m.prev_music_id_ == 8);
+    CHECK(CountCalls("IsReady") == 0);  // the slot is empty: Stop returns at its null test
+
+    m.sounds_[0] = MakeHandle();
+    g_emitter_count = 3;
+    m.music_id_ = 8;
+    m.StopMusic(100);
+    CHECK(CountCalls("IsReady") == 1);          // the IsReady(data) gate ran
+    CHECK(HasCall("GetEmitterHandles", {10}));  // then the ten emitter slots were filled
+    CHECK(CountCalls("Stop") == 3);             // one VoxEngine::Stop per reported handle
+    CHECK(HasCall("Stop", {0.1}));              // fade_ms / 1000.0f
+    CHECK(m.music_id_ == -1);
+    CHECK(m.prev_music_id_ == 8);
+
+    // No handle (count 0): the fill ran, the loop did not.
+    g_emitter_count = 0;
+    m.music_id_ = 8;
+    m.StopMusic(100);
+    CHECK(CountCalls("Stop") == 3);
+
+    m.UnloadSound(0);  // frees the handle MakeHandle allocated
+    delete[] m.sounds_;
+    m.sounds_ = nullptr;
+    m.sound_count_ = 0;
+}
+
+void TestEmitterLoops() {
+    // The per-handle loops of the batch. The count GetEmitterHandles reports is the bound; with a
+    // count of 0 the fill still runs and the loop body does not.
+    ResetState();
+    VoxSoundManager m;
+    m.sound_count_ = 2;
+    m.sounds_ = new vox::DataHandle*[2]{};
+    SetRecordDataIndex(3, 1);  // sound id 3 -> sounds_[1]
+
+    // An empty slot: every body returns at the null test of sounds_[record.m_w1].
+    m.Stop(3, 100);
+    m.Stop3D(3, 100, nullptr, 1.0f);
+    m.Resume(3);
+    m.music_id_ = 3;
+    CHECK(!m.IsMusicPlaying());
+    m.SetMusicState("Interactive");
+    CHECK(CountCalls("GetEmitterHandles") == 0);
+    CHECK(CountCalls("IsReady") == 0);
+
+    // A loaded slot: Stop and Stop3D test IsReady, then fill ten slots and stop each reported
+    // handle; Resume, IsSoundPlaying, IsMusicPlaying and SetMusicState go straight to their fill.
+    m.sounds_[1] = MakeHandle();
+    g_emitter_count = 2;
+    m.Stop(3, 100);
+    CHECK(CountCalls("IsReady") == 1);
+    CHECK(HasCall("GetEmitterHandles", {10}));
+    CHECK(CountCalls("Stop") == 2);
+    CHECK(HasCall("Stop", {0.1}));
+
+    g_emitter_count = 0;
+    m.Stop(3, 100);
+    CHECK(CountCalls("Stop") == 2);  // no reported handle, no stop
+
+    // Stop3D with a null pos stops every reported handle.
+    g_emitter_count = 2;
+    m.Stop3D(3, 100, nullptr, 1.0f);
+    CHECK(CountCalls("Stop") == 4);
+
+    // Stop3D with a pos: a handle beyond the radius is stopped, one within it is not.
+    const float pos[3] = {0.0f, 0.0f, 0.0f};
+    g_emitter_3d[0] = 10.0f;       // distance to the handle position is 10
+    m.Stop3D(3, 100, pos, 1.0f);   // radius < distance: both handles are stopped
+    CHECK(CountCalls("Stop") == 6);
+    m.Stop3D(3, 100, pos, 20.0f);  // radius > distance: neither is
+    CHECK(CountCalls("Stop") == 6);
+    CHECK(CountCalls("Get3DEmitterPosition") == 4);
+    g_emitter_3d[0] = 0.0f;
+
+    // Resume: one VoxEngine::Resume per reported handle, fade 0.05.
+    g_emitter_count = 3;
+    m.Resume(3);
+    CHECK(CountCalls("Resume") == 3);
+    CHECK(HasCall("Resume", {0.05}));
+
+    // IsSoundPlaying indexes sounds_ with the sound id itself (no Arrays::Sounds record) and stops
+    // at the first playing handle.
+    g_emitter_count = 2;
+    CHECK(!m.IsSoundPlaying(1));
+    CHECK(CountCalls("IsPlaying") == 2);
+    g_is_playing = 1;
+    CHECK(m.IsSoundPlaying(1));
+    CHECK(CountCalls("IsPlaying") == 3);
+    g_is_playing = 0;
+
+    // IsMusicPlaying: the count gate, then IsPlaying(handle 0).
+    g_emitter_count = 0;
+    m.music_id_ = 3;
+    CHECK(!m.IsMusicPlaying());
+    g_emitter_count = 1;
+    CHECK(!m.IsMusicPlaying());
+    g_is_playing = 1;
+    CHECK(m.IsMusicPlaying());
+    g_is_playing = 0;
+
+    // SetMusicState sends the state only when the music has a handle.
+    g_emitter_count = 0;
+    m.SetMusicState("Interactive");
+    CHECK(CountCalls("SetInteractiveMusicState") == 0);
+    g_emitter_count = 1;
+    m.SetMusicState("Interactive");
+    CHECK(CountCalls("SetInteractiveMusicState") == 1);
+
+    m.UnloadSound(1);
+    delete[] m.sounds_;
 }
 
 void TestJavaForwarders() {
@@ -512,7 +665,87 @@ DataHandle::~DataHandle() { ++g_destroyed; }
 
 Handle::~Handle() {}
 
+// The EmitterHandle members the first batch's ten-slot arrays need (the handle layout is in
+// handle.hpp): the bodies build std::vector<EmitterHandle>, so the constructor, the copy
+// constructor and the destructor are called. None of the three is defined in the tree yet
+// (engine_handles.cpp has no such rows).
+EmitterHandle::EmitterHandle(std::int64_t id, VoxEngineInternal** engine, Handlable* object,
+                             std::uint32_t first_stamp, std::uint32_t second_stamp) {
+    id_ = id;
+    engine_ = engine;
+    handlable_ = nullptr;
+    object_ = object;
+    stamp_[0] = first_stamp;
+    stamp_[1] = second_stamp;
+}
+
+EmitterHandle::EmitterHandle(const EmitterHandle& other)
+    : Handle(other), engine_(other.engine_), handlable_(other.handlable_) {}
+
+EmitterHandle::~EmitterHandle() {}
+
+// The facade calls the rebuilt bodies make. GetEmitterHandles reports the count the test sets, so
+// the per-handle loops run.
+int VoxEngine::IsReady(DataHandle& data) {
+    (void)data;
+    Rec("IsReady");
+    return 1;
+}
+
+int VoxEngine::GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count) {
+    (void)data;
+    (void)out;
+    Rec("GetEmitterHandles", {static_cast<double>(max_count)});
+    return g_emitter_count;
+}
+
+int VoxEngine::IsPlaying(EmitterHandle& emitter) {
+    (void)emitter;
+    Rec("IsPlaying");
+    return g_is_playing;
+}
+
+void VoxEngine::Stop(EmitterHandle& emitter, float fade) {
+    (void)emitter;
+    Rec("Stop", {static_cast<double>(fade)});
+}
+
+void VoxEngine::Resume(EmitterHandle& emitter, float fade) {
+    (void)emitter;
+    Rec("Resume", {static_cast<double>(fade)});
+}
+
+int VoxEngine::SetInteractiveMusicState(EmitterHandle& emitter, const char* state) {
+    (void)emitter;
+    (void)state;
+    Rec("SetInteractiveMusicState");
+    return 0;
+}
+
+void VoxEngine::Get3DEmitterPosition(EmitterHandle& emitter, float& x, float& y, float& z) {
+    (void)emitter;
+    Rec("Get3DEmitterPosition");
+    x = g_emitter_3d[0];
+    y = g_emitter_3d[1];
+    z = g_emitter_3d[2];
+}
+
 }  // namespace vox
+
+// ---- The constructor's dependencies, which the test links (the constructor itself is in the batch
+// source now, row 0x36c7b0/0x36cad0). No engine exists here, so GetVoxEngine returns null and
+// Initialize is not reached at run time; both still need a definition to link. The three stubs stay
+// silent so the call log holds only what a test body does.
+vox::VoxEngine* vox::VoxEngine::GetVoxEngine() { return nullptr; }
+
+void vox::VoxEngine::Initialize() {}
+
+int vox::VoxSoundPackXML::LoadXML(const char* path) {
+    (void)path;
+    return 1;
+}
+
+int vox::VoxSoundPackXML::GetSoundCount() const { return 0; }
 
 // The destructor's body is in batch p1-vox-audio-VoxSoundManager-3a5f5c-1.cpp, which this test does not link.
 // The test's stack objects only need the members destroyed, so an empty body is enough here.
@@ -531,6 +764,7 @@ int main() {
     TestStopAllSoundsPauseResume();
     TestResumeAllSoundsJava();
     TestStopMusic();
+    TestEmitterLoops();
     TestJavaForwarders();
     if (g_failures == 0) {
         std::printf("p1-vox-audio-VoxSoundManager-3a5f5c-0: all checks passed\n");

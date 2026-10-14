@@ -26,15 +26,16 @@ void ConvertFloatSamplesToShort(std::int16_t* dst, const float* src, int count) 
 // 0x86fce8 _ZN3vox17DecoderMPC8Cursor7HasDataEv
 // Without a stream there is no data. At the end of the stream a looping cursor calls Seek(0);
 // that call returns -1 without moving, as in the original, so the result is still false.
+// The total is the inherited parameter block's frame count (cursor +0x10, TrackParams::length_frames).
 bool DecoderMPC8Cursor::HasData() {
     if (stream_ == nullptr) {
         return false;
     }
-    if (sample_pos_ < total_samples_ || !loop_) {
-        return sample_pos_ < total_samples_;
+    if (sample_pos_ < static_cast<std::uint32_t>(params_.length_frames) || !loop_) {
+        return sample_pos_ < static_cast<std::uint32_t>(params_.length_frames);
     }
     Seek(0);
-    return sample_pos_ < total_samples_;
+    return sample_pos_ < static_cast<std::uint32_t>(params_.length_frames);
 }
 
 // 0x86fd58 _ZN3vox17DecoderMPC8Cursor19ConvertFloatToShortEPsPfi

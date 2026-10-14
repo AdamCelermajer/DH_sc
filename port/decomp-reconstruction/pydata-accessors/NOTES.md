@@ -462,7 +462,8 @@ internal to the port, not binary-compatible with the original.
   - structs_5's element tables copy the vptr with `sizeof(void*)` and use the 32-bit stride from the
     listing. This is correct only where pointers are 4 bytes (ARM and Win32). On a 64-bit host the copy
     overruns the stride.
-  - `ItemBase::read` (0x4ec47c) is not queued or ported, so 12 read bodies in structs_2 are partial.
+  - `ItemBase::read` (0x4ec47c) is ported in tb_accessors-Structs-0.cpp; the 12 read bodies in structs_2 now
+    call it (`ReadItemRefWords` plus the base call in each class body). Superseded below.
 - Queue after this wave: pydata-accessors has 285 rows remaining: 246 in the pending slices, 27 in arrays_03,
   and 12 PyData constant and registry rows. core-platform has none left.
 
@@ -518,9 +519,13 @@ Eight workers re-derived the 99 partial rows of the pydata-accessors queue from 
   Their element classes declare no read slot, so those two rows stay partial.
 - ItemPowerRef::read (0x4ecdc8): Hex-Rays' element vtable is AttrBonusEntry's, so the loop
   is reconstructed with stride sizeof(AttrBonusEntry) in memory (listing 16).
-- Structs read rows that call Structs::v2Condition::read or ItemBase::read stay partial;
-  those functions are not in the port. StatAutoAssignTargetList::read now uses
-  BuildAndReadTable<StatAutoAssignTarget>.
+- Structs read rows that call Structs::v2Condition::read or ItemBase::read are no longer partial:
+  v2Condition::read (0x505b28), v2QuestObjective::read (0x50358c) and v2QuestReward::read (0x5053fc) are all
+  defined in e2-pydata-accessors-Structs-66b9bc-1.cpp and ItemBase::read (0x4ec47c) in
+  tb_accessors-Structs-0.cpp, and every derived read now makes the qualified base call the listing starts
+  with. The readStringEx "5th 64-bit argument" that several of those notes blamed is a Hex-Rays register
+  residue: readStringEx (0x317454) reads only R0..R3, so it is not an argument.
+  StatAutoAssignTargetList::read now uses BuildAndReadTable<StatAutoAssignTarget>.
 - ScriptCmd and Arrays read rows: bodies match Hex-Rays; partial because ElementVtable<X>
   is not defined for several element classes, and the two StatList tables lack finalize.
 

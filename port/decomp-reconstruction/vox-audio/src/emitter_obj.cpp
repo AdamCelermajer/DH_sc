@@ -300,10 +300,13 @@ bool EmitterObj::ShouldDie() {
 }
 
 // 0x8657f4 _ZN3vox10EmitterObj7IsAliveEv
-// partial: the original takes the mutex here and then calls ShouldDie (0x865784), which locks the
-// same mutex again. pthread_mutex_init is called with a null attribute, so the mutex is a normal
-// (non-recursive) one and the original blocks on its own lock. The port calls the unlocked body
-// instead, which avoids the hang and returns the same value.
+// Reconstructed against the 0x8657f4 listing (13 instructions): ADD R4,R0,#0x18; Lock(R4);
+// BL ShouldDie(0x865784); Unlock(R4); EOR R0,R5,#1; UXTB R0,R0. ShouldDie locks the same +0x18
+// mutex (its own ADD R5,R0,#0x18; Lock), and Mutex::Mutex (0x8935d0) initialises it with
+// pthread_mutex_init(mutex, NULL), i.e. the default non-recursive type, so the listing blocks on
+// its own lock and IsAlive never returns.
+// Deviation (host-necessitated): the port calls the unlocked body (ShouldDieUnlocked) under the one
+// Lock, so it returns the value the listing computes but can never hand back (!ShouldDieUnlocked()).
 bool EmitterObj::IsAlive() {
     mutex.Lock();
     const bool alive = !ShouldDieUnlocked();

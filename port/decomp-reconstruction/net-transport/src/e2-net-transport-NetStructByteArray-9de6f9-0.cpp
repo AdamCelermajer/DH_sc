@@ -44,10 +44,19 @@ NetStructByteArray<N>::NetStructByteArray(const ByteArray& initial) {
 // 0x370430 _ZN18NetStructByteArrayILj30EE4ReadER12NetBitStream
 // 0x7fee00 _ZN18NetStructByteArrayILj64EE4ReadER12NetBitStream
 // Reads a 16-bit byte count, then that many bytes, then SetValue on a temporary ByteArray holding them.
-// PARTIAL: the original reads the bytes into a fixed stack buffer of N bytes (v7) with no bound on the
-// count. For a count above N it writes past the buffer (undefined in the original), which is not
-// reproduced. The port reads the full count into a heap buffer instead, so every in-range count
-// behaves the same.
+// Verified against Hex-Rays 0x3702f8 and the ARM listing: ReadU32(16) into the count, ReadByteArray into
+// the fixed stack buffer v7 (frame offset +0x08, 36 bytes for N = 36; 8 for 3u, 32 for 30u, 64 for 64u -
+// the Hex-Rays frame size shows each), then p = {nullptr, nullptr}, ByteArray::SetBuffer(v7, count), the
+// SetValue virtual (vtable +0x1c) and CustomFree(p.data) when p[0] is non-null.
+// PARTIAL: the count is not bounded by N, so on a count above N the original writes count bytes into an
+// N-byte stack buffer. That overflow is deterministic, not merely undefined: ReadByteArray_BitSize gates
+// on write_pos_ - read_pos_ < count * 8 and returns without writing anything when the stream is short,
+// so the overflow only happens when the stream really carries the count bytes, and then the copy runs
+// count bytes unconditionally. A peer that sends count = N+1 with N+1 bytes in the stream reaches it;
+// the stack-smashing guard then aborts the process in the original. The port reads the count into a heap
+// vector, so in-range counts match exactly and an out-of-range count is handled without the overflow.
+// Reproducing the overflow would mean deliberately writing past a fixed stack buffer, which this port
+// does not do; the row stays partial for that one case.
 template <unsigned N>
 void NetStructByteArray<N>::Read(NetBitStream& stream) {
     std::uint32_t count = stream.ReadU32(16u);

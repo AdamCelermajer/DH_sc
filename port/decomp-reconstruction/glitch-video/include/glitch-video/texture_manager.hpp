@@ -29,11 +29,20 @@
 namespace glitch::video {
 
 namespace detail::texturemanager {
-// Props record of the texture collection (SIdValue derives from it). The original's record holds a glitch string and
-// the int 39 that every SIdValue constructor of the instance writes; only the int is modelled, the string is not
-// recovered. Layout of the rest: see the glitch-core-io sided_collection header.
+// Props record of the texture collection (SIdValue derives from it: this record, then the uint16 id at its end).
+// The SIdValue constructors 0x5e85b4 (C1) and 0x5e85f0 (C2) inline the default constructor of a glitch string at
+// +0x00 and then write the int 39: STR this,[this+0x10] and STR this,[this+0x14] (the string's begin and end both
+// point at the record's own 16-byte local buffer, i.e. an empty string), a call to
+// std::priv::_String_base<char, SAllocator<char,0>>::_M_allocate_block(this, 0x10) whose body allocates only when
+// its size argument is above 0x10 (so nothing is allocated here and the string stays inline), a NUL written through
+// the begin pointer (record +0x00), 39 at +0x18 and the id at +0x1c (verified instruction by instruction at
+// 0x5e85b4/0x5e85c0..0x5e85e8; the same body is at 0x5e85f0). The record is therefore 0x1c bytes: the 0x18-byte
+// string, then the int. The string is modelled as std::string, the port's spelling of the glitch SAllocator string
+// (see glitch-scene-collada-gui scene_types.hpp); the port's own offsets are host width, only the member order is
+// kept. Layout of the rest of the collection: see the glitch-core-io sided_collection header.
 struct STextureProperties {
-    int32_t unk18 = 39;  // +0x18 of the SIdValue, 39 after construction (meaning not recovered)
+    std::string unk00;   // +0x00, a default-constructed glitch string (empty, with its buffer inline in the record)
+    int32_t unk18 = 39;  // +0x18 of the original record, 39 after construction (meaning not recovered)
 };
 }  // namespace detail::texturemanager
 

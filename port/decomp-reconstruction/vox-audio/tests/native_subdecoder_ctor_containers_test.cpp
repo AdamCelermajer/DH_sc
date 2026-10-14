@@ -69,7 +69,7 @@ int main() {
                           &names, &playlists);
         const vox::TrackParams params = pcm.GetTrackParams();
         CHECK(params.channels == 2);
-        CHECK(params.unknown_08 == 7);
+        CHECK(params.sample_rate == 7);
         CHECK(params.bits_per_sample == 32);
         CHECK(vox::PcmProbe::HasData(pcm));
         const vox::SegmentState& a = vox::PcmProbe::Segment(pcm, 0);
@@ -101,7 +101,7 @@ int main() {
         CHECK(vox::ImaProbe::Buffers(ima) != nullptr);
         CHECK(vox::ImaProbe::Pending(ima) != nullptr);
         CHECK(ima.GetTrackParams().channels == 2);
-        CHECK(ima.GetTrackParams().unknown_08 == 0);
+        CHECK(ima.GetTrackParams().sample_rate == 0);
     }
 
     // Eight channels is the limit: nine channels zero the track words.

@@ -31,6 +31,7 @@
 
 #include "dh2/MaterialData.hpp"
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "glitch-scene-collada-gui/scene/material_access.hpp"  // setMaterialTexture / setMaterialColorCvt (CMaterial::parameters)
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_renderer.hpp"
 #include "glitch-video/primitive_stream.hpp"
@@ -211,10 +212,20 @@ BufferedRenderer::MaterialData* BufferedRenderer::getWireMaterial() {
 }
 
 // 0x7d6894 _ZN16BufferedRenderer5flushEv
-// PARTIAL: the texture and colour parameters of the selected material are not set (see the file comment).
-// Draws the batch: the streams are shifted by the vertex base, the selected material is set on the driver, and the
-// batch is drawn from the embedded primitive stream. Afterwards the base is moved to the end of the batch (when unk_00
-// is 1) and the batch counters are cleared.
+// Reconstructed (r3b-w2) from the disassembly 0x7d6894..0x7d6a3c; the SET-UP the earlier note left out is now
+// written through the accessors the scene classes use (scene/material_access.hpp). Loads the streams field at +8
+// and returns when it is zero (0x7d68a4); gameswf::texture_cache::unlock_all(m_playerContext) (0x7d68bc); the batch
+// count is moved into streams +8 and addOffset(m_vertexOffset) runs (0x7d68c0..0x7d68dc). The selected slot is
+// m_materials[m_materialIndex] when its material pointer (+0x40 of the slot) is set, else slot 0 (0x7d68ec..0x7d690c;
+// the wire-frame path calls getWireMaterial at 0x7d6a30). Then, on the selected slot:
+//   * setParameter(slot.m_parameterId2 (+0x08), 0, m_texture) (0x7d691c, LDRH R1,[R5,#8]);
+//   * when slot.m_parameterId6 (+0x0A) is not 0xFFFF and m_texture is set (0x7d6924..0x7d693c), setParameterCvt(
+//     slot.m_parameterId6, 0, colour) (0x7d6988) where colour is white SColorf(1,1,1,0) when the texture pixel-format
+//     bits (ITexture +0x38, UBFX #4 width 6) equal 2, black SColorf(0,0,0,0) otherwise (0x7d6940..0x7d6980).
+// Then setMaterial(slot.m_material, nullptr) and draw (0x7d6994/0x7d69bc), the batch offset is undone and the
+// counters are cleared: with unk_00 (+0x00) equal to 1 the vertex base becomes the batch count and the streams keep
+// it, otherwise both drop to 0 (0x7d69f0..0x7d6a18). The attribute-map and binding arguments stay nullptr: the
+// original's .clone symbols fold them.
 void BufferedRenderer::flush() {
     if (m_vertexStreams->m_field08 == 0) {
         return;
@@ -232,8 +243,16 @@ void BufferedRenderer::flush() {
         selected = m_materials[m_materialIndex].m_material ? &m_materials[m_materialIndex] : &m_materials[0];
     }
 
-    // NOT WRITTEN (partial): setParameter(selected->m_material, selected->m_parameterId2, 0, m_texture) and, see the file
-    // comment, setParameterCvt<SColorf>(selected->m_material, selected->m_parameterId6, 0, colour).
+    glitch::scene::setMaterialTexture(*selected->m_material, selected->m_parameterId2, 0, m_texture);
+    if (selected->m_parameterId6 != 0xffff && m_texture) {
+        glitch::video::SColorf colour;
+        if (((m_texture->m_flags38 >> 4) & 0x3fu) == 2) {
+            colour = glitch::video::SColorf{1.0f, 1.0f, 1.0f, 0.0f};  // the original writes 1,1,1,0 at 0x7d6948
+        } else {
+            colour = glitch::video::SColorf{0.0f, 0.0f, 0.0f, 0.0f};  // and 0,0,0,0 otherwise
+        }
+        selected->m_material->parameters.setParameterCvt(selected->m_parameterId6, 0u, colour);
+    }
 
     m_driver->setMaterial(selected->m_material,
                           static_cast<const boost::intrusive_ptr<glitch::video::CVertexAttributeMap>*>(nullptr));
@@ -273,11 +292,19 @@ void BufferedRenderer::setTexture(boost::intrusive_ptr<ITexture>& texture) {
 }
 
 // 0x7d6a98 _ZN16BufferedRenderer13clearTexturesEv
-// PARTIAL: clears the current texture, then the setParameter calls on the 17 material slots are not written (see the
-// file comment).
+// Reconstructed (r3b-w2) from the disassembly 0x7d6a98..0x7d6b40: the current texture is cleared through
+// setTexture(nullptr) (which flushes first when it changes), and then every one of the 17 material slots gets
+// setParameter(slot.m_parameterId2, 0, null texture) - the same accessor flush() uses - so no slot keeps the
+// released texture. (The earlier note left the per-slot clears out because CMaterial had no parameter block to
+// call; the parameter block is CMaterial::parameters, as in scene/material_access.hpp.)
 void BufferedRenderer::clearTextures() {
     boost::intrusive_ptr<ITexture> none;
     setTexture(none);
+    for (MaterialData& slot : m_materials) {
+        if (slot.m_material) {
+            glitch::scene::setMaterialTexture(*slot.m_material, slot.m_parameterId2, 0, none);
+        }
+    }
 }
 
 // 0x7d6ea0 _ZN16BufferedRenderer11queueBufferERKN5boost13intrusive_ptrIN6glitch5video14CVertexStreamsEEENS3_16E_PRIMITIVE_TYPEE

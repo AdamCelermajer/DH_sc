@@ -63,7 +63,7 @@ class FakeCursor : public vox::DecoderCursorInterface {
 public:
     FakeCursor(int channels, int rate, int bits, int length, bool allow_ref = false) : allow_ref_(allow_ref) {
         params_.channels = channels;
-        params_.unknown_08 = rate;
+        params_.sample_rate = rate;
         params_.bits_per_sample = bits;
         params_.length_frames = length;
     }

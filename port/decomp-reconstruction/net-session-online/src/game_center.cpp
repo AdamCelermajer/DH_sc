@@ -103,9 +103,22 @@ void GameCenter::ReportGCAchievement(const char* name) {
 }
 
 // 0x499efc _ZN10GameCenter15CoinTossForHostEv
+// Asm/Hex-Rays: std::priv::_S_sort<std::string,std::allocator<std::string>,std::less<std::string>>((int*)this + 9),
+// then `return *(_DWORD*)(*((_DWORD*)this + 9) + 28)`. this+9 dwords is the player list at +0x24 (its sentinel's
+// next is the first node, so *((_DWORD*)this+9) is that node) and +28 is the SGI std::string's data pointer
+// inside the node, i.e. c_str() of the FIRST element of the ascending sort. There is no random toss: the
+// "toss" is the sort.
+// Reproduced: the ascending sort and the not-until-empty guard. Deviation: the binary returns that char* as
+// the int the caller stores into the GameCenter word at +0x30 (the slot the port types as the host-UID
+// pointer); such an address cannot be reproduced, and 0 is the one value that cannot collide with a real
+// pointer. With an empty list the binary dereferences the sentinel's +0x1c (hostUid_ here) and crashes; the
+// port returns 0.
 std::int32_t GameCenter::CoinTossForHost() {
     playerList_.sort();
-    return 0;  // partial: the returned word is not reproduced (see game_center.hpp)
+    if (playerList_.empty()) {
+        return 0;  // the binary reads the sentinel's string slot here (undefined)
+    }
+    return static_cast<std::int32_t>(reinterpret_cast<std::uintptr_t>(playerList_.front().c_str()));
 }
 
 // 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc
@@ -125,26 +138,40 @@ bool GameCenter::GCStartGameTimeoutExpired() const {
 }
 
 // 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv
-// Partial: see game_center.hpp. The gate, the start flag, the start time and the coin toss are on the
-// GameCenter singleton. OnlineGameState::Init(4) runs on the OnlineSingleton instance.
-void GameCenter::GCStartMultiplayerGame() {
+// Asm, in order: read the GS singleton's gate byte (+0x15); return it immediately when it is ZERO
+// (LDRB R4,[R0,#0x15]; CMP R4,#0; BEQ loc_499F48 skips the tail); store 1 to OnlineGameState +0x28
+// (flag28_); store 1 to the singleton's start flag (+0x11); gettimeofday into the singleton's +0x1c;
+// store CoinTossForHost's word into the singleton's +0x30; walk the player-ID status list; then
+// MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "GoToVerificationScreen", 0, 0); and
+// return OnlineGameState::Init(4) on the OnlineSingleton instance.
+// Fixed this pass: the entry guard was inverted (it returned when the gate was SET). The gate is a byte
+// that GCStartMultiplayerGame(bool) clears and that the constructor leaves 0, so the binary only runs the
+// tail when it is set -- the previous body ran the tail in exactly the opposite case.
+// Not ported: the MenuManager chain (MenuManager::GetInstance 0x42ca8c and MenuManager::GetRoot 0x42cb80
+// have no definition in the tree; GetRoot is the one game-ui still owes, see TRACK-B-STATUS). The word
+// CoinTossForHost returns cannot be reproduced as an address, so the store into +0x30 (the host-UID slot)
+// is left out; nothing reads it. The Init(4) result is returned, as the binary's tail returns its r0.
+// Deviation: on the 64-bit host both return values are addresses narrowed to the binary's 32-bit word.
+int GameCenter::GCStartMultiplayerGame() {
     GameCenter* singleton = GCSingleton<GameCenter>::GetInstance();
-    if (singleton->startGate_) {
-        return;
+    if (!singleton->startGate_) {
+        return static_cast<int>(reinterpret_cast<std::uintptr_t>(singleton));  // r0: the GS singleton pointer
     }
-    // Not ported: the OnlineGameState flag at +0x28 (no such member in online_game_state.hpp).
-    singleton->startFlag_ = true;
-    GetTimeOfDay(&singleton->gameStartTime_);
-    singleton->CoinTossForHost();  // partial: the returned word is not stored (see game_center.hpp)
+    OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ = true;  // +0x28
+    singleton->startFlag_ = true;                                     // +0x11
+    GetTimeOfDay(&singleton->gameStartTime_);                         // +0x1c
+    (void)singleton->CoinTossForHost();  // the result is the +0x30 store that cannot be reproduced
     DumpPlayerIDStatusList();
-    // Not ported: the MenuManager "GoToVerificationScreen" callback (MenuManager::GetInstance has no body).
-    OnlineSingleton<OnlineGameState>::GetInstance()->Init(4);
+    // Not ported: MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "GoToVerificationScreen").
+    return static_cast<int>(
+        reinterpret_cast<std::uintptr_t>(OnlineSingleton<OnlineGameState>::GetInstance()->Init(4)));
 }
 
 // 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb
-// The bool argument is unused. The start gate is cleared on the singleton, then the no-argument overload
-// runs on this, as the original calls it.
-void GameCenter::GCStartMultiplayerGame(bool /*unused*/) {
+// The bool argument is unused (a2 is never read). The singleton's gate byte at +0x15 is cleared, then the
+// no-argument overload runs on this and its result is the caller's r0 (the binary's tail is a B, not a BL).
+// It is therefore returned here rather than dropped.
+int GameCenter::GCStartMultiplayerGame(bool /*unused*/) {
     GCSingleton<GameCenter>::GetInstance()->startGate_ = false;
-    GCStartMultiplayerGame();
+    return GCStartMultiplayerGame();
 }

@@ -72,7 +72,7 @@ int VoxNativeSubDecoder::s_nbSamplesMixingBuffer = 0;
 TrackParams VoxNativeSubDecoder::GetTrackParams() {
     TrackParams params;
     params.channels = channels_;
-    params.unknown_08 = field_0c_;
+    params.sample_rate = field_0c_;
     params.bits_per_sample = bits_;
     params.length_frames = 0;
     return params;

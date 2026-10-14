@@ -4,7 +4,10 @@
 // +0x120 m_tga, +0x138 m_attachTo, +0x150 m_size, +0x158 m_position, +0x164 m_isAdditive, +0x168 m_attachHandle,
 // +0x174 m_attachToActiveCamera, +0x178 m_billboardNode.
 //
-// Partial: Update, InitPost, the destructor (D1 and D2) and DeclareProperties. Each comment names what is missing.
+// Partial: none. Update, InitPost, the destructor (D1 and D2) and DeclareProperties are all written (the "position"
+// and "size" properties are built by hand because PropertyMap::AddProperty<T> has no instance for those two types).
+// The old blockers (IDevice +0x10/+0x1c, the IVideoDriver +0xdc/+0xe0 managers, the CMaterial parameter setter and the
+// CBillboardSceneNode layout) are STALE: all of them exist in the tree now.
 // Skipped: the deleting destructor (D0). Reconstructed: Draw, IsZonable, IsUpdatable and the constructor (C1 and C2).
 
 #include <string>

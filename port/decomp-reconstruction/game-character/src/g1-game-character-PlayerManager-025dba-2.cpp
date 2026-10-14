@@ -888,6 +888,18 @@ unsigned int PlayerManager::_CheckLocalControllers() {
 // a new expression instead of the original's operator new(408, 0), and the unused PROPS_GetInt read inside the HP sync is
 // dropped (it has no side effect).
 // The return value is the constant the original leaves in r0 at its final return (16556).
+// Two sub-behaviours the row was once held back for were read against the disassembly and are not divergences:
+// (1) the HP sync (0x372c40..0x372cf4) builds a stack NetStructMemberType<int> temporary whose SetChanged is decided by
+//     the stale word it never writes (0x372cac: `v27 != v132`), but the bytes it writes go to the record's own member,
+//     which the port writes through that member's SetValue; the temporary's call only advances NetStruct::s_changeCounter,
+//     with no value, control-flow or packet-byte effect. The same reading is already recorded on the SetCharacterXP and
+//     SetCharacterNumPotions rows.
+// (2) the last SetVisible argument is NOT a stale register. At 0x373580 the original loads GetOnline()+0x30 through the
+//     GOT offset in [sp,#0x2c] and complements it (0x373590 LDRNE / 0x373594 LDRBNE / 0x37359c EORNE R9,R9,#1), so r9 is
+//     the computed visibility on every path; r9 is never written again before 0x3735c4 (MOV R1, R9). Both paths that
+//     reach the SetVisible call (0x3735b0 after SM_SetIdleState, and 0x373a60 after SM_IsInLimbus and the IsDead slot) keep
+//     it: _SetState, SM_IsInLimbus and Character::IsDead (0x3a2ed4, MOVW/LDRB/BX) clobber neither r9 nor the character's
+//     vtable load, and 0x3733b0's IsDead call returns into 3733b4 without touching r9. The port passes the computed value.
 int PlayerManager::_ManageCharacters() {
     static int forceResendTimer = -1;                 // PlayerManager::_ManageCharacters()::forceResendTimer (.data, -1)
     static int forceResendLoadingInfoTimer = -1;      // PlayerManager::_ManageCharacters()::forceResendLoadingInfoTimer (.data, -1)

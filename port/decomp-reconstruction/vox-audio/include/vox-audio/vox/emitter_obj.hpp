@@ -48,11 +48,12 @@ class EmitterObj : public Handlable {
 public:
     EmitterObj() = default;
     // 0x866380 (C1) and 0x8665cc (C2, same body): an emitter with no decoder cursor yet.
-    // The data object supplies the play rate and length. Partial: a null or not-ready data object
-    // makes the original call GetType through a null pointer (the port stores 0 instead).
+    // The data object supplies the play rate and length. Reconstructed; the one deviation is that a
+    // null or not-ready data object would make the listing call GetType through a null pointer, and
+    // the port stores decoder type 0 instead (see the .cpp).
     EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInterface* source, DataObj* data);
     // 0x86c5ec (C1) and 0x86ce1c (C2, same body): an emitter fed by a decoder cursor. Builds the
-    // buffer ring (see BuildBufferRing). Partial: the same null GetType path as C1, see the .cpp.
+    // buffer ring (see BuildBufferRing). Reconstructed; the same null GetType deviation as C1.
     EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes, DriverSourceInterface* source,
                DecoderCursorInterface* cursor, DataObj* data);
     ~EmitterObj() override;  // D1 0x8699c0 and D2 0x869a38 (same body); D0 0x869a1c is the deleting variant
@@ -87,7 +88,9 @@ public:
     float GetPitch();                       // 0x8656a8: +0x74
     float GetGain();                        // 0x8656d0: +0x3c
     bool ShouldDie();                       // 0x865784
-    bool IsAlive();                         // 0x8657f4 (see NOTES.md: locks twice in the original)
+    bool IsAlive();                         // 0x8657f4: reconstructed; the listing re-locks the
+                                            // non-recursive mutex in ShouldDie and blocks, so the
+                                            // port uses ShouldDieUnlocked under the one lock
     void NeedToDie();                       // 0x865828: sets +0x11c
     void SetAutoKillAfterDone(bool on);     // 0x865850: writes +0x11d
     std::uintptr_t GetUserData();           // 0x865398: reads +0x134
@@ -112,18 +115,24 @@ public:
     int Resume(float time);                 // 0x86c1d4
     int SetGain(float gain, float time);    // 0x86bb24
     int SetPitch(float pitch, float time);  // 0x86bc40
-    int Update(float dt);                   // 0x86d5b8 (returns the Mutex::Unlock int; partial: null guards, see the .cpp)
+    int Update(float dt);                   // 0x86d5b8 (returns the Mutex::Unlock int; reconstructed,
+                                            // deviation: the port returns early with no cursor or source)
     int LoadAsync();                        // 0x86d238 (reconstructed: reads the cursor's track block)
-    int SetPlayCursor(float position);      // 0x8653ec (partial: the null-decoder path, see the .cpp)
-    float GetPlayCursor();                  // 0x8654f8
-    int SetDSPParameter(int param, void* value);   // 0x866acc (partial: null value path, see the .cpp)
-    void CleanUp();                         // 0x863954 (partial: DSP buffers only, see the .cpp)
+    int SetPlayCursor(float position);      // 0x8653ec (reconstructed; deviation: the port skips the
+                                            // seek when the data state is not 0, where the listing faults)
+    float GetPlayCursor();                  // 0x8654f8 (partial: the listing returns with the mutex
+                                            // still locked when play_length_ is 0, see the .cpp)
+    int SetDSPParameter(int param, void* value);   // 0x866acc (reconstructed; deviation: a null value)
+    void CleanUp();                         // 0x863954 (reconstructed; deviation: the port nulls the
+                                            // pointers it frees, the listing leaves them set)
     void SetInteractiveMusicStateChange(const char* state);  // 0x866abc
     void PrintDebug();                      // 0x864e28
-    int GetDebugInfo(DebugChunk_emitter& out);   // 0x866818 (partial: null data and cursor guards, see the .cpp)
+    int GetDebugInfo(DebugChunk_emitter& out);   // 0x866818 (reconstructed; deviation: the port guards
+                                                 // the null data object and cursor, the listing faults)
     // Wave 9 (src/w9-emitter-slots): the cursor-to-source pull and the 3D push.
     int ProcessNonNativeData(float dt);     // 0x863228: pulls one ring block from the cursor
-    int ProcessNativeData(float dt);        // 0x866b30 (partial, see the .cpp)
+    int ProcessNativeData(float dt);        // 0x866b30 (reconstructed; deviations: the void Rewind
+                                            // call's undefined r0 and the zero-divisor division)
     void Update3D();                        // 0x863318: sends dirty 3D parameters to the source
 
     // Source and DSP buffer (+0xec, +0xf0, +0x110). UpdateDSP forwards to the source.

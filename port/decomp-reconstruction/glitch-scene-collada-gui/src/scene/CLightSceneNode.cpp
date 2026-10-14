@@ -85,21 +85,27 @@ CLightSceneNode::~CLightSceneNode() {
 
 // 0x583ddc _ZNK6glitch5scene15CLightSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // Verified against Hex-Rays 0x583ddc: ISceneNode::serializeAttributes, IAttributes::push (slot +0x30) with "Light" (the
-// literal sits in the tail of "EnablePlayerHeadLight" at 0x8bf9d7), CLight::serializeAttributes(this->light), pop
-// (slot +0x3c). PARTIAL: the only missing piece is glitch::video::CLight::serializeAttributes (0x59ffa8), whose own row
-// is still skipped in glitch-video's ledger, so the call is not emitted (it would only reach a link stub).
+// literal sits in the tail of "EnablePlayerHeadLight" at 0x8bf9d7), CLight::serializeAttributes(this->light, options),
+// pop (slot +0x3c). The blocker recorded earlier is gone: glitch::video::CLight::serializeAttributes (0x59ffa8) is now
+// reconstructed in glitch-video/src/light.cpp with a matching signature, so the call is emitted.
 void CLightSceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const {
     ISceneNode::serializeAttributes(attributes, options);
     attributes->push("Light");
+    if (light) {
+        light->serializeAttributes(attributes, options);
+    }
     attributes->pop();
 }
 
 // 0x583d88 _ZN6glitch5scene15CLightSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// As the serializer above, with ISceneNode::deserializeAttributes and CLight::deserializeAttributes (0x5a015c, skipped in
-// glitch-video) as the missing piece.
+// As the serializer above, with ISceneNode::deserializeAttributes and CLight::deserializeAttributes (0x5a015c, now
+// reconstructed in glitch-video/src/light.cpp) in place of the writer.
 void CLightSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) {
     ISceneNode::deserializeAttributes(attributes, options);
     attributes->push("Light");
+    if (light) {
+        light->deserializeAttributes(attributes, options);
+    }
     attributes->pop();
 }
 

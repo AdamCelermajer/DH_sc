@@ -29,8 +29,13 @@
 //     (MemberInfoNetStruct array, stride 408 at +0x4be0, event 0x800003) are skipped too.
 //   - the peer loop that the virtual IsInRoom() (vtable +0x64) gates: it walks the 408-byte member array
 //     and connects each member through its CNetworkId member.
-//   - the NetStruct change notifications of the room flags. The port keeps the plain flags, so the server
-//     change clears roomClosed_ and roomHiddenFlag_ directly.
+//   - the NetStruct change notifications of the room flags.
+// CORRECTION of this comment's opening claim ("because the NetStruct arrays and flags of the original are
+// not in the CMatchingLocal layout yet"): the arrays ARE in the layout now -- roomInfo_ (+0x4A20),
+// localMembers_ (+0x4BE0, 32 x 408) and serverBackup_ (+0x7EE8, 32 x 344), all real NetStruct records, and
+// the two room flags are roomInfo_'s bool members (the server change below writes those, so the
+// notifications DO run). This row stays partial for the five body gaps listed above, which are still not
+// ported: Update is a 400-instruction state machine and the walks were not re-derived in this pass.
 std::int32_t CMatchingLocal::Update() {
     CMatching::Update();  // 0x8018fc, the base update (ProcessEvents, room mask dirty). Result unused.
     if (!initialized_) {
@@ -46,8 +51,8 @@ std::int32_t CMatchingLocal::Update() {
         if (memberId_ != serverMemberId_) {
             // Server change: clear the room flags, announce the change, post 0x80000b.
             serverMemberId_ = memberId_;
-            roomClosed_ = 0;
-            roomHiddenFlag_ = 0;
+            roomInfo_->setRoomClosed(false);
+            roomInfo_->setRoomHidden(false);
             SendChangeServerMessage();
             MatchingInternalEventQueue().AddEvent(8388619, &serverMemberId_, sizeof serverMemberId_);  // 0x80000b
         }

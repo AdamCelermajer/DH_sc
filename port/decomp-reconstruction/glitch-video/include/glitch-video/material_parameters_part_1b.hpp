@@ -116,8 +116,11 @@ struct ParamCode<glitch::video::SColorf> {
     static constexpr std::uint32_t kGate = 0x20000;
 };
 
-// Hooks that the owning categories provide. They are declared here and not defined in this port:
-//   destroyLight        last-reference release of CLight (Matrix4Pool push, LC_API_FREE). Not reconstructed.
+// Hooks that the owning categories provide. They are declared here and defined in material_parameters_part_1b.cpp:
+//   destroyLight        last-reference release of CLight (the body of ~intrusive_ptr<CLight> at 0x5aa3c8). The
+//                       port's body deletes the light; the original pushes the +0x50 node onto
+//                       glitch::memory::Matrix4Pool only when the flag at +0x54 is clear, which a constructed
+//                       light (+0x54 == 1) never is, and the port's pool does not take that node.
 //   textureAddRef       ++ of the IReferenceCounted count at +0x04 of an ITexture.
 //   textureDrop         IReferenceCounted::drop of an ITexture (0x31d584).
 //   textureStateWord    the packed state word of an ITexture at +0x38 (type bits 0-1).
@@ -147,7 +150,8 @@ int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t ind
 int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, const glitch::core::vector3d<int>& src);    // 0x5c4500
 int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, const glitch::core::vector2d<int>& src);    // 0x5c45c8
 int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, const int& src);                            // 0x5c4688
-// ITexture and CLight element forms (partial: refcount hooks, see above).
+// ITexture and CLight element forms (the refcount hooks above; a stored pointer slot is sizeof(void*), not the
+// original 4 bytes).
 int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::ITexture* const& src);  // 0x5c48a0
 int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::CLight* const& src);  // 0x5c5be0
 int getParameter(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, glitch::video::CLight*& out);       // 0x5c5a40

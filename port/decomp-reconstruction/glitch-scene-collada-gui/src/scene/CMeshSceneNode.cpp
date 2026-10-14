@@ -53,8 +53,30 @@ void CMeshSceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttri
 }
 
 // 0x584ed0 _ZN6glitch5scene14CMeshSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// PARTIAL: the ISceneNode attributes only (the mesh is loaded by name in the original).
+// Verified against Hex-Rays 0x584ed0. The node's current mesh name is taken from the scene manager's mesh cache
+// (getMeshFilename, cache vtable +0x34, with a counted copy of the mesh handle; an empty string for a missing mesh) and
+// compared with the "Mesh" string. When they differ, CSceneManager::getMesh(const char*) loads it and, if it returns
+// something, setMesh (this vtable +0xf4) installs it. The ISceneNode attributes are deserialized LAST (the listing calls
+// 0x598058 at the end). The old note's blockers (IReadFile / IWriteFile / the object pool) are not used by this function.
 void CMeshSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) {
+    if (attributes == nullptr) {
+        return;
+    }
+    std::string currentName;
+    if (sceneManager != nullptr && sceneManager->meshCache != nullptr) {
+        const boost::intrusive_ptr<const IMesh> meshHandle(mesh.get(), true);
+        const char* cacheName = sceneManager->meshCache->getMeshFilename(meshHandle);
+        if (cacheName != nullptr) {
+            currentName = cacheName;
+        }
+    }
+    const std::string wantedName = attributes->getString("Mesh");
+    if (wantedName != currentName && sceneManager != nullptr) {
+        const boost::intrusive_ptr<IAnimatedMesh> loaded = sceneManager->getMesh(wantedName.c_str());
+        if (loaded) {
+            setMesh(boost::intrusive_ptr<IMesh>(loaded.get(), true));
+        }
+    }
     ISceneNode::deserializeAttributes(attributes, options);
 }
 

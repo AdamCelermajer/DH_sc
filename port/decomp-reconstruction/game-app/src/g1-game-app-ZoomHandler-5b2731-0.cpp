@@ -10,10 +10,9 @@
 //     6 moved, 7 wheel. Touch events are IEvent with id 4 (EvTouchScreenPress) or 5 (EvTouchScreenMove).
 //   - The finger map is std::map<long, TouchData> keyed by the touch id. The pinch uses the first two entries in key
 //     order. The original steps the rb-tree once from its leftmost node, which is std::next(begin()).
-//   - The sensitivity (+0x28) is 1 / max(W+12, W+16), where W is reached from dword_99F73C by the chain +0x1c, +0x14,
-//     +0xcc, then the element before the last pointer. The owner of dword_99F73C+0x1c is not identified and the chain
-//     has no declared layout, so the constructor and setCamera stay PARTIAL. Every other function reads m_sensitivity
-//     as the member it is.
+//   - The sensitivity (+0x28) is 1 / max(width, height) of the render target reached from dword_99F73C by the chain
+//     +0x1c (the device's scene manager), +0x14 (CSceneManager::driver), +0xcc (the driver's m_renderTargets), last
+//     entry. Every step is declared now; the ctor and setCamera write it.
 
 #include "dh2/ZoomHandler.hpp"
 
@@ -22,6 +21,12 @@
 #include <iterator>
 
 #include "dh2/CameraLevel.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/global/ctrl_camera.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "glitch-video/render_target.hpp"
 #include "dh2/EvTouchScreenMove.hpp"
 #include "dh2/EvTouchScreenPress.hpp"
 #include "dh2/EventManager.hpp"
@@ -30,6 +35,26 @@
 #include "dh2/global/MenuManagerGlobals.hpp"  // dword_99F740, the EventManager instance
 
 namespace {
+
+// The render target the sensitivity is taken from. The original's chain is: device +0x1c (the scene manager) -> its
+// video driver (+0x14, CSceneManager::driver) -> the last entry of the driver's target stack (asm: the vector end
+// word at driver +0xcc minus 4 is the pointer). Every step is declared now (glitch-core-io/os/device.hpp,
+// CSceneManager.hpp, video_driver.hpp, render_target.hpp), so the port uses the members. The null/empty guard is a
+// host-necessitated deviation: the original dereferences unconditionally, and the batch test builds a ZoomHandler
+// with no Application device (g1-game-app-ZoomHandler-5b2731-0_test.cpp), so the port returns null there and the
+// caller keeps the previous value instead of faulting. With a device the value is the original's.
+glitch::video::IRenderTarget* SensitivityRenderTarget() {
+    glitch::IDevice* device = ApplicationGetInstance().m_device;
+    if (device == nullptr || device->sceneManager == nullptr) {
+        return nullptr;
+    }
+    glitch::scene::CSceneManager* scene = reinterpret_cast<glitch::scene::CSceneManager*>(device->sceneManager);
+    glitch::video::IVideoDriver* driver = scene->driver;  // scene +0x14
+    if (driver == nullptr || driver->m_renderTargets.empty()) {  // +0xc8, the entry before the end word
+        return nullptr;
+    }
+    return driver->m_renderTargets.back().get();
+}
 
 // The map test of the touch and mouse paths: MenuCharMenu_Map::GetInstance() with unk_1e4 (+0x1e4) clear, and
 // IsPointInsideRenderZone(x, y). The original's other alternative, a clear camera flag, is tested by the callers
@@ -43,8 +68,11 @@ bool MapAcceptsTouch(int x, int y) {
 
 // 0x382204 ZoomHandler::ZoomHandler()
 // 0x3822e4 ZoomHandler::ZoomHandler()   (C2, the same body; see the ledger)
-// PARTIAL: m_sensitivity (+0x28) is not computed. The original stores 1 / max(W+12, W+16) of the chain described at the
-// top of this file. The chain has no declared layout, so the store is left out and the member starts at 0.
+// Reconstructed from the listing: camera, pan flags and the zeroed pan baseline are cleared (m_mousePanEnabled +0x24,
+// m_mousePanActive +0x34, m_mousePanBaseline +0x38..+0x40), m_sensitivity (+0x28) gets 1 / max(width, height) of the
+// last render target (asm: v3 = width +0x0c, height +0x10 replaces it when it is not smaller), the finger map at
+// +0x08 is default-constructed empty, and events 4 and 5 are attached on dword_99F740 (the EventManager instance).
+// The null/empty guard of SensitivityRenderTarget is the deviation named above.
 ZoomHandler::ZoomHandler() {
     m_camera = nullptr;                 // +0x20
     m_mousePanEnabled = false;          // +0x24
@@ -52,7 +80,11 @@ ZoomHandler::ZoomHandler() {
     m_mousePanBaseline[0] = 0.0f;       // +0x38
     m_mousePanBaseline[1] = 0.0f;       // +0x3c
     m_mousePanBaseline[2] = 0.0f;       // +0x40
-    m_sensitivity = 0.0f;               // +0x28 PARTIAL placeholder, see above
+    m_sensitivity = 0.0f;               // +0x28
+    if (const glitch::video::IRenderTarget* target = SensitivityRenderTarget()) {
+        const int maxDimension = target->m_height >= target->m_width ? target->m_height : target->m_width;
+        m_sensitivity = 1.0f / static_cast<float>(maxDimension);
+    }
     // +0x08 the finger map is empty (std::map default construction in the original's rb-tree header layout).
 
     dword_99F740->Attach(EvTouchScreenPress::kEventId, this, 0);   // event 4
@@ -60,12 +92,22 @@ ZoomHandler::ZoomHandler() {
 }
 
 // 0x381fb0 ZoomHandler::setCamera(CameraLevel*)
-// PARTIAL: the sensitivity store is missing. The original sets m_sensitivity (+0x28) to 1 / max(W+12, W+16) of the
-// chain described at the top of this file and returns that value. This returns the current m_sensitivity.
+// Reconstructed from the listing: the camera is stored (+0x20), the pan flags are cleared (+0x24, +0x34), then
+// m_sensitivity (+0x28) is set to 1 / max(width, height) of the last render target (asm: v4 = height +0x10, width
+// +0x0c replaces it when it is smaller) and that value is returned. The null/empty guard of SensitivityRenderTarget
+// is the deviation named above: with no device the previous sensitivity is kept and returned (the batch test sets
+// m_sensitivity and expects setCamera to give it back).
 float ZoomHandler::setCamera(CameraLevel* camera) {
     m_camera = camera;                  // +0x20
     m_mousePanEnabled = false;          // +0x24
     m_mousePanActive = false;           // +0x34
+    if (const glitch::video::IRenderTarget* target = SensitivityRenderTarget()) {
+        int dimension = target->m_height;   // +0x10
+        if (dimension < target->m_width) {  // +0x0c
+            dimension = target->m_width;
+        }
+        m_sensitivity = 1.0f / static_cast<float>(dimension);  // +0x28
+    }
     return m_sensitivity;
 }
 
@@ -77,10 +119,15 @@ void ZoomHandler::ResetZoom() {
 }
 
 // 0x382040 ZoomHandler::onEvent(glitch::SEvent const&)
-// The left-button-down pan start on a camera that uses the object position takes its map test from MapAcceptsTouch
-// (above).
-// The mouse path: the wheel zooms the camera at any time (no pan state needed). Left button down starts a pan, moves
-// pan while it is active, and left button up ends it. The pan is in camera units of 50 per pixel.
+// Reconstructed from the listing and verified line by line: no camera or a non-mouse event returns 0; wheel (7) adds
+// (m_sensitivity * 5) * wheel to the camera's m_zoomCurrent (+0x88) and returns 1; the pan switch returns 0 unless
+// m_mousePanEnabled (+0x24) is set; left down (0) sets m_mousePanActive to !camera->m_useObjectPosition ||
+// MapAcceptsTouch(x, y), stores the two start coordinates (+0x2c/+0x30) and the three baseline words from the camera
+// pan (+0x98/+0x9c/+0xa0) and returns 1; moved (6) needs m_mousePanActive, writes the camera pan as
+// baseline + (delta * 50) with the X delta negated (the original's COERCE_INT + 0x80000000 sign flip) and Z as
+// baseline + 0.0; left up (3) clears m_mousePanActive. Anything else returns 0. MapAcceptsTouch is implemented in
+// this file (the earlier note's "stub returning false" is stale: dh2/MenuCharMenu_Map.hpp and dh2/CameraLevel.hpp
+// now share the one Point3D type).
 bool ZoomHandler::onEvent(const glitch::SEvent& event) {
     CameraLevel* camera = m_camera;     // +0x20
     if (!camera || event.EventType != glitch::EET_MOUSE_INPUT_EVENT) {

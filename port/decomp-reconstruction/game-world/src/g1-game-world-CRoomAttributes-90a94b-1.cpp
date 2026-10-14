@@ -2,13 +2,12 @@
 // the destructor (complete and base object), the NetRoomAttributes constructor, the copy and default constructors
 // and the two Serialize entry points. Declarations come from dh2/CRoomAttributes.hpp. Original 32-bit size 0x394.
 //
-// Partial functions and what is missing:
+// Functions whose only deviation is a stack temporary (see the note below):
 //   - EraseAttributeBin (0x818948), Clear (0x818a28), SetAttributeBin (0x818cb0): the temporary SetChanged of the
-//     pseudocode (see the note below). The member's own SetValue, the bin SetBuffer calls and the SetEnabled call
-//     are reproduced.
+//     pseudocode. The member's own SetValue, the bin SetBuffer calls and the SetEnabled call are reproduced.
 //   - NetRoomAttributes constructor (0x818dac): the pseudocode tests each raw value before zeroing it, and calls
-//     SetChanged when the raw value was not zero. The raw value is uninitialised memory there. The port's members
-//     start at zero, so that SetChanged is never made.
+//     SetChanged when the raw value was not zero. The raw value is uninitialised memory there, so this can only
+//     move NetStruct::s_changeCounter; the port's members start at zero, so that SetChanged is never made.
 //
 // The temporary SetChanged. EraseAttributeBin, Clear and SetAttributeBin build a member-sized temporary on the
 // stack. They compare the new value with that temporary's value slot before the slot is written, and call
@@ -39,9 +38,9 @@ CRoomAttributes& CRoomAttributes::operator=(const CRoomAttributes& other) {
 }
 
 // 0x818948 _ZN15CRoomAttributes17EraseAttributeBinE20tROOM_ATTRIBUTES_BIN
-// PARTIAL: the temporary SetChanged (see the file comment). Empties bin attribute `attribute` through the
-// byte array's vtable slot +0x28 (SetBuffer, 0x818290) with (nullptr, 0), then clears its active bit in m_binMask
-// (+0x368 in CRoomAttributes, value at +0x388).
+// Empties bin attribute `attribute` through the byte array's vtable slot +0x28 (SetBuffer, 0x818290) with
+// (nullptr, 0), then clears its active bit in m_binMask (+0x368 in CRoomAttributes, value at +0x388), through the
+// mask's SetValue. The pseudocode's mask temporary only advances NetStruct::s_changeCounter (see the file comment).
 void CRoomAttributes::EraseAttributeBin(tROOM_ATTRIBUTES_BIN attribute) {
     m_netRoomAttributes.m_binAttributes[attribute].SetBuffer(nullptr, 0);  // +0x278 + 40 * attribute
     const std::uint32_t mask = m_netRoomAttributes.m_binMask.GetValue() & ~(1u << attribute);
@@ -49,9 +48,9 @@ void CRoomAttributes::EraseAttributeBin(tROOM_ATTRIBUTES_BIN attribute) {
 }
 
 // 0x818a28 _ZN15CRoomAttributes5ClearEv
-// PARTIAL: the temporary SetChanged of the two mask writes (see the file comment).
-// Erases the eight int attributes and the five bin attributes, zeroes the int mask (+0x340) and the bin mask (+0x368),
-// then disables the NetRoomAttributes block.
+// Erases the eight int attributes and the five bin attributes, zeroes the int mask (+0x340) and the bin mask
+// (+0x368) through their SetValue, then disables the NetRoomAttributes block. The two mask temporaries of the
+// pseudocode only advance NetStruct::s_changeCounter (see the file comment).
 void CRoomAttributes::Clear() {
     EraseAttributeInt(ROOM_INT_ATTRIBUTE_0);
     EraseAttributeInt(ROOM_INT_ATTRIBUTE_1);
@@ -86,9 +85,9 @@ CRoomAttributes::~CRoomAttributes() {
 // Base object destructor: the same body as D1 (0x818c14), one definition serves both.
 
 // 0x818cb0 _ZN15CRoomAttributes15SetAttributeBinE20tROOM_ATTRIBUTES_BINPKvj
-// PARTIAL: the temporary SetChanged (see the file comment). Sets the active bit of `attribute` in m_binMask (SetValue
-// flags the change), then copies the bytes into bin attribute `attribute` through the byte array's vtable slot +0x28
-// (SetBuffer, 0x818290).
+// Sets the active bit of `attribute` in m_binMask (the mask's SetValue flags the change), then copies the bytes
+// into bin attribute `attribute` through the byte array's vtable slot +0x28 (SetBuffer, 0x818290). The
+// pseudocode's mask temporary only advances NetStruct::s_changeCounter (see the file comment).
 void CRoomAttributes::SetAttributeBin(tROOM_ATTRIBUTES_BIN attribute, const void* data, unsigned int size) {
     const std::uint32_t mask = m_netRoomAttributes.m_binMask.GetValue() | (1u << attribute);
     m_netRoomAttributes.m_binMask.SetValue(mask);
@@ -96,9 +95,9 @@ void CRoomAttributes::SetAttributeBin(tROOM_ATTRIBUTES_BIN attribute, const void
 }
 
 // 0x818dac _ZN15CRoomAttributes17NetRoomAttributesC1Ev
-// PARTIAL: the raw-value test before each zeroing (see the file comment). The eight int attributes and the two masks
-// are zeroed through SetValue(0), the step the pseudocode inlines. Their values start at zero here, so the change
-// flag that the original sets for a nonzero raw value is not set.
+// The eight int attributes and the two masks are zeroed through SetValue(0), the step the pseudocode inlines.
+// Their values start at zero here, so the change flag that the original can set for a nonzero raw value (a
+// stack/heap word it never initialises, which only advances NetStruct::s_changeCounter) is not set.
 //
 // The member constructors set the field layout the pseudocode writes: the NetStructInt<32> and NetStructUInt<N>
 // bodies set the size in bits, the change stamp (0), the two -1 masks and the change mask (0). Each bin attribute

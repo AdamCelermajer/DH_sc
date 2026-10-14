@@ -1,10 +1,11 @@
 // Batch g1-game-world-AssetManager-cbdbfa-0 (part 1 of 1): the AssetManager singleton, its map values, the texture and
-// scene-node maps and the asset walk. Declarations come from dh2/AssetManager.hpp. A PARTIAL body names what it waits on.
+// scene-node maps and the asset walk. Declarations come from dh2/AssetManager.hpp.
 //
 // Device path. The original reaches the scene manager and the texture manager through the Application singleton's
 // m_device (s_inst +0x10, the global dword_99F73C): the device's +0x1c is the SceneManager and the device's +0x10 is the
-// video driver whose +0xe0 is the CTextureManager (asm of 0x50a4c4, 0x50a504, 0x50a540 and 0x50bdb4). IDevice declares
-// neither +0x10 nor +0x1c, so every body that needs them is PARTIAL (layout requests in the ledger notes).
+// video driver whose +0xe0 is the CTextureManager (asm of 0x50a4c4, 0x50a504, 0x50a540 and 0x50bdb4). Both members are
+// declared in glitch-core-io/os/device.hpp now, so no body in this file is partial any more; the old layout requests
+// are stale.
 //
 // Map walks. The original walks its red-black trees by hand. The C++ walks use std::map iterators, which visit the same
 // nodes in the same order. Where a walk erases the node it is standing on, the iterator is moved on first and the key is
@@ -13,11 +14,18 @@
 #include <cstddef>
 #include <string>
 
+#include "dh2/Application.hpp"                  // ApplicationGetInstance(), the device at Application +0x10
 #include "dh2/AssetManager.hpp"
+#include "dh2/SceneManager.hpp"                 // the game SceneManager (complete) for DeviceSceneManager()
+#include "dh2/global/DeviceSceneManager.hpp"    // DeviceSceneManager(): the scene manager at device +0x1c
+#include "dh2/global/SceneNodeHelpers.hpp"      // SetWireFrame (0x50a4c0)
 #include "glitch-core-io/core/reference_counted.hpp"
-// ITexture is complete through ISceneNode.hpp, which pulls in the glitch_core_objects.hpp stand-in. glitch-video/texture.hpp
-// cannot be included in the same unit: it redefines glitch::video::ITexture. Only its IReferenceCounted base is used here.
+#include "glitch-core-io/os/device.hpp"         // glitch::IDevice +0x10 driver, +0x1c scene manager
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-video/texture.hpp"
+#include "glitch-video/texture_manager.hpp"
+#include "glitch-video/video_driver.hpp"
 
 namespace {
 
@@ -36,34 +44,39 @@ AssetManager::SceneNode::~SceneNode() {
 }
 
 // 0x50a4c4 AssetManager::ToggleWireFrame()
-// PARTIAL: the toggle of s_wireFrame is written. The original then calls SetWireFrame(sm->rootNode, s_wireFrame) (a tail
-// call), where sm is the SceneManager at IDevice +0x1c and rootNode is CSceneManager +0x04. IDevice declares no +0x1c
-// (layout request), so the call is not written.
+// The file-scope flag is toggled, then SetWireFrame(sm->rootNode, s_wireFrame) runs on the scene manager at IDevice
+// +0x1c (rootNode is CSceneManager +0x04). The old layout request is STALE: the device declares sceneManager.
 void AssetManager::ToggleWireFrame() {
     s_wireFrame = !s_wireFrame;
+    SceneManager* sceneManager = DeviceSceneManager();
+    if (sceneManager != nullptr && sceneManager->rootNode != nullptr) {
+        SetWireFrame(sceneManager->rootNode, s_wireFrame);   // 0x50a4c0, an empty body in the original
+    }
 }
 
 // 0x50a504 AssetManager::loadSceneNode(char const*, char const*, bool, int)
-// PARTIAL: the original calls SceneManager::LoadScene(sm, first, second, false, second != nullptr) and returns the node.
-// sm is the SceneManager at IDevice +0x1c (asm: LDR R0,[R0,#0x1C] after s_inst +0x10), which IDevice does not declare
-// (layout request). The flag and option arguments are not read by the original: the call passes false and the
-// second-name test instead. The node is null here.
+// SceneManager::LoadScene(sm, first, second, false, second != nullptr) (the asm passes R3 = 0 and the second-name test
+// as the last argument). The flag and option arguments are not read by the original. The old layout request on
+// IDevice +0x1c is STALE.
 glitch::scene::ISceneNode* AssetManager::loadSceneNode(const char* first, const char* second, bool flag, int option) {
-    (void)first;
-    (void)second;
     (void)flag;
     (void)option;
-    return nullptr;
+    SceneManager* sceneManager = DeviceSceneManager();
+    if (sceneManager == nullptr) {
+        return nullptr;   // host-necessitated guard: the original dereferences the scene manager unconditionally
+    }
+    return sceneManager->LoadScene(first, second, false, second != nullptr);
 }
 
 // 0x50a540 AssetManager::preloadSceneNode(char const*, char const*, bool, int)
-// PARTIAL: the original calls SceneManager::PreloadScene(sm, first, second) (a tail call). sm is the SceneManager at
-// IDevice +0x1c (layout request), so the call is not written. The flag and option arguments are not read.
+// SceneManager::PreloadScene(sm, first, second) (a tail call in the original). The flag and option arguments are not
+// read. The old layout request on IDevice +0x1c is STALE.
 void AssetManager::preloadSceneNode(const char* first, const char* second, bool flag, int option) {
-    (void)first;
-    (void)second;
     (void)flag;
     (void)option;
+    if (SceneManager* sceneManager = DeviceSceneManager()) {
+        sceneManager->PreloadScene(first, second);
+    }
 }
 
 // 0x50a564 AssetManager::GetAssetManager()
@@ -142,25 +155,37 @@ int AssetManager::getFirstAsset(std::string& name) {
 }
 
 // 0x50bdb4 AssetManager::loadTexture(char const*, int)
-// PARTIAL. Returns the texture stored under name with one use for the caller and lowers the entry's flags level to the
-// argument when it is smaller. The cached path (the entry already holds a texture) is written with the original's use
-// counts: one use taken and dropped, two added for the entry and the result, and the local use released. The load path
-// (no texture stored yet) calls CTextureManager::getTexture(name, nullptr) on the manager at IDevice +0x10 -> IVideoDriver
-// +0xe0 (asm of 0x50bdb4: LDR R2,[R0,#0x10]; LDR R7,[R2,#0xE0]). IDevice does not declare +0x10 (layout request), so that
-// path returns null and stores nothing. A fresh entry is value-initialised here (flags 0, texture null); the Texture
-// constructor is not in this batch, so its initial flags value is not confirmed.
+// Returns the texture stored under name with one use for the caller and lowers the entry's flags level to the argument
+// when it is smaller. The cached path takes and drops one use and adds the entry's and the result's, as the original
+// does. The load path (no stored texture yet) calls CTextureManager::getTexture(name, nullptr) on the manager at
+// IDevice +0x10 -> IVideoDriver +0xe0 and stores the result; the old layout request is STALE. Host-necessitated
+// deviations: guards for a missing device, driver or texture manager (the original dereferences each unconditionally),
+// and the entry stores the raw pointer while the use it holds is the one getTexture returned.
 boost::intrusive_ptr<glitch::video::ITexture> AssetManager::loadTexture(const char* name, int flags) {
     boost::intrusive_ptr<glitch::video::ITexture> result;
     Texture& entry = m_textures[name];
     glitch::IReferenceCounted* stored = entry.m_texture;
-    if (stored != nullptr) {
+    if (stored == nullptr) {
+        // The load path: the texture manager is at IDevice +0x10 -> IVideoDriver +0xe0 (asm of 0x50bdb4:
+        // LDR R2,[R0,#0x10]; LDR R7,[R2,#0xE0]). The result of getTexture is kept by the entry and returned.
+        Application& application = ApplicationGetInstance();
+        if (application.m_device != nullptr && application.m_device->videoDriver != nullptr &&
+            application.m_device->videoDriver->m_textureManager != nullptr) {
+            boost::intrusive_ptr<glitch::video::ITexture> loaded =
+                    application.m_device->videoDriver->m_textureManager->getTexture(name, nullptr);
+            if (loaded.get() != nullptr) {
+                entry.m_texture = loaded.get();      // the entry's use
+                ++loaded->referenceCounter;          // one use for the caller
+                result = loaded;
+            }
+        }
+    } else {
         ++stored->referenceCounter;     // use taken for the lookup...
         stored->drop();                 // ...and dropped again (the pair cancels)
         stored->referenceCounter += 2;  // the entry's use and the result's use are added together
         stored->drop();                 // the local use is released at the end of the original
         result.reset(static_cast<glitch::video::ITexture*>(stored));  // the result takes over the use left
     }
-    // PARTIAL: the load path (no stored texture) is not written, see the note above.
 
     if (flags < entry.unk_04) {
         entry.unk_04 = flags;
@@ -169,20 +194,16 @@ boost::intrusive_ptr<glitch::video::ITexture> AssetManager::loadTexture(const ch
 }
 
 // 0x50bef0 AssetManager::preloadTexture(char const*, int)
-// PARTIAL: the body is loadTexture followed by the release of its result, which the temporary's destructor does. It
-// inherits the partial load path of loadTexture (0x50bdb4).
+// The body is loadTexture followed by the release of its result, which the temporary's destructor does.
 void AssetManager::preloadTexture(const char* name, int flags) {
     (void)loadTexture(name, flags);
 }
 
 // 0x50bf28 AssetManager::dropTexture(char const*)
 // Looks the name up (inserting an empty entry when it is absent, as the original's operator[] does). A texture whose count
-// is above one after the lookup's use is only given back. Otherwise the original removes the texture from the manager and
-// erases the entry.
-// PARTIAL: CTextureManager::removeTexture is not called (the manager is at IDevice +0x10 -> +0xe0, layout request). The
-// erase is written. The release of the caller's use, which the original's removeTexture makes by clearing its pointer,
-// is not written, so this branch leaves that one use on the texture. The branch is reached only when the stored
-// texture's count is zero before the lookup's use.
+// is above one after the lookup's use is only given back. Otherwise the original removes the texture from the manager
+// (CTextureManager::removeTexture, IDevice +0x10 -> +0xe0; the old layout request is STALE) and erases the entry; the
+// removeTexture call is what releases the caller's use, because it clears the pointer it is given.
 void AssetManager::dropTexture(const char* name) {
     const std::string key(name);
     Texture& entry = m_textures[key];
@@ -195,7 +216,14 @@ void AssetManager::dropTexture(const char* name) {
         texture->drop();
         return;
     }
-    // PARTIAL: removeTexture(manager, &texture) is not called, see the note above.
+    Application& application = ApplicationGetInstance();
+    if (application.m_device != nullptr && application.m_device->videoDriver != nullptr &&
+        application.m_device->videoDriver->m_textureManager != nullptr) {
+        boost::intrusive_ptr<glitch::video::ITexture> handle(static_cast<glitch::video::ITexture*>(texture));
+        application.m_device->videoDriver->m_textureManager->removeTexture(handle);
+    } else {
+        texture->drop();   // host-necessitated deviation: the original's removeTexture makes this release
+    }
     const auto it = m_textures.find(key);
     if (it != m_textures.end()) {
         m_textures.erase(it);

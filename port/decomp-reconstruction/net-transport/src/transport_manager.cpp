@@ -268,10 +268,15 @@ CNetworkId CTransportManager::PrepareConnectionNetworkId(const CNetworkId& peer)
 
 // 0x81b010 _ZN17CTransportManager4SendEP10CTransportR10CNetworkIdiPvi
 // Packet: magic u32 at +0, length u16 at +4 (header included), packet type byte at +6 (stored as
-// given, bit 7 not cleared, as the original does), byte +7 zeroed (the original leaves it unwritten),
-// payload at +8. A null transport returns -1 after the packet is built. The packet is sent with the
-// transport's Send (vtable +0x0c). The Hex-Rays call passes the length twice; the second word is a
-// leftover register (Send takes the peer, the packet and the length).
+// given, bit 7 not cleared, as the original does), byte +7 zeroed, payload at +8. A null transport
+// returns -1 after the packet is built. The packet is sent with the transport's Send (vtable +0x0c).
+// The Hex-Rays call passes the length twice; the second word is a leftover register (Send takes the
+// peer, the packet and the length).
+// Deviation: Hex-Rays shows v13 = a4 (the type) with the length written as a 16-bit store at +4 and
+// nothing ever storing byte +7, so byte +7 is uninitialised stack in the original; the port writes 0
+// there. ReceiverCallback (0x81b11c) tests the magic, the length and packet[6] and dispatches the
+// payload from +8, so byte +7 is never read by the receiver and the deviation is not observable in the
+// protocol; the value is nondeterministic in the original, hence not reproducible.
 // Before the send the original asks the transport for its type (vtable +0x20) and passes it to
 // CConnectionManager::ReportStatistic, which is empty; the query is kept, the empty call is not.
 int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET_TYPE type,
@@ -306,10 +311,15 @@ int CTransportManager::Send(CTransport* transport, const CNetworkId& to, tPACKET
 // carry the magic, and have type bit 7 clear. An initialized manager that is not blocked answers a
 // type 7 (keep-alive) packet with a type 8 packet to the sender. Every packet is then dispatched to
 // CConnectionManager::sReceiverCallback with its payload.
-// Partial: deviations: a buffer shorter than a header, or a packet length below the 8-byte header, ends
-// the pass (the original reads past the buffer, spins on a zero length, or passes a negative payload size
-// for lengths 1 to 7). The transport type query (vtable +0x20, result unused, it feeds the empty
-// ReportStatistic) is made for every packet, but skipped for a null transport, which the original would crash on.
+// Partial: the deviations are the short buffer and the short packet length. The original's first header
+// read at 0x81b138/0x81b16c (`*((__int16 *)a3 + 2)`, `*(_DWORD *)a3`, `*((char *)a3 + 6)`) is unguarded,
+// so a buffer shorter than a header reads past it, and its loop condition accepts any non-negative
+// length, so a length below 8 makes `i += v7` fail to advance (v7 == 0 spins forever, 1..7 walks
+// backwards) and passes `v7 - 8` as a negative payload size to CConnectionManager::sReceiverCallback.
+// The port ends the pass on either. Everything else matches: the magic, the type's bit-7 test, the
+// keep-alive reply on type 7, the payload at +8 and the resynchronisation on the next length.
+// The transport type query (vtable +0x20, result unused, it feeds the empty ReportStatistic) is made
+// for every packet, but is skipped for a null transport, which the original would crash on.
 void CTransportManager::ReceiverCallback(CTransport* transport, CNetworkId& from, char* data, int size) {
     if (size <= 0) {
         return;

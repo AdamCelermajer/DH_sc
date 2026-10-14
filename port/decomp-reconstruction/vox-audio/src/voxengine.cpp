@@ -121,9 +121,11 @@ VoxOutputMode VoxEngine::GetOutputMode() {
     return static_cast<VoxOutputMode>(-1);
 }
 
-// 0x861928 _ZN3vox9VoxEngine24SetInteractiveMusicStateERNS_13EmitterHandleEPKc (partial: the target
-// VoxEngineInternal::SetInteractiveMusicState (0x86764c) has no body in the port yet)
-// The null path returns the engine pointer itself, which is 0 there, so 0 is returned.
+// 0x861928 _ZN3vox9VoxEngine24SetInteractiveMusicStateERNS_13EmitterHandleEPKc (reconstructed)
+// Verified against the listing: r0 = m_internal, CMP r0, #0, BXEQ LR, else the tail branch
+// to VoxEngineInternal::SetInteractiveMusicState. On the null path r0 is exactly 0 (the
+// loaded m_internal), so the port's 0 is the listing's value, not a leftover. The internal
+// target's own partial item (the null decoder GetType call) is tracked on its row.
 int VoxEngine::SetInteractiveMusicState(EmitterHandle& emitter, const char* state) {
     if (m_internal != nullptr) {
         return m_internal->SetInteractiveMusicState(emitter, state);
@@ -593,11 +595,14 @@ void VoxEngine::GetAllDataSources(DataHandle* out, int max_count) {
     }
 }
 
-// 0x862548 _ZN3vox9VoxEngine17GetEmitterHandlesERNS_10DataHandleEPNS_13EmitterHandleEi (partial)
-void VoxEngine::GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count) {
+// 0x862548 _ZN3vox9VoxEngine17GetEmitterHandlesERNS_10DataHandleEPNS_13EmitterHandleEi (reconstructed)
+// The listing returns int, not void: r0 is m_internal, and the tail branch returns
+// VoxEngineInternal::GetEmitterHandles' count; with no engine (r0 == 0) it is 0.
+int VoxEngine::GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count) {
     if (m_internal != nullptr) {
-        m_internal->GetEmitterHandles(data, out, max_count);
+        return m_internal->GetEmitterHandles(data, out, max_count);
     }
+    return 0;
 }
 
 // 0x862570 _ZN3vox9VoxEngine17ReleaseDatasourceEj (partial)

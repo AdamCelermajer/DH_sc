@@ -14,9 +14,15 @@
 #include "dh2/Application.hpp"
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "glitch-core-io/os/device.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
 
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/IMesh.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/mesh_functions.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
 
 namespace {
 
@@ -62,43 +68,56 @@ int IsVisibleMeshNode(glitch::scene::ISceneNode* node) {
 }
 
 // 0x50e830 GetScreenPosFromWorldPos(glitch::core::vector3d<float> const&, glitch::core::position2d<int>&)
-// PARTIAL: stub returns 0 and writes nothing. The original copies the world point into a three-word array, calls the
-// camera's virtual at vtable +0x18 as (out[2] words, camera, point array, 0), stores the two words of out as the
-// screen position, and returns the call's result. The camera is the scene manager's word at +0x2c, and the scene
-// manager is the word at +0x1c of the device (dword_99F73C, Singleton<Application>::s_inst.m_device). Blocked: glitch::IDevice
-// (glitch-core-io/os/device.hpp) declares neither the +0x1c scene manager nor the +0x10 driver. The +0x2c camera is not the
-// engine CSceneManager's activeCamera (that field is at +0xe4), and CameraBase declares no virtual at +0x18 (layout requests:
-// IDevice +0x1c, the scene manager's +0x2c class and its slot +0x18).
+// Reconstructed from the listing. The scene manager is the device's +0x1c member
+// (Singleton<Application>::s_inst.m_device, declared in glitch-core-io/os/device.hpp); the world point goes to its
+// collision manager (+0x2c, CSceneManager::collisionManager), whose virtual slot +0x18 is
+// ISceneCollisionManager::getScreenCoordinatesFrom3DPosition(position, camera), called with a null camera (the
+// active one). The original's position2d result is written through a hidden pointer and then copied to the out
+// parameter, and r0 on return is that hidden pointer (the address of the callee's temporary); every caller in the
+// tree drops it, so the port returns the first word it wrote.
 int GetScreenPosFromWorldPos(const glitch::core::vector3d<float>& worldPos,
                              glitch::core::position2d<int>& screenPos) {
-    (void)worldPos;
-    (void)screenPos;
-    return 0;
+    glitch::scene::CSceneManager* scene =
+        reinterpret_cast<glitch::scene::CSceneManager*>(ApplicationGetInstance().m_device->sceneManager);
+    const glitch::core::position2d<std::int32_t> projected =
+        scene->collisionManager->getScreenCoordinatesFrom3DPosition(worldPos, nullptr);
+    screenPos = projected;
+    return projected.X;
 }
 
 // 0x50ed8c GetWorldPosFromScreenPos(Point2D<float> const&, Point3D<float>&, float)
-// PARTIAL: stub returns 0 and writes nothing. The original converts the screen position to int (truncating), asks
-// the camera for the near and far points of the ray through it (its virtual at vtable +0x14, with the same camera
-// as GetScreenPosFromWorldPos), normalises dir = far - near, and intersects the ray with the z = 0 plane:
-// t = near.z / dir.z, world = near - t * dir, and returns world.z. The third float argument is never read.
-// Blocked on the same device and camera layout as GetScreenPosFromWorldPos.
+// Reconstructed from the listing. The screen point is truncated to ints and the collision manager of the scene
+// manager (device +0x1c, scene +0x2c) gives the world ray through it: virtual slot +0x14,
+// ISceneCollisionManager::getRayFromScreenCoordinates(position, camera) with a null camera. dir = end - start is
+// normalised in place, t = start.Z / dir.Z, world = start - t * dir, and the result is world.Z. The third argument
+// is never read by the original.
 float GetWorldPosFromScreenPos(const Point2D<float>& screenPos, Point3D<float>& worldPos, float unusedArg) {
-    (void)screenPos;
-    (void)worldPos;
     (void)unusedArg;
-    return 0.0f;
+    glitch::scene::CSceneManager* scene =
+        reinterpret_cast<glitch::scene::CSceneManager*>(ApplicationGetInstance().m_device->sceneManager);
+    const glitch::core::position2d<std::int32_t> position{static_cast<std::int32_t>(screenPos.X),
+                                                          static_cast<std::int32_t>(screenPos.Y)};
+    const glitch::core::line3d<float> ray = scene->collisionManager->getRayFromScreenCoordinates(position, nullptr);
+    glitch::core::vector3d<float> dir{ray.end.X - ray.start.X, ray.end.Y - ray.start.Y, ray.end.Z - ray.start.Z};
+    dir.normalize();
+    const float t = ray.start.Z / dir.Z;
+    worldPos.X = ray.start.X - t * dir.X;
+    worldPos.Y = ray.start.Y - t * dir.Y;
+    worldPos.Z = ray.start.Z - t * dir.Z;
+    return worldPos.Z;
 }
 
 // 0x50f1d4 IsVisibleAndNotCulled(glitch::scene::ISceneNode*)
-// PARTIAL: the visible branch is a placeholder. The original returns !CSceneManager::isCulled(scene, node), where
-// scene is the device's +0x1c scene manager (layout request). IsNodeVisible is always 1, so the culling test is the
-// whole result. Until the scene manager is declared, the placeholder reports the node as culled (returns 0).
+// Reconstructed from the listing: IsNodeVisible (always 1) first, then the inverted CSceneManager::isCulled of the
+// device's +0x1c scene manager (asm: BL isCulled, EOR R0,R0,#1).
 int IsVisibleAndNotCulled(glitch::scene::ISceneNode* node) {
-    int result = IsNodeVisible(node);
-    if (result) {
-        return 0;
+    const int visible = IsNodeVisible(node);
+    if (visible) {
+        glitch::scene::CSceneManager* scene =
+            reinterpret_cast<glitch::scene::CSceneManager*>(ApplicationGetInstance().m_device->sceneManager);
+        return static_cast<int>(scene->isCulled(node)) ^ 1;
     }
-    return result;
+    return visible;
 }
 
 // 0x50f780 findSceneNodeRef(glitch::scene::ISceneNode*, char const*)
@@ -121,28 +140,36 @@ glitch::scene::ISceneNode* findSceneNodeRef(glitch::scene::ISceneNode* root, con
 }
 
 // 0x50f89c CopyMeshSceneNode(glitch::scene::IMeshSceneNode*)
-// PARTIAL: stub returns nullptr. The original takes the node's mesh through the node's virtual at vtable +0xf8,
-// copies it with glitch::scene::createMeshCopy(mesh, device's +0x10 driver, -1, 0) (five arguments; the tree declares
-// only a three-argument overload), reads three node properties through the virtuals at vtable +0x90, +0x98 and
-// +0xa0, allocates a 320-byte CMeshSceneNode and constructs it from (copied mesh, -1, the three properties). It then
-// calls the new node's virtual at vtable +0x28 with the result of the parent's virtual at +0x24 (the parent comes
-// from getParent), and returns the new node. The mesh, property and CMeshSceneNode declarations now exist in the engine
-// (scene/CMeshSceneNode.hpp, ISceneNode slots 0x90 to 0xa0). Still blocked: glitch::IDevice declares no +0x10 driver
-// (layout request), and the engine createMeshCopy overload takes (mesh, driver, flags) while the original passes one
-// more argument (0) after the flags.
+// Reconstructed from the listing. The node's mesh (IMeshSceneNode vtable +0xf8, getMesh) is copied with
+// glitch::scene::createMeshCopy(mesh, driver, 0xffffffff, 0), where the driver is the device's +0x10 videoDriver
+// (the earlier note's "three-argument overload" and "IDevice declares no +0x10" are both stale:
+// scene/mesh_functions.hpp declares createMeshCopy(mesh, driver, mask, extra) and glitch-core-io/os/device.hpp
+// declares videoDriver). The three node properties are read through their virtuals (getPosition +0xa0,
+// getRotation +0x98, getScale +0x90), a 320-byte CMeshSceneNode is constructed from (copy, -1, position, rotation,
+// scale), and its setName (+0x28) receives the parent's getName (+0x24, getParent is non-virtual). The original's
+// explicit intrusive_ptr grabs and drops around the constructor are reproduced by the port's intrusive_ptr locals,
+// which hold the same references; the new node is returned (the caller casts it to CMeshSceneNode*).
 void* CopyMeshSceneNode(glitch::scene::IMeshSceneNode* node) {
-    (void)node;
-    return nullptr;
+    const boost::intrusive_ptr<glitch::scene::IMesh> mesh = node->getMesh();  // vtable +0xf8
+    const boost::intrusive_ptr<glitch::scene::IMesh> copy =
+        glitch::scene::createMeshCopy(mesh, ApplicationGetInstance().m_device->videoDriver, 0xffffffffu, 0);
+    glitch::scene::CMeshSceneNode* newNode = new glitch::scene::CMeshSceneNode(
+        copy, -1, node->getPosition(), node->getRotation(), node->getScale());
+    newNode->setName(node->getParent()->getName());  // +0x28 with the parent's +0x24
+    return newNode;
 }
 
 // 0x530a6c SetFinalOrientation(int)
-// PARTIAL: stub returns 0. The original reads the auto-reorientation option from the savegame manager
-// (Application +0x4c, SavegameManager::getAutoReorientation, not declared) and returns it. When that value is 1 and
-// lastOpenMenuID is not 9, it acts on the orientation argument: for 1 it writes 0 to the touch screen's +0x1a8 word
-// (Application +0x20 m_touchScreen), calls IVideoDriver::setOrientation(0) on the device's driver (+0x10) and sets
-// isScreenOriented to 1; for -1 it writes 2, calls setOrientation(2) and sets isScreenOriented to 0. The returned
-// value is then the setOrientation result. Blocked on SavegameManager::getAutoReorientation, TouchScreenBase +0x1a8,
-// IVideoDriver::setOrientation and the globals lastOpenMenuID (ELF 0x9f63fc) and isScreenOriented (ELF 0x99b100).
+// PARTIAL: stub returns 0. Body verified against asm 0x530a6c, and the two remaining items are both re-confirmed:
+//  (1) the two stores go into TouchScreenBase::orientation_ (+0x1a8), which core-platform/touch_screen_base.hpp:83
+//      declares in the protected section (line 74) with no public setter, so this free function cannot write it; a
+//      core-platform header edit, outside this batch.
+//  (2) IVideoDriver::setOrientation (glitch-video/video_driver.hpp, +0x13c) returns void. The original's result is
+//      NOT void: IVideoDriver::setOrientation (0x5a9fd4) returns the virtual call at the object +0xc8's vtable +0x0c
+//      when the orientation changed and returns `this` when it did not, and SetFinalOrientation returns that r0.
+// The rest of the old list is stale and available: SavegameManager::getAutoReorientation (SavegameManager.hpp,
+// reached as *(app)+0x4c = Application::m_savegameManager), the touch screen at Application +0x20, the device's
+// driver at IDevice +0x10, lastOpenMenuID (0x9f63fc) and isScreenOriented (0x99b100) in dh2/global/Globals.hpp.
 extern "C" int SetFinalOrientation(int orientation) {
     (void)orientation;
     return 0;

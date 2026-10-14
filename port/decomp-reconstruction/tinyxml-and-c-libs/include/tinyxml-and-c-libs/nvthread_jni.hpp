@@ -16,8 +16,8 @@ struct NVThreadSpawnContext {
 // the pthread_create result.
 int NVThreadSpawnJNIThread(pthread_t* thread, const pthread_attr_t* attr, int (*fn)(int), int arg);
 
-// Returns the JNIEnv of the calling thread. Partial: the attach path needs the JavaVM, which is not reachable
-// yet (see the .cpp), so it currently returns only the env the thread already has, or null.
+// Returns the JNIEnv of the calling thread: the key's value when the thread already has one, otherwise the
+// result of AttachCurrentThread on the JavaVM that NVThreadInit stored (g_nvThreadVm, nvthread.hpp).
 JNIEnv* NVThreadGetCurrentJNIEnv();
 
 // Thread entry point: frees the context, runs the function, and returns its result.

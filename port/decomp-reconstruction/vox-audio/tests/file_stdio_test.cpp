@@ -64,7 +64,7 @@ int main() {
     // DecoderRawFactory: a constructed raw decoder with the parameter block copied in.
     vox::TrackParams params;
     params.channels = 2;
-    params.unknown_08 = 0;
+    params.sample_rate = 0;
     params.bits_per_sample = 16;
     params.length_frames = 100;
     void* raw = vox::DecoderRawFactory(&params);

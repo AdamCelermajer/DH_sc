@@ -189,10 +189,12 @@ Condition* GetConditionImplInstance<Condition_IsQuestInState>() {
 }
 
 // 0x47a3ac GetPosition()
-// PARTIAL: the body is exact. The asm (MOV R2,#0; STR R2 to [R0,#8], [R0] and [R0,#4]; BX LR) zeroes the three 32-bit words
-// behind the return slot. The return type is not evidenced: the symbol _Z11GetPositionv carries no return type, and the only
-// reference is a data pointer at 0x33858 (no direct caller in the listing). Vector3D from core-platform/w7_global_00.hpp
-// (three floats) is used for the 12-byte value, unconfirmed.
+// The body matches the listing: the asm (MOV R2,#0; STR R2 to [R0,#8], [R0] and [R0,#4]; BX LR) zeroes the three
+// 32-bit words behind the return slot. Writing through R0 is what the ARM ABI does for a by-value return of a 12-byte
+// record (the hidden result pointer), so the result is a three-word value; Vector3D from
+// core-platform/w7_global_00.hpp (three floats, 12 bytes) is that value. The symbol _Z11GetPositionv carries no
+// return type and the only reference is the data pointer at 0x33858, so the type name is the port's reading, while
+// the size and the written bytes are the original's.
 Vector3D GetPosition() {
     return Vector3D{0.0f, 0.0f, 0.0f};
 }

@@ -7,9 +7,9 @@
 #include <cstdio>
 #include <new>
 
+#include "base/tu_file.h"  // tu_file (global in the vendored gameswf, gameswf::tu_file in the binary)
 #include "core-platform/deps/swf_types.hpp"
 #include "core-platform/memory.hpp"
-#include "core-platform/tb/tu_file.hpp"
 
 namespace gameswf {
 int get_verbose_parse();
@@ -72,14 +72,23 @@ int log_callback(bool to_stderr, const char* msg) {
 }
 
 // 0x7a9954 _ZL11file_openerPKc
-// Partial: the listing calls operator new(0x28, swf::MemHint) with hint 0 (MEM_UNRECOVERED in
-// deps), then the tu_file constructor with mode "rb" on the block. 0x28 is the 32-bit size of the
-// object. On the host the vendor-gameswf tu_file holds eight pointer-sized members plus m_error,
-// so the block is sizeof(gameswf::tu_file). tb/tu_file.hpp declares no members, so that size is
-// only a placeholder until the complete class layout is declared for core-platform.
-gameswf::tu_file* file_opener(const char* name) {
-    void* mem = ::operator new(sizeof(gameswf::tu_file), swf::MEM_UNRECOVERED);
-    return new (mem) gameswf::tu_file(name, "rb");
+// Reconstructed against the ARM listing: MOV R0,#0x28 / MOV R1,#0 / BL operator new(uint,
+// swf::MemHint), then MOV R2,"rb" and BL tu_file::tu_file(char const*, char const*) on the block,
+// and the block is returned. 0x28 is the 32-bit size of the object, which the binary's own
+// constructor confirms field by field (0x7b68c8: m_data +0x00, m_open +0x04, the seven callbacks
+// +0x08..+0x20, int m_error +0x24 = 0x28 bytes); on the host the same class is wider, so the block
+// is sizeof(tu_file). Deviations, both named: the binary's class is gameswf::tu_file while the
+// class this tree declares is the vendored gameswf r1714 base/tu_file.h tu_file, which sits at
+// global scope (the tree's standing convention, recorded in
+// vendor-gameswf/include/vendor-gameswf/tu_file_callbacks.hpp and in link-missing.csv for
+// 0x7b68c8), so the call resolves to that class's constructor instead of to the exact binary
+// symbol; and that callee row (0x7b68c8, vendor-gameswf) is ledgered upstream although the binary
+// opens through fs_open_func where the vendored body still calls fopen. Hint 0 is
+// MEM_UNRECOVERED, which SwfAlloc ignores, exactly as the binary's malloc_internal replaces it
+// with 0.
+tu_file* file_opener(const char* name) {
+    void* mem = ::operator new(sizeof(tu_file), swf::MEM_UNRECOVERED);
+    return new (mem) tu_file(name, "rb");
 }
 
 // 0x7dcb6c _ZL8LongAxisPd

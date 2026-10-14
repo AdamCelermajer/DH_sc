@@ -253,11 +253,25 @@ void DriverCallbackSourceInterface::FillBuffer(int* out, int count) {
     mutex_.Unlock();
 }
 
-// 0x88fdd4 _ZN3vox29DriverCallbackSourceInterface23FillBufferStereo16NoInterEPii (partial)
-// Unity-scale stereo mix from the buffer directly. The gain ramps from its previous level
-// to the source gain over the ramp length, falls to zero at the end of the available
-// samples, and the level is reset to the gain at the end of each ramped pass. The ramp
-// hand-off is transcribed from the ARM control flow and has not been checked against audio.
+// 0x88fdd4 _ZN3vox29DriverCallbackSourceInterface25FillBufferStereo16NoInterEPii
+// Verified against the ARM listing (0x88FDD4..0x890154): the state/ring guards, the fraction
+// carry (a nonzero buffer fraction bumps field_10_ and clears it), GetNbAvailableSamples, the
+// ramp_len rules (count <= available: ramp_down_at = count + 1, down_len = 0, ramp_len =
+// min(ramp_samples_, count + 1) capped at count; count > available: ramp_down_at =
+// available - ramp_samples_ with down_len = ramp_samples_, or ramp_down_at = 0 with
+// down_len = available when that is negative), the level start (field_28_ and ramp_started_ = 1
+// on the first pass, else field_2c_ with step = DivOrZero(field_28_ - field_2c_, ramp_len)), the
+// ramping test (down_len > 0 || step != 0), the per-frame level update (k < ramp_len ||
+// k >= ramp_down_at) with the step recomputed at k == ramp_down_at as -|level / down_len|, the
+// unity (frames = (size_ >> 2) - field_10_) and clip (n = min(count, frames)) rules, the
+// byte_offset_ advance of 4n, the buffer release with the modulo write_index_ and the
+// field_2c_ = level store on every exit. The ramp hand-off after a buffer ends mid-block is the
+// listing's own path: the frame counter continues at the accumulated done count through
+// var_14 and the level is reset to field_28_ at the end of each ramped pass (loc_8900AC), which
+// the port's `level = field_28_` and `done += n` reproduce.
+// Deviation: the host guard `buffers_begin_ == nullptr || buffer_count_ <= 0` is not in the
+// listing (the original dereferences); it only fires on a ring Init never built. No other
+// deviation; rechecked instruction by instruction in this batch.
 void DriverCallbackSourceInterface::FillBufferStereo16NoInter(int* out, int count) {
     if (state_ != 1 || buffers_begin_ == nullptr || buffer_count_ <= 0) {
         return;
@@ -359,10 +373,21 @@ void DriverCallbackSourceInterface::FillBufferStereo16NoInter(int* out, int coun
     }
 }
 
-// 0x89278c _ZN3vox29DriverCallbackSourceInterface23FillBufferMono16NoInterEPii (partial)
-// Unity-scale mono mix. Each channel has its own level, moving toward the targets from the
-// distance, cone and pan gains. The ramp hand-off follows the ARM control flow and has not
-// been checked against audio.
+// 0x89278c _ZN3vox29DriverCallbackSourceInterface23FillBufferMono16NoInterEPii
+// Verified against the ARM listing (0x89278C..0x892B08): the state/ring guards and the fraction
+// carry, the two targets (target_right from right_pan and target_left from left_pan, both scaled
+// by combined = (directional_gain * ((field_28_ * distance_gain) >> 14)) >> 14), the two steps
+// DivOrZero(target - level, ramp_len) from field_2c_/field_30_, the same ramp_len/down_len/
+// ramp_down_at rules as the stereo mixer, the ramping test (down_len > 0 || step_left != 0 ||
+// step_right != 0), the per-frame update of both levels under k < ramp_len || k >= ramp_down_at
+// with both steps recomputed at k == ramp_down_at as -|level / down_len| (the EOR/RSB absolute
+// value at loc_892AA0), the mono frame size (size_ >> 1) - field_10_ and n = min(count, frames),
+// the byte_offset_ advance of 2n and the buffer release. The ramp hand-off is the listing's
+// loc_892AE0/loc_892B84, which reload both levels from the two target slots (var_18 for the left
+// and var_14 for the right) after a ramped pass; only that path resets them -- loc_892B8C, the
+// non-ramping path's n <= 0 exit, leaves both levels untouched, which is why the port has no
+// reset there. Deviation: the host guard `buffers_begin_ == nullptr || buffer_count_ <= 0` is not
+// in the listing. Rechecked instruction by instruction in this batch; no other deviation.
 void DriverCallbackSourceInterface::FillBufferMono16NoInter(int* out, int count) {
     if (state_ != 1 || buffers_begin_ == nullptr || buffer_count_ <= 0) {
         return;
@@ -460,10 +485,8 @@ void DriverCallbackSourceInterface::FillBufferMono16NoInter(int* out, int count)
             level_left = target_left;
             level_right = target_right;
         } else {
-            if (n <= 0) {
-                level_left = target_left;
-                level_right = target_right;
-            }
+            // loc_892B8C: the non-ramping path skips the loop when n <= 0 and leaves both levels
+            // exactly as they were; only the ramping path (loc_892B84) loads the targets.
             for (std::int32_t i = 0; i < n; ++i) {
                 out[0] += Scale14(src[0], level_left);
                 out[1] += Scale14(src[0], level_right);
@@ -493,10 +516,29 @@ void DriverCallbackSourceInterface::FillBufferMono16NoInter(int* out, int count)
     }
 }
 
-// 0x891860 _ZN3vox29DriverCallbackSourceInterface18FillBufferStereo16EPii (partial)
-// Interpolating stereo mix. GetWorkData first copies the source covering the whole pass into
-// a scratch buffer; the frames are then read at a Q14 position that steps by the scale and
-// is interpolated linearly. The ramp hand-off follows the ARM control flow.
+// 0x891860 _ZN3vox29DriverCallbackSourceInterface18FillBufferStereo16EPii
+// Verified against the ARM listing (0x891860..0x891B74): span = scale_ * count, work_bytes =
+// 4 * ((span >> 14) + 3), GetWorkBuffer with state_ = -1 when it is empty, GetWorkData over the
+// span, available = ((copied >> 2) << 14) / scale_ (signed, with the +3 correction) and the
+// scratch data pointer from the work buffer's word 1. The frame and ramp rules match the
+// listing: count <= available gives frames = count, ramp_down_at = count + 1, down_len = 0 and
+// ramp_edge = 0; count > available gives frames = available - 1, down_len = ramp_samples_ and
+// ramp_edge = down_len > 0, or ramp_down_at = 0, down_len = frames and ramp_edge = frames > 0
+// when frames - ramp_samples_ is negative. ramp_len = min over ramp_samples_, ramp_down_at and
+// count as the listing computes it. level starts at field_2c_ with step = 0, or at field_28_
+// with ramp_started_ set, and the ramping path is step != 0 || ramp_edge. The per-frame body
+// (index = pos >> 14, fraction = (pos << 18) >> 18, linear interpolation between data[index] and
+// data[index + 1] on both channels, the level update under k < ramp_len || k >= ramp_down_at, the
+// step recomputed at k == ramp_down_at as -|level / down_len| via the EOR/RSB absolute value, and
+// pos += scale_ per frame) matches. The ramp hand-off is the listing's loc_891A74/loc_891A78,
+// which sets level = field_28_ and leaves the function through the epilogue at loc_891880, so a
+// ramped pass always consumes the whole request; the non-ramping path returns through
+// loc_891A7C with field_2c_ = level.
+// Deviations, both unobservable here: the host guard on state_/buffers_begin_/buffer_count_ is
+// not in the listing, and `available` uses the port's unsigned size_t division where the listing
+// corrects a negative `copied` with +3 before the arithmetic shift (GetWorkData never returns a
+// negative count) plus a `scale_ == 0` guard (the original would divide by zero). Rechecked
+// instruction by instruction in this batch; no other deviation.
 void DriverCallbackSourceInterface::FillBufferStereo16(int* out, int count) {
     if (state_ != 1 || buffers_begin_ == nullptr || buffer_count_ <= 0) {
         return;
@@ -608,9 +650,29 @@ void DriverCallbackSourceInterface::FillBufferStereo16(int* out, int count) {
     field_2c_ = level;
 }
 
-// 0x892bd0 _ZN3vox29DriverCallbackSourceInterface16FillBufferMono16EPii (partial)
-// Interpolating mono mix with per-channel levels, from the same scratch copy as the stereo
-// version. The ramp hand-off follows the ARM control flow.
+// 0x892bd0 _ZN3vox29DriverCallbackSourceInterface16FillBufferMono16EPii
+// Verified against the ARM listing (0x892BD0..0x892F6C), which corrected one value: on the
+// count > available path with frames - ramp_samples_ negative, the listing's loc_892F4C sets
+// ramp_down_at from r10, which is 0 there (r10 held the zero ready_ byte), and down_len from the
+// frame count; the port had ramp_down_at = frames, which suppressed the step recompute at the
+// first frame. Everything else matches: span = scale_ * count, work_bytes = 4 * ((span >> 14) + 3)
+// for GetWorkBuffer and 2 * ((span >> 14) + 3) bytes for GetWorkData (r11 << 1),
+// GetWorkBuffer with state_ = -1 when empty, GetWorkData over the span, available =
+// ((copied >> 1) << 14) / scale_, the two targets from GetDistanceGain, GetDirectionalGain and
+// GetStereoPanning with combined = (directional_gain * ((field_28_ * distance_gain) >> 14)) >> 14,
+// the steps DivOrZero(target - level, ramp_len) from field_2c_ and field_30_ (both zeroed when
+// ramp_len is not positive), the ramping test from the two steps or the edge flag, the per-frame
+// update of both levels under i < ramp_len || i >= ramp_down_at with both steps recomputed at
+// i == ramp_down_at as -|level / down_len| (loc_892AA0's EOR/RSB idiom, shared with the
+// FillBufferMono16NoInter body at the same addresses), the mono frame size (size_ >> 1) -
+// field_10_, n = min(count, frames), the buffer release and the field_2c_/field_30_ stores. The
+// listing's separate non-ramping loop (loc_892DAC, entered when both steps are zero and the edge
+// flag is clear) is not reproduced as a second loop, but it is equivalent: in exactly that case
+// the port's recompute point is never reached and its step is zero, so no level changes. The
+// ramping pass's own exit (loc_892F40, reached with i == frames or with frames <= 0) reloads both
+// levels from the targets before loc_892E08 stores them, which the port now does too; the earlier
+// port stored the ramped values instead. Deviation: the host guard on state_/buffers_begin_/
+// buffer_count_ is not in the listing. Rechecked instruction by instruction in this batch.
 void DriverCallbackSourceInterface::FillBufferMono16(int* out, int count) {
     if (state_ != 1 || buffers_begin_ == nullptr || buffer_count_ <= 0) {
         return;
@@ -649,18 +711,25 @@ void DriverCallbackSourceInterface::FillBufferMono16(int* out, int count) {
     std::int32_t ramp_down_at;
     std::int32_t ramp_len = ramp;
     std::int32_t down_len;
+    bool ramp_edge;
     if (count > available) {
         frames = available - 1;
         ramp_down_at = frames - ramp;
         down_len = ramp;
         if (ramp_down_at < 0) {
-            ramp_down_at = frames;
+            // The listing's loc_892F4C: r10 is the zero ready_ byte, so the down-ramp starts at
+            // frame 0 and runs over the whole frame count.
+            ramp_down_at = 0;
             down_len = frames;
+            ramp_edge = frames > 0;
+        } else {
+            ramp_edge = down_len > 0;
         }
     } else {
         frames = count;
         ramp_down_at = count + 1;
         down_len = 0;
+        ramp_edge = false;
     }
     if (ramp_down_at >= ramp_len) {
         if (ramp_len >= count) {
@@ -705,6 +774,12 @@ void DriverCallbackSourceInterface::FillBufferMono16(int* out, int count) {
         out[1] += Scale14(sample, level_right);
         pos += scale_;
         out += 2;
+    }
+    // loc_892F40: a pass that ramped reloads both levels from the targets (var_14/var_10) before
+    // storing them; the plain loc_892DAC loop falls straight through to loc_892E08 instead.
+    if (step_left != 0 || step_right != 0 || ramp_edge) {
+        level_left = target_left;
+        level_right = target_right;
     }
     field_2c_ = level_left;
     field_30_ = level_right;

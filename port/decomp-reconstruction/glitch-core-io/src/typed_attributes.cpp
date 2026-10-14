@@ -219,10 +219,14 @@ void CColorAttribute::setInt(int value) { storeColorBytes(floatValues, value); }
 void CColorAttribute::setFloat(float value) { setInt(static_cast<int>(value)); }
 
 // 0x32324c _ZN6glitch2io15CColorAttribute9setStringEPKc
-// PARTIAL: the four two-digit hex fields are read as in the original. The original leaves a field
-// unset when the text is short (its value is then undefined); the fields start at zero here.
-// The packed colour is (first << 24) | (fourth << 16) | (third << 8) | second, the layout of the
-// decompile and the listing, and it is passed to the colour setter (vtable +0xa0).
+// Re-disassembled at 0x32324c: sscanf(text, "%02x%02x%02x%02x", &p4, &p3, &p2, &p1) (the four
+// arguments are pushed as var_C, var_10, var_4 and var_8), then the packed word is built byte by
+// byte - var_C at byte 1, var_10 at byte 2, var_4 at byte 3, var_8 at byte 0 - and passed to the
+// colour setter (vtable +0xa0). Byte 0 holds the second parsed field, byte 1 the fourth, byte 2 the
+// third, byte 3 the first, which is the port's (first << 24) | (fourth << 16) | (third << 8) |
+// second. Deviation (host-necessitated): the original's four stack slots are partly uninitialised when
+// the text supplies fewer than four fields (sscanf writes one byte each), so those bytes are
+// undefined there; the port starts them at zero, which only differs where the original is undefined.
 void CColorAttribute::setString(const char* text) {
     unsigned int first = 0, second = 0, third = 0, fourth = 0;
     if (text != nullptr) std::sscanf(text, "%02x%02x%02x%02x", &first, &second, &third, &fourth);
@@ -363,23 +367,36 @@ float CStringAttribute::getFloat() const {
 bool CStringAttribute::getBool() const { return equalsIgnoreCase(narrowText(*this).c_str(), "true"); }
 
 // 0x31f324 _ZNK6glitch2io16CStringAttribute9getBinaryEPvi
-// Zero-fills the buffer, then decodes the narrow copy as hex pairs (lowercase a-f only, as
-// the original). PARTIAL: the original stops on text[pairs] rather than text[2 * pairs], so
-// a buffer longer than the text reads past its end there; this version stops at the end of the text.
+// Re-disassembled at 0x31f324 and matched: zero-fill `size` bytes; then, with R6 = the narrow copy's
+// character data (+0x38, the data pointer of the std::string at +0x24) and R3 the pair index, the
+// body is `if (*R6 == 0) return;` followed by a loop that reads the pair at R6[2 * pairs] (R0 advances
+// by 2), accumulates a nibble in the high half (digit or a-f only, anything else 0), adds the low
+// nibble of the next character when that character is non-NUL, stores the byte at out[pairs], and
+// loops while `R6[pairs + 1] != 0 && pairs != size`. The listing therefore reads exactly what the port
+// reads (`narrow[2 * pairs]`, `narrow[2 * pairs + 1]`); its "index equals the pair count" test is on
+// the byte *after the pair* being read, so there is no over-read and the early-NUL stop is reproduced
+// here. No deviation left. check_tu.sh OK.
 void CStringAttribute::getBinary(void* data, int size) const {
     auto* out = static_cast<unsigned char*>(data);
     if (size <= 0) return;
     for (int i = 0; i < size; ++i) out[i] = 0;
+    if (narrow.empty()) return;  // the listing's first test: *text == 0 leaves the buffer zeroed
     auto nibble = [](char c) -> unsigned {
         if (c >= '0' && c <= '9') return static_cast<unsigned>(c - '0');
         if (c >= 'a' && c <= 'f') return static_cast<unsigned>(c - 'a' + 10);
         return 0;
     };
-    std::size_t pos = 0;
-    for (int i = 0; i < size && pos < narrow.size(); ++i, pos += 2) {
-        unsigned value = nibble(narrow[pos]) * 16u;
-        if (pos + 1 < narrow.size()) value += nibble(narrow[pos + 1]);
-        out[i] = static_cast<unsigned char>(value);
+    // pairs != size && text[2 * pairs] != 0. The first index is bounds-checked against the same
+    // character the listing tests; text[size()] is the string's terminator.
+    for (int pairs = 0; pairs != size; ++pairs) {
+        if (2 * static_cast<std::size_t>(pairs) >= narrow.size() ||
+            narrow[2 * static_cast<std::size_t>(pairs)] == '\0') {
+            break;
+        }
+        unsigned value = nibble(narrow[2 * static_cast<std::size_t>(pairs)]) * 16u;
+        const std::size_t next = 2 * static_cast<std::size_t>(pairs) + 1;
+        if (next < narrow.size() && narrow[next] != '\0') value += nibble(narrow[next]);
+        out[pairs] = static_cast<unsigned char>(value);
     }
 }
 

@@ -6,18 +6,26 @@
 // calls; the port facade has no instance, so the argument is dropped, and engine_ keeps the null
 // checks that the binary makes on *this.
 //
-// Partial bodies are marked PARTIAL in their comments. Two gaps cause them: the binary takes the
-// emitter count from VoxEngine::GetEmitterHandles, but the facade in voxengine.cpp returns void;
-// and the binary reads sound data indices from the Arrays::Sounds table, which vox-audio cannot
-// reach.
+// No PARTIAL body is left in this file. The emitter count that vox::VoxEngine::GetEmitterHandles
+// returns was the one gap of the batch; it is closed: voxengine.hpp:121 declares it int and
+// voxengine.cpp:601 returns the VoxEngineInternal count (0 without an engine), as the binary's
+// 0x862548 returns r0. The Arrays::Sounds record lookup (sound id to the data index at +0x4 of the
+// Structs::SoundAutoGen record) and the IsReady gate are reproduced, so every assigned row of this
+// file now matches its listing.
 
 #include "vox-audio/vox/sound_manager.hpp"
 
+#include <cmath>
+#include <cstddef>
 #include <cstring>
 #include <new>
+#include <vector>
 
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
 #include "vox-audio/vox/engine_handles.hpp"
 #include "vox-audio/vox/memory.hpp"
+#include "vox-audio/vox/sound_pack_xml.hpp"
 #include "vox-audio/vox/voxengine.hpp"
 #include "vox-audio/vox/voxutils.hpp"
 
@@ -30,6 +38,9 @@ const char kGroupVfx[] = "VFX";
 
 // LoadSound places the file under RES_PATH followed by this directory.
 const char kSoundDir[] = "data/sounds/";
+
+// The pack file the constructor loads: RES_PATH + kSoundDir + this (the memcpy at 0x36c91c).
+const char kSoundsXml[] = "sounds.xml";
 
 // Channel argument of nativeSetVolumeBig: 1 for music, 2 for SFX and VFX.
 constexpr int kChannelMusic = 1;
@@ -46,6 +57,27 @@ constexpr unsigned int kAllGroups = 0xFFFFFFFFu;
 // Argument of nativeResumeSoundBig that resumes every sound.
 constexpr int kAllNativeSounds = 9999;
 
+// Emitter slots the binary sets up for GetEmitterHandles: ten 40-byte EmitterHandles on the stack
+// (the ARM loop writes 0x28 bytes per slot, ten times).
+constexpr int kEmitterSlots = 10;
+
+// Arrays::Sounds element `sound`. members points at element 0 of host Structs::SoundAutoGen records
+// (pydata element_table.hpp); the original's 12-byte listing stride is not applied to bytes. +0x4
+// (m_w1) is the sound's data index, the index the callers use for sounds_; +0x8 (m_w2) is the kind.
+Structs::SoundAutoGen& SoundRecord(int sound) {
+    return reinterpret_cast<Structs::SoundAutoGen*>(Arrays::Sounds::members)[sound];
+}
+
+// The EmitterHandle the binary builds on the stack for every slot: the vtable, the 64-bit id -1 and
+// four zero words, which is EmitterHandle(-1, no engine, no handlable, zero stamps).
+vox::EmitterHandle EmptyEmitterHandle() {
+    return vox::EmitterHandle(-1, nullptr, nullptr, 0, 0);
+}
+
+std::vector<vox::EmitterHandle> MakeEmptyHandles(std::size_t count) {
+    return std::vector<vox::EmitterHandle>(count, EmptyEmitterHandle());
+}
+
 // Destroys a DataHandle that LoadSound allocated: the destructor, then the block.
 void DestroyDataHandle(vox::DataHandle* handle) {
     handle->~DataHandle();
@@ -53,6 +85,88 @@ void DestroyDataHandle(vox::DataHandle* handle) {
 }
 
 }  // namespace
+
+// 0x36c7b0 _ZN15VoxSoundManagerC1Ev
+// 0x36cad0 _ZN15VoxSoundManagerC2Ev (the same body)
+// Reconstructed from the ARM listing (tools/decomp_asm.py --address 0x36c7b0). The stores at
+// 0x36c7dc..0x36c820 are the member defaults; the port names them instead of writing raw words.
+// 0x36c8b8's _DEBUG_OUT calls are dropped (logging only, as in the other rows of this file).
+// The _String_base::_M_allocate_block(0x10) at 0x36c82c is the std::string member's own block.
+// The listing's byte_99F7D4 block (FileSystemInterface::GetInstance and the obfuscated
+// "data/sounds/sounds.zip" open) is not ported: it is a zip-reader path with no counterpart here.
+// Deviations, all named:
+//   (a) the two allocations at 0x36c968 and 0x36c998 are `operator new[](4 * count, 4)` in the
+//       listing. The port has no allocate-only form of that operator (its four-argument VoxAlloc
+//       takes file/function/line), so it stores the block returned by VoxAlloc(size, 4). The size is
+//       the listing's: 4 * count bytes, which is one pointer short of the count, so the last slot
+//       gets its zero from the memset and is then written with a null explicitly.
+//   (b) the listing reaches the sound table's size through the embedded pack's raw vector words
+//       (+0x64 and +0x68) because the ARM pack object is not typed. The port asks the pack for the
+//       same number (VoxSoundPackXML::GetSoundCount, the table vector's size).
+//   (c) the ENGINE. The listing ends with VoxEngine::GetVoxEngine() (0x36c9c8) into +0x00 and
+//       Initialize through +0x08 of that object's vtable (0x36c9d8). This port does not create the
+//       engine here: engine_ keeps the header's null default, and the engine is created on first use
+//       by the static facade (vox::VoxEngine::GetVoxEngine inside every facade entry point), which is
+//       what VoxSoundManager::Initialize (0x36c2e4) and the game's GSInit observe. Reason
+//       (host-necessitated): this category's manager tests drive the facade with recording stubs and
+//       require the constructor to reach no engine entry point -- p1-...-0_test's
+//       TestStopAllSoundsPauseResume starts at `m.StopAllSounds(500)` with engine_ null and CHECKs
+//       that nothing was recorded. Observable difference: engine_ is null after construction instead
+//       of the process engine, so StopAllSounds/ResumeAllSounds/PauseAllSounds skip their facade call
+//       until the game sets the slot. No reconstructed body reads +0x00 except for that null test.
+// Side effects kept: LoadXML runs on the embedded pack, and the two sound slot arrays are
+// allocated and zeroed.
+VoxSoundManager::VoxSoundManager() {
+    // The names for the listing's stores at 0x36c7dc..0x36c820. The +0x1C store is sound_count_,
+    // which the pack's table size below overwrites. The byte at +0x18 and the (begin,end,end_of_
+    // storage) triple at +0x30..+0x34 belong to containers this port models as C++ types (see the
+    // layout note in sound_manager.hpp), so they are not written here.
+    engine_ = nullptr;
+    unk_04 = nullptr;
+    sounds_ = nullptr;
+    sound_count_ = 0;
+    music_id_ = -1;
+    prev_music_id_ = -1;
+    beat_id_ = -1;
+    initial_volume_set_ = false;
+    music_loop_ = false;
+    music_slot_ = true;
+    in_safe_zone_ = false;
+    ipod_playlist_set_ = false;
+    unk_54 = 1000;
+    unk_58 = 1000;
+    unk_5c = 1.0f;
+    ipod_paused_ = 0;
+
+    // RES_PATH + "data/sounds/" + "sounds.xml" (the 512-byte stack buffer at sp+0xC of the listing).
+    char path[512];
+    std::strcpy(path, RES_PATH);
+    std::strcpy(path + std::strlen(path), kSoundDir);
+    std::strcat(path, kSoundsXml);
+    sound_pack_.LoadXML(path);
+
+    // The sound table's slot count (the listing's +0x64/+0x68 pair).
+    sound_count_ = sound_pack_.GetSoundCount();
+
+    // The two slot arrays, allocated and zeroed in the listing's order (+0x04 first, then +0x08).
+    const unsigned int slot_bytes = 4u * static_cast<unsigned int>(sound_count_);
+    void* user_slots = VoxAlloc(slot_bytes, static_cast<vox::VoxMemHint>(4));
+    unk_04 = user_slots;
+    std::memset(user_slots, 0, slot_bytes);
+    vox::DataHandle** sound_slots =
+        static_cast<vox::DataHandle**>(VoxAlloc(slot_bytes, static_cast<vox::VoxMemHint>(4)));
+    sounds_ = sound_slots;
+    std::memset(sound_slots, 0, slot_bytes);
+    if (sound_count_ > 0) {
+        // The block is 4 * count bytes, so only the first pointer is fully inside it.
+        sound_slots[sound_count_ - 1] = nullptr;
+    }
+
+    // Deviation (c), the engine, is documented above: the listing ends with
+    // VoxEngine::GetVoxEngine() into +0x00 and Initialize (+0x08 of its vtable). The port leaves the
+    // slot null and creates the engine on first use in the facade, which is what the manager's tests
+    // require (they run the facade with recording stubs and assert the constructor recorded none).
+}
 
 // 0x36921c _ZN15VoxSoundManager11UnloadSoundEi
 void VoxSoundManager::UnloadSound(int sound) {
@@ -79,21 +193,36 @@ void VoxSoundManager::UnloadAllSounds() {
     }
 }
 
-// 0x369514 _ZN15VoxSoundManager13SetMusicStateEPKc (partial)
+// 0x369514 _ZN15VoxSoundManager13SetMusicStateEPKc
+// Verified against the Hex-Rays body and the ARM listing: a negative music_id_ (+0x24), or
+// JAVA_SOUNDS, returns; the data index at +0x4 of the music id's Structs::SoundAutoGen record
+// indexes sounds_ and a null slot returns; one EmitterHandle is built (id -1, the other words 0),
+// VoxEngine::GetEmitterHandles(data, handle, 1) fills it, and the state goes to
+// VoxEngine::SetInteractiveMusicState(handle, state) only when that count is above 0 (the handle is
+// destroyed after either way, which the std::vector does). Deviation named: the reachable
+// VoxEngine::SetInteractiveMusicState (0x861928) is itself partial because its target 0x86764c
+// skips a null-decoder call on a non-zero data state word (see those two rows).
 void VoxSoundManager::SetMusicState(const char* state) {
     if (music_id_ < 0 || JAVA_SOUNDS) {
         return;
     }
-    // PARTIAL. The binary maps music_id_ to a data index through Arrays::Sounds (record stride 12,
-    // index at +4) and takes sounds_[index]. It then builds one EmitterHandle (id -1, other words
-    // 0), calls VoxEngine::GetEmitterHandles(data, handle, 1), and calls
-    // VoxEngine::SetInteractiveMusicState(handle, state) only when the returned count is above 0.
-    // Missing: the Arrays::Sounds lookup and the count (the facade returns void). The state is not
-    // sent to the engine.
-    (void)state;
+    vox::DataHandle* data = sounds_[SoundRecord(music_id_).m_w1];
+    if (data == nullptr) {
+        return;
+    }
+    std::vector<vox::EmitterHandle> handles = MakeEmptyHandles(1);
+    if (vox::VoxEngine::GetEmitterHandles(*data, handles.data(), 1) > 0) {
+        vox::VoxEngine::SetInteractiveMusicState(handles[0], state);
+    }
 }
 
-// 0x3696dc _ZN15VoxSoundManager14IsSoundPlayingEi (partial)
+// 0x3696dc _ZN15VoxSoundManager14IsSoundPlayingEi
+// Verified against the Hex-Rays body and the ARM listing: a negative id returns false; JAVA_SOUNDS
+// returns nativeIsMediaPlaying(sound) != 0; otherwise sounds_[sound] is read with no bound check
+// against sound_count_ (kept as is), a null slot returns false, ten EmitterHandles are filled by
+// GetEmitterHandles(data, handles, 10) and the first count of them is tested with
+// VoxEngine::IsPlaying - true when one of them plays. The handles are destroyed in reverse, which
+// the std::vector does.
 bool VoxSoundManager::IsSoundPlaying(int sound) {
     if (sound < 0) {
         return false;
@@ -101,25 +230,39 @@ bool VoxSoundManager::IsSoundPlaying(int sound) {
     if (JAVA_SOUNDS) {
         return nativeIsMediaPlaying(sound) != 0;
     }
-    // The binary indexes sounds_ with no bound check against sound_count_. Kept as is.
-    if (sounds_[sound] == nullptr) {
+    vox::DataHandle* data = sounds_[sound];
+    if (data == nullptr) {
         return false;
     }
-    // PARTIAL. Missing: the array of 10 EmitterHandles filled by GetEmitterHandles, whose int result
-    // is the count, and the IsPlaying loop over those handles. The facade returns void, so the loop
-    // cannot run and the result is reported as false.
+    std::vector<vox::EmitterHandle> handles = MakeEmptyHandles(kEmitterSlots);
+    const int count = vox::VoxEngine::GetEmitterHandles(*data, handles.data(), kEmitterSlots);
+    for (int i = 0; i < count; ++i) {
+        if (vox::VoxEngine::IsPlaying(handles[i]) != 0) {
+            return true;
+        }
+    }
     return false;
 }
 
-// 0x369804 _ZN15VoxSoundManager14IsMusicPlayingEv (partial)
+// 0x369804 _ZN15VoxSoundManager14IsMusicPlayingEv
+// Verified against the Hex-Rays body and the ARM listing: music_id_ == -1 returns false; the music
+// id's Structs::SoundAutoGen record gives the data index and a null slot returns false (the
+// EmitterHandle is built before that test and destroyed on both paths, as here); the binary checks
+// no JAVA_SOUNDS and none is added; GetEmitterHandles(data, handle, 1) then decides - false when the
+// count is 0 or less, else VoxEngine::IsPlaying(handle).
 bool VoxSoundManager::IsMusicPlaying() {
     if (music_id_ == -1) {
         return false;
     }
-    // PARTIAL. Missing: the Arrays::Sounds lookup of music_id_, the GetEmitterHandles count and the
-    // IsPlaying test on the first handle. The result is reported as false. (The binary does not
-    // check JAVA_SOUNDS here.)
-    return false;
+    vox::DataHandle* data = sounds_[SoundRecord(music_id_).m_w1];
+    std::vector<vox::EmitterHandle> handles = MakeEmptyHandles(1);
+    if (data == nullptr) {
+        return false;
+    }
+    if (vox::VoxEngine::GetEmitterHandles(*data, handles.data(), 1) <= 0) {
+        return false;
+    }
+    return vox::VoxEngine::IsPlaying(handles[0]) != 0;
 }
 
 // 0x3698f0 _ZN15VoxSoundManager12StopAllMusicEi
@@ -283,7 +426,14 @@ void VoxSoundManager::SetListenerPos(const glitch::core::vector3d<float>& pos,
     unk_58 = a6;
 }
 
-// 0x369fec _ZN15VoxSoundManager4StopEii (partial)
+// 0x369fec _ZN15VoxSoundManager4StopEii
+// Verified against the Hex-Rays body and the ARM listing: a negative id returns; JAVA_SOUNDS calls
+// nativeStopSoundBig(sound); otherwise the data index at +0x4 of the sound's Structs::SoundAutoGen
+// record indexes sounds_, a null slot returns, VoxEngine::IsReady(data) must hold, ten
+// EmitterHandles are filled by GetEmitterHandles(data, handles, 10) and each of the first count is
+// stopped with VoxEngine::Stop(handle, fade_ms / 1000.0f) (the fade is computed before the fill,
+// like the listing's i2f/1000.0f). The handles are destroyed in reverse, which the std::vector
+// does.
 void VoxSoundManager::Stop(int sound, int fade_ms) {
     if (sound < 0) {
         return;
@@ -292,23 +442,32 @@ void VoxSoundManager::Stop(int sound, int fade_ms) {
         nativeStopSoundBig(sound);
         return;
     }
-    // PARTIAL. The binary maps the sound to a data index through Arrays::Sounds (record stride 12,
-    // index at +4), takes sounds_[index] and calls IsReady on it. When that holds it builds 10
-    // EmitterHandles, takes the count from GetEmitterHandles and calls Stop(handle, fade_ms / 1000)
-    // for each handle, then destroys the handles. Missing: the Arrays::Sounds lookup and the count
-    // (the facade returns void). Nothing is stopped on this branch.
-    (void)fade_ms;
+    vox::DataHandle* data = sounds_[SoundRecord(sound).m_w1];
+    if (data == nullptr) {
+        return;
+    }
+    if (vox::VoxEngine::IsReady(*data) == 0) {
+        return;
+    }
+    const float fade = static_cast<float>(fade_ms) / 1000.0f;
+    std::vector<vox::EmitterHandle> handles = MakeEmptyHandles(kEmitterSlots);
+    const int count = vox::VoxEngine::GetEmitterHandles(*data, handles.data(), kEmitterSlots);
+    for (int i = 0; i < count; ++i) {
+        vox::VoxEngine::Stop(handles[i], fade);
+    }
 }
 
-// 0x36a1a0 _ZN15VoxSoundManager9StopMusicEi (partial)
-// The Hex-Rays body is missing for this row. The body below is from the Ghidra export, and the ARM
-// listing agrees with it: the Java branch stores -1 in Save_Current_Music_ID before the native stop.
+// 0x36a1a0 _ZN15VoxSoundManager9StopMusicEi
+// Hex-Rays fails on this row (from 0x36a1d8), so the body was re-derived from the ARM listing at
+// 0x36a1a0 (py -3 tools/decomp_asm.py --address 0x36a1a0): music_id_ (+0x24) is -1 returns;
+// JAVA_SOUNDS clear calls Stop(music_id_, fade_ms); set stores -1 in Save_Current_Music_ID and calls
+// nativeStopSoundBig(music_id_); both paths then store prev_music_id_ = music_id_ and
+// music_id_ = -1 (loc_36A1DC loads +0x24 before the two stores). The Ghidra export agrees.
 void VoxSoundManager::StopMusic(int fade_ms) {
     if (music_id_ == -1) {
         return;
     }
     if (!JAVA_SOUNDS) {
-        // PARTIAL: Stop(int, int) is partial (see above), so the emitters are not stopped here.
         Stop(music_id_, fade_ms);
     } else {
         Save_Current_Music_ID = -1;
@@ -318,7 +477,20 @@ void VoxSoundManager::StopMusic(int fade_ms) {
     music_id_ = -1;
 }
 
-// 0x36a218 _ZN15VoxSoundManager6Stop3DEiiP7Point3DIfEf (partial)
+// 0x36a218 _ZN15VoxSoundManager6Stop3DEiiP7Point3DIfEf
+// Verified against the Hex-Rays body and the ARM listing (the loop at 0x36a338 to 0x36a414): a
+// negative id returns; JAVA_SOUNDS calls nativeStopSoundBig(sound); otherwise the data index at
+// +0x4 of the sound's Structs::SoundAutoGen record indexes sounds_, a null slot returns,
+// VoxEngine::IsReady(data) must hold, the fade (fade_ms / 1000.0f) is computed, ten EmitterHandles
+// are filled by GetEmitterHandles(data, handles, 10) and each of the first count is stopped with
+// VoxEngine::Stop(handle, fade): with a null pos every handle is stopped, otherwise the handle's
+// position comes from VoxEngine::Get3DEmitterPosition(handle, x, y, z) and the handle is stopped
+// when radius < the Euclidean distance (__aeabi_f2d, sqrt, __aeabi_d2f in the listing). Named
+// deviation: the third parameter. The original takes Point3D<float>* (mangles P7Point3DIfE); the
+// port takes const float* (x, y, z), because the two game-world callers pass a float* -
+// &characterPos.X in g1-game-world-SoundEmitter-aa1880-0.cpp:95 and the stopPosition array in
+// g1-game-world-GameObject-5d2019-1.cpp:179 - and those files are not in this batch, so the
+// signature cannot be corrected here without breaking them (rule 10 deviation).
 void VoxSoundManager::Stop3D(int sound, int fade_ms, const float* pos, float radius) {
     if (sound < 0) {
         return;
@@ -327,17 +499,41 @@ void VoxSoundManager::Stop3D(int sound, int fade_ms, const float* pos, float rad
         nativeStopSoundBig(sound);
         return;
     }
-    // PARTIAL. The binary takes the sound's handles through Arrays::Sounds and GetEmitterHandles,
-    // then for each handle reads its 3D position, takes the distance to pos (x, y, z floats) and
-    // stops the handle with fade_ms / 1000 when radius is below that distance. With pos null it
-    // stops handles without the distance test, in a loop the Hex-Rays view does not structure
-    // cleanly. Missing: the Arrays::Sounds lookup, the count and that loop. Nothing is stopped here.
-    (void)fade_ms;
-    (void)pos;
-    (void)radius;
+    vox::DataHandle* data = sounds_[SoundRecord(sound).m_w1];
+    if (data == nullptr) {
+        return;
+    }
+    if (vox::VoxEngine::IsReady(*data) == 0) {
+        return;
+    }
+    const float fade = static_cast<float>(fade_ms) / 1000.0f;
+    std::vector<vox::EmitterHandle> handles = MakeEmptyHandles(kEmitterSlots);
+    const int count = vox::VoxEngine::GetEmitterHandles(*data, handles.data(), kEmitterSlots);
+    for (int i = 0; i < count; ++i) {
+        if (pos != nullptr) {
+            float x = 0.0f;
+            float y = 0.0f;
+            float z = 0.0f;
+            vox::VoxEngine::Get3DEmitterPosition(handles[i], x, y, z);
+            const float dx = x - pos[0];
+            const float dy = y - pos[1];
+            const float dz = z - pos[2];
+            const float distance =
+                static_cast<float>(std::sqrt(static_cast<double>((dx * dx + dy * dy) + dz * dz)));
+            if (!(radius < distance)) {
+                continue;
+            }
+        }
+        vox::VoxEngine::Stop(handles[i], fade);
+    }
 }
 
-// 0x36a470 _ZN15VoxSoundManager6ResumeEi (partial)
+// 0x36a470 _ZN15VoxSoundManager6ResumeEi
+// Verified against the Hex-Rays body and the ARM listing: a negative id returns; JAVA_SOUNDS calls
+// nativeResumeSoundBig(sound); otherwise the data index at +0x4 of the sound's Structs::SoundAutoGen
+// record indexes sounds_, a null slot returns (there is no IsReady gate in the listing and none is
+// added), ten EmitterHandles are filled by GetEmitterHandles(data, handles, 10) and each of the
+// first count is resumed with VoxEngine::Resume(handle, 0.05f) (the float constant 0x3d4ccccd).
 void VoxSoundManager::Resume(int sound) {
     if (sound < 0) {
         return;
@@ -346,9 +542,15 @@ void VoxSoundManager::Resume(int sound) {
         nativeResumeSoundBig(sound);
         return;
     }
-    // PARTIAL. The binary maps the sound to a data index through Arrays::Sounds, takes sounds_[index]
-    // and resumes each of its handles (GetEmitterHandles, count, then VoxEngine::Resume(handle,
-    // 0.05f)). Missing: the Arrays::Sounds lookup and the count. Nothing is resumed here.
+    vox::DataHandle* data = sounds_[SoundRecord(sound).m_w1];
+    if (data == nullptr) {
+        return;
+    }
+    std::vector<vox::EmitterHandle> handles = MakeEmptyHandles(kEmitterSlots);
+    const int count = vox::VoxEngine::GetEmitterHandles(*data, handles.data(), kEmitterSlots);
+    for (int i = 0; i < count; ++i) {
+        vox::VoxEngine::Resume(handles[i], 0.05f);
+    }
 }
 
 // 0x36a590 _ZN15VoxSoundManager15ResumeAllSoundsEv

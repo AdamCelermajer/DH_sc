@@ -11,8 +11,17 @@ Buffer::~Buffer() {
 // 0x316568 _ZNK6Buffer4readEjPvj
 // Copies `length` bytes starting at `offset`, walking block by block. Each chunk is
 // min(remaining, block_size - in_block); after the first block the chunks start at 0.
-// Partial: the original's debug ASSERT is dropped. For a null or missing block the
-// original memcpy()s from null (a crash); here the read stops at that block instead.
+// Verified against Hex-Rays and the ARM listing 0x316568: the block index (offset / block_size),
+// the in-block offset (offset % block_size), the chunk min(remaining, block_size - in_block),
+// the first block pointer (begin[index] + in_block), the next-entry load (begin[++index]) with the
+// chunk reset to min(remaining - chunk, block_size), and the loop's exit on remaining == 0 all match.
+// Deviations, neither observable on a well-formed buffer: (1) the original's null test is only a
+// debug assert (LDR/CMP #0 then gAssertLevel: level 1 prints "ASSERT(buffer_[block_number]) FAILED"
+// at StreamBuffer.h:160, level 2 writes to address 0), after which memcpy() runs unconditionally and
+// faults on a null block; the port returns at that block instead. (2) The pointer load is
+// begin[index] with no end test, so an offset past the vector reads past it; the port's
+// `index >= blocks_.size()` test stops instead. Both need an offset or a null block that breaks the
+// buffer invariant, which peek() cannot produce (it clamps n to size - read_pos).
 void Buffer::read(std::uint32_t offset, void* out, std::uint32_t length) const {
     std::uint32_t index = offset / block_size_;
     std::uint32_t in_block = offset % block_size_;

@@ -5,7 +5,9 @@
 
 #include <thread>
 
-#if defined(__unix__) || defined(__APPLE__)
+// The priority step of the constructors is pthread code. pthreads is the same API on POSIX and
+// on the MinGW posix-threads toolchain (winpthreads), so the step is compiled on both hosts.
+#if defined(__unix__) || defined(__APPLE__) || defined(_WIN32)
 #include <pthread.h>
 #include <sched.h>
 #define VOX_THREAD_HAS_PTHREAD_PRIORITY 1
@@ -49,12 +51,22 @@ int SaturateToInt(double value) {
 
 }  // namespace
 
-// 0x893784 _ZN3vox9VoxThreadC1EPFvPvS1_ES1_S1_Pc (partial: the priority step is not run on Windows)
+// 0x893784 _ZN3vox9VoxThreadC1EPFvPvS1_ES1_S1_Pc
 // 0x8938b4 _ZN3vox9VoxThreadC2EPFvPvS1_ES1_S1_Pc (same body)
-// The priority step: the new thread's policy and its minimum and maximum priority are read;
-// a maximum above 30 becomes max(min, 31) and the thread is given that priority. The step
-// is ported on POSIX builds. Missing on Windows (one item): pthread_setschedparam has no
-// std::thread or Win32 equivalent here, so the priority is left at the default.
+// Verified against the listing at both addresses: callback/first/second stored (STM R0,{R1-R3}),
+// the Mutex at +0x0c, looping (+0x11) = 1, last_time (+0x18) = 0 as a word pair, running (+0x10)
+// = 1, then the null-callback branch that stores the callback word (0) back into looping and
+// returns. With a callback the name is copied and its last byte cleared (strncpy 63 or the
+// "VoxT"+"hear"+'d' immediate block for "VoxThread") and the thread is started; on success the new
+// thread's policy and its minimum and maximum priority are read and, when the maximum is above 30,
+// it becomes max(min, 31) (CMP R7,#0x1F / MOVGE / MOVLT), which pthread_setschedparam sets and
+// pthread_getschedparam reads back.
+// The priority step runs on both hosts: the guard compiles it whenever pthreads exists, and the
+// MinGW posix-threads toolchain (winpthreads) provides the same sched calls, so nothing about it
+// is missing on Windows.
+// Deviations: the thread is a std::thread joined by Stop (the host must join or the process
+// aborts) instead of a raw pthread_create the original never joins; the mutex, flags, time, name
+// and thread live in a heap State record so the class layout is the host's.
 VoxThread::VoxThread(Callback callback, void* first, void* second, const char* name)
     : callback_(callback), first_(first), second_(second), state_(new State()) {
     if (callback_ == nullptr) {
@@ -82,6 +94,8 @@ VoxThread::VoxThread(Callback callback, void* first, void* second, const char* n
     sched_param set{};
     set.sched_priority = priority_max;
     pthread_setschedparam(handle, policy, &set);
+    // The original reads the parameters back once more; both results are dead stores.
+    pthread_getschedparam(handle, &policy, &param);
 #endif
 }
 

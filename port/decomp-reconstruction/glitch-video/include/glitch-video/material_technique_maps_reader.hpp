@@ -18,8 +18,9 @@ public:
     explicit IMaterialTechniqueMapsReader(CMaterialRendererManager& manager);
     virtual ~IMaterialTechniqueMapsReader() = default;
 
-    // 0x5df8c8: sets the error flag. The original then calls the virtual error hook (vtable +0x28)
-    // with the two strings when the first one is set. That hook is not modelled, so only the flag is set.
+    // 0x5df8c8: sets the error flag (this +0x16). The original then tail-calls the virtual error hook at
+    // vtable +0x28 with (this, message, detail) when the message is non-null, and returns its result; that
+    // slot is the 11th virtual, so the eight virtuals before it are needed to declare it (see the ledger row).
     void setError(const char* message, const char* detail);
 
     CMaterialRendererManager* m_manager = nullptr;  // +0x04

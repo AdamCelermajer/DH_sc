@@ -35,8 +35,10 @@ public:
     // then drops it.
     ~CLightSceneNode() override;
 
-    // K 0x00 / 0x04, 0x583ddc and 0x583d88: ISceneNode's attributes, then the group "Light" with the light's attributes.
-    // PARTIAL: CLight::serializeAttributes / deserializeAttributes are not reconstructed in glitch-video.
+    // K 0x00 / 0x04, 0x583ddc and 0x583d88: ISceneNode's attributes, then the group "Light" with the light's
+    // attributes. Both bodies are complete: glitch::video::CLight::serializeAttributes (0x59ffa8) and
+    // deserializeAttributes (0x5a015c) are now reconstructed in glitch-video/src/light.cpp, so the calls are emitted.
+    // The only deviation is the null-light guard, which the original does not have.
     void serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const override;
     void deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) override;
     // K 0x10, 0x583d34: registers the node with the scene manager (no material, no user data, pass 1, no position, sort order

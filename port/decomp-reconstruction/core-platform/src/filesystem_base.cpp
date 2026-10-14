@@ -1,9 +1,12 @@
 #include "core-platform/filesystem_base.hpp"
 
 #include "core-platform/debug_out.hpp"
+#include "core-platform/util.hpp"
+#include "glitch-core-io/os/logging.hpp"
 
 #include <cstdio>
 #include <cstring>
+#include <string>
 
 #ifdef _WIN32
 #include <direct.h>
@@ -39,82 +42,149 @@ void FileSystemBase::decodeObfuscatedData(int index, void* data, int size, void*
 }
 
 // 0x34e1d4 FileSystemBase::changeWorkingDirectoryTo(char const*)
-bool FileSystemBase::changeWorkingDirectoryTo(const char* path) {
-    bool ok = DH2_CHDIR(path) == 0;
+// Slot +0x30. chdir, and on success the new directory is remembered in the process-wide buffer
+// (the canonical char[1024] CFileSystem::WorkingDirectory that slot +0x2c returns).
+bool FileSystemBase::changeWorkingDirectoryTo(const char* directory) {
+    bool ok = DH2_CHDIR(directory) == 0;
     if (ok) {
         // The canonical buffer is char[1024]; copy at most 1023 characters, as CFileSystem does.
-        std::strncpy(glitch::io::CFileSystem::WorkingDirectory, path, sizeof(glitch::io::CFileSystem::WorkingDirectory) - 1);
+        std::strncpy(glitch::io::CFileSystem::WorkingDirectory, directory,
+                     sizeof(glitch::io::CFileSystem::WorkingDirectory) - 1);
         glitch::io::CFileSystem::WorkingDirectory[sizeof(glitch::io::CFileSystem::WorkingDirectory) - 1] = '\0';
     }
     return ok;
 }
 
-namespace {
-// Stand-in existence test: a file exists when it can be opened for reading.
-bool fileExistsOnDisk(const char* name) {
-    std::FILE* f = std::fopen(name, "rb");
-    if (f == nullptr) {
-        return false;
-    }
-    std::fclose(f);
-    return true;
-}
-}  // namespace
-
 // 0x34e1ac FileSystemBase::formatFilePath(std::string const&) const
-// Returns a copy of the path; the separator rewrite is FileSystemWin32's.
+// Slot +0xa4. Returns a copy of the path; the separator rewrite is FileSystemWin32's.
 std::string FileSystemBase::formatFilePath(const std::string& path) const { return path; }
 
 // 0x34df94 _ZN14FileSystemBase14doesFileExistsEPKc
-// Partial: the original opens the name through the virtual slot at +0x88 (FileSystemWin32
-// openFile(name, false, false)) and closes it through +0x78 (closeFile); those virtual
-// calls are not in this tree, so a stdio existence check stands in for them.
-bool FileSystemBase::doesFileExists(const char* name) { return fileExistsOnDisk(name); }
+// Hex-Rays and the listing agree line by line: the name is opened through the virtual at
+// FileSystemBase vtable +0x88 (FileSystemWin32::openFile(name, false, false)), the handle is
+// closed through +0x78 (closeFile, which clears the local), and the answer is whether the handle
+// the open returned was non-null. The original keeps that value in r5 across the close call, so
+// the port saves it before closeFile overwrites the pointer.
+bool FileSystemBase::doesFileExists(const char* name) {
+    IFileStream* handle = openFile(name, false, false);  // +0x88
+    IFileStream* opened = handle;
+    closeFile(handle);  // +0x78
+    return opened != nullptr;
+}
 
 // 0x34dfe0 _ZN14FileSystemBase18doesResourceExistsEPKc
-// Partial: the original looks the name up through the virtual slot at +0x90 (openResource)
-// and closes it through +0x78; that lookup is in the derived class and is not in this
-// tree. A stdio existence check stands in for it.
-bool FileSystemBase::doesResourceExists(const char* name) { return fileExistsOnDisk(name); }
+// The same body as doesFileExists with the resource slot: openResource at +0x90 (two arguments,
+// no flags), then closeFile at +0x78.
+bool FileSystemBase::doesResourceExists(const char* name) {
+    IFileStream* handle = openResource(name);  // +0x90
+    IFileStream* opened = handle;
+    closeFile(handle);  // +0x78
+    return opened != nullptr;
+}
 
 // 0x34e150 _ZN14FileSystemBase18doesSavefileExistsEPKc
-// Partial: the original calls Savegame::FlushJobs first (Savegame is not in this
-// tree, so it is omitted) and then the virtual slot at +0x94 (openSavefile(name, false)).
-// A stdio existence check stands in for the virtual call.
-bool FileSystemBase::doesSavefileExists(const char* name) { return fileExistsOnDisk(name); }
+// The same body with the savefile slot: openSavefile(name, false) at +0x94, then closeFile at
+// +0x78. The open/close dispatch is reconstructed here; the listing's first call,
+// Savegame::FlushJobs(name) (0x314cfc, game-items-save, declared in dh2/Savegame.hpp), is not
+// visible from core-platform and is not reproduced in this body: the game-side wrapper
+// SavefileExists (dh2/global/savefile_fs.hpp) runs it before this probe, and every port call site
+// goes through that wrapper. STILL PARTIAL for that one missing call.
+bool FileSystemBase::doesSavefileExists(const char* name) {
+    IFileStream* handle = openSavefile(name, false);  // +0x94
+    IFileStream* opened = handle;
+    closeFile(handle);  // +0x78
+    return opened != nullptr;
+}
 
 // 0x34e96c _ZNK14FileSystemBase18ApplyFilenameHacksEPKc
-// Partial: the original takes the working-directory prefix (virtual slot +0x2c,
-// CFileSystem::getWorkingDirectory), strips it from the name when present, rewrites
-// ".tga" names through CFileSystem::getFileBasename, and lower-cases the result with
-// ToLowerCase. Those helpers are not in this tree, so the name is returned unchanged.
-std::string FileSystemBase::ApplyFilenameHacks(const char* name) const { return std::string(name); }
+// Slot +0xb8. Hex-Rays and the listing agree line by line:
+//   * the working directory comes from the virtual at vtable +0x2c (IFileSystem::
+//     getWorkingDirectory, glitch::io::CFileSystem's 0x56c214 returns the static
+//     CFileSystem::WorkingDirectory). That slot is non-const because the original reaches it
+//     through the vtable from this const method, hence the const_cast.
+//   * strstr(name, workingDirectory): when it hits, the result is the rest of the name after the
+//     match plus one byte (the separator), otherwise the whole name.
+//   * a ".tga" result is replaced by "ata/3d/textures/" plus CFileSystem::getFileBasename(result,
+//     true) (keepExtension). The listing assigns the range [literal, literal + 0x10) (ADD R2, R1,
+//     #0x10 at 0x34ea40) and the literal at 0x8c0740 is exactly 16 characters, so this is a plain
+//     assignment of the literal.
+//   * ToLowerCase(result, 0, -1) -- the original's call is 0x34e090, the SAllocator-string
+//     overload that core-platform/util.hpp provides as this template.
+//   * when strstr hit, the working-directory prefix of the name (up to and including the byte
+//     after the match) is prepended back to the hacked result.
+std::string FileSystemBase::ApplyFilenameHacks(const char* name) const {
+    const char* workingDirectory = const_cast<FileSystemBase*>(this)->getWorkingDirectory();  // +0x2c
+    const std::size_t workingDirectoryLength = std::strlen(workingDirectory);
+    const char* const found = std::strstr(name, workingDirectory);
+
+    std::string result;
+    if (found != nullptr) {
+        result = found + workingDirectoryLength + 1;
+    } else {
+        result = name;
+    }
+
+    if (std::strstr(result.c_str(), ".tga") != nullptr) {
+        const std::string basename = glitch::io::CFileSystem::getFileBasename(result, true);
+        result = "ata/3d/textures/";
+        result += basename;
+    }
+
+    ToLowerCase<std::string>(result, 0, -1);
+
+    if (found != nullptr) {
+        result = std::string(name, found + workingDirectoryLength + 1) + result;
+    }
+    return result;
+}
 
 // 0x34e5f4 _ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE
-// Partial: the original calls a virtual on this for the normalised path (slot +0xb8)
-// and then glitch::io::CFileSystem::getAbsolutePath; neither is in this tree, so the
-// path is returned unchanged.
-std::string FileSystemBase::getAbsolutePath(const std::string& path) const { return path; }
+// Slot +0x34. The listing calls the virtual at vtable +0xb8 (ApplyFilenameHacks, called with the
+// path's characters and written to a temporary string) and then makes a qualified call to
+// glitch::io::CFileSystem::getAbsolutePath (0x56c348, a direct BL, not the +0x34 slot) with that
+// temporary. The temporary is freed and the result returned.
+std::string FileSystemBase::getAbsolutePath(const std::string& path) const {
+    const std::string normalised = ApplyFilenameHacks(path.c_str());  // +0xb8
+    return glitch::io::CFileSystem::getAbsolutePath(normalised);
+}
 
 // 0x34e688 _ZN14FileSystemBase17createAndOpenFileEPKc
-// Partial: the original normalises the name through the virtual at +0xb8 before the
-// checks below; that is not reproduced, so the name is used as given. A name without
-// ".config" or ".glsl" that does not start with "/sdcard/" is opened under RES_PATH.
-// The original then calls glitch::io::CFileSystem::createAndOpenFile (and, when
-// Application::IsUsingUncompiledData is set, retries under "Q:\\"); here the file is
-// created with stdio and the uncompiled-data branch is omitted.
-void FileSystemBase::createAndOpenFile(const char* name) {
-    std::string path(name);
-    const bool underResPath = std::strstr(path.c_str(), ".config") == nullptr &&
-                              std::strstr(path.c_str(), ".glsl") == nullptr &&
-                              path.compare(0, 8, "/sdcard/") != 0;
-    if (underResPath) {
-        path = std::string(RES_PATH) + path;
+// Slot +0x0c. The listing, line by line:
+//   * the name through the virtual at +0xb8 (ApplyFilenameHacks);
+//   * a second string from the first min(size, 8) characters of that result, compared with
+//     strcmp against "/sdcard/" (this is the compiler's form of a compare of the first eight
+//     characters);
+//   * when the normalised name holds ".config", holds ".glsl" or starts with "/sdcard/", it is
+//     used as it is; otherwise RES_PATH is prepended (operator+(RES_PATH, name));
+//   * that path is copied into a local string and passed to a qualified call to
+//     glitch::io::CFileSystem::createAndOpenFile (0x56d4e0, a direct BL, not the +0x0c slot);
+//   * when it returns null, _DEBUG_OUT("Could not open file :  %s ", path) and
+//     glitch::os::Printer::log("Could not open file : ", path, 3) (ELL_ERROR);
+//   * the opened file is returned.
+// PARTIAL: the uncompiled-data branch between the path build and the open is missing. The listing
+// asks Application::IsUsingUncompiledData(path) (0x320678) and, when it answers true, saves the
+// slot +0x2c working directory, calls the slot +0x30 changeWorkingDirectoryTo("Q:\\"), retries the
+// open and restores the saved directory when the retry returned null.
+// Application::IsUsingUncompiledData is the game-app singleton member (declared in
+// game/include/dh2/Application.hpp); core-platform/include/core-platform/deps/application.hpp
+// declares no adapter for it (it has ApplicationGetDt and DeviceFeatureFlags only), so
+// core-platform cannot reach it and the branch is not reproduced.
+glitch::io::IReadFile* FileSystemBase::createAndOpenFile(const char* name) {
+    const std::string normalised = ApplyFilenameHacks(name);  // +0xb8
+
+    std::string path;
+    if (std::strstr(normalised.c_str(), ".config") != nullptr ||
+        std::strstr(normalised.c_str(), ".glsl") != nullptr ||
+        normalised.compare(0, 8, "/sdcard/") == 0) {
+        path = normalised;
+    } else {
+        path = std::string(RES_PATH) + normalised;
     }
-    std::FILE* f = std::fopen(path.c_str(), "wb");
-    if (f == nullptr) {
+
+    glitch::io::IReadFile* file = glitch::io::CFileSystem::createAndOpenFile(path.c_str());
+    if (file == nullptr) {
         _DEBUG_OUT("Could not open file :  %s ", path.c_str());
-        return;
+        glitch::os::Printer::log("Could not open file : ", path.c_str(), glitch::ELL_ERROR);
     }
-    std::fclose(f);
+    return file;
 }

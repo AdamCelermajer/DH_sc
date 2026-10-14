@@ -149,15 +149,26 @@ int VoxMSWavSubDecoderIMAADPCM::Decode(void* dst, int count) {
     return (wanted - remaining) * channels_ * bytes_per_sample;
 }
 
-// 0x8758d8 _ZN3vox26VoxMSWavSubDecoderIMAADPCM11DecodeBlockEPv (partial: one deviation, see below)
+// 0x8758d8 _ZN3vox26VoxMSWavSubDecoderIMAADPCM11DecodeBlockEPv (partial: two deviations)
 // Reads up to one block from the stream (fewer at the end of the data chunk) and decodes it
 // with the shared IMA ADPCM block decoder, which takes the header predictors and step indices
-// from the block and keeps them in states_. The step and index tables are the binary's (confirmed
-// against .rodata 0x911a24 and 0x911a14 with IDA get_bytes, see ima_adpcm.hpp). The header, group,
-// predictor and index logic, the 8-frame groups, and the clip to total - frames_done match the listing.
-// Deviation: with a chunk of zero channels and bytes read, the listing's group loop never advances
-// (its group counter stays 0 below the byte count) and does not return. The port returns one frame
-// and decodes nothing, since a zero channel count is not valid data.
+// from the block and keeps them in states_ (this+0x2A, 4-byte predictor/index pairs, one per
+// channel). The step and index tables are the binary's (confirmed against .rodata 0x911a24,
+// 89 step values = 178 bytes, and 0x911a14, 16 index bytes, with IDA get_bytes; see ima_adpcm.hpp).
+// The header words (raw_block_[0] and [1] into states_[0], then two words per further channel),
+// the group loop's 8 frames per iteration (the frame count starts at 1 for the header and grows
+// by 8 per group), the bytes read (current_data_size - data_pos_ clamped to block_align), the
+// data_pos_ advance by the read count, and the clip of the result to total_frames_ - frames_done_
+// all match the listing.
+// Deviation 1: with a chunk of zero channels and at least one byte read, the listing enters the
+// group loop with v45 = bytes read and adds v34 to its group counter; v34 is R1, which the setup
+// sets to 0 and which the inner channel loop (skipped when channels is 0) never assigns, so the
+// counter never advances and the loop spins for ever. The port returns one frame and decodes
+// nothing instead of reproducing that hang.
+// Deviation 2: the first step lookup uses the block header's step index unclamped, so a header
+// index above 88 reads past the 89-entry step table; the original reads whatever follows the table
+// in .rodata and the port reads past its own array, so those out-of-range values differ (both are
+// undefined reads on malformed input).
 int VoxMSWavSubDecoderIMAADPCM::DecodeBlock(std::int16_t* out) {
     const std::uint32_t left = chunk_->current_data_size - static_cast<std::uint32_t>(data_pos_);
     const std::uint32_t block_align = static_cast<std::uint32_t>(chunk_->block_align);

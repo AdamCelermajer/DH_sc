@@ -40,12 +40,20 @@
 #include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/global/net_singletons.hpp"
 #include "dh2/batch/BatchNodeCompiler.hpp"
+#include "dh2/batch/GOBatchSceneNode.hpp"          // the batch node of _LoadBatching (setVisible, addChild)
 #include "dh2/global/IsMultiplayerGame.hpp"      // dword_99F76C (PlayerManager*)
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764 (ObjectManager*)
 #include "dh2/rnd/Block.hpp"
 #include "dh2/rnd/RandomGenerator.hpp"
 #include "dh2/rnd/Tile.hpp"
 #include "pydata-accessors/member_names.hpp"              // Arrays::GetMemberIDByString (SetLevelConfig)
+#include "pydata-accessors/name_table.hpp"                // pydata::FindMemberName (the CamAnimSetTable row of _LoadCamera)
+#include "glitch-video/global_parameter_manager.hpp"      // CGlobalMaterialParameterManager (UpdateDynamicFog)
+#include "glitch-video/material_parameters_bind_g.hpp"    // the typed setParameter members
+#include "dh2/PFWorld.hpp"                                // Singleton<PFWorld>::s_inst.DBG_Draw (Draw)
+#include "dh2/Singleton.hpp"                              // Singleton<PFWorld>::s_inst
+#include "dh2/ZoomHandler.hpp"                            // ZoomHandler::setCamera (_LoadCamera)
+#include "dh2/global/Vec3f_K.hpp"                         // Vec3f_K (the perpendicular of Draw)
 
 // 0x3f07b0 _ZN5Level18SG_SaveLocalPlayerEb
 // The local player's character is read as the original does, PlayerManager::GetLocalPlayer(dword_99F76C, 0, 1)->character_660 (PlayerInfo +0x660, declared as unk_660), and
@@ -246,17 +254,40 @@ void Level::UpdateListener() {
 }
 
 // 0x3f1008 _ZN5Level11_LoadCameraEv
-// PARTIAL: the two allocations are reconstructed, in the original's order: CameraOverview (m_cameraOverview, +0x12c) and
-// CameraLevel (m_camera, +0x128), each through its constructor. The rest is not made. (1) The camera file, animation set and
-// camera node names are the LevelConfig string data words at +0x260, +0x278 and +0x290, which lie in the header's m_cameraFile,
-// m_cameraAnimset and m_cameraName strings. (2) The animation set row is found in Arrays::CamAnimSetTable, which is declared
-// only as a raw byte table, so the row (and the clip id at row +0x10) cannot be typed. (3) The sky box and the scene manager
-// are read from the device (+0x1c), which is not declared. The field of view and aspect (CameraBase::SetData with LevelConfig
-// +0x294 and +0x298), SetActive, PlayAnim, CameraTarget::SetTarget, ZoomHandler::setCamera and the zoom fields are omitted with them.
+// The level's two cameras are built, in this order: CameraOverview (m_cameraOverview, +0x12c, operator new(40)) and
+// CameraLevel (m_camera, +0x128, operator new(168)), each through its constructor. The animation set row is looked up in
+// Arrays::CamAnimSetTable by the config's camera_animset name (the +0x278 data word; -1 when the table is empty or no row
+// matches, which is what CameraLevel::Load stores at +0x80), then CameraLevel::Load takes the camera_file name (+0x260),
+// that row and the camera_name (+0x290). CameraBase::SetData takes the two constant floats 0x3edbf877 and 0x3fd578e9
+// (0.42963 and 1.6677524, the vertical field of view and the aspect ratio) and the config's camera_znear (+0x294) and
+// camera_zfar (+0x298) as floats. Then the camera is made active, the clip id of that CamAnimSetTable row (its +0x10 word)
+// is played, the camera targets the local player's character (PlayerInfo +0x660) with transition 0, the zoom handler (the
+// Application's +0x50, dword_99F77C) is bound to it, the zoom is reset (target +0x8c to 1.0, current +0x88 to 0.0) and the
+// scene manager (the device's +0x1c) adds the sky box named by the config's skybox (+0x248 data word).
+// Deviations: C++ new throws where the original tests the CameraLevel pointer (assert "m_camera", Level.cpp:2480) and goes
+// on to dereference null; the original re-reads m_levelConfig and re-runs its assert before SetData and before the sky box,
+// which cannot fire after the first read. The original reads the row of m_camTableIndex unconditionally, so a -1 row reads
+// before the table there and here.
 void Level::_LoadCamera() {
     m_cameraOverview = new CameraOverview();  // +0x12c, operator new(40) in the original
     m_camera = new CameraLevel();             // +0x128, operator new(168) in the original
-    // SEAM: the camera load and the rest of the set-up described above are not made.
+    LevelConfig* config = GetLevelConfig();   // the m_levelConfig assert (Level.h:476) the original runs before the read
+    const int camTableIndex = pydata::FindMemberName(Arrays::CamAnimSetTable::m_memberNames,
+                                                    static_cast<int>(Arrays::CamAnimSetTable::size),
+                                                    config->m_cameraAnimset.c_str());  // the +0x278 data word
+    m_camera->Load(config->m_cameraFile.c_str(), camTableIndex, config->m_cameraName.c_str());  // +0x260, +0x290
+    m_camera->SetData(0.42963f, 1.66775239f, static_cast<float>(config->m_cameraZnear),
+                      static_cast<float>(config->m_cameraZfar), false);  // +0x294, +0x298
+    m_camera->SetActive();
+    // Clip id of the row CameraLevel::Load found (row +0x10; stride 28 in the original).
+    const int clipId =
+        reinterpret_cast<const Structs::CamAnimSet*>(Arrays::CamAnimSetTable::members)[m_camera->m_camTableIndex].m_w4;
+    m_camera->PlayAnim(clipId, 0, false);                                              // (clip, controller arg, keep zoom)
+    m_camera->SetTarget(dword_99F76C->GetLocalPlayer(0, true)->unk_660, 0);            // PlayerInfo +0x660, transition 0
+    ApplicationGetInstance().m_zoomHandler->setCamera(m_camera);                       // dword_99F77C is Application +0x50
+    m_camera->m_zoomTarget = 1.0f;   // +0x8c
+    m_camera->m_zoomCurrent = 0.0f;  // +0x88
+    DeviceSceneManager()->AddSkyBoxSceneNode(config->m_skybox.c_str(), nullptr);       // config +0x248, device +0x1c
 }
 
 // 0x3f1394 _ZNK5Level15GetMPGameScriptEv
@@ -297,18 +328,31 @@ void Level::SetLevelConfig(LevelConfig* config) {
 }
 
 // 0x3f16c0 _ZN5Level16UpdateDynamicFogEv
-// PARTIAL: the guard is reconstructed: the config's dynamic fog colour list (+0x204, m_dfogColors) must be non-empty. The
-// original then takes the absolute position of the current level's camera scene node (Application's current Level, its
-// m_camera (+0x128), that camera's glitch camera node at CameraBase +0x08), passes it to
-// ObjectManager::GetDynamicFogColorAtPos with the blend radius (+0x214), stores the colour at the config's +0x1ec
-// (m_clearColor), and sets the global material fog parameter through the device's material parameter manager (+0x1c, +0x14).
-// The scene node's getAbsolutePosition needs glitch-scene-collada-gui/scene/ISceneNode.hpp, which conflicts with
-// glitch-shared/glitch_core.hpp in this translation unit, and the material chain is not declared. Both are left out (SEAM).
+// The guard (the config's dynamic-fog colour list, +0x204 m_dfogColors, must be non-empty) is followed by the whole body:
+// the absolute position of the current level's camera scene node (Application::GetCurrentLevel, its m_camera at +0x128,
+// that camera's glitch camera node at CameraBase +0x08) is passed to ObjectManager::GetDynamicFogColorAtPos with the
+// blend distance (+0x214), the returned colour is packed into an SColor whose bytes are the truncated colour components
+// (byte 0 is the low byte, alpha 0) and written to the driver's global material parameter m_fogColorIds[0] with index 0
+// through the scene manager's driver (device +0x1c, CSceneManager +0x14, IVideoDriver +0xe4), and the colour is stored at
+// the config's +0x1ec m_clearColor. The original re-reads m_levelConfig and re-runs its assert (Level.h:476) before that
+// store; the top guard already proved the pointer non-null, so the assert cannot fire and is not repeated.
 void Level::UpdateDynamicFog() {
-    if (!m_levelConfig || m_levelConfig->m_dfogColors.empty()) {
+    LevelConfig* config = m_levelConfig;
+    if (config == nullptr || config->m_dfogColors.empty()) {  // +0x38, begin != end of +0x204
         return;
     }
-    // SEAM: camera node position, GetDynamicFogColorAtPos, the store to m_clearColor (+0x1ec) and the material parameter set are not made.
+    Level* current = ApplicationGetInstance().GetCurrentLevel();
+    const glitch::core::vector3d<float> cameraPosition = current->m_camera->m_camera->getAbsolutePosition();
+    const Point3D<float> position{cameraPosition.X, cameraPosition.Y, cameraPosition.Z};
+    const Point3D<float> color = dword_99F764->GetDynamicFogColorAtPos(position, config->m_dfogBlendDist);  // +0x214
+    glitch::video::IVideoDriver* driver = DeviceSceneManager()->driver;  // CSceneManager +0x14
+    glitch::video::SColor packed;  // the four byte stores of the original: low byte c.X, then c.Y, c.Z, alpha 0
+    packed.setComponent(0, static_cast<std::uint8_t>(color.X));
+    packed.setComponent(1, static_cast<std::uint8_t>(color.Y));
+    packed.setComponent(2, static_cast<std::uint8_t>(color.Z));
+    packed.setComponent(3, 0);
+    driver->m_globalParameters->setParameter(driver->m_fogColorIds[0], 0u, packed);  // 0x5c47fc, index form
+    config->m_clearColor = color;  // +0x1ec
 }
 
 // 0x3f2304 _ZN5Level9UpdateFogEPN6glitch5scene10ISceneNodeE
@@ -328,13 +372,16 @@ void Level::UpdateFog(glitch::scene::ISceneNode* node) {
 }
 
 // 0x3f240c _ZN5Level14_LoadBatchInitEv
-// PARTIAL: the original first calls a virtual method of the scene manager (its glitch::scene::CSceneManager base, vtable
-// +0x60, slot 24, with arguments 0 and 0). That slot has no name in the tree, and the scene manager is the device's +0x1c
-// field, which is not declared, so the call is left out (SEAM). The switch test, the destruction of the old compiler and
-// the allocation are reconstructed. The class has no constructor symbol (batch::BatchNodeCompiler writes its fields inline in
-// the original), so value-initialising new matches the original's init.
+// The original first calls the scene manager's vtable +0x60 with (0, 0). The object is the device's +0x1c word and the
+// slot is CSceneManager::update(float, bool) (0x58b9f0): the game SceneManager's vtable carries that function at the
+// same offset (tools/decomp_vtable.py prints the address-point offset; the game override at listing slot 0x48 is this
+// +0x3c, as GSViewer::Update 0x387270, which calls the same slot with (dt, false), records). SceneManager does not
+// override update, so update(0.0f, false) is the call: elapsed 0 is added to the scene clock and the root node takes
+// onAnimate. Then the switch test, the destruction of the old compiler and the allocation. The class has no constructor
+// symbol (batch::BatchNodeCompiler writes its fields inline in the original), so value-initialising new matches the
+// original's init.
 void Level::_LoadBatchInit() {
-    // SEAM: the scene manager's slot +0x60 call with arguments (0, 0) is not made.
+    DeviceSceneManager()->update(0.0f, false);  // vtable +0x60 = CSceneManager::update(float, bool)
     DebugSwitches::GetInstance()->load();
     if (!DebugSwitches::GetInstance()->GetSwitch(std::string("IsDisablingCompiledBatching"))) {
         delete m_batchNodeCompiler;
@@ -343,12 +390,13 @@ void Level::_LoadBatchInit() {
 }
 
 // 0x3f254c _ZNK5Level4DrawEv
-// PARTIAL: the floor-box switch is read and its result is discarded, as in the original. The path-node block is a seam. It
-// runs PFWorld::DBG_Draw at the local character's m_position (PlayerInfo +0x660, GameObject +0x160), then draws the look-at
-// and perpendicular lines through glitch::IVideoDriver::draw3DLine (vtable +0x1c, glitch-video video_driver.hpp). PFWorld cannot
-// share this translation unit with core-platform/memory.hpp (the glitch stand-ins conflict), and the video driver is
-// glitch::IDevice +0x10, whose data members are not declared. The perpendicular uses Vec3f_K (declared) and dword_99F87C and
-// dword_99F880 (not declared; Vec3f_K.hpp gives them as Y 0 and Z 1).
+// The debug drawing of a loaded level. The floor-box switch is read and its result is discarded, as in the original.
+// With isDisplayingPathNodes set and a local player, the path-node block runs: PFWorld::DBG_Draw at the local character's
+// m_position (PlayerInfo +0x660, GameObject +0x160), then two lines through the video driver (the device's +0x10,
+// IVideoDriver::draw3DLine at vtable +0x1c, SColor by value). The first goes from that position to position + 100 times
+// the character's normalised look-at vector (the vector is normalised in place by Point3D::normalize, which returns
+// *this) in 0xff0000ff. The second is the perpendicular: cross(look, Vec3f_K) with Vec3f_K = (0, 0, 1), drawn from
+// position + perpendicular to position - perpendicular in 0xff0080ff.
 void Level::Draw() const {
     if (m_loadStep != 38) {
         return;
@@ -357,17 +405,47 @@ void Level::Draw() const {
     DebugSwitches::GetInstance()->load();
     DebugSwitches::GetInstance()->GetSwitch(std::string("isDisplayingFloorBoxes"));
     DebugSwitches::GetInstance()->load();
-    if (DebugSwitches::GetInstance()->GetSwitch(std::string("isDisplayingPathNodes"))) {
-        // SEAM: the path-node drawing described above is not reconstructed.
+    if (!DebugSwitches::GetInstance()->GetSwitch(std::string("isDisplayingPathNodes"))) {
+        return;
     }
+    Character* character = dword_99F76C->GetLocalPlayer(0, true)->unk_660;  // PlayerInfo +0x660
+    if (character == nullptr) {
+        return;
+    }
+    Singleton<PFWorld>::s_inst.DBG_Draw(&character->m_position);  // GameObject +0x160
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;  // IDevice +0x10
+    Point3D<float> look{0.0f, 0.0f, 0.0f};
+    character->GetLookAtVec(look);
+    look.normalize();
+    look.X *= 100.0f;
+    look.Y *= 100.0f;
+    look.Z *= 100.0f;
+    const Point3D<float>& position = character->m_position;
+    driver->draw3DLine(glitch::core::vector3d<float>{position.X, position.Y, position.Z},
+                       glitch::core::vector3d<float>{position.X + look.X, position.Y + look.Y, position.Z + look.Z},
+                       glitch::video::SColor{0xFF0000FFu});
+    // The perpendicular is cross(look, Vec3f_K) with the up vector K = (0, 0, 1) (Vec3f_K.Y and Vec3f_K.Z are the
+    // original's dword_99F87C and dword_99F880).
+    const float perpX = look.Y * Vec3f_K.Z - look.Z * Vec3f_K.Y;
+    const float perpY = look.Z * Vec3f_K.X - look.X * Vec3f_K.Z;
+    const float perpZ = look.X * Vec3f_K.Y - look.Y * Vec3f_K.X;
+    driver->draw3DLine(glitch::core::vector3d<float>{position.X + perpX, position.Y + perpY, position.Z + perpZ},
+                       glitch::core::vector3d<float>{position.X - perpX, position.Y - perpY, position.Z - perpZ},
+                       glitch::video::SColor{0xFF0080FFu});
 }
 
 // 0x3f2ae4 _ZN5Level13_LoadBatchingEv
-// PARTIAL. The gate, clearRenderLists on DeviceSceneManager() (device +0x1c), the unk_43c flag at +0x43c, the BUFFER SIZE print
-// of each branch (LevelConfig, high-performance +0x2a0..+0x2a8, otherwise +0x2ac..+0x2b4) and BatchNodeCompiler::Compile with
-// the branch's quantize flag are reconstructed. Not made: the batch sizes written into the scene manager's batch object (+0x1c
-// in the scene manager, fields +0x22c and +0x230, each times 1.02; the object's type is not declared) and the tail after the
-// compile (scene manager +0x04 slot 92 and the batch node's slot 72, both unnamed).
+// PARTIAL. The gate, clearRenderLists on DeviceSceneManager() (device +0x1c), the unk_43c flag at +0x43c, the BUFFER SIZE
+// print of each branch (LevelConfig, high-performance +0x2a0..+0x2a8, otherwise +0x2ac..+0x2b4), BatchNodeCompiler::Compile
+// with the branch's quantize flag, and the two tail calls are reconstructed. Each branch writes the two batch buffer sizes
+// into the scene manager's batch driver (CSceneManager +0x1c) as (unsigned)((double)size * 1.02): the vertex size at +0x22c
+// and the index size at +0x230 (asm 0x3f2c0c and 0x3f2cd4). glitch::video::CBatchDriver is only forward-declared in the tree
+// (it belongs to glitch-video, whose ledger rows 0x5a2e20 / 0x589f40 / 0x58a920 are still partial), so those two stores
+// cannot be typed here and are left out (SEAM). The tail: when the compiler's m_compiled (+0x00) is set, the scene manager's
+// root node (CSceneManager +0x04) takes the batch node through addChild (its vtable +0x5c = ISceneNode::addChild, listing
+// slot 0x48 + 0x0c), and then the batch node itself takes setVisible(true) (its vtable +0x48 = ISceneNode::setVisible).
+// Deviation: the setVisible call is guarded for null because Compile is still partial in this tree (its GAP A and GAP D
+// leave m_compiled clear and m_batchNode null), where the original's Compile has always created the node by then.
 void Level::_LoadBatching() {
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch(std::string("IsDisablingCompiledBatching"))) {
@@ -380,8 +458,7 @@ void Level::_LoadBatching() {
     if (Device::IsHighPerformance()) {
         std::printf("*** BUFFER SIZE: %d %d %d\n", config->m_progVertexBufferSize, config->m_progIndexBufferSize,
                     static_cast<int>(config->m_progQuantize));
-        // SEAM: the batch sizes written into the scene manager's batch object (+0x1c, fields +0x22c and +0x230, each times 1.02)
-        // need that object's type, which is not declared.
+        // SEAM: sceneManager->batchDriver (+0x1c) +0x22c / +0x230, see above.
         m_batchNodeCompiler->Compile(config->m_progQuantize);
     } else {
         std::printf("*** BUFFER SIZE: %d %d %d\n", config->m_fixVertexBufferSize, config->m_fixIndexBufferSize,
@@ -390,7 +467,16 @@ void Level::_LoadBatching() {
         m_batchNodeCompiler->Compile(config->m_fixQuantize);
     }
     sceneManager->unk_43c = false;
-    // SEAM: the tail calls scene manager +0x04 slot 92 (unnamed) and the batch node's slot 72 (GOBatchSceneNode, unnamed).
+    batch::BatchNodeCompiler* compiler = m_batchNodeCompiler;  // the original re-reads this+0x158 here and after addChild
+    if (compiler->m_compiled) {                                // +0x00
+        sceneManager->rootNode->addChild(compiler->m_batchNode);
+    }
+    // Host-necessitated guard: the original reaches m_batchNode (+0x34) without a test, which Compile has always created
+    // by this point. BatchNodeCompiler::Compile is still partial in this tree (g1-game-world-batch-7f01fe-0.cpp, its GAP A
+    // and GAP D), so m_compiled stays clear and m_batchNode stays null here, and the unguarded call would dereference null.
+    if (compiler->m_batchNode != nullptr) {
+        compiler->m_batchNode->setVisible(true);  // +0x34, vtable +0x48
+    }
 }
 
 // 0x3f2d38 _ZN5Level14_LoadBatchListEv

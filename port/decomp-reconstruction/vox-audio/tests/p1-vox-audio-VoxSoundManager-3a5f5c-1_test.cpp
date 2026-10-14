@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <initializer_list>
 #include <new>
 #include <string>
@@ -17,6 +18,8 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/global/net_singletons.hpp"
+#include "dh2/global/sound_flags.hpp"
+#include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 #include "vox-audio/vox/engine_handles.hpp"
 #include "vox-audio/vox/memory.hpp"
@@ -33,6 +36,10 @@ float sfx_vfx_volume = 0.0f;
 // gAssertLevel is core-platform's (core-platform/src/memory.cpp, value 0) and comes from the link.
 std::uint8_t* Arrays::Sounds::members = nullptr;
 bool MenuBase::s_igmOpened = false;
+// byte_99F7E0 (dh2/global/sound_flags.hpp): Level::_LoadProcess sets it while a level loads; PlayMusic and
+// PlayBeat return while it is clear. soundmanager/sound_flags.cpp is not linked into this test, so the
+// definition and its default (set, as after a level load) are here.
+unsigned char byte_99F7E0 = 1;
 
 namespace {
 
@@ -54,6 +61,8 @@ struct Call {
 
 std::vector<Call> g_calls;
 int g_destroyed = 0;
+bool g_onlineGame = false;  // GetOnlineGameFlag: COnline +0x05 (isOnlineGame_), false = offline
+int g_emitterHandles = 0;   // the count VoxEngine::GetEmitterHandles reports (0 = no live emitter)
 
 // Values the stubs return.
 int g_uid = 7;            // GetEmitterInfo: emitter uid
@@ -130,6 +139,22 @@ bool HasCall(const char* name, std::initializer_list<double> args) {
 
 bool Near(double a, double b) { return std::fabs(a - b) < 1e-4; }
 
+// ---- The Arrays::Sounds table. pydata-accessors owns it (w7_arrays_00.cpp), which this test does not
+// link; the table is the members pointer the batch reads when it turns a sound id into a data index
+// (the record's +0x4). Same host array of Structs::SoundAutoGen the first batch's test uses.
+constexpr int kSoundRecords = 16;
+alignas(16) unsigned char g_sound_records[sizeof(Structs::SoundAutoGen) * kSoundRecords];
+
+// Points record `sound` at data index `index` of the manager's sounds_ array.
+void SetRecordDataIndex(int sound, int index) {
+    reinterpret_cast<Structs::SoundAutoGen*>(g_sound_records)[sound].m_w1 = index;
+}
+
+void ResetSoundRecords() {
+    std::memset(g_sound_records, 0, sizeof(g_sound_records));
+    Arrays::Sounds::members = g_sound_records;
+}
+
 void ResetState() {
     g_calls.clear();
     g_destroyed = 0;
@@ -137,6 +162,11 @@ void ResetState() {
     Save_Current_Music_ID = -1;
     music_volume = 0.0f;
     sfx_vfx_volume = 0.0f;
+    byte_99F7E0 = 1;
+    g_onlineGame = false;
+    MenuBase::s_igmOpened = false;
+    g_emitterHandles = 0;
+    ResetSoundRecords();
     g_type = 2;
     g_group = 5;
     g_front[0] = 0.0f;
@@ -398,6 +428,110 @@ void TestJavaForwarders() {
     JAVA_SOUNDS = false;
 }
 
+void TestPauseHandles() {
+    // Pause (0x36a664): the count GetEmitterHandles returns is the bound of the VoxEngine::Pause loop.
+    ResetState();
+    VoxSoundManager m;
+    SetUpOneSound(m);
+    SetRecordDataIndex(0, 0);  // sound 0 -> sounds_[0]
+
+    m.Pause(0);  // no live emitter: the fill happens, the loop does not
+    CHECK(HasCall("GetEmitterHandles", {10}));
+    CHECK(CountCalls("Pause") == 0);
+
+    g_emitterHandles = 3;
+    m.Pause(0);
+    CHECK(CountCalls("Pause") == 3);
+    CHECK(HasCall("Pause", {0.05}));
+    // An empty slot returns before the fill (sounds_[record.m_w1] is null).
+    SetRecordDataIndex(1, 1);
+    const size_t fills = CountCalls("GetEmitterHandles");
+    m.Pause(1);
+    CHECK(CountCalls("GetEmitterHandles") == fills);
+    CHECK(CountCalls("Pause") == 3);
+
+    // A negative id returns at once.
+    m.Pause(-1);
+    CHECK(CountCalls("GetEmitterHandles") == fills);
+    TearDownSounds(m);
+}
+
+void TestPlayMusicResume() {
+    // PlayMusic (0x36bd78), the music_id_ == music branch: a live emitter is resumed with 0.05 and the
+    // function returns before music_loop_ is stored; without one the music is started again.
+    ResetState();
+    VoxSoundManager m;
+    SetUpOneSound(m);
+    SetRecordDataIndex(3, 0);  // sound 3 -> sounds_[0]
+    m.music_id_ = 3;
+    m.music_loop_ = false;
+
+    g_emitterHandles = 1;
+    m.PlayMusic(3, true, false, 2000);
+    CHECK(CountCalls("Resume") == 1);
+    CHECK(HasCall("Resume", {0.05}));
+    CHECK(HasCall("GetEmitterHandles", {1}));
+    CHECK(CountCalls("Play") == 0);
+    CHECK(m.music_loop_ == false);  // the resume branch returned before the store
+
+    g_calls.clear();
+    g_emitterHandles = 0;
+    m.PlayMusic(3, false, false, 2000);
+    CHECK(CountCalls("Resume") == 0);
+    CHECK(CountCalls("Play") == 1);
+    CHECK(m.music_loop_ == false);
+    TearDownSounds(m);
+}
+
+void TestOnlineGate() {
+    // Play's gate (0x36ba40): online with the in-game menu open a non-forced play is dropped, force
+    // passes, and either half being clear lets it through. JAVA mode makes the call observable.
+    ResetState();
+    JAVA_SOUNDS = true;
+    sfx_vfx_volume = 0.5f;
+    VoxSoundManager m;
+    g_onlineGame = true;
+    MenuBase::s_igmOpened = true;
+
+    m.Play(4, true, 1000, 2, false);
+    CHECK(CountCalls("nativePlaySoundBig") == 0);
+    m.Play(4, true, 1000, 2, true);
+    CHECK(HasCall("nativePlaySoundBig", {4, 0.5, 1, 2}));
+
+    g_calls.clear();
+    MenuBase::s_igmOpened = false;  // online, no in-game menu
+    m.Play(4, true, 1000, 2, false);
+    CHECK(HasCall("nativePlaySoundBig", {4, 0.5, 1, 2}));
+
+    g_calls.clear();
+    g_onlineGame = false;  // offline
+    MenuBase::s_igmOpened = true;
+    m.Play(4, true, 1000, 2, false);
+    CHECK(HasCall("nativePlaySoundBig", {4, 0.5, 1, 2}));
+    JAVA_SOUNDS = false;
+}
+
+void TestSoundAllowedGate() {
+    // byte_99F7E0 (0x36be2c): PlayMusic does nothing while the level load has not allowed sound yet.
+    ResetState();
+    JAVA_SOUNDS = true;
+    music_volume = 0.75f;
+    VoxSoundManager m;
+    m.music_id_ = -1;
+
+    byte_99F7E0 = 0;
+    m.PlayMusic(7, true, false, 2000);
+    CHECK(m.music_id_ == -1);
+    CHECK(Save_Current_Music_ID == -1);
+    CHECK(CountCalls("nativePlaySoundBig") == 0);
+
+    byte_99F7E0 = 1;
+    m.PlayMusic(7, true, false, 2000);
+    CHECK(m.music_id_ == 7);
+    CHECK(HasCall("nativePlaySoundBig", {7, 0.75, 1, 1}));
+    JAVA_SOUNDS = false;
+}
+
 }  // namespace
 
 // ---- Stubs for the engine facade (vox::VoxEngine, static), recording their calls.
@@ -478,10 +612,26 @@ void VoxEngine::Play(EmitterHandle& emitter, bool loop, float fade) {
     Rec("Play", {loop ? 1.0 : 0.0, static_cast<double>(fade)});
 }
 
-void VoxEngine::GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count) {
+// The count is the loop bound the batch's Pause and PlayMusic use. 0 by default (no live emitter); a test
+// asks for one with g_emitterHandles, and the first slot is then filled with a handle, as the engine does.
+int VoxEngine::GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count) {
     (void)data;
-    (void)out;
     Rec("GetEmitterHandles", {static_cast<double>(max_count)});
+    const int count = g_emitterHandles < max_count ? g_emitterHandles : max_count;
+    if (count > 0 && out != nullptr) {
+        out[0] = EmitterHandle(42, nullptr, nullptr, 0, 0);
+    }
+    return count;
+}
+
+void VoxEngine::Pause(EmitterHandle& emitter, float fade) {
+    (void)emitter;
+    Rec("Pause", {static_cast<double>(fade)});
+}
+
+void VoxEngine::Resume(EmitterHandle& emitter, float fade) {
+    (void)emitter;
+    Rec("Resume", {static_cast<double>(fade)});
 }
 
 float VoxEngine::GetPlayCursor(EmitterHandle& emitter) {
@@ -509,6 +659,18 @@ EmitterHandle::EmitterHandle(std::int64_t id, VoxEngineInternal** engine, Handla
 
 EmitterHandle::EmitterHandle(const EmitterHandle& other)
     : Handle(other), engine_(other.engine_), handlable_(other.handlable_) {}
+
+// The copy assignment the emitter stubs need when they hand a handle back to a body. The original
+// (0x868324) releases the old reference and keeps the new one; with no engine linked, the test keeps the
+// pointers as its copy constructor does.
+EmitterHandle& EmitterHandle::operator=(const EmitterHandle& other) {
+    if (this != &other) {
+        Handle::operator=(other);
+        engine_ = other.engine_;
+        handlable_ = other.handlable_;
+    }
+    return *this;
+}
 
 EmitterHandle::~EmitterHandle() {}
 
@@ -627,6 +789,21 @@ COnline* GetOnline() {
     return nullptr;
 }
 
+// The online half of the Play3D and Play gate. The library reads it as GetOnline()->IsOnlineGame()
+// (COnline +0x05); the test answers from g_onlineGame, since its GetOnline returns null.
+bool GetOnlineGameFlag() {
+    Rec("GetOnlineGameFlag");
+    return g_onlineGame;
+}
+
+// ---- Core-platform globals the second batch's bodies reach (their own rows, not linked here).
+int gAssertLevel = 0;
+void CustomFree(void* p) { std::free(p); }
+
+// Neither constructor is reconstructed in the tree yet (0x36c7b0 / 0x36cad0), so the test supplies an
+// empty one, which keeps the header's default member initialisers (engine_ null, sounds_ null).
+VoxSoundManager::VoxSoundManager() {}
+
 int main() {
     TestRelative3D();
     TestRelativeRotated();
@@ -637,6 +814,10 @@ int main() {
     TestDestructorNative();
     TestDestructorJava();
     TestJavaForwarders();
+    TestPauseHandles();
+    TestPlayMusicResume();
+    TestOnlineGate();
+    TestSoundAllowedGate();
     if (g_failures != 0) {
         std::fprintf(stderr, "VoxSoundManager batch 1 test: %d failure(s)\n", g_failures);
         return 1;

@@ -18,25 +18,38 @@ namespace vox {
 
 class DriverAndroid : public DriverInterface {
 public:
-    // 0x88fae4 (partial): the base constructor, mode 0 and the Init lock are in the original.
+    // C1 0x88fa80, C2 0x88fae4: the base constructor (the composed callback_ member, built before
+    // the body), mode 0 and then Init(nullptr).
     DriverAndroid();
-    // D1 0x88f9ec and D2 0x88fa44 (partial: the base destructor is not ported); D0 0x88fa28.
+    // D1 0x88f9ec and D2 0x88fa44, same body: Shutdown then the base destructor (the composed
+    // callback_ member, destroyed after the body). D0 0x88fa28 is the deleting form.
     ~DriverAndroid() override;
 
     // 0x88ee78: dispatches Update to the audio thread (mode 1) or OSL (mode 2).
     void Update(float dt) override;
-    // 0x88f028 (partial): dispatches Resume; _ResumeAT is not ported.
+    // 0x88f028: dispatches Resume by the mode word; the body matches the listing.
     void Resume() override;
-    // 0x88f130 (partial): dispatches Suspend; _SuspendAT is not ported.
+    // 0x88f130: dispatches Suspend by the mode word; the body matches the listing.
     void Suspend() override;
+    // The binary's DriverAndroid derives from DriverCallbackInterface, which is where these four
+    // slots are defined (+0x24 Set3DParameter, +0x40 PrintDebug, +0x4c FillBuffer) or forwarded
+    // from (+0x10 Suspend, +0x14 Resume, which driver_callback.cpp does not override). The port's
+    // DriverAndroid derives from DriverInterface directly, so it forwards to a
+    // DriverCallbackInterface member to keep the same slots working. Not virtual in the original.
+    void Set3DParameter(int which, const void* value) override;
+    void FillBuffer(std::int16_t* out, int count) override;
     // 0x88f644 (partial): dispatches Shutdown; _ShutdownAT joins the thread.
     void Shutdown();
 
-    // 0x88f9a0 (partial): the lock and _InitAT; the DriverCallbackInterface Init and SetDefaultParameter calls are not reachable.
+    // 0x88f9a0: the lock, DriverCallbackInterface::Init, SetDefaultParameter, _InitAT,
+    // SetDefaultParameter and the unlock, all reached through the composed callback_ member.
     void Init(void* context);
-    // 0x88fbe8 (partial): takes the lock; no source is created (the base counter and list are not reachable), so this returns null.
+    // 0x88fbe8 (partial): takes the lock; no source is created because the base counter
+    // (DriverCallbackInterface::field_0c_ +0x0c) and the base source list (list_head_ +0x10) are
+    // not exposed by the composed callback_ member, so this returns null.
     DriverSourceInterface* CreateDriverSource(const std::int32_t* params, void* user, int flags) override;
-    // 0x88f59c (partial): destroys and frees the source under the lock; the unlink from the base list is not ported.
+    // 0x88f59c (partial): destroys and frees the source under the lock; the unlink from the base
+    // list (list_head_ +0x10, DriverCallbackNode) is not reachable.
     void DestroyDriverSource(DriverSourceInterface* source) override;
 
     // 0x88ee6c: the original prints nothing here.
@@ -63,8 +76,8 @@ public:
     // 0x88f618: running flag cleared, then the thread is joined (pthread_join in the
     // original, std::thread::join here).
     void _ShutdownAT();
-    // 0x88f044 and 0x88ef6c (partial): the flag and timing part only; the JNI pause and play
-    // calls on the AudioTrack are not ported.
+    // 0x88f044 and 0x88ef6c: the flag and timing part matches the listing; the AudioTrack
+    // pause()/play() JNI calls are dropped (no host JavaVM, JNIEnv or AudioTrack jobject).
     void _SuspendAT();
     void _ResumeAT();
 
@@ -83,6 +96,11 @@ public:
 
 private:
     friend struct DriverAndroidTestAccess;
+    // The base mix and listener object. The binary's DriverAndroid derives from
+    // DriverCallbackInterface; the port holds it as a member, so the slots the engine calls
+    // through the driver's vtable (+0x10 Suspend, +0x14 Resume, +0x24 Set3DParameter,
+    // +0x40 PrintDebug, +0x4c FillBuffer) are forwarded to it.
+    DriverCallbackInterface callback_;
     Mutex mutex_;                  // +0x04
     bool at_active_ = false;       // +0x08: read by the audio-thread suspend and resume
     int mode_ = 0;                 // +0x54: 1 audio thread, 2 OSL

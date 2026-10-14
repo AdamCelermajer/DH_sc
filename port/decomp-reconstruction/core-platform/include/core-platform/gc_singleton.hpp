@@ -13,9 +13,14 @@ class GCSingleton {
 public:
     virtual ~GCSingleton() {}  // 0x31f78c: the original's destructor body is empty
 
-    // 0x32bd08 GCSingleton<GameCenter>::GetInstance(). Partial: the original calls the
-    // constructor even when the allocation fails (on a null pointer); here it is
-    // skipped. The block is sizeof(T), not the original's 0x7c.
+    // 0x32bd08 GCSingleton<GameCenter>::GetInstance(). Verified against the listing: the
+    // allocation size 0x7c is the 32-bit sizeof(GameCenter), the constant the original
+    // compiler emitted for the template's sizeof(T); the instance is stored before the null
+    // check and the assert at GameCenter.h line 27 is reproduced. Deviations (named): the
+    // constructor is skipped when the block is null, where the original constructs at
+    // address 0 and faults; gAssertLevel 2 aborts, where the original writes address 0 (both
+    // stop the process); and sizeof(T) is the host size of whichever GameCenter the singleton
+    // is instantiated with (the deps stand-in today, the real class in the integrator's item).
     static T* GetInstance();
 
 public:  // decision 9: Application::Quit deletes and clears the instance directly

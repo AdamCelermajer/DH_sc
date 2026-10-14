@@ -12,7 +12,7 @@ namespace {
 
 void CopyParams(TrackParams& dst, const std::int32_t* src) {
     dst.channels = src[0];
-    dst.unknown_08 = src[1];
+    dst.sample_rate = src[1];
     dst.bits_per_sample = src[2];
     dst.length_frames = src[3];
 }

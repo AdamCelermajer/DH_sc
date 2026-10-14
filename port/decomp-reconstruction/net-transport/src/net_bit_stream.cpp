@@ -215,11 +215,17 @@ std::uint32_t NetBitStream::ReadU32(std::uint32_t bits) {
 
 // 0x80eac8 _ZN12NetBitStream12ShiftMemCopyEPvjPKvji (write direction, a6 = shift >= 0)
 // Re-verified from the ARM listing: one function in the original, split here into CopyBitsIn and
-// CopyBitsOut. Argument roles: the write direction (shift >= 0) uses the count a5; the read
-// direction (shift < 0) uses a3; shift 0 uses min(a5, a3). The byte formulas below are the
-// original's. The write direction's final store lands at dst[count] and the read direction reads
-// src[count], one byte past the range; the port's bounds guards skip exactly that one byte. The
-// original always performs it, so that byte is the remaining deviation.
+// CopyBitsOut. Argument roles: the write direction (shift >= 0, arg_4 at [sp+0x1c]) uses the count a5;
+// the read direction (shift < 0) uses a3; shift 0 uses min(a5, a3). The byte formulas below are the
+// original's.
+// The write direction's final store lands at dst[count] with count = ceil(bits / 8), and that index is
+// exactly the last byte the bit range touches: 1 + (shift + bits - 1) / 8 == ceil(bits / 8) for every
+// bits >= 1, so the store is inside the destination range and the port's `dst + k + 1 < dst_end` guard
+// never triggers. The read direction's final load is src[count]; the last byte of the range is
+// (pos + bits - 1) / 8, the gate in ReadByteArray_BitSize requires pos + bits <= write_pos_ with a
+// write_pos_ that WriteByteArray_BitSize keeps at or below size_ * 8, and src_end is buffer_ + size_, so
+// src + count is inside buffer_ too and the port's `src + k + 1 < src_end` guard never triggers either.
+// The two forms therefore read and write the same bytes and the guards are dead code.
 // dst is the byte holding the next write bit, shift = that bit offset in the byte.
 // shift 0: memcpy of ceil(bits/8) bytes, then the last byte keeps only its top bits.
 // shift > 0: the first byte is OR-ed into the existing data, following bytes are assigned.
@@ -238,6 +244,8 @@ void NetBitStream::CopyBitsIn(std::uint8_t* dst, std::uint8_t* dst_end, unsigned
     }
     std::uint8_t carry = dst < dst_end ? dst[0] : 0;
     for (std::uint32_t k = 0; k < count; ++k) {
+        // The guards below never fire for a caller inside the buffer (see the proof above); the
+        // original stores and loads unconditionally.
         if (dst + k < dst_end) {
             dst[k] = static_cast<std::uint8_t>(carry | (src[k] >> shift));
         }
@@ -251,8 +259,8 @@ void NetBitStream::CopyBitsIn(std::uint8_t* dst, std::uint8_t* dst_end, unsigned
 // 0x80eac8 (read direction, a6 = -shift in the original): dst receives `bits` bits
 // starting at src bit offset shift. shift 0: memcpy plus last-byte mask, as the
 // original. shift > 0: each byte is (src[k] << shift) | (src[k+1] >> (8 - shift)), with
-// no mask on the last byte (the original does not clear it). The byte after the
-// last one is read only inside src_end (bounds guard, see CopyBitsIn).
+// no mask on the last byte (the original does not clear it). The byte after the last read one is inside
+// the stream, so the src_end guard is dead code as well (see the proof above).
 void NetBitStream::CopyBitsOut(std::uint8_t* dst, const std::uint8_t* src, const std::uint8_t* src_end,
                                unsigned shift, std::uint32_t bits) {
     std::uint32_t count = BytesFor(bits);

@@ -6,7 +6,6 @@
 
 namespace gameswf {
 class character;
-class tu_file;
 }  // namespace gameswf
 
 namespace w7g3 {
@@ -27,8 +26,11 @@ void fs_callback(gameswf::character* a1, const char* a2, const char* a3);
 int message_log(const char* msg);
 // 0x7a846c log_callback(bool, char const*)
 int log_callback(bool to_stderr, const char* msg);
-// 0x7a9954 file_opener(char const*)
-gameswf::tu_file* file_opener(const char* name);
+// 0x7a9954 file_opener(char const*) is defined in the source only. The binary's symbol is
+// internal (_ZL11file_openerPKc) and game-ui/src/n2-game-ui-RenderFX-849cdc-2.cpp carries the
+// same function with internal linkage, so declaring it here would make every TU that has its own
+// copy ambiguous: its type is tu_file* (*)(char const*), in the global namespace, and the vendored
+// class it returns is base/tu_file.h's tu_file (the binary's gameswf::tu_file).
 // 0x7dcb6c LongAxis(double*)
 int LongAxis(double* a);
 // 0x7f5038 ClipSegmentToLine(ClipVertex*, ClipVertex*, b2Vec2 const&, float)

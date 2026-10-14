@@ -1,8 +1,8 @@
 // IMA ADPCM sub-decoder: seek and decode into a caller buffer. DecodeBlock (0x887068) is
 // ported in src/w9-native-subdecoder/ima_decode_block.cpp. Seek (0x887464) and
 // SetDecodingBufferToSegmentPosition (0x887544) are reconstructed on top of it. DecodeSegment
-// and DecodeCurrentSegmentWithOffset stay partial because they call the base UpdateSegmentsStates
-// (0x885740, partial).
+// (0x8875b8) and DecodeCurrentSegmentWithOffset (0x887860) are verified against their ARM
+// listings and call the base UpdateSegmentsStates (0x885740), which is reconstructed too.
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -63,9 +63,21 @@ void VoxNativeSubDecoderIMAADPCM::SetDecodingBufferToSegmentPosition(SegmentStat
     segment->sample_position = frame;
 }
 
-// 0x8875b8 _ZN3vox27VoxNativeSubDecoderIMAADPCM13DecodeSegmentEPviPNS_12SegmentStateE (partial:
-// the UpdateSegmentsStates call (0x885740, partial: next_event_ loop-list length) runs at the
-// end of the segment loop)
+// 0x8875b8 _ZN3vox27VoxNativeSubDecoderIMAADPCM13DecodeSegmentEPviPNS_12SegmentStateE
+// Verified against the ARM listing (0x8875b8..0x8877A0): total_frames = bytes / (channels *
+// (bits >> 3)) with the idiv-by-zero result 0, and a total below 1 returns 0 through the same
+// tail that also stores state 1 when play_mode is 3. The slot selects frames-into-block
+// (this+0x178), block_result (this+0x184) and the decode buffer (through this+0x174). The loop
+// matches: the reset-pending branch calls slot 0x2C and clears the byte at segment+0x40, the
+// equality of frames-into-block and block_result runs DecodeBlock and stores its result with 0
+// in the other, a zero block sets state 1 and leaves, take is min(remaining, end_frame + 1 -
+// sample_position, block - frames-into-block), the entry_count >> 1 test with entry_count ==
+// entries_left sets loop_start from the list's word 1, entries_left is decremented, and at zero
+// restart_at_end stores the list's last word in end_frame before play_mode 1 calls
+// UpdateSegmentsStates. state 3 seeks to -1 when entries_left is not 0; state 4 above end_frame
+// sets state 1. The result is (total_frames - remaining) * channels * (bits >> 3).
+// UpdateSegmentsStates (0x885740) is reconstructed, so no dependency is left; bytes_ and
+// channels_ are read as signed halfwords, which is what the port's std::int16_t members give.
 // Returns the number of bytes written to dst (frames times channels times two).
 int VoxNativeSubDecoderIMAADPCM::DecodeSegment(void* dst, int bytes, SegmentState* segment) {
     auto* out = static_cast<std::int16_t*>(dst);
@@ -144,8 +156,16 @@ int VoxNativeSubDecoderIMAADPCM::DecodeSegment(void* dst, int bytes, SegmentStat
     return (total_frames - remaining) * channels * bytes_per_channel_sample;
 }
 
-// 0x887860 _ZN3vox27VoxNativeSubDecoderIMAADPCM30DecodeCurrentSegmentWithOffsetEPvi (partial:
-// the UpdateSegmentsStates call (0x885740, partial: next_event_ loop-list length) runs in the loop)
+// 0x887860 _ZN3vox27VoxNativeSubDecoderIMAADPCM30DecodeCurrentSegmentWithOffsetEPvi
+// Verified against the ARM listing (0x887860..0x887B08): a positive pending_seek_ (this+0x168)
+// zeroes bytes_per_sample * pending * channels at dst, clears the field and starts the output
+// offset at the pending count, which the tail also adds back through total_frames - remaining.
+// The segment is this+0x120, the decoding slot this+0x15C, frames-into-block this+0x178 and
+// block_result this+0x184. The loop, the take computation, the loop_start word 1 lookup, the
+// entries_left decrement, the unconditional UpdateSegmentsStates at entries_left == 0 with
+// restart_at_end storing the list's last word, the state 3 seek to -1 and the state 4 test above
+// end_frame all match; the stop path stores state 1 and returns without the play_mode test that
+// DecodeSegment has. UpdateSegmentsStates (0x885740) is reconstructed, so no dependency is left.
 // The current segment (segments_[2]) after a pending seek. The pending frames are zeroed
 // first. Returns the number of bytes written (pending frames included).
 int VoxNativeSubDecoderIMAADPCM::DecodeCurrentSegmentWithOffset(void* dst, int bytes) {

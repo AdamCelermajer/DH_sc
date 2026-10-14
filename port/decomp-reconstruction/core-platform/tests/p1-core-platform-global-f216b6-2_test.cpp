@@ -32,12 +32,12 @@ void appDebugLog(const char* tag, const char* text) { g_trace.push_back(std::str
 
 namespace {
 _JavaVM* g_vmSeen = nullptr;
-int g_nativeThreadArg = 0;
+JavaVM* g_nativeThreadVm = nullptr;
 }  // namespace
 
 void VoxSetJavaVMC(_JavaVM* java_vm) { g_vmSeen = java_vm; }
-int NVThreadInit(int vm) {
-    g_nativeThreadArg = vm;
+JavaVM* NVThreadInit(JavaVM* vm) {
+    g_nativeThreadVm = vm;
     return vm;
 }
 
@@ -223,7 +223,7 @@ void TestJniOnLoad() {
     _JavaVM* vm = reinterpret_cast<_JavaVM*>(static_cast<uintptr_t>(0x12345678));
     CHECK(JNI_OnLoad(vm, nullptr) == 0x10004);
     CHECK(g_vmSeen == vm);
-    CHECK(g_nativeThreadArg == static_cast<int>(reinterpret_cast<std::intptr_t>(vm)));
+    CHECK(g_nativeThreadVm == vm);
     CHECK(g_trace.empty());
 }
 

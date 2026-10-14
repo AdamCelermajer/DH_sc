@@ -181,10 +181,18 @@ void iter_54(float* z) {
 }
 
 // 0x8784f4 _Z11dct_iv_slowPfi
-// Direct O(n^2) DCT-IV (Hex-Rays): table[i] = cos(i * pi/4 / n) for i < 8n, then
-// out[k] = sum_j in[j] * table[((2j+1)(2k+1)) & (8n-1)], written over the input.
-// Partial: the listing ends with a VoxFree call on the stack buffer that holds the
-// copy of the input; that call is not reproduced (the vector is released on return).
+// Direct O(n^2) DCT-IV, checked against the ARM listing and Hex-Rays: the prologue copies 4n bytes
+// of the input to SP+0x10010, the table at SP+0x10 is table[i] = cos((double)i * pi/4 / (double)n)
+// for i < 8n (the double constant 0x3FE921FB54442D18, __aeabi_dmul/__aeabi_ddiv/cos/__aeabi_d2f),
+// and out[k] = sum_j in[j] * table[((2j+1)(2k+1)) & (8n-1)] is written over the input
+// (__aeabi_fmul/__aeabi_fadd, k from 0 while 2k+1 != 2n+1).
+// Partial, two named items, both on the storage only. (1) The listing's copy is an unbounded
+// memcpy of 4n bytes into a fixed 8176-byte (0x1FF0) stack buffer; here it is a heap vector of n
+// floats, so the original's overflow past n = 2044 is not reproduced (the values read are the
+// same for every n the buffers hold). (2) The listing ends with VoxFree (0x310444, a tail call to
+// CustomFree, which is free) on that stack address, on the n <= 0 path as well; the call is
+// dropped because freeing a stack pointer aborts a host process. The table is likewise a fixed
+// 16380-float stack array there and a vector here. Covered numerically by vorbis_util_test.
 void dct_iv_slow(float* data, int n) {
     if (n <= 0) {
         return;

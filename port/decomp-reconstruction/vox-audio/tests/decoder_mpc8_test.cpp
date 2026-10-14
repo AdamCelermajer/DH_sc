@@ -26,7 +26,8 @@ public:
     int Seek(unsigned int) override { return 0; }
     bool HasData() override { return false; }
 };
-// DecoderMPC8 stays abstract until its cursor is ported, so the test supplies CreateNewCursor.
+// A concrete subclass is kept so this test links without the cursor's demuxer symbols; the
+// library's DecoderMPC8 is concrete now that CreateNewCursor (0x8704ac) is installed.
 class ConcreteMPC8 final : public vox::DecoderMPC8 {
 public:
     using vox::DecoderMPC8::DecoderMPC8;

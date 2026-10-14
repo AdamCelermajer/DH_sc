@@ -1,9 +1,6 @@
-// The body of vox::DecoderMPC8::CreateNewCursor (0x8704ac), as a free function.
-//
-// DecoderMPC8 does not override CreateNewCursor, so it stays abstract in the port. An override
-// would make the decoder's vtable reference the Musepack-linked cursor, and decoder_mpc8_test
-// (which links only decoder_mpc8.cpp) would then fail to link. The factory (0x8704dc) therefore
-// cannot construct a DecoderMPC8 yet.
+// vox::DecoderMPC8::CreateNewCursor (0x8704ac), the vtable slot +0x10 of DecoderMPC8 that the
+// binary installs. DecoderMPC8 is therefore concrete, as in the original (the factory
+// DecoderMPC8Factory 0x8704dc constructs one).
 #include <new>
 
 #include "vox-audio/vox/decoder_mpc8.hpp"
@@ -12,12 +9,25 @@
 namespace vox {
 
 // 0x8704ac _ZN3vox11DecoderMPC815CreateNewCursorEPNS_21StreamCursorInterfaceE
-DecoderMPC8Cursor* CreateDecoderMPC8Cursor(DecoderMPC8* decoder, StreamCursorInterface* stream) {
-    void* storage = VoxAlloc(sizeof(DecoderMPC8Cursor));
+// Verified against the ARM listing (0x8704ac..0x8704D8): the whole body is
+// VoxAlloc(0x4c, kVoxMemHintDefault) into r4, then
+// DecoderMPC8Cursor::DecoderMPC8Cursor(r4, this, stream) (0x87018c), then r4 returned. The
+// original does not test the allocation, so a failed allocation constructs through the null
+// pointer; the port returns null there instead (the only deviation). The allocation size is the
+// host sizeof: the original's 0x4c is the 32-bit layout of the cursor.
+// The mangled name carries no return type; the base declares DecoderCursorInterface*, so that is
+// used.
+DecoderCursorInterface* DecoderMPC8::CreateNewCursor(StreamCursorInterface* stream) {
+    void* storage = VoxAlloc(sizeof(DecoderMPC8Cursor), kVoxMemHintDefault);
     if (storage == nullptr) {
         return nullptr;
     }
-    return new (storage) DecoderMPC8Cursor(decoder, stream);
+    return new (storage) DecoderMPC8Cursor(this, stream);
+}
+
+// The free-function spelling of the same body, kept for callers that hold a DecoderMPC8*.
+DecoderMPC8Cursor* CreateDecoderMPC8Cursor(DecoderMPC8* decoder, StreamCursorInterface* stream) {
+    return static_cast<DecoderMPC8Cursor*>(decoder->CreateNewCursor(stream));
 }
 
 }  // namespace vox

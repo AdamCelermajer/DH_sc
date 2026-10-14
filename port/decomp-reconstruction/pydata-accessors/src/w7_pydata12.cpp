@@ -147,9 +147,15 @@ PyDataArrays::ClassFactory& PyDataArrays::registerClassByName(const char* name, 
 }
 
 // 0x4aa21c _ZN12PyDataArrays4LoadEv
-// Partial, covering all 70 file states (cases 0..69) and the terminal state 70. The loader's open and
-// release calls use the PyDataFileLoader stand-in because the loader class is not recovered.
-// partial: g_pyDataLoader has no definition in the port, and PyDataArrays::reloadData (vtable +8) is declared only.
+// Covers all 70 file states (cases 0..69) and the terminal state 70: state 70 returns 1 without advancing, a
+// valid state opens "pydata/<name>" through the loader, calls reloadData(stream, "<name>") (vtable +8, defined
+// at 0x4bd478 in tb_accessors-PyDataArrays-0.cpp) when the open succeeds and releases the slot; every state
+// then advances, as the listing's default branch does. The loader's open and release calls use the
+// PyDataFileLoader stand-in because the loader class is not recovered.
+// Deviations: the original reaches the loader as the +52 word of the engine global at 0x99F73C and
+// dereferences it without a check; g_pyDataLoader has no definition in the port, so a HOST GUARD skips the
+// loader calls when it is null instead of faulting (a state that crashes the original cannot be compared).
+// Binding that global to the engine's file loader is integrator work, not a body difference.
 int PyDataArrays::Load() {
     const int state = m_state;
     PyDataFileLoader* const loader = g_pyDataLoader;
@@ -158,7 +164,7 @@ int PyDataArrays::Load() {
     if (state >= 0 && state < kLoadDoneState) {
         const char* const name = kLoadFiles[state];
         const std::string path = std::string("pydata/") + name;
-        IStreamBase* stream = loader->OpenFile(path.c_str());
+        IStreamBase* stream = loader != nullptr ? loader->OpenFile(path.c_str()) : nullptr;
         if (stream != nullptr) {
             reloadData(stream, name);
             loader->ReleaseFile(&stream);

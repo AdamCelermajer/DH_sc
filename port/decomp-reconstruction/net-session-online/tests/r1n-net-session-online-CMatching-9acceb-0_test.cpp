@@ -33,14 +33,16 @@ public:
 
     // Puts a non-reset state into member slot i.
     void Seed(int i, int id, int team, int previous) {
-        members_[i].memberId = id;
-        members_[i].teamId = team;
-        members_[i].roomAttribute = {1, 2, 3};
-        members_[i].previousMemberId = previous;
+        members_[i].setId(id);
+        members_[i].setTeam(static_cast<std::uint8_t>(team));
+        const std::uint8_t bytes[3] = {1, 2, 3};
+        members_[i].setRoomAttribute(bytes, sizeof bytes);
+        members_[i].setPreviousMemberId(previous);
     }
     bool IsReset(int i) const {
-        const MemberInfo& m = members_[i];
-        return m.memberId == -1 && m.teamId == 0 && m.roomAttribute.empty() && m.previousMemberId == -1;
+        const MemberInfoNetStruct& m = members_[i];
+        return m.id() == -1 && m.team() == 0 && m.roomAttribute().size == 0 &&
+               m.previousMemberId() == -1;
     }
 
     std::uint64_t joinedRoom = 0;

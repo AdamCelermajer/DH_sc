@@ -1,7 +1,12 @@
 // VoxSoundManager: the game-side sound glue at 0x36xxxx. Only the members whose bodies are
 // rebuilt so far are declared here. Most of the class calls game globals and game classes
-// that are not in the port (JAVA_SOUNDS, Arrays::Sounds, MenuManager, RenderFX, ...), so the
-// layout is not complete; see vox-audio/NOTES.md (VoxSoundManager).
+// that are not in the port (JAVA_SOUNDS, MenuManager, RenderFX, ...), so the layout is not
+// complete; see vox-audio/NOTES.md (VoxSoundManager).
+//
+// The first batch reads the Arrays::Sounds table (Arrays::Sounds in pydata-accessors/arrays.hpp,
+// Structs::SoundAutoGen in structs_records.hpp) and the emitter count from
+// vox::VoxEngine::GetEmitterHandles, which is int since the facade was corrected (0x862548 returns
+// r0; voxengine.hpp:121, voxengine.cpp:601).
 #pragma once
 
 #include <cstdint>
@@ -87,11 +92,14 @@ public:
     // Sound and music control. Bodies: src/p1-vox-audio-VoxSoundManager-3a5f5c-0.cpp.
     // The binary passes the engine object (*this) as the instance argument of the VoxEngine calls.
     // The port facade is static, so those calls drop it; engine_ keeps the null checks on *this.
+    // The whole first batch is reconstructed: the emitter count comes from
+    // VoxEngine::GetEmitterHandles (int since the facade was corrected at 0x862548) and the
+    // Arrays::Sounds record of a sound id gives the data index at +0x4.
     void UnloadSound(int sound);                                            // 0x36921c
     void UnloadAllSounds();                                                 // 0x369298
-    void SetMusicState(const char* state);                                  // 0x369514 (partial)
-    bool IsSoundPlaying(int sound);                                         // 0x3696dc (partial)
-    bool IsMusicPlaying();                                                  // 0x369804 (partial)
+    void SetMusicState(const char* state);                                  // 0x369514
+    bool IsSoundPlaying(int sound);                                         // 0x3696dc
+    bool IsMusicPlaying();                                                  // 0x369804
     void StopAllMusic(int fade_ms);                                         // 0x3698f0
     void StopAllSounds(int fade_ms);                                        // 0x369990
     void LoadSound(int sound);                                              // 0x3699fc
@@ -104,10 +112,13 @@ public:
                         const glitch::core::vector3d<float>& front,
                         const glitch::core::vector3d<float>& up,
                         int a5, int a6, float a7);                          // 0x369f50
-    void Stop(int sound, int fade_ms);                                      // 0x369fec (partial)
-    void StopMusic(int fade_ms);                                            // 0x36a1a0 (partial)
-    void Stop3D(int sound, int fade_ms, const float* pos, float radius);    // 0x36a218 (partial)
-    void Resume(int sound);                                                 // 0x36a470 (partial)
+    void Stop(int sound, int fade_ms);                                      // 0x369fec
+    void StopMusic(int fade_ms);                                            // 0x36a1a0
+    // The third parameter deviates from the original mangled symbol (Point3D<float>*): the two
+    // game-world callers pass a float* (&Point3D::X), so the signature stays const float* until
+    // they are updated.
+    void Stop3D(int sound, int fade_ms, const float* pos, float radius);    // 0x36a218
+    void Resume(int sound);                                                 // 0x36a470
     void ResumeAllSounds();                                                 // 0x36a590
     void PauseAllSounds();                                                  // 0x36a624
 
@@ -115,8 +126,8 @@ public:
     // The 3D sound calls take the position as glitch::core::vector3d<float> and two floats that the binary stores as
     // 3D emitter parameters 2 and 1 (the listing's a9 and a10).
     ~VoxSoundManager();                                                     // 0x36afb0 and 0x36b088 (same body)
-    void Pause(int sound);                                                  // 0x36a664 (partial)
-    void PauseMusic();                                                      // 0x36a784 (partial)
+    void Pause(int sound);                                                  // 0x36a664
+    void PauseMusic();                                                      // 0x36a784
     int PlaySoundPackSound(int sound, const char* name, vox::FormatTypes format, int field_16,
                            int bank_id, vox::VoxSourceLoadingFlags flags,
                            const glitch::core::vector3d<float>& pos,
@@ -125,11 +136,11 @@ public:
     int PlayEvent(int event, const glitch::core::vector3d<float>& pos,
                   float param2, float param1);                              // 0x36b420
     int Play3D(int sound, const glitch::core::vector3d<float>& pos, bool loop, int reserved,
-               float param2, float param1);                                 // 0x36b5d8 (partial)
-    int Play(int sound, bool loop, int fade_ms, int type, bool force);      // 0x36b80c (partial)
-    void CrossfadeMusic(int music_a, int music_b);                          // 0x36baa0 (partial)
-    void PlayMusic(int music, bool loop, bool stop_if_none, int fade_ms);   // 0x36bd78 (partial)
-    void SetInSafeZoneMusic(bool in_zone);                                  // 0x36c014 (partial)
+               float param2, float param1);                                 // 0x36b5d8
+    int Play(int sound, bool loop, int fade_ms, int type, bool force);      // 0x36b80c
+    void CrossfadeMusic(int music_a, int music_b);                          // 0x36baa0 (the listing discards the GetEmitterHandles count)
+    void PlayMusic(int music, bool loop, bool stop_if_none, int fade_ms);   // 0x36bd78
+    void SetInSafeZoneMusic(bool in_zone);                                  // 0x36c014
 
     // Layout: the 32-bit offsets from the listings are the comments; pointers are host width.
     // Only the fields the rebuilt bodies touch are named. The constructor (0x36c7b0, not ported)

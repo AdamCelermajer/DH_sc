@@ -66,17 +66,14 @@ DecoderStbVorbisCursor::DecoderStbVorbisCursor(DecoderInterface* decoder,
     int error = 0;
     handle_ = stb_vorbis_open_file(stream, 0, &error, nullptr);
     if (handle_ == nullptr) {
-        length_ = 0;
-        sample_rate_ = 0;
-        channels_ = 0;
-        bits_per_sample_ = 0;
+        params_ = TrackParams{};
         return;
     }
     const stb_vorbis_info info = stb_vorbis_get_info(handle_);
-    bits_per_sample_ = 16;
-    channels_ = info.channels;
-    sample_rate_ = info.sample_rate;
-    length_ = stb_vorbis_stream_length_in_samples(handle_);
+    params_.bits_per_sample = 16;
+    params_.channels = info.channels;
+    params_.sample_rate = info.sample_rate;
+    params_.length_frames = static_cast<std::int32_t>(stb_vorbis_stream_length_in_samples(handle_));
 }
 
 // 0x8750c4 (D1) and 0x875120 (D2) share this body; 0x875104 is the deleting variant.
@@ -94,16 +91,16 @@ int DecoderStbVorbisCursor::Decode(void* dst, int count) {
         return 0;
     }
     int frames;
-    if (bits_per_sample_ == 0x20) {
-        frames = stb_vorbis_get_samples_float_interleaved(handle_, channels_,
+    if (params_.bits_per_sample == 0x20) {
+        frames = stb_vorbis_get_samples_float_interleaved(handle_, params_.channels,
                                                           static_cast<float*>(dst), count >> 2);
     } else {
-        frames = stb_vorbis_get_samples_short_interleaved(handle_, channels_,
+        frames = stb_vorbis_get_samples_short_interleaved(handle_, params_.channels,
                                                           static_cast<short*>(dst), count >> 1);
     }
     position_ += static_cast<std::uint32_t>(frames);
-    const int bytes = frames * channels_ * (bits_per_sample_ >> 3);
-    if (frames != 0 && position_ != length_) {
+    const int bytes = frames * params_.channels * (params_.bits_per_sample >> 3);
+    if (frames != 0 && position_ != static_cast<std::uint32_t>(params_.length_frames)) {
         return bytes;
     }
     if (!loop_) {
@@ -116,7 +113,7 @@ int DecoderStbVorbisCursor::Decode(void* dst, int count) {
 // 0x874f9c _ZN3vox22DecoderStbVorbisCursor4SeekEj. Only frame 0 is accepted: the stb
 // seek-start call rewinds the decoder and the position counter resets.
 int DecoderStbVorbisCursor::Seek(unsigned int frame) {
-    if (length_ < frame || frame != 0 || handle_ == nullptr) {
+    if (params_.length_frames < static_cast<std::int32_t>(frame) || frame != 0 || handle_ == nullptr) {
         return -1;
     }
     stb_vorbis_seek_start(handle_);
@@ -130,10 +127,10 @@ bool DecoderStbVorbisCursor::HasData() {
     if (stream_ == nullptr) {
         return false;
     }
-    if (length_ <= position_ && loop_) {
+    if (static_cast<std::int32_t>(position_) >= params_.length_frames && loop_) {
         Seek(0);
     }
-    return position_ < length_;
+    return position_ < static_cast<std::uint32_t>(params_.length_frames);
 }
 
 }  // namespace vox

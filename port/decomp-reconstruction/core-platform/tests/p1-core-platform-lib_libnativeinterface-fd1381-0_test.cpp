@@ -2,9 +2,9 @@
 //
 // The SHA-1 core is checked against FIPS 180 digests. The derivation helpers are checked against formulas
 // written out here (a digest's hexadecimal digit sum is the sum of its nibbles). CheckLicenseFile is checked
-// against a license file written from the same derivation. The passphrase blobs are synthetic: the original
-// 1024-byte texts are not in source, so the values from FUN_00010b48 are checked against the table pointers,
-// not against the original text.
+// against a license file written from the same derivation. The passphrase table is the one the library
+// defines from the original .rodata; its five texts are checked against the SHA-1 of the bytes at
+// 0x1274 + 1028 * i of the original libnativeinterface.so, so a copy that is not byte for byte fails here.
 
 #include <cstdint>
 #include <cstdio>
@@ -57,13 +57,7 @@ uint32_t nibble_sum(const uint8_t* digest) {
     return sum;
 }
 
-// Synthetic passphrase texts: 1024 letters each, no terminator, read the same way the original reads them.
-char g_test_blob_text[5][1024];
 }  // namespace
-
-extern const char* const g_license_passphrase_blob[5] = {g_test_blob_text[0], g_test_blob_text[1],
-                                                         g_test_blob_text[2], g_test_blob_text[3],
-                                                         g_test_blob_text[4]};
 
 namespace {
 
@@ -130,6 +124,30 @@ void test_hex_encode() {
     CHECK(std::string(hex).substr(0, 6) == "00ff0a");
 }
 
+// The library defines the table from the original .rodata. These digests are the SHA-1 of the 1024 bytes at
+// 0x1274 + 1028 * i of the original libnativeinterface.so, so this checks the copy character for character.
+void test_passphrase_texts() {
+    static const char* const expected[5] = {
+        "9573921e78eeb1f32f8bdbf72170456cb381d755",
+        "63e92b2f9b84bb6c92f3a9cbc76003b67a6a048f",
+        "779afdd5f0f0a91f1e4e62c459a685d99e21b3f0",
+        "62ba2de641475e51154b9541afa591f5d0d2544b",
+        "a8def7796ea94cb7528489f1e67ebd4e036f78dd",
+    };
+    for (int i = 0; i < 5; ++i) {
+        const char* text = g_license_passphrase_blob[i];
+        CHECK(text != nullptr);
+        if (text == nullptr) {
+            continue;
+        }
+        // The literal is 1024 characters plus the terminator the original also has at +1024.
+        CHECK(text[1024] == '\0');
+        uint8_t digest[20];
+        sha1_bytes(std::string(text, 1024), digest);
+        CHECK(to_hex(digest, 20) == expected[i]);
+    }
+}
+
 void test_derivation() {
     const char* cases[][2] = {
         {"alpha", "beta"},
@@ -157,15 +175,19 @@ void test_derivation() {
 
 void test_check_license_file() {
     const char* path = "nativeinterface_license_test.bin";
+    // This pair derives a digest with no CR, LF or Ctrl-Z byte, so the "r" text-mode read below still sees
+    // all 20 bytes on Windows and the positive case runs there too.
     g_license_str2 = "alpha";
-    g_license_str3 = "beta";
+    g_license_str3 = "bravo";
 
     // The license text is the derived passphrase followed by the two strings.
     const char* derived = nullptr;
-    const size_t n = FUN_00010b48("alpha", "beta", &derived);
-    const std::string text = std::string(derived, n) + "alpha" + "beta";
+    const size_t n = FUN_00010b48("alpha", "bravo", &derived);
+    const std::string text = std::string(derived, n) + "alpha" + "bravo";
     uint8_t expected[20];
     sha1_bytes(text, expected);
+    // The same derivation written independently from the original .rodata texts (Python, hashlib).
+    CHECK(to_hex(expected, 20) == "cfb3c7a9e311a2860792e3906481bc10008b93f9");
 
     auto write_file = [&](const uint8_t* bytes, size_t count) {
         FILE* f = std::fopen(path, "wb");
@@ -218,15 +240,11 @@ void test_check_license_file2() {
 }  // namespace
 
 int main() {
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 1024; ++j) {
-            g_test_blob_text[i][j] = static_cast<char>('A' + (i * 7 + j) % 26);
-        }
-    }
     test_sha1_core();
     test_fun_00010924();
     test_hex_digit_sum();
     test_hex_encode();
+    test_passphrase_texts();
     test_derivation();
     test_check_license_file();
     test_check_license_file2();

@@ -4,8 +4,14 @@
 #include <cstdlib>
 
 #include "core-platform/debug_out.hpp"
+#include "core-platform/deps/debug_switches.hpp"
 
 #include "core-platform/memory.hpp"  // gAssertLevel
+
+#include "dh2/EventManager.hpp"
+#include "dh2/EvTouchScreenMove.hpp"
+#include "dh2/EvTouchScreenPress.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"  // dword_99F740, the Application's EventManager
 
 namespace {
 const char kTouchQueueFile[] =
@@ -23,6 +29,19 @@ void QueueEmptyAssert(int line) {
 
 // Original stores the float coordinates as truncated ints in shorts (__aeabi_f2iz).
 short ToShort(float v) { return static_cast<short>(static_cast<int>(v)); }
+
+// The debug switch that gates the fake-press grid. The listing does NOT query the
+// "SimulateMultiClickShitInMenus" name itself: it anchors on that literal (0x8c00c8) and adds 0x1d
+// (0x33c5ac `ADD R3, R3, #0x1D`, bytes 0x1d 0x30 0x83 0xe2), so both GetSwitch calls - 0x33c6b0 for a
+// queued begin and 0x33c7c0 for a queued end - pass the terminator of the literal, i.e. the empty
+// string (0x8c00c8 carries 29 characters, so +0x1d is its NUL). The literal is kept so the same
+// .rodata string is still emitted, and what is queried is that NUL, exactly as the listing passes it.
+const char kSimulateMultiClickSwitch[] = "SimulateMultiClickShitInMenus";
+
+bool simulateMultiClickEnabled() {
+    DebugSwitches::s_inst.load();
+    return DebugSwitches::s_inst.GetSwitch(&kSimulateMultiClickSwitch[sizeof(kSimulateMultiClickSwitch) - 1]);
+}
 }  // namespace
 
 // 0x33c298 / 0x33c3d8 TouchScreenBase::TouchScreenBase(short, short)
@@ -325,23 +344,70 @@ std::list<long> TouchScreenBase::getTouchIDList() const {
 }
 
 // 0x33c568 _ZN15TouchScreenBase13ProcessEventsEv
-// Partial, and not the listing's logic. The listing drains the whole queue, raising an
-// event per entry through EventManager::Raise (not declared in this category). The events
-// are identified from the vtable listing: type 5 is EvTouchScreenMove (off_95C390; x, y
-// as shorts, id as int) and type 4 is EvTouchScreenPress (off_95C3A8; x, y, id, and a bool
-// flag). Both derive from IEvent (off_95B458). The debug trace loops are gated by two
-// DebugSwitches reads whose names do not show in the Hex-Rays text, so they are not
-// reproduced. The header declares float ProcessEvents(), which this file cannot change,
-// so this body is a stand-in that pops one event and returns its scaled X.
-float TouchScreenBase::ProcessEvents() {
-    if (_IsQueueEmpty()) {
-        return 0.0f;
+// Verified against the listing line by line. It drains the whole queue: each entry is read and popped, the
+// orientation (this+0x1a8) mirrors x for 2 and 3 and y for 1 and 2, both coordinates are scaled by this+0x1b0
+// and truncated to shorts, a queued move (type 1) raises EvTouchScreenMove (id 5), and a begin (type 0) or end
+// (type 2) raises EvTouchScreenPress (id 4) with the flag set for a begin and clear for an end, through the
+// EventManager at dword_99F740. The grid of fake presses gated by the debug switch in
+// simulateMultiClickEnabled() above is reproduced too: 50-pixel steps of x over x-100..x+99, then of y over
+// y-100..y+99, numbering the touch id from the queued event's id modulo 8, then one (25, 25, 0) press, all with
+// the same flag as the real press. Deviation (named): the listing's return value is the register left over by the
+// last call (Hex-Rays prints the constant 16556) and no caller reads it, so this returns void; the mangled symbol
+// is unchanged.
+void TouchScreenBase::ProcessEvents() {
+    EventManager* const manager = dword_99F740;
+    while (!_IsQueueEmpty()) {
+        const QueuedEvent queued = *_GetNextEventInQueue();
+        _PopFromQueue();
+
+        short x = queued.x;
+        short y = queued.y;
+        switch (orientation_) {
+            case 2:
+                x = static_cast<short>(width_ - x);
+                y = static_cast<short>(height_ - y);
+                break;
+            case 3:
+                x = static_cast<short>(width_ - x);
+                break;
+            case 1:
+                y = static_cast<short>(height_ - y);
+                break;
+            default:
+                break;
+        }
+        const short scaledX = static_cast<short>(static_cast<int>(static_cast<float>(x) * scale_));
+        const short scaledY = static_cast<short>(static_cast<int>(scale_ * static_cast<float>(y)));
+
+        if (queued.type == kTouchMoved) {
+            EvTouchScreenMove move(scaledX, scaledY, queued.id);
+            manager->Raise(move);
+            continue;
+        }
+        if (queued.type != kTouchBegan && queued.type != kTouchEnded) {
+            continue;
+        }
+
+        const bool pressed = queued.type == kTouchBegan;
+        if (simulateMultiClickEnabled()) {
+            // The debug grid of fake presses, with the same flag as the real one. The step loops
+            // count in ints and the event fields truncate them, as the listing does.
+            int id = queued.id;
+            for (int stepX = static_cast<int>(scaledX) - 100; stepX <= static_cast<int>(scaledX) + 99;
+                 stepX += 50, ++id) {
+                EvTouchScreenPress press(static_cast<short>(stepX), scaledY, id % 8, pressed);
+                manager->Raise(press);
+            }
+            for (int stepY = static_cast<int>(scaledY) - 100; stepY <= static_cast<int>(scaledY) + 99;
+                 stepY += 50, ++id) {
+                EvTouchScreenPress press(scaledX, static_cast<short>(stepY), id % 8, pressed);
+                manager->Raise(press);
+            }
+            EvTouchScreenPress press(25, 25, 0, pressed);
+            manager->Raise(press);
+        }
+
+        EvTouchScreenPress press(scaledX, scaledY, queued.id, pressed);
+        manager->Raise(press);
     }
-    const QueuedEvent ev = *_GetNextEventInQueue();
-    _PopFromQueue();
-    short x = ev.x;
-    if (orientation_ == 2 || orientation_ == 3) {
-        x = static_cast<short>(width_ - ev.x);
-    }
-    return static_cast<float>(x) * scale_;
 }

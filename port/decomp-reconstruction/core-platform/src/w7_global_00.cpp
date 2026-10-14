@@ -10,10 +10,13 @@
 
 #include "core-platform/deps/game_types.hpp"
 #include "core-platform/memory.hpp"
+#include "core-platform/stlport_alloc.hpp"  // std::__node_alloc (0x31bb44), the subtitle node's allocator
 
 namespace {
-// The original node holds 0x80 bytes of 4-byte pointers, i.e. 32 slots.
+// The original node holds 0x80 bytes of 4-byte pointers, i.e. 32 slots, and the release at 0x339798 passes
+// the whole 0x80 bytes as the size.
 constexpr int kSubtitleNodeSlots = 32;
+constexpr unsigned int kSubtitleNodeSize = 0x80;
 }  // namespace
 
 // Storage for the subtitle queue. Only the ClearSubtitles side is recovered here.
@@ -62,19 +65,29 @@ std::istream& operator>>(std::istream& is, std::vector<Point3D<float>>& points) 
 }
 
 // 0x33971c ClearSubtitles
-// Partial: the queue is a deque of SubtitleEntry* in 32-slot nodes. Each entry
-// frees its text buffer (+0x8) and then itself. The node release at the end of
-// a node calls CustomFree where the original calls the SGI node allocator
-// (__node_alloc::_M_deallocate(node, 0x80), confirmed from the Hex-Rays call at
-// 0x33971c). No __node_alloc is in this tree and the allocation side (the subtitle
-// push that makes the nodes) is not recovered, so the matching allocator is unknown.
+// Reconstructed from the listing. The queue is a deque of SubtitleEntry* in 32-slot nodes. Each entry frees its
+// text buffer (+0x8) and then itself, both with CustomFree (0x339748..0x339760); the exhausted node's buffer is
+// released at 0x339794..0x3397a4 with __node_alloc::_M_deallocate(node, 0x80), the listing's own argument
+// (0x339798 loads R1 = 0x80), and the deque then steps to the next map slot (0x3397a8..0x3397c8: node += 4,
+// cur = *node, last = cur + 0x80, first = cur). That node allocator is reconstructed in
+// core-platform/stlport_alloc.hpp / src/stlport_alloc.cpp (0x31bb44 -> 0x8b625c -> 0x8b6224), so the call is
+// written rather than stood in for. The tail (0x3397d0..0x33981c) runs the same two CustomFree steps for
+// g_CurrentSubtitle.
+// The `cur == last - 1` test is the original's element for element: the listing steps cur by 4 bytes, compares
+// against last - 4 (0x33978c) and sets last = first + 0x80 (0x3397bc), i.e. a 32-slot node whose last slot is
+// last - 1 element, which is what this models with 32 SubtitleEntry* slots. The only host deviation is that the
+// node occupies 0x100 bytes for those 32 slots instead of 0x80 (TRACK-B decision 2, in-memory pointers are host
+// width); the 0x80 handed to _M_deallocate is still the listing's argument, so the block lands in the same pool
+// bucket (0x8b6224 computes (0x80 - 1) / 8 = 15) and the pool, not malloc, keeps it - the original's free-list
+// behaviour. Unrecovered elsewhere, not in this function: the push side (LoadSubtitles 0x339830) is still
+// skipped, so nothing in the tree builds a multi-node queue yet; that does not change what this frees.
 void ClearSubtitles() {
     SubtitleDeque& q = g_SubtitlesQueue;
     while (q.cur != q.finish) {
         SubtitleEntry* entry = *q.cur;
         if (q.cur == q.last - 1) {
             if (q.first != nullptr) {
-                CustomFree(q.first);
+                std::__node_alloc::_M_deallocate(q.first, kSubtitleNodeSize);
             }
             ++q.node;
             q.cur = *q.node;

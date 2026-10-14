@@ -405,7 +405,8 @@ int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index,
 }
 
 // 0x5c5be0 setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, ...)
-// Partial: the last-reference release goes through destroyLight.
+// Reconstructed: the last-reference release is releaseLight -> destroyLight; element 0 (the index only checks the
+// bound), and a stored pointer slot is sizeof(void*), not the original 4 bytes.
 int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, CLight* const& src) {
     const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, 0x40000) || index >= e->count) return 0;
@@ -431,7 +432,8 @@ int getParameter(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t 
 }
 
 // 0x5c58ec getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, ...) const
-// Partial: the last-reference release goes through destroyLight. Element 0 (no index multiply).
+// Reconstructed: the last-reference release is releaseLight -> destroyLight, element 0 (no index multiply), and a
+// stored pointer slot is sizeof(void*), not the original 4 bytes.
 int getParameterCvt(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, CLight*& out) {
     const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, 0x40000) || index >= e->count) return 0;
@@ -443,7 +445,9 @@ int getParameterCvt(const GlobalParameterStore& s, std::uint16_t id, std::uint32
 }
 
 // 0x5c4fa8 getParameterCvt<boost::intrusive_ptr<glitch::video::ITexture>>(unsigned short, ITexture**, int) const
-// Partial: textureAddRef / textureDrop hooks. The four texture codes 12..15 behave the same.
+// Reconstructed: the per-element addref is textureAddRef and the release of the replaced element textureDrop; the
+// four texture codes 12..15 behave the same, and a stride of 0 writes nothing. The stored side steps by
+// sizeof(void*) instead of the original 4.
 int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, ITexture** out, int stride) {
     const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || (static_cast<std::uint32_t>(e->type) - 12u) > 3u) return 0;
@@ -464,7 +468,8 @@ int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, ITextu
 }
 
 // 0x5c518c getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, CLight**, int) const
-// Partial: the last-reference release goes through destroyLight.
+// Reconstructed: the last-reference release is releaseLight -> destroyLight, and a stride of 0 writes nothing. The
+// stored side steps by sizeof(void*) instead of the original 4.
 int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, CLight** out, int stride) {
     const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, 0x40000)) return 0;
@@ -481,7 +486,8 @@ int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, CLight
 }
 
 // 0x5c540c setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, CLight const*, int)
-// Partial: the last-reference release goes through destroyLight. A stride of 0 writes nothing.
+// Reconstructed: the last-reference release is releaseLight -> destroyLight, and a stride of 0 writes nothing. The
+// stored side steps by sizeof(void*) instead of the original 4.
 int setParameterArrayCvt(GlobalParameterStore& s, std::uint16_t id, CLight* const* src, int stride) {
     const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, 0x40000)) return 0;

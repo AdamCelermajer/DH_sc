@@ -90,7 +90,7 @@ DecoderNativeCursor::DecoderNativeCursor(DecoderInterface* decoder, StreamCursor
         state_b_->playlists_ != nullptr) {
         // (int)(float)((float)(600 * channels * word 2) / 500.0)
         frames_capacity_ = static_cast<int>(
-            static_cast<float>(600 * params_.channels * params_.unknown_08) / 500.0f);
+            static_cast<float>(600 * params_.channels * params_.sample_rate) / 500.0f);
     } else {
         params_ = TrackParams{};
     }

@@ -42,12 +42,18 @@ DataObj* NewDataObj(std::int64_t id, StreamInterface* stream, DecoderInterface* 
 }  // namespace
 
 // 0x86b144 _ZN3vox17VoxEngineInternal14LoadDataSourceEiPviS1_i
-// Partial. The original creates a stream cursor, asks the decoder for a cursor on it, reads the
-// four track parameters from that cursor (words +4..+0x10), destroys the cursor, and stores the
-// parameters in the object. Missing item: the port's DecoderCursorInterface has no +0x04..+0x10
-// parameter block, so the words come from the decoder's GetParam instead. Only the Raw decoder
-// returns them there; a null GetParam fails the load. Channels must be above zero, as in the
-// original. A failed attempt destroys the stream and the decoder.
+// Creates the stream (factory table +0x444, count +0x4c4) and the decoder (+0x4c8, count +0x548),
+// probes them with a cursor, and reads the four track words from that cursor's parameter block
+// (cursor +0x10 length, +0x04 channels, +0x0c bits, +0x08 sample rate; asm 0x86b24c-0x86b268).
+// The cursor is destroyed (decoder +0x14) before the channel count is tested (channels > 0), and
+// the words are stored at DataObj +0x34/+0x28/+0x30/+0x2c. The object is queued on the pending
+// container (+0x28) under the data write access, and the handle carries the stamp slot (+0x590).
+// A failed attempt destroys the stream and the decoder in that order.
+// Deviations, both host-necessitated: the port reads the block through
+// DecoderCursorInterface::GetTrackParams, which is the same cursor block; and it destroys the
+// cursor only when the decoder returned one, where the original calls the slot through a null
+// pointer (the Raw decoder's CreateNewCursor always returns an object, so the path was unreachable
+// there).
 DataHandle VoxEngineInternal::LoadDataSource(int stream_type, void* stream_arg, int decoder_type,
                                              void* decoder_arg, int group) {
     if (stream_type < 0 || stream_type >= stream_factory_count_ || stream_factories_[stream_type] == nullptr) {
@@ -82,18 +88,11 @@ DataHandle VoxEngineInternal::LoadDataSource(int stream_type, void* stream_arg, 
         destroy_stream();
         return NullDataHandle();
     }
-    std::int32_t params[4] = {};
+    TrackParams params;
     bool has_channels = false;
     if (DecoderCursorInterface* cursor = decoder->CreateNewCursor(stream_cursor)) {  // decoder +0x10
-        const std::int32_t* track = decoder->GetParam();  // decoder +0x1c (see the comment above)
-        // GetParam returns null for MSWav, MPC8, Native and StbVorbis decoders, so the port cannot
-        // read the words there and the load fails instead of dereferencing null.
-        if (track != nullptr) {
-            for (int i = 0; i < 4; ++i) {
-                params[i] = track[i];
-            }
-            has_channels = params[0] > 0;
-        }
+        params = cursor->GetTrackParams();  // the cursor block at +0x04..+0x10
+        has_channels = params.channels > 0;
         decoder->DestroyCursor(cursor);  // decoder +0x14
     }
     stream->DestroyCursor(stream_cursor);  // stream vtable +0x18
@@ -111,10 +110,10 @@ DataHandle VoxEngineInternal::LoadDataSource(int stream_type, void* stream_arg, 
         destroy_stream();
         return NullDataHandle();
     }
-    obj->channels_ = params[0];         // +0x28
-    obj->sample_rate_ = params[1];      // +0x2c
-    obj->bits_per_sample_ = params[2];  // +0x30
-    obj->length_ = params[3];           // +0x34
+    obj->channels_ = params.channels;                 // +0x28
+    obj->sample_rate_ = params.sample_rate;           // +0x2c
+    obj->bits_per_sample_ = params.bits_per_sample;   // +0x30
+    obj->length_ = params.length_frames;              // +0x34
     obj->state_ = 0;  // +0x50: ready (IsReady)
     obj->source_flags_ = 0;
 
@@ -227,12 +226,17 @@ DataHandle VoxEngineInternal::ConvertToRamBufferSource(DataHandle& data) {
 }
 
 // 0x86b694 _ZN3vox17VoxEngineInternal18ConvertToRawSourceERNS_10DataHandleE
-// Decodes the whole object with its decoder into a buffer of channels * length * (bits / 8)
-// bytes, then loads a raw source from that buffer (memory-buffer stream, decoder type 0). The
-// size and the track parameters come from the decoder's parameter block (GetParam). Partial:
-// the original reads that block from the new decoder cursor (words +4..+0x10); the port's cursor
-// has none. The Hex-Rays body of the original leaves the read access held when the decoder cannot
-// make a cursor. The port releases it on that path, so a later writer is not blocked.
+// Runs only for a loaded object (state word +0x50 is 0) with a stream (+0x38). It makes a stream
+// cursor, then a decoder cursor on it, and reads the buffer size and the four track words from the
+// decoder cursor's parameter block (asm 0x86b730: [R6,#0xc] bits >> 3, times [R6,#0x10] frames,
+// times [R6,#0x04] channels). A size of zero or less releases both cursors and returns the null
+// handle; otherwise it allocates that many bytes, seeks the cursor to 0, decodes into the buffer,
+// releases both cursors and the read access, and loads a raw source (decoder type 0, the four words
+// as the parameter block, a memory-buffer stream over the decoded bytes, the object's group).
+// Deviations, both host-necessitated: the port reads the block through
+// DecoderCursorInterface::GetTrackParams; and it releases the read access on the paths where the
+// decoder cursor cannot be made (asm 0x86b918, which releases nothing), so a reader count left
+// behind does not block the next writer.
 DataHandle VoxEngineInternal::ConvertToRawSource(DataHandle& data) {
     data_objects_access_.GetReadAccess();
     DataObj* obj = GetDataObject(data);
@@ -258,21 +262,8 @@ DataHandle VoxEngineInternal::ConvertToRawSource(DataHandle& data) {
         data_objects_access_.ReleaseReadAccess();
         return result;
     }
-    const std::int32_t* track = decoder->GetParam();
-    if (track == nullptr) {
-        // GetParam is null for MSWav, MPC8, Native and StbVorbis decoders (see LoadDataSource). The
-        // port fails the conversion here instead of reading through null; the cursor and stream are
-        // released as on the bytes <= 0 path.
-        decoder->DestroyCursor(cursor);
-        stream->DestroyCursor(stream_cursor);
-        data_objects_access_.ReleaseReadAccess();
-        return result;
-    }
-    std::int32_t params[4] = {};
-    for (int i = 0; i < 4; ++i) {
-        params[i] = track[i];
-    }
-    const int bytes = params[0] * params[3] * (params[2] >> 3);  // channels * length * bytes per sample
+    const TrackParams params = cursor->GetTrackParams();  // cursor +0x04..+0x10
+    const int bytes = params.channels * params.length_frames * (params.bits_per_sample >> 3);
     if (bytes <= 0) {
         decoder->DestroyCursor(cursor);
         stream->DestroyCursor(stream_cursor);
@@ -297,8 +288,12 @@ DataHandle VoxEngineInternal::ConvertToRawSource(DataHandle& data) {
     source.size = decoded;
     source.explicit_owns = false;
     source.owns = true;
+    // The four words the raw factory reads, in the order the original builds them from the cursor
+    // block (channels, sample rate, bits, frames).
+    std::int32_t track_words[4] = {params.channels, params.sample_rate, params.bits_per_sample,
+                                   params.length_frames};
     const int group = obj->GetGroup();
-    result = LoadDataSource(0, &source, 0, params, group);
+    result = LoadDataSource(0, &source, 0, track_words, group);
     return result;
 }
 

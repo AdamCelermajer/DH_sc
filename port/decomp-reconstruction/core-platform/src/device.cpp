@@ -1,20 +1,28 @@
 #include "core-platform/device.hpp"
 
-#include "core-platform/deps/application.hpp"
+#include "core-platform/deps/application.hpp"  // SHARP_DEVICES, HTC_DEVICES, Is_In_Multiplayer_Mode
+
+#include "dh2/Application.hpp"           // dword_99F73C is Application::m_device (+0x10)
+#include "glitch-core-io/os/device.hpp"  // IDevice::videoDriver (+0x10)
+#include "glitch-video/video_driver.hpp" // IVideoDriver::getDriverType (vtable +0x5c)
 
 // 0x381668 Device::IsFixedPipeline()
+// Not reworked in this batch (its row 0x381668 stays partial): still the DeviceFeatureFlags()
+// stand-in for the same driver call.
 bool Device::IsFixedPipeline() { return (DeviceFeatureFlags() & 7u) != 0; }
 
 // 0x3816a8 _ZN6Device22IsProgrammablePipelineEv
-// Partial: the listing calls virtual slot +0x5c of the device feature object (global
-// dword_99F73C at +0x10), which the Application category owns. DeviceFeatureFlags()
-// stands in for that call from deps/application.hpp. The mask 0x78 is kept; its meaning
-// is not named in the original.
+// Verified against the listing: the three global gates, then the virtual at vtable byte +0x5c
+// of the video driver (Application::m_device->videoDriver, hex dword_99F73C + 0x10). The
+// IVideoDriver vtable names +0x5c getDriverType() const, and 0x78 is that driver type's
+// programmable value (CProgrammableGLDriver::getDriverType returns 0x78, CNullDriver 0 and
+// COpenGLES2Driver 8), so the mask is the driver-type test itself.
 bool Device::IsProgrammablePipeline() {
-    if (!SHARP_DEVICES && !HTC_DEVICES && !Is_In_Multiplayer_Mode) {
-        return (DeviceFeatureFlags() & 0x78u) != 0;
+    if (SHARP_DEVICES || HTC_DEVICES || Is_In_Multiplayer_Mode) {
+        return false;
     }
-    return false;
+    glitch::video::IVideoDriver* const driver = ApplicationGetInstance().m_device->videoDriver;
+    return (static_cast<unsigned>(driver->getDriverType()) & 0x78u) != 0;
 }
 
 // 0x38173c Device::GetModel()

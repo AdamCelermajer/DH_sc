@@ -163,8 +163,16 @@ int CNetworkEmulation::CalcDelay(int base_ms, int jitter_ms) {
 }
 
 // 0x826fec _ZN17CNetworkEmulation22GetCurrentConditionSetEv
-// Partial: the peak timer logic matches the pseudocode; only the clock is replaced
-// (NowMs stands in for GetOnline()'s time call).
+// Verified against Hex-Rays and ARM 0x826fec: the uninitialized path calls SetNetConditionPreset(0, 0)
+// and returns this + 0x1C (sets_[0]); otherwise the clock is GetOnline()'s virtual slot 0, peak_base_ms_
+// (+0x10) zero keeps the stored peak_active_ (+0x0C), and the non-zero path compares peak_next_ms_
+// (+0x08) + 1000 * peak_period_s_ (+0x18) against the clock with the same unsigned BCC, recomputes
+// peak_next_ms_ = CalcDelay(peak_base_ms_, peak_jitter_ms_) * 1000 + clock, and stores
+// peak_active_ = (now > next), returning sets_[1] when set. All matches.
+// Deviation: the clock is NowMs() (steady_clock in ms) instead of GetOnline() vtable slot 0 - the same
+// host clock substitution as CConnectionManager::KeepAliveConnections (0x7fc1d8) and the
+// CConnectionManager/PacketManager time sources, which the port records as a deviation and not a gap;
+// the original's clock is not modelled in the port.
 CNetworkEmulation::NetConditionSet* CNetworkEmulation::GetCurrentConditionSet() {
     if (!initialized_) {
         SetNetConditionPreset(0, 0);

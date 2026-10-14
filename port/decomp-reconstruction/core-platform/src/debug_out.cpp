@@ -21,10 +21,11 @@ void _DEBUG_OUT(const char* format, ...) {
 }
 
 // 0x533560 appDebugLog
-// Partial: the original is a single __android_log_write(ANDROID_LOG_INFO, tag,
-// text) call (the listing's _android_log_write(4, ...); 4 is ANDROID_LOG_INFO),
-// and the Android build makes that call. Other targets have no logcat, so they
-// write to stderr. The original returns the write's int; this version returns void.
+// Verified against the listing: the body is exactly one call, __android_log_write(4, tag,
+// text) (4 is ANDROID_LOG_INFO), with no tag or text handling of its own, and the Android
+// build makes that call. Host deviations (named): the non-Android targets have no logcat, so
+// they write to stderr in the same order; and the int result of the Android write is dropped
+// (void here) because no caller reads it (_DEBUG_OUT and w7_global_04.cpp use the text only).
 void appDebugLog(const char* tag, const char* text) {
 #if defined(__ANDROID__)
     __android_log_write(ANDROID_LOG_INFO, tag, text);

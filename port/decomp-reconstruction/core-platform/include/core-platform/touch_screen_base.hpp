@@ -64,7 +64,9 @@ public:
     int getID(long id);
     void clear();
     void update(double now);
-    float ProcessEvents();
+    // 0x33c568: drains the queue into the EventManager (dword_99F740). The original leaves
+    // the last call's register as its result and no caller reads it, so this is void.
+    void ProcessEvents();
     bool _IsQueueEmpty() const;
     void _PopFromQueue();
     const QueuedEvent* _GetNextEventInQueue() const;

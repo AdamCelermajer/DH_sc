@@ -279,6 +279,12 @@ public:
     int GetBankInfo(const char* name, int& bank_uid, int& field_0c, int& field_08,
                     PriorityBankBehavior& behavior) const;                                            // 0x88ba80
 
+    // Number of sound table slots: the size of the vector the loader resized to the XML "sounds"
+    // count. The original has no such accessor; 0x36c7b0 takes the same number as the byte
+    // difference of the table vector's begin and end pointers (its +0x64 and +0x68 members), and
+    // VoxSoundManager::sound_count_ (+0x1C) is what it stores there.
+    int GetSoundCount() const;
+
     // Event selection and reset. The used list (+0x08) keeps the sounds taken out of the pool.
     int GetEventSoundUid(int index, int& sound_uid);                            // 0x88bb6c
     int GetEventSoundUid(const char* name, int& sound_uid);                     // 0x88bdac

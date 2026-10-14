@@ -1,7 +1,6 @@
-// vox::DecoderMPC8: the Musepack (SV8) decoder and its cursor. DecoderMPC8 stays abstract:
-// CreateNewCursor is not overridden here, because a virtual override would pull the
-// Musepack-linked cursor into every object that uses this header's vtable (see
-// decoder_mpc8_cursor_create.cpp). CreateDecoderMPC8Cursor holds that body instead.
+// vox::DecoderMPC8: the Musepack (SV8) decoder and its cursor. CreateNewCursor (vtable slot
+// +0x10) allocates a DecoderMPC8Cursor with VoxAlloc and constructs it in place, which is what
+// makes the decoder concrete, as the binary's vtable has it.
 #pragma once
 
 #include <cstdint>
@@ -33,13 +32,18 @@ public:
     // storage released with VoxFree, as the original does.
     void DestroyCursor(DecoderCursorInterface* cursor) override;
 
+    // 0x8704ac _ZN3vox11DecoderMPC815CreateNewCursorEPNS_21StreamCursorInterfaceE (vtable +0x10):
+    // VoxAlloc then the cursor constructor. Returns null when the allocation fails, where the
+    // original constructs through the null pointer. Defined in decoder_mpc8_cursor_create.cpp.
+    DecoderCursorInterface* CreateNewCursor(StreamCursorInterface* stream) override;
+
 private:
     friend class DecoderMPC8Cursor;
     std::int32_t param_ = -1;              // +0x04
 };
 
-// 0x8704ac _ZN3vox11DecoderMPC815CreateNewCursorEPNS_21StreamCursorInterfaceE, as a free function
-// (see the header comment). Returns null when the storage cannot be allocated.
+// The free-function spelling of the same body (0x8704ac), for callers that hold a DecoderMPC8*.
+// Returns null when the storage cannot be allocated.
 DecoderMPC8Cursor* CreateDecoderMPC8Cursor(DecoderMPC8* decoder, StreamCursorInterface* stream);
 
 // vox::DecoderMPC8Cursor: reads a Musepack stream through the libmpcdec demuxer and hands out
@@ -66,10 +70,9 @@ public:
     void ConvertFixedToShort(std::int16_t* dst, std::int32_t* src, int count);
 
 private:
-    int channels_ = 0;                        // +0x04
-    int sample_rate_ = 0;                     // +0x08
-    int bits_ = 0;                            // +0x0c, 16 once the demuxer is open
-    std::uint32_t total_samples_ = 0;         // +0x10
+    // The parameter block (channels, sample rate, bits, total sample frames) is the inherited
+    // DecoderCursorInterface::params_ at +0x04..+0x10, as the layout note above says: no concrete
+    // cursor declares a second copy.
     std::uint32_t sample_pos_ = 0;            // +0x20, sample frames returned so far
     std::int32_t buffer_frames_ = 0;          // +0x24, frames the demuxer decoded last
     std::int32_t buffer_pos_ = 0;             // +0x28, next frame to return from the buffer

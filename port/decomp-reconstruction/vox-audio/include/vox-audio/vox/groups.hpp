@@ -72,7 +72,8 @@ public:
     void Reset(int reset_mode);                        // 0x881da0
     void SetToPreviousState();                         // 0x881e30
     void AddElement(int value);                        // 0x88387c
-    int GetGroupElementPosition();                     // 0x881cc0 (partial, see the .cpp)
+    int GetGroupElementPosition();                     // 0x881cc0 (reconstructed; the empty-vector
+                                                       //  case returns -1 where the original faults)
 
 private:
     std::vector<int> elements_;  // +0x24..+0x2c

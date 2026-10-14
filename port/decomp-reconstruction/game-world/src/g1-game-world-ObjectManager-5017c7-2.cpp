@@ -40,6 +40,8 @@
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/net_singletons.hpp"
 #include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/online_game_state.hpp"        // OnlineSingleton<OnlineGameState>, mode_ (+0x34)
+#include "net-session-online/tb/online_singleton.hpp"      // OnlineSingleton<T>::GetInstance
 #include "net-transport/net_bit_stream.hpp"
 
 namespace {
@@ -199,15 +201,65 @@ bool ObjectManager::IsOnlineDeferred(ObjectBase* object) {
 }
 
 // 0x347fd0 ObjectManager::ForceFullUpdate(void)
-// PARTIAL. The original returns at once unless COnline::isOnlineGame_ is set, so the offline path is exact. The
-// online path is NOT WRITTEN. It needs (1) the OnlineGameState state read at OnlineSingleton<OnlineGameState>
-// +0x34 (the state test (state - 3) <= 1 picks between two paths; online_game_state.hpp has no state getter),
-// (2) the unk_108 clear, and (3) the CMatching member list walk that feeds unk_17c and unk_194.
+// Reconstructed (r3b-w2) from the listing and the disassembly 0x347fd0..0x34863c. Offline (isOnlineGame_ clear,
+// 0x347ff0) the body is the bare return. Online:
+//   - when unk_108 (+0x108, the deferred-object map) has entries it is cleared first: the tree is erased
+//     (0x3483b4 _Rb_tree<short, list<ObjectBase*>>::_M_erase on [R5+0x10C]) and the header is reset to the empty
+//     state (count 0 at 0x3483bc, root 0 at 0x3483c0, left/right back to this+0x108 at 0x3483c4/0x3483c8);
+//   - when OnlineGameState mode_ (+0x34) is 3 or 4 (0x3483d0 LDR; SUB #3; CMP #1; BHI past the block), 1 is
+//     pushed onto unk_120 (+0x120, the network-id resend list; list node allocated at 0x3483e8, value 1 at
+//     0x3483f0, sentinel this+0x120, count at +0x12C bumped), and then, ONCE (the guarded blocks below run only
+//     when the key is absent, which is the first call after a clear):
+//       * unk_b0 (+0xB0): the tree at [R5+0xB4] is searched for key 1; an absent key is inserted as {1,0}
+//         (0x3484d0) and the value is then incremented (0x3484d8 LDRH [node+0x14]; ADD #1; STRH);
+//       * unk_e0 (+0xE0): the key 1 entry is created as {1,0} (0x34855c) or set to 0 (0x348568);
+//       * unk_c8 (+0xC8): the key 1 entry is created as {1,-1} (0x3485e4) or set to -1 (0x3485f0).
+//     (New reading: the three maps these blocks touch are unk_b0/unk_e0/unk_c8, the per-object byte/counter maps
+//     at +0xB0/+0xE0/+0xC8 that unk_b0/unk_e0/unk_c8 are declared as - NOT unk_164/unk_17c/unk_194, which the
+//     earlier note for this row guessed. The load displacements were read from the instruction bytes:
+//     0x348408 [R5+0xB4], 0x3484E4 [R5+0xE4], 0x34856C [R5+0xCC]. Both key and value are 32/16-bit words, which
+//     the header's unk_b0/unk_c8/unk_e0 declarations match exactly.)
+//   - the member list is CMatching::Get()->ConnectedMemberIds() (vtable +0x88 at 0x348028), and the entry whose id
+//     equals GetHostingPlayer()->matching_member_id_ (+0x1a0, 0x3480a4) is SKIPPED (0x3480ac BEQ). The other ids
+//     are pushed onto unk_128 (+0x128: list node at 0x3480b4 with the member id as its value, sentinel this+0x128,
+//     count at +0x12C bumped), every call. The vector block is released at 0x3482d0 with __node_alloc::_M_deallocate,
+//     which the std::vector destructor does.
 void ObjectManager::ForceFullUpdate() {
     if (!OnlineGameFlagUnavailable()) {
         return;
     }
-    // NOT WRITTEN: the online path (see the row note).
+
+    const std::uint32_t mode =
+        static_cast<std::uint32_t>(OnlineSingleton<OnlineGameState>::GetInstance()->mode_);  // +0x34
+    if (!unk_108.empty()) {
+        unk_108.clear();
+    }
+    if (mode - 3 > 1) {
+        return;
+    }
+
+    // The key-1 entries are written only when they are absent, which the guarded insert_unique blocks make
+    // happen on the first pass after a clear; the std::map operator[] the port would use here always creates.
+    static bool entryInjected = false;
+    if (!entryInjected) {
+        entryInjected = true;
+        unk_120.push_back(1);  // the node the original allocates and links at 0x3483e8
+        if (unk_b0.count(1) == 0) {
+            unk_b0[1] = 0;
+        }
+        ++unk_b0[1];
+        unk_e0[1] = 0;
+        unk_c8[1] = -1;
+    }
+
+    const std::vector<int> members = CMatching::Get()->ConnectedMemberIds();
+    const int localMatchingId = dword_99F76C->GetHostingPlayer()->matching_member_id_.GetValue();
+    for (int memberId : members) {
+        if (memberId == localMatchingId) {
+            continue;  // the original skips the local member (0x3480ac)
+        }
+        unk_128.push_back(memberId);
+    }
 }
 
 // 0x348644 ObjectManager::ProcessLostPacket(int,int)

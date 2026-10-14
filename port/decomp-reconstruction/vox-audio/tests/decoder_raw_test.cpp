@@ -73,7 +73,7 @@ int main() {
     params.channels = 2;
     params.bits_per_sample = 16;
     params.length_frames = 5;
-    params.unknown_08 = 44100;
+    params.sample_rate = 44100;
     vox::DecoderRaw decoder(&params);
     CHECK(decoder.GetType() == 0);
     std::int32_t* p = decoder.GetParam();

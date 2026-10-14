@@ -12,7 +12,7 @@
 
 namespace vox {
 struct DecoderStbVorbisCursorTestAccess {
-    static void SetBits(DecoderStbVorbisCursor* c, int bits) { c->bits_per_sample_ = bits; }
+    static void SetBits(DecoderStbVorbisCursor* c, int bits) { c->params_.bits_per_sample = bits; }
     static std::uint32_t Position(const DecoderStbVorbisCursor* c) { return c->position_; }
 };
 }  // namespace vox

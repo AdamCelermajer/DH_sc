@@ -199,10 +199,15 @@ std::intptr_t CConnectionManager::GetPacketTransportType(tPACKET_TYPE type) {
 }
 
 // 0x7fc060 _ZN18CConnectionManager16GetTransportTypeE14tPROTOCOL_TYPE
-// partial: the listing is `ADD R1, R0, R1,LSL#2; LDR R0, [R1,#0x9C]; BX LR`, i.e. the table word at
-// this + 0x9c + 4 * protocol with no range test. An out-of-range protocol therefore reads past the
-// three-entry table (protocol 3 reads the initialized flag at +0xa8, 4 reads the vptr) and returns
-// whatever word is there; the port's bounds check returns 0 instead.
+// Partial: the listing is `ADD R1, R0, R1,LSL#2; LDR R0, [R1,#0x9C]; BX LR`, i.e. the table word at
+// this + 0x9c + 4 * protocol with no range test. GetPacketTransportType (0x7fc014) inlines the same
+// load (`*(this + 4 * protocol + 156)`) behind the registration test, so the two agree for every
+// protocol the game registers; those are 1, 2 and 3 (RegisterPacketType calls in
+// CConnectionManager::InitializeInternal and CNetPlayerManager), all inside the three-entry table.
+// Missing: a protocol outside 0..2. The original then reads past the table - protocol 3 returns the
+// initialized word at +0xa8 and 4 the vptr - and hands that word to the caller as a transport pointer.
+// The port's bounds test returns 0 instead. That read is behaviour, not a crash, so it is not covered
+// by the host-necessitated null-guard allowance; it is not reproduced, and no call site can reach it.
 std::intptr_t CConnectionManager::GetTransportType(tPROTOCOL_TYPE protocol) {
     if (protocol < 0 || protocol >= kTransportSlots) {
         return 0;
@@ -451,11 +456,16 @@ bool CConnectionManager::IsConnected(int member_id) {
 }
 
 // 0x7fc718 _ZN18CConnectionManager10DisconnectEib
-// partial: the assembly writes the member id at stack var_C and the notify byte at var_8 only, then
-// sends 8 bytes from var_C, so the three bytes between them are uninitialised stack in the original
-// and are sent on the wire; the port's zero-initialised payload writes zeros there (the member id and
-// notify byte, the subtype 3, the send-to-all on type 5, the 0x600004 event and the
-// CMatching::IsServer / LocalMemberId choice between DisconnectPeer and DisconnectAll all match).
+// Verified against the ARM listing 0x7fc718: v15 = member id at var_34 [sp+4], the notify byte stored
+// with STRB at var_8 [sp+30] (i.e. payload byte 4, the rest of the DWORD left alone), then the subtype
+// byte 3, the 0x800-bit stream, the two WriteByteArray calls, SendToAll on type 5 with the rounded-up
+// byte count, the CMatching::IsServer / LocalMemberId choice between DisconnectPeer (0x7fc680) and
+// DisconnectAll, and the 0x600004 event with a 4-byte member id when notify is set.
+// Deviation: the original sends 8 bytes from var_C while only writing bytes 0..4, so bytes 5..7 of the
+// payload are uninitialised stack. The port's zero-initialised payload sends zeros. The receiver
+// (ProcessDisconnect 0x7fc830, which reads a DisconnectPayload) reads only the member id and the notify
+// byte and ignores bytes 5..7, so the deviation is not observable in the protocol; the padding bytes
+// are nondeterministic in the original, hence not reproducible.
 int CConnectionManager::Disconnect(int member_id, bool notify) {
     if (CMatching::Get()->IsServer() && IsConnected(member_id)) {
         DisconnectPayload payload{};

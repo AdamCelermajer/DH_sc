@@ -120,8 +120,9 @@ public:
     // When the pointer changes to a non-null value, or the dirty bitmap is touched, setDataDirty(false)
     // runs. The null-data path clears dirty word bit 0x2, and bit 0x1 only when +0x3f bit 0x8 is set.
     void setData(void* data, bool owned, bool rangeSizes);
-    // 0x5ff26c: allocates a copy of the texture data and returns non-zero on success.
-    // Partial: the original tail-calls memcpy, and the source-null case is undefined there.
+    // 0x5ff26c: allocates a copy of the texture data, copies the old contents over it and sets the owned-data
+    // flag, returning non-zero on success. Deviation: the original memcpys from the saved source pointer even
+    // when it is null (undefined there); the port skips the copy in that case.
     uint32_t copy();
 
     // 0x5fdc88: copies anisotropy, LOD bias, min LOD, max LOD and the min/mag/wrap fields from another texture

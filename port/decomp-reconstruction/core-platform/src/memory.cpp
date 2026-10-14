@@ -1,5 +1,6 @@
 #include "core-platform/memory.hpp"
 #include "core-platform/lc_api.hpp"
+#include "vendor-gameswf/gameswf_alloc.hpp"  // gameswf::malloc_internal (0x752b3c), the thunk targets
 
 #include <cstdio>
 #include <cstdlib>
@@ -144,17 +145,20 @@ void* operator new(std::size_t size, swf::MemHint hint) { return SwfAlloc(static
 void* operator new[](std::size_t size, swf::MemHint hint) { return SwfAlloc(static_cast<unsigned>(size), hint); }
 
 // 0x752b48 _ZnwjN3swf7MemHintEPKci
-// Partial: the listing is a thunk to gameswf::malloc_internal(size, hint, file, line)
-// (vendor-gameswf queue row 0x752b3c, not defined in this tree yet). Decision 4 says
-// the thunk forwards to its target, so SwfAlloc stands in for it with the same four
-// arguments until that target is reconstructed.
+// The listing is one instruction (B gameswf::malloc_internal(uint, swf::MemHint, char const*, int),
+// 0x752b3c), so decision 4 forwards it to that target; the target is reconstructed in this tree at
+// vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-0.cpp, which is where the forward goes. The
+// target replaces the caller's hint with 0 and tail-calls SwfAlloc (its ARM listing is "MOV R1,#0;
+// B SwfAlloc"), so the hint this thunk receives is not the one SwfAlloc sees.
 void* operator new(std::size_t size, swf::MemHint hint, const char* file, int line) {
-    return SwfAlloc(static_cast<unsigned>(size), hint, file, line);
+    return gameswf::malloc_internal(static_cast<unsigned>(size), hint, file, line);
 }
 
-// 0x752b44 _ZnajN3swf7MemHintEPKci (same partial reason as 0x752b48: thunk to gameswf::malloc_internal)
+// 0x752b44 _ZnajN3swf7MemHintEPKci
+// The one-instruction twin of 0x752b48 ("B gameswf::malloc_internal" as well), forwarded to the
+// same reconstructed target in vendor-gameswf.
 void* operator new[](std::size_t size, swf::MemHint hint, const char* file, int line) {
-    return SwfAlloc(static_cast<unsigned>(size), hint, file, line);
+    return gameswf::malloc_internal(static_cast<unsigned>(size), hint, file, line);
 }
 
 namespace {

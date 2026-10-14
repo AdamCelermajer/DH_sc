@@ -30,19 +30,33 @@ DriverAndroidSource::DriverAndroidSource(const std::int32_t* format,
 // 0x88ee58 _ZN3vox19DriverAndroidSource10PrintDebugEv
 void DriverAndroidSource::PrintDebug() {}
 
-// D1 0x88f9ec and D2 0x88fa44 (partial): the original sets the vtable, calls Shutdown and
-// then the DriverCallbackInterface destructor. That base is not inherited in the port, so
-// only Shutdown runs. D0 0x88fa28 is the compiler's deleting form of the same destructor.
+// D1 0x88f9ec and D2 0x88fa44, same body; D0 0x88fa28 is the deleting form.
+// Verified against the listing (0x88f9ec..0x88fa1c and 0x88fa44..0x88fa74): the vtable is
+// stored, then Shutdown() (0x88f644), then DriverCallbackInterface::~DriverCallbackInterface
+// (0x891120). 0x88fa28 calls this destructor and then LC_API_FREE_0 on the object. The port runs
+// Shutdown, and its callback_ member is destroyed automatically after the body, which is that
+// base destructor call. Deviation: the base is composed as a member, so the base destructor runs
+// as part of the member's destruction instead of as an explicit base call. D0 (0x88fa28) is the
+// compiler's deleting form, which releases the block with operator delete where the listing calls
+// C free; that is the project's convention for deleting destructors.
 DriverAndroid::~DriverAndroid() {
     Shutdown();
 }
 
 // 0x88f328 _ZN3vox13DriverAndroid16UpdateThreadedATEPv (partial)
-// The original's thread body runs under the lock: AttachCurrentThread, the AudioTrack creation
-// (stream 3, 44100 Hz, stereo 16-bit, 4 * buffer frames bytes, MODE_STREAM), play, NewByteArray,
-// then the DoCallbackAT loop while m_running is set (sleeping while paused), stop, release and
-// DetachCurrentThread. All of it is JNI and not ported. The port never starts this thread, since
-// the JavaVM branch of _InitAT is not ported, so only the lock pair that brackets the body runs.
+// Verified against the listing (0x88f328..0x88f574). A null this returns 0 without locking.
+// Otherwise: lock, AttachCurrentThread (the JavaVM vtable slot at +0x10, called with 0), and when
+// an env comes back: PushLocalFrame(2); NewObject(cAudioTrack, mAudioTrack, 3, 44100, 12, 2,
+// 4 * frames at +0x58, 1) into the track word +0x64; CallNonvirtualVoidMethod(track, cAudioTrack,
+// mPlay); NewByteArray(4 * frames); then the active byte +0x08 = 1, unlock,
+// m_updateStartTime = _GetTime(), and the loop: while m_running, while the byte at +0x60 is set
+// usleep(m_updateTime * 1e6), otherwise DoCallbackAT(&array); at the end the active byte takes
+// m_running, the lock is retaken, CallNonvirtualVoidMethod(mStop) and (mRelease) run,
+// PopLocalFrame(env, 0) and DetachCurrentThread (JavaVM slot +0x14) follow. Every failure path
+// only detaches. Missing item: the whole JNI block - AttachCurrentThread, PushLocalFrame,
+// NewObject, NewByteArray, CallNonvirtualVoidMethod (mPlay/mStop/mRelease), PopLocalFrame and
+// DetachCurrentThread - because the host has no JNIEnv and vox-audio has no AudioTrack class
+// handle. The port never starts this thread either, since _InitAT's JavaVM branch is not ported.
 int DriverAndroid::UpdateThreadedAT(void* unused) {
     (void)unused;
     mutex_.Lock();
@@ -51,12 +65,20 @@ int DriverAndroid::UpdateThreadedAT(void* unused) {
 }
 
 // 0x88f14c _ZN3vox13DriverAndroid12DoCallbackATERP7_jarray (partial)
-// The original's JNI part is not ported: GetPrimitiveArrayCritical on the array, the base
-// _FillBuffer of the chunk into it, ReleasePrimitiveArrayCritical, the AudioTrack write of
-// 4 * chunk bytes, and m_dataDuration += m_updateTime. The base _FillBuffer is not reachable and
-// there is no JNIEnv, so m_dataDuration does not grow in the port. The timing tail runs as in the
-// original. Its usleep result is not returned, since the caller never reads it. The usleep call is
-// replaced by std::this_thread::sleep_for with the same microsecond count.
+// Verified against the listing (0x88f14c..0x88f2dc): GetEnv (JavaVM slot +0x18, version 0x10002);
+// GetPrimitiveArrayCritical(env, array, 0) into a buffer; when it is non-null, Lock,
+// DriverCallbackInterface::_FillBuffer(this, buffer, frames at +0x5C), Unlock,
+// ReleasePrimitiveArrayCritical(env, array, buffer, 0), then CallNonvirtualIntMethod(track,
+// cAudioTrack, mWrite, array, 0, 4 * frames) and m_dataDuration += m_updateTime. The timing tail
+// then runs on both paths: the first call stores m_updateStartTime = _GetTime(), and the function
+// returns usleep(m_updateTime * 1e6) when m_dataDuration - (now - m_updateStartTime) exceeds
+// m_dataThreshold. The port reproduces the tail exactly (with std::this_thread::sleep_for for
+// usleep, and the first-call flag as a function-local static). Missing item: the JNI block -
+// GetEnv, GetPrimitiveArrayCritical, the base _FillBuffer call, ReleasePrimitiveArrayCritical and
+// CallNonvirtualIntMethod with mWrite - plus m_dataDuration += m_updateTime. Without a JNIEnv
+// there is no array to fill, and DriverCallbackInterface::_FillBuffer is not reachable from the
+// composed callback_ member, so m_dataDuration does not grow. The listing's usleep result is not
+// returned here because the only caller (UpdateThreadedAT) ignores it.
 void DriverAndroid::DoCallbackAT(_jarray*& array) {
     (void)array;
     static bool is_first = true;  // DoCallbackAT(_jarray*&)::isFirst: set by the first call only
@@ -72,13 +94,19 @@ void DriverAndroid::DoCallbackAT(_jarray*& array) {
 }
 
 // 0x88f660 _ZN3vox13DriverAndroid7_InitATEPv (partial)
-// The original never reads its argument. Its first step is SetDriverSampleRate with the constant
-// 44100 (MOVW #0xAC44 in the listing), and SetDriverSampleRate leaves r0 unchanged, so the
-// no-JavaVM path returns 44100 as well. Init discards the result. With a JavaVM the original looks
-// up android/media/AudioTrack and its methods, sizes the ring (frames = getMinBufferSize / 4,
-// chunk = min(frames, 1024), m_updateTime = chunk / 44100, m_dataThreshold = -(frames / 44100 *
-// m_dataThresholdRatio), m_dataDuration = 0, mode 1, m_running set, paused cleared) and starts the
-// thread with pthread_create. That branch is JNI and is not ported.
+// Verified against the listing (0x88f660..0x88f7C4): the first call is SetDriverSampleRate with
+// the immediate 44100 (MOVW R0,#0xAC44 at 0x88f664) and the argument is never read; the function
+// then returns whatever r0 holds from that void call, so the no-JavaVM path returns 44100. With a
+// JavaVM: GetEnv (slot +0x18, 0x10002); FindClass("android/media/AudioTrack") into cAudioTrack,
+// NewGlobalRef of it, GetMethodID("<init>", "(IIIIII)V") into mAudioTrack, GetStaticMethodID
+// ("getMinBufferSize", "(III)I") into mGetMinBufferSize, GetMethodID for "play", "pause", "stop",
+// "release" ("()V") and "write" ("([BII)I"); then CallStaticIntMethod(mGetMinBufferSize, 44100,
+// 12, 2) / 4 into the ring frames word (+0x58), the chunk word (+0x5C) = min(frames, 1024),
+// m_updateTime = chunk / 44100.0, m_dataThreshold = -(frames / 44100.0 * m_dataThresholdRatio),
+// m_dataDuration = 0, mode (+0x54) = 1, m_running = 1, the byte at +0x60 = 0 and pthread_create
+// with the thread handle at +0x68 and UpdateThreadedAT. Missing item: that whole JavaVM branch -
+// no JNIEnv, no java.lang.Class handle and no AudioTrack method IDs exist on the host - so the
+// port returns 0 there instead of the pthread_create result.
 int DriverAndroid::_InitAT(void* context) {
     (void)context;
     constexpr int kDriverSampleRate = 44100;

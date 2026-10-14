@@ -295,7 +295,7 @@ public:
     static pydata::NameTable m_dataNames;
     virtual ~v2Event();
     virtual void finalize();
-    virtual void read(IStreamBase* stream);  // partial: readStringEx 5th argument, see ledger
+    virtual void read(IStreamBase* stream);  // full listing body; the Hex-Rays 5th readStringEx argument is a register residue
     std::int32_t m_w1 = 0;    // +0x4
     std::uint32_t m_w2 = 0;   // +0x8  length of m_w3
     char* m_w3 = nullptr;     // +0xc

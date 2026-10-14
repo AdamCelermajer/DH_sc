@@ -5,9 +5,10 @@
 // The two active masks. The original constructors and the copy constructor store the vptr and the three vector words
 // of each vector, but they never store the masks at +0x1c (m_intFilterMask) and +0x20 (m_binFilterMask). Copy and
 // operator= do not copy them either. So a mask keeps whatever the storage held before construction. The port does the
-// same: the masks are left indeterminate by the constructors and are first written by SetSearchAttribute* or
-// EraseSearchAttribute*. Those are the PARTIAL rows below. The owner's storage is not recovered (CMatchingLocal keeps
-// one at +0x49f8 of the CMatchingLocal object, whose constructor is outside this batch).
+// same: the masks have no initialiser in dh2/CRoomSearchFilter.hpp, so the constructors leave them indeterminate and
+// they are first written by SetSearchAttribute* or EraseSearchAttribute*. That is not a divergence, so these rows are
+// reconstructed. The owner's storage is not recovered (CMatchingLocal keeps one at +0x49f8 of the CMatchingLocal
+// object, whose constructor is outside this batch).
 
 #include <algorithm>
 #include <cstring>
@@ -24,15 +25,17 @@ constexpr unsigned int kBinFilterCapacity = sizeof(CRoomSearchFilter::tSearchFil
 
 // 0x8191fc CRoomSearchFilter::CRoomSearchFilter()   (base object constructor, C2)
 // 0x81923c CRoomSearchFilter::CRoomSearchFilter()   (complete object constructor, C1; the same code)
-// PARTIAL: the original zeroes the vector begin, end and capacity words (the vectors' default state, given here by the
+// The original zeroes the vector begin, end and capacity words (the vectors' default state, given here by the
 // vector default constructors) and the vptr is the compiler's. It does not store the masks at +0x1c and +0x20, so they
-// stay indeterminate until a Set or an Erase writes them.
+// stay indeterminate until a Set or an Erase writes them - the port's members have no initialiser, so the constructors
+// leave them indeterminate in the same way.
 CRoomSearchFilter::CRoomSearchFilter() {}
 
 // 0x81a428 CRoomSearchFilter::CRoomSearchFilter(CRoomSearchFilter const&)   (complete object constructor, C1)
 // 0x81a478 CRoomSearchFilter::CRoomSearchFilter(CRoomSearchFilter const&)   (base object constructor, C2; the same code)
-// PARTIAL: the original zeroes the vector words and then calls Copy, which copies the two vectors only. The masks are not
-// copied, so they stay indeterminate in the new object, as in the default constructor.
+// The original zeroes the vector words and then calls Copy, which copies the two vectors only. The masks are not
+// copied, so they stay indeterminate in the new object, as in the default constructor; the port's vector members are
+// default-constructed before this body and Copy copies the same two vectors.
 CRoomSearchFilter::CRoomSearchFilter(const CRoomSearchFilter& other) {
     Copy(other);
 }

@@ -58,18 +58,15 @@ DecoderMPC8Cursor::DecoderMPC8Cursor(DecoderMPC8* decoder, StreamCursorInterface
         if (words[1] != 0 && words[0] != 0) {
             std::uint32_t info[93] = {};
             mpc_demux_get_info(demux_, info);
-            bits_ = 16;
-            channels_ = static_cast<int>(info[1]);
+            params_.bits_per_sample = 16;
+            params_.channels = static_cast<std::int32_t>(info[1]);
             const int param = decoder->param_;
-            sample_rate_ = param > 0 ? param : static_cast<int>(info[0]);
-            total_samples_ = info[14];
+            params_.sample_rate = param > 0 ? param : static_cast<std::int32_t>(info[0]);
+            params_.length_frames = static_cast<std::int32_t>(info[14]);
             return;
         }
     }
-    channels_ = 0;
-    sample_rate_ = 0;
-    bits_ = 0;
-    total_samples_ = 0;
+    params_ = TrackParams{};
 }
 
 // 0x8700a4 _ZN3vox17DecoderMPC8CursorD1Ev (D2 0x870110 has the same body)
@@ -97,32 +94,40 @@ int DecoderMPC8Cursor::Seek(unsigned int sample) {
     return 0;
 }
 
-// 0x86fe38 _ZN3vox17DecoderMPC8Cursor6DecodeEPvi
-// Returns the buffered frames first, then decodes new frames from the demuxer until the
-// request is filled or the stream ends. At the end of a looping stream the demuxer is seeked
-// back to prev, the sample position before the last update (the value at +0x20 read before
-// the update). The position is then cleared.
-// Port deviations (both in Decode, see the notes in NOTES.md):
-//  - When the last decoded block overruns the request (the else path in the listing), the
-//    original passes r1 to the loop-restart seek. r1 is clobbered by the conversion or memcpy
-//    call on that path, so its value is not recoverable. The port uses prev there as well.
-//  - The original calls the demuxer again even when it returns no samples; the port stops
-//    there, so a truncated stream cannot spin.
+// 0x86fe38 _ZN3vox17DecoderMPC8Cursor6DecodeEPvi (partial: two items)
+// Verified against the ARM listing (0x86FE38..0x8700A0): wanted = bytes / (channels * (bits >> 3))
+// with the idiv-by-zero result 0; the buffered part copies through ConvertFloatToShort (or memcpy
+// when bits is 32) either min(wanted, avail) frames or all avail frames; the demuxer loop stores
+// the PCM buffer in the frame block, calls mpc_demux_decode, reads the sample count from the frame
+// block, sets buffer_pos_ = 0 and buffer_frames_ = the count, keeps the pre-update sample_pos_ in
+// r1 (which is the restart seek's argument), advances buffer_pos_ and sample_pos_ by the frame
+// count or by the remaining count when the block overruns, subtracts that count from remaining,
+// compares the new sample position with length_frames (+0x10) and continues while it differs and
+// remaining is positive; at the length it tests the loop byte (+0x1c), seeks and clears
+// sample_pos_. The return is (wanted - remaining) * channels * (bits >> 3).
+// Deviation 1 (partial): on the block-overrun path the restart seek's r1 is clobbered by the
+// ConvertFloatToShort/memcpy call before it, so the listing has no recoverable value there; the
+// port passes the pre-update sample position.
+// Deviation 2 (partial): the listing's loop test is on the remaining count alone, so a demuxer
+// that returns 0 samples with frames left is called again for ever (a truncated stream spins);
+// the port breaks out when the sample count is not positive.
 int DecoderMPC8Cursor::Decode(void* dst, int bytes) {
-    const int bytes_per_sample = bits_ >> 3;
-    const int wanted = DivOrZero(bytes, channels_ * bytes_per_sample);
+    const std::int32_t channels = params_.channels;
+    const std::int32_t bits = params_.bits_per_sample;
+    const int bytes_per_sample = bits >> 3;
+    const int wanted = DivOrZero(bytes, channels * bytes_per_sample);
     auto* out = static_cast<std::uint8_t*>(dst);
     int remaining = wanted;
 
     if (buffer_pos_ < buffer_frames_) {
         const int avail = buffer_frames_ - buffer_pos_;
         if (wanted < avail) {
-            CopyFrames(out, 0, channels_, bits_, pcm_buffer_ + channels_ * buffer_pos_, wanted);
+            CopyFrames(out, 0, channels, bits, pcm_buffer_ + channels * buffer_pos_, wanted);
             buffer_pos_ += wanted;
             sample_pos_ += static_cast<std::uint32_t>(wanted);
-            return wanted * channels_ * bytes_per_sample;
+            return wanted * channels * bytes_per_sample;
         }
-        CopyFrames(out, 0, channels_, bits_, pcm_buffer_ + channels_ * buffer_pos_, avail);
+        CopyFrames(out, 0, channels, bits, pcm_buffer_ + channels * buffer_pos_, avail);
         buffer_pos_ += avail;
         sample_pos_ += static_cast<std::uint32_t>(avail);
         remaining = wanted - avail;
@@ -142,20 +147,20 @@ int DecoderMPC8Cursor::Decode(void* dst, int bytes) {
         const std::uint32_t prev = sample_pos_;
         const int dst_frame = wanted - remaining;
         if (decoded <= remaining) {
-            CopyFrames(out, dst_frame, channels_, bits_, pcm_buffer_, decoded);
+            CopyFrames(out, dst_frame, channels, bits, pcm_buffer_, decoded);
             const int advance = buffer_frames_;
             remaining -= advance;
             buffer_pos_ += advance;
             sample_pos_ = prev + static_cast<std::uint32_t>(advance);
-            if (total_samples_ != sample_pos_) {
+            if (params_.length_frames != static_cast<std::int32_t>(sample_pos_)) {
                 continue;
             }
         } else {
-            CopyFrames(out, dst_frame, channels_, bits_, pcm_buffer_, remaining);
+            CopyFrames(out, dst_frame, channels, bits, pcm_buffer_, remaining);
             buffer_pos_ += remaining;
             sample_pos_ = prev + static_cast<std::uint32_t>(remaining);
             remaining = 0;
-            if (total_samples_ != sample_pos_) {
+            if (params_.length_frames != static_cast<std::int32_t>(sample_pos_)) {
                 continue;
             }
         }
@@ -167,7 +172,7 @@ int DecoderMPC8Cursor::Decode(void* dst, int bytes) {
         sample_pos_ = 0;
     }
 
-    return (wanted - remaining) * channels_ * bytes_per_sample;
+    return (wanted - remaining) * channels * bytes_per_sample;
 }
 
 }  // namespace vox

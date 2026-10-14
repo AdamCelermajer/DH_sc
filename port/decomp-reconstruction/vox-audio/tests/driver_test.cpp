@@ -14,12 +14,19 @@ int g_failures = 0;
         }                                                                 \
     } while (0)
 
-// A concrete driver: the base leaves Suspend and Resume pure, so the test driver
-// records how often the engine calls them.
+// A concrete driver. The base leaves the slots the binary's DriverInterface vtable leaves null
+// pure (Init +0x08, Shutdown +0x0c, Suspend +0x10, Resume +0x14, Set3DParameter +0x24,
+// PrintDebug +0x40, DestroyDriverSource +0x48), so the test driver fills them and records how
+// often the engine calls Suspend and Resume.
 class CountingDriver : public vox::DriverInterface {
 public:
+    void Init(void*) override {}
+    void Shutdown() override {}
     void Suspend() override { ++suspends; }
     void Resume() override { ++resumes; }
+    void Set3DParameter(int, const void*) override {}
+    void PrintDebug() override {}
+    void DestroyDriverSource(vox::DriverSourceInterface*) override {}
     int suspends = 0;
     int resumes = 0;
 };

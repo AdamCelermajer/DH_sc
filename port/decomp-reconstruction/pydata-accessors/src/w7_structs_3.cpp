@@ -46,9 +46,10 @@ void ItemAudioVisual::read(IStreamBase* stream) {
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
     if (m_w4 != nullptr) CustomFree(m_w4);               // +0x10
     m_w4 = ::operator new[](static_cast<std::size_t>(m_w3) + 1, kPydataBufferHint);
-    // PARTIAL: the listing passes a 5th, 64-bit argument to readStringEx (high word 1, low word undefined in
-    // the listing), and returns the readStringEx result as a bool. The stand-in readStringEx takes four
-    // arguments and returns void, so neither is passed or returned.
+    // The listing's readStringEx (BL 0x317454) reads only R0..R3: R1 the stream, R2 this destination, R3 the
+    // length. The extra value Hex-Rays prints at the call site is a register residue, not an argument, so it is
+    // not passed. The original leaves readStringEx's bool result in r0 and this read returns void, so that
+    // residue is dropped (the string bytes and the NUL below are the same).
     StreamReader::readStringEx(stream, static_cast<char*>(m_w4), m_w3);
     static_cast<char*>(m_w4)[m_w3] = 0;
 }

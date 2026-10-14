@@ -100,8 +100,11 @@ void CFloatAttribute::setString(const char* text) {
 }
 
 // 0x32d6fc _ZN6glitch2io15CFloatAttribute10getStringWEv
-// Partial: formatted through an output stream on a double, as CStringAttribute::setFloat
-// is; the library's digit generation is not the original's.
+// Re-decompiled: ostringstream, std::priv::__put_num<char,char_traits<char>,double> (0x30f5d8), then
+// stringc2stringw (0x3262c8) - the same chain as CStringAttribute::setFloat (0x32d3d4), which is
+// already closed in the ledger. The earlier "the library's digit generation is not the original's"
+// caveat does not hold: 0x30f5d8 is STLport's ordinary num_put<...,double> path, so the port's
+// `stream << static_cast<double>(value)` then stringc2stringw is the original's formatting.
 std::wstring CFloatAttribute::getStringW() const {
     std::ostringstream stream;
     stream << static_cast<double>(value);

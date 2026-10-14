@@ -4,7 +4,10 @@
 // definition here. The scalar deleting destructor (D0) is compiler-generated and is not written.
 #include "dh2/DataReloaderManager.hpp"
 
+#include <cstdint>
+
 #include "core-platform/memory.hpp"
+#include "core-platform/stlport_alloc.hpp"  // std::__node_alloc (0x313994 / 0x31bb44)
 
 // 0x339094 DataReloaderManager::DataReloaderManager()
 // 0x3390c8 DataReloaderManager::DataReloaderManager()  (C1 variant, same body)
@@ -29,35 +32,51 @@ void DataReloaderManager::checkFiles() const {
 }
 
 // 0x339124 DataReloaderManager::_MonitoredFiles::~_MonitoredFiles()
-// PARTIAL: the tests and the order of the two releases follow the asm. The block at +0x30 is released before the
-// block at +0x18. Each block is skipped when it is null or when it is the inline slot whose address is the field
-// itself (+0x1c for the first, +0x04 for the second). The original releases a block with the node allocator
-// (__node_alloc::_M_deallocate) when its size (end - start) is 0x80 bytes or less, and with CustomFree above that.
-// The node allocator is not recovered, so both sizes go to CustomFree here, the same gap as ClearSubtitles in
-// core-platform/src/w7_global_00.cpp.
+// The tests and the order of the two releases follow the asm, including the sizes the listing computes: the
+// first block's size is (+0x1c) - (+0x30) (0x339148) and the second's is (+0x04) - (+0x18) (0x339174). Each
+// block is skipped when it is null or when it is the inline slot whose address is the field itself (+0x1c for
+// the first, +0x04 for the second). Above 0x80 bytes the release is CustomFree; at 0x80 or below it is
+// __node_alloc::_M_deallocate (0x339154 / 0x339180, veneer __ZNSt12__node_alloc13_M_deallocateEPvj_veneer),
+// which is now reconstructed in core-platform/stlport_alloc.hpp / src/stlport_alloc.cpp (0x31bb44). No caller
+// in this tree fills either block (monitorFiles is empty in the binary and here), so the branch is not
+// exercised yet, but it is reproduced.
 DataReloaderManager::_MonitoredFiles::~_MonitoredFiles() {
     // Block at +0x30 (unk_30). Its size is (+0x1c) - (+0x30).
     char* block30 = unk_30;
     if (block30 != nullptr && reinterpret_cast<void*>(block30) != reinterpret_cast<void*>(&unk_1c)) {
-        CustomFree(block30);
+        const std::uintptr_t size =
+            reinterpret_cast<std::uintptr_t>(unk_1c) - reinterpret_cast<std::uintptr_t>(block30);
+        if (size > 0x80) {
+            CustomFree(block30);
+        } else {
+            std::__node_alloc::_M_deallocate(block30, static_cast<unsigned int>(size));
+        }
     }
 
     // Block at +0x18 (unk_18). Its size is (+0x04) - (+0x18).
     char* block18 = unk_18;
     if (block18 != nullptr && reinterpret_cast<void*>(block18) != reinterpret_cast<void*>(&unk_04)) {
-        CustomFree(block18);
+        const std::uintptr_t size =
+            reinterpret_cast<std::uintptr_t>(unk_04) - reinterpret_cast<std::uintptr_t>(block18);
+        if (size > 0x80) {
+            CustomFree(block18);
+        } else {
+            std::__node_alloc::_M_deallocate(block18, static_cast<unsigned int>(size));
+        }
     }
 }
 
 // 0x3391a0 DataReloaderManager::~DataReloaderManager()  (D1, complete-object destructor)
 // 0x33925c DataReloaderManager::~DataReloaderManager()  (D2, same body)
 // PARTIAL, for the release of the vector's own storage. The element loop follows the asm: each non-null entry is
-// destroyed (its ~_MonitoredFiles, then CustomFree) in vector order. The original re-reads the end pointer after
-// each free, but the vector is not changed by the loop, so one range loop covers it. The original then releases
-// the vector's storage itself, with the node allocator when the size ((end of storage - begin) & ~3, 4-byte
-// pointers) is 0x80 bytes or less and with CustomFree otherwise. On the host the storage is released by the
-// std::vector member's destructor, which runs after this body. The 32-bit size arithmetic and the node allocator
-// are not reproduced. The vptr store at entry is done by the compiler.
+// destroyed (its ~_MonitoredFiles, then CustomFree) in vector order, and the end pointer is re-read after each
+// free as the original does (0x3391f0). The original then releases the vector's storage itself at 0x339214, with
+// a size of ((end of storage - begin) & ~3) in 4-byte pointers: above 0x80 bytes CustomFree, otherwise
+// __node_alloc::_M_deallocate (0x339220). That node allocator now has a body
+// (core-platform/stlport_alloc.hpp, 0x31bb44), but this end-of-body release still cannot be reproduced: on the
+// host the storage is owned by the std::vector member, whose destructor runs after this body, and freeing it
+// here would double-free it. The 32-bit pointer-mass arithmetic (`& ~3`) is the second half of the gap.
+// The vptr store at entry is done by the compiler.
 DataReloaderManager::~DataReloaderManager() {
     for (_MonitoredFiles* files : m_monitoredFiles) {
         if (files != nullptr) {

@@ -5,21 +5,20 @@
 // cleared and the manager is cleared), Update (forwarded to the manager as (float dt, false)) and Draw (forwarded
 // to the manager with a null node).
 //
-// The camera, the target and the light are the canonical glitch::scene classes, and the manager the batch talks
-// to is a real glitch::scene::CSceneManager, so those constructors and the addChild / setActiveCamera /
-// setAmbientLight / setTarget calls run for real. What the test supplies is the process state around them:
-// GSViewer reaches the manager through DeviceSceneManager() (Application::m_device +0x1c), and the Application
-// units are not part of this batch, so the test stands in for the singleton and for the device word. The
-// manager's clear / update / drawAll slots run the engine renderer (the video driver, the render and batch lists),
-// which the test does not build, so the test's manager records those three calls instead.
+// The camera, the target, the light and the manager are the canonical glitch::scene classes, so their
+// constructors run for real and the addChild / setActiveCamera / setAmbientLight / setTarget calls the batch
+// makes are the real ones. What the test supplies is the process state around them: GSViewer reaches the manager
+// through DeviceSceneManager() (the device word at Application::m_device +0x1c), and neither the device nor the
+// Application singleton is part of this batch, so the definition below returns the test's manager from it (the
+// other game tests stand in for the application singleton the same way). The manager's clear / update / drawAll
+// slots run the engine renderer (the video driver, the render and batch lists), which the test does not build, so
+// the test's manager records those three calls instead.
 // Exit status 0 means every check passed.
 #include <cstdio>
 
-#include "dh2/Application.hpp"
 #include "dh2/GSViewer.hpp"
-#include "glitch-core-io/os/device.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
 #include "glitch-scene-collada-gui/scene_nodes.hpp"
-#include "glitch-video/video_mode_list.hpp"  // completes glitch::IDevice's video mode list for the storage below
 
 namespace {
 
@@ -31,13 +30,6 @@ void Check(bool ok, const char* what) {
         ++g_failures;
     }
 }
-
-// The process singleton: DeviceSceneManager() reads Application::m_device (+0x1c of the device). The storage is
-// zero-initialised and no Application constructor runs; only the m_device word is written.
-alignas(Application) unsigned char g_applicationStorage[sizeof(Application)];
-
-// The device word, written with the manager below. Only its scene manager is read.
-alignas(glitch::IDevice) unsigned char g_deviceStorage[sizeof(glitch::IDevice)];
 
 // The manager the batch reaches through the device. A real CSceneManager, so its constructor creates the root
 // node that Ctor attaches the camera, the target and the light to, and setActiveCamera / setAmbientLight store
@@ -78,8 +70,11 @@ TestSceneManager& Manager() {
 
 }  // namespace
 
-Application& ApplicationGetInstance() {
-    return *reinterpret_cast<Application*>(g_applicationStorage);
+// DeviceSceneManager (game-world/src/g1-game-world-VisualObject-0654b6-2.cpp) is the device word Application::m_device
+// +0x1c. The device is not part of this batch, so the test's manager stands in for it. The test links with
+// --allow-multiple-definition and its own object comes first, so this definition wins.
+SceneManager* DeviceSceneManager() {
+    return reinterpret_cast<SceneManager*>(static_cast<glitch::scene::CSceneManager*>(&Manager()));
 }
 
 // Empty stand-ins for the StateBase members that GSViewer's vtable and destructor refer to.
@@ -95,10 +90,6 @@ void StateBase::Sleep(const StateMachine*) {}
 void StateBase::WakeUp(const StateMachine*) {}
 
 int main() {
-    glitch::IDevice* const device = reinterpret_cast<glitch::IDevice*>(g_deviceStorage);
-    device->sceneManager = reinterpret_cast<glitch::scene::ISceneManager*>(
-        static_cast<glitch::scene::CSceneManager*>(&Manager()));
-    ApplicationGetInstance().m_device = device;
     TestSceneManager& manager = Manager();
 
     {

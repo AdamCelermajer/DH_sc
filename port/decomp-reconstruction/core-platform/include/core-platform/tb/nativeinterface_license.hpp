@@ -18,9 +18,10 @@ extern const char* g_license_file_path;
 extern const char* g_license_str2;
 extern const char* g_license_str3;
 
-// Five passphrase texts, indexed by the remainder of the derived value modulo 5. The original table is at ELF
-// 0x3764 and points at 1024-byte texts in .rodata (0x1274 + 1028 * i). The text is not copied into source;
-// the integrator defines this table from the original binary.
+// Five passphrase texts, indexed by the remainder of the derived value modulo 5. The original table is the
+// six-pointer .data.rel.ro block at ELF 0x3760: the slot at 0x3760 holds the pointer to the byte-order flag
+// byte at 0x1260, and the five slots from 0x3764 point at the 1024-byte .rodata texts at 0x1274 + 1028 * i.
+// The .cpp defines this table by copying those five texts byte for byte; nothing defines it outside the tree.
 extern const char* const g_license_passphrase_blob[5];
 
 extern "C" {

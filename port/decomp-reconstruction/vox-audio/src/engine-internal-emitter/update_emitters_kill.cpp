@@ -3,6 +3,7 @@
 // every emitter, collects the dead ones, and kills them after the read pass.
 #include "vox-audio/vox/data_obj.hpp"
 #include "vox-audio/vox/decoder.hpp"
+#include "vox-audio/vox/driver.hpp"
 #include "vox-audio/vox/emitter_obj.hpp"
 #include "vox-audio/vox/gain_fade.hpp"
 #include "vox-audio/vox/memory.hpp"
@@ -94,19 +95,23 @@ int VoxEngineInternal::UpdateEmitters(float dt) {
 }
 
 // 0x86e160 _ZN3vox17VoxEngineInternal11KillEmitterEPNS_10EmitterObjE
-// Partial. Done: the slot stamp is bumped (the handles to this emitter go stale), the
-// priority bank entry is removed, the emitter's decoder cursor (+0x114) and its stream cursor
-// are released, the emitter is unregistered from its data object, the data object is queued
-// for release (QueueForRelease, the pending list at +0x6c under its mutex at +0x74), and the
-// object is destroyed.
-// Cursor release, as the listing shows it (0x86e160, asm 0x86e1d0-0x86e2ec): the stream cursor
-// comes from DecoderCursorInterface::GetStreamCursor (slot +0x30) and goes to the data object's
-// stream (+0x38, slot +0x18) or is destroyed directly when there is none; the cursor goes to the
-// data object's decoder (+0x3c, DestroyCursor slot +0x14) or is destroyed directly. The release
-// runs only when the emitter has a data object.
-// Not done: the driver call at slot +0x48 that the original makes when the emitter has a DSP
-// source (+0x110). The asm (0x86e1a0-0x86e1b4) passes the driver in R0 alone, with no second
-// argument. DriverInterface has no no-argument slot +0x48 in the port, so the call is not made.
+// The slot stamp is bumped (the handles to this emitter go stale), the priority bank entry is
+// removed, the driver is called through slot +0x48 when the emitter has a DSP source (+0x110),
+// the emitter's decoder cursor (+0x114) and its stream cursor are released, the emitter is
+// unregistered from its data object, the data object is queued for release (QueueForRelease, the
+// pending list at +0x6c under its mutex at +0x74), and the object is destroyed.
+// Driver call, as the listing shows it (asm 0x86e190-0x86e1b4): the source word at +0x110 is
+// tested, then the engine's driver (+0x54c) is tested, and the driver's virtual slot +0x48 is
+// called with the driver as its only argument. The binary's vtable has PrintDebug at +0x48
+// (_ZTVN3vox13DriverAndroidE entry 0x48 is DriverAndroid::PrintDebug, empty), so this is the
+// driver's debug dump, not DestroyDriverSource. It runs before CleanUp. The port's DriverInterface
+// carried the wrong slot order until this batch, which is why the call was missing.
+// Cursor release (asm 0x86e1d0-0x86e2ec): the stream cursor comes from
+// DecoderCursorInterface::GetStreamCursor (slot +0x30) and goes to the data object's stream
+// (+0x38, slot +0x18) or is destroyed directly when there is none; the cursor goes to the data
+// object's decoder (+0x3c, DestroyCursor slot +0x14) or is destroyed directly. The release runs
+// only when the emitter has a data object, and only the cursor path is guarded: the listing reads
+// the stream and the decoder without a null check on the data object's own pointers beyond that.
 void VoxEngineInternal::KillEmitter(EmitterObj* emitter) {
     if (emitter == nullptr) {
         return;
@@ -114,6 +119,9 @@ void VoxEngineInternal::KillEmitter(EmitterObj* emitter) {
     ++data_stamps_[emitter->stamp_index_];
     if (emitter->in_bank_ && priority_bank_ != nullptr) {
         priority_bank_->RemoveEmitter(emitter->bank_, emitter);
+    }
+    if (emitter->dsp_source_ != nullptr && driver_ != nullptr) {  // +0x110 and +0x54c
+        driver_->PrintDebug();                                    // driver vtable +0x48
     }
     emitter->CleanUp();
 

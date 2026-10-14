@@ -97,12 +97,12 @@ void SetRateAndLengthFromData(EmitterObj& e, const DataObj* data) {
 
 // The cursor overload's play length and rate (0x86c5ec and 0x86ce1c read the cursor words):
 // length = channels * length_frames * (bits >> 3) at +0x24, rate = (bits >> 3) * channels * sample
-// rate (unknown_08) at +0x20. The arithmetic wraps at 32 bits, as the 32-bit listing does.
+// rate (sample_rate) at +0x20. The arithmetic wraps at 32 bits, as the 32-bit listing does.
 void SetRateAndLengthFromCursor(EmitterObj& e, const TrackParams& track) {
     const std::uint32_t channels = static_cast<std::uint32_t>(track.channels);
     const std::uint32_t bytes = static_cast<std::uint32_t>(track.bits_per_sample >> 3);
     e.play_length_ = static_cast<int>(channels * static_cast<std::uint32_t>(track.length_frames) * bytes);
-    e.play_rate_ = static_cast<int>(bytes * channels * static_cast<std::uint32_t>(track.unknown_08));
+    e.play_rate_ = static_cast<int>(bytes * channels * static_cast<std::uint32_t>(track.sample_rate));
 }
 
 // The decoder type the constructor stores (+0x140): GetType of the data object's decoder when
@@ -158,10 +158,23 @@ int BuildBufferRing(EmitterObj& e, DriverSourceInterface* source, DecoderCursorI
 }  // namespace
 
 // 0x866380 _ZN3vox10EmitterObjC1ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE
-// 0x8665cc _ZN3vox10EmitterObjC2ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE (same body)
-// Partial: the listing reads data->decoder_->GetType() after checking the data state. With a null
-// data object, a state other than 0, or no decoder, the listing calls GetType through a null
-// pointer (a crash). The port stores 0 for those cases instead (DecoderTypeOf).
+// 0x8665cc _ZN3vox10EmitterObjC2ExiiPNS_21DriverSourceInterfaceEPNS_7DataObjE (same body, both listed at 576 bytes)
+// Reconstructed against the 0x866380 listing. It is the Handlable base (id +0x08, ref_count +0x10
+// = 0, mutex +0x18) plus the shared defaults of InitCommonFields: the gain, resume and pitch fade
+// records at +0x48, +0x5c and +0x78 with target 1.0 and flag 1, the gain words 1.0 (+0x38, +0x3c,
+// +0x40, +0x44), the 3D parameter block, loop_read_/loop_ (+0x8c, +0x8d) 0, the state pair 0,
+// dirty_ +0xe0..+0xea zeroed, the DSP pointers (+0xec, +0xf0) 0, the ring words (+0xf4, +0xf8,
+// +0xfc) 0, state_callback_ pair 0, user_data_ +0x134 = -1, the +0x120..+0x130 words and the
+// interactive state. Then ready_flag_ +0x1c = 1, play_length_ +0x24 = 0, dsp_source_ +0x110,
+// data_ +0x118, buffer_chunk_bytes_ +0x108 = 0, the play rate and length from the data object's
+// words (length = length +0x34 * channels +0x28 * (bits +0x30 >> 3) at +0x24, rate = rate +0x2c *
+// the frame bytes at +0x20, only when the data object exists), SetDefaultParameters, the decoder
+// type at +0x140 and +0x145 = 1.
+// Deviation (host-necessitated): the listing takes the decoder as
+// (data == null || data->state_ (+0x50) != 0) ? null : data->decoder_ (+0x3c) and then calls
+// GetType (decoder +0x18) through it, so it faults for a null data object, for a data object that
+// is not ready and for one with no decoder (all reachable while a data object is still loading);
+// the port stores decoder type 0 for those cases (DecoderTypeOf).
 EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInterface* source, DataObj* data) {
     InitCommonFields(*this, id, priority, bank);
     ready_flag_ = 1;                 // +0x1c: the data is not loaded yet (IsReady is false)
@@ -176,9 +189,19 @@ EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInte
 }
 
 // 0x86c5ec _ZN3vox10EmitterObjC1ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE
-// 0x86ce1c _ZN3vox10EmitterObjC2ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE (same body)
-// Partial: the same null GetType path as C1 (DecoderTypeOf). The play rate and length come from the
-// cursor's track block, as the listing reads them (cursor +0x04..+0x10).
+// 0x86ce1c _ZN3vox10EmitterObjC2ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE (same body, both listed at 1036 bytes)
+// Reconstructed against the 0x86c5ec listing. Same base and InitCommonFields defaults as C1
+// (0x866380), except ready_flag_ +0x1c = 0, buffer_chunk_bytes_ +0x108 = chunk_bytes,
+// dsp_source_ +0x110 = source, decoder_cursor_ +0x114 = cursor, data_ +0x118 = data, and
+// play_rate_ +0x20 = 1. With a null cursor or a null source the listing sets need_to_die_ (+0x11c)
+// and skips everything below, SetDefaultParameters included. Otherwise the play length and rate
+// come from the cursor's track block (length = channels +0x04 * length +0x10 * (bits +0x0c >> 3) at
+// +0x24, rate = (bits >> 3) * channels * rate +0x08 at +0x20), the ring at +0xf4 is built by the
+// cursor and source AllowBufferReference (+0x34 and source +0x48) and GetBufferCount (source +0x54)
+// branches (BuildBufferRing; a zero slot count sets need_to_die_), SetDefaultParameters runs, and
+// the decoder type +0x140 and +0x145 = 1 are stored.
+// Deviation (host-necessitated): the same null GetType path as C1 (0x866380). SetRateAndLengthFromCursor
+// reads the base DecoderCursorInterface::params_ block, so no further cursor layout fix is needed here.
 EmitterObj::EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes, DriverSourceInterface* source,
                        DecoderCursorInterface* cursor, DataObj* data) {
     InitCommonFields(*this, id, priority, bank);
@@ -240,7 +263,7 @@ int EmitterObj::LoadAsync() {
             // per chunk = frame bytes * 150 * rate / 1000 (cursor +0x08), rounded down to whole frames.
             // A zero frame size gives a zero chunk, as the listing's remainder does.
             const std::int64_t frame_bytes = static_cast<std::int64_t>(track.channels) * track.bits_per_sample / 8;
-            const std::int64_t per_chunk = frame_bytes * 150 * track.unknown_08 / 1000;
+            const std::int64_t per_chunk = frame_bytes * 150 * track.sample_rate / 1000;
             chunk = static_cast<int>(per_chunk - (frame_bytes > 0 ? per_chunk % frame_bytes : 0));
             buffer_chunk_bytes_ = chunk;  // +0x108
         }

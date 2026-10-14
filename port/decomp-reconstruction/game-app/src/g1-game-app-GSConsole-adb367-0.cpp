@@ -55,12 +55,22 @@ GSConsole::~GSConsole() {}
 // PARTIAL. Asm 0x3832c4: R3 = Singleton<Application>::s_inst + (dword_99F73C - 0x99F72C) = Application::m_device (+0x10),
 // then R3 = [R3+0x18], then R0 = R3 (the receiver), R3 = [R3] (its vptr), LR = PC, PC = [R3+0xC]. So the object at
 // IDevice +0x18 is called through vtable slot +0x0c with NO other argument (the StateMachine in r1 is not moved into a
-// parameter register), and its int result is returned. The call has exactly one caller in the binary (xrefs_to
-// 0x3832c4: GSConsole::Draw, the Draw2D slot), so the object's type cannot be inferred from another site either; the
-// class of IDevice +0x18 and its slot +0x0c are the concrete missing item (glitch-core-io/os/device.hpp declares the
-// word as void* unk_18 and its comment says the role is not identified). The body is therefore empty; the original's
-// int result is dropped by the void StateBase::Draw2D slot. Adding the receiver type to IDevice is engine-glitch's
-// edit, not this batch's.
+// parameter register), and its int result is returned. THE OBJECT IS NOW IDENTIFIED: it is the gui environment,
+// glitch::gui::IGUIEnvironment, and slot +0x0c is drawAll().
+// Evidence (producer side, not the call site): glitch::IDevice::createGUIAndScene (0x671554) allocates the C2DDriver
+// into device +0x14 (asm 0x671584) when a video driver exists, then asks the CIrrFactory instance's vtable +0x10 --
+// CIrrFactory::createGUIEnvironment (0x533f28), which operator-new(472)s a CGUIEnvironment (0x53a0c0) -- and stores the
+// result at device +0x18 (asm 0x6715a8); the same factory's +0x0c (createSceneManager) is stored at +0x1c (asm
+// 0x6715d4). _ZTVN6glitch3gui15CGUIEnvironmentE+8 is drawAll +0x0c, setFocus +0x10, getFocus +0x14, ...,
+// setUserEventReceiver +0x34. The C2DDriver alternative is excluded: its vtable slots +0x0c/+0x10/+0x14 are null words
+// (0x9770b8+8+0xc). The same +0x18 object is the receiver in IDevice::setEventReceiver (0x671504, slot +0x34 =
+// setUserEventReceiver) and the font block in Application::InitWin32 (0x32fab4, slot +0x50 = getTTFont).
+// The body stays empty only because the receiver word is not typed: glitch-core-io/os/device.hpp declares +0x18 as
+// `void* unk_18` and that header belongs to another batch. The Console::_createList and Character debug-draw batches
+// already cast that same word to IGUIEnvironment*, so the fix is one line in that header (layout request: make it
+// glitch::gui::IGUIEnvironment* guiEnvironment); the body then becomes
+//   static_cast<glitch::gui::IGUIEnvironment*>(ApplicationGetInstance().m_device->unk_18)->drawAll();
+// Declaring that member is an engine-glitch (core-io) edit, outside this batch.
 void GSConsole::Draw2D(const StateMachine*) {}
 
 // 0x3832fc GSConsole::Draw(StateMachine const*)

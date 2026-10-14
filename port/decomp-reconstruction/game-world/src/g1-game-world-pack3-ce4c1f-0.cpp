@@ -3,9 +3,10 @@
 // Script_DeactivateProjectileTrap. Each function is written from the Hex-Rays listing and checked against the
 // assembly where the listing was unclear (the trap scripts and PathValidity::isValid(node)).
 //
-// PARTIAL: PolyStat::~PolyStat. Blocks of 0x80 bytes or fewer go to __node_alloc::_M_deallocate in the original
-// (veneer __ZNSt12__node_alloc13_M_deallocateEPvj_veneer). That allocator is not in this tree, and the code that
-// allocates these buffers is not recovered, so CustomFree stands in for it (the same gap as ClearSubtitles).
+// PolyStat::~PolyStat now reproduces the original's allocator dispatch. Blocks of 0x80 bytes or fewer go to
+// __node_alloc::_M_deallocate (veneer __ZNSt12__node_alloc13_M_deallocateEPvj_veneer, 0x31bb44), which now has
+// a body in core-platform/stlport_alloc.hpp / src/stlport_alloc.cpp. The code that allocates these buffers is
+// still not recovered, so the branch that produces a sub-0x80 buffer is not exercised anywhere yet.
 //
 // Skipped here: PhysicalBaseObject::~PhysicalBaseObject() D0 (0x46e9a0), the deleting destructor the compiler generates
 // from the virtual destructor. The empty complete-object destructor D1 (0x46e6b0) is the header's "= default" body, so
@@ -14,6 +15,7 @@
 #include <cmath>
 #include <cstdint>
 
+#include "core-platform/stlport_alloc.hpp"  // CustomFree (0x310440) and std::__node_alloc (0x31bb44/0x313994)
 #include "pydata-accessors/script_cmd.hpp"
 
 #include "dh2/DebugSwitches.hpp"
@@ -35,9 +37,9 @@
 #include "dh2/Script_DeactivateProjectileTrap.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 
-// core-platform/memory.hpp declares CustomFree (0x310440). It is declared here instead of included, because that header
-// pulls in a second copy of the glitch core math types that conflicts with the shared ones this file uses.
-void CustomFree(void* p);
+// core-platform/stlport_alloc.hpp declares CustomFree (0x310440) and std::__node_alloc. It replaces the single
+// hand-written CustomFree declaration this file used to carry, because the decompiler pass has since fixed the
+// glitch-core math-type conflict the old comment names (the include below compiles against the shared types).
 
 namespace {
 
@@ -183,9 +185,11 @@ int Point2D<float>::lineIntersection(const Point2D<float>& p0, const Point2D<flo
 // ---------------------------------------------------------------------------------------------------------------
 
 // 0x5102e8 PolyStat::~PolyStat()
-// PARTIAL, see the file header. The buffer begin (+0x14) is freed unless it is null or points back at this object.
-// The size is the buffer end (+0x00) minus the begin. Blocks above 0x80 bytes go to CustomFree. Smaller ones go to the
-// node allocator in the original; CustomFree stands in for it here.
+// The buffer begin (+0x14) is released unless it is null or points back at this object. The size is the
+// buffer end (+0x00) minus the begin (0x510308), and the listing's 0x510310 `CMP R3,#0x80; BHI` sends sizes
+// above 0x80 to CustomFree and the rest to __node_alloc::_M_deallocate (0x510314). That node allocator now
+// has a body (core-platform/stlport_alloc.hpp / src/stlport_alloc.cpp, 0x31bb44), so the small-block branch
+// is reproduced rather than stood in for.
 PolyStat::~PolyStat() {
     void* begin = unk_14;
     if (begin != this && begin != nullptr) {
@@ -194,8 +198,7 @@ PolyStat::~PolyStat() {
         if (size > 0x80) {
             CustomFree(begin);
         } else {
-            // Original: __node_alloc::_M_deallocate(begin, size). Not in this tree; CustomFree stands in (PARTIAL).
-            CustomFree(begin);
+            std::__node_alloc::_M_deallocate(begin, static_cast<unsigned int>(size));
         }
     }
 }

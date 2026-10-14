@@ -1,11 +1,17 @@
 // vox::EmitterObj::GetDebugInfo: one DebugChunk_emitter filled under the Handlable mutex.
 //
-// Partial. The listing reads the data object's id (data +0x08) and the cursor's channel count
-// (cursor +0x04) without a null check. The port writes 0 for the data id when there is no data
-// object, and skips the param0 override when no cursor is attached (a loading emitter has none
-// before LoadAsync; the listing faults there). The override itself is the listing's: param0 is
-// -1 when the cursor reports more than one channel (TrackParams::channels). Everything else is
-// copied, including the source gain (+0x38 -> +0x20) and source pitch (+0x70 -> +0x28).
+// Reconstructed against the 0x866818 listing: Lock; the emitter id (this +0x08) to +0x00, the data
+// object id (this +0x118 -> +0x08) to +0x08, state_set_ (+0x94) to +0x1c, source_gain_ (+0x38) to
+// +0x20, (gain_modifier_ +0x44 * resume_fade_.target +0x60) * gain_fade_.target +0x4c to +0x24,
+// source_pitch_ (+0x70) to +0x28, pitch_ (+0x74) to +0x2c, loop_read_ (+0x8c) to +0x30, group_
+// (+0x28) to +0x38, ref_count (+0x10) to +0x34, position (+0x9c), velocity (+0xb4) and direction
+// (+0xa8) to +0x10..+0x18, +0x3c..+0x44 and +0x48..+0x50, param0_ (+0xc0) to +0x54, float_params_
+// (+0xc4..+0xdc) to +0x58..+0x70; then the cursor's channel count (cursor +0x04) above 1 overwrites
+// param0 with -1; every path returns the Mutex::Unlock int.
+// Deviation (host-necessitated): the listing reads the data object id through this +0x118 and the
+// cursor channel count through this +0x114 with no null check (a loading emitter has neither before
+// LoadAsync, and the listing faults); the port writes data id 0 with no data object and skips the
+// -1 override with no cursor.
 #include "vox-audio/vox/decoder.hpp"
 #include "vox-audio/vox/emitter_obj.hpp"
 

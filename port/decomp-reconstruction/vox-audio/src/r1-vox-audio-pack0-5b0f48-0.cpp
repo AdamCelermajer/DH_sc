@@ -7,10 +7,14 @@
 
 #include "vox-audio/vox/memory.hpp"
 
-// 0x889494 VoxAlloc_c (partial: a C-linkage thunk. The asm is a plain branch to 0x31068c, which is
-// VoxAlloc(uint, char const*, char const*, int) and is itself partial: the gAssertLevel branches and
-// ShowMemoryStats of CustomAlloc (0x310454) are not modelled, see vox_alloc.cpp. The forward is
-// complete, so the missing parts are the target's.)
+// 0x889494 VoxAlloc_c
+// Verified from the listing: the whole body is the single ARM instruction
+// `B _Z8VoxAllocjPKcS0_i`, so this C-linkage entry point tail-branches to
+// VoxAlloc(uint, char const*, char const*, int) at 0x31068c, and the forward above reproduces it
+// exactly (the four arguments pass through unchanged, the unsigned line becoming the int the
+// symbol declares). The target's own chain (CustomAlloc(uint) at 0x310454: malloc plus the
+// "Out of memory:" report and the gAssertLevel 1/2 branches) is reconstructed in vox_alloc.cpp,
+// so nothing is missing here.
 extern "C" void* VoxAlloc_c(std::size_t size, const char* file, const char* function, unsigned int line) {
     return VoxAlloc(size, file, function, static_cast<int>(line));
 }

@@ -112,16 +112,20 @@ void FileSystemWin32::_getPaths() {
 }
 
 // 0x34fc18 _ZN15FileSystemWin3211_FileHandleC1EPKcS2_bb
-// C2 at 0x35003c (_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb) is the same body.
-// The path is dir + name, or RES_PATH + name when the name contains ".savegame".
-// Modes from Hex-Rays: read-only "rb"; writable with readwrite "a+b"; writable without
-// readwrite "w+b". canRead is set in every case and canWrite when writable, even when
-// the open fails (file_ is then null, and _createHandle releases the handle).
-// Partial: the original opens through glitch::io::CFileSystem::open and keeps the
-// returned CFile (+0x8); here fopen is used with the same modes and no CFile exists, so
-// the CFile obfuscation byte is never set. When the global byte_99F7D4 is set, the
-// original lower-cases the path with ToLowerCase; that global has no owner in this tree
-// and the path is never lowered.
+// C2 at 0x35003c (_ZN15FileSystemWin3211_FileHandleC2EPKcS2_bb) is the same body (the two
+// listings are identical), so this one definition serves both symbols.
+// The path is dir + name, or RES_PATH + name when the name contains ".savegame". Modes from
+// Hex-Rays: read-only "rb"; writable with readwrite "a+b"; writable without readwrite "w+b".
+// canRead is set in every case and canWrite when writable, even when the open fails (file_ is then
+// null, and _createHandle releases the handle). The original opens through
+// glitch::io::CFileSystem::open, keeps the returned CFile at +0x8 and caches its FILE* at +0x4.
+// That open has no definition in the tree (see the header), so the port builds the real
+// glitch::io::CFile from the handle it opened itself and keeps the same two offsets; nothing can
+// set the CFile's obfuscation byte, which is the constructor's false.
+// PARTIAL, exact missing items: (1) glitch::io::CFileSystem::open (0x56dc40, skipped: it needs the
+// obfuscation map) and with it CFile +0x24; (2) the byte_99F7D4 lower-casing of the path, a global
+// with no owner in this tree, whose ToLowerCase(char*, int, int) (0x34e414) is declared in the game
+// header dh2/global/ToLowerCase.hpp.
 FileSystemWin32::_FileHandle::_FileHandle(const char* dir, const char* name, bool writable, bool readwrite) {
     std::string path = dir;
     path += name;
@@ -132,26 +136,36 @@ FileSystemWin32::_FileHandle::_FileHandle(const char* dir, const char* name, boo
     if (writable) {
         mode = readwrite ? "a+b" : "w+b";
     }
-    file_ = std::fopen(path.c_str(), mode);
+    std::FILE* handle = std::fopen(path.c_str(), mode);
+    if (handle != nullptr) {
+        cfile_ = new glitch::io::CFile(handle, path.c_str(), false);
+        file_ = cfile_->file;
+    }
     canRead_ = true;
     canWrite_ = writable;
 }
 
 // 0x34fb7c _ZN15FileSystemWin3211_FileHandleD1Ev
-// D2 at 0x34fbd8 (_ZN15FileSystemWin3211_FileHandleD2Ev) has the same body.
-// Partial: the original drops the glitch CFile at +0x8 (ISharedObject::drop), which
-// closes the FILE only when no other reference is left. Here the FILE is closed
-// directly, which matches only when this handle holds the last reference.
+// D2 at 0x34fbd8 (_ZN15FileSystemWin3211_FileHandleD2Ev) has the same body (the two listings are
+// identical), so this one definition serves both symbols.
+// The original drops the glitch CFile at +0x8 (glitch::ISharedObject<CFile>::drop, which closes the
+// FILE when the count reaches zero) and resets the vtable word. The port deletes the CFile, whose
+// destructor closes the handle: glitch::io::CFile has no ISharedObject base and no drop() in the
+// tree, so the shared-handle count is not modelled and the delete is the drop the original performs
+// when this handle holds the last reference -- which it does, because the original's constructor
+// drops the reference CFileSystem::open handed it. The vtable reset is the compiler's.
+// PARTIAL: the missing declarations are glitch::ISharedObject<glitch::io::CFile> and
+// glitch::io::CFileSystem::open.
 FileSystemWin32::_FileHandle::~_FileHandle() {
-    if (file_ != nullptr) {
-        std::fclose(file_);
-    }
+    delete cfile_;
 }
 
 // 0x34fbbc _ZN15FileSystemWin3211_FileHandleD0Ev
-// The deleting destructor is compiler-generated: it runs ~_FileHandle and then this
-// class's operator delete, which is CustomFree(this) as in the original. Partial,
-// because it runs the partial D1 above.
+// The deleting destructor is compiler-generated from ~_FileHandle (0x34fb7c) and the class's
+// operator delete below, which is CustomFree(this) exactly as the listing's tail shows (the same
+// D1 body followed by CustomFree), so no hand-written D0 exists. PARTIAL through the D1 above:
+// the shared glitch::io::CFile drop is not modelled (no glitch::ISharedObject<glitch::io::CFile>,
+// no definition of glitch::io::CFileSystem::open).
 void FileSystemWin32::_FileHandle::operator delete(void* p) { CustomFree(p); }
 
 // The handle block comes from CustomAlloc, the allocator that CustomFree releases to.
@@ -160,18 +174,20 @@ void* FileSystemWin32::_FileHandle::operator new(std::size_t size) {
 }
 
 // 0x34eec8 _ZN15FileSystemWin3211_FileHandle4readEPvy
-// The gate is the virtual canRead() (vtable +0xc), which reads the canRead_ byte. The
-// decode count is the requested size; decodeObfuscatedData clamps it to 4 - pos.
-// Partial: the decode flag is the byte at +0x24 of the glitch CFile (held at +0x8 of
-// the original object). CFileSystem::open, which sets that byte, is not in this tree,
-// so the flag is the obfuscated_ member, set by the caller and false by default.
+// The gate is the virtual canRead (vtable +0xc), which reads the canRead_ byte. Then ftell, then
+// fread on the FILE at +0x4, then the decode: the original tests the obfuscation byte at +0x24 of
+// the CFile held at +0x8 (this + 2 in the decompilation) and the position before the read, and the
+// decode count is the requested size (decodeObfuscatedData clamps it to 4 - pos).
+// PARTIAL: no definition of glitch::io::CFileSystem::open (0x56dc40) exists, so nothing sets the
+// CFile's obfuscation byte; only a caller that sets it can reach the decode. The cfile_ null test
+// is a host guard: the original dereferences +0x8 unconditionally.
 std::uint64_t FileSystemWin32::_FileHandle::read(void* buf, std::uint64_t n) {
     if (!canRead_) {
         return 0;
     }
     long pos = std::ftell(file_);
     std::size_t got = std::fread(buf, 1, n, file_);
-    if (obfuscated_ && pos <= 3) {
+    if (cfile_ != nullptr && cfile_->obfuscated && pos <= 3) {
         FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), file_);
     }
     return got;
@@ -186,16 +202,18 @@ std::uint64_t FileSystemWin32::_FileHandle::write(const void* buf, std::uint64_t
 }
 
 // 0x34ef58 _ZNK15FileSystemWin3211_FileHandle4peekEPvy
-// Same gate and decode as read(); the original then seeks back by the number of bytes
-// read, so the position is unchanged. Partial: the decode flag is the same stand-in
-// as read() (obfuscated_ for the CFile byte at +0x24).
+// Same gate, ftell, fread and decode as read(); the original then seeks back by the number of bytes
+// read, so the position is unchanged. The decode test is nested here (the flag first, then
+// pos <= 3), which is the same condition read() tests in one expression.
+// PARTIAL: the same missing glitch::io::CFileSystem::open (0x56dc40) as read(), so the CFile
+// obfuscation byte at +0x24 cannot be set; the cfile_ null test is the same host guard.
 std::uint64_t FileSystemWin32::_FileHandle::peek(void* buf, std::uint64_t n) const {
     if (!canRead_) {
         return 0;
     }
     long pos = std::ftell(file_);
     std::size_t got = std::fread(buf, 1, n, file_);
-    if (obfuscated_ && pos <= 3) {
+    if (cfile_ != nullptr && cfile_->obfuscated && pos <= 3) {
         FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), file_);
     }
     std::fseek(file_, -static_cast<long>(got), SEEK_CUR);
@@ -237,14 +255,19 @@ FileSystemWin32::_FileHandle* FileSystemWin32::_createHandle(const char* dir, co
 }
 
 // 0x34fee4 FileSystemWin32::openSavefile(char const*, bool)
-// Partial: the original first calls Savegame::FlushJobs(name) (game-items-save, 0x314cfc).
-// core-platform cannot see the game headers, so that call is omitted. The handle is then
-// opened in the savefiles directory with readwrite = false.
+// Slot +0x94. Hex-Rays: Savegame::FlushJobs(name) first, then _createHandle(savefilesPath_
+// (+0x43c), name, writable, false). The handle half is exact; PARTIAL, exact missing item:
+// Savegame::FlushJobs(char const*) (0x314cfc, game-items-save, declared in dh2/Savegame.hpp) is not
+// visible from core-platform. The game-items-save Savegame helpers flush before their own calls to
+// this function, but the other port callers (DebugSwitches::load, MenuDebugHUD, StringManager,
+// TrophyManager) call openSavefile directly, so a pending queued write of the name is not flushed
+// there.
 FileSystemWin32::_FileHandle* FileSystemWin32::openSavefile(const char* name, bool writable) {
     return _createHandle(savefilesPath_, name, writable, false);
 }
 
 // 0x34ff28 FileSystemWin32::openResource(char const*)
+// Slot +0x90: the resources directory, then the data directory when that failed.
 FileSystemWin32::_FileHandle* FileSystemWin32::openResource(const char* name) {
     _FileHandle* h = _createHandle(resourcesPath_, name, false, false);
     if (h == nullptr) {
@@ -259,9 +282,16 @@ FileSystemWin32::_FileHandle* FileSystemWin32::openTraceFile(const char* name) {
 }
 
 // 0x34ffb0 _ZN15FileSystemWin328openFileEPKcbb
-// Partial: the original first checks Application::IsUsingUncompiledData(name) (game-app,
-// not visible from core-platform). When that is true it tries _createHandle("Q:\\", name,
-// false, false) and falls back to the root path. The root path is always used here.
+// Slot +0x88. The listing: when Application::IsUsingUncompiledData(name) is false, open the name in
+// the root path with the caller's flags; when it is true, first try _createHandle("Q:\\", name,
+// false, false) and fall back to the root path when that returned null. The port always takes the
+// root path.
+// PARTIAL, exact missing item: Application::IsUsingUncompiledData(char const*) const (0x320678,
+// defined in game-app/src/g1-game-app-Application-b291be-1.cpp, declared in
+// game/include/dh2/Application.hpp as a member of the Application singleton).
+// core-platform/include/core-platform/deps/application.hpp declares adapters for ApplicationGetDt
+// and DeviceFeatureFlags but none for IsUsingUncompiledData, and calling an undefined one would
+// link the aborting link-stub, so the branch is omitted rather than stubbed in.
 FileSystemWin32::_FileHandle* FileSystemWin32::openFile(const char* name, bool writable, bool readwrite) {
     return _createHandle(rootPath_, name, writable, readwrite);
 }
@@ -273,11 +303,14 @@ void FileSystemWin32::makeFullPath(const char*, const char*, char* out, int size
 }
 
 // 0x34f274 _ZNK15FileSystemWin3214deleteSavefileEPKc
-// Returns true (1 in the original) when the file was removed, false otherwise. On
-// failure the original reads the "isTracingFileSystem" switch and discards it. Partial:
-// that read goes to the DebugSwitches stand-in, whose load() does nothing here. The path
-// is built with snprintf into the original's 260-byte buffer, so a long name is cut
-// short where the original would overrun the buffer.
+// Slot +0x9c, verified against the listing: sprintf(s, "%s%s", RES_PATH, name) into a 260-byte
+// buffer, then `if (!unlink(s)) return 1;` -- so true when the unlink succeeded -- and on failure
+// errno is read and discarded, DebugSwitches::load() runs and GetSwitch("isTracingFileSystem") is
+// read and discarded, then 0 is returned. traceFileSystemFailure() is exactly those two discarded
+// calls (the real game-app DebugSwitches class, see core-platform/deps/debug_switches.hpp), so the
+// failure branch is reproduced. Remaining deviations, both named: the path is built with snprintf,
+// so a name longer than the buffer is truncated where the original overruns it, and the return type
+// is bool where the original's int is 0/1 (the mangled name does not encode the return type).
 bool FileSystemWin32::deleteSavefile(const char* name) const {
     char path[260];
     std::snprintf(path, sizeof path, "%s%s", RES_PATH, name);
@@ -357,17 +390,10 @@ void FileSystemWin32::closeFile(IFileStream*& stream) {
     }
 }
 
-// 0x34e150 FileSystemBase::doesSavefileExists(char const*), reached through the file system's virtual slot +0xb0.
-// The original runs Savegame::FlushJobs(name) (the game-side wrapper does), opens the savefile for reading (slot +0x94) and
-// closes it (slot +0x78); a handle that opened means the file exists.
-bool FileSystemWin32::doesSavefileExists(const char* name) {
-    _FileHandle* handle = openSavefile(name, false);
-    if (handle == nullptr) {
-        return false;
-    }
-    delete handle;
-    return true;
-}
+// FileSystemWin32 used to carry its own doesSavefileExists here. It is the inherited virtual
+// FileSystemBase::doesSavefileExists (0x34e150, the file system's slot +0xb0), implemented once in
+// filesystem_base.cpp; the port's callers (dh2/global/savefile_fs.hpp SavefileExists, the DebugHUD
+// and TrophyManager helpers) reach it through this class unchanged.
 
 // 0x34ebfc FileSystemWin32::getFolders(char const*, std::vector<std::string>&) const
 // Empty in the original.

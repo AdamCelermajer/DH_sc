@@ -79,9 +79,11 @@ Thread::~Thread() {
 }
 
 // 0x84559c _ZN6Thread22IsCurrectThreadRunningEv
-// Partial: the original probes the pthread with pthread_kill(tid, 0) and reports
-// running unless the result is EINVAL (22) or ESRCH (3). std::thread has no probe;
-// joinable() stands in for it.
+// Partial: the original probes with pthread_kill(tid, 0) and reports running unless the result is
+// EINVAL (22) or ESRCH (3); std::thread exposes no liveness probe, so joinable() stands in for it.
+// Missing: that probe. A worker that exited on its own (so the pthread_t is stale but not joined) reads
+// as running here and as not-running in the original; nothing in the tree calls this on a finished
+// worker, and pthread_kill has no portable std::thread equivalent.
 bool Thread::IsCurrentThreadRunning() const {
     return handle_.joinable();
 }

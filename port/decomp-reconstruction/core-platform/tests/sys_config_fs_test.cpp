@@ -1,5 +1,6 @@
 #include "core-platform/config_file.hpp"
 #include "core-platform/filesystem_base.hpp"
+#include "core-platform/filesystem_win32.hpp"
 #include "core-platform/fs_callbacks.hpp"
 #include "core-platform/serializable.hpp"
 #include "core-platform/sys_print.hpp"
@@ -35,7 +36,9 @@ int main() {
     FileSystemBase::decodeObfuscatedData(4, tail, 4, nullptr);  // index >= 4: untouched
     CHECK(tail[0] == 1);
 
-    FileSystemBase fsb;
+    // FileSystemBase is abstract (its file-system slots are the derived system's, as in the
+    // original), so the working-directory call is driven on the concrete FileSystemWin32.
+    FileSystemWin32 fsb;
     CHECK(fsb.changeWorkingDirectoryTo("."));
     CHECK(std::strcmp(glitch::io::CFileSystem::WorkingDirectory, ".") == 0);
     CHECK(!fsb.changeWorkingDirectoryTo("/no/such/dir/for/dh2"));

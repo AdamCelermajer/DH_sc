@@ -96,6 +96,10 @@ bool IsKnownChunk(std::uint32_t id) {
 // the body (+0x0c, the decoder's base offset at +0x18) is the total length of the file, so
 // the data after the body is total - 16 - body size bytes. The data is read into one buffer
 // and then walked.
+// Partial, one item: the Stat case is the only writer of the stack slot the Trsn case passes to
+// CreateTransitionsContainer (verified in the ARM listing: STR R4,[SP,var_9C] at 0x873F74 and
+// LDR R1,[SP,var_9C] at 0x8740D0), so a Trsn chunk that no Stat chunk precedes passes an
+// uninitialised word as the transition count. The port passes state_count, which is 0 there.
 bool DecoderNativeCursor::ParseFile() {
     if (stream_ == nullptr) {
         return false;
@@ -143,8 +147,11 @@ bool DecoderNativeCursor::ParseFile() {
     NativePlaylistsManager* manager = nullptr;
     // Plst count: the bound for the playlist index that Grpe and Grps records carry.
     std::int32_t playlist_count = 0;
-    // Stat count. The original passes the last Stat count (a stack slot that only the Stat
-    // case writes) to CreateTransitionsContainer, so Trsn lists are sized by the states.
+    // Stat count. Verified against the ARM listing: the stack slot var_9C is written only by the
+    // Stat case (0x873F74 -> STR R4,[SP,var_9C]) and read both by CreateStatesContainer there and
+    // by CreateTransitionsContainer at 0x8740D0 (LDR R1,[SP,var_9C]). A Trsn chunk that no Stat
+    // chunk precedes therefore passes an uninitialised stack word as the transition count; the
+    // port passes 0, which is what the binary defines no value for.
     std::int32_t state_count = 0;
 
     std::int64_t pos = 0;

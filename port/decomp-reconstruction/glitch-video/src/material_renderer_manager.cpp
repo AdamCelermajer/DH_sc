@@ -3,8 +3,23 @@
 #include <cstring>
 
 #include "glitch-video/material.hpp"
+#include "glitch-video/deps/os_logging.hpp"
+#include "glitch-video/material_renderer_manager_layout.hpp"
 
 namespace glitch::video {
+
+// 0x5d7c44 _ZN6glitch5video6detail23materialrenderermanager11SProperties8onRemoveEPvt
+// Verified instruction by instruction (six instructions): LDRH R3,[R0,#8] reads this record's materialType,
+// CMP R3,#0x10 bounds it by the 17-entry table, ADDLS R3,R1,R3,LSL#1 forms owner + 2*type, MOVLS/STRHLS write
+// 0xffff at [R3,#0x2c], and the entry id (the second parameter) is never read. Deviation: the table lives in the
+// manager's own member instead of at manager +0x2c, and the shared SIDedCollection template does not call this
+// hook (glitch-shared/sid_collection.hpp says it belongs to this manager), so the port's remove path does not yet
+// reach it; the body itself is the original's.
+void detail::materialrenderermanager::SProperties::onRemove(void* owner, uint16_t /*id*/) {
+    if (materialType >= materialrenderermanager_layout::kMaterialTypeCount) return;
+    static_cast<CMaterialRendererManager*>(owner)->m_materialTypeIds[materialType] =
+        materialrenderermanager_layout::kNoId;
+}
 
 namespace {
 // The SEntry the two lookups share: the entry at the id, or the collection's shared Invalid entry when the id
@@ -32,12 +47,20 @@ boost::intrusive_ptr<CMaterialRenderer> CMaterialRendererManager::getMaterialRen
 }
 
 // 0x5d7c5c _ZN6glitch5video24CMaterialRendererManager14SCreationStateC1EPc
-// Partial: the list heads point at the sentinel (set here as in the original). The other list
-// heads at +0x08..+0x23 (technique and parameter lists) are not modelled.
+// Verified against the listing (0x5d7c5c, 26 pseudocode lines). Reconstructed here: the name at +0x00, the
+// in-progress word at +0x04 = 0, the pink counter byte at +0x24 = 0, the pink sentinel at +0x28/+0x2c linked to
+// itself with the cursor at +0x30 pointing at the sentinel, and now the pending-pass sentinel at +0x10/+0x14
+// linked to itself with the pass cursor at +0x18 = 0 (the header said this was still missing).
+// Still missing: the technique list head at +0x08/+0x0c, the pass-array holder list head at +0x1c/+0x20, the
+// list head at +0x34/+0x38, its tail and cursor at +0x3c/+0x40, and the six zero words/bytes at +0x25, +0x34,
+// +0x38, +0x44, +0x4c, +0x50 and +0x54. None of those members exist in SCreationState yet.
 CMaterialRendererManager::SCreationState::SCreationState(char* name) : m_name(name) {
     m_pinkSentinel.next = &m_pinkSentinel;
     m_pinkSentinel.prev = &m_pinkSentinel;
     m_pinkCursor = &m_pinkSentinel;
+    m_passSentinel.next = &m_passSentinel;
+    m_passSentinel.prev = &m_passSentinel;
+    m_passCursor = nullptr;
 }
 
 // Frees the pink-bind nodes. The original destructor is not reconstructed; this only releases
@@ -78,9 +101,16 @@ void CMaterialRendererManager::SCreationState::addPinkBind(STemporaryID id, uint
 
 // 0x5d8f24 _ZN6glitch5video24CMaterialRendererManagerC1EPNS0_12IVideoDriverE
 // 0x5d8fa0 _ZN6glitch5video24CMaterialRendererManagerC2EPNS0_12IVideoDriverE
-// Partial: the SIDedCollection base constructor and the memset of the id table (0xff, 0x22 bytes)
-// are not reproduced.
-CMaterialRendererManager::CMaterialRendererManager(IVideoDriver* driver) : m_driver(driver) {}
+// Verified against the listing: the SIDedCollection base constructor is first (0x5d7db0; the port's base member
+// initializers give the same empty map, empty vector, next id 0 and count 0), then the driver at +0x28 and the
+// renderer-id table at +0x2c, which LC_API_MEMSET_0(this + 44, -1, 0x22) fills with 0xffff (the port's ctor body
+// does that now). Partial: the ctor also initialises the headers of the two SSharedString -> uint32 name maps at
+// +0x50 (color byte +0x50, parent +0x54, left/right +0x58/+0x5c to the header itself, count +0x60) and +0x68
+// (the same at +0x68/+0x6c/+0x70/+0x74/+0x78), the words at +0x80, +0x84, +0x88 and +0x8c to 0, and the uint16 at
+// +0x94 to 0xffff (the id of the renderer being built) -- none of those members exist in the port yet.
+CMaterialRendererManager::CMaterialRendererManager(IVideoDriver* driver) : m_driver(driver) {
+    for (uint16_t& id : m_materialTypeIds) id = materialrenderermanager_layout::kNoId;
+}
 
 // 0x5d7cf4 _ZNK6glitch5video24CMaterialRendererManager12getTechniqueENS1_12STemporaryIDE
 int32_t CMaterialRendererManager::getTechnique(STemporaryID id) const {
@@ -147,13 +177,22 @@ void CMaterialRendererManager::clearCreationState() {
 }
 
 // 0x5dc058 _ZNK6glitch5video24CMaterialRendererManager19isCreatingTechniqueEPKc
-// Partial: when no technique is open and a name is given, the original logs the name at level 3;
-// the logger is not ported.
-bool CMaterialRendererManager::isCreatingTechnique(const char* /*name*/) const {
+// Verified against the listing: the creation state (this +0x90, read as *((_DWORD*)this + 36)) is null ->
+// false; its in-progress word at +0x04 is set -> true; otherwise, when a name is given, the name is logged at
+// level 3 (ELL_ERROR) and false is returned. No deviation left: the log is the original's (os::Printer::log
+// 0x60aca0, the two-argument overload, with the caller's name as the text).
+bool CMaterialRendererManager::isCreatingTechnique(const char* name) const {
     if (m_creationState == nullptr) {
         return false;
     }
-    return m_creationState->m_inProgress04 != 0;
+    if (m_creationState->m_inProgress04 != 0) {
+        return true;
+    }
+    if (name == nullptr) {
+        return false;
+    }
+    os::Printer::log(name, glitch::ELL_ERROR);
+    return false;
 }
 
 }  // namespace glitch::video

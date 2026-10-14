@@ -11,25 +11,25 @@
 #include "dh2/IEventReceiver.hpp"  // ::IEventReceiver (game header, the one definition)
 
 namespace glitch {
+class IDevice;
 namespace scene {
 class ISceneNode;
 }
-}
+namespace gui {
+class IGUIListBox;
+class IGUIStaticText;
+}  // namespace gui
+}  // namespace glitch
 
 // EventManager instance; ELF global dword_99F740. Defined by the owning category.
 extern EventManager* g_eventManager;
 
-// File lister used by the module and scene lists. The object is the file system at
-// dword_99F73C+0x34 (IDevice +0x34). Its ELF vtable slot +0x7c is
-// FileSystemWin32::getFiles(char const*, vector<string>&), the one call used here.
-class ConsoleFileLister {
-public:
-    virtual ~ConsoleFileLister() = default;
-    // ELF vtable slot +0x7c. Appends the names matching `dir` (a path with a wildcard
-    // such as "data/scene/*.xml") to `out`.
-    virtual void getFiles(const char* dir, std::vector<std::string>& out) = 0;
-};
-extern ConsoleFileLister* g_consoleFileLister;
+// The device the console works on: the word at Singleton<Application>::s_inst +0x10, the ELF
+// global dword_99F73C (Application::m_device). Its gui environment is at IDevice +0x18, its video
+// driver at +0x10 and its file system at +0x34. The member belongs to dh2/Application.hpp, which
+// this header does not include; the accessor is defined in w7_console_00.cpp. Null before the
+// platform layer has created the device.
+glitch::IDevice* ConsoleDevice();
 
 // Abstract for now: IEventReceiver::onEvent is pure in the canonical dh2/IEventReceiver.hpp, and
 // Console::onEvent (0x335b14) and onEventNotOpened (0x33271c) are not reconstructed yet (skipped rows).
@@ -88,7 +88,12 @@ public:  // decision 9: the game code reads open_ directly (GSConsole, Applicati
     int menu_page_ = 0;                     // +0x08, index used by _setMenu()
     int selected_ = 0;                      // +0x0C
     std::vector<std::string> lists_[4];     // +0x10, +0x1C, +0x28, +0x34
-    void* menu_ = nullptr;                  // +0x40, menu view object (Clear/Add/Set slots)
+    // +0x40, the menu list box built by _createList: clear (K 0x98), addItem (K 0x84),
+    // setSelected (K 0xa0, read by Update) and setAutoScrollEnabled (K 0xa4).
+    glitch::gui::IGUIListBox* menu_ = nullptr;
+    // +0x44, the menu title bar built by _createList: setOverrideColor (K 0x84),
+    // setBackgroundColor (K 0x94), setTextAlignment (K 0xa0), getTextHeight (K 0xac).
+    glitch::gui::IGUIStaticText* menu_title_ = nullptr;
     std::vector<glitch::scene::ISceneNode*> toggled_nodes_;  // +0x48
     void* toggle_display_ = nullptr;        // +0x54
     std::string buffer_58_;                 // +0x58

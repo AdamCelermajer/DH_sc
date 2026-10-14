@@ -5,6 +5,7 @@
 
 #include "net-session-online/deps/matching.hpp"
 #include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/c_online.hpp"  // COnline::GetInstance / SetCounterForTest: IsExpired reads its +0x28 word
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -84,15 +85,21 @@ int main() {
     acked.Acknowledge(matching.MemberBit(0));
     CHECK(acked.IsAcknowledgedBy(0));
 
-    // Expiry: 50 ms lifetime from timestamp 1000.
+    // Expiry. CMessage::IsExpired is `timestamp_ + lifetime_ <= COnline::GetCounter()` and the deadline is
+    // compared against COnline's RECEIVE COUNTER (+0x28), not the clock: the listing reads `[GetOnline(),#0x28]`
+    // (asm 0x80a128, CMP R4,R0 / MOVCS 0 / MOVCC 1), so the equality case IS expired. This test used to drive
+    // the boundary through the OnlineClockStorage() stand-in, which IsExpired never reads, so it silently stopped
+    // testing anything once the body was corrected. It sets the counter now.
     TestMsg timed;
     timed.SetHeader(static_cast<std::uint32_t>(typeId), 0, 2);
-    CHECK(!timed.IsExpired());  // timestamp 0 never expires
-    timed.SetTimes(1000, 50);
-    OnlineClockStorage() = 1050;
-    CHECK(!timed.IsExpired());
-    OnlineClockStorage() = 1051;
-    CHECK(timed.IsExpired());
+    CHECK(!timed.IsExpired());  // timestamp 0 never expires, whatever the counter says
+    timed.SetTimes(1000, 50);   // deadline 1050
+    COnline::GetInstance()->SetCounterForTest(1049);
+    CHECK(!timed.IsExpired());  // deadline > counter
+    COnline::GetInstance()->SetCounterForTest(1050);
+    CHECK(timed.IsExpired());   // deadline == counter is expired (MOVCS)
+    COnline::GetInstance()->SetCounterForTest(1051);
+    CHECK(timed.IsExpired());   // deadline < counter
 
     // Serialize and unserialize round trip, including the 16-byte header.
     TestMsg source;

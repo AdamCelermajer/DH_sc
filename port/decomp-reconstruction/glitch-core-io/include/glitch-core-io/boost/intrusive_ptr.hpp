@@ -18,6 +18,20 @@
 //   - intrusive_ptr(T*) takes over the reference it is given (an IReferenceCounted object is born with
 //     count 1), as every constructor site in the listings does; the two-argument form with add_ref = true
 //     is boost's and adds a use.
+//
+// The out-of-line destructors of the count-at-+0x00 instances were re-read from the listings against this
+// template (all four bodies are the same shape: load the pointer, test it, post-decrement the word at
+// +0x00, and at zero run the destructor and release the block):
+//   0x310be8 ~intrusive_ptr<CMaterial>:            ~CMaterial (0x5cbf78) then CustomFree (0x310440)
+//   0x351e3c ~intrusive_ptr<const CMaterial>:      the same body as 0x310be8
+//   0x3522b8 ~intrusive_ptr<CMaterialRenderer>:    ~CMaterialRenderer (0x5d4aa0) then CustomFree
+//   0x35eb90 ~intrusive_ptr<const CVertexStreams>: ~CVertexStreams (0x5a0a1c) then CustomFree
+// The objects are allocated with operator new[]/new (core-platform/memory.cpp), whose release is free(),
+// and CustomFree is `a tail call to free` (memory.cpp), so this template's
+// `if (px) intrusive_ptr_release(px);` with the per-class `if (--count == 0) delete p;` reproduces the
+// listing exactly for those four. The CLight instances (0x5aa3c8, 0x5b9118, 0x5bb650) additionally push
+// the matrix at +0x50 onto glitch::memory::Matrix4Pool and clear +0x50 before the free, which this port
+// does not model (the pool and its allocation path are not in the tree); those three rows stay partial.
 #pragma once
 
 #include <cstddef>

@@ -1,7 +1,9 @@
 #include "core-platform/w7_console_01.hpp"
 
 #include "core-platform/deps/debug_switches.hpp"
+#include "core-platform/filesystem_win32.hpp"
 #include "core-platform/memory.hpp"
+#include "glitch-core-io/os/device.hpp"
 
 #include <algorithm>
 #include <cstring>
@@ -109,11 +111,13 @@ void Console::_setMenu() {
 }
 
 // 0x334bd8 _ZN7Console6ToggleEv
-// Partial: the flow matches the listing and the file lister is identified (the file system
-// at dword_99F73C+0x34, slot +0x7c = getFiles). Still partial because the closing branch
-// calls _destroyList (0x32fdc0), which is skipped in this tree, and the menu builders
-// behind _setMenu depend on _createList (also skipped). g_consoleFileLister is the
-// declared stand-in for the file system object.
+// Verified against the listing: open_ (+0x04) is complemented; when it is now open the vector at
+// +0x10 is erased in full, the device file system (IDevice +0x34, reached through dword_99F73C =
+// Application::m_device) is asked for "data/scene/*.xml" and "data/scene/*.mlx" through vtable slot
+// +0x7c = FileSystemWin32::getFiles, entries whose name has neither ".xml" nor ".mlx" (strstr) are
+// erased one by one, and _setMenu runs; when it is now closed _destroyList runs. DEVIATION
+// (host-necessitated): a null guard on the device and the file system, where the original
+// dereferences dword_99F73C+0x34 without a test.
 void Console::Toggle() {
     open_ = !open_;
     if (open_) {
@@ -121,8 +125,12 @@ void Console::Toggle() {
         if (!items.empty()) {
             items.erase(items.begin(), items.end());
         }
-        g_consoleFileLister->getFiles("data/scene/*.xml", items);
-        g_consoleFileLister->getFiles("data/scene/*.mlx", items);
+        if (glitch::IDevice* device = ConsoleDevice()) {
+            if (FileSystemWin32* fileSystem = device->fileSystem) {
+                fileSystem->getFiles("data/scene/*.xml", items);
+                fileSystem->getFiles("data/scene/*.mlx", items);
+            }
+        }
         // Keep only entries that name a .xml or .mlx file. The listing uses strstr.
         items.erase(
             std::remove_if(items.begin(), items.end(),

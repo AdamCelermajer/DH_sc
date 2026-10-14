@@ -41,6 +41,46 @@ public:
     // Nested replicated struct, defined in tb/cmatching_local_room_info_net_struct.hpp.
     class RoomInfoNetStruct;
 
+    // The class's OWN per-member record (32 of them at CMatchingLocal +0x4BE0, stride 408), distinct from
+    // the base CMatching's (32 at +0x20, stride 432). The old empty `class MemberInfoNetStruct;` forward
+    // declaration that stood here was a misreading: it made the name look like the base's nested type,
+    // while the binary's symbols _ZN14CMatchingLocal19MemberInfoNetStruct{C1,D1,D0}Ev (0x806b98, 0x806258,
+    // 0x806344) are a separate class with its own vtable (_ZTVN14CMatchingLocal19MemberInfoNetStructE) and
+    // no NetStructArray instantiation that mentions it (the base's is
+    // NetStructArray<N9CMatching19MemberInfoNetStructELj32EE). This record is what
+    // CMatchingLocal::ReadPacketData / WritePacketData / ProcessLostPacket / ProcessAcknowledgedPacket walk
+    // with an explicit 408 stride, and what IsInRoom(int) reads at 408*i + 0x4D30.
+    //
+    // Element layout (32-bit offsets, from 0x806b98 and the 408-stride call sites; element base = 0):
+    //   +0x000  NetStruct base (vptr; slots +0x0c Serialize, +0x14 Load, +0x40 ProcessAcknowledgedPacket,
+    //           +0x44 ProcessLostPacket)
+    //   +0x130  NetStructInt<32> member, value at +0x150   (id; ReadPacketData and WritePacketData read
+    //           the int at element +0x150, and IsInRoom(int) the word at element +0x720... which is the
+    //           same field in a record whose base is 4 bytes later; see the .cpp note)
+    //   +0x158  NetStructMemberType<CNetworkId> member, value at +0x178 (the listen address; the ctor
+    //           overwrites its vptr with off_992008 and CreateJoinRoomInternal writes the address there)
+    // The constructor 0x806b98 shows exactly this pair: the int member's value word at +0x150 and the
+    // CNetworkId member at +0x158 (built from a Reset() CNetworkId), then two DeclareMember calls.
+    struct MemberInfoNetStruct : public NetStruct {
+        // 0x806b98 _ZN14CMatchingLocal19MemberInfoNetStructC1Ev. Body in
+        // src/tb_session-online-CMatchingLocal_MemberInfoNetStruct-0.cpp.
+        MemberInfoNetStruct();
+
+        // The id is not a 16-bit count in this record: the call sites read `element + 0x150` as an int.
+        std::int32_t id() const { return idMember_.GetValue(); }
+        void setId(std::int32_t value) { idMember_.SetValue(value); }
+
+        // The listen address. The binary's member is a NetStructMemberType<CNetworkId> whose vtable is
+        // overwritten with the unidentified off_992008 right after construction; the port keeps a plain
+        // CNetworkId in a member object so the record stays a NetStruct, and reads/writes it directly
+        // (CreateJoinRoomInternal's write is the only writer any recovered body shows).
+        CNetworkId& networkId() { return networkId_; }
+        const CNetworkId& networkId() const { return networkId_; }
+
+        NetStructInt<32> idMember_;   // +0x130, value at +0x150
+        CNetworkId networkId_;        // +0x158, value at +0x178
+    };
+
     // 0x807e44 _ZN14CMatchingLocalC2Ev: sets the counters and empty containers, then runs Reset(), which
     // closes and hides the room. The NetStruct member constructors are not in this port yet.
     CMatchingLocal();
@@ -49,7 +89,11 @@ public:
     ~CMatchingLocal();
 
     // 0x801b08 _ZN14CMatchingLocal12IsRoomClosedEv
-    bool IsRoomClosed() const { return roomClosed_ != 0; }
+    // The room-info record's first bool (the byte at +0x4B6D, i.e. element +0x14D). WHAT THE OLD BODY GOT
+    // WRONG: it read the port's own plain byte roomClosed_, which was the same value but not the NetStruct
+    // member the binary reads and writes; the field is gone and this reads the member. The body is in
+    // src/c_matching_local.cpp because the record's own definition follows this class.
+    bool IsRoomClosed() const;
     // 0x801b14 _ZN14CMatchingLocal12IsRoomHiddenEv: the hidden flag, else the closed flag.
     bool IsRoomHidden() const;
     // 0x801b3c _ZN14CMatchingLocal11SetMemberIdEi
@@ -179,11 +223,10 @@ public:
     // The matching object the static callbacks route to (CMatching::s_Matching in the original).
     static CMatchingLocal* s_Matching;
 
-    // Test seams. Not in the original.
-    void SetRoomFlagsForTest(bool closed, bool hiddenFlag) {
-        roomClosed_ = closed ? 1 : 0;
-        roomHiddenFlag_ = hiddenFlag ? 1 : 0;
-    }
+    // Test seams. Not in the original. The two room flags are the room-info record's bool members now, so
+    // the seam drives those members (and therefore their SetChanged notifications) instead of the two
+    // plain bytes this class used to keep at +0x4b6d / +0x4b8d. Body in src/c_matching_local.cpp.
+    void SetRoomFlagsForTest(bool closed, bool hiddenFlag);
     std::int32_t MemberIdForTest() const { return memberId_; }
     std::int32_t ServerMemberIdForTest() const { return serverMemberId_; }
     void SetInitializedForTest(bool value) { initialized_ = value; }
@@ -198,8 +241,10 @@ public:
 private:
     std::int32_t memberId_ = 0;     // +0x3638
     std::int32_t serverMemberId_ = 0;  // +0x363c (name inferred, as in CMatchingGLLive)
-    std::uint8_t roomClosed_ = 0;   // +0x4b6d
-    std::uint8_t roomHiddenFlag_ = 0;  // +0x4b8d
+    // The two room flag bytes the port used to keep here (+0x4b6d roomClosed_, +0x4b8d
+    // roomHiddenFlag_) are gone: they were the value bytes of roomInfo_'s first two NetStructBool
+    // members (roomInfo_->roomClosed() / roomInfo_->roomHidden()), and keeping separate copies let the
+    // NetStruct change notifications go missing. See tb/cmatching_local_room_info_net_struct.hpp.
 
     // Base-class fields of the original (CMatching). Their writers are not in this port yet.
     // (+0x0c initialized_, +0x0d roomHidden_, +0x0e baseRoomClosed_ are the CMatching base fields.)
@@ -214,4 +259,29 @@ private:
     CRoomAttributes roomAttributes_;       // +0x4660
     CRoomSearchFilter roomSearchFilter_;   // +0x49f8
 
+    // The class's own replicated records, in the binary's constructor order (0x807e44):
+    // RoomInfoNetStruct at +0x4A20 (0x1C0 bytes), the 32 member records at +0x4BE0, then the server
+    // backup array's header at +0x7EE0 with its 32 elements at +0x7EE8.
+    // WHAT THE OLD HEADER GOT WRONG: it declared only a forward `class MemberInfoNetStruct;` and none of
+    // these members, and its comment called the member records "not declared in this class yet (layout
+    // request)". They are declared now, which is what the four 408-stride bodies below needed.
+    // Host-necessitated deviation: roomInfo_ and serverBackup_ are POINTERS. The records are nested classes
+    // whose definitions must follow the owner (they cannot be complete earlier), and C++ cannot hold an
+    // incomplete nested type by value, so the two members that would be values in the binary are heap
+    // objects here. Their lifetime is the owner's (constructor allocates, destructor deletes) and nothing
+    // else observes the difference.
+    RoomInfoNetStruct* roomInfo_ = nullptr;       // +0x4A20 (owner allocates)
+    static constexpr int kLocalMemberCount = 32;   // the class's own record array is 32 elements
+    MemberInfoNetStruct localMembers_[kLocalMemberCount];  // +0x4BE0, stride 408 (complete: see the .cpp)
+    int serverBackupCount_ = 32;                  // +0x7EE0 (the NetStructArray header's count)
+    ServerBackupNetStruct* serverBackup_ = nullptr;  // +0x7EE8, 32 elements (owner allocates)
+
 };
+
+// The two nested records above are members by value, so their definitions have to follow the class. The
+// macro lets them be checked (and included) on their own without pulling this header in a second time:
+// when this header is the one being compiled, the macro is set, so the tb headers skip their own
+// `#include "net-session-online/c_matching_local.hpp"` and only contribute the nested class bodies.
+#define NET_SESSION_ONLINE_C_MATCHING_LOCAL_HPP_INCLUDED 1
+#include "net-session-online/tb/cmatching_local_room_info_net_struct.hpp"
+#include "net-session-online/tb/cmatching_local_server_backup_net_struct.hpp"

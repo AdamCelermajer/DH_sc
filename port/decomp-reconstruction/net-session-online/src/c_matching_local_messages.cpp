@@ -22,9 +22,15 @@ std::int32_t CMatchingLocal::SendChangeServerMessage() {
 }
 
 // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb
-// Partial: the room attributes are serialized by the game-world body of CRoomAttributes::Serialize (0x8190d8, flags 7),
-// whose NetRoomAttributes constructor is itself partial. The listen id is CTransportManager::GetListenNetworkId(0). The
-// original's inet_ntoa() debug calls are not reproduced.
+// Re-verified from the asm and the Hex-Rays: NetBitStream(0x800); WriteByteArray(&1, 1); CNetworkId::Reset
+// of a 40-byte local whose first 3 dwords come from CTransportManager::GetListenNetworkId(0) (v10[0..2] =
+// *(_DWORD*)&v21, then v11.s_addr = v24, v12..v14 = v25..v27 -- the same 28-byte id copied as the port's
+// RoomServerHeader::listenId assignment); the two inet_ntoa() calls are traces whose results are discarded;
+// the +0x6c and +0x60 virtuals fill v15/v16 (= memberId_ and GetMemberCount()); flag; WriteByteArray(&v10,
+// 0x28); CRoomAttributes::Serialize(this+0x4660, stream, 7); then
+// CConnectionManager::SendBroadcast(2, v19 (= the stream's buffer), (v20>>3) + ((v20&7)!=0)). Every one of
+// those steps is in the body, including the length arithmetic (StreamBytes returns the same byte count).
+// Deviation: the two inet_ntoa() debug calls are not reproduced (their results are never stored).
 std::int32_t CMatchingLocal::SendServerResponse(bool flag) {
     NetBitStream stream(0x800);
     const std::uint8_t type = 1;

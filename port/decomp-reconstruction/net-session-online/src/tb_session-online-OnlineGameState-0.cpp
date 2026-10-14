@@ -135,12 +135,28 @@ void OnlineGameState::processMessages() {
 }
 
 // 0x4a04c0 _ZN15OnlineGameState4InitEi
-// Partial: the state table and the handler list are reconstructed. The matching-provider switch
-// on mode (cases 1 to 4, which set the COnline flag, change the CMatching provider and read the
-// DebugSwitches and GameCenter values) is not, and neither is the tail that follows it. The mode
-// is therefore unused here.
+// Partial. The state table (8 entries, skip 0, in the binary's order: 100 idleState, 300 ingameState,
+// 101 createRoom, 102 searchRoom, 104 searchRoomPushNotif, 103 joinRoom, 200 lobbyUpdate, 201
+// roomLobbyUpdate) and the 15-handler list are reconstructed and match the listing, as is the state-100
+// store at the end.
+//
+// MISSING, in binary order (asm 0x4a0a10 on, 852 instructions total):
+//   a) `GetOnline()->COnlineImpl::Initialize()` (0x824f40, 4a0a10..4a0a14) runs before the mode switch.
+//   b) The switch on mode (4a0a18..4a0a24 first tests GetOnline()+5, the online-game byte, and skips the
+//      whole switch when it is already set), cases 1 and 2 at 0x4a1170 / 0x4a13e4, plus the 3 and 4 paths
+//      around 0x4a136c and 0x4a11c8. Each case does CMatching::Destroy, CMatching::SetMatchingProvider
+//      (0x7fe4c0), DebugSwitches::load + GetSwitch("ConnectToAlphaServer"/"ConnectToBetaServer"),
+//      Application::GetVersionString, the online version assign, CGameCenter user/host UID and player
+//      count, COnline::SetIsOnlineGame, and for modes 1/2 CMatchingGLLive::SetPlayerParam; the mode is then
+//      stored at +0x34.
+//   c) The host block after the switch (0x4a15c0): builds a CRoomAttributes, PlayerSavegame::SG_Load(16),
+//      SG_GetCurrentPrimaryQuest, six SetAttributeInt calls, one SetAttributeBin, then assigns into
+//      CMatching::Get()->roomAttributes_.
+//   d) COnlineImpl::SignIn at 0x4a1554.
+// The state machine entries are the only part that runs today, so a mode-1..4 Init leaves the matching
+// provider, the online-game flag and the host room attributes unset.
 OnlineGameState* OnlineGameState::Init(int mode) {
-    (void)mode;  // used only by the switch that is not reconstructed
+    (void)mode;  // consumed only by the mode switch that is not reconstructed (see above)
 
     stateMachine_.initStateMachine();
     for (const StateEntryInit& entry : kStateEntries) {

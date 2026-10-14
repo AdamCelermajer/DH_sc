@@ -36,7 +36,7 @@ public:
     // Test access to the protected layout.
     void SetCount(int count) { memberCount_ = count; }
     void SetDirty(bool dirty) { roomMaskDirty_ = dirty; }
-    MemberInfo& Slot(int index) { return members_[index]; }
+    MemberInfoNetStruct& Slot(int index) { return members_[index]; }
 };
 
 // Drains the three event codes so each test starts from an empty queue.
@@ -103,10 +103,10 @@ int main() {
     {
         TestMatching m;
         m.SetCount(4);
-        m.Slot(0).memberId = -1;
-        m.Slot(1).memberId = 7;
-        m.Slot(2).memberId = -1;
-        m.Slot(3).memberId = 9;
+        m.Slot(0).setId(-1);
+        m.Slot(1).setId(7);
+        m.Slot(2).setId(-1);
+        m.Slot(3).setId(9);
         const std::vector<int> ids = m.GetMemberIdList();
         CHECK(ids.size() == 2);
         CHECK(ids.size() == 2 && ids[0] == 7 && ids[1] == 9);
@@ -117,9 +117,9 @@ int main() {
         TestMatching m;
         m.SetCount(2);
         m.SetTeamId(1, 200);
-        CHECK(m.Slot(1).teamId == 200);
+        CHECK(m.Slot(1).team() == 200);
         m.SetTeamId(9, 3);
-        CHECK(m.Slot(0).teamId == 0);
+        CHECK(m.Slot(0).team() == 0);
     }
 
     // UpdateMemberIdList on the server: connected members get a slot, the others lose theirs.
@@ -132,9 +132,9 @@ int main() {
         m.SetCount(4);
         m.connectionIds = {2};
         m.UpdateMemberIdList();
-        CHECK(m.Slot(0).memberId == 0);  // local member, the server id
-        CHECK(m.Slot(2).memberId == 2);  // connected peer
-        CHECK(m.Slot(1).memberId == -1);
+        CHECK(m.Slot(0).id() == 0);  // local member, the server id
+        CHECK(m.Slot(2).id() == 2);  // connected peer
+        CHECK(m.Slot(1).id() == -1);
         int payload = -1;
         CHECK(TakeEvent(0x800006, payload) && payload == 0);
         CHECK(TakeEvent(0x800006, payload) && payload == 2);
@@ -143,8 +143,8 @@ int main() {
         // Peer 2 disconnects: its slot is cleared and event 0x800007 carries its old id.
         m.connectionIds.clear();
         m.UpdateMemberIdList();
-        CHECK(m.Slot(2).memberId == -1);
-        CHECK(m.Slot(2).previousMemberId == -1);
+        CHECK(m.Slot(2).id() == -1);
+        CHECK(m.Slot(2).previousMemberId() == -1);
         CHECK(TakeEvent(0x800007, payload) && payload == 2);
         CHECK(!TakeEvent(0x800007, payload));
     }
@@ -155,14 +155,14 @@ int main() {
         TestMatching m;
         m.gate = false;
         m.SetCount(2);
-        m.Slot(1).memberId = 1;
+        m.Slot(1).setId(1);
         m.UpdateMemberIdList();
-        CHECK(m.Slot(1).previousMemberId == -1);
+        CHECK(m.Slot(1).previousMemberId() == -1);
         int payload = 0;
         CHECK(!TakeEvent(0x800006, payload));
     }
 
-    // ProcessLostPacket reaches the room attributes (the member loop is partial and not checked).
+    // ProcessLostPacket reaches the room attributes and then every member element's NetStruct slot +0x44.
     {
         TestMatching m;
         m.ProcessLostPacket(1, 2);

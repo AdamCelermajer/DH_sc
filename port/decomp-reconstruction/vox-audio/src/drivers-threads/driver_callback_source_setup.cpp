@@ -52,9 +52,29 @@ DriverCallbackSourceInterface::~DriverCallbackSourceInterface() {
     }
 }
 
-// 0x893108 _ZN3vox29DriverCallbackSourceInterface4InitEv (partial in one respect: the
-// element's first word, the data pointer, is not set by the original's initializer
-// (Hex-Rays lost the value), so it is null here until UploadData sets it.)
+// 0x893108 _ZN3vox29DriverCallbackSourceInterface4InitEv
+// Verified against the ARM listing (0x893108..0x8932D4): the lock, field_28_ and field_34_ =
+// 0x4000, rate_ratio_ = (sample_rate_ << 14) / s_driverSampleRate_ (idiv, 0 when the rate is 0),
+// the 3D defaults (position/velocity/direction zeroed, cone_outer_gain_ 0, rolloff_ 1,
+// cone_outer_ 360 (the MOV #0x43000000 + ADD #0xB40000 pair is 0x43B40000, which the Hex-Rays
+// dump prints as 1135869952 and GetDirectionalGain compares against), field_ac_ FLT_MAX,
+// doppler_pitch_ 0x4000, is_relative_ 0, distance_max_ FLT_MAX, distance_ref_ 1, cone_inner_ 360,
+// read_index_ and write_index_ 0), the byte total (150 * rate * channels_ * (bits >> 3) / 1000,
+// built as the unsigned magic-multiply quotient the listing computes) and its frame alignment
+// (v8 = total - total % (channels_ * (bits >> 3))), the per-buffer append with the doubling
+// growth ((count >= 1 ? 2 * count : 1) elements, the copy, VoxFree of the old block, then
+// begin/end/capacity), the buffer_count_ update with state_ = -1 at or below zero, and
+// byte_offset_ = 0 with the Unlock tail all match.
+// Deviation (host, unobservable): the 0x18-byte ring element is copied from a stack template the
+// listing only fills from sp+0x24 to sp+0x38 (ready_ byte at +0x14 = 1, +0x04 = 0, +0x08 = the
+// aligned byte count, +0x0c and +0x10 = 0); word 0 (the element's data pointer) is never stored,
+// so the binary copies an indeterminate stack word into it. The port's DriverBuffer
+// default-initialises that word to null. Nothing can read it: the element is appended with ready_
+// set, every mixer path tests ready_ first, and UploadData assigns data_ before clearing ready_.
+// The listing's overflow guard on the growth ((v16 <= 0xAAAAAAA) && (count <= v16), whose false
+// branch allocates the bogus size 0xFFFFFFF0) is not reproduced: it needs more than 89 million
+// ring elements. The port's `grown == nullptr` break stands in for the original's unchecked
+// dereference of a failed allocation.
 int DriverCallbackSourceInterface::Init() {
     mutex_.Lock();
     field_28_ = 0x4000;

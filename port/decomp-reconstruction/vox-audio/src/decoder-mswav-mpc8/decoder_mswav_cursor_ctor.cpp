@@ -121,10 +121,7 @@ DecoderMSWavCursor::DecoderMSWavCursor(DecoderMSWav* decoder, StreamCursorInterf
 
     if (decoder->parse_pending_) {
         if (!ParseFile()) {
-            channels_ = 0;
-            sample_rate_ = 0;
-            bits_per_sample_ = 0;
-            total_frames_ = 0;
+            params_ = TrackParams{};
             return;
         }
         decoder->parse_pending_ = false;
@@ -147,16 +144,16 @@ DecoderMSWavCursor::DecoderMSWavCursor(DecoderMSWav* decoder, StreamCursorInterf
     }
     sub_decoder_ = sub;
 
+    // The original copies the sub-decoder's +0x10/+0x14/+0x18/+0x1c words into the cursor's
+    // parameter block at +0x04/+0x08/+0x0c/+0x10 (asm 0x870b5c-0x870b78). The widths differ
+    // (its frames word is a 32-bit count), so each field is copied at its own type.
     if (sub != nullptr) {
-        channels_ = sub->channels_;
-        sample_rate_ = sub->sample_rate_;
-        bits_per_sample_ = sub->bits_per_sample_;
-        total_frames_ = sub->total_frames_;
+        params_.channels = sub->channels_;
+        params_.sample_rate = sub->sample_rate_;
+        params_.bits_per_sample = sub->bits_per_sample_;
+        params_.length_frames = static_cast<std::int32_t>(sub->total_frames_);
     } else {
-        channels_ = 0;
-        sample_rate_ = 0;
-        bits_per_sample_ = 0;
-        total_frames_ = 0;
+        params_ = TrackParams{};
     }
 }
 

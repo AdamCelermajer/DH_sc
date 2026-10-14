@@ -57,11 +57,20 @@ jmethodID mMethodDisableLaunchGame = nullptr;
 jmethodID mMethodIncreaseLaunchTimes = nullptr;
 
 // 0x531af8 nativeGetSdFolderPath
-// ARM: if getSDFolderID is 0, return with r0 unchanged. This path has no defined value, so it is partial (nullptr here).
-// Otherwise folder = CallStaticObjectMethod(mEnv, mClassGLMediaPlayer, getSDFolderID); text = GetStringUTFChars(mEnv,
-// folder, NULL); if text is not NULL, buf = malloc(0x400), strcpy(buf, text), ReleaseStringUTFChars(mEnv, folder, text),
-// and the function returns buf in r0. A NULL text returns NULL. The caller in appInit keeps the returned pointer.
-// LC_API_MALLOC_0 and LC_API_STRCPY_0 are the C library's malloc and strcpy (chunk_000.c).
+// ARM, re-read instruction by instruction against Hex-Rays: if getSDFolderID is 0 the guard at 0x531b14 branches
+// to locret_531B9C, which pops WITHOUT writing r0, so that path returns the caller's incoming r0; the malloc path
+// returns buf, and a NULL GetStringUTFChars result returns r6 = 0 (MOVEQ R6, R7 at 0x531b60, returned at
+// loc_531B94). Otherwise folder = CallStaticObjectMethod(mEnv, mClassGLMediaPlayer, getSDFolderID) (table slot
+// +456, LDR PC,[R3,#0x1C8]); text = GetStringUTFChars(mEnv, folder, NULL) (+676, [#0x2A4]); if text is not NULL,
+// buf = malloc(0x400), strcpy(buf, text), ReleaseStringUTFChars(mEnv, folder, text) (+680, [#0x2A8]). LC_API_MALLOC_0
+// and LC_API_STRCPY_0 are the C library's malloc and strcpy (chunk_000.c).
+// Named deviation, the only one: the early out passes the caller's r0 through, which a no-argument C++ function
+// cannot read, so this returns nullptr there. The value is observable in the binary - appInit (0x530ba8) calls
+// this at 0x530bc8 and stores r0 into the RES_PATH global (0x99b108) at 0x530bec, and the shipped chain leaves a
+// defined r0 there, because Java_..._GameRenderer_nativeInit (0x5311c8) never writes r0 before BL appInit
+// (0x5311f8), so it is still that native's JNIEnv* - a leftover-register return of the same kind the ledger marks
+// reconstructed for nativePauseSoundBig (0x531420), nativeLoadSound (0x531230) and nativeResumeSound (0x53146c);
+// the RES_PATH consequence belongs to the appInit row (0x530ba8, a skipped row owned by the app/menu batch).
 extern "C" char* nativeGetSdFolderPath() {
     if (getSDFolderID == nullptr) {
         return nullptr;
@@ -132,13 +141,14 @@ extern "C" JNIEXPORT void JNICALL Java_com_gameloft_android_GAND_GloftD2SS_GLMed
 }
 
 // 0x53224c JNI_OnLoad
-// ARM: r4 = vm; VoxSetJavaVMC(vm) (the reserved argument stays in r1, and the callee takes one argument); NVThreadInit(vm)
-// with the VM in r0; return 0x10004 (JNI_VERSION_1_4).
-// Partial: NVThreadInit takes an int (tinyxml-and-c-libs/nvthread.hpp), so the VM pointer is truncated to int on a 64-bit
-// host. The 32-bit original stores the same value. The integrator should change that parameter to a pointer type.
+// ARM: r4 = vm; VoxSetJavaVMC(vm) (r0 is vm; r1 keeps the reserved argument and the callee takes one argument -
+// VoxSetJavaVMC is void(_JavaVM*)); MOV R0, R4; NVThreadInit(vm); MOV R0, #0x10004; POP {R4,PC}. 0x10004 is
+// JNI_VERSION_1_4. Both calls pass r0 through unchanged, so no cast is involved.
+// Verified: NVThreadInit now takes and returns JavaVM* (0x533bd8's listing stores r0 whole and returns it), so the
+// VM pointer reaches g_nvThreadVm at host width and is not truncated to int, which was the row's only deviation.
 extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void*) {
     VoxSetJavaVMC(vm);
-    (void)NVThreadInit(static_cast<int>(reinterpret_cast<std::intptr_t>(vm)));
+    (void)NVThreadInit(vm);
     return JNI_VERSION_1_4;
 }
 

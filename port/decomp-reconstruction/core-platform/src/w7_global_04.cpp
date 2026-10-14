@@ -16,6 +16,8 @@
 #include "core-platform/debug_out.hpp"
 #include "core-platform/lc_api.hpp"
 #include "core-platform/misc_util.hpp"
+#include "net-transport/data_packet.hpp"
+#include "net-transport/process_param.hpp"
 
 namespace {
 
@@ -27,14 +29,6 @@ char* DupCString(const char* text) {
     char* copy = new char[length + 1];
     std::memcpy(copy, text, length + 1);
     return copy;
-}
-
-// Calls slot `byte_offset / 4` of the object's vtable. The offsets are the
-// original 32-bit ARM byte offsets, so the slot index is the offset divided by four.
-template <typename Fn>
-Fn VirtualSlot(const void* object, std::size_t byte_offset) {
-    void* const* vtable = *static_cast<void* const* const*>(object);
-    return reinterpret_cast<Fn>(vtable[byte_offset / 4]);
 }
 
 // Maps a 16-bit value to a PCM sample: scale by 32768 and clamp to the short range.
@@ -127,46 +121,58 @@ constexpr std::uint32_t kChannelSelector[3][2] = {
 }  // namespace
 
 // 0x8279d8 _Z24ParseDedicatedServerInfoR21_tDedicatedServerInfoP10DataPacket
-// Partial: the vtable slots (byte offsets 64, 36, 20) and the field offsets (24, 28, 30, 44)
-// are the original's, read by offset. _tDedicatedServerInfo is not declared in the tree (only a
-// forward declaration in game/include/dh2/global/net_singletons.hpp), so its layout is unknown.
-// DataPacket is declared in net-transport with addBlob and getBlob (+0x4c, +0x50), not the slots
-// used here, so those calls go through the vtable.
+// Partial: the body is the listing step for step. Vtable +0x40 (getShortLenString) fills a local
+// name and a local 16-bit length; TransToIp rewrites the name; a null name returns 0; inet_addr
+// goes to info +0x18; vtable +0x24 (getShort) runs twice and the first result goes to info +0x1c
+// and the second to info +0x1e; vtable +0x14 (getInt) writes info +0x2c; inet_ntoa runs twice on
+// the four bytes at info +0x18, both results discarded; 1 is returned. The three slots and their
+// offsets are the DataPacket slots net-transport declares at those offsets, so the calls are the
+// real virtual calls, not a vtable poke. The single missing item is the
+// _tDedicatedServerInfo layout: the type is only forward declared
+// (game/include/dh2/global/net_singletons.hpp), so the four fields are written at the binary's
+// byte offsets 0x18 (the inet_addr u32), 0x1c and 0x1e (the two getShort u16s) and 0x2c (the
+// getInt int). Layout request for that owner: declare those members at those offsets so this body
+// can name them. Not covered by a test.
 bool ParseDedicatedServerInfo(_tDedicatedServerInfo& info, DataPacket* packet) {
     unsigned char* raw = reinterpret_cast<unsigned char*>(&info);
 
     char* host = nullptr;
-    std::uint16_t first_port = 0;
-    VirtualSlot<void (*)(DataPacket*, char**, std::uint16_t*)>(packet, 64)(packet, &host, &first_port);
+    std::int16_t host_length = 0;
+    packet->getShortLenString(host, host_length);  // vtable +0x40
     TransToIp(&host);
     if (host == nullptr) {
         return false;
     }
 
     const std::uint32_t address = inet_addr(host);
-    std::memcpy(raw + 24, &address, sizeof address);
+    std::memcpy(raw + 0x18, &address, sizeof address);
 
-    std::uint16_t port_a = 0;
-    std::uint16_t port_b = 0;
-    VirtualSlot<void (*)(DataPacket*, std::uint16_t*)>(packet, 36)(packet, &port_a);
-    VirtualSlot<void (*)(DataPacket*, std::uint16_t*)>(packet, 36)(packet, &port_b);
-    std::memcpy(raw + 28, &port_a, sizeof port_a);
-    std::memcpy(raw + 30, &port_b, sizeof port_b);
+    std::int16_t first_port = 0;
+    std::int16_t second_port = 0;
+    packet->getShort(first_port);   // vtable +0x24, first call -> info +0x1c
+    packet->getShort(second_port);  // vtable +0x24, second call -> info +0x1e
+    std::memcpy(raw + 0x1c, &first_port, sizeof first_port);
+    std::memcpy(raw + 0x1e, &second_port, sizeof second_port);
 
-    VirtualSlot<void (*)(DataPacket*, void*)>(packet, 20)(packet, raw + 44);
+    packet->getInt(*reinterpret_cast<int*>(raw + 0x2c));  // vtable +0x14
 
     in_addr stored{};
-    std::memcpy(&stored, raw + 24, sizeof stored);
+    std::memcpy(&stored, raw + 0x18, sizeof stored);
     (void)inet_ntoa(stored);
     (void)inet_ntoa(stored);
     return true;
 }
 
 // 0x828b64 _Z8_DBG_OUTPKcz
-// Partial: the original formats with vsprintf into a stack buffer of about 1 KB, prints the
-// text, and returns the result of __android_log_print(4, "WIFI", "%s", text). Here the
-// text is formatted with a 1024-byte bound, printed, and sent to appDebugLog with the same
-// tag. The return value is the text length, not the log-call result.
+// Reconstructed against the ARM listing: a 0x400-byte stack buffer (SP+8), vsprintf of the format
+// and the varargs into it, printf("%s", buffer), then __android_log_print(4, "WIFI", "%s",
+// buffer), whose result the function returns (R0 at the BX LR, with __stack_chk_guard checked).
+// Deviations, both named. (1) The format is written with vsnprintf and the same 1 KiB bound where
+// the original's vsprintf is unbounded: a host overflow guard for a format longer than the buffer,
+// the deviation the sibling debug sink _DEBUG_OUT (0x324114, same 1 KiB buffer) already carries.
+// (2) __android_log_print has no host equivalent, so the same tag and the same text go to
+// appDebugLog, the tree's __android_log_write stand-in, which returns void; the text length is
+// returned instead, which is the byte count a "%s" log call reports. Not covered by a test.
 int _DBG_OUT(const char* format, ...) {
     char buffer[1024];
     va_list args;
@@ -198,64 +204,80 @@ hostent* l_hostLC[4] = {};
 int l_countLC = 0;
 
 // 0x841ba8 _Z26threadGetHostByNameProcessPv
-// Partial: the request is read at the original 32-bit layout (busy-flag pointer at byte offset 0,
-// host name at byte offset 4). No request struct is declared in the tree, so this raw-offset read
-// is not host-correct yet. An added entry goes into the shared l_host / l_count cache as a host
-// hostent. When an entry is added, the listing returns the XP_DEBUG_OUT result instead of the
-// gethostbyname result. XP_DEBUG_OUT (0x82b784) is a 1991-byte formatter that is not
-// reconstructed, so this returns the gethostbyname result on every path. The trace goes to
-// _DBG_OUT.
+// Reconstructed against the ARM listing and Hex-Rays: the request is the declared PROCESSPARAM
+// (net-transport's type for the binary's m_getHostByNameThreadParam), so the busy-flag pointer is
+// at +0x00 and the name at +0x04 - the two fields the listing reads at the 32-bit offsets 0 and 4.
+// The flag is set to 1, gethostbyname runs on the name, a null result is returned with the flag
+// left set, otherwise the entry is added while fewer than four exist (operator new(0x14) zeroed,
+// h_length copied, h_name = XP_API_STRNEW of the requested name, h_addr_list = operator new[](4)
+// with its first word XP_API_STRNEW of the first address read as a C string), the count is
+// incremented, the trace runs and the flag is cleared. On the added path the listing returns the
+// trace call's leftover r0, type-punned into the hostent* result; XP_DEBUG_OUT (0x82b784) is not
+// reconstructed in this tree, so _DBG_OUT stands in for it - it formats the same text and returns
+// its length, the same kind of value (the log call's byte count) - and that value is returned here.
+// Only the shape of that value is observable at all: the function is a thread entry point, whose
+// return value the thread discards. Deviations, named: the resolver is the host's gethostbyname
+// (the same call the binary makes); the entry is a host hostent (new hostent{} zeroes the host
+// struct where the binary memsets 0x14 bytes of the 32-bit one), and net-transport's
+// android_socket.cpp readers keep their own g_host_cache, so they do not see these entries.
+// Not covered by a test (network lookup).
 hostent* threadGetHostByNameProcess(void* request) {
-    unsigned char* raw = static_cast<unsigned char*>(request);
-    int** busy = reinterpret_cast<int**>(raw);
-    const char* host = reinterpret_cast<const char*>(raw + 4);
+    PROCESSPARAM* param = static_cast<PROCESSPARAM*>(request);
 
-    **busy = 1;
-    hostent* found = gethostbyname(host);
-    if (found != nullptr) {
+    *param->flagAddress = 1;
+    hostent* result = gethostbyname(param->serverName);
+    if (result != nullptr) {
         if (l_count <= 3) {
             hostent* entry = new hostent{};
             l_host[l_count] = entry;
-            entry->h_length = found->h_length;
-            entry->h_name = DupCString(host);
+            entry->h_length = result->h_length;
+            entry->h_name = DupCString(param->serverName);
             entry->h_addr_list = new char*[1]{};
             // As in the original, the first address pointer is copied as a C string.
-            entry->h_addr_list[0] = DupCString(found->h_addr_list[0]);
+            entry->h_addr_list[0] = DupCString(result->h_addr_list[0]);
             ++l_count;
-            _DBG_OUT("GetHostByName() - Add %s \n", host);
+            const int traced = _DBG_OUT("GetHostByName() - Add %s \n", param->serverName);
+            result = reinterpret_cast<hostent*>(static_cast<std::intptr_t>(traced));
         }
-        **busy = 0;
+        *param->flagAddress = 0;
     }
-    return found;
+    return result;
 }
 
 // 0x89f8a0 _Z28threadGetHostByNameProcessLCPv
-// Partial: the request is read at the 32-bit layout as in threadGetHostByNameProcess (busy-flag
-// pointer at byte offset 0, host name at byte offset 4), which is not host-correct until a request
-// struct is declared. An added entry goes into the shared l_hostLC / l_countLC cache that the
-// binary's GetHostIP, GetHostByName and Startup read. LC_DEBUG_OUT (0x89c304) is a bare-return
-// stub in the binary, so its call is kept with no arguments; the stub ignores them. LC_API_STRNEW
-// (0x89d31c) is DupCString, as above. net-transport/src/lc_android_socket.cpp keeps its own
-// copy of this cache and of this function, so its readers do not see these entries yet.
+// Reconstructed against the ARM listing and Hex-Rays: the same body as 0x841ba8 against the
+// l_hostLC / l_countLC pair (the single pair the binary reaches through l_hostLC_ptr and
+// l_countLC_ptr), with LC_API_MEMSET and LC_API_STRNEW where the XP variant has XP_API_MEMSET and
+// XP_API_STRNEW. The function is void and the listing discards the result of its trace call (r0 is
+// not used; the call is the last statement before the flag is cleared and the function returns).
+// The trace is LC_DEBUG_OUT with the format "GetHostByName() - Add %s \n" and the requested name;
+// the tree declares LC_DEBUG_OUT with no parameters (the binary's 0x89c304 is an empty stub:
+// PUSH {R0-R3}; ADD SP, SP, #0x10; BX LR, so it ignores the two argument registers), so the call
+// is kept argument-less. Deviations, named: the request is the declared PROCESSPARAM (busy-flag
+// pointer +0x00, name +0x04, the 32-bit offsets the listing reads), the resolver is the host's
+// gethostbyname, and the entry is a host hostent (new hostent{} zeroes the host struct where the
+// binary memsets 0x14 bytes of the 32-bit one). GetHostIP (0x89f9a0), GetHostByName (0x89fb04) and
+// Startup (0x89feec) read the binary's pair, but net-transport/src/lc_android_socket.cpp keeps its
+// own anonymous-namespace l_hostLC / l_countLC and a duplicate of this worker, so those readers do
+// not see these entries until that file uses the core-platform pair. Not covered by a test
+// (network lookup).
 void threadGetHostByNameProcessLC(void* request) {
-    unsigned char* raw = static_cast<unsigned char*>(request);
-    int** busy = reinterpret_cast<int**>(raw);
-    const char* host = reinterpret_cast<const char*>(raw + 4);
+    PROCESSPARAM* param = static_cast<PROCESSPARAM*>(request);
 
-    **busy = 1;
-    hostent* found = gethostbyname(host);
-    if (found != nullptr) {
+    *param->flagAddress = 1;
+    hostent* result = gethostbyname(param->serverName);
+    if (result != nullptr) {
         if (l_countLC <= 3) {
             hostent* entry = new hostent{};
             l_hostLC[l_countLC] = entry;
-            entry->h_length = found->h_length;
-            entry->h_name = DupCString(host);
+            entry->h_length = result->h_length;
+            entry->h_name = DupCString(param->serverName);
             entry->h_addr_list = new char*[1]{};
-            entry->h_addr_list[0] = DupCString(found->h_addr_list[0]);
+            entry->h_addr_list[0] = DupCString(result->h_addr_list[0]);
             ++l_countLC;
             LC_DEBUG_OUT();
         }
-        **busy = 0;
+        *param->flagAddress = 0;
     }
 }
 

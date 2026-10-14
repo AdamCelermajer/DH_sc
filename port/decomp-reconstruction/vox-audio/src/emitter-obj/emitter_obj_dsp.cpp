@@ -9,9 +9,12 @@
 namespace vox {
 
 // 0x866acc _ZN3vox10EmitterObj15SetDSPParameterEiPv
-// partial: a null value is the open path: the original calls strlen on it (a crash), and the port
-// treats it as an empty string. Parameter 0 is the only one handled. A non-empty string replaces
-// the pending copy after the old one is freed. Returns the int of the unlock call.
+// Reconstructed against the 0x866acc listing. Only parameter 0 is handled: Lock, strlen of the
+// value, and when the length is above 0 the old pending copy (+0xf0) is VoxFree'd, VoxAlloc
+// (length + 1) stores the new pointer there, and strcpy fills it when the allocation succeeded.
+// Every path returns the Mutex::Unlock int.
+// Deviation (host-necessitated): a null value makes the listing call strlen on null (a fault); the
+// port takes the length as 0 and skips the copy.
 int EmitterObj::SetDSPParameter(int param, void* value) {
     mutex.Lock();
     if (param == 0) {
@@ -29,10 +32,12 @@ int EmitterObj::SetDSPParameter(int param, void* value) {
 }
 
 // 0x863954 _ZN3vox10EmitterObj7CleanUpEv
-// partial: when the cursor does not allow buffer reference (AllowBufferReference, cursor +0x34
-// returns false), the ring entries at +0xf4 (count +0x104) are freed. The port also clears each
-// freed entry and both DSP name pointers; the original leaves them set, so a second CleanUp would
-// free them again. The ring array itself is not freed here (the destructor does that).
+// Reconstructed against the 0x863954 listing: when the decoder cursor (+0x114) exists and its
+// AllowBufferReference (cursor +0x34) returns false, every ring entry at +0xf4 (count +0x104) is
+// VoxFree'd when non-null; then the DSP buffer (+0xec) and the pending DSP name (+0xf0) are freed
+// when non-null. The ring array itself is not freed here (the destructor does that).
+// Deviation (host-necessitated): the listing leaves the freed ring entries and both name pointers
+// set, so a second CleanUp double-frees; the port nulls each pointer it frees.
 void EmitterObj::CleanUp() {
     if (decoder_cursor_ != nullptr && !buffer_ring_.empty() &&
         !decoder_cursor_->AllowBufferReference()) {

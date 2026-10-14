@@ -1,81 +1,36 @@
-#include "net-session-online/tb/CMatchingLocal_MemberInfoNetStruct.hpp"
-
-#include <cstdint>
-
-#include "net-session-online/deps/platform_stand_ins.hpp"
-
-namespace {
-
-
-// CNetworkId::Reset on a local, as the original does before copying it into the member.
-CNetworkId ZeroNetworkId() {
-    CNetworkId id;
-    id.Reset();
-    return id;
-}
-
-}  // namespace
-
-// 0x806b98 CMatchingLocal::MemberInfoNetStruct::MemberInfoNetStruct(void)
+// CMatchingLocal::MemberInfoNetStruct: the per-member record of CMatchingLocal's OWN member table
+// (32 elements at +0x4BE0, stride 408), the table CMatchingLocal::ReadPacketData / WritePacketData /
+// ProcessLostPacket / ProcessAcknowledgedPacket walk and that CMatchingLocal::IsInRoom(int) reads.
 //
-// Partial. The original's control flow, in order (Hex-Rays):
-//   1. NetStruct::NetStruct(this).
-//   2. The int member at +0x130 is set up inline: sizeBits 32, change stamp 0, ackMask -1,
-//      sentMask -1, changeMask 0, changed false.
-//   3. The value slot of the int member (+0x150) is read. When it is non-zero, it is stored as 0
-//      and the member's SetChanged() runs.
-//   4. The CNetworkId member at +0x158 is built with a zeroed CNetworkId
-//      (CNetworkId::Reset on a local, then NetStructMemberType<CNetworkId>::NetStructMemberType).
-//   5. The vptr at +0x158 is then overwritten with an unidentified vtable (off_992008).
-//   6. DeclareMember is called for the int member, then for the CNetworkId member.
+// WHAT THE OLD HEADER GOT WRONG: c_matching_local.hpp declared this name only as an empty forward
+// declaration, so nothing defined it and the four 408-stride bodies above were left partial for want of
+// it. The name is NOT a re-declaration of CMatching::MemberInfoNetStruct: the symbol
+// _ZN14CMatchingLocal19MemberInfoNetStructC1Ev (0x806b98) and its own vtable
+// _ZTVN14CMatchingLocal19MemberInfoNetStructE prove a separate class, and the only NetStructArray
+// instantiation in the binary names the base one
+// (NetStructArray<N9CMatching19MemberInfoNetStructELj32EE). This file defines the constructor; the
+// destructor (0x806258 D1, 0x806344 D0) and the record layout are declared in the owner header.
 //
-// Deviations and missing pieces:
-//   - Step 5 is not expressible in C++: the member keeps the dynamic type NetStructMemberType<CNetworkId>.
-//     The vtable behind off_992008 is not identified, so the member's behaviour may differ.
-//   - C++ constructs both members before the body runs, so step 4 happens before step 3. The two
-//     do not touch each other, so the order is not observable here.
-//   - Step 3 reads a value slot the original constructor never clears. In C++ the member starts
-//     at 0, so the reset branch cannot run. It is kept so the control flow matches the decompile.
-//   - The base is the real NetStruct (net-transport/net_struct.hpp). The NetStruct base also owns the
-//     std::map packet history (+0x10c), which is not modelled.
-//   - SetChanged() is the real NetStructMember::SetChanged (0x814f84).
-CMatchingLocal_MemberInfoNetStruct::CMatchingLocal_MemberInfoNetStruct()
-    : NetStruct(),
-      intMember_(),
-      networkIdMember_(ZeroNetworkId()) {
-    if (intMember_.GetValue() != 0) {
-        intMember_.SetValue(0);
-        intMember_.SetChanged();
-    }
-    DeclareMember(&intMember_);
-    DeclareMember(&networkIdMember_);
-}
+// Layout evidence, from 0x806b98 and the 408-stride call sites:
+//   NetStruct::NetStruct(this) first, then the derived vptr, then one int member built inline with
+//   sizeBits 32 at member+0x04, stamp 0, ackMask/sentMask -1, changeMask 0, changed false and its value
+//   word, then a NetStructMemberType<CNetworkId> built from a CNetworkId::Reset() local at member +0x28
+//   (its vptr overwritten with off_992008 afterwards), then DeclareMember for the int member and for the
+//   CNetworkId member, in that order. The port's MemberInfoNetStruct holds the int as a real
+//   NetStructInt<32> member (the vtable the call sites use for SetValue is the NetStructInt<32> one) and
+//   the address as a plain CNetworkId, because the CNetworkId member's vtable is one of the two
+//   unidentified tables this category has not dumped (off_992008 for the value, off_963648 for the
+//   destroyed state).
+#include "net-session-online/c_matching_local.hpp"
 
-// 0x806258 CMatchingLocal::MemberInfoNetStruct::~MemberInfoNetStruct()
-//
-// Reconstructed. The original (complete-object destructor) does:
-//   1. Store the destructor-phase vptrs: +0x130 and +0x158 get off_963648, and the own vptr
-//      gets off_9924D8.
-//   2. When the NetStruct packet history map (+0x10c, count at +0x11c) is non-empty, erase its
-//      tree (_M_erase on the root at +0x110) and reset the header: root null, leftmost and
-//      rightmost point to the header, count 0.
-//
-// C++ runs step 1 implicitly. Step 2 is std::map::clear on the NetStruct base's packetHistory_
-// (net-transport net_struct.hpp, protected). The NetStruct base destructor body is empty
-// (net-transport tb_transport-NetStruct-0.cpp), so nothing else runs. The members are destroyed by
-// the C++ rules.
-CMatchingLocal_MemberInfoNetStruct::~CMatchingLocal_MemberInfoNetStruct() {
-    if (!packetHistory_.empty()) {
-        packetHistory_.clear();
-    }
-}
-
-// 0x806344 CMatchingLocal::MemberInfoNetStruct::~MemberInfoNetStruct()  (D0, deleting variant)
-//
-// Reconstructed. The same body as 0x806258, then the block is released with CustomFree(this).
-// C++ has no deleting destructor, so the body is a static member that the caller uses in place
-// of a delete expression.
-void CMatchingLocal_MemberInfoNetStruct::DeletingDestructor(CMatchingLocal_MemberInfoNetStruct* self) {
-    self->~CMatchingLocal_MemberInfoNetStruct();
-    CustomFree(self);
+// 0x806b98 _ZN14CMatchingLocal19MemberInfoNetStructC1Ev
+// Reconstructed. The two "read the value before any store, clear it and SetChanged when nonzero" branches
+// the pseudocode shows cannot run in C++ (the int member is value-initialised) and are not a behavioural
+// difference: a fresh member's change stamp is 0, so SetChanged there would only advance
+// NetStruct::s_changeCounter -- the case this category has already settled (NOTES.md).
+CMatchingLocal::MemberInfoNetStruct::MemberInfoNetStruct() : NetStruct() {
+    // The binary builds the int member inline and then writes it through the SetValue slot from a stack
+    // temporary; NetStructInt<32>'s constructor plus SetValue is that sequence.
+    idMember_.SetValue(0);
+    DeclareMember(&idMember_);
 }

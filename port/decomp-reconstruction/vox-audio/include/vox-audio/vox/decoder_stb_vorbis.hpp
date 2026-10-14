@@ -42,10 +42,8 @@ public:
 
 private:
     friend struct DecoderStbVorbisCursorTestAccess;
-    std::int32_t channels_ = 0;      // +0x04
-    std::uint32_t sample_rate_ = 0;  // +0x08
-    std::int32_t bits_per_sample_ = 0;  // +0x0c: 16 once open; 0x20 selects float output
-    std::uint32_t length_ = 0;       // +0x10: stream length in samples
+    // The parameter block (channels +0x04, sample rate +0x08, bits +0x0c, frames +0x10) is the
+    // inherited DecoderCursorInterface::params_; the constructor fills it from stb_vorbis.
     stb_vorbis* handle_ = nullptr;   // +0x20
     std::uint32_t position_ = 0;     // +0x24: samples delivered so far
 };

@@ -6,11 +6,15 @@ namespace glitch::io {
 
 // 0x56c9e8 _ZN6glitch2io5CFileC1EP7__sFILEPKcb
 // 0x56c960 _ZN6glitch2io5CFileC2EP7__sFILEPKcb (same body)
-// The find_last_of call is a GCC clone (0x56c844) with the separator set folded in. Its bitmap
-// holds '/' (0x2f) and '\\' (0x5c), and the search runs from the end of the name. When the last
-// character is a separator the original throws out_of_range.
-// PARTIAL: when the name has no separator the original stores nothing at +0x20, so the base name
-// offset keeps whatever the object was allocated with. The port default-initialises the offset to 0.
+// Re-decompiled 0x56c960: *(this+0) = 0, *(this+4) = handle, the name string is built at +0x08,
+// the flag byte is stored at +0x24, then find_last_of (the clone 0x56c844, whose bitmap holds '/'
+// 0x2f and '\\' 0x5c, searched from the end) gives sep; when sep != -1 the code throws
+// out_of_range("basic_string") if sep + 1 >= size, otherwise it writes name.data() + sep + 1 to
+// +0x20. The port's body is exactly that.
+// PARTIAL, exact missing item: when the name has no separator the listing never writes +0x20, so the
+// original's base-name offset is whatever the allocation held (uninitialised); the port's 0 is one
+// value that uninitialised block could hold, not recovered behaviour. The in-range path (some
+// separator, not the last character) and the out_of_range throw are the same.
 CFile::CFile(std::FILE* handle, const char* fileName, bool obfuscatedFlag)
     : file(handle), name(fileName ? fileName : "") {
     obfuscated = obfuscatedFlag;

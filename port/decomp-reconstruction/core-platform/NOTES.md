@@ -288,3 +288,42 @@ superseded by this section.
 - Still stand-ins in other categories: `CustomFree` and `NewArrayWithHint` in `net-session-online/.../deps/platform_stand_ins.hpp`,
   `CustomFree` in `net-transport/.../deps/byte_array.hpp`, and `CustomFree` and `MemoryHintState(size, hint)` in
   `pydata-accessors/.../deps/stream_reader.hpp`.
+
+## STLport allocator machinery (2026-10-14, allocator batch)
+
+Four categories carried rows whose note named `__node_alloc::_M_deallocate`, `_String_base::_M_allocate_block`
+or `_String_base::_M_deallocate_block` as their blocker, and each left its row `partial` with "not recovered
+tree-wide". That claim is now false: the bodies are in `include/core-platform/stlport_alloc.hpp` (the
+`_String_base` block helpers and `glitch::core::SAllocator`) and `src/stlport_alloc.cpp`
+(`std::__node_alloc_impl` / `std::__node_alloc`), with `tests/stlport_alloc_test.cpp` covering the two
+thresholds. Nothing in `port/` defined any of them before this batch.
+
+Facts the listings settle, for every category that has such a note:
+
+- `_String_base::_M_allocate_block(n)` is a NO-OP when `n <= 0x10`, fails when `n == 0`, and allocates only
+  for `n > 0x10`. A default-constructed glitch string calls it with exactly 16, so it allocates nothing and
+  the string stays on its 16-element inline buffer. Above 0x10 the plain-allocator version branches again at
+  0x80: `__node_alloc` at or below, `CustomAlloc` above.
+- `_String_base::_M_deallocate_block()` frees only when the data pointer differs from the inline buffer and is
+  non-null. The glitch `SAllocator` instantiation then calls `GlitchFree` with no size test; the
+  `std::allocator` instantiation sends sizes above 0x80 to `CustomFree` and the rest to
+  `__node_alloc::_M_deallocate`.
+- `std::__node_alloc` handles blocks of 0x80 bytes or FEWER by rounding the size up to 8 and pooling it;
+  above 0x80 the size is passed to `CustomAlloc`/`CustomFree` unchanged. The pool's bucket index is
+  `(n - 1) / 8` over 16 buckets, so a pool request must never exceed 0x80 before rounding.
+- `_String_base` is its own 0x14-byte header (`_M_end_of_storage` at +0x00, 16-element inline buffer at
+  +0x04, `_M_start_of_storage._M_data` at +0x14) and is 0x24 bytes at 32-bit. The address a caller passes to a
+  helper is that class address.
+
+Layout request this batch could not apply, for whoever owns the string switch:
+
+- `glitch::core::SAllocator<T, hint>` is now defined, in `core-platform/stlport_alloc.hpp`. Its canonical place
+  is `glitch-core-io/core/memory_hint.hpp` next to `E_MEMORY_HINT` (glitch-core-io owns the glitch headers);
+  it is in core-platform for now because it needs `GlitchAlloc`, which core-platform owns.
+- A glitch string member must be spelled
+  `std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, glitch::memory::EMH_UNRECOVERED> >`,
+  not `std::string`, for the recovered `_String_base` instantiation to be what its destructor calls. Every
+  game header in the tree currently spells these members `std::string`, which is why the GSFlashMenu,
+  CTweakable, SIDedCollection and texture-manager rows stay `partial` even though the helper bodies exist.
+  `_String_base::_M_swap` (0x433880 char, 0x8a4c58 wchar_t) is still missing: its listing copies the inline
+  buffer and re-seats pointers when a side has not yet grown, which is more than a pointer exchange.

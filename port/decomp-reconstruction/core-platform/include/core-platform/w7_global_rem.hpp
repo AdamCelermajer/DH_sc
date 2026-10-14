@@ -20,17 +20,10 @@ namespace gameswf {
 struct fn_call;
 }  // namespace gameswf
 
-// ---- Debug drawing (stand-in driver call) -----------------------------------
-// dword_99F73C is the debug-draw owner (Application::m_device); the driver pointer is at its +0x10. The
-// driver's vtable slot at byte offset +0x28 is glitch::video::IVideoDriver::draw3DBox
-// (aabbox3d<float> const&, SColor) in the IVideoDriver vtable listing; glitch::IDevice does not model +0x10, so the
-// call stays a stand-in. Not defined in the tree (link-missing.csv).
-void* DbgDrawOwnerDriver();  // *(dword_99F73C + 0x10)
-int DbgDrawBoxViaDriverSlot28(void* driver, const float rect[6], std::uint32_t packedColor);
-
-// ---- Declarations ------------------------------------------------------------
-
+// ---- Debug drawing -----------------------------------------------------------
 // 0x340154 _Z21DBG_DisplayPointAsBoxRKN6glitch4core8vector3dIfEERKNS_5video6SColorEi
+// The call is glitch::video::IVideoDriver::draw3DBox (vtable +0x28), on the driver the
+// device holds at +0x10 (Application::m_device->videoDriver, hex dword_99F73C + 0x10).
 int DBG_DisplayPointAsBox(const glitch::core::vector3d<float>& point, const glitch::video::SColor& color, int size);
 
 // 0x342478 _ZlsRSoR12ObjectHandle

@@ -8,11 +8,20 @@
 #include <cstdio>
 #include <cstring>
 
+#include "dh2/EventManager.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 // Test stubs for the engine-owned tick source that AccelerometerBase does not use.
 int ApplicationGetDt() { return 0; }
+
+// AccelerometerBase::moved raises EvAcceleration through the EventManager at dword_99F740
+// (Application's m_eventManager). This test owns one with no receivers, so Raise returns at once.
+static EventManager g_eventManager;
+static EventManager* g_test_dword_99F740 = &g_eventManager;
+EventManager*& dword_99F740 = g_test_dword_99F740;
 
 int main() {
     // slim: utf8 -> code points, detect, back to utf8 (ASCII and a 3-byte sequence).

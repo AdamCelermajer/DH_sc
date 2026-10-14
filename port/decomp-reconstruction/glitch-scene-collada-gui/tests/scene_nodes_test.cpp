@@ -2,6 +2,7 @@
 // CLightSceneNode / CBillboardSceneNode stand-ins that have no canonical header yet. The CBatchMesh / CBatchSceneNode checks
 // that used to be here are in scene_batch_test.cpp.
 #include "glitch-scene-collada-gui/scene_nodes.hpp"
+#include "glitch-video/null_driver.hpp"  // the billboard's constructor needs a driver (createBuffer)
 
 #include <cstdio>
 
@@ -145,10 +146,21 @@ int main() {
     CHECK(manager.hierarchyChanged && manager.visibilityChanged);
     CHECK(manager.createMeshWriter(0) == nullptr);
 
-    CBillboardSceneNode billboard(nullptr, 0, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
-                                  glitch::core::dimension2d<float>{1.0f, 1.0f}, glitch::video::SColor(), glitch::video::SColor());
+    // The billboard's constructor attaches one vertex stream table over its four vertices through the driver's
+    // createBuffer, so it needs a driver: CNullDriver stands in for the video driver, as it does in the
+    // glitch-video tests. The count word and the corners' colours (0 and 2 the second colour, 1 and 3 the first)
+    // are what that constructor writes.
+    glitch::video::CNullDriver billboardDriver(static_cast<glitch::IDevice*>(nullptr));
+    const glitch::video::SColor billboardTop{0xFF112233u};
+    const glitch::video::SColor billboardBottom{0xFF445566u};
+    CBillboardSceneNode billboard(&billboardDriver, 0, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                  glitch::core::dimension2d<float>{1.0f, 1.0f}, billboardTop, billboardBottom);
     CHECK(billboard.getType() == 0x6c6c6962u);
     CHECK(billboard.getMaterialCount() == 1);
+    CHECK(billboard.vertexStreams.get() != nullptr);
+    CHECK(billboard.vertexStreams->m_field08 == 4);
+    CHECK(billboard.vertices[0].color.color == billboardBottom.color && billboard.vertices[2].color.color == billboardBottom.color);
+    CHECK(billboard.vertices[1].color.color == billboardTop.color && billboard.vertices[3].color.color == billboardTop.color);
     billboard.size.Width = 3.0f;
     billboard.size.Height = 4.0f;
     CHECK(billboard.getSize().Width == 3.0f && billboard.getSize().Height == 4.0f);

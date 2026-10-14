@@ -92,7 +92,12 @@ void CAttributes::pop() {
 }
 
 // 0x561908 _ZN6glitch2io11CAttributes8setGroupEj
-// Out-of-range indices are ignored here; the original reads past the child vector.
+// Re-decompiled 0x561908: v = *(*(this + 0x44) + 4 * index); *(this + 0x48) = v + 0x20;
+// *(this + 0x44) = v - i.e. group = group->children[index] and action = group + 32, with no bounds
+// test (the +0x44 object is the current SContext, its children at +44 and its action at +32, the
+// same members pop reads at 0x5618d8). The port's in-range path is that. PARTIAL: an out-of-range
+// index reads past the child vector in the original (undefined), which the port's range check
+// suppresses; named here as the only deviation.
 void CAttributes::setGroup(unsigned int index) {
     if (index < group->children.size()) group = group->children[index];
 }

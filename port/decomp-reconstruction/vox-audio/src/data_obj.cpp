@@ -160,7 +160,7 @@ namespace {
 // rate, bits, length) into the object at +0x28..+0x34.
 void CopyTrackParams(DataObj& obj, const TrackParams& track) {
     obj.channels_ = track.channels;
-    obj.sample_rate_ = track.unknown_08;
+    obj.sample_rate_ = track.sample_rate;
     obj.bits_per_sample_ = track.bits_per_sample;
     obj.length_ = track.length_frames;
 }

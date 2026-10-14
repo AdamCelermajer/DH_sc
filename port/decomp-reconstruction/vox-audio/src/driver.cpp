@@ -84,7 +84,8 @@ int DriverSourceInterface::FreeDisposableData(int id, int& first, int& second) {
     return 0;
 }
 
-// DriverInterface::CreateDriverSource (+0x44): null in the base class. The base slot has no symbol.
+// DriverInterface::CreateDriverSource (+0x44): null in the base vtable, so the base body is the
+// port's null result.
 DriverSourceInterface* DriverInterface::CreateDriverSource(const std::int32_t* params, void* user, int flags) {
     (void)params;
     (void)user;
@@ -92,7 +93,6 @@ DriverSourceInterface* DriverInterface::CreateDriverSource(const std::int32_t* p
     return nullptr;
 }
 
-// DriverInterface::DestroyDriverSource (+0x48): empty in the base class.
-void DriverInterface::DestroyDriverSource(DriverSourceInterface* source) { (void)source; }
+// DriverInterface::DestroyDriverSource (+0x48) is pure in the base vtable; DriverAndroid defines it.
 
 }  // namespace vox

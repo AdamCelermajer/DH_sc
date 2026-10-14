@@ -99,14 +99,21 @@ void RandomGroup::SetState(const RandomGroupState* state) {
     }
 }
 
-// 0x8834f0 _ZN3vox11RandomGroup8SetStateERS0_
-// Partial. The base copy, the scalar fields and the copy of the first source-size element
-// pointers are plain. When this vector is longer than the source, the original pushes the
-// value of the first removed element (surplus times) and links one more node at the head. As
-// written in the pseudocode that relink does not keep the ring closed when the removed list is
-// not empty, and the destructor would not terminate on it; the port keeps the same steps. When
-// the removed list is empty the original reads the element-count word after the sentinel as the
-// padding pointer; the port uses null there.
+// 0x8834f0 _ZN3vox11RandomGroup8SetStateERS0_ (partial)
+// Verified against the ARM listing: SegmentGroup::SetState first; the counts are
+// (other+0x28 - other+0x24) >> 2 and (this+0x28 - this+0x24) >> 2; the source-longer branch
+// (this+0x28) and the source-shorter branch repeat the SAME four instructions, reading the head
+// removed node as [this+0x30] and its element at +8, and taking the vector-overflow path
+// (capacity == end) or the plain store; the surplus repeat then allocates a 0x0c-byte node with
+// its element at +8 set to the last value pushed and links it at the tail ([node] = this+0x30,
+// [node+4] = this+0x34, [tail+0] = node, [node->next+4] = node), which the port's
+// LinkRemovedAtTail reproduces; then the first source-size element pointers are overwritten and
+// the eight scalars +0x40, +0x3c, +0x48, +0x4c, +0x54, +0x44, +0x50, +0x58 are copied. The dead
+// list walk at 0x8835a8..0x8835d8 (it counts the removed list twice and discards both counts) is
+// dropped. One missing item: when the removed list is empty, [this+0x30] is the sentinel's own
+// address, so the original takes the word at sentinel+8 - this+0x38, element_count_ - and pushes
+// that 32-bit word as an element pointer (the port pushes null, because the 64-bit port holds no
+// element there). The binary has no defined element value on that path.
 // Ownership is the same as for SetState(const RandomGroupState*): the pointers of the first
 // source-size slots are overwritten with the source's, so the blocks they held are not freed
 // and the source's blocks are shared.
@@ -186,9 +193,19 @@ int RandomGroup::Reset(int reset_mode) {
 }
 
 // 0x883404 _ZN3vox11RandomGroup18SetToPreviousStateEv
-// Undoes the last GetGroupElementPosition: the saved values come back, and when the window
-// removed an element (reinsert flag), the last vector element goes to the removed list and the
-// tail of that list returns to the vector.
+// Verified against the ARM listing: the four scalars come back first
+// (+0x14 <- +0x1c, +0x18 <- +0x20, +0x44 <- +0x50, +0x4c <- +0x54), then the window test on
+// +0x3c (BLE out when it is 0 or less). Inside the window: with the reinsert flag (+0x58) set the
+// last element is popped from the vector and its weight subtracted from +0x48; then the tail node
+// [this+0x34] gets its element at +8 pushed onto the vector by the capacity-or-overflow pair, its
+// element's weight at +4 added to +0x48, the node unlinked (LDM/STR pair) and VoxFree'd; and with
+// the flag set a fresh 0x0c-byte node holding the popped element is linked at the tail, which is
+// the port's LinkRemovedAtTail.
+// Deviation (host): with an empty removed list [this+0x34] is the sentinel's own address, so the
+// original reads the word at sentinel+8 - this+0x38, element_count_ - as the element and then
+// dereferences it for its weight, faulting at element_count_ + 4; the port reads the sentinel's
+// null element slot and faults the same way, so no defined behaviour is lost (the 32-bit count
+// word cannot be held in a host pointer slot).
 void RandomGroup::SetToPreviousState() {
     words_[2] = words_[4];
     words_[3] = words_[5];

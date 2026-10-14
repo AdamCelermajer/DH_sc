@@ -81,9 +81,11 @@ void GameEvent::ReInit() {
 }
 
 // 0x479544 GameEvent::DBG_TraceDetailedInformation() const
-// PARTIAL: the original passes (__sFILE*)&__sF + 1, which is stdout in the Android libc FILE layout (the same
-// reading core-platform/src/w7_global_03.cpp uses for the first log stream). The dh2 headers take __sFILE*, which is not
-// the host FILE type, so the stdout pointer is converted with reinterpret_cast. The host stdio mapping is not decided yet.
+// The body matches the listing: ObjectiveList::DBG_TraceDetailedObjectiveListInformation on the embedded
+// m_objectives (+0x0c). The original passes (__sFILE*)&__sF + 1, which is stdout in the Android libc FILE layout
+// (the same reading core-platform/src/w7_global_03.cpp uses for the first log stream); the port passes the host
+// stdout through the dh2 headers' opaque __sFILE* (host-necessitated deviation: __sFILE is not the host FILE type,
+// but the stream is stdout on both sides).
 void GameEvent::DBG_TraceDetailedInformation() const {
     m_objectives.DBG_TraceDetailedObjectiveListInformation(reinterpret_cast<__sFILE*>(stdout));
 }

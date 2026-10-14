@@ -21,9 +21,11 @@ void v2IsQuestInState::finalize() {
 }
 
 // 0x505f24 _ZN7Structs16v2IsQuestInState4readEP11IStreamBase
-// partial: the first call, Structs::v2Condition::read (BL in the listing of this address), is omitted:
-// v2Condition::read is not in the port. The two int32 words after it are reconstructed.
+// The listing's first call is Structs::v2Condition::read (BL 0x505b28), then the two int32 words at +0x8
+// and +0xc. v2Condition::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp, so the qualified call
+// below is the listing's. Was partial while that body was believed missing; it exists.
 void v2IsQuestInState::read(IStreamBase* stream) {
+    v2Condition::read(stream);                          // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -46,9 +48,10 @@ void v2IsQuestStateLower::finalize() {
 }
 
 // 0x505e38 _ZN7Structs19v2IsQuestStateLower4readEP11IStreamBase
-// partial: the first call, Structs::v2Condition::read (BL in the listing of this address), is omitted:
-// v2Condition::read is not in the port. The two int32 words after it are reconstructed.
+// Listing: Structs::v2Condition::read (BL 0x505b28), then +0x8 and +0xc readAs<int>. Same body as the other
+// four roots. Was partial while v2Condition::read was believed missing; it is defined at 0x505b28.
 void v2IsQuestStateLower::read(IStreamBase* stream) {
+    v2Condition::read(stream);                          // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -71,9 +74,10 @@ void v2IsQuestStateHigher::finalize() {
 }
 
 // 0x505d4c _ZN7Structs20v2IsQuestStateHigher4readEP11IStreamBase
-// partial: the first call, Structs::v2Condition::read (BL in the listing of this address), is omitted:
-// v2Condition::read is not in the port. The two int32 words after it are reconstructed.
+// Listing: Structs::v2Condition::read (BL 0x505b28), then +0x8 and +0xc readAs<int>. Same body as the other
+// four roots. Was partial while v2Condition::read was believed missing; it is defined at 0x505b28.
 void v2IsQuestStateHigher::read(IStreamBase* stream) {
+    v2Condition::read(stream);                          // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -96,9 +100,10 @@ void v2IsPlayerInLevel::finalize() {
 }
 
 // 0x505c78 _ZN7Structs17v2IsPlayerInLevel4readEP11IStreamBase
-// partial: the first call, Structs::v2Condition::read (BL in the listing of this address), is omitted:
-// v2Condition::read is not in the port. The two int32 words after it are reconstructed.
+// Listing: Structs::v2Condition::read (BL 0x505b28), then +0x8 and +0xc readAs<int>. Same body as the other
+// four roots. Was partial while v2Condition::read was believed missing; it is defined at 0x505b28.
 void v2IsPlayerInLevel::read(IStreamBase* stream) {
+    v2Condition::read(stream);                          // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -121,9 +126,10 @@ void v2IsEventInState::finalize() {
 }
 
 // 0x505b98 _ZN7Structs16v2IsEventInState4readEP11IStreamBase
-// partial: the first call, Structs::v2Condition::read (BL in the listing of this address), is omitted:
-// v2Condition::read is not in the port. The two int32 words after it are reconstructed.
+// Listing: Structs::v2Condition::read (BL 0x505b28), then +0x8 and +0xc readAs<int>. Matches the Hex-Rays
+// body at this address: v2Condition::read(this, a2); readAs<int>(a2, this + 8); readAs<int>(a2, this + 12).
 void v2IsEventInState::read(IStreamBase* stream) {
+    v2Condition::read(stream);                          // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -146,7 +152,7 @@ void v2IsQuestLocked::finalize() {
 }
 
 // 0x506008 _ZN7Structs15v2IsQuestLocked4readEP11IStreamBase
-// thunk: b 0x505f24, forwards to v2IsQuestInState::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505f24, forwards to v2IsQuestInState::read (matches the listing; the target is reconstructed)
 void v2IsQuestLocked::read(IStreamBase* stream) {
     v2IsQuestInState::read(stream);
 }
@@ -169,7 +175,7 @@ void v2IsQuestActive::finalize() {
 }
 
 // 0x506004 _ZN7Structs15v2IsQuestActive4readEP11IStreamBase
-// thunk: b 0x505f24, forwards to v2IsQuestInState::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505f24, forwards to v2IsQuestInState::read (matches the listing; the target is reconstructed)
 void v2IsQuestActive::read(IStreamBase* stream) {
     v2IsQuestInState::read(stream);
 }
@@ -192,7 +198,7 @@ void v2IsQuestCompleted::finalize() {
 }
 
 // 0x506000 _ZN7Structs18v2IsQuestCompleted4readEP11IStreamBase
-// thunk: b 0x505f24, forwards to v2IsQuestInState::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505f24, forwards to v2IsQuestInState::read (matches the listing; the target is reconstructed)
 void v2IsQuestCompleted::read(IStreamBase* stream) {
     v2IsQuestInState::read(stream);
 }
@@ -215,7 +221,7 @@ void v2IsQuestClosed::finalize() {
 }
 
 // 0x505ffc _ZN7Structs15v2IsQuestClosed4readEP11IStreamBase
-// thunk: b 0x505f24, forwards to v2IsQuestInState::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505f24, forwards to v2IsQuestInState::read (matches the listing; the target is reconstructed)
 void v2IsQuestClosed::read(IStreamBase* stream) {
     v2IsQuestInState::read(stream);
 }
@@ -238,7 +244,7 @@ void v2IsQuestPostClosed::finalize() {
 }
 
 // 0x505ff8 _ZN7Structs19v2IsQuestPostClosed4readEP11IStreamBase
-// thunk: b 0x505f24, forwards to v2IsQuestInState::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505f24, forwards to v2IsQuestInState::read (matches the listing; the target is reconstructed)
 void v2IsQuestPostClosed::read(IStreamBase* stream) {
     v2IsQuestInState::read(stream);
 }
@@ -261,7 +267,7 @@ void v2IsQuestLowerThenLocked::finalize() {
 }
 
 // 0x505f20 _ZN7Structs24v2IsQuestLowerThenLocked4readEP11IStreamBase
-// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (matches the listing; the target is reconstructed)
 void v2IsQuestLowerThenLocked::read(IStreamBase* stream) {
     v2IsQuestStateLower::read(stream);
 }
@@ -284,7 +290,7 @@ void v2IsQuestLowerThenAvailable::finalize() {
 }
 
 // 0x505f1c _ZN7Structs27v2IsQuestLowerThenAvailable4readEP11IStreamBase
-// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (matches the listing; the target is reconstructed)
 void v2IsQuestLowerThenAvailable::read(IStreamBase* stream) {
     v2IsQuestStateLower::read(stream);
 }
@@ -307,7 +313,7 @@ void v2IsQuestLowerThenActive::finalize() {
 }
 
 // 0x505f18 _ZN7Structs24v2IsQuestLowerThenActive4readEP11IStreamBase
-// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (matches the listing; the target is reconstructed)
 void v2IsQuestLowerThenActive::read(IStreamBase* stream) {
     v2IsQuestStateLower::read(stream);
 }
@@ -330,7 +336,7 @@ void v2IsQuestLowerThenCompleted::finalize() {
 }
 
 // 0x505f14 _ZN7Structs27v2IsQuestLowerThenCompleted4readEP11IStreamBase
-// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (matches the listing; the target is reconstructed)
 void v2IsQuestLowerThenCompleted::read(IStreamBase* stream) {
     v2IsQuestStateLower::read(stream);
 }
@@ -353,7 +359,7 @@ void v2IsQuestLowerThenClosed::finalize() {
 }
 
 // 0x505f10 _ZN7Structs24v2IsQuestLowerThenClosed4readEP11IStreamBase
-// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (matches the listing; the target is reconstructed)
 void v2IsQuestLowerThenClosed::read(IStreamBase* stream) {
     v2IsQuestStateLower::read(stream);
 }
@@ -376,7 +382,7 @@ void v2IsQuestLowerThenPostClosed::finalize() {
 }
 
 // 0x505f0c _ZN7Structs28v2IsQuestLowerThenPostClosed4readEP11IStreamBase
-// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505e38, forwards to v2IsQuestStateLower::read (matches the listing; the target is reconstructed)
 void v2IsQuestLowerThenPostClosed::read(IStreamBase* stream) {
     v2IsQuestStateLower::read(stream);
 }
@@ -399,7 +405,7 @@ void v2IsQuestHigherThenLocked::finalize() {
 }
 
 // 0x505e34 _ZN7Structs25v2IsQuestHigherThenLocked4readEP11IStreamBase
-// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (matches the listing; the target is reconstructed)
 void v2IsQuestHigherThenLocked::read(IStreamBase* stream) {
     v2IsQuestStateHigher::read(stream);
 }
@@ -422,7 +428,7 @@ void v2IsQuestHigherThenAvailable::finalize() {
 }
 
 // 0x505e30 _ZN7Structs28v2IsQuestHigherThenAvailable4readEP11IStreamBase
-// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (matches the listing; the target is reconstructed)
 void v2IsQuestHigherThenAvailable::read(IStreamBase* stream) {
     v2IsQuestStateHigher::read(stream);
 }
@@ -445,7 +451,7 @@ void v2IsQuestHigherThenActive::finalize() {
 }
 
 // 0x505e2c _ZN7Structs25v2IsQuestHigherThenActive4readEP11IStreamBase
-// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (matches the listing; the target is reconstructed)
 void v2IsQuestHigherThenActive::read(IStreamBase* stream) {
     v2IsQuestStateHigher::read(stream);
 }
@@ -468,7 +474,7 @@ void v2IsQuestHigherThenCompleted::finalize() {
 }
 
 // 0x505e28 _ZN7Structs28v2IsQuestHigherThenCompleted4readEP11IStreamBase
-// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (matches the listing; the target is reconstructed)
 void v2IsQuestHigherThenCompleted::read(IStreamBase* stream) {
     v2IsQuestStateHigher::read(stream);
 }
@@ -491,7 +497,7 @@ void v2IsQuestHigherThenClosed::finalize() {
 }
 
 // 0x505e24 _ZN7Structs25v2IsQuestHigherThenClosed4readEP11IStreamBase
-// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (matches the listing; the target is reconstructed)
 void v2IsQuestHigherThenClosed::read(IStreamBase* stream) {
     v2IsQuestStateHigher::read(stream);
 }
@@ -514,7 +520,7 @@ void v2IsQuestHigherThenPostClosed::finalize() {
 }
 
 // 0x505e20 _ZN7Structs29v2IsQuestHigherThenPostClosed4readEP11IStreamBase
-// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505d4c, forwards to v2IsQuestStateHigher::read (matches the listing; the target is reconstructed)
 void v2IsQuestHigherThenPostClosed::read(IStreamBase* stream) {
     v2IsQuestStateHigher::read(stream);
 }
@@ -537,7 +543,7 @@ void v2IsEventActive::finalize() {
 }
 
 // 0x505c74 _ZN7Structs15v2IsEventActive4readEP11IStreamBase
-// thunk: b 0x505b98, forwards to v2IsEventInState::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505b98, forwards to v2IsEventInState::read (matches the listing; the target is reconstructed)
 void v2IsEventActive::read(IStreamBase* stream) {
     v2IsEventInState::read(stream);
 }
@@ -560,7 +566,7 @@ void v2IsEventInactive::finalize() {
 }
 
 // 0x505c70 _ZN7Structs17v2IsEventInactive4readEP11IStreamBase
-// thunk: b 0x505b98, forwards to v2IsEventInState::read (partial: the target is partial, see the root's read)
+// thunk: b 0x505b98, forwards to v2IsEventInState::read (matches the listing; the target is reconstructed)
 void v2IsEventInactive::read(IStreamBase* stream) {
     v2IsEventInState::read(stream);
 }
@@ -574,6 +580,19 @@ v2IsEventCompleted::~v2IsEventCompleted() {
 void DeletingDestructor(v2IsEventCompleted* self) {
     self->v2IsEventCompleted::~v2IsEventCompleted();
     CustomFree(self);
+}
+
+// 0x4c87bc _ZN7Structs18v2IsEventCompleted8finalizeEv
+// thunk: b 0x4c8678, forwards to v2IsEventInState::finalize (v2IsEventCompleted derives from v2IsEventInState
+// in w7_structs_0.hpp). Hex-Rays agrees: a single call to v2IsEventInState::finalize.
+void v2IsEventCompleted::finalize() {
+    v2IsEventInState::finalize();
+}
+
+// 0x505c6c _ZN7Structs18v2IsEventCompleted4readEP11IStreamBase
+// thunk: b 0x505b98, forwards to v2IsEventInState::read. Hex-Rays agrees: a single call, no body of its own.
+void v2IsEventCompleted::read(IStreamBase* stream) {
+    v2IsEventInState::read(stream);
 }
 
 }  // namespace Structs

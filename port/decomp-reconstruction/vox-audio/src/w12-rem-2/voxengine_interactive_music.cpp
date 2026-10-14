@@ -9,12 +9,14 @@
 namespace vox {
 
 // 0x86764c _ZN3vox17VoxEngineInternal24SetInteractiveMusicStateERNS_13EmitterHandleEPKc
-// The decoder is the data object's decoder (+0x3c), or none when the data object's state word
-// (+0x50) is not 0. Only a native decoder (GetType 4) receives the state: the emitter's cursor
-// (+0x114) gets the name, and the emitter records it for later (SetInteractiveMusicStateChange).
-// The original returns the ReleaseReadAccess result.
-// Partial: when the data object's state word (+0x50) is not 0, the binary passes a null decoder to its
-// GetType slot (a null call). The port skips the call on that path, so no state is passed.
+// Under the emitter read access (+0xc4): the emitter object is looked up, and the decoder is the
+// data object's decoder (+0x3c) when the data object's state word (+0x50) is 0, else null (asm
+// 0x867680: LDREQ the decoder, MOVNE 0). That decoder's type (vtable +0x18) must be 4 (native);
+// then the emitter's cursor (+0x114, a DecoderNativeCursor) gets the name and the emitter records
+// it (SetInteractiveMusicStateChange). The result is the ReleaseReadAccess int.
+// Deviation, host-necessitated: the binary builds the null decoder and calls its GetType slot on
+// it when the state word is not 0 (an invalid dereference there); the port skips the whole test on
+// that path, so no state is passed, which is what the null decoder could have produced.
 int VoxEngineInternal::SetInteractiveMusicState(EmitterHandle& emitter, const char* state) {
     emitter_access_.GetReadAccess();
     if (EmitterObj* obj = GetEmitterObject(emitter)) {

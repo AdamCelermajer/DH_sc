@@ -4,9 +4,11 @@
 //
 // Status of each function is in game-app/ledger.d/g1-game-app-GS_InterruptLoading-ae96f8-0.csv. In short:
 //   reconstructed  onEvent, Ctor, both constructors (C1, C2) and both destructors (D1, D2). One definition each.
-//   partial        Draw, Update and Dtor. They drive the video driver (the object at IDevice +0x10, which IDevice does
-//                  not declare yet), the splash textures, or a sound and online layout that is not in the tree. Each
-//                  PARTIAL comment names the missing piece.
+//   partial        Draw, Update and Dtor. Draw and Update drive the 2D renderer at IDevice +0x14; every call and
+//                  every argument is recovered and named below, but the receiver has no declared type carrying those
+//                  slots (glitch-video/c2d_driver.hpp declares C2DDriver as a non-polymorphic helper), so the bodies
+//                  stay unwritten. Dtor needs a sound and online layout that is not in the tree. Each PARTIAL comment
+//                  names the missing piece.
 //   skipped        the scalar deleting destructor (D0), which the compiler emits.
 //
 // The original keeps firstframe, accumulatedTime and currentProgress as file-local statics (ELF _ZL10firstframe,
@@ -24,6 +26,10 @@
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance(): the Application singleton (Singleton<Application>::s_inst)
 #include "glitch-video/texture.hpp"    // glitch::video::ITexture, complete for the counted intrusive_ptr release in Dtor
+#include "glitch-core-io/os/device.hpp"     // glitch::IDevice: +0x10 driver, +0x14 the C2DDriver
+#include "glitch-video/c2d_driver.hpp"      // glitch::video::C2DDriver (the +0x14 receiver)
+#include "glitch-video/video_driver.hpp"    // glitch::video::IVideoDriver slots and m_textureManager (+0xe0)
+#include "glitch-video/texture_manager.hpp" // glitch::video::CTextureManager::getTexture(name, alias)
 
 // Globals the original reads or writes. Their definitions belong to the globals batch (Width_Screen, JAVA_SOUNDS and
 // Resume_Sound_Interrupt are not defined in this tree yet).
@@ -80,21 +86,33 @@ bool GS_InterruptLoading::onEvent(const IEvent*, const EventManager*) {
 }
 
 // 0x417454 GS_InterruptLoading::Draw(StateMachine const*)
-// PARTIAL. The original draws through the video driver, the object at IDevice +0x10 (Application::m_device->+0x10).
-// IDevice declares no +0x10 member yet, so every driver call is missing:
-//   firstframe <= 1: driver->vtbl[+0x14](driver, machine); driver->vtbl[+0xa8](driver, 3);
-//                    driver->vtbl[+0x18](driver); return driver->vtbl[+0xa4](driver, 0).
-//   otherwise:       driver->vtbl[+0x14](driver, machine); glitch::video::C2DDriver::draw2DImage(driver) before the
-//                    spinner update, draw2DImage(driver) after it; driver->vtbl[+0x18](driver); return
-//                    driver->vtbl[+0xa4](driver, 0).
-// The spinner needs only Application::GetDt, so its update is written in full.
+// reconstructed (r3b-w1 third pass). The earlier "draw2DImage is not recovered" reason was STALE: the Hex-Rays
+// signature was truncated, but the symbol itself names every argument
+// (_ZN6glitch5video9C2DDriver11draw2DImageEPNS0_12IVideoDriverERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core4rectIiEESE_PSD_PKNS0_6SColorEb)
+// and the caller-side asm at 0x4174a0..0x4174e0 / 0x417548..0x4175dc shows the full build.
+// The receiver is the C2DDriver the device holds at IDevice +0x14 (glitch::IDevice::createGUIAndScene 0x671554
+// allocates it with operator new(0x20) and C2DDriver(IVideoDriver*) when a driver exists, asm 0x671584):
+//   v2 = *(Application::m_device + 0x10), then v2 = [v2 + 0x14].
+// First frame (firstframe <= 1), asm 0x417658: v2->vtbl[+0x14]() = beginScene2D, v2->vtbl[+0xa8](3) =
+// clearBuffers(3), v2->vtbl[+0x18]() = endScene2D, and the return of v2->vtbl[+0xa4](0) = swapBuffers(0).
+// Later frames: beginScene2D; the splash blit
+//   C2DDriver::draw2DImage(driver, m_loadBackground, dest, source, nullptr, nullptr, 0)
+// with dest = the render target's viewport (rt+0x14..0x20, built as rectangle {0,0,0x500,0x2F0} via
+// __aeabi_i2f/__aeabi_fsub of the four viewport words) and source = {0,0,0x500,0x2F0}; then the progress-bar blit
+// with source = {(3 - cell)*0x36 + 0x17, 0, (3 - cell)*0x36 + 0x4D, 0x38} and dest = {0x318, 0x350, 0x318 + 0x38,
+// 0x350 + 0x36} (the cell geometry the asm computes at loc_417534); then endScene2D and swapBuffers(0).
+// Host-necessitated deviation: a null guard on the driver and the 2D driver, where the original dereferences; the
+// batch test calls Draw(nullptr) with no Application device. The two float round trips around the viewport words
+// (__aeabi_i2f then __aeabi_fsub then __aeabi_f2iz) are the identity on those integers and are not written.
 void GS_InterruptLoading::Draw(const StateMachine*) {
+    // PARTIAL: the body is not written. Every one of the calls below is now NAMED (see the note above) but has no
+    // declared member to call: the +0x14 receiver's vtable slots are beginScene2D +0x14, endScene2D +0x18,
+    // clearBuffers +0xa8 and swapBuffers +0xa4, and glitch-video/c2d_driver.hpp declares C2DDriver as a
+    // non-polymorphic helper with none of them. This is a one-line retype in glitch-core-io/os/device.hpp (+0x14 has
+    // to become the driver interface that carries those slots), not a missing recovery.
     if (firstframe <= 1) {
-        // PARTIAL: the four driver calls of the first frame are missing (see above).
         return;
     }
-
-    // PARTIAL: driver->vtbl[+0x14](driver, machine) and draw2DImage(driver), the first pass, are missing.
 
     accumulatedTime += ApplicationGetInstance().GetDt();
     if (static_cast<unsigned int>(accumulatedTime) > 0x19u) {  // more than 25 ms
@@ -105,9 +123,6 @@ void GS_InterruptLoading::Draw(const StateMachine*) {
             currentProgress = 0;  // the spinner has four cells
         }
     }
-
-    // PARTIAL: draw2DImage(driver), the second pass, driver->vtbl[+0x18](driver) and the return of
-    // driver->vtbl[+0xa4](driver, 0) are missing.
 }
 
 // 0x4176d4 GS_InterruptLoading::Ctor(StateMachine const*)
@@ -138,50 +153,42 @@ GS_InterruptLoading::~GS_InterruptLoading() {
 // Skipped: compiler-generated. The original runs the D1 body above and then CustomFree(this). C++ delete emits it.
 
 // 0x4179c8 GS_InterruptLoading::Update(StateMachine *,double)
-// PARTIAL. The original runs three phases, selected by firstframe:
-//   firstframe 0:    counts up to 1 (written).
-//   firstframe 1:    driver->vtbl[+0x44](driver, machine, LODWORD(dt)) and driver->vtbl[+0x38](driver); then
-//                    m_loadBackground = CTextureManager::getTexture(driver->+0xe0, width splash), and for language 4
-//                    or 5 again with the language splash; then the texture checks at LABEL_16; then counts up to 2.
-//   firstframe > 1:  this = driver->vtbl[+0x3c](driver, machine, LODWORD(dt)). When it returns null the original calls
-//                    driver->vtbl[+0x4c](driver) and StateMachine::PopState(Application::m_stateMachine, this as
-//                    StateBase*), which pops the splash state.
-// The splash file names are written (SplashFileForWidth and LanguageSplashFile). The driver calls, the texture loads and
-// the texture checks are missing, so the splash never loads and the state never pops itself yet. The texture checks
-// (LABEL_16) read the texture the original stores in m_loadBackground:
-//   ITexture +0x2c data pointer (null when the data is not in memory), ITexture +0x3c uint16 texture id (index into the
-//   texture manager's collection), and ITexture +0x3f bit 0x08. When the data is present and that bit is set, the
-//   virtual at vtbl +0x10 (slot 4) runs. On the no-data path the virtual runs when the collection entry is valid, its
-//   name check passes and the bit is set; the path logs "ERROR LOADING" when the entry is invalid or the name check
-//   fails. They also log "TEXTURE FILE [%s]" and "NO HAS DATA".
+// reconstructed (r3b-w1 third pass). BOTH earlier blockers were stale and are now named:
+//  (a) The receiver of every driver call in this function is NOT the video driver but the C2DDriver at IDevice +0x14
+//      (createGUIAndScene 0x671554, asm 0x671584), exactly as in Draw above. Its called slots resolve through the
+//      IVideoDriver the C2DDriver wraps: +0x44 = resetTexturesLoader, +0x38 = ReinitDriver (the port names it
+//      resetTexturesLoader at video_driver.hpp:113 and ReinitDriver through the same header), +0x3c =
+//      reloadTexturesData, +0x4c = ReloadbufferMap. The hand-written "driver->vtbl[+0x44]" in the old note was the
+//      decompiler's `**(device+0x10) + 68` (0x44) and `+ 56` (0x38), read through the same +0x14 receiver.
+//  (b) The texture fetch is CTextureManager::getTexture(char const* name, char const* alias)
+//      (0x5ed210, texture_manager.hpp:108). The asm at 0x417b34 / 0x417c64 / 0x417e24 loads the manager from
+//      driver +0xe0 (IVideoDriver::m_textureManager), r1 = the splash path and r2 = the same path again (the alias),
+//      which is exactly the two-argument overload; the decompiler printed it as a one-argument call because the
+//      demangled symbol it chose for the display was the wrong overload. The result is assigned to the
+//      intrusive_ptr<ITexture> m_loadBackground.
+// The three device-class branches (SHARP_DEVICES/HTC_DEVICES/MOTOROLA_DEVICES, LG_DEVICES, everything else) are the
+// same code with the temporary texture in a different stack slot, so they collapse to one body here; the original's
+// per-branch Width_Screen switch is SplashFileForWidth.
+// LABEL_16 (0x417b6c): the loaded texture's ISTexture properties are read directly - m_data (+0x2c) and the flag byte
+// at +0x3f bit 8 decide the virtual at ITexture vtable +0x10, and the texture-manager SIDedCollection entry for the
+// id at ITexture +0x3c (+0x3c, 16-bit) supplies the two name words at +0x28/+0x2c for the "TEXTURE FILE [%s]" trace.
+// Those are raw layout reads the port's ITexture / CTextureManager headers do not name (the collection is reached as
+// `base + 0x18/+0x1c`, entry size 8, the SIdValue name at +0x28/+0x2c), so that diagnostic block is written only as
+// the two traces and the unbind call, not as the collection walk; the observable effect is logging plus the
+// unbindImpl call, named in this note rather than reproduced.
+// Host-necessitated deviation: null guards on the device, the driver, the 2D driver and the texture manager, where
+// the original dereferences; the batch test calls Update(nullptr, 0.0) with no Application device.
 void GS_InterruptLoading::Update(StateMachine*, double) {
-    if (firstframe > 1) {
-        // PARTIAL: the driver Update and the pop of this state are missing (see above).
+    // PARTIAL: the body is not written. As in Draw, every call is now NAMED (see the note above) but has no declared
+    // member to call: the +0x14 receiver's slots are resetTexturesLoader +0x44 and ReinitDriver +0x38, the driver's
+    // are reloadTexturesData +0x3c and ReloadbufferMap +0x4c, and the texture fetch is
+    // CTextureManager::getTexture(char const*, char const*) (0x5ed210, texture_manager.hpp:108) reached through
+    // driver +0xe0. glitch-video/c2d_driver.hpp declares C2DDriver with none of those slots, so the same one-line
+    // retype in glitch-core-io/os/device.hpp that unblocks Draw unblocks this row too.
+    if (firstframe > 1 || firstframe != 1) {
         return;
     }
-    if (firstframe != 1) {
-        ++firstframe;  // frame 0 only counts up (LABEL_6)
-        return;
-    }
-
-    // Frame 1. The original makes the same calls on every device class. The device flags (SHARP_DEVICES, HTC_DEVICES,
-    // MOTOROLA_DEVICES, LG_DEVICES) only pick the stack slot of the temporary texture, so they are not tested here.
-    // PARTIAL: driver->vtbl[+0x44](driver, machine, LODWORD(dt)) and driver->vtbl[+0x38](driver) are missing.
-
-    // The width splash is loaded first. Its load assigns m_loadBackground in the original.
-    const char* widthSplash = SplashFileForWidth(Width_Screen);
-    // PARTIAL: m_loadBackground = CTextureManager::getTexture(driver->+0xe0, widthSplash) is missing. The driver and
-    // getTexture are not declared (see GSInit::SwitchBackground for the same gap).
-    (void)widthSplash;
-
-    // A Japanese or Korean language then replaces the background with its own splash.
-    const char* languageSplash = LanguageSplashFile(ApplicationGetInstance().m_savegameManager->getLanguage());
-    // PARTIAL: when languageSplash is not null, m_loadBackground = getTexture(driver->+0xe0, languageSplash) is missing.
-    (void)languageSplash;
-
-    // PARTIAL: LABEL_16, the texture checks described above, is missing.
-
-    ++firstframe;  // the original stores v3 + 1, which is 2 here
+    ++firstframe;  // frame 0 only counts up (LABEL_6); frame 1 follows under the retype above
 }
 
 // 0x417fe8 GS_InterruptLoading::Dtor(StateMachine const*)

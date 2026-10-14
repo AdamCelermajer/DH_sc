@@ -64,7 +64,10 @@ public:
     // on success, 0 with an error log when the light follows a transformation source (+0x54 set).
     int setAbsoluteTransformation(const glitch::core::CMatrix4<float>& transform);
 
-    // 0x59ffa8 / 0x5a015c: attribute (de)serializers. Not reconstructed (the IAttributes vtable is core-io's).
+    // 0x59ffa8 / 0x5a015c: attribute (de)serializers. Both write the same ten attributes in the same order:
+    // "Type" (an enum over the light-type name table), the three colours, "Attenuation" (vector3d), "Radius",
+    // "InnerConeAngle", "OuterConeAngle", "Falloff" (floats) and "CastShadows" (bool). The options argument is
+    // never read (the listing passes a literal 0 as the flag of every call).
     void serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const;
     void deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options);
 

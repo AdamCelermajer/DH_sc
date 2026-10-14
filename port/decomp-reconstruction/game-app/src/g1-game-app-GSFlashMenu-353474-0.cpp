@@ -59,12 +59,16 @@ void GSFlashMenu::Draw(const StateMachine* /*machine*/) {
 // (finish) hold that same address, i.e. an empty string on its inline buffer. The body reproduces it byte for byte,
 // and the member uses in this batch (assignment from a menu name, comparison) go through those two pointers, which
 // are right.
-// Concrete missing item: the member is a stand-in triple (unk_10/unk_20/unk_24) for STLport's _String_base, and the
-// port does not implement _M_allocate_block / _M_deallocate_block anywhere, so a string that has to grow through
-// those helpers has no body in the port (the same gap as the CTweakable xml-name string). Bounded impact, verified:
-// nothing else in this batch assigns or grows that member. GSFlashMenu::Ctor (asm 0x384740..0x384760) builds the
-// "isTracingGSFlashMenu" name in a STACK string and releases it there, and the only other touch of +0x10 is this
-// constructor and ~GSFlashMenu.
+// Concrete missing item: the member is a stand-in triple (unk_10/unk_20/unk_24) for STLport's _String_base.
+// The two block helpers are no longer missing - core-platform/include/core-platform/stlport_alloc.hpp defines
+// _M_allocate_block and _M_deallocate_block for exactly this instantiation
+// (std::priv::_String_base<char, glitch::core::SAllocator<char, glitch::memory::EMH_UNRECOVERED> >), and
+// core-platform/tests/stlport_alloc_test.cpp covers them - but they belong to the glitch string spelling
+// std::basic_string<char, char_traits<char>, glitch::core::SAllocator<char,0> >, while this tree spells string
+// members std::string (std::allocator). So the member would still have to be retyped for the recovered bodies
+// to be what its destructor calls. Bounded impact, verified: nothing else in this batch assigns or grows that
+// member. GSFlashMenu::Ctor (asm 0x384740..0x384760) builds the "isTracingGSFlashMenu" name in a STACK string
+// and releases it there, and the only other touch of +0x10 is this constructor and ~GSFlashMenu.
 GSFlashMenu::GSFlashMenu() {
     m_manager = nullptr;                               // +0x04
     m_menu = nullptr;                                  // +0x08
@@ -83,18 +87,20 @@ GSFlashMenu::GSFlashMenu() {
 // 0x384284 GSFlashMenu::~GSFlashMenu()  (D1 variant)
 // 0x3842b8 GSFlashMenu::~GSFlashMenu()  (D2 variant, same body)
 // PARTIAL. Asm (D1, 0x384284): the vptr is stored, then `STR R2,[R0],#0x10` stores the GSFlashMenu vptr at +0x00 and
-// advances R0 to this+0x10, and _M_deallocate_block runs on that string. The call is not reproduced. Note that for the
-// state the constructor leaves (data == end == finish == the inline buffer at +0x10, low byte 0) it is the no-op case:
-// 0x3209a8's deallocate counterpart frees only when the string owns a GlitchAlloc block, and the constructor's
-// _M_allocate_block(16) never took one. Nothing in this batch grows the string either, so no memory is leaked or
-// double-freed by the empty body. The concrete missing item is the same as in the constructor note: the member is a
-// stand-in for STLport's _String_base and the two block helpers have no port implementation, so the release path is
-// not closed for a string that did grow. The base destructor StateBase::~StateBase runs after this body, as the
-// compiler inserts it.
+// advances R0 to this+0x10, and _M_deallocate_block runs on that string. The call is not reproduced here (the body is
+// empty), but the helper it reaches is now recovered and the state it sees makes it the no-op path. For the
+// state the constructor leaves (data == end == finish == the inline buffer at +0x10, low byte 0) it is the no-op
+// case: the instantiation this call reaches is 0x56c2bc _String_base<char, SAllocator<char,0>>::_M_deallocate_block
+// (0x3139ac is the std::allocator twin), which frees only when the data pointer differs from the inline buffer and
+// is non-null, and the constructor's _M_allocate_block(16) never took a block. Nothing in this batch grows the
+// string either, so no memory is leaked or double-freed by the empty body. The concrete missing item is the one the
+// constructor note names: the member is a stand-in triple rather than the glitch SAllocator _String_base, so the
+// release path would only be closed for a string that did grow once the member is retyped. The base destructor
+// StateBase::~StateBase runs after this body, as the compiler inserts it.
 GSFlashMenu::~GSFlashMenu() {}
 
 // 0x384460 GSFlashMenu::Update(StateMachine*, double)
-// PARTIAL. Reproduced:
+// Reconstructed from the listing. In order:
 //   1. The menu swap. When m_pendingMenu is set and differs from m_menu: when m_menu is set, the old menu is popped with
 //      m_manager->m_multiMenuManager->PopMenu(m_menu->m_name, false) (vtable +0x3c); m_pendingMenu is read again (the
 //      asm reloads it after the pop); m_pendingMenu is cleared, m_menu takes the value, and PushMenu(m_menu) runs (vtable
@@ -102,10 +108,10 @@ GSFlashMenu::~GSFlashMenu() {}
 //   2. The top-of-stack test. This state is on top when the last StateInfo of machine->m_stack holds it.
 //   3. The pop path, when this state is on top and m_menu is null or hidden: the trace probe, m_popped = true, then
 //      ApplicationGetInstance().m_stateMachine->PopState(nullptr).
-//   4. The update path, otherwise: MenuManager::Update(false) on m_manager, then GetOnline() (COnline::GetInstance()).
-// Not reproduced: in the update path the original tests the COnline byte at +0x05 (isOnlineGame_, private with no getter
-// in net-session-online/c_online.hpp, layout request: COnline +0x05 bool getter). When that flag is set it calls
-// StateMachine::RecurseUpdate(machine, dt) (asm 0x384550). The flag is not readable here, so that call is missing.
+//   4. The update path, otherwise: MenuManager::Update(false) on m_manager, then GetOnline() (COnline::GetInstance()) and,
+//      when its online byte is set, StateMachine::RecurseUpdate(machine, dt) (asm 0x384550). The byte is
+//      COnline::isOnlineGame_ at +0x05; net-session-online/c_online.hpp now declares the public accessor
+//      IsOnlineGame(), so the test is written (the earlier note's layout request is stale).
 void GSFlashMenu::Update(StateMachine* machine, double dt) {
     // Menu swap (asm 0x384460 to 0x3844D4).
     MenuBase* next = m_pendingMenu;
@@ -123,9 +129,9 @@ void GSFlashMenu::Update(StateMachine* machine, double dt) {
     const bool onTop = !machine->m_stack.empty() && machine->m_stack.back().state == static_cast<StateBase*>(this);
     if (!onTop || (m_menu != nullptr && m_menu->IsVisible())) {
         m_manager->Update(false);
-        COnline::GetInstance();                        // GetOnline(); its return value is only used for the missing flag test
-        // PARTIAL: when COnline +0x05 (isOnlineGame_) is set, the original calls StateMachine::RecurseUpdate(machine, dt).
-        (void)dt;
+        if (COnline::GetInstance()->IsOnlineGame()) {  // +0x05
+            machine->RecurseUpdate(dt);
+        }
         return;
     }
 

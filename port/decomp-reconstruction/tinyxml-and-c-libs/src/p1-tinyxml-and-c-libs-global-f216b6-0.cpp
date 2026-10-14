@@ -4,6 +4,7 @@
 // uses (the +N byte offsets in the comments, 4 bytes per slot in the 32-bit table), so the call sequence is
 // the original's.
 #include "tinyxml-and-c-libs/jni_globals.hpp"
+#include "tinyxml-and-c-libs/nvthread.hpp"  // g_nvThreadVm, the JavaVM word NVThreadInit stores
 #include "tinyxml-and-c-libs/nvthread_jni.hpp"
 #include "tinyxml-and-c-libs/vzpurchase.hpp"
 
@@ -35,11 +36,10 @@ jmethodID mMethodVZRestoreNetworkState = nullptr;
 
 namespace {
 
-// The JavaVM used by the thread glue. The binary's NVThreadInit stores it in s_vm. nvthread.cpp keeps that
-// value as an int in its own anonymous namespace, so this copy is never set. Until the VM is exposed, the
-// attach and detach branches below are never taken (see NVThreadGetCurrentJNIEnv and NVThreadSpawnProc).
-JavaVM* s_vm = nullptr;
-
+// The binary's s_vm (0x9f6544), shared by NVThreadInit (0x533bd8) and the two functions below. nvthread.cpp
+// owns the storage (g_nvThreadVm, nvthread.hpp) and NVThreadInit writes it, so this file reads it instead of
+// keeping a second copy; that is what lets the attach and detach branches below run.
+//
 // Key that holds each thread's JNIEnv. It is 0 until pthread_key_create runs.
 pthread_key_t s_jniEnvKey{};
 
@@ -153,9 +153,10 @@ int NVThreadSpawnJNIThread(pthread_t* thread, const pthread_attr_t* attr, int (*
 }
 
 // 0x533d20 NVThreadGetCurrentJNIEnv
-// Partial: the key handling is the binary's (create once, getspecific, setspecific). The attach path needs
-// the JavaVM that NVThreadInit stores. s_vm here is always null, so this always takes the "could not find
-// JVM!" branch and returns the thread's stored env (null when none was stored).
+// The key handling is the binary's (create once, getspecific, setspecific). The JavaVM is g_nvThreadVm.asVm,
+// the word NVThreadInit (0x533bd8, nvthread.cpp) stores, so the attach path runs whenever a VM was supplied.
+// The listing's `return v0` at the end returns the (null) value read before the attach attempt; the port
+// returns the same.
 JNIEnv* NVThreadGetCurrentJNIEnv() {
     JNIEnv* pointer = nullptr;
     void* v0 = nullptr;
@@ -169,8 +170,9 @@ JNIEnv* NVThreadGetCurrentJNIEnv() {
         pthread_key_create(&s_jniEnvKey, nullptr);
         v0 = pointer;
     }
-    if (s_vm) {
-        jint v2 = s_vm->functions->AttachCurrentThread(s_vm, &pointer, v0);  // +16
+    if (g_nvThreadVm.asVm) {
+        JavaVM* const vm = g_nvThreadVm.asVm;
+        jint v2 = vm->functions->AttachCurrentThread(vm, &pointer, v0);  // +16
         NVThreadLog("AttachCurrentThread: %d, 0x%p", static_cast<int>(v2), static_cast<void*>(pointer));
         if (v2 || !pointer) {
             NVThreadLog("Error - could not attach thread to JVM!");
@@ -185,17 +187,18 @@ JNIEnv* NVThreadGetCurrentJNIEnv() {
 }
 
 // 0x533e4c NVThreadSpawnProc
-// Partial: the context is read and freed, NVThreadGetCurrentJNIEnv runs, the function runs with its argument,
-// and its result is returned. The DetachCurrentThread call at the end (+20) needs the JavaVM, which is not
-// reachable from this file (see s_vm), so it does not run.
+// The context is read and freed, NVThreadGetCurrentJNIEnv runs, the function runs with its argument, and its
+// result is returned. The listing's DetachCurrentThread (+20) runs when the VM is set, which is now reachable
+// through g_nvThreadVm.asVm.
 int NVThreadSpawnProc(NVThreadSpawnContext* context) {
     int arg = context->arg;
     int (*fn)(int) = context->fn;
     std::free(context);
     NVThreadGetCurrentJNIEnv();
     int result = fn(arg);
-    if (s_vm) {
-        s_vm->functions->DetachCurrentThread(s_vm);  // +20
+    if (g_nvThreadVm.asVm) {
+        JavaVM* const vm = g_nvThreadVm.asVm;
+        vm->functions->DetachCurrentThread(vm);  // +20
     }
     return result;
 }

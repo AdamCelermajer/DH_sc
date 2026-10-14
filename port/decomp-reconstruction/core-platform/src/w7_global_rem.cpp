@@ -15,28 +15,29 @@
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/StringManager.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
 
 // 0x340154 _Z21DBG_DisplayPointAsBoxRKN6glitch4core8vector3dIfEERKNS_5video6SColorEi
-// Partial: the box extents and the packed colour follow the listing (rect order
-// x-r, y-r, z-r, x+r, y+r, z+r; colour bytes packed R | G<<8 | B<<16 | A<<24).
-// The driver call at vtable +0x28 is a stand-in (DbgDrawBoxViaDriverSlot28). That
-// slot is IVideoDriver::draw3DBox(aabbox3d<float> const&, SColor) in the IVideoDriver
-// vtable, and the argument shape matches, but glitch::IDevice does not model the driver at +0x10.
-// The stand-in's result is returned, as the listing does.
+// Verified against the listing: the box is MinEdge = point - size/2 and MaxEdge = point + size/2
+// (int division, then to float), the colour is passed straight through as the by-value SColor
+// (the listing's byte-wise R | G<<8 | B<<16 | A<<24 pack is the 4-byte struct copy into r2), and
+// the call is the virtual at IVideoDriver vtable +0x28, draw3DBox(aabbox3d<float> const&, SColor),
+// on ApplicationGetInstance().m_device->videoDriver (hex dword_99F73C + 0x10; glitch::IDevice
+// declares that word as videoDriver, so the owner is the IVideoDriver). Deviation (named): the
+// original tail-calls draw3DBox and passes its int result (0x5a9990 forwards its own slot's
+// result) back to the caller; glitch-video declares draw3DBox void, so this returns 0. No caller
+// reads it (ObjectManager::Draw3D calls it as a statement).
 int DBG_DisplayPointAsBox(const glitch::core::vector3d<float>& point, const glitch::video::SColor& color, int size) {
     const float half = static_cast<float>(size / 2);
-    const float rect[6] = {
-        point.X - half, point.Y - half, point.Z - half,
-        point.X + half, point.Y + half, point.Z + half,
-    };
-    const std::uint32_t packed = static_cast<std::uint32_t>(color.component(0)) |
-                                 (static_cast<std::uint32_t>(color.component(1)) << 8) |
-                                 (static_cast<std::uint32_t>(color.component(2)) << 16) |
-                                 (static_cast<std::uint32_t>(color.component(3)) << 24);
-    void* driver = DbgDrawOwnerDriver();
-    return DbgDrawBoxViaDriverSlot28(driver, rect, packed);
+    glitch::core::aabbox3d<float> box;
+    box.MinEdge = glitch::core::vector3d<float>{point.X - half, point.Y - half, point.Z - half};
+    box.MaxEdge = glitch::core::vector3d<float>{point.X + half, point.Y + half, point.Z + half};
+    glitch::video::IVideoDriver* const driver = ApplicationGetInstance().m_device->videoDriver;
+    driver->draw3DBox(box, color);
+    return 0;
 }
 
 // 0x342478 _ZlsRSoR12ObjectHandle

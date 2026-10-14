@@ -72,7 +72,7 @@ int main() {
     vox::NativeSubDecoderTestAccess sub(2, 12345, 16);
     vox::TrackParams params = sub.GetTrackParams();
     CHECK(params.channels == 2);
-    CHECK(params.unknown_08 == 12345);
+    CHECK(params.sample_rate == 12345);
     CHECK(params.bits_per_sample == 16);
     CHECK(params.length_frames == 0);
 

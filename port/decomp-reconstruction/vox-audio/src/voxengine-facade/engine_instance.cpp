@@ -108,11 +108,18 @@ void VoxEngine::Shutdown() {
     }
 }
 
-// 0x862d10 _ZN3vox9VoxEngine10InitializeEv (partial: the VoxThread constructor (0x893784) does not apply
-// the priority adjustment. The listing also returns the low word of the start time (_GetTime, a double);
-// the port's clock has a different epoch (see EngineGetTime), so that int is not carried.)
-// Initializes the engine object, registers the stream and decoder factories in the
-// order the listing uses, starts the two update threads and records the start time.
+// 0x862d10 _ZN3vox9VoxEngine10InitializeEv (reconstructed)
+// Verified against the listing: m_internal null check, the vtable +0x08 Initialize call, the
+// stream and decoder factory registrations in order (StreamMemoryBuffer/CFile, Raw/MSWav/
+// StbVorbis/MPC8/Native, then a null terminator), two VoxAlloc(0x68) VoxThread objects built
+// with (UpdateEmittersThreaded, this, nullptr, name) and stored at +0x04 and +0x08, then the
+// start time into +0x10. Deviations, both named: (a) the listing leaves r0 as the low word of
+// the _GetTime double and IDA calls the result int, but the only caller in the binary
+// (VoxSoundManager's constructor, 0x36c9d8) discards r0 -- the next instruction reloads it --
+// so the int is an unobservable register leftover and the port keeps void; (b) the port clock
+// is a steady clock (EngineGetTime) instead of gettimeofday, which only moves the epoch, and
+// every reader takes a difference, so the stamp stays consistent. The VoxThread priority step
+// is applied from the same place the listing applies it (vox_thread_object.cpp, POSIX branch).
 void VoxEngine::Initialize() {
     if (m_internal == nullptr) {
         return;
@@ -140,12 +147,16 @@ void VoxEngine::Initialize() {
     last_update_time_ = EngineGetTime();
 }
 
-// 0x862c4c _ZN3vox9VoxEngine22UpdateEmittersThreadedEv (partial: VoxEngineInternal::UpdateEmitters
-// (0x86db40) has no body in the port; the int it returns is the AccessController release result,
-// carried by UpdateEmitters now.)
-// The elapsed time uses the previous stamp, the stamp never moves backwards, and the engine
-// receives the delta as a float, as the listing does. The result is the UpdateEmitters int; without
-// an engine the port returns 0 (the listing returns the this pointer, a register leftover).
+// 0x862c4c _ZN3vox9VoxEngine22UpdateEmittersThreadedEv (reconstructed)
+// Verified against the listing: now = _GetTime(); the delta is GetTimeDT(*(double*)(this+0x10),
+// now), i.e. now - previous clamped at 0 (the arguments are in that order at 0x862c88/0x862c8c);
+// the stamp never moves backwards (if now < previous, now = previous) and is stored to +0x10;
+// the delta is converted to float and passed to m_internal's vtable +0x1C UpdateEmitters, whose
+// int result is returned. Deviations, both named: the clock is a host steady clock stand-in for
+// _GetTime/0x862bf4 (accepted; only differences are read), and without an engine the port
+// returns 0 where the listing returns r0 = the incoming `this` pointer (a register leftover --
+// the return value reaches no reader: the two callers in the binary, 0x862cf0 UpdateThreaded and
+// the 0x862d0c thread thunk, have no code xrefs and the thread discards the result).
 int VoxEngine::UpdateEmittersThreaded() {
     if (m_internal == nullptr) {
         return 0;

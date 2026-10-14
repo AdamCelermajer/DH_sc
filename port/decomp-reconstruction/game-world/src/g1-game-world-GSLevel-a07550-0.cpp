@@ -12,13 +12,18 @@
 #include "dh2/DebugSwitches.hpp"             // DebugSwitches::s_inst
 #include "dh2/Level.hpp"                     // Level (+0x130 m_loadStep, +0x145 m_inTransition)
 #include "dh2/LuaScript.hpp"                 // LuaScript::s_numCalls
-#include "dh2/MenuBase.hpp"                  // MenuBase (Hide, m_menu, m_character)
-#include "dh2/MenuFX.hpp"                    // MenuFX (RenderFX::InvokeASCallback through m_menu)
-#include "dh2/MenuManager.hpp"               // MenuManager::GetInstance, GetMenuByName, PushMenu, Draw, Update
-#include "dh2/PlayerInfo.hpp"                // PlayerInfo::unk_660 (Character*)
-#include "dh2/PlayerManager.hpp"             // PlayerManager::GetLocalPlayer
-#include "dh2/StateMachine.hpp"              // StateMachine::SwitchState
-#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C: the PlayerManager global
+#include "dh2/MenuBase.hpp"                   // MenuBase (Hide, m_menu, m_character, m_characterProxy)
+#include "dh2/MenuFX.hpp"                     // MenuFX (RenderFX::InvokeASCallback through m_menu)
+#include "dh2/MenuManager.hpp"                // MenuManager::GetInstance, GetMenuByName, PushMenu, Draw, Update
+#include "dh2/MultiMenuManager.hpp"           // MultiMenuManager::IsStateInStack (MenuManager +0xf4)
+#include "dh2/PlayerInfo.hpp"                 // PlayerInfo::unk_660 (Character*)
+#include "dh2/PlayerManager.hpp"              // PlayerManager::GetLocalPlayer
+#include "dh2/StateMachine.hpp"               // StateMachine::SwitchState
+#include "dh2/global/IsMultiplayerGame.hpp"   // dword_99F76C: the PlayerManager global
+#include "dh2/global/net_singletons.hpp"      // GetOnlineGameFlag (COnline +0x05)
+#include "net-session-online/online_game_state.hpp"  // OnlineSingleton<OnlineGameState>::GetInstance, mode_ (+0x34)
+#include "net-session-online/tb/online_singleton.hpp"  // OnlineSingleton<T>::GetInstance
+#include "vendor-gameswf/smart_ptr_proxy.hpp"  // gameswf::smart_ptr_proxy / weak_proxy::is_alive (menu +0x48)
 
 // Statics. GSLevel::s_gsLevel (ELF 0x9a25f4, 0x44 bytes) is the state LoadLevel switches to. GSLevel::s_level
 // (ELF 0x9a2638) is the Level the current GSLevel owns.
@@ -57,16 +62,15 @@ void GSLevel::Pause(const StateMachine* /*machine*/) {}
 void GSLevel::WakeUp(const StateMachine* /*machine*/) {}
 
 // 0x386190 GSLevel::Ctor(StateMachine const*)
-// PARTIAL. Reconstructed: AnimSetManager flush, the Level built from the staged arguments, m_phase = 1,
-// m_level and s_level set, unk_3c = 1, then menu_Loading is pushed and its onProgress callback is invoked.
-// Not reproduced, both listed as layout requests:
-//  (1) The online condition. The original runs the push only when !GetOnline()->isOnlineGame_ (COnline +0x05,
-//      protected with no getter), or OnlineSingleton<OnlineGameState>::GetInstance()->+0x34 != 3, or
-//      MultiMenuManager::IsStateInStack(menu) == 0. This body takes the offline path, which is the original's
-//      answer when isOnlineGame_ is clear. GetOnline() is not called, so its side effect (if any) is not made.
-//  (2) gameswf::weak_ptr<gameswf::character>::check_proxy (0x386144) on the menu's +0x48 proxy. It clears the
-//      proxy and the cached character at +0x4c when the proxy is dead; this body passes the cached character
-//      as it is. MenuFX::State declares +0x48 as void*, so the typed weak_ptr cannot be called here.
+// Reconstructed (r3b-w2) against the disassembly 0x386190..0x386288. AnimSetManager::Flush; the Level built from
+// the staged arguments (operator new(0x1ac) then Level::Level with the same ten arguments); m_phase = 1; m_level and
+// s_level set; unk_3c = 1; menu_Loading looked up; then the push runs when
+//     !GetOnline()->isOnlineGame_ (COnline +0x05) || OnlineGameState mode_ (+0x34) != 3
+//     || (MenuManager +0xf4) MultiMenuManager's IsStateInStack(menu) (vtable +0x40) == 0,
+// the original's short circuit (0x386234 LDRB [R0,#5] BNE 0x38628C; 0x386290 LDR [R0,#0x34] CMP #3 BNE push;
+// 0x3862a0 LDR [R0,#0xF4]; 0x3862b4 LDR PC,[R3,#0x40]; 0x3862bc BNE return). The push then runs
+// gameswf::weak_ptr<character>::check_proxy (0x386260 on menu+0x48: a dead proxy is released and the cached
+// character at +0x4c is cleared) and RenderFX::InvokeASCallback(menu+0x04, menu+0x4c, "onProgress", nullptr, 0).
 void GSLevel::Ctor(const StateMachine* /*machine*/) {
     AnimSetManager::s_inst.Flush();
 
@@ -80,10 +84,25 @@ void GSLevel::Ctor(const StateMachine* /*machine*/) {
     unk_3c = true;
 
     MenuBase* loading = MenuManager::GetInstance()->GetMenuByName("menu_Loading");
-    // PARTIAL: the online condition (1) above is not read; the offline path is taken.
-    if (loading != nullptr) {
+    // The original's condition, short-circuited the same way: while offline the menu stack is never consulted.
+    bool push = !GetOnlineGameFlag();
+    if (!push) {
+        if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ != 3) {
+            push = true;
+        } else {
+            push = !MenuManager::GetInstance()->m_multiMenuManager->IsStateInStack(loading);
+        }
+    }
+    if (push && loading != nullptr) {
         MenuManager::GetInstance()->PushMenu(loading);
-        // PARTIAL: check_proxy (2) above is not called. The callback uses the cached character at +0x4c.
+        // gameswf::weak_ptr<character>::check_proxy on the menu's character proxy (menu+0x48): a dead proxy is
+        // released and the cached character pointer (menu+0x4c) cleared, exactly as in the binary.
+        gameswf::smart_ptr_proxy* proxy =
+            reinterpret_cast<gameswf::smart_ptr_proxy*>(&loading->m_characterProxy);
+        if (proxy->get_proxy() != nullptr && !proxy->get_proxy()->is_alive()) {
+            *proxy = nullptr;
+            loading->m_character = nullptr;
+        }
         loading->m_menu->InvokeASCallback(loading->m_character, "onProgress", nullptr, 0);
     }
 }

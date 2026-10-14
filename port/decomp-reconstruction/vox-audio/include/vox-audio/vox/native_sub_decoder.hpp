@@ -108,8 +108,10 @@ public:
     int MixSegmentInBuffer(std::int16_t* src, int bytes, SegmentState* segment);
     // 0x884734 (partial): the call through virtual slot 0x24 for mode 17 is not made.
     void StopSegment(SegmentState* segment);
-    // 0x884bc4 (partial): the no-element branch is reproduced; the rule branch needs the
-    // virtual slot results and the frame ramp, which are not ported.
+    // 0x884bc4: the element branch (chunk_index from the element, loop_start/end_frame/
+    // entries_left from its loop list, state 3, the mode 17 decoding-buffer hook) and the rule
+    // branch (field_2c, remaining_frames by rule type, the ramp words) match the listing. The
+    // return value is unobserved, so every path returns 0.
     int UpdateCurrentSegmentState(TransitionRule* rule, bool extra);
     // 0x884f3c (partial): copies every field except the playlist manager, whose SetState
     // is not ported.
@@ -121,15 +123,16 @@ public:
     // 0x8855e8 (partial): element lookup through NativePlaylistsManager is not called here;
     // the current element is cleared.
     void ApplyTransitionRule(TransitionRule* rule);
-    // 0x885740 (partial): the element lookup, rule branch, segment updates and history
-    // shift are ported; next_event_ reads loop-list words 1 and 2 without a length check.
-    // Returns the current element index (the ARM result).
+    // 0x885740: the element lookup, rule branch, segment updates, next_event_ peek and
+    // history shift all match the listing; the loop-list words are read without a length
+    // test, exactly as the original does. Returns the current element index.
     int UpdateSegmentsStates();
-    // 0x885984 (partial): the rule flag, the playlist peek and next_event_ are ported; the
-    // original's return value (see the source comment) is not.
+    // 0x885984: the rule type test, the playlist peek and next_event_ are verified. The return
+    // type stays void: the listing's R0 mixes UpdateSegmentsStates' int, a chunk index and a
+    // PlaylistElement pointer and no caller observes it.
     void InterpretTransitionRule(int index);
-    // 0x885a3c (partial): stores the index, the current chunk from the state list, and
-    // dispatches on the stored element; the transition-table lookup (field_38 >= 0) is not.
+    // 0x885a3c: field_3c_, the transitions_[field_38_][index] lookup into field_90_ and the byte
+    // at +0x4c, the states_[index] store into field_48_ and the dispatch all match the listing.
     void SetState(int index);
     // 0x885ac0 (partial): the stop, mode 17 and counter logic is reproduced; the decode
     // call through slot 0x34 is not.

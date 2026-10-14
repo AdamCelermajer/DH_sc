@@ -22,7 +22,10 @@ void FinalizeStringField(std::uint32_t& len, char*& buf) {
 }
 
 // Listing read of a string field whose length was just read: free the old buffer, allocate len + 1,
-// read len raw bytes, then NUL-terminate. The readStringEx flag is taken as 0 (see the ledger notes).
+// read len raw bytes, then NUL-terminate. Hex-Rays prints a fifth 64-bit argument (high word 1) at the
+// readStringEx call sites, but readStringEx itself (0x317454) reads only R0..R3: R1 is the stream, R2 the
+// destination and R3 the length, so the extra value the decompiler shows is a register residue the callee
+// never looks at. It is therefore not passed here.
 void ReadStringField(IStreamBase* stream, std::uint32_t len, char*& buf) {
     if (buf != nullptr) CustomFree(buf);
     buf = static_cast<char*>(::operator new[](static_cast<std::size_t>(len) + 1, kPydataBufferHint));
@@ -65,8 +68,11 @@ void v2QuestRewardGiveXP::finalize() {
 }
 
 // 0x5057c8 _ZN7Structs19v2QuestRewardGiveXP4readEP11IStreamBase
-// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+// Listing: Structs::v2QuestReward::read (BL 0x5053fc) first (+0x4), then +0x8 and +0xc readAs<int>.
+// v2QuestReward::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestRewardGiveXP::read(IStreamBase* stream) {
+    v2QuestReward::read(stream);  // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -89,8 +95,11 @@ void v2QuestRewardGiveGold::finalize() {
 }
 
 // 0x5056f4 _ZN7Structs21v2QuestRewardGiveGold4readEP11IStreamBase
-// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+// Listing: Structs::v2QuestReward::read (BL 0x5053fc) first (+0x4), then +0x8 and +0xc readAs<int>.
+// v2QuestReward::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestRewardGiveGold::read(IStreamBase* stream) {
+    v2QuestReward::read(stream);  // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -113,8 +122,11 @@ void v2QuestRewardGiveCharProps::finalize() {
 }
 
 // 0x505614 _ZN7Structs26v2QuestRewardGiveCharProps4readEP11IStreamBase
-// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+// Listing: Structs::v2QuestReward::read (BL 0x5053fc) first (+0x4), then +0x8 and +0xc readAs<int>.
+// v2QuestReward::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestRewardGiveCharProps::read(IStreamBase* stream) {
+    v2QuestReward::read(stream);  // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -206,8 +218,11 @@ void v2QuestRewardGiveLoot::finalize() {
 }
 
 // 0x505540 _ZN7Structs21v2QuestRewardGiveLoot4readEP11IStreamBase
-// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+// Listing: Structs::v2QuestReward::read (BL 0x5053fc) first (+0x4), then +0x8 and +0xc readAs<int>.
+// v2QuestReward::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestRewardGiveLoot::read(IStreamBase* stream) {
+    v2QuestReward::read(stream);  // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -230,8 +245,11 @@ void v2QuestRewardConsumeLoot::finalize() {
 }
 
 // 0x50546c _ZN7Structs24v2QuestRewardConsumeLoot4readEP11IStreamBase
-// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+// Listing: Structs::v2QuestReward::read (BL 0x5053fc) first (+0x4), then +0x8 and +0xc readAs<int>.
+// v2QuestReward::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestRewardConsumeLoot::read(IStreamBase* stream) {
+    v2QuestReward::read(stream);  // +0x4, base read first
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
 }
@@ -275,8 +293,10 @@ void LangSheet::finalize() {
 }
 
 // 0x4dd38c _ZN7Structs9LangSheet4readEP11IStreamBase
-// partial: readStringEx is ported with its 4 arguments (flag 0). The listing passes a fifth 64-bit
-// argument, and the bool result of the second readStringEx is dropped (ArrayElement::read is void).
+// Listing: uint32 length at +0x4, that many raw bytes into +0x8 (readStringEx 0x317454), then the same for
+// +0xc and +0x10. The readStringEx "fifth 64-bit argument" Hex-Rays prints is a register residue the callee
+// ignores, so it is not passed (see ReadStringField above). The second readStringEx result stays in r0 in the
+// original; this slot returns void (ArrayElement::read, array_element.hpp), so that residue is dropped.
 void LangSheet::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
     ReadStringField(stream, m_w1, m_w2);                 // +0x8
@@ -307,8 +327,11 @@ void v2QuestMoveInZone::finalize() {
 }
 
 // 0x5036b8 _ZN7Structs17v2QuestMoveInZone4readEP11IStreamBase
-// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+// Listing: Structs::v2QuestObjective::read (BL 0x50358c) first, then words +0x10..+0x28.
+// v2QuestObjective::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestMoveInZone::read(IStreamBase* stream) {
+    v2QuestObjective::read(stream);  // +0x4..+0xc, base read first
     ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
 }
 
@@ -333,8 +356,11 @@ void v2QuestGatherLoot::finalize() {
 }
 
 // 0x503930 _ZN7Structs17v2QuestGatherLoot4readEP11IStreamBase
-// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+// Listing: Structs::v2QuestObjective::read (BL 0x50358c) first, then words +0x10..+0x28.
+// v2QuestObjective::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestGatherLoot::read(IStreamBase* stream) {
+    v2QuestObjective::read(stream);  // +0x4..+0xc, base read first
     ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
 }
 
@@ -359,8 +385,11 @@ void v2QuestClearEnemyTemplate::finalize() {
 }
 
 // 0x503ba8 _ZN7Structs25v2QuestClearEnemyTemplate4readEP11IStreamBase
-// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+// Listing: Structs::v2QuestObjective::read (BL 0x50358c) first, then words +0x10..+0x28.
+// v2QuestObjective::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestClearEnemyTemplate::read(IStreamBase* stream) {
+    v2QuestObjective::read(stream);  // +0x4..+0xc, base read first
     ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
 }
 
@@ -385,8 +414,11 @@ void v2QuestKillEnemyTemplate::finalize() {
 }
 
 // 0x503e20 _ZN7Structs24v2QuestKillEnemyTemplate4readEP11IStreamBase
-// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+// Listing: Structs::v2QuestObjective::read (BL 0x50358c) first, then words +0x10..+0x28.
+// v2QuestObjective::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestKillEnemyTemplate::read(IStreamBase* stream) {
+    v2QuestObjective::read(stream);  // +0x4..+0xc, base read first
     ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
 }
 
@@ -411,8 +443,11 @@ void v2QuestClearEnemies::finalize() {
 }
 
 // 0x504098 _ZN7Structs19v2QuestClearEnemies4readEP11IStreamBase
-// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+// Listing: Structs::v2QuestObjective::read (BL 0x50358c) first, then words +0x10..+0x28.
+// v2QuestObjective::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestClearEnemies::read(IStreamBase* stream) {
+    v2QuestObjective::read(stream);  // +0x4..+0xc, base read first
     ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
 }
 
@@ -437,8 +472,11 @@ void v2QuestKillEnemies::finalize() {
 }
 
 // 0x504310 _ZN7Structs18v2QuestKillEnemies4readEP11IStreamBase
-// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+// Listing: Structs::v2QuestObjective::read (BL 0x50358c) first, then words +0x10..+0x28.
+// v2QuestObjective::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestKillEnemies::read(IStreamBase* stream) {
+    v2QuestObjective::read(stream);  // +0x4..+0xc, base read first
     ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
 }
 
@@ -463,8 +501,11 @@ void v2QuestInteractWithDoNotUseThisObjectiveDirectly::finalize() {
 }
 
 // 0x504588 _ZN7Structs48v2QuestInteractWithDoNotUseThisObjectiveDirectly4readEP11IStreamBase
-// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+// Listing: Structs::v2QuestObjective::read (BL 0x50358c) first, then words +0x10..+0x28.
+// v2QuestObjective::read is defined in e2-pydata-accessors-Structs-66b9bc-1.cpp; the qualified call
+// below is the listing's. Was partial while that body was believed missing.
 void v2QuestInteractWithDoNotUseThisObjectiveDirectly::read(IStreamBase* stream) {
+    v2QuestObjective::read(stream);  // +0x4..+0xc, base read first
     ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
 }
 
@@ -658,11 +699,11 @@ void v2Event::finalize() {
 }
 
 // 0x4ebc38 _ZN7Structs7v2Event4readEP11IStreamBase
-// partial: readStringEx is ported with its 4 arguments (flag 0); the listing passes a fifth 64-bit argument
-// (high word 1, low word undefined) that the stand-in does not take. The element table is complete: the old
-// v2QuestObjectiveStub elements are destroyed, `m_w4` new ones are built (listing stride 44, vtable off_96A030,
-// pointer words +0x14 and +0x1c null by construction) and read in order. The original returns the last element
-// read's result; read is void here.
+// Matches the listing: int32 +0x4, uint32 length +0x8, that many raw bytes into +0xc, uint32 count +0x10, then
+// the old v2QuestObjectiveStub table (+0x14) destroyed, `m_w4` new elements built (listing stride 44, vtable
+// off_96A030, pointer words +0x14 and +0x1c null by construction) and read in order. The readStringEx "fifth
+// 64-bit argument" Hex-Rays prints is a register residue the callee (0x317454) never reads, so it is not
+// passed. The original returns the last element read's result; this slot returns void (see LangSheet::read).
 void v2Event::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int32_t>(stream);   // +0x4
     m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8

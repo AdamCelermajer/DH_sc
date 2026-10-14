@@ -1,89 +1,58 @@
-// Batch e1-net-session-online-CMatching_MemberInfoNetStruct-0 (CMatching::MemberInfoNetStruct).
-// Declarations: include/net-session-online/tb/cmatching_member_info_net_struct.hpp.
-// Offsets in comments are the original 32-bit element offsets (see the header).
+// Batch e1-net-session-online-CMatching_MemberInfoNetStruct-0, re-based on the real NetStruct record.
+//
+// WHAT THE OLD VERSION OF THIS FILE GOT WRONG: it included
+// "net-session-online/tb/cmatching_member_info_net_struct.hpp" and drove a standalone struct
+// (CMatchingMemberInfoNetStruct) that held its own byte-image copies of the four NetStructMember
+// headers (memberId_/teamId_/roomAttribute_ with hand-written sizeBits/ackMask/sentMask/changeMask
+// fields and a direct `.value` store), and it called the DeclareMember/SetChanged stand-ins of
+// deps/net_struct_stub.hpp. Every one of those hand-written header stores is already what the
+// net-transport NetStructMember/NetStructMemberType constructors do, and the direct value stores
+// skipped NetStructMemberType<T>::SetValue, which is the only thing that fires SetChanged in the
+// binary. The record is now the class CMatching::MemberInfoNetStruct in
+// include/net-session-online/c_matching_base.hpp: a real NetStruct with the three real member objects
+// (NetStructInt<32> idMember_ +0x130, NetStructUInt<8> teamMember_ +0x158,
+// NetStructByteArray<64> roomAttributeMember_ +0x180) and the cached previousMemberId_ at +0x1a8.
+// This file now defines that constructor only.
+//
+// Offsets in the comments are the original 32-bit element offsets.
+//
+// The 0x1a8 find came from a SECOND correction, so it is spelled out: the old header said the id was
+// "a 40-byte NetStructMemberType<int>, value at +0x150, meaning not identified"
+// (tb/cmatching_member_info_net_struct.hpp) and the old ctor set +0x1a8 to -1 as
+// `previousMemberId_`, an unrelated "cached id" field. The binary proves +0x1a8 is BOTH, and that the
+// whole element is a NetStruct: UpdateMemberIdList (0x8002bc) reads the id at `432*i + 0x170` and the
+// cached id at `432*i + 0x1c8`, compares them, and queues event 0x800007/0x800006 on a change; the
+// cached id is never a NetStruct member (no vtable call touches it). +0x318 (0x1a8 + 432 - 0x150 +
+// 0x170 ...) is not involved: the element stride is 432, so CMatching +0x1c8 is element 0's +0x1a8.
 
-#include "net-session-online/tb/cmatching_member_info_net_struct.hpp"
-
-#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/c_matching_base.hpp"
 
 // 0x7ffd04 _ZN9CMatching19MemberInfoNetStructC1Ev
-// PARTIAL. Two gaps, both from the original reading memory that is not yet initialised:
-//   1. The member id value (+0x150) and team id value (+0x178) are read before any store. If either
-//      is nonzero, the original sets it to 0 and calls NetStructMember::SetChanged. The port
-//      value-initialises both members, so those reads are always 0 and the SetChanged branches
-//      cannot run.
-//   2. The NetStructByteArray<64> constructor body (not in this batch) is called with an empty
-//      ByteArray {null, 0}. The port default-constructs the byte array to that same empty value,
-//      and the original's p cleanup has nothing to free.
-// The DeclareMember calls and NetStructMember::SetChanged are stand-ins (see deps/net_struct_stub.hpp).
-CMatchingMemberInfoNetStruct::CMatchingMemberInfoNetStruct()
-    : NetStructBaseStub() {
-    // Member id object (+0x130).
-    const std::int32_t priorMemberId = memberId_.value;  // +0x150, read before any store
-    memberId_.changeStamp = 0;                           // +0x138 (qword)
-    memberId_.sizeBits = 32;                             // +0x134
-    memberId_.sentMask = 0xffffffffu;                    // +0x144
-    memberId_.ackMask = 0xffffffffu;                     // +0x140
-    memberId_.changeMask = 0;                            // +0x148
-    memberId_.changed = false;                           // +0x14c
-    if (priorMemberId != 0) {
-        memberId_.value = 0;                             // +0x150
-        memberId_.SetChanged();
-    }
-
-    // Team id object (+0x158).
-    const std::int32_t priorTeamId = teamId_.value;      // +0x178, read before any store
-    teamId_.changeStamp = 0;                             // +0x160 (qword)
-    teamId_.sizeBits = 8;                                // +0x15c
-    teamId_.sentMask = 0xffffffffu;                      // +0x16c
-    teamId_.ackMask = 0xffffffffu;                       // +0x168
-    teamId_.changeMask = 0;                              // +0x170
-    teamId_.changed = false;                             // +0x174
-    if (priorTeamId != 0) {
-        teamId_.value = 0;                               // +0x178
-        teamId_.SetChanged();
-    }
-
-    // Room member attribute buffer (+0x180). The original passes the empty ByteArray p = {null, 0}
-    // to NetStructByteArray<64>::NetStructByteArray; see the PARTIAL note above.
-    roomAttribute_.data = nullptr;                       // +0x1a0
-    roomAttribute_.size = 0;                             // +0x1a4
-
-    previousMemberId_ = -1;                              // +0x1a8
-
-    DeclareMember(&memberId_);
-    DeclareMember(&teamId_);
-    DeclareMember(&roomAttribute_);
-
-    // Final values. The original stores -1 into the member id and 0 into the team id through the
-    // virtual SetValue (vtable +0x1c) of each member, from a local whose value was set to -1 (member id)
-    // or 0 (team id) before the call. The port assigns the value directly, as NetStructMemberType<T>::
-    // SetValue does (value_ = value). The vtable name of this slot is not in the dump, so this
-    // equivalence is assumed, not checked against the binary.
-    memberId_.value = -1;                                // SetValue(-1), +0x150
-    teamId_.value = 0;                                   // SetValue(0), +0x178
-}
-
-// 0x7ffc28 _ZN9CMatching19MemberInfoNetStructD1Ev
-// The original frees the room member attribute data block when it is set (CustomFree, then the
-// pointer is cleared; the size is left as it is), then erases the packet history tree when it is
-// not empty and resets its header. std::map::clear does the same. The NetStruct base destructor has
-// no separate call in the original; its body is inlined here, and it is the map step above.
-// Vptr stores are the compiler's job here.
-CMatchingMemberInfoNetStruct::~CMatchingMemberInfoNetStruct() {
-    void* data = roomAttribute_.data;                    // +0x1a0
-    if (data) {
-        CustomFree(data);
-        roomAttribute_.data = nullptr;                   // +0x1a0
-    }
-    if (!packetHistory_.empty()) {
-        packetHistory_.clear();                          // +0x10c..+0x11f
-    }
-}
-
-// 0x7ffce8 _ZN9CMatching19MemberInfoNetStructD0Ev
-// Deleting destructor: the D1 body, then CustomFree(this).
-void CMatchingMemberInfoNetStruct::DeletingDestructor() {
-    this->~CMatchingMemberInfoNetStruct();
-    CustomFree(this);
+// Reconstructed. In order, as the pseudocode and the assembly show:
+//   1. NetStruct::NetStruct(this) (implicit here).
+//   2. The four member headers are built by the net-transport member constructors, which is exactly the
+//      inline header store sequence the pseudocode shows for each member (sizeBits 32 for the id, 8 for
+//      the team, 512 for the 64-byte attribute array; changeStamp 0; ackMask and sentMask -1;
+//      changeMask 0; changed false; value T{}).
+//   3. The id member's and the team member's value slots are read BEFORE any store (the pseudocode reads
+//      `v2 = *((_DWORD *)this + 84)` at +0x150 and `v4 = *((_DWORD *)this + 94)` at +0x178). In C++ both
+//      are already value-initialised, so the two `SetChanged` branches cannot run. There is no
+//      behavioural difference: a fresh member's change stamp is 0, so SetChanged at that point would only
+//      advance NetStruct::s_changeCounter, exactly the case the category has already settled (see
+//      SetCharacterXP / SetCharacterNumPotions and NOTES.md).
+//   4. The attribute member is constructed from an empty ByteArray {nullptr, 0}; the temporary is freed
+//      when set, which it is not.
+//   5. previousMemberId_ = -1 at +0x1a8.
+//   6. NetStruct::DeclareMember in order: id, team, attribute.
+//   7. Finally the id member gets SetValue(-1) and the team member SetValue(0) through vtable +0x1c, from
+//      a stack temporary built for the call. Both differ from the value-initialised 0, so both stores also
+//      fire SetChanged -- that part IS observable and is reproduced by calling SetValue.
+CMatching::MemberInfoNetStruct::MemberInfoNetStruct()
+    : NetStruct(), roomAttributeMember_(ByteArray{}) {  // the ctor takes the empty {nullptr, 0} ByteArray
+    idMember_.SetValue(-1);         // +0x150 SetValue(-1) via vtable +0x1c
+    teamMember_.SetValue(0u);       // +0x178 SetValue(0)
+    previousMemberId_ = -1;         // +0x1a8
+    DeclareMember(&idMember_);
+    DeclareMember(&teamMember_);
+    DeclareMember(&roomAttributeMember_);
 }

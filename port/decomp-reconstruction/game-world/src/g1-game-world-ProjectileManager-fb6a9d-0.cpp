@@ -18,6 +18,7 @@
 #include "dh2/Singleton.hpp"
 #include "dh2/VisualFXManager.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
+#include "core-platform/stlport_alloc.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 
@@ -87,11 +88,23 @@ ProjectileManager::ProjectileManager() {
 }
 
 // 0x3e68b0 ProjectileManager::~ProjectileManager() (D1) and 0x3e715c (D2): the same body.
-// The raw block at +0x04 .. +0x0f is a vector-like buffer that is never filled: the constructor zeroes its three words and no function stores into them, so the free below does not run. The original
-// releases it with the node allocator when (+0x0c - +0x04) & ~3 is 0x80 bytes or less and with CustomFree above that. The two pools are released by their member destructors after this body.
+// The raw block at +0x04 .. +0x0f is a vector-like buffer that is never filled: the constructor zeroes its three words and no function stores into them, so the free below does not run. The release is the
+// allocator dispatch the listing shows (0x3e68f4 `SUBS`-style size = (+0x0c - +0x04) & ~3, 0x3e68fc
+// `CMP R3,#0x80; BHI`): 0x80 bytes or fewer goes to __node_alloc::_M_deallocate, which rounds the size up to
+// 8 and pools the block, and anything larger to CustomFree. The node allocator now has a body
+// (core-platform/stlport_alloc.hpp / src/stlport_alloc.cpp, 0x31bb44 = __node_alloc::deallocate); the size
+// computed below is the host-width difference of the two words, which is the same number because the buffer
+// is byte-addressed either way. The two pools are released by their member destructors after this body, as
+// the compiler inserts them.
 ProjectileManager::~ProjectileManager() {
     if (unk_04 != nullptr) {
-        CustomFree(unk_04);
+        const std::uintptr_t size =
+            reinterpret_cast<std::uintptr_t>(unk_0c) - reinterpret_cast<std::uintptr_t>(unk_04);
+        if (size > 0x80) {
+            CustomFree(unk_04);
+        } else {
+            std::__node_alloc::_M_deallocate(unk_04, static_cast<unsigned int>(size));
+        }
     }
 }
 

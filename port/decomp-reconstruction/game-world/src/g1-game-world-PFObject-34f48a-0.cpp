@@ -14,12 +14,21 @@
 
 #include "dh2/PFObject.hpp"
 
+#include <cstdint>
 #include <cstring>
+#include <vector>
 
 #include "dh2/PFFloor.hpp"
 #include "dh2/PFGInnerEdge.hpp"
 #include "dh2/PFWorld.hpp"
+#include "dh2/SceneManager.hpp"    // SceneManager::DBG_DrawCircle (device +0x1c)
+#include "dh2/global/DeviceSceneManager.hpp"  // DeviceSceneManager() (IDevice +0x1c)
+#include "dh2/Application.hpp"     // ApplicationGetInstance: m_device (0x99F73C)
 #include "dh2/global/Vec3f_K.hpp"  // Vec3f_K (0x99f878), the Point3D<float> global the constructor copies into m_floorNormal
+#include "glitch-core-io/os/device.hpp"                        // glitch::IDevice::videoDriver (+0x10), sceneManager
+#include "glitch-video/material.hpp"                           // CMaterial::getTechnique
+#include "glitch-video/material_renderer_manager.hpp"          // CMaterialRendererManager (driver +0xdc)
+#include "glitch-video/video_driver.hpp"                       // IVideoDriver (setMaterial, draw3DLine)
 
 // 0x5241c0 _ZNK8PFObject11IsOverAHoleEv
 // The original returns the floor's type word & 1 for a floor, and 0 (the null pointer) when there is none.
@@ -138,38 +147,120 @@ PFObject::~PFObject() {
 }
 
 // 0x524828 _ZNK8PFObject12DBG_DrawPathEv
-// PARTIAL: an empty path returns, as the original does. For a non-empty path the original draws each edge in yellow
-// (0xFFFFFF00), then two magenta (0xFFFF00FF) links: from m_pos to the first edge's source, and from m_pathEnd to the
-// last edge's destination. Each end point is raised by 1 in Z. The edge end points are available (GetSource and
-// GetDestination, as in GetPathLengthSQ). The draws need the driver at device +0x10 for the material set-up and
-// IVideoDriver::draw3DLine (declared in glitch-video/video_driver.hpp), but glitch::IDevice declares no member at +0x10
-// (layout request shared with CameraBase::SetActive).
+// Reconstructed (r3b-w2) from the listing. An empty path returns. Otherwise the material is set up exactly as in the
+// already-reconstructed ObjectManager::Draw3D: the driver is ApplicationGetInstance().m_device->videoDriver
+// (glitch::IDevice +0x10, 0x524864 LDR [R3,#0x10]); its material renderer manager is driver +0xdc (0x52486c); the
+// renderer type 0xFFFF (0x524870 LDRH [R5,#0x2E]) is replaced by createMaterialRenderer(1) (0x524b20), then
+// getMaterialInstance(type, true) (0x524890) and setMaterial(material, technique, nullptr) (0x52489c). Every edge of
+// m_path is drawn in yellow 0xFFFFFF00 (v39 = -256) from its GetSource() to its GetDestination() with each Z raised
+// by 1 (0x524914/0x524964 ADD #1.0); then two magenta 0xFFFF00FF (v38 = -65281) links: m_pos -> the first edge's
+// source (0x5249b0..0x524a60) and m_pathEnd -> the last edge's destination (0x524a70 onward), Z raised by 1 too.
 void PFObject::DBG_DrawPath() const {
     if (m_path.empty()) {
         return;
     }
+
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    glitch::video::CMaterialRendererManager* renderers = driver->m_materialRendererManager;  // +0xdc
+    const uint16_t renderer =
+        renderers->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+    boost::intrusive_ptr<glitch::video::CMaterial> material = renderers->getMaterialInstance(renderer, true);
+    const uint8_t technique = material ? static_cast<uint8_t>(material->getTechnique()) : 0xff;
+    driver->setMaterial(material, technique, nullptr);
+
+    glitch::video::SColor yellow;
+    yellow.color = 0xFFFFFF00u;
+    for (const PFGInnerEdge* edge : m_path) {
+        const Point3D<float>* from = edge->GetSource();
+        const Point3D<float>* to = edge->GetDestination();
+        const glitch::core::vector3d<float> start{from->X, from->Y, from->Z + 1.0f};
+        const glitch::core::vector3d<float> end{to->X, to->Y, to->Z + 1.0f};
+        driver->draw3DLine(start, end, yellow);  // vtable +0x1c
+    }
+
+    const PFGInnerEdge* first = m_path.front();
+    const PFGInnerEdge* last = m_path.back();
+    glitch::video::SColor magenta;
+    magenta.color = 0xFFFF00FFu;
+    const Point3D<float>* firstSource = first->GetSource();
+    const Point3D<float>* lastDestination = last->GetDestination();
+    const glitch::core::vector3d<float> fromPos{m_pos.X, m_pos.Y, m_pos.Z + 1.0f};
+    const glitch::core::vector3d<float> toFirstSource{firstSource->X, firstSource->Y, firstSource->Z + 1.0f};
+    driver->draw3DLine(fromPos, toFirstSource, magenta);
+    const glitch::core::vector3d<float> fromPathEnd{m_pathEnd.X, m_pathEnd.Y, m_pathEnd.Z + 1.0f};
+    const glitch::core::vector3d<float> toLastDestination{lastDestination->X, lastDestination->Y,
+                                                          lastDestination->Z + 1.0f};
+    driver->draw3DLine(fromPathEnd, toLastDestination, magenta);
 }
 
 // 0x524b30 _ZNK8PFObject16DBG_DrawObstacleEv
-// PARTIAL: an obstacle (m_flags bits 2 and 3 both set) draws a circle. The original centres it at (m_pos X, m_pos Y),
-// with radius m_pos Z + 10 and width m_radius + m_obstacleRadius, in colour 0xFFFF00FF. Two parts are missing. The
-// material is set up through the driver (device +0x10, dword_99F73C = Application::m_device). And
-// SceneManager::DBG_DrawCircle needs the scene manager at device +0x1c. glitch::IDevice declares no member at either
-// offset (layout request shared with CameraBase::SetActive), so the draw is left out.
+// Reconstructed (r3b-w2) from the listing. Only a registered obstacle with collisions enabled (m_flags bits 2 and 3,
+// 0x524b50 AND #0xC CMP #0xC) draws. The material set-up is the same as DBG_DrawPath's (0x524b74 LDR [R3,#0x10] for
+// the driver, +0xdc for the manager with the type at [manager+0x2E], createMaterialRenderer(1) at 0x524c28,
+// getMaterialInstance/setMaterial at 0x524b9c/0x524ba8), then one magenta circle (the function-static SColor at
+// 0x9f62fc: bytes 255, 0, 255, 255 = 0xFFFF00FF) through SceneManager::DBG_DrawCircle with the centre
+// (m_pos X, m_pos Y), height m_pos Z + 10 (0x524bc8 + 10.0) and radius m_radius + m_obstacleRadius (+0x08 + +0x30).
 void PFObject::DBG_DrawObstacle() const {
     if ((m_flags & 0xCu) != 0xCu) {
         return;
     }
+
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    glitch::video::CMaterialRendererManager* renderers = driver->m_materialRendererManager;  // +0xdc
+    const uint16_t renderer =
+        renderers->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+    boost::intrusive_ptr<glitch::video::CMaterial> material = renderers->getMaterialInstance(renderer, true);
+    const uint8_t technique = material ? static_cast<uint8_t>(material->getTechnique()) : 0xff;
+    driver->setMaterial(material, technique, nullptr);
+
+    glitch::video::SColor magenta;
+    magenta.color = 0xFFFF00FFu;
+    const Point2D<float> center{m_pos.X, m_pos.Y};
+    DeviceSceneManager()->DBG_DrawCircle(center, m_pos.Z + 10.0f, m_radius + m_obstacleRadius, magenta);
 }
 
 // 0x524cd0 _ZNK8PFObject22DBG_DrawObstacleForcesEv
-// PARTIAL: drawn only for a moving object that is not static (m_flags bit 0 clear, bit 1 set). The original then calls
-// PFWorld::_CalcObstaclesForce on Singleton<PFWorld>::s_inst, which has no accessor. It then draws each force from this
-// object's position: colour (0xFF, v, v, 0xFF) with v = ~(uint8)(scale * 255), and an end point at the normalised
-// direction scaled by scale * 100 + 100. PFWorld::ObstacleForce cannot be named here (see the include note above),
-// so the per-force work is not made. The material set-up and draw3DLine are omitted as in DBG_DrawPath.
+// Reconstructed (r3b-w2) from the listing. Only for a moving object that is not static (m_flags bit 0 clear, bit 1
+// set, 0x524cf4). _CalcObstaclesForce(PFWorld::s_inst, *this, force, &forces) is called with the two stack vectors
+// zeroed first (0x524d10/0x524d1c memset) and returns the force count. The material set-up follows (driver
+// Application::m_device +0x10 at 0x524d58, manager +0xdc, type from [manager+0x2E] with 0xFFFF replaced by
+// createMaterialRenderer(1) at 0x524f34, getMaterialInstance/setMaterial at 0x524d80/0x524d8c). Per force: the
+// colour's two middle bytes are ~(uint8)(force.unk_0c * 255.0) (0x524df0 FMULS #255 then MVN) over 0xFF and 0xFF;
+// the force direction is normalised in place (0x524e04) and scaled by unk_0c * 100 + 100 (0x524e1c); draw3DLine
+// runs from m_pos to m_pos + that vector (0x524ecc). The 20-byte iteration stride is 0x524ed8.
 void PFObject::DBG_DrawObstacleForces() const {
     if ((m_flags & 1u) != 0 || (m_flags & 2u) == 0) {
         return;
+    }
+
+    Point3D<float> force{0.0f, 0.0f, 0.0f};
+    std::vector<PFWorld::ObstacleForce> forces;
+    const int count = PFWorld::s_inst._CalcObstaclesForce(*this, force, &forces);
+
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    glitch::video::CMaterialRendererManager* renderers = driver->m_materialRendererManager;  // +0xdc
+    const uint16_t renderer =
+        renderers->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));
+    boost::intrusive_ptr<glitch::video::CMaterial> material = renderers->getMaterialInstance(renderer, true);
+    const uint8_t technique = material ? static_cast<uint8_t>(material->getTechnique()) : 0xff;
+    driver->setMaterial(material, technique, nullptr);
+
+    for (int i = 0; i < count; ++i) {
+        const PFWorld::ObstacleForce& entry = forces[static_cast<std::size_t>(i)];
+        Point3D<float> direction = entry.unk_00;
+        direction.normalize();
+        const float scale = entry.unk_0c * 100.0f + 100.0f;
+
+        glitch::video::SColor colour;
+        colour.setComponent(0, 0xff);  // the function-static's low byte
+        colour.setComponent(1, static_cast<std::uint8_t>(~static_cast<std::uint8_t>(
+                                  static_cast<unsigned int>(entry.unk_0c * 255.0f))));
+        colour.setComponent(2, colour.component(1));  // forceC byte 2 copies byte 1
+        colour.setComponent(3, 0xff);
+
+        const glitch::core::vector3d<float> start{m_pos.X, m_pos.Y, m_pos.Z};
+        const glitch::core::vector3d<float> end{m_pos.X + direction.X * scale, m_pos.Y + direction.Y * scale,
+                                                m_pos.Z + direction.Z * scale};
+        driver->draw3DLine(start, end, colour);  // vtable +0x1c
     }
 }

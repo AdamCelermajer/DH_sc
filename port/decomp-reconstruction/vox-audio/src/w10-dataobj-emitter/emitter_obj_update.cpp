@@ -2,10 +2,27 @@
 // runs the gain and pitch fades, pushes the changed gain and pitch to the source, reads the
 // source state and moves the emitter between its play states. Every path of the listing ends in
 // Mutex::Unlock, so the port returns that int too.
-// Partial: the listing calls the cursor and the source with no null check. The port returns early
-// when either is missing. Those calls fault in the original, and an emitter whose load failed
-// (state -1, ready flag still set) reaches them. The mono 3D test reads the cursor's channel count
-// (cursor +0x04). The 3D and DSP helpers it calls are ported in their own files.
+//
+// Reconstructed against the 0x86d5b8 listing, line by line: Lock; previous_state = state_ (+0x90);
+// LoadAsync while ready_flag_ (+0x1c) is set and the state is not -1 (a 0 result returns the Unlock
+// int, otherwise ready_flag_ is cleared); the reset-flag path (reset_flag_ +0x99, cursor Reset
+// +0x1c, state_ = source GetState +0x18, and a non-zero state runs the source Reset +0x14 and
+// returns); the loop flag (loop_read_ +0x8c against loop_ +0x8d, cursor SetLoop +0x2c with the +0x8d
+// byte in r1, then loop_read_ = loop_); Update3D when the cursor channel count (cursor +0x04) is 1;
+// UpdateDSP(dt); the gain fade (+0x50 elapsed, +0x54 duration, +0x58 flag) and the resume fade
+// (+0x64, +0x68, +0x6c) stepped, gain_ (+0x3c) = gain_modifier_ (+0x44) * resume value * gain value,
+// the source GetGain (+0x34) compared and SetGain (+0x2c) applied, the pitch fade (+0x80, +0x84,
+// +0x88) stepped into pitch_ (+0x74), the source GetPitch (+0x38)/SetPitch (+0x30) pair, the source
+// state read, the state-3 reset request (state_set_ +0x94 = 3, reset_flag_ = 1, +0x145 = 1) when the
+// cursor HasData (+0x18) is false, the state -1 return when the state was already -1, the
+// decoder_type_ (+0x140) choice between ProcessNativeData and ProcessNonNativeData, the state switch
+// (0 copies state_ into state_set_, 1 clears +0x145 and Plays +0x08, 2 pauses with gain 0 when the
+// resume fade flag is set +0x10, 3 stops +0x0c and requests the reset, any other state becomes -1 in
+// both words), and callback_pending_ (+0x98) when the state changed to a non-zero value.
+// Deviation (host-necessitated): the listing calls the cursor and the source with no null check, and
+// an emitter whose load failed (state -1, ready flag still set) or one constructed without a cursor
+// or a source reaches those calls; the port returns the Unlock int when either is missing instead of
+// dereferencing it.
 #include "vox-audio/vox/data_obj.hpp"
 #include "vox-audio/vox/decoder.hpp"
 #include "vox-audio/vox/driver.hpp"

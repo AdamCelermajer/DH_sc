@@ -16,26 +16,27 @@ T* OnlineSingleton<T>::m_instance = nullptr;
 
 // 0x320e98 _ZN15OnlineSingletonI15OnlineGameStateE11GetInstanceEv
 //
-// Partial. The original's control flow, in order:
+// Reconstructed from the 42-instruction listing (asm 0x320e98..0x320f3c). The binary's control flow:
 //   1. Return m_instance when it is set.
-//   2. Otherwise allocate 0x5c bytes with operator new(size, hint 0), construct the object in
-//      place with OnlineGameState::OnlineGameState(), and store the pointer in m_instance.
-//   3. When the allocation returned null, check gAssertLevel:
-//      2: store 0 to address 0 to force a crash;
-//      1: print "ASSERT(m_instance != 0) FAILED" and return m_instance (null);
+//   2. Otherwise allocate 0x5c bytes with operator new(size, MemoryHintState 0), construct the object in
+//      place with OnlineGameState::OnlineGameState() -- the BL comes BEFORE the null test, so the
+//      constructor really is called on the block even when it is null -- then store the pointer in
+//      m_instance.
+//   3. When the block is null, check gAssertLevel:
+//      2: store 0 through the null pointer (STREQ R6,[R6]) to force a crash, then return it;
+//      1: print "ASSERT(m_instance != 0) FAILED: <file>:152" and return m_instance (reloaded);
 //      other: return the (null) block.
 //   4. Return the new block.
 //
-// Deviations and open points:
-//   - The allocation is `new (std::nothrow) T()`. The hint argument (0) is not modelled, since
-//     this category has no hinted operator new. The block is sizeof(T) on the host, not 0x5c.
-//   - On a null block the original still calls the constructor (on null, which is undefined).
-//     The port skips it.
-//   - Level 2 calls std::abort() where the original writes to address 0. Same effect (a crash),
-//     but not the same instruction.
-//   - The fprintf stream is `__sF + 0xa8` in the ARM listing, which is the third standard FILE
-//     (index 2, stderr in the C library layout). The port uses stderr. The file-name string is the one in the pseudocode
-//     (the string says MultiplayerStateMachine.h, which the original copied into this function).
+// Deviations, all named in the ledger row:
+//   - The allocation is `new (std::nothrow) T()`. The hint argument (0) is not modelled, since this
+//     category has no hinted operator new. The block is sizeof(T) on the host, not 0x5c.
+//   - The constructor is not called on a null block (calling a member function on null is UB).
+//   - Level 2 calls std::abort() where the original writes to address 0. Both terminate the process.
+//   - The fprintf stream is __sF + 0xa8 in the ARM listing, i.e. the third standard FILE (index 2, the
+//     Bionic stderr); the port uses stderr. The file-name/line string is the one in the pseudocode:
+//     the string says MultiplayerStateMachine.h (the original copied it into this function) and the
+//     immediate is 0x98 = 152.
 template <class T>
 T* OnlineSingleton<T>::GetInstance() {
     T* v0 = m_instance;

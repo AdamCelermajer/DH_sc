@@ -17,8 +17,12 @@ public:
     using StateCallback = std::int32_t (*)(void*);
 
     MultiplayerStateMachine() = default;
-    // Not in the original: frees the entries when the owner is destroyed.
-    ~MultiplayerStateMachine() { destroyStateMachine(); }
+    // Not in the original (the original has no such symbol): deliberately empty. The entries are freed by
+    // the owner OnlineGameState::Destroy (0x4a0388), which is the only path the binary frees them on;
+    // OnlineGameState's own D1 (0x43f9c4) does not touch them. An implicit destructor here would call
+    // destroyStateMachine() on the owner's destruction, i.e. before the D1 body runs, which the binary
+    // never does.
+    ~MultiplayerStateMachine() {}
     MultiplayerStateMachine(const MultiplayerStateMachine&) = delete;
     MultiplayerStateMachine& operator=(const MultiplayerStateMachine&) = delete;
 

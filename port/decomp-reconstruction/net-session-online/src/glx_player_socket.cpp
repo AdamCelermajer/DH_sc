@@ -113,9 +113,11 @@ std::int32_t GLXPlayerSocket::CalculateTotalLength() const {
 }
 
 // 0x830448 _ZN15GLXPlayerSocket15ParseHttpHeaderEPc
-// Partial: the found path matches the pseudocode (lower-cases the name and the header
-// block, then searches). When the CRLF CRLF terminator is missing, the original copies
-// npos bytes, which is undefined, so the port returns npos there.
+// The found path matches the binary line by line (checked against the 17 branch targets): a lower-cased
+// copy of the name, the CRLF CRLF split in the content string at +0x840, a lower-cased copy of the header
+// block, and a find of the name in it. Deviations: the binary copies npos bytes when the terminator is
+// missing (undefined), so the port returns npos; and the binary's temporary allocations are emulated by
+// std::string here.
 std::uint32_t GLXPlayerSocket::ParseHttpHeader(const char* name) const {
     const std::string lowerName = LowerCopy(name != nullptr ? name : "");
     const std::size_t end = content_.find("\r\n\r\n", 0, 4);
@@ -185,12 +187,15 @@ void GLXPlayerSocket::FailAndClose() {
 }
 
 // 0x830f20 _ZN15GLXPlayerSocket3RunEv
-// Every state follows the Hex-Rays body and the listing (the XP_DEBUG_OUT traces are not emitted, so
-// the row stays partial). Every transport call goes through the platform slot at the offset the
-// original uses: GetHostByName +0x20, CreateSocket +0x28, GetLastError +0x2c, Connect +0x34,
-// CloseSocket +0x3c, Select +0x40, Send +0x44, Recv +0x48. The response span the observer receives is
-// the content string's own span (its finish pointer at +0x83c minus its start pointer at +0x840), so
-// SetResponseLen gets content_.size() and SetResponseData gets content_.data() and content_.size().
+// Every state follows the Hex-Rays body and the 364-instruction listing, including the XP_API_GET_TIME
+// timers (ClockMs above). Every transport call goes through the platform slot at the offset the original
+// uses: GetHostByName +0x20, CreateSocket +0x28, GetLastError +0x2c, Connect +0x34, CloseSocket +0x3c,
+// Select +0x40, Send +0x44, Recv +0x48. The response span the observer receives is the content string's own
+// span (its finish pointer at +0x83c minus its start pointer at +0x840), so SetResponseLen gets
+// content_.size() and SetResponseData gets content_.data() and content_.size().
+// Deviation kept: the binary emits 12 XP_DEBUG_OUT traces in this function (0x831028, 0x8310a8, 0x8311c0,
+// 0x831220, 0x83127c, 0x8312e4, 0x831320, 0x831338, 0x831390, 0x83140c, 0x83143c, 0x831478); this body
+// does not (logging only, see the ledger row).
 void GLXPlayerSocket::Run() {
     // States 0 (idle), 7 (error) and 8 (cancelled) do nothing.
     if (state_ == 0 || state_ == 7 || state_ == 8) {

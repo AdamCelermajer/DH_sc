@@ -4,8 +4,17 @@
 #include <cstdio>
 #include <list>
 
+#include "dh2/EventManager.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
+
+// ProcessEvents drains the queue into the EventManager at dword_99F740 (Application's
+// m_eventManager). This test owns one with no receivers, so every Raise returns at once.
+static EventManager g_eventManager;
+static EventManager* g_test_dword_99F740 = &g_eventManager;
+EventManager*& dword_99F740 = g_test_dword_99F740;
 
 namespace {
 struct Touch : TouchScreenBase {

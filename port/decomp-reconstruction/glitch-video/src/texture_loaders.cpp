@@ -3,6 +3,7 @@
 #include <cstring>
 #include <vector>
 
+#include "glitch-video/deps/os_logging.hpp"
 #include "glitch-video/pixel_format.hpp"
 
 namespace glitch::video {
@@ -34,7 +35,11 @@ bool CImageLoaderATC::isALoadableFileFormat(io::IReadFile* file) const {
 
 // 0x602e34 _ZNK6glitch5video15CImageLoaderATC17loadTextureHeaderEPNS_2io9IReadFileERNS0_12STextureDescE
 // Header layout (little-endian): width (2 bytes), height (2), magic (2), one unused 2-byte field, data
-// size (4). The data block is read and must be complete. Partial: see the header (no log on failure).
+// size (4). The data block is read and must be complete; a short read logs "corrupt ATC file" with the
+// file's name as the hint and returns false. Reconstructed details: the pointer to the data block and the
+// descriptor writes match the listing (see the note in the body). Deviation: the transient data block is a
+// std::vector here, where the original takes it from operator new[] and returns it with LC_API_FREE (the
+// observable result is the same: the block is released on both paths).
 bool CImageLoaderATC::loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const {
     file->seek(0, false);
     uint8_t width[2] = {};
@@ -52,7 +57,9 @@ bool CImageLoaderATC::loadTextureHeader(io::IReadFile* file, STextureDesc& desc)
                               (static_cast<uint32_t>(sizeBytes[3]) << 24);
     std::vector<uint8_t> data(dataSize);
     if (static_cast<size_t>(file->read(data.data(), dataSize)) != dataSize) {
-        // Original: logs "corrupt ATC file" here (os::Printer not in port).
+        // 0x602f4c..0x602f6c: the file's name (IReadFile vtable +0x28, getFileName) is the hint of the log
+        // at level 3 (ELL_ERROR).
+        os::Printer::log("corrupt ATC file", file->getFileName(), glitch::ELL_ERROR);
         return false;
     }
     const uint32_t magicValue = static_cast<uint32_t>(magic[0]) | (static_cast<uint32_t>(magic[1]) << 8);

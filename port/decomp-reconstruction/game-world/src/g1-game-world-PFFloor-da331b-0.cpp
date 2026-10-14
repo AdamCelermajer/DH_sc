@@ -25,9 +25,15 @@
 #include "dh2/PFGInnerNode.hpp"
 #include "dh2/SceneManager.hpp"
 #include "dh2/UserProperties.hpp"
+#include "dh2/Application.hpp"                                  // ApplicationGetInstance
 #include "dh2/global/DeviceSceneManager.hpp"
 #include "dh2/global/scene_nodes.hpp"                           // CopyMeshSceneNode (0x50f89c)
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "glitch-core-io/os/device.hpp"                         // glitch::IDevice::videoDriver (+0x10)
+#include "glitch-video/material.hpp"                            // CMaterial::getTechnique
+#include "glitch-video/material_renderer.hpp"                   // CMaterialRenderer::materialRendererType (+0x2e)
+#include "glitch-video/material_renderer_manager.hpp"           // CMaterialRendererManager (+0xdc of the driver)
+#include "glitch-video/video_driver.hpp"                        // IVideoDriver (videoDriver, setMaterial, draw3D*)
 #include "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp"    // IMeshSceneNode, CMeshSceneNode
 #include "glitch-scene-collada-gui/scene/COctTreeTriangleSelector.hpp"
 #include "glitch-scene-collada-gui/scene/CSceneCollisionManager.hpp"
@@ -204,15 +210,43 @@ PFGInnerNode* PFFloor::_GetNodeAt(const Point3D<float>& point) {
 }
 
 // 0x51c2c0 _ZN7PFFloor9_DBG_DrawEv
-// PARTIAL: the original sets up the floor's material through the video driver (IDevice +0x10, its material renderer
-// manager at driver +0xdc, getMaterialInstance and IVideoDriver::setMaterial). It then draws each triangle of m_triangles
-// (m_triangleCount of them) with draw3DTriangle, in the colour below, and each edge of m_edges (null entries skipped)
-// with draw3DLine from the start node's position to the end node's position, in 0xFF00FF00. Every one of these calls
-// needs the driver, which glitch::IDevice does not declare (layout request in the header comment above). Only the
-// colour is computed here.
+// Reconstructed (r3b-w2) from the listing, with the same material set-up the already-reconstructed
+// ObjectManager::Draw3D body makes. The driver is ApplicationGetInstance().m_device->videoDriver (glitch::IDevice
+// +0x10, 0x51c2e0 LDR [R3,#0x10]) and its material renderer manager is driver +0xdc (0x51c2e8). The entry's
+// renderer type is the 0xFFFF default that createMaterialRenderer replaces (0x51c2ec LDRH [R6,#0x2E] against
+// MOVW #0xFFFF); the port takes the id createMaterialRenderer(1) returns, exactly as ObjectManager::Draw3D does,
+// then getMaterialInstance(id, true) (0x51c30c: R1 = the type id, R3 = 1) and material->getTechnique(), else 0xff.
+// Every triangle of m_triangles (m_triangleCount of them) is drawn with draw3DTriangle in
+// FloorDebugColour(m_typeMask, m_objectFlags); every non-null edge of m_edges with draw3DLine from its
+// GetSource() to its GetDestination() in 0xFF00FF00. The original's m_edges is 12-byte records whose +4 word is
+// the first edge of the run, so the port iterates its own PFGInnerEdge* vector instead.
 void PFFloor::_DBG_Draw() {
-    const std::uint32_t triangleColour = FloorDebugColour(m_typeMask, m_objectFlags);
-    (void)triangleColour;
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    glitch::video::CMaterialRendererManager* renderers = driver->m_materialRendererManager;  // +0xdc
+    const uint16_t renderer =
+        renderers->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));  // cached built-in id
+    boost::intrusive_ptr<glitch::video::CMaterial> material = renderers->getMaterialInstance(renderer, true);
+    const uint8_t technique = material ? static_cast<uint8_t>(material->getTechnique()) : 0xff;
+    driver->setMaterial(material, technique, nullptr);
+
+    glitch::video::SColor triangleColour;
+    triangleColour.color = FloorDebugColour(m_typeMask, m_objectFlags);
+    for (int i = 0; i < m_triangleCount; ++i) {
+        driver->draw3DTriangle(m_triangles[i], triangleColour);  // vtable +0x24
+    }
+
+    glitch::video::SColor edgeColour;
+    edgeColour.color = 0xFF00FF00u;
+    for (PFGInnerEdge* edge : m_edges) {
+        if (edge == nullptr) {
+            continue;
+        }
+        const Point3D<float>* from = edge->GetSource();
+        const Point3D<float>* to = edge->GetDestination();
+        const glitch::core::vector3d<float> start{from->X, from->Y, from->Z};
+        const glitch::core::vector3d<float> end{to->X, to->Y, to->Z};
+        driver->draw3DLine(start, end, edgeColour);  // vtable +0x1c
+    }
 }
 
 // 0x51cca4 _ZN7PFFloorD1Ev

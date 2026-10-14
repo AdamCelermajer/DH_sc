@@ -119,8 +119,15 @@ void RandomGroup::AddElement(RandomGroupElement* element) {
 namespace vox {
 
 // 0x881cc0 _ZN3vox15SequentialGroup23GetGroupElementPositionEv
-// Partial: an empty element vector returns -1 here; the original reads element 0 of an
-// empty (null) vector in that case.
+// Verified line by line against the ARM listing: +0x18 (words_[3]) is tested first and +0x14
+// (words_[2]) second, both returning -1 when zero; the old index (+0x30) is read before the
+// advance and the advanced index stored; the element count is (end - begin) >> 2; the wrap branch
+// stores words_[4] = cycles, +0x30 = 0 and words_[2] = cycles - 1; then +0x34 = old index,
+// +0x18 = remaining - 1 and +0x20 = remaining; the value returned is elements_[old index].
+// One host-necessitated deviation: the original indexes the vector through its begin pointer with
+// no length test, so with an empty vector it loads from the null begin pointer and faults; the
+// port tests elements_.empty() and returns -1 there instead (the state stores the original would
+// make before faulting are skipped).
 int SequentialGroup::GetGroupElementPosition() {
     std::uint32_t remaining = words_[3];  // +0x18
     std::uint32_t cycles = words_[2];     // +0x14

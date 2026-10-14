@@ -5,19 +5,9 @@
 #include <cstdlib>
 
 #include "core-platform/memory.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
 namespace {
-
-// Layout facts read from the 32-bit ARM listing. A node's child list sentinel is
-// at byte 244, and each child carries its list link at byte 4. Valid only for
-// that 4-byte-pointer layout; the Windows port needs the real ISceneNode layout.
-constexpr std::size_t kChildListOffset = 244;
-constexpr std::size_t kChildLinkOffset = 4;
-// Byte offset 96 in the ARM vtable, which uses 4-byte entries: index 24.
-constexpr std::size_t kSlot96Index = 96 / 4;
-// Byte offset 284 of the node, holding the flag word that carries the 0x200 bit.
-constexpr std::size_t kFlagsOffset = 284;
-constexpr std::uint32_t kOnAnimateFlag = 0x200;
 
 // Irrlicht-style assertion path shared by the glitch helpers. Level 2 aborts (the
 // original writes to address 0), level 1 prints the message to stderr.
@@ -32,90 +22,86 @@ void ReportAssert(const char* expr, const char* file, int line) {
 constexpr const char kIrrutilsFile[] =
     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\Collada\\irrutils.cpp";
 
-struct ListLink {
-    ListLink* next;  // word 0 of a link node
-};
-
-ListLink* ChildListHead(glitch::scene::ISceneNode* node) {
-    return reinterpret_cast<ListLink*>(reinterpret_cast<char*>(node) + kChildListOffset);
-}
-
-glitch::scene::ISceneNode* ChildOf(ListLink* link) {
-    if (link == nullptr) {
-        return nullptr;
-    }
-    return reinterpret_cast<glitch::scene::ISceneNode*>(reinterpret_cast<char*>(link) -
-                                                         kChildLinkOffset);
-}
-
-// Calls the virtual at vtable slot 96 with (node, child). The method name is not recovered.
-void CallSlot96(glitch::scene::ISceneNode* node, glitch::scene::ISceneNode* child) {
-    using Fn = void (*)(glitch::scene::ISceneNode*, glitch::scene::ISceneNode*);
-    void** vtable = *reinterpret_cast<void***>(node);
-    reinterpret_cast<Fn>(vtable[kSlot96Index])(node, child);
-}
-
 }  // namespace
 
 // 0x50e3d8 _Z14RecursiveCountPN6glitch5scene10ISceneNodeE
-// Partial: the traversal matches the listing, but the child-list offsets (244, 4)
-// are the 32-bit ARM layout.
+// Verified against the listing: the node's child ring (the SChildList at +0xf0, its sentinel at
+// +0xf4, each child carrying its own SListLink base at +0x04) is walked; a childless node counts 1,
+// otherwise the count starts at 1 and every child is added through a recursive call. The listing
+// loads the link, advances it (LDR R4,[R4]) and only then recurses, so the iterator is advanced
+// before the recursive call here too. The zero-link test the listing makes before subtracting 4
+// cannot fire inside the ring (SListLink is never null there) and is not reproduced.
 int RecursiveCount(glitch::scene::ISceneNode* node) {
-    ListLink* head = ChildListHead(node);
-    ListLink* link = head->next;
+    const glitch::scene::SChildList& children = node->getChildren();
+    glitch::scene::SChildList::iterator link = children.begin();
+    const glitch::scene::SChildList::iterator head = children.end();
     if (link == head) {
         return 1;
     }
     int count = 1;
     do {
-        glitch::scene::ISceneNode* child = ChildOf(link);
-        link = link->next;
+        glitch::scene::ISceneNode* child = *link;
+        ++link;
         count += RecursiveCount(child);
     } while (link != head);
     return count;
 }
 
 // 0x50e46c _Z19setOnAnimateEnabledPN6glitch5scene10ISceneNodeEb
-// Partial: the flag bit at byte 284 is the 32-bit ARM layout. The pseudocode
-// returns the node argument; that return is treated as register residue, so this is void.
+// Verified against the listing: the word at ISceneNode +0x11c (flags, the place the constructor
+// stores 0x60f) is loaded once, ORed with 0x200 when enabling and ANDed with ~0x200 when disabling,
+// and stored back. The header names that bit ESNF_ANIMATE. The listing leaves the node argument in
+// r0 (the decompiler reads that as the return value); nothing reloads it, so it is register residue
+// and the declaration stays void.
 void setOnAnimateEnabled(glitch::scene::ISceneNode* node, bool enable) {
-    auto* flags = reinterpret_cast<std::uint32_t*>(reinterpret_cast<char*>(node) + kFlagsOffset);
     if (enable) {
-        *flags |= kOnAnimateFlag;
+        node->flags |= glitch::scene::ESNF_ANIMATE;
     } else {
-        *flags &= ~kOnAnimateFlag;
+        node->flags &= ~static_cast<std::uint32_t>(glitch::scene::ESNF_ANIMATE);
     }
 }
 
 // 0x50e484 _Z22RecursiveSetBoolOnNodePN6glitch5scene10ISceneNodeEbPFvS2_bE
-// Partial: the pseudocode calls the callback with no visible arguments. The
-// callback is invoked as callback(node, enable) per the mangled signature. The
-// child-list offsets are the 32-bit ARM layout.
+// Verified against the listing: a null node returns at once; otherwise the callback runs once with
+// (node, enable) - the listing still holds r0 = node and r1 = enable when it executes BLX R2, the
+// decompiler simply drops the two arguments - and then every child is visited through a recursive
+// call. As in RecursiveCount the listing advances the link before the recursion, so the iterator is
+// advanced first here too. The null-link test before the subtraction is not reproducible and not
+// reproduced (a link in the ring is never null).
 void RecursiveSetBoolOnNode(glitch::scene::ISceneNode* node, bool enable,
                             void (*callback)(glitch::scene::ISceneNode*, bool)) {
     if (node == nullptr) {
         return;
     }
     callback(node, enable);
-    ListLink* head = ChildListHead(node);
-    for (ListLink* link = head->next; link != head;) {
-        glitch::scene::ISceneNode* child = ChildOf(link);
-        link = link->next;
+    const glitch::scene::SChildList& children = node->getChildren();
+    glitch::scene::SChildList::iterator link = children.begin();
+    const glitch::scene::SChildList::iterator head = children.end();
+    while (link != head) {
+        glitch::scene::ISceneNode* child = *link;
+        ++link;
         RecursiveSetBoolOnNode(child, enable, callback);
     }
 }
 
 // 0x50e4d0 _Z21NodeRemoveAllChildrenPN6glitch5scene10ISceneNodeE
-// Partial: the vtable slot 96 (0x60) is not recovered as a removal. The ISceneNode
-// vtable listing (decomp_vtable.py) names 0x60 as getUID() const, which takes no
-// child argument, and removeChild is at 0x6c, so the call's dynamic type is needed
-// to name it. The child-list offsets are ARM32 layout. The pseudocode returns the
-// last call's result; this is void.
+// Verified against the listing: the child ring at +0xf4 is walked and, for each child, the node's
+// virtual at vptr+0x60 is called. The canonical ISceneNode slot table puts removeChild at K 0x60
+// (the older note read +0x60 in tools/decomp_vtable.py's numbering, which is K + 0x0c for this
+// class, so it named getUID), so the call is node->removeChild(child). The listing advances the link
+// AFTER the call (LDR R4,[R4] follows BLX R3) and removeChild (0x597004) clears the child's own
+// link words (it stores 0 into the child's +0x04 and +0x08), so the original's second iteration
+// removes a null child and dereferences address 0xEC. That is reproduced as written rather than
+// guarded: the function is exported but has no caller inside the library (its only xref is the LOAD
+// relocation), so nothing in the tree can reach the fault. Like setOnAnimateEnabled's, the declared
+// void return keeps the callee's r0 as register residue.
 void NodeRemoveAllChildren(glitch::scene::ISceneNode* node) {
-    ListLink* head = ChildListHead(node);
-    for (ListLink* link = head->next; link != head;) {
-        CallSlot96(node, ChildOf(link));
-        link = link->next;
+    const glitch::scene::SChildList& children = node->getChildren();
+    glitch::scene::SChildList::iterator link = children.begin();
+    const glitch::scene::SChildList::iterator head = children.end();
+    while (link != head) {
+        node->removeChild(*link);
+        ++link;  // the listing reads the child's link word after removeChild cleared it
     }
 }
 
@@ -136,8 +122,11 @@ void ChangeMaterials(glitch::scene::ISceneNode* /*node*/, glitch::video::E_MATER
 }
 
 // 0x50eca0 _Z25DBG_TraverseAllGlitchNodePN6glitch5scene10ISceneNodeEPFvS2_EPFbS2_E
-// Partial: the child-list offsets (244, 4) are the 32-bit ARM layout. The
-// assertion path matches the listing at irrutils.cpp:656.
+// Verified against the listing: a null visit callback takes the irrutils.cpp:656 assertion path
+// first (level 2 writes 0 to address 0 - aborted here, the accepted host deviation; level 1 prints
+// the message); a null node then returns; the node is visited when the filter is absent or returns
+// non-zero; and every child of the ring at +0xf4 is traversed recursively with the same callbacks.
+// As in RecursiveCount the listing advances the link before the recursive call.
 void DBG_TraverseAllGlitchNode(glitch::scene::ISceneNode* node,
                                void (*visit)(glitch::scene::ISceneNode*),
                                bool (*filter)(glitch::scene::ISceneNode*)) {
@@ -150,10 +139,12 @@ void DBG_TraverseAllGlitchNode(glitch::scene::ISceneNode* node,
     if (filter == nullptr || filter(node) != false) {
         visit(node);
     }
-    ListLink* head = ChildListHead(node);
-    for (ListLink* link = head->next; link != head;) {
-        glitch::scene::ISceneNode* child = ChildOf(link);
-        link = link->next;
+    const glitch::scene::SChildList& children = node->getChildren();
+    glitch::scene::SChildList::iterator link = children.begin();
+    const glitch::scene::SChildList::iterator head = children.end();
+    while (link != head) {
+        glitch::scene::ISceneNode* child = *link;
+        ++link;
         DBG_TraverseAllGlitchNode(child, visit, filter);
     }
 }

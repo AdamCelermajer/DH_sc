@@ -70,10 +70,9 @@ private:
     // without a stream.
     bool ParseFile();
 
-    int channels_ = 0;                               // +0x04
-    int sample_rate_ = 0;                            // +0x08
-    int bits_per_sample_ = 0;                        // +0x0c
-    std::uint32_t total_frames_ = 0;                 // +0x10
+    // The parameter block (channels +0x04, sample rate +0x08, bits +0x0c, frames +0x10) is the
+    // inherited DecoderCursorInterface::params_; the constructor copies it from the sub-decoder,
+    // as the original does (asm 0x870b5c).
     WaveChunk* chunk_ = nullptr;                     // +0x20, the decoder's WAV block
     VoxMSWavSubDecoder* sub_decoder_ = nullptr;      // +0x24
 };

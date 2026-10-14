@@ -7,7 +7,11 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    CHECK(NVThreadInit(1234) == 1234);
+    // NVThreadInit takes and returns the VM pointer whole (no 64-bit truncation) and stores it in the word the
+    // JNI glue reads.
+    JavaVM* const vm = reinterpret_cast<JavaVM*>(static_cast<std::intptr_t>(0x1234));
+    CHECK(NVThreadInit(vm) == vm);
+    CHECK(g_nvThreadVm.asVm == vm);
 
     const auto start = std::chrono::steady_clock::now();
     CHECK(NVThreadSleep(20) == 0);

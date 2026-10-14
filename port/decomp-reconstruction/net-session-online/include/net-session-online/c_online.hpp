@@ -58,6 +58,15 @@ public:
     // The word at +0x1c: the time since the start time, stored by ReceivePackets. NetStructMember::GetFrameTime
     // (0x8150a0) reads it as GetOnline()->+0x1c.
     std::int32_t GetElapsedTime() const { return elapsed_; }
+    // The word at +0x28: the receive counter ReceivePackets bumps. CMessage::CMessage (0x80a61c) reads it as
+    // `LDR R3,[GetOnline(),#0x28]` and stores it in the message's lifetime_ word at +0x4c, and
+    // CMessage::IsExpired (0x80a128) compares `timestamp_ + lifetime_` against it.
+    std::uint32_t GetCounter() const { return counter_; }
+    // NOT an original member function: a test seam for the counter, which is protected and which the binary only
+    // ever moves through ReceivePackets. Tests that used to drive the expiry check through the OnlineNowMs()
+    // stand-in must set this instead - CMessage::IsExpired reads THIS word, not the clock (it was changed to the
+    // counter this session because the listing reads COnline +0x28). No symbol is involved (inline, not virtual).
+    void SetCounterForTest(std::uint32_t value) { counter_ = value; }
     // 0x7fd514 _ZN7COnline15IsAgeRestrictedEv: returns 0. Slot 6 of the vtable.
     virtual std::int32_t IsAgeRestricted() const { return 0; }
     // 0x7fd588 _ZN7COnline16GetLocalMemberIdEv: 1 when offline, else the matching local id.

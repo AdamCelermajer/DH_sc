@@ -7,7 +7,10 @@
 // (nativeXxxSoundBig, declared in sound_manager.hpp). The other branch calls the static vox::VoxEngine
 // facade and drops the engine instance argument of the binary. Arrays::Sounds records are reached
 // through the typed element pointer (pydata element_table.hpp), never as bytes at a 32-bit stride.
-// A body whose behaviour cannot be reproduced yet is marked PARTIAL where it stands.
+// A body whose behaviour cannot be reproduced yet is marked PARTIAL where it stands; after the platform
+// pass every body in this file is reconstructed, and the one deviation left (the deliberate null-pointer
+// fault of the line-1440 assert in SetInSafeZoneMusic, and Stop's missing emitter loop that
+// CrossfadeMusic and PlayMusic reach through StopMusic) is named at the function.
 
 #include "vox-audio/vox/sound_manager.hpp"
 
@@ -23,6 +26,7 @@
 #include "dh2/MenuBase.hpp"
 #include "dh2/Singleton.hpp"
 #include "dh2/global/net_singletons.hpp"
+#include "dh2/global/sound_flags.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 #include "vox-audio/vox/engine_handles.hpp"
@@ -34,7 +38,8 @@ namespace {
 
 // Emitter slots the binary sets up for GetEmitterHandles in Pause.
 constexpr int kEmitterSlots = 10;
-// Fade the binary passes to VoxEngine::Play in PlaySoundPackSound and Play (float constant 0.05).
+// Fade the binary passes to the VoxEngine emitter calls of this batch: Play (PlaySoundPackSound, Play),
+// Pause (Pause) and Resume (PlayMusic). Float constant 0.05.
 constexpr float kPlayFade = 0.05f;
 // Fade of the music calls (PlayMusic, SetInSafeZoneMusic, CrossfadeMusic), in milliseconds.
 constexpr int kMusicFadeMs = 2000;
@@ -87,6 +92,15 @@ Structs::SoundAutoGen& SoundRecord(int sound) {
     return reinterpret_cast<Structs::SoundAutoGen*>(Arrays::Sounds::members)[sound];
 }
 
+// The online half of the Play3D and Play gate: the byte at COnline +0x05 (COnline::isOnlineGame_), read
+// through GetOnline(). The binary inlines `LDRB R3,[GetOnline(),#5]` at 0x36b6b8 (Play3D) and 0x36ba24
+// (Play); the tree has the accessor GetOnlineGameFlag() (dh2/global/net_singletons.hpp, defined in
+// game-app/src/online_flag.cpp) which is exactly GetOnline()->IsOnlineGame(), so the call sites use it and
+// no stand-in is needed.
+//
+// The sound-allowed byte the level load sets, and the music group id GetSoundVolume(2) reads, come from the
+// globals batches (dh2/global/sound_flags.hpp, Arrays::Sounds).
+
 // The EmitterHandle the binary builds on the stack for an empty slot: id -1, no engine, no handlable, zero stamps.
 vox::EmitterHandle EmptyEmitterHandle() {
     return vox::EmitterHandle(-1, nullptr, nullptr, 0, 0);
@@ -94,15 +108,6 @@ vox::EmitterHandle EmptyEmitterHandle() {
 
 std::vector<vox::EmitterHandle> MakeEmptyHandles(std::size_t count) {
     return std::vector<vox::EmitterHandle>(count, EmptyEmitterHandle());
-}
-
-// PARTIAL stand-in for the online check in Play and Play3D. The binary reads COnline::isOnlineGame_ (+0x05)
-// through GetOnline(). That field is protected in net-session-online/c_online.hpp, so it cannot be read here.
-// The stand-in still calls GetOnline() (the singleton is created on first use, as in the binary) and answers
-// with the constructor default, false.
-bool OnlineGameStandIn() {
-    (void)GetOnline();
-    return false;
 }
 
 // Destroys a DataHandle that LoadSound allocated: the destructor, then the block (as in the first batch).
@@ -126,7 +131,14 @@ VoxSoundManager::~VoxSoundManager() {
     // preload_ids_ (+0x0c). The binary runs the same three releases in that order.
 }
 
-// 0x36a664 _ZN15VoxSoundManager5PauseEi (partial)
+// 0x36a664 _ZN15VoxSoundManager5PauseEi
+// Verified line by line against 0x36a664..0x36a76c and the disassembly: sound < 0 returns; JAVA_SOUNDS
+// forwards to nativePauseSoundBig; otherwise the Arrays::Sounds record's +4 data index selects sounds_[data]
+// and a null there returns. The ten 40-byte EmitterHandles on the stack are then filled by
+// VoxEngine::GetEmitterHandles(data, handles, 10), whose count in r0 bounds the loop that calls
+// VoxEngine::Pause(handle, 0.05f) for each handle (0x36a71c tests the count, 0x36a740 ends the do-while).
+// The facade now returns that count (voxengine.cpp, 0x862548), so the loop is reproduced.
+// The binary's int result is a register leftover; the declaration is void.
 void VoxSoundManager::Pause(int sound) {
     if (sound < 0) {
         return;
@@ -139,14 +151,16 @@ void VoxSoundManager::Pause(int sound) {
     if (data == nullptr) {
         return;
     }
-    // PARTIAL. The binary fills ten EmitterHandles with GetEmitterHandles(data, handles, 10), takes the
-    // count it returns and calls VoxEngine::Pause(handle, 0.05f) for each of those handles. The facade's
-    // GetEmitterHandles returns void, so the count is missing and no handle is paused. The call is kept.
     std::vector<vox::EmitterHandle> handles = MakeEmptyHandles(kEmitterSlots);
-    vox::VoxEngine::GetEmitterHandles(*data, handles.data(), kEmitterSlots);
+    const int count = vox::VoxEngine::GetEmitterHandles(*data, handles.data(), kEmitterSlots);
+    for (int i = 0; i < count; ++i) {
+        vox::VoxEngine::Pause(handles[i], kPlayFade);
+    }
 }
 
-// 0x36a784 _ZN15VoxSoundManager10PauseMusicEv (partial: calls Pause)
+// 0x36a784 _ZN15VoxSoundManager10PauseMusicEv
+// Verified against 0x36a784..0x36a7b4: music_id_ == -1 returns, JAVA_SOUNDS forwards to nativePauseSoundBig
+// with music_id_, and the non-JAVA path is the single call Pause(music_id_).
 void VoxSoundManager::PauseMusic() {
     if (music_id_ == -1) {
         return;
@@ -312,7 +326,14 @@ int VoxSoundManager::PlayEvent(int event, const glitch::core::vector3d<float>& p
     return 0;
 }
 
-// 0x36b5d8 _ZN15VoxSoundManager6Play3DEiRKN6glitch4core8vector3dIfEEbiff (partial: online stand-in)
+// 0x36b5d8 _ZN15VoxSoundManager6Play3DEiRKN6glitch4core8vector3dIfEEbiff
+// Verified against the listing (0x36b5d8..0x36b7e0) and the disassembly: IsDisablingSounds is read first,
+// then GetCurrentLevel, then the gate `level->m_loadStep (+0x130) == 38 && (!isOnlineGame_ || !MenuBase::s_igmOpened)
+// && sound >= 0`. The online byte is *(GetOnline() + 5), read here through GetOnlineGameFlag() (the tree's
+// accessor for that byte). Records of kind 1 go to PlayEvent with the data index as the event id and the two
+// -1.0f parameters; every other record calls GetDataSourceInfo, traces isTracingSFX and calls
+// PlaySoundPackSound with the position, param2 (a6) and param1 (a7). The fourth int argument is not read by
+// the body. No deviation remains.
 int VoxSoundManager::Play3D(int sound, const glitch::core::vector3d<float>& pos, bool loop, int reserved,
                             float param2, float param1) {
     (void)reserved;  // the binary's int argument is not read by the body
@@ -323,9 +344,8 @@ int VoxSoundManager::Play3D(int sound, const glitch::core::vector3d<float>& pos,
     if (level == nullptr) {
         return 0;
     }
-    // PARTIAL: the online half of the gate uses OnlineGameStandIn (see above).
     if (level->m_loadStep == kLevelLoadedStep &&
-        (!OnlineGameStandIn() || !MenuBase::s_igmOpened) && sound >= 0) {
+        (!GetOnlineGameFlag() || !MenuBase::s_igmOpened) && sound >= 0) {
         if (JAVA_SOUNDS) {
             nativePlaySoundBig(sound, sfx_vfx_volume, loop ? 1 : 0, kChannelSfxVfx);
         } else {
@@ -348,13 +368,21 @@ int VoxSoundManager::Play3D(int sound, const glitch::core::vector3d<float>& pos,
     return 0;
 }
 
-// 0x36b80c _ZN15VoxSoundManager4PlayEibiib (partial: online stand-in)
+// 0x36b80c _ZN15VoxSoundManager4PlayEibiib
+// Verified against the listing (0x36b80c..0x36ba7c) and the disassembly: the gate is
+// `!IsDisablingSounds && sound >= 0 && (force || !isOnlineGame_ || !MenuBase::s_igmOpened)`, with force
+// tested first (0x36ba2c tests the online byte, 0x36ba40 the in-game-menu flag). The online byte is
+// *(GetOnline() + 5), read here through GetOnlineGameFlag(). Then the JAVA forward, else the data index of
+// the Arrays::Sounds record, GetDataSourceInfo, LoadSound on a miss, IsReady, SetPriorityBankId,
+// GetEmitterInfo, CreateEmitter(data, emitter_uid, null), 3D parameter 0 = 1, the DSP parameter, SetGroup
+// when (type - 1) <= 0x1d and Play(handle, loop, fade_ms / 1000.0). CreateEmitter's argument order was
+// re-read from the disassembly at 0x36b988 (R2 = sounds_[data], R3 = the emitter uid, stack user = null).
+// No deviation remains.
 int VoxSoundManager::Play(int sound, bool loop, int fade_ms, int type, bool force) {
     if (ReadDebugSwitch("IsDisablingSounds") || sound < 0) {
         return 0;
     }
-    // PARTIAL: the online half of the gate uses OnlineGameStandIn (see above). The binary tests force first.
-    if (!(force || !OnlineGameStandIn() || !MenuBase::s_igmOpened)) {
+    if (!(force || !GetOnlineGameFlag() || !MenuBase::s_igmOpened)) {
         return 0;
     }
     if (JAVA_SOUNDS) {
@@ -393,7 +421,15 @@ int VoxSoundManager::Play(int sound, bool loop, int fade_ms, int type, bool forc
     return 0;
 }
 
-// 0x36baa0 _ZN15VoxSoundManager14CrossfadeMusicEii (partial: calls Stop and Play)
+// 0x36baa0 _ZN15VoxSoundManager14CrossfadeMusicEii
+// Verified line by line against 0x36baa0..0x36bbf4: JAVA_SOUNDS or music_b == -1 returns; music_slot_ (+0x31)
+// picks the stopping and the playing sound; the stopping record takes the playing record's data index (+4)
+// and kind (+8); both data indices are loaded on a miss; one EmitterHandle is filled with
+// GetEmitterHandles(..., 1) and the playing cursor (GetPlayCursor) is taken from the stopping emitter before
+// Stop and handed to the playing emitter (SetPlayCursor) after Play; music_slot_ is toggled. The listing
+// discards GetEmitterHandles' count here (no use of r0 at 0x36bb78 or 0x36bbd0), which the returned int now
+// makes explicit. Deviation, named and tracked on its own row: Stop (0x369fec, batch -0) still has no
+// GetEmitterHandles loop, so the old music emitters are not actually stopped by the Stop call below.
 void VoxSoundManager::CrossfadeMusic(int music_a, int music_b) {
     if (JAVA_SOUNDS || music_b == -1) {
         return;
@@ -424,7 +460,19 @@ void VoxSoundManager::CrossfadeMusic(int music_a, int music_b) {
     music_slot_ = !music_slot_;
 }
 
-// 0x36bd78 _ZN15VoxSoundManager9PlayMusicEibbi (partial: resume branch and byte_99F7E0 gate)
+// 0x36bd78 _ZN15VoxSoundManager9PlayMusicEibbi
+// Verified line by line against 0x36bd78..0x36bfec and the disassembly: the body runs only while
+// GetSoundVolume(2) >= 0.5, IsDisablingSounds is clear and byte_99F7E0 (0x36be2c), the sound-allowed byte
+// Level::_LoadProcess sets, is set - that byte is in the tree (dh2/global/sound_flags.hpp,
+// soundmanager/sound_flags.cpp). music == -1 clears music_id_ and stops only when stop_if_none. Otherwise,
+// when music_id_ (+0x24) already is `music`: JAVA_SOUNDS re-sends the native play with Save_Current_Music_ID,
+// and the non-JAVA path takes the record's +4 data index, tests sounds_[data], fills one EmitterHandle with
+// VoxEngine::GetEmitterHandles(..., 1) and, when that count (r0, 0x36bf74) is above 0, resumes the emitter
+// (VoxEngine::Resume(handle, 0.05f), 0x36bf8c) and returns. On the fall-through, prev_music_id_ (+0x28) takes
+// music_id_, the old music is stopped when it differs, music_id_ and music_loop_ (+0x30) are stored, and the
+// music is played with type 2 and force (or the native play on the JAVA side). Deviation, named and tracked
+// on its own row: the StopMusic call below reaches Stop (0x369fec, batch -0), which still has no
+// GetEmitterHandles loop, so a replaced music's emitters are not actually stopped.
 void VoxSoundManager::PlayMusic(int music, bool loop, bool stop_if_none, int fade_ms) {
     // GetSoundVolume type 2 is the music group (the binary's literal 2).
     if (GetSoundVolume(2) < 0.5) {
@@ -433,8 +481,9 @@ void VoxSoundManager::PlayMusic(int music, bool loop, bool stop_if_none, int fad
     if (ReadDebugSwitch("IsDisablingSounds")) {
         return;
     }
-    // PARTIAL: the binary returns unless the unnamed byte at 0x99f7e0 is set. That byte has no symbol in the
-    // tree, so this body runs as if it were set.
+    if (!byte_99F7E0) {
+        return;
+    }
     if (music == -1) {
         if (stop_if_none) {
             music_id_ = -1;
@@ -442,14 +491,19 @@ void VoxSoundManager::PlayMusic(int music, bool loop, bool stop_if_none, int fad
         }
         return;
     }
-    if (music_id_ == music && JAVA_SOUNDS) {
-        Save_Current_Music_ID = music_id_;
-        nativePlaySoundBig(Save_Current_Music_ID, music_volume, loop ? 1 : 0, kChannelMusic);
-        return;
+    if (music_id_ == music) {
+        if (JAVA_SOUNDS) {
+            Save_Current_Music_ID = music_id_;
+            nativePlaySoundBig(Save_Current_Music_ID, music_volume, loop ? 1 : 0, kChannelMusic);
+            return;
+        }
+        vox::EmitterHandle emitter = EmptyEmitterHandle();
+        vox::DataHandle* handle = sounds_[SoundRecord(music).m_w1];
+        if (handle != nullptr && vox::VoxEngine::GetEmitterHandles(*handle, &emitter, 1) > 0) {
+            vox::VoxEngine::Resume(emitter, kPlayFade);
+            return;
+        }
     }
-    // PARTIAL: for the same music, the binary resumes the playing emitter when GetEmitterHandles reports a
-    // count above 0 (VoxEngine::Resume(handle, 0.05f), then return). The facade returns void, so that branch
-    // is never taken and the music is started again below.
     const int previous = music_id_;
     prev_music_id_ = previous;
     if (previous != music) {
@@ -465,7 +519,17 @@ void VoxSoundManager::PlayMusic(int music, bool loop, bool stop_if_none, int fad
     }
 }
 
-// 0x36c014 _ZN15VoxSoundManager18SetInSafeZoneMusicEb (partial: calls PlayMusic)
+// 0x36c014 _ZN15VoxSoundManager18SetInSafeZoneMusicEb
+// Verified line by line against 0x36c014..0x36c0e8: JAVA_SOUNDS stores in_safe_zone_ (+0x32) and plays the
+// level's m_musicSoundId (+0x11c); the non-JAVA in-zone path reads the zone music at Level +0x120 and, when
+// it is not negative, sets in_safe_zone_ and plays it only when music_slot_ (+0x31) is set, otherwise the
+// out-of-zone path clears in_safe_zone_ and plays m_musicSoundId. The three PlayMusic calls pass loop 1,
+// stop_if_none false and fade 2000.
+// Deviation, host-necessitated and named: the line-1440 ASSERT(false) branch. At assert level 2 the binary
+// runs `*(_DWORD *)v4 = v4;` (0x36c100) with v4 = (unsigned char)JAVA_SOUNDS = 0, i.e. it stores 0 through
+// the null address - a deliberate fault that would abort the process - and it prints the message only at
+// level 1 (0x36c0bc). Reproducing the fault is pointless on the host, so only the level-1 fprintf is kept;
+// at level 2 nothing happens here.
 void VoxSoundManager::SetInSafeZoneMusic(bool in_zone) {
     if (JAVA_SOUNDS) {
         in_safe_zone_ = in_zone;

@@ -1117,9 +1117,10 @@ Ledger part: `ledger.parts/w13-b.csv` (12 rows: 4 reconstructed, 6 partial, 2 sk
 
 Layouts (decoder-relative offsets, as the listings write them):
 - Cursor parameter block: DecoderCursorInterface now holds `params_` (TrackParams) at +0x04..+0x13, the
-  block the listings read as channels +0x04, unknown_08 +0x08 (the sample rate: SetPlayCursor and the
-  native capacity use it), bits +0x0c and length +0x10. DecoderRawCursor and DecoderNativeCursor inherit it
-  (their own copies were removed). `DecoderCursorInterface::GetTrackParams()` is the public read.
+  block the listings read as channels +0x04, sample_rate +0x08 (renamed from unknown_08; SetPlayCursor and the
+  native capacity use it), bits +0x0c and length +0x10. Every cursor class inherits it and its own duplicate
+  copy is gone (DecoderRawCursor, DecoderNativeCursor, DecoderMSWavCursor, DecoderMPC8Cursor,
+  DecoderStbVorbisCursor; wave 13 cluster B). `DecoderCursorInterface::GetTrackParams()` is the public read.
 - VoxN header block: `NativeHeaderWords` covers decoder +0x04 (magic), +0x08 (body size), +0x0c..+0x17
   (body words 0..2, `name_words`), +0x18 (`base_offset`, body word 3), +0x1c (`afmt_id`, "Afmt"), +0x20
   (`afmt_size`), +0x24 (`format_word`), +0x28 (`field_0c`), +0x2c (`sample_word`; ParseFile sets the
@@ -1209,3 +1210,75 @@ Callers outside this slice that ignore the new int results: VoxSoundManager (gam
 voxengine.cpp. Rows elsewhere whose notes say a result is dropped (ReleaseWriteAccess, UpdateEmitters,
 VoxEngineInternal::SetDSPEmitterParameter, VoxEngine::SetDSPEmitterParameter) now return the int; their
 ledger rows belong to other slices and were not re-ledgered here.
+
+## Wave 13 (w13-cluster-b): the cursor parameter block, the DriverInterface slot order, KillEmitter
+
+This batch closes the four rows that named "the decoder cursor parameter block" as their missing item
+(0x86b144, 0x86b694, 0x86ca08 and, through the cursor, 0x86e160), plus 0x86764c.
+
+Cursor parameter block, proved from the binary (this is the layout the four rows needed):
+- Word order at the cursor: +0x04 channels, +0x08 sample rate, +0x0c bits per sample, +0x10 frames.
+  VoxEngineInternal::LoadDataSource reads exactly that order after `decoder CreateNewCursor` (asm
+  0x86b24c: `LDR R12,[R3,#0x10]; LDR R11,[R3,#4]; LDR R12,[R3,#0xC]; LDR R3,[R3,#8]`), stores it at
+  DataObj +0x34 / +0x28 / +0x30 / +0x2c, and the field names follow those stores.
+- DecoderMSWavCursor's constructor fills the same words (asm 0x870ac8, `STR R3,[R4,#4]` ..
+  `STR R0,[R4,#0x10]`) by copying sub-decoder +0x10/+0x14/+0x18/+0x1c, so +0x08 is the WAV sample
+  rate. VoxNativeSubDecoder::GetTrackParams (0x884438) returns {short +0x0a, int +0x0c, short +0x12, 0},
+  which names the same four fields.
+- The port now has one block, DecoderCursorInterface::params_, and every concrete cursor writes it:
+  DecoderMSWavCursor (from the sub-decoder), DecoderMPC8Cursor (from the demuxer info), DecoderRawCursor
+  (from GetParam), DecoderNativeCursor (from the sub-decoder) and DecoderStbVorbisCursor (from
+  stb_vorbis). The duplicate members each of them declared at the same offsets were removed; a duplicate
+  would shadow the inherited block, so the engine's read would have seen zeros.
+- `TrackParams::unknown_08` is `sample_rate` now, and `length` counts frames.
+
+DriverInterface vtable order (this is what the KillEmitter row was really blocked on):
+- The binary's `_ZTVN3vox15DriverInterfaceE` (0x993b60, 84 bytes) and `_ZTVN3vox13DriverAndroidE`
+  (0x993a98) give: +0x08 Init, +0x0c Shutdown, +0x10 Suspend, +0x14 Resume, +0x18 RampOut, +0x1c RampIn,
+  +0x20 Update, +0x24 Set3DParameter, +0x28 SetDSPParameter, +0x2c SetStaticBusRouting,
+  +0x30 SetDynamicBusRouting, +0x34 SetSFXPresetActive, +0x38 SetOutputMode, +0x3c GetOutputMode,
+  +0x40 PrintDebug, +0x44 CreateDriverSource, +0x48 DestroyDriverSource, +0x4c FillBuffer. The base
+  vtable leaves Init, Shutdown, Suspend, Resume, Set3DParameter, PrintDebug, CreateDriverSource,
+  DestroyDriverSource, FillBuffer null.
+- The port's header had a different order (PrintDebug at +0x24, CreateDriverSource +0x44 and
+  DestroyDriverSource +0x48 by declaration order), so every virtual call from the engine landed one or
+  more slots late: KillEmitter's slot +0x48 call reached DriverAndroid::DestroyDriverSource, and
+  Update3D's slot +0x24 reached Set3DParameter only by accident of the old order. The header now declares
+  the methods in the binary's order, and `tests/w13_driver_slots_test.cpp` walks a real vtable and checks
+  that each engine call reaches its own override.
+- KillEmitter 0x86e190-0x86e1b4: when the emitter's source word (+0x110, dsp_source_) and the engine's
+  driver (+0x54c) are both non-null, the driver's slot +0x48 is called with the driver as its only
+  argument. In the binary's vtable that slot is `DriverAndroid::PrintDebug` (0x88ee6c, empty), not
+  DestroyDriverSource. The port makes that call now.
+- DriverAndroid needs Suspend, Resume, Set3DParameter, FillBuffer and PrintDebug because the binary's
+  DriverAndroid derives from DriverCallbackInterface (which defines +0x24, +0x40 and +0x4c and forwards
+  +0x10/+0x14 to the mix) and the port's DriverAndroid still derives from DriverInterface alone. It holds
+  a DriverCallbackInterface member and forwards the first four; Init also calls
+  DriverCallbackInterface::Init and SetDefaultParameter around _InitAT (asm 0x88f9a0). Finishing that
+  inheritance is what would remove the member and the forwarders.
+- Signature deviation kept: the binary's slot is `CreateDriverSource(void*, void*, int)`
+  (`_ZN3vox13DriverAndroid18CreateDriverSourceEPvS1_i`, 0x88fbe8, which passes the two pointers to
+  DriverAndroidSource); the port keeps the named `(const std::int32_t*, void*, int)` form the emitters
+  call. The slot is the same position, the parameter spelling differs.
+- DriverSourceInterface has the same kind of mismatch (the binary's slots +0x10..+0x44 are pure in the
+  base and its PrintDebug is +0x58; the port's base is concrete at +0x08..+0x40), and its source slot
+  +0x54 is GetBufferCount, not the port's +0x54. Not fixed here: it is a separate row family.
+
+Deviations named in the rows:
+- LoadDataSource and ConvertToRawSource read the block through GetTrackParams and guard a null cursor
+  where the binary calls the destroy slot through null (its own asm shows the path, 0x86b3d0/0x86b918);
+  ConvertToRawSource also releases the read access on the paths where the binary's asm releases nothing.
+- CreateEmitter's chunk arithmetic now matches the original bit for bit: the buffer-reference branch is
+  `bits * length / 8` (asm 0x86cdb0), the other branch is
+  `ceil(channels * bits / 8) * 150 * rate / 1000` (the ARM divide roundings at 0x86cb18-0x86cb50, where
+  the add-then-shift is a ceiling), and the chunk is then rounded down by
+  `chunk % ((channels * bits) / 8)` (0x86cc24). The emitter gets the rounded value.
+- SetInteractiveMusicState: the binary builds a null decoder when the data object's state word (+0x50) is
+  not 0 and calls its GetType slot on it (asm 0x867680-0x8676a4); the port skips the test on that path.
+
+Test: `tests/w13_driver_slots_test.cpp` (every engine-call slot reaches its own override, and the base
+defaults). Files touched: decoder.hpp, decoder_raw.hpp/.cpp, decoder_mswav_cursor.hpp,
+decoder_stb_vorbis.hpp/.cpp, decoder_mpc8.hpp, decoder_mpc8_cursor_io.cpp, decoder_native_cursor.cpp,
+native_sub_decoder.cpp, data_obj.cpp, driver.hpp/.cpp, driver_android.hpp/.cpp, voxengine_internal_loading.cpp,
+voxengine_create_emitter.cpp, update_emitters_kill.cpp, voxengine_interactive_music.cpp and the tests that
+name the renamed words.

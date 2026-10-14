@@ -2,8 +2,9 @@
 
 #include <cstring>
 
+#include "net-session-online/c_online.hpp"
 #include "net-session-online/deps/matching.hpp"
-#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/platform_stand_ins.hpp"  // OnlineNowMs (no longer used here; kept for the other stand-ins)
 
 namespace {
 CMatching& Matching() { return *CMatching::Get(); }
@@ -14,17 +15,18 @@ CMatching& Matching() { return *CMatching::Get(); }
 CMessage::~CMessage() = default;
 
 // 0x80a61c _ZN8CMessageC1EPKcb (C2 0x80a540 is the same body; skipped).
-// Partial. Hex-Rays stores the serial (when requested) at +0x04 and the type id byte at
-// +0x10 (the port's Header names +0x10 "reserved"). Sender is the local member, lifetime
-// is the online clock (GetOnline()+0x28). The name argument is only used to look up the
-// type id, as in the original; typeName_ is left to SetDefaultProperties and the subclass.
-// The byte at +0x3c (finished_) that the original zeroes is set by its default member initializer.
+// Hex-Rays and the asm agree on every store: the vtable, the empty typeName_ at +0x14 (SGI string init), the
+// finished byte at +0x3c = 0, +0x40..+0x4c zeroed, the type id byte at +0x10 from FindTypeId(name), the
+// serial at +0x04 (only when requested), the sender at +0x0c, then
+// `lifetime_ = LDR [GetOnline(),#0x28]` at +0x4c and SetDefaultProperties last.
+// The sender is CMatching's local member id, reached through the matching vtable slot +0x6c, and the
+// lifetime word is COnline's receive counter (+0x28, COnline::GetCounter), NOT the clock.
 CMessage::CMessage(const char* typeName, bool withSerial) {
     header_ = Header{};
     header_.reserved = static_cast<std::uint32_t>(FindTypeId(typeName)) & 0xffu;  // +0x10 byte
     header_.sender = Matching().LocalMemberId();                                  // +0x0c
     header_.type = withSerial ? messageSerial_++ : 0;                             // +0x04
-    lifetime_ = static_cast<std::uint32_t>(OnlineNowMs());                        // +0x4c
+    lifetime_ = COnline::GetInstance()->GetCounter();                             // +0x4c <- GetOnline()+0x28
     SetDefaultProperties();
 }
 
@@ -293,12 +295,18 @@ bool CMessage::IsAcknowledged() const {
 }
 
 // 0x80a128 _ZN8CMessage9IsExpiredEv
+// Asm: R4 = timestamp_ (+0x34); if it is 0, return 0; R4 += lifetime_ (+0x4C); R0 = [GetOnline(),#0x28]
+// (COnline's receive counter, NOT the clock); CMP R4,R0; MOVCS R0,#0; MOVCC R0,#1. So the answer is
+// `deadline < counter` and, at equality (the CS flag), the message IS expired.
+// Fixed this pass: the comparison was `deadline < counter` -- the equality case was answered wrong (it
+// reported not-expired where the binary reports expired), and the right-hand side was the OnlineNowMs()
+// stand-in instead of the counter word the asm reads.
 bool CMessage::IsExpired() const {
     if (timestamp_ == 0) {
         return false;
     }
     const std::uint32_t deadline = timestamp_ + lifetime_;
-    return deadline < static_cast<std::uint32_t>(OnlineNowMs());
+    return deadline <= COnline::GetInstance()->GetCounter();
 }
 
 // 0x80a1e4 _ZN8CMessage10FindTypeIdEPKc

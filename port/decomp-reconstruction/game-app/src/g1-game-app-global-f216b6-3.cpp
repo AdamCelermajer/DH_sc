@@ -400,24 +400,25 @@ float GetLevelScaledXP(float xp, Character* other, Character* self) {
 
 // 0x3c0454 CharState* GetNewState<CSLimbus>()
 // Asm: LDR from the GOT slot of _ZN9SingletonI8CSLimbusE6s_instE, then returned. Returns &Singleton<CSLimbus>::s_inst.
-// Link needs an explicit instantiation of Singleton<CSLimbus> in game-app/src/Globals.cpp (not added here; the CS*
-// instances are held back there, and the CSLimbus destructor chain is now defined in game-character).
+// The explicit instantiation the link needs is in game-app/src/singleton_CSLimbus.cpp (link-1 wave), and
+// CharState::~CharState is defined in game-character/src/g1-game-character-pack9-12cabb-0.cpp, so the earlier note's
+// two blockers are both gone.
 template <>
 CharState* GetNewState<CSLimbus>() {
     return &Singleton<CSLimbus>::s_inst;
 }
 
 // 0x3c0470 CharState* GetNewState<CSSpawn>()
-// Asm: returns &Singleton<CSSpawn>::s_inst (GOT slot of _ZN9SingletonI7CSSpawnE6s_instE). Link needs the Globals.cpp
-// instantiation noted under GetNewState<CSLimbus>.
+// Asm: returns &Singleton<CSSpawn>::s_inst (GOT slot of _ZN9SingletonI7CSSpawnE6s_instE). Instantiation:
+// game-app/src/singleton_CSSpawn.cpp.
 template <>
 CharState* GetNewState<CSSpawn>() {
     return &Singleton<CSSpawn>::s_inst;
 }
 
 // 0x3c048c CharState* GetNewState<CSDespawn>()
-// Asm: returns &Singleton<CSDespawn>::s_inst (GOT slot of _ZN9SingletonI9CSDespawnE6s_instE). Link needs the Globals.cpp
-// instantiation noted under GetNewState<CSLimbus>.
+// Asm: returns &Singleton<CSDespawn>::s_inst (GOT slot of _ZN9SingletonI9CSDespawnE6s_instE). Instantiation:
+// game-app/src/singleton_CSDespawn.cpp.
 template <>
 CharState* GetNewState<CSDespawn>() {
     return &Singleton<CSDespawn>::s_inst;

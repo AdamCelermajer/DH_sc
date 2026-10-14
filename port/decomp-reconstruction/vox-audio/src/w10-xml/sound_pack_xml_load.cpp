@@ -165,7 +165,20 @@ VoxSoundPackXML::VoxSoundPackXML(const char* path) { LoadXML(path); }
 // own destructors.
 VoxSoundPackXML::~VoxSoundPackXML() = default;
 
-// 0x88d344 _ZN3vox15VoxSoundPackXML7LoadXMLEPKc (partial, see the file comment)
+// 0x88d344 _ZN3vox15VoxSoundPackXML7LoadXMLEPKc (partial: one item, the shared uid slots)
+// Verified against the ARM listing: the sound loop's uid slot is var_13C (only its
+// QueryIntAttribute("uid") writes it); the group loop's uid slot is var_118, written by
+// QueryIntAttribute("mask", &var_118) at 0x88E394 and consumed by the groupmask->uid map insert;
+// the bank loop's uid slot is the same var_118, written by QueryIntAttribute("uid", &var_118) at
+// 0x88E56C and used at record stride 0x28; the event loop's uid slot is var_13C again, written by
+// QueryIntAttribute("uid", &var_13C) at 0x88E800 and used at record stride 0x2C. Two consequences
+// the port does not reproduce, which is what keeps this row partial: (1) var_118 is shared with
+// the sound loop's other int-attribute queries and var_13C with the sound loop's uid, so what a
+// group, bank or event element sees before its own uid query is the preceding loop's last query
+// value, not a fresh variable; (2) when the uid attribute is missing the listing does not skip the
+// element - it stores the stale slot value back into the record (STREQ R3,[base + stride*slot], or
+// the map insert for the group) and keeps filling the previous element's record. The port has one
+// fresh slot per loop and skips an element whose uid is missing or out of range.
 int VoxSoundPackXML::LoadXML(const char* path) {
     sounds_.clear();
     groups_.clear();

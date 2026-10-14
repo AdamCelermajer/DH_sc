@@ -24,21 +24,30 @@ class OnlineGameState {
 public:
     // 0x49ffe0 / 0x4a0040 _ZN15OnlineGameStateC1Ev, _ZN15OnlineGameStateC2Ev. Partial. The handler list
     // at +0x04..+0x10 starts empty with the enabled flag at +0x04 set to 1 (member default below). The
-    // tRoomInfo vector at +0x50 starts empty. The flag bytes (+0x24..+0x28, +0x4c..+0x4e) start at zero. The state machine at +0x14 is default-constructed here, while the
-    // original leaves it to Init (initStateMachine).
+    // tRoomInfo vector at +0x50 starts empty. The flag bytes (+0x24..+0x28, +0x4c..+0x4e) start at zero (the
+    // binary's ctor zeroes only +0x28, +0x4d and +0x4e; the extra zeroes are deterministic and harmless
+    // because the original reads the others only through its flag tests).
+    // The state machine at +0x14 has no initialiser in the binary's ctor: it is stored only by
+    // initStateMachine in Init, and never read before then. The port's member initialisers give it
+    // state_ = -1 and empty list, which is the value Init stores anyway.
     OnlineGameState() = default;
     // 0x43f9c4 _ZN15OnlineGameStateD1Ev. Partial. Frees the handler list (in list order, unlinking each
-    // node as the original does), clears the enabled flag at +0x04 and destroys the tRoomInfo vector at
-    // +0x50 (member). Deviation: the state machine member frees its entries in its own destructor. The
-    // original's D1 does not do that (the entries are freed by Destroy), so the port frees them earlier.
+    // node as the original does) and clears the enabled flag at +0x04. Deviation: a destructor body runs
+    // before the member destructors, so the tRoomInfo vector at +0x50 is destroyed after this body while
+    // the binary destroys it first; the two allocations are independent. The state machine member is not
+    // freed here, as in the binary -- its entries belong to Destroy (0x4a0388), and
+    // MultiplayerStateMachine's destructor is deliberately empty so that the owner's D1 does not free them.
     ~OnlineGameState();
 
-    // 0x4a0388 _ZN15OnlineGameState7DestroyEv. Partial. The original ignores this and works on the
-    // OnlineSingleton<OnlineGameState> instance, which this port does too. The original returns the
-    // state machine's return value, which the void destroyStateMachine here does not produce.
+    // 0x4a0388 _ZN15OnlineGameState7DestroyEv. Acts on OnlineSingleton<OnlineGameState>::GetInstance() as the
+    // original does (which ignores this) and calls destroyStateMachine on the instance's state machine at +0x14.
+    // The binary's apparent return is free()'s leftover r0 (the asm tail is B destroyStateMachine, whose last
+    // call is free), i.e. not a value the source could have produced; nothing here returns it.
     void Destroy();
-    // 0x4a039c _ZN15OnlineGameState6UpdateEv. Partial: runs the state machine only. The
-    // processEvents() and processMessages() calls, gated on the online-game flag, are not ported.
+    // 0x4a039c _ZN15OnlineGameState6UpdateEv. Partial: the processMessages call under the online-game gate is
+    // reproduced; processEvents (0x49db80) is skipped, so its call cannot be made, and the state machine's
+    // handler result is not returned (runStateMachine is void in this port, while the binary's Update returns
+    // its r0, which the last state callback leaves there).
     void Update();
     // 0x49fb0c _ZN15OnlineGameState15processMessagesEv. Partial: the message-type dispatch over the
     // handler list is reconstructed. The block that the original runs while the byte at +0x24 is set
