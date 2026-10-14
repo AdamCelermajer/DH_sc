@@ -203,6 +203,9 @@ if(WIN32)
   add_executable(winmm_pump_priority_v1_tests features/audio/winmm_pump_priority_v1_tests.cpp)
   target_link_libraries(winmm_pump_priority_v1_tests PRIVATE foundation_runtime_audio)
   add_test(NAME winmm_pump_priority_v1 COMMAND winmm_pump_priority_v1_tests)
+else()
+  # v21.8 w6-portable: WinMM thread-priority harness; Windows-only by design (not silently skipped).
+  message(STATUS "w6-portable: winmm_pump_priority_v1 test not built on this platform (WinMM priority API)")
 endif()
 if(NOT WIN32)
   add_executable(linux_sdl2_output_smoke_tests features/audio/linux_sdl2_output_smoke.cpp)
@@ -436,6 +439,9 @@ set(DH_STAGED_MAGEWIRE_ASSETS "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/w
 if(EXISTS "${DH_STAGED_MAGEWIRE_ASSETS}/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae")
   add_test(NAME runtime_session_projectile_render_v1_skill_models COMMAND runtime_session_projectile_render_v1_tests
     "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets" "${DH_STAGED_MAGEWIRE_ASSETS}")
+else()
+  # v21.8 w6-portable: this test is registered only when the staged package exists at configure time.
+  message(STATUS "w6-portable: runtime_session_projectile_render_v1_skill_models not registered (staged3 package absent at configure)")
 endif()
 
 target_link_libraries(dh-foundation PRIVATE foundation_data ${DH2_PLATFORM_LIBRARIES})
@@ -587,6 +593,8 @@ if(WIN32)
   target_link_libraries(renderer_visual_quality_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
   add_test(NAME renderer_visual_quality COMMAND renderer_visual_quality_tests)
 else()
+  # v21.8 w6-portable: window_lifecycle and renderer_visual_quality are Win32/WGL-only and are not built here.
+  message(STATUS "w6-portable: window_lifecycle and renderer_visual_quality not built on this platform (Win32/WGL harness)")
   add_executable(linux_platform_smoke_tests tests/linux_platform_smoke_tests.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp)
   target_link_libraries(linux_platform_smoke_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
   add_test(NAME linux_platform_smoke COMMAND linux_platform_smoke_tests)
@@ -815,6 +823,9 @@ if(WIN32)
   add_executable(source_l1_specular_render_tests tests/source_l1_specular_render_tests.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp)
   target_link_libraries(source_l1_specular_render_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
   add_test(NAME source_l1_specular_render COMMAND source_l1_specular_render_tests)
+else()
+  # v21.8 w6-portable: GL/WGL render-pass harness (Windows-only host window); not built here on purpose.
+  message(STATUS "w6-portable: source_l1_specular_render test not built on this platform (WGL render harness)")
 endif()
 add_executable(original_actor_bounds_tests tests/original_actor_bounds_tests.cpp)
 target_link_libraries(original_actor_bounds_tests PRIVATE foundation_data)
@@ -823,6 +834,9 @@ if(WIN32)
   add_executable(source_material_pass_tests tests/source_material_pass_tests.cpp renderer.cpp ${DH2_PLATFORM_SOURCES} render_queue.cpp)
   target_link_libraries(source_material_pass_tests PRIVATE foundation_data ${DH2_PLATFORM_LIBRARIES})
   add_test(NAME source_material_pass COMMAND source_material_pass_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+else()
+  # v21.8 w6-portable: material pass renders through the WGL/Win32 window harness; Windows-only by design.
+  message(STATUS "w6-portable: source_material_pass test not built on this platform (WGL render harness)")
 endif()
 
 target_sources(foundation_data PRIVATE original_controller_commands.cpp
