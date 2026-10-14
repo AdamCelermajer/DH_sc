@@ -444,6 +444,38 @@ int CDynamicAnimationSet::getDatabaseIndex(CColladaDatabase& database) {
     return -1;
 }
 
+// 0x62fc90 _ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryERKNS0_16CColladaDatabaseE
+// The argument's record takes a use, then replaces the default library; the handle it displaces loses its own.
+// The original copies the new pair over +0x68/+0x6c and then runs ~CColladaDatabase on the saved old pair,
+// which is exactly copyDatabase() then dropDatabase() here.
+void CDynamicAnimationSet::setDefaultAnimationLibrary(const CColladaDatabase& database) {
+    CColladaDatabase previous;
+    previous.record = defaultLibrary.record;
+    previous.factory = defaultLibrary.factory;
+    copyDatabase(defaultLibrary, database);
+    dropDatabase(previous);
+    dirty = true;
+}
+
+// 0x62fcf8 _ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryEj
+// An index past the end of the database list resets the default to the empty factory handle, releasing what it
+// held (the original builds a default CColladaDatabase and runs ~CColladaDatabase on it, then copies the pair
+// into +0x68/+0x6c). An index inside the list copies that database in, which takes its own use.
+void CDynamicAnimationSet::setDefaultAnimationLibrary(unsigned index) {
+    if (index >= databases.size()) {  // 0x62fd00..0x62fd20: (end - begin) >> 3
+        CColladaDatabase previous;
+        previous.record = defaultLibrary.record;
+        previous.factory = defaultLibrary.factory;
+        defaultLibrary.record = nullptr;                       // the original's outgoing default
+        defaultLibrary.factory = &CColladaDatabase::DefaultFactory;
+        dropDatabase(previous);                                // ~CColladaDatabase on the old handle
+    }
+    if (index < databases.size()) {
+        copyDatabase(defaultLibrary, databases[index]);
+    }
+    dirty = true;
+}
+
 // 0x62fc58 _ZN6glitch7collada20CDynamicAnimationSet8clearSetEv
 void CDynamicAnimationSet::clearSet() {
     for (CColladaDatabase& database : databases) {

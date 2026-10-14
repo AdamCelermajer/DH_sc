@@ -6,9 +6,9 @@ Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals:
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,495 | 69.4% |
+| reconstructed | 17,497 | 69.4% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
-| partial | 1,620 | 6.4% |
+| partial | 1,618 | 6.4% |
 | skipped | 2,119 | 8.4% |
 
 Every queued row now has a ledger row (the last G1b rows are in).
@@ -76,8 +76,8 @@ At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 r
   marks them `extern`. `point_compare`/`dct_iv_slow` collided because stb_vorbis's file-local
   helpers lacked internal linkage and clashed with the reconstructed originals in
   `core-platform/src/vorbis_util.cpp` (0x8764f8, 0x8784f4).
-- Remaining undefined symbols in the whole tree: 182 (86 with no ledger status, 82 skipped,
-  11 partial, 3 upstream). The largest single blocker is `CMaterialRendererManager`
+- Remaining undefined symbols in the whole tree: 181 (85 with no ledger status, 82 skipped,
+  10 partial, 3 upstream). The largest single blocker is `CMaterialRendererManager`
   (`createMaterialRenderer` 0x5d8b28, `createMaterialInstance` 0x5d9af0, `getMaterialRenderer`,
   `getMaterialInstance` 0x5dd0e4): all `skipped` because the technique/pass/instance tables are
   not in `material_renderer_manager.hpp`. Those four are referenced from hundreds of objects
@@ -111,6 +111,8 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 | U1, U2 | canonical engine types (core-io, video, scene), one definition per class | engine tests pass |
 | residue | engine residue passes 1 and 2 (animation tracks, CTerrainSceneNode, ps domains, particles, CMaterial, GL driver, animated mesh, shadow volume) | `aec5a38c`, `552f9847` |
 | residue-int | ledger merge, build repair to 934/934, stub regeneration, test triage | `9f5d5e6e` |
+| residue-fix | six duplicate globals resolved, first three tests fixed, crash-site map | `803c39d5`, `5a433c6f` |
+| partial-redo | `CDynamicAnimationSet::setDefaultAnimationLibrary` (both overloads, 0x62fc90 / 0x62fcf8) | next |
 
 ## Running
 
