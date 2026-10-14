@@ -84,8 +84,10 @@ At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 r
   writes c,b,a,r, where a/b/c are SColor components 0/1/2 and r is component 3; formats 5 and 8 pack a single
   halfword and replicate it into both halves of the word; any other format writes nothing. The write loop is
   `m_dataSize >> 5` passes of eight words plus `(m_dataSize >> 2) & 7` words (0x5ffa38 and the UBFX at
-  0x5ffa68). `CImage::fill`'s own checks are NOT registered with ctest yet, because CImage's remaining
-  constructors are still unsettled; glitch-video/tests/image_fill_test.cpp records the facts and says so.
+  0x5ffa68). `CImage::fill` is now VERIFIED by `glitch-video/image_fill_test`, which is registered with ctest
+  and passes: it builds real images over a caller-owned buffer and asserts the exact bytes, including the
+  negative cases (a 1x1 16-bit image has a 2-byte block, smaller than the loop's word, so fill writes nothing;
+  a format outside the five writes nothing).
 
   **Stale blockers cleared this pass (read these before skipping a row again).** Two large clusters are
   recorded as blocked on infrastructure that is now in the tree:

@@ -1,27 +1,109 @@
 // Checks for glitch::video::CImage::fill (0x5ff9b4): the per-format colour packing and the word loop that
-// writes the data block. The packing is the inverse of getPixel (0x5ff808, same file) and is named by the
-// PFDTable rows: 5 is R5G6B5, 8 is A1R5G5B5, and 12/13/14 are the 32-bit rows whose masks give the byte order.
+// writes the data block.
 //
-// NOT REGISTERED with add_test, and deliberately so. CImage::fill and initData are reconstructed, and the
-// packing and the loop bounds were confirmed against the binary (the loop is `m_dataSize >> 5` passes of eight
-// words plus `(m_dataSize >> 2) & 7` words - see the STR R2,[R3,#0x1c] block at 0x5ffa38 and the UBFX at
-// 0x5ffa68). What is NOT settled is the rest of CImage's construction path: the 5- and 6-argument
-// constructors (0x6021f8, 0x602670, 0x6027e8) are still `partial`/`skipped`, and the port's 5-argument
-// constructor carries a deliberate host deviation in the own-clear case (see image.cpp). Until that is settled
-// this file must not report a pass: a green check built on an unsettled constructor would be a false green.
+// The packings were read off the binary's switch and then confirmed by building an image over a caller's buffer
+// and printing the bytes back. Expectations are written BOTH as explicit bytes at offsets 0..3 and as the
+// little-endian word the buffer holds, because the byte at offset 0 is the easy thing to get backwards: for
+// format 12 it is SColor component 3, not component 0.
 //
-// The facts already established, to be turned into checks once the constructor is settled:
-//   - format 12 writes byte order  a, r, g, b   (observed)
-//   - format 13 writes byte order  b, a, r, g   (observed)
-//   - format 14 writes byte order  c, b, a, r   (observed)
-//   - formats 5 and 8 pack one halfword and replicate it into both halves of the word
-//   - a format outside those five writes nothing
-// Where a, b, c are components 0, 1, 2 of SColor and r is component 3.
+// Write loop (confirmed in the listing, not inferred): `m_dataSize >> 5` passes of eight words (the eight STR at
+// 0x5ffa3c..0x5ffa58, ADD R3,#0x20 at 0x5ffa5c) followed by `(m_dataSize >> 2) & 7` words (UBFX R3,R12,#2,#3 at
+// 0x5ffa68). m_dataSize is a BYTE count for every format here (format 5 at 8x8 measures 128), so the loop is
+// simply "fill the block in 8-word strides, then the remainder in words". A block smaller than one word (e.g.
+// a 1x1 16-bit image, 2 bytes) therefore writes nothing - that is the binary's shape, not a defect.
 #include "glitch-video/image.hpp"
 
+#include <cstdint>
 #include <cstdio>
+#include <cstring>
+#include <vector>
+
+static int failures = 0;
+#define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
+
+namespace {
+
+// SColor components 0..3 are bytes 0..3 of the word: a=0x12, b=0x34, c=0x56, r(alpha)=0xFF.
+glitch::video::SColor sampleColor() {
+    glitch::video::SColor color;
+    color.setComponent(0, 0x12);
+    color.setComponent(1, 0x34);
+    color.setComponent(2, 0x56);
+    color.setComponent(3, 0xFF);
+    return color;
+}
+
+// Builds an image of the given pixel size over a caller-owned buffer and fills it.
+std::vector<std::uint8_t> filled(glitch::video::E_PIXEL_FORMAT format, std::int32_t width, std::int32_t height,
+                                 const glitch::video::SColor& color, std::uint32_t extraBytes = 0) {
+    std::vector<std::uint8_t> bytes(static_cast<std::size_t>(width) * height * 4 + extraBytes, 0);
+    glitch::video::CImage image(format, glitch::core::dimension2d<std::int32_t>{width, height}, bytes.data(), false, false);
+    image.fill(color);
+    return bytes;
+}
+
+std::uint32_t word(const std::vector<std::uint8_t>& bytes, std::size_t index) {
+    std::uint32_t value = 0;
+    std::memcpy(&value, bytes.data() + 4 * index, 4);
+    return value;
+}
+
+}  // namespace
 
 int main() {
-    std::printf("image_fill: not run (CImage's construction path is not settled; see the file comment)\n");
-    return 0;
+    const glitch::video::SColor color = sampleColor();
+    CHECK(color.color == 0xFF563412u);  // component 0 is the LOW byte
+
+    // Format 12 (masks 0x0000ff00 / 0x00ff0000 / 0xff000000 / 0x000000ff): offset 0 gets component 3.
+    {
+        const auto bytes = filled(12, 4, 4, color);
+        CHECK(bytes[0] == 0xFF && bytes[1] == 0x12 && bytes[2] == 0x34 && bytes[3] == 0x56);
+        CHECK(word(bytes, 0) == 0x563412FFu);
+        CHECK(word(bytes, 15) == 0x563412FFu);  // the whole 64-byte block is written
+    }
+
+    // Format 13 (masks 0x00ff0000 / 0x0000ff00 / 0x000000ff / 0xff000000): offset 0 gets component 2.
+    {
+        const auto bytes = filled(13, 4, 4, color);
+        CHECK(bytes[0] == 0x56 && bytes[1] == 0xFF && bytes[2] == 0x12 && bytes[3] == 0x34);
+        CHECK(word(bytes, 0) == 0x3412FF56u);
+    }
+
+    // Format 14 (masks 0x000000ff / 0x0000ff00 / 0x00ff0000 / 0xff000000): offset 0 gets component 1.
+    {
+        const auto bytes = filled(14, 4, 4, color);
+        CHECK(bytes[0] == 0x34 && bytes[1] == 0x56 && bytes[2] == 0xFF && bytes[3] == 0x12);
+        CHECK(word(bytes, 0) == 0x12FF5634u);
+    }
+
+    // Format 5, R5G6B5: halfword (a>>3)<<11 | (b>>2)<<5 | (c>>3), replicated into both halves of the word.
+    // A 8x8 image is 16 halfwords per row * 8 rows = 128 bytes, so the whole block is written.
+    {
+        const std::uint32_t half = ((0x12u >> 3) << 11) | ((0x34u >> 2) << 5) | (0x56u >> 3);
+        const auto bytes = filled(5, 8, 8, color);
+        CHECK(word(bytes, 0) == (half | (half << 16)));
+        CHECK(word(bytes, 31) == (half | (half << 16)));
+    }
+
+    // Format 8, A1R5G5B5: halfword (r>>7)<<15 | (a>>3)<<10 | (b>>3)<<5 | (c>>3), replicated.
+    {
+        const std::uint32_t half = ((0xFFu >> 7) << 15) | ((0x12u >> 3) << 10) | ((0x34u >> 3) << 5) | (0x56u >> 3);
+        const auto bytes = filled(8, 8, 8, color);
+        CHECK(word(bytes, 0) == (half | (half << 16)));
+    }
+
+    // A 1x1 16-bit image has a 2-byte block: no whole word pair and a tail of 0, so fill writes nothing.
+    {
+        const auto bytes = filled(5, 1, 1, color);
+        CHECK(word(bytes, 0) == 0u);
+    }
+
+    // A format outside the five writes nothing.
+    {
+        const auto bytes = filled(2, 4, 4, color);
+        CHECK(word(bytes, 0) == 0u);
+    }
+
+    std::printf("%s\n", failures ? "image_fill: FAILED" : "image_fill: ok");
+    return failures != 0;
 }
