@@ -6,9 +6,9 @@ Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals:
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,515 | 69.5% |
+| reconstructed | 17,611 | 69.8% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
-| partial | 1,608 | 6.4% |
+| partial | 1,523 | 6.0% |
 | skipped | 2,119 | 8.4% |
 
 Every queued row now has a ledger row (the last G1b rows are in).
@@ -202,19 +202,32 @@ classes that share a name, and more than one blocker note pointed at the wrong o
   a `dynamic_cast` from the `scene::ISceneNode*` that `GetSpecificNode` returns.
 
 
-## Partial rows still undefined at link (9)
+## Rows still undefined at link (173 symbols, `reports/decomp-reconstruction/link-missing.csv`)
 
-Read these before starting one; each has the real blocker named.
+THIS NUMBER MOVES EVERY WAVE - read the CSV, do not trust a count written here. Of the 173, the
+recoverable ones are mostly `partial` rows whose blocker is named on the row; the rest are `skipped`
+by design (JNI entry points, vendored GL/audio glue such as `gluTessCallback`, the mpc demux
+helpers).
 
-| address | symbol | why it is still partial |
-|---|---|---|
-| 0x522f70 | `sfc::math::graph::GraphSparse<PFGOuterEdge>::clear()` | Not a plain `clear`: two nested `std::map`s (outer `map<int,PFGOuterEdge*>` at +0x04/+0x0c, inner `map<int,_InNode*>` inside each edge at +0x08..), a virtual release slot +0x20 on each node, and hand-walked STLport `_Rb_tree` iterators (`node[1]`/`node[2]`/`node[3]` = parent/left/right). Needs a container-level reading, not a line-by-line one. |
-| 0x5ff9b4 | `glitch::video::CImage::fill(SColor const&)` | Needs the `pixel_format` PFD table, which is not modelled. |
-| 0x5d4714 | `glitch::video::CMaterialRenderer::getTechniqueID(char const*) const` | Needs `SSharedStringHeapEntry::SData::get(name,false)` and the technique map. |
-| 0x40de48 | `PlayerLightTweaker::onSetValue(std::string const&)` | Needs `glitch::debugger::CTweakable` as a class and `dh2/LevelConfig`; the older note may be stale, recheck the headers first. |
-| 0x65a9a8, 0x65ac74, 0x65ac5c, 0x65a98c | `CResFileManager::get` x2 and `load` x2 | Need the file-map `_Rb_tree`, `IBuffer`, and the zip/texture stand-ins in canonical headers (a layout request). |
-| 0x657d58 | `CResFile::releaseRemovableBuffer(unsigned char)` | Same cluster: needs the rb-tree, `IBuffer` and the stand-ins. |
+Rows that USED to be listed here and are now done, so the old blocker text is gone:
+- `glitch::video::CImage::fill` (0x5ff9b4) - reconstructed and covered by `glitch-video/image_fill_test`.
+- `PlayerLightTweaker::onSetValue` (0x40de48) - reconstructed; the "needs CTweakable and dh2/LevelConfig"
+  blocker was stale, both existed.
+- `GraphSparse<PFGOuterEdge>::clear()` (0x522f70) - the old "hand-walked STLport rb-tree iterators"
+  description was WRONG; the walk is two plain `std::map::clear` calls plus a virtual delete per node
+  (identical to the reconstructed inner instantiation 0x52328c). It stays partial for one concrete
+  reason: `PFGOuterEdge` and `PFGOuterNode` have no definition anywhere in the tree AND no symbols in
+  the ELF, only `.symtab` STT_FILE entries, so the deleted classes do not exist to write against.
 
+Still genuinely blocked, with the exact missing item:
+- `CResFileManager::get` x2 / `load` x2 and `CResFile::releaseRemovableBuffer` - the file-map rb-tree,
+  `IBuffer` and the zip/texture stand-ins.
+- `CMaterialRenderer::getTechniqueID` (0x5d4714) - `SSharedStringHeapEntry::SData::get(name,false)` and
+  the technique map.
+- The STLport allocator pair `_M_allocate_block` / `_M_deallocate_block` and
+  `__node_alloc::_M_deallocate`, reported unrecovered tree-wide; they gate `_String_base` rows in
+  game-app, glitch-core-io and glitch-scene-collada-gui.
+- `glitch::ps` / `collada/particle_system` rows - the headers do not exist in the tree.
 
 ## Running
 
@@ -225,13 +238,27 @@ Read these before starting one; each has the real blocker named.
 
 ## Next
 
-1. Resolve the six duplicate global definitions so `link/library-duplicates` passes.
-2. Triage the 34 failing tests: separate seam crashes (a stub or a null reconstructed call) from real
-   reconstruction defects, and ledger each one.
-3. Continue the partial rows, biggest first: scene 444, video 245, net-session-online 192,
-   game-world 176, game-app 118, net-transport 96, glitch-core-io 96.
-4. Platform layer: the JNI entry points (167 skipped rows) and the Android glue, required for an Android build.
-5. Review the skipped rows whose notes give no clear reason.
-6. armdiff across every reconstructed function that makes no calls, then the ones that make calls.
-7. The rename and cleanup pass: the evidence-based member names collected by the waves, statics and signatures.
-8. ARM64 Android build of the whole tree.
+1. The 8 parallel worker batches in flight (see "Running"): keep every slot busy - the concurrency cap
+   is 8 children, and each batch is a category sweep plus the named-unblocker work.
+2. Confirm the `IDevice +0x34` retype (requested by the glitch-scene-collada-gui worker) unblocks
+   `CTweakable::loadXML`; the claim is that the listing of 0x32b6b8 calls `IFileSystem::createXMLReader`
+   slot +0x50 on it while `os/device.hpp` declares it `FileSystemWin32*`.
+3. Recover the STLport allocator pair - highest-leverage single item left, it gates rows in four
+   categories.
+4. Triage the failing tests (34 at the pre-round baseline, plus 3 segfaults introduced by newly
+   written bodies that need a driver the test does not provide - a fixer is on them).
+5. The skipped rows whose notes give no clear reason.
+
+## Corrections made this session (do not regress these)
+
+- `NetBitStream::WriteString` (0x80edb0): the third argument is NOT a simple cap. A clamp was tried
+  and reverted because `net_bit_stream_test` calls `WriteString("hello", 0)` and expects a full
+  round-trip. The row is `partial` with the open question named.
+- `StreamBuffer::StreamBuffer(IStreamBase*)` (0x3171b8): the original DOES read the whole source. The
+  Hex-Rays call is `v5(a2, firstBlock, total, 0)` against `(IStreamBase*, _DWORD, _DWORD, _DWORD)`, so
+  the trailing `0` is the HIGH word of the 64-bit count (`read` takes its length in r2:r3), not the
+  count. A note claiming otherwise was wrong.
+- `CIrrFactory::createSceneManager` returns `glitch::scene::CSceneManager*`; the game's `IrrFactory`
+  narrows it to `::SceneManager*`. Covariance needs the complete type, so `dh2/IrrFactory.hpp` includes
+  `dh2/SceneManager.hpp` rather than forward-declaring `SceneManager`.
+- The two same-named particle classes (above) - one is a two-method stub.
