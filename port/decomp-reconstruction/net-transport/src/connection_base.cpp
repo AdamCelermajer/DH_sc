@@ -483,10 +483,11 @@ int Connection::sendLoginPackage(char* user) {
 }
 
 // 0x846488 _ZN10Connection30sendEstablishConnectionPackageEv
-// Partial: the debug print of the random value is dropped. Two handshake packets ("sw" and "sr",
-// each with the random value) are queued without a retry copy. The random value is
-// XP_API_GET_RANDOM (0x82afb0, net-session-online), called with the connection name as the original
-// passes it (an empty name adds nothing to the sum, as a null name does).
+// Verified against Hex-Rays 0x846488: both receive counters, the buffer length and the receive step are cleared,
+// the random value comes from XP_API_GET_RANDOM (0x82afb0, net-session-online) with the connection name, and two
+// handshake packets ("sw" and "sr", each with the random value) are built and queued. last_request_time_ and
+// handshake_time_ both take XP_API_GET_TIME and the second is returned. Only the "EstablishConnection random = %d"
+// debug print is dropped.
 int Connection::sendEstablishConnectionPackage() {
     need_recv_data_len_ = 0;
     recv_buf_len_ = 0;

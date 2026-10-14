@@ -6,9 +6,9 @@ Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals:
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,510 | 69.4% |
+| reconstructed | 17,515 | 69.5% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
-| partial | 1,613 | 6.4% |
+| partial | 1,608 | 6.4% |
 | skipped | 2,119 | 8.4% |
 
 Every queued row now has a ledger row (the last G1b rows are in).
@@ -25,7 +25,7 @@ Every queued row now has a ledger row (the last G1b rows are in).
 | glitch-video | 1,701 | 758 | 0 | 245 | 698 |
 | glitch-core-io | 1,336 | 1,016 | 17 | 96 | 207 |
 | net-session-online | 1,244 | 906 | 0 | 192 | 146 |
-| net-transport | 1,048 | 849 | 0 | 96 | 103 |
+| net-transport | 1,048 | 854 | 0 | 91 | 103 |
 | pydata-accessors | 2,273 | 2,208 | 0 | 56 | 9 |
 | vox-audio | 1,140 | 943 | 72 | 74 | 51 |
 | core-platform | 653 | 438 | 9 | 51 | 155 |
@@ -155,7 +155,36 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 | verify | `CImage::fill` measured and asserted; image_fill_test registered | `47238564`, `9f22c1e2` |
 | cimage-ctors | the owning constructors 0x602028 / 0x602110 (+ their C2 aliases) | `c786d316` |
 | cimage-dtor | `~CImage` 0x601804 / 0x6018b8 / 0x60196c; the CImage cluster closed | `e09bc03d` |
-| partial-game-anim | the last 3 game-anim partials; the category is now 335/335 | next |
+| partial-game-anim | the last 3 game-anim partials; the category is now 335/335 | `b9983937` |
+| partial-nettx | verified net-transport rows whose only gap was a dropped debug trace | next |
+
+## What does NOT make a row `partial` (policy, applied from the integrator)
+
+322 rows were already ledgered `reconstructed` while their notes mention a debug assert or a dropped trace, so
+that alone is not a reason to hold a row back. The line is drawn at observable behaviour:
+
+- A dropped **XP_DEBUG_OUT / debug trace** is a logging deviation only: the return value, the state writes and
+  the control flow are all reproduced. Such a row is `reconstructed` with the trace named in its note. The
+  precedent is in this file's own category: `CAndroidSocket::Recv` (0x8410d8) has been `reconstructed` with
+  "XP_API_GET_TIME result unused and dropped" since before this pass.
+- A dropped **debug assert** is the same, unless the assert's condition is a precondition whose violation
+  changes what the code then does. `Buffer::setSize`'s assert is such a precondition but is documented in the
+  row; the dropped asserts at net-transport level are all `gAssertLevel` guards.
+- A **host-necessitated deviation** (a null guard where the original dereferences and crashes, joining a
+  `std::thread` so the process does not terminate, a `std::clock`/`steady_clock` substitution) is still
+  `reconstructed`, because no faithful choice exists; it is named in the note.
+- A row **stays `partial`** when something observable differs or is missing: a return value taken from a trace
+  result that was not recovered, an unbounded stack copy that is not reproduced, a spin-on-zero-read loop that
+  is not reproduced, or a body that does not match the listing.
+
+Verified and moved this pass (each read against its own Hex-Rays, not taken from a note):
+0x840f68 CreateSocket, 0x8410f8 Send, 0x8412b4 CloseSocket, 0x846488 sendEstablishConnectionPackage,
+0x8466fc receiveDataLen. About 14 more net-transport rows look like trace-only candidates
+(SendBroadcast, RecvFromUnkownIP, RecvFrom, SendTo, ConnectTo, ConnectByName, SetNonBlocking, Thread::Run,
+Connection::sendLoginPackage, ConnectionLobby::sendLoginPackage/receiveDataLen/sendData,
+DataPacketLobby::addPacket, LCAndroidSocket::*) but were NOT reclassified, because each needs its own
+reading first.
+
 
 ## The two same-named particle classes (settled)
 
