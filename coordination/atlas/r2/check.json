@@ -1,5 +1,19 @@
 {
-  "errors": [],
+  "errors": [
+    "B: preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+    "B: preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+    "B: preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json",
+    "B: preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json",
+    "Q1: source evidence drift: port/level-world/character_combat_results_ai_v1.cpp",
+    "Q3: source evidence drift: port/game-data/class_tables.cpp",
+    "Q3: source evidence drift: port/game-data/class_tables.cpp",
+    "Q3: source evidence drift: port/game-data/properties.cpp",
+    "Q4: source evidence drift: port/level-world/reference/character-buffs/NOTES.md",
+    "Q4: source evidence drift: port/game-data/properties.cpp",
+    "Q4: source evidence drift: port/windows-foundation/features/generic_skills/runtime_timed_buff_v1.cpp",
+    "Q6: source evidence drift: port/level-world/reference/character-native-effects/NOTES.md",
+    "checker rejection fixtures failed; see r2/validation.json"
+  ],
   "known_answers": [
     {
       "detail": "Exact call-list fixture matches=True (46 names); code anchors verify source-specific skill slots, dive targetability, animation/state and timer parsing plus timer-trap parser. B159 supersedes the early B155 gaps for level scaling, damage calibration and AOE pushback: those are implemented and documented in mudlord3-report.md. Remaining documented gaps are MarkAsFlying, the camera-frustum awake latch, resetonhubchange, timer/culling differences, TimerTrap point-cloud bounds and projectile expiry; SetIsTargetable is a targeting gate, not a damage gate. Missing code anchors=[].",
@@ -52,7 +66,7 @@
       "passed": true
     }
   ],
-  "passed": true,
+  "passed": false,
   "tests": [
     {
       "name": "original bytes match unchanged round-1 inventory",
@@ -68,7 +82,7 @@
     },
     {
       "name": "package B coverage and evidence",
-      "passed": true
+      "passed": false
     },
     {
       "name": "package C coverage and evidence",
@@ -76,7 +90,7 @@
     },
     {
       "name": "seven source-audited questions and hash-bound evidence",
-      "passed": true
+      "passed": false
     },
     {
       "name": "all new generated files below 40 MB",
@@ -100,11 +114,11 @@
     },
     {
       "name": "rejection test: valid staging ledger accepted",
-      "passed": true
+      "passed": false
     },
     {
       "name": "rejection test: valid seven answers accepted",
-      "passed": true
+      "passed": false
     },
     {
       "name": "rejection test: missing native page rejected",

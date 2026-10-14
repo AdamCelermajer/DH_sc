@@ -1,6 +1,6 @@
 # Original Data Atlas round 2 progress
 
-Phase: **CHECK PASSED; EXPLICIT SEMANTIC GAPS REMAIN**.
+Phase: **CHECK FAILURES**.
 
 Processed: **34,327/34,327 (100.00%)**.
 

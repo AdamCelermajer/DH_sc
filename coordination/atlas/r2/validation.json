@@ -1,6 +1,6 @@
 {
   "fixture_location": "ignored tools/atlas/.runtime scratch",
-  "passed": true,
+  "passed": false,
   "schema": "atlas-r2-checker-rejection-v1",
   "source_mutation": false,
   "tests": [
@@ -17,16 +17,30 @@
       "passed": true
     },
     {
-      "errors": [],
+      "errors": [
+        "preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json",
+        "preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json"
+      ],
       "expected": "accept",
       "name": "valid staging ledger accepted",
-      "passed": true
+      "passed": false
     },
     {
-      "errors": [],
+      "errors": [
+        "Q1: source evidence drift: port/level-world/character_combat_results_ai_v1.cpp",
+        "Q3: source evidence drift: port/game-data/class_tables.cpp",
+        "Q3: source evidence drift: port/game-data/class_tables.cpp",
+        "Q3: source evidence drift: port/game-data/properties.cpp",
+        "Q4: source evidence drift: port/level-world/reference/character-buffs/NOTES.md",
+        "Q4: source evidence drift: port/game-data/properties.cpp",
+        "Q4: source evidence drift: port/windows-foundation/features/generic_skills/runtime_timed_buff_v1.cpp",
+        "Q6: source evidence drift: port/level-world/reference/character-native-effects/NOTES.md"
+      ],
       "expected": "accept",
       "name": "valid seven answers accepted",
-      "passed": true
+      "passed": false
     },
     {
       "errors": [
@@ -48,7 +62,11 @@
       "errors": [
         "duplicate path across selection files/groups: ('assets-extra/android/data', '3d/interface/marker_poisoned.bdae')",
         "duplicate destination across selection files/groups: assets/data/3d/interface/marker_poisoned.bdae",
-        "preflight receipt selection hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json"
+        "preflight receipt selection hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json",
+        "preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json"
       ],
       "expected": "reject",
       "name": "duplicate copy path across groups rejected",
@@ -56,7 +74,11 @@
     },
     {
       "errors": [
-        "classification coverage mismatch: rows=33377 scope=33378 progress=33378"
+        "classification coverage mismatch: rows=33377 scope=33378 progress=33378",
+        "preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json",
+        "preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json"
       ],
       "expected": "reject",
       "name": "missing source-site classification rejected",
@@ -64,7 +86,11 @@
     },
     {
       "errors": [
-        "missing classification reason: ('act_1', '820f6d444319152af1f9')"
+        "missing classification reason: ('act_1', '820f6d444319152af1f9')",
+        "preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data-assets-data.json",
+        "preflight receipt base-manifest hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json",
+        "preflight receipt stage-script hash mismatch: r2/staging/selections/asset-selection-r2-act_2_inferred-assets-extra-android-data-assets-data.json"
       ],
       "expected": "reject",
       "name": "unresolved site without reason rejected",
@@ -72,7 +98,14 @@
     },
     {
       "errors": [
-        "Q1: source evidence drift: .local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003b/003b10b4.c"
+        "Q1: source evidence drift: .local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode/003b/003b10b4.c",
+        "Q1: source evidence drift: port/level-world/character_combat_results_ai_v1.cpp",
+        "Q3: source evidence drift: port/game-data/class_tables.cpp",
+        "Q3: source evidence drift: port/game-data/class_tables.cpp",
+        "Q3: source evidence drift: port/game-data/properties.cpp",
+        "Q4: source evidence drift: port/level-world/reference/character-buffs/NOTES.md",
+        "Q4: source evidence drift: port/game-data/properties.cpp",
+        "Q4: source evidence drift: port/windows-foundation/features/generic_skills/runtime_timed_buff_v1.cpp"
       ],
       "expected": "reject",
       "name": "stale original-source question evidence rejected",
@@ -80,7 +113,14 @@
     },
     {
       "errors": [
-        "Q1: malformed behavioral case"
+        "Q1: malformed behavioral case",
+        "Q1: source evidence drift: port/level-world/character_combat_results_ai_v1.cpp",
+        "Q3: source evidence drift: port/game-data/class_tables.cpp",
+        "Q3: source evidence drift: port/game-data/class_tables.cpp",
+        "Q3: source evidence drift: port/game-data/properties.cpp",
+        "Q4: source evidence drift: port/level-world/reference/character-buffs/NOTES.md",
+        "Q4: source evidence drift: port/game-data/properties.cpp",
+        "Q4: source evidence drift: port/windows-foundation/features/generic_skills/runtime_timed_buff_v1.cpp"
       ],
       "expected": "reject",
       "name": "empty expected result rejected",
