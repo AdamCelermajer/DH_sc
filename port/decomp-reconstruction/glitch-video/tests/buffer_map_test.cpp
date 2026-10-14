@@ -2,6 +2,7 @@
 // CRenderTargetBase::getTargetCount.
 #include "glitch-video/buffer.hpp"
 #include "glitch-video/ccommon_gl_driver.hpp"
+#include "glitch-video/deps/gl_function_table.hpp"
 #include "video_test_types.hpp"
 
 #include <cstdio>
@@ -25,6 +26,8 @@ struct TestRenderTarget : glitch::video::CCommonGLDriverBase::CRenderTargetBase 
 };
 
 
+
+struct TestBufferDriver : glitch::video::CCommonGLDriver {};
 
 int main() {
     using namespace glitch::video;
@@ -114,6 +117,33 @@ int main() {
     CHECK(target.getTargetCount(2) == 1);
     CHECK(target.getTargetCount(3) == 0);
     CHECK(target.getTargetCount(9) == 0);
+
+    // ReloadbufferMap: every entry in key order is bound on its target, uploaded and unbound.
+    {
+        static uint32_t log[16];
+        static int n;
+        auto& t = glitch::video::deps::activeGLFunctionTable();
+        t.bindBuffer = [](uint32_t target, uint32_t buffer) { log[n++] = 0xB000u | (target & 0xFF); log[n++] = buffer; };
+        t.bufferData = [](uint32_t target, int32_t size, const void* data, uint32_t usage) {
+            log[n++] = 0xDA00u | (target & 0xFF);
+            log[n++] = static_cast<uint32_t>(size) | (data ? 0x100u : 0u);
+            log[n++] = usage;
+        };
+        TestBufferDriver d;
+        const char payload[4] = {1, 2, 3, 4};
+        d.registerBufferMap(7, 70, 0x8892, 0x88E4, 4, payload);
+        d.registerBufferMap(3, 30, 0x8893, 0x88E0, 4, payload);
+        d.ReloadbufferMap();
+        CHECK(n == 14);
+        CHECK(log[0] == 0xB093 && log[1] == 30);  // key 3 first: bind (target 0x8893, name 30)
+        CHECK(log[2] == 0xDA93 && log[3] == (4u | 0x100u) && log[4] == 0x88E0);
+        CHECK(log[5] == 0xB093 && log[6] == 0);
+        CHECK(log[7] == 0xB092 && log[8] == 70);  // then key 7
+        CHECK(log[11] == 0x88E4 && log[13] == 0);
+        t.bindBuffer = nullptr;
+        t.bufferData = nullptr;
+        d.clearBufferMap();
+    }
 
     std::printf("%s\n", failures ? "buffer_map: FAILED" : "buffer_map: ok");
     return failures != 0;

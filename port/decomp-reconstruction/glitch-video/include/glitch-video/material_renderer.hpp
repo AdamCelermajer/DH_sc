@@ -30,6 +30,7 @@
 #include <cstdint>
 
 #include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/material_parameters.hpp"
 #include "glitch-video/tb/renderpass_srenderstate.hpp"
 #include "glitch-video/video_types.hpp"
 
@@ -123,8 +124,11 @@ public:
     uint32_t m_valueBufferSize = 0;                        // +0x14
     STechniqueEntry* m_techniques = nullptr;               // +0x18, technique table (12-byte entries)
     const SRenderPass* m_passBase = nullptr;               // +0x1c, base of the render pass array
-    // +0x20 parameter entries, +0x24 value buffer: modelled by the parameter table backends
-    // (material_parameters.hpp, material_parameters_part_d.hpp), not as members here.
+    // +0x20 parameter entries, +0x24 value buffer, and the typed accessors over them: the original base class
+    // IMaterialParameters<CMaterialRenderer, ISharedMemoryBlockHeader<CMaterialRenderer>>. The port keeps it as this member:
+    // parameters.headerForTest() holds the count (+0x0e) and the entry array (+0x20), parameters.valueBuffer() the value
+    // buffer (+0x24), whose bytes are the default values of every material of this renderer (CMaterial::init copies them).
+    detail::IMaterialParameters<CMaterialRenderer, false> parameters;
 };
 
 // The original's inline count updates (CMaterialRenderer keeps its count at +0x00, not in IReferenceCounted).

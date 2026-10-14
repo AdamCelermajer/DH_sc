@@ -1,34 +1,93 @@
 #include "glitch-scene-collada-gui/particle_affectors.hpp"
 
+#include <cstring>
+
+#include "glitch-core-io/io/iattributes.hpp"
+#include "glitch-core-io/os/randomizer.hpp"
+
 namespace glitch::scene {
+
+namespace {
+// libgcc __fixunssfsi as the original calls it: negative inputs give 0 and
+// inputs at or above 2^32 give the largest unsigned value.
+std::uint32_t fixUnsignedFromFloat(float value) {
+    if (!(value > 0.0f)) {
+        return 0;
+    }
+    if (value >= 4294967296.0f) {
+        return 0xffffffffu;
+    }
+    return static_cast<std::uint32_t>(value);
+}
+
+// The attribute at `index` is named `name`: getAttributeName(index) (vptr+0x10) is non-null and equals the name.
+bool attributeIs(io::IAttributes* attributes, int index, const char* name) {
+    const char* attributeName = attributes->getAttributeName(index);
+    return attributeName != nullptr && std::strcmp(attributeName, name) == 0;
+}
+
+// Random percentage in [0, 100) with two decimals, rand() % (int)(variation * 100) / 100. The original divides by the
+// truncated integer without a guard; a divisor of 0 (variation below 0.01) gives 0 here instead of a trap.
+float randomVariation(float variation) {
+    const int range = static_cast<int>(variation * 100.0f);
+    if (range == 0) {
+        return 0.0f;
+    }
+    return static_cast<float>(os::Randomizer::rand() % range) / 100.0f;
+}
+}  // namespace
 
 // ---- CParticleAttractionAffector ----
 
 // 0x6f845c _ZN6glitch5scene27CParticleAttractionAffectorC2ERKNS_4core8vector3dIfEEfbbbb
 // 0x6f8528 _ZN6glitch5scene27CParticleAttractionAffectorC1ERKNS_4core8vector3dIfEEfbbbb
-CParticleAttractionAffector::CParticleAttractionAffector(const core::vector3d<float>& pointValue,
-                                                         float speedValue, bool attractValue,
-                                                         bool affectXValue, bool affectYValue,
+CParticleAttractionAffector::CParticleAttractionAffector(const core::vector3d<float>& pointValue, float speedValue,
+                                                         bool attractValue, bool affectXValue, bool affectYValue,
                                                          bool affectZValue)
-    : enabled(true),
-      point(pointValue),
+    : point(pointValue),
       speed(speedValue),
       affectX(affectXValue),
       affectY(affectYValue),
       affectZ(affectZValue),
       attract(attractValue),
-      lastTime(0) {}
+      lastTime(0) {
+    enabled = true;  // +0x04
+}
+
+// 0x6f8634 _ZN6glitch5scene27CParticleAttractionAffectorD1Ev
+// 0x6f88b4 _ZN6glitch5scene27CParticleAttractionAffectorD0Ev
+CParticleAttractionAffector::~CParticleAttractionAffector() = default;
 
 // 0x6f86cc _ZN6glitch5scene27CParticleAttractionAffector6affectEjPNS0_9SParticleEj
-// Partial: the time step from the previous call is computed and lastTime is
-// stored. The per-particle attraction is not reconstructed, so the step is
-// not applied to any particle.
-void CParticleAttractionAffector::affect(std::uint32_t now, SParticle* /*particles*/,
-                                         std::uint32_t /*count*/) {
-    if (lastTime != 0) {
-        [[maybe_unused]] const float timeStep = static_cast<float>(now - lastTime) / 1000.0f;
+void CParticleAttractionAffector::affect(std::uint32_t now, SParticle* particles, std::uint32_t count) {
+    if (lastTime == 0) {
+        lastTime = now;
+        return;
     }
+    const float dt = static_cast<float>(now - lastTime) / 1000.0f;
     lastTime = now;
+    if (!enabled || count == 0) {
+        return;
+    }
+    for (std::uint32_t i = 0; i != count; ++i, ++particles) {
+        core::vector3d<float> direction;
+        direction.X = point.X - particles->pos.X;
+        direction.Y = point.Y - particles->pos.Y;
+        direction.Z = point.Z - particles->pos.Z;
+        direction.normalize();
+        const float step = dt * speed;
+        float dx = step * direction.X;
+        float dy = step * direction.Y;
+        float dz = step * direction.Z;
+        if (!attract) {  // +0x1b: repel
+            dx = -dx;
+            dy = -dy;
+            dz = -dz;
+        }
+        if (affectX) particles->pos.X = particles->pos.X + dx;  // +0x18
+        if (affectY) particles->pos.Y = particles->pos.Y + dy;  // +0x19
+        if (affectZ) particles->pos.Z = particles->pos.Z + dz;  // +0x1a
+    }
 }
 
 // 0x6f83a0 _ZN6glitch5scene27CParticleAttractionAffector8setPointERKNS_4core8vector3dIfEE
@@ -73,17 +132,52 @@ bool CParticleAttractionAffector::getAffectZ() const { return affectZ; }
 // 0x6fab1c _ZN6glitch5scene24CParticleGravityAffectorC1ERKNS_4core8vector3dIfEEj
 CParticleGravityAffector::CParticleGravityAffector(const core::vector3d<float>& gravityValue,
                                                    std::uint32_t timeForceLostValue)
-    : enabled(true),
-      timeForceLost(static_cast<float>(timeForceLostValue)),
-      gravity(gravityValue) {}
+    : timeForceLost(static_cast<float>(timeForceLostValue)), gravity(gravityValue) {
+    enabled = true;  // +0x04
+}
+
+// 0x6fad94 _ZN6glitch5scene24CParticleGravityAffectorD1Ev
+// 0x6faf24 _ZN6glitch5scene24CParticleGravityAffectorD0Ev
+CParticleGravityAffector::~CParticleGravityAffector() = default;
+
+// 0x6fad3c _ZNK6glitch5scene24CParticleGravityAffector19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+void CParticleGravityAffector::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions*) const {
+    attributes->addVector3d("Gravity", gravity, false);          // vptr+0x1a8, +0x0c
+    attributes->addFloat("TimeForceLost", timeForceLost, false);  // vptr+0x64, +0x08
+}
+
+// 0x6fadd8 _ZN6glitch5scene24CParticleGravityAffector21deserializeAttributesEiPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+int CParticleGravityAffector::deserializeAttributes(int index, io::IAttributes* attributes,
+                                                    io::SAttributeReadWriteOptions*) {
+    if (attributeIs(attributes, index, "Gravity")) {
+        gravity = attributes->getVector3d(index);  // vptr+0x1b8
+        ++index;
+        if (attributeIs(attributes, index, "TimeForceLost")) {
+            timeForceLost = attributes->getFloat(index);  // vptr+0x74
+            ++index;
+        }
+    }
+    return index;
+}
 
 // 0x6fac14 _ZN6glitch5scene24CParticleGravityAffector6affectEjPNS0_9SParticleEj
-// Partial: the enabled and count guard is reconstructed; the per-particle
-// update is not.
-void CParticleGravityAffector::affect(std::uint32_t /*now*/, SParticle* /*particles*/,
-                                      std::uint32_t count) {
-    if (enabled && count != 0) {
-        // per-particle gravity update not reconstructed
+void CParticleGravityAffector::affect(std::uint32_t now, SParticle* particles, std::uint32_t count) {
+    if (!enabled || count == 0) {
+        return;
+    }
+    for (std::uint32_t i = 0; i != count; ++i, ++particles) {
+        float t = static_cast<float>(now - particles->startTime) / timeForceLost;
+        if (t <= 1.0f) {
+            if (t < 0.0f) t = 0.0f;
+        } else {
+            t = 1.0f;
+        }
+        const float x = particles->startVector.X + (1.0f - t) * (gravity.X - particles->startVector.X);
+        const float y = particles->startVector.Y + (1.0f - t) * (gravity.Y - particles->startVector.Y);
+        const float z = particles->startVector.Z + (1.0f - t) * (gravity.Z - particles->startVector.Z);
+        particles->vector.X = x;  // +0x0c
+        particles->vector.Y = y;  // +0x10
+        particles->vector.Z = z;  // +0x14
     }
 }
 
@@ -105,23 +199,34 @@ const core::vector3d<float>& CParticleGravityAffector::getGravity() const { retu
 // 0x6fce34 _ZN6glitch5scene25CParticleRotationAffectorC1ERKNS_4core8vector3dIfEES6_
 CParticleRotationAffector::CParticleRotationAffector(const core::vector3d<float>& pivotPointValue,
                                                      const core::vector3d<float>& speedValue)
-    : enabled(true), pivotPoint(pivotPointValue), speed(speedValue), lastTime(0) {}
+    : pivotPoint(pivotPointValue), speed(speedValue), lastTime(0) {
+    enabled = true;  // +0x04
+}
+
+// 0x6fcf28 _ZN6glitch5scene25CParticleRotationAffectorD1Ev
+// 0x6fd14c _ZN6glitch5scene25CParticleRotationAffectorD0Ev
+CParticleRotationAffector::~CParticleRotationAffector() = default;
 
 // 0x6fcf6c _ZN6glitch5scene25CParticleRotationAffector6affectEjPNS0_9SParticleEj
-// Partial: the time step from the previous call is computed and lastTime is
-// stored. The per-particle rotation is not reconstructed.
-void CParticleRotationAffector::affect(std::uint32_t now, SParticle* /*particles*/,
-                                       std::uint32_t /*count*/) {
-    if (lastTime != 0) {
-        [[maybe_unused]] const float timeStep = static_cast<float>(now - lastTime) / 1000.0f;
+void CParticleRotationAffector::affect(std::uint32_t now, SParticle* particles, std::uint32_t count) {
+    if (lastTime == 0) {
+        lastTime = now;
+        return;
     }
+    const float dt = static_cast<float>(now - lastTime) / 1000.0f;
     lastTime = now;
+    if (!enabled || count == 0) {
+        return;
+    }
+    for (std::uint32_t i = 0; i != count; ++i, ++particles) {
+        if (speed.X != 0.0f) particles->pos.rotateYZBy(dt * speed.X, pivotPoint);  // +0x14
+        if (speed.Y != 0.0f) particles->pos.rotateXZBy(dt * speed.Y, pivotPoint);  // +0x18
+        if (speed.Z != 0.0f) particles->pos.rotateXYBy(dt * speed.Z, pivotPoint);  // +0x1c
+    }
 }
 
 // 0x6fcd08 _ZN6glitch5scene25CParticleRotationAffector13setPivotPointERKNS_4core8vector3dIfEE
-void CParticleRotationAffector::setPivotPoint(const core::vector3d<float>& value) {
-    pivotPoint = value;
-}
+void CParticleRotationAffector::setPivotPoint(const core::vector3d<float>& value) { pivotPoint = value; }
 
 // 0x6fcd24 _ZN6glitch5scene25CParticleRotationAffector8setSpeedERKNS_4core8vector3dIfEE
 void CParticleRotationAffector::setSpeed(const core::vector3d<float>& value) { speed = value; }
@@ -137,21 +242,72 @@ const core::vector3d<float>& CParticleRotationAffector::getSpeed() const { retur
 // 0x6fd250 _ZN6glitch5scene21CParticleSizeAffectorC2Effjj
 // 0x6fd310 _ZN6glitch5scene21CParticleSizeAffectorC1Effjj
 CParticleSizeAffector::CParticleSizeAffector(float targetSizeValue, float variationValue,
-                                             std::uint32_t growForTimeValue,
-                                             std::uint32_t fadeForTimeValue)
-    : enabled(true),
-      targetSize(targetSizeValue),
+                                             std::uint32_t growForTimeValue, std::uint32_t fadeForTimeValue)
+    : targetSize(targetSizeValue),
       variation(variationValue),
       growForTime(static_cast<float>(growForTimeValue)),
-      fadeForTime(static_cast<float>(fadeForTimeValue)) {}
+      fadeForTime(static_cast<float>(fadeForTimeValue)) {
+    enabled = true;  // +0x04
+}
+
+// 0x6fd4a0 _ZN6glitch5scene21CParticleSizeAffectorD1Ev
+// 0x6fd84c _ZN6glitch5scene21CParticleSizeAffectorD0Ev
+CParticleSizeAffector::~CParticleSizeAffector() = default;
+
+// 0x6fd400 _ZNK6glitch5scene21CParticleSizeAffector19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+void CParticleSizeAffector::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions*) const {
+    attributes->addFloat("TargetSize", targetSize, false);    // vptr+0x64
+    attributes->addFloat("Variation", variation, false);
+    attributes->addFloat("GrowForTime", growForTime, false);
+    attributes->addFloat("FadeForTime", fadeForTime, false);
+}
+
+// 0x6fd4e4 _ZN6glitch5scene21CParticleSizeAffector21deserializeAttributesEiPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+int CParticleSizeAffector::deserializeAttributes(int index, io::IAttributes* attributes,
+                                                 io::SAttributeReadWriteOptions*) {
+    if (attributeIs(attributes, index, "TargetSize")) {
+        targetSize = attributes->getFloat(index++);  // vptr+0x74
+        if (attributeIs(attributes, index, "Variation")) {
+            variation = attributes->getFloat(index++);
+            if (attributeIs(attributes, index, "GrowForTime")) {
+                growForTime = attributes->getFloat(index++);
+                if (attributeIs(attributes, index, "FadeForTime")) {
+                    fadeForTime = attributes->getFloat(index++);
+                }
+            }
+        }
+    }
+    return index;
+}
 
 // 0x6fd63c _ZN6glitch5scene21CParticleSizeAffector6affectEjPNS0_9SParticleEj
-// Partial: the enabled and count guard is reconstructed; the per-particle
-// size update is not.
-void CParticleSizeAffector::affect(std::uint32_t /*now*/, SParticle* /*particles*/,
-                                   std::uint32_t count) {
-    if (enabled && count != 0) {
-        // per-particle size update not reconstructed
+void CParticleSizeAffector::affect(std::uint32_t now, SParticle* particles, std::uint32_t count) {
+    if (!enabled || count == 0) {
+        return;
+    }
+    for (std::uint32_t i = 0; i != count; ++i, ++particles) {
+        float percent;
+        if (particles->startTime == now) {  // newly born: draw the variation
+            if (variation > 0.0f) {
+                percent = randomVariation(variation);
+                particles->sizeVariation = percent;  // +0x38
+            } else {
+                particles->sizeVariation = 0.0f;
+                percent = 0.0f;
+            }
+        } else {
+            percent = particles->sizeVariation;
+        }
+        const float base = targetSize + (targetSize * percent) / -100.0f;
+        particles->size = base;  // +0x34
+        const float age = static_cast<float>(now - particles->startTime);
+        if (growForTime > 0.0f && growForTime > age) {
+            particles->size = base * (age / growForTime);
+        }
+        const float remaining = static_cast<float>(particles->endTime - now);
+        if (fadeForTime > 0.0f && fadeForTime > remaining) {
+            particles->size = base * (remaining / fadeForTime);
+        }
     }
 }
 
@@ -181,32 +337,58 @@ float CParticleSizeAffector::getFadeForTime() const { return fadeForTime; }
 
 // ---- CParticleSpinAffector ----
 
-namespace {
-// libgcc __fixunssfsi as the original calls it: negative inputs give 0 and
-// inputs at or above 2^32 give the largest unsigned value.
-std::uint32_t fixUnsignedFromFloat(float value) {
-    if (!(value > 0.0f)) {
-        return 0;
-    }
-    if (value >= 4294967296.0f) {
-        return 0xffffffffu;
-    }
-    return static_cast<std::uint32_t>(value);
-}
-}  // namespace
-
 // 0x6fe310 _ZN6glitch5scene21CParticleSpinAffectorC2Ejf
 // 0x6fe3bc _ZN6glitch5scene21CParticleSpinAffectorC1Ejf
 CParticleSpinAffector::CParticleSpinAffector(std::uint32_t spinTimeValue, float variationValue)
-    : enabled(true), spinTime(spinTimeValue), variation(variationValue) {}
+    : spinTime(spinTimeValue), variation(variationValue) {
+    enabled = true;  // +0x04
+}
+
+// 0x6fe4fc _ZN6glitch5scene21CParticleSpinAffectorD1Ev
+// 0x6fe7ac _ZN6glitch5scene21CParticleSpinAffectorD0Ev
+CParticleSpinAffector::~CParticleSpinAffector() = default;
+
+// 0x6fe498 _ZNK6glitch5scene21CParticleSpinAffector19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+void CParticleSpinAffector::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions*) const {
+    attributes->addFloat("SpinTime", static_cast<float>(spinTime), false);  // vptr+0x64
+    attributes->addFloat("Variation", variation, false);
+}
+
+// 0x6fe540 _ZN6glitch5scene21CParticleSpinAffector21deserializeAttributesEiPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+int CParticleSpinAffector::deserializeAttributes(int index, io::IAttributes* attributes,
+                                                 io::SAttributeReadWriteOptions*) {
+    if (!attributeIs(attributes, index, "SpinTime")) {
+        return index;
+    }
+    spinTime = fixUnsignedFromFloat(attributes->getFloat(index++));  // vptr+0x74, converted with __fixunssfsi
+    if (!attributeIs(attributes, index, "Variation")) {
+        return index;
+    }
+    variation = attributes->getFloat(index);
+    return index + 1;
+}
 
 // 0x6fe600 _ZN6glitch5scene21CParticleSpinAffector6affectEjPNS0_9SParticleEj
-// Partial: the enabled and count guard is reconstructed; the per-particle spin
-// is not.
-void CParticleSpinAffector::affect(std::uint32_t /*now*/, SParticle* /*particles*/,
-                                   std::uint32_t count) {
-    if (enabled && count != 0) {
-        // per-particle spin update not reconstructed
+void CParticleSpinAffector::affect(std::uint32_t now, SParticle* particles, std::uint32_t count) {
+    if (!enabled || count == 0) {
+        return;
+    }
+    for (std::uint32_t i = 0; i != count; ++i, ++particles) {
+        if (particles->startTime == now) {
+            if (variation > 0.0f) {
+                particles->rotationVariation = randomVariation(variation);  // +0x40
+            } else {
+                particles->rotationVariation = 0.0f;
+            }
+        }
+        particles->rotation = 0.0f;  // +0x3c
+        const std::int32_t elapsed = static_cast<std::int32_t>(now - particles->startTime);
+        const float spin = static_cast<float>(spinTime);
+        const std::int32_t period = static_cast<std::int32_t>(spin + (spin * particles->rotationVariation) / -100.0f);
+        if (period > 0) {
+            const float fraction = static_cast<float>(elapsed % period) / static_cast<float>(period);
+            particles->rotation = fraction * 3.1416f + fraction * 3.1416f;
+        }
     }
 }
 
@@ -228,17 +410,44 @@ float CParticleSpinAffector::getVariation() const { return variation; }
 // 0x6fa5a4 _ZN6glitch5scene24CParticleFadeOutAffectorC1ERKNS_5video6SColorEj
 CParticleFadeOutAffector::CParticleFadeOutAffector(const video::SColor& targetColorValue,
                                                    std::uint32_t fadeOutTimeValue)
-    : enabled(true),
-      targetColor(targetColorValue),
-      fadeOutTime(static_cast<float>(fadeOutTimeValue)) {}
+    : targetColor(targetColorValue), fadeOutTime(fadeOutTimeValue != 0 ? static_cast<float>(fadeOutTimeValue) : 1.0f) {
+    enabled = true;  // +0x04
+}
+
+// 0x6fa7c0 _ZN6glitch5scene24CParticleFadeOutAffectorD1Ev
+// 0x6fa94c _ZN6glitch5scene24CParticleFadeOutAffectorD0Ev
+CParticleFadeOutAffector::~CParticleFadeOutAffector() = default;
+
+// 0x6fa750 _ZNK6glitch5scene24CParticleFadeOutAffector19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+void CParticleFadeOutAffector::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions*) const {
+    attributes->addColor("TargetColor", targetColor, false);   // vptr+0x118, the four bytes at +0x05
+    attributes->addFloat("FadeOutTime", fadeOutTime, false);   // vptr+0x64, +0x0c
+}
+
+// 0x6fa804 _ZN6glitch5scene24CParticleFadeOutAffector21deserializeAttributesEiPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+int CParticleFadeOutAffector::deserializeAttributes(int index, io::IAttributes* attributes,
+                                                    io::SAttributeReadWriteOptions*) {
+    if (!attributeIs(attributes, index, "TargetColor")) {
+        return index;
+    }
+    targetColor = attributes->getColor(index++);  // vptr+0x128
+    if (!attributeIs(attributes, index, "FadeOutTime")) {
+        return index;
+    }
+    fadeOutTime = attributes->getFloat(index);
+    return index + 1;
+}
 
 // 0x6fa69c _ZN6glitch5scene24CParticleFadeOutAffector6affectEjPNS0_9SParticleEj
-// Partial: the enabled and count guard is reconstructed; the per-particle fade
-// is not.
-void CParticleFadeOutAffector::affect(std::uint32_t /*now*/, SParticle* /*particles*/,
-                                      std::uint32_t count) {
-    if (enabled && count != 0) {
-        // per-particle fade not reconstructed
+void CParticleFadeOutAffector::affect(std::uint32_t now, SParticle* particles, std::uint32_t count) {
+    if (!enabled || count == 0) {
+        return;
+    }
+    for (std::uint32_t i = 0; i != count; ++i, ++particles) {
+        const float remaining = static_cast<float>(particles->endTime - now);
+        if (remaining < fadeOutTime) {
+            particles->color = particles->startColor.getInterpolated(targetColor, remaining / fadeOutTime);  // +0x20
+        }
     }
 }
 

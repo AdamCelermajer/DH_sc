@@ -2,6 +2,7 @@
 // in scene_simple_accessors.hpp: the tags are the four-character words, the
 // speed setter applies the original 0.001 scale, and the animator factory clamps
 // indices above 8 to 10.
+#include "glitch-scene-collada-gui/particle_affectors.hpp"
 #include "glitch-scene-collada-gui/scene_simple_accessors.hpp"
 
 #include <cstdio>
@@ -17,32 +18,13 @@ static bool tagIs(std::uint32_t tag, const char* four) {
 }
 
 int main() {
-    CAnimatedMeshSceneNode amsh;
-    CHECK(tagIs(amsh.getType(), "amsh"));
-    amsh.startFrame = 3;
-    amsh.endFrame = 90;
-    amsh.frameNr = 12.5f;
-    CHECK(amsh.getStartFrame() == 3);
-    CHECK(amsh.getEndFrame() == 90);
-    CHECK(amsh.getFrameNr() == 12.5f);
-    amsh.setAnimationSpeed(2000.0f);
-    CHECK(amsh.animationSpeed == 2000.0f * 0.001f);
-    amsh.setLoopMode(true);
-    amsh.setRenderFromIdentity(true);
-    CHECK(amsh.loopMode && amsh.renderFromIdentity);
-
     CTerrainSceneNode terrain;
     CHECK(tagIs(static_cast<std::uint32_t>(terrain.getType()), "terr"));
     terrain.terrain.position.X = 1.0f;
     CHECK(terrain.getPosition().X == 1.0f);
     CHECK(&terrain.getScale() == &terrain.terrain.scale);
 
-    CShadowVolumeSceneNode shadow;
-    CHECK(tagIs(shadow.getType(), "shdw"));
-    shadow.SetBiasFactor(0.25f);
-    CHECK(shadow.biasFactor == 0.25f);
-
-    CParticleSystemSceneNode ps;
+    CParticleSystemSceneNode ps(false, -1, glitch::core::vector3d<float>{}, glitch::core::vector3d<float>{}, glitch::core::vector3d<float>{1.f, 1.f, 1.f});
     CHECK(tagIs(ps.getType(), "ptcl"));
     CHECK(ps.getEmitter() == nullptr);
     CHECK(ps.getMaterialCount() == 1);
@@ -51,8 +33,8 @@ int main() {
     ps.setParticlesAreGlobal(true);
     CHECK(ps.particlesAreGlobal);
 
-    CHECK(IParticleCylinderEmitter().getType() == 3);
-    CHECK(IParticleSpinAffector().getType() == 6);
+    CParticleSpinAffector spinAffector(1, 0.f);
+    CHECK(spinAffector.getType() == EPAT_SPIN);
 
     SAnimatedMesh mesh(boost::intrusive_ptr<IMesh>(), 0);
     CHECK(mesh.getMeshType() == 0);
@@ -60,13 +42,13 @@ int main() {
     CHECK(mesh.getMeshType() == 7);
 
     // Text, camera and particle accessors.
-    CParticleSystemSceneNode particleNode;
+    CParticleSystemSceneNode particleNode(false, -1, glitch::core::vector3d<float>{}, glitch::core::vector3d<float>{}, glitch::core::vector3d<float>{1.f, 1.f, 1.f});
     particleNode.particles.resize(5);
     CHECK(particleNode.getNumberOfParticles() == 5);
     glitch::core::dimension2d<float> psSize{2.0f, 3.0f};
     particleNode.setParticleSize(psSize);
     CHECK(particleNode.particleSize.Width == 2.0f && particleNode.particleSize.Height == 3.0f);
-    particleNode.setBillboardType(2);
+    particleNode.setBillboardType(static_cast<E_PARTICLE_BILLBOARD_TYPE>(2));
     CHECK(particleNode.billboardType == 2);
 
     // Terrain patches are a row-major grid of patchCount squared entries.
@@ -84,7 +66,7 @@ int main() {
     CHECK(terrainNode.terrain.rotationPivot.Y == 2.0f);
 
     // Particle affector flag.
-    IParticleAffector affector;
+    CParticleSpinAffector affector(1, 0.f);
     affector.setEnabled(true);
     CHECK(affector.getEnabled());
     affector.setEnabled(false);
@@ -108,9 +90,6 @@ int main() {
         clearedMesh.setBoundingBox(sceneBox);
         CHECK(clearedMesh.getBoundingBox().MaxEdge.Z == 6.0f);
 
-        // Shadow volume load returns zero.
-        CShadowVolumeSceneNode shadow;
-        CHECK(shadow.load(nullptr) == 0);
     }
 
     std::printf("%s\n", failures ? "scene_simple_accessors: FAILED" : "scene_simple_accessors: ok");

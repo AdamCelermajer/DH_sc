@@ -102,6 +102,63 @@ int main() {
         f.affect(0, none, 0);
     }
 
+    // affect() on real particles (0x6f86cc, 0x6fa69c, 0x6fac14, 0x6fcf6c, 0x6fd63c, 0x6fe600).
+    {
+        SParticle p;
+        p.startTime = 1000;
+        p.endTime = 3000;
+        p.startVector = {2.f, 0.f, 0.f};
+        // Gravity: halfway through timeForceLost the velocity is the mean of the start vector and the gravity.
+        CParticleGravityAffector g(core::vector3d<float>{0.f, 4.f, 0.f}, 1000);
+        g.affect(1500, &p, 1);
+        CHECK(p.vector.X == 1.f && p.vector.Y == 2.f && p.vector.Z == 0.f);
+        g.setEnabled(false);
+        p.vector = {};
+        g.affect(1500, &p, 1);
+        CHECK(p.vector.X == 0.f);  // a disabled affector leaves the particle alone
+
+        // Fade out: outside the last fadeOutTime ms nothing changes; inside, the colour blends towards the target.
+        p.color = video::SColor{7};
+        p.startColor = video::SColor{0xFFFFFFFFu};
+        CParticleFadeOutAffector f(video::SColor{0u}, 500);
+        f.affect(2000, &p, 1);
+        CHECK(p.color.color == 7);
+        f.affect(2750, &p, 1);  // 250 ms left of 500: halfway
+        CHECK(p.color.color != 7);
+
+        // Size: grows from 0 over growForTime after birth.
+        CParticleSizeAffector s(10.f, 0.f, 1000, 0);
+        s.affect(1500, &p, 1);
+        CHECK(p.size == 5.f);
+        s.affect(2500, &p, 1);
+        CHECK(p.size == 10.f);
+
+        // Spin: a quarter period after birth the angle is pi / 2.
+        CParticleSpinAffector sp(1000, 0.f);
+        sp.affect(1250, &p, 1);
+        CHECK(p.rotation > 1.5f && p.rotation < 1.6f);
+
+        // Attraction: the first call only records the time; the second moves the particle by dt * speed toward the point.
+        SParticle q;
+        CParticleAttractionAffector at(core::vector3d<float>{10.f, 0.f, 0.f}, 2.f, true, true, true, true);
+        at.affect(1000, &q, 1);
+        CHECK(q.pos.X == 0.f);
+        at.affect(2000, &q, 1);
+        CHECK(q.pos.X == 2.f);
+        at.setAttract(false);
+        at.affect(3000, &q, 1);
+        CHECK(q.pos.X == 0.f);
+
+        // Rotation: a quarter turn per second about the pivot in the YZ plane on the first speed component.
+        SParticle r;
+        r.pos = {0.f, 1.f, 0.f};
+        CParticleRotationAffector ro(core::vector3d<float>{}, core::vector3d<float>{90.f, 0.f, 0.f});
+        ro.affect(1000, &r, 1);
+        ro.affect(2000, &r, 1);
+        CHECK(r.pos.Y < 0.001f && r.pos.Y > -0.001f);
+        CHECK(r.pos.Z > 0.99f || r.pos.Z < -0.99f);
+    }
+
     std::printf("%s\n", failures ? "particle_affectors: FAILED" : "particle_affectors: ok");
     return failures != 0;
 }

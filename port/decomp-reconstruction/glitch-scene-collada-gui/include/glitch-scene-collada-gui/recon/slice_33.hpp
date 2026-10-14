@@ -110,15 +110,6 @@ struct SoftwareSkinTechniqueStandIn {
 // glitch::collada::SAnimationAccessor: canonical class in collada/SAnimationAccessor.hpp.
 
 // ---------------------------------------------------------------------------
-// glitch::scene::CAnimatedMeshSceneNode (the mesh file name is resolved by the caller)
-// ---------------------------------------------------------------------------
-struct AnimatedMeshStandIn {
-    std::uint8_t pad_0000[0x140] = {};          // +0x000..+0x13f (not mapped)
-    std::int32_t framesPerSecond = 0;           // +0x140 (320 decimal)
-    bool looping = false;                       // +0x154 (340 decimal)
-};
-
-// ---------------------------------------------------------------------------
 // glitch::collada::CCoronasSceneNode
 // ---------------------------------------------------------------------------
 struct CoronasSceneNodeStandIn {
@@ -126,61 +117,6 @@ struct CoronasSceneNodeStandIn {
     float width = 0.0f;                         // +0x148
     float height = 0.0f;                        // +0x14c
     std::uint32_t vColor = 0;                   // +0x18c
-};
-
-// ---------------------------------------------------------------------------
-// glitch::scene particle emitters and affectors
-// ---------------------------------------------------------------------------
-struct ParticleBoxEmitterStandIn {
-    std::uint8_t pad_0000[0x10] = {};           // +0x00..+0x0f (not mapped)
-    core::vector3d<float> minEdge;              // +0x10 (x, y, z at +0x10, +0x14, +0x18)
-    core::vector3d<float> maxEdge;              // +0x1c (x, y, z at +0x1c, +0x20, +0x24)
-    core::vector3d<float> direction;            // +0x28
-    std::int32_t minParticlesPerSecond = 0;     // +0x34
-    std::int32_t maxParticlesPerSecond = 0;     // +0x38
-    std::uint32_t minStartColor = 0;            // +0x3c
-    std::uint32_t maxStartColor = 0;            // +0x40
-    std::int32_t minLifeTime = 0;               // +0x44
-    std::int32_t maxLifeTime = 0;               // +0x48
-    std::int32_t maxAngleDegrees = 0;           // +0x54
-};
-
-struct ParticlePointEmitterStandIn {
-    std::uint8_t pad_0000[0x48] = {};           // +0x00..+0x47 (not mapped)
-    core::vector3d<float> direction;            // +0x48
-    std::int32_t minParticlesPerSecond = 0;     // +0x54
-    std::int32_t maxParticlesPerSecond = 0;     // +0x58
-    std::uint32_t minStartColor = 0;            // +0x5c
-    std::uint32_t maxStartColor = 0;            // +0x60
-    std::int32_t minLifeTime = 0;               // +0x64
-    std::int32_t maxLifeTime = 0;               // +0x68
-    std::int32_t maxAngleDegrees = 0;           // +0x6c
-};
-
-struct ParticleFadeOutAffectorStandIn {
-    std::uint8_t pad_0000[0x05] = {};           // +0x00..+0x04 (not mapped)
-    std::uint32_t targetColor = 0;              // +0x05 (four bytes, read unaligned)
-    float fadeOutTime = 0.0f;                   // +0x0c
-};
-
-struct ParticleGravityAffectorStandIn {
-    std::uint8_t pad_0000[0x08] = {};           // +0x00..+0x07 (not mapped)
-    float timeForceLost = 0.0f;                 // +0x08
-    core::vector3d<float> gravity;              // +0x0c
-};
-
-struct ParticleSizeAffectorStandIn {
-    std::uint8_t pad_0000[0x08] = {};           // +0x00..+0x07 (not mapped)
-    float targetSize = 0.0f;                    // +0x08
-    float variation = 0.0f;                     // +0x0c
-    float growForTime = 0.0f;                   // +0x10
-    float fadeForTime = 0.0f;                   // +0x14
-};
-
-struct ParticleSpinAffectorStandIn {
-    std::uint8_t pad_0000[0x08] = {};           // +0x00..+0x07 (not mapped)
-    std::uint32_t spinTime = 0;                 // +0x08
-    float variation = 0.0f;                     // +0x0c
 };
 
 // ---------------------------------------------------------------------------
@@ -212,34 +148,8 @@ void createSilhouette(void* self, const core::vector3d<float>& light, int lightT
 // glitch::collada coronas and animated mesh.
 void serializeCoronas(const CoronasSceneNodeStandIn& self, IAttributesStandIn& attrs);                    // 0x6e5a90
 void deserializeCoronas(CoronasSceneNodeStandIn& self, IAttributesStandIn& attrs);                        // 0x6e5b0c
-void serializeAnimatedMesh(const AnimatedMeshStandIn& self, const std::string& meshName,
-                           IAttributesStandIn& attrs);                                                     // 0x6f6478
-void deserializeAnimatedMesh(AnimatedMeshStandIn& self, IAttributesStandIn& attrs);                       // 0x6f6d98
 
-// glitch::scene particle system node, emitters and affectors.
-void serializeParticleSystemNode(void* self, IAttributesStandIn& attrs, const std::uint32_t* options);   // 0x6c1554
-void deserializeParticleSystemNode(void* self, IAttributesStandIn& attrs);                               // 0x6c1790
-void constructIParticleSystemSceneNode(void* self, void* parent, std::int32_t id,
-                                       const core::vector3d<float>& rotation);                           // 0x6c23f4
-void serializeParticleEmitterBase();                                                                      // 0x6f76d0
-std::int32_t deserializeParticleEmitterBase(IAttributesStandIn& attrs, std::int32_t index);              // 0x6f76e4
-void serializeParticleAffectorBase();                                                                     // 0x6f837c
-std::int32_t deserializeParticleAffectorBase(IAttributesStandIn& attrs, std::int32_t index);             // 0x6f8390
-void serializeBoxEmitter(const ParticleBoxEmitterStandIn& self, IAttributesStandIn& attrs);              // 0x6f8d5c
-void deserializeBoxEmitter(ParticleBoxEmitterStandIn& self, std::int32_t index, IAttributesStandIn& attrs);  // 0x6f8fd4
-void serializePointEmitter(const ParticlePointEmitterStandIn& self, IAttributesStandIn& attrs);          // 0x6fbcd8
-void deserializePointEmitter(ParticlePointEmitterStandIn& self, std::int32_t index, IAttributesStandIn& attrs);  // 0x6fbe4c
-void serializeFadeOutAffector(const ParticleFadeOutAffectorStandIn& self, IAttributesStandIn& attrs);    // 0x6fa750
-std::int32_t deserializeFadeOutAffector(ParticleFadeOutAffectorStandIn& self, std::int32_t index,
-                                        IAttributesStandIn& attrs);                                       // 0x6fa804
-void serializeGravityAffector(const ParticleGravityAffectorStandIn& self, IAttributesStandIn& attrs);    // 0x6fad3c
-std::int32_t deserializeGravityAffector(ParticleGravityAffectorStandIn& self, std::int32_t index,
-                                        IAttributesStandIn& attrs);                                       // 0x6fadd8
-void serializeSizeAffector(const ParticleSizeAffectorStandIn& self, IAttributesStandIn& attrs);          // 0x6fd400
-std::int32_t deserializeSizeAffector(ParticleSizeAffectorStandIn& self, std::int32_t index,
-                                     IAttributesStandIn& attrs);                                          // 0x6fd4e4
-void serializeSpinAffector(const ParticleSpinAffectorStandIn& self, IAttributesStandIn& attrs);          // 0x6fe498
-std::int32_t deserializeSpinAffector(ParticleSpinAffectorStandIn& self, std::int32_t index,
-                                     IAttributesStandIn& attrs);                                          // 0x6fe540
+// The particle system node, emitters and affectors are canonical classes (scene/CParticleSystemSceneNode.hpp, particle_emitters.hpp,
+// particle_affectors.hpp); their stand-in serializers were retired.
 
 }  // namespace glitch::collada::recon_33

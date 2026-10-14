@@ -201,6 +201,52 @@ int main() {
     d.swapBuffers(0);
     CHECK(d.presents == 1);
 
+    // The setters translate the engine enumerators through the original's GL enum tables (0x8e0e3c ...). The recorders keep the last
+    // arguments.
+    {
+        static uint32_t blend[2], equation, cull, depthFunc, frontFace, stencilFunc[3], stencilOp[3];
+        static int calls;
+        auto& t = glitch::video::deps::activeGLFunctionTable();
+        t.blendFunc = [](uint32_t s, uint32_t dd) { blend[0] = s; blend[1] = dd; ++calls; };
+        t.blendEquation = [](uint32_t m) { equation = m; ++calls; };
+        t.cullFace = [](uint32_t m) { cull = m; ++calls; };
+        t.depthFunc = [](uint32_t m) { depthFunc = m; ++calls; };
+        t.frontFace = [](uint32_t m) { frontFace = m; ++calls; };
+        t.stencilFunc = [](uint32_t f, int32_t r, uint32_t m) { stencilFunc[0] = f; stencilFunc[1] = static_cast<uint32_t>(r); stencilFunc[2] = m; ++calls; };
+        t.stencilOp = [](uint32_t a, uint32_t b, uint32_t c) { stencilOp[0] = a; stencilOp[1] = b; stencilOp[2] = c; ++calls; };
+        TestDriver m;
+        m.setBlendFunc(2, 9);  // SRC_COLOR index 2 = GL_SRC_COLOR (0x300)... BlendFactorMap[2] = 0x300, [9] = 0x305
+        CHECK(blend[0] == 0x300 && blend[1] == 0x305);
+        m.setBlendEquation(3);
+        CHECK(equation == 0x8007);
+        m.setCullFace(1);
+        CHECK(cull == 0x404);
+        m.setDepthFunc(3);
+        CHECK(depthFunc == 0x203);
+        m.setFrontFace(1);
+        CHECK(frontFace == 0x900);
+        m.setStencilFuncRef(5);
+        CHECK(stencilFunc[0] == 0x200 && stencilFunc[1] == 5 && stencilFunc[2] == 0);
+        m.setStencilFuncMask(0x0f);
+        CHECK(stencilFunc[1] == 5 && stencilFunc[2] == 0x0f);
+        m.setStencilFunc(7);
+        CHECK(stencilFunc[0] == 0x207 && stencilFunc[1] == 5 && stencilFunc[2] == 0x0f);
+        m.setStencilOpFail(4);
+        CHECK(stencilOp[0] == 0x8507 && stencilOp[1] == 0x1e00 && stencilOp[2] == 0x1e00);
+        m.setStencilOpZFail(7);
+        CHECK(stencilOp[0] == 0x8507 && stencilOp[1] == 0x150a);
+        m.setStencilOpZPass(2);
+        CHECK(stencilOp[2] == 0x1e01);
+        CHECK(calls == 11);
+        t.blendFunc = nullptr;
+        t.blendEquation = nullptr;
+        t.cullFace = nullptr;
+        t.depthFunc = nullptr;
+        t.frontFace = nullptr;
+        t.stencilFunc = nullptr;
+        t.stencilOp = nullptr;
+    }
+
     if (failures == 0) {
         std::printf("ccommon_gl_driver_test: all checks passed\n");
         return 0;

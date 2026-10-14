@@ -14,6 +14,8 @@
 #include "glitch-scene-collada-gui/scene/CMesh.hpp"
 #include "glitch-scene-collada-gui/scene/CParticleSystemSceneNode.hpp"
 #include "glitch-scene-collada-gui/scene/CTerrainSceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/IParticleAffector.hpp"
+#include "glitch-scene-collada-gui/scene/IParticleEmitter.hpp"
 #include "glitch-scene-collada-gui/scene/IMesh.hpp"
 #include "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp"
 #include "glitch-scene-collada-gui/scene/scene_types.hpp"
@@ -41,125 +43,8 @@ bool operator==(const std::pair<std::uint32_t, core::aabbox3d<float>>& lhs,
 namespace glitch::scene {
 
 class ITriangleSelector;
-class IParticleEmitter;
-
-// ---- Particle interfaces: type tag per interface and an empty destructor. ----
-
-class IParticleEmitter {
-public:
-    // 0x6f76ec _ZNK6glitch5scene16IParticleEmitter7getTypeEv (returns 0)
-    std::uint32_t getType() const;
-    // 0x6f77d8 _ZN6glitch5scene16IParticleEmitterD1Ev (empty)
-    ~IParticleEmitter() = default;
-};
-
-class IParticleAnimatedMeshSceneNodeEmitter {
-public:
-    // 0x6f76f4 _ZNK6glitch5scene37IParticleAnimatedMeshSceneNodeEmitter7getTypeEv (returns 1)
-    std::uint32_t getType() const;
-    // 0x6f77fc _ZN6glitch5scene37IParticleAnimatedMeshSceneNodeEmitterD1Ev (empty)
-    ~IParticleAnimatedMeshSceneNodeEmitter() = default;
-};
-
-class IParticleAffector {
-public:
-    // 0x6f8414 _ZN6glitch5scene17IParticleAffectorD1Ev (empty)
-    ~IParticleAffector() = default;
-    // 0x6f836c _ZN6glitch5scene17IParticleAffector10setEnabledEb
-    void setEnabled(bool value);
-    // 0x6f8374 _ZNK6glitch5scene17IParticleAffector10getEnabledEv
-    bool getEnabled() const;
-
-    std::uint8_t enabled = 0;  // +0x04
-};
-
-class IParticleAttractionAffector {
-public:
-    // 0x6f8398 _ZNK6glitch5scene27IParticleAttractionAffector7getTypeEv (returns 1)
-    std::uint32_t getType() const;
-    // 0x6f8438 _ZN6glitch5scene27IParticleAttractionAffectorD1Ev (empty)
-    ~IParticleAttractionAffector() = default;
-};
-
-class IParticleBoxEmitter {
-public:
-    // 0x6f894c _ZNK6glitch5scene19IParticleBoxEmitter7getTypeEv (returns 2)
-    std::uint32_t getType() const;
-    // 0x6f8a24 _ZN6glitch5scene19IParticleBoxEmitterD1Ev (empty)
-    ~IParticleBoxEmitter() = default;
-};
-
-class IParticleCylinderEmitter {
-public:
-    // 0x6f9a00 _ZNK6glitch5scene24IParticleCylinderEmitter7getTypeEv (returns 3)
-    std::uint32_t getType() const;
-    // 0x6f9b14 _ZN6glitch5scene24IParticleCylinderEmitterD1Ev (empty)
-    ~IParticleCylinderEmitter() = default;
-};
-
-class IParticleFadeOutAffector {
-public:
-    // 0x6fa47c _ZNK6glitch5scene24IParticleFadeOutAffector7getTypeEv (returns 2)
-    std::uint32_t getType() const;
-    // 0x6fa4b0 _ZN6glitch5scene24IParticleFadeOutAffectorD1Ev (empty)
-    ~IParticleFadeOutAffector() = default;
-};
-
-class IParticleGravityAffector {
-public:
-    // 0x6fa9f4 _ZNK6glitch5scene24IParticleGravityAffector7getTypeEv (returns 3)
-    std::uint32_t getType() const;
-    // 0x6faa30 _ZN6glitch5scene24IParticleGravityAffectorD1Ev (empty)
-    ~IParticleGravityAffector() = default;
-};
-
-class IParticleMeshEmitter {
-public:
-    // 0x6fafcc _ZNK6glitch5scene20IParticleMeshEmitter7getTypeEv (returns 4)
-    std::uint32_t getType() const;
-    // 0x6fb0b0 _ZN6glitch5scene20IParticleMeshEmitterD1Ev (empty)
-    ~IParticleMeshEmitter() = default;
-};
-
-class IParticleRingEmitter {
-public:
-    // 0x6fc3c4 _ZNK6glitch5scene20IParticleRingEmitter7getTypeEv (returns 5)
-    std::uint32_t getType() const;
-    // 0x6fc4a4 _ZN6glitch5scene20IParticleRingEmitterD1Ev (empty)
-    ~IParticleRingEmitter() = default;
-};
-
-class IParticleRotationAffector {
-public:
-    // 0x6fcd00 _ZNK6glitch5scene25IParticleRotationAffector7getTypeEv (returns 4)
-    std::uint32_t getType() const;
-    // 0x6fcd50 _ZN6glitch5scene25IParticleRotationAffectorD1Ev (empty)
-    ~IParticleRotationAffector() = default;
-};
-
-class IParticleSizeAffector {
-public:
-    // 0x6fd1e4 _ZNK6glitch5scene21IParticleSizeAffector7getTypeEv (returns 5)
-    std::uint32_t getType() const;
-    // 0x6fd22c _ZN6glitch5scene21IParticleSizeAffectorD1Ev (empty)
-    ~IParticleSizeAffector() = default;
-};
-
-class IParticleSphereEmitter {
-public:
-    // 0x6fd8f4 _ZNK6glitch5scene22IParticleSphereEmitter7getTypeEv (returns 6)
-    std::uint32_t getType() const;
-    // 0x6fd9c4 _ZN6glitch5scene22IParticleSphereEmitterD1Ev (empty)
-    ~IParticleSphereEmitter() = default;
-};
-
-class IParticleSpinAffector {
-public:
-    // 0x6fe2ac _ZNK6glitch5scene21IParticleSpinAffector7getTypeEv (returns 6)
-    std::uint32_t getType() const;
-    // 0x6fe2ec _ZN6glitch5scene21IParticleSpinAffectorD1Ev (empty)
-    ~IParticleSpinAffector() = default;
-};
+// IParticleEmitter, IParticleAffector and the per-shape interfaces: canonical classes in scene/IParticleEmitter.hpp and
+// scene/IParticleAffector.hpp (the stand-ins with a type tag and an empty destructor were retired).
 
 // ---- Scene-node types ----
 
@@ -168,47 +53,7 @@ public:
 
 // CSkyBoxSceneNode: canonical class in scene/CSkyBoxSceneNode.hpp.
 
-class CShadowVolumeSceneNode {
-public:
-    // 0x6fe854 _ZNK6glitch5scene22CShadowVolumeSceneNode7getTypeEv (tag "shdw")
-    std::uint32_t getType() const;
-    // 0x6fe97c _ZNK6glitch5scene22CShadowVolumeSceneNode14getBoundingBoxEv
-    const core::aabbox3d<float>& getBoundingBox() const;
-    // 0x6fe984 _ZN6glitch5scene22CShadowVolumeSceneNode13SetBiasFactorEf
-    void SetBiasFactor(float factor);
-    // 0x6fe974 _ZN6glitch5scene22CShadowVolumeSceneNode4loadEPNS_2io9IReadFileE (returns 0)
-    std::uint32_t load(io::IReadFile* file);
-
-    core::aabbox3d<float> boundingBox;  // +0x168
-    float biasFactor = 0.0f;            // +0x188
-};
-
-class CAnimatedMeshSceneNode {
-public:
-    // 0x6f5fc4 _ZNK6glitch5scene22CAnimatedMeshSceneNode7getTypeEv (tag "amsh")
-    std::uint32_t getType() const;
-    // 0x6f5fd0 _ZNK6glitch5scene22CAnimatedMeshSceneNode10getFrameNrEv
-    float getFrameNr() const;
-    // 0x6f61d0 _ZNK6glitch5scene22CAnimatedMeshSceneNode13getStartFrameEv
-    std::int32_t getStartFrame() const;
-    // 0x6f61d8 _ZNK6glitch5scene22CAnimatedMeshSceneNode11getEndFrameEv
-    std::int32_t getEndFrame() const;
-    // 0x6f63b0 _ZN6glitch5scene22CAnimatedMeshSceneNode11setLoopModeEb
-    void setLoopMode(bool loop);
-    // 0x6f6450 _ZN6glitch5scene22CAnimatedMeshSceneNode21setRenderFromIdentityEb
-    void setRenderFromIdentity(bool identity);
-    // 0x6f62ec _ZN6glitch5scene22CAnimatedMeshSceneNode17setAnimationSpeedEf
-    // Stores framesPerSecond scaled by 0.001 (the original multiplies by 0x3a83126f).
-    void setAnimationSpeed(float framesPerSecond);
-
-    float animationSpeed = 0.0f;  // +0x140
-    std::int32_t startFrame = 0;  // +0x138
-    std::int32_t endFrame = 0;    // +0x13c
-    float frameNr = 0.0f;         // +0x144
-    bool loopMode = false;        // +0x154
-    bool renderFromIdentity = false;  // +0x170
-    void* meshHolder = nullptr;   // +0x130 a counted reference around the mesh name query (serialize 0x6f6478, deserialize 0x6f6d98)
-};
+// CShadowVolumeSceneNode: canonical class in scene/CShadowVolumeSceneNode.hpp; CAnimatedMeshSceneNode in scene/CAnimatedMeshSceneNode.hpp.
 
 // CParticleSystemSceneNode: canonical in scene/CParticleSystemSceneNode.hpp (the stand-in with no base was retired).
 

@@ -73,27 +73,11 @@ void testHardwareSkinPrepare() {
     CHECK(tech.calls == 2);
 }
 
-void testSizeAffectorIndexedDeserialize() {
-    // With no matching names the index comes back unchanged.
-    FakeAttributes attrs;
-    ParticleSizeAffectorStandIn affector;
-    CHECK(deserializeSizeAffector(affector, 3, attrs) == 3);
-    CHECK(affector.targetSize == 0.0f);
-}
-
-void testEmptyBases() {
-    FakeAttributes attrs;
-    CHECK(deserializeParticleEmitterBase(attrs, 4) == 0);
-    CHECK(deserializeParticleAffectorBase(attrs, 4) == 0);
-}
-
 }  // namespace
 
 int main() {
     testHardwareSkinPrepare();
     
-    testSizeAffectorIndexedDeserialize();
-    testEmptyBases();
     if (failures == 0) {
         std::printf("slice_33 tests passed\n");
         return 0;

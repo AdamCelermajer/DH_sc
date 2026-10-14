@@ -28,6 +28,17 @@ uint32_t lane(uint32_t value, unsigned shift) {
 // Float constant 1/255 (bit pattern 0x3b808081 in the original).
 constexpr float kInv255 = 1.0f / 255.0f;
 
+// The GL enum tables of the original (.rodata, the anonymous-namespace arrays BlendFactorMap, BlendEquationMap, FaceCullingMap,
+// CompareFuncMap, StencilOpMap and FaceWindingMap, read from the ELF at 0x8e0e3c and the following addresses). They are indexed by the
+// engine's enumerators.
+constexpr uint32_t kBlendFactorMap[15] = {0x0,    0x1,    0x300,  0x301,  0x302, 0x303, 0x306, 0x307,
+                                          0x304,  0x305,  0x8001, 0x8002, 0x8003, 0x8004, 0x308};
+constexpr uint32_t kBlendEquationMap[5] = {0x8006, 0x800a, 0x800b, 0x8007, 0x8008};
+constexpr uint32_t kFaceCullingMap[3] = {0x405, 0x404, 0x408};
+constexpr uint32_t kCompareFuncMap[8] = {0x200, 0x201, 0x202, 0x203, 0x204, 0x205, 0x206, 0x207};
+constexpr uint32_t kStencilOpMap[8] = {0x1e00, 0x0, 0x1e01, 0x1e02, 0x8507, 0x1e03, 0x8508, 0x150a};
+constexpr uint32_t kFaceWindingMap[2] = {0x901, 0x900};
+
 }  // namespace
 
 // 0x5b7080 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE14setBlendEnableEb
@@ -202,108 +213,118 @@ bool CCommonGLDriver::captureFramebufferImpl(const boost::intrusive_ptr<ITexture
 void CCommonGLDriver::swapBuffers(int32_t) { presentHook(); }
 
 // 0x5af35c _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE12setBlendFuncENS0_14E_BLEND_FACTORES8_
-// Partial: glBlendFunc(BlendFactorMap[src], BlendFactorMap[dst]) is omitted
-// because the map table is not in the repo. The cache is updated as in the original.
+// Compares the packed (src | dst << 8) pair with the cache, flushes, glBlendFunc(BlendFactorMap[src], BlendFactorMap[dst]), stores.
 void CCommonGLDriver::setBlendFunc(E_BLEND_FACTOR src, E_BLEND_FACTOR dst) {
     uint8_t s = static_cast<uint8_t>(src & 0xff);
     uint8_t d = static_cast<uint8_t>(dst & 0xff);
     if (s == m_blendSrc && d == m_blendDst) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.blendFunc) t.blendFunc(kBlendFactorMap[s], kBlendFactorMap[d]);
     m_blendSrc = s;
     m_blendDst = d;
 }
 
 // 0x5af3b4 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE16setBlendEquationENS0_16E_BLEND_EQUATIONE
-// Partial: glBlendEquation(BlendEquationMap[mode]) omitted (map not in repo).
 void CCommonGLDriver::setBlendEquation(E_BLEND_EQUATION mode) {
     if (mode == m_blendEquation) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.blendEquation) t.blendEquation(kBlendEquationMap[mode]);
     m_blendEquation = mode;
 }
 
 // 0x5af6b8 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE11setCullFaceENS0_11E_FACE_SIDEE
-// Partial: glCullFace(FaceCullingMap[side]) omitted (map not in repo).
 void CCommonGLDriver::setCullFace(E_FACE_SIDE side) {
     if (side == m_cullFace) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.cullFace) t.cullFace(kFaceCullingMap[side]);
     m_cullFace = side;
 }
 
 // 0x5afc78 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE12setFrontFaceENS0_14E_FACE_WINDINGE
-// Partial: glFrontFace(FaceWindingMap[index]) omitted (map not in repo). The
-// index is flipped when the byte at +0x4a0 is set, as in the original.
+// The winding is flipped (1 - winding) when the byte at +0x4a0 is set; the cache keeps the unflipped value.
 void CCommonGLDriver::setFrontFace(E_FACE_WINDING winding) {
     if (winding == m_frontFace) return;
     flush();
-    int32_t index = m_frontFaceFlip ? 1 - winding : winding;
-    (void)index;
+    const int32_t index = m_frontFaceFlip ? 1 - winding : winding;
+    auto& t = deps::activeGLFunctionTable();
+    if (t.frontFace) t.frontFace(kFaceWindingMap[index]);
     m_frontFace = winding;
 }
 
 // 0x5af760 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE12setDepthFuncENS0_14E_COMPARE_FUNCE
-// Partial: glDepthFunc(CompareFuncMap[func]) omitted (map not in repo).
 void CCommonGLDriver::setDepthFunc(E_COMPARE_FUNC func) {
     if (func == m_depthFunc) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.depthFunc) t.depthFunc(kCompareFuncMap[func]);
     m_depthFunc = func;
 }
 
 // 0x5afa24 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE14setStencilFuncENS0_14E_COMPARE_FUNCE
-// Partial: glStencilFunc is omitted (CompareFuncMap not in repo). Only the
-// func byte of the packed stencil word is compared and stored.
+// The function, reference and mask are the bytes +0x1f0, +0x1f1 and +0x1f2 of one cached word; the call passes all three.
 void CCommonGLDriver::setStencilFunc(E_COMPARE_FUNC func) {
     uint8_t f = static_cast<uint8_t>(func & 0xff);
     if (f == m_stencilFunc) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.stencilFunc) t.stencilFunc(kCompareFuncMap[f], m_stencilFuncRef, m_stencilFuncMask);
     m_stencilFunc = f;
 }
 
 // 0x5af9cc _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE17setStencilFuncRefEh
-// Partial: glStencilFunc is omitted (see setStencilFunc).
 void CCommonGLDriver::setStencilFuncRef(uint8_t ref) {
     if (ref == m_stencilFuncRef) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.stencilFunc) t.stencilFunc(kCompareFuncMap[m_stencilFunc], ref, m_stencilFuncMask);
     m_stencilFuncRef = ref;
 }
 
 // 0x5af974 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE18setStencilFuncMaskEh
-// Partial: glStencilFunc is omitted (see setStencilFunc).
 void CCommonGLDriver::setStencilFuncMask(uint8_t mask) {
     if (mask == m_stencilFuncMask) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.stencilFunc) t.stencilFunc(kCompareFuncMap[m_stencilFunc], m_stencilFuncRef, mask);
     m_stencilFuncMask = mask;
 }
 
 // 0x5afc14 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE16setStencilOpFailENS0_12E_STENCIL_OPE
-// Partial: glStencilOp is omitted (StencilOpMap not in repo).
+// The fail, z-fail and z-pass operations are the bytes +0x1f4, +0x1f5 and +0x1f6 of one cached word; the call passes all three.
 void CCommonGLDriver::setStencilOpFail(E_STENCIL_OP op) {
     uint8_t v = static_cast<uint8_t>(op & 0xff);
     if (v == m_stencilOpFail) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.stencilOp) t.stencilOp(kStencilOpMap[v], kStencilOpMap[m_stencilOpZFail], kStencilOpMap[m_stencilOpZPass]);
     m_stencilOpFail = v;
 }
 
 // 0x5afbb0 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE17setStencilOpZFailENS0_12E_STENCIL_OPE
-// Partial: glStencilOp is omitted (see setStencilOpFail).
 void CCommonGLDriver::setStencilOpZFail(E_STENCIL_OP op) {
     uint8_t v = static_cast<uint8_t>(op & 0xff);
     if (v == m_stencilOpZFail) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.stencilOp) t.stencilOp(kStencilOpMap[m_stencilOpFail], kStencilOpMap[v], kStencilOpMap[m_stencilOpZPass]);
     m_stencilOpZFail = v;
 }
 
 // 0x5afb4c _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE17setStencilOpZPassENS0_12E_STENCIL_OPE
-// Partial: glStencilOp is omitted (see setStencilOpFail).
 void CCommonGLDriver::setStencilOpZPass(E_STENCIL_OP op) {
     uint8_t v = static_cast<uint8_t>(op & 0xff);
     if (v == m_stencilOpZPass) return;
     flush();
+    auto& t = deps::activeGLFunctionTable();
+    if (t.stencilOp) t.stencilOp(kStencilOpMap[m_stencilOpFail], kStencilOpMap[m_stencilOpZFail], kStencilOpMap[v]);
     m_stencilOpZPass = v;
 }
 
 // 0x5af574 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13setBlendColorENS0_6SColorE
-// Partial: the per-byte x / 255 conversion follows the ARM listing; the cache
-// store after the GL call is not verified against the listing.
+// glBlendColor with each byte times 1/255, then the four bytes are cached (the word at +0x204).
 void CCommonGLDriver::setBlendColor(SColor color) {
     if (color.color == m_blendColor) return;
     flush();
@@ -318,8 +339,7 @@ void CCommonGLDriver::setBlendColor(SColor color) {
 }
 
 // 0x5b0d4c _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE13setClearColorENS0_6SColorE
-// Partial: same conversion as setBlendColor, glClearColor; the cache store
-// is not verified against the listing.
+// The same for glClearColor and the word at +0x208.
 void CCommonGLDriver::setClearColor(SColor color) {
     if (color.color == m_clearColor) return;
     flush();
@@ -391,6 +411,18 @@ void CCommonGLDriver::unregisterBufferMap(uint32_t key) {
 void CCommonGLDriver::clearBufferMap() {
     for (auto& entry : m_bufferMap) std::free(entry.second.data);
     m_bufferMap.clear();
+}
+
+// 0x5b0594 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE15ReloadbufferMapEv
+// The entry fields are the registerBufferMap arguments: arg1 is the GL buffer name, arg2 the target and arg3 the usage.
+void CCommonGLDriver::ReloadbufferMap() {
+    auto& t = deps::activeGLFunctionTable();
+    for (auto& entry : m_bufferMap) {
+        const BufferInfo& info = entry.second;
+        if (t.bindBuffer) t.bindBuffer(info.arg2, info.arg1);
+        if (t.bufferData) t.bufferData(info.arg2, static_cast<int32_t>(info.byteCount), info.data, info.arg3);
+        if (t.bindBuffer) t.bindBuffer(info.arg2, 0);
+    }
 }
 
 void CCommonGLDriver::flush() {}

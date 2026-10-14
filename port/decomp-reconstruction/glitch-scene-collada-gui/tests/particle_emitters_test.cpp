@@ -4,6 +4,8 @@
 
 #include <cstdio>
 
+#include "glitch-scene-collada-gui/scene/CMesh.hpp"
+
 using namespace glitch;
 using namespace glitch::scene;
 
@@ -49,7 +51,14 @@ int main() {
         e.setMinStartColor(maxColor);
         CHECK(e.getMinStartColor().color == maxColor.color);
         SParticle* out = nullptr;
-        CHECK(e.emitt(0, 100, out) == 0);  // partial: no particles produced
+        // Not enough time has passed for a particle: nothing is produced and the time is kept.
+        CHECK(e.emitt(0, 1, out) == 0);
+        // Enough time for the rate (at most 2 * max rate particles): the cylinder emits and hands out its array.
+        const int n = e.emitt(5000, 2000, out);
+        CHECK(n > 0 && n <= 2 * 7);
+        CHECK(out != nullptr);
+        CHECK(out[0].startTime == 5000 && out[0].endTime >= 5000 + 2000 && out[0].endTime <= 5000 + 4000);
+        CHECK(out[0].startVector.X == out[0].vector.X);
     }
 
     {
@@ -126,10 +135,11 @@ int main() {
     }
 
     {
-        boost::intrusive_ptr<const IMesh> none;
+        boost::intrusive_ptr<const IMesh> none(new CMesh);
         CParticleMeshEmitter m(none, true, direction, 0.25f, 2, true, 9, 10, minColor, maxColor, 300,
                                600, 30);
-        CHECK(m.getMesh().get() == nullptr);
+        CHECK(m.getMesh().get() == none.get());
+        CHECK(m.meshBufferCount == 0 && m.totalVertexCount == 0);
         CHECK(m.isUsingNormalDirection());
         CHECK(m.getUseNormalDirection());
         CHECK(sameVec(m.getDirection(), direction));
@@ -155,26 +165,44 @@ int main() {
         CHECK(m.emitt(0, 10, out) == 0);
     }
 
+    // The animated-mesh-scene-node emitter needs a live IAnimatedMeshSceneNode (its constructor asks the node for its mesh), so it is
+    // not constructed here.
+
+    // Point emitter: a single embedded particle is handed out once the interval has passed.
     {
-        CParticleAnimatedMeshSceneNodeEmitter a(nullptr, false, normal, 1.5f, 4, true, 2, 3, minColor,
-                                                maxColor, 11, 12, -7);
-        CHECK(a.getAnimatedMeshSceneNode() == nullptr);
-        CHECK(!a.isUsingNormalDirection());
-        CHECK(sameVec(a.getDirection(), normal));
-        CHECK(a.getNormalDirectionModifier() == 1.5f);
-        CHECK(a.getEveryMeshVertex());
-        CHECK(a.getMBNumber() == 4);
-        CHECK(a.getMinParticlesPerSecond() == 2);
-        CHECK(a.getMaxParticlesPerSecond() == 3);
-        CHECK(a.getMinStartColor().color == minColor.color);
-        CHECK(a.getMaxStartColor().color == maxColor.color);
-        CHECK(a.getMinLifeTime() == 11);
-        CHECK(a.getMaxLifeTime() == 12);
-        CHECK(a.getMaxAngleDegrees() == -7);
-        a.setMinStartColor(maxColor);
-        CHECK(a.getMinStartColor().color == maxColor.color);
+        CParticlePointEmitter pe(core::vector3d<float>{0.f, 1.f, 0.f}, 10, 10, minColor, maxColor, 500, 500, 0);
         SParticle* out = nullptr;
-        CHECK(a.emitt(0, 10, out) == 0);
+        CHECK(pe.emitt(100, 50, out) == 0);
+        CHECK(pe.emitt(200, 80, out) == 1);  // 130 ms > 1000 / 10
+        CHECK(out == &pe.particle);
+        CHECK(out->startTime == 200 && out->endTime == 700 && out->vector.Y == 1.f && out->startVector.Y == 1.f);
+    }
+
+    // Box emitter: particles start inside the box with the emission direction.
+    {
+        core::aabbox3d<float> box;
+        box.MinEdge = {-1.f, -2.f, -3.f};
+        box.MaxEdge = {1.f, 2.f, 3.f};
+        CParticleBoxEmitter be(box, normal, 10, 10, minColor, maxColor, 100, 100, 0);
+        SParticle* out = nullptr;
+        const int n = be.emitt(1000, 1000, out);  // 1000 ms at 10 per second: 10 particles
+        CHECK(n == 10);
+        bool inside = true;
+        for (int i = 0; i < n; ++i) {
+            inside = inside && out[i].pos.X >= -1.f && out[i].pos.X <= 1.f && out[i].pos.Y >= -2.f && out[i].pos.Y <= 2.f &&
+                     out[i].pos.Z >= -3.f && out[i].pos.Z <= 3.f && out[i].vector.Y == 1.f && out[i].endTime == 1100;
+        }
+        CHECK(inside);
+    }
+
+    // Ring and sphere emitters produce particles around their centre.
+    {
+        CParticleRingEmitter re(center, 5.f, 1.f, normal, 4, 4, minColor, maxColor, 10, 10, 0);
+        SParticle* out = nullptr;
+        CHECK(re.emitt(1000, 1000, out) == 4);
+        CParticleSphereEmitter se(center, 5.f, normal, 4, 4, minColor, maxColor, 10, 10, 0);
+        CHECK(se.emitt(1000, 1000, out) == 4);
+        CHECK(out != nullptr);
     }
 
     std::printf("%s\n", failures ? "particle_emitters: FAILED" : "particle_emitters: ok");

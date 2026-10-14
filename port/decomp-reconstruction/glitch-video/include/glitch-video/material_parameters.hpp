@@ -32,7 +32,8 @@ namespace detail {
 // One entry of a parameter table, 16 bytes in the original. Only the fields the
 // matrix accessors read are named. +0x00..+0x05 and +0x07 are not read here.
 struct SParameterEntry {
-    uint8_t unknown00[6] = {};  // +0x00
+    uint8_t unknown00[4] = {};  // +0x00
+    uint16_t kind = 0;          // +0x04, 2: the hashed 4-byte words; 11 and 15 are not hashed (CMaterial::updateParametersHashCode)
     uint8_t type = 0;           // +0x06, 11 selects a matrix parameter
     uint8_t unknown07 = 0;      // +0x07
     uint32_t count = 0;         // +0x08, number of matrices in the entry

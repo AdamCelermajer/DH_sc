@@ -1,20 +1,129 @@
 #include "glitch-scene-collada-gui/particle_emitters.hpp"
 
-#include <cstdlib>
+#include <cmath>
+
+#include "glitch-core-io/io/iattributes.hpp"
+#include "glitch-core-io/os/randomizer.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
+#include "glitch-scene-collada-gui/scene/IAnimatedMeshSceneNode.hpp"
 
 namespace glitch::scene {
 
+namespace {
+
+const core::vector3d<float> kZeroVector{};
+
+// Particles per second drawn for this call: the minimum, or the minimum plus rand() % (max - min).
+float drawRate(std::uint32_t minValue, std::uint32_t maxValue) {
+    if (minValue == maxValue) {
+        return static_cast<float>(minValue);
+    }
+    const std::uint32_t r = static_cast<std::uint32_t>(os::Randomizer::rand());
+    return static_cast<float>(minValue) + static_cast<float>(r % (maxValue - minValue));
+}
+
+// The emission direction turned by up to +-maxAngle degrees about each of the three axes (XY, YZ, XZ), one rand() each.
+core::vector3d<float> perturbDirection(const core::vector3d<float>& direction, std::int32_t maxAngle,
+                                       const core::vector3d<float>& pivot) {
+    core::vector3d<float> v = direction;
+    v.rotateXYBy(static_cast<double>(os::Randomizer::rand() % (2 * maxAngle) - maxAngle), pivot);
+    v.rotateYZBy(static_cast<double>(os::Randomizer::rand() % (2 * maxAngle) - maxAngle), pivot);
+    v.rotateXZBy(static_cast<double>(os::Randomizer::rand() % (2 * maxAngle) - maxAngle), pivot);
+    return v;
+}
+
+// now + life time, the life time drawn between the minimum and the maximum.
+std::uint32_t drawEndTime(std::uint32_t now, std::uint32_t minLife, std::uint32_t maxLife) {
+    if (minLife == maxLife) {
+        return now + maxLife;
+    }
+    const std::uint32_t r = static_cast<std::uint32_t>(os::Randomizer::rand());
+    return now + minLife + r % (maxLife - minLife);
+}
+
+// The start colour: a random blend of the two colours.
+video::SColor drawColor(const video::SColor& minColor, const video::SColor& maxColor) {
+    const std::uint32_t r = static_cast<std::uint32_t>(os::Randomizer::rand());
+    return minColor.getInterpolated(maxColor, static_cast<float>(r % 100) / 100.0f);
+}
+
+// How many particles are due: round(time / interval), at most twice the maximum rate.
+std::uint32_t dueCount(std::uint32_t time, float interval, std::uint32_t maxRate) {
+    std::uint32_t amount = static_cast<std::uint32_t>(static_cast<float>(time) / interval + 0.5f);
+    if (amount >= 2 * maxRate) {
+        amount = 2 * maxRate;
+    }
+    return amount;
+}
+
+// The shared deserialize tail of the box and point emitters: the rate, colour, life time and angle attributes.
+void readCommon(io::IAttributes* attributes, std::uint32_t& minRate, std::uint32_t& maxRate, video::SColor& minColor,
+                video::SColor& maxColor, std::uint32_t& minLife, std::uint32_t& maxLife, std::int32_t& maxAngle) {
+    minRate = static_cast<std::uint32_t>(attributes->getInt("MinParticlesPerSecond"));   // vptr+0x58
+    const std::uint32_t maxValue = static_cast<std::uint32_t>(attributes->getInt("MaxParticlesPerSecond"));
+    maxRate = maxValue;
+    const std::uint32_t minValue = minRate == 0 ? 1 : minRate;
+    const std::uint32_t cap = maxValue == 0 ? 1 : (maxValue > 199 ? 200 : maxValue);
+    minRate = minValue > cap ? cap : minValue;
+    maxRate = cap;
+    minColor = attributes->getColor("MinStartColor");                                    // vptr+0x124
+    maxColor = attributes->getColor("MaxStartColor");
+    minLife = static_cast<std::uint32_t>(attributes->getInt("MinLifeTime"));
+    maxLife = static_cast<std::uint32_t>(attributes->getInt("MaxLifeTime"));
+    maxAngle = attributes->getInt("MaxAngleDegrees");
+    if (minLife > maxLife) {
+        maxLife = minLife;
+    }
+}
+
+// The direction read from the attributes; a zero vector becomes (0, 0.01, 0).
+core::vector3d<float> readDirection(io::IAttributes* attributes) {
+    core::vector3d<float> d = attributes->getVector3d("Direction");                      // vptr+0x1b4
+    if (std::sqrt((d.X * d.X + d.Y * d.Y) + d.Z * d.Z) == 0.0f) {
+        d.X = 0.0f;
+        d.Y = 0.01f;
+        d.Z = 0.0f;
+    }
+    return d;
+}
+
+// The shared serialize tail of the box and point emitters.
+void writeCommon(io::IAttributes* attributes, std::uint32_t minRate, std::uint32_t maxRate, const video::SColor& minColor,
+                 const video::SColor& maxColor, std::uint32_t minLife, std::uint32_t maxLife, std::int32_t maxAngle) {
+    attributes->addInt("MinParticlesPerSecond", static_cast<std::int32_t>(minRate), false);  // vptr+0x4c
+    attributes->addInt("MaxParticlesPerSecond", static_cast<std::int32_t>(maxRate), false);
+    attributes->addColor("MinStartColor", minColor, false);                                  // vptr+0x118
+    attributes->addColor("MaxStartColor", maxColor, false);
+    attributes->addInt("MinLifeTime", static_cast<std::int32_t>(minLife), false);
+    attributes->addInt("MaxLifeTime", static_cast<std::int32_t>(maxLife), false);
+    attributes->addInt("MaxAngleDegrees", maxAngle, false);
+}
+
+// Records the vertex count of every mesh buffer of `meshToCount` after the ones already recorded, and adds them to `total`.
+// The vertex count is the word at +0x08 of the buffer's vertex stream table.
+template <typename MeshT>
+void countBuffers(MeshT& meshToCount, std::uint32_t& total, std::uint32_t& bufferCount, std::vector<std::int32_t>& counts) {
+    bufferCount = meshToCount->getMeshBufferCount();                                         // vptr+0x10
+    for (std::uint32_t i = 0; i < bufferCount; ++i) {
+        const boost::intrusive_ptr<CMeshBuffer> buffer = meshToCount->getMeshBuffer(i);      // vptr+0x14
+        const boost::intrusive_ptr<video::CVertexStreams> streams = buffer->vertexStreams;  // +0x14
+        counts.push_back(static_cast<std::int32_t>(streams->m_field08));
+        total += streams->m_field08;
+    }
+}
+
+}  // namespace
+
 // ---- CParticleCylinderEmitter ----
 
-// 0x6f9b38 _ZN6glitch5scene24CParticleCylinderEmitterC2ERKNS_4core8vector3dIfEEfS6_fbS6_jjRKNS_5video6SColorESA_jji
-// 0x6f9c88 _ZN6glitch5scene24CParticleCylinderEmitterC1ERKNS_4core8vector3dIfEEfS6_fbS6_jjRKNS_5video6SColorESA_jji
+// 0x6f9b38 _ZN6glitch5scene24CParticleCylinderEmitterC2ERKNS_4core8vector3dIfEEfS6_fbS6_jjNS_5video6SColorESA_jji
+// 0x6f9c88 _ZN6glitch5scene24CParticleCylinderEmitterC1ERKNS_4core8vector3dIfEEfS6_fbS6_jjNS_5video6SColorESA_jji
 CParticleCylinderEmitter::CParticleCylinderEmitter(
-    const core::vector3d<float>& centerValue, float radiusValue,
-    const core::vector3d<float>& normalValue, float lengthValue, bool outlineOnlyValue,
-    const core::vector3d<float>& directionValue, std::uint32_t minParticlesPerSecondValue,
-    std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
-    video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue,
-    std::uint32_t lifeTimeMaxValue, std::int32_t maxAngleDegreesValue)
+    const core::vector3d<float>& centerValue, float radiusValue, const core::vector3d<float>& normalValue,
+    float lengthValue, bool outlineOnlyValue, const core::vector3d<float>& directionValue,
+    std::uint32_t minParticlesPerSecondValue, std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
+    video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue, std::uint32_t lifeTimeMaxValue,
+    std::int32_t maxAngleDegreesValue)
     : center(centerValue),
       normal(normalValue),
       radius(radiusValue),
@@ -29,16 +138,50 @@ CParticleCylinderEmitter::CParticleCylinderEmitter(
       maxLifeTime(lifeTimeMaxValue),
       maxAngleDegrees(maxAngleDegreesValue) {}
 
-// 0x6f9e28 _ZN6glitch5scene24CParticleCylinderEmitterD1Ev
-CParticleCylinderEmitter::~CParticleCylinderEmitter() {
-    std::free(particles.begin);
-}
+// 0x6f9e28 _ZN6glitch5scene24CParticleCylinderEmitterD1Ev (D0 0x6f9e90): frees the particle storage.
+CParticleCylinderEmitter::~CParticleCylinderEmitter() = default;
 
 // 0x6f9ecc _ZN6glitch5scene24CParticleCylinderEmitter5emittEjjRPNS0_9SParticleE
-std::int32_t CParticleCylinderEmitter::emitt(std::uint32_t /*now*/, std::uint32_t timeSinceLastCall,
-                                             SParticle*& /*outArray*/) {
-    time += timeSinceLastCall;
-    return 0;  // partial: particle generation not reconstructed
+int CParticleCylinderEmitter::emitt(std::uint32_t now, std::uint32_t timeSinceLastCall, SParticle*& outArray) {
+    time += timeSinceLastCall;  // +0x58
+    const float rate = drawRate(minParticlesPerSecond, maxParticlesPerSecond);
+    const float interval = 1000.0f / rate;
+    if (!(static_cast<float>(time) > interval)) {
+        return 0;
+    }
+    particles.clear();
+    const std::uint32_t amount = dueCount(time, interval, maxParticlesPerSecond);
+    time = 0;
+    for (std::uint32_t i = 0; i != amount; ++i) {
+        SParticle p;
+        float r;
+        if (outlineOnly) {
+            r = radius;
+        } else {
+            r = std::fmod(static_cast<float>(os::Randomizer::rand()), radius * 1000.0f) * 0.001f;
+        }
+        p.pos.X = center.X + r;
+        p.pos.Y = center.Y;
+        p.pos.Z = r + center.Z;
+        p.pos.rotateXZBy(static_cast<double>(os::Randomizer::rand() % 360), center);
+        const float along = std::fmod(static_cast<float>(os::Randomizer::rand()), length * 1000.0f) * 0.001f;
+        p.pos.X = p.pos.X + along * normal.X;
+        p.pos.Y = p.pos.Y + along * normal.Y;
+        p.pos.Z = p.pos.Z + along * normal.Z;
+        p.startTime = now;
+        p.vector = direction;
+        if (maxAngleDegrees != 0) {
+            p.vector = perturbDirection(direction, maxAngleDegrees, kZeroVector);
+        }
+        p.endTime = drawEndTime(now, minLifeTime, maxLifeTime);
+        const video::SColor c = drawColor(minStartColor, maxStartColor);
+        p.color = c;
+        p.startColor = c;
+        p.startVector = p.vector;
+        particles.push_back(p);
+    }
+    outArray = particles.data();
+    return static_cast<int>(particles.size());
 }
 
 // 0x6f9a08 _ZN6glitch5scene24CParticleCylinderEmitter9setCenterERKNS_4core8vector3dIfEE
@@ -122,11 +265,11 @@ std::int32_t CParticleCylinderEmitter::getMaxAngleDegrees() const { return maxAn
 
 // 0x6fba68 _ZN6glitch5scene21CParticlePointEmitterC2ERKNS_4core8vector3dIfEEjjNS_5video6SColorES8_jji
 // 0x6fbb80 _ZN6glitch5scene21CParticlePointEmitterC1ERKNS_4core8vector3dIfEEjjNS_5video6SColorES8_jji
-CParticlePointEmitter::CParticlePointEmitter(
-    const core::vector3d<float>& directionValue, std::uint32_t minParticlesPerSecondValue,
-    std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
-    video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue,
-    std::uint32_t lifeTimeMaxValue, std::int32_t maxAngleDegreesValue)
+CParticlePointEmitter::CParticlePointEmitter(const core::vector3d<float>& directionValue,
+                                             std::uint32_t minParticlesPerSecondValue,
+                                             std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
+                                             video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue,
+                                             std::uint32_t lifeTimeMaxValue, std::int32_t maxAngleDegreesValue)
     : direction(directionValue),
       minParticlesPerSecond(minParticlesPerSecondValue),
       maxParticlesPerSecond(maxParticlesPerSecondValue),
@@ -136,11 +279,45 @@ CParticlePointEmitter::CParticlePointEmitter(
       maxLifeTime(lifeTimeMaxValue),
       maxAngleDegrees(maxAngleDegreesValue) {}
 
+// 0x6fc2fc _ZN6glitch5scene21CParticlePointEmitterD1Ev (D0 0x6fc340)
+CParticlePointEmitter::~CParticlePointEmitter() = default;
+
+// 0x6fbcd8 _ZNK6glitch5scene21CParticlePointEmitter19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+void CParticlePointEmitter::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions*) const {
+    attributes->addVector3d("Direction", direction, false);  // vptr+0x1a8
+    writeCommon(attributes, minParticlesPerSecond, maxParticlesPerSecond, minStartColor, maxStartColor, minLifeTime,
+                maxLifeTime, maxAngleDegrees);
+}
+
+// 0x6fbe4c _ZN6glitch5scene21CParticlePointEmitter21deserializeAttributesEiPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+// Reads by name (the index is not used); a zero direction becomes (0, 0.01, 0), the rates are clamped to 1..200 and the life
+// time range is made ordered. The original ends with a findAttribute("MaxAngleDegrees") call (vptr+0x28) whose result it returns.
+int CParticlePointEmitter::deserializeAttributes(int, io::IAttributes* attributes, io::SAttributeReadWriteOptions*) {
+    direction = readDirection(attributes);
+    readCommon(attributes, minParticlesPerSecond, maxParticlesPerSecond, minStartColor, maxStartColor, minLifeTime,
+               maxLifeTime, maxAngleDegrees);
+    return static_cast<int>(attributes->findAttribute("MaxAngleDegrees"));
+}
+
 // 0x6fc0b4 _ZN6glitch5scene21CParticlePointEmitter5emittEjjRPNS0_9SParticleE
-std::int32_t CParticlePointEmitter::emitt(std::uint32_t /*now*/, std::uint32_t timeSinceLastCall,
-                                          SParticle*& /*outArray*/) {
-    time += timeSinceLastCall;
-    return 0;  // partial: particle generation not reconstructed
+int CParticlePointEmitter::emitt(std::uint32_t now, std::uint32_t timeSinceLastCall, SParticle*& outArray) {
+    time += timeSinceLastCall;  // +0x70
+    const float rate = drawRate(minParticlesPerSecond, maxParticlesPerSecond);
+    if (!(static_cast<float>(time) > 1000.0f / rate)) {
+        return 0;
+    }
+    time = 0;
+    particle.startTime = now;         // +0x1c
+    particle.vector = direction;      // +0x10..+0x18
+    if (maxAngleDegrees != 0) {
+        particle.vector = perturbDirection(direction, maxAngleDegrees, kZeroVector);
+    }
+    particle.endTime = drawEndTime(now, minLifeTime, maxLifeTime);
+    particle.color = drawColor(minStartColor, maxStartColor);
+    particle.startColor = particle.color;
+    particle.startVector = particle.vector;
+    outArray = &particle;
+    return 1;
 }
 
 // 0x6fb9d4 _ZN6glitch5scene21CParticlePointEmitter12setDirectionERKNS_4core8vector3dIfEE
@@ -194,15 +371,11 @@ std::int32_t CParticlePointEmitter::getMaxAngleDegrees() const { return maxAngle
 
 // 0x6f8a48 _ZN6glitch5scene19CParticleBoxEmitterC2ERKNS_4core8aabbox3dIfEERKNS2_8vector3dIfEEjjNS_5video6SColorESC_jji
 // 0x6f8bb0 _ZN6glitch5scene19CParticleBoxEmitterC1ERKNS_4core8aabbox3dIfEERKNS2_8vector3dIfEEjjNS_5video6SColorESC_jji
-CParticleBoxEmitter::CParticleBoxEmitter(const core::aabbox3d<float>& boxValue,
-                                         const core::vector3d<float>& directionValue,
+CParticleBoxEmitter::CParticleBoxEmitter(const core::aabbox3d<float>& boxValue, const core::vector3d<float>& directionValue,
                                          std::uint32_t minParticlesPerSecondValue,
-                                         std::uint32_t maxParticlesPerSecondValue,
-                                         video::SColor minStartColorValue,
-                                         video::SColor maxStartColorValue,
-                                         std::uint32_t lifeTimeMinValue,
-                                         std::uint32_t lifeTimeMaxValue,
-                                         std::int32_t maxAngleDegreesValue)
+                                         std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
+                                         video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue,
+                                         std::uint32_t lifeTimeMaxValue, std::int32_t maxAngleDegreesValue)
     : box(boxValue),
       direction(directionValue),
       minParticlesPerSecond(minParticlesPerSecondValue),
@@ -213,16 +386,74 @@ CParticleBoxEmitter::CParticleBoxEmitter(const core::aabbox3d<float>& boxValue,
       maxLifeTime(lifeTimeMaxValue),
       maxAngleDegrees(maxAngleDegreesValue) {}
 
-// 0x6f8f30 _ZN6glitch5scene19CParticleBoxEmitterD1Ev
-CParticleBoxEmitter::~CParticleBoxEmitter() {
-    std::free(particles.begin);
+// 0x6f8f50 _ZN6glitch5scene19CParticleBoxEmitterD1Ev (D0 0x6f8f98): frees the particle storage.
+CParticleBoxEmitter::~CParticleBoxEmitter() = default;
+
+// 0x6f8d5c _ZNK6glitch5scene19CParticleBoxEmitter19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+void CParticleBoxEmitter::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions*) const {
+    core::vector3d<float> half;
+    half.X = (box.MaxEdge.X - box.MinEdge.X) * 0.5f;
+    half.Y = (box.MaxEdge.Y - box.MinEdge.Y) * 0.5f;
+    half.Z = (box.MaxEdge.Z - box.MinEdge.Z) * 0.5f;
+    attributes->addVector3d("Box", half, false);             // vptr+0x1a8
+    attributes->addVector3d("Direction", direction, false);
+    writeCommon(attributes, minParticlesPerSecond, maxParticlesPerSecond, minStartColor, maxStartColor, minLifeTime,
+                maxLifeTime, maxAngleDegrees);
+}
+
+// 0x6f8fd4 _ZN6glitch5scene19CParticleBoxEmitter21deserializeAttributesEiPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+// The box is read as half extents (non-positive components become 1) and centred on the origin. See the point emitter for the
+// repairs and the trailing findAttribute call.
+int CParticleBoxEmitter::deserializeAttributes(int, io::IAttributes* attributes, io::SAttributeReadWriteOptions*) {
+    core::vector3d<float> half = attributes->getVector3d("Box");  // vptr+0x1b4
+    if (half.X <= 0.0f) half.X = 1.0f;
+    if (half.Y <= 0.0f) half.Y = 1.0f;
+    if (half.Z <= 0.0f) half.Z = 1.0f;
+    box.MinEdge.X = -half.X;  // +0x10
+    box.MinEdge.Y = -half.Y;
+    box.MinEdge.Z = -half.Z;
+    box.MaxEdge.X = half.X;
+    box.MaxEdge.Y = half.Y;
+    box.MaxEdge.Z = half.Z;
+    direction = readDirection(attributes);
+    readCommon(attributes, minParticlesPerSecond, maxParticlesPerSecond, minStartColor, maxStartColor, minLifeTime,
+               maxLifeTime, maxAngleDegrees);
+    return static_cast<int>(attributes->findAttribute("MaxAngleDegrees"));
 }
 
 // 0x6f9508 _ZN6glitch5scene19CParticleBoxEmitter5emittEjjRPNS0_9SParticleE
-std::int32_t CParticleBoxEmitter::emitt(std::uint32_t /*now*/, std::uint32_t timeSinceLastCall,
-                                        SParticle*& /*outArray*/) {
-    time += timeSinceLastCall;
-    return 0;  // partial: particle generation not reconstructed
+int CParticleBoxEmitter::emitt(std::uint32_t now, std::uint32_t timeSinceLastCall, SParticle*& outArray) {
+    time += timeSinceLastCall;  // +0x4c
+    const float rate = drawRate(minParticlesPerSecond, maxParticlesPerSecond);
+    const float interval = 1000.0f / rate;
+    if (!(static_cast<float>(time) > interval)) {
+        return 0;
+    }
+    particles.clear();
+    const std::uint32_t amount = dueCount(time, interval, maxParticlesPerSecond);
+    time = 0;
+    const float extentX = box.MaxEdge.X - box.MinEdge.X;
+    const float extentY = box.MaxEdge.Y - box.MinEdge.Y;
+    const float extentZ = box.MaxEdge.Z - box.MinEdge.Z;
+    for (std::uint32_t i = 0; i != amount; ++i) {
+        SParticle p;
+        p.pos.X = std::fmod(static_cast<float>(os::Randomizer::rand()), extentX) + box.MinEdge.X;
+        p.pos.Y = box.MinEdge.Y + std::fmod(static_cast<float>(os::Randomizer::rand()), extentY);
+        p.pos.Z = box.MinEdge.Z + std::fmod(static_cast<float>(os::Randomizer::rand()), extentZ);
+        p.startTime = now;
+        p.vector = direction;
+        if (maxAngleDegrees != 0) {
+            p.vector = perturbDirection(direction, maxAngleDegrees, kZeroVector);
+        }
+        p.endTime = drawEndTime(now, minLifeTime, maxLifeTime);
+        const video::SColor c = drawColor(minStartColor, maxStartColor);
+        p.color = c;
+        p.startColor = c;
+        p.startVector = p.vector;
+        particles.push_back(p);
+    }
+    outArray = particles.data();
+    return static_cast<int>(particles.size());
 }
 
 // 0x6f8954 _ZN6glitch5scene19CParticleBoxEmitter12setDirectionERKNS_4core8vector3dIfEE
@@ -280,18 +511,14 @@ std::int32_t CParticleBoxEmitter::getMaxAngleDegrees() const { return maxAngleDe
 
 // ---- CParticleRingEmitter ----
 
-// 0x6fc4c8 _ZN6glitch5scene20CParticleRingEmitterC2ERKNS_4core8vector3dIfEEffS6_jjRKNS_5video6SColorESA_jji
-// 0x6fc5f4 _ZN6glitch5scene20CParticleRingEmitterC1ERKNS_4core8vector3dIfEEffS6_jjRKNS_5video6SColorESA_jji
-CParticleRingEmitter::CParticleRingEmitter(const core::vector3d<float>& centerValue,
-                                           float radiusValue, float ringThicknessValue,
-                                           const core::vector3d<float>& directionValue,
+// 0x6fc4c8 _ZN6glitch5scene20CParticleRingEmitterC2ERKNS_4core8vector3dIfEEffS6_jjNS_5video6SColorES8_jji
+// 0x6fc5f4 _ZN6glitch5scene20CParticleRingEmitterC1ERKNS_4core8vector3dIfEEffS6_jjNS_5video6SColorES8_jji
+CParticleRingEmitter::CParticleRingEmitter(const core::vector3d<float>& centerValue, float radiusValue,
+                                           float ringThicknessValue, const core::vector3d<float>& directionValue,
                                            std::uint32_t minParticlesPerSecondValue,
-                                           std::uint32_t maxParticlesPerSecondValue,
-                                           video::SColor minStartColorValue,
-                                           video::SColor maxStartColorValue,
-                                           std::uint32_t lifeTimeMinValue,
-                                           std::uint32_t lifeTimeMaxValue,
-                                           std::int32_t maxAngleDegreesValue)
+                                           std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
+                                           video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue,
+                                           std::uint32_t lifeTimeMaxValue, std::int32_t maxAngleDegreesValue)
     : center(centerValue),
       radius(radiusValue),
       ringThickness(ringThicknessValue),
@@ -304,16 +531,46 @@ CParticleRingEmitter::CParticleRingEmitter(const core::vector3d<float>& centerVa
       maxLifeTime(lifeTimeMaxValue),
       maxAngleDegrees(maxAngleDegreesValue) {}
 
-// 0x6fc770 _ZN6glitch5scene20CParticleRingEmitterD1Ev
-CParticleRingEmitter::~CParticleRingEmitter() {
-    std::free(particles.begin);
-}
+// 0x6fc78c _ZN6glitch5scene20CParticleRingEmitterD1Ev (D0 0x6fc7d8): frees the particle storage.
+CParticleRingEmitter::~CParticleRingEmitter() = default;
 
 // 0x6fc814 _ZN6glitch5scene20CParticleRingEmitter5emittEjjRPNS0_9SParticleE
-std::int32_t CParticleRingEmitter::emitt(std::uint32_t /*now*/, std::uint32_t timeSinceLastCall,
-                                         SParticle*& /*outArray*/) {
-    time += timeSinceLastCall;
-    return 0;  // partial: particle generation not reconstructed
+int CParticleRingEmitter::emitt(std::uint32_t now, std::uint32_t timeSinceLastCall, SParticle*& outArray) {
+    time += timeSinceLastCall;  // +0x48
+    const float rate = drawRate(minParticlesPerSecond, maxParticlesPerSecond);
+    const float interval = 1000.0f / rate;
+    if (!(static_cast<float>(time) > interval)) {
+        return 0;
+    }
+    particles.clear();
+    const std::uint32_t amount = dueCount(time, interval, maxParticlesPerSecond);
+    time = 0;
+    for (std::uint32_t i = 0; i != amount; ++i) {
+        SParticle p;
+        float jitter = std::fmod(static_cast<float>(os::Randomizer::rand()), (ringThickness * 0.5f) * 1000.0f) * 0.001f;
+        if (os::Randomizer::rand() % 2 != 0) {
+            jitter = -jitter;
+        }
+        const float offset = jitter + radius;
+        p.pos.X = center.X + offset;
+        p.pos.Y = center.Y;
+        p.pos.Z = offset + center.Z;
+        p.pos.rotateXZBy(static_cast<double>(static_cast<float>(os::Randomizer::rand() % 3600) * 0.1f), center);
+        p.startTime = now;
+        p.vector = direction;
+        if (maxAngleDegrees != 0) {
+            // The original rotates the direction about the ring's centre (the pivot argument is +0x10), not about the origin.
+            p.vector = perturbDirection(direction, maxAngleDegrees, center);
+        }
+        p.endTime = drawEndTime(now, minLifeTime, maxLifeTime);
+        const video::SColor c = drawColor(minStartColor, maxStartColor);
+        p.color = c;
+        p.startColor = c;
+        p.startVector = p.vector;
+        particles.push_back(p);
+    }
+    outArray = particles.data();
+    return static_cast<int>(particles.size());
 }
 
 // 0x6fc3cc _ZN6glitch5scene20CParticleRingEmitter12setDirectionERKNS_4core8vector3dIfEE
@@ -383,14 +640,14 @@ std::int32_t CParticleRingEmitter::getMaxAngleDegrees() const { return maxAngleD
 
 // ---- CParticleSphereEmitter ----
 
-// 0x6fd9e8 _ZN6glitch5scene22CParticleSphereEmitterC2ERKNS_4core8vector3dIfEEfS6_jjRKNS_5video6SColorESA_jji
-// 0x6fdb0c _ZN6glitch5scene22CParticleSphereEmitterC1ERKNS_4core8vector3dIfEEfS6_jjRKNS_5video6SColorESA_jji
-CParticleSphereEmitter::CParticleSphereEmitter(
-    const core::vector3d<float>& centerValue, float radiusValue,
-    const core::vector3d<float>& directionValue, std::uint32_t minParticlesPerSecondValue,
-    std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
-    video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue,
-    std::uint32_t lifeTimeMaxValue, std::int32_t maxAngleDegreesValue)
+// 0x6fd9e8 _ZN6glitch5scene22CParticleSphereEmitterC2ERKNS_4core8vector3dIfEEfS6_jjNS_5video6SColorES8_jji
+// 0x6fdb0c _ZN6glitch5scene22CParticleSphereEmitterC1ERKNS_4core8vector3dIfEEfS6_jjNS_5video6SColorES8_jji
+CParticleSphereEmitter::CParticleSphereEmitter(const core::vector3d<float>& centerValue, float radiusValue,
+                                               const core::vector3d<float>& directionValue,
+                                               std::uint32_t minParticlesPerSecondValue,
+                                               std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
+                                               video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue,
+                                               std::uint32_t lifeTimeMaxValue, std::int32_t maxAngleDegreesValue)
     : center(centerValue),
       radius(radiusValue),
       direction(directionValue),
@@ -402,16 +659,43 @@ CParticleSphereEmitter::CParticleSphereEmitter(
       maxLifeTime(lifeTimeMaxValue),
       maxAngleDegrees(maxAngleDegreesValue) {}
 
-// 0x6fdc84 _ZN6glitch5scene22CParticleSphereEmitterD1Ev
-CParticleSphereEmitter::~CParticleSphereEmitter() {
-    std::free(particles.begin);
-}
+// 0x6fdc9c _ZN6glitch5scene22CParticleSphereEmitterD1Ev (D0 0x6fdcec): frees the particle storage.
+CParticleSphereEmitter::~CParticleSphereEmitter() = default;
 
 // 0x6fdd28 _ZN6glitch5scene22CParticleSphereEmitter5emittEjjRPNS0_9SParticleE
-std::int32_t CParticleSphereEmitter::emitt(std::uint32_t /*now*/, std::uint32_t timeSinceLastCall,
-                                           SParticle*& /*outArray*/) {
-    time += timeSinceLastCall;
-    return 0;  // partial: particle generation not reconstructed
+int CParticleSphereEmitter::emitt(std::uint32_t now, std::uint32_t timeSinceLastCall, SParticle*& outArray) {
+    time += timeSinceLastCall;  // +0x44
+    const float rate = drawRate(minParticlesPerSecond, maxParticlesPerSecond);
+    const float interval = 1000.0f / rate;
+    if (!(static_cast<float>(time) > interval)) {
+        return 0;
+    }
+    particles.clear();
+    const std::uint32_t amount = dueCount(time, interval, maxParticlesPerSecond);
+    time = 0;
+    for (std::uint32_t i = 0; i != amount; ++i) {
+        SParticle p;
+        const float offset = std::fmod(static_cast<float>(os::Randomizer::rand()), radius * 1000.0f) * 0.001f;
+        p.pos.X = offset + center.X;
+        p.pos.Y = offset + center.Y;
+        p.pos.Z = offset + center.Z;
+        p.pos.rotateXYBy(static_cast<double>(os::Randomizer::rand() % 360), center);
+        p.pos.rotateYZBy(static_cast<double>(os::Randomizer::rand() % 360), center);
+        p.pos.rotateXZBy(static_cast<double>(os::Randomizer::rand() % 360), center);
+        p.startTime = now;
+        p.vector = direction;
+        if (maxAngleDegrees != 0) {
+            p.vector = perturbDirection(direction, maxAngleDegrees, kZeroVector);
+        }
+        p.endTime = drawEndTime(now, minLifeTime, maxLifeTime);
+        const video::SColor c = drawColor(minStartColor, maxStartColor);
+        p.color = c;
+        p.startColor = c;
+        p.startVector = p.vector;
+        particles.push_back(p);
+    }
+    outArray = particles.data();
+    return static_cast<int>(particles.size());
 }
 
 // 0x6fd8fc _ZN6glitch5scene22CParticleSphereEmitter12setDirectionERKNS_4core8vector3dIfEE
@@ -475,19 +759,16 @@ std::int32_t CParticleSphereEmitter::getMaxAngleDegrees() const { return maxAngl
 
 // ---- CParticleMeshEmitter ----
 
-// 0x6fb708 _ZN6glitch5scene20CParticleMeshEmitterC1ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEbRKNS_4core8vector3dIfEEfibjjRKNS_5video6SColorESH_jji
-// 0x6fb2e4 _ZN6glitch5scene20CParticleMeshEmitterC2ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEbRKNS_4core8vector3dIfEEfibjjRKNS_5video6SColorESH_jji
-// Partial: the settings are stored. The original also takes a reference on
-// the mesh and counts its buffers and vertices (see setMesh), which is not
-// reconstructed.
-CParticleMeshEmitter::CParticleMeshEmitter(
-    const boost::intrusive_ptr<const IMesh>& meshValue, bool useNormalDirectionValue,
-    const core::vector3d<float>& directionValue, float normalDirectionModifierValue,
-    std::int32_t meshBufferNumberValue, bool everyMeshVertexValue,
-    std::uint32_t minParticlesPerSecondValue, std::uint32_t maxParticlesPerSecondValue,
-    video::SColor minStartColorValue, video::SColor maxStartColorValue,
-    std::uint32_t lifeTimeMinValue, std::uint32_t lifeTimeMaxValue,
-    std::int32_t maxAngleDegreesValue)
+// 0x6fb2e4 _ZN6glitch5scene20CParticleMeshEmitterC2ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEbRKNS_4core8vector3dIfEEfibjjNS_5video6SColorESH_jji
+// 0x6fb708 _ZN6glitch5scene20CParticleMeshEmitterC1ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEbRKNS_4core8vector3dIfEEfibjjNS_5video6SColorESH_jji
+// Holds the mesh and records the vertex count of every mesh buffer.
+CParticleMeshEmitter::CParticleMeshEmitter(const boost::intrusive_ptr<const IMesh>& meshValue, bool useNormalDirectionValue,
+                                           const core::vector3d<float>& directionValue,
+                                           float normalDirectionModifierValue, std::int32_t meshBufferNumberValue,
+                                           bool everyMeshVertexValue, std::uint32_t minParticlesPerSecondValue,
+                                           std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
+                                           video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue,
+                                           std::uint32_t lifeTimeMaxValue, std::int32_t maxAngleDegreesValue)
     : mesh(meshValue),
       meshBufferNumber(meshBufferNumberValue),
       everyMeshVertex(everyMeshVertexValue),
@@ -500,29 +781,22 @@ CParticleMeshEmitter::CParticleMeshEmitter(
       maxStartColor(maxStartColorValue),
       minLifeTime(lifeTimeMinValue),
       maxLifeTime(lifeTimeMaxValue),
-      maxAngleDegrees(maxAngleDegreesValue) {}
-
-// 0x6fb0fc _ZN6glitch5scene20CParticleMeshEmitterD1Ev
-// Partial: releases the +0x28 buffer and the per-buffer array. The reference
-// drop on the mesh (IReferenceCounted::drop) is not modelled.
-CParticleMeshEmitter::~CParticleMeshEmitter() {
-    std::free(buffer28);
-    std::free(bufferVertexCounts.begin);
+      maxAngleDegrees(maxAngleDegreesValue) {
+    countBuffers(mesh, totalVertexCount, meshBufferCount, bufferVertexCounts);
 }
 
-// 0x6fb0d4 _ZN6glitch5scene20CParticleMeshEmitter5emittEjjRPNS0_9SParticleE
-std::int32_t CParticleMeshEmitter::emitt(std::uint32_t /*now*/, std::uint32_t /*timeSinceLastCall*/,
-                                         SParticle*& /*outArray*/) {
-    return 0;
-}
+// 0x6fb0d4 _ZN6glitch5scene20CParticleMeshEmitter5emittEjjRPNS0_9SParticleE: the original body returns 0.
+int CParticleMeshEmitter::emitt(std::uint32_t, std::uint32_t, SParticle*&) { return 0; }
+
+// 0x6fb0fc _ZN6glitch5scene20CParticleMeshEmitterD1Ev (D0 0x6fb184): frees the two vectors and drops the mesh.
+CParticleMeshEmitter::~CParticleMeshEmitter() = default;
 
 // 0x6fb57c _ZN6glitch5scene20CParticleMeshEmitter7setMeshERKN5boost13intrusive_ptrIKNS0_5IMeshEEE
-// Partial: stores the mesh and clears the vertex total. The reference counting
-// and the per-buffer loop, which need IMesh and mesh-buffer vtable slots, are
-// not reconstructed, so meshBufferCount and the per-buffer counts are unchanged.
+// Replaces the mesh, restarts the total and appends the per-buffer vertex counts of the new mesh (the vector is not cleared).
 void CParticleMeshEmitter::setMesh(const boost::intrusive_ptr<const IMesh>& value) {
     mesh = value;
-    totalVertexCount = 0;
+    totalVertexCount = 0;  // +0x08
+    countBuffers(mesh, totalVertexCount, meshBufferCount, bufferVertexCounts);
 }
 
 // 0x6fafd4 _ZN6glitch5scene20CParticleMeshEmitter21setUseNormalDirectionEb
@@ -603,18 +877,14 @@ std::int32_t CParticleMeshEmitter::getMaxAngleDegrees() const { return maxAngleD
 
 // ---- CParticleAnimatedMeshSceneNodeEmitter ----
 
-// 0x6f7a94 _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitterC2EPNS0_22IAnimatedMeshSceneNodeEbRKNS_4core8vector3dIfEEfibjjRKNS_5video6SColorESC_jji
-// 0x6f7ff0 _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitterC1EPNS0_22IAnimatedMeshSceneNodeEbRKNS_4core8vector3dIfEEfibjjRKNS_5video6SColorESC_jji
-// Partial: the settings are stored. The original's remaining constructor code
-// (after the colour copies) is not reconstructed, and the scene node is not
-// grabbed here.
+// 0x6f7a94 _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitterC2EPNS0_22IAnimatedMeshSceneNodeEbRKNS_4core8vector3dIfEEfibjjNS_5video6SColorESC_jji
+// 0x6f7ff0 _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitterC1EPNS0_22IAnimatedMeshSceneNodeEbRKNS_4core8vector3dIfEEfibjjNS_5video6SColorESC_jji
+// Stores the node (not referenced), takes the node's animated mesh and its frame-0 mesh, and records the vertex counts.
 CParticleAnimatedMeshSceneNodeEmitter::CParticleAnimatedMeshSceneNodeEmitter(
-    IAnimatedMeshSceneNode* nodeValue, bool useNormalDirectionValue,
-    const core::vector3d<float>& directionValue, float normalDirectionModifierValue,
-    std::int32_t meshBufferNumberValue, bool everyMeshVertexValue,
-    std::uint32_t minParticlesPerSecondValue, std::uint32_t maxParticlesPerSecondValue,
-    video::SColor minStartColorValue, video::SColor maxStartColorValue,
-    std::uint32_t lifeTimeMinValue, std::uint32_t lifeTimeMaxValue,
+    IAnimatedMeshSceneNode* nodeValue, bool useNormalDirectionValue, const core::vector3d<float>& directionValue,
+    float normalDirectionModifierValue, std::int32_t meshBufferNumberValue, bool everyMeshVertexValue,
+    std::uint32_t minParticlesPerSecondValue, std::uint32_t maxParticlesPerSecondValue, video::SColor minStartColorValue,
+    video::SColor maxStartColorValue, std::uint32_t lifeTimeMinValue, std::uint32_t lifeTimeMaxValue,
     std::int32_t maxAngleDegreesValue)
     : node(nodeValue),
       meshBufferNumber(meshBufferNumberValue),
@@ -628,13 +898,26 @@ CParticleAnimatedMeshSceneNodeEmitter::CParticleAnimatedMeshSceneNodeEmitter(
       maxStartColor(maxStartColorValue),
       minLifeTime(lifeTimeMinValue),
       maxLifeTime(lifeTimeMaxValue),
-      maxAngleDegrees(maxAngleDegreesValue) {}
+      maxAngleDegrees(maxAngleDegreesValue) {
+    animatedMesh = node->getMesh();                  // vptr+0x11c
+    mesh = animatedMesh->getMesh(0, 255, -1, -1);    // vptr+0x34
+    countBuffers(mesh, totalVertexCount, meshBufferCount, bufferVertexCounts);
+}
 
-// 0x6f7820 _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitter5emittEjjRPNS0_9SParticleE
-std::int32_t CParticleAnimatedMeshSceneNodeEmitter::emitt(std::uint32_t /*now*/,
-                                                          std::uint32_t /*timeSinceLastCall*/,
-                                                          SParticle*& /*outArray*/) {
-    return 0;
+// 0x6f7820 _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitter5emittEjjRPNS0_9SParticleE: the original body returns 0.
+int CParticleAnimatedMeshSceneNodeEmitter::emitt(std::uint32_t, std::uint32_t, SParticle*&) { return 0; }
+
+// 0x6f789c _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitterD1Ev (D0 0x6f7934): frees the two vectors and drops both meshes.
+CParticleAnimatedMeshSceneNodeEmitter::~CParticleAnimatedMeshSceneNodeEmitter() = default;
+
+// 0x6f7ddc _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitter23setAnimatedMeshSceneNodeEPNS0_22IAnimatedMeshSceneNodeE
+// Stores the node, re-derives the meshes, restarts the total and appends the per-buffer vertex counts (the vector is not cleared).
+void CParticleAnimatedMeshSceneNodeEmitter::setAnimatedMeshSceneNode(IAnimatedMeshSceneNode* nodeValue) {
+    node = nodeValue;
+    animatedMesh = node->getMesh();
+    mesh = animatedMesh->getMesh(0, 255, -1, -1);
+    totalVertexCount = 0;  // +0x10
+    countBuffers(mesh, totalVertexCount, meshBufferCount, bufferVertexCounts);
 }
 
 // 0x6f76fc _ZN6glitch5scene37CParticleAnimatedMeshSceneNodeEmitter21setUseNormalDirectionEb

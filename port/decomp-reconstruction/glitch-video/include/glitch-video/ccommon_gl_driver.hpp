@@ -124,6 +124,9 @@ public:
     void unregisterBufferMap(uint32_t key);
     // 0x5b35d8: frees every copy and empties the map.
     void clearBufferMap();
+    // 0x5b0594: re-uploads every registered buffer after a context loss: for each entry in key order, bind the buffer name on its
+    // target, glBufferData(target, byteCount, copy, usage), unbind the target.
+    void ReloadbufferMap();
 
     // Render-state apply paths. In the original these are members of the template
     // instance, applied to detail::renderpass::SRenderState only, so they are declared

@@ -26,6 +26,8 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
+#include <vector>
 
 #include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/material_parameters.hpp"
@@ -52,6 +54,9 @@ public:
     // Not part of the original (which constructs only through allocate / the five-argument constructor): lets a
     // test build a material and fill the header words by hand.
     CMaterial() = default;
+    // 0x5cbf78 (D1) / 0x5cc144 (D0): drops the parameters, tells the renderer's driver (IVideoDriver::onMaterialDestroyed) and releases
+    // the name and the renderer.
+    ~CMaterial();
     CMaterial(const CMaterial&) = delete;
     CMaterial& operator=(const CMaterial&) = delete;
 
@@ -80,6 +85,16 @@ public:
     // reset puts the header back to its post-construction state. Declared only.
     void init(const uint8_t* values, const detail::material::SRenderState* renderState, bool dropOld);
     void reset(const detail::material::SRenderState* renderState);
+    // Port form of init: `source` is the parameter object the raw `values` bytes belong to (the renderer's defaults or the source
+    // material of a clone). The original keeps the matrix and texture pointers inside the copied bytes and takes a use on each
+    // (grabParameters); the port holds them in slot maps next to the bytes, so those are copied from `source` as well.
+    void init(const uint8_t* values, const detail::material::SRenderState* renderState, bool dropOld,
+              const detail::IMaterialParameters<CMaterial, true>* sourceMaterial,
+              const detail::IMaterialParameters<CMaterialRenderer, false>* sourceRenderer);
+    // 0x5cbba4 / 0x5cba30: release every parameter (matrices to the pool, texture and light references dropped). The port clears the
+    // slot maps of those entries.
+    void dropParameters();
+    void dropParameter(uint16_t index);
 
     // 0x35364c: hash code of the current technique. A dirty bit forces a refresh first.
     uint32_t getHashCode() const;
@@ -123,6 +138,12 @@ public:
     uint8_t m_remapSet = 0;                                // +0x14, index into the owner's remap tables in getTechnique
     mutable uint32_t* m_hashCodes = nullptr;               // +0x18, one hash word per technique
     void* m_name = nullptr;                                // +0x1c, SSharedStringHeapEntry::SData* (count at +0x00, text at +0x04)
+    // The variable-size tail of the original block, kept as vectors: the parameter values (+0x20), and the per-technique hash words
+    // (m_hashCodes points into m_hashStorage). A name is a shared string in the original; the port keeps its text.
+    std::vector<uint8_t> m_values;                         // +0x20
+    std::vector<uint32_t> m_hashStorage;                   // end of the block
+    std::string m_nameText;                                // text of the +0x1c entry
+    bool m_hasName = false;                                // the +0x1c entry is non-null
 
     // IMaterialParameters<CMaterial, ISharedMemoryBlockHeader<CMaterial>>: in the original the base class of CMaterial (its values start at
     // +0x20, its parameter table is the renderer's, reached through +0x04). The port keeps the base as this member; its dirty words
