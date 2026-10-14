@@ -568,7 +568,7 @@ struct CombatSession::Impl {
                 auto& bridge=*static_cast<Bridge*>(p);auto& self=*bridge.self;auto& entry=self.entries.at(bridge.id);
                 if(!bridge.failure.empty())return -1;
                 const auto dispatchIndex=self.animationDispatches.size();
-                self.animationDispatches.push_back({bridge.id,request->event,request->service,bridge.event->lag_ms,bridge.event->name});
+                self.animationDispatches.push_back({bridge.id,request->event,request->service,bridge.event->lag_ms,bridge.event->name,false,bridge.event->wall_timestamp_ms,bridge.event->clip_id});
                 if(request->service==ai_event_helper&&request->operation==0x3d4434){
                     if(entry.stateManaged&&entry.stateServices.event&&!entry.stateServices.event(bridge.id,*bridge.event,bridge.failure))return -1;
                     const auto* traits=self.world->traits(bridge.id);const auto* properties=self.world->combat_properties(bridge.id);

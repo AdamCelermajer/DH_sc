@@ -17,6 +17,8 @@ bool RetainedAnimationOwner::bind_events(const std::string& clip,const std::uint
     if(events_.count(clip)) { error="Retained event clip already bound";return false; }
     std::int32_t start=0,end=0;
     if(!visual_.animation_range(clip,start,end,error)) return false;
+    // w5-faery diagnostic: authored clip range (ms) of every retained event clip.
+    if(clip.find("source-skill-sequence")!=std::string::npos)std::cout<<"Retained clip range clip="<<clip<<" start="<<start<<" end="<<end<<'\n';
     dh2::resources::BresView bres{};
     if(dh2_bres_open(&bres,bytes,size)!=dh2::resources::BresError::ok
        || bres.root_offset>size || size-bres.root_offset<36) { error="Event source BRES rejected";return false; }

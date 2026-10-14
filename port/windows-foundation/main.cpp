@@ -1818,6 +1818,9 @@ int main(int argc,char** argv) {
             options.character=skillVisualPlan.config;skillAnimationBank=std::move(bank);
             for(const auto& root:skillAnimationBank->class_skill_roots)if(!root.loaded)std::cerr<<"Source skill optional root unavailable "<<root.source_skill_name<<": "<<root.diagnostic<<'\n';
             std::cout<<"Source skill bank preloaded class="<<state.class_id<<" roots="<<skillAnimationBank->class_skill_roots.size()<<" faeryCast="<<skillAnimationBank->active_faery_cast_sequence.value_or(-1)<<'\n';
+            // w5-faery diagnostic: authored phase clips and playback rates of the active faery Cast sequence.
+            for(const auto& seq:skillVisualPlan.sequences)if(seq.id==skillAnimationBank->active_faery_cast_sequence.value_or(-1))
+                for(const auto& ph:seq.phases)std::cout<<"Faery cast phase sequence="<<seq.id<<" clip="<<ph.clipName<<" speed="<<ph.speed<<" blendOut="<<ph.blendOut<<'\n';
             // v21.8 mage: MagePlayerBase joins the same source attack-bank path; its staff attack is ranged (no melee markers).
             const auto familyRow=f::playable_base_class_row(state.class_id);
             if((familyRow=="RoguePlayerBase"||familyRow=="MagePlayerBase")&&locomotionLibrary) {
@@ -9660,7 +9663,7 @@ int main(int argc,char** argv) {
                     std::cout<<"Source animation frame="<<drawn<<" actor="<<event.actor<<" event="<<event.event
                              <<" service="<<event.service<<" name="<<event.authored_name<<" lag="<<event.lag_ms
                              <<" controllerBlocked="<<(globalControllerBlocked||characterControllerBlocked[event.actor])
-                             <<" synchronousHit="<<event.synchronous_source_hit<<'\n';
+                             <<" synchronousHit="<<event.synchronous_source_hit<<" clipMs="<<event.wall_timestamp_ms<<" clip="<<event.clip_id<<'\n';
                 // B085: the hero's swing hit marker (mainhand/offhand) on a destructible target = source AISDefault::OnAttack
                 // (0x3dc12c): no Character target -> target->Interact (DestructibleContainer::Interact: stage clip + sound,
                 // final hit = destroy + loot). Gate: the swing was aimed at an in-range unbroken destructible OOI.

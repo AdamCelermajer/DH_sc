@@ -217,6 +217,9 @@ struct CombatSessionAnimationDispatch {
     std::int32_t lag_ms=0;
     std::string authored_name;
     bool synchronous_source_hit=false;
+    // w5-faery diagnostic: clip-time of the marker (ms into its clip) and the clip that fired it.
+    std::uint32_t wall_timestamp_ms=0;
+    std::string clip_id;
 };
 struct CombatSessionAnimationNotificationServices {
     // Same live actor ownership as combat/lifecycle. Numeric22..27 callback
