@@ -96,3 +96,6 @@ build.log
 build-cfg.log
 build/
 ctest_final.log
+*.bak
+*.orig
+*.rej
