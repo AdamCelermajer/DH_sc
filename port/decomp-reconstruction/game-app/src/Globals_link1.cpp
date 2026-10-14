@@ -9,6 +9,7 @@
 #include "dh2/global/AnimationSet_GetAnimation.hpp"        // LG_DEVICES
 #include "dh2/global/Globals.hpp"                          // handle_cheats_inGame
 #include "dh2/global/MenuManagerGlobals.hpp"               // HTC_DEVICES, NO_IGP, Width_Screen
+#include "dh2/global/Vec3f_J.hpp"
 #include "dh2/global/Vec3f_K.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "dh2/global/menu_main_menu.hpp"                   // Is_In_Multiplayer_IGM, Is_In_Multiplayer_Mode
@@ -47,3 +48,5 @@ float sfx_vfx_volume = 0.0f;              // 0x9a2384 .bss
 // ---- constant vectors (the static initializer at 0x312e00 writes Vec3f_K; Vec3f_Origin stays zero) ------------------
 Point3D<float> Vec3f_Origin = {0.0f, 0.0f, 0.0f};   // 0x99f854, 12 bytes
 Point3D<float> Vec3f_K = {0.0f, 0.0f, 1.0f};        // 0x99f878, 12 bytes: (0, 0, 1)
+Point3D<float> Vec3f_I = {1.0f, 0.0f, 0.0f};        // 0x99f860, 12 bytes: (1, 0, 0)
+Point3D<float> Vec3f_J = {0.0f, 1.0f, 0.0f};        // 0x99f86c, 12 bytes: (0, 1, 0)

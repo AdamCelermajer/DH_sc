@@ -55,7 +55,8 @@ public:
         gameswf::as_object* target;   // +0x00 RenderFX::Find result for the event's character
         const char* name;             // +0x04 event name (OnEvent passes it to strstr; mySendEvent stores it)
         EventType type;               // +0x08 OnEvent tests it against 6
-        uint8_t pad_0c[0x18];         // +0x0c .. +0x23, zeroed by mySendEvent, not recovered
+        float x;                      // +0x0c pointer x of a drag event (MenuCharacterSelect::OnEvent, event type 5)
+        uint8_t pad_10[0x14];         // +0x10 .. +0x23, zeroed by mySendEvent (together with x), not recovered
         uint8_t unk_24;               // +0x24 zeroed by mySendEvent
         uint8_t unk_25;               // +0x25 zeroed by mySendEvent, read by GetCharacterPath
         char* GetCharacterPath();     // 0x421e48

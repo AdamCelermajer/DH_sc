@@ -6,6 +6,15 @@
 
 #include "dh2/Application.hpp"
 #include "dh2/GSFlashMenu.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "dh2/OnlineStatusMsg.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/AchievementMsg.hpp"
+#include "dh2/DialogMsg.hpp"
+#include "dh2/MenuMessageManager.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/MultiMenuManager.hpp"
@@ -51,16 +60,11 @@ void GSEndGame::Draw(const StateMachine* /*machine*/) {
 }
 
 // 0x383fbc GSEndGame::Update(StateMachine*, double)
-// PARTIAL. The phase dispatch, the About menu checks, the MainMenu hand-over, the state switch and the final
-// MenuManager::Update are reconstructed, and so is MultiMenuManager::PopMenu(true) (redo: dh2/MultiMenuManager.hpp exists).
-// Two parts are not, each marked at its place in the body:
-//   (a) phase 0: the test of COnline +0x05 (isOnlineGame_) and the online clean-up. COnline keeps that flag private
-//       with no getter in net-session-online/c_online.hpp. CMatching::Destroy is not declared in
-//       net-session-online/c_matching_base.hpp, and the CMatching vtable slot +0x3c is not identified.
-//   (b) phase 2: the message queue flushes and drains. Singleton<MenuMessageManager<T,N>>::s_inst is not instantiated in
-//       game-app/src/Globals.cpp for these four instances, and MenuMessageManager<DialogMsg,1>::FlushEnqueuedMessages
-//       (the clone with queue 0) has no definition in the tree.
-// Update does not use its StateMachine argument or dt; the original reads only m_phase, the menu objects and Application.
+// Phase 0 ends an online game when there was one (leave the room, back to the local matching provider, destroy the matching,
+// clear the online flag and the online-game gate) and pushes the About menu; phase 1 waits for the About menu to close; phase 2
+// (also reached from phase 1 once About is hidden) drains the dialog, achievement, status and online-status message queues,
+// pops every multi menu, hands over to the flash menu stack with the main menu as the next menu, and removes all players.
+// MenuManager::Update runs at the end of every path. Update does not use its StateMachine argument or dt.
 void GSEndGame::Update(StateMachine* /*machine*/, double /*dt*/) {
     if (m_phase == 1) {
         // Phase 1 waits for the About menu to close. The original calls IsVisible on the result of GetMenuByName
@@ -73,13 +77,13 @@ void GSEndGame::Update(StateMachine* /*machine*/, double /*dt*/) {
         // About is hidden: the original falls into the phase-2 steps below and leaves m_phase at 1.
     } else if (m_phase != 2) {
         if (m_phase == 0) {
-            // PARTIAL (a): the original tests GetOnline()->isOnlineGame_ (COnline +0x05). That flag is private and
-            // has no getter in dh2 or net-session-online (layout request: COnline +0x05 bool getter). When it is set,
-            // the original runs the online clean-up: CMatching::Get()->vtable +0x3c, CMatching::Get(),
-            // CMatching::SetMatchingProvider(1), CMatching::Get() and CMatching::Destroy(), COnline::SetIsOnlineGame(false),
-            // and OnlineSingleton<OnlineGameState>::GetInstance()->+0x28 = 0. That branch is not run here.
-            // GetOnline() is still called, because the original's call creates the COnline singleton on first use.
-            COnline::GetInstance();
+            if (GetOnlineGameFlag()) {  // COnline +0x05
+                CMatching::Get()->LeaveRoom();  // vtable +0x3c
+                CMatching::SetMatchingProvider(static_cast<CMatching::MATCHING_PROVIDERS>(1));
+                CMatching::Get()->Destroy();
+                GetOnline()->SetIsOnlineGame(false);
+                OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ = false;  // +0x28
+            }
             MenuManager::GetInstance()->PushMenu("menu_About");
             ++m_phase;  // +0x04
         }
@@ -88,12 +92,17 @@ void GSEndGame::Update(StateMachine* /*machine*/, double /*dt*/) {
     }
 
     // Phase 2, also reached from phase 1 when the About menu is hidden.
-    // PARTIAL (b): the original runs MenuMessageManager<DialogMsg,1>::FlushEnqueuedMessages(0), drains the AchievementMsg
-    // queue, flushes DialogMsg again, then drains the StatusMsg and OnlineStatusMsg queues. Each drain is
-    // "while (!empty) pop_front()" on the std::deque at +0x04 of the static MenuMessageManager object (m_queues[0] of
-    // dh2/MenuMessageManager.hpp; ELF 0x99fbe0 AchievementMsg, 0x99fa8c StatusMsg, 0x99fb30 OnlineStatusMsg). Left out
-    // here: those instances are not instantiated in game-app/src/Globals.cpp, and the flush has no definition.
-    // The MultiMenuManager pop follows the drains in the original.
+    MenuMessageManager<DialogMsg, 1>::s_inst.FlushEnqueuedMessages(0);
+    while (!MenuMessageManager<AchievementMsg, 1>::s_inst.m_queues[0].empty()) {
+        MenuMessageManager<AchievementMsg, 1>::s_inst.m_queues[0].pop_front();
+    }
+    MenuMessageManager<DialogMsg, 1>::s_inst.FlushEnqueuedMessages(0);
+    while (!MenuMessageManager<StatusMsg, 4>::s_inst.m_queues[0].empty()) {
+        MenuMessageManager<StatusMsg, 4>::s_inst.m_queues[0].pop_front();
+    }
+    while (!MenuMessageManager<OnlineStatusMsg, 1>::s_inst.m_queues[0].empty()) {
+        MenuMessageManager<OnlineStatusMsg, 1>::s_inst.m_queues[0].pop_front();
+    }
     MultiMenuManager* multiMenus = MenuManager::GetInstance()->m_multiMenuManager;
     multiMenus->PopMenu(true);                      // vtable +0x38 on MenuManager +0xf4; true keeps popping
     MenuBase* mainMenu = MenuManager::GetInstance()->GetMenuByName("menu_MainMenu");

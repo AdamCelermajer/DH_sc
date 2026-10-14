@@ -22,6 +22,9 @@
 #include "dh2/DebugCachedCharacter.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/MenuCharacterSelect.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include <cstring>
 #include "dh2/MenuFX.hpp"
 #include "dh2/MenuMainMenu.hpp"
 #include "dh2/MenuManager.hpp"
@@ -96,11 +99,26 @@ void MenuCharacterSelect::SetAnim(const char* name) {
     (void)name;
 }
 
+namespace {
+
+// Index of `name` in the Sounds name table, or -1: the first match in table order (the original compares with strcmp).
+int FindSoundIndex(const char* name) {
+    const pydata::NameTable& table = Arrays::Sounds::m_memberNames;
+    for (int i = 0; i < table.size; ++i) {
+        if (std::strcmp(name, table.names[i]) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+}  // namespace
+
 // 0x4281b8 MenuCharacterSelect::OnEvent(RenderFX::Event &)
-// PARTIAL: the button part (event kind 2) is reconstructed. The drag part (kind 5) is missing: it reads the pointer
-// x as the float at RenderFX::Event +0x0c, which the header does not name (layout request). Kind-5 events therefore
-// reach only the final MenuBase::OnEvent. The class-change sound (VoxSoundManager::PlayMenu with the index of the
-// "MenuTab" entry of Arrays::Sounds) is missing too: VoxSoundManager has no PlayMenu declaration in the tree.
+// While input is enabled (+0xfc): a click (kind 2) on the right button moves the class one to the right (up to the mage), on
+// the left button one to the left (down to the knight). A drag (kind 5) remembers the pointer x where it began and, once the
+// pointer has moved more than 100 pixels, changes the class by one in the dragged direction and plays the "MenuTab" sound.
+// Any other kind ends the drag. The event always reaches MenuBase::OnEvent.
 void MenuCharacterSelect::OnEvent(RenderFX::Event& e) {
     if (m_inputEnabled) {  // +0xfc
         const int kind = static_cast<int>(e.type);  // +0x08 of the event
@@ -117,8 +135,23 @@ void MenuCharacterSelect::OnEvent(RenderFX::Event& e) {
             }
         } else if (kind != 5) {
             m_dragging = false;  // +0xf4
+        } else if (!m_dragging) {
+            m_dragging = true;
+            m_dragStartX = e.x;  // +0xf8, event +0x0c
+        } else {
+            const int delta = static_cast<int>(e.x - m_dragStartX);
+            if (delta > 100) {
+                if (m_classIndex > 0) {
+                    --m_classIndex;
+                    VoxSoundManager::s_instance->PlayMenu(FindSoundIndex("MenuTab"), false, 0, 0);
+                }
+            } else if (delta < -100) {
+                if (m_classIndex <= 1) {
+                    ++m_classIndex;
+                    VoxSoundManager::s_instance->PlayMenu(FindSoundIndex("MenuTab"), false, 0, 0);
+                }
+            }
         }
-        // kind 5 (drag): MISSING. See the comment above.
     }
     MenuBase::OnEvent(e);
 }

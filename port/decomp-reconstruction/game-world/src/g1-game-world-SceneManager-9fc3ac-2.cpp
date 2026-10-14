@@ -26,6 +26,11 @@
 
 #include <cstdint>
 #include <cstring>
+#include "glitch-core-io/io/write_file.hpp"
+#include "glitch-video/image_loaders.hpp"
+#include "glitch-video/video_driver.hpp"
+#include <ctime>
+#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -164,13 +169,9 @@ void SceneManager::_drawAll(glitch::scene::ISceneNode* node) {
 }
 
 // 0x359338 SceneManager::drawAll(glitch::scene::ISceneNode*)
-// PARTIAL. Rebuilt: the light set update (LightSetManager::Update on m_lightSetManager, +0x294), the frame draw (_drawAll)
-// and the screenshot request (the flag at +0x290 is cleared, the ToggleGamepadScreenShot debug switch is read after
-// DebugSwitches::load). Not rebuilt:
-//  - the screenshot file. The original names it screenshot_<time>.tga, takes the frame from the driver's createScreenShot
-//    (vptr+0x98) and writes it through CImageWriterTGA. The original passes three arguments to glitch::io::createWriteFile;
-//    the canonical declaration takes two (name, append), and the third argument is not recovered. CImageWriterTGA's write
-//    slot (vptr+0x10) is not confirmed against the canonical header.
+// Updates the light sets (LightSetManager::Update on m_lightSetManager, +0x294), draws the frame (_drawAll) and serves a pending
+// screenshot request: the flag at +0x290 is cleared and, when the ToggleGamepadScreenShot debug switch is on, the driver's
+// screen shot is written to screenshot_<time>.tga through a CImageWriterTGA.
 void SceneManager::drawAll(glitch::scene::ISceneNode* node) {
     m_lightSetManager.Update();                                            // +0x294 light set update, before the draw
     _drawAll(node);
@@ -179,7 +180,14 @@ void SceneManager::drawAll(glitch::scene::ISceneNode* node) {
         DebugSwitches::s_inst.load();
         const std::string switchName("ToggleGamepadScreenShot");
         if (DebugSwitches::s_inst.GetSwitch(switchName)) {
-            // PARTIAL: the screenshot is not written (see the header comment).
+            char fileName[100];
+            std::sprintf(fileName, "screenshot_%u.tga", static_cast<unsigned int>(std::time(nullptr)));
+            boost::intrusive_ptr<glitch::video::CImage> image = driver->createScreenShot();  // CSceneManager::driver (+0x14), vtable +0x98
+            glitch::io::IWriteFile* file = glitch::io::createWriteFile(fileName, false);
+            glitch::video::CImageWriterTGA* writer = new glitch::video::CImageWriterTGA();
+            writer->writeImage(file, image, 0);                            // vtable +0x10
+            writer->drop();
+            file->drop();
         }
     }
 }

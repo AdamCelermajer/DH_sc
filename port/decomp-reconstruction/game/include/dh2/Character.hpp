@@ -232,7 +232,7 @@ public:
     void Kill(GameObject* killer, bool silent);                         // 0x3a5b18
     void HitFor(unsigned int damage, GameObject* attacker);             // 0x3a8bc4
     void Clean();                                                       // 0x3a66f8
-    void ClearConcurrentAI();                                           // 0x3a799c
+    static void ClearConcurrentAI();                                    // 0x3a799c (static: the body only clears s_concurrentAI)
     int RaiseEvent(int eventId, void* data);                            // 0x3a4d5c
     TimerUtil* GetImmunityTimer(int damageType);                        // 0x3a5184
     void UpdateAIPointers();                                            // 0x3a4344

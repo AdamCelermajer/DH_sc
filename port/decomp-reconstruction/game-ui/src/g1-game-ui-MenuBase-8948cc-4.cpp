@@ -27,6 +27,14 @@
 
 #include "gameswf/gameswf.h"  // gameswf::rect (the complete type; MenuBase.hpp forward-declares it)
 #include "dh2/Application.hpp"
+#include "gameswf/gameswf_as_classes/as_array.h"
+#include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_root.h"
+#include "dh2/global/item_instance.hpp"
+#include "dh2/RenderFX.hpp"
+#include "dh2/VarArgs.hpp"
+#include <vector>
+#include <memory>
 #include "dh2/DebugCachedCharacter.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/DialogMsg.hpp"
@@ -270,16 +278,43 @@ void MenuBase::Hide() {
 }
 
 // 0x424ef0 _ZN8MenuBase19FS_GetParsedString2EPKcS1_Pv
-// The original looks args up as a string symbol (StringManager::getStringFromSymbol). It then builds a VarArgs list from the
-// root movie's ParsedStringArgs array (gameswf root and as_value calls, not declared), parses the string with
-// StringManager::parseEx (the VarArgs type is incomplete here), and publishes the result as _root.retval through
-// RenderFX::SetMember. A null args returns false. Otherwise the original returns 1, so the return here is true.
-// PARTIAL: the ParsedStringArgs gathering, StringManager::parseEx and the publish are not made (see above).
-bool MenuBase::FS_GetParsedString2(const char*, const char* args, void*) {
+// A gameswf-called native (the first argument is not read, the second is the string symbol, the third is the calling MenuBase
+// as a void*; Hex-Rays shows the first as `this`). The symbol is looked up in the string manager. The root movie's
+// ParsedStringArgs array is read: element i is fetched by its number as a key and, when present, becomes a VarArgs variant
+// (the number as a float and as an int, the string as the text). The string is formatted with StringManager::parseEx and
+// published as _root.retval. A null symbol returns false, anything else true.
+bool MenuBase::FS_GetParsedString2(const char*, const char* args, void* context) {
     if (args == nullptr) {
         return false;
     }
-    return true;  // PARTIAL: see above.
+    StringManager* strings = ApplicationGetStringManager();  // dword_99F760
+    const char* format = strings->getStringFromSymbol(args);
+    std::string text;
+    MenuBase* menu = static_cast<MenuBase*>(context);
+    gameswf::character* rootMovie = menu->m_menu->GetRoot()->get_root_movie();
+    gameswf::as_value parsedArgs;
+    rootMovie->get_member("ParsedStringArgs", &parsedArgs);
+    gameswf::as_object* list = parsedArgs.is_object() ? parsedArgs.to_object() : nullptr;
+    VarArgs varArgs;
+    std::vector<std::unique_ptr<gameswf::as_value>> values;  // kept alive until parseEx has read the text pointers
+    if (list != nullptr) {
+        const int count = static_cast<gameswf::as_array*>(list)->size();  // +0x50
+        for (int i = 0; i < count; ++i) {
+            values.push_back(std::make_unique<gameswf::as_value>());
+            gameswf::as_value* element = values.back().get();
+            const gameswf::as_value key(static_cast<double>(i));
+            if (list->get_member(key.to_tu_string(), element)) {
+                VarArgs::Variant variant;
+                variant.number = static_cast<float>(element->to_number());
+                variant.integer = static_cast<int>(element->to_number());
+                variant.text = element->to_string();
+                varArgs.m_variants.push_back(variant);
+            }
+        }
+    }
+    strings->parseEx(text, format, varArgs);
+    menu->m_menu->SetMember("_root", "retval", text.c_str());
+    return true;
 }
 
 // 0x425450 _ZN8MenuBase4ShowEv

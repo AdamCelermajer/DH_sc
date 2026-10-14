@@ -126,7 +126,7 @@ public:
     void SetGateForTest(bool open) { gateFlag_ = open; }
     void SetUidsForTest(const char* host, const char* user);
 
-private:
+public:  // decision 9: GSInit::Update writes resultFlag_ (+0x0e) directly
     bool featuresEnabled_ = false;               // +0x07
     bool gateFlag_ = false;                      // +0x05 (role not identified)
     bool startFlag_ = false;                     // +0x11 set when a multiplayer start runs

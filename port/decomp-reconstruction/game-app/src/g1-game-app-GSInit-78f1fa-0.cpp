@@ -19,6 +19,22 @@
 #include "dh2/Application.hpp"
 #include "dh2/GSFlashMenu.hpp"
 #include "dh2/GSInit.hpp"
+#include <string>
+#include <vector>
+#include "dh2/global/Globals.hpp"
+#include "glitch-video/texture_manager.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/a_license_check.hpp"
+#include "net-session-online/cxplayer_manager.hpp"
+#include "net-session-online/game_center.hpp"
+#include "core-platform/gc_singleton.hpp"
+#include "core-platform/w7_console_01.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/Random.hpp"
 #include "dh2/SavegameManager.hpp"
@@ -121,43 +137,43 @@ void GSInit::Ctor(const StateMachine*) {
 }
 
 // 0x384ef0 GSInit::ClearLoadingScreen(void)
-// PARTIAL. The original logs first. When the splash texture is set it calls
-// glitch::video::CTextureManager::removeTexture(manager, &m_splashTexture), with manager = *(driver +0xe0) and
-// driver = *(IDevice +0x10). Neither is declared yet, so that removal is missing and the texture is released only here.
+// Logs. When the splash texture is set it is removed from the driver's texture manager (IVideoDriver +0xe0), which also clears
+// this smart pointer, the pointer is cleared and the spinner flag (+0x08) is set to -1.
 void GSInit::ClearLoadingScreen() {
     _DEBUG_OUT("----------------ClearLoadingScreen");
     if (m_splashTexture) {
-        // PARTIAL: removeTexture(manager, m_splashTexture) is not called (see above).
+        ApplicationGetInstance().m_device->videoDriver->m_textureManager->removeTexture(m_splashTexture);
         m_splashTexture = nullptr;   // +0x10 released
         unk_08 = -1;                 // +0x08
     }
 }
 
 // 0x384f64 GSInit::SwitchBackground(void)
-// PARTIAL. Clears the loading screen on the static instance (GSInit::s_inst, not this) and picks the splash file
-// for the language. Language 5 (Korean) gets splash_final_kor.tga; the other languages get splash_final.tga (the
-// Japanese branch of the original loads the same file). The original then calls
-// glitch::video::CTextureManager::getTexture(manager, file) with manager = *(driver +0xe0), and stores the result
-// in the global dword_9A24C0 as a counted pointer (the new texture gets a use, the old one is dropped). getTexture
-// is not declared in glitch-video/texture_manager.hpp and the driver is not declared, so that step is missing.
+// Clears the loading screen on the static instance (GSInit::s_inst, not this) and loads the splash file for the language
+// (Korean gets splash_final_kor.tga, every other language splash_final.tga; the Japanese branch of the original loads the same
+// file as the default) through the driver's texture manager (getTexture(file, null)). The result is stored in GSInit::s_inst's
+// splash texture (dword_9A24C0, +0x10) as a counted pointer.
 void GSInit::SwitchBackground() {
     GSInit::s_inst.ClearLoadingScreen();
     const int language = ApplicationGetInstance().m_savegameManager->getLanguage();
     const char* textureFile = (language == 5) ? "data/3d/textures/splash_final_kor.tga"
                                               : "data/3d/textures/splash_final.tga";
-    (void)textureFile;
+    glitch::video::CTextureManager* textures = ApplicationGetInstance().m_device->videoDriver->m_textureManager;
+    GSInit::s_inst.m_splashTexture = textures->getTexture(textureFile, nullptr);
 }
 
 // 0x3850c8 GSInit::Update(StateMachine *,double)
-// PARTIAL. One loading step per call, selected by m_step (+0x04). A step that advances ends with ++m_step, as the
-// original's LABEL_22 does. A step that the original repeats until a timer runs out is tried once per call here, and
-// returns without advancing until it succeeds. Each PARTIAL comment names what is missing.
+// One loading step per call, selected by m_step (+0x04). A step that advances ends with ++m_step, as the original's LABEL_22 does.
+// The data loads (PyDataConstants, PyDataArrays) and the menu init repeat inside one call until they succeed or 50 ms of the
+// device timer have passed. Steps: 0 sound manager created, 1 settings (language) loaded, 2 and 3 pydata constants and arrays,
+// 4 full settings, 5 intro movie, 6 wait for the video, 7 splash texture, 8 and 9 sound init, 10 string pack, 11 trophies,
+// 12 menu init, 13 random seed and clock, 14 menu reset, first menu, orientation, online and DRM start-up.
 void GSInit::Update(StateMachine*, double) {
     Application& app = ApplicationGetInstance();
 
     switch (m_step) {
         case 0:
-            // PARTIAL: VoxSoundManager::CreateInstance(this) is missing. VoxSoundManager is not declared in the tree.
+            VoxSoundManager::CreateInstance();
             ++m_step;
             return;
 
@@ -166,29 +182,31 @@ void GSInit::Update(StateMachine*, double) {
             ++m_step;
             return;
 
-        case 2:
-            // PARTIAL: the original loops PyDataConstants::Load() on Application::m_pyDataConstants (+0x2c) until it
-            // returns nonzero, or until 50 device-timer ticks pass (the timer at IDevice +0x20 is not declared). Here
-            // Load() is tried once per Update, as in step 12: the step advances when it succeeds.
-            if (!app.m_pyDataConstants->Load()) {
-                return;
+        case 2: {
+            const unsigned int start = glitch::os::Timer::getRealTime();  // device timer (IDevice +0x20), getRealTime
+            while (!app.m_pyDataConstants->Load()) {
+                if (glitch::os::Timer::getRealTime() - start > 49) {
+                    return;
+                }
             }
             ++m_step;
             return;
+        }
 
-        case 3:
-            // PARTIAL: the same loop, for PyDataArrays::Load() on Application::m_pyDataArrays (+0x30). The timeout
-            // budget is missing, as in step 2.
-            if (!app.m_pyDataArrays->Load()) {
-                return;
+        case 3: {
+            const unsigned int start = glitch::os::Timer::getRealTime();
+            while (!app.m_pyDataArrays->Load()) {
+                if (glitch::os::Timer::getRealTime() - start > 49) {
+                    return;
+                }
             }
             ++m_step;
             return;
+        }
 
         case 4:
             // The original calls loadSettings(false) only when SavegameManager::m_optionsLoaded (+0x28) is clear, and
-            // the step advances either way (asm: both paths store step + 1). m_optionsLoaded is public in
-            // dh2/SavegameManager.hpp.
+            // the step advances either way (asm: both paths store step + 1).
             if (!app.m_savegameManager->m_optionsLoaded) {
                 app.m_savegameManager->loadSettings(false);
             }
@@ -215,6 +233,7 @@ void GSInit::Update(StateMachine*, double) {
             return;
 
         case 7: {
+            glitch::video::CTextureManager* textures = app.m_device->videoDriver->m_textureManager;  // IVideoDriver +0xe0
             const int language = app.m_savegameManager->getLanguage();
             _DEBUG_OUT("\n\n  ---------------LoadingStep_LoadBackground   %d", language);
             // The file depends on the language first, and then on the screen width.
@@ -230,9 +249,7 @@ void GSInit::Update(StateMachine*, double) {
             } else {
                 textureFile = "data/3d/textures/splash_final.tga";
             }
-            // PARTIAL: getTexture(manager, textureFile) and the store into m_splashTexture (+0x10) are missing
-            // (see SwitchBackground). The step still advances, as the original does.
-            (void)textureFile;
+            m_splashTexture = textures->getTexture(textureFile, nullptr);
             ++m_step;
             return;
         }
@@ -242,8 +259,7 @@ void GSInit::Update(StateMachine*, double) {
             return;
 
         case 9:
-            // PARTIAL: VoxSoundManager::Initialize(VoxSoundManager::s_instance) is missing (not declared). The original
-            // falls through to the string pack step.
+            VoxSoundManager::s_instance->Initialize();
             [[fallthrough]];
 
         case 10: {
@@ -260,21 +276,22 @@ void GSInit::Update(StateMachine*, double) {
             ++m_step;
             return;
 
-        case 12:
-            // PARTIAL: the original loops MenuManager::Init() until it returns true, or until 50 device-timer ticks
-            // pass (timer at IDevice +0x20, not declared). Here Init() is tried once per Update: the step advances
-            // when it returns true, and otherwise waits for the next call.
-            if (!MenuManager::GetInstance()->Init()) {
-                return;
+        case 12: {
+            MenuManager* menus = MenuManager::GetInstance();
+            const unsigned int start = glitch::os::Timer::getRealTime();
+            while (!menus->Init()) {
+                if (glitch::os::Timer::getRealTime() - start > 49) {
+                    return;
+                }
             }
             ++m_step;
             return;
+        }
 
         case 13:
             Random::s_seed = glitch::os::Timer::getRealTime();
             Random::s_syncedSeed = 0;
-            // PARTIAL: Application::m_lastTickTime (+0x70, global dword_99F79C) = the device timer tick at IDevice +0x20
-            // is not written: that timer is not declared.
+            app.m_lastTickTime = static_cast<int>(glitch::os::Timer::getRealTime());  // dword_99F79C, +0x70
             app.unk_6c = 30;                            // +0x6c, 30 as the original does (dword_99F798)
             app.ComputeDt();
             ++m_step;
@@ -283,28 +300,31 @@ void GSInit::Update(StateMachine*, double) {
         case 14: {
             MenuManager* menus = MenuManager::GetInstance();
             menus->Reset();
-            // PARTIAL: byte_99F819 = 1 (unnamed global) is not written.
-            // PARTIAL: the menu choice is not made. When dword_99F7F8 == dword_99F7FC the original picks
-            // "menu_language" when SavegameManager +0x37 (m_saveBlocked, private) is set and "menu_splash" otherwise,
-            // and stores it in dword_9A247C. The other branch is a debug level request: PlayerSavegame::
-            // SG_GetSavegameList(false) and Console::DBG_TryStartingLevel(console, level). DBG_TryStartingLevel is not
-            // declared and the branch condition types are not known, so the menu, the debug path and the early
-            // return it can make are all missing. The tail below runs as on the common path.
-            // PARTIAL: OnlineSingleton<OnlineGameState>::GetInstance() byte +0x26 = 0 is missing: OnlineGameState
-            // (net-session-online/online_game_state.hpp) declares no member at +0x26.
+            app.unk_ed = true;  // byte_99F819 (Application +0xed)
+            if (app.m_uncompiledData.empty()) {
+                // No uncompiled data: the language menu when the save is blocked (the language is not chosen yet), else the splash.
+                GSFlashMenu::s_inst.m_pendingMenu =
+                    app.m_savegameManager->m_saveBlocked ? menus->GetMenuByName("menu_language") : menus->GetMenuByName("menu_splash");
+            } else {
+                // A debug level request: the first start tries the named level, and when it starts the step advances at once.
+                const std::vector<std::string> savegames = PlayerSavegame::SG_GetSavegameList(false);
+                if (Console::DBG_TryStartingLevel(app.m_uncompiledData.c_str())) {
+                    ++m_step;
+                    return;
+                }
+                GSFlashMenu::s_inst.m_pendingMenu = menus->GetMenuByName("menu_splash");
+            }
+            OnlineSingleton<OnlineGameState>::GetInstance()->flag26_ = false;  // +0x26
             app.m_stateMachine->SwitchState(&GSFlashMenu::s_inst, false);
             const int autoOrientation = app.GetSavedOption("AutoOrientation");
             app.ResetOrientation(autoOrientation);
-            // PARTIAL: GCSingleton<GameCenter>::GetInstance() + 14 = 1 is missing. The GameCenter header
-            // (net-session-online/game_center.hpp) names +0x0e as resultFlag_, cleared by its reports, so the
-            // meaning of this write is not established.
+            GCSingleton<GameCenter>::GetInstance()->resultFlag_ = true;  // +0x0e
             if (app.IsInternetAccessEnabled()) {
-                // PARTIAL: byte_99FC31 = 1 is not written, and so CXPlayerManager::Init() on
-                // Singleton<CXPlayerManager>::s_inst is not called either. The byte is +0x05 of that instance
-                // (flag05_, private in net-session-online/cxplayer_manager.hpp; layout request: a public member or setter).
+                Singleton<CXPlayerManager>::s_inst.flag05_ = true;  // byte_99FC31, +0x05
+                Singleton<CXPlayerManager>::s_inst.Init();
             }
             if (USE_NATIVE_DRM_GAME) {
-                // PARTIAL: ALicenseCheck_ValidateLicense(0) is missing: not declared in the tree.
+                ALicenseCheck::ValidateServer(false);  // ALicenseCheck_ValidateLicense(0), a thunk to this
             }
             ++m_step;
             return;

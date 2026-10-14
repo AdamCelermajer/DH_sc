@@ -28,6 +28,45 @@
 #include "dh2/GameEventManager.hpp"
 #include "dh2/InfoHUDManager.hpp"
 #include "dh2/Level.hpp"
+#include <cstring>
+#include "vendor-gameswf/smart_ptr_proxy.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "net-transport/connection_manager.hpp"
+#include "net-session-online/a_license_check.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "dh2/v2Controller.hpp"
+#include "dh2/PlayerLightTweaker.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/StreamBuffer.hpp"
+#include "dh2/CRoomAttributes.hpp"
+#include "dh2/CameraTarget.hpp"
+#include "dh2/PhysicalWorld.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/ZoomHandler.hpp"
+#include "dh2/HUDControls.hpp"
+#include "dh2/RenderFX.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/MenuDebugHUD.hpp"
+#include "dh2/MenuWorldMap.hpp"
+#include "dh2/DebugCachedCharacter.hpp"
+#include "dh2/OnlineStatusMsg.hpp"
+#include "dh2/AchievementMsg.hpp"
+#include "dh2/DialogMsg.hpp"
+#include "dh2/TutorialMsg.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/ProjectileManager.hpp"
+#include "dh2/ItemManager.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/global/Vec3f_Origin.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "dh2/global/sound_flags.hpp"
+#include "dh2/global/debug_trace.hpp"
+#include "dh2/global/Globals.hpp"
+#include "core-platform/debug_out.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/LevelConfig.hpp"
 #include "dh2/LevelSavegame.hpp"
 #include "dh2/LuaManager.hpp"
@@ -168,24 +207,35 @@ void Level::_LoadBatchMap() {
 }
 
 // 0x3f6990 Level::_LoadProcess()
-// PARTIAL. One loading step per call. m_loadStep (+0x130) selects the arm, and 38 means loaded. The arms follow the switch
-// of the original, with the case labels in their original order. An arm that calls a declared Level or manager method does
-// so. Any other call is a SEAM comment that names its owner. The discarded "isTracingLevel_Loading" reads are kept.
-//
-// Known gaps beyond the SEAM comments:
-//   - The cheat block at the start (handle_cheats_inGame) and the step-name display (DBG_GetLoadingStepName, _DEBUG_OUT)
-//     are left out.
-//   - Arm 0x24 has no step increment on the offline path in the original (the BEQ over the online block goes straight to
-//     the common tail, and the assembly agrees). Step 0x24 is the progress-100 state, so something outside this function
-//     advances it. This is reproduced as written and flagged for the integrator.
-//   - The native license check at the end (USE_NATIVE_DRM_GAME) is not reconstructed.
+// One loading step per call. m_loadStep (+0x130) selects the arm, and 38 means loaded. The cheat block unlocks every fast
+// travel and the world-map unlock flag, the step name is shown in the debug HUD when asked for, and each arm follows the
+// switch of the original, with the case labels in their original order. Most arms first read the "isTracingLevel_Loading"
+// switch and discard it. Arm 36 has no step increment on the offline path in the original (the branch over the online block
+// goes straight to the common tail, and the assembly agrees). Step 36 is the progress-100 state, so something outside this
+// function advances it. This is reproduced as written.
 void Level::_LoadProcess() {
+    if (handle_cheats_inGame) {
+        if (ApplicationGetInstance().GetCurrentLevel() != nullptr) {
+            Character* cheater = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+            if (cheater != nullptr) {
+                cheater->SG_UnlockAllFastTravels();
+                MenuWorldMap::GetInstance()->unk_12c = true;  // +300
+            }
+        }
+    }
+    if (ReadDebugSwitch("IsDisplayLoadingStepName")) {
+        MenuDebug::GetInstance()->SetText(DBG_GetLoadingStepName(m_loadStep));
+    }
+    _DEBUG_OUT("**************************************m_loadStep %d", m_loadStep);
+
     switch (m_loadStep) {
         case 0:
-            // SEAM: g_bigI = 0; g_bigV = 0 (undeclared globals).
+            g_bigI = 0;
+            g_bigV = 0;
             ApplicationGetInstance().CleanGlitch();
-            // SEAM: ShowMemoryStats("Before Level Loading") (not declared).
-            // SEAM: VoxSoundManager::StopAllSounds(500) (dh2 has no VoxSoundManager header); byte_99F7E0 = 1 (undeclared).
+            ShowMemoryStats("Before Level Loading");
+            VoxSoundManager::s_instance->StopAllSounds(500);
+            byte_99F7E0 = 1;
             m_loadWorkDone = 0;
             m_loadWorkTotal = 0;
             m_loadFileCount = 0;
@@ -208,13 +258,13 @@ void Level::_LoadProcess() {
 
         case 4:
             TraceLoadingStep();
-            // SEAM: VisualFXManager::BuildLibraries on the Singleton<VisualFXManager>::s_inst (Singleton is not declared).
+            VisualFXManager::s_inst.BuildLibraries();
             ++m_loadStep;
             break;
 
         case 5:
             TraceLoadingStep();
-            // SEAM: PhysicalWorld::load(-2000, -2000, 2000, 2000) on dword_99F770 (undeclared global).
+            ApplicationGetInstance().m_physicalWorld->load(-2000.0f, -2000.0f, 2000.0f, 2000.0f);
             ++m_loadStep;
             break;
 
@@ -231,10 +281,22 @@ void Level::_LoadProcess() {
             Random::s_seed = m_seed;
             Random::s_syncedSeed = m_syncedSeed;
             if (m_isRandomLevel) {
-                // SEAM: the random-level branch. The seed is the synced one when GetOnline()->isOnlineGame_ (no accessor),
-                // GenerateRandomLevel fills a StreamBuffer and AssignSteamToLoadDataFile wraps it on success. On failure the
-                // original writes 'x' to the first character of m_levelName and sets it to the part before the first '.'
-                // followed by "_BACKUP.mlx". GenerateRandomLevel returns 0 in this tree (see its batch notes).
+                const uint32_t randomSeed = GetOnlineGameFlag() ? Random::s_syncedSeed : Random::s_seed;
+                StreamBuffer stream;
+                if (GenerateRandomLevel(stream, randomSeed)) {
+                    AssignSteamToLoadDataFile(stream);
+                } else {
+                    // The generator failed: the first character of the name is overwritten with 'x' and the name is cut at its
+                    // first '.' and given the backup suffix.
+                    if (!m_levelName.empty()) {
+                        m_levelName[0] = 'x';
+                        const std::string::size_type dot = m_levelName.find('.');
+                        if (dot != std::string::npos) {
+                            m_levelName = m_levelName.substr(0, dot);
+                            m_levelName.append("_BACKUP.mlx");
+                        }
+                    }
+                }
             }
             TraceLoadingStep();
             m_loadWorkTotal = 500;
@@ -249,15 +311,31 @@ void Level::_LoadProcess() {
 
         case 8: {
             TraceLoadingStep();
-            // SEAM: when m_levelConfig is null, the LevelConfig.xml load from the dword_99F7F8, dword_99F7FC and dword_99F814
-            // globals (undeclared) and ObjectManager::Spawn("LevelConfig") with SetLevelConfig. The Spawn signature in the
-            // header does not match the call.
-            // The original reads this+0x38 here with no assert, so a null config is not an error at this step. The fallback
-            // above is a SEAM, so a null config stays null and the fog-colour test is skipped instead of aborting.
+            if (m_levelConfig == nullptr) {
+                Application& application = ApplicationGetInstance();
+                bool spawnDefault = true;
+                if (!application.m_uncompiledData.empty()) {  // +0xbc, the words at +0xcc and +0xd0 are its finish and start
+                    std::string path(application.unk_d4.c_str());  // +0xd4: dword_99F814 is the start pointer of this string
+                    path.append("LevelConfig.xml");
+                    int loaded = 0;
+                    do {
+                        loaded = LoadFile(path, "Level");
+                    } while (!loaded);
+                    spawnDefault = (m_levelConfig == nullptr);
+                }
+                if (spawnDefault) {
+                    ObjectHandle handle = dword_99F764->Spawn("LevelConfig", "RuntimeDefaultLevelConfig", false, true);
+                    ObjectBase* object = handle.GetObject(false);
+                    LevelConfig* created = static_cast<LevelConfig*>(object);
+                    if (object == nullptr || object->m_goId != static_cast<ObjectBase::GO_IDS>(4)) {
+                        created = nullptr;
+                    }
+                    SetLevelConfig(created);
+                }
+            }
             LevelConfig* config = m_levelConfig;
-            if (config && !config->m_dfogColors.empty()) {
-                // SEAM: ObjectManager::InitModulesFogColor(dword_99F764, m_dfogColors, m_dfogChangeMinDist, &Application).
-                // The header declares two arguments, the original passes four.
+            if (!config->m_dfogColors.empty()) {
+                dword_99F764->InitModulesFogColor(config->m_dfogColors, static_cast<int>(config->m_dfogChangeMinDist));
             }
             _LoadScripts();
             ++m_loadStep;
@@ -273,15 +351,14 @@ void Level::_LoadProcess() {
         case 10:
             TraceLoadingStep();
             m_loadWorkTotal = static_cast<int>(dword_99F764->m_objectMap.size());
-            // The original repeats InitPost until it returns non-zero. The header types InitPost void, so the first call
-            // is made and the repeat is left out.
-            dword_99F764->InitPost();
+            while (!dword_99F764->InitPost()) {
+            }
             ++m_loadStep;
             break;
 
         case 11:
             TraceLoadingStep();
-            // SEAM: Singleton<PFWorld>::s_inst.PostLoad() (the singleton is not declared).
+            Singleton<PFWorld>::s_inst.PostLoad();
             ++m_loadStep;
             break;
 
@@ -299,14 +376,20 @@ void Level::_LoadProcess() {
         case 14:
             TraceLoadingStep();
             _LoadPlayer();
-            // SEAM: when GetOnline()->isOnlineGame_ (no accessor) and the local player has no character: CMatching::Get(),
-            // DisconnectAll on the connection manager and GoToMainMenu(3).
+            if (GetOnlineGameFlag()) {
+                PlayerInfo* local = dword_99F76C->GetLocalPlayer(0, false);
+                if (!local->IsActive()) {  // vtable +0x5c
+                    CMatching::Get()->LeaveRoom();  // vtable +0x3c
+                    GetConnectionMgr()->DisconnectAll();
+                    ApplicationGetInstance().GoToMainMenu(static_cast<GoToMainMenuEvent>(3));
+                }
+            }
             ++m_loadStep;
             break;
 
         case 15:
             TraceLoadingStep();
-            // SEAM: VoxSoundManager::SetLevelRouting(VoxSoundManager::s_instance, m_levelListIndex) (no header).
+            VoxSoundManager::s_instance->SetLevelRouting(m_levelListIndex);
             ++m_loadStep;
             break;
 
@@ -370,12 +453,13 @@ void Level::_LoadProcess() {
 
         case 26:
             MenuManager::GetInstance()->LoadMenu(3);
-            // SEAM: five DebugCachedCharacter::RefreshCache(nullptr, nullptr, nullptr) calls on the DialogMsg,
-            // AchievementMsg, StatusMsg and OnlineStatusMsg node caches. The nullptr arguments are ambiguous between the
-            // two overloads, and the static caches are not declared in a header this batch includes.
+            DialogMsg::s_NodeCachedChar.RefreshCache(static_cast<gameswf::character*>(nullptr), nullptr, nullptr);
+            AchievementMsg::s_NodeCachedChar.RefreshCache(static_cast<gameswf::character*>(nullptr), nullptr, nullptr);
+            DialogMsg::s_NodeCachedChar.RefreshCache(static_cast<gameswf::character*>(nullptr), nullptr, nullptr);
+            StatusMsg::s_NodeCachedChar.RefreshCache(static_cast<gameswf::character*>(nullptr), nullptr, nullptr);
+            OnlineStatusMsg::s_NodeCachedChar.RefreshCache(static_cast<gameswf::character*>(nullptr), nullptr, nullptr);
             dword_99F76C->PostInitCharacters();
-            // SEAM: RenderFX::InvokeASCallback(MenuManager::GetHUDRoot(), "menu_HUD_0", "completeRefresh", nullptr, 0)
-            // (no declaration of InvokeASCallback found in the tree).
+            MenuManager::GetInstance()->GetHUDRoot()->InvokeASCallback("menu_HUD_0", "completeRefresh", nullptr, 0);
             ++m_loadStep;
             break;
 
@@ -386,13 +470,14 @@ void Level::_LoadProcess() {
 
         case 29:
             TraceLoadingStep();
-            // SEAM: ItemManager::PreCache and ProjectileManager::PreCache on their singletons (not declared).
+            Singleton<ItemManager>::s_inst.PreCache();
+            Singleton<ProjectileManager>::s_inst.PreCache();
             ++m_loadStep;
             break;
 
         case 30:
             TraceLoadingStep();
-            // SEAM: VisualFXManager::PreCacheLibraries on the Singleton<VisualFXManager>::s_inst (not declared).
+            VisualFXManager::s_inst.PreCacheLibraries();
             ++m_loadStep;
             break;
 
@@ -401,57 +486,152 @@ void Level::_LoadProcess() {
             ++m_loadStep;
             break;
 
-        case 32:
-            // SEAM: the ambient light from m_levelConfig->m_ambientColor (+0x1cc, alpha 1.0) on the scene manager at
-            // dword_99F73C + 28 (undeclared global); the byte_9A276C flag around the update; CharAI::IncUpdateQueue on the
-            // ObjectManager::Update result; PhysicalWorld::update on dword_99F770.
+        case 32: {
+            LevelConfig* config = GetLevelConfig();
+            glitch::video::SColorf ambient;
+            ambient.r = config->m_ambientColor.X;  // +0x1cc
+            ambient.g = GetLevelConfig()->m_ambientColor.Y;
+            ambient.b = GetLevelConfig()->m_ambientColor.Z;
+            ambient.a = 1.0f;
+            DeviceSceneManager()->setAmbientLight(ambient);
+            Singleton<PFWorld>::s_inst.unk_94 = true;  // byte_9A276C
             dword_99F764->Update(1.0f);
+            CharAI::IncUpdateQueue();
+            ApplicationGetInstance().m_physicalWorld->update();
+            Singleton<PFWorld>::s_inst.unk_94 = false;
             // The camera update (vtable slot +0x10, CameraLevel::Update) runs last, after the physics update.
             m_camera->Update();
             ++m_loadStep;
             break;
+        }
 
-        case 33:
+        case 33: {
             TraceLoadingStep();
             if (m_resume) {
                 m_levelSavegame->Load();
-                // SEAM: the online branch: when the game is online and this client hosts, the local player's character
-                // (PlayerInfo +0x660, not declared) is placed on the floor (PFWorld::GetFloorHeightAt) and every local
-                // player is repositioned with GameObject::SetPosition. Needs COnline and PlayerInfo accessors.
+                if (GetOnlineGameFlag()) {
+                    if (dword_99F76C->IsLocalPlayerHosting()) {
+                        Character* host = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+                        if (host != nullptr) {
+                            Point3D<float> position = host->m_position;  // +0x160
+                            float height = 0.0f;
+                            if (Singleton<PFWorld>::s_inst.GetFloorHeightAt(position, &height, nullptr, nullptr, nullptr, false)) {
+                                position.Z = height;
+                                host->SetPosition(position, true);
+                            }
+                            for (int i = 0; i < dword_99F76C->GetNumLocalPlayers(true); ++i) {
+                                dword_99F76C->GetLocalPlayer(i, true)->unk_660->SetPosition(host->m_position, true);
+                            }
+                        }
+                    } else if (dword_99F76C->m_initialSetupDone) {  // +0x6d0
+                        for (int j = 0; j < dword_99F76C->GetNumLocalPlayers(true); ++j) {
+                            // The initial position the host sent is the three floats at PlayerManager +0x6d4.
+                            dword_99F76C->GetLocalPlayer(j, true)->unk_660->SetPosition(
+                                *reinterpret_cast<const Point3D<float>*>(&dword_99F76C->unk_6d4), true);
+                        }
+                    }
+                }
             }
-            // SEAM: Character::SG_SetUseSpawnPoint(local player character, false). Needs PlayerInfo +0x660 and Character.hpp.
-            // +0xf3 is cleared here. dh2/Level.hpp names it m_cameFromOtherLevel, and this step only clears it.
+            dword_99F76C->GetLocalPlayer(0, true)->unk_660->SG_SetUseSpawnPoint(false);
             m_cameFromOtherLevel = false;
             ++m_loadStep;
             break;
+        }
 
-        case 34:
+        case 34: {
             TraceLoadingStep();
-            // SEAM: the local player's character (PlayerInfo +0x660, not declared) with Character::SG_SetLevelId and
-            // CameraTarget::SetTarget(character, 0), and the CMatching transition message (online only, COnline has no accessor).
-            m_camera->SetActive();
-            // SEAM: the scene-manager call at dword_99F73C + 96 (undeclared global).
-            m_camera->Update();
-            // SEAM: the per-character flag reached through Character +0x378 and +0x08, for each local player (Character not
-            // included); the scene-node positions for the spawn offset; the camera and light values copied from
-            // m_levelConfig into the scene manager; and RENDERING_DisableAllLighting.
+            CameraLevel* camera = m_camera;
+            Character* player = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+            if (player != nullptr) {
+                player->SG_SetLevelId(m_levelListIndex, -1);
+                camera->SetTarget(player, 0);
+            }
+            if (GetOnlineGameFlag()) {
+                CMatching::Get()->GetRoomAttributes()->SetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(3), m_levelListIndex);
+            }
+            camera->SetActive();
+            DeviceSceneManager()->update(0.0f, false);
+            camera->Update();
+            for (int i = 0; i < dword_99F76C->GetNumLocalPlayers(true); ++i) {
+                Character* local = dword_99F76C->GetLocalPlayer(i, true)->unk_660;
+                if (local != nullptr) {
+                    local->m_controller->m_blocked = true;  // Character +0x378 (v2Controllable::m_controller), +0x08
+                }
+            }
+            // The camera's offset from its parent, kept for the fog distance in Update.
+            glitch::scene::ICameraSceneNode* cameraNode = m_camera->m_camera;
+            const glitch::core::vector3d<float> nodePosition = cameraNode->getAbsolutePosition();
+            const glitch::core::vector3d<float> parentPosition = cameraNode->getParent()->getAbsolutePosition();
+            m_cameraBaseOffset.X = nodePosition.X - parentPosition.X;  // +0x19c
+            m_cameraBaseOffset.Y = nodePosition.Y - parentPosition.Y;
+            m_cameraBaseOffset.Z = nodePosition.Z - parentPosition.Z;
+            // The fog of the first light tweaker (Application +0x58) and of the scene manager come from the level config.
+            PlayerLightTweaker* tweaker = ApplicationGetInstance().m_playerLightTweakers[0];
+            LevelConfig* config = GetLevelConfig();
+            tweaker->m_fogColor.setComponent(3, 0xff);
+            tweaker->m_fogColor.setComponent(2, static_cast<uint8_t>(static_cast<unsigned int>(config->m_fogColor.Z)));  // +0x1e0..
+            tweaker->m_fogColor.setComponent(0, static_cast<uint8_t>(static_cast<unsigned int>(config->m_fogColor.X)));
+            tweaker->m_fogColor.setComponent(1, static_cast<uint8_t>(static_cast<unsigned int>(config->m_fogColor.Y)));
+            tweaker->m_fogStart = static_cast<float>(GetLevelConfig()->m_fogStart);  // +0x110
+            tweaker->m_fogEnd = static_cast<float>(GetLevelConfig()->m_fogEnd);      // +0x114
+            const Point3D<float> mask = GetLevelConfig()->m_fogDirectionMask;
+            tweaker->m_fogDirectionMask.X = mask.X;  // +0x11c
+            tweaker->m_fogDirectionMask.Y = mask.Y;
+            tweaker->m_fogDirectionMask.Z = mask.Z;
+            SceneManager* sceneManager = DeviceSceneManager();
+            sceneManager->unk_458 = mask.X;
+            sceneManager->unk_45c = mask.Y;
+            sceneManager->unk_460 = mask.Z;
+            sceneManager->m_lightSetManager.m_lightingEnabled = !DebugSwitches::GetInstance()->GetSwitch("RENDERING_DisableAllLighting");
             dword_99F764->HandleNoRoomObjects();
             UpdateFog(nullptr);
             UpdateLightSet(true, 4);
             UpdateMaterial(false, true);
-            // SEAM: the checkpoint block: when online (no accessor) or the savegame checkpoint does not validate, or
-            // m_hasPreviousLevel-named flag +0xf5 is set, the spawn point (GetSpawnPoint, which is a placeholder) or the
-            // local player's position is saved with CheckpointSave, and the flag is cleared.
+            // Online (as a client, or as the host once the setup changed), or no valid checkpoint, or a new level entered from
+            // another: save a checkpoint at the spawn point (or the player, or the origin).
+            if ((GetOnlineGameFlag() && (!dword_99F76C->IsLocalPlayerHosting() || dword_99F76C->m_hostChanged)) ||
+                (m_levelSavegame != nullptr && !m_levelSavegame->ValidateCheckpoint(static_cast<int>(m_savegameSlot), m_levelListSubId, m_levelListIndex)) ||
+                m_hasPreviousLevel) {
+                GameObject* spawnPoint = GetSpawnPoint();
+                Character* first = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+                const Point3D<float>* checkpoint;
+                if (spawnPoint != nullptr) {
+                    checkpoint = &spawnPoint->m_position;  // +0x160
+                } else if (first != nullptr) {
+                    checkpoint = &first->m_position;
+                } else {
+                    checkpoint = &Vec3f_Origin;
+                }
+                const Point3D<float> position = *checkpoint;
+                CheckpointSave(position, m_hasPreviousLevel);
+                m_hasPreviousLevel = false;
+            }
             ++m_loadStep;
             break;
+        }
 
-        case 36:
+        case 36: {
             TraceLoadingStep();
             // The online wait. The original leaves m_loadStep unchanged here (see the notes above).
-            // SEAM: when GetOnline()->isOnlineGame_ (no accessor): the local player's loading state, PlayerManager::
-            // AllLoadingDone and AllClientsReadyToRoll, ObjectManager::NetworkInitLevel, the Update call with dt 1.0,
-            // and PlayerSavegame::SG_TryQuestSync for the host.
+            if (GetOnlineGameFlag()) {
+                PlayerInfo* local = dword_99F76C->GetLocalPlayer(0, false);
+                if (!local->m_readyToRoll.GetValue() ||
+                    (dword_99F76C->IsLocalPlayerHosting() && dword_99F76C->AllLoadingDone() && !dword_99F76C->AllClientsReadyToRoll())) {
+                    if (!dword_99F764->m_initialized) {  // +0x1ac
+                        dword_99F764->NetworkInitLevel();
+                    }
+                    dword_99F764->Update(1.0f);
+                    PlayerInfo* host = dword_99F76C->GetLocalPlayer(0, false);
+                    if (host->IsHost()) {
+                        Character* character = host->unk_660;  // +0x660
+                        if (character != nullptr && character->m_savegame != nullptr) {  // +0x14e8
+                            character->m_savegame->SG_TryQuestSync();
+                        }
+                    }
+                }
+            }
             break;
+        }
 
         case 37: {
             TraceLoadingStep();
@@ -462,12 +642,19 @@ void Level::_LoadProcess() {
                 menus->PopMenu(loading);
             }
             menus->GetMenuByName("menu_HUD_0");
-            // SEAM: ShowMemoryStats("After Level Loading") (not declared).
+            ShowMemoryStats("After Level Loading");
             if (ReadDebugSwitch("IsDisplayLoadingStepName")) {
                 MenuDebug::GetInstance()->SetText(nullptr);
             }
-            // SEAM: clear the flag at character +0x3d8 + 8 for each local player (Character and PlayerInfo are not declared).
-            // SEAM: when online (no accessor) and the object manager is not initialised (m_initialized, +0x1ac): NetworkInitLevel.
+            for (int k = 0; k < dword_99F76C->GetNumLocalPlayers(false); ++k) {
+                Character* local = dword_99F76C->GetLocalPlayer(k, false)->unk_660;
+                if (local != nullptr && local->m_controller != nullptr) {
+                    local->m_controller->m_blocked = false;  // +0x378, +0x08
+                }
+            }
+            if (GetOnlineGameFlag() && !dword_99F764->m_initialized) {
+                dword_99F764->NetworkInitLevel();
+            }
             PlaceFaeryAndFollowers(nullptr);
             ++m_loadStep;
             break;
@@ -480,7 +667,9 @@ void Level::_LoadProcess() {
 
     if (m_loadStep == 38) {
         m_loadProgressPercent = 100;
-        // SEAM: if (USE_NATIVE_DRM_GAME) ALicenseCheck_ValidateLicense(1). The native license check is not reconstructed.
+        if (USE_NATIVE_DRM_GAME) {
+            ALicenseCheck::ValidateServer(true);  // ALicenseCheck_ValidateLicense(1), a thunk to this
+        }
         MenuManager* menus = MenuManager::GetInstance();
         menus->PushMenu(menus->GetMenuByName("menu_FadeFromBlackScreen"));
     } else {
@@ -499,15 +688,23 @@ void Level::_LoadProcess() {
 
     MenuBase* loading = MenuManager::GetInstance()->GetMenuByName("menu_Loading");
     if (loading) {
-        // SEAM: the onProgress callback on the loading menu's RenderFX and its gameswf character, after
-        // gameswf::weak_ptr<gameswf::character>::check_proxy (no declaration of InvokeASCallback found).
+        // gameswf::weak_ptr<character>::check_proxy on the menu's character: a dead proxy clears the proxy and the pointer.
+        gameswf::smart_ptr_proxy* proxy = reinterpret_cast<gameswf::smart_ptr_proxy*>(&loading->m_characterProxy);  // +0x48
+        if (proxy->get_proxy() != nullptr && !proxy->get_proxy()->is_alive()) {
+            *proxy = nullptr;
+            loading->m_character = nullptr;  // +0x4c
+        }
+        loading->m_menu->InvokeASCallback(loading->m_character, "onProgress", nullptr, 0);
     }
 }
 
 // 0x3f82d8 Level::Update(bool)
-// PARTIAL. Runs one loading step until m_loadStep reaches 38, unless forceUpdate is set. After that the frame update runs.
-// The early returns, the script start and the game-event update are reconstructed. The scene, sound, physics, AI, camera
-// and menu work in between is a SEAM.
+// Runs one loading step until m_loadStep reaches 38, unless forceUpdate is set. After that the frame update runs: the debug
+// HUD's pending text map is emptied, the toggle and pause switches end the frame, the start script and the local player's
+// savegame update run, the ambient light, physics, spawn groups, object manager, camera zoom and visual FX are updated, the
+// camera (and its node) next, the fog distance follows the camera, the lighting switches reach the scene manager, the first
+// update starts the level music and ambience, and the listener and dynamic fog are refreshed. With "IsAutoLoadingLevels" set
+// the level reloads a random other level every five seconds.
 void Level::Update(bool forceUpdate) {
     PushProfilingContext("Level::Update");
     if (m_loadStep != 38 && !forceUpdate) {
@@ -515,7 +712,10 @@ void Level::Update(bool forceUpdate) {
         PopProfilingContext("Level::Update");
         return;
     }
-    // SEAM: MenuDebugHUD::GetInstance() and the reset of its pending-text map (the MenuDebugHUD fields it reads are not declared).
+    MenuDebugHUD* debugHud = MenuDebugHUD::GetInstance();
+    if (!debugHud->unk_c8.empty()) {  // +0xc8 map, count at +0xd8
+        debugHud->unk_c8.clear();
+    }
     if (ReadDebugSwitch("IsUsingToggleDisplayMode")) {
         PopProfilingContext("Level::Update");
         return;
@@ -538,55 +738,118 @@ void Level::Update(bool forceUpdate) {
         ScriptManager::s_inst.ExecuteAllScripts();
     }
     m_gameEventManager->Update();
-    // SEAM: the ambient light on the scene manager (m_levelConfig->m_ambientColor, +0x1cc). The scene manager is glitch::IDevice
-    // +0x1c, and the IDevice data members are not declared. SEAM: PhysicalWorld::update on dword_99F770 (global not declared).
+    SceneManager* sceneManager = DeviceSceneManager();
+    {
+        LevelConfig* config = RequireLevelConfig(this);
+        glitch::video::SColorf ambient;
+        ambient.r = config->m_ambientColor.X;  // +0x1cc
+        ambient.g = config->m_ambientColor.Y;
+        ambient.b = config->m_ambientColor.Z;
+        ambient.a = 1.0f;
+        sceneManager->setAmbientLight(ambient);
+    }
+    ApplicationGetInstance().m_physicalWorld->update();
     SpawnGroupManager::GetInstance()->update(0.0);
-    // SEAM: CharAI::HandleGroups. In the decompiled code its receiver is the return value of SpawnGroupManager::update, and the
-    // method is not static in dh2/CharAI.hpp, so there is no object to call it on.
+    CharAI::HandleGroups();
     dword_99F764->Update(1.0f);
-    // SEAM: CharAI::IncUpdateQueue (non-static; the receiver is not recovered).
+    CharAI::IncUpdateQueue();
     UpdateCameraZoom();
     VisualFXManager::s_inst.Update();
     if (m_cameraOverview != nullptr && m_cameraOverview == CameraBase::s_activeCamera) {
         m_cameraOverview->Update();
     }
     m_camera->Update();
-    // SEAM: the scene-node update through the camera's node (vtable +0xb8 on the object at +0x08), the node position read
-    // and the SceneManager::UpdateFog distance (the scene node layout is not declared).
-    // SEAM: the RENDERING_DisableAllLighting and RENDERING_DisableAllSpecular switches written to the scene manager flags
-    // (undeclared globals). SEAM: the VoxSoundManager music and ambience block on the first update (m_musicSoundId,
-    // m_ambienceSoundId), not declared.
+    m_camera->m_camera->updateAbsolutePosition(false);  // camera node, ISceneNode vtable +0xb8
+    // The fog moves with the camera: its distance is the camera's offset from its parent (less the offset kept at load), scaled
+    // per axis by the level's fog direction mask, signed by the z offset.
+    {
+        const glitch::core::vector3d<float> nodePosition = m_camera->m_camera->getAbsolutePosition();
+        const glitch::core::vector3d<float> parentPosition = m_camera->m_camera->getParent()->getAbsolutePosition();
+        const float z = (nodePosition.Z - parentPosition.Z) - m_cameraBaseOffset.Z;  // +0x1a4
+        SceneManager* fogManager = DeviceSceneManager();
+        const float x = ((nodePosition.X - parentPosition.X) - m_cameraBaseOffset.X) * fogManager->unk_458;  // +0x458
+        const float y = ((nodePosition.Y - parentPosition.Y) - m_cameraBaseOffset.Y) * fogManager->unk_45c;
+        float distance = std::sqrt(x * x + y * y + (z * fogManager->unk_460) * (z * fogManager->unk_460));
+        if (z < 0.0f) {
+            distance = -distance;
+        }
+        LevelConfig* config = RequireLevelConfig(this);
+        fogManager->UpdateFog(static_cast<float>(config->m_fogStart) + distance, static_cast<float>(config->m_fogEnd) + distance,
+                              config->m_fogColor);
+    }
+    {
+        LightSetManager& lights = DeviceSceneManager()->m_lightSetManager;
+        if (ReadDebugSwitch("RENDERING_DisableAllLighting") == lights.m_lightingEnabled) {
+            lights.m_lightingEnabled = !DebugSwitches::GetInstance()->GetSwitch("RENDERING_DisableAllLighting");
+        }
+        if (ReadDebugSwitch("RENDERING_DisableAllSpecular") == lights.m_specularEnabled) {
+            lights.m_specularEnabled = !DebugSwitches::GetInstance()->GetSwitch("RENDERING_DisableAllSpecular");
+        }
+    }
+    if (!m_isLoaded) {
+        VoxSoundManager* sound = VoxSoundManager::s_instance;
+        if (sound->in_safe_zone_) {
+            sound->SetInSafeZoneMusic(m_isLoaded);
+        } else {
+            sound->PlayMusic(m_musicSoundId, true, sound->in_safe_zone_, 2000);
+        }
+        sound->Play(m_ambienceSoundId, false, 0, 0, false);
+        sound->music_slot_ = true;  // +0x31
+    }
     m_isLoaded = true;
     UpdateListener();
     UpdateDynamicFog();
+    MenuDebugHUD* hud = MenuDebugHUD::GetInstance();
     if (ReadDebugSwitch("IsAutoLoadingLevels")) {
-        // SEAM: the debug auto-load countdown and the random level pick over Arrays::LevelList, using Random and
-        // LC_API_STRCMP_0 (not declared), then Application::LoadLevel with the picked level.
+        static int s_autoLevelLoadWaitTime;  // Level::Update(bool)::s_autoLevelLoadWaitTime
+        hud->DisplayHugeNumber(s_dbgLevelLoadCount);
+        hud->SetDisplaySealOfFreshness(s_dbgLevelLoadCount > 15);
+        s_autoLevelLoadWaitTime -= ApplicationGetInstance().GetDt();
+        if (s_autoLevelLoadWaitTime <= 0) {
+            const char* picked = nullptr;
+            const unsigned int count = Arrays::LevelList::size - 1;
+            const Structs::LevelDeclaration* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
+            while (picked == nullptr || std::strcmp(picked, m_levelName.c_str()) == 0) {
+                const unsigned int row = count != 0 ? Random::GetRandom(static_cast<int>(count), false) : 0;
+                if (levels[row].m_w1) {  // row +0x04
+                    picked = static_cast<const char*>(levels[row].m_w8);  // row +0x20
+                }
+            }
+            DBG_DisplayLoadLevelStats(picked);
+            hud->HideHugeNumber();
+            hud->SetDisplaySealOfFreshness(false);
+            s_autoLevelLoadWaitTime = 5000;
+            const int slot = dword_99F76C->GetPlayer(0, false)->unk_664;  // +0x664
+            ApplicationGetInstance().LoadLevel(picked, 0, static_cast<uint32_t>(slot & ~(slot >> 31)), false, true, 0, false, 0, 0);
+        }
     }
     PopProfilingContext("Level::Update");
 }
 
 // 0x3f90b0 _ZN5LevelD2Ev and 0x3f92c4 _ZN5LevelD1Ev (Level::~Level()). Both addresses hold the same body.
 // The symbol table names them this way; dh2/Level.hpp's comment names them the other way round.
-// PARTIAL. The original tears the level down in this order: skills and objects, AI aggro and groups, the cached character
-// OIDs, the message queues, scripts and HUD, items and projectiles, the visual FX libraries, the game-event manager, the
-// two batch compilers, the object manager, the zoom handler's camera, the scene manager's camera, physics, the PF world,
-// the anim set manager, the base EventManager, the savegame, the Lua buffered files, the level name and the Lua script.
-// The C++ member and base destructors that run after the body cover the last steps: m_levelName, then m_script, then
-// the EventManager base. The steps in SEAM comments are not made.
+// The level is torn down in this order: skills and objects, AI aggro and groups, the cached character OIDs and concurrent AI,
+// the message queues, scripts and HUD, items and projectiles, the visual FX libraries, the game-event manager, the two batch
+// compilers, the object manager, the zoom handler's camera, the scene manager (cleared, its active camera dropped), physics,
+// the PF world, the anim set manager, the base EventManager, the savegame, the Lua buffered files. The C++ member and base
+// destructors that run after the body cover the last steps: m_levelName, then m_script (LuaScript), then the EventManager base.
 Level::~Level() {
     CleanUpAllSkills();
     UnlockAllObjects();
-    // SEAM: CharAI::ClearAllAggro and CharAI::ClearGroupInfo on the value returned by UnlockAllObjects (the header types
-    // that call void and the decompiled chain does not match).
-    // SEAM: the cached character OID tree dword_9A293C and dword_9A2930 (undeclared statics), and Character::ClearConcurrentAI
-    // (dh2/Character.hpp conflict).
-    // SEAM: MenuMessageManager<T, N>::FlushEnqueuedMessages for StatusMsg, TutorialMsg, DialogMsg (twice) and OnlineStatusMsg.
+    CharAI::ClearAllAggro();
+    CharAI::ClearGroupInfo();
+    Character::s_cachedCharOIDs.clear();
+    Character::ClearConcurrentAI();
+    MenuMessageManager<StatusMsg, 4>::s_inst.FlushEnqueuedMessages(0);
+    MenuMessageManager<TutorialMsg, 1>::s_inst.FlushEnqueuedMessages(0);
+    MenuMessageManager<DialogMsg, 1>::s_inst.FlushEnqueuedMessages(0);
+    MenuMessageManager<DialogMsg, 1>::s_inst.FlushEnqueuedMessages(0);
+    MenuMessageManager<OnlineStatusMsg, 1>::s_inst.FlushEnqueuedMessages(0);
     ScriptManager::s_inst.Flush();
     InfoHUDManager::GetInstance()->Flush();
-    // SEAM: HUDControls::GetInstance()->Flush(). dh2/HUDControls.hpp cannot share this translation unit with
-    // core-platform/memory.hpp (glitch::IEventReceiver is defined by both stand-in headers).
-    // SEAM: ItemManager::Flush and ProjectileManager::Flush. Both are non-static members and their headers give no instance accessor.
+    HUDControls::GetInstance()->Flush();
+    Singleton<ItemManager>::s_inst.Flush();
+    Singleton<ProjectileManager>::s_inst.Flush();
     VisualFXManager::s_inst.FlushLibraries();
     delete m_gameEventManager;
     m_gameEventManager = nullptr;
@@ -595,10 +858,11 @@ Level::~Level() {
     delete m_batchNodeCompiler2;
     m_batchNodeCompiler2 = nullptr;
     dword_99F764->Flush();
-    // SEAM: ZoomHandler::setCamera(nullptr) on Application::m_zoomHandler (+0x50). dh2/ZoomHandler.hpp conflicts with memory.hpp.
-    // SEAM: the scene manager's camera reset (virtual slot +104) and CSceneManager::setActiveCamera(nullptr) on the scene
-    // manager, which is glitch::IDevice +0x1c (IDevice data members not declared).
-    // SEAM: PhysicalWorld::clear on dword_99F770 (global not declared), and PFWorld::Flush (PFWorld conflicts with memory.hpp).
+    ApplicationGetInstance().m_zoomHandler->setCamera(nullptr);
+    DeviceSceneManager()->clear();  // virtual slot +104
+    DeviceSceneManager()->setActiveCamera(nullptr);
+    ApplicationGetInstance().m_physicalWorld->clear();
+    Singleton<PFWorld>::s_inst.Flush();
     AnimSetManager::s_inst.Flush();
     EventManager::Flush();
     if (m_levelSavegame) {

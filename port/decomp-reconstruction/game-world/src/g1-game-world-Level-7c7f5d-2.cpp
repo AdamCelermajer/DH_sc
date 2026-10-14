@@ -14,6 +14,18 @@
 #include "dh2/CameraLevel.hpp"
 #include "dh2/CameraOverview.hpp"
 #include "dh2/Level.hpp"
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/render_target.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/VisualObject.hpp"
+#include "dh2/CameraBase.hpp"
+#include "dh2/global/scene_nodes.hpp"
+#include "dh2/global/screen_size.hpp"
 #include "dh2/LevelConfig.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
@@ -119,13 +131,118 @@ void Level::PlaceFaeryAndFollowers(Character* player) {
 }
 
 // 0x3f0ae0 _ZN5Level14UpdateListenerEv
-// PARTIAL: placeholder. Two blockers remain. (1) VoxSoundManager is not declared anywhere in the tree (no SetListenerPos),
-// so the listener is not updated. (2) The listener row is Arrays::Listeners (stride 28, the fields read at +0x04 to +0x18),
-// read once through a function-local guard cache. pydata-accessors gives it only a stride, not a typed table. The reads the
-// function makes are declared now: the local player's target position and look-at (PlayerInfo unk_660, GameObject
-// GetTargetPosition and GetLookAtVec), the camera vectors (CameraBase::GetCameraLookAtVec and GetCameraUpVec), and the
-// screen centre (GetWorldPosFromScreenPos).
+// Places the audio listener. The row of Arrays::Listeners for m_listenerIndex is cached once in a function-local
+// static. Row +0x04 picks the position (0 the level camera's absolute position, 1 the local player's target position
+// projected to the screen and back at the render target's bottom, 2 the player's target position, 3 the screen centre
+// unprojected), +0x0c the front vector (0 the camera look-at, 1 the player's look-at, 2 the camera look-at with z cleared),
+// +0x18 the up vector (0 the camera up, 1 the front taken from the player's node matrix row 2). The listener is set only
+// while the level camera has a camera node. Row +0x10, +0x08 and +0x14 are passed on to VoxSoundManager::SetListenerPos.
 void Level::UpdateListener() {
+    static const Structs::Listener* curListener =
+        &reinterpret_cast<const Structs::Listener*>(Arrays::Listeners::members)[m_listenerIndex];  // +0xe4
+    auto localPlayer = [] { return dword_99F76C->GetLocalPlayer(0, true)->unk_660; };
+
+    glitch::core::vector3d<float> pos{};    // v34
+    glitch::core::vector3d<float> front{};  // v31
+    glitch::core::vector3d<float> up{};     // v28
+    Point3D<float> tmp{};                  // v25, scratch that survives between the arms
+    glitch::scene::ICameraSceneNode* cameraNode = m_camera->m_camera;  // Level +0x128, CameraBase +0x08
+
+    switch (curListener->m_w1) {  // row +0x04
+        case 0: {
+            if (cameraNode == nullptr) {
+                break;
+            }
+            pos = cameraNode->getAbsolutePosition();
+            break;
+        }
+        case 1: {
+            if (localPlayer() != nullptr) {
+                const Point3D<float>& target = localPlayer()->GetTargetPosition();
+                pos.X = target.X;
+                pos.Y = target.Y;
+                pos.Z = target.Z;
+                // Bottom of the viewport of the render target on top of the driver's stack (driver +0xcc, last entry, +0x20).
+                const int bottom = ApplicationGetInstance().m_device->videoDriver->m_renderTargets.back()->viewport().LowerRightCorner.Y;
+                glitch::core::position2d<int> screen{};
+                screen.X = 0;
+                screen.Y = 0;
+                GetScreenPosFromWorldPos(pos, screen);
+                Point2D<float> point;
+                point.X = static_cast<float>(screen.X);
+                point.Y = static_cast<float>(bottom);
+                GetWorldPosFromScreenPos(point, tmp, 0.0f);
+                pos.X = tmp.X;
+                pos.Y = tmp.Y;
+                pos.Z = tmp.Z;
+            }
+            break;
+        }
+        case 2: {
+            if (localPlayer() != nullptr) {
+                const Point3D<float>& target = localPlayer()->GetTargetPosition();
+                pos.X = target.X;
+                pos.Y = target.Y;
+                pos.Z = target.Z;
+            }
+            break;
+        }
+        case 3: {
+            Point2D<float> centre;
+            centre.X = static_cast<float>(Width_Screen / 2);
+            centre.Y = static_cast<float>(Height_Screen / 2);
+            GetWorldPosFromScreenPos(centre, tmp, 0.0f);
+            pos.X = tmp.X;
+            pos.Y = tmp.Y;
+            pos.Z = tmp.Z;
+            break;
+        }
+        default:
+            break;
+    }
+
+    const int frontMode = curListener->m_w3;  // row +0x0c
+    if (frontMode == 1) {
+        if (localPlayer() != nullptr) {
+            localPlayer()->GetLookAtVec(tmp);
+        }
+        front.X = tmp.X;
+        front.Y = tmp.Y;
+        front.Z = tmp.Z;
+    } else if (frontMode == 2) {
+        if (cameraNode != nullptr) {
+            const Point3D<float> look = m_camera->GetCameraLookAtVec();
+            front.X = look.X;
+            front.Y = look.Y;
+            front.Z = 0.0f;
+        }
+    } else if (frontMode == 0 && cameraNode != nullptr) {
+        const Point3D<float> look = m_camera->GetCameraLookAtVec();
+        front.X = look.X;
+        front.Y = look.Y;
+        front.Z = look.Z;
+    }
+
+    const int upMode = curListener->m_w6;  // row +0x18
+    if (upMode != 0) {
+        if (upMode == 1 && localPlayer() != nullptr) {
+            const float* m = localPlayer()->m_visualObject->m_node->getAbsoluteTransformation().M;  // GameObject +0x2d8, VisualObject +0x08
+            front.X = m[8];
+            front.Y = m[9];
+            front.Z = m[10];
+        }
+    } else {
+        if (cameraNode == nullptr) {
+            return;
+        }
+        const Point3D<float> camUp = m_camera->GetCameraUpVec();
+        up.X = camUp.X;
+        up.Y = camUp.Y;
+        up.Z = camUp.Z;
+    }
+    if (cameraNode != nullptr) {
+        VoxSoundManager::s_instance->SetListenerPos(pos, front, up, curListener->m_w4, curListener->m_w2, curListener->m_w5);  // row +0x10, +0x08, +0x14
+    }
 }
 
 // 0x3f1008 _ZN5Level11_LoadCameraEv

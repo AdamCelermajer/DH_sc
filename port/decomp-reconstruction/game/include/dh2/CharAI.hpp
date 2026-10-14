@@ -104,9 +104,9 @@ public:
     void UpdatePointers();                        // 0x3cb454 (thunk to _UpdatePointers)
     void UpdateAllSkills();                       // 0x3d8894
     void UpdateSkills();                          // 0x3d8a04
-    void IncUpdateQueue();                        // 0x3ce9b8
-    void HandleGroups();                          // 0x3d24f8
-    void ClearGroupInfo();                        // 0x3d2fb0 (clears s_groups)
+    static void IncUpdateQueue();                 // 0x3ce9b8 (static: only the update queue statics are touched)
+    static void HandleGroups();                   // 0x3d24f8 (static: the body is empty)
+    static void ClearGroupInfo();                 // 0x3d2fb0 (clears s_groups; static: the body uses no member)
     void RemoveFromGroup();                       // 0x3d2ff8
     static void AddToGroup(Character* c);         // 0x3d37d0 (Hex-Rays types the Character as `this`)
 
@@ -169,7 +169,7 @@ public:
     float AI_AddAggro(Character* c, float aggro);  // 0x3d7c68 (returns the aggro actually added: AI_SetAggro result minus the old value)
     void AI_ClearAggro(Character* c);             // 0x3d6d68
     void AI_ClearAllAggro();                      // 0x3d5fa8
-    void ClearAllAggro();                         // 0x3cd384
+    static void ClearAllAggro();                  // 0x3cd384 (static: the body walks the object manager)
     void AI_ClearAllAggroTowardMe(bool flag);     // 0x3d6abc
 
     // Spells and skills
@@ -203,7 +203,7 @@ public:
     static int _HandleProjectile(Projectile* p, void* data);  // 0x3cc280 (static: the callback takes it as a plain function)
     void _ClearNonStickyTarget();                 // 0x3d8d70
 
-    void StepResetAvailableStep();                // 0x3cb2f0
+    static void StepResetAvailableStep();         // 0x3cb2f0 (static: the body only sets s_stepAvailableStep)
     void StepInitScript();                        // 0x3cb314
     int StepQueryAvailableStep(int needed);       // 0x3cb854
     void StepLoadCommon();                        // 0x3cc218

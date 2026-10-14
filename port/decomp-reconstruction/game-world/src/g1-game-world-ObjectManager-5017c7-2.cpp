@@ -13,6 +13,15 @@
 #include <vector>
 
 #include "dh2/Application.hpp"
+#include "dh2/global/debug_trace.hpp"
+#include "dh2/CameraLevel.hpp"
+#include "dh2/CameraBase.hpp"
+#include "glitch-scene-collada-gui/scene/SViewFrustum.hpp"
+#include "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp"
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer_manager.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "glitch-core-io/os/device.hpp"
 #include "dh2/CharAI.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
@@ -228,19 +237,68 @@ void ObjectManager::sProcessLostPacket(int packetId, int member) {
 }
 
 // 0x348988 ObjectManager::Draw3D(void)
-// PARTIAL. Written: the first half, which draws every visible object of m_objectMap in key order (Draw() on the ObjectBase,
-// vtable +0x30, when m_visible is set; the map entry's object is at value +0x18). Not written: the render-state call the
-// original makes before the loop (vtable slot +0x6c of the scene manager's driver at dword_99F73C + 16, not declared), and
-// the debug culling-box overlay (DebugSwitches "isDisplayingCullingBoxes"). The overlay needs the glitch render backend:
-// IVideoDriver setMaterial, CMaterialRendererManager, the plane3d intersection helpers and DBG_DisplayPointAsBox, none of
-// which have a header in the tree.
+// Sets the world transform to the identity, draws every visible object of m_objectMap in key order (Draw() on the ObjectBase,
+// vtable +0x30, when m_visible is set; the map entry's object is at value +0x18), and, with the "isDisplayingCullingBoxes" debug
+// switch, overlays the culling boxes: the built-in material renderer 1 is set, the box (+0x12c) of every RoomZone of the list at
+// +0x24 is drawn in 0x7F00FF00, the level camera's view frustum box in 0x7F0000FF, and the eight frustum corners (intersections
+// of planes 0/1 with 4/5 and 2/3) are marked as boxes of size 100: the near four in 0x7FFF0000, the far four in 0x7FFFFF00.
 void ObjectManager::Draw3D() {
+    const glitch::core::CMatrix4<float> identity(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY);  // zeroed, diagonal 1.0, identity flag (+0x40)
+    glitch::video::IVideoDriver* driver = ApplicationGetInstance().m_device->videoDriver;
+    driver->setTransform(1, identity);  // E_TRANSFORMATION_STATE 1: world, vtable +0x6c
+
     for (auto& entry : m_objectMap) {
         ObjectBase* object = entry.second.m_object;
         if (object != nullptr && object->m_visible) {
             object->Draw();
         }
     }
+
+    DebugSwitches::GetInstance()->load();
+    if (!DebugSwitches::GetInstance()->GetSwitch("isDisplayingCullingBoxes")) {
+        return;
+    }
+    glitch::video::CMaterialRendererManager* renderers = driver->m_materialRendererManager;  // +0xdc
+    const uint16_t renderer = renderers->createMaterialRenderer(static_cast<glitch::video::E_MATERIAL_TYPE>(1));  // cached built-in id
+    boost::intrusive_ptr<glitch::video::CMaterial> material = renderers->getMaterialInstance(renderer, true);
+    const uint8_t technique = material ? static_cast<uint8_t>(material->getTechnique()) : 0xff;
+    driver->setMaterial(material, technique, nullptr);
+    glitch::video::SColor color;
+    color.color = 0x7F00FF00;
+    for (RoomZone* zone : unk_24) {
+        glitch::core::aabbox3d<float> box;
+        box.MinEdge.X = zone->m_absAabb[0];  // +0x12c
+        box.MinEdge.Y = zone->m_absAabb[1];
+        box.MinEdge.Z = zone->m_absAabb[2];
+        box.MaxEdge.X = zone->m_absAabb[3];
+        box.MaxEdge.Y = zone->m_absAabb[4];
+        box.MaxEdge.Z = zone->m_absAabb[5];
+        driver->draw3DBox(box, color);  // vtable +0x28
+    }
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    const glitch::scene::SViewFrustum* frustum = level->m_camera->m_camera->getViewFrustum();  // Level +0x128, CameraBase +0x08, vtable +0x144
+    color.color = 0x7F0000FF;
+    driver->draw3DBox(frustum->box, color);  // frustum +0x6c
+    const glitch::core::plane3d<float>* planes = frustum->planes;
+    // The eight corners: (plane 0 or 1) with (4 or 5) with (2 or 3).
+    auto mark = [&color](const glitch::core::plane3d<float>& a, const glitch::core::plane3d<float>& b, const glitch::core::plane3d<float>& c) {
+        glitch::core::vector3d<float> point;
+        point.X = 0.0f;
+        point.Y = 0.0f;
+        point.Z = 0.0f;
+        a.getIntersectionWithPlanes(b, c, point);
+        DBG_DisplayPointAsBox(point, color, 100);
+    };
+    color.color = 0x7FFF0000;
+    mark(planes[0], planes[4], planes[2]);
+    mark(planes[0], planes[4], planes[3]);
+    mark(planes[0], planes[5], planes[2]);
+    mark(planes[0], planes[5], planes[3]);
+    color.color = 0x7FFFFF00;
+    mark(planes[1], planes[4], planes[2]);
+    mark(planes[1], planes[4], planes[3]);
+    mark(planes[1], planes[5], planes[2]);
+    mark(planes[1], planes[5], planes[3]);
 }
 
 // 0x348ea4 ObjectManager::Remove(ObjectHandle)

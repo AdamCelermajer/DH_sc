@@ -18,7 +18,7 @@ public:
     // skipped. The block is sizeof(T), not the original's 0x7c.
     static T* GetInstance();
 
-protected:
+public:  // decision 9: Application::Quit deletes and clears the instance directly
     static T* m_instance;
 };
 

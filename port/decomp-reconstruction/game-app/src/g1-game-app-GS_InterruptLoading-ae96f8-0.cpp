@@ -14,12 +14,20 @@
 #include "core-platform/debug_out.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/GS_InterruptLoading.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "glitch-core-io/os/logging.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "dh2/MenuBase.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance(): the Application singleton (Singleton<Application>::s_inst)
 #include "glitch-video/texture.hpp"    // glitch::video::ITexture, complete for the counted intrusive_ptr release in Dtor
 
 // Globals the original reads or writes. Their definitions belong to the globals batch (Width_Screen, JAVA_SOUNDS and
 // Resume_Sound_Interrupt are not defined in this tree yet).
+extern "C" void nativeResumeMusicBG();  // 0x5338e8, core-platform (its header clashes with the sound manager header)
 extern int Width_Screen;               // ELF Width_Screen, 4-byte .data. Screen width; picks the splash file.
 extern bool Musicplayerpause;          // ELF Musicplayerpause, 1-byte .bss. Set when the pause path paused the music.
 extern bool JAVA_SOUNDS;               // ELF JAVA_SOUNDS, 1-byte .bss. Android sound-mode flag.
@@ -177,35 +185,49 @@ void GS_InterruptLoading::Update(StateMachine*, double) {
 }
 
 // 0x417fe8 GS_InterruptLoading::Dtor(StateMachine const*)
-// PARTIAL. The original logs, resumes the music that the pause path stopped, sets the sound state, clears the pause-menu
-// flag, checks the online connection, releases the splash texture and clears InterLoad. Written here: the logs, the
-// music flag, Resume_Sound_Interrupt under JAVA_SOUNDS, m_pauseMenuPushed, the texture release and InterLoad. Missing:
-//   - nativeResumeMusicBG(<the log call's result>) when Musicplayerpause is set. It is Android JNI glue that core-platform
-//     skips (its ledger row), so no call is written.
-//   - if (VoxSoundManager::s_instance): when Application::IsInIGPOrGameCenter, or the current level (if any) has
-//     m_isInGameView (+0x198), or MenuBase::s_igmOpened, or m_pauseMenuPushed (+0xa5) is set, the original calls
-//     ResumeMusic(s_instance, 500) when m_resumeMusic (+0xa6) is set. Otherwise, under JAVA_SOUNDS, it calls
-//     nativeSetVolumeBig(-1) twice and VoxSoundManager::Resume(...); without JAVA_SOUNDS it calls
-//     ResumeAllSounds(s_instance). VoxSoundManager's instance and methods are not declared in the tree.
-//   - the online check: when GetOnline()->isOnlineGame_ (COnline +0x05, private, no getter) is set and either the device
-//     timer (IDevice +0x20, vtbl +0x0c) minus Application::m_pauseTime (+0xa0) is over 15000 ms, or OnlineGameState
-//     +0x34 is not 2 while IsWifiEnabled() is false, the original sets Application::m_goToMainMenuPending (+0xaa).
+// Logs, resumes the music that the pause path stopped (nativeResumeMusicBG), reads the device timer and the pause stamp, and
+// sets the sound state: under JAVA_SOUNDS Resume_Sound_Interrupt is raised. With a sound manager: when the game is in the IGP
+// or Game Center, or the current level (if any) is in game view, or the in-game menu is open, or the pause menu was pushed,
+// the music resumes (500 ms fade) if Pause had it playing; otherwise, under JAVA_SOUNDS, both native volumes are reset (to the
+// saved music and SFX volumes) and the saved music id resumes, and without JAVA_SOUNDS every sound resumes. Then the pause-menu
+// flag is cleared, an online game that was paused for over 15 seconds, or whose state is not 2 with Wi-Fi off, schedules the
+// return to the main menu, the splash texture is released and InterLoad is cleared.
 void GS_InterruptLoading::Dtor(const StateMachine*) {
     _DEBUG_OUT("\n\n  GS_InterruptLoading::Dtor  ----> unloading splash screen. \n");
     if (Musicplayerpause) {
         _DEBUG_OUT("\n\n  in Resumeeeee    musicccccccccccccc \n");
-        // PARTIAL: nativeResumeMusicBG(...) is missing (see above).
+        nativeResumeMusicBG();
         Musicplayerpause = false;
     }
+    Application& application = ApplicationGetInstance();
+    const unsigned int now = glitch::os::Timer::getRealTime();  // device timer, IDevice +0x20, getRealTime
+    const unsigned int pauseTime = static_cast<unsigned int>(application.m_pauseTime);  // dword_99F7CC, +0xa0
+    Level* level = application.GetCurrentLevel();
     if (JAVA_SOUNDS) {
         Resume_Sound_Interrupt = true;
     }
 
-    // PARTIAL: the sound block (VoxSoundManager::s_instance) is missing (see above).
+    if (VoxSoundManager::s_instance != nullptr) {
+        if (application.IsInIGPOrGameCenter() ||
+            (level != nullptr && (level->m_isInGameView || MenuBase::s_igmOpened || application.m_pauseMenuPushed))) {
+            if (application.m_resumeMusic) {  // byte_99F7D2, +0xa6
+                VoxSoundManager::s_instance->ResumeMusic(500);
+            }
+        } else if (JAVA_SOUNDS) {
+            nativeSetVolumeBig(-1, music_volume, 1);
+            nativeSetVolumeBig(-1, sfx_vfx_volume, 2);
+            VoxSoundManager::s_instance->Resume(Save_Current_Music_ID);
+        } else {
+            VoxSoundManager::s_instance->ResumeAllSounds();
+        }
+    }
 
-    ApplicationGetInstance().m_pauseMenuPushed = false;  // +0xa5, cleared after the sound block
-
-    // PARTIAL: the online check (see above) is missing.
+    application.m_pauseMenuPushed = false;  // +0xa5, cleared after the sound block
+    if (GetOnlineGameFlag() &&
+        (now - pauseTime > 15000 ||
+         (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ != 2 && !application.IsWifiEnabled()))) {
+        application.m_goToMainMenuPending = true;  // byte_99F7D6, +0xaa
+    }
 
     m_loadBackground = nullptr;  // releases the splash texture; the counted pointer drops it when it was set
     InterLoad = false;

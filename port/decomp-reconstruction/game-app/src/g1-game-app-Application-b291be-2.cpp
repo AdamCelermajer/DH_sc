@@ -8,7 +8,44 @@
 #include <algorithm>
 
 #include "dh2/Application.hpp"
+#include "dh2/CharAI.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/global/debug_trace.hpp"
+#include "dh2/global/runtime_support.hpp"
+#include "dh2/global/scene_nodes.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "net-session-online/cxplayer_manager.hpp"
+#include "glitch-core-io/os/event_receiver.hpp"
+#include "dh2/EvMouseWheel.hpp"
+#include "dh2/EvMouseMove.hpp"
+#include "dh2/EvMouseButton.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/GSConsole.hpp"
+#include "dh2/Gamepad.hpp"
+#include "dh2/EvKeyboard.hpp"
+#include "dh2/EvGamepad.hpp"
 #include "dh2/UnderlaySceneNode.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
+#include <cstdio>
+#include "dh2/Character.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PropertyMap.hpp"
+#include "dh2/Savegame.hpp"
+#include "dh2/PhysicalWorld.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/ZoomHandler.hpp"
+#include "dh2/PlayerLightTweaker.hpp"
+#include "dh2/GamepadTweaker.hpp"
+#include "core-platform/accelerometer.hpp"
+#include "core-platform/w7_console_01.hpp"
+#include "core-platform/gc_singleton.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "glitch-video/video_driver.hpp"
+#include "net-session-online/game_center.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "glitch-core-io/os/logging.hpp"
 
 #include <list>
 #include <new>
@@ -48,6 +85,8 @@
 // dh2/global/Globals.hpp (definitions in game-app/src/Globals.cpp). m_updateJobThread0 is the member at +0x04.
 // FirstTime is a bool: the constructor stores it with a byte store (STRB, asm 0x32d980).
 
+extern "C" void nativeExit();  // 0x532bb8
+
 namespace {
 
 // Reads a debug switch the way the original does: DebugSwitches::load(), then GetSwitch.
@@ -67,37 +106,127 @@ void WriteDebugSwitch(const char* name, bool value) {
 }  // namespace
 
 // 0x321164 Application::_CheckGamepad()
-// PARTIAL: only the no-gamepad exit is written. The rest reads the first connected Gamepad. Its control table is now
-// declared (dh2/Gamepad.hpp, Gamepad::m_buttons[k]): the value is Channel::previous (+0x18+0x20k), the minimum
-// previous_minimum (+0x20+0x20k), the maximum previous_maximum (+0x24+0x20k) and the pressed latch
-// previous_above_threshold (+0x28+0x20k), with threshold (min + max + 1.0) * 0.5. The body is still not written
-// because every branch raises an event: EvKeyboard (vtable 0x95b440, forward-declared only in dh2/v2EmuController.hpp)
-// and EvGamepad (vtable 0x95b470, no header) are not declared, so the raises cannot be built without a stand-in.
-// It also toggles the console when m_console is set and closes the character menu on the menu button. The original
-// keeps a function-static last-time value (Application::_CheckGamepad()::last_time, .bss) for the stick auto-repeat.
+// Reads the first connected gamepad. A control counts as down when its value reaches (maximum + minimum + 1.0) * 0.5
+// (previous_* fields for the buttons, value/minimum/maximum for the two held keys). With a console: its toggle control
+// (k = 22) opens or closes it (GSConsole::Toggle), and while it is open the pad is turned into EvKeyboard events
+// (key codes 49..52, 135..138) and the function returns. Otherwise, outside a level, each of the 26 flagged controls
+// raises EvGamepad (button code = control index) on a press or a release, and a press of control 1 pops the character
+// menu, or the in-game menu when the character menu is not shown. last_time is the original's function-static .bss word.
 void Application::_CheckGamepad() {
     InputManager* input = InputManager::GetInstance();
     Gamepad* pad = input->GetFirstConnectedGamepad();
     if (pad == nullptr) {
         return;
     }
-    // PARTIAL: the rest of the body is not written, see above.
+    // previous_* thresholds (what the original's pad[k].previous / previous_minimum / previous_maximum test reads)
+    auto down = [pad](int k) {
+        const Gamepad::Channel& c = pad->m_buttons[k];
+        return c.previous >= ((c.previous_maximum + c.previous_minimum) + 1.0f) * 0.5f;
+    };
+    auto latched = [pad](int k) { return pad->m_buttons[k].previous_above_threshold; };
+    // value/minimum/maximum thresholds (controls 10 and 12 for the console key repeat)
+    auto valueDown = [pad](int k) {
+        const Gamepad::Channel& c = pad->m_buttons[k];
+        return c.value >= ((c.maximum + c.minimum) + 1.0f) * 0.5f;
+    };
+    auto raiseKey = [this](int key) {
+        const EvKeyboard event(0, key, true, false, false);
+        m_eventManager->Raise(event);
+    };
+
+    bool consoleOpen = false;
+    if (m_console != nullptr) {
+        if (!down(22) || latched(22)) {
+            if (m_console->open_) {
+                static unsigned int last_time;  // Application::_CheckGamepad()::last_time
+                const unsigned int elapsed = glitch::os::Timer::getRealTime() - last_time;
+                if ((down(13) && !latched(13)) || (down(37) && !latched(37))) {
+                    raiseKey(138);
+                }
+                if ((down(11) && !latched(11)) || (down(37) && !latched(37))) {
+                    raiseKey(137);
+                }
+                if (valueDown(10) && elapsed > 99) {
+                    last_time += elapsed;
+                    if (last_time != 0) {
+                        raiseKey(135);
+                    }
+                }
+                if (valueDown(12) && elapsed > 99) {
+                    last_time += elapsed;
+                    if (last_time != 0) {
+                        raiseKey(136);
+                    }
+                }
+                if (down(0) && !latched(0)) {
+                    raiseKey(49);
+                }
+                if (down(1) && !latched(1)) {
+                    raiseKey(50);
+                }
+                if (down(2) && !latched(2)) {
+                    raiseKey(51);
+                }
+                if (down(3) && !latched(3)) {
+                    raiseKey(52);
+                }
+            }
+        } else {
+            GSConsole::s_inst.Toggle();
+        }
+        if (m_console != nullptr && m_console->open_) {
+            return;
+        }
+    }
+
+    if (GetCurrentLevel() != nullptr) {
+        return;
+    }
+    // One EvGamepad per change of state on the 26 flagged controls, in this order.
+    static const int kButtons[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 37, 38, 39, 40, 41, 42, 43, 44, 19, 22};
+    for (const int k : kButtons) {
+        if (down(k)) {
+            if (!latched(k)) {
+                const EvGamepad event(k, 1, 0, 1.0f);
+                m_eventManager->Raise(event);
+            }
+        } else if (latched(k)) {
+            const EvGamepad event(k, 0, 0, 1.0f);
+            m_eventManager->Raise(event);
+        }
+    }
+    if (down(1) && !latched(1)) {
+        MenuBase* characterMenu = MenuManager::GetInstance()->GetMenuByName("menu_CharacterMenu");
+        MenuBase* ingameMenu = MenuManager::GetInstance()->GetMenuByName("menu_Ingame");
+        if (characterMenu != nullptr && characterMenu->IsVisible()) {
+            characterMenu->m_menu->PopAll();
+        } else if (ingameMenu != nullptr) {
+            if (ingameMenu->IsVisible()) {
+                ingameMenu->m_menu->PopAll();
+            }
+        }
+    }
 }
 
 // 0x322924 Application::Pause()
-// PARTIAL: the music and sound pause is not written. VoxSoundManager (s_instance, IsMusicPlaying, PauseAllSounds) has
-// no declaration in the tree, so musicPlaying is taken as false and the m_resumeMusic latch never sets. m_pauseTime
-// (+0xa0) should take the device timer read (IDevice +0x20, virtual getRealTime at slot +0x0c); IDevice declares no
-// timer, so m_pauseTime keeps its value. The menu_Ingame lookup result belongs in GSFlashMenu::s_inst +0x0c, which is
-// not declared, so the lookup is made and discarded.
+// Notes the music state, pauses all sounds, stamps m_pauseTime from the device timer (IDevice +0x20, getRealTime; the
+// virtual forwards to glitch::os::Timer::getRealTime), saves the player and opens the in-game menu fade when a loaded
+// in-game level is current, saves the settings, puts the state machine to sleep and restores the orientation.
 // The menu lookups use m_menuManager (dword_99F780 is s_inst +0x54). The save-settings gate is the byte at
-// SavegameManager +0x28, which is SavegameManager::m_optionsLoaded (set at the end of a full loadSettings).
+// SavegameManager +0x28 (m_optionsLoaded). menu_Ingame is stored in GSFlashMenu::s_inst +0x0c (m_pendingMenu).
 void Application::Pause() {
-    const bool musicPlaying = false;  // PARTIAL: VoxSoundManager is not declared, see above
+    bool musicPlaying = false;
+    if (VoxSoundManager::s_instance != nullptr) {
+        musicPlaying = VoxSoundManager::s_instance->IsMusicPlaying();
+    }
     m_resumeMusic = false;            // +0xa6
+    if (VoxSoundManager::s_instance != nullptr) {
+        VoxSoundManager::s_instance->PauseAllSounds();
+    }
     m_pauseMenuPushed = false;        // +0xa5
 
     Level* level = GetCurrentLevel();
+    m_pauseTime = (m_device != nullptr) ? static_cast<int>(glitch::os::Timer::getRealTime()) : 0;  // +0xa0
     if (level != nullptr && level->m_loadStep == 38 && level->m_isLoaded) {
         level->SG_SavePlayer(0, false);
         if (level->m_isInGameView) {
@@ -106,8 +235,7 @@ void Application::Pause() {
                 if (!fadeToBlack->IsVisible()) {
                     m_menuManager->PopMenu("menu_FadeFromBlackScreen");
                     m_pauseMenuPushed = true;
-                    // PARTIAL: the result is stored in GSFlashMenu::s_inst +0x0c (not declared).
-                    (void)MenuManager::GetInstance()->GetMenuByName("menu_Ingame");
+                    GSFlashMenu::s_inst.m_pendingMenu = MenuManager::GetInstance()->GetMenuByName("menu_Ingame");  // dword_9A247C
                     m_stateMachine->PushState(&GSFlashMenu::s_inst, false);
                 }
             }
@@ -151,14 +279,10 @@ void Application::Init(glitch::IDevice* device) {
 }
 
 // 0x323bc4 Application::Quit()
-// PARTIAL: written up to the member teardown in the original order. Not written: the InputManager::Destroy and
-// VoxSoundManager::DeleteInstance calls (VoxSoundManager statics not declared), Savegame::FlushJobs, the
-// CleanGlitch call (partial in game-app part 1), the device release (IDevice vtable slots not declared), the
-// PropertyMap::DestroyPropertyMaps call, the underlay node release (UnderlaySceneNode not declared), the
-// OnlineSingleton / GCSingleton / COnlineImpl teardown, TrophyManager::DeleteInstance and nativeExit.
-// The members whose classes have no header in the tree yet (PyDataArrays, PyDataConstants, AccelerometerBase,
-// PhysicalWorld, Console, the unk_1c owner) are not deleted here; their deletes are missing.
-// The PlayerManager light-tweaker delete loop covers m_playerLightTweakers[0..3] at +0x58..+0x64.
+// Saves the settings; in a loaded level (step 38) quick-saves and saves the local player's character; stops all
+// sounds; clears the state machine, then deletes the owned members in the original order (virtual deleting destructor
+// each, member nulled); destroys InputManager and VoxSoundManager, flushes the savefile jobs, cleans glitch, releases
+// the device, destroys the property maps and the underlay node, tears down the online singletons and exits.
 void Application::Quit() {
     if (m_savegameManager != nullptr) {
         m_savegameManager->saveSettings();
@@ -167,39 +291,84 @@ void Application::Quit() {
     Level* level = GetCurrentLevel();
     if (level != nullptr && level->m_loadStep == 38) {
         level->QuickSave(false);
-        // PARTIAL: the local player (PlayerManager::GetLocalPlayer(0, 1) +0x660 Character*) is not declared here,
-        // so Character::SG_Save is not called.
+        Character* localPlayer = m_playerManager->GetLocalPlayer(0, true)->unk_660;  // +0x660
+        if (localPlayer != nullptr) {
+            localPlayer->SG_Save();
+        }
+    }
+    if (VoxSoundManager::s_instance != nullptr) {
+        VoxSoundManager::s_instance->StopAllSounds(0);
+    }
+    if (m_stateMachine != nullptr) {
+        m_stateMachine->__clear();
     }
 
-    // PARTIAL: StateMachine::__clear (original call on m_stateMachine, +0x18) is private in dh2/StateMachine.hpp;
-    // needs a public accessor (API request). Not called here.
-    // PARTIAL: delete m_zoomHandler (+0x50) is not written: dh2/ZoomHandler.hpp pulls glitch-scene-collada-gui
-    // event stand-ins that conflict with glitch-shared glitch_core.hpp in this translation unit.
-    delete m_objectManager;
-    m_objectManager = nullptr;
-    delete m_luaManager;
-    m_luaManager = nullptr;
-    delete m_playerManager;
-    m_playerManager = nullptr;
-    delete m_stateMachine;
-    m_stateMachine = nullptr;
-    delete m_eventManager;
-    m_eventManager = nullptr;
-    delete m_stringManager;
-    m_stringManager = nullptr;
-    delete m_dataReloaderManager;
-    m_dataReloaderManager = nullptr;
-    delete m_touchScreen;
-    m_touchScreen = nullptr;
-    delete m_savegameManager;
-    m_savegameManager = nullptr;
-    // PARTIAL: the four m_playerLightTweakers (+0x58..+0x64) and m_gamepadTweaker (+0x68) are not deleted:
-    // dh2/PlayerLightTweaker.hpp and dh2/GamepadTweaker.hpp need glitch-debugger/CTweakable.hpp, which has no header
-    // in the tree yet. The original deletes them here, between savegame and the menu manager.
-    // m_gamepadTweaker (+0x68) is not deleted: dh2/GamepadTweaker.hpp needs glitch-debugger/CTweakable.hpp,
-    // which has no header in the tree yet.
-    delete m_menuManager;
-    m_menuManager = nullptr;
+    // Each member: virtual deleting destructor (vtable +4) when set, then the member is zeroed.
+    delete m_zoomHandler;           m_zoomHandler = nullptr;            // +0x50
+    delete m_objectManager;         m_objectManager = nullptr;          // +0x38
+    delete m_luaManager;            m_luaManager = nullptr;             // +0x3c
+    delete m_playerManager;         m_playerManager = nullptr;          // +0x40
+    delete m_stateMachine;          m_stateMachine = nullptr;           // +0x18
+    delete m_eventManager;          m_eventManager = nullptr;           // +0x14
+    delete m_stringManager;         m_stringManager = nullptr;          // +0x34
+    delete m_pyDataArrays;          m_pyDataArrays = nullptr;           // +0x30
+    delete m_pyDataConstants;       m_pyDataConstants = nullptr;        // +0x2c
+    delete m_dataReloaderManager;   m_dataReloaderManager = nullptr;    // +0x28
+    delete m_accelerometer;         m_accelerometer = nullptr;          // +0x24
+    delete m_touchScreen;           m_touchScreen = nullptr;            // +0x20
+    delete unk_1c;                  unk_1c = nullptr;                   // +0x1c
+    delete m_physicalWorld;         m_physicalWorld = nullptr;          // +0x44
+    delete m_console;               m_console = nullptr;                // +0x48
+    delete m_savegameManager;       m_savegameManager = nullptr;        // +0x4c
+    for (int i = 0; i < 4; ++i) {
+        delete m_playerLightTweakers[i];                                // +0x58 .. +0x64
+        m_playerLightTweakers[i] = nullptr;
+    }
+    delete m_gamepadTweaker;        m_gamepadTweaker = nullptr;         // +0x68
+    delete m_menuManager;           m_menuManager = nullptr;            // +0x54
+
+    InputManager::Destroy();
+    VoxSoundManager::DeleteInstance();
+    Savegame::FlushJobs(nullptr);
+    CleanGlitch();
+    if (m_device != nullptr) {
+        // The original calls three virtuals: the scene manager's clear, the video driver's removeUnused (slot +0xac, device +0x10)
+        // and the device's closeDevice (slot +0x30), then drops the device.
+        reinterpret_cast<glitch::scene::CSceneManager*>(m_device->sceneManager)->clear();
+        m_device->videoDriver->removeUnused();
+        m_device->closeDevice();
+        m_device->drop();
+        m_device = nullptr;
+    }
+    PropertyMap::DestroyPropertyMaps();
+    if (m_underlayNode != nullptr) {
+        const int refs = m_underlayNode->referenceCounter;
+        const bool parentless = (m_underlayNode->getParent() == nullptr);
+        if (!((parentless && refs == 1) || refs == 2)) {
+            if (gAssertLevel == 2) {
+                *static_cast<volatile int*>(nullptr) = 0;  // dword_0 = 0 (deliberate crash)
+            } else if (gAssertLevel == 1) {
+                std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n",
+                             "(m_underlayNode->getParent() == __null && m_underlayNode->getReferenceCount() == 1) || "
+                             "m_underlayNode->getReferenceCount() == 2",
+                             "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\Application.cpp", 458);
+            }
+        }
+        m_underlayNode->drop();
+        m_underlayNode = nullptr;
+    }
+    if (OnlineSingleton<OnlineGameState>::m_instance != nullptr) {
+        delete OnlineSingleton<OnlineGameState>::m_instance;
+    }
+    OnlineSingleton<OnlineGameState>::m_instance = nullptr;
+    if (GCSingleton<GameCenter>::m_instance != nullptr) {
+        delete GCSingleton<GameCenter>::m_instance;
+    }
+    GCSingleton<GameCenter>::m_instance = nullptr;
+    GetOnline();
+    COnline::Destroy();
+    TrophyManager::DeleteInstance();
+    nativeExit();
 }
 
 // 0x3241b8 Application::OnInterruptResume()
@@ -289,20 +458,103 @@ void Application::UnRegisterForIrrlichtEvents(glitch::IEventReceiver* receiver) 
 }
 
 // 0x32a9c8 Application::onEvent(glitch::SEvent const&)
-// PARTIAL: written: the dispatch to every registered receiver (IEventReceiver::onEvent, vtable slot +0x08) and the OR of
-// their results. Not written: the event-type split. Type 1 (mouse) goes to a switch that raises EvMouseButton (vtable
-// 0x95b4b8), EvMouseMove (0x95b488) and EvMouseWheel (0x95b4a0) events; type 2 (keyboard) raises EvKeyboard (0x95b440)
-// events, toggles the console on the console key when m_console is set, checks the DebugSwitches
-// "IsUsingToggleDisplayMode" and "IsUsingCharacterShowRoom", and steps the view scale at +0x9c by 0.1 on keys 43 and 45.
-// These event classes and the SEvent fields have no headers yet. The original passes a decompiler-reused value to
-// GSConsole::Toggle; the console object is not identified.
+// Passes the event to every registered glitch receiver (vtable slot +0x08) and ORs the results. Mouse events (type 1) are
+// raised as EvMouseButton / EvMouseMove / EvMouseWheel and return true. Key events (type 2) are raised as EvKeyboard (key 9
+// and 222 on release toggle the console instead when one exists); on a press, unless the debug switches
+// "IsUsingToggleDisplayMode" or "IsUsingCharacterShowRoom" are on, '+' (43) raises and '-' (45) lowers the view scale at +0x9c
+// by 0.1 (not below 0). Key events return true.
 bool Application::onEvent(const glitch::SEvent& event) {
-    (void)event;
-    // PARTIAL: the receiver dispatch is not written: the glitch::IEventReceiver stand-in in
-    // glitch-scene-collada-gui/deps/event_stand_ins.hpp declares no onEvent (vtable slot +0x08 of the original), and
-    // including the dh2 receiver header there conflicts with glitch-shared in this translation unit. The event-type
-    // branches are not written either.
-    return false;
+    unsigned char handled = 0;
+    for (glitch::IEventReceiver* receiver : m_eventReceivers) {
+        handled = static_cast<unsigned char>(receiver->onEvent(event) | handled);
+    }
+    if (event.EventType != glitch::EET_KEY_INPUT_EVENT) {
+        if (event.EventType == glitch::EET_MOUSE_INPUT_EVENT) {
+            const glitch::SEvent::SMouseInput& mouse = event.MouseInput;
+            const std::int16_t x = static_cast<std::int16_t>(mouse.X);  // +0x08
+            const std::int16_t y = static_cast<std::int16_t>(mouse.Y);  // +0x0c
+            switch (mouse.Event) {  // +0x14
+                case 0:
+                case 3: {
+                    const EvMouseButton ev(0, mouse.Event == 0, x, y);
+                    m_eventManager->Raise(ev);
+                    handled = 1;
+                    std::printf("Mouse POS = (%d, %d)\n", mouse.X, mouse.Y);
+                    break;
+                }
+                case 1:
+                case 4: {
+                    const EvMouseButton ev(2, mouse.Event == 1, x, y);
+                    handled = 1;
+                    m_eventManager->Raise(ev);
+                    break;
+                }
+                case 2:
+                case 5: {
+                    const EvMouseButton ev(1, mouse.Event == 2, x, y);
+                    handled = 1;
+                    m_eventManager->Raise(ev);
+                    break;
+                }
+                case 6: {
+                    const EvMouseMove ev(x, y);
+                    handled = 1;
+                    m_eventManager->Raise(ev);
+                    break;
+                }
+                case 7: {
+                    const EvMouseWheel ev(static_cast<int>(mouse.Wheel));  // +0x10
+                    handled = 1;
+                    m_eventManager->Raise(ev);
+                    break;
+                }
+                default:
+                    return true;
+            }
+        }
+        return handled != 0;
+    }
+
+    const glitch::SEvent::SKeyInput& key = event.KeyInput;
+    bool pressed;
+    if (key.Key == 9 || key.Key == 222) {
+        pressed = key.PressedDown;
+        if (!pressed) {
+            if (m_console == nullptr) {
+                return true;
+            }
+            GSConsole::s_inst.Toggle();
+        }
+    } else {
+        pressed = key.PressedDown;
+    }
+    if (key.Key != 9 && key.Key != 222 || key.PressedDown) {
+        const EvKeyboard ev(static_cast<std::int32_t>(key.Char), key.Key, key.PressedDown, key.Shift, key.Control);
+        m_eventManager->Raise(ev);
+        pressed = key.PressedDown;
+    }
+    if (!pressed) {
+        return true;
+    }
+    if (ReadDebugSwitch("IsUsingToggleDisplayMode")) {
+        return true;
+    }
+    if (ReadDebugSwitch("IsUsingCharacterShowRoom")) {
+        return true;
+    }
+    if (key.Char == 43) {  // +0x08
+        m_dtFactor = static_cast<float>(m_dtFactor + 0.1);  // +0x9c
+        return true;
+    }
+    if (key.Char != 45) {
+        return true;
+    }
+    const float scale = static_cast<float>(m_dtFactor - 0.1);
+    m_dtFactor = scale;
+    if (scale < 0.0f) {
+        m_dtFactor = 0.0f;
+    }
+    return true;
 }
 
 // 0x32ade8 Application::_Draw()
@@ -413,57 +665,122 @@ void Application::GoToMainMenu(GoToMainMenuEvent event) {
 }
 
 // 0x32c438 Application::_Update(int)
-// PARTIAL: written: the UseClickToMove switch clear, the pending connection-loss main-menu switch, the event manager
-// and state machine updates, the touch update, the gamepad poll, the one-shot object dump and the quest dumps, and
-// the frame counter. Not written: CXPlayerManager::Update (singleton not declared), the cheat switches block (the
-// handle_cheats_inGame and lastOpenMenuID globals, SavegameManager::toggleOption), the scene-manager update of the
-// root scene node and the IsLevelPaused / IsLevelLoaded gate around it, the update-job thread starts (Savegame::UpdateJobs),
-// CharAI::StepResetAvailableStep, PlayerManager::Update, VoxSoundManager::UpdateIPodAsync, the accelerometer and the
-// InputManager update (virtual slot +0x30 on the input manager), and the one-shot glitch traces (TraceAllLoaded*,
-// TraceGlitchHierarchyOnce, TraceVisibleNodeOnce), which call glitch debug functions that are not declared. The
-// DumpActiveQuestInformationOnce trace needs PyDataConstants::getConstant, also not declared; its switch is cleared and
-// the trace skipped.
+// One frame of game logic, bracketed by the "Application::Update" profiling context: CXPlayerManager::Update, the
+// UseClickToMove switch cleared, the pending connection-loss main-menu switch, the in-level cheat taps (menu 10), the
+// scene-manager update (skipped while a menu or pause holds the game; ResetDebugCounters, UpdateEnlargedViewFrustum, the
+// culling flag at CSceneManager +0x250 set, update(dt, false)), the update-job thread start (or the savefile jobs while
+// menu 17 is open), CharAI::StepResetAvailableStep, PlayerManager::Update, the event manager, the state machine, the
+// sound manager, touch screen, accelerometer and input manager updates, _CheckGamepad, the one-shot debug traces and the
+// frame counter.
 void Application::_Update(int dtMs) {
-    // PARTIAL: CXPlayerManager::Update is not written, see above.
+    PushProfilingContext("Application::Update");
+    Singleton<CXPlayerManager>::s_inst.Update();
     WriteDebugSwitch("UseClickToMove", false);
     if (m_goToMainMenuPending) {
         m_goToMainMenuPending = false;
         GoToMainMenu(static_cast<GoToMainMenuEvent>(3));
     }
-    // PARTIAL: the cheat block and the scene update are not written, see above.
 
-    // PARTIAL: CharAI::StepResetAvailableStep and PlayerManager::Update are not written, see above.
-    if (m_eventManager != nullptr) {
-        m_eventManager->Update(dtMs);
+    if (handle_cheats_inGame && lastOpenMenuID == 10) {
+        // Two 16-byte rectangles (x1, y1, x2, y2) taken from CustomAlloc and never freed, as in the original.
+        glitch::core::rect<float>* giveGold = static_cast<glitch::core::rect<float>*>(CustomAlloc(0x10));
+        giveGold->UpperLeftCorner.X = 0.0f;
+        giveGold->UpperLeftCorner.Y = 0.0f;
+        giveGold->LowerRightCorner.X = 100.0f;
+        giveGold->LowerRightCorner.Y = 100.0f;
+        glitch::core::rect<float>* levelUp = static_cast<glitch::core::rect<float>*>(CustomAlloc(0x10));
+        levelUp->LowerRightCorner.X = 100.0f;
+        levelUp->UpperLeftCorner.Y = 100.0f;
+        levelUp->UpperLeftCorner.X = 0.0f;
+        levelUp->LowerRightCorner.Y = 200.0f;
+        if (m_touchScreen->isRegionPressed(*giveGold)) {
+            m_savegameManager->toggleOption("GiveGold");
+        } else if (m_touchScreen->isRegionPressed(*levelUp)) {
+            m_savegameManager->toggleOption("LevelUp");
+        }
     }
-    if (m_stateMachine != nullptr) {
-        m_stateMachine->Update(dtMs);
+
+    Level* level = GetCurrentLevel();
+    // The scene manager is updated unless the in-game menu is open, or the level is paused without an online game.
+    bool updateScene;
+    if (IsLevelPaused(true)) {
+        updateScene = IsOnlineGame() && !MenuBase::s_igmOpened;  // *(GetOnline() + 5)
+    } else {
+        updateScene = !MenuBase::s_igmOpened;
     }
-    // PARTIAL: VoxSoundManager::UpdateIPodAsync, the accelerometer and the input manager update are not written.
+    if (updateScene && IsLevelLoaded() && !IsInLevelTransition() &&
+        (level == nullptr || (level->m_isLoaded && !level->unk_1a8))) {  // Level +0x144, +0x1a8
+        glitch::scene::CSceneManager* sceneManager = reinterpret_cast<glitch::scene::CSceneManager*>(m_device->sceneManager);
+        PushProfilingContext("SceneManager::update");
+        RootSceneNode::ResetDebugCounters();
+        RootSceneNode::UpdateEnlargedViewFrustum(sceneManager);
+        sceneManager->cullingEnabled = true;  // +0x250
+        sceneManager->update(static_cast<float>(dtMs), false);
+        m_sceneUpdated = true;  // +0xa9
+        PopProfilingContext("SceneManager::update");
+    }
+
+    if (lastOpenMenuID == 17) {
+        Savegame::UpdateJobs();
+    } else if (m_updateJobThread0->flag_) {  // +0x08
+        m_updateJobThread0->Start();
+    }
+    CharAI::StepResetAvailableStep();
+    m_playerManager->Update();
+    const double dt = static_cast<double>(dtMs);
+    m_eventManager->Update(dt);
+    m_stateMachine->Update(dt);
+    if (VoxSoundManager::s_instance != nullptr) {
+        VoxSoundManager::s_instance->UpdateIPodAsync();
+    }
     if (m_touchScreen != nullptr) {
-        m_touchScreen->update(dtMs);
+        m_touchScreen->update(dt);
     }
+    if (m_accelerometer != nullptr) {
+        m_accelerometer->update(dt);
+    }
+    InputManager::GetInstance()->UpdateFrame(static_cast<float>(dtMs));
     _CheckGamepad();
 
-    // PARTIAL: TraceAllLoadedResfileInfoOnce, TraceAllLoadedTextureInfoOnce, TraceGlitchHierarchyOnce and
-    // TraceVisibleNodeOnce are not written, see above.
+    if (ReadDebugSwitch("TraceAllLoadedResfileInfoOnce")) {
+        DBG_TraceAllLoadedResfileInformation();
+        WriteDebugSwitch("TraceAllLoadedResfileInfoOnce", false);
+    }
+    if (ReadDebugSwitch("TraceAllLoadedTextureInfoOnce")) {
+        DBG_TraceAllLoadedTextureInformation();
+        DBG_TraceAllLoadedResfileInformation();
+        WriteDebugSwitch("TraceAllLoadedTextureInfoOnce", false);
+    }
     if (ReadDebugSwitch("TraceRoomObjects")) {
         m_objectManager->DBG_DumpRoomObjects();
         WriteDebugSwitch("TraceRoomObjects", false);
     }
+    if (ReadDebugSwitch("TraceGlitchHierarchyOnce")) {
+        DBG_TraceSceneNode(reinterpret_cast<glitch::scene::CSceneManager*>(m_device->sceneManager)->rootNode, 0,
+                           reinterpret_cast<bool (*)(glitch::scene::ISceneNode*)>(IsNodeVisible));
+        WriteDebugSwitch("TraceGlitchHierarchyOnce", false);
+    }
+    if (ReadDebugSwitch("TraceVisibleNodeOnce")) {
+        DBG_TraceSceneNodePolyStats(reinterpret_cast<glitch::scene::CSceneManager*>(m_device->sceneManager)->rootNode,
+                                    0, reinterpret_cast<bool (*)(glitch::scene::ISceneNode*)>(IsVisibleAndNotCulled));
+        WriteDebugSwitch("TraceVisibleNodeOnce", false);
+    }
     if (ReadDebugSwitch("DumpQuestInformationOnce")) {
         WriteDebugSwitch("DumpQuestInformationOnce", false);
-        Level* level = GetCurrentLevel();
-        if (level != nullptr) {
-            level->SG_DBG_TraceDetailedQuestInformation(-1);
+        Level* current = GetCurrentLevel();
+        if (current != nullptr) {
+            current->SG_DBG_TraceDetailedQuestInformation(-1);
         }
     }
     if (ReadDebugSwitch("DumpActiveQuestInformationOnce")) {
         WriteDebugSwitch("DumpActiveQuestInformationOnce", false);
-        // PARTIAL: the trace needs PyDataConstants::getConstant("v2QuestState", "Active"), not declared.
+        Level* current = GetCurrentLevel();
+        if (current != nullptr) {
+            current->SG_DBG_TraceDetailedQuestInformation(m_pyDataConstants->getConstant("v2QuestState", "Active"));
+        }
     }
-
     ++m_frameCount;
+    PopProfilingContext("Application::Update");
 }
 
 // 0x32ccc4 Application::Update()

@@ -228,7 +228,7 @@ void SavegameManager::setOption(const char* name, int value) {
 // object map in key order: for each game object (vtable +0x20) an item (GO id 3) updates its localization, and an exit-level
 // trigger (GO id 14) clears its fast-travel-shown flag (+0x819). Finally the string pack for the language is switched. The original
 // returns the bool from StringManager::switchPack as int; the header keeps void, so the value is dropped.
-void SavegameManager::setLanguage(int language) {
+int SavegameManager::setLanguage(int language) {
     setOption("Language", language);
     for (Character* character : dword_99F764->m_characters) {
         if (character->IsPlayer() || character->IsMerchant()) {
@@ -250,7 +250,7 @@ void SavegameManager::setLanguage(int language) {
             static_cast<TriggerZoneExitLevel*>(gameObject)->m_fastTravelShown = false;
         }
     }
-    ApplicationGetStringManager()->switchPack(static_cast<unsigned int>(language), true);
+    return ApplicationGetStringManager()->switchPack(static_cast<unsigned int>(language), true);
 }
 
 // 0x46d280 SavegameManager::getOptionType(char const*) const

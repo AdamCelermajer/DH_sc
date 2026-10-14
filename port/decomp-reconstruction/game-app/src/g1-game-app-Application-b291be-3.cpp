@@ -6,6 +6,13 @@
 #include "dh2/Application.hpp"
 
 #include "dh2/EventManager.hpp"
+#include "dh2/GamepadTweaker.hpp"
+#include "dh2/PlayerLightTweaker.hpp"
+#include "dh2/ZoomHandler.hpp"
+#include "core-platform/w7_console_01.hpp"
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-core-io/os/device.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 #include "dh2/GSInit.hpp"
 #include "dh2/LuaManager.hpp"
 #include "dh2/MenuManager.hpp"
@@ -19,34 +26,34 @@
 #include "net-session-online/c_online_impl.hpp"
 
 // 0x32f7e8 Application::PostInit()
-// PARTIAL: the managers that have a declared class are created in the original order, each as operator new(size) then
-// its constructor, and stored in its member. Not written:
-//   - PyDataConstants (+0x2c, operator new(0x24)) and PyDataArrays (+0x30, operator new(0x3c)), both constructed from
-//     m_dataReloaderManager (+0x28). Their header pydata-accessors/w7_pydata12.hpp defines a stand-in IStreamBase that
-//     conflicts with dh2/PlayerManager.hpp in one translation unit, and this file needs PlayerManager.
-//   - the four PlayerLightTweaker objects (+0x58..+0x64, operator new(0x144)) and the name each gets at its +0xf8
-//     string (the name table PlayerLightTweaker::TWEAKER_NAMES is not declared, and the header reads +0xf8 as an int
-//     named m_lightType). dh2/PlayerLightTweaker.hpp also includes glitch-debugger/CTweakable.hpp, which is not in the
-//     tree, so the header cannot be included yet.
-//   - the GamepadTweaker (+0x68, operator new(0xe8)): dh2/GamepadTweaker.hpp includes the same missing CTweakable header.
-//   - the store of 1 to IDevice +0x1c -> +0x250 (asm: m_device, then the object at +0x1c, byte +0x250). IDevice +0x1c is
-//     not declared (layout request).
-//   - the ZoomHandler (+0x50, operator new(0x44)): dh2/ZoomHandler.hpp includes the scene-collada-gui event stand-in,
-//     which redefines glitch::IEventReceiver and glitch::SEvent. It conflicts with the glitch-core-io glitch_core that
-//     dh2/GSInit.hpp brings in, and this file needs GSInit for the state switch below.
-//   - the Console (+0x48, operator new(0xa8)) and Console::Console: waits on dh2/Console.hpp (not in the tree yet).
+// Creates the managers in the original order, each as operator new(size) then its constructor, and stores them in their
+// members: EventManager, StateMachine, PyDataConstants and PyDataArrays (both from the DataReloaderManager), StringManager,
+// ObjectManager, LuaManager, PlayerManager and PhysicalWorld; the four PlayerLightTweakers (each gets its name from
+// TWEAKER_NAMES into the m_lightType string); the GamepadTweaker; the underlay node is cleared and the device scene
+// manager's culling flag (+0x250) is set; the state machine switches to GSInit; then the ZoomHandler, the online
+// initialisation and the Console.
 void Application::PostInit() {
-    m_eventManager = new EventManager();               // +0x14, operator new(0x30)
-    m_stateMachine = new StateMachine();               // +0x18, operator new(0x20)
-    m_stringManager = new StringManager();             // +0x34, operator new(0x7d8)
-    m_objectManager = new ObjectManager();             // +0x38, operator new(0x1b0)
-    m_luaManager = new LuaManager();                   // +0x3c, operator new(0x1c)
-    m_playerManager = new PlayerManager();             // +0x40, operator new(0x720)
-    m_physicalWorld = new PhysicalWorld();             // +0x44, operator new(0x14)
-    m_underlayNode = nullptr;                          // +0xb8 (the original stores 0 here)
-    m_stateMachine->SwitchState(&GSInit::s_inst, false);  // StateMachine::SwitchState(GSInit, owned = false)
+    m_eventManager = new EventManager();                          // +0x14, operator new(0x30)
+    m_stateMachine = new StateMachine();                          // +0x18, operator new(0x20)
+    m_pyDataConstants = new PyDataConstants(m_dataReloaderManager);  // +0x2c, operator new(0x24)
+    m_pyDataArrays = new PyDataArrays(m_dataReloaderManager);     // +0x30, operator new(0x3c)
+    m_stringManager = new StringManager();                        // +0x34, operator new(0x7d8)
+    m_objectManager = new ObjectManager();                        // +0x38, operator new(0x1b0)
+    m_luaManager = new LuaManager();                              // +0x3c, operator new(0x1c)
+    m_playerManager = new PlayerManager();                        // +0x40, operator new(0x720)
+    m_physicalWorld = new PhysicalWorld();                        // +0x44, operator new(0x14)
+    for (int i = 0; i != 4; ++i) {
+        m_playerLightTweakers[i] = new PlayerLightTweaker();      // +0x58 + 4 i, operator new(0x144)
+        m_playerLightTweakers[i]->m_lightType = PlayerLightTweaker::TWEAKER_NAMES[i];  // +0xf8
+    }
+    m_gamepadTweaker = new GamepadTweaker();                      // +0x68, operator new(0xe8)
+    m_underlayNode = nullptr;                                     // +0xb8
+    reinterpret_cast<glitch::scene::CSceneManager*>(m_device->sceneManager)->cullingEnabled = true;  // IDevice +0x1c, +0x250
+    m_stateMachine->SwitchState(&GSInit::s_inst, false);          // StateMachine::SwitchState(GSInit, owned = false)
+    m_zoomHandler = new ZoomHandler();                            // +0x50, operator new(0x44)
     // The original calls COnlineImpl::Initialize directly on the online object (GetOnline returns COnline).
     static_cast<COnlineImpl*>(GetOnline())->Initialize();
+    m_console = new Console();                                    // +0x48, operator new(0xa8)
 }
 
 // 0x32fa7c Application::RegisterForIrrlichtEvents(glitch::IEventReceiver *)

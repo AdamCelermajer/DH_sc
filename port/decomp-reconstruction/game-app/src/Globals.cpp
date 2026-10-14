@@ -24,6 +24,9 @@ Application& ApplicationGetInstance() { return Singleton<Application>::s_inst; }
 // ---- globals ----------------------------------------------------------------------------------------------------
 bool P1000TF = true;                  // 0x99975c, .data, initial value 1
 float m_fairyPos_new[4] = {};         // 0x9f69b4, 16 bytes
+int g_bigV = 0;                       // 0x9f688c
+int g_bigI = 0;                       // 0x9f6890
+bool USE_NATIVE_DRM_GAME = false;     // 0x9f640e, .bss
 bool leader = false;                  // 0x9a5c10
 int leaderboardcount = 0;             // 0x9a5c14
 bool InExitConfirmation = false;      // 0x9a5c18

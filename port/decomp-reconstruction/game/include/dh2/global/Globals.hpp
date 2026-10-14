@@ -26,6 +26,13 @@ extern bool P1000TF;                                   // 0x99975c
 // as zero. The IDA names dword_9F69B8, dword_9F69BC and dword_9F69C0 are words 1, 2 and 3 of this object.
 extern float m_fairyPos_new[4];                        // 0x9f69b4
 
+// .bss, 4 bytes each: the largest vertex and index counts CAppendMeshBuffer saw; Level::_LoadProcess clears both at step 0.
+extern int g_bigV;                                     // 0x9f688c
+extern int g_bigI;                                     // 0x9f6890
+
+// .bss, 1 byte: native DRM switch (GSInit and Level::_LoadProcess run the license check when set).
+extern bool USE_NATIVE_DRM_GAME;                       // 0x9f640e
+
 // .bss, 1 byte: leaderboard flag, cleared by MenuLeaderboard::Hide.
 extern bool leader;                                    // 0x9a5c10
 

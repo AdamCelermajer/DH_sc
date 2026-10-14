@@ -21,6 +21,8 @@
 #include "dh2/Application.hpp"                // ApplicationGetInstance(), the Singleton<Application>::s_inst accessor
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/EventManager.hpp"
+#include "dh2/EvGamepad.hpp"
 #include "dh2/Gamepad.hpp"
 #include "dh2/InputManager.hpp"
 #include "dh2/MenuManager.hpp"
@@ -137,14 +139,12 @@ int PlayerIdForCharacter(const Character* character) {
     return player->unk_668;
 }
 
-// PARTIAL seam: raises EvGamepad on Application::m_eventManager (Application +0x14, the global dword_99F740). The original
-// fills the event before EventManager::Raise: vtable _ZTV9EvGamepad (IEvent base), +0x04 event id 7, +0x08 action,
-// +0x0c pressed, +0x10 player id, +0x14 1.0f (the asm stores these before each BL to EventManager::Raise). The class
-// dh2/EvGamepad.hpp does not exist in the tree, so the event is dropped here, and Update stays partial until it does.
+// Raises EvGamepad on Application::m_eventManager (Application +0x14, the global dword_99F740). The original fills the event
+// before EventManager::Raise: vtable _ZTV9EvGamepad (IEvent base), +0x04 event id 7, +0x08 action, +0x0c pressed, +0x10 player
+// id, +0x14 1.0f (the asm stores these before each BL to EventManager::Raise).
 void RaiseGamepadEvent(int action, int pressed, int playerId) {
-    (void)action;
-    (void)pressed;
-    (void)playerId;
+    const EvGamepad event(action, pressed, playerId, 1.0f);
+    ApplicationGetInstance().m_eventManager->Raise(event);
 }
 
 // DebugSwitches::load(), then GetSwitch(name), on DebugSwitches::s_inst (the object the original passes as this).
@@ -208,8 +208,7 @@ v2PS3MoveController::v2PS3MoveController(v2Controllable* controllable, int gamep
 }
 
 // 0x409bd8 v2PS3MoveController::Update() (vtable slot 2, overrides v2Controller::Update)
-// partial: the four EvGamepad events (actions 2, 0, 1 and 3) are dropped by RaiseGamepadEvent, because dh2/EvGamepad.hpp
-// does not exist. Every other read and command is the original's: the pad channels, the cursor and PFWorld translation,
+// The four EvGamepad events (actions 2, 0, 1 and 3) are raised through RaiseGamepadEvent. Every read and command is the original's: the pad channels, the cursor and PFWorld translation,
 // the spot target, the target search over the room objects, the debug switches and the player id.
 void v2PS3MoveController::Update() {
     InputManager* input = InputManager::GetInstance();

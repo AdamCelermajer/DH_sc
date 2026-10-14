@@ -75,27 +75,27 @@ void GSConsole::Update(StateMachine*, double dt) {
 }
 
 // 0x38332c GSConsole::Dtor(StateMachine const*)
-// PARTIAL. The original calls Console::Toggle() when Application::m_console (+0x48) is set and the console's
-// open flag (Console +0x04, a bool, asm: LDRB [console,#4]) is set. Console::open_ is private in
-// core-platform/include/core-platform/w7_console_01.hpp, so the flag cannot be read and the toggle is missing.
-// Layout request: a public accessor for Console +0x04 (open_), e.g. IsOpen() const.
+// Closes the console: calls Console::Toggle() when Application::m_console (+0x48) is set and its open flag (Console +0x04) is set.
 void GSConsole::Dtor(const StateMachine*) {
     Console* console = ApplicationGetInstance().m_console;
     if (console == nullptr) {
         return;
     }
-    // Missing: if (console->open_) console->Toggle();
+    if (console->open_) {
+        console->Toggle();
+    }
 }
 
 // 0x383360 GSConsole::Ctor(StateMachine const*)
-// PARTIAL. The mirror of Dtor: the original calls Console::Toggle() when m_console is set and the console's
-// open flag (Console +0x04) is clear. The flag is private (see Dtor), so the toggle is missing.
+// Opens the console: calls Console::Toggle() when Application::m_console is set and its open flag (Console +0x04) is clear.
 void GSConsole::Ctor(const StateMachine*) {
     Console* console = ApplicationGetInstance().m_console;
     if (console == nullptr) {
         return;
     }
-    // Missing: if (!console->open_) console->Toggle();
+    if (!console->open_) {
+        console->Toggle();
+    }
 }
 
 // 0x3833e4 GSConsole::Toggle(void)

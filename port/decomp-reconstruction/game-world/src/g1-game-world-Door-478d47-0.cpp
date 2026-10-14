@@ -28,6 +28,7 @@
 #include "dh2/sfc/script/lua/Binder.hpp"
 #include "dh2/Point3D.hpp"
 #include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 #include "pydata-accessors/name_table.hpp"
 #include "vox-audio/vox/sound_manager.hpp"
 
@@ -263,15 +264,20 @@ void Door::InitFinal() {
 }
 
 // 0x3e7da8 _ZN4Door8InitPostEv
-// PARTIAL: the door's GameObject name m_dae (+0x290) is not copied. With the index, the original reads the Arrays::Doors
-// element's GameObjectDict index (word +20) and copies the GameObjectDict name (the char* at +8 of a 12-byte element).
-// GameObjectDict is a raw byte table whose name pointers are 32-bit file values, and there is no typed decode of it yet.
-// Everything else is written: the door index lookup, the physics body and the SetVisible(false) branch, and the two
-// VoxSoundManager::LoadSound calls (open word +16 first, then close word +12).
+// With the spawn probability met: looks the door up by name in Arrays::Doors (index or -1) and, with an index, copies the
+// GameObjectDict name (the dictionary index is the Doors element's word +20) into m_dae (+0x290). Then Zone::InitPost; when the
+// condition holds the door's animation callbacks, mesh box, physics body and the two sounds (open word +16 first, then close
+// word +12) are set up, otherwise the door is hidden.
 void Door::InitPost() {
     // Door name lookup: first match in Arrays::Doors::m_memberNames, or -1.
-    m_doorIndex = pydata::FindMemberName(Arrays::Doors::m_memberNames, static_cast<int>(Arrays::Doors::size), m_data.c_str());
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {   // +0x274
+        m_doorIndex = pydata::FindMemberName(Arrays::Doors::m_memberNames, static_cast<int>(Arrays::Doors::size), m_data.c_str());
+        if (m_doorIndex != -1) {
+            const std::int32_t dictionaryIndex = DoorTableWord(m_doorIndex, 20);
+            if (dictionaryIndex != -1) {
+                m_dae = reinterpret_cast<const Structs::ColladaFile*>(Arrays::GameObjectDict::members)[dictionaryIndex].m_w2;  // +0x290
+            }
+        }
         Zone::InitPost();
         if (GameObject::MeetCondition()) {
             VisualObject* visual = m_visualObject;             // +0x2d8

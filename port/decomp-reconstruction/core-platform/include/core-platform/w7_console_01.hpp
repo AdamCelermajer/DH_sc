@@ -38,6 +38,8 @@ class Console : public IEventReceiver {
 public:
     Console();                  // 0x333a4c C1 and 0x33401c C2 (identical bodies)
     ~Console() override;        // 0x331a2c D2 and 0x331944 D1 (identical bodies)
+    bool onEvent(const IEvent* event, const EventManager* manager) override;  // +0x08 0x335b14 (declared so Application::PostInit can construct a Console; body not yet reconstructed)
+    int onEventNotOpened(const IEvent* event, const EventManager* manager);   // 0x33271c
 
     // 0x332488 static table of 15 command labels. Contents are in the data category.
     static const char* const COMMAND_LABELS[15];
@@ -76,12 +78,12 @@ public:
     void InitShowRoomCameraPos();
     void CreateQuestSaveFile();
     void LoadQuestSaveFile(const char* name);
-    void DBG_TryStartingLevel(const char* name);
+    static int DBG_TryStartingLevel(const char* name);  // 0x33179c (static: GSInit::Update passes the uncompiled-data level name and tests the result; body skipped in core-platform)
 
     void Toggle();              // 0x334bd8
     void Update(double dt);     // 0x330270
 
-private:
+public:  // decision 9: the game code reads open_ directly (GSConsole, Application::_CheckGamepad)
     bool open_ = false;                     // +0x04
     int menu_page_ = 0;                     // +0x08, index used by _setMenu()
     int selected_ = 0;                      // +0x0C

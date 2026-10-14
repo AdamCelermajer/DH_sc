@@ -91,6 +91,8 @@ public:
     // (the binary's mangled name takes a non-const reference; the integrator should fix that header).
     // The base has no room backend, so the defaults return 0.
     virtual std::int32_t JoinRoomInternal(std::uint64_t roomId) { (void)roomId; return 0; }
+    // vtable +0x3c: CMatchingLocal / CMatchingGLLive / CMatchingBluetooth::LeaveRoom (Level::_LoadProcess calls it through CMatching::Get()).
+    virtual std::int32_t LeaveRoom() { return 0; }
     virtual std::int32_t CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes) {
         (void)flag;
         (void)attributes;

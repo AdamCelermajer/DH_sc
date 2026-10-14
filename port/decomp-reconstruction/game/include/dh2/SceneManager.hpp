@@ -59,8 +59,8 @@ public:
     int m_registerInterval;                                         // +0x444 set to 4 by the ctor; _registerSceneNodes registers when the counter is a multiple of it
     bool m_forceRegister;                                           // +0x448 set by ForceRegister, cleared after a registration
     std::vector<glitch::scene::ISceneNode*> m_loadedScenes;         // +0x44c .. +0x457 (begin, end, cap) scene roots appended by PreloadScene, dropped and emptied by clear()
-    int unk_458;                                                    // +0x458 cleared by the ctor
-    int unk_45c;                                                    // +0x45c cleared by the ctor
+    float unk_458;                                                  // +0x458 cleared by the ctor; Level::_LoadProcess copies LevelConfig fog_direction_mask X here, Level::Update scales the fog distance by it
+    float unk_45c;                                                  // +0x45c cleared by the ctor; fog_direction_mask Y
     float unk_460;                                                  // +0x460 set to 1.0f by the ctor
     uint8_t pad_464[0x0c];                                          // +0x464 vector of CSceneManager::SDefaultNodeEntry (begin, end, cap); destroyed by ~SceneManager, element type in the engine base
     uint8_t pad_470[0x0c];                                          // +0x470 vector of CSceneManager::SDefaultNodeEntry (begin, end, cap); destroyed by ~SceneManager

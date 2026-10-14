@@ -3,6 +3,16 @@
 // Declarations are in dh2/GSTest.hpp. The vptr stores the original constructors and destructors make
 // are the compiler's, so no body here writes them.
 #include "dh2/GSTest.hpp"
+#include "dh2/global/ctrl_camera.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/TestUD2.hpp"
+#include "dh2/TestUD.hpp"
+#include "dh2/LuaScript.hpp"
+#include "dh2/LuaManager.hpp"
+#include "dh2/Application.hpp"
+#include "core-platform/memory.hpp"
+#include <new>
+#include <cstdio>
 
 #include "dh2/Gamepad.hpp"
 #include "dh2/InputManager.hpp"
@@ -37,17 +47,12 @@ void GSTest::Draw(const StateMachine* /*machine*/) {}
 // then CustomFree(this) (asm: BL D1, BL CustomFree). A C++ delete expression on a GSTest produces it.
 
 // 0x386f90 _ZN6GSTest6UpdateEP12StateMachined
-// PARTIAL. The trigger gate is written. The test run that the gate starts is not:
-//  1. Gate (written): the first connected pad's channel 0 (Gamepad::m_buttons[0], the threshold group at pad +0x18 to
-//     +0x28) must have previous (+0x18) >= (previous_maximum (+0x24) + previous_minimum (+0x20) + 1.0) * 0.5, and the
-//     flag previous_above_threshold (+0x28) must be clear. The original skips the run when the flag is set.
-//  2. Test run (missing): Application::m_luaManager FlushBufferedFiles(); LuaScript on the stack with skipBindings
-//     false; puts of the banner; Binder::bindFunction("TestFunc", TestUD::TestFunc, user) on the script's own binder;
-//     Load("data/scripts/test"); an Arguments list with TestUD, TestUD2 and TestUD2 user data and the script pointer;
-//     Call("TestTestTest"); then the destructors. LuaScript keeps its Binder and Instance as opaque uint8_t[12] members
-//     (no typed sfc::script::lua::Binder, layout request), so the binding cannot be made on the script's binder here.
-//     The run also needs the TestUD vtable identity of the user pointer (off_963EA0 and off_963EB8), which is not
-//     established. None of the run is written, because a run without its binding would not match the original.
+// The test trigger: the first connected pad's channel 0 (Gamepad::m_buttons[0], the threshold group at pad +0x18 to +0x28) must
+// have previous (+0x18) >= (previous_maximum (+0x24) + previous_minimum (+0x20) + 1.0) * 0.5, and the flag
+// previous_above_threshold (+0x28) must be clear. Then the Lua test runs: the buffered files are flushed, a LuaScript (bindings
+// on) is made, a TestUD on the stack is bound as "TestFunc"'s user, "data/scripts/test" is loaded, and "TestTestTest" is called
+// with a TestUD, two TestUD2 user data (each a 4-byte block from CustomAlloc, never freed, as in the original) and the script
+// pointer. The Arguments, the TestUD and the script are destroyed at the end.
 void GSTest::Update(StateMachine* machine, double dt) {
     InputManager* input = InputManager::GetInstance();
     Gamepad* pad = input->GetFirstConnectedGamepad();
@@ -62,5 +67,16 @@ void GSTest::Update(StateMachine* machine, double dt) {
     if (!(trigger.previous >= threshold) || trigger.previous_above_threshold) {
         return;
     }
-    // PARTIAL (2): the test run is not written, see above.
+    ApplicationGetInstance().m_luaManager->FlushBufferedFiles();  // dword_99F768, Application +0x3c
+    LuaScript script(false);
+    TestUD testUD;
+    std::puts("====================================================");
+    script.m_binder.bindFunction("TestFunc", &TestUD::TestFunc, &testUD);
+    script.Load("data/scripts/test");
+    sfc::script::lua::Arguments arguments;
+    arguments.pushUserData(new (CustomAlloc(4)) TestUD());
+    arguments.pushUserData(new (CustomAlloc(4)) TestUD2());
+    arguments.pushUserData(new (CustomAlloc(4)) TestUD2());
+    arguments.pushPointer(&script);
+    script.Call("TestTestTest", arguments);
 }

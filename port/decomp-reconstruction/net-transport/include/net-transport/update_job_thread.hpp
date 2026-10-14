@@ -27,7 +27,7 @@ public:
     int Start2();                                     // 0x317e98 _ZN16updateJob_thread6Start2Ev
     int Stop();                                       // 0x317f58 _ZN16updateJob_thread4StopEv
 
-private:
+public:  // decision 9: Application::_Update reads flag_ (+0x08)
     std::thread thread_;                              // +0x04
     bool flag_ = false;                               // +0x08
     int argument_ = 0;                                // +0x0c

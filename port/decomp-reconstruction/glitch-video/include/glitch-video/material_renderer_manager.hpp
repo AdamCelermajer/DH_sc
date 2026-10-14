@@ -114,6 +114,8 @@ public:
     // SIDedCollection at +0x18 .. +0x1c (eight-byte entries) that the callers write out, null for an id past the end.
     uint16_t createMaterialRenderer(E_MATERIAL_TYPE type);
     boost::intrusive_ptr<CMaterial> createMaterialInstance(E_MATERIAL_TYPE type);
+    // 0x5dd0e4 _ZN6glitch5video24CMaterialRendererManager19getMaterialInstanceEtb (ObjectManager::Draw3D passes the renderer id and true). Declared only.
+    boost::intrusive_ptr<CMaterial> getMaterialInstance(uint16_t id, bool flag);
     boost::intrusive_ptr<CMaterialRenderer> getMaterialRenderer(uint16_t id) const;
 
     IVideoDriver* m_driver = nullptr;               // +0x28

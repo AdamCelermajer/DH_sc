@@ -11,6 +11,10 @@
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/Projectile.hpp"
 #include "dh2/PlayerLightTweaker.hpp"
+#include "dh2/Application.hpp"
+#include <cstdio>
+
+extern const char* RES_PATH;  // core-platform/src/filesystem_win32.cpp
 #include "dh2/Zone.hpp"
 
 namespace {
@@ -153,3 +157,60 @@ bool POZone::onCollisionTest(PhysicalBaseObject* other, short otherGroup, unsign
 // m_lightType string (+0xf8) when it is not the inline buffer, then runs ~CTweakable. The std::string member and the base
 // destructor do the same here.
 PlayerLightTweaker::~PlayerLightTweaker() {}
+
+// 0x32f2b4 PlayerLightTweaker::PlayerLightTweaker()
+// The base tweaker takes the device pointer (Application::m_device). The five light slots are cleared (attenuation, the
+// three colour arrays, the light pointers) and the fog enable and direction mask (+0x118..+0x127) are zeroed; the fog
+// colour, start and end are left as they are. m_lightType starts empty. Then every attenuation, colour and fog value is
+// registered by name (light by light: attenuation X/Y/Z, ambient, diffuse, specular), m_lightType is mapped with kind 2
+// (a string attribute), and the tweaker XML is loaded from the resource root (the flag is 0 here).
+PlayerLightTweaker::PlayerLightTweaker() : glitch::debugger::CTweakable(ApplicationGetInstance().m_device) {
+    for (int i = 0; i < 5; ++i) {
+        m_attenuation[i].X = 0.0f;  // +0x7c + 12 i
+        m_attenuation[i].Y = 0.0f;
+        m_attenuation[i].Z = 0.0f;
+    }
+    m_lightType.clear();  // +0xf8 (inline buffer, 16 bytes in the original)
+    m_fogEnabled = 0.0f;  // +0x118
+    m_fogDirectionMask.X = 0.0f;  // +0x11c
+    m_fogDirectionMask.Y = 0.0f;
+    m_fogDirectionMask.Z = 0.0f;
+    for (int i = 0; i < 5; ++i) {
+        m_lights[i] = nullptr;  // +0x128
+        m_ambientColor[i].color = 0;  // +0xb8
+        m_diffuseColor[i].color = 0;  // +0xcc
+        m_specularColor[i].color = 0;  // +0xe0
+    }
+
+    char name[32];
+    for (int i = 0; i < 5; ++i) {
+        std::snprintf(name, sizeof(name), "m_attenuation[%d].X", i);
+        registerVariable(name, m_attenuation[i].X);
+        std::snprintf(name, sizeof(name), "m_attenuation[%d].Y", i);
+        registerVariable(name, m_attenuation[i].Y);
+        std::snprintf(name, sizeof(name), "m_attenuation[%d].Z", i);
+        registerVariable(name, m_attenuation[i].Z);
+        std::snprintf(name, sizeof(name), "m_ambientColor[%d]", i);
+        registerVariable(name, m_ambientColor[i]);
+        std::snprintf(name, sizeof(name), "m_diffuseColor[%d]", i);
+        registerVariable(name, m_diffuseColor[i]);
+        std::snprintf(name, sizeof(name), "m_specularColor[%d]", i);
+        registerVariable(name, m_specularColor[i]);
+    }
+    registerVariable("m_fogColor", m_fogColor);
+    registerVariable("m_fogStart", m_fogStart);
+    registerVariable("m_fogEnd", m_fogEnd);
+    registerVariable("m_fogDirectionMask.X", m_fogDirectionMask.X);
+    registerVariable("m_fogDirectionMask.Y", m_fogDirectionMask.Y);
+    registerVariable("m_fogDirectionMask.Z", m_fogDirectionMask.Z);
+    registerVariableName("m_lightType");
+    mappings["m_lightType"] = SMapping(2, &m_lightType);  // kind 2: a string attribute
+
+    char s[256];
+    std::snprintf(s, sizeof(s), "%s/data/tweaker/player_light.tweaker_xml", RES_PATH);
+    loadXML(s, false);
+}
+
+// PlayerLightTweaker::TWEAKER_NAMES (.data 0x99978c, four string pointers followed by a null): the names of the four light sets,
+// in the order Application::PostInit (0x32f7e8) creates the tweakers.
+const char* const PlayerLightTweaker::TWEAKER_NAMES[4] = {"PlayerLight", "SceneLight", "CameraLight", "MonsterLight"};

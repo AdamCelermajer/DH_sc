@@ -11,7 +11,7 @@ public:
     // 0x320e98 _ZN15OnlineSingletonI15OnlineGameStateE11GetInstanceEv. Partial, see the .cpp.
     static T* GetInstance();
 
-protected:
+public:  // decision 9: Application::Quit deletes and clears the instance directly
     // OnlineSingleton<OnlineGameState>::m_instance (one static per T).
     static T* m_instance;
 };

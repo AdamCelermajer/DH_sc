@@ -49,7 +49,7 @@ public:
     void PlainOnAnimate(std::uint32_t time);                        // 0x35c268: thunk to glitch::collada::CRootSceneNode::onAnimate
     static void ResetDebugCounters();                               // 0x35c058
     void ForwardAnim(std::uint32_t time);                           // 0x35c09c: forwards the time to the animators in m_animators
-    void UpdateEnlargedViewFrustum(glitch::scene::CSceneManager* manager);   // 0x35c51c
+    static void UpdateEnlargedViewFrustum(glitch::scene::CSceneManager* manager);   // 0x35c51c (Application::_Update passes the scene manager in r0; the body reads the manager's active camera at +0xe4)
     bool IsVisibleFastTest() const;                                 // 0x35c784: false when the cull gate and the game object say the node is culled
     void RefreshBoundingBox();                                      // 0x35c854
     void ResetPositionFromFile();                                   // 0x35cc0c: resets the animation root's transform from the file

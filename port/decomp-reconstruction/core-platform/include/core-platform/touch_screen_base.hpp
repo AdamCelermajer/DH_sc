@@ -51,6 +51,7 @@ public:
     virtual void touchEnded(const Point2D<short>& p, long slot);     // +0x28
     virtual void touchCancelled(const Point2D<short>& p, long slot); // +0x2c
 
+    int isRegionPressed(const glitch::core::rect<float>& r) const;              // vtable +0x30, 0x33aebc (declared; the body is skipped in core-platform)
     int getTouchIDInitiatedInRegion(const glitch::core::rect<float>& r) const; // +0x34
     virtual int getTouchIDInRegion(const glitch::core::rect<float>& r) const;  // +0x38 (iPhone overrides)
     const short* getTouchPoint(long slot) const;                               // +0x3c
