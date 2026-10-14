@@ -1,4 +1,5 @@
 #include "original_character.hpp"
+#include <algorithm>
 #include "original_melee_bindings.hpp"
 #include "content_paths.hpp"
 #include <iostream>

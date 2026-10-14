@@ -7,6 +7,7 @@
 #include "../../original_actor_properties.hpp"
 #include "../../original_campaign_runtime.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <fstream>
 #include <iostream>

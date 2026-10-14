@@ -49,7 +49,13 @@ bool original_resolve_type2_choices(const OriginalCombatVisualPlan& plan,const O
         if(policy.type==1)indexes.assign(children.begin(),children.end());
         else if(policy.type==2) {
             std::uint32_t pick=0;
-            if(draw){std::string drawError;require(draw(static_cast<std::uint32_t>(children.size()),pick,drawError),drawError.empty()?"Type2 choice draw failed":drawError);++draws;}
+            if(draw){
+                // Sequenced statements: the failure message must read drawError AFTER draw() ran
+                // (argument evaluation order of one call is unspecified; GCC read it before the draw).
+                std::string drawError;const bool drawn_ok=draw(static_cast<std::uint32_t>(children.size()),pick,drawError);
+                if(!drawn_ok)require(false,drawError.empty()?"Type2 choice draw failed":drawError);
+                ++draws;
+            }
             require(pick<children.size(),"Type2 draw outside the source steps");
             choices[path]=pick;indexes.push_back(pick);
         } else indexes.push_back(0);

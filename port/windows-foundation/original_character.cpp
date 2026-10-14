@@ -294,7 +294,9 @@ bool CharacterVisual::load_with_ranges(const AssetCatalog& assets,const Characte
             require(!next->clips[i].first.empty(),"Character animation name is empty");
             require(std::none_of(next->clips.begin(),next->clips.begin()+i,[&](const auto& clip){return clip.first==next->clips[i].first;}),"Duplicate character animation name: "+next->clips[i].first);
             const auto data=assets.read(next->clips[i].second);
-            require(next->players[i].load(data.data(),data.size(),next->scene,error,targetPolicy), next->clips[i].second+": "+error);
+            // Sequenced: the message reads `error` by value, so the load must run first (argument order is unspecified).
+            const bool loaded=next->players[i].load(data.data(),data.size(),next->scene,error,targetPolicy);
+            require(loaded, next->clips[i].second+": "+error);
             // B155: an authored clip with no keys at all (the Swamp King's swampking_hurt_01/02.bdae carry no segments and the no-key
             // sentinel range) animates nothing: the original CSceneNodeAnimator has no value to apply. It is admitted only for actors
             // whose policy already admits missing targets, and only with that sentinel; every other empty clip is still rejected.
@@ -320,7 +322,8 @@ bool CharacterVisual::load_with_ranges(const AssetCatalog& assets,const Characte
         if(next->dynamic_channels) {
             std::vector<dh2::animation::TransformClipInput> inputs;
             for(std::size_t i=0;i<next->players.size();++i)inputs.push_back({static_cast<std::int32_t>(i),&next->players[i]});
-            require(next->dynamic_set.compile_dynamic(inputs,next->scene,error,next->default_library.get()),"Dynamic actor animation: "+error);
+            const bool compiled=next->dynamic_set.compile_dynamic(inputs,next->scene,error,next->default_library.get());
+            require(compiled,"Dynamic actor animation: "+error);
             for(const auto& target:next->dynamic_set.targets())if(target.node==UINT32_MAX) {
                 require(config.allow_missing_animation_targets,"Dynamic actor animation has an unbound target: "+target.uri);
                 ++next->unbound_targets;
@@ -334,10 +337,12 @@ bool CharacterVisual::load_with_ranges(const AssetCatalog& assets,const Characte
             // B155: an admitted no-key clip (see above) has no markers and no channel range; it is a zero-length clip at 0, which
             // completes at once (the same clip RetainedAnimationOwner::bind_events admits by its sentinel range).
             if(noKeyClips[i]&&end<=start) {
-                require(next->marker_tracks[i].load_no_keys(next->players[i].events.view(),error),"Actor marker track: "+error+" clip="+next->clips[i].first);
+                const bool loaded=next->marker_tracks[i].load_no_keys(next->players[i].events.view(),error);
+                require(loaded,"Actor marker track: "+error+" clip="+next->clips[i].first);
                 continue;
             }
-            require(next->marker_tracks[i].load(next->players[i].events.view(),start,end,error),"Actor marker track: "+error+
+            const bool loaded=next->marker_tracks[i].load(next->players[i].events.view(),start,end,error);
+            require(loaded,"Actor marker track: "+error+
                     " clip="+next->clips[i].first+" range="+std::to_string(start)+".."+std::to_string(end));
         }
         if(config.consume_root_motion || !config.motion_node_id.empty() || !config.motion_node_candidates.empty()) {

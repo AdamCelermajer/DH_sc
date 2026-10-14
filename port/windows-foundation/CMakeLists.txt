@@ -598,12 +598,18 @@ add_test(NAME renderer_static_geometry COMMAND renderer_static_geometry_tests)
 add_executable(frame_pacer_tests tests/frame_pacer_tests.cpp ${DH2_PLATFORM_SOURCES})
 target_link_libraries(frame_pacer_tests PRIVATE ${DH2_PLATFORM_LIBRARIES})
 add_test(NAME frame_pacer COMMAND frame_pacer_tests)
-add_executable(private_save_transport_win32_tests tests/private_save_transport_win32_tests.cpp
-  ../level-world/private_save_file_transport_v45.cpp ../level-world/savegame_jobs_owner_v2.cpp
-  ../level-world/savegame_stream_v2.cpp ../game-data/fresh_player_profile_v1.cpp
-  ../game-data/player_profile_index_v1.cpp)
-target_link_libraries(private_save_transport_win32_tests PRIVATE foundation_data)
-add_test(NAME private_save_transport_win32 COMMAND private_save_transport_win32_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# v21.8 w6-portable: the harness uses Win32 directly (<windows.h>, GetCurrentProcessId, GetTickCount64).
+# It is built and run on Windows only; on other platforms it is skipped on purpose (not silently passing).
+if(WIN32)
+  add_executable(private_save_transport_win32_tests tests/private_save_transport_win32_tests.cpp
+    ../level-world/private_save_file_transport_v45.cpp ../level-world/savegame_jobs_owner_v2.cpp
+    ../level-world/savegame_stream_v2.cpp ../game-data/fresh_player_profile_v1.cpp
+    ../game-data/player_profile_index_v1.cpp)
+  target_link_libraries(private_save_transport_win32_tests PRIVATE foundation_data)
+  add_test(NAME private_save_transport_win32 COMMAND private_save_transport_win32_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+else()
+  message(STATUS "w6-portable: private_save_transport_win32 test not built on this platform (Win32-only harness)")
+endif()
 add_executable(collision_probe tests/collision_probe.cpp)
 target_link_libraries(collision_probe PRIVATE foundation_data)
 add_executable(root_pivot_tests tests/root_pivot_tests.cpp)

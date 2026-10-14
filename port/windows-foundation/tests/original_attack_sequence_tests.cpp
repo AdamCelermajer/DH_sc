@@ -1,4 +1,5 @@
 #include "original_attack_sequence.hpp"
+#include <algorithm>
 #include <iostream>
 #include <cmath>
 #include <stdexcept>

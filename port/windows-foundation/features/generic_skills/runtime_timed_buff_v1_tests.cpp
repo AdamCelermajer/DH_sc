@@ -8,6 +8,7 @@
 #include "../../original_combat_visual_plan.hpp"
 #include "../../original_melee_bindings.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <filesystem>
 #include <iostream>
