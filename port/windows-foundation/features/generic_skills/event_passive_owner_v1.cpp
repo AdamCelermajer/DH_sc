@@ -8,7 +8,15 @@ namespace dh::foundation::generic_skills {
 namespace {
 constexpr const char* kFrenzyClass = "Skill_Berserk_KillingFrenzy";
 constexpr const char* kCarrionClass = "Skill_Necromancer_CarrionEater";
+constexpr const char* kStreakClass = "Skill_Berserk_KillingStreak";
+constexpr const char* kStreakDummyClass = "Skill_Berserk_KillingStreak_dummy";
+constexpr const char* kStreakDummyFx = "active_buff_fx"; // prince_berseeker_killing_streak.luac BUFF_FX
+constexpr const char* kSurvivalClass = "Skill_Berserk_Survival";
+constexpr const char* kSurvivalFx = "skill_dh2_prince_warrior_berseker_survival"; // prince_berseeker_survival.luac BUFF_FX
+constexpr float kSurvivalPercentV1 = 35.0f;   // PCT_VALUE
+constexpr double kSurvivalTimerMs = 8000.0;   // BUFF_TIMER (buff duration and the flag timer)
 constexpr unsigned kSnsLevel = 172;  // CharacterProperties.SnS_Level
+constexpr unsigned kSnsCooldown = 177; // CharacterProperties.SnS_Cooldown (Killing Streak bufftime, raw x256 ms)
 constexpr unsigned kTempProp1 = 190; // CharacterProperties.TempProp1 (CarrionEater heal, raw x256 HP)
 constexpr unsigned kHp = 36;         // CharacterProperties.HP (raw x256)
 constexpr double kFrenzyResetMs = 1500.0;
@@ -22,6 +30,8 @@ struct EventPassiveScriptV1 {
 constexpr EventPassiveScriptV1 kEventPassives[] = {
     {"prince_berseeker_killing_frenzy", EventPassiveKindV1::killing_frenzy},
     {"prince_necromancer_carrioneater", EventPassiveKindV1::carrion_eater},
+    {"prince_berseeker_killing_streak", EventPassiveKindV1::killing_streak},
+    {"prince_berseeker_survival", EventPassiveKindV1::survival},
 };
 } // namespace
 
@@ -57,9 +67,100 @@ void RuntimeEventPassiveOwnerV1::bind(CombatSession& session) { session_ = &sess
 
 void RuntimeEventPassiveOwnerV1::on_hit(const CombatResultEventV1& event, ActorId receiver) {
     // The Lua listener runs on every OnTargetHit and checks its own role; the bus delivers both participants.
-    if (receiver != player_ || event.attacker != player_ || !session_) return;
-    if (rank(EventPassiveKindV1::killing_frenzy) > 0) frenzy_hit();
-    if (event.target_died && rank(EventPassiveKindV1::carrion_eater) > 0) carrion_kill();
+    if (receiver != player_ || !session_) return;
+    if (event.attacker == player_) {
+        if (rank(EventPassiveKindV1::killing_frenzy) > 0) frenzy_hit();
+        if (event.target_died && rank(EventPassiveKindV1::carrion_eater) > 0) carrion_kill();
+        if (event.target_died && rank(EventPassiveKindV1::killing_streak) > 0) streak_kill();
+    }
+    // Survival has no attacker guard in its Lua (INFERENCE: it therefore runs on the hits the player receives).
+    if (event.target == player_ && rank(EventPassiveKindV1::survival) > 0) survival_hit();
+}
+
+void RuntimeEventPassiveOwnerV1::survival_hit() {
+    // prince_berseeker_survival.luac OnTargetHit_Skill. HP% < 35 with no flag: SetProp(SnS_Level, L), CreateBuff(BUFF_ID,
+    // 8000, false, L, BUFF_FX), ApplyBuff, 8000 ms flag timer. HP% >= 35 with the buff: RemoveBuff, flag cleared.
+    const std::uint32_t level = rank(EventPassiveKindV1::survival);
+    const auto* world = session_->world();
+    float health = 0.0f, maximum = 0.0f;
+    if (!world || !world->current_health(player_, health, maximum) || !(maximum > 0.0f)) {
+        error_ = "Survival requires the player's live HP sheet";
+        return;
+    }
+    const float percent = health / maximum * 100.0f;
+    std::string error;
+    if (percent < kSurvivalPercentV1 && !survival_flag_) {
+        TimedBuffSpecV1 spec;
+        spec.class_name = kSurvivalClass;
+        spec.strength = level;
+        spec.duration_ms = kSurvivalTimerMs;   // CreateBuff(BUFF_ID, BUFF_TIMER, ...): the buff itself expires with the timer
+        spec.capacity = 1;
+        spec.fx_set_name = kSurvivalFx;
+        spec.source = "survival";
+        if (!buffs_->apply_timed_buff(*session_, player_, spec, error)) {
+            error_ = "Survival buff: " + error;
+            return;
+        }
+        survival_buff_ = true;
+        survival_flag_ = true;
+        survival_flag_ms_ = kSurvivalTimerMs;
+    } else if (percent >= kSurvivalPercentV1 && survival_buff_) {
+        if (!buffs_->remove_timed_buff(*session_, player_, kSurvivalClass, error)) {
+            error_ = "Survival removal: " + error;
+            return;
+        }
+        survival_buff_ = false;
+        survival_flag_ = false;
+        survival_flag_ms_ = 0.0;
+    }
+}
+
+void RuntimeEventPassiveOwnerV1::streak_kill() {
+    // Lua: buff = CreateBuff(CLASS_ID, bufftime, true, L) and buff2 = CreateBuff(DUMMY_ID, bufftime, false, L, BUFF_FX), both
+    // applied with no removal first. The body class has capacity 128 (true), so every kill adds an instance (stacking) for
+    // bufftime = SnS_Cooldown of the class at the rank; the dummy has capacity 1 and is replaced by the newer kill.
+    const std::uint32_t level = rank(EventPassiveKindV1::killing_streak);
+    const auto* live = session_->world() ? session_->world()->combat_properties(player_) : nullptr;
+    if (!live) {
+        error_ = "Killing Streak requires the player's live sheet";
+        return;
+    }
+    const auto found = std::find(classes_->names.begin(), classes_->names.end(), std::string(kStreakClass));
+    if (found == classes_->names.end()) {
+        error_ = "Killing Streak class absent from the ClassTables";
+        return;
+    }
+    dh2::data::PropertySheet sheet = rules_->defaults;
+    dh2::data::PropertySheet owner = live->sheets.resolved;
+    sheet[kSnsLevel] = owner[kSnsLevel] = std::int32_t(level << 8);
+    std::string error;
+    if (!dh2::data::apply_class(*classes_, std::int32_t(found - classes_->names.begin()), sheet, error, &owner)) {
+        error_ = "Killing Streak class evaluation: " + error;
+        return;
+    }
+    const double bufftime_ms = double(sheet[kSnsCooldown]) / 256.0;
+    if (!(bufftime_ms > 0.0)) {
+        error_ = "Killing Streak bufftime projected to zero";
+        return;
+    }
+    TimedBuffSpecV1 body;
+    body.class_name = kStreakClass;
+    body.strength = level;
+    body.duration_ms = bufftime_ms;
+    body.capacity = 128;
+    body.source = "killing streak";
+    TimedBuffSpecV1 dummy;
+    dummy.class_name = kStreakDummyClass;
+    dummy.strength = level;
+    dummy.duration_ms = bufftime_ms;
+    dummy.capacity = 1;
+    dummy.fx_set_name = kStreakDummyFx;
+    dummy.source = "killing streak dummy";
+    std::string apply_error;
+    if (!buffs_->apply_timed_buff(*session_, player_, body, apply_error) ||
+        !buffs_->apply_timed_buff(*session_, player_, dummy, apply_error)) {
+        error_ = "Killing Streak buff: " + apply_error;
+    }
 }
 
 bool RuntimeEventPassiveOwnerV1::frenzy_set_buff(std::uint32_t strength) {
@@ -137,6 +238,14 @@ void RuntimeEventPassiveOwnerV1::carrion_kill() {
 bool RuntimeEventPassiveOwnerV1::advance(CombatSession& session, double dt_seconds, std::string& error) {
     error.clear();
     session_ = &session;
+    // Survival flag (Lua StopBuffTimer): clears only the flag; the buff keeps its own duration.
+    if (survival_flag_) {
+        survival_flag_ms_ -= dt_seconds * 1000.0;
+        if (survival_flag_ms_ <= 0.0) {
+            survival_flag_ = false;
+            survival_flag_ms_ = 0.0;
+        }
+    }
     if (!frenzy_active_ || frenzy_timer_ms_ <= 0.0) return true;
     frenzy_timer_ms_ -= dt_seconds * 1000.0;
     if (frenzy_timer_ms_ > 0.0) return true;

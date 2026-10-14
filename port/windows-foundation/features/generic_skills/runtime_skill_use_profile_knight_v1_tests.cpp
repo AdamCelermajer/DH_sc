@@ -37,9 +37,9 @@ int main(int argc, char** argv) {
         const auto skill_names = read_file(root + "/original-cache/data/pydata/skills_pyarraynames.bin");
         const auto class_names = read_file(root + "/original-cache/data/pydata/character_classes_pyarraynames.bin");
 
-        // Six admitted Knight-tree rows (Berserk is not admitted, see the header).
+        // Seven admitted Knight-tree rows (Berserk, WhirlingDrift, DivineJudgement, three auras, Intimidation).
         const std::size_t knight_count = sizeof(kRuntimeSkillUseProfilesKnightV1) / sizeof(kRuntimeSkillUseProfilesKnightV1[0]);
-        check(knight_count == 6, "Knight use profile row count changed");
+        check(knight_count == 7, "Knight use profile row count changed");
         for (const auto& profile : kRuntimeSkillUseProfilesKnightV1) {
             check(contains_name(skill_names, profile.skill_name),
                   std::string("Skill name is absent from the authored SkillTable names: ") + profile.skill_name);
@@ -49,11 +49,13 @@ int main(int argc, char** argv) {
                 check(contains_name(class_names, profile.buff->buff_class),
                       std::string("Buff class is absent from the authored ClassTable names: ") + profile.buff->buff_class);
             }
+            for (std::size_t i = 0; i < profile.volley_count; ++i) {
+                check(contains_name(class_names, profile.volleys[i].class_token),
+                      std::string("Volley class is absent from the authored ClassTable names: ") + profile.volleys[i].class_token);
+            }
         }
 
         // Exact (name, script) admission through the registry; the base-table rows stay admitted too.
-        check(find_skill_use_profile_registered_v1("Berserk", "prince_berseeker_berserk") == nullptr,
-              "Berserk must stay outside the admitted rows (multi-volley Use is not expressible)");
         check(find_skill_use_profile_registered_v1("Intimidation", "prince_paladin_offensive_aura") == nullptr,
               "Lookup must require the exact (name, script) pair");
         check(find_skill_use_profile_registered_v1("OffensiveAura", "prince_berseeker_warcry") == nullptr,
@@ -102,15 +104,40 @@ int main(int argc, char** argv) {
                   std::string("Aura buff arm differs from the Lua (BUFF_ID/BUFF_PERSIST/BUFF_TIME): ") + expect.skill);
         }
 
-        // prince_berseeker_warcry.luac: OnPre RANGE 600 ClosestFirst + LookAt, OnSkill_ acts on the OnPre target only;
-        // no SkillCombatRoll in the Lua, so the row must not roll combat.
+        // prince_berseeker_berserk.luac: OnPre TargetListSearch(200) FrontalFirst + LookAt(top), HP cost, UseMana; OnSkill_
+        // re-searches (200, 360) and runs three volleys: stun (all Characters), damage (top), knockback (top); Post ClearTarget.
+        const auto* berserk = find_skill_use_profile_registered_v1("Berserk", "prince_berseeker_berserk");
+        check(berserk && near(berserk->pre_range, 200.0f) && berserk->pre_look_at &&
+              berserk->pre_sort == SkillTargetSortV1::frontal_first && !berserk->sets_cooldown &&
+              berserk->use_targets == SkillUseTargetsV1::requery_at_use && near(berserk->use_range, 200.0f) &&
+              berserk->use_sort == SkillTargetSortV1::frontal_first && !berserk->rolls_objects &&
+              berserk->post_clear_target && berserk->rolls_combat && berserk->buff == nullptr &&
+              std::string(berserk->class_token) == "Skill_Berserk_Berserk_Damage",
+              "Berserk profile does not match prince_berseeker_berserk.luac (OnPre/OnSkill_ range, sort, post)");
+        check(berserk && berserk->volley_count == 3 && berserk->volleys &&
+              std::string(berserk->volleys[0].class_token) == "Skill_Berserk_Berserk_Stun" && !berserk->volleys[0].top_target_only &&
+              std::string(berserk->volleys[1].class_token) == "Skill_Berserk_Berserk_Damage" && berserk->volleys[1].top_target_only &&
+              std::string(berserk->volleys[2].class_token) == "Skill_Berserk_Berserk_KnockBack" && berserk->volleys[2].top_target_only,
+              "Berserk volley plan differs from the skill_inc cycle (stun all, damage top, knockback top)");
+        check(berserk && berserk->self_hp_cost && near(berserk->self_hp_cost->gate_percent, 10.0f) &&
+              near(berserk->self_hp_cost->divisor, 10.0f),
+              "Berserk OnPre HP cost differs from `if HPPercentCurr > 10 then HP = health - health/10`");
+
+        // prince_berseeker_warcry.luac: OnPre RANGE 600 ClosestFirst + LookAt; OnSkill_ pops the OnPre list (no re-search),
+        // GetRand(1,4) scare/stun per non-boss Character, fear then stun sound; no SkillCombatRoll, no Post.
         const auto* warcry = find_skill_use_profile_registered_v1("Intimidation", "prince_berseeker_warcry");
         check(warcry && near(warcry->pre_range, 600.0f) && warcry->pre_look_at &&
-              warcry->use_targets == SkillUseTargetsV1::pre_selected_single && !warcry->rolls_combat &&
+              warcry->pre_sort == SkillTargetSortV1::closest_first &&
+              warcry->use_targets == SkillUseTargetsV1::pre_list_all && !warcry->rolls_combat &&
               !warcry->post_clear_target && warcry->buff == nullptr,
-              "Intimidation profile does not match prince_berseeker_warcry.luac");
+              "Intimidation profile does not match prince_berseeker_warcry.luac (OnPre list scope, no roll)");
+        check(warcry && warcry->status_arm && warcry->status_arm->faces == 4u && warcry->status_arm->stun_face == 3u &&
+              std::string(warcry->status_arm->scare_sound) == "sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear" &&
+              std::string(warcry->status_arm->stun_sound) == "sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun" &&
+              near(warcry->status_arm->fallback_ms, 2000.0f),
+              "Intimidation status arm differs from GetRand(1,4), stun on 3, fallback 2000 ms, fear/stun cues");
 
-        std::puts("PASS runtime_skill_use_profile_knight_v1: six Knight-tree rows, exact admission, Lua-transcribed range/sort/cooldown/aura/no-roll flags");
+        std::puts("PASS runtime_skill_use_profile_knight_v1: seven Knight-tree rows, exact admission, Berserk volley/HP-cost arms, Intimidation list scope and status arm");
     } catch (const std::exception& error) {
         std::fprintf(stderr, "FAIL runtime_skill_use_profile_knight_v1: %s\n", error.what());
         return 1;

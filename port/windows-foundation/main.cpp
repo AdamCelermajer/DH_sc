@@ -6007,6 +6007,10 @@ int main(int argc,char** argv) {
                 if(!actor||!enemyNavigation){e="Script Stop has no navigation owner for this actor";return false;}
                 return enemyNavigation->stop(session,*actor,e);
             });
+            // v21.8 berserker: Lua SetStunState / SetScareState(duration, true) from a skill Use (Warcry) reach the status owner.
+            combatSession->set_script_status_service([statusStates](f::CombatSession& session,f::ActorId id,bool stun,double ms,bool& applied,std::string& e)->bool{
+                return statusStates->script_status(session,id,stun,ms,applied,e);
+            });
             if(enemyNavigation&&enemyNavigationWorld==sourceObstacles)return;
             f::enemy_ai::RuntimeEnemyNavigationConfigV1 config;
             config.navigation_world=sourceObstacles;config.bodies=&nativeBodies;config.scene_collision=&collision;

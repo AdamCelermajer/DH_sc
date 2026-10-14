@@ -41,6 +41,9 @@ public:
     bool can_act(const ActorState& actor) const;
     // Consumer body (public for tests). Does not mutate the session.
     void on_outcome(const CombatSession& session, const CombatSession::StatusOutcomeEventV1& event);
+    // v21.8 berserker: Lua target:SetStunState(duration, true) / SetScareState(duration, true) from a skill Use (Warcry).
+    // Bosses and minibosses are refused (applied=false, returns true). Persist = the Lua `true`, event path (50012/50013).
+    bool script_status(CombatSession& session, ActorId target, bool stun, double duration_ms, bool& applied, std::string& error);
 
     static BossFlagsV1 boss_flags_for(const CombatSession& session, ActorId target);
 
