@@ -26,16 +26,19 @@ bool source_bypass(const SkillManaSourceFactsV1& facts, bool& bypass,
     return true;
 }
 
-bool character_vitals_match(const CharacterState& character, const ActorState& actor,
+bool character_vitals_match(CharacterState& character, const ActorState& actor,
                             const dh2::data::PropertySheet& resolved,
                             std::string& error) {
     const float mp = original_signed256(resolved[41]);
     const float max_mp = original_signed256(resolved[43]);
     if (!std::isfinite(mp) || !std::isfinite(max_mp) || mp < 0 || max_mp < mp)
         return fail(error, "Source MP property sheet is outside the supported nonnegative vital range");
-    if (actor.resource != mp || actor.max_resource != max_mp ||
-        character.stats.resource != mp || character.stats.max_resource != max_mp)
-        return fail(error, "CharacterState/Session vitals do not match the same live source MP property sheet");
+    if (actor.resource != mp || actor.max_resource != max_mp)
+        return fail(error, "ActorState/Session vitals do not match the same live source MP property sheet");
+    // v21.8 w3-ally: the live MP sheet is the authority (regen ticks and potions write it between casts). The CharacterState
+    // mirror adopts it here instead of rejecting the cast.
+    character.stats.resource = mp;
+    character.stats.max_resource = max_mp;
     return true;
 }
 } // namespace
@@ -274,6 +277,30 @@ bool prepare_skill_cast_mana_v1(
         return fail(error, "Reached source isTracingChar_Stats query failed after MP debit");
     }
     output = std::move(next);
+    error.clear();
+    return true;
+}
+
+// v21.8 w3-ally: the UseMana debit on its own, for the Lua that charges mana inside a later per-target step (Terror's add_slot).
+// The admission (HasMana) already ran in the OnSkillCheck_ prepare; this writes MP cell 41 with the same publication as
+// prepare_skill_cast_mana_v1 (the saved cell moves with the resolved cell).
+bool debit_skill_mana_v1(CombatSession& session, ActorId actor_id, std::int32_t cost,
+                         const dh2::data::PropertyRules& rules, std::string& error) {
+    error.clear();
+    auto* actor = session.actor(actor_id);
+    const auto* current = session.world() ? session.world()->combat_properties(actor_id) : nullptr;
+    const auto* live_traits = session.world() ? session.world()->traits(actor_id) : nullptr;
+    if (!actor || !current || !live_traits)
+        return fail(error, "UseMana debit requires the caster's live property sheet");
+    if (cost <= 0) return true;
+    if (rules.types[41] < 0 || !(rules.types[41] & (8 | 32)))
+        return fail(error, "Source property slot 41 is not a writable MP property for UseMana");
+    OriginalCombatProperties candidate = *current;
+    auto view = dh2::data::property_view(rules, candidate.sheets);
+    if (dh2_property_add(&view, 41, -cost))
+        return fail(error, "Source UseMana property41 debit failed before publication");
+    if (!session.world()->update_combat_properties(actor_id, std::move(candidate), *live_traits, error)) return false;
+    actor->resource = original_signed256(session.world()->combat_properties(actor_id)->sheets.resolved[41]);
     error.clear();
     return true;
 }

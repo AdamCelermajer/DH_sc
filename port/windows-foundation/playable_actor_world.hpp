@@ -65,6 +65,11 @@ public:
     bool set_current_health(ActorId, float health, std::string& error);
     // Current and maximum HP from the source sheet (cells 36 and 38), in property units.
     bool current_health(ActorId, float& health, float& maximum) const;
+    // v21.8 w3-ally: Character::RegenHP / RegenMP (IDA 0x3bdca4 / 0x3bdbb8) for one CharAI regen tick. Adds the raw x256
+    // amounts to current HP (cell 36) and current MP (cell 41); an amount that would pass the maximum (38 / 43) is cut to
+    // the room left, and a non-positive amount does nothing. Dead actors are skipped (CharAI::_UpdateRegen IsDead gate).
+    // The saved cell moves with the resolved cell, as in set_current_health.
+    bool regen_vitals(ActorId, std::int32_t hp_add_raw, std::int32_t mp_add_raw, std::string& error);
     ActorState* find_actor(ActorId) override;
     const ActorState* find_actor(ActorId) const;
     const std::map<ActorId, ActorState>& actors() const noexcept { return actors_; }

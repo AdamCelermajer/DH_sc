@@ -81,6 +81,11 @@ public:
     // One record per Carrion Eater kill heal (the host logs them; HP in whole units).
     struct CarrionHealV1 { float before; float heal; float after; std::uint32_t rank; };
     std::vector<CarrionHealV1> take_carrion_heals() { std::vector<CarrionHealV1> out; out.swap(carrion_heals_); return out; }
+    // v21.8 w3-ally: PlaySound labels raised by listeners since the last call (Conversion: sfx_passive_skill_activate_1).
+    // The host plays them through the runtime audio (play_named_plain), like the skill cue dispatch.
+    std::vector<std::string> take_sound_cues() { std::vector<std::string> out; out.swap(sound_cues_); return out; }
+    // v21.8 w3-ally: Conversion's 2 s untargetable window (Lua defender:SetIsTargetable(false) + BuffExpired timer) is open.
+    bool conversion_window_open() const noexcept { return conversion_window_actor_ != invalid_actor_id; }
 
     std::uint32_t frenzy_counter() const noexcept { return frenzy_counter_; }
     bool frenzy_buff_active() const noexcept { return frenzy_active_; }
@@ -139,6 +144,10 @@ private:
     // Conversion: the monsters converted by a FactionBuff3 buff (Lua memory_object/memory_buff, 6 slots).
     std::vector<ActorId> converted_;
     std::uint32_t conversion_procs_ = 0;
+    // Conversion untargetable window: one open window at a time (Lua buff_timer == -1 guard), 2000 ms, on the converted monster.
+    ActorId conversion_window_actor_ = invalid_actor_id;
+    double conversion_window_ms_ = 0.0;
+    std::vector<std::string> sound_cues_;
 };
 
 // Live wiring: maps the saved skill rows to their event passives and sets the ranks (rank 0 clears the listener's effect).

@@ -446,6 +446,34 @@ int main(int argc, char** argv) {
             check(passives.last_error().empty(), "Blindness break with no live buff must be a no-op: " + passives.last_error());
         }
 
+        // ---- I. v21.8 w3-ally: Conversion. A converted monster gets a 2000 ms untargetable window (selection suppression) and
+        // the PlaySound label; one window at a time. The hit is rolled (GetRand(0,100) < TempProp1), so the test dispatches
+        // player hits until one converts (bounded), then checks the window clock.
+        {
+            CombatResultEventBusV1 bus;
+            RuntimeEventPassiveOwnerV1 passives(buffs, properties.classes, rules, bus, 1);
+            passives.set_rank(EventPassiveKindV1::conversion, 40);
+            passives.bind(session);
+            const ActorId player = 1, monster = 2;
+            bool converted = false;
+            for (int attempt = 0; attempt < 400 && !converted; ++attempt) {
+                bus.dispatch({player, monster, 0u, false});
+                converted = passives.conversion_window_open();
+            }
+            check(converted, "Conversion must convert the monster within 400 player hits at rank 40");
+            check(session.world()->selection_suppressed(monster), "Converted monster must be untargetable during the window");
+            {
+                const auto sounds = passives.take_sound_cues();
+                check(sounds.size() == 1 && sounds[0] == "sfx_passive_skill_activate_1", "Conversion must raise its PlaySound label once");
+            }
+            check(passives.advance(session, 1.9, error), error);
+            check(session.world()->selection_suppressed(monster) && passives.conversion_window_open(),
+                  "Window must stay open for 2000 ms");
+            check(passives.advance(session, 0.2, error), error);
+            check(!session.world()->selection_suppressed(monster) && !passives.conversion_window_open(),
+                  "Window must end at 2000 ms and restore the monster's selection");
+        }
+
         std::cout << "PASS event_passive_owner_v1: live stat-passive sync from SkillTable ranks (apply, idempotent, rank 0, reload), "
                      "Killing Frenzy counter/timer/reset on bus hits, Carrion Eater kill heal with clamp, Killing Streak stacking and "
                      "expiry, Ravager rank-7 flag, Survival HP-threshold arm/flag/removal\n";

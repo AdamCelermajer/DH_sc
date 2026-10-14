@@ -102,6 +102,17 @@ struct RuntimeSkillStatusArmV1 {
     const char* stun_sound;
 };
 
+// v21.8 w3-ally: the Paladin aura per-ally loop. Lua: SetTargetListCharacterFilter(Player), TargetListSearch(6000, 360) and
+// PopTargetList; every ally other than the caster gets target:PlayFX(BUFF_FX2), optionally Heal(target, HEAL_AMOUNT) per rank
+// (PurifyingAura), and CreateBuff(BUFF_ID, BUFF_TIME, false, rank, BUFF_PERSIST) + ApplyBuff (the row's buff spec).
+// players_only: PurifyingAura re-checks `target:IsPlayer()` for the heal and the buff; Offensive/Guarding do not.
+struct RuntimeSkillAllyAuraProfileV1 {
+    const char* ally_fx_name = nullptr; // AnimatedEffectTable name, played on each ally (BUFF_FX2)
+    float heal_per_rank = 0.0f;         // Heal(target, HEAL_AMOUNT) per rank; 0 = no heal
+    bool players_only = false;          // `if target:IsPlayer()` gate of the Lua loop
+    float search_range = 6000.0f;       // TargetListSearch(6000) radius
+};
+
 struct RuntimeSkillUseProfileV1 {
     const char* skill_name;   // SkillTable.name
     const char* script;       // SkillTable.script (the prince_*.luac file stem)
@@ -181,6 +192,8 @@ struct RuntimeSkillUseProfileV1 {
     const char* kill_sound_name = nullptr;
     // v21.8 w2-paladin: Lua Heal(self, HEAL_AMOUNT) per skill level at OnSkill_ (PurifyingAura: HEAL_AMOUNT 15). 0 = no heal.
     float self_heal_per_rank = 0.0f;
+    // v21.8 w3-ally: the Lua per-ally loop of the aura rows (nullptr = the Lua has no ally loop). Appended last.
+    const RuntimeSkillAllyAuraProfileV1* ally_aura = nullptr;
 };
 
 // Lua Heal(target, amount) (prince_paladin_purifying_aura.luac): HP_Curr + rank * amount, capped at HP_Max.

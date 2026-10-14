@@ -11,6 +11,7 @@
 #include "../level-world/navigation_heading.hpp"
 #include "retained_sequence_playback.hpp"
 #include "features/status_effects/dot_tick_owner_v1.hpp" // v21.8 w2-assassin: DoT owner
+#include "features/status_effects/vital_regen_v1.hpp" // v21.8 w3-ally: CharAI regen tick
 #include "original_controller_commands.hpp"
 #include "features/combo_chain/source_combo_chain.hpp"
 #include "features/audio/retained_frame_audio_observer.hpp"
@@ -112,6 +113,7 @@ struct CombatSession::Impl {
     // hit (the original skill roll takes the elemental branch and never reads the attacker's melee Dot_* cells).
     const OriginalMeleeResolution* activeSourceResult=nullptr;
     bool applyingDotTick=false; // v21.8 w3-dot: a HandleDots tick is an applied hit but never queues a new DoT
+    std::map<ActorId,double> vitalRegenClockMs; // v21.8 w3-ally: CharAI AI_Tick (3000 ms) clock per actor, drives RegenTick
     struct SourceHitBatch {
         std::uint64_t generation=0;
         std::set<std::pair<ActorId,std::uint32_t>> delivered;
@@ -1728,6 +1730,19 @@ bool CombatSession::update(double dt,const InputActions& input,Vec3 position,flo
         // Delivered after the runtime update (which clears the frame's event list): the death-reward and damage consumers read
         // it there, the same as source-hit receipts.
         if(receipt.applied)s.pendingSourceHits.push_back(receipt);
+    }
+    // v21.8 w3-ally: CharAI regen tick (CharacterDesign AI_Tick 3000 ms, timer event 51) -> CharAI::_UpdateRegen ->
+    // Character::RegenTick: Regen_HP/MP (idle) or CombatRegen_HP/MP (in combat) added to the live vitals, capped at the maximum.
+    for(const auto id:status_effects::advance_vital_regen_clock_v1(s.vitalRegenClockMs,*s.world,dt*1000.0)){
+        const auto* before=s.world->find_actor(id);
+        const float hpBefore=before?before->health:0.0f,mpBefore=before?before->resource:0.0f;
+        std::string regenError;
+        if(!status_effects::regen_tick_v1(*s.world,id,regenError)){error=regenError;return false;}
+        if(id==s.player){
+            const auto* after=s.world->find_actor(id);
+            std::cout<<"Vital regen tick serial="<<s.updateSerial<<" actor="<<id<<" combat="<<status_effects::actor_in_combat_v1(*s.world,id)
+                     <<" hp="<<hpBefore<<"->"<<(after?after->health:0.0f)<<" mp="<<mpBefore<<"->"<<(after?after->resource:0.0f)<<'\n';
+        }
     }
     // A clear published between session frames belongs to its source owner
     // (for example an explicit skill ClearTarget). Do not resurrect it from
