@@ -104,7 +104,16 @@ struct RuntimeSkillUseProfileV1 {
     // volleys[n % volley_count]. nullptr / 0 = every marker runs the row's own class and targets (default for every row).
     const RuntimeSkillVolleyV1* volleys = nullptr;
     std::uint8_t volley_count = 0;
+    // v21.8 w2-paladin: Lua Heal(self, HEAL_AMOUNT) per skill level at OnSkill_ (PurifyingAura: HEAL_AMOUNT 15). 0 = no heal.
+    float self_heal_per_rank = 0.0f;
 };
+
+// Lua Heal(target, amount) (prince_paladin_purifying_aura.luac): HP_Curr + rank * amount, capped at HP_Max.
+// Returns the value written by SetProp(HP). Pure; the coordinator applies it through PlayableActorWorld::set_current_health.
+inline float self_heal_target_hp_v1(float current_hp, float max_hp, float per_rank, std::uint32_t rank) {
+    const float wanted = current_hp + per_rank * static_cast<float>(rank);
+    return wanted < max_hp ? wanted : max_hp;
+}
 
 // The volley that a Use selects. `cursor` counts the Uses already delivered for this actor and skill (it persists across
 // casts, like the Lua file-level skill_inc). Returns nullptr when the profile has no volley plan.

@@ -1257,6 +1257,29 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             return fail(error, "Timed-buff Use requires its buff owner");
         }
         const std::uint32_t rank = active.receipt.mana.skill.saved_rank;
+        // v21.8 w2-paladin: PurifyingAura OnSkill_ Heal(self, HEAL_AMOUNT): SetProp(HP, min(HP + rank * 15, HP_Max)) (immediate
+        // live write, before CreateBuff/ApplyBuff in the Lua). Zero for every other buff row.
+        if (profile.self_heal_per_rank > 0.0f) {
+            float current_hp = 0.0f, max_hp = 0.0f;
+            if (!session.world()->current_health(actor_id, current_hp, max_hp)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source Heal(self) could not read the caster HP after the committed OnPre prefix";
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            const float target_hp = self_heal_target_hp_v1(current_hp, max_hp, profile.self_heal_per_rank, rank);
+            std::string heal_error;
+            if (!session.world()->set_current_health(actor_id, target_hp, heal_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source Heal(self) SetProp(HP) failed after the committed OnPre prefix: " + heal_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            active.receipt.self_heal_applied = true;
+            active.receipt.self_heal_before_hp = current_hp;
+            active.receipt.self_heal_after_hp = target_hp;
+            active.receipt.self_heal_max_hp = max_hp;
+        }
         // CharacterProperties.SnS_Duration (176) unless the authored Lua reads another duration cell (PoisonSting: Dot_Duration 125).
         double duration_ms = original_signed256(active.formula_sheet[std::size_t(profile.buff->duration_prop_index)]);
         if (!(duration_ms > 0.0) || !std::isfinite(duration_ms))

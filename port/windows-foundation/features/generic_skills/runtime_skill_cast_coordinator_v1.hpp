@@ -84,6 +84,11 @@ struct RuntimeSkillCastReceiptV1 {
     // Timed-buff arm (Quickness): the buff the Use call created, empty when the skill has no buff.
     std::string timed_buff_class;
     double timed_buff_duration_ms = 0.0;
+    // v21.8 w2-paladin: PurifyingAura self Heal (SetProp HP). applied=false for every other row.
+    bool self_heal_applied = false;
+    float self_heal_before_hp = 0.0f;
+    float self_heal_after_hp = 0.0f;
+    float self_heal_max_hp = 0.0f;
     // v21.8 mage: authored per-target hit FX (profile.target_hit_fx_name): the AnimatedEffectTable name and the Character
     // targets whose SkillCombatRoll returned dmg > 0. Filled when Use is applied; the host plays the FX at each target.
     std::string target_hit_fx_name;

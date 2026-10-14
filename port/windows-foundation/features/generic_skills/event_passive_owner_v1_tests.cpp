@@ -195,6 +195,33 @@ int main(int argc, char** argv) {
                   "The HP property must follow the actor HP");
         }
 
+        // ---- E. Holy Weapon (w2-paladin): listener gating. Only a hit RECEIVED by the player with the row learned runs it.
+        // The positive drain/kill needs a bound attacker sheet: this fixture has only the player, so the drain write is
+        // refused and reported (the drain and the kill are verified in the real hidden-window run, not here).
+        {
+            CombatResultEventBusV1 bus;
+            RuntimeEventPassiveOwnerV1 passives(buffs, properties.classes, rules, bus, 1);
+            passives.set_rank(EventPassiveKindV1::holy_weapon, 2);
+            passives.bind(session);
+            const ActorId player = 1, monster = 2;
+            const float before = session.actor(1)->health;
+            // The player's own hit on a monster does not run the Holy Weapon listener.
+            bus.dispatch({player, monster, 0u, false});
+            check(passives.last_error().empty(), "Holy Weapon must ignore hits the player deals: " + passives.last_error());
+            check(session.actor(1)->health == before, "Holy Weapon must not change the player HP on its own hits");
+            // A monster hit on the player runs it; the unbound attacker is refused with a named error.
+            bus.dispatch({monster, player, 0u, false});
+            check(passives.last_error().find("Holy Weapon") != std::string::npos,
+                  "Holy Weapon must run for a hit received and refuse an unbound attacker by name (error was: '" + passives.last_error() + "')");
+            check(session.actor(1)->health == before, "Holy Weapon must not change the player HP");
+            // Rank 0 learned nothing: no listener action, no error.
+            passives.set_rank(EventPassiveKindV1::holy_weapon, 0);
+            bus.dispatch({monster, player, 0u, false});
+            check(passives.rank(EventPassiveKindV1::holy_weapon) == 0, "rank 0 clears the Holy Weapon listener");
+            check(event_passive_kind_for_script_v1("prince_paladin_holy_weapon") == EventPassiveKindV1::holy_weapon,
+                  "prince_paladin_holy_weapon must map to the Holy Weapon kind");
+        }
+
         // ---- D. Attacker leech helper (raw x256 HP/MP, clamped to max, non-positive ignored) ----
         {
             ActorState attacker;

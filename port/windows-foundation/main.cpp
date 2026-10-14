@@ -1494,6 +1494,7 @@ int main(int argc,char** argv) {
         std::uint64_t skillHitLogGeneration=0;std::size_t skillHitLogCount=0; // v21.8 skills-a: per-hit damage log cursor
         int lastSkillPhase=-1;std::uint64_t lastSkillGeneration=0,lastSkillFxGeneration=0;
         std::uint64_t lastSkillPresentationGeneration=0;std::size_t lastSkillPresentationCount=0; // v21.8 ES-API PlaySound/PlayFX cues
+        std::uint64_t lastSelfHealLogGeneration=0; // v21.8 w2-paladin: one log line per cast with a Lua Heal(self)
         const auto playerPolicy=options.combat.profiles.find(options.combat.playerProfileId);
         const bool sourcePlayerStanceEnabled=!options.meleeBindings.empty()&&playerPolicy!=options.combat.profiles.end()&&playerPolicy->second.retainedPhaseClock;
         dh2::data::ItemTable locomotionItems;
@@ -9107,6 +9108,11 @@ int main(int argc,char** argv) {
                             if(!sourceEffectsFactory->manager().play_set(std::int32_t(setFound-setNames.begin()),at,nullptr,0,&created,fxError))
                                 std::cerr<<"Skill FX diagnostic: "<<fxError<<'\n';
                             else std::cout<<"Source skill presentation FX frame="<<drawn<<" skill="<<receipt->skill_name<<" name="<<cue.name<<" kind="<<(cue.kind==f::generic_skills::SkillPresentationCueV1::Kind::self_fx?"self":"target")<<" actor="<<cue.actor<<" created="<<created<<'\n';
+                        }
+                        // v21.8 w2-paladin: PurifyingAura Heal(self) written through SetProp(HP) at Use (once per cast generation).
+                        if(receipt->self_heal_applied&&receipt->generation!=lastSelfHealLogGeneration){
+                            lastSelfHealLogGeneration=receipt->generation;
+                            std::cout<<"Source skill self heal frame="<<drawn<<" skill="<<receipt->skill_name<<" hp="<<receipt->self_heal_before_hp<<" -> "<<receipt->self_heal_after_hp<<" max="<<receipt->self_heal_max_hp<<'\n';
                         }
                         // v21.8 skills-a: one line per applied source hit (each hand and each marker volley), with the target's HP after it.
                         if(receipt->generation!=skillHitLogGeneration){skillHitLogGeneration=receipt->generation;skillHitLogCount=0;}

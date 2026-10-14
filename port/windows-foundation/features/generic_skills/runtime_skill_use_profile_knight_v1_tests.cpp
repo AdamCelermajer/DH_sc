@@ -102,6 +102,26 @@ int main(int argc, char** argv) {
                   std::string("Aura buff arm differs from the Lua (BUFF_ID/BUFF_PERSIST/BUFF_TIME): ") + expect.skill);
         }
 
+        // w2-paladin: BUFF_FX (skill_ prefix, played by PlayFX at Use on the caster) per aura; the ally FX2 (spell_ prefix)
+        // is only played for allies, which the single-player port does not have.
+        const struct { const char* skill; const char* script; const char* self_fx; float heal; } self_fx_expect[] = {
+            {"OffensiveAura", "prince_paladin_offensive_aura", "skill_dh2_prince_warrior_paladin_offensive_aura", 0.0f},
+            {"GuardingAura", "prince_paladin_guarding_aura", "skill_dh2_prince_warrior_paladin_guarding_aura", 0.0f},
+            {"PurifyingAura", "prince_paladin_purifying_aura", "skill_dh2_prince_warrior_paladin_purifying_aura", 15.0f},
+        };
+        for (const auto& expect : self_fx_expect) {
+            const auto* aura = find_skill_use_profile_registered_v1(expect.skill, expect.script);
+            check(aura && aura->self_fx_name && std::string(aura->self_fx_name) == expect.self_fx,
+                  std::string("Aura self BUFF_FX differs from the Lua: ") + expect.skill);
+            check(aura && near(aura->self_heal_per_rank, expect.heal),
+                  std::string("Aura heal differs from the Lua HEAL_AMOUNT: ") + expect.skill);
+        }
+        // Purifying Heal(): HP + rank * 15 capped at HP_Max (prince_paladin_purifying_aura.luac Heal()).
+        check(near(self_heal_target_hp_v1(100.0f, 200.0f, 15.0f, 2), 130.0f), "heal: 100 + 2*15 = 130");
+        check(near(self_heal_target_hp_v1(190.0f, 200.0f, 15.0f, 3), 200.0f), "heal caps at HP_Max");
+        check(near(self_heal_target_hp_v1(200.0f, 200.0f, 15.0f, 1), 200.0f), "heal at full HP stays at HP_Max");
+        check(near(self_heal_target_hp_v1(50.0f, 200.0f, 15.0f, 0), 50.0f), "rank 0 heals nothing");
+
         // prince_berseeker_warcry.luac: OnPre RANGE 600 ClosestFirst + LookAt, OnSkill_ acts on the OnPre target only;
         // no SkillCombatRoll in the Lua, so the row must not roll combat.
         const auto* warcry = find_skill_use_profile_registered_v1("Intimidation", "prince_berseeker_warcry");

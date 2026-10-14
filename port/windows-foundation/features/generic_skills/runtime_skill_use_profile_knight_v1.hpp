@@ -15,10 +15,10 @@
 // Fields NOT encoded (documented gaps):
 //   - Pushback / knockback / push-chance tails (WhirlingDrift SnS_Push_Target_Chance, DivineJudgement push row).
 //   - Warcry scare/stun states (SetScareState / SetStunState) and their FX/sound. The port has no such state.
-//   - Divine Judgement per-target OnPre PlayFX (spell_dh2_prince_warrior_paladin_divine_judgement).
-//   - Aura self PlayFX(BUFF_FX) at Use. The persistent buff FX (CreateBuff fx arg) is played by the buff owner.
-//   - Purifying Aura Heal(): SetBuffProp(HP) by skill_level * 15 (HEAL_AMOUNT). The class row only carries
-//     Regen_HP / CombatRegen_HP.
+//   - Divine Judgement per-target OnPre PlayFX (spell_dh2_prince_warrior_paladin_divine_judgement): pre_target_fx_name (ES-API).
+//   - Aura self PlayFX(BUFF_FX) at Use: self_fx_name (w2-paladin). The persistent buff FX (CreateBuff fx arg) is played by the buff owner.
+//   - Purifying Aura Heal(self): self_heal_per_rank = HEAL_AMOUNT 15 (w2-paladin), an immediate SetProp(HP) write.
+//     Ally Heal / ally buffs are not applied (see the ally note above).
 //   - Ally buffs. The Lua applies the aura to other "Player" characters inside 6000 units. The single-player
 //     port has no other player character, so only the caster's own buff is applied (inference, see report).
 //   - WhirlingDrift forward movement (animation moving_flag=1 in the AnimTable; the Lua has no movement call).
@@ -80,19 +80,19 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesKnightV1[] = {
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kOffensiveAuraBuffV1, nullptr, false, false},
+     false, true, false, &kOffensiveAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_offensive_aura", nullptr, false, nullptr, nullptr, 0, 0.0f},
     {"GuardingAura", "prince_paladin_guarding_aura", "Skill_Paladin_GuardingAura",
      0.0f, kSkillPiV1, SkillTargetSortV1::source_order, false,
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kGuardingAuraBuffV1, nullptr, false, false},
+     false, true, false, &kGuardingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_guarding_aura", nullptr, false, nullptr, nullptr, 0, 0.0f},
     {"PurifyingAura", "prince_paladin_purifying_aura", "Skill_Paladin_PurifyingAura",
      0.0f, kSkillPiV1, SkillTargetSortV1::source_order, false,
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kPurifyingAuraBuffV1, nullptr, false, false},
+     false, true, false, &kPurifyingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_purifying_aura", nullptr, false, nullptr, nullptr, 0, 15.0f},
     {"Intimidation", "prince_berseeker_warcry", "Skill_Berserk_Intimidation",
      600.0f, kSkillPiV1, SkillTargetSortV1::closest_first, true,
      false,

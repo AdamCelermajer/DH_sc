@@ -7,6 +7,9 @@
 //     kept, the next hit with no buff restarts at 1); at counter 5 the buff is rebuilt at 5 x rank with a 5000 ms timer.
 //   prince_necromancer_carrioneater.luac: OnTargetHit with attacker == self and defender dead: heal TempProp1 of
 //     Skill_Necromancer_CarrionEater at the rank (clamped to max HP).
+//   prince_paladin_holy_weapon.luac (w2-paladin): OnTargetHit with defender == self: the attacker loses TempProp1 of
+//     Skill_Paladin_HolyWeapon (2 x rank) HP, clamped at 0; at 0 the attacker is killed. The Lua SetProp/ApplyPropClass on the
+//     attacker's own sheet (TempProp1 only) is not applied.
 // Not implemented (listed in the report): the CanAttackInMelee gate of KillingFrenzy (every hit counts), and the
 // passives whose outcome needs knockback/stun state or HasBow (Precision, SideStep, Shield, Mirror, Petrify).
 #include "combat_result_event_bus_v1.hpp"
@@ -23,7 +26,7 @@
 
 namespace dh::foundation::generic_skills {
 
-enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater };
+enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, holy_weapon };
 
 // SkillTable script name -> event passive kind (kept next to the implemented scripts only).
 EventPassiveKindV1 event_passive_kind_for_script_v1(std::string_view script);
@@ -54,6 +57,7 @@ private:
     void frenzy_hit();
     bool frenzy_set_buff(std::uint32_t strength);
     void carrion_kill();
+    void holy_hit(ActorId attacker);
 
     TimedBuffSinkV1* buffs_;
     const dh2::data::ClassTables* classes_;

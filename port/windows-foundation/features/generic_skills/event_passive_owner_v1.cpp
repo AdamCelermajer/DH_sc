@@ -2,12 +2,14 @@
 
 #include <algorithm>
 #include <cstring>
+#include <iostream>
 
 namespace dh::foundation::generic_skills {
 
 namespace {
 constexpr const char* kFrenzyClass = "Skill_Berserk_KillingFrenzy";
 constexpr const char* kCarrionClass = "Skill_Necromancer_CarrionEater";
+constexpr const char* kHolyWeaponClass = "Skill_Paladin_HolyWeapon";
 constexpr unsigned kSnsLevel = 172;  // CharacterProperties.SnS_Level
 constexpr unsigned kTempProp1 = 190; // CharacterProperties.TempProp1 (CarrionEater heal, raw x256 HP)
 constexpr unsigned kHp = 36;         // CharacterProperties.HP (raw x256)
@@ -22,6 +24,7 @@ struct EventPassiveScriptV1 {
 constexpr EventPassiveScriptV1 kEventPassives[] = {
     {"prince_berseeker_killing_frenzy", EventPassiveKindV1::killing_frenzy},
     {"prince_necromancer_carrioneater", EventPassiveKindV1::carrion_eater},
+    {"prince_paladin_holy_weapon", EventPassiveKindV1::holy_weapon},
 };
 } // namespace
 
@@ -57,9 +60,13 @@ void RuntimeEventPassiveOwnerV1::bind(CombatSession& session) { session_ = &sess
 
 void RuntimeEventPassiveOwnerV1::on_hit(const CombatResultEventV1& event, ActorId receiver) {
     // The Lua listener runs on every OnTargetHit and checks its own role; the bus delivers both participants.
-    if (receiver != player_ || event.attacker != player_ || !session_) return;
-    if (rank(EventPassiveKindV1::killing_frenzy) > 0) frenzy_hit();
-    if (event.target_died && rank(EventPassiveKindV1::carrion_eater) > 0) carrion_kill();
+    if (receiver != player_ || !session_) return;
+    if (event.attacker == player_) {
+        if (rank(EventPassiveKindV1::killing_frenzy) > 0) frenzy_hit();
+        if (event.target_died && rank(EventPassiveKindV1::carrion_eater) > 0) carrion_kill();
+    }
+    if (event.target == player_ && event.attacker != player_ && rank(EventPassiveKindV1::holy_weapon) > 0)
+        holy_hit(event.attacker);
 }
 
 bool RuntimeEventPassiveOwnerV1::frenzy_set_buff(std::uint32_t strength) {
@@ -129,6 +136,45 @@ void RuntimeEventPassiveOwnerV1::carrion_kill() {
         return;
     }
     session_->actor(player_)->health = healed;
+}
+
+void RuntimeEventPassiveOwnerV1::holy_hit(ActorId attacker) {
+    // Lua: hp = attacker:GetHP(); hp = max(hp - regenHP_amount, 0) where regenHP_amount = TempProp1 of the caster's
+    // Skill_Paladin_HolyWeapon row at the rank; attacker:SetProp(HP, hp); if hp == 0 then attacker:Kill().
+    const std::uint32_t level = rank(EventPassiveKindV1::holy_weapon);
+    auto* world = session_->world();
+    const auto* live = world ? world->combat_properties(player_) : nullptr;
+    auto* victim = session_->actor(attacker);
+    if (!live || !victim) {
+        error_ = "Holy Weapon requires the player's live sheet and the attacking actor";
+        return;
+    }
+    const auto found = std::find(classes_->names.begin(), classes_->names.end(), std::string(kHolyWeaponClass));
+    if (found == classes_->names.end()) {
+        error_ = "Holy Weapon class absent from the ClassTables";
+        return;
+    }
+    dh2::data::PropertySheet sheet = rules_->defaults;
+    dh2::data::PropertySheet owner = live->sheets.resolved;
+    sheet[kSnsLevel] = owner[kSnsLevel] = std::int32_t(level << 8);
+    std::string error;
+    if (!dh2::data::apply_class(*classes_, std::int32_t(found - classes_->names.begin()), sheet, error, &owner)) {
+        error_ = "Holy Weapon class evaluation: " + error;
+        return;
+    }
+    const float amount = float(sheet[kTempProp1]) / 256.0f;
+    const float remaining = std::max(0.0f, victim->health - amount);
+    if (!world->set_current_health(attacker, remaining, error)) {
+        error_ = "Holy Weapon HP write: " + error;
+        return;
+    }
+    std::cout << "[holy-weapon] drain attacker=" << attacker << " hp " << victim->health << " -> " << remaining
+              << " (TempProp1 " << amount << " at rank " << level << ")\n";
+    if (remaining <= 0.0f && !session_->script_kill_actor(attacker, error)) {
+        error_ = "Holy Weapon Kill: " + error;
+        return;
+    }
+    error_.clear();
 }
 
 bool RuntimeEventPassiveOwnerV1::advance(CombatSession& session, double dt_seconds, std::string& error) {
