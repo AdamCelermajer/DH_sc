@@ -6,7 +6,8 @@
 //   and a buff -> RemoveBuff. The bonus lives in the buff's class sheet (Spell_Damage_Bonus_* 166-170).
 // Putrid: StealAIEvent("OnTargetHit"): when the player is the defender and the attacker is in melee range, GetRand(0,100)
 //   below the chance (TempProp1, percent) gives the attacker CreateBuff(Skill_Necromancer_Putrid, TempProp2 ms, false,
-//   rank, AUTO_DOT_00_NORMAL) + ApplyBuff. The DoT ticks are NOT applied (no native DoT tail in the port, see the report).
+//   rank, AUTO_DOT_00_NORMAL) + ApplyBuff. v21.8 w4-rise: the buff's Dot_Tick_Damage_Normal (126) is also queued in the
+//   general DoT owner through CombatSession::add_dot_v1 (PROPS_AddDot), so the attacker takes a tick each DoT period.
 #include "../../combat_session.hpp"
 #include "combat_result_event_bus_v1.hpp"
 #include "runtime_skill_timer_service_v1.hpp"
@@ -50,6 +51,7 @@ public:
     bool wrath_buff_active() const noexcept { return wrath_active_; }
     std::uint32_t putrid_procs() const noexcept { return putrid_procs_; }
     std::uint32_t putrid_applied() const noexcept { return putrid_applied_; }
+    std::uint32_t putrid_dots() const noexcept { return putrid_dots_; }  // DoT entries queued in the DoT owner (one per applied buff)
     const std::string& last_error() const noexcept { return error_; }
     // Test seam: the Putrid roll source (GetRand(0,100) equivalent). Default: a seeded engine.
     void seed_roll(std::uint32_t seed) { rng_.seed(seed); }
@@ -72,7 +74,7 @@ private:
     RuntimeSkillTimerServiceV1 timers_;
     RuntimeSkillTimerIdV1 wrath_timer_ = 0;
     bool wrath_active_ = false;
-    std::uint32_t putrid_procs_ = 0, putrid_applied_ = 0;
+    std::uint32_t putrid_procs_ = 0, putrid_applied_ = 0, putrid_dots_ = 0;
     std::mt19937 rng_{1u};
     std::string error_;
 };

@@ -506,6 +506,10 @@ public:
     using CombatResultObserver=std::function<void(ActorId attacker,ActorId target,std::uint32_t outcomes,bool target_died)>;
     void set_combat_result_observer(CombatResultObserver observer);
     bool has_combat_result_observer() const noexcept;
+    // v21.8 w4-rise: CharProperties::PROPS_AddDot for a DoT carried by a timed buff (Putrid: the attacker's buff class sheet
+    // gives Dot_Tick_Damage_Normal (126) and the buff duration). Queues the normal-element DoT on `target` in the same DoT
+    // owner the applied-hit path uses (capacity 1 per element, ticks each DoT_Tick period, killer = `attacker`).
+    bool add_dot_v1(ActorId attacker, ActorId target, double duration_ms, double tick_hp);
     // v21.8 es-status: status-outcome consumer for applied source hits (stun 0x40, scare 0x20; knockback 0x80 stays with
     // the Push consumer). `attacker_sheet` is the formula sheet the roll used (valid only during the callback).
     struct StatusOutcomeEventV1 {

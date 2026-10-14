@@ -20,6 +20,7 @@ constexpr float kPestilenceBlastRange = 200.0f;
 constexpr const char* kPestilenceFx = "spell_dh2_prince_necromancer_pestilence";
 constexpr const char* kPestilenceSound = "sfx_skill_mage_doppelganger_statue_explode";
 constexpr const char* kRiseProjectile = "TeleportTool";
+constexpr unsigned kSnsDurationRawIndex = 176;  // CharacterProperties.SnS_Duration (Rise bufftime, x256 ms)
 
 bool fail(std::string& error, const std::string& message) {
     error = message;
@@ -106,6 +107,8 @@ void RuntimeNecromancerSkillOwnerV1::reset() {
     infected_.clear();
     death_watch_.clear();
     rise_landing_.clear();
+    rise_slots_ = {};  // the world is being reset: the summons go with it (no despawn call)
+    rise_spawn_counter_ = 0;
     pestilence_poll_timer_ = 0;
 }
 
@@ -406,18 +409,77 @@ bool RuntimeNecromancerSkillOwnerV1::launch_rise_projectile(CombatSession& sessi
     return true;
 }
 
-bool RuntimeNecromancerSkillOwnerV1::use_rise(CombatSession&, const RuntimeSkillExternalContextV1& context, std::string&) {
-    // OnSkill_: count = checkslot(); `if (not x)` reads the landing of the projectile. With a landing the Lua spawns a
-    // RisenZombie there (Summon + LOCK + PlayFX + SetLevel). That summon is DEFERRED: the port has no runtime summon, so
-    // the landing is only reported. Without a landing (x == nil) the Lua does nothing.
+// v21.8 w4-rise: Rise summon. OnSkill_ (prince_necromancer_rise.luac): count = checkslot(); with a landing position
+// spawn(count) = Summon(RisenZombie, false, x, y, z) + LOCK + PlayFX(RISE_FX) + SetLevel, then a one-shot timer of
+// SnS_Duration (killed(): Kill + UNLOCK). checkslot(): an empty slot; else a slot whose summon is dead (freed); else -1,
+// and ForceKillAndSpawnNew kills the slot with the oldest spawn counter, stops its timer and spawns into it.
+bool RuntimeNecromancerSkillOwnerV1::use_rise(CombatSession&, const RuntimeSkillExternalContextV1& context, std::string& error) {
     const auto landing = rise_landing_.find(context.caster);
     if (landing == rise_landing_.end()) {
         log("Necromancer skill Rise Use: no landing position (Lua x == nil), nothing to summon");
         return true;
     }
-    log("Necromancer skill Rise Use: summon DEFERRED (RisenZombie would spawn at " +
-        std::to_string(landing->second[0]) + "," + std::to_string(landing->second[1]) + "," +
-        std::to_string(landing->second[2]) + ")");
+    if (!services_.summon || !services_.despawn || !services_.is_dead) {
+        error = "Rise summon services are not wired";
+        return false;
+    }
+    std::size_t slot = rise_slots_.size();
+    for (std::size_t i = 0; i < rise_slots_.size() && slot == rise_slots_.size(); ++i)
+        if (rise_slots_[i].actor == invalid_actor_id) slot = i;
+    for (std::size_t i = 0; i < rise_slots_.size() && slot == rise_slots_.size(); ++i)
+        if (services_.is_dead(rise_slots_[i].actor)) {
+            if (!rise_release(i, error)) return false;
+            slot = i;
+        }
+    if (slot == rise_slots_.size()) {  // ForceKillAndSpawnNew: the oldest summon
+        slot = 0;
+        for (std::size_t i = 1; i < rise_slots_.size(); ++i)
+            if (rise_slots_[i].order < rise_slots_[slot].order) slot = i;
+        if (!rise_release(slot, error)) return false;
+    }
+    ActorId risen = invalid_actor_id;
+    std::string summon_error;
+    if (!services_.summon("RisenZombie", landing->second, risen, summon_error)) {
+        error = "Rise summon refused: " + summon_error;
+        return false;
+    }
+    // SetLevel(plvl) and the spawn-pool level are the host's (the summon request carries the player level).
+    // Presentation: PlayFX(RISE_FX) on the risen at its landing point.
+    if (services_.play_effect) {
+        std::string fx_error;
+        if (!services_.play_effect("spell_dh2_prince_necromancer_rise", landing->second, fx_error))
+            log("Necromancer skill Rise FX: " + fx_error);
+    }
+    // bufftime = FromFixed(SnS_Duration) of the Use-time sheet (CharacterProperties.SnS_Duration = 176, x256 ms), 10000 when 0.
+    double bufftime_ms = double(context.formula_sheet ? (*context.formula_sheet)[kSnsDurationRawIndex] : 0) / 256.0;
+    if (bufftime_ms <= 0.0) bufftime_ms = 10000.0;
+    rise_slots_[slot].actor = risen;
+    rise_slots_[slot].order = ++rise_spawn_counter_;
+    rise_slots_[slot].timer = timers_.start(bufftime_ms, false,
+        [this, slot](RuntimeSkillTimerIdV1, std::string& timer_error) -> bool {
+            rise_slots_[slot].timer = 0;  // the one-shot timer has fired: killed(count)
+            return rise_release(slot, timer_error);
+        }, kOwnerRise);
+    log("Necromancer skill Rise summoned RisenZombie actor=" + std::to_string(risen) + " slot=" + std::to_string(slot + 1) +
+        " at=" + std::to_string(landing->second[0]) + "," + std::to_string(landing->second[1]) + "," +
+        std::to_string(landing->second[2]) + " lifetimeMs=" + std::to_string(bufftime_ms));
+    return true;
+}
+
+// killed() / KillAllSummoned(): stop the slot's timer, Kill + UNLOCK the summon when it is alive, free the slot.
+bool RuntimeNecromancerSkillOwnerV1::rise_release(std::size_t slot, std::string& error) {
+    RiseSlot& s = rise_slots_[slot];
+    if (s.timer != 0) {
+        timers_.stop(s.timer);
+        s.timer = 0;
+    }
+    if (s.actor == invalid_actor_id) return true;
+    const ActorId actor = s.actor;
+    s.actor = invalid_actor_id;
+    s.order = 0;
+    if (services_.is_dead && services_.is_dead(actor)) return true;  // dead summons are already gone
+    if (services_.despawn && !services_.despawn(actor, error)) return false;
+    log("Necromancer skill Rise released actor=" + std::to_string(actor) + " slot=" + std::to_string(slot + 1));
     return true;
 }
 
@@ -426,7 +488,12 @@ bool RuntimeNecromancerSkillOwnerV1::rise_landing_known(ActorId caster) const {
 }
 
 void RuntimeNecromancerSkillOwnerV1::cleanup(CombatSession&, ActorId actor) {
-    // OnSkillCleanUp: KillAllSummoned (no summons exist) and the counters. Only Rise has a cleanup body.
+    // OnSkillCleanUp: KillAllSummoned (Kill + UNLOCK of every live risen, timers stopped) and the counters.
+    for (std::size_t slot = 0; slot < rise_slots_.size(); ++slot) {
+        std::string error;
+        if (!rise_release(slot, error)) log("Necromancer skill Rise cleanup: " + error);
+    }
+    rise_spawn_counter_ = 0;
     rise_landing_.erase(actor);
 }
 

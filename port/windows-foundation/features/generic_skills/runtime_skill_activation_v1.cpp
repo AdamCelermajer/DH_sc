@@ -46,7 +46,7 @@ bool resolve_skill_visual_request_v1(
     const auto& skill = tables.skills()[static_cast<std::size_t>(progression.skill_table_id)];
     const auto sequence_id = signed_word(skill.scalar.words[1]);
     if (sequence_id < 0)
-        return fail(error, "Original SkillTable has no supported authored Anim sequence root");
+        { error = std::string("Original SkillTable has no supported authored Anim sequence root (skill=") + tables.skill_names()[static_cast<std::size_t>(progression.skill_table_id)] + " anim=" + std::to_string(sequence_id) + ")"; return false; }
 
     SkillVisualRequestV1 next;
     next.character_state_id = state.id;
