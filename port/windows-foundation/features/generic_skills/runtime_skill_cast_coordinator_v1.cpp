@@ -746,6 +746,19 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         error.clear();
         return true;
     }
+    if (profile->requires_bow && !request.main_hand_is_bow) {
+        output.actor = request.actor;
+        output.source_slot = request.source_slot;
+        output.saved_skill_row = saved_row;
+        output.class_skill_position = position;
+        output.skill_table_id = visual.skill_table_id;
+        output.skill_name = visual.source_skill_name;
+        output.source_script = visual.source_script;
+        output.phase = RuntimeSkillCastPhaseV1::rejected;
+        output.detail = "OnSkillCheck_ HasBow() is false: the main hand holds no bow";
+        error.clear();
+        return true;
+    }
     const auto& skill_row = request.skills.skills()[std::size_t(visual.skill_table_id)];
     // Native _SkillCombatRoll (IDA 0x3b9fbc; audit docs/ida-fidelity-audit-2026-10-11/character3.md F2):
     // mask 0x800000 needs the equipped-hand facts before any hit is formed.

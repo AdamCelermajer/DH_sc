@@ -144,6 +144,8 @@ struct RuntimeSkillCastRequestV1 {
     // v21.8 ES-API test seam: an authored variant of the admitted (name, script) row, used instead of the table row.
     // Null in play; the variant must carry the same skill_name and script or it is ignored.
     const RuntimeSkillUseProfileV1* profile_override = nullptr;
+    // v21.8 w2-archer: `Character::HasBow` (ItemInventory main-hand ItemTable Type == 4) for profile rows with requires_bow.
+    bool main_hand_is_bow = false;
 };
 
 // P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels,

@@ -104,6 +104,9 @@ struct RuntimeSkillUseProfileV1 {
     // volleys[n % volley_count]. nullptr / 0 = every marker runs the row's own class and targets (default for every row).
     const RuntimeSkillVolleyV1* volleys = nullptr;
     std::uint8_t volley_count = 0;
+    // v21.8 w2-archer: Lua OnSkillCheck_ `if not HasBow() then return false`. The cast is rejected before any mana or
+    // animation commit unless the host reports a bow in the main hand (RuntimeSkillCastRequestV1::main_hand_is_bow).
+    bool requires_bow = false;
 };
 
 // The volley that a Use selects. `cursor` counts the Uses already delivered for this actor and skill (it persists across
