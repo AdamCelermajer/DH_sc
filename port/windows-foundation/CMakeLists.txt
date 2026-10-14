@@ -72,6 +72,10 @@ add_executable(dh-foundation main.cpp ${DH2_PLATFORM_SOURCES} renderer.cpp rende
 target_sources(foundation_data PRIVATE ../level-world/character_kill.cpp)
 target_sources(dh-foundation PRIVATE features/generic_skills/pc_skill_hud_projection_v1.cpp features/generic_skills/pc_gameplay_hud_v1.cpp features/generic_skills/pc_gameplay_hud_source_art_v1.cpp features/generic_skills/pc_gameplay_hud_button_art_v1.cpp)
 target_sources(dh-foundation PRIVATE features/frontend/menu_return/menu_return_v1.cpp)
+# v21.8 w4-linux: shared case-insensitive game-data resolver (case-sensitive file systems)
+add_executable(path_case_tests tests/path_case_tests.cpp)
+target_link_libraries(path_case_tests PRIVATE foundation_data)
+add_test(NAME path_case COMMAND path_case_tests)
 # v20 SCRIPTSVC: Script_PlaySound/StopSound/SaveGame orchestration (pure; owners bound in main/campaign_host).
 add_executable(script_source_services_v1_tests features/cinematics/script_source_services_v1_tests.cpp features/cinematics/script_source_services_v1.cpp)
 add_test(NAME script_source_services_v1 COMMAND script_source_services_v1_tests)

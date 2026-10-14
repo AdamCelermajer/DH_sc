@@ -1,3 +1,4 @@
+#include "../../../path_case.hpp"
 #include "original_art.hpp"
 #include <algorithm>
 #include <cmath>
@@ -5,7 +6,7 @@
 namespace dh::foundation::frontend::art {
 bool load(const std::filesystem::path& root, std::string& error) {
     std::error_code ec;
-    if (!std::filesystem::is_regular_file(root / atlas_relative_path, ec)) {
+    if (!std::filesystem::is_regular_file(existing_path_ignoring_case(root / atlas_relative_path), ec)) {
         error = "Original MenusGraphics_droid atlas missing under " + root.string();
         return false;
     }

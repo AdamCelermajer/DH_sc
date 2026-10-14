@@ -1,3 +1,4 @@
+#include "../../path_case.hpp"
 #include "boot_runner_v1.hpp"
 
 #include "asset_catalog.hpp"
@@ -63,7 +64,7 @@ constexpr const char* kTouchToContinue = "Touch  the  screen  to  continue";
 constexpr const char* kSkipLabel = "SKIP";
 
 bool read_file(const std::filesystem::path& path, std::vector<std::uint8_t>& bytes) {
-    std::ifstream f(path, std::ios::binary);
+    std::ifstream f(existing_path_ignoring_case(path), std::ios::binary);
     if (!f) return false;
     bytes.assign(std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>());
     return true;

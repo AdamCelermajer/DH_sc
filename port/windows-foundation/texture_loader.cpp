@@ -1,3 +1,4 @@
+#include "path_case.hpp"
 #include "texture_loader.hpp"
 #include "../engine-textures/textures.hpp"
 
@@ -79,7 +80,7 @@ bool decode_texture(const void* bytes, std::size_t size,
 
 bool load_texture(const std::filesystem::path& path,
                   TextureImage& image, std::string& error) {
-    std::ifstream stream(path, std::ios::binary | std::ios::ate);
+    std::ifstream stream(existing_path_ignoring_case(path), std::ios::binary | std::ios::ate);
     if (!stream) {
         error = "Cannot open texture file: " + path.u8string();
         return false;

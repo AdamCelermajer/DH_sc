@@ -1,3 +1,4 @@
+#include "path_case.hpp"
 #include "level_manifest.hpp"
 #include "authored_transform.hpp"
 #include "../level-loader/vendor/tinyxml/tinyxml.h"
@@ -207,7 +208,7 @@ bool decode_module_decor(const std::vector<std::uint8_t>& mvpBytes, const Mat4& 
 bool load_level_manifest(const std::filesystem::path& path,
                          std::vector<ModulePlacement>& output, std::string& error) {
     try {
-        std::ifstream file(path, std::ios::binary | std::ios::ate);
+        std::ifstream file(existing_path_ignoring_case(path), std::ios::binary | std::ios::ate);
         if (!file) throw std::runtime_error("Cannot open level XML");
         const auto length = file.tellg();
         if (length <= 0 || length > static_cast<std::streamoff>(max_bytes)) throw std::runtime_error("Level XML size outside limits");

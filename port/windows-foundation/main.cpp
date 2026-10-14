@@ -1,6 +1,7 @@
 #include <chrono>
 #include <cstdlib>
 #include "asset_catalog.hpp"
+#include "path_case.hpp"
 #include "actor_profiles.hpp"
 #include "actor_population.hpp"
 #include "features/levels/level_class_registry.hpp" // P16 LEVELS: one-time unsupported class log
@@ -866,6 +867,9 @@ Options parse(int argc, char** argv) {
     // P16 OPENING: the script host spawns declared Limbus/PreSpawn actors (SpawnCharacter), so their declarations
     // must exist as deferred actors. Without this, a declaration with auto_spawn=0 is "not instantiated".
     if(o.campaignTriggers) o.retainHiddenActors=true;
+    // Game-data package roots and tables are named in startup.args; on a case-sensitive file system the authored spelling may differ
+    // from the shipped one (path_case.hpp). Saves, captures and checkpoints are ours and keep their exact names.
+    for(fs::path* gameData:{&o.assets,&o.audioAssets,&o.audioTable,&o.menuAssets,&o.menuUiAssets})if(!gameData->empty())*gameData=dh::foundation::existing_path_ignoring_case(*gameData);
     return o;
 }
 void capture(const fs::path& path,int w,int h) {

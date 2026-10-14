@@ -8,6 +8,7 @@
 //                        --table DIR_WITH_levels_pyarray --out OUT.json
 #include "actor_definitions.hpp"
 #include "asset_catalog.hpp"
+#include "../../path_case.hpp"
 #include "assembled_level.hpp"
 #include "../../../game-data/level_tables.hpp"
 
@@ -53,7 +54,7 @@ std::string lower(std::string s) {
 std::string slash(std::string s) { std::replace(s.begin(), s.end(), '\\', '/'); return s; }
 
 std::vector<std::uint8_t> read_file(const fs::path& p) {
-    std::ifstream in(p, std::ios::binary);
+    std::ifstream in(dh::foundation::existing_path_ignoring_case(p), std::ios::binary);
     if (!in) return {};
     return std::vector<std::uint8_t>((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
 }
@@ -73,7 +74,7 @@ bool present_in(const fs::path& root, const std::string& uri) {
     }
     for (const auto& candidate : candidates) {
         std::error_code ec;
-        if (fs::is_regular_file(root / candidate, ec)) return true;
+        if (fs::is_regular_file(dh::foundation::existing_path_ignoring_case(root / candidate), ec)) return true;
     }
     return false;
 }
@@ -135,7 +136,7 @@ int main(int argc, char** argv) {
     // Enumerate scene directory of the root (fixed maps first, procedural rules second).
     std::vector<std::string> files;
     std::set<std::string> backups;
-    for (const auto& entry : fs::directory_iterator(fs::path(root) / "data" / "scene")) {
+    for (const auto& entry : fs::directory_iterator(dh::foundation::existing_path_ignoring_case(fs::path(root) / "data" / "scene"))) {
         const auto name = entry.path().filename().string();
         if (!entry.is_regular_file()) continue;
         if (name.size() > 0 && name[0] == 'x') { backups.insert(name); continue; }

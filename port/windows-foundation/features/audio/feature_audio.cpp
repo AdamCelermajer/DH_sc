@@ -1,3 +1,4 @@
+#include "../../path_case.hpp"
 #include "feature_audio.hpp"
 #include <filesystem>
 #include <fstream>
@@ -21,7 +22,7 @@ bool SourceAudioRouter::retire_producer_generation(std::uint64_t generation,std:
 bool AudioFilesystem::read(void* raw,const char* uri,std::shared_ptr<const std::vector<std::uint8_t>>& out,std::string& error){
  out.reset();if(!raw||!uri){error="Required exact original audio URI reader";return false;}
  const std::filesystem::path relative(uri);if(relative.is_absolute()){error="Audio URI must be relative";return false;}for(const auto& p:relative)if(p==".."){error="Audio URI traversal rejected";return false;}
- std::ifstream stream(std::filesystem::path(static_cast<AudioFilesystem*>(raw)->root)/relative,std::ios::binary);if(!stream){error=std::string("Unavailable original audio asset: ")+uri;return false;}
+ const auto exactAudio=std::filesystem::path(static_cast<AudioFilesystem*>(raw)->root)/relative;std::ifstream stream(existing_path_ignoring_case(exactAudio),std::ios::binary);if(!stream){error=std::string("Unavailable original audio asset: ")+uri;return false;}
  auto bytes=std::make_shared<std::vector<std::uint8_t>>(std::istreambuf_iterator<char>(stream),std::istreambuf_iterator<char>());if(stream.bad()){error="Original audio read failed";return false;}out=std::move(bytes);return true;
 }
 bool open_audio_output(const AudioOutputServices& s,std::string& error){if(!s.context||!s.open||!s.update||!s.close){error="Required actual platform audio output backend";return false;}return s.open(s.context,error);}

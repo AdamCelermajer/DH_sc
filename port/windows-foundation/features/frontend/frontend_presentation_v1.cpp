@@ -4,6 +4,7 @@
 #else
 #include "../../platform_key_codes.hpp"
 #endif
+#include "../../path_case.hpp"
 #include "../../platform_sleep.hpp"
 #include "../../original_class_family.hpp" // v21.8 subclass: family base row for the preview actor
 #include <GL/gl.h>
@@ -46,7 +47,7 @@ struct ProfilePreviewDebugFilesV1 {
  static int open(void* raw,const char* name,std::uintptr_t* handle){
   auto& self=*static_cast<ProfilePreviewDebugFilesV1*>(raw);if(!name||!handle||!self.assets)return 1;*handle=0;
   try{const auto path=self.assets->resolve(name);auto* file=std::fopen(path.string().c_str(),"rb");if(!file)return 1;*handle=reinterpret_cast<std::uintptr_t>(file);return 0;}
-  catch(const std::invalid_argument&){return 1;}catch(const std::exception&){std::error_code ec;const auto exists=fs::exists(self.assets->root()/name,ec);return ec||exists?1:0;}
+  catch(const std::invalid_argument&){return 1;}catch(const std::exception&){std::error_code ec;const auto exists=!f::find_path_ignoring_case(self.assets->root(),name).empty()||fs::exists(self.assets->root()/name,ec);return ec||exists?1:0;}
  }
  static int close(void*,std::uintptr_t handle){return handle?std::fclose(reinterpret_cast<std::FILE*>(handle)):1;}
 };

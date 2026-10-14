@@ -1,3 +1,4 @@
+#include "../../path_case.hpp"
 #include "quest_table_v1.hpp"
 
 #include <cstddef>
@@ -8,7 +9,7 @@
 namespace dh::foundation::quest_runtime {
 namespace {
 bool read_file(const std::string& path, std::vector<std::uint8_t>& out, std::string& error) {
-    std::ifstream file(path, std::ios::binary);
+    std::ifstream file(existing_path_ignoring_case(path), std::ios::binary);
     if (!file) { error = "Quest table file is missing: " + path; return false; }
     out.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
     if (out.empty()) { error = "Quest table file is empty: " + path; return false; }
