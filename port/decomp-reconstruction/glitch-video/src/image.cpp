@@ -20,6 +20,32 @@ uint32_t mipDimension(uint32_t size, uint32_t mipLevel) {
 
 }  // namespace
 
+// 0x601804 _ZN6glitch5video6CImageD1Ev (D2 0x6018b8 is the same body; D0 0x60196c is the compiler's deleting form)
+// Releases the pixel block and then the mip chain, both only when m_ownsData (+0x29) is set, and nulls each level
+// pointer as it goes. Read off the binary: the block is freed first, then, when m_hasMipmaps (+0x28) is set and the
+// level array exists, every level is freed until a null slot, and the array itself last.
+//
+// Deviation, deliberate: the original walks the level array with a do/while that stops at a null slot but does not
+// bound the index, which only terminates because the array is fully initialised when it is built. This port stops
+// at m_mipLevels as well, so a partially built chain cannot run the walk off the end.
+CImage::~CImage() {
+    if (m_ownsData == 0) {
+        return;
+    }
+    delete[] m_data;
+    m_data = nullptr;
+    if (m_mipData != nullptr) {
+        if (m_hasMipmaps != 0) {
+            for (uint32_t level = 0; level < m_mipLevels; ++level) {
+                delete[] m_mipData[level];
+                m_mipData[level] = nullptr;
+            }
+        }
+        delete[] m_mipData;
+        m_mipData = nullptr;
+    }
+}
+
 // 0x601988 _ZN6glitch5video6CImage8initDataEb
 // Computes the pitch and the data size, allocates the pixel data when there is none, and (with allocateMips)
 // builds the mip chain: one allocation per level, with the level pointer array terminated by a null entry.

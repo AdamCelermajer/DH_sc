@@ -42,6 +42,10 @@ public:
            const core::dimension2d<int32_t>& size);
     CImage(E_PIXEL_FORMAT format, const boost::intrusive_ptr<CImage>& source);
 
+    // 0x601804 (D1) / 0x6018b8 (D2, the same body) / 0x60196c (D0, the deleting form the compiler generates).
+    // Releases the pixel block and the mip chain, but only when m_ownsData is set.
+    ~CImage() override;
+
     // 0x601988: computes the pitch and size, allocates the data and (with a mip flag) the mip chain. Declared only.
     void initData(bool allocateMips);
 

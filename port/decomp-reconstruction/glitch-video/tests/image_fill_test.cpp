@@ -129,6 +129,17 @@ int main() {
         CHECK(mip.m_dataSize == 32);
     }
 
+    // ~CImage (0x601804) releases the block and the chain only when the image owns them. The first block goes
+    // out of scope at the closing brace, so this exercises the destructor; a sanitizer or a leak checker would
+    // see a leak here if the destructor did nothing.
+    {
+        glitch::video::CImage owned(12, glitch::core::dimension2d<std::int32_t>{8, 8});
+        CHECK(owned.m_data != nullptr);
+        CHECK(owned.m_dataSize == 256);
+        owned.fill(color);  // touch it so the block is not optimised away
+        CHECK(word(std::vector<std::uint8_t>(owned.m_data, owned.m_data + 4), 0) == 0x563412FFu);
+    }
+
     std::printf("%s\n", failures ? "image_fill: FAILED" : "image_fill: ok");
     return failures != 0;
 }

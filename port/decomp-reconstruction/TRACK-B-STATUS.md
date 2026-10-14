@@ -6,7 +6,7 @@ Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals:
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,504 | 69.4% |
+| reconstructed | 17,507 | 69.4% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
 | partial | 1,616 | 6.4% |
 | skipped | 2,119 | 8.4% |
@@ -77,6 +77,15 @@ At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 r
   helpers lacked internal linkage and clashed with the reconstructed originals in
   `core-platform/src/vorbis_util.cpp` (0x8764f8, 0x8784f4).
 - Remaining undefined symbols in the whole tree: 178 (84 with no ledger status, 81 skipped,
+  10 partial, 3 upstream; the link stub set is 117 symbols).
+
+  **The CImage cluster is now closed end to end** (u1-video follow-up): the owning constructors 0x602028 and
+  0x602110, the (data, copy, own) constructor 0x602670, initData 0x601988, fill 0x5ff9b4 and the destructors
+  0x601804 / 0x6018b8 are all reconstructed, and glitch-video/image_fill_test (registered, passing) exercises
+  them together. One combination is knowingly left leaking and is named in the 0x601804 ledger row: an
+  m_ownsData-clear image built with the mip flag allocates its level array in initData but skips it in the
+  destructor. No caller builds that combination today, and the no-own constructor passes the mip data through
+  instead. Worth closing when the constructors 0x6021f8 / 0x6027e8 are done.
   10 partial, 3 upstream; the link stub set is 118 symbols).
 
   **Observed, not inferred, for the CImage pixel formats** (checked by building an image over a caller's
@@ -144,7 +153,8 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 | partial-redo3 | `CImage::fill` (0x5ff9b4); PFDTable rows named the packing | `6f71e24c` |
 | partial-redo4 | `CImage::initData` (0x601988) and the 5-argument constructor (0x602670) | `2caf0176` |
 | verify | `CImage::fill` measured and asserted; image_fill_test registered | `47238564`, `9f22c1e2` |
-| cimage-ctors | the owning constructors 0x602028 / 0x602110 (+ their C2 aliases) | next |
+| cimage-ctors | the owning constructors 0x602028 / 0x602110 (+ their C2 aliases) | `c786d316` |
+| cimage-dtor | `~CImage` 0x601804 / 0x6018b8 / 0x60196c; the CImage cluster closed | next |
 
 ## Partial rows still undefined at link (9)
 
