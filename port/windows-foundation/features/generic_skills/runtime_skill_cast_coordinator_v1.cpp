@@ -963,6 +963,10 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             for (const auto victim : target.ordered_character_targets)
                 active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::target_fx,
                                                             profile->pre_target_fx_name, victim});
+        // v21.8 w3-ally: Terror's authored OnSkill_ charges UseMana inside add_slot, once per conversion (no target, no MP).
+        // The OnPre prefix keeps the HasMana admission only; the Use debits the cost when a conversion happens.
+        const bool mana_per_conversion = profile->enemy_buff && profile->enemy_buff->conversion_slots > 0;
+        if (!mana_per_conversion) {
         const bool mana_ok = prepare_skill_cast_mana_v1(*request.character, session, request.actor,
                 *request.characters, request.skills, *request.classes,
                 *request.property_rules, position, class_token, request.mana_policy,
@@ -1000,6 +1004,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             skill_ready_at_ms_[{request.actor, visual.skill_table_id}] = ready;
             skill_cooldown_total_ms_[{request.actor, visual.skill_table_id}] = active.cooldown_ms;
         }
+        }  // !mana_per_conversion
 
         // prince_rogue_quickness.luac OnPreSkill_: RemoveBuff(BUFF_ID, buff) then UseMana. The two touch different owners (buff
         // list vs MP), so their relative order is not observable; the removal is the same-class replacement of the previous cast.
@@ -1358,6 +1363,55 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         spec.duration_ms = duration_ms;
         spec.source = active.receipt.skill_name;
         spec.suppress_selection = profile.buff->suppress_selection;
+        // v21.8 w3-ally: the aura ally loop (Lua SetTargetListCharacterFilter(Player) + TargetListSearch(6000, 360) +
+        // PopTargetList). Each ally other than the caster: PlayFX(BUFF_FX2), the PurifyingAura Heal(ally, 15 x rank), and
+        // CreateBuff/ApplyBuff of the same spec. Presentation and per-ally heal/buff failures do not abort the cast (the Lua
+        // checks none of them); a failed ally buff is logged.
+        if (profile.ally_aura && session.world()) {
+            SkillActorTargetQueryV1 allies;
+            std::string ally_error;
+            if (!query_player_character_targets_v1(*session.world(), actor_id, active.population_order,
+                    profile.ally_aura->search_range, 3.14159265f, SkillTargetSortV1::source_order, std::nullopt,
+                    allies, ally_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Aura ally TargetListSearch failed after the committed OnPre prefix: " + ally_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            std::cout << "[aura-ally] " << profile.skill_name << " Player-filter candidates=" << allies.ordered_character_targets.size() << " bound:";
+            for (const auto& [other_id, other] : session.world()->actors()) {
+                if (other_id == actor_id) continue;
+                const auto* other_traits = session.world()->traits(other_id);
+                std::cout << ' ' << other_id << "(player=" << (other_traits && other_traits->is_player) << ",alive=" << other.alive() << ')';
+            }
+            std::cout << '\n';
+            for (const auto ally : allies.ordered_character_targets) {
+                const auto* ally_traits = session.world()->traits(ally);
+                if (!ally_traits || (profile.ally_aura->players_only && !ally_traits->is_player)) continue;
+                if (profile.ally_aura->ally_fx_name)
+                    active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::target_fx,
+                                                                profile.ally_aura->ally_fx_name, ally});
+                if (profile.ally_aura->heal_per_rank > 0.0f) {
+                    float ally_hp = 0.0f, ally_max = 0.0f;
+                    std::string heal_error;
+                    if (session.world()->current_health(ally, ally_hp, ally_max) &&
+                        session.world()->set_current_health(ally, self_heal_target_hp_v1(ally_hp, ally_max,
+                            profile.ally_aura->heal_per_rank, rank), heal_error)) {
+                        std::cout << "[aura-ally] heal " << profile.skill_name << " ally=" << ally << " hp=" << ally_hp << " -> "
+                                  << self_heal_target_hp_v1(ally_hp, ally_max, profile.ally_aura->heal_per_rank, rank)
+                                  << " max=" << ally_max << '\n';
+                    } else {
+                        std::cout << "[aura-ally] heal failed ally=" << ally << ": " << heal_error << '\n';
+                    }
+                }
+                std::string ally_buff_error;
+                if (!active.timed_buffs->apply_timed_buff(session, ally, spec, ally_buff_error))
+                    std::cout << "[aura-ally] buff failed ally=" << ally << ": " << ally_buff_error << '\n';
+                else
+                    std::cout << "[aura-ally] buff " << spec.class_name << " ally=" << ally << " strength=" << spec.strength
+                              << " durationMs=" << spec.duration_ms << '\n';
+            }
+        }
         std::string buff_error;
         if (!active.timed_buffs->apply_timed_buff(session, actor_id, spec, buff_error)) {
             active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
@@ -1672,6 +1726,19 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
                     break;
                 }
             }
+        }
+        if (enemy_buff.conversion_slots > 0 && !buffed_targets.empty()) {
+            // v21.8 w3-ally: Terror add_slot UseMana (the cast's fixed cost) for this conversion, before ApplyPropClass/CreateBuff.
+            std::string mana_error;
+            if (!active.property_rules ||
+                !debit_skill_mana_v1(session, actor_id, active.receipt.mana.cost.fixed_mana_cost, *active.property_rules, mana_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Terror per-conversion UseMana failed after the OnPre admission: " + mana_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            std::cout << "[terror] UseMana " << active.receipt.mana.cost.fixed_mana_cost << " raw per conversion of monster="
+                      << buffed_targets.front() << '\n';
         }
         std::string buff_error;
         if (!buffed_targets.empty() && !active.timed_buffs->apply_timed_buff_to_targets(

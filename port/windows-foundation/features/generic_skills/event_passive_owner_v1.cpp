@@ -561,12 +561,21 @@ void RuntimeEventPassiveOwnerV1::conversion_hit(ActorId defender) {
     }
     if (converted_.size() < 6) converted_.push_back(defender);
     ++conversion_procs_;
+    // Lua: PlaySound("sfx_passive_skill_activate_1"), Stop() on the player and the monster, then defender:SetIsTargetable(false)
+    // with StartSkillTimerCB(2000, BuffExpired) only when no window is open (buff_timer == -1: one window at a time).
+    sound_cues_.push_back("sfx_passive_skill_activate_1");
     std::string stop_error;
     if (!session_->script_stop_actor(player_, stop_error) || !session_->script_stop_actor(defender, stop_error)) {
         error_ = "Conversion Stop: " + stop_error;
     }
+    if (conversion_window_actor_ == invalid_actor_id && session_->world()) {
+        session_->world()->set_selection_suppressed(defender, true);
+        conversion_window_actor_ = defender;
+        conversion_window_ms_ = 2000.0;
+    }
     std::cout << "[conversion] converted monster=" << defender << " roll=" << roll << " chance=" << chance << " delay_ms="
-              << delay_ms << " rank=" << level << " (PlaySound sfx_passive_skill_activate_1 not dispatched: presentation gap)\n";
+              << delay_ms << " rank=" << level << " sound=sfx_passive_skill_activate_1 untargetable_window_ms=2000"
+              << (conversion_window_actor_ == defender ? " (window opened)" : " (window already open)") << '\n';
 }
 
 void RuntimeEventPassiveOwnerV1::shield_hit(ActorId attacker) {
@@ -638,6 +647,15 @@ bool RuntimeEventPassiveOwnerV1::advance(CombatSession& session, double dt_secon
     session_ = &session;
     shield_advance(session, dt_seconds * 1000.0);
     energy_advance(session, dt_seconds * 1000.0, error);
+    // Conversion BuffExpired (2000 ms): SetIsTargetable(true) on the monster the window was opened for.
+    if (conversion_window_actor_ != invalid_actor_id) {
+        conversion_window_ms_ -= dt_seconds * 1000.0;
+        if (conversion_window_ms_ <= 0.0) {
+            if (session.world()) session.world()->set_selection_suppressed(conversion_window_actor_, false);
+            conversion_window_actor_ = invalid_actor_id;
+            conversion_window_ms_ = 0.0;
+        }
+    }
     // Survival flag (Lua StopBuffTimer): clears only the flag; the buff keeps its own duration.
     if (survival_flag_) {
         survival_flag_ms_ -= dt_seconds * 1000.0;
