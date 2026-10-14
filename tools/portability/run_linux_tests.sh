@@ -82,7 +82,7 @@ mkdir -p "$MIRROR" "$LOG"
 # Whole trees are copied; the three very large trees are copied only where the tests need them.
 # Keep this list in sync with CMakeLists.txt when a test adds a new asset root.
 ASSET_DIRS=(
-  actors publication assets-extra character-skill-session-v2 design-settings player-loot-v7
+  actors assets-extra character-skill-session-v2 design-settings player-loot-v7
   runtime-session-projectile-v1 windows-encounter-source windows-main-frontend-v1 windows-population-assets
   windows-shared-assets windows-melee-bindings windows-equipment-assets windows-camera-assets
   windows-source-floor-fixture
