@@ -43,6 +43,9 @@ struct RuntimeSkillBuffProfileV1 {
     // CharacterProperties index read as the buff duration (ms) after the projection. 176 = SnS_Duration
     // (Lua BUFF_TIME = GetProp(SnS_Duration, true)); PoisonSting reads 125 = Dot_Duration.
     int duration_prop_index = 176;
+    // v21.8 assassin: Blindness `SetIsTargetable(false)` on the caster for the buff's life (acquisition only; attacks and
+    // damage are unchanged). Restored on expiry or removal (TimedBuffSpecV1::suppress_selection).
+    bool suppress_selection = false;
 };
 
 // One step of a volley cycle: the ClassTable row projected for that marker, and whether it rolls every target
@@ -104,6 +107,15 @@ struct RuntimeSkillUseProfileV1 {
     // volleys[n % volley_count]. nullptr / 0 = every marker runs the row's own class and targets (default for every row).
     const RuntimeSkillVolleyV1* volleys = nullptr;
     std::uint8_t volley_count = 0;
+    // v21.8 assassin: the Use acts on the first Character of its target list only (Lua GetTargetListTop); objects are ignored.
+    bool top_character_only = false;
+    // v21.8 assassin: Assassination OnSkill_ execution gate, for the top Character. When it is not a boss and its raw Level
+    // (x256) is below the caster's raw Level + 2 (Lua `en_level < level + 2`, both raw), the target is killed with the caster
+    // as killer (Character:Kill) and kill_sound_name plays, with no combat roll. A boss, or a target at or above the bound,
+    // takes a combat roll: boss_class_token for a boss, the row class otherwise.
+    bool execute_below_level = false;
+    const char* boss_class_token = nullptr;
+    const char* kill_sound_name = nullptr;
 };
 
 // The volley that a Use selects. `cursor` counts the Uses already delivered for this actor and skill (it persists across

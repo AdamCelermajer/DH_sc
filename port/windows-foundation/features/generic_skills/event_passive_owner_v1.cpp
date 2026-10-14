@@ -8,8 +8,12 @@ namespace dh::foundation::generic_skills {
 namespace {
 constexpr const char* kFrenzyClass = "Skill_Berserk_KillingFrenzy";
 constexpr const char* kCarrionClass = "Skill_Necromancer_CarrionEater";
+constexpr const char* kContaminateClass = "Skill_Assassin_Contaminate";
+constexpr const char* kSlowDebuffClass = "Debuff_Slow";
+constexpr const char* kSlowDebuffFx = "AUTO_DEBUFF_SLOW";
 constexpr unsigned kSnsLevel = 172;  // CharacterProperties.SnS_Level
-constexpr unsigned kTempProp1 = 190; // CharacterProperties.TempProp1 (CarrionEater heal, raw x256 HP)
+constexpr unsigned kTempProp1 = 190; // CharacterProperties.TempProp1 (CarrionEater heal, raw x256 HP; Contaminate chance %)
+constexpr unsigned kTempProp2 = 191; // CharacterProperties.TempProp2 (Contaminate slow duration, raw x256 ms)
 constexpr unsigned kHp = 36;         // CharacterProperties.HP (raw x256)
 constexpr double kFrenzyResetMs = 1500.0;
 constexpr double kFrenzyMaxMs = 5000.0;
@@ -22,6 +26,8 @@ struct EventPassiveScriptV1 {
 constexpr EventPassiveScriptV1 kEventPassives[] = {
     {"prince_berseeker_killing_frenzy", EventPassiveKindV1::killing_frenzy},
     {"prince_necromancer_carrioneater", EventPassiveKindV1::carrion_eater},
+    {"prince_assassin_contaminate", EventPassiveKindV1::contaminate},
+    {"prince_assassin_blindness", EventPassiveKindV1::blindness_break},
 };
 } // namespace
 
@@ -57,9 +63,64 @@ void RuntimeEventPassiveOwnerV1::bind(CombatSession& session) { session_ = &sess
 
 void RuntimeEventPassiveOwnerV1::on_hit(const CombatResultEventV1& event, ActorId receiver) {
     // The Lua listener runs on every OnTargetHit and checks its own role; the bus delivers both participants.
-    if (receiver != player_ || event.attacker != player_ || !session_) return;
-    if (rank(EventPassiveKindV1::killing_frenzy) > 0) frenzy_hit();
-    if (event.target_died && rank(EventPassiveKindV1::carrion_eater) > 0) carrion_kill();
+    if (receiver != player_ || !session_) return;
+    if (event.attacker == player_) {
+        if (rank(EventPassiveKindV1::killing_frenzy) > 0) frenzy_hit();
+        if (event.target_died && rank(EventPassiveKindV1::carrion_eater) > 0) carrion_kill();
+    }
+    // Contaminate: OnTargetHit with defender == self (the caster is hit by an attacker in melee range).
+    if (event.target == player_ && event.attacker != player_ && rank(EventPassiveKindV1::contaminate) > 0)
+        contaminate_hit(event.attacker);
+    // Blindness: OnTargetHit with attacker == self removes the buff (RemoveBuff + SetIsTargetable(true) through the owner).
+    if (event.attacker == player_ && rank(EventPassiveKindV1::blindness_break) > 0) blindness_break_hit();
+}
+
+// prince_assassin_blindness.luac OnTargetHit_Skill: if slvl > 0 and attacker:GetID() == GetID(): RemoveBuff(BUFF_ID), buff = nil,
+// SetIsTargetable(true). A removal with no live Blindness instance is a no-op in the owner (native PROPS_DelBuff).
+void RuntimeEventPassiveOwnerV1::blindness_break_hit() {
+    std::string error;
+    if (!buffs_->remove_timed_buff(*session_, player_, "Skill_Assassin_Blindness", error))
+        error_ = "Blindness break: " + error;
+}
+
+// prince_assassin_contaminate.luac OnTargetHit(attacker, defender): if defender == self and attacker:TargetInMeleeRange():
+// proc_chance = GetRand(0,100); if proc_chance < SLOW (FromFixed(TempProp1) = 8 + 2 x rank percent) then
+// attacker:CreateBuff(Debuff_Slow, duration, false, slvl, AUTO_DEBUFF_SLOW) + ApplyBuff, duration = FromFixed(TempProp2).
+// The Lua's enemy_proc roll (GetRand(0, Slow_Resist_Chance)) is computed but never used by the authored script.
+void RuntimeEventPassiveOwnerV1::contaminate_hit(ActorId attacker) {
+    auto* world = session_->world();
+    if (!world || !world->original_melee_in_range(attacker, player_)) return;
+    const std::uint32_t level = rank(EventPassiveKindV1::contaminate);
+    const auto found = std::find(classes_->names.begin(), classes_->names.end(), std::string(kContaminateClass));
+    const auto* live = world->combat_properties(player_);
+    if (found == classes_->names.end() || !live) {
+        error_ = "Contaminate class or the player's live sheet is absent";
+        return;
+    }
+    dh2::data::PropertySheet sheet = rules_->defaults;
+    dh2::data::PropertySheet owner = live->sheets.resolved;
+    sheet[kSnsLevel] = owner[kSnsLevel] = std::int32_t(level << 8);
+    std::string error;
+    if (!dh2::data::apply_class(*classes_, std::int32_t(found - classes_->names.begin()), sheet, error, &owner)) {
+        error_ = "Contaminate class evaluation: " + error;
+        return;
+    }
+    const float slow_chance = float(sheet[kTempProp1]) / 256.0f;
+    const float duration_ms = float(sheet[kTempProp2]) / 256.0f;
+    std::uint32_t roll = 0;
+    if (!world->random_uniform(101u, roll, error)) {
+        error_ = "Contaminate proc roll: " + error;
+        return;
+    }
+    if (!(float(roll) < slow_chance)) return;
+    TimedBuffSpecV1 spec;
+    spec.class_name = kSlowDebuffClass;
+    spec.strength = level;
+    spec.duration_ms = duration_ms;
+    spec.capacity = 1;            // CreateBuff(..., false, ...): one instance per class
+    spec.fx_set_name = kSlowDebuffFx;
+    spec.source = "contaminate";
+    if (!buffs_->apply_timed_buff(*session_, attacker, spec, error)) error_ = "Contaminate Debuff_Slow: " + error;
 }
 
 bool RuntimeEventPassiveOwnerV1::frenzy_set_buff(std::uint32_t strength) {

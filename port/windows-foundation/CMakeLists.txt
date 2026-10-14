@@ -1194,7 +1194,7 @@ add_executable(runtime_skill_activation_session_v1_tests
   features/generic_skills/runtime_timed_buff_v1.cpp
   ../level-world/character_path_commands.cpp)
 target_compile_definitions(runtime_skill_activation_session_v1_tests PRIVATE DH_RUNTIME_SKILL_CAST_WARRIOR_ONLY_TEST)
-target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_runtime_skills_menu foundation_data)
+target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_runtime_skills_menu foundation_data foundation_runtime_skill_cast)
 # v21.8 magewire: external owner of ChainLightning / Cyclone / StoneEscape (StoneEscape on a real session; error paths).
 add_executable(mage_skill_owner_v1_tests features/generic_skills/runtime_mage_skill_owner_v1_tests.cpp)
 target_link_libraries(mage_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)

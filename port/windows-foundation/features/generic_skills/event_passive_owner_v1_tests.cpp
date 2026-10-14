@@ -27,7 +27,7 @@ void check(bool value, const std::string& message) {
 dh2::data::Bytes bytes(const std::vector<std::uint8_t>& value) {
     return {value.data(), value.size()};
 }
-constexpr unsigned kWalk = 46, kMaxHp = 38, kSnsLevel = 172, kTempProp1 = 190;
+constexpr unsigned kWalk = 46, kMaxHp = 38, kSnsLevel = 172, kTempProp1 = 190, kTempProp2 = 191;
 }
 
 int main(int argc, char** argv) {
@@ -213,8 +213,38 @@ int main(int argc, char** argv) {
             check(attacker.health == 0.0f, "A dead attacker must not regain HP from leech");
         }
 
+        // ---- F. Blindness break (prince_assassin_blindness.luac OnTargetHit_Skill): the caster's own hit removes the buff ----
+        {
+            CombatResultEventBusV1 bus;
+            RuntimeEventPassiveOwnerV1 passives(buffs, properties.classes, rules, bus, 1);
+            passives.set_rank(EventPassiveKindV1::blindness_break, 15);
+            passives.bind(session);
+            const ActorId player = 1, monster = 2;
+            TimedBuffSpecV1 blind;
+            blind.class_name = "Skill_Assassin_Blindness";
+            blind.strength = 15;
+            blind.duration_ms = 10000.0;
+            blind.capacity = 1;
+            blind.suppress_selection = true;
+            blind.source = "blindness test";
+            std::string blind_error;
+            check(buffs.apply_timed_buff(session, player, blind, blind_error), blind_error);
+            check(buffs.active(player, "Skill_Assassin_Blindness") && session.world()->selection_suppressed(player),
+                  "Blindness must suppress the caster's selection while it runs");
+            // A hit the caster receives does not end Blindness (attacker != self).
+            bus.dispatch({monster, player, 0u});
+            check(buffs.active(player, "Skill_Assassin_Blindness"), "A hit on the caster must not break Blindness");
+            // The caster's own hit ends it: buff removed, selection restored by the owner.
+            bus.dispatch({player, monster, 0u});
+            check(!buffs.active(player, "Skill_Assassin_Blindness") && !session.world()->selection_suppressed(player),
+                  "The caster's own hit must remove Blindness and restore its selection");
+            // No live Blindness: a further own hit is a harmless no-op.
+            bus.dispatch({player, monster, 0u});
+            check(passives.last_error().empty(), "Blindness break with no live buff must be a no-op: " + passives.last_error());
+        }
+
         std::cout << "PASS event_passive_owner_v1: live stat-passive sync from SkillTable ranks (apply, idempotent, rank 0, reload), "
-                     "Killing Frenzy counter/timer/reset on bus hits, Carrion Eater kill heal with clamp\n";
+                     "Killing Frenzy counter/timer/reset on bus hits, Carrion Eater kill heal with clamp, Blindness break on the caster's own hit\n";
         return 0;
     } catch (const std::exception& ex) {
         std::cerr << "FAIL event_passive_owner_v1: " << ex.what() << '\n';

@@ -6,6 +6,8 @@
 #include "runtime_skill_progression_v1.hpp"
 #include "runtime_skill_animation_bank_v1.hpp"
 #include "../status_states/status_states_session_v1.hpp"
+#include "event_passive_owner_v1.hpp"
+#include "combat_result_event_bus_v1.hpp"
 #include "../enemy_ai/runtime_enemy_controller_v1.hpp"
 
 #include "../../asset_catalog.hpp"
@@ -68,6 +70,8 @@ struct RogueSkillFixtureSpecV1 {
     // v21.8 ES-API: authored profile variant for this cast (same name/script), and the presentation+HP+query probe.
     const RuntimeSkillUseProfileV1* profile_override = nullptr;
     bool presentation_probe = false;
+    // v21.8 assassin: Assassination execution gate (Character:Kill below the raw Level bound, otherwise a combat roll).
+    bool execution = false;
 };
 
 void run_rogue_source_slot0_fixture(
@@ -410,6 +414,10 @@ void run_rogue_source_slot0_fixture(
               name + " duration is not the projected authored duration");
         const auto& sheet = session.world()->combat_properties(1)->sheets.resolved;
         check(buff_owner.active(1, buff_class) && buff_owner.active_count(1) == 1, name + " buff is not active after its Use marker");
+        // Blindness SetIsTargetable(false) on the caster: acquisition is suppressed while the buff runs (ES-BUFF split).
+        const bool blindness = name == "Blindness";
+        check(session.world()->selection_suppressed(1) == blindness,
+              name + " selection suppression does not match its authored SetIsTargetable state");
         if (spec.buff_speed_cells) {
             check(sheet[46] == walk_before + 5120 + 384 && sheet[47] == rot_before + 5120 + 384 && sheet[48] == atk_before + 5120 + 384 &&
                   std::fabs(original_speed_modifier(sheet[46]) - 1.215f) < 1e-4f,
@@ -431,8 +439,82 @@ void run_rogue_source_slot0_fixture(
         check(!buff_owner.active(1, buff_class) &&
               (!spec.buff_speed_cells || session.world()->combat_properties(1)->sheets.resolved[46] == walk_before),
               name + " expiry did not remove the buff" + (spec.buff_speed_cells ? " and restore Speed_Modifier_Walk" : ""));
+        check(!session.world()->selection_suppressed(1), name + " expiry did not restore the caster's selection");
         std::cout << "PASS Rogue " << name << ": markers=" << marker_count << " buff duration=" << final->timed_buff_duration_ms
                   << "ms for " << remaining << "ms, no hits, duplicate suppressed, expiry removed the buff\n";
+        session.detach_for_restore();
+        return;
+    }
+    if (spec.execution) {
+        // v21.8 assassin: Assassination OnSkill_ acts on GetTargetListTop only. The branch is recomputed from the live sheets
+        // (raw x256 Level, `en_level < level + 2`, IsBoss = AiProps flags bit 2) and must match what the coordinator did.
+        const std::string name = spec.skill_name;
+        check(marker_count == spec.markers && completion_count == 1 && final &&
+              final->phase == RuntimeSkillCastPhaseV1::completed && !final->target_order.empty() &&
+              session.retained_actor_pose(1) == pose_before_empty,
+              name + " did not complete its Use on a target list (markers=" + std::to_string(marker_count) + ")");
+        const ActorId top = final->target_order.front();
+        const auto* caster_sheet = session.world()->combat_properties(1);
+        const auto* victim_sheet = session.world()->combat_properties(top);
+        check(caster_sheet && victim_sheet, name + " lost its caster or target property owner");
+        const auto* victim_ai = dh2::data::ai_props(*session.original_ai_tables(), victim_sheet->sheets.resolved[1]);
+        const bool victim_boss = victim_ai && (victim_ai->flags & 4u) != 0;
+        const auto victim_level = victim_sheet->sheets.resolved[19];
+        const auto caster_level = caster_sheet->sheets.resolved[19];
+        const bool gate = !victim_boss && victim_level < caster_level + 2;
+        const bool killed = !final->execution_kills.empty();
+        check(killed == gate, name + " execution branch disagrees with the raw Level/boss gate (victim level " +
+              std::to_string(victim_level) + " caster level " + std::to_string(caster_level) + ")");
+        if (killed) {
+            const auto* victim_actor = session.world()->find_actor(top);
+            const auto& kills = session.script_kill_records();
+            check(final->execution_kills.size() == 1 && final->execution_kills.front() == top && final->applied_results.empty() &&
+                  victim_actor && !victim_actor->alive() && !kills.empty() && kills.back().victim == top && kills.back().killer == 1,
+                  name + " kill branch did not kill the top target with the caster as killer and no roll");
+            check(!final->presentation_cues.empty() && final->presentation_cues.back().kind == SkillPresentationCueV1::Kind::sound &&
+                  final->presentation_cues.back().name == "sfx_passive_skill_activate_4",
+                  name + " kill branch did not request its PlaySound cue");
+        } else {
+            check(!final->applied_results.empty() && final->applied_results.front().target == top && final->execution_kills.empty(),
+                  name + " combat-roll branch did not roll the top target");
+        }
+        check(final->mana.mana_spent && final->mana.mana_after < final->mana.mana_before &&
+              session.actor(1)->target_id == invalid_actor_id,
+              name + " did not spend mana and clear its target in Post");
+        std::cout << "PASS Rogue " << name << ": top target " << top << " level=" << victim_level << " caster level=" << caster_level
+                  << " boss=" << (victim_boss ? 1 : 0) << (killed ? " -> kill branch (Character:Kill, killer 1, sound cue)"
+                                                              : " -> combat roll branch") << "\n";
+        // v21.8 assassin: Contaminate (prince_assassin_contaminate.luac) on this live session. The defender-side OnTargetHit
+        // proc applies Debuff_Slow to a melee-range attacker; 8 + 2 x rank percent, duration 1000 + 500 x rank ms (rank 3).
+        {
+            CombatResultEventBusV1 bus;
+            RuntimeEventPassiveOwnerV1 contaminate(buff_owner, properties.classes, property_rules, bus, 1);
+            contaminate.set_rank(EventPassiveKindV1::contaminate, 3);
+            contaminate.bind(session);
+            ActorId attacker = invalid_actor_id;
+            for (const ActorId id : {ActorId(2), ActorId(3)}) {
+                const auto* live = session.world()->find_actor(id);
+                if (id != top && live && live->alive()) attacker = id;
+            }
+            check(attacker != invalid_actor_id, "Contaminate needs a live non-top monster in the Assassination session");
+            session.actor(1)->transform.position = {0, 0, 0};
+            session.actor(attacker)->transform.position = {0.5f, 0, 0};
+            check(session.world()->original_melee_in_range(attacker, 1), "Contaminate attacker must be in strict melee range");
+            int procs = 0;
+            for (int i = 0; i < 300; ++i) {
+                bus.dispatch({attacker, 1, 0u});
+                if (buff_owner.active(attacker, "Debuff_Slow")) {
+                    ++procs;
+                    std::string remove_error;
+                    check(buff_owner.remaining_ms(attacker, "Debuff_Slow") <= 2500.5 &&
+                          buff_owner.active_count(attacker) == 1, "Debuff_Slow must hold one instance of TempProp2 duration");
+                    check(buff_owner.remove_timed_buff(session, attacker, "Debuff_Slow", remove_error), remove_error);
+                }
+            }
+            check(procs >= 15 && procs <= 80, "Contaminate proc count " + std::to_string(procs) + " is outside the 14% band");
+            std::cout << "PASS Rogue Contaminate (rank 3, live melee attacker " << attacker << "): " << procs
+                      << " procs in 300 hits, Debuff_Slow applied on the attacker only\n";
+        }
         session.detach_for_restore();
         return;
     }
@@ -885,6 +967,13 @@ int main(int argc, char** argv) {
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"Figments", "prince_illusionist_figments", "Skill_Illusionist_Figments", 417, 1, 18, true, true, false, 1,
              false, "MagePlayerBase_Illusionist", "", 0.0, false, "MagePlayerBase_Illusionist", "_default_mage-mesh-skin", false, true});
+        // v21.8 assassin: Assassination (level 21 row, anim root 517): OnPre query + cooldown, OnSkill_ execution gate on the top
+        // Character (kill below the raw Level bound, else a combat roll with the BOSS_CLASS for bosses). Post ClearTarget.
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"Assassination", "prince_assassin_assassination", "Skill_Assassin_Assassination", 517, 1, 21, true, true, false, 1,
+             false, "RoguePlayerBase_Assassin", "Skill_Assassin_Assassination", 0.0, false, "RoguePlayerBase_Assassin",
+             "_default_rogue-mesh-skin", true, false, nullptr, false, true});
         // One-hand dual-wield paths: only the equipped hand hits (main: row mask; off: mask|0x4000000), once per target.
         for (const bool main_only : {true, false}) {
             run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,

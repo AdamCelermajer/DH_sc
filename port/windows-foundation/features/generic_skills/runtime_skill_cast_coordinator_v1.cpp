@@ -6,6 +6,7 @@
 #include "../../playable_actor_world.hpp"
 #include "../../original_combat_properties.hpp"
 #include "../../retained_animation_owner.hpp"
+#include "../../../game-data/ai.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -131,6 +132,17 @@ CombatSessionStateAnimationServices source_sequence_services(
         return !existing.checkpoint || existing.checkpoint(error);
     };
     return services;
+}
+
+// IsBoss of a Character (native Character::IsBoss 0x3a3158 = CharAI+20 bit 2). Read from the AiProps row the actor's
+// AI id selects (sheet cell 1), the same source the status-state boss gate uses. Actors without a CharAI row are not bosses.
+bool actor_is_boss_v1(const CombatSession& session, ActorId actor) {
+    const auto* world = session.world();
+    const auto* props = world ? world->combat_properties(actor) : nullptr;
+    const auto* tables = session.original_ai_tables();
+    if (!props || !tables) return false;
+    const auto* ai = dh2::data::ai_props(*tables, props->sheets.resolved[1]);
+    return ai && (ai->flags & 4u) != 0;
 }
 
 bool source_supported_skill(const dh2::data::SkillTables::Borrow& tables,
@@ -1220,6 +1232,9 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         if (use_targets.ordered_character_targets.size() > 1) use_targets.ordered_character_targets.resize(1);
         if (use_targets.ordered_targets.size() > 1) use_targets.ordered_targets.resize(1);
     }
+    // v21.8 assassin: GetTargetListTop (Assassination): only the first Character is acted on.
+    if (profile.top_character_only && use_targets.ordered_character_targets.size() > 1)
+        use_targets.ordered_character_targets.resize(1);
     active.receipt.target_order = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
     const auto* use_class = active.class_token.c_str();
     if (profile.shield_variant && current->facts.shield)
@@ -1269,6 +1284,7 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         spec.strength = rank;
         spec.duration_ms = duration_ms;
         spec.source = active.receipt.skill_name;
+        spec.suppress_selection = profile.buff->suppress_selection;
         std::string buff_error;
         if (!active.timed_buffs->apply_timed_buff(session, actor_id, spec, buff_error)) {
             active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
@@ -1352,9 +1368,54 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     std::uint32_t event_index = active.next_event_index;
     // Legacy Character-only callers retain their exact target order.
     const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
+    // v21.8 assassin: formula sheet of this target's roll (the row class, or BOSS_CLASS for a boss under the execution gate).
+    const dh2::data::PropertySheet* roll_formula = &active.formula_sheet;
+    dh2::data::PropertySheet boss_formula{};
+    std::size_t execution_top_seen = 0;
     for (const auto target : ordered) {
         // v21.8 skills-knight: rows with rolls_combat=false (auras, Warcry) run their Use without any SkillCombatRoll.
         if (!profile.rolls_combat) break;
+        if (profile.execute_below_level) {
+            // Assassination OnSkill_: GetTargetListTop over Characters; objects are not handled by the Lua.
+            if (session.world()->find_object(target)) continue;
+            if (execution_top_seen++ != 0) break;
+            const auto* victim = session.world()->combat_properties(target);
+            const auto* caster_props = session.world()->combat_properties(actor_id);
+            if (!victim || !caster_props) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source execution gate lost its Level property owner after committed OnPre";
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            const bool boss = actor_is_boss_v1(session, target);
+            // Raw x256 compare, as the Lua: en_level < level + 2 (both GetProp values, no unit conversion).
+            if (!boss && victim->sheets.resolved[19] < caster_props->sheets.resolved[19] + 2) {
+                if (!session.script_kill_actor(target, actor_id, error)) {
+                    active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                    active.receipt.detail = "Source Character:Kill failed after committed OnPre";
+                    output = active.receipt;
+                    return false;
+                }
+                if (profile.kill_sound_name)
+                    active.receipt.presentation_cues.push_back({SkillPresentationCueV1::Kind::sound, profile.kill_sound_name, invalid_actor_id});
+                active.receipt.execution_kills.push_back(target);
+                continue;
+            }
+            roll_formula = &active.formula_sheet;
+            if (boss) {
+                double ignored_cooldown = 0.0, ignored_range = 0.0, ignored_range_growth = 0.0;
+                if (!profile.boss_class_token || !source_skill_class_projection(*active.characters, *active.classes,
+                        *active.property_rules, current->sheets.resolved, profile.boss_class_token,
+                        active.receipt.mana.skill.saved_rank, boss_formula,
+                        ignored_cooldown, ignored_range, ignored_range_growth, error)) {
+                    active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                    active.receipt.detail = "Source BOSS_CLASS ApplyPropClass failed after committed OnPre prefix";
+                    output = active.receipt;
+                    return false;
+                }
+                roll_formula = &boss_formula;
+            }
+        }
         if (session.world()->find_object(target)) {
             // Authored loops that guard SkillCombatRoll with IsCharacter() pop the object and skip it.
             if (!profile.rolls_objects) continue;
@@ -1392,7 +1453,7 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             hit.category = current->facts.main_damage_class;
             hit.element = active.element;
             hit.direct_amount = 0;
-            hit.attacker_formula_sheet = &active.formula_sheet;
+            hit.attacker_formula_sheet = roll_formula;
             DamageEvent result;
             if (!session.apply_source_result(hit, result, error)) {
                 active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
@@ -1417,6 +1478,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
     active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;
     active.receipt.detail = !active.receipt.delivered_object_interactions.empty()
         ? "Authored source skill Use delivered typed object Interact and its ordered Character result subset"
+        : !active.receipt.execution_kills.empty()
+        ? "Authored source skill Use executed the top Character (Character:Kill, caster as killer); no roll"
         : active.receipt.applied_results.empty()
         ? "Authored source skill Use completed with an empty target list"
         : "Authored source skill Use applied the ordered Character SkillCombatRoll result loop";

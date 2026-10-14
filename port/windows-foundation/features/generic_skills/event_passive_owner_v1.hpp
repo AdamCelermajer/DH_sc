@@ -23,7 +23,9 @@
 
 namespace dh::foundation::generic_skills {
 
-enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater };
+// blindness_break is not a passive: it is the Blindness OnTargetHit listener (prince_assassin_blindness.luac), which removes
+// the Blindness buff when the caster itself lands a hit. Its rank is the skill rank (slvl > 0 in the Lua).
+enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, contaminate, blindness_break };
 
 // SkillTable script name -> event passive kind (kept next to the implemented scripts only).
 EventPassiveKindV1 event_passive_kind_for_script_v1(std::string_view script);
@@ -54,6 +56,8 @@ private:
     void frenzy_hit();
     bool frenzy_set_buff(std::uint32_t strength);
     void carrion_kill();
+    void contaminate_hit(ActorId attacker);
+    void blindness_break_hit();
 
     TimedBuffSinkV1* buffs_;
     const dh2::data::ClassTables* classes_;
