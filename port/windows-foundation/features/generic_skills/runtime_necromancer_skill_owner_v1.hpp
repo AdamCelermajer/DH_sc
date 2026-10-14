@@ -39,6 +39,11 @@ struct RuntimeNecromancerSkillServicesV1 {
     // Presentation (AnimatedEffectTable name at a point / PlaySound by name). Failures are diagnostics only.
     std::function<bool(const std::string& effect, const std::array<float, 3>& position, std::string& error)> play_effect;
     std::function<bool(const std::string& sound, std::string& error)> play_sound;
+    // v21.8 w4-rise: Rise summon. `summon` = Summon(CharacterTable row, spawn=false, x, y, z) through the spawn-pool owner
+    // (returns the new actor), `despawn` = Kill + UNLOCK of a summon, `is_dead` = IsDead() (absent actor = dead).
+    std::function<bool(const std::string& character, const std::array<float, 3>& position, ActorId& actor, std::string& error)> summon;
+    std::function<bool(ActorId actor, std::string& error)> despawn;
+    std::function<bool(ActorId actor)> is_dead;
     std::function<void(const std::string& line)> trace;
 };
 
@@ -51,13 +56,20 @@ public:
     bool use(CombatSession&, const RuntimeSkillExternalContextV1&, std::string& error) override;
     // Gameplay clock: the FireSkullRain tick loop, the Pestilence death-watch loop and the infection removal timers.
     bool advance(CombatSession&, double dt_ms, std::string& error) override;
-    // Rise's OnSkillCleanUp (KillAllSummoned + counters). Nothing is summoned in the port, so only the landing state drops.
+    // Rise's OnSkillCleanUp (KillAllSummoned + counters): every live risen is killed and its timer stopped.
     void cleanup(CombatSession&, ActorId actor) override;
     void reset() override;
 
     std::size_t active_fire_skull_rains() const noexcept { return fire_rains_.size(); }
     std::size_t infected_victims() const noexcept { return infected_.size(); }
     bool rise_landing_known(ActorId caster) const;
+    // Test seam (unit tests only): the landing the TeleportTool delayed callback records for the caster.
+    void set_rise_landing_for_test(ActorId caster, const std::array<float, 3>& at) { rise_landing_[caster] = at; }
+    std::size_t rise_live_summons() const noexcept {
+        std::size_t live = 0;
+        for (const auto& slot : rise_slots_) live += slot.actor != invalid_actor_id ? 1u : 0u;
+        return live;
+    }
 
     // Shared per-cast facts the authored bodies read (Use-time ApplyPropClass sheet, population, target facts).
     struct CastSnapshot;
@@ -81,6 +93,16 @@ private:
     std::map<ActorId, std::shared_ptr<Victim>> infected_;   // keyed by victim, tracking order = map order
     RuntimeSkillDeathWatchV1 death_watch_;
     std::map<ActorId, std::array<float, 3>> rise_landing_;  // Rise: landing position per caster for the current Use
+    // v21.8 w4-rise: Rise's three summon slots (Lua RISEN[1..3]): the actor, its spawn counter (oldest = lowest) and the
+    // one-shot expiry timer (bufftime) that kills and unlocks it.
+    struct RiseSlot {
+        ActorId actor = invalid_actor_id;
+        std::uint64_t order = 0;
+        RuntimeSkillTimerIdV1 timer = 0;
+    };
+    std::array<RiseSlot, 3> rise_slots_{};
+    std::uint64_t rise_spawn_counter_ = 0;
+    bool rise_release(std::size_t slot, std::string& error);
     RuntimeSkillTimerServiceV1 timers_;
     RuntimeSkillTimerIdV1 pestilence_poll_timer_ = 0;
     CombatSession* timer_session_ = nullptr;

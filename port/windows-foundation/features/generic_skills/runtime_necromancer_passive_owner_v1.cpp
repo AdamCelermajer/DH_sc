@@ -14,6 +14,7 @@ constexpr double kWrathThresholdPct = 40.0; // PCT_VALUE
 constexpr unsigned kSnsLevel = 172;         // CharacterProperties.SnS_Level
 constexpr unsigned kTempProp1 = 190;        // CharacterProperties.TempProp1 (Putrid chance, percent x256)
 constexpr unsigned kTempProp2 = 191;        // CharacterProperties.TempProp2 (Putrid DoT duration, ms x256)
+constexpr unsigned kDotTickNormalRawIndex = 126; // CharacterProperties.Dot_Tick_Damage_Normal (x256, PROPS_AddDot tick)
 constexpr std::uint64_t kOwnerWrath = 1;    // timer owner key of the Wrath loop
 
 struct NecromancerPassiveScriptV1 {
@@ -138,13 +139,16 @@ void RuntimeNecromancerPassiveOwnerV1::putrid_hit(const CombatResultEventV1& eve
     const auto* attacker = session_->actor(event.attacker);
     const auto* player = session_->actor(player_);
     if (!attacker || !player || !attacker->alive()) return;
-    // TargetInMeleeRange: INFERENCE. The native gate (Character::_TargetInMeleeRange 0x3b7020) is not read here; the port
-    // uses the attacker's target radius as the reach, which is the same radius the Session uses for melee searches.
+    // Lua attacker:TargetInMeleeRange() = CharAI::AI_IsInMeleeRange (IDA 0x3d6188, the nil-argument branch): the 3D distance
+    // between the attacker and its target (the player) against (attacker MeleeRadius + target MeleeRadius)^2. The port's
+    // melee_reach() is the AI MeleeRadius of each actor, so the reach is the sum of both (v21.8 w4-rise: the attacker's
+    // radius alone rejected every landed hit in the real run).
     const auto* world = session_->world();
-    const float reach = world ? world->target_radius(*attacker) : 0.0f;
+    const float reach = world ? world->target_radius(*attacker) + world->target_radius(*player) : 0.0f;
     const float dx = attacker->transform.position[0] - player->transform.position[0];
     const float dy = attacker->transform.position[1] - player->transform.position[1];
-    if (std::hypot(dx, dy) > reach) return;
+    const float dz = attacker->transform.position[2] - player->transform.position[2];
+    if (std::sqrt(dx * dx + dy * dy + dz * dz) > reach) return;
     dh2::data::PropertySheet sheet{};
     std::string error;
     if (!class_sheet(level, kPutridClass, sheet, error)) {
@@ -169,6 +173,12 @@ void RuntimeNecromancerPassiveOwnerV1::putrid_hit(const CombatResultEventV1& eve
         return;
     }
     ++putrid_applied_;
+    // v21.8 w4-rise: the buff's class sheet carries the DoT tick (Dot_Tick_Damage_Normal, prop 126, x256). The original
+    // applies it through PROPS_AddDot (buff dot_normal, duration = the buff's, tick = prop 126); the DoT owner ticks it.
+    // Killer = the player (the Necromancer owns the passive). The tick is a plain applied hit, so it never re-procs Putrid.
+    const double tick_hp = static_cast<double>(sheet[kDotTickNormalRawIndex]) / 256.0;
+    if (session_->add_dot_v1(player_, event.attacker, duration_ms, tick_hp)) ++putrid_dots_;
+    else error_ = "Putrid DoT: refused (duration or tick not positive)";
 }
 
 // ----- sync --------------------------------------------------------------------------------------------------------

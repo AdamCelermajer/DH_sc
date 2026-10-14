@@ -37,6 +37,17 @@ class CombatResultEventBusV1 {
 public:
     using Listener = std::function<void(const CombatResultEventV1&, ActorId receiver)>;
 
+    // v21.8 w4-rise: the Session's player is addressed by invalid_actor_id (the combat logs print it as
+    // 18446744073709551615), so an invalid ID is a receiver only once the player identity is declared; before that it
+    // means "no actor" and is refused. Before this fix every player listener subscribed and was silently dropped.
+    void set_player_identity(ActorId player) noexcept {
+        player_identity_ = player;
+        has_player_identity_ = true;
+    }
+    bool accepts_receiver(ActorId receiver) const noexcept {
+        return receiver != invalid_actor_id || (has_player_identity_ && receiver == player_identity_);
+    }
+
     // Registers a listener on the receiver's AI for one callback (kCombatCallbackTargetHitV1 or ...MissedV1). `key`
     // labels the owning skill. Returns a token for unsubscribe. Returns 0 for an invalid receiver or callback.
     std::uint64_t subscribe(ActorId receiver, std::uint32_t callback_flag, std::string key, Listener listener);
@@ -61,6 +72,8 @@ private:
         Listener listener;
     };
     std::vector<Entry> entries_;
+    ActorId player_identity_ = invalid_actor_id;
+    bool has_player_identity_ = false;
     std::uint64_t next_token_ = 1;
 };
 

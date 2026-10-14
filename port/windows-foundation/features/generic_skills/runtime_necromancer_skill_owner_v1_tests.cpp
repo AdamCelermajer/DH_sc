@@ -324,6 +324,7 @@ int main(int argc, char** argv) {
         check(passives.putrid_procs() > 0 && putrid_applied == passives.putrid_applied() && putrid_applied > 0,
               "Putrid did not proc on defender-side hits");
         check(passives.putrid_procs() < 400, "Putrid procs on every hit");
+        check(passives.putrid_dots() == putrid_applied, "Putrid buff did not queue its DoT in the DoT owner");
         for (std::size_t i = before; i < buffs.applied.size(); ++i)
             check(buffs.applied[i].class_name == "Skill_Necromancer_Putrid" && buffs.applied[i].actor == 3 &&
                   buffs.applied[i].duration_ms > 0.0, "Putrid buff is not on the attacker with the TempProp2 duration");
@@ -335,6 +336,72 @@ int main(int argc, char** argv) {
         bus.dispatch(own);
         check(passives.putrid_procs() == procs, "Putrid listened to an outgoing hit");
         std::cout << "Putrid: " << passives.putrid_procs() << " procs in 400 defender-side hits, buff on the attacker\n";
+
+        // ---- B4. Rise summon (w4-rise): three slots, one-shot lifetime timers, oldest force-kill, dead reuse, cleanup ------
+        {
+            std::vector<ActorId> summoned, despawned, dead;
+            ActorId next_actor = 100;
+            RuntimeNecromancerSkillServicesV1 riser_services;
+            riser_services.summon = [&](const std::string& character, const std::array<float, 3>&, ActorId& actor, std::string& err) {
+                if (character != "RisenZombie") { err = "unexpected summon " + character; return false; }
+                actor = next_actor++;
+                summoned.push_back(actor);
+                return true;
+            };
+            riser_services.despawn = [&](ActorId actor, std::string&) { despawned.push_back(actor); return true; };
+            riser_services.is_dead = [&](ActorId actor) { return std::find(dead.begin(), dead.end(), actor) != dead.end(); };
+            riser_services.trace = [](const std::string&) {};
+            RuntimeNecromancerSkillOwnerV1 riser(riser_services);
+            dh2::data::PropertySheet rise_sheet{};
+            rise_sheet[176] = 9000 * 256;  // SnS_Duration = 9000 ms (x256)
+            RuntimeSkillExternalContextV1 rc = context;
+            rc.profile = rise;
+            rc.skill_name = "Rise";
+            rc.caster = 1;
+            rc.formula_sheet = &rise_sheet;
+            std::string re;
+            riser.set_rise_landing_for_test(1, {10.0f, 20.0f, 30.0f});
+            check(riser.use(session, rc, re) && riser.rise_live_summons() == 1, "Rise did not summon into slot 1: " + re);
+            check(riser.use(session, rc, re) && riser.rise_live_summons() == 2, "Rise did not summon into slot 2: " + re);
+            check(riser.use(session, rc, re) && riser.rise_live_summons() == 3, "Rise did not summon into slot 3: " + re);
+            check(summoned == std::vector<ActorId>({100, 101, 102}), "Rise summon order differs");
+            // checkslot() == -1 (three alive): ForceKillAndSpawnNew kills the oldest (slot 1, actor 100) and spawns into it.
+            check(riser.use(session, rc, re), "Rise force-kill summon failed: " + re);
+            check(despawned == std::vector<ActorId>({100}) && summoned.back() == 103 && riser.rise_live_summons() == 3,
+                  "Rise ForceKillAndSpawnNew did not replace the oldest summon");
+            // checkslot() frees a dead summon (no Kill call for a dead actor) and reuses its slot.
+            dead.push_back(102);
+            check(riser.use(session, rc, re) && summoned.back() == 104 && despawned.size() == 1,
+                  "Rise did not reuse the slot of a dead summon: " + re);
+            // Lifetime: every one-shot timer is SnS_Duration = 9000 ms; nothing expires before it, all expire at it.
+            std::string te;
+            check(riser.advance(session, 8999.0, te) && despawned.size() == 1, "Rise summon expired before SnS_Duration: " + te);
+            check(riser.advance(session, 2.0, te) && despawned.size() == 4 && riser.rise_live_summons() == 0,
+                  "Rise summons did not expire at SnS_Duration: " + te);
+            // OnSkillCleanUp (KillAllSummoned): a cleanup kills every live summon and stops its timer.
+            for (int i = 0; i < 2; ++i) check(riser.use(session, rc, re), "Rise summon before cleanup failed: " + re);
+            riser.cleanup(session, 1);
+            check(riser.rise_live_summons() == 0 && despawned.size() == 6, "Rise cleanup did not kill the live summons");
+            check(riser.advance(session, 10000.0, te) && despawned.size() == 6, "Rise cleanup left a timer running");
+            std::cout << "Rise: 3 slots, force-kill of the oldest, dead slot reused, 9000 ms expiry, cleanup kills live summons\n";
+        }
+
+        // v21.8 w4-rise: the Session player is invalid_actor_id; the bus delivers to it only once the identity is declared.
+        {
+            CombatResultEventBusV1 player_bus;
+            player_bus.set_player_identity(invalid_actor_id);
+            int delivered = 0;
+            const auto token = player_bus.subscribe(invalid_actor_id, kCombatCallbackTargetHitV1, "probe",
+                [&](const CombatResultEventV1&, ActorId) { ++delivered; });
+            CombatResultEventV1 hit;
+            hit.attacker = 7;
+            hit.target = invalid_actor_id;
+            player_bus.dispatch(hit);
+            check(token != 0 && delivered == 1, "Bus did not deliver a monster hit to the declared player identity");
+            CombatResultEventBusV1 undeclared_bus;
+            check(undeclared_bus.subscribe(invalid_actor_id, kCombatCallbackTargetHitV1, "probe",
+                [](const CombatResultEventV1&, ActorId) {}) == 0, "Bus accepted an undeclared invalid receiver");
+        }
 
         std::cout << "necromancer_skill_owner_v1 passed\n";
         return 0;

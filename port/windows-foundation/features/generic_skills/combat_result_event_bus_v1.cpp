@@ -6,7 +6,7 @@ namespace dh::foundation::generic_skills {
 
 std::uint64_t CombatResultEventBusV1::subscribe(ActorId receiver, std::uint32_t callback_flag, std::string key,
                                                 Listener listener) {
-    if (receiver == invalid_actor_id || !listener) return 0;
+    if (!accepts_receiver(receiver) || !listener) return 0;
     if (callback_flag != kCombatCallbackTargetHitV1 && callback_flag != kCombatCallbackTargetMissedV1) return 0;
     Entry entry;
     entry.token = next_token_++;
@@ -55,7 +55,7 @@ std::size_t CombatResultEventBusV1::dispatch(const CombatResultEventV1& event) {
     const std::uint32_t wanted = missed ? kCombatCallbackTargetMissedV1 : kCombatCallbackTargetHitV1;
     for (std::size_t r = 0; r < 2; ++r) {
         const ActorId receiver = receivers[r];
-        if (receiver == invalid_actor_id) continue;
+        if (!accepts_receiver(receiver)) continue;
         // Native: each receiver's own flag word selects the callback; the Lua proxy runs its listeners in order.
         // Copy the matching listeners first so a listener may unsubscribe while the list is walked.
         std::vector<Listener> matching;

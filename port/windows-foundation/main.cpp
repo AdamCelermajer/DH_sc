@@ -2022,6 +2022,8 @@ int main(int argc,char** argv) {
             // P16 CONTAINERS2 (T6): Summon targets of this level's OnOpen contracts reserve pool slots like --spawn-test names.
             std::vector<std::string> spawnNames;
             for(const auto& test:options.spawnTests)spawnNames.push_back(test.name);
+            // v21.8 w4-rise: Rise summons RisenZombie (three live at once, Lua RISEN[1..3]); a Necromancer reserves its slots.
+            if((frontendStarted?state.class_id:options.combat.playerProfileId)=="MagePlayerBase_Necromancer"&&std::find(spawnNames.begin(),spawnNames.end(),"RisenZombie")==spawnNames.end())spawnNames.push_back("RisenZombie");
             for(const auto& view:containerRuntime.views())if(view.instance&&!view.instance->script.empty()){
                 std::string openSource,openError;
                 if(!read_authored_script_text(assets,"data/scripts/objects/"+view.instance->script+".luac",openSource,openError)){std::cout<<"Container OnOpen script="<<view.instance->script<<" status=no_authored_source detail="<<openError<<'\n';continue;}
@@ -2035,6 +2037,8 @@ int main(int argc,char** argv) {
                 f::ActorCustomization spawnCustomization;spawnCustomization.allow_missing_animation_targets=true;spawnCustomization.use_authored_modular_defaults=true;
                 const auto hostLevelRaw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
                 const std::uint32_t spawnSlotsPerProfile=2;
+                // v21.8 w4-rise: RisenZombie keeps three live summons (Rise); every other profile keeps two.
+                const auto spawnSlotsFor=[&](const std::string& id)->std::uint32_t{return id=="RisenZombie"?3u:spawnSlotsPerProfile;};
                 std::set<std::string> reservedProfiles;
                 for(const auto& testName:spawnNames) {
                     std::vector<std::string> candidates;
@@ -2072,17 +2076,17 @@ int main(int argc,char** argv) {
                         std::int32_t level=-1;
                         if(!f::spawn::spawn_level_raw_v1(properties.characters,profileId,hostLevelRaw,level,error))throw std::runtime_error("Spawn level: "+error);
                         if(level>=0)policy->second.propertyOptions.level_raw=level;
-                        if(!spawnPool.reserve(profileId,spawnSlotsPerProfile,level,error))throw std::runtime_error("Spawn pool: "+error);
+                        if(!spawnPool.reserve(profileId,spawnSlotsFor(profileId),level,error))throw std::runtime_error("Spawn pool: "+error);
                         const auto declared=spawnPool.declarations(options.level.generic_string());
                         bool admittedSlots=true;
-                        for(std::size_t i=declared.size()-spawnSlotsPerProfile;i<declared.size()&&admittedSlots;++i)
+                        for(std::size_t i=declared.size()-spawnSlotsFor(profileId);i<declared.size()&&admittedSlots;++i)
                             if(!population.admit_declared(assets,declared[i],*profile,f::PopulationDecision::deferred,spawnCustomization,error))admittedSlots=false;
                         if(!admittedSlots) { // P16 DESPAWN glue: an unadmittable profile is refused with its reason (logged), not a startup failure
                             spawnProfileRefusals[profileId]=error;
                             std::cout<<"SPAWN admission refused profile="<<profileId<<" reason="<<error<<'\n';
                             continue;
                         }
-                        std::cout<<"SPAWN pool profile="<<profileId<<" slots="<<spawnSlotsPerProfile<<" level_raw="<<level<<'\n';
+                        std::cout<<"SPAWN pool profile="<<profileId<<" slots="<<spawnSlotsFor(profileId)<<" level_raw="<<level<<'\n';
                     }
                 }
             }
@@ -8771,6 +8775,20 @@ int main(int argc,char** argv) {
                                     if(!runtimeAudio){e="no audio runtime";return false;}
                                     return runtimeAudio->play_named_plain(name.c_str(),e);
                                 };
+                                // v21.8 w4-rise: Rise's Summon(RisenZombie, spawn=false, x, y, z) through the spawn-pool owner (the
+                                // same owner as --spawn-test and container Summon), its Kill + UNLOCK, and IsDead (absent = dead).
+                                necroServices.summon=[&](const std::string& character,const std::array<float,3>& at,f::ActorId& actor,std::string& e)->bool {
+                                    f::spawn::SpawnRequestV1 request;request.name=character;request.position=at;request.heading_radians=0;
+                                    request.clip=f::spawn::SpawnClipPolicy::none;
+                                    request.host_level_raw=frontendStarted?std::int32_t(state.stats.level*256):actorProperties.level_raw;
+                                    f::spawn::SpawnResultV1 result;
+                                    if(!f::spawn::spawn_character_v1(spawnPool,request,makeSpawnServices(),result,e))return false;
+                                    actor=result.actor;return true;};
+                                necroServices.despawn=[&](f::ActorId actor,std::string& e)->bool {
+                                    return f::spawn::despawn_character_v1(spawnPool,actor,makeSpawnServices(),e);};
+                                necroServices.is_dead=[&](f::ActorId actor)->bool {
+                                    const auto* live=combatSession?combatSession->actor(actor):nullptr;
+                                    return !live||live->is_dead();};
                                 necroServices.trace=[&](const std::string& line){std::cout<<line<<'\n';};
                                 necromancerSkillOwner=std::make_unique<f::generic_skills::RuntimeNecromancerSkillOwnerV1>(std::move(necroServices));
                                 skillOwnerRegistry.add(necromancerSkillOwner.get());
@@ -9111,6 +9129,7 @@ int main(int argc,char** argv) {
                         ensureTimedBuffOwner();
                         passiveEvents.reset();necroPassives.reset();archerPassives.reset();passiveOwner.reset();passivePendingHits.clear();
                         passiveBus=std::make_unique<f::generic_skills::CombatResultEventBusV1>();
+                        passiveBus->set_player_identity(combatSession->player_id()); // v21.8 w4-rise: the player is invalid_actor_id in this Session
                         passiveOwner=std::make_unique<f::generic_skills::RuntimePassiveSkillOwnerV1>(*timedBuffs);
                         passiveEvents=std::make_unique<f::generic_skills::RuntimeEventPassiveOwnerV1>(
                             *timedBuffs,properties.classes,menuSkillPropertyRules,*passiveBus,combatSession->player_id());

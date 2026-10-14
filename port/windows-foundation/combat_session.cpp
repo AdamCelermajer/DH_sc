@@ -2025,6 +2025,13 @@ void CombatSession::set_combat_result_observer(CombatResultObserver observer){
 bool CombatSession::has_combat_result_observer() const noexcept{
     return impl_&&bool(impl_->combatResultObserver);
 }
+// v21.8 w4-rise: PROPS_AddDot (see combat_session.hpp). Non-positive duration or tick is refused like F_ApplyResult's tail.
+bool CombatSession::add_dot_v1(ActorId attacker,ActorId target,double duration_ms,double tick_hp){
+    if(!impl_||target==invalid_actor_id||!(duration_ms>0.0)||!(tick_hp>0.0))return false;
+    impl_->dots.add(attacker,target,status_effects::kDotNormalElement,duration_ms,tick_hp);
+    std::cout<<"DoT added (buff) attacker="<<attacker<<" target="<<target<<" durationMs="<<duration_ms<<" tickHp="<<tick_hp<<"\n";
+    return true;
+}
 void CombatSession::set_status_outcome_observer(StatusOutcomeObserver observer){
     if(impl_)impl_->statusOutcomeObserver=std::move(observer);
 }
