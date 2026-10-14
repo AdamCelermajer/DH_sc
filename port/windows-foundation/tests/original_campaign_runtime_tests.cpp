@@ -1,4 +1,5 @@
 #include "../original_campaign_runtime.hpp"
+#include <algorithm>
 #include <iostream>
 #include <stdexcept>
 using namespace dh::foundation;

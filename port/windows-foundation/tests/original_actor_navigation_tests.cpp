@@ -1,4 +1,5 @@
 #include "../original_actor_navigation.hpp"
+#include <algorithm>
 #include "../source_module_floors.hpp"
 #include "../source_root_scopes.hpp"
 #include "../source_world_objects.hpp"
