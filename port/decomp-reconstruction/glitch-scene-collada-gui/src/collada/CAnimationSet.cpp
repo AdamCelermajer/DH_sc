@@ -476,6 +476,46 @@ void CDynamicAnimationSet::setDefaultAnimationLibrary(unsigned index) {
     dirty = true;
 }
 
+// 0x62ee9c _ZN6glitch7collada20CDynamicAnimationSet27addAnimationLibraryBindingsERKNS0_16CColladaDatabaseE
+// Appends the bindings of one more library. The database joins +0x24, the library's window joins starts (+0x40),
+// ends (+0x4c) and lengths (+0x58), and one SBinding per owned channel is appended to bindings (+0x30) and filled
+// exactly as CompileInternal fills the whole set: kind 2 + the animation when the database has a blendable
+// animation for the channel, else kind 1 + the channel's default value, falling back to the default library's
+// own value and then to zero when neither the database nor the default library has one.
+//
+// The original walks the containers through out-of-line STLport helpers rather than member calls, which is what
+// made this row look impenetrable: it computes the old binding count as (bindings.end - bindings.begin) / 12,
+// adds the channel count, and reserve()s then resize()s bindings to that total; starts, ends and lengths each get
+// exactly one new element (one per library, not per channel), taken from the library's tables() range.
+void CDynamicAnimationSet::addAnimationLibraryBindings(const CColladaDatabase& database) {
+    databases.push_back(database);  // takes the record's use, as the original's push_back does
+
+    const SDatabaseTables& tables = database.tables();
+    starts.push_back(tables.animationStart);   // 0x62eecc: *(holder + 28)
+    ends.push_back(tables.animationEnd);       // 0x62ef00: *(holder + 32)
+    lengths.push_back(tables.animationEnd - tables.animationStart);
+
+    const std::size_t oldBindingCount = bindings.size();
+    bindings.reserve(oldBindingCount + ownedChannels.size());   // reserve, then resize to the same total
+    bindings.resize(oldBindingCount + ownedChannels.size(), SBinding());
+
+    for (std::size_t i = 0; i < ownedChannels.size(); ++i) {
+        const SChannel* channel = getChannel(static_cast<unsigned>(i));   // vptr+0x18: ownedChannels + index
+        SBinding& binding = bindings[oldBindingCount + i];
+        SAnimation* blendable = database.getBlendableAnimation(channel);
+        void* defaultValue = nullptr;
+        const bool hasDefault = database.getDefaultValue(channel, &defaultValue);
+        binding.kind = blendable != nullptr ? 2u : 1u;
+        binding.defaultValue = defaultValue;
+        binding.animation = blendable;
+        if (blendable == nullptr && !hasDefault) {
+            // Neither this database nor the default library can supply a value: the binding keeps none.
+            void* fallback = nullptr;
+            binding.defaultValue = defaultLibrary.getDefaultValue(channel, &fallback) ? fallback : nullptr;
+        }
+    }
+}
+
 // 0x62fc58 _ZN6glitch7collada20CDynamicAnimationSet8clearSetEv
 void CDynamicAnimationSet::clearSet() {
     for (CColladaDatabase& database : databases) {

@@ -6,9 +6,9 @@ Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals:
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,497 | 69.4% |
+| reconstructed | 17,498 | 69.4% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
-| partial | 1,618 | 6.4% |
+| partial | 1,617 | 6.4% |
 | skipped | 2,119 | 8.4% |
 
 Every queued row now has a ledger row (the last G1b rows are in).
@@ -76,8 +76,8 @@ At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 r
   marks them `extern`. `point_compare`/`dct_iv_slow` collided because stb_vorbis's file-local
   helpers lacked internal linkage and clashed with the reconstructed originals in
   `core-platform/src/vorbis_util.cpp` (0x8764f8, 0x8784f4).
-- Remaining undefined symbols in the whole tree: 181 (85 with no ledger status, 82 skipped,
-  10 partial, 3 upstream). The largest single blocker is `CMaterialRendererManager`
+- Remaining undefined symbols in the whole tree: 180 (85 with no ledger status, 82 skipped,
+  9 partial, 3 upstream; the link stub set is 119 symbols). The largest single blocker is `CMaterialRendererManager`
   (`createMaterialRenderer` 0x5d8b28, `createMaterialInstance` 0x5d9af0, `getMaterialRenderer`,
   `getMaterialInstance` 0x5dd0e4): all `skipped` because the technique/pass/instance tables are
   not in `material_renderer_manager.hpp`. Those four are referenced from hundreds of objects
@@ -112,7 +112,22 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 | residue | engine residue passes 1 and 2 (animation tracks, CTerrainSceneNode, ps domains, particles, CMaterial, GL driver, animated mesh, shadow volume) | `aec5a38c`, `552f9847` |
 | residue-int | ledger merge, build repair to 934/934, stub regeneration, test triage | `9f5d5e6e` |
 | residue-fix | six duplicate globals resolved, first three tests fixed, crash-site map | `803c39d5`, `5a433c6f` |
-| partial-redo | `CDynamicAnimationSet::setDefaultAnimationLibrary` (both overloads, 0x62fc90 / 0x62fcf8) | next |
+| partial-redo | `CDynamicAnimationSet::setDefaultAnimationLibrary` (both overloads, 0x62fc90 / 0x62fcf8) | `40253893` |
+| partial-redo2 | `CDynamicAnimationSet::addAnimationLibraryBindings` (0x62ee9c) | next |
+
+## Partial rows still undefined at link (9)
+
+Read these before starting one; each has the real blocker named.
+
+| address | symbol | why it is still partial |
+|---|---|---|
+| 0x522f70 | `sfc::math::graph::GraphSparse<PFGOuterEdge>::clear()` | Not a plain `clear`: two nested `std::map`s (outer `map<int,PFGOuterEdge*>` at +0x04/+0x0c, inner `map<int,_InNode*>` inside each edge at +0x08..), a virtual release slot +0x20 on each node, and hand-walked STLport `_Rb_tree` iterators (`node[1]`/`node[2]`/`node[3]` = parent/left/right). Needs a container-level reading, not a line-by-line one. |
+| 0x5ff9b4 | `glitch::video::CImage::fill(SColor const&)` | Needs the `pixel_format` PFD table, which is not modelled. |
+| 0x5d4714 | `glitch::video::CMaterialRenderer::getTechniqueID(char const*) const` | Needs `SSharedStringHeapEntry::SData::get(name,false)` and the technique map. |
+| 0x40de48 | `PlayerLightTweaker::onSetValue(std::string const&)` | Needs `glitch::debugger::CTweakable` as a class and `dh2/LevelConfig`; the older note may be stale, recheck the headers first. |
+| 0x65a9a8, 0x65ac74, 0x65ac5c, 0x65a98c | `CResFileManager::get` x2 and `load` x2 | Need the file-map `_Rb_tree`, `IBuffer`, and the zip/texture stand-ins in canonical headers (a layout request). |
+| 0x657d58 | `CResFile::releaseRemovableBuffer(unsigned char)` | Same cluster: needs the rb-tree, `IBuffer` and the stand-ins. |
+
 
 ## Running
 
