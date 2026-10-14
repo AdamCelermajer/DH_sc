@@ -1,6 +1,7 @@
 #include "runtime_session_projectile_render_v1.hpp"
 
 #include "../../content_paths.hpp"
+#include "runtime_session_projectile_v1.hpp"
 
 #include <cmath>
 #include <cstring>
@@ -122,6 +123,28 @@ bool RuntimeSessionProjectileRenderV1::load(
             try {
                 if (load_source(assets, uri, optional, optional_error)) sources.emplace(uri, std::move(optional));
             } catch (const std::exception&) {
+            }
+        }
+        // v21.8 w4-grapple: every ProjectileDict model of the original tables, not only the fixed list above. The executor
+        // launches from these same tables, so any launched row (the Rogue GrapplingHook knife, a later skill) resolves its
+        // model. Optional like the list: a model that fails to load is reported at its draw or contact, not here.
+        {
+            std::string tables_error;
+            const auto tables = load_runtime_session_projectile_tables_v1(assets, tables_error);
+            const auto* models = tables ? tables->group("ProjectileDict") : nullptr;
+            if (models) {
+                for (const auto& row : models->rows) {
+                    for (const auto& field : row.fields) {
+                        if (field.kind != dh2::android_ui::ProcessArrayValueV101::Kind::string || field.text.empty()) continue;
+                        if (sources.count(field.text)) continue;
+                        std::shared_ptr<SourceV1> dict_source;
+                        std::string dict_error;
+                        try {
+                            if (load_source(assets, field.text.c_str(), dict_source, dict_error)) sources.emplace(field.text, std::move(dict_source));
+                        } catch (const std::exception&) {
+                        }
+                    }
+                }
             }
         }
         output.reset(new RuntimeSessionProjectileRenderV1(std::move(services), std::move(sources)));

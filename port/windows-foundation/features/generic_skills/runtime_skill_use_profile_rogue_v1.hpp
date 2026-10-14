@@ -18,8 +18,12 @@
 //                  execute_below_level gate (not boss and raw Level < caster raw Level + 2 -> Character:Kill with the
 //                  caster as killer, sound, no roll); otherwise a combat roll (BOSS_CLASS for bosses).
 //
+//   GrapplingHook  prince_assassin_grapling_hook.luac  OnPre query (1000, 220 deg, FrontalFirst) + LookAt + UseMana; OnSkill_
+//                  PlaySound + SpawnSkillProjectile(GrapplingHook) on the caster heading; the authored `delayed` body (roll,
+//                  SetStunState unless boss/miniboss, HeadTo(caster) while Stunned) runs in RuntimeRogueSkillOwnerV1 (w4-grapple).
+//                  No cooldown. Post ClearTarget. Gaps: the pull speed and arrival radius are not in the Lua (see the owner).
+//
 // Not admitted (no row; the coordinator rejects them with the generic "no Use arm" detail):
-//   GrapplingHook  prince_assassin_grapling_hook.luac  BLOCKED-PROJECTILE (SpawnSkillProjectile + delayed pull).
 //   Archer x5      prince_archer_{exploding_arrows,multihit,pin_shot,poison_arrows,volley}.luac  BLOCKED-PROJECTILE.
 //                  The shared executor (features/effects/runtime_session_projectile_v1) is present but only enemy
 //                  ranged monsters spawn through it; the player skill path does not.
@@ -67,6 +71,18 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesRogueV1[] = {
      nullptr, nullptr, nullptr, false, nullptr, nullptr, 0,
      nullptr, nullptr, false, false, false, nullptr, nullptr,
      true, true, "Skill_Assassin_Assassination_boss", "sfx_passive_skill_activate_4"},
+    // prince_assassin_grapling_hook.luac: OnPre TargetListSearch(RANGE 1000, ANGLE 220) FrontalFirst + LookAt(top), UseMana;
+    // no SetSkillCooldown. OnSkill_ (owner): PlaySound + SpawnSkillProjectile on the caster heading. Post ClearTarget.
+    // Fields after kill_sound_name (self_heal_per_rank, ally_aura) take their defaults.
+    {"GrapplingHook", "prince_assassin_grapling_hook", "Skill_Assassin_GrapplingHook",
+     1000.0f, native_search_max_angle_v1(220.0f), SkillTargetSortV1::frontal_first, true,
+     false,
+     SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
+     SkillTargetSortV1::frontal_first, false,
+     false, true, false, nullptr, nullptr, true, false, 0.0f,
+     nullptr, nullptr, nullptr, false, nullptr, nullptr, 0,
+     nullptr, nullptr, false, false, false, nullptr, nullptr,
+     false, false, nullptr, nullptr},
 };
 
 // Returns the Rogue-tree profile whose SkillTable (name, script) pair matches exactly, or nullptr.
