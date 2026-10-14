@@ -1,3 +1,4 @@
+#include <stdexcept>
 // Generated from the exact original dqcharmenu_droid.swf faery page.
 #include "faery_menu.hpp"
 #include <cmath>

@@ -21,7 +21,8 @@ else()
   set(DH2_FRONTEND_HOST_SOURCE features/frontend/native_host_sdl.cpp)
   set(DH2_AUDIO_CONTROL_SOURCES
     features/audio/linux_sdl2_source_session_control_v1.cpp
-    features/audio/linux_sdl2_output.cpp)
+    features/audio/linux_sdl2_output.cpp
+    features/audio/winmm_output_linux_shim.cpp)
   set(DH2_AUDIO_LIBRARIES PkgConfig::SDL2)
 endif()
 add_library(recovered_content STATIC

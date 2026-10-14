@@ -1,11 +1,11 @@
 #if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
-#include "../../original_class_family.hpp" // v21.8 subclass: family base row for the preview actor
 #include <windows.h>
 #else
 #include "../../platform_key_codes.hpp"
 #endif
 #include "../../platform_sleep.hpp"
+#include "../../original_class_family.hpp" // v21.8 subclass: family base row for the preview actor
 #include <GL/gl.h>
 #include "art/original_art.hpp"
 #include "preview/class_preview_scene.hpp"
