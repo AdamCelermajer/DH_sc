@@ -5,6 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[2]
+READ_ONLY_INPUT_ROOTS = {ROOT / '.local-inputs', ROOT.parents[2] / '.local-inputs', ROOT / 'port'}
 
 def context(inputs=None):
     if inputs:
@@ -14,10 +15,14 @@ def context(inputs=None):
         source = next((p for p in candidates if (p / 'assets-extra/android/data').is_dir()), None)
         if source is None:
             raise RuntimeError('Original data unavailable; use --inputs <read-only .local-inputs directory>.')
+    READ_ONLY_INPUT_ROOTS.add(source)
     return SimpleNamespace(root=ROOT, inputs=source, out=ROOT / 'coordination/atlas')
 
 def write_json(path, value):
     path = Path(path)
+    resolved = path.resolve()
+    if any(resolved.is_relative_to(source.resolve()) for source in READ_ONLY_INPUT_ROOTS):
+        raise ValueError('Original source inputs are read-only: ' + str(path))
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
 

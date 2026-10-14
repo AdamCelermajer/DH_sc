@@ -1,5 +1,6 @@
 #if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
+#include "../../original_class_family.hpp" // v21.8 subclass: family base row for the preview actor
 #include <windows.h>
 #else
 #include "../../platform_key_codes.hpp"
@@ -238,7 +239,10 @@ FrontendRuntimeResultV1 run_frontend_v1(
   if(!snapshot||!snapshot->valid_for(fact))throw std::runtime_error(error.empty()?"Selected-profile snapshot does not match the exact occupied slot/path":error);
   loadSavedProfileActors();
   const auto& state=*snapshot->character;menuSelectedDifficulty=state.current_difficulty<0?0:state.current_difficulty>2?2:state.current_difficulty;
-  for(unsigned i=0;i<savedProfileActors.size();++i)if(savedProfileActors[i].class_id==state.class_id){selectedProfileActor=static_cast<int>(i);break;}
+  // v21.8 subclass: a subclass row (KnightPlayerBase_Berserker) shares the family base row's model, AnimTable and scale, so it
+  // previews with the base class actor; the profile keeps the subclass class_id.
+  const auto previewClassRow=playable_base_class_row(state.class_id);
+  for(unsigned i=0;i<savedProfileActors.size();++i)if(savedProfileActors[i].class_id==state.class_id||savedProfileActors[i].class_id==previewClassRow){selectedProfileActor=static_cast<int>(i);break;}
   if(selectedProfileActor<0)throw std::runtime_error("Selected profile class has no authored source preview actor: "+state.class_id);
   auto& actor=savedProfileActors[static_cast<std::size_t>(selectedProfileActor)];
   // The equipment appearance projector resolves by the saved textual slot

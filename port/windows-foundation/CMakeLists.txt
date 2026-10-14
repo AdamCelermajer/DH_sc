@@ -278,6 +278,9 @@ add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/runtime_skill_cast_prepare_v1.cpp
   features/generic_skills/runtime_skill_target_query_v1.cpp
   features/generic_skills/runtime_mage_skill_owner_v1.cpp
+  # v21.8 w2-necromancer: FireSkullRain / Pestilence / Rise external owner (timers, death watch, skill projectile).
+  features/generic_skills/runtime_necromancer_skill_owner_v1.cpp
+  features/generic_skills/runtime_necromancer_passive_owner_v1.cpp
   # v21.8 es-runtime: general skill timers, external owner registry, death watch.
   features/generic_skills/runtime_skill_timer_service_v1.cpp
   features/generic_skills/runtime_skill_external_owner_registry_v1.cpp
@@ -1434,3 +1437,9 @@ add_library(foundation_status_states_session STATIC features/status_states/statu
 target_link_libraries(foundation_status_states_session PUBLIC foundation_status_states foundation_data)
 target_link_libraries(dh-foundation PRIVATE foundation_status_states_session)
 target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_status_states_session foundation_runtime_enemy)
+
+# v21.8 w2-necromancer: FireSkullRain / Pestilence / Rise owner and Wrath / Putrid passive owner on a real CombatSession.
+add_executable(runtime_necromancer_skill_owner_v1_tests features/generic_skills/runtime_necromancer_skill_owner_v1_tests.cpp)
+target_link_libraries(runtime_necromancer_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)
+add_test(NAME runtime_necromancer_skill_owner_v1 COMMAND runtime_necromancer_skill_owner_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")

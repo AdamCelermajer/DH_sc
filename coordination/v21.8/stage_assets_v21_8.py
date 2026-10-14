@@ -117,6 +117,11 @@ def main():
         out = target / dest_rel
         out.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, out)
+    # v21.8: the exe reads the actor bindings from the package; the base copy lacks the subclass actors, so overlay the
+    # regenerated file (coordination/v21.8/subclass-bindings-manifest.json) when it exists.
+    regenerated = args.inputs / "windows-melee-bindings" / "original-melee-bindings.xml"
+    if regenerated.is_file() and (target / "assets" / "original-melee-bindings.xml").is_file():
+        shutil.copy2(regenerated, target / "assets" / "original-melee-bindings.xml")
 
     # 4. Rewrite the manifest over every other file.
     files = []

@@ -1,0 +1,2447 @@
+{
+  "act": "act_2_inferred",
+  "count": 35,
+  "kind": "actor_name_candidate",
+  "rows": [
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "SKYGUARDIAN",
+              "status": "RESOLVED",
+              "target_id": "e0068a13716136a1af28",
+              "target_index": 331,
+              "target_table": "character_properties#group0"
+            },
+            "condition_links": {
+              "activate_cond": {
+                "evidence": "ObjectBase::DeclareProperties binds activate_cond to ConditionData +144 and deactivate_cond to +180 (pseudocode-all.c:41550-41562); TestEnableCondition +140 and TestDisableCondition +176 evaluate those named condition lists (0x33e6d4 and 0x33e61c; pseudocode-all.c:41138-41199).",
+                "name": "IsDuring_WindTemp",
+                "status": "RESOLVED",
+                "target": {
+                  "fields": {
+                    "Stubs": [
+                      {
+                        "Argument": 62,
+                        "Op": 2,
+                        "State": 3
+                      },
+                      {
+                        "Argument": 62,
+                        "Op": 1,
+                        "State": 13
+                      }
+                    ],
+                    "Type": 0
+                  },
+                  "id": "5c72f39bbe28fb38b744",
+                  "index": 104,
+                  "name": "IsDuring_WindTemp",
+                  "table": "v2conditions#group0",
+                  "type": "table-row"
+                },
+                "target_id": "5c72f39bbe28fb38b744"
+              }
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "53d5b3149b35e1638407",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "module_membership": {
+              "direct_reference": false,
+              "procedural_choices": [
+                "procedural choice special_rooms"
+              ],
+              "status": "CONDITIONAL_PROCEDURAL_CHOICE"
+            },
+            "module_relations": [
+              "procedural choice special_rooms"
+            ],
+            "name": "SKYGUARDIAN",
+            "object_ordinal": 2,
+            "properties": {
+              "_templateName": "Monster",
+              "activate_cond": "IsDuring_WindTemp",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_group_role": "Normal",
+              "char_template": "",
+              "charpropsname": "SKYGUARDIAN",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "name": "SKYGUARDIAN",
+              "position": "-2285.38,2.51563,2148.58",
+              "rotation": "0.0,0.0,90.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "spawn_view_radius": "1000",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SetCameraTarget",
+                "field_offset": 16,
+                "id": "d1b9a45bbe3619f7b4a6",
+                "role": "camera_target_object"
+              }
+            ],
+            "scene_id": "7bac2e2741f6bd3044a0",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "SKYGUARDIAN",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "d1b9a45bbe3619f7b4a6",
+      "reference_kind": "camera_target_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[52] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[52]=Script_SetCameraTarget/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "SKYGUARDIAN",
+              "status": "RESOLVED",
+              "target_id": "e0068a13716136a1af28",
+              "target_index": 331,
+              "target_table": "character_properties#group0"
+            },
+            "condition_links": {
+              "activate_cond": {
+                "evidence": "ObjectBase::DeclareProperties binds activate_cond to ConditionData +144 and deactivate_cond to +180 (pseudocode-all.c:41550-41562); TestEnableCondition +140 and TestDisableCondition +176 evaluate those named condition lists (0x33e6d4 and 0x33e61c; pseudocode-all.c:41138-41199).",
+                "name": "IsDuring_WindTemp",
+                "status": "RESOLVED",
+                "target": {
+                  "fields": {
+                    "Stubs": [
+                      {
+                        "Argument": 62,
+                        "Op": 2,
+                        "State": 3
+                      },
+                      {
+                        "Argument": 62,
+                        "Op": 1,
+                        "State": 13
+                      }
+                    ],
+                    "Type": 0
+                  },
+                  "id": "5c72f39bbe28fb38b744",
+                  "index": 104,
+                  "name": "IsDuring_WindTemp",
+                  "table": "v2conditions#group0",
+                  "type": "table-row"
+                },
+                "target_id": "5c72f39bbe28fb38b744"
+              }
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "53d5b3149b35e1638407",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "module_membership": {
+              "direct_reference": false,
+              "procedural_choices": [
+                "procedural choice special_rooms"
+              ],
+              "status": "CONDITIONAL_PROCEDURAL_CHOICE"
+            },
+            "module_relations": [
+              "procedural choice special_rooms"
+            ],
+            "name": "SKYGUARDIAN",
+            "object_ordinal": 2,
+            "properties": {
+              "_templateName": "Monster",
+              "activate_cond": "IsDuring_WindTemp",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_group_role": "Normal",
+              "char_template": "",
+              "charpropsname": "SKYGUARDIAN",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "name": "SKYGUARDIAN",
+              "position": "-2285.38,2.51563,2148.58",
+              "rotation": "0.0,0.0,90.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "spawn_view_radius": "1000",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_ShowActor",
+                "field_offset": 12,
+                "id": "115d33c1457048838a00",
+                "role": "visible_character_object"
+              }
+            ],
+            "scene_id": "7bac2e2741f6bd3044a0",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "SKYGUARDIAN",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "115d33c1457048838a00",
+      "reference_kind": "visible_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[53] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[53]=Script_ShowActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "SKYGUARDIAN",
+              "status": "RESOLVED",
+              "target_id": "e0068a13716136a1af28",
+              "target_index": 331,
+              "target_table": "character_properties#group0"
+            },
+            "condition_links": {
+              "activate_cond": {
+                "evidence": "ObjectBase::DeclareProperties binds activate_cond to ConditionData +144 and deactivate_cond to +180 (pseudocode-all.c:41550-41562); TestEnableCondition +140 and TestDisableCondition +176 evaluate those named condition lists (0x33e6d4 and 0x33e61c; pseudocode-all.c:41138-41199).",
+                "name": "IsDuring_WindTemp",
+                "status": "RESOLVED",
+                "target": {
+                  "fields": {
+                    "Stubs": [
+                      {
+                        "Argument": 62,
+                        "Op": 2,
+                        "State": 3
+                      },
+                      {
+                        "Argument": 62,
+                        "Op": 1,
+                        "State": 13
+                      }
+                    ],
+                    "Type": 0
+                  },
+                  "id": "5c72f39bbe28fb38b744",
+                  "index": 104,
+                  "name": "IsDuring_WindTemp",
+                  "table": "v2conditions#group0",
+                  "type": "table-row"
+                },
+                "target_id": "5c72f39bbe28fb38b744"
+              }
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "53d5b3149b35e1638407",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "module_membership": {
+              "direct_reference": false,
+              "procedural_choices": [
+                "procedural choice special_rooms"
+              ],
+              "status": "CONDITIONAL_PROCEDURAL_CHOICE"
+            },
+            "module_relations": [
+              "procedural choice special_rooms"
+            ],
+            "name": "SKYGUARDIAN",
+            "object_ordinal": 2,
+            "properties": {
+              "_templateName": "Monster",
+              "activate_cond": "IsDuring_WindTemp",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_group_role": "Normal",
+              "char_template": "",
+              "charpropsname": "SKYGUARDIAN",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "name": "SKYGUARDIAN",
+              "position": "-2285.38,2.51563,2148.58",
+              "rotation": "0.0,0.0,90.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "spawn_view_radius": "1000",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SpawnCharacter",
+                "field_offset": 12,
+                "id": "6ae6e6fa563d146f66a7",
+                "role": "character_object_instance"
+              }
+            ],
+            "scene_id": "7bac2e2741f6bd3044a0",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "SKYGUARDIAN",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "6ae6e6fa563d146f66a7",
+      "reference_kind": "character_object_instance",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[54] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[54]=Script_SpawnCharacter/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "SKYGUARDIAN",
+              "status": "RESOLVED",
+              "target_id": "e0068a13716136a1af28",
+              "target_index": 331,
+              "target_table": "character_properties#group0"
+            },
+            "condition_links": {
+              "activate_cond": {
+                "evidence": "ObjectBase::DeclareProperties binds activate_cond to ConditionData +144 and deactivate_cond to +180 (pseudocode-all.c:41550-41562); TestEnableCondition +140 and TestDisableCondition +176 evaluate those named condition lists (0x33e6d4 and 0x33e61c; pseudocode-all.c:41138-41199).",
+                "name": "IsDuring_WindTemp",
+                "status": "RESOLVED",
+                "target": {
+                  "fields": {
+                    "Stubs": [
+                      {
+                        "Argument": 62,
+                        "Op": 2,
+                        "State": 3
+                      },
+                      {
+                        "Argument": 62,
+                        "Op": 1,
+                        "State": 13
+                      }
+                    ],
+                    "Type": 0
+                  },
+                  "id": "5c72f39bbe28fb38b744",
+                  "index": 104,
+                  "name": "IsDuring_WindTemp",
+                  "table": "v2conditions#group0",
+                  "type": "table-row"
+                },
+                "target_id": "5c72f39bbe28fb38b744"
+              }
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "53d5b3149b35e1638407",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "module_membership": {
+              "direct_reference": false,
+              "procedural_choices": [
+                "procedural choice special_rooms"
+              ],
+              "status": "CONDITIONAL_PROCEDURAL_CHOICE"
+            },
+            "module_relations": [
+              "procedural choice special_rooms"
+            ],
+            "name": "SKYGUARDIAN",
+            "object_ordinal": 2,
+            "properties": {
+              "_templateName": "Monster",
+              "activate_cond": "IsDuring_WindTemp",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_group_role": "Normal",
+              "char_template": "",
+              "charpropsname": "SKYGUARDIAN",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "name": "SKYGUARDIAN",
+              "position": "-2285.38,2.51563,2148.58",
+              "rotation": "0.0,0.0,90.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "spawn_view_radius": "1000",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_HideActor",
+                "field_offset": 12,
+                "id": "fce1188f78282ad4921a",
+                "role": "visible_character_object"
+              }
+            ],
+            "scene_id": "7bac2e2741f6bd3044a0",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "SKYGUARDIAN",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "fce1188f78282ad4921a",
+      "reference_kind": "visible_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[5] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[5]=Script_HideActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "SKYGUARDIAN",
+              "status": "RESOLVED",
+              "target_id": "e0068a13716136a1af28",
+              "target_index": 331,
+              "target_table": "character_properties#group0"
+            },
+            "condition_links": {
+              "activate_cond": {
+                "evidence": "ObjectBase::DeclareProperties binds activate_cond to ConditionData +144 and deactivate_cond to +180 (pseudocode-all.c:41550-41562); TestEnableCondition +140 and TestDisableCondition +176 evaluate those named condition lists (0x33e6d4 and 0x33e61c; pseudocode-all.c:41138-41199).",
+                "name": "IsDuring_WindTemp",
+                "status": "RESOLVED",
+                "target": {
+                  "fields": {
+                    "Stubs": [
+                      {
+                        "Argument": 62,
+                        "Op": 2,
+                        "State": 3
+                      },
+                      {
+                        "Argument": 62,
+                        "Op": 1,
+                        "State": 13
+                      }
+                    ],
+                    "Type": 0
+                  },
+                  "id": "5c72f39bbe28fb38b744",
+                  "index": 104,
+                  "name": "IsDuring_WindTemp",
+                  "table": "v2conditions#group0",
+                  "type": "table-row"
+                },
+                "target_id": "5c72f39bbe28fb38b744"
+              }
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "53d5b3149b35e1638407",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "module_membership": {
+              "direct_reference": false,
+              "procedural_choices": [
+                "procedural choice special_rooms"
+              ],
+              "status": "CONDITIONAL_PROCEDURAL_CHOICE"
+            },
+            "module_relations": [
+              "procedural choice special_rooms"
+            ],
+            "name": "SKYGUARDIAN",
+            "object_ordinal": 2,
+            "properties": {
+              "_templateName": "Monster",
+              "activate_cond": "IsDuring_WindTemp",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_group_role": "Normal",
+              "char_template": "",
+              "charpropsname": "SKYGUARDIAN",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "name": "SKYGUARDIAN",
+              "position": "-2285.38,2.51563,2148.58",
+              "rotation": "0.0,0.0,90.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "spawn_view_radius": "1000",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_LookActor",
+                "field_offset": 20,
+                "id": "7dd5615f958f34569172",
+                "role": "facing_character_object"
+              }
+            ],
+            "scene_id": "7bac2e2741f6bd3044a0",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "SKYGUARDIAN",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "7dd5615f958f34569172",
+      "reference_kind": "facing_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[63] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[63]=Script_LookActor/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "SKYGUARDIAN",
+              "status": "RESOLVED",
+              "target_id": "e0068a13716136a1af28",
+              "target_index": 331,
+              "target_table": "character_properties#group0"
+            },
+            "condition_links": {
+              "activate_cond": {
+                "evidence": "ObjectBase::DeclareProperties binds activate_cond to ConditionData +144 and deactivate_cond to +180 (pseudocode-all.c:41550-41562); TestEnableCondition +140 and TestDisableCondition +176 evaluate those named condition lists (0x33e6d4 and 0x33e61c; pseudocode-all.c:41138-41199).",
+                "name": "IsDuring_WindTemp",
+                "status": "RESOLVED",
+                "target": {
+                  "fields": {
+                    "Stubs": [
+                      {
+                        "Argument": 62,
+                        "Op": 2,
+                        "State": 3
+                      },
+                      {
+                        "Argument": 62,
+                        "Op": 1,
+                        "State": 13
+                      }
+                    ],
+                    "Type": 0
+                  },
+                  "id": "5c72f39bbe28fb38b744",
+                  "index": 104,
+                  "name": "IsDuring_WindTemp",
+                  "table": "v2conditions#group0",
+                  "type": "table-row"
+                },
+                "target_id": "5c72f39bbe28fb38b744"
+              }
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "53d5b3149b35e1638407",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "module_membership": {
+              "direct_reference": false,
+              "procedural_choices": [
+                "procedural choice special_rooms"
+              ],
+              "status": "CONDITIONAL_PROCEDURAL_CHOICE"
+            },
+            "module_relations": [
+              "procedural choice special_rooms"
+            ],
+            "name": "SKYGUARDIAN",
+            "object_ordinal": 2,
+            "properties": {
+              "_templateName": "Monster",
+              "activate_cond": "IsDuring_WindTemp",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_group_role": "Normal",
+              "char_template": "",
+              "charpropsname": "SKYGUARDIAN",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "name": "SKYGUARDIAN",
+              "position": "-2285.38,2.51563,2148.58",
+              "rotation": "0.0,0.0,90.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "spawn_view_radius": "1000",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SetCameraTarget",
+                "field_offset": 16,
+                "id": "1ea69dc515b3bd1473c5",
+                "role": "camera_target_object"
+              }
+            ],
+            "scene_id": "7bac2e2741f6bd3044a0",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "SKYGUARDIAN",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "1ea69dc515b3bd1473c5",
+      "reference_kind": "camera_target_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[7] 16"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[7]=Script_SetCameraTarget/field@16",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "74043242280aa7a3ac69",
+      "reference_kind": "character_object_instance",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase1 command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[5]=end_MadrukPhase1/command[0]=Script_SpawnCharacter/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "749f455752560bab6615",
+      "reference_kind": "positioned_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase1 command[1] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[5]=end_MadrukPhase1/command[1]=Script_SetActorPosition/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "c4c57abecce170c7d164",
+      "reference_kind": "facing_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase1 command[2] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[5]=end_MadrukPhase1/command[2]=Script_LookActor/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "532e940dfe026bd01aa9",
+      "reference_kind": "facing_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase2 command[1] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[6]=end_MadrukPhase2/command[1]=Script_LookActor/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "49b39bdeebce5ed91687",
+      "reference_kind": "position_waypoint_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase2 command[2] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[6]=end_MadrukPhase2/command[2]=Script_SetActorPosition/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "cd34a5cdbcdc679dfee2",
+      "reference_kind": "positioned_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase2 command[2] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[6]=end_MadrukPhase2/command[2]=Script_SetActorPosition/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "8cee3fb58827f8efd356",
+      "reference_kind": "facing_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase2 command[3] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[6]=end_MadrukPhase2/command[3]=Script_LookActor/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "523a5d20ba0573f819a1",
+      "reference_kind": "character_object_instance",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase2 command[4] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[6]=end_MadrukPhase2/command[4]=Script_SpawnCharacter/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": "OTHER",
+      "reference_id": "69fae7ac856a6b14b586",
+      "reference_kind": "idle_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f end_MadrukPhase2 command[5] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[6]=end_MadrukPhase2/command[5]=Script_PutCharacterInIdle/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SetActorPosition",
+                "field_offset": 20,
+                "id": "12f491c88feeda81c999",
+                "role": "positioned_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "12f491c88feeda81c999",
+      "reference_kind": "positioned_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[12] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[12]=Script_SetActorPosition/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_LookActor",
+                "field_offset": 20,
+                "id": "8f2d362df5599311a10b",
+                "role": "facing_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "8f2d362df5599311a10b",
+      "reference_kind": "facing_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[18] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[18]=Script_LookActor/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_PlayActorAnim",
+                "field_offset": 24,
+                "id": "394c91d87eb9af708ac6",
+                "role": "animated_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "394c91d87eb9af708ac6",
+      "reference_kind": "animated_character_object",
+      "rule": "Script_PlayActorAnim source field role plus exact character_properties#group0 row-name match",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[24] 24"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[24]=Script_PlayActorAnim/field@24",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SetActorPosition",
+                "field_offset": 20,
+                "id": "878eeed6311992dabbd9",
+                "role": "positioned_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "878eeed6311992dabbd9",
+      "reference_kind": "positioned_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[28] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[28]=Script_SetActorPosition/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_HideActor",
+                "field_offset": 12,
+                "id": "7351e83e4fe049448da0",
+                "role": "visible_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "7351e83e4fe049448da0",
+      "reference_kind": "visible_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[29] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[29]=Script_HideActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_ShowActor",
+                "field_offset": 12,
+                "id": "638eb88f260d4068a584",
+                "role": "visible_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "638eb88f260d4068a584",
+      "reference_kind": "visible_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[5] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[5]=Script_ShowActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "Madruk_A",
+              "status": "RESOLVED",
+              "target_id": "6049d17d9d924ff5b265",
+              "target_index": 288,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "eeb2d58655e30d87b7d7",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "Madruk_A",
+            "object_ordinal": 20,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "Madruk_A",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "Madruk_A",
+              "position": "-63.9812,-122.805,1042.57",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_HideActor",
+                "field_offset": 12,
+                "id": "e7c4670c4dbe564de7be",
+                "role": "visible_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "e7c4670c4dbe564de7be",
+      "reference_kind": "visible_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[10] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[10]=Script_HideActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_HideActor",
+                "field_offset": 12,
+                "id": "b37a5a0947d967ef5e67",
+                "role": "visible_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "b37a5a0947d967ef5e67",
+      "reference_kind": "visible_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[11] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[11]=Script_HideActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "Madruk_A",
+              "status": "RESOLVED",
+              "target_id": "6049d17d9d924ff5b265",
+              "target_index": 288,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "eeb2d58655e30d87b7d7",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "Madruk_A",
+            "object_ordinal": 20,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "Madruk_A",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "Madruk_A",
+              "position": "-63.9812,-122.805,1042.57",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SpawnCharacter",
+                "field_offset": 12,
+                "id": "7585e074ad05a810a763",
+                "role": "character_object_instance"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "7585e074ad05a810a763",
+      "reference_kind": "character_object_instance",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase1 command[0] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[4]=end_MadrukPhase1/command[0]=Script_SpawnCharacter/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "Madruk_A",
+              "status": "RESOLVED",
+              "target_id": "6049d17d9d924ff5b265",
+              "target_index": 288,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "eeb2d58655e30d87b7d7",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "Madruk_A",
+            "object_ordinal": 20,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "Madruk_A",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "Madruk_A",
+              "position": "-63.9812,-122.805,1042.57",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_ShowActor",
+                "field_offset": 12,
+                "id": "7691587e20be22047799",
+                "role": "visible_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "7691587e20be22047799",
+      "reference_kind": "visible_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase1 command[1] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[4]=end_MadrukPhase1/command[1]=Script_ShowActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "Madruk_A",
+              "status": "RESOLVED",
+              "target_id": "6049d17d9d924ff5b265",
+              "target_index": 288,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "eeb2d58655e30d87b7d7",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "Madruk_A",
+            "object_ordinal": 20,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "Madruk_A",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "Madruk_A",
+              "position": "-63.9812,-122.805,1042.57",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SetActorPosition",
+                "field_offset": 20,
+                "id": "00f12775c44c1e62ede6",
+                "role": "positioned_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "00f12775c44c1e62ede6",
+      "reference_kind": "positioned_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase1 command[2] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[4]=end_MadrukPhase1/command[2]=Script_SetActorPosition/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "Madruk_A",
+              "status": "RESOLVED",
+              "target_id": "6049d17d9d924ff5b265",
+              "target_index": 288,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "eeb2d58655e30d87b7d7",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "Madruk_A",
+            "object_ordinal": 20,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "Madruk_A",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "Madruk_A",
+              "position": "-63.9812,-122.805,1042.57",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_LookActor",
+                "field_offset": 20,
+                "id": "a3962412d4d0c05f24dc",
+                "role": "facing_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "a3962412d4d0c05f24dc",
+      "reference_kind": "facing_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase1 command[3] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[4]=end_MadrukPhase1/command[3]=Script_LookActor/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "Madruk_A",
+              "status": "RESOLVED",
+              "target_id": "6049d17d9d924ff5b265",
+              "target_index": 288,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "eeb2d58655e30d87b7d7",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "Madruk_A",
+            "object_ordinal": 20,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "Madruk_A",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "Madruk_A",
+              "position": "-63.9812,-122.805,1042.57",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_LookActor",
+                "field_offset": 20,
+                "id": "2bd4b2d9b2de61f93026",
+                "role": "facing_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "2bd4b2d9b2de61f93026",
+      "reference_kind": "facing_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase2 command[1] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[5]=end_MadrukPhase2/command[1]=Script_LookActor/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "Madruk_A",
+              "status": "RESOLVED",
+              "target_id": "6049d17d9d924ff5b265",
+              "target_index": 288,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "eeb2d58655e30d87b7d7",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "Madruk_A",
+            "object_ordinal": 20,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "Madruk_A",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "Madruk_A",
+              "position": "-63.9812,-122.805,1042.57",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SetActorPosition",
+                "field_offset": 12,
+                "id": "b5ca57478ce16daa3994",
+                "role": "position_waypoint_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "b5ca57478ce16daa3994",
+      "reference_kind": "position_waypoint_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase2 command[2] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[5]=end_MadrukPhase2/command[2]=Script_SetActorPosition/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SetActorPosition",
+                "field_offset": 20,
+                "id": "e23791aa0e98dc2c6836",
+                "role": "positioned_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "e23791aa0e98dc2c6836",
+      "reference_kind": "positioned_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase2 command[2] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[5]=end_MadrukPhase2/command[2]=Script_SetActorPosition/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_LookActor",
+                "field_offset": 20,
+                "id": "2621b576afbaf7587002",
+                "role": "facing_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "2621b576afbaf7587002",
+      "reference_kind": "facing_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase2 command[3] 20"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[5]=end_MadrukPhase2/command[3]=Script_LookActor/field@20",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_SpawnCharacter",
+                "field_offset": 12,
+                "id": "c4c6066965cc45337afd",
+                "role": "character_object_instance"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "c4c6066965cc45337afd",
+      "reference_kind": "character_object_instance",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase2 command[4] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[5]=end_MadrukPhase2/command[4]=Script_SpawnCharacter/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_ShowActor",
+                "field_offset": 12,
+                "id": "d87d0e70914c79459f09",
+                "role": "visible_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "d87d0e70914c79459f09",
+      "reference_kind": "visible_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase2 command[5] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[5]=end_MadrukPhase2/command[5]=Script_ShowActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "Madruk_A",
+              "status": "RESOLVED",
+              "target_id": "6049d17d9d924ff5b265",
+              "target_index": 288,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "eeb2d58655e30d87b7d7",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "Madruk_A",
+            "object_ordinal": 20,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "Madruk_A",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "Madruk_A",
+              "position": "-63.9812,-122.805,1042.57",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_KillActor",
+                "field_offset": 12,
+                "id": "0500d0a8f82f20f87829",
+                "role": "killed_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "Madruk_A",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "0500d0a8f82f20f87829",
+      "reference_kind": "killed_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase2 command[6] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[5]=end_MadrukPhase2/command[6]=Script_KillActor/field@12",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "character_properties": {
+              "evidence": "Explicit MGP charpropsname property with no char_template override.",
+              "name": "MadrukTorso",
+              "status": "RESOLVED",
+              "target_id": "e90cdf184470499d5d8c",
+              "target_index": 287,
+              "target_table": "character_properties#group0"
+            },
+            "definition_evidence": "Exact GameObject element parsed from an MGP referenced by this scene; this is an authored definition, not a runtime object instance.",
+            "gametype": "Character",
+            "id": "3e72ffc2ef80d5cf4b29",
+            "module": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "module_membership": {
+              "direct_reference": true,
+              "procedural_choices": [],
+              "status": "SCENE_REFERENCED"
+            },
+            "module_relations": [
+              "direct scene module reference"
+            ],
+            "name": "MadrukTorso",
+            "object_ordinal": 17,
+            "properties": {
+              "_templateName": "Monster",
+              "ai_state": "Limbus",
+              "ai_state_visible": "0",
+              "auto_spawn": "0",
+              "char_group": "",
+              "char_template": "",
+              "charpropsname": "MadrukTorso",
+              "debugcolor": "255.0,127.0,127.0",
+              "gametype": "Character",
+              "isGlobal": "1",
+              "name": "MadrukTorso",
+              "position": "-51.573,-17.2083,1048.77",
+              "rotation": "6.83019e-006,0.0,0.0",
+              "scale": "1.0,1.0,1.0",
+              "spawn_prob": "100",
+              "starting_waypoint": "",
+              "type": "Block"
+            },
+            "related_field_refs": [
+              {
+                "command": "Script_PutCharacterInIdle",
+                "field_offset": 12,
+                "id": "86361b8af2bd8870e5c2",
+                "role": "idle_character_object"
+              }
+            ],
+            "scene_id": "0995df95dc10822639cb",
+            "source_file": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+            "type": "scene_object_definition"
+          }
+        ],
+        "rule": "CAMPAIGN_SCRIPT_STRING_FIELD"
+      },
+      "kind": "actor_name_candidate",
+      "name": "MadrukTorso",
+      "port_candidates": [],
+      "reason": "Campaign actor/object name is a scene object key; its character profile and resource fields are tracked separately.",
+      "reason_code": null,
+      "reference_id": "86361b8af2bd8870e5c2",
+      "reference_kind": "idle_character_object",
+      "rule": "CAMPAIGN_SCRIPT_STRING_FIELD",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb end_MadrukPhase2 command[7] 12"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[5]=end_MadrukPhase2/command[7]=Script_PutCharacterInIdle/field@12",
+      "source_candidates": []
+    }
+  ],
+  "schema": "atlas-r2-staging-classification-shard-v1"
+}

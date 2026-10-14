@@ -1,0 +1,16 @@
+{
+  "schema": "atlas-r2-source-regen-verification-v1",
+  "command": "./tools/atlas/regen.ps1 --round2",
+  "exit_code": 0,
+  "fresh_generated_artifacts": 932,
+  "byte_identical_copied_projections": true,
+  "projection_manifest_sha256": "0940450a752afb35ed21a88a175c61d102c41584aa395631c18f0c92ca9edbce",
+  "known_answers_passed": 10,
+  "extended_checks_passed": 23,
+  "checker_fixture_checks_passed": 14,
+  "initial_native_and_act2_scopes_byte_unchanged": true,
+  "original_inventory_entries_hash_verified": 13356,
+  "largest_new_generated_file_bytes": 23228422,
+  "file_limit_bytes": 40000000,
+  "runtime_or_visual_gameplay_verification": "NOT_RUN"
+}

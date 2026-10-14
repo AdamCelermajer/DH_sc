@@ -1,0 +1,2225 @@
+{
+  "act": "act_2_inferred",
+  "count": 73,
+  "kind": "animated effect",
+  "rows": [
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_hurt_wind.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_hurt_wind.bdae",
+        "sha256": "EF04637089E92C71FC0E1D4859292C6E3FC3590A5B0F70260CCB0D7CC490850E",
+        "size": 10816,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_hurt_wind.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "222",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "711f7dbc81c4aee53941",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=1,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 37324,
+          "path": "assets/data/3d/interface/spell_dh2_hurt_water.bdae",
+          "sha256": "76A4029A4F815023C347318ABFDC76E74E42BF76914E5B7D031408C2C83DA62A"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_hurt_water.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_water.bdae"
+      },
+      "kind": "animated effect",
+      "name": "221",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "63eb52c5bae7347af3cb",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=125,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 19180,
+          "path": "assets/data/3d/interface/spell_dh2_faery_lightning.bdae",
+          "sha256": "24DE71141C46541F930841055880000446EB77A0C100DC09CABAD92550012B3E"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_faery_lightning.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_lightning.bdae"
+      },
+      "kind": "animated effect",
+      "name": "199",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "bb9d7a219a8114807181",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=13,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 16880,
+          "path": "assets/data/3d/interface/skill_dh2_faery_lightning.bdae",
+          "sha256": "441444EC34AC2D0A6A06917B4FF27E26691C8466B7DE29D4DF369274D9A968A0"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_faery_lightning.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_lightning.bdae"
+      },
+      "kind": "animated effect",
+      "name": "76",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "5167fe9b3a2451a4f90c",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=14,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 22120,
+          "path": "assets/data/3d/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+          "sha256": "A693ED51A7432DEC4AC8C5CDFF26754DCCE83BD280F8B9B6EF960409907D0721"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_assassin_assassination.bdae"
+      },
+      "kind": "animated effect",
+      "name": "135",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "0fb47a2071364f0ee16c",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=5].Anim -> pydata/animations_pyarray.bin[sequence=517,step=0].FX -> pydata/effects_pyarray.bin[set=142,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=142,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 19452,
+          "path": "assets/data/3d/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+          "sha256": "5D918F432E3970A50B3798FBF26686A5DF0DCB902C3D47C877C128639ECF430C"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_assassin_blindness.bdae"
+      },
+      "kind": "animated effect",
+      "name": "136",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "84c941bcbcd152b55383",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=9].Anim -> pydata/animations_pyarray.bin[sequence=518,step=0].FX -> pydata/effects_pyarray.bin[set=143,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=143,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 33568,
+          "path": "assets/data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+          "sha256": "2C269390C1675394F81393F0988FE050197382FEDCEFAD595CE69EB917CFCF74"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+      },
+      "kind": "animated effect",
+      "name": "137",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "86bb75a3e77cd2977781",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=85].Anim -> pydata/animations_pyarray.bin[sequence=520,step=0].FX -> pydata/effects_pyarray.bin[set=144,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=144,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting_persist.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting_persist.bdae",
+        "sha256": "F8687A7C16A48BACA93764023A6402435E247E050C9C85028C8B76D9C32F0D19",
+        "size": 7676,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_rogue_assassin_poison_sting_persist.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "138",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "956b9f03a3655063a0c6",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=145,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 13884,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+          "sha256": "0F4F057D6E2D49A434FE0F714F863C34E1FC894AFFA28EFC79CAB148BFC2B167"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_figments.bdae"
+      },
+      "kind": "animated effect",
+      "name": "126",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "8f588366ce5cce27d62f",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=45].Anim -> pydata/animations_pyarray.bin[sequence=417,step=0].FX -> pydata/effects_pyarray.bin[set=147,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=147,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 31484,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+          "sha256": "566E505DDBEA2C028FA6A0035ADF840295236B112219F4421974C4E6C6B5EF81"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_terror.bdae"
+      },
+      "kind": "animated effect",
+      "name": "127",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "77f2278da1cb7eb842f3",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=110].Anim -> pydata/animations_pyarray.bin[sequence=424,step=0].FX -> pydata/effects_pyarray.bin[set=148,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=148,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 30024,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+          "sha256": "507C27B61FD198C8E0CCACF30D568D9A9C7EE5351D054FBB0416F161B73CFB70"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_time_control.bdae"
+      },
+      "kind": "animated effect",
+      "name": "128",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "447674499226c4781e6e",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=111].Anim -> pydata/animations_pyarray.bin[sequence=425,step=0].FX -> pydata/effects_pyarray.bin[set=149,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=149,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 20440,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_cold_ray.bdae",
+          "sha256": "DF5949273178514C56B7C36B8FC86872E1E93E26B2DE2B0C035196EDED7DD620"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_cold_ray.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_cold_ray.bdae"
+      },
+      "kind": "animated effect",
+      "name": "122",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "fd8afbd920782c00d52c",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=14].Anim -> pydata/animations_pyarray.bin[sequence=413,step=0].FX -> pydata/effects_pyarray.bin[set=150,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=150,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 26540,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_cyclone.bdae",
+          "sha256": "4F631738A350F2AF593B9BB42177C3E04FCE9D0A4F1BE671D5560C2311A0E8D3"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_cyclone.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_cyclone.bdae"
+      },
+      "kind": "animated effect",
+      "name": "123",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "4e216c3b31dfdd8519a7",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=19].Anim -> pydata/animations_pyarray.bin[sequence=414,step=0].FX -> pydata/effects_pyarray.bin[set=151,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=151,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 24888,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+          "sha256": "DB9B3EC2A98E0092D3B342FF91E9FA6EF531149CAB5D0B8C20C3D1A56746B3AE"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae"
+      },
+      "kind": "animated effect",
+      "name": "124",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "3dd12e77388026e5140a",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=30].Anim -> pydata/animations_pyarray.bin[sequence=416,step=0].FX -> pydata/effects_pyarray.bin[set=152,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=152,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse_persist.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse_persist.bdae",
+        "sha256": "511665E31A8CBEA954521F57F1C3A9CE968691023A00C79DE7D11FAE0689D759",
+        "size": 15832,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_mage_illusionist_eclipse_persist.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "125",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "272158846d51e110f440",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=153,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 56708,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+          "sha256": "86BF06D20C11014F2B8209F4A6090F8BE31607E85AA78D210C05CAE0180742F4"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae"
+      },
+      "kind": "animated effect",
+      "name": "129",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "991c76280717ae0122f7",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=26].Anim -> pydata/animations_pyarray.bin[sequence=415,step=0].FX -> pydata/effects_pyarray.bin[set=156,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=156,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 33612,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+          "sha256": "400A7F48E704138087441A29CF7F79365A19519A9FF8CBF7CF47AD78D306A6BE"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae"
+      },
+      "kind": "animated effect",
+      "name": "130",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "907f1938f6ab0243e33b",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=47].Anim -> pydata/animations_pyarray.bin[sequence=418,step=0].FX -> pydata/effects_pyarray.bin[set=157,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=157,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 24436,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+          "sha256": "B8F5A6063B50FBD288A609B7FDFEFD3C09C291CDEFEEBF53111BEE988D21B2E4"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae"
+      },
+      "kind": "animated effect",
+      "name": "131",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "08ce129be6b82936ec56",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=81].Anim -> pydata/animations_pyarray.bin[sequence=421,step=0].FX -> pydata/effects_pyarray.bin[set=158,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=158,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 14644,
+          "path": "assets/data/3d/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+          "sha256": "6D83FDE03477AC7A2D819F634043CD18A0995878466E55C95F9AE9BCA68E256E"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_necromancer_rise.bdae"
+      },
+      "kind": "animated effect",
+      "name": "132",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "982d607bc20de09a6a0c",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=93].Anim -> pydata/animations_pyarray.bin[sequence=422,step=0].FX -> pydata/effects_pyarray.bin[set=159,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=159,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 38772,
+          "path": "assets/data/3d/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+          "sha256": "14A5F50E9D3EA7FB3B9DF6B675FE89E0CBE4FC35969CCB2337F3CDD4F091695D"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_jump_kick.bdae"
+      },
+      "kind": "animated effect",
+      "name": "139",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "2bdaafa8126072240247",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=56].Anim -> pydata/animations_pyarray.bin[sequence=521,step=0].FX -> pydata/effects_pyarray.bin[set=160,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=160,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 28268,
+          "path": "assets/data/3d/interface/skill_dh2_prince_rogue_quickness.bdae",
+          "sha256": "306053D3483A2822BD5CE9D5DAEFE50E098E72C7E2D098AD56E38FEB08BC0C38"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_rogue_quickness.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_quickness.bdae"
+      },
+      "kind": "animated effect",
+      "name": "140",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "3a102586ca700ca7ceb2",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=90].Anim -> pydata/animations_pyarray.bin[sequence=524,step=0].FX -> pydata/effects_pyarray.bin[set=161,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=161,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 18168,
+          "path": "assets/data/3d/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+          "sha256": "ED0C2873F8C2FDBE60031ED1AC1D0C22A9D4B19AE48CFAE7E54EB2AD6BD70D6D"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_roundhouse.bdae"
+      },
+      "kind": "animated effect",
+      "name": "141",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "16a32cf2a377ab007848",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=97].Anim -> pydata/animations_pyarray.bin[sequence=525,step=0].FX -> pydata/effects_pyarray.bin[set=162,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=162,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 30484,
+          "path": "assets/data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+          "sha256": "BFE0A384DD7D4D89E8A39EA62BF052B15E0D3C953472F3F95E95E49446C45207"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae"
+      },
+      "kind": "animated effect",
+      "name": "142",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "39695297505bf7e3c9f8",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=114].Anim -> pydata/animations_pyarray.bin[sequence=528,step=0].FX -> pydata/effects_pyarray.bin[set=163,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=163,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 34420,
+          "path": "assets/data/3d/interface/skill_dh2_prince_warrior_bash_down.bdae",
+          "sha256": "21A31D374A80B9B6F7D1F9B7F273C62459DDE9BFD9A2FABFA629FC2FAE83A483"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_warrior_bash_down.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_bash_down.bdae"
+      },
+      "kind": "animated effect",
+      "name": "143",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "186a4fc5a5da3fe1c957",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=7].Anim -> pydata/animations_pyarray.bin[sequence=347,step=0].FX -> pydata/effects_pyarray.bin[set=164,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=164,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 56964,
+          "path": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+          "sha256": "DB062CE2F63406656DEE399E312B17416D9E7139890FACB44C754A5F3171883B"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_berseker_berserk.bdae"
+      },
+      "kind": "animated effect",
+      "name": "144",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "372d6436c1ea8b6e7fe0",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=8].Anim -> pydata/animations_pyarray.bin[sequence=339,step=0].FX -> pydata/effects_pyarray.bin[set=165,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=165,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 28716,
+          "path": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+          "sha256": "3B4AB3392F887D3036498B2005362AE227AD19972094ED18A77BFC65E70F2A2B"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae"
+      },
+      "kind": "animated effect",
+      "name": "147",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "935adb6029c20263a9d1",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=55].Anim -> pydata/animations_pyarray.bin[sequence=340,step=0].FX -> pydata/effects_pyarray.bin[set=168,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=168,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_killing_streak.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_killing_streak.bdae",
+        "sha256": "496AF5FA8A88C8F188359895AC1C10D5D1B454E2AFC4D2BEB11D6077CAA807E6",
+        "size": 19624,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_warrior_berseker_killing_streak.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "148",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "34ed7870b9e74e3ca164",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=169,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_survival.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_survival.bdae",
+        "sha256": "BBB7FC827B4B332BBDF4FC6F67093B912B1E881901774687ADB732BA1E130BD1",
+        "size": 26664,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_warrior_berseker_survival.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "149",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "3c9d26fbe9de45f76683",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=170,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 22116,
+          "path": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+          "sha256": "D6F8B20823B97BDF09B205B7B3B22D011B2EB5CCBD191BC073F86D9E5D126E3A"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae"
+      },
+      "kind": "animated effect",
+      "name": "150",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "600a808e35c27cea66cd",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=116].Anim -> pydata/animations_pyarray.bin[sequence=341,step=0].FX -> pydata/effects_pyarray.bin[set=171,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=171,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 23544,
+          "path": "assets/data/3d/interface/skill_dh2_prince_warrior_charge.bdae",
+          "sha256": "10A9A78BE5882E87CE921D2EC2649B0163D351148B8E23A054E934A3CDF87BFE"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_warrior_charge.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_charge.bdae"
+      },
+      "kind": "animated effect",
+      "name": "151",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "330f01c9316b3debb633",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=13].Anim -> pydata/animations_pyarray.bin[sequence=349,step=0].FX -> pydata/effects_pyarray.bin[set=172,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=172,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 45180,
+          "path": "assets/data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+          "sha256": "17CBCD5D103DC7E57FBD22890A48712890D18A5836FD96BC2A345D2A5EE8762C"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+      },
+      "kind": "animated effect",
+      "name": "152",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "168f1f89d4a84680a13b",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=51].Anim -> pydata/animations_pyarray.bin[sequence=350,step=0].FX -> pydata/effects_pyarray.bin[set=173,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=173,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 33656,
+          "path": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+          "sha256": "37A71A99EF80C172BB39D571C55475474E497FFE8080C112905B6E6FEDBB811A"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+      },
+      "kind": "animated effect",
+      "name": "153",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "5420e96034b7cc1b8d4f",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=28].Anim -> pydata/animations_pyarray.bin[sequence=342,step=0].FX -> pydata/effects_pyarray.bin[set=174,step=0].File"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=174,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+        "sha256": "E3951A14F173E1A7592D01C5E243642370E86D646D821D6A32CE12B8843FBFCA",
+        "size": 26884,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "154",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "16968bf94daeac0d3d62",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=175,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura_persist.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura_persist.bdae",
+        "sha256": "BA70F96546D767ADDDE398007033F3129A729FAB20022054E58E1EA7E0F5E8A0",
+        "size": 11408,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura_persist.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "155",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "a5897a61d1d533b9dfe5",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=176,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+        "sha256": "097613CA1A5D2DB33033E5604249BB8B659069974CEE468CB285C899C18F20FC",
+        "size": 37912,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "156",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "0c2403bd74746c6b6d29",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=177,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura_persist.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura_persist.bdae",
+        "sha256": "CDD00568E644B25F6470323A75455AF1FC9CBB757D0AFDB65F376E98029221F6",
+        "size": 15304,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura_persist.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "157",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "061b3b335a594ea70de9",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=178,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+        "sha256": "B613834B3F9A4FEB94B0165609AB427E20ED018F43E9664672823DC653218DC6",
+        "size": 41908,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "158",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "ab1091134c94b2ac42b9",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=179,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura_persist.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura_persist.bdae",
+        "sha256": "BDF4064BC15D4D6EAB99AF83A5837E8E4338BF8127454E9124A42262534E63E8",
+        "size": 9100,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura_persist.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "159",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "7ac2c0fe56cfbe51be50",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=180,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/marker_poisoned.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/marker_poisoned.bdae",
+        "sha256": "D8839D29DD6CE8C92EA84D353444B221985DC6C90B03808A4B4031B22E9F4F95",
+        "size": 5752,
+        "source_label": "android",
+        "source_relative": "3d/interface/marker_poisoned.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "66",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "9a8ed745ed212bec6777",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=2,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_rogue_assassin_blindness_persist.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_rogue_assassin_blindness_persist.bdae",
+        "sha256": "B9983750253F96927C814E99390AE7F78528173DA474BF0DDC91DA5406B5E3B2",
+        "size": 7468,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_rogue_assassin_blindness_persist.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "238",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "0fe816cfa47b6e0be008",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=212,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_hurt_regular_arrow.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_hurt_regular_arrow.bdae",
+        "sha256": "556874E56BD0D47E5B5F870FBDA9EE66AAAB1E90FA687480AED87C3D3601EA66",
+        "size": 8556,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_hurt_regular_arrow.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "218",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "d471823694f7f04fcc2a",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=221,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 13220,
+          "path": "assets/data/3d/interface/spell_dh2_hurt_simplified_chain_lightning.bdae",
+          "sha256": "EE79883191E406E4FE0E7DB1E8A7F83E292CEE28A7D4642C9C2965BDD3DEF8A1"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_hurt_simplified_chain_lightning.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_simplified_chain_lightning.bdae"
+      },
+      "kind": "animated effect",
+      "name": "219",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "5879985a7e4595544fad",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=222,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_figments.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_figments.bdae",
+        "sha256": "2CF7FCA6BA2031B623081FAF7B0C6345F050767ABD994245FB2A0593F1F439F2",
+        "size": 16308,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_mage_illusionist_figments.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "229",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "e8977097ddeba52df66c",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=224,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_terror.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_terror.bdae",
+        "sha256": "0D214DC02093BFC61CD89A858E877E2F0A4C9FCFDA27873B09D8B58B9907C5B3",
+        "size": 10128,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_mage_illusionist_terror.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "232",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "bb9c895034bd31bb81fc",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=225,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_time_control.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_time_control.bdae",
+        "sha256": "9ECD15B880951E27BD41D58AC5FE94CA6CCEC6DDEF905A173A394660AE451871",
+        "size": 19852,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_mage_illusionist_time_control.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "233",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "c196e93720912e8d3e19",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=226,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_eclipse.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_eclipse.bdae",
+        "sha256": "ECC8E06FB42460ECD2DCB45A27EC19CC4B9FF157F11D40483636D0A69E93A8E8",
+        "size": 31336,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_mage_illusionist_eclipse.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "228",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "8edf33ffe1694da54b83",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=227,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist.bdae",
+        "sha256": "53BF4C17E1779AA16BC3919DD70921511A93B779032E73764C2F8208B69E4075",
+        "size": 26376,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "231",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "10ba0957a0f8a610290d",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=228,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 29256,
+          "path": "assets/data/3d/interface/spell_dh2_prince_mage_stone_escape_magefx.bdae",
+          "sha256": "66F593DFDEC1074E34659F3473B0C4905C73E7DBE0DD75228D2B707CC8F75ED4"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_prince_mage_stone_escape_magefx.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_stone_escape_magefx.bdae"
+      },
+      "kind": "animated effect",
+      "name": "237",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "a7e52a00aa68b0821fca",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=229,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+        "sha256": "507C705B2F11037F0EFC9E917E3BC44007A020C567A3E9C09169A4DAA5544E10",
+        "size": 34880,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "234",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "46065520ed88575866ca",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=230,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_mage_necromancer_pestilence.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_mage_necromancer_pestilence.bdae",
+        "sha256": "88A064EDAC9619566C71B1AD55F335A803D6940DD93F164ABFFD1FD3C6214B02",
+        "size": 15188,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_mage_necromancer_pestilence.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "235",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "427bd1cf9af404e4bec6",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=231,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_mage_necromancer_rise.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_mage_necromancer_rise.bdae",
+        "sha256": "DAF155DA554DEE3F8033517B457C0A2E6D68049B6BD366E2A171DAEEA6FAC385",
+        "size": 62772,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_mage_necromancer_rise.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "236",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "97a82d98da3e04396df1",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=232,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_hurt_exploding_arrow.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_hurt_exploding_arrow.bdae",
+        "sha256": "479F53AEEA750C3FD83B143CDF852EFF9CA6ED199AC09FE75CAA2ADE6916347E",
+        "size": 15560,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_hurt_exploding_arrow.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "207",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "8e47fece033e8a13483e",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=233,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 9020,
+          "path": "assets/data/3d/interface/spell_dh2_prince_rogue_quickness.bdae",
+          "sha256": "0CC0E5FE78CDD8B54B8AD2EE8FA83DA3B6294CB5A26E2FD720B585C36E6153BE"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_prince_rogue_quickness.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_rogue_quickness.bdae"
+      },
+      "kind": "animated effect",
+      "name": "239",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "4108b6654c79213dd82d",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=234,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_conversion_persist.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_conversion_persist.bdae",
+        "sha256": "512B392451D1B13FBAFA4A954851D68F037A7952F6452C1031E3EF4855437102",
+        "size": 20888,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_warrior_paladin_conversion_persist.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "241",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "ca59b0e44ea5c3badd10",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=235,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae",
+        "sha256": "95EAB3BCAC16314E35C94EF96328331F73B1D3D701185456BFBEE12A4E741581",
+        "size": 21536,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "242",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "bcb79f58749182257cb3",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=236,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae",
+        "sha256": "63498956D940F6088E77FC51F66FE7638A7B9D8B8230B366D4FC7CEDB6F37AEE",
+        "size": 27608,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "243",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "0dc79984f79e77708c63",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=237,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_offensive_aura.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_offensive_aura.bdae",
+        "sha256": "50292C79BCE60FA13213B8E55AD0A2874445D35ECDFD7B9E7A7AEFFF9142E987",
+        "size": 30612,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_warrior_paladin_offensive_aura.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "244",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "e2620fd5e34ecfd9bbe2",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=238,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_purifying_aura.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_prince_warrior_paladin_purifying_aura.bdae",
+        "sha256": "4CCF45ABFD30B92F763D43654DDCE9FFF7E2B7BAB04013D4958E10820E8174DA",
+        "size": 24392,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_prince_warrior_paladin_purifying_aura.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "245",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "00d9380f92c73fd1898d",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=239,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 7668,
+          "path": "assets/data/3d/interface/spell_dh2_hurt_fire.bdae",
+          "sha256": "B48D8F0BD4F5884D04BDFD79050549A0541D98375A3FEBE384FE5DBEE31CA152"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_hurt_fire.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_fire.bdae"
+      },
+      "kind": "animated effect",
+      "name": "208",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "09135c4c82f271b6bce3",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=241,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_hurt_poison.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_hurt_poison.bdae",
+        "sha256": "397B37247AE3878887B0651D30811D5B6F2B72C42FE5FF8BA968C9B69630CF76",
+        "size": 7712,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_hurt_poison.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "216",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "40eb14f1a145c492580e",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=244,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/spell_dh2_hurt_wind.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/spell_dh2_hurt_wind.bdae",
+        "sha256": "EF04637089E92C71FC0E1D4859292C6E3FC3590A5B0F70260CCB0D7CC490850E",
+        "size": 10816,
+        "source_label": "android",
+        "source_relative": "3d/interface/spell_dh2_hurt_wind.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "222",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "2fc3a9335495ecb20652",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=247,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 33092,
+          "path": "assets/data/3d/interface/skill_dh2_faery_fire.bdae",
+          "sha256": "91FB8FA21F71ACB38279FDB03A441115D9DB7CDF26A425F2B08E60C80422D66A"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_faery_fire.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_fire.bdae"
+      },
+      "kind": "animated effect",
+      "name": "75",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "0b2763b72dd47eb3c529",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=38,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 14788,
+          "path": "assets/data/3d/interface/spell_dh2_faery_fire.bdae",
+          "sha256": "E000AE3169DB48BF7F726C945EFC989F69FC152CB26827FA588ECA64B8F88135"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_faery_fire.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_fire.bdae"
+      },
+      "kind": "animated effect",
+      "name": "198",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "635004c695f8abe4197d",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=39,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 50332,
+          "path": "assets/data/3d/interface/skill_dh2_faery_earth.bdae",
+          "sha256": "2B25F6A1E2D74EC7D51D9C083C452478370F2419D302AE2D2FC9BE06BD0C7928"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_faery_earth.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_earth.bdae"
+      },
+      "kind": "animated effect",
+      "name": "74",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "b38e010dadfcb68a746c",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=58,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 21668,
+          "path": "assets/data/3d/interface/spell_dh2_faery_earth.bdae",
+          "sha256": "E7CE1C93C95651CE1062433289451486F52B17E845851C98BD1BD4FE57029903"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_faery_earth.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_earth.bdae"
+      },
+      "kind": "animated effect",
+      "name": "197",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "73de5a1cdb9efc1946d7",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=59,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 7696,
+          "path": "assets/data/3d/interface/spell_dh2_faery_water.bdae",
+          "sha256": "CA8065AD7199CA4753EB8CA906E64E23A5214B40EEE3CDD0EB369A156AA7F6F8"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_faery_water.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_water.bdae"
+      },
+      "kind": "animated effect",
+      "name": "202",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "7d5064a9dbac6faacdb9",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=71,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 16828,
+          "path": "assets/data/3d/interface/skill_dh2_faery_water.bdae",
+          "sha256": "C00EC6AD4B07C5036FC7717272B6DE29244E00FA6EB0E6EA002B77DC8A893437"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_faery_water.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_water.bdae"
+      },
+      "kind": "animated effect",
+      "name": "77",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "3c471ad4b474df529a4f",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=72,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 28324,
+          "path": "assets/data/3d/interface/spell_dh2_faery_wind.bdae",
+          "sha256": "68A889946821F2E5EE1EE40F5D6A8BBED0EDDE5B0E7109E24A98081879FF7EB9"
+        },
+        "manifest_path": "assets/data/3d/interface/spell_dh2_faery_wind.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_wind.bdae"
+      },
+      "kind": "animated effect",
+      "name": "203",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "c2fadac6e9c4fbffb307",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=74,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 19184,
+          "path": "assets/data/3d/interface/skill_dh2_faery_wind.bdae",
+          "sha256": "5D5D48B622E01DC70F2E2AFB5F2B0891DF5AA24F4F795EBB970BA9A2592E9936"
+        },
+        "manifest_path": "assets/data/3d/interface/skill_dh2_faery_wind.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_wind.bdae"
+      },
+      "kind": "animated effect",
+      "name": "78",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "e662ced90d79dd3d8dd4",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=75,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/zombie_spawn_fx.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/zombie_spawn_fx.bdae",
+        "sha256": "B54E3B05BA684ECA654C8A58B8EBD5E84F7CAD25929E0B5A60405F66DFDC772E",
+        "size": 17288,
+        "source_label": "android",
+        "source_relative": "3d/interface/zombie_spawn_fx.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "283",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "2a981b744e6aa9e1c165",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=77,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "ORIGINAL_EXISTS_NOT_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "destination": "assets/data/3d/interface/skill_prince_mage_summoned_minion.bdae",
+        "destination_root": "assets/data",
+        "provenance": "exact atlas source path",
+        "selection_destination": "assets/data/3d/interface/skill_prince_mage_summoned_minion.bdae",
+        "sha256": "7EAD760A3FFD51168A2CD04C074932F85E2E4B909FBA965DF36BBEBFF7B01F23",
+        "size": 6320,
+        "source_label": "android",
+        "source_relative": "3d/interface/skill_prince_mage_summoned_minion.bdae",
+        "source_root": "assets-extra/android/data"
+      },
+      "kind": "animated effect",
+      "name": "177",
+      "port_candidates": [],
+      "reason": "Exact source bytes exist in an original corpus and map to a port-resolvable destination absent from staged2.",
+      "reason_code": null,
+      "reference_id": "ab9b576c789cac032b96",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> owned script reference",
+        "Prince player skill row owned by knightberserker -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [
+        "r2/staging/selections/asset-selection-r2-act_1-assets-extra-android-data.json"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=78,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 6232,
+          "path": "assets/data/3d/fx/bloodsplat.bdae",
+          "sha256": "C51FBEB0240862B4AB1CCDFBBD2D77AF1EB859A2411B88CECE78516984C1EB9B"
+        },
+        "manifest_path": "assets/data/3d/fx/bloodsplat.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/fx/bloodsplat.bdae"
+      },
+      "kind": "animated effect",
+      "name": "3",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "ed2198945294b3586fa6",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=79,step=0].File",
+      "source_candidates": []
+    },
+    {
+      "act": "act_2_inferred",
+      "classification": "RESOLVED_STAGED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "manifest_entry": {
+          "bytes": 6256,
+          "path": "assets/data/3d/fx/bloodsplat_hero.bdae",
+          "sha256": "EDA6A3C5AC7A45DA47EFD78508C1E227C99A815E07EBD07B53EBFD113857AB25"
+        },
+        "manifest_path": "assets/data/3d/fx/bloodsplat_hero.bdae",
+        "provenance": "exact source provenance",
+        "uri": ".local-inputs/assets-extra/android/data/3d/fx/bloodsplat_hero.bdae"
+      },
+      "kind": "animated effect",
+      "name": "4",
+      "port_candidates": [],
+      "reason": "A proven source/content URI resolves to a file listed in the frozen staged2 manifest.",
+      "reason_code": null,
+      "reference_id": "78b828f81f701abd7477",
+      "reference_kind": null,
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "selection_files": [],
+      "site": "pydata/effects_pyarray.bin[set=80,step=0].File",
+      "source_candidates": []
+    }
+  ],
+  "schema": "atlas-r2-staging-classification-shard-v1"
+}

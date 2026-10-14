@@ -10,6 +10,16 @@
 //   prince_paladin_holy_weapon.luac (w2-paladin): OnTargetHit with defender == self: the attacker loses TempProp1 of
 //     Skill_Paladin_HolyWeapon (2 x rank) HP, clamped at 0; at 0 the attacker is killed. The Lua SetProp/ApplyPropClass on the
 //     attacker's own sheet (TempProp1 only) is not applied.
+//   prince_berseeker_killing_streak.luac (v21.8 berserker): OnTargetHit with attacker == self and defender dead: two buffs
+//     for bufftime = SnS_Cooldown of Skill_Berserk_KillingStreak at the rank (class projection, 4000 + 500 x L ms):
+//     Skill_Berserk_KillingStreak (capacity 128, the Lua `true`) and its dummy Skill_Berserk_KillingStreak_dummy (capacity 1).
+//     The Lua PlayFX(self) and PlaySound("sfx_passive_skill_activate_2") are NOT dispatched here (presentation gap).
+//   prince_berseeker_survival.luac (v21.8 berserker): OnTargetHit without an attacker guard. While HP% < 35 and no Survival
+//     flag is set: SetProp(SnS_Level, L), CreateBuff(Skill_Berserk_Survival, 8000, false, L), the flag lasts 8000 ms (the Lua
+//     StopBuffTimer clears only the flag, not the buff); at HP% >= 35 with the flag set the buff is removed.
+//     INFERENCE: the hits delivered to the player as the TARGET are the Lua OnTargetHit calls (IDA caller of
+//     CharAI::OnCombatResults not identified, OPEN-4). The HP check reads the actor HP at dispatch time.
+//     The Lua PlaySound("sfx_passive_skill_activate_3") is NOT dispatched here (presentation gap).
 // Not implemented (listed in the report): the CanAttackInMelee gate of KillingFrenzy (every hit counts), and the
 // passives whose outcome needs knockback/stun state or HasBow (Precision, SideStep, Shield, Mirror, Petrify).
 #include "combat_result_event_bus_v1.hpp"
@@ -23,10 +33,11 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace dh::foundation::generic_skills {
 
-enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, holy_weapon };
+enum class EventPassiveKindV1 : std::uint8_t { none, killing_frenzy, carrion_eater, killing_streak, survival, holy_weapon };
 
 // SkillTable script name -> event passive kind (kept next to the implemented scripts only).
 EventPassiveKindV1 event_passive_kind_for_script_v1(std::string_view script);
@@ -47,8 +58,14 @@ public:
     // Ages the Killing Frenzy reset timers (wall seconds, same clock as the buff owner).
     bool advance(CombatSession& session, double dt_seconds, std::string& error);
 
+    // One record per Carrion Eater kill heal (the host logs them; HP in whole units).
+    struct CarrionHealV1 { float before; float heal; float after; std::uint32_t rank; };
+    std::vector<CarrionHealV1> take_carrion_heals() { std::vector<CarrionHealV1> out; out.swap(carrion_heals_); return out; }
+
     std::uint32_t frenzy_counter() const noexcept { return frenzy_counter_; }
     bool frenzy_buff_active() const noexcept { return frenzy_active_; }
+    bool survival_flag() const noexcept { return survival_flag_; }
+    bool survival_buff_active() const noexcept { return survival_buff_; }
     // Last failure raised inside a listener (listeners cannot return errors); empty when none.
     const std::string& last_error() const noexcept { return error_; }
 
@@ -58,6 +75,8 @@ private:
     bool frenzy_set_buff(std::uint32_t strength);
     void carrion_kill();
     void holy_hit(ActorId attacker);
+    void streak_kill();
+    void survival_hit();
 
     TimedBuffSinkV1* buffs_;
     const dh2::data::ClassTables* classes_;
@@ -70,7 +89,11 @@ private:
     std::uint32_t frenzy_counter_ = 0;
     bool frenzy_active_ = false;
     double frenzy_timer_ms_ = 0.0;
+    bool survival_flag_ = false;       // Lua buff_survival ~= nil (the 8000 ms StopBuffTimer clears it)
+    double survival_flag_ms_ = 0.0;
+    bool survival_buff_ = false;       // the Survival buff instance is present (removed at HP >= 35%)
     std::string error_;
+    std::vector<CarrionHealV1> carrion_heals_;
 };
 
 // Live wiring: maps the saved skill rows to their event passives and sets the ranks (rank 0 clears the listener's effect).

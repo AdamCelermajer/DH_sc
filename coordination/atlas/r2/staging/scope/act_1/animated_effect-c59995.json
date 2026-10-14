@@ -1,0 +1,3662 @@
+{
+  "act": "act_1",
+  "count": 73,
+  "kind": "animated effect",
+  "rows": [
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "711f7dbc81c4aee53941",
+      "kind": "animated effect",
+      "name": "222",
+      "reason": null,
+      "reference_id": "711f7dbc81c4aee53941",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1085aa88a8569dbf8dc3",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_wind.bdae",
+              "sha256": "ef04637089e92c71fc0e1d4859292c6e3fc3590a5b0f70260ccb0d7cc490850e",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "ea067d611a3f13a86b38e7e2261fb74713ede02c14f4393414fdb6c76ee927ca",
+              "id": "938af8b1014ed3959b77",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_hurt_wind.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001380.dat",
+              "sha256": "588df0faccdf888feff6ac0be1dc1356d7f9a348a8aa71a33801d09605d7858f",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 1,
+          "effect_set_name": "AUTO_DEBUFF_SLOW",
+          "index": 222,
+          "path": "data/3D/interface/spell_dh2_hurt_wind.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=1,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "63eb52c5bae7347af3cb",
+      "kind": "animated effect",
+      "name": "221",
+      "reason": null,
+      "reference_id": "63eb52c5bae7347af3cb",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "8aabd9af32548af6a11f",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_water.bdae",
+              "sha256": "76a4029a4f815023c347318abfdc76e74e42bf76914e5b7d031408c2c83da62a",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "2cf45f6dc8ff74b4f329f3cae47cba3f11223ceeeac4603dbe709b4595b9ccf2",
+              "id": "a3d0a12ba6eb6279436e",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_hurt_water.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000653.dat",
+              "sha256": "7b8f1e722a8f5be100a77d4a5a44b8b808d7746885765f077497230650060905",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 125,
+          "effect_set_name": "elem_dmg_02_water",
+          "index": 221,
+          "path": "data/3D/interface/spell_dh2_hurt_water.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=125,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "bb9d7a219a8114807181",
+      "kind": "animated effect",
+      "name": "199",
+      "reason": null,
+      "reference_id": "bb9d7a219a8114807181",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "4b44d281de0d5b713dfe",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_lightning.bdae",
+              "sha256": "24de71141c46541f930841055880000446eb77a0c100dc09cabad92550012b3e",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "9a2f2d6a848068af0984d142d3aa08a6ad30d0519c090454d4b779b3593b85af",
+              "id": "b9a60eac0f64258a2261",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_faery_lightning.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003697.dat",
+              "sha256": "bfa35192e7ee1b5e9f8f3fd4f53f12802db4b808e7f2bdc52b1129ff24de87c8",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 13,
+          "effect_set_name": "Celest_Level_1_Main",
+          "index": 199,
+          "path": "data/3D/interface/spell_dh2_faery_lightning.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=13,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5167fe9b3a2451a4f90c",
+      "kind": "animated effect",
+      "name": "76",
+      "reason": null,
+      "reference_id": "5167fe9b3a2451a4f90c",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "595525836ee47047ff1a",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_lightning.bdae",
+              "sha256": "441444ec34ac2d0a6a06917b4ff27e26691c8466b7de29d4df369274d9a968a0",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "7e48f92fa3bd7faae7898de7f67d74a1408a0593dc2ddd46aa7e33b608d34ab8",
+              "id": "b167d8275c9b77240506",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_faery_lightning.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004215.dat",
+              "sha256": "356f2aa12087a3680e222ff7ea6cca99b831081f488267763e70023d05bacdc8",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 14,
+          "effect_set_name": "Celest_Level_1_Player",
+          "index": 76,
+          "path": "data/3D/interface/skill_dh2_faery_lightning.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=14,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "0fb47a2071364f0ee16c",
+      "kind": "animated effect",
+      "name": "135",
+      "reason": null,
+      "reference_id": "0fb47a2071364f0ee16c",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "dfbc9e0a926512c554be",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+              "sha256": "a693ed51a7432dec4ac8c5cdff26754dcce83bd280f8b9b6ef960409907d0721",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "e59bfc967b189d0ba863ba55e705c83e9ca0cf3cb9977c65393b07aca8517507",
+              "id": "c6dc72efa29efe6477b9",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_rogue_assassin_assassination.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002356.dat",
+              "sha256": "66c25fb935770dca3b3355001976c1c34cde9b80b3776df80342e9e63806f1ee",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 142,
+          "effect_set_name": "skill_dh2_assassin_assassination",
+          "index": 135,
+          "path": "data/3D/interface/skill_dh2_prince_rogue_assassin_assassination.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=5].Anim -> pydata/animations_pyarray.bin[sequence=517,step=0].FX -> pydata/effects_pyarray.bin[set=142,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=142,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "84c941bcbcd152b55383",
+      "kind": "animated effect",
+      "name": "136",
+      "reason": null,
+      "reference_id": "84c941bcbcd152b55383",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1e1257b1a48405e80d81",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+              "sha256": "5d918f432e3970a50b3798fbf26686a5df0dcb902c3d47c877c128639ecf430c",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "435ca27c32a36f77cb0990a063bc746189f56ab85a74bfc19e815ad4151e4ca6",
+              "id": "5ca579c57d454b4b30d9",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_rogue_assassin_blindness.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000722.dat",
+              "sha256": "47b500d631229a3eb4e22c7afc33d50ca937fdc1a8501d16e2c18e6e25de30a3",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 143,
+          "effect_set_name": "skill_dh2_assassin_blindness",
+          "index": 136,
+          "path": "data/3D/interface/skill_dh2_prince_rogue_assassin_blindness.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=9].Anim -> pydata/animations_pyarray.bin[sequence=518,step=0].FX -> pydata/effects_pyarray.bin[set=143,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=143,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "86bb75a3e77cd2977781",
+      "kind": "animated effect",
+      "name": "137",
+      "reason": null,
+      "reference_id": "86bb75a3e77cd2977781",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "16f289daed68bb87a1b6",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+              "sha256": "2c269390c1675394f81393f0988fe050197382fedcefad595ce69eb917cfcf74",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "efaf5cb98a17ad5f853094d08495ecfdbba49fa28abe584d5f6c73f83e5ceb82",
+              "id": "55860736d8b4aafedf67",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000175.dat",
+              "sha256": "0eccb71af13b6645cdde0a425e9c63122cf5ba90c9d29397ed8faa701d4fc178",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 144,
+          "effect_set_name": "skill_dh2_assassin_poison_sting",
+          "index": 137,
+          "path": "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> pydata/skills_pyarray.bin[skill=85].Anim -> pydata/animations_pyarray.bin[sequence=520,step=0].FX -> pydata/effects_pyarray.bin[set=144,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=144,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "956b9f03a3655063a0c6",
+      "kind": "animated effect",
+      "name": "138",
+      "reason": null,
+      "reference_id": "956b9f03a3655063a0c6",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "4ebe1436240c5e8cf73f",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting_persist.bdae",
+              "sha256": "f8687a7c16a48baca93764023a6402435e247e050c9c85028c8b76d9c32f0d19",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "435dc8cd0a9de593af4b8bab68d0923c18efd3d3bd3c56234987d181a4567d5f",
+              "id": "9116a8c4c0ea8313ede2",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_rogue_assassin_poison_sting_persist.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001057.dat",
+              "sha256": "62bef6204a1bf6a9ab32c55d10b4ee2b255fe1feaa85fe7cb342ccbf3f5e64e4",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 145,
+          "effect_set_name": "skill_dh2_assassin_poison_sting_persist",
+          "index": 138,
+          "path": "data/3D/interface/skill_dh2_prince_rogue_assassin_poison_sting_persist.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=145,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8f588366ce5cce27d62f",
+      "kind": "animated effect",
+      "name": "126",
+      "reason": null,
+      "reference_id": "8f588366ce5cce27d62f",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "d061ea98cd73b8c6d5a2",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+              "sha256": "0f4f057d6e2d49a434fe0f714f863c34e1fc894affa28efc79cab148bfc2b167",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "6229e29036803c8d26d7fe1a9e171c55a079739ebd6338699736ff6a2c8e5f7e",
+              "id": "e2979d6481a3caaaa18b",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_illusionist_figments.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004730.dat",
+              "sha256": "ee138dc6ef69954079ba1a9af8e2563e68da2ab229f70af426e3f25465fa6b15",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 147,
+          "effect_set_name": "skill_dh2_prince_illusionist_figments",
+          "index": 126,
+          "path": "data/3D/interface/skill_dh2_prince_mage_illusionist_figments.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=45].Anim -> pydata/animations_pyarray.bin[sequence=417,step=0].FX -> pydata/effects_pyarray.bin[set=147,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=147,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "77f2278da1cb7eb842f3",
+      "kind": "animated effect",
+      "name": "127",
+      "reason": null,
+      "reference_id": "77f2278da1cb7eb842f3",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "bfab598775e2e46b2af1",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+              "sha256": "566e505ddbea2c028fa6a0035adf840295236b112219f4421974c4e6c6b5ef81",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "6f17e9fbf840e4e91f5a96053f4078a3b69baef2ad439cdb50f267f12b0bef2c",
+              "id": "b6a656b34d82a324a520",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_illusionist_terror.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000315.dat",
+              "sha256": "2238329ba437468329a5f4ed0d758cbd3869a4d7fc963d620d59570016cd0bda",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 148,
+          "effect_set_name": "skill_dh2_prince_illusionist_terror",
+          "index": 127,
+          "path": "data/3D/interface/skill_dh2_prince_mage_illusionist_terror.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=110].Anim -> pydata/animations_pyarray.bin[sequence=424,step=0].FX -> pydata/effects_pyarray.bin[set=148,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=148,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "447674499226c4781e6e",
+      "kind": "animated effect",
+      "name": "128",
+      "reason": null,
+      "reference_id": "447674499226c4781e6e",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "7e85cdf7f3b02b4870b5",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+              "sha256": "507c27b61fd198c8e0ccacf30d568d9a9c7ee5351d054fbb0416f161b73cfb70",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "8cdae8f32e571323ff0133debe0e7cc5cf86bad3780ce6919aaab479ea39af14",
+              "id": "dddf93bb95008b69f15b",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_illusionist_time_control.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000978.dat",
+              "sha256": "28faebc9551b4ab09b765884c63122ba75990268b26ca3e1b6b3b4ff60ceb29b",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 149,
+          "effect_set_name": "skill_dh2_prince_illusionist_timecontrol",
+          "index": 128,
+          "path": "data/3D/interface/skill_dh2_prince_mage_illusionist_time_control.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=111].Anim -> pydata/animations_pyarray.bin[sequence=425,step=0].FX -> pydata/effects_pyarray.bin[set=149,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=149,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "fd8afbd920782c00d52c",
+      "kind": "animated effect",
+      "name": "122",
+      "reason": null,
+      "reference_id": "fd8afbd920782c00d52c",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1b20190333ce23403380",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_cold_ray.bdae",
+              "sha256": "df5949273178514c56b7c36b8fc86872e1e93e26b2de2b0c035196eded7dd620",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "b9c42b973b087f622ce174b5750d9a594633161b9ee55b3c7c8ffcf31454269d",
+              "id": "16e133165230103a2d15",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_cold_ray.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002857.dat",
+              "sha256": "f64005b9be58bd1e25814ce78c1a549c6ec8e6219e098192cdb42e2d3826fc57",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 150,
+          "effect_set_name": "skill_dh2_prince_mage_cold_ray",
+          "index": 122,
+          "path": "data/3D/interface/skill_dh2_prince_mage_cold_ray.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=14].Anim -> pydata/animations_pyarray.bin[sequence=413,step=0].FX -> pydata/effects_pyarray.bin[set=150,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=150,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4e216c3b31dfdd8519a7",
+      "kind": "animated effect",
+      "name": "123",
+      "reason": null,
+      "reference_id": "4e216c3b31dfdd8519a7",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "ef643d5fc283ff245e93",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_cyclone.bdae",
+              "sha256": "4f631738a350f2af593b9bb42177c3e04fce9d0a4f1be671d5560c2311a0e8d3",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "ea18b3f98c6c3c18a98d33e3ec8410e9fd2318df5c3d36412867fc60be694e34",
+              "id": "84bacb7f0cb80788b2cf",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_cyclone.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003035.dat",
+              "sha256": "e5422743bf7b9b8e7b6c59fb7d37bc90af944402de496d9cbf8cb18c43e1dd5f",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 151,
+          "effect_set_name": "skill_dh2_prince_mage_cyclone",
+          "index": 123,
+          "path": "data/3D/interface/skill_dh2_prince_mage_cyclone.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> pydata/skills_pyarray.bin[skill=19].Anim -> pydata/animations_pyarray.bin[sequence=414,step=0].FX -> pydata/effects_pyarray.bin[set=151,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=151,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3dd12e77388026e5140a",
+      "kind": "animated effect",
+      "name": "124",
+      "reason": null,
+      "reference_id": "3dd12e77388026e5140a",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "2e11b50dbbc0b8a583f9",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+              "sha256": "db9b3ec2a98e0092d3b342ff91e9fa6ef531149cab5d0b8c20c3d1a56746b3ae",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "897edd84a8cbdfd651260c645f97e55a4504836e873c0c48783d60b5885f4927",
+              "id": "5c4b023e50437174ba9d",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003800.dat",
+              "sha256": "6f246466d75714cf62dba61de6711179d2e058518100f62f689e6834eda1c650",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 152,
+          "effect_set_name": "skill_dh2_prince_mage_illusionist_eclipse",
+          "index": 124,
+          "path": "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> pydata/skills_pyarray.bin[skill=30].Anim -> pydata/animations_pyarray.bin[sequence=416,step=0].FX -> pydata/effects_pyarray.bin[set=152,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=152,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "272158846d51e110f440",
+      "kind": "animated effect",
+      "name": "125",
+      "reason": null,
+      "reference_id": "272158846d51e110f440",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "8056a0153b894c0830b5",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse_persist.bdae",
+              "sha256": "511665e31a8cbea954521f57f1c3a9ce968691023a00c79de7d11fae0689d759",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "25e1f9aa84b6ad4e9793f6c5a6d483853491013448dc4e79d76cd67c42471ad3",
+              "id": "f2dc323cac1afa8e7f2a",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_illusionist_eclipse_persist.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003489.dat",
+              "sha256": "015bfb67b3dc5d54e351d8b1e551398dbb0fec296d069fc77b0bf448daef6df8",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 153,
+          "effect_set_name": "skill_dh2_prince_mage_illusionist_eclipse_persist",
+          "index": 125,
+          "path": "data/3D/interface/skill_dh2_prince_mage_illusionist_eclipse_persist.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=153,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "991c76280717ae0122f7",
+      "kind": "animated effect",
+      "name": "129",
+      "reason": null,
+      "reference_id": "991c76280717ae0122f7",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "c1250901929a5f7001a4",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+              "sha256": "86bf06d20c11014f2b8209f4a6090f8be31607e85aa78d210c05cae0180742f4",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "4db21733c83d60cbabf52c7c9c4b2e23feaa365a7663fabed26dfa548ec04cac",
+              "id": "ec6502e55da157edeede",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003744.dat",
+              "sha256": "06b03b4fb5f8264709839af83b02acd449ab180258264ef2e1d8f48d46672f9a",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 156,
+          "effect_set_name": "skill_dh2_prince_necromancer_deathclaw",
+          "index": 129,
+          "path": "data/3D/interface/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=26].Anim -> pydata/animations_pyarray.bin[sequence=415,step=0].FX -> pydata/effects_pyarray.bin[set=156,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=156,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "907f1938f6ab0243e33b",
+      "kind": "animated effect",
+      "name": "130",
+      "reason": null,
+      "reference_id": "907f1938f6ab0243e33b",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "86453e70b0984a5e7b13",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+              "sha256": "400a7f48e704138087441a29cf7f79365a19519a9ff8cbf7cf47ad78d306a6be",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "bd5b701c3ab914fa0aa0ba623c5e97043bb68514572a83e3679c1f60571d6645",
+              "id": "f4885c883dd4918ac245",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001566.dat",
+              "sha256": "54533f0d0e2ce6ac2a692255341640fcecc65f9e385f69070e0a3c203dbd57c7",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 157,
+          "effect_set_name": "skill_dh2_prince_necromancer_fireskullrain",
+          "index": 130,
+          "path": "data/3D/interface/skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=47].Anim -> pydata/animations_pyarray.bin[sequence=418,step=0].FX -> pydata/effects_pyarray.bin[set=157,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=157,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "08ce129be6b82936ec56",
+      "kind": "animated effect",
+      "name": "131",
+      "reason": null,
+      "reference_id": "08ce129be6b82936ec56",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "3b70b4f6e248cd4c8e3f",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+              "sha256": "b8f5a6063b50fbd288a609b7fdfefd3c09c291cdefeebf53111bee988d21b2e4",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "d9692e9c5f56ceb4e299110919f1dcccf7331ffca919af9d99a7a9b480c26574",
+              "id": "22e5de9e071ac3d942a5",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001504.dat",
+              "sha256": "c6c5a3319345fc2d6329fa7933434566fbee57d7ae1a55294e42512ef1cca398",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 158,
+          "effect_set_name": "skill_dh2_prince_necromancer_pestilence",
+          "index": 131,
+          "path": "data/3D/interface/skill_dh2_prince_mage_necromancer_pestilence.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=81].Anim -> pydata/animations_pyarray.bin[sequence=421,step=0].FX -> pydata/effects_pyarray.bin[set=158,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=158,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "982d607bc20de09a6a0c",
+      "kind": "animated effect",
+      "name": "132",
+      "reason": null,
+      "reference_id": "982d607bc20de09a6a0c",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "a3b750024a6a36cc243d",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+              "sha256": "6d83fde03477ac7a2d819f634043cd18a0995878466e55c95f9ae9bca68e256e",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "0adabbb4e273b83ab0f8f3cd8de303773d66bb908a920281e6f036c1275f5d4d",
+              "id": "2c3caed5c788d625496c",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_mage_necromancer_rise.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005537.dat",
+              "sha256": "2e23c8c18040c07e4b6fc7e3d50faf969374189c4125b8588512ea4da895cc46",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 159,
+          "effect_set_name": "skill_dh2_prince_necromancer_rise",
+          "index": 132,
+          "path": "data/3D/interface/skill_dh2_prince_mage_necromancer_rise.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> pydata/skills_pyarray.bin[skill=93].Anim -> pydata/animations_pyarray.bin[sequence=422,step=0].FX -> pydata/effects_pyarray.bin[set=159,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=159,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2bdaafa8126072240247",
+      "kind": "animated effect",
+      "name": "139",
+      "reason": null,
+      "reference_id": "2bdaafa8126072240247",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "d46f4eba99bedcef6fef",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+              "sha256": "14a5f50e9d3ea7fb3b9df6b675fe89e0cbe4fc35969ccb2337f3cdd4f091695d",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "d369da15e14b69556d09041c2268df1fa259963ea5bc3a0fcb58594ccda08255",
+              "id": "b0161d4b56b561828279",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_rogue_jump_kick.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000828.dat",
+              "sha256": "aeb8a22df32b0ddd950be6602305b5aa31773f9343b009bcf410916fd877a392",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 160,
+          "effect_set_name": "skill_dh2_prince_rogue_jump_kick",
+          "index": 139,
+          "path": "data/3D/interface/skill_dh2_prince_rogue_jump_kick.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=56].Anim -> pydata/animations_pyarray.bin[sequence=521,step=0].FX -> pydata/effects_pyarray.bin[set=160,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=160,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3a102586ca700ca7ceb2",
+      "kind": "animated effect",
+      "name": "140",
+      "reason": null,
+      "reference_id": "3a102586ca700ca7ceb2",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "6e002f5438c3101d165b",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_quickness.bdae",
+              "sha256": "306053d3483a2822bd5ce9d5daefe50e098e72c7e2d098ad56e38feb08bc0c38",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "e6dc96a8df43fa29575328f49b8e471358210888b0d8cd732feb1c7f10482b7b",
+              "id": "75b1d791316341137343",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_rogue_quickness.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005355.dat",
+              "sha256": "ebcac76646460d4d289767370486c6386d5b66aefc4124bb856cac4ea4873388",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 161,
+          "effect_set_name": "skill_dh2_prince_rogue_quickness",
+          "index": 140,
+          "path": "data/3D/interface/skill_dh2_prince_rogue_quickness.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=90].Anim -> pydata/animations_pyarray.bin[sequence=524,step=0].FX -> pydata/effects_pyarray.bin[set=161,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=161,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "16a32cf2a377ab007848",
+      "kind": "animated effect",
+      "name": "141",
+      "reason": null,
+      "reference_id": "16a32cf2a377ab007848",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "a4bb67841c3f90aa33f0",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+              "sha256": "ed0c2873f8c2fdbe60031ed1ac1d0c22a9d4b19ae48cfae7e54eb2ad6bd70d6d",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "3be5b5556fa949b0b17aaa66d7535ef39530e261821be4c126bff8b160a0e720",
+              "id": "d05d668e1782d7556878",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_rogue_roundhouse.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001581.dat",
+              "sha256": "c33c9bd069f6d8b7e8bbf42339666fdc15293a230589077d76639d931fa50442",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 162,
+          "effect_set_name": "skill_dh2_prince_rogue_roundhouse",
+          "index": 141,
+          "path": "data/3D/interface/skill_dh2_prince_rogue_roundhouse.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=97].Anim -> pydata/animations_pyarray.bin[sequence=525,step=0].FX -> pydata/effects_pyarray.bin[set=162,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=162,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "39695297505bf7e3c9f8",
+      "kind": "animated effect",
+      "name": "142",
+      "reason": null,
+      "reference_id": "39695297505bf7e3c9f8",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "08bc173184733e7a5dd5",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+              "sha256": "bfe0a384dd7d4d89e8a39ea62bf052b15e0d3c953472f3f95e95e49446c45207",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "6bc6970024681539ff8cf3270d5567d5c856aaec2aa3b9cb732a72deef67a647",
+              "id": "63d64f8b5948b4aaef19",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_rogue_vicious_strike.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005816.dat",
+              "sha256": "1bdcb3ab09b6cb9450340f29f6ba7a8707f86e96fe647c018d9007446578b1ea",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 163,
+          "effect_set_name": "skill_dh2_prince_rogue_vicious_strike",
+          "index": 142,
+          "path": "data/3D/interface/skill_dh2_prince_rogue_vicious_strike.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> pydata/skills_pyarray.bin[skill=114].Anim -> pydata/animations_pyarray.bin[sequence=528,step=0].FX -> pydata/effects_pyarray.bin[set=163,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=163,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "186a4fc5a5da3fe1c957",
+      "kind": "animated effect",
+      "name": "143",
+      "reason": null,
+      "reference_id": "186a4fc5a5da3fe1c957",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "2cfc535f0d176770d70a",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_bash_down.bdae",
+              "sha256": "21a31d374a80b9b6f7d1f9b7f273c62459dde9bfd9a2fabfa629fc2fae83a483",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "7501577d25ddfe4c87aa15d73a696fe2d310ceb345c6119de899eeaa9e0441b6",
+              "id": "e22da018fb910e8d4974",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_bash_down.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003093.dat",
+              "sha256": "f517f6dd6ec9a8932ce762ad02005efc165ffa1e8f3168a46d5974381ce1e197",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 164,
+          "effect_set_name": "skill_dh2_prince_warrior_bash_down",
+          "index": 143,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_bash_down.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=7].Anim -> pydata/animations_pyarray.bin[sequence=347,step=0].FX -> pydata/effects_pyarray.bin[set=164,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=164,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "372d6436c1ea8b6e7fe0",
+      "kind": "animated effect",
+      "name": "144",
+      "reason": null,
+      "reference_id": "372d6436c1ea8b6e7fe0",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "8774fded98bf532fd6e1",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+              "sha256": "db062ce2f63406656dee399e312b17416d9e7139890facb44c754a5f3171883b",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "f0042b630d0b45ef2d68a687e2c1ed7f9d73e8458909415bc33784a5f64cb87f",
+              "id": "faaada72645804e5cabc",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_berseker_berserk.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004391.dat",
+              "sha256": "2ab4a4d1572a2030483516bcfa1c77500afc92681ca71be03c9655f6aa5625d6",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 165,
+          "effect_set_name": "skill_dh2_prince_warrior_berseker_berserk",
+          "index": 144,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_berseker_berserk.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=8].Anim -> pydata/animations_pyarray.bin[sequence=339,step=0].FX -> pydata/effects_pyarray.bin[set=165,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=165,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "935adb6029c20263a9d1",
+      "kind": "animated effect",
+      "name": "147",
+      "reason": null,
+      "reference_id": "935adb6029c20263a9d1",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "16d3645002745cfef744",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+              "sha256": "3b4ab3392f887d3036498b2005362ae227ad19972094ed18a77bfc65e70f2a2b",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "bfa2c5663892af8c07152e7e370d78cfe8629cf3bbf2ff719a95ef5ea96b07ed",
+              "id": "3d96bd7629e5c28136b6",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002557.dat",
+              "sha256": "5ead5c1e9d9dd93c944a7355b6b272c43e36280c04101560d2f1e0c2558d125f",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 168,
+          "effect_set_name": "skill_dh2_prince_warrior_berseker_intimidate",
+          "index": 147,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_berseker_intimidate.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=55].Anim -> pydata/animations_pyarray.bin[sequence=340,step=0].FX -> pydata/effects_pyarray.bin[set=168,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=168,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "34ed7870b9e74e3ca164",
+      "kind": "animated effect",
+      "name": "148",
+      "reason": null,
+      "reference_id": "34ed7870b9e74e3ca164",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "bcf604ea133744de2c0f",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_berseker_killing_streak.bdae",
+              "sha256": "496af5fa8a88c8f188359895ac1c10d5d1b454e2afc4d2beb11d6077caa807e6",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "c8dd252c66671fa777b9c399ed04cbd4bacc41991f4136b242588755b69d08e5",
+              "id": "9940c0b24d0a198251b5",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_berseker_killing_streak.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000670.dat",
+              "sha256": "bd96facb3e895149abaaf318bb52533f511b86fbfb4d05027bbdb2f2ec2bdf64",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 169,
+          "effect_set_name": "skill_dh2_prince_warrior_berseker_killing_streak",
+          "index": 148,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_berseker_killing_streak.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=169,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3c9d26fbe9de45f76683",
+      "kind": "animated effect",
+      "name": "149",
+      "reason": null,
+      "reference_id": "3c9d26fbe9de45f76683",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "b552a5c44f45efb73403",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_berseker_survival.bdae",
+              "sha256": "bbb7fc827b4b332bbdf4fc6f67093b912b1e881901774687adb732ba1e130bd1",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "0c6379243bcf7d32f5ac0d04f460ea88d5b9e09a597267c3aacabe35be2dacde",
+              "id": "57d69a95db3f578227e9",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_berseker_survival.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000424.dat",
+              "sha256": "3af6fd5b612392863bab8ff8c40e2042233a4e002cb83c27ad8e8de0e2e6e802",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 170,
+          "effect_set_name": "skill_dh2_prince_warrior_berseker_survival",
+          "index": 149,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_berseker_survival.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=170,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "600a808e35c27cea66cd",
+      "kind": "animated effect",
+      "name": "150",
+      "reason": null,
+      "reference_id": "600a808e35c27cea66cd",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "d8f7accc49191cf08740",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+              "sha256": "d6f8b20823b97bdf09b205b7b3b22d011b2eb5ccbd191bc073f86d9e5d126e3a",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "09fbddd4460d5f000312a9bbdcf437440a0c909b7223e72a1abbd80ff0e9e8d8",
+              "id": "f4904a7bbb8ac0d4f9e6",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001394.dat",
+              "sha256": "0754a921bc844803b6f585c337b5cf1902e9680d2aa58234b9e7995dd721829b",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 171,
+          "effect_set_name": "skill_dh2_prince_warrior_berseker_whirling_drift",
+          "index": 150,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightberserker -> pydata/skills_pyarray.bin[skill=116].Anim -> pydata/animations_pyarray.bin[sequence=341,step=0].FX -> pydata/effects_pyarray.bin[set=171,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=171,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "330f01c9316b3debb633",
+      "kind": "animated effect",
+      "name": "151",
+      "reason": null,
+      "reference_id": "330f01c9316b3debb633",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "bbb620e728f289e0f5f7",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_charge.bdae",
+              "sha256": "10a9a78be5882e87ce921d2ec2649b0163d351148b8e23a054e934a3cdf87bfe",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "8a0a03d3d7828b05472a1758c37295908f8f8b863f5f7c07ee8d268019bce3b8",
+              "id": "0fa92bd898a3cd8ffc57",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_charge.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001781.dat",
+              "sha256": "4556e3660b0bbe1275777d5c45375440bdc9d8f0328124d52837d1e8d9c9de6f",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 172,
+          "effect_set_name": "skill_dh2_prince_warrior_charge",
+          "index": 151,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_charge.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=13].Anim -> pydata/animations_pyarray.bin[sequence=349,step=0].FX -> pydata/effects_pyarray.bin[set=172,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=172,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "168f1f89d4a84680a13b",
+      "kind": "animated effect",
+      "name": "152",
+      "reason": null,
+      "reference_id": "168f1f89d4a84680a13b",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "6aee1441f719ce7ed4d6",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+              "sha256": "17cbcd5d103dc7e57fbd22890a48712890d18a5836fd96bc2a345d2a5ee8762c",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "899e254c7fb270c31ae70c36456df817fcb9723ae1cd956f298c2f1b3fe7fbcc",
+              "id": "2b3c68f2ce252c9f82bb",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_ground_slam.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000708.dat",
+              "sha256": "39f91b78de05fe6fa95d3db81b1c7ebce24c5f81b22d32a857234b9c13743f09",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 173,
+          "effect_set_name": "skill_dh2_prince_warrior_ground_slam",
+          "index": 152,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_ground_slam.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> pydata/skills_pyarray.bin[skill=51].Anim -> pydata/animations_pyarray.bin[sequence=350,step=0].FX -> pydata/effects_pyarray.bin[set=173,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=173,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5420e96034b7cc1b8d4f",
+      "kind": "animated effect",
+      "name": "153",
+      "reason": null,
+      "reference_id": "5420e96034b7cc1b8d4f",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "a67790987de3cfbfc244",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+              "sha256": "37a71a99ef80c172bb39d571c55475474e497ffe8080c112905b6e6fedbb811a",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "aeb523916fa0b2a94e88ca86708553511328f6e9bfab21c4218597dbc9d2e947",
+              "id": "9e2ed6b3e6fad95f0fd3",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001409.dat",
+              "sha256": "df76326ff0178f4ec5d1ca7f906a51f3c2edfb0d98a1558bb0db98a4ddeaeac2",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 174,
+          "effect_set_name": "skill_dh2_prince_warrior_paladin_divine_judgement",
+          "index": 153,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> pydata/skills_pyarray.bin[skill=28].Anim -> pydata/animations_pyarray.bin[sequence=342,step=0].FX -> pydata/effects_pyarray.bin[set=174,step=0].File"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=174,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "16968bf94daeac0d3d62",
+      "kind": "animated effect",
+      "name": "154",
+      "reason": null,
+      "reference_id": "16968bf94daeac0d3d62",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "13e8a5483817e1dad17b",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+              "sha256": "e3951a14f173e1a7592d01c5e243642370e86d646d821d6a32ce12b8843fbfca",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "4b4d414da47ac2fa334a6f0374e122d5852dca02f223161bf18065358f410ec6",
+              "id": "9fa6cccd72a9d316c99d",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001887.dat",
+              "sha256": "0675028f797344ce73218bb4f8bb5d8c7e5d0b1d7ad357aaeb813040c7c30b97",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 175,
+          "effect_set_name": "skill_dh2_prince_warrior_paladin_guarding_aura",
+          "index": 154,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=175,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a5897a61d1d533b9dfe5",
+      "kind": "animated effect",
+      "name": "155",
+      "reason": null,
+      "reference_id": "a5897a61d1d533b9dfe5",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "7c1101e3a617785eb0d5",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura_persist.bdae",
+              "sha256": "ba70f96546d767addde398007033f3129a729fab20022054e58e1ea7e0f5e8a0",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "8e6beda6c107d9edd12b478a161340d1dd48b18a9c792784733c56cf2bb924b7",
+              "id": "d13f4529fde65cb6724c",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_paladin_guarding_aura_persist.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005842.dat",
+              "sha256": "25c4a3d3b3a65a8262f66178cb996d9d0c2afbff16ebee9735bbaa38b0e83e19",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 176,
+          "effect_set_name": "skill_dh2_prince_warrior_paladin_guarding_aura_persist",
+          "index": 155,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_paladin_guarding_aura_persist.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=176,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "0c2403bd74746c6b6d29",
+      "kind": "animated effect",
+      "name": "156",
+      "reason": null,
+      "reference_id": "0c2403bd74746c6b6d29",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "a6aaeeb808a300622c57",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+              "sha256": "097613ca1a5d2db33033e5604249bb8b659069974cee468cb285c899c18f20fc",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "3c81ff3a77e40db40328408374e62fcc2f3fa005a5ce836cc9b4a32510770274",
+              "id": "daa3003dcd5d57381c07",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005579.dat",
+              "sha256": "12a38923a9f5c3544a10a0ccb74edc4ad12a58eb88e7f4534a2a330cf935f0e0",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 177,
+          "effect_set_name": "skill_dh2_prince_warrior_paladin_offensive_aura",
+          "index": 156,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=177,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "061b3b335a594ea70de9",
+      "kind": "animated effect",
+      "name": "157",
+      "reason": null,
+      "reference_id": "061b3b335a594ea70de9",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "9958ed2a20a661ebf710",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura_persist.bdae",
+              "sha256": "cdd00568e644b25f6470323a75455af1fc9cbb757d0afdb65f376e98029221f6",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "682ab29c0e931562a42eec42100cec3ded8036d397dff8b26c3542aa36f78c86",
+              "id": "f8a2bd45fbd39e372105",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_paladin_offensive_aura_persist.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005841.dat",
+              "sha256": "99f78e9c388a5c13e37f3c003507bc336524bde492d9b143e1b3a4b84efea36b",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 178,
+          "effect_set_name": "skill_dh2_prince_warrior_paladin_offensive_aura_persist",
+          "index": 157,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_paladin_offensive_aura_persist.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=178,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ab1091134c94b2ac42b9",
+      "kind": "animated effect",
+      "name": "158",
+      "reason": null,
+      "reference_id": "ab1091134c94b2ac42b9",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "460bb64ea6ad031686ac",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+              "sha256": "b613834b3f9a4feb94b0165609ab427e20ed018f43e9664672823dc653218dc6",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "e037d66a1d64385208cc0d4b01606b8fe932f15d50ee5e9b18bb6a0a41be238b",
+              "id": "29298cc552f6c74004a7",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004079.dat",
+              "sha256": "809fcb399a8bac83ec17d5dc21547db1a2e39a13bdf7c55f962fdc56e86d14dd",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 179,
+          "effect_set_name": "skill_dh2_prince_warrior_paladin_purifying_aura",
+          "index": 158,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=179,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "7ac2c0fe56cfbe51be50",
+      "kind": "animated effect",
+      "name": "159",
+      "reason": null,
+      "reference_id": "7ac2c0fe56cfbe51be50",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "8ae7ef897751d9bcf72d",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura_persist.bdae",
+              "sha256": "bdf4064bc15d4d6eab99af83a5837e8e4338bf8127454e9124a42262534e63e8",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "cc348db82539b0b057ae1018ced9f725f24f900bded406e223e4edca74142aca",
+              "id": "4ee6608f21a5befca8a5",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_prince_warrior_paladin_purifying_aura_persist.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001014.dat",
+              "sha256": "578fdc9a471c5d0ebb92db0a396d0cef2d873f2d7a98c1105c6cc5142d11628e",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 180,
+          "effect_set_name": "skill_dh2_prince_warrior_paladin_purifying_aura_persist",
+          "index": 159,
+          "path": "data/3D/interface/skill_dh2_prince_warrior_paladin_purifying_aura_persist.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=180,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "9a8ed745ed212bec6777",
+      "kind": "animated effect",
+      "name": "66",
+      "reason": null,
+      "reference_id": "9a8ed745ed212bec6777",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "a794655ce44db70eed34",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/marker_poisoned.bdae",
+              "sha256": "d8839d29dd6ce8c92ea84d353444b221985dc6c90b03808a4b4031b22e9f4f95",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "0ddeb93b31a773a1b28c6a36dd8f742a73dd65a88956c9fe21d1477f044ab4b1",
+              "id": "a009a9e66ce576f58b9d",
+              "logical_paths": [
+                "data/3d/interface/marker_poisoned.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003186.dat",
+              "sha256": "9f73ba207ff7745a10a446aca72d623812c11fa320d74772680d7283f5c605fe",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 2,
+          "effect_set_name": "AUTO_DOT_00_NORMAL",
+          "index": 66,
+          "path": "data/3D/interface/marker_poisoned.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=2,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "0fe816cfa47b6e0be008",
+      "kind": "animated effect",
+      "name": "238",
+      "reason": null,
+      "reference_id": "0fe816cfa47b6e0be008",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "20e8e041d00ba974a011",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_rogue_assassin_blindness_persist.bdae",
+              "sha256": "b9983750253f96927c814e99390ae7f78528173da474bf0ddc91da5406b5e3b2",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "bc8e47398b38a2de4c1fd4c3dc164e01bfba1e83097069969ec41ecc311337dd",
+              "id": "2ead2f1f6452dcf0c04f",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_rogue_assassin_blindness_persist.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000324.dat",
+              "sha256": "28ea4f5b9ccebcf02490ecdd69ac6d7198b8476c6347fd537f1e6dc258f385d6",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 212,
+          "effect_set_name": "spell_dh2_assassin_blindness_persist",
+          "index": 238,
+          "path": "data/3D/interface/spell_dh2_prince_rogue_assassin_blindness_persist.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=212,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "d471823694f7f04fcc2a",
+      "kind": "animated effect",
+      "name": "218",
+      "reason": null,
+      "reference_id": "d471823694f7f04fcc2a",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "9c6452b281df3083d05c",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_regular_arrow.bdae",
+              "sha256": "556874e56bd0d47e5b5f870fbda9ee66aaab1e90fa687480aed87c3d3601ea66",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "02e5c7849008f482c922494d4da9a912a5512892555584a7d75eab82345061e2",
+              "id": "af0310334686acd39065",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_hurt_regular_arrow.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005770.dat",
+              "sha256": "e800fc83462618a9eeb4b52d13b9fbbe06f16817bf9dbcbeac65d27fb8d6e124",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 221,
+          "effect_set_name": "spell_dh2_hurt_regular_arrow",
+          "index": 218,
+          "path": "data/3D/interface/spell_dh2_hurt_regular_arrow.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=221,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5879985a7e4595544fad",
+      "kind": "animated effect",
+      "name": "219",
+      "reason": null,
+      "reference_id": "5879985a7e4595544fad",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "f5d3f98d070b4d387497",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_simplified_chain_lightning.bdae",
+              "sha256": "ee79883191e406e4fe0e7db1e8a7f83e292cee28a7d4642c9c2965bdd3def8a1",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "1a5235aa333264cacfe5ffefaf47153a42cb24fa7b3212767e97e9f5028f98c5",
+              "id": "a376147ce1f58d081c15",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_hurt_simplified_chain_lightning.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005881.dat",
+              "sha256": "0dda2215f2ab313f513ccc41f6467ca18843e96d23931c7b7df713786db3125e",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 222,
+          "effect_set_name": "spell_dh2_hurt_simplified_chain_lightning",
+          "index": 219,
+          "path": "data/3D/interface/spell_dh2_hurt_simplified_chain_lightning.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=222,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e8977097ddeba52df66c",
+      "kind": "animated effect",
+      "name": "229",
+      "reason": null,
+      "reference_id": "e8977097ddeba52df66c",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "e5f2cba24970578d5239",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_illusionist_figments.bdae",
+              "sha256": "2cf7fca6ba2031b623081faf7b0c6345f050767abd994245fb2a0593f1f439f2",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "93a8ed422c52d66fe52a76eced205264a6a7c69b457b0d7a5084f3a1ba8f64a1",
+              "id": "db8abb08f1f8ceaf6de3",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_illusionist_figments.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001386.dat",
+              "sha256": "d542aae64c31d9498f1646cfa2b60de66d8ed155a64a65724e33a9e36d1a6c7a",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 224,
+          "effect_set_name": "spell_dh2_prince_illusionist_figments",
+          "index": 229,
+          "path": "data/3D/interface/spell_dh2_prince_mage_illusionist_figments.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=224,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "bb9c895034bd31bb81fc",
+      "kind": "animated effect",
+      "name": "232",
+      "reason": null,
+      "reference_id": "bb9c895034bd31bb81fc",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "fe0010b39089ce367c99",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_illusionist_terror.bdae",
+              "sha256": "0d214dc02093bfc61cd89a858e877e2f0a4c9fcfda27873b09d8b58b9907c5b3",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "290ae634c6aabf1033323ee6fcd4ad212e110ea8c2b0f422d747f460a6f1c0dd",
+              "id": "3a64893ce3d7782a006f",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_illusionist_terror.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003392.dat",
+              "sha256": "f5515d97038277cff9d9e9f612c985c7346e2b45a2b44c4d6241aa6adeb28553",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 225,
+          "effect_set_name": "spell_dh2_prince_illusionist_terror",
+          "index": 232,
+          "path": "data/3D/interface/spell_dh2_prince_mage_illusionist_terror.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=225,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "c196e93720912e8d3e19",
+      "kind": "animated effect",
+      "name": "233",
+      "reason": null,
+      "reference_id": "c196e93720912e8d3e19",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "ed9f506d91d2a1236ce1",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_illusionist_time_control.bdae",
+              "sha256": "9ecd15b880951e27bd41d58ac5fe94ca6ccec6ddef905a173a394660ae451871",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "eb6435034db30b6f3d0475466d6d9cdeb50023f6024171e4b9fa115d57ea4bc9",
+              "id": "dc687f54a3e09e1771bf",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_illusionist_time_control.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004799.dat",
+              "sha256": "2078c6e59a13155283d728360b670c32e4076b669bfa40fa75b703b99093c631",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 226,
+          "effect_set_name": "spell_dh2_prince_illusionist_timecontrol",
+          "index": 233,
+          "path": "data/3D/interface/spell_dh2_prince_mage_illusionist_time_control.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=226,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8edf33ffe1694da54b83",
+      "kind": "animated effect",
+      "name": "228",
+      "reason": null,
+      "reference_id": "8edf33ffe1694da54b83",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1cf15f444cebca9edd8c",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_illusionist_eclipse.bdae",
+              "sha256": "ecc8e06fb42460ecd2dcb45a27ec19cc4b9ff157f11d40483636d0a69e93a8e8",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "9ec7d830bf8ae3c3c7f846ab80c4635935ce1cda74bb2e82cf5cd87ea6e1c0a6",
+              "id": "051a57fb63cf6edcc139",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_illusionist_eclipse.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001300.dat",
+              "sha256": "1dd58de4a10044f592d3a8fbbfacbeb15db6a86d094f5cc6729a7b50b239b21a",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 227,
+          "effect_set_name": "spell_dh2_prince_mage_illusionist_eclipse",
+          "index": 228,
+          "path": "data/3D/interface/spell_dh2_prince_mage_illusionist_eclipse.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=227,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "10ba0957a0f8a610290d",
+      "kind": "animated effect",
+      "name": "231",
+      "reason": null,
+      "reference_id": "10ba0957a0f8a610290d",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "d148b325334fcf51318a",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist.bdae",
+              "sha256": "53bf4c17e1779aa16bc3919dd70921511a93b779032e73764c2f8208b69e4075",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "5d929f3419c611aee3d4241665815eb7c1fa641db2a6437f06a6125baba0d7e4",
+              "id": "f4840f75534b51c58a54",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005436.dat",
+              "sha256": "6ff6aea830fb3951d5d19edb555ef401a630f98635f61b698c80b0b4dba7986d",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 228,
+          "effect_set_name": "spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist",
+          "index": 231,
+          "path": "data/3D/interface/spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mageillusionist -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=228,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "a7e52a00aa68b0821fca",
+      "kind": "animated effect",
+      "name": "237",
+      "reason": null,
+      "reference_id": "a7e52a00aa68b0821fca",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "57152f7c4a79ae78651f",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_stone_escape_magefx.bdae",
+              "sha256": "66f593dfdec1074e34659f3473b0c4905c73e7dbe0dd75228d2b707cc8f75ed4",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "168e08a5e7673fee5e2f238ccdf7bc6f8bfbbb676481c7e854e3fdb2aa67e952",
+              "id": "b2d3fda6d7da14739817",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_stone_escape_magefx.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000197.dat",
+              "sha256": "47f0b5e52cc1a1b9481eacbecdd54e1b4d63041698c9b97d4060800a4f4f244e",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 229,
+          "effect_set_name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "index": 237,
+          "path": "data/3D/interface/spell_dh2_prince_mage_stone_escape_magefx.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=229,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "46065520ed88575866ca",
+      "kind": "animated effect",
+      "name": "234",
+      "reason": null,
+      "reference_id": "46065520ed88575866ca",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "8b24fbf2adfb90e49a05",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+              "sha256": "507c705b2f11037f0efc9e917e3bc44007a020c567a3e9c09169a4daa5544e10",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "b2054879d961fc2ec8cb441d789271f48ccba4b568e2ddd5fdafbfc657e8b25e",
+              "id": "9ea7189783c9cee7f4da",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_necromancer_fire_skull_rain.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002414.dat",
+              "sha256": "3254f933d38ad859af557282386df33283e40850fa44d3685d44dd758d495136",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 230,
+          "effect_set_name": "spell_dh2_prince_necromancer_fireskullrain",
+          "index": 234,
+          "path": "data/3D/interface/spell_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=230,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "427bd1cf9af404e4bec6",
+      "kind": "animated effect",
+      "name": "235",
+      "reason": null,
+      "reference_id": "427bd1cf9af404e4bec6",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "52c77eb896b818b045a8",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_necromancer_pestilence.bdae",
+              "sha256": "88a064edac9619566c71b1ad55f335a803d6940dd93f164abffd1fd3c6214b02",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "dbb7f6748a8668db9ff9d9a61ed3f77dfb7ed9a237df95c99cb28884b5cf9ce0",
+              "id": "6ff9054b8d1a49eae4fb",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_necromancer_pestilence.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005459.dat",
+              "sha256": "06888a6c3c46bd254f99cb0746c90a65141ca809039b3ad8bc216d36f435d83a",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 231,
+          "effect_set_name": "spell_dh2_prince_necromancer_pestilence",
+          "index": 235,
+          "path": "data/3D/interface/spell_dh2_prince_mage_necromancer_pestilence.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=231,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "97a82d98da3e04396df1",
+      "kind": "animated effect",
+      "name": "236",
+      "reason": null,
+      "reference_id": "97a82d98da3e04396df1",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "eb178a2d38dac769cce0",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_mage_necromancer_rise.bdae",
+              "sha256": "daf155da554dee3f8033517b457c0a2e6d68049b6bd366e2a171daeea6fac385",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "7a75f7905f53dacc12288731684b0a5bc109a94f585a903c7c5a13b7b7382e08",
+              "id": "950ddcc335cad4ba86ac",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_mage_necromancer_rise.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003938.dat",
+              "sha256": "9e637ef40ce1f345b6eed4e6a3192d2896de5cb666dd399f8b23d4eaa52f7b91",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 232,
+          "effect_set_name": "spell_dh2_prince_necromancer_rise",
+          "index": 236,
+          "path": "data/3D/interface/spell_dh2_prince_mage_necromancer_rise.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=232,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "8e47fece033e8a13483e",
+      "kind": "animated effect",
+      "name": "207",
+      "reason": null,
+      "reference_id": "8e47fece033e8a13483e",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "9fe617c89d715874b92e",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_exploding_arrow.bdae",
+              "sha256": "479f53aeea750c3fd83b143cdf852eff9ca6ed199ac09fe75caa2ade6916347e",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "b83e1e5f68046606cbed2048fdd5f234856bcfcf486dd7f5032cf7624fb2616e",
+              "id": "98e8804974908c1ef26a",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_hurt_exploding_arrow.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000357.dat",
+              "sha256": "905a17c05a1d690ecbaadbd19af007de4a45c2d443778219a2f94e7948ee0e78",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 233,
+          "effect_set_name": "spell_dh2_prince_rogue_burst_shot",
+          "index": 207,
+          "path": "data/3D/interface/spell_dh2_hurt_exploding_arrow.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=233,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4108b6654c79213dd82d",
+      "kind": "animated effect",
+      "name": "239",
+      "reason": null,
+      "reference_id": "4108b6654c79213dd82d",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "23524402aa8bc364658c",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_rogue_quickness.bdae",
+              "sha256": "0cc0e5fe78cdd8b54b8ad2ee8fa83da3b6294cb5a26e2fd720b585c36e6153be",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "5427a04d6b2b3586de588fe9908e549e6b4e967f907628b9b4a0bd5b727067be",
+              "id": "d5cb13379b6c55ccad79",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_rogue_quickness.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file006040.dat",
+              "sha256": "70c1a6a4b405a44aa89bcf8c795e8b569b6a683c21e79b108cba93ee4f483586",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 234,
+          "effect_set_name": "spell_dh2_prince_rogue_quickness",
+          "index": 239,
+          "path": "data/3D/interface/spell_dh2_prince_rogue_quickness.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogue, roguearcher, rogueassassin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=234,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ca59b0e44ea5c3badd10",
+      "kind": "animated effect",
+      "name": "241",
+      "reason": null,
+      "reference_id": "ca59b0e44ea5c3badd10",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "6f2952d12cc649efb738",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_warrior_paladin_conversion_persist.bdae",
+              "sha256": "512b392451d1b13fbafa4a954851d68f037a7952f6452c1031e3ef4855437102",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "4ebe43aec0978fc2fe568410986865f397cdc5b7d6805897799277c4b9e7a25f",
+              "id": "2512a079dba09c5619ce",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_warrior_paladin_conversion_persist.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003762.dat",
+              "sha256": "282160f754c406bbca7e0eb660f370494cf12f91a670d6ea7b420ba469e1b4ac",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 235,
+          "effect_set_name": "spell_dh2_prince_warrior_paladin_conversion_persist",
+          "index": 241,
+          "path": "data/3D/interface/spell_dh2_prince_warrior_paladin_conversion_persist.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=235,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "bcb79f58749182257cb3",
+      "kind": "animated effect",
+      "name": "242",
+      "reason": null,
+      "reference_id": "bcb79f58749182257cb3",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "6ef72e7d44b9af43cdd2",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae",
+              "sha256": "95eab3bcac16314e35c94ef96328331f73b1d3d701185456bfbee12a4e741581",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "8c32e9d37f93342c39f7e301a6d9372253122112c656912c070bcb4b277d112d",
+              "id": "4e3205b408bae9fe51a4",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004364.dat",
+              "sha256": "5fea0654a8ba7a6c3bc3075318751463158fc77c28f87f48818bf38faf6b505c",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 236,
+          "effect_set_name": "spell_dh2_prince_warrior_paladin_divine_judgement",
+          "index": 242,
+          "path": "data/3D/interface/spell_dh2_prince_warrior_paladin_divine_judgement.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=236,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "0dc79984f79e77708c63",
+      "kind": "animated effect",
+      "name": "243",
+      "reason": null,
+      "reference_id": "0dc79984f79e77708c63",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "e3540cbf97b369e56b30",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae",
+              "sha256": "63498956d940f6088e77fc51f66fe7638a7b9d8b8230b366d4fc7cedb6f37aee",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "a84f4045174d730540b94eded3c89c3482f64be4529a157bf32def0fd5f0ea81",
+              "id": "0fb42b5d874976b8cef6",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004584.dat",
+              "sha256": "c71d1ce5c4c7a0d1fd5a3951b6ed448da0542eafb5d142fe6f9e7f05e0dcb77e",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 237,
+          "effect_set_name": "spell_dh2_prince_warrior_paladin_guarding_aura",
+          "index": 243,
+          "path": "data/3D/interface/spell_dh2_prince_warrior_paladin_guarding_aura.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=237,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e2620fd5e34ecfd9bbe2",
+      "kind": "animated effect",
+      "name": "244",
+      "reason": null,
+      "reference_id": "e2620fd5e34ecfd9bbe2",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "ee149afba84681f58b33",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_warrior_paladin_offensive_aura.bdae",
+              "sha256": "50292c79bce60fa13213b8e55ad0a2874445d35ecdfd7b9e7a7aefff9142e987",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "9e99a8cad116b53428c5a17efcbcde21d39443c12f0ddbc68b66babd60c6f993",
+              "id": "e19390c4c4ad9c3fe644",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_warrior_paladin_offensive_aura.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002615.dat",
+              "sha256": "e2e47c376e73dfd0cdbc5ce48ed71f0461bde40ce11d4b3ba11755033a75c134",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 238,
+          "effect_set_name": "spell_dh2_prince_warrior_paladin_offensive_aura",
+          "index": 244,
+          "path": "data/3D/interface/spell_dh2_prince_warrior_paladin_offensive_aura.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=238,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "00d9380f92c73fd1898d",
+      "kind": "animated effect",
+      "name": "245",
+      "reason": null,
+      "reference_id": "00d9380f92c73fd1898d",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "2a40f909471e8946731f",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_prince_warrior_paladin_purifying_aura.bdae",
+              "sha256": "4ccf45abfd30b92f763d43654ddce9fff7e2b7bab04013d4958e10820e8174da",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "d741dc6520b0450f971672eafdf11e1aac3bfec0543153684dedc1d5ce2a2871",
+              "id": "c228e497ee34ce5623a8",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_prince_warrior_paladin_purifying_aura.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005952.dat",
+              "sha256": "b85f659a15c2afe0f91e17d8ddd12ee15f34f740c08cf03c4778b22ebf23750f",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 239,
+          "effect_set_name": "spell_dh2_prince_warrior_paladin_purifying_aura",
+          "index": 245,
+          "path": "data/3D/interface/spell_dh2_prince_warrior_paladin_purifying_aura.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knightpaladin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=239,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "09135c4c82f271b6bce3",
+      "kind": "animated effect",
+      "name": "208",
+      "reason": null,
+      "reference_id": "09135c4c82f271b6bce3",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "b67905bc599dd0e6502a",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_fire.bdae",
+              "sha256": "b48d8f0bd4f5884d04bdfd79050549a0541d98375a3febe384fe5dbee31ca152",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "baecd6877f3684b8cd6cafe4a38fba0036388205e7ac26bce443e36608813b4a",
+              "id": "7b2f094286c6f1e105d1",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_hurt_fire.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001276.dat",
+              "sha256": "0362fde2d9e94f4943523d7bd87eb2ac7a166cd2befe5b68c3fca0005bb4b630",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 241,
+          "effect_set_name": "spell_fire_hurt",
+          "index": 208,
+          "path": "data/3D/interface/spell_dh2_hurt_fire.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=241,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "40eb14f1a145c492580e",
+      "kind": "animated effect",
+      "name": "216",
+      "reason": null,
+      "reference_id": "40eb14f1a145c492580e",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "d822597218e4e9bf76c1",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_poison.bdae",
+              "sha256": "397b37247ae3878887b0651d30811d5b6f2b72c42fe5ff8ba968c9b69630cf76",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "aa453adf4396f5305db372b1572b5f2a88d53b49c69e8b20472f76861fab6fa2",
+              "id": "df1d7da1dbfc38b0dc56",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_hurt_poison.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004698.dat",
+              "sha256": "aa0660d2de5e5435717fd658ef10fb76661f9cb1307d4933b5ce33141ab804af",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 244,
+          "effect_set_name": "spell_poison_hurt",
+          "index": 216,
+          "path": "data/3D/interface/spell_dh2_hurt_poison.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=244,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2fc3a9335495ecb20652",
+      "kind": "animated effect",
+      "name": "222",
+      "reason": null,
+      "reference_id": "2fc3a9335495ecb20652",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1085aa88a8569dbf8dc3",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_hurt_wind.bdae",
+              "sha256": "ef04637089e92c71fc0e1d4859292c6e3fc3590a5b0f70260ccb0d7cc490850e",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "ea067d611a3f13a86b38e7e2261fb74713ede02c14f4393414fdb6c76ee927ca",
+              "id": "938af8b1014ed3959b77",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_hurt_wind.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001380.dat",
+              "sha256": "588df0faccdf888feff6ac0be1dc1356d7f9a348a8aa71a33801d09605d7858f",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 247,
+          "effect_set_name": "spell_wind_hurt",
+          "index": 222,
+          "path": "data/3D/interface/spell_dh2_hurt_wind.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=247,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "0b2763b72dd47eb3c529",
+      "kind": "animated effect",
+      "name": "75",
+      "reason": null,
+      "reference_id": "0b2763b72dd47eb3c529",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "dfe7daf463860a7810f1",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_fire.bdae",
+              "sha256": "91fb8fa21f71acb38279fdb03a441115d9db7cdf26a425f2b08e60c80422d66a",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "47f7a88da65da3ff19ddd348ba6a14e9f9fd4b07a9747138e6f760c4fa426ce8",
+              "id": "6847aa54bfdc21f42266",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_faery_fire.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000335.dat",
+              "sha256": "46057f32372151a6a7881d59e78d3701faeb6db45874a171a7d9fca7a7facace",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 38,
+          "effect_set_name": "Hotty_Level_1_Player_Pre",
+          "index": 75,
+          "path": "data/3D/interface/skill_dh2_faery_fire.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=38,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "635004c695f8abe4197d",
+      "kind": "animated effect",
+      "name": "198",
+      "reason": null,
+      "reference_id": "635004c695f8abe4197d",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "6978d8c6f6493b38104f",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_fire.bdae",
+              "sha256": "e000ae3169db48bf7f726c945efc989f69fc152cb26827fa588eca64b8f88135",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "d4f4890b16237dea475d6826504d38355cb9040ee50376b1860e7b9a4c486004",
+              "id": "d6c494427f48b0eb53f1",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_faery_fire.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005292.dat",
+              "sha256": "417575ec8528ca7947c9154b0ed960dd60e18e4dece9e7428f1123f4710dffa8",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 39,
+          "effect_set_name": "Hotty_Level_1_Target",
+          "index": 198,
+          "path": "data/3D/interface/spell_dh2_faery_fire.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=39,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "b38e010dadfcb68a746c",
+      "kind": "animated effect",
+      "name": "74",
+      "reason": null,
+      "reference_id": "b38e010dadfcb68a746c",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "30837a28a08de1d385af",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_earth.bdae",
+              "sha256": "2b25f6a1e2d74ec7d51d9c083c452478370f2419d302ae2d2fc9be06bd0c7928",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "ba1d1d0f1a4b998bced094510c5ba33f015475a68da18473300916b3519d8df7",
+              "id": "6f0eb96099f762cf2f48",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_faery_earth.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005810.dat",
+              "sha256": "56f53fac53c2ef51dc81ef54e7eb9257bc86c4a7e5b0305a34ecf3b6d1c66978",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 58,
+          "effect_set_name": "Rocky_Level_1_Player_Pre",
+          "index": 74,
+          "path": "data/3D/interface/skill_dh2_faery_earth.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=58,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "73de5a1cdb9efc1946d7",
+      "kind": "animated effect",
+      "name": "197",
+      "reason": null,
+      "reference_id": "73de5a1cdb9efc1946d7",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "5076a256311c30efbba7",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_earth.bdae",
+              "sha256": "e7ce1c93c95651ce1062433289451486f52b17e845851c98bd1bd4fe57029903",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "9a8a80f934f6e67f7cce4b5c8af7148ea342ac7591c3a8fbbc8af3f6757b387e",
+              "id": "bd7ddb177d45e4fc5367",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_faery_earth.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000956.dat",
+              "sha256": "87ed0022529278e6824e064ef91316ad189f574bda89611a03dcfef1b282d274",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 59,
+          "effect_set_name": "Rocky_Level_1_Target",
+          "index": 197,
+          "path": "data/3D/interface/spell_dh2_faery_earth.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=59,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "7d5064a9dbac6faacdb9",
+      "kind": "animated effect",
+      "name": "202",
+      "reason": null,
+      "reference_id": "7d5064a9dbac6faacdb9",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "188a3cb9a7a8ac163c20",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_water.bdae",
+              "sha256": "ca8065ad7199ca4753eb8ca906e64e23a5214b40eee3cdd0eb369a156aa7f6f8",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "2b1950de30ca8e27c475b20a1b62b8ad148db055d87d5f5d4cb371cd18a395ef",
+              "id": "52ab8b2682279796274c",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_faery_water.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005690.dat",
+              "sha256": "1fe2a8fa18a635d0f0e32b2ac19ab78537b89cc4e9bf5988e4207c2e8052ce91",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 71,
+          "effect_set_name": "Wetty_Level_1_Main",
+          "index": 202,
+          "path": "data/3D/interface/spell_dh2_faery_water.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=71,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3c471ad4b474df529a4f",
+      "kind": "animated effect",
+      "name": "77",
+      "reason": null,
+      "reference_id": "3c471ad4b474df529a4f",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "6392ed4b4b1840c878a4",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_water.bdae",
+              "sha256": "c00ec6ad4b07c5036fc7717272b6de29244e00fa6eb0e6ea002b77dc8a893437",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "96dfc626f2687649464c694c495f72f51fa82604d27c676317645241c61de6d1",
+              "id": "4303630e7c264db588fe",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_faery_water.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004935.dat",
+              "sha256": "ce9f30344fab9293fb2cbcce1a7d53bfd503a1331405614562a6f981cecf8105",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 72,
+          "effect_set_name": "Wetty_Level_1_Player_Pre",
+          "index": 77,
+          "path": "data/3D/interface/skill_dh2_faery_water.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=72,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "c2fadac6e9c4fbffb307",
+      "kind": "animated effect",
+      "name": "203",
+      "reason": null,
+      "reference_id": "c2fadac6e9c4fbffb307",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "4f3e789f7a5317dbd425",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/spell_dh2_faery_wind.bdae",
+              "sha256": "68a889946821f2e5ee1ee40f5d6a8bbed0edde5b0e7109e24a98081879ff7eb9",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "0a4426d4b2625d684d108832e3bfb3efb22d41ac382cd7b77fa73a574a88399b",
+              "id": "930cae3b4a2ce7bf52cb",
+              "logical_paths": [
+                "data/3d/interface/spell_dh2_faery_wind.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000981.dat",
+              "sha256": "5f87cae6845128705741d83cd8ae89a66607d1264d77240d70a329c926542a88",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 74,
+          "effect_set_name": "Windy_Level_1_Main",
+          "index": 203,
+          "path": "data/3D/interface/spell_dh2_faery_wind.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=74,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e662ced90d79dd3d8dd4",
+      "kind": "animated effect",
+      "name": "78",
+      "reason": null,
+      "reference_id": "e662ced90d79dd3d8dd4",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "7aeb1571110db67732c3",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_dh2_faery_wind.bdae",
+              "sha256": "5d5d48b622e01dc70f2e2afb5f2b0891df5aa24f4f795ebb970ba9a2592e9936",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "455e2ef38886e90f52630cb6603abe2dc28835599d2b4c9d932dce4cca9aaa94",
+              "id": "0b7b6042da04e9edaf10",
+              "logical_paths": [
+                "data/3d/interface/skill_dh2_faery_wind.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001005.dat",
+              "sha256": "0b1c8175d2599098ea198c435cc9eea694dbb8775f9682c69cd9848cc5c194e2",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 75,
+          "effect_set_name": "Windy_Level_1_Player_Pre",
+          "index": 78,
+          "path": "data/3D/interface/skill_dh2_faery_wind.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "faery resource catalog row -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=75,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "2a981b744e6aa9e1c165",
+      "kind": "animated effect",
+      "name": "283",
+      "reason": null,
+      "reference_id": "2a981b744e6aa9e1c165",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "5ad808e8695c5e1708a0",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/zombie_spawn_fx.bdae",
+              "sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "eb142f995be7f8393508618ed3315d1e8300e4d09103353cd1f58728a818b548",
+              "id": "711ac03bb0025f721444",
+              "logical_paths": [
+                "data/3d/interface/zombie_spawn_fx.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000915.dat",
+              "sha256": "a8e3d9bbcfa3ef49e8b7ec9a0ae148e9a8a89402053c1de9dd282a9b1ee31b47",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 77,
+          "effect_set_name": "Zombie_spawn",
+          "index": 283,
+          "path": "data/3D/interface/zombie_spawn_fx.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=77,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ab9b576c789cac032b96",
+      "kind": "animated effect",
+      "name": "177",
+      "reason": null,
+      "reference_id": "ab9b576c789cac032b96",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "960691885477e5c9bc12",
+              "path": ".local-inputs/assets-extra/android/data/3d/interface/skill_prince_mage_summoned_minion.bdae",
+              "sha256": "7ead760a3ffd51168a2cd04c074932f85e2e4b909fba965df36bbebff7b01f23",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "67abc434f207982412f38b6afcab91935c225b845bc379d95167afa0b3255622",
+              "id": "278cd8d53cfdf60e0b93",
+              "logical_paths": [
+                "data/3d/interface/skill_prince_mage_summoned_minion.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003562.dat",
+              "sha256": "4ba74ed706f825699ff329cb8e79ca5dfb8d2b032d2a784876b95ef5ee645447",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 78,
+          "effect_set_name": "active_buff_fx",
+          "index": 177,
+          "path": "data/3D/interface/skill_prince_mage_summoned_minion.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by knight, knightberserker, knightpaladin -> owned script reference",
+        "Prince player skill row owned by knightberserker -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=78,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "ed2198945294b3586fa6",
+      "kind": "animated effect",
+      "name": "3",
+      "reason": null,
+      "reference_id": "ed2198945294b3586fa6",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "45d6384ef2052d8258cd",
+              "path": ".local-inputs/assets-extra/android/data/3d/fx/bloodsplat.bdae",
+              "sha256": "c51fbeb0240862b4ab1ccdfbbd2d77af1eb859a2411b88cece78516984c1eb9b",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "ee0096fd8bf9eae84f7732050586736babd30de99e862be8403affb08d99d37c",
+              "id": "84b03f153a5c5471f957",
+              "logical_paths": [
+                "data/3d/fx/bloodsplat.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file000649.dat",
+              "sha256": "9086018f9cb2075030e1aff45f5c1a374806e99f6316760bf0702c6bd3a37927",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 79,
+          "effect_set_name": "bloodsplat",
+          "index": 3,
+          "path": "data/3D/FX/bloodsplat.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=79,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "78b828f81f701abd7477",
+      "kind": "animated effect",
+      "name": "4",
+      "reason": null,
+      "reference_id": "78b828f81f701abd7477",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "7e3c52b52f92471e8a7c",
+              "path": ".local-inputs/assets-extra/android/data/3d/fx/bloodsplat_hero.bdae",
+              "sha256": "eda6a3c5ac7a45da47efd78508c1e227c99a815e07ebd07b53ebfd113857ab25",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "a847b201dd897df5dda3e4226a356759a87b72a87ddc32fae3def718feef2c0a",
+              "id": "72f8a11ae7dd39339e8f",
+              "logical_paths": [
+                "data/3d/fx/bloodsplat_hero.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005633.dat",
+              "sha256": "7212fcccd405aa0474a9ed7a653182406fdc458da190bbe202a0420476bcbde9",
+              "source": "ios-packed"
+            }
+          ],
+          "effect_set_index": 80,
+          "effect_set_name": "bloodsplat_hero",
+          "index": 4,
+          "path": "data/3D/FX/bloodsplat_hero.bdae",
+          "redir": 0,
+          "type": "EffectDict file row"
+        }
+      ],
+      "rule": "EffectsTables AnimatedEffectTable row + EffectDict index; effects_tables.cpp",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "site": "pydata/effects_pyarray.bin[set=80,step=0].File",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}

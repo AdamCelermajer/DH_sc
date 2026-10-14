@@ -7,10 +7,8 @@
 // .local-inputs/assets-extra/android/data/scripts/skills/<script>.luac (plain Lua text). The class rows
 // (ClassTable, read with probe/classdump) supply the damage/aura formulas; they are not re-encoded here.
 //
-// Rows NOT admitted here (see coordination/v21.8/skills-knight-report.md):
-//   - Berserk (prince_berseeker_berserk): three Use volleys with three different class sheets (stun over all
-//     enemies in 360, damage and knockback on the top target) and an OnPre self-HP cost. One class sheet per
-//     cast cannot express it.
+// Berserker rows (phase 2b, coordination/v21.8/w2-berserker-report.md): Berserk (three volleys through the per-volley
+// plan, OnPre self-HP cost), Intimidation (scare/stun arm over the OnPre list, pre_list_all).
 //
 // Fields NOT encoded (documented gaps):
 //   - Pushback / knockback / push-chance tails (WhirlingDrift SnS_Push_Target_Chance, DivineJudgement push row).
@@ -46,7 +44,24 @@ inline constexpr RuntimeSkillBuffProfileV1 kPurifyingAuraBuffV1 = {
     "Skill_Paladin_PurifyingAura", "skill_dh2_prince_warrior_paladin_purifying_aura_persist",
     12000.0f, 0.0f, 12000.0f};
 
+// prince_berseeker_berserk.luac OnSkill_: skill_inc cycle of three volleys, each re-searching TargetListSearch(200, 360).
+// Volley 0 stuns every Character (Skill_Berserk_Berserk_Stun), volley 1 damages the top target (_Damage, also the mana
+// row), volley 2 knocks back the top target (_KnockBack). Rows of the plan are chosen by the per-(actor, skill) cursor.
+inline constexpr RuntimeSkillVolleyV1 kBerserkVolleysV1[] = {
+    {"Skill_Berserk_Berserk_Stun", false},
+    {"Skill_Berserk_Berserk_Damage", true},
+    {"Skill_Berserk_Berserk_KnockBack", true},
+};
+// prince_berseeker_berserk.luac OnPreSkill_: `if HPPercentCurr > 10 then SetProp(HP, health - health/10)`.
+inline constexpr RuntimeSkillSelfHpCostV1 kBerserkSelfHpCostV1 = {10.0f, 10.0f};
+// prince_berseeker_warcry.luac: GetRand(1, 4) (stun on 3, scare otherwise), fallback bufftime 2000 ms, sounds at the end of OnSkill_.
+inline constexpr RuntimeSkillStatusArmV1 kWarcryStatusArmV1 = {
+    4u, 3u, 2000.0f, "sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear", "sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun"};
+
 // Rows in the order of the Lua files. Values:
+//   Berserk         prince_berseeker_berserk.luac         OnPre TargetListSearch(RANGE 200) FrontalFirst + LookAt(top), HP cost, UseMana;
+//                                                         OnSkill_ three volleys (kBerserkVolleysV1), SkillCombatRoll per Character
+//                                                         (volley 0) or top target (1, 2); Post ClearTarget.
 //   WhirlingDrift   prince_berseeker_whirling_drift.luac  OnPre TargetListSearch(RANGE 360), NoSort, no LookAt, UseMana;
 //                   OnSkill_ pops the OnPre list (no re-search), ApplyPropClass(CLASS_ID), SkillCombatRoll per target;
 //                   Post ClearTarget. No cooldown.
@@ -60,8 +75,17 @@ inline constexpr RuntimeSkillBuffProfileV1 kPurifyingAuraBuffV1 = {
 //   PurifyingAura   prince_paladin_purifying_aura.luac    no OnPre query; OnPre UseMana; OnSkill_ RemoveBuff + heal (gap)
 //                   + CreateBuff/ApplyBuff (BUFF_TIME 12000); Post ClearTarget.
 //   Intimidation    prince_berseeker_warcry.luac          OnPre TargetListSearch(RANGE 600), ClosestFirst, LookAt(top),
-//                   UseMana; OnSkill_ scare/stun states on the OnPre target only (gap), no SkillCombatRoll; Post empty.
+//                   UseMana; OnSkill_ pops the OnPre list: scare/stun per non-boss Character (kWarcryStatusArmV1), no
+//                   SkillCombatRoll; Post empty. Bufftime timer (StartSkillTimerCB BuffExpired) is cosmetic here, not modelled.
 inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesKnightV1[] = {
+    {"Berserk", "prince_berseeker_berserk", "Skill_Berserk_Berserk_Damage",
+     200.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
+     false,
+     SkillUseTargetsV1::requery_at_use, 200.0f, false, kSkillPiV1,
+     SkillTargetSortV1::frontal_first, false,
+     false, true, false, nullptr, nullptr, false, true, 0.0f,
+     nullptr, nullptr, nullptr, false, nullptr,
+     kBerserkVolleysV1, 3, &kBerserkSelfHpCostV1, nullptr},
     {"WhirlingDrift", "prince_berseeker_whirling_drift", "Skill_Berserk_WhirlingDrift",
      360.0f, kSkillPiV1, SkillTargetSortV1::source_order, false,
      false,
@@ -80,25 +104,29 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesKnightV1[] = {
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kOffensiveAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_offensive_aura", nullptr, false, nullptr, nullptr, 0, 0.0f},
+     false, true, false, &kOffensiveAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_offensive_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, 0.0f},
     {"GuardingAura", "prince_paladin_guarding_aura", "Skill_Paladin_GuardingAura",
      0.0f, kSkillPiV1, SkillTargetSortV1::source_order, false,
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kGuardingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_guarding_aura", nullptr, false, nullptr, nullptr, 0, 0.0f},
+     false, true, false, &kGuardingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_guarding_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, 0.0f},
     {"PurifyingAura", "prince_paladin_purifying_aura", "Skill_Paladin_PurifyingAura",
      0.0f, kSkillPiV1, SkillTargetSortV1::source_order, false,
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::source_order, false,
-     false, true, false, &kPurifyingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_purifying_aura", nullptr, false, nullptr, nullptr, 0, 15.0f},
+     false, true, false, &kPurifyingAuraBuffV1, nullptr, false, false, 0.0f, nullptr, "skill_dh2_prince_warrior_paladin_purifying_aura", nullptr, false, nullptr, nullptr, 0, nullptr, nullptr, false, false, 15.0f},
+    // Warcry's OnSkill_ loops the OnPre list (PopTargetList, no re-search): the scare/stun arm reaches every non-boss
+    // Character of that list, not only the OnPre target (es-berserker phase-1 correction, prince_berseeker_warcry.luac 95-127).
     {"Intimidation", "prince_berseeker_warcry", "Skill_Berserk_Intimidation",
      600.0f, kSkillPiV1, SkillTargetSortV1::closest_first, true,
      false,
-     SkillUseTargetsV1::pre_selected_single, 0.0f, false, kSkillPiV1,
-     SkillTargetSortV1::source_order, false,
-     false, false, false, nullptr, nullptr, false, false},
+     SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
+     SkillTargetSortV1::closest_first, false,
+     false, false, false, nullptr, nullptr, false, false, 0.0f,
+     nullptr, nullptr, nullptr, false, nullptr,
+     nullptr, 0, nullptr, &kWarcryStatusArmV1},
 };
 
 

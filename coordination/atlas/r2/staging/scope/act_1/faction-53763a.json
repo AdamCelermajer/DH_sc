@@ -1,0 +1,6143 @@
+{
+  "act": "act_1",
+  "count": 90,
+  "kind": "faction",
+  "rows": [
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 0,
+        "table": "ai_factions#group0"
+      },
+      "id": "8d125407fd919e9f6ef5",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "8d125407fd919e9f6ef5",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=0].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 0,
+        "table": "ai_factions#group0"
+      },
+      "id": "6a1c271330ea9282c495",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "6a1c271330ea9282c495",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=0].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 0,
+        "table": "ai_factions#group0"
+      },
+      "id": "ffa4dfda7f8b53cce880",
+      "kind": "faction",
+      "name": "6",
+      "reason": null,
+      "reference_id": "ffa4dfda7f8b53cce880",
+      "resolves_to": [
+        {
+          "index": 6,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 6,
+            "name": "MonsterFollowers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=0].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 0,
+        "table": "ai_factions#group0"
+      },
+      "id": "6c7af480b4f6a565c1ab",
+      "kind": "faction",
+      "name": "8",
+      "reason": null,
+      "reference_id": "6c7af480b4f6a565c1ab",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 8,
+            "name": "MonstersMindControl",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=0].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "b04b6c1c72cefb9d396f",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "b04b6c1c72cefb9d396f",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[10].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "39fcdc164864abde8adb",
+      "kind": "faction",
+      "name": "9",
+      "reason": null,
+      "reference_id": "39fcdc164864abde8adb",
+      "resolves_to": [
+        {
+          "index": 9,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": 0
+                },
+                {
+                  "Id": 6,
+                  "Value": 0
+                },
+                {
+                  "Id": 4,
+                  "Value": 0
+                },
+                {
+                  "Id": 3,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 9,
+            "name": "Neutral",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[10].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[10].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "5572004343fd1fc65e7c",
+      "kind": "faction",
+      "name": "13",
+      "reason": null,
+      "reference_id": "5572004343fd1fc65e7c",
+      "resolves_to": [
+        {
+          "index": 13,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 13,
+            "name": "RisenZombie",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "d76b7f0dfe6285d0e310",
+      "kind": "faction",
+      "name": "0",
+      "reason": null,
+      "reference_id": "d76b7f0dfe6285d0e310",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 0,
+            "name": "Converted",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "cf8c6dc43ff6557b1705",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "cf8c6dc43ff6557b1705",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[4].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "2d04cdd8e68b02b546c3",
+      "kind": "faction",
+      "name": "3",
+      "reason": null,
+      "reference_id": "2d04cdd8e68b02b546c3",
+      "resolves_to": [
+        {
+          "index": 3,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 3,
+            "name": "Faeries",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[4].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[4].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[5].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "f75ab9af477bc7ec4844",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "f75ab9af477bc7ec4844",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[5].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[5].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[6].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "468ce7e358b16611b832",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "468ce7e358b16611b832",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[6].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[6].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[7].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "b937bf285842b9ee621d",
+      "kind": "faction",
+      "name": "6",
+      "reason": null,
+      "reference_id": "b937bf285842b9ee621d",
+      "resolves_to": [
+        {
+          "index": 6,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 6,
+            "name": "MonsterFollowers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[7].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[7].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[8].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "8f9b8cbcfd510e4797f7",
+      "kind": "faction",
+      "name": "5",
+      "reason": null,
+      "reference_id": "8f9b8cbcfd510e4797f7",
+      "resolves_to": [
+        {
+          "index": 5,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 5,
+            "name": "MadrukMinions",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[8].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[8].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[9].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 11,
+        "table": "ai_factions#group0"
+      },
+      "id": "c97d9c9e1ee66ff400bc",
+      "kind": "faction",
+      "name": "8",
+      "reason": null,
+      "reference_id": "c97d9c9e1ee66ff400bc",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 8,
+            "name": "MonstersMindControl",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[9].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=11].factions[9].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 13,
+        "table": "ai_factions#group0"
+      },
+      "id": "3f27135e8849639fe4ad",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "3f27135e8849639fe4ad",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=13].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 13,
+        "table": "ai_factions#group0"
+      },
+      "id": "ec8e5d80726c466598fd",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "ec8e5d80726c466598fd",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=13].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 13,
+        "table": "ai_factions#group0"
+      },
+      "id": "515d11782072b138c174",
+      "kind": "faction",
+      "name": "6",
+      "reason": null,
+      "reference_id": "515d11782072b138c174",
+      "resolves_to": [
+        {
+          "index": 6,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 6,
+            "name": "MonsterFollowers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=13].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 13,
+        "table": "ai_factions#group0"
+      },
+      "id": "72bc2cac93ecf90f2069",
+      "kind": "faction",
+      "name": "8",
+      "reason": null,
+      "reference_id": "72bc2cac93ecf90f2069",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 8,
+            "name": "MonstersMindControl",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=13].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 14,
+        "table": "ai_factions#group0"
+      },
+      "id": "d8607b138d67dfb903c4",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "d8607b138d67dfb903c4",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=14].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 14,
+        "table": "ai_factions#group0"
+      },
+      "id": "7554256742312b0e0cca",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "7554256742312b0e0cca",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=14].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 14,
+        "table": "ai_factions#group0"
+      },
+      "id": "52b4300141ff2cbc1162",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "52b4300141ff2cbc1162",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=14].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 15,
+        "table": "ai_factions#group0"
+      },
+      "id": "ceba6ff83e449e3e2177",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "ceba6ff83e449e3e2177",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=15].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 15,
+        "table": "ai_factions#group0"
+      },
+      "id": "ccc2cbe4849cdc243640",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "ccc2cbe4849cdc243640",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=15].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 15,
+        "table": "ai_factions#group0"
+      },
+      "id": "ec22c26c0db057526c55",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "ec22c26c0db057526c55",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=15].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 1,
+        "table": "ai_factions#group0"
+      },
+      "id": "b865a3364fd0ee9aa104",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "b865a3364fd0ee9aa104",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=1].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 1,
+        "table": "ai_factions#group0"
+      },
+      "id": "fd38357170e2f22b5a51",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "fd38357170e2f22b5a51",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=1].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 1,
+        "table": "ai_factions#group0"
+      },
+      "id": "bcb996c4491d91ff0877",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "bcb996c4491d91ff0877",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=1].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 3,
+        "table": "ai_factions#group0"
+      },
+      "id": "76942a77849074bed905",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "76942a77849074bed905",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=3].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 3,
+        "table": "ai_factions#group0"
+      },
+      "id": "f97848d42ad946da8e1d",
+      "kind": "faction",
+      "name": "13",
+      "reason": null,
+      "reference_id": "f97848d42ad946da8e1d",
+      "resolves_to": [
+        {
+          "index": 13,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 13,
+            "name": "RisenZombie",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=3].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 3,
+        "table": "ai_factions#group0"
+      },
+      "id": "4e62bfe5436c0ecb0535",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "4e62bfe5436c0ecb0535",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=3].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 3,
+        "table": "ai_factions#group0"
+      },
+      "id": "08956cb441f8bae36baa",
+      "kind": "faction",
+      "name": "8",
+      "reason": null,
+      "reference_id": "08956cb441f8bae36baa",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 8,
+            "name": "MonstersMindControl",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=3].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[4].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 3,
+        "table": "ai_factions#group0"
+      },
+      "id": "10a0f5f87a8c3bc43a26",
+      "kind": "faction",
+      "name": "9",
+      "reason": null,
+      "reference_id": "10a0f5f87a8c3bc43a26",
+      "resolves_to": [
+        {
+          "index": 9,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": 0
+                },
+                {
+                  "Id": 6,
+                  "Value": 0
+                },
+                {
+                  "Id": 4,
+                  "Value": 0
+                },
+                {
+                  "Id": 3,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 9,
+            "name": "Neutral",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[4].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=3].factions[4].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 4,
+        "table": "ai_factions#group0"
+      },
+      "id": "025331b6761599ef036d",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "025331b6761599ef036d",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=4].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 4,
+        "table": "ai_factions#group0"
+      },
+      "id": "42df372ccba4f6e14934",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "42df372ccba4f6e14934",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=4].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 4,
+        "table": "ai_factions#group0"
+      },
+      "id": "eeda66846c39cd7c38ad",
+      "kind": "faction",
+      "name": "13",
+      "reason": null,
+      "reference_id": "eeda66846c39cd7c38ad",
+      "resolves_to": [
+        {
+          "index": 13,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 13,
+            "name": "RisenZombie",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=4].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 4,
+        "table": "ai_factions#group0"
+      },
+      "id": "9c0ee2472bf10cc23614",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "9c0ee2472bf10cc23614",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=4].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[4].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 4,
+        "table": "ai_factions#group0"
+      },
+      "id": "a8e808c1b4efd2cbdfbf",
+      "kind": "faction",
+      "name": "8",
+      "reason": null,
+      "reference_id": "a8e808c1b4efd2cbdfbf",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 8,
+            "name": "MonstersMindControl",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[4].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=4].factions[4].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[5].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 4,
+        "table": "ai_factions#group0"
+      },
+      "id": "107421d1944010de9500",
+      "kind": "faction",
+      "name": "9",
+      "reason": null,
+      "reference_id": "107421d1944010de9500",
+      "resolves_to": [
+        {
+          "index": 9,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": 0
+                },
+                {
+                  "Id": 6,
+                  "Value": 0
+                },
+                {
+                  "Id": 4,
+                  "Value": 0
+                },
+                {
+                  "Id": 3,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 9,
+            "name": "Neutral",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[5].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=4].factions[5].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 5,
+        "table": "ai_factions#group0"
+      },
+      "id": "0044884f549574342d19",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "0044884f549574342d19",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=5].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 5,
+        "table": "ai_factions#group0"
+      },
+      "id": "4f8c8a780f6ae95cd006",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "4f8c8a780f6ae95cd006",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=5].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 6,
+        "table": "ai_factions#group0"
+      },
+      "id": "c8f2e2e771174a761923",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "c8f2e2e771174a761923",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=6].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 6,
+        "table": "ai_factions#group0"
+      },
+      "id": "f59fc09363913b9f458d",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "f59fc09363913b9f458d",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=6].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 6,
+        "table": "ai_factions#group0"
+      },
+      "id": "a42fa523137cfd816b0f",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "a42fa523137cfd816b0f",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=6].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 6,
+        "table": "ai_factions#group0"
+      },
+      "id": "5553df3bcc83d43667af",
+      "kind": "faction",
+      "name": "14",
+      "reason": null,
+      "reference_id": "5553df3bcc83d43667af",
+      "resolves_to": [
+        {
+          "index": 14,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 14,
+            "name": "SwordGuardian",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=6].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[4].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 6,
+        "table": "ai_factions#group0"
+      },
+      "id": "a88d5cbf59012f419566",
+      "kind": "faction",
+      "name": "1",
+      "reason": null,
+      "reference_id": "a88d5cbf59012f419566",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 1,
+            "name": "Dummy",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[4].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=6].factions[4].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[5].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 6,
+        "table": "ai_factions#group0"
+      },
+      "id": "5e89f1e5b727e71e7d62",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "5e89f1e5b727e71e7d62",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[5].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=6].factions[5].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[6].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 6,
+        "table": "ai_factions#group0"
+      },
+      "id": "70133b193d6b61d70946",
+      "kind": "faction",
+      "name": "6",
+      "reason": null,
+      "reference_id": "70133b193d6b61d70946",
+      "resolves_to": [
+        {
+          "index": 6,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 6,
+            "name": "MonsterFollowers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[6].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=6].factions[6].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "f770d17d77fe46ce3ddb",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "f770d17d77fe46ce3ddb",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "d105e886f385123ce5f5",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "d105e886f385123ce5f5",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "2460b9ffd49df65c895b",
+      "kind": "faction",
+      "name": "13",
+      "reason": null,
+      "reference_id": "2460b9ffd49df65c895b",
+      "resolves_to": [
+        {
+          "index": 13,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 13,
+            "name": "RisenZombie",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "ba31680d67356babf725",
+      "kind": "faction",
+      "name": "0",
+      "reason": null,
+      "reference_id": "ba31680d67356babf725",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 0,
+            "name": "Converted",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[4].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "16b1dbf1b16af6dffb26",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "16b1dbf1b16af6dffb26",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[4].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[4].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[5].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "317802ab79af4cc364a9",
+      "kind": "faction",
+      "name": "14",
+      "reason": null,
+      "reference_id": "317802ab79af4cc364a9",
+      "resolves_to": [
+        {
+          "index": 14,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 14,
+            "name": "SwordGuardian",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[5].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[5].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[6].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "1f8e34b24e429e2f5e29",
+      "kind": "faction",
+      "name": "1",
+      "reason": null,
+      "reference_id": "1f8e34b24e429e2f5e29",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 1,
+            "name": "Dummy",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[6].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[6].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[7].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "ced82cb97411a9f48e5e",
+      "kind": "faction",
+      "name": "6",
+      "reason": null,
+      "reference_id": "ced82cb97411a9f48e5e",
+      "resolves_to": [
+        {
+          "index": 6,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 6,
+            "name": "MonsterFollowers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[7].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[7].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[8].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "fe575fa1ad5f5f7d0f31",
+      "kind": "faction",
+      "name": "8",
+      "reason": null,
+      "reference_id": "fe575fa1ad5f5f7d0f31",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 8,
+            "name": "MonstersMindControl",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[8].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[8].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[9].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 7,
+        "table": "ai_factions#group0"
+      },
+      "id": "52a8a67cf799da4efb7e",
+      "kind": "faction",
+      "name": "9",
+      "reason": null,
+      "reference_id": "52a8a67cf799da4efb7e",
+      "resolves_to": [
+        {
+          "index": 9,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": 0
+                },
+                {
+                  "Id": 6,
+                  "Value": 0
+                },
+                {
+                  "Id": 4,
+                  "Value": 0
+                },
+                {
+                  "Id": 3,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 9,
+            "name": "Neutral",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[9].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=7].factions[9].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 8,
+        "table": "ai_factions#group0"
+      },
+      "id": "fb23413c4c94fb148542",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "fb23413c4c94fb148542",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=8].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 8,
+        "table": "ai_factions#group0"
+      },
+      "id": "7f0030d0cf04a06ff3d6",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "7f0030d0cf04a06ff3d6",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=8].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 8,
+        "table": "ai_factions#group0"
+      },
+      "id": "e371c55f52c67e57ee6a",
+      "kind": "faction",
+      "name": "6",
+      "reason": null,
+      "reference_id": "e371c55f52c67e57ee6a",
+      "resolves_to": [
+        {
+          "index": 6,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 6,
+            "name": "MonsterFollowers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=8].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 8,
+        "table": "ai_factions#group0"
+      },
+      "id": "800b3b6de44520e58e52",
+      "kind": "faction",
+      "name": "8",
+      "reason": null,
+      "reference_id": "800b3b6de44520e58e52",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 0
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 8,
+            "name": "MonstersMindControl",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=8].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[0].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 9,
+        "table": "ai_factions#group0"
+      },
+      "id": "42e625ab4bf80b3b1d87",
+      "kind": "faction",
+      "name": "11",
+      "reason": null,
+      "reference_id": "42e625ab4bf80b3b1d87",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 3,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 5,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 11,
+            "name": "Players",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[0].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=9].factions[0].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[1].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 9,
+        "table": "ai_factions#group0"
+      },
+      "id": "490294e9a9f2ebbd61db",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "490294e9a9f2ebbd61db",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[1].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=9].factions[1].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[2].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 9,
+        "table": "ai_factions#group0"
+      },
+      "id": "ed31f0bb0a727c074685",
+      "kind": "faction",
+      "name": "6",
+      "reason": null,
+      "reference_id": "ed31f0bb0a727c074685",
+      "resolves_to": [
+        {
+          "index": 6,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 6,
+            "name": "MonsterFollowers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[2].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=9].factions[2].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[3].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 9,
+        "table": "ai_factions#group0"
+      },
+      "id": "94bf65095a7d461f246a",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "94bf65095a7d461f246a",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[3].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=9].factions[3].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "factions[4].Id",
+        "file": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin",
+        "index": 9,
+        "table": "ai_factions#group0"
+      },
+      "id": "699d06efad15e6bcb85f",
+      "kind": "faction",
+      "name": "3",
+      "reason": null,
+      "reference_id": "699d06efad15e6bcb85f",
+      "resolves_to": [
+        {
+          "index": 3,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 3,
+            "name": "Faeries",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/ai.cpp:36; field factions[4].Id",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/ai_factions_pyarray.bin[section=0,row=9].factions[4].Id",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 110,
+        "table": "character_properties#group0"
+      },
+      "id": "73ac138c4bcaf1b4bb35",
+      "kind": "faction",
+      "name": "1",
+      "reason": null,
+      "reference_id": "73ac138c4bcaf1b4bb35",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 1,
+            "name": "Dummy",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=110].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 150,
+        "table": "character_properties#group0"
+      },
+      "id": "efb5e6ea149168b1f569",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "efb5e6ea149168b1f569",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 150 Epic_merchant_swamp (182ca511b74b336a5f8d); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=150].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 294,
+        "table": "character_properties#group0"
+      },
+      "id": "23e3dc9dacab0cfb998d",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "23e3dc9dacab0cfb998d",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 294 NPCmerchantCamp (b35c45d342195815c1ba); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=294].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 296,
+        "table": "character_properties#group0"
+      },
+      "id": "4e7c5a20eac6bad206b9",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "4e7c5a20eac6bad206b9",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 296 Prisonier (9ec6aeb5ab0c12d7a056); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=296].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 297,
+        "table": "character_properties#group0"
+      },
+      "id": "0423cd0e64983898f790",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "0423cd0e64983898f790",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 297 Prisonier2 (01ed68f07c7770cccd16); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=297].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 323,
+        "table": "character_properties#group0"
+      },
+      "id": "a2439c778ebfa5b725c7",
+      "kind": "faction",
+      "name": "13",
+      "reason": null,
+      "reference_id": "a2439c778ebfa5b725c7",
+      "resolves_to": [
+        {
+          "index": 13,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                }
+              ]
+            },
+            "index": 13,
+            "name": "RisenZombie",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=323].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 349,
+        "table": "character_properties#group0"
+      },
+      "id": "b8887c02869048b21daa",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "b8887c02869048b21daa",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 349 Slime (c052441fdd99de0663f8); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=349].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 358,
+        "table": "character_properties#group0"
+      },
+      "id": "3e7edffcc3c855e86b95",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "3e7edffcc3c855e86b95",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 358 SwampKing (debe3161f75f83cfc4a0); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=358].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 359,
+        "table": "character_properties#group0"
+      },
+      "id": "b0cb55a4c05044c24cf6",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "b0cb55a4c05044c24cf6",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 359 Swamp_ActorTroll (85e3752f001d5903f863); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=359].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 360,
+        "table": "character_properties#group0"
+      },
+      "id": "b9fce056b59739a41865",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "b9fce056b59739a41865",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 360 Swamp_LizadMan_Type1 (4857e9afd486029389df); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=360].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 362,
+        "table": "character_properties#group0"
+      },
+      "id": "d139f0a6e654c1a88589",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "d139f0a6e654c1a88589",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 362 Swamp_LizadMan_Type2 (32a6018452d04659b538); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=362].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 363,
+        "table": "character_properties#group0"
+      },
+      "id": "7170345a5ea3ac7f777b",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "7170345a5ea3ac7f777b",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 363 Swamp_LizadMan_Type3 (d247470ac9c21be0bc4e); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=363].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 364,
+        "table": "character_properties#group0"
+      },
+      "id": "4abcc004ac0d0ecda477",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "4abcc004ac0d0ecda477",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 364 Swamp_MerchantCamp_NPC_A (947922c76e6510899ab0); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=364].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 365,
+        "table": "character_properties#group0"
+      },
+      "id": "8e3332dca589bea44103",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "8e3332dca589bea44103",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 365 Swamp_MerchantCamp_NPC_B (72fca2c25f55b40c4d82); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=365].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 366,
+        "table": "character_properties#group0"
+      },
+      "id": "b54f5de4db17f9bbb622",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "b54f5de4db17f9bbb622",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 366 Swamp_MerchantCamp_NPC_C (21318615b56fef370891); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=366].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 373,
+        "table": "character_properties#group0"
+      },
+      "id": "cdcf7ef00f7744d07ec2",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "cdcf7ef00f7744d07ec2",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 373 Swamp_MovieMoth (b298df8fe9d963b41e6c); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=373].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 374,
+        "table": "character_properties#group0"
+      },
+      "id": "dc8b1bd00d0fb541e692",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "dc8b1bd00d0fb541e692",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 374 Swamp_SnackMan (a2c77cc142e62db476d1); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=374].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 383,
+        "table": "character_properties#group0"
+      },
+      "id": "c8889152265289dad623",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "c8889152265289dad623",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 383 Troll (5aa52bd105935c0a1b76); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=383].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 418,
+        "table": "character_properties#group0"
+      },
+      "id": "08b2971d88ec0a158051",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "08b2971d88ec0a158051",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 418 WanderingEddie (2845e42f9cfb1f916815); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=418].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 419,
+        "table": "character_properties#group0"
+      },
+      "id": "fdc16f2f5ab298e8c317",
+      "kind": "faction",
+      "name": "4",
+      "reason": null,
+      "reference_id": "fdc16f2f5ab298e8c317",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 4,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 4,
+            "name": "Followers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 419 WanderingPriest (893b2e8fb38716fa20a8); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=419].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 435,
+        "table": "character_properties#group0"
+      },
+      "id": "4333a9ea12bf41a3da93",
+      "kind": "faction",
+      "name": "7",
+      "reason": null,
+      "reference_id": "4333a9ea12bf41a3da93",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": -1000
+                },
+                {
+                  "Id": 4,
+                  "Value": -1000
+                },
+                {
+                  "Id": 13,
+                  "Value": -1000
+                },
+                {
+                  "Id": 0,
+                  "Value": -1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                },
+                {
+                  "Id": 14,
+                  "Value": 1000
+                },
+                {
+                  "Id": 1,
+                  "Value": -1000
+                },
+                {
+                  "Id": 6,
+                  "Value": 1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 7,
+            "name": "Monsters",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 435 Witch (493d2e115ad25e84db5e); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=435].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 444,
+        "table": "character_properties#group0"
+      },
+      "id": "a2ad8febaa8ee9dcfc3d",
+      "kind": "faction",
+      "name": "15",
+      "reason": null,
+      "reference_id": "a2ad8febaa8ee9dcfc3d",
+      "resolves_to": [
+        {
+          "index": 15,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 15,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": 1000
+                }
+              ]
+            },
+            "index": 15,
+            "name": "Villagers",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 444 zKill5Lizman_Post (ffced55104feb850c42e); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=444].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "AIFaction",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 97,
+        "table": "character_properties#group0"
+      },
+      "id": "a658624ac058e18da9a4",
+      "kind": "faction",
+      "name": "3",
+      "reason": null,
+      "reference_id": "a658624ac058e18da9a4",
+      "resolves_to": [
+        {
+          "index": 3,
+          "source_row": {
+            "fields": {
+              "factions": [
+                {
+                  "Id": 11,
+                  "Value": 1000
+                },
+                {
+                  "Id": 13,
+                  "Value": 1000
+                },
+                {
+                  "Id": 7,
+                  "Value": -1000
+                },
+                {
+                  "Id": 8,
+                  "Value": -1000
+                },
+                {
+                  "Id": 9,
+                  "Value": 0
+                }
+              ]
+            },
+            "index": 3,
+            "name": "Faeries",
+            "table": "ai_factions#group0"
+          },
+          "table": "ai_factions#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field AIFaction",
+      "scope_reasons": [
+        "CharacterProperties row 97 DefaultFairy (fc65221a5384c667d68a); membership act_1 -> AIFaction"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=97].AIFaction",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}

@@ -1,0 +1,690 @@
+{
+  "act": "act_1",
+  "count": 22,
+  "kind": "effect_set",
+  "rows": [
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "5c3fc312b7fdd887260e",
+            "index": 119,
+            "name": "cs_swamp_intro_13_refletdelumiere",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_swamp_intro_13_refletdelumiere",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "137429e02e9bc18de84b",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[101] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[101]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "18e6f11e368cd5b3278c",
+            "index": 120,
+            "name": "cs_swamp_intro_14_explodedoor",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_swamp_intro_14_explodedoor",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "1a1731143e89c87a9a08",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[107] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[107]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "192d9b895b8191ccf6d7",
+            "index": 116,
+            "name": "cs_swamp_intro_01_bloodsplat_prisoner",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_swamp_intro_01_bloodsplat_prisoner",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "2eea5c54a97550499aed",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[28] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[28]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "bf21323dd5de8e17c7ca",
+            "index": 117,
+            "name": "cs_swamp_intro_02_bloodsplat_prisoner",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_swamp_intro_02_bloodsplat_prisoner",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "b3f2984c2d7f76b16548",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[33] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[33]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "2e42013397c7ec09b4fe",
+            "index": 118,
+            "name": "cs_swamp_intro_09_rezeffect",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_swamp_intro_09_rezeffect",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "c045bc59daf8861ce7ab",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Intro command[73] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[30]=Swamp_Intro/command[73]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "3a1e6c49745c7a9485b0",
+            "index": 111,
+            "name": "cs_sk_outro_scene01_swampkingdeath",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_outro_scene01_swampkingdeath",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "4cf241ff481087f7e503",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[20] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[20]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "5b5fe27ccabd183b43ca",
+            "index": 112,
+            "name": "cs_sk_outro_scene03_smokinhead",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_outro_scene03_smokinhead",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "70b9b485c75b9e6d26e4",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[33] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[33]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "86edb86d931fd5d87d4d",
+            "index": 113,
+            "name": "cs_sk_outro_scene04_smokinhead",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_outro_scene04_smokinhead",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "306823f7187feff4d1a8",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[40] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[40]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "c0344e07f10ddefc9e84",
+            "index": 114,
+            "name": "cs_sk_outro_scene05_smokinhead",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_outro_scene05_smokinhead",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "37385d7b5deaf1a8ff0b",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[57] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[57]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "0e56e4950be37d68896a",
+            "index": 115,
+            "name": "cs_sk_outro_scene07_smokinhead",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_outro_scene07_smokinhead",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "b9660c8ed7d2a9782997",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Defeated command[79] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[31]=Swamp_Serpent_Defeated/command[79]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "737914abec0aa72028cc",
+            "index": 105,
+            "name": "cs_sk_intro_scene01_running_in",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_intro_scene01_running_in",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "e7a1ac8b9be1cfd89a2f",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[29] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[29]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "9c457791009fa4ed3439",
+            "index": 106,
+            "name": "cs_sk_intro_scene03_dustoffthecieling",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_intro_scene03_dustoffthecieling",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "bb80217a3d71a66aad7d",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[44] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[44]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "5ae7c410f7f645286ccd",
+            "index": 107,
+            "name": "cs_sk_intro_scene04_lizardmansplashes",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_intro_scene04_lizardmansplashes",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "cec7b0126a54de23e141",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[55] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[55]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "f714adf5654f9f8556c9",
+            "index": 108,
+            "name": "cs_sk_intro_scene08_swampkingwave",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_intro_scene08_swampkingwave",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "b8b968c31b1eeefb2b9e",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[79] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[79]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "b88413615b022637c2f8",
+            "index": 109,
+            "name": "cs_sk_intro_scene09_bitelizardmanintwo",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_intro_scene09_bitelizardmanintwo",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "404a065498fb0a4e4a2b",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[85] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[85]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "601a1546dca056d98ba1",
+            "index": 110,
+            "name": "cs_sk_intro_scene10_swampkingrawrr",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cs_sk_intro_scene10_swampkingrawrr",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "6ab617ccd2cce5845b1a",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6b2f662bc32e54797884 Swamp_Serpent_Intro command[90] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/001_swamp_pyscripts.bin:script[32]=Swamp_Serpent_Intro/command[90]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "111c5528d002c58c9e7e",
+            "index": 132,
+            "name": "fx_airtemple_teleportshockwave",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "ef71c6b6407d686739ec",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Door_Teleport command[0] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[0]=Door_Teleport/command[0]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "111c5528d002c58c9e7e",
+            "index": 132,
+            "name": "fx_airtemple_teleportshockwave",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "14a8c170055e6972813e",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Door_Teleport command[5] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[0]=Door_Teleport/command[5]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "0e67240623619f3aac23",
+            "index": 229,
+            "name": "spell_dh2_prince_mage_stone_escape_magefx",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "spell_dh2_prince_mage_stone_escape_magefx",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "b0e825ce145b2134dd2c",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 WitchTeleport command[13] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[20]=WitchTeleport/command[13]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "0e67240623619f3aac23",
+            "index": 229,
+            "name": "spell_dh2_prince_mage_stone_escape_magefx",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "spell_dh2_prince_mage_stone_escape_magefx",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "a6a243441d533a904e1b",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 WitchTeleport command[5] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[20]=WitchTeleport/command[5]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "0e67240623619f3aac23",
+            "index": 229,
+            "name": "spell_dh2_prince_mage_stone_escape_magefx",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "spell_dh2_prince_mage_stone_escape_magefx",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "45473cfd091174e74249",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 WitchTeleport command[7] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[20]=WitchTeleport/command[7]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    },
+    {
+      "act": "act_1",
+      "classification": "NOT_NEEDED",
+      "confidence": "PROVEN",
+      "evidence": {
+        "resolves_to": [
+          {
+            "id": "d6d14058bae9905f8a13",
+            "index": 121,
+            "name": "cutscene_dh2_witch_intro_scene_01_portal",
+            "table": "effect_sets",
+            "type": "table-row"
+          }
+        ],
+        "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND"
+      },
+      "kind": "effect_set",
+      "name": "cutscene_dh2_witch_intro_scene_01_portal",
+      "port_candidates": [],
+      "reason": "This source site is a typed table key/index and selects structured data; it does not select an additional standalone file for staging. The target table row’s file/media fields remain separate scope entries. This is a stage-only disposition, not a claim that the runtime reference is globally resolved.",
+      "reason_code": null,
+      "reference_id": "828312954bd98d6707da",
+      "reference_kind": "effect_set",
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f6ed60ebabd20b89aaf1 Intro_Witch command[19] 8"
+      ],
+      "selection_files": [],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/002_swamp_cave_witch_pyscripts.bin:script[3]=Intro_Witch/command[19]=Script_PlayEffect/field@8",
+      "source_candidates": []
+    }
+  ],
+  "schema": "atlas-r2-staging-classification-shard-v1"
+}
