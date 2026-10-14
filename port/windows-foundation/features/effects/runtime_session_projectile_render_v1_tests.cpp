@@ -167,13 +167,16 @@ int main(int argc, char** argv) {
             std::unique_ptr<RuntimeSessionProjectileRenderV1> skillRenderer;
             check(RuntimeSessionProjectileRenderV1::load(skillAssets, std::move(skillServices), skillRenderer, error), error);
             for (const char* uri : {"data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
-                                    "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae"}) {
+                                    "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+                                    "data/3D/projectiles/projectile_arrow_default.bdae", "data/3D/projectiles/projectile_arrow_explode.bdae",
+                                    "data/3D/projectiles/projectile_arrow_pin_shot.bdae", "data/3D/projectiles/projectile_arrow_poison.bdae"}) {
                 std::array<float, 3> low{}, high{};
                 check(skillRenderer->source_projectile_bounds_v1(uri, low, high, error),
                       std::string("Skill projectile AABB not enrolled: ") + uri + " " + error);
                 check(high[0] > low[0] && high[1] > low[1] && high[2] >= low[2], "Skill projectile AABB is empty");
                 // colbox mesh half-extent x its authored node scale: ChainLightning 31.307 x 1, Cyclone 459.721 x 0.255147.
                 const float expected = std::string(uri).find("chain_lightning") != std::string::npos ? 31.307f : 117.2965f;
+                if (std::string(uri).find("arrow") != std::string::npos) continue; // v21.8 w2-archer: arrows only need an enrolled non-empty colbox
                 check(std::fabs(high[0] - expected) < 0.01f && std::fabs(low[0] + expected) < 0.01f,
                       std::string("Skill projectile contact AABB is not its _colbox_ node box: ") + uri);
             }

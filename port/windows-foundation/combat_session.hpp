@@ -94,6 +94,8 @@ struct CombatSessionProfile {
     // AttackStatic, only after a new command is admitted. Both exact source
     // roots must be preloaded above; held continuation never replaces a root.
     bool sourceAttackStateSelection=false;
+    // Source MP_MinimalRandoms for the attack roots: true selects step 0 of every type2 group without a draw.
+    bool sourceAttackMinimalRandoms=false;
     // v21.8 mage: a ranged source attack (Mage staff). The attack is admitted and
     // selected like a melee source attack, but it binds NO melee damage markers and
     // no melee hand source; its state-5 projectile marker is delivered to the

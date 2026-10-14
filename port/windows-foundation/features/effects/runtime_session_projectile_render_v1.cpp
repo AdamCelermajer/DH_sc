@@ -12,6 +12,11 @@ constexpr const char* kFireBoltUri = "data/3D/projectiles/elemental_bolt_fire.bd
 // v21.8 magewire: the skill projectile models (ProjectileTable rows SimplifiedChainLightning / Tornado).
 constexpr const char* kChainLightningUri = "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae";
 constexpr const char* kTornadoUri = "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae";
+// v21.8 w2-archer: the Archer arrow models (ProjectileDict 9/10/12/13 = ProjectileTable rows ArrowDefault/BowProjectile, ArrowExplode, ArrowPinShot, ArrowPoison).
+constexpr const char* kArrowDefaultUri = "data/3D/projectiles/projectile_arrow_default.bdae";
+constexpr const char* kArrowExplodeUri = "data/3D/projectiles/projectile_arrow_explode.bdae";
+constexpr const char* kArrowPinShotUri = "data/3D/projectiles/projectile_arrow_pin_shot.bdae";
+constexpr const char* kArrowPoisonUri = "data/3D/projectiles/projectile_arrow_poison.bdae";
 
 bool fail(std::string& error, const char* reason) {
     error = reason;
@@ -111,7 +116,7 @@ bool RuntimeSessionProjectileRenderV1::load(
         sources.emplace(kFireBoltUri, std::move(fire));
         // The skill projectiles are optional for the staff attack: when a package lacks their BDAE, their contact and draw
         // report the missing source explicitly (no AABB enrolled / unresolved model) instead of failing the whole renderer.
-        for (const char* uri : {kChainLightningUri, kTornadoUri}) {
+        for (const char* uri : {kChainLightningUri, kTornadoUri, kArrowDefaultUri, kArrowExplodeUri, kArrowPinShotUri, kArrowPoisonUri}) {
             std::shared_ptr<SourceV1> optional;
             std::string optional_error;
             try {

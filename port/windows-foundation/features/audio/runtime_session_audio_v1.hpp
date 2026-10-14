@@ -141,6 +141,8 @@ public:
     bool script_play_music(std::int32_t ordinal,bool change,int fade_ms,std::string& error);
     bool script_stop_music(int fade_ms,std::string& error);
     bool script_play_plain(std::int32_t ordinal,int delay_ms,std::string& error);
+    // v21.8 w2-archer: projectile impact/miss sound at a world position (plain or event sdd row); missing original asset = silent.
+    bool play_positional_source_sound(std::int32_t ordinal,const std::array<float,3>& position,std::string& error);
     // B111: NativePlaySoundFX(name) from an authored in-game menu handler (e.g. "MenuSelect"): plain Play of the named
     // generated source sound. Unknown names are a source no-op (returns true).
     bool play_named_plain(const char* name,std::string& error);

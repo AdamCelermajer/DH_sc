@@ -54,6 +54,8 @@ struct CombatSession::Impl {
         std::unique_ptr<OriginalAttackSequence> sequence;
         std::optional<OriginalCombatVisualPlan> sequencePlan;
         std::optional<OriginalAttackSelection> sequenceCallerSelection;
+        // Source type2 attack roots (bow) draw their child per attack request (CharAnimator::_SetAnim); see select_source_attack_for_request.
+        bool attackMinimalRandoms=false;
         bool retainedPhaseClock=false,sourceAction=false,animationOnly=false;
         bool receiveDamage=false;
         std::optional<bool> reactionMinimalRandoms;
@@ -891,8 +893,15 @@ struct CombatSession::Impl {
         const auto* properties=world->combat_properties(id);
         volatile float rate=static_cast<float>(selection.actor_rate)*original_speed_modifier(properties->sheets.resolved[48]);
         if(!std::isfinite(rate)||rate<=0){error="Live source attack speed is invalid";return false;}
-        if(selection.state==entry.sequenceCallerSelection->state&&rate==entry.sourceActorRate&&entry.attackProgram)return true;
+        // Type2 roots (bow) draw a fresh child for every request (CharAnimator::_SetAnim draws on each entry); only a
+        // type0/type1 selection (empty choices) can keep its prepared program.
+        if(selection.state==entry.sequenceCallerSelection->state&&rate==entry.sourceActorRate&&entry.attackProgram&&selection.choices.empty())return true;
         auto effective=selection;effective.actor_rate=rate;
+        {std::size_t drawn=0;OriginalType2Draw draw;
+         if(!entry.attackMinimalRandoms)draw=[this](std::uint32_t count,std::uint32_t& out,std::string& e){return world->random_uniform(count,out,e);};
+         if(!original_resolve_type2_choices(*entry.sequencePlan,sequencePolicies,effective,draw,drawn,error))return false;
+         selection.choices=effective.choices;
+         if(drawn)logs.push_back("Source attack type2 choice actor="+std::to_string(id)+" state="+selection.state+" groups="+std::to_string(drawn)+" step="+std::to_string(effective.choices.empty()?0:effective.choices.begin()->second));}
         auto prepared=std::make_unique<OriginalAttackSequence>();
         if(!prepared->prepare(*entry.sequencePlan,sequencePolicies,effective,sequence_services(entry.visual,id),entry.attack.animation_clip_id,error))return false;
         const auto validation=prepared->binding();const auto* markers=validation.markers(entry.attack.animation_clip_id,error);
@@ -1495,6 +1504,10 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
                 const float originalRate=original_speed_modifier(props.sheets.resolved[48]);
                 volatile float effectiveRate=static_cast<float>(policy.sequenceAction->actor_rate)*originalRate;
                 stage.sequenceSelection->actor_rate=effectiveRate;
+                // Type2 attack roots: init only needs a valid explicit pin (step 0, no RNG consumed); every attack request redraws.
+                {std::size_t drawn=0;if(!original_resolve_type2_choices(plan,sequencePolicies,*stage.sequenceSelection,nullptr,drawn,error))throw std::runtime_error(error);
+                 stage.entry.attackMinimalRandoms=policy.sourceAttackMinimalRandoms;
+                 stage.entry.sequenceCallerSelection->choices=stage.sequenceSelection->choices;}
                 const OriginalAttackSequenceServices services{actionVisual,[visual=&stage.visual](const std::string& name,std::string& e){return visual->restart(name,false,e);}};
                 if(!stage.entry.sequence->prepare(plan,sequencePolicies,*stage.sequenceSelection,services,actionAlias,error))throw std::runtime_error(error);
                 actionVisual=stage.entry.sequence->binding();

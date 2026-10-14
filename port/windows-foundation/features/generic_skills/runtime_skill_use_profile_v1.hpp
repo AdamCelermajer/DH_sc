@@ -161,6 +161,9 @@ struct RuntimeSkillUseProfileV1 {
     // v21.8 w2-necromancer: the Lua `target:SetKnockBackState(true)` after each Character SkillCombatRoll with dmg > 0
     // (DeathClaw). The great bank is selected (the Lua default great=true). Routed through the request's knockback sink.
     bool knockback_great_on_character_hit = false;
+    // v21.8 w2-archer: Lua OnSkillCheck_ `if not HasBow() then return false`. The cast is rejected before any mana or
+    // animation commit unless the host reports a bow in the main hand (RuntimeSkillCastRequestV1::main_hand_is_bow).
+    bool requires_bow = false;
     // v21.8 w2-illusionist: per-target enemy buff / stun arms (nullptr = the Lua has no such loop). Appended last.
     const RuntimeSkillEnemyBuffProfileV1* enemy_buff = nullptr;
     const RuntimeSkillEnemyStunProfileV1* enemy_stun = nullptr;

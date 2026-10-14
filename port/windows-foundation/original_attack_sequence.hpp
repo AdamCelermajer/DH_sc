@@ -40,6 +40,19 @@ struct OriginalAttackSequenceServices {
     std::function<bool(Vec3,bool,std::string&)> apply_motion;
 };
 
+// Draws the explicit child choice of every source type2 group on the selected
+// hierarchy (CharAnimator::_SetAnim: a type2 sequence draws Random(stepCount)
+// each time it is entered, unless MP_MinimalRandoms selects step 0). The walk is
+// depth-first in source entry order: a type2 group descends only into its drawn
+// child, a type1 group into every child, a type0 group into child 0. The result
+// replaces selection.choices so prepare() sees the same explicit choice every
+// time. `draw(count,out,error)` owns the RNG stream; an empty draw selects step 0
+// (validation-only, consumes nothing). `drawn` receives the number of draws.
+using OriginalType2Draw=std::function<bool(std::uint32_t count,std::uint32_t& output,std::string& error)>;
+bool original_resolve_type2_choices(const OriginalCombatVisualPlan&,const OriginalSequencePolicies&,
+                                    OriginalAttackSelection&,const OriginalType2Draw&,
+                                    std::size_t& drawn,std::string& error);
+
 // Clean chronological playback over original finite phase groups and markers.
 // Source frame-boundary overshoot discard and two-slot pose blending are separate
 // fidelity gaps; blendOut metadata is preserved and NEVER shortens clip duration.

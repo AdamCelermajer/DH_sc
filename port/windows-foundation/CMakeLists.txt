@@ -278,6 +278,8 @@ add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/runtime_skill_cast_prepare_v1.cpp
   features/generic_skills/runtime_skill_target_query_v1.cpp
   features/generic_skills/runtime_mage_skill_owner_v1.cpp
+  features/generic_skills/runtime_archer_skill_owner_v1.cpp
+  features/generic_skills/runtime_archer_passive_owner_v1.cpp
   # v21.8 w2-necromancer: FireSkullRain / Pestilence / Rise external owner (timers, death watch, skill projectile).
   features/generic_skills/runtime_necromancer_skill_owner_v1.cpp
   features/generic_skills/runtime_necromancer_passive_owner_v1.cpp
@@ -421,8 +423,8 @@ target_link_libraries(runtime_session_projectile_render_v1_tests PRIVATE foundat
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_session_projectile)
 add_test(NAME runtime_session_projectile_render_v1 COMMAND runtime_session_projectile_render_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
-# v21.8 magewire: the skill projectile AABBs are checked against the staged package when it exists (argv[2]).
-set(DH_STAGED_MAGEWIRE_ASSETS "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.8-staged-magewire/assets")
+# v21.8 magewire: the skill projectile AABBs are checked against the staged package when it exists (argv[2]). v21.8 w2-archer: staged3 holds the magewire skill models and the Archer arrows.
+set(DH_STAGED_MAGEWIRE_ASSETS "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.8-staged3/assets")
 if(EXISTS "${DH_STAGED_MAGEWIRE_ASSETS}/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae")
   add_test(NAME runtime_session_projectile_render_v1_skill_models COMMAND runtime_session_projectile_render_v1_tests
     "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets" "${DH_STAGED_MAGEWIRE_ASSETS}")
@@ -1203,6 +1205,11 @@ add_executable(mage_skill_owner_v1_tests features/generic_skills/runtime_mage_sk
 target_link_libraries(mage_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)
 add_test(NAME mage_skill_owner_v1 COMMAND mage_skill_owner_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
+# v21.8 w2-archer: external owner of the five Archer actives (real session + shared projectile executor).
+add_executable(runtime_archer_skill_owner_v1_tests features/generic_skills/runtime_archer_skill_owner_v1_tests.cpp)
+target_link_libraries(runtime_archer_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)
+add_test(NAME runtime_archer_skill_owner_v1 COMMAND runtime_archer_skill_owner_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
 # v21.8 es-runtime: general skill timers (StartSkillTimerCB semantics), external owner registry, death watch. No assets.
 add_executable(runtime_skill_timer_service_v1_tests features/generic_skills/runtime_skill_timer_service_v1_tests.cpp)
 target_link_libraries(runtime_skill_timer_service_v1_tests PRIVATE foundation_runtime_skill_cast)
@@ -1438,6 +1445,9 @@ target_link_libraries(foundation_status_states_session PUBLIC foundation_status_
 target_link_libraries(dh-foundation PRIVATE foundation_status_states_session)
 target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_status_states_session foundation_runtime_enemy)
 
+# v21.8 w2-archer: test-only bow save writer (not a CTest).
+add_executable(archer_bow_save_v21_8 tests/archer_bow_save_v21_8.cpp)
+target_link_libraries(archer_bow_save_v21_8 PRIVATE foundation_runtime_skills_menu foundation_data)
 # v21.8 w2-necromancer: FireSkullRain / Pestilence / Rise owner and Wrath / Putrid passive owner on a real CombatSession.
 add_executable(runtime_necromancer_skill_owner_v1_tests features/generic_skills/runtime_necromancer_skill_owner_v1_tests.cpp)
 target_link_libraries(runtime_necromancer_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)

@@ -186,6 +186,19 @@ bool RuntimeAudioHostV1::submit_world_item_sound(std::int32_t source_ordinal,
     return submit_source_sound(invalid_actor_id,source_ordinal,position,event_ns,error);
 }
 
+bool RuntimeAudioHostV1::submit_positional_source_sound(std::int32_t source_ordinal,
+    const std::array<float,3>& position,std::string& error) {
+    if(source_ordinal<0) {error.clear();return true;}
+    auto* runtime=session_?session_->runtime_on_producer():nullptr;
+    if(!runtime) {error="Required same AudioNativeSessionV42 producer for positional source sound";return false;}
+    if(!runtime->bindings().row(source_ordinal)) {
+        error="Required generated source row for positional sound ordinal "+std::to_string(source_ordinal);return false;
+    }
+    std::int64_t event_ns{};
+    if(!winmm_monotonic_ns(event_ns,error))return false;
+    return submit_source_sound(invalid_actor_id,source_ordinal,position,event_ns,error);
+}
+
 bool RuntimeAudioHostV1::submit_script_plain_sound(std::int32_t source_ordinal,int delay_ms,std::string& error) {
     if(source_ordinal<0) {error.clear();return true;} // Play36b80c: ordinal<0 returns before any emitter
     if(delay_ms<0) {error="Required nonnegative script Play delay";return false;}

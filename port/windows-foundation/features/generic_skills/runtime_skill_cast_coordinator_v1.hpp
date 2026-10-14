@@ -122,6 +122,7 @@ struct RuntimeSkillKnockBackRequestV1 {
     std::uint32_t event_index = 0;
     std::string source_id;
     std::int32_t target_state_before_hit = -1;
+    bool great = true;  // SetKnockBackState(great): the Lua default is true; the Archer MultiHitArrow also requests false
 };
 using RuntimeSkillKnockBackSinkV1 = std::function<bool(CombatSession&, const RuntimeSkillKnockBackRequestV1&, std::string&)>;
 
@@ -171,6 +172,8 @@ struct RuntimeSkillCastRequestV1 {
     // v21.8 w2-illusionist: SetStunState(duration_ms, true) on a target (Figments). The host binds it to the ES-STATUS owner.
     // Null = a row with an enemy_stun arm is rejected before any mana commit.
     std::function<bool(CombatSession&, ActorId target, double duration_ms, std::string& error)> stun_target;
+    // v21.8 w2-archer: `Character::HasBow` (ItemInventory main-hand ItemTable Type == 4) for profile rows with requires_bow.
+    bool main_hand_is_bow = false;
 };
 
 // P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels,
