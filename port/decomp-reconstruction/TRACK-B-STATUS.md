@@ -1,39 +1,75 @@
 # Track B status
 
-Updated 2026-10-13 by the integrator. Rules and decisions: `TRACK-B.md`. Totals: `py -3 tools/decomp_progress.py`.
+Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals: `py -3 tools/decomp_progress.py`.
 
 ## Totals (whole binary in scope: 25,218 functions)
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 12,494 | 49.5% |
-| upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 4,208 | 16.7% |
-| partial | 5,018 | 19.9% |
-| skipped | 3,148 | 12.5% |
-| no ledger row yet (G1b in progress) | ~350 | 1.4% |
+| reconstructed | 17,495 | 69.4% |
+| upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
+| partial | 1,620 | 6.4% |
+| skipped | 2,119 | 8.4% |
+
+Every queued row now has a ledger row (the last G1b rows are in).
 
 | category | queued | reconstructed | upstream | partial | skipped |
 |---|---:|---:|---:|---:|---:|
-| game-world | 1,527 | 983 | 0 | 449 | 92 |
-| game-app | 1,409 | 784 | 2 | 360 | 65 |
-| game-character | 1,143 | 866 | 0 | 230 | 46 |
-| game-items-save | 831 | 618 | 0 | 103 | 66 |
-| game-ui | 808 | 456 | 0 | 216 | 32 |
-| game-anim | 365 | 211 | 0 | 124 | 30 |
-| glitch-scene-collada-gui | 4,735 | 1,504 | 3 | 2,221 | 1,007 |
-| glitch-video | 1,701 | 635 | 0 | 328 | 738 |
-| glitch-core-io | 1,336 | 993 | 17 | 100 | 226 |
-| net-session-online | 1,244 | 882 | 0 | 215 | 147 |
-| net-transport | 1,048 | 807 | 0 | 128 | 113 |
-| pydata-accessors | 2,273 | 2,197 | 0 | 57 | 19 |
-| vox-audio | 1,140 | 914 | 45 | 60 | 121 |
-| core-platform | 653 | 317 | 0 | 46 | 290 |
-| tinyxml-and-c-libs | 1,846 | 12 | 1,755 | 3 | 76 |
-| vendor-gameswf | 2,370 | 312 | 1,600 | 378 | 80 |
+| game-world | 1,527 | 1,259 | 0 | 176 | 92 |
+| game-app | 1,409 | 1,208 | 2 | 118 | 81 |
+| game-character | 1,143 | 1,095 | 0 | 2 | 46 |
+| game-items-save | 831 | 765 | 0 | 0 | 66 |
+| game-ui | 808 | 775 | 0 | 0 | 33 |
+| game-anim | 365 | 332 | 0 | 3 | 30 |
+| glitch-scene-collada-gui | 4,735 | 3,996 | 3 | 444 | 292 |
+| glitch-video | 1,701 | 758 | 0 | 245 | 698 |
+| glitch-core-io | 1,336 | 1,016 | 17 | 96 | 207 |
+| net-session-online | 1,244 | 906 | 0 | 192 | 146 |
+| net-transport | 1,048 | 849 | 0 | 96 | 103 |
+| pydata-accessors | 2,273 | 2,208 | 0 | 56 | 9 |
+| vox-audio | 1,140 | 943 | 72 | 74 | 51 |
+| core-platform | 653 | 438 | 9 | 51 | 155 |
+| tinyxml-and-c-libs | 1,846 | 26 | 1,791 | 5 | 24 |
+| vendor-gameswf | 2,370 | 918 | 1,304 | 62 | 86 |
 | vendor-box2d | 318 | 2 | 316 | 0 | 0 |
 | vendor-lua | 471 | 1 | 470 | 0 | 0 |
 
 At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 reconstructed.
+
+## Build state (2026-10-14, `build/tb-int`, native MinGW)
+
+`ninja -k 0`: 817 of 817 targets, exit 0. `ctest`: 776 of 812 pass. `link/library-duplicates` PASSES.
+
+- 36 tests fail: 26 SEGFAULT, 7 assertion failures, 3 exit `0xc0000409`
+  (`std::abort`, i.e. a link stub was reached). The first crash reproduced under gdb is
+  `scene_mesh_functions_test`'s `testCopy`, which dies on a null call in the
+  `createMeshWith2TCoords` path - a seam, not an assertion.
+  Sampled crash sites, all INSIDE reconstructed bodies rather than at a stub:
+  `GetOnlineGameFlag`, `AnimController::AnimController`, `PlayerManager::GetPlayerByCharacter`,
+  `OnScreenKeyboard::onEvent`, `LiftableObject::Release`, `TiXmlAttribute::Next`,
+  `AnimSetManager::AddTemplateAnim`, `AnimatedFX::_HandleLoopEnd`, `MenuBase::FS_IsSaveSlotValid`,
+  `SkyBoxMeshSceneNode::SkyBoxMeshSceneNode`. So the wave's reconstructions carry real
+  defects (or reach null seams) that need a per-test pass; they are not stub noise.
+  The three `vox-audio` `0xc0000409` ones are explicit:
+  `DH2 link stub called (not reconstructed yet): _ZN15VoxSoundManagerC1Ev`.
+- Regenerating `link-stubs/link_stubs.csv` was required after the residue wave:
+  180 tests no longer linked without stubs (121 stub symbols).
+- Resolved (2026-10-14, second commit): all six duplicate global definitions.
+  `AnimationSet::s_invalidAnim` was defined twice (the batch file default-initialised it; the
+  canonical storage is `game-app/src/statics_AnimationSet.cpp`, which reproduces the binary's
+  static initializer 0x364cf8). `Res_bit`/`__Cc`/`__Dc` collided because `requant.h` declared them
+  without `extern` - a tentative definition in C, so every including TU emitted a copy; upstream
+  marks them `extern`. `point_compare`/`dct_iv_slow` collided because stb_vorbis's file-local
+  helpers lacked internal linkage and clashed with the reconstructed originals in
+  `core-platform/src/vorbis_util.cpp` (0x8764f8, 0x8784f4).
+- Remaining undefined symbols in the whole tree: 182 (86 with no ledger status, 82 skipped,
+  11 partial, 3 upstream). The largest single blocker is `CMaterialRendererManager`
+  (`createMaterialRenderer` 0x5d8b28, `createMaterialInstance` 0x5d9af0, `getMaterialRenderer`,
+  `getMaterialInstance` 0x5dd0e4): all `skipped` because the technique/pass/instance tables are
+  not in `material_renderer_manager.hpp`. Those four are referenced from hundreds of objects
+  (the largest link fan-out in the tree) and unblock the glitch-video partials with them.
+
+
 
 ## What "reconstructed" means today
 
@@ -58,22 +94,24 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 | unify | net classes, game types (Point3D, streams, Structs): one definition each | `5fdf7cb3`, `3c1011ab` |
 | V1 | Gameloft's gameswf, Box2D and Lua additions | 315 reconstructed |
 | R2a | gameplay redo of unblocked partial rows | 464 upgraded |
+| U1, U2 | canonical engine types (core-io, video, scene), one definition per class | engine tests pass |
+| residue | engine residue passes 1 and 2 (animation tracks, CTerrainSceneNode, ps domains, particles, CMaterial, GL driver, animated mesh, shadow volume) | `aec5a38c`, `552f9847` |
+| residue-int | ledger merge, build repair to 934/934, stub regeneration, test triage | `9f5d5e6e` |
 
 ## Running
 
-- G1b: the last 200 gameplay batches.
-- U1: canonical engine types (core-io, video, scene), one definition per class, with a map of every stand-in.
-- The gameswf fork's core layouts (character, tu_string, allocator, scene_node).
-- Net structure: CAndroidSocket base, CTransport slots, the GetTransportMgr singleton, DataPacket slots.
+- Test triage: the 36 failing tests (see Build state above).
 - armdiff: the ARM32 differential tester (NDK armv7a build plus Unicorn).
 
 ## Next
 
-1. U2: replace every engine stand-in with its canonical type (from the U1 maps). Then redo the
-   engine-blocked rows: scene 2,221 partial, video 328, and the game rows waiting on scene types.
-2. Build repair until the whole tree builds and every test links (`build/tb-all`).
-3. Platform layer: the JNI entry points (167 skipped rows) and the Android glue, required for an Android build.
-4. Review the 866 skipped rows whose notes give no clear reason.
-5. armdiff across every reconstructed function that makes no calls (~3,900), then the ones that make calls.
-6. The rename and cleanup pass: the evidence-based member names collected by the waves, statics and signatures.
-7. ARM64 Android build of the whole tree.
+1. Resolve the six duplicate global definitions so `link/library-duplicates` passes.
+2. Triage the 36 failing tests: separate seam crashes (a stub or a null reconstructed call) from real
+   reconstruction defects, and ledger each one.
+3. Continue the partial rows, biggest first: scene 444, video 245, net-session-online 192,
+   game-world 176, game-app 118, net-transport 96, glitch-core-io 96.
+4. Platform layer: the JNI entry points (167 skipped rows) and the Android glue, required for an Android build.
+5. Review the skipped rows whose notes give no clear reason.
+6. armdiff across every reconstructed function that makes no calls, then the ones that make calls.
+7. The rename and cleanup pass: the evidence-based member names collected by the waves, statics and signatures.
+8. ARM64 Android build of the whole tree.

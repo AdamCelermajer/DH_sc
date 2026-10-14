@@ -23,7 +23,14 @@ Not vendored: `mpc_reader.c` (replaced by the Gameloft reader), and the encoder,
 
 ## DH2 changes
 
-None to the source. The units compile as C (`-w`, `PRIVATE` include directories). Host-build fixes: none so far.
+None to the source. The units compile as C (`-w`, `PRIVATE` include directories).
+
+Host-build fixes: one. `libmpcdec/requant.h` declares `Res_bit`, `__Cc` and `__Dc` with `extern`. Without it
+each is a tentative definition in C, so every translation unit that includes the header (`mpc_decoder.c` as
+well as `requant.c`) emits its own copy and the link reports `multiple definition`. This was not merely a link
+error: the test links use `--allow-multiple-definition` and keep the *first* definition, which was
+`mpc_decoder.c.obj`'s zero-filled copy, so requantisation read empty tables. The `extern` leaves `requant.c`'s
+`.rodata` tables as the only definitions, which is what the binary has (0x911544, 0x911558, 0x9115a4).
 
 ## Build
 

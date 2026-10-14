@@ -29,6 +29,13 @@ One file: `stb_vorbis.c`. The DWARF unit is `stb_vorbis.cpp`, so the binary comp
 3. The stream is a `vox::StreamCursorInterface` instead of a `FILE*`: the `FILE *f` member, the `stb_vorbis_open_file` and `stb_vorbis_open_file_section` signatures, and the `fclose` in `vorbis_deinit` (the vox stream belongs to its cursor). The four stdio calls the code makes (`fgetc`, `fread`, `ftell`, `fseek`) resolve to the vox overloads defined in `vox-audio/src/stdio_shim.cpp`, which are declared at the top of the file.
 4. `stb_vorbis_open_filename` and `stb_vorbis_decode_filename` are `#if 0`: they use `fopen`, and the DH2 build reads vox streams only. Their prototypes are unchanged. The binary's `stb_vorbis_open_filename` is 20 bytes, so its body is not reproduced here.
 
+## Host-build fixes (marked `// HOST-PORT:`)
+
+`point_compare` and `dct_iv_slow` are `static`. Both are internal to this file, but as globals their names
+collided with the reconstructed originals of the same name in `core-platform/src/vorbis_util.cpp`
+(0x8764f8 and 0x8784f4, which the tree keeps as the single definitions). Internal linkage keeps the vendored
+bodies working for stb_vorbis's own callers with no symbol exported.
+
 ## Build
 
 `CMakeLists.txt` builds `dh2_vendor_stb_vorbis` from this file, compiled as C++ (`LANGUAGE CXX`), with `-w`.

@@ -1240,7 +1240,10 @@ typedef struct
    uint16 x,y;
 } Point;
 
-int point_compare(const void *p, const void *q)
+// HOST-PORT: static. This helper is internal to stb_vorbis (used only by the qsort below), but without
+// internal linkage its name collides with the reconstructed original of the same name in
+// core-platform/src/vorbis_util.cpp (0x8764f8), which the tree must keep as the one global definition.
+static int point_compare(const void *p, const void *q)
 {
    Point *a = (Point *) p;
    Point *b = (Point *) q;
@@ -2362,7 +2365,10 @@ void inverse_mdct_slow(float *buffer, int n, vorb *f, int blocktype)
 #else
 // transform to use a slow dct-iv; this is STILL basically trivial,
 // but only requires half as many ops
-void dct_iv_slow(float *buffer, int n)
+// HOST-PORT: static. Internal to stb_vorbis (used only inside this file), but without internal linkage its
+// name collides with the reconstructed original of the same name in core-platform/src/vorbis_util.cpp
+// (0x8784f4), which the tree must keep as the one global definition.
+static void dct_iv_slow(float *buffer, int n)
 {
    float mcos[16384];
    float x[2048];

@@ -26,8 +26,9 @@
 void PushProfilingContext(const char* name);
 void PopProfilingContext(const char* name);
 
-// The shared "no entry" result of the lookups; 48 bytes, built by the default Animation state.
-Animation AnimationSet::s_invalidAnim;
+// The shared "no entry" result of the lookups; 48 bytes. Its storage is defined once, in
+// game-app/src/statics_AnimationSet.cpp, which reproduces the binary's static initializer (0x364cf8: -1 at
+// +0x20 and +0x24). It is not defined here as well.
 
 // 0x36497c _ZN12AnimationSet10SetAnimSetEPN6glitch7collada20CDynamicAnimationSetE
 // The previous set is dropped, the flag at +0x2c is set, and the new set takes a use (counter at +0x04). The
