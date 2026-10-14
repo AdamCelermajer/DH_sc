@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <limits>
 #include <utility>
 
@@ -906,8 +907,13 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
                 return fail(error, "Source OnPre HP cost requires the caster's live HP sheet");
             if (health / maximum * 100.0f > profile->self_hp_cost->gate_percent) {
                 std::string hp_error;
-                if (!live_world->set_current_health(request.actor, health - health / profile->self_hp_cost->divisor, hp_error))
+                const float next_health = health - health / profile->self_hp_cost->divisor;
+                if (!live_world->set_current_health(request.actor, next_health, hp_error))
                     return fail(error, ("Source OnPre HP cost SetProp(HP): " + hp_error).c_str());
+                std::cout << "[skill] OnPre self HP cost " << profile->skill_name << " before=" << health << " after=" << next_health
+                          << " max=" << maximum << " gate=" << profile->self_hp_cost->gate_percent << '\n';
+            } else {
+                std::cout << "[skill] OnPre self HP cost " << profile->skill_name << " skipped hp=" << health << " max=" << maximum << '\n';
             }
         }
         // v21.8 ES-API: OnPre `PopTargetList` + `target:PlayFX(...)` for every popped Character (unconditional).
