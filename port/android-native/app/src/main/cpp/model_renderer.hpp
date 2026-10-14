@@ -267,6 +267,15 @@ struct GameplayEnemyStateSnapshotV1 {
  std::int32_t hp{},max_hp{};
  bool dead{};
 };
+// Development census of every Character actor (name, position, anim state, source
+// CharStateMachine state, gated/dead/visible) for the walk-level scenario.
+struct MonsterCensusRowV1 {
+ std::string name,anim_state;
+ std::array<float,3> position{};
+ bool gated{},dead{},visible{};
+ std::int32_t source_state{},hp{};
+};
+bool debug_monster_census(std::vector<MonsterCensusRowV1>&);
 bool gameplay_enemy_state_snapshot(std::int32_t,
                                    GameplayEnemyStateSnapshotV1&,std::string&);
 // Read-only localization projection of the one live Player Character and its

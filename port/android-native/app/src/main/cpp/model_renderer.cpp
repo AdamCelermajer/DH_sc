@@ -25078,7 +25078,13 @@ dh2::character::factory::SpawnResult request_loaded_character(const std::string&
        factory::source_character_registered_states,actor.identity,actor.source_handle});
    if(actor.name==exact_name)selected=&owner;
   }
-  if(selected&&(selected->actor->combat_state.dead||selected->actor->aggro.out_count||selected->actor->aggro.in_count)) {
+  // Character::Deserialize returns a Dead/Despawn/Limbus row to Limbus and leaves the
+  // Character dead (a Limbus Character is dead); Script_SpawnCharacter -> SM_SetSpawnState ->
+  // _SetState(Spawn) then leaves Limbus through CSLimbus::OnBlur -> Character::Revive. A
+  // Character restored by a checkpoint revive is therefore spawnable although its dead byte
+  // is set; only a dead Character outside Limbus (or one with aggro) stays a no-op.
+  if(selected&&((selected->actor->combat_state.dead&&selected->character.state.current!=0)||
+                selected->actor->aggro.out_count||selected->actor->aggro.in_count)) {
    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
        "SpawnCharacter refused | %s | dead %u | aggro out %u in %u | state %d",
        exact_name.c_str(),unsigned(selected->actor->combat_state.dead),
@@ -38531,6 +38537,24 @@ bool gameplay_enemy_state_snapshot(std::int32_t index,
  }
  error="Source Monster actor is no longer materialized for the selected index";
  return false;
+}
+bool debug_monster_census(std::vector<MonsterCensusRowV1>& rows){
+ rows.clear();
+ if(!enabled||!world_mode||!native_actor_ready)return false;
+ for(const auto& group:object_groups)for(const auto& actor:group.instances){
+  if(actor.kind!=1)continue;
+  MonsterCensusRowV1 row;
+  row.name=actor.name;row.anim_state=actor.state;
+  row.position=actor.position;
+  if(actor.spawn_owner&&actor.spawn_owner->runtime_ready)
+   for(unsigned axis=0;axis<3;++axis)row.position[axis]=actor.spawn_owner->runtime.subobjects.position[axis];
+  row.gated=actor.gated_spawn;row.dead=actor.combat_state.dead;
+  row.visible=actor.renderer_visible&&actor.visible_80;
+  row.source_state=actor.spawn_owner?actor.spawn_owner->character.state.current:-99;
+  row.hp=actor.properties.resolved[36];
+  rows.push_back(std::move(row));
+ }
+ return true;
 }
 bool ui_player_identity(std::uintptr_t& identity,std::string& error){
  if(!world_mode||!prince_source_ai||!prince_source_ai->character_identity||

@@ -151,8 +151,13 @@ struct Options {
     double follow_exit_entry = 0.0;
     bool probe_scenario() const {
         return faery_follow_scenario || faery_skill_scenario || skill_matrix_scenario ||
-               boss_fight_scenario || talk_npc_scenario || enter_zone_scenario;
+               boss_fight_scenario || talk_npc_scenario || enter_zone_scenario || walk_level_scenario;
     }
+    // walk-level: walk the Player through every TriggerZone of the level in route order,
+    // logging every Character spawn/visibility/state change and each trigger start count.
+    bool walk_level_scenario = false;
+    // --walk-from N / --walk-to M: first / last (exclusive) kSwampWalk target; --walk-from teleports there.
+    int walk_from = 0, walk_to = 99;
     // talk-npc: stand the Player next to a named quest-giver Character and press the
     // authored HUD attack button (Character::Interact on the selected NPC); the run
     // follows quest `watch_quest` until it has left Available. enter-zone: stand the
@@ -298,6 +303,8 @@ Options parse(int argc, char** argv) {
         }
         else if (arg == "--matrix-only") options.matrix_only = std::stoi(value("--matrix-only"));
         else if (arg == "--follow-faery") options.follow_faery_select = std::stoi(value("--follow-faery"));
+        else if (arg == "--walk-from") options.walk_from = std::stoi(value("--walk-from"));
+        else if (arg == "--walk-to") options.walk_to = std::stoi(value("--walk-to"));
         else if (arg == "--capture-series") options.capture_series = value("--capture-series");
         else if (arg == "--capture-every") options.capture_every = std::stoull(value("--capture-every"));
         else if (arg == "--scenario") {
@@ -321,6 +328,7 @@ Options parse(int argc, char** argv) {
             else if (scenario == "boss-fight") options.boss_fight_scenario = true;
             else if (scenario == "talk-npc") options.talk_npc_scenario = true;
             else if (scenario == "enter-zone") options.enter_zone_scenario = true;
+            else if (scenario == "walk-level") options.walk_level_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -389,7 +397,8 @@ Options parse(int argc, char** argv) {
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
         unsigned(options.faery_follow_scenario) + unsigned(options.faery_skill_scenario) +
         unsigned(options.skill_matrix_scenario) + unsigned(options.boss_fight_scenario) +
-        unsigned(options.talk_npc_scenario) + unsigned(options.enter_zone_scenario);
+        unsigned(options.talk_npc_scenario) + unsigned(options.enter_zone_scenario) +
+        unsigned(options.walk_level_scenario);
     if (scenario_count > 1) throw std::runtime_error("Select only one gameplay scenario per run");
     if (options.return_entry >= 0 &&
         (options.transition_to.empty() || options.level_row < 0 ||
@@ -454,7 +463,8 @@ Options parse(int argc, char** argv) {
         if (!frames_supplied)
             options.frames = options.faery_follow_scenario ? 1800 :
                              options.faery_skill_scenario ? 2400 :
-                             options.boss_fight_scenario ? 3000 : 12000;
+                             options.boss_fight_scenario ? 3000 :
+                             options.walk_level_scenario ? 40000 : 12000;
         if (options.frames < 4) throw std::runtime_error("probe scenarios require at least four gameplay frames");
     } else if (options.movement_attack_scenario) {
         if (options.level_row < 0) options.level_row = 23;
@@ -828,6 +838,7 @@ public:
         else if (options_.skill_matrix_scenario) matrix_tick();
         else if (options_.boss_fight_scenario) boss_tick();
         else if (options_.talk_npc_scenario || options_.enter_zone_scenario) quest_tick();
+        else if (options_.walk_level_scenario) walk_tick();
     }
 
     void finish() {
@@ -840,13 +851,15 @@ public:
         else if (options_.skill_matrix_scenario) matrix_finish();
         else if (options_.boss_fight_scenario) boss_finish();
         else if (options_.talk_npc_scenario || options_.enter_zone_scenario) quest_finish();
+        else if (options_.walk_level_scenario) walk_finish();
     }
 
     bool failed() const { return !failure_.empty(); }
     // The matrix / faery-skill scenarios stop the run themselves once their
     // fixed work list is exhausted (they have no use for the remaining frames).
     bool finished() const {
-        return (options_.boss_fight_scenario && death_frame_ && frame_ >= death_frame_ + 15) ||
+        return (options_.walk_level_scenario && wl_done_) ||
+               (options_.boss_fight_scenario && death_frame_ && frame_ >= death_frame_ + 15) ||
                (options_.skill_matrix_scenario && mx_phase_ == MxPhase::done) ||
                (options_.faery_skill_scenario && fs_phase_ == FsPhase::done) ||
                ((options_.talk_npc_scenario || options_.enter_zone_scenario) &&
@@ -903,7 +916,8 @@ private:
                  options_.faery_skill_scenario ? "faery-skill" :
                  options_.boss_fight_scenario ? "boss-fight" :
                  options_.talk_npc_scenario ? "talk-npc" :
-                 options_.enter_zone_scenario ? "enter-zone" : "skill-matrix"));
+                 options_.enter_zone_scenario ? "enter-zone" :
+                 options_.walk_level_scenario ? "walk-level" : "skill-matrix"));
         return true;
     }
 
@@ -1645,6 +1659,151 @@ private:
         if (state <= qs_first_state_ && failure_.empty())
             failure_ = fmt("%s: quest %d never left state %d", talk ? "talk-npc" : "enter-zone", watch,
                            qs_first_state_);
+    }
+
+    // ----- walk-level -------------------------------------------------------
+    struct WalkTarget {const char* name; float x, y; };
+    // SWAMP TriggerZone centres (logged by "TriggerZone InitPost") in route order.
+    static constexpr WalkTarget kSwampWalk[] = {
+        {"_prim_TriggerZone_KillTroll", -2609.2f, 15.1f},
+        {"_prim_TriggerZone_LizManIntro", -2897.1f, -3.4f},
+        {"_prim_MothMovieTriggerZone", -4511.7f, -42.5f},
+        {"_prim_TriggerZone_001_ChestAmbush", -6100.7f, 5002.8f},
+        {"_prim_TriggerZone_BigLizIntro", -6395.0f, 9602.1f},
+        {"_prim_TriggerZone_Camp_Intro", -9452.4f, 11816.9f},
+        {"_prim_Zone_EnterLoc_MerchantCamp", -10992.4f, 11844.6f},
+        {"_prim_TriggerZone_18", -11571.0f, 11233.1f},
+        {"_prim_TriggerZone_001", -12137.5f, 10444.0f},
+        {"_prim_TriggerZone_hacksavething", -12000.0f, 9389.6f},
+        {"_prim_TriggerZone_17", -15437.4f, 12000.0f},
+    };
+    std::size_t wl_target_ = 0;
+    bool wl_init_ = false, wl_teleported_ = false;
+    std::size_t wl_end() const {return std::min<std::size_t>(sizeof(kSwampWalk) / sizeof(kSwampWalk[0]), std::size_t(options_.walk_to));}
+    std::uint64_t wl_target_frame_ = 0, wl_arrived_frame_ = 0;
+    bool wl_arrived_ = false, wl_done_ = false;
+    std::map<std::string, std::string> wl_last_;
+    std::map<std::string, unsigned> wl_starts_;
+    std::size_t wl_started_seen_ = 0;
+
+    void walk_census() {
+        std::vector<model_renderer::MonsterCensusRowV1> rows;
+        if (!model_renderer::debug_monster_census(rows)) return;
+        for (const auto& row : rows) {
+            const std::string key = fmt("gated %d dead %d vis %d src %d anim %s", int(row.gated),
+                                        int(row.dead), int(row.visible), row.source_state,
+                                        row.anim_state.c_str());
+            auto it = wl_last_.find(row.name);
+            const bool first = it == wl_last_.end();
+            if (first || it->second != key) {
+                const auto& p = row.position;
+                const bool near_origin = std::fabs(p[0]) < 5.f && std::fabs(p[1]) < 5.f;
+                const float pd = have_pose_ ? planar_distance(pose_.player_position, {p[0], p[1], p[2]}) : -1.f;
+                plog(fmt("walk spawn-event | frame %llu | %s | %s | pos %.0f %.0f %.0f%s | HP %d | player dist %.0f | target %zu",
+                         (unsigned long long)frame_, row.name.c_str(), key.c_str(), p[0], p[1], p[2],
+                         near_origin ? " AT-ORIGIN" : "", row.hp / 256, pd, wl_target_));
+                wl_last_[row.name] = key;
+            }
+        }
+    }
+
+    void walk_scripts() {
+        model_renderer::LevelScriptProbeV1 probe;
+        std::string probe_error;
+        if (!model_renderer::level_script_probe(probe, probe_error)) return;
+        for (; wl_started_seen_ < probe.started.size(); ++wl_started_seen_) {
+            const auto& name = probe.started[wl_started_seen_];
+            const unsigned n = ++wl_starts_[name];
+            plog(fmt("walk script-start | frame %llu | %s | start #%u%s | Player %s | target %zu",
+                     (unsigned long long)frame_, name.c_str(), n, n > 1 ? " REPEAT" : "",
+                     have_pose_ ? vec_text(pose_.player_position).c_str() : "?", wl_target_));
+        }
+    }
+
+    void walk_tick() {
+        if (wl_done_) return;
+        walk_scripts();
+        if (frame_ % 15 == 0) walk_census();
+        const auto vitals = model_renderer::player_vitals();
+        if (frame_ % 60 == 0 && vitals[0] < vitals[1] / 2)
+            model_renderer::debug_player_refill_hp(0);
+        if (hud_blocked_) {
+            // cutscene: the controllers are locked; the Level script drives the Player.
+            ++wl_target_frame_;
+            if (wl_arrived_) ++wl_arrived_frame_;
+            return;
+        }
+        if (!wl_init_) {
+            wl_init_ = true;
+            wl_target_ = std::size_t(std::max(0, options_.walk_from));
+            if (wl_target_ > 0 && wl_target_ < wl_end()) {
+                const auto& f = kSwampWalk[wl_target_ - 1];
+                std::string err;
+                const bool ok = model_renderer::boss_probe_place_player({f.x, f.y, 255.f}, err);
+                plog(fmt("walk start-at | place at target %zu (%s) %s %s", wl_target_ - 1, f.name, ok ? "ok" : "ERROR", err.c_str()));
+            }
+        }
+        if (wl_target_ >= wl_end()) {
+            if (!wl_arrived_) {wl_arrived_ = true; wl_arrived_frame_ = frame_;}
+            if (frame_ - wl_arrived_frame_ > 120) wl_done_ = true;
+            return;
+        }
+        const auto& t = kSwampWalk[wl_target_];
+        const Vec3 goal{t.x, t.y, 255.f};
+        if (!wl_target_frame_) wl_target_frame_ = frame_;
+        if (!have_pose_) return;
+        if (wl_arrived_) {
+            halt_player();
+            if (frame_ - wl_arrived_frame_ >= 300) {
+                wl_arrived_ = false;
+                wl_teleported_ = false;
+                ++wl_target_;
+                wl_target_frame_ = 0;
+            }
+            return;
+        }
+        const float dist = planar_distance(pose_.player_position, goal);
+        if (dist < 90.f) {
+            wl_arrived_ = true;
+            wl_arrived_frame_ = frame_;
+            halt_player();
+            plog(fmt("walk arrive | frame %llu | %s | Player %s | dist %.0f", (unsigned long long)frame_,
+                     t.name, vec_text(pose_.player_position).c_str(), dist));
+            return;
+        }
+        const auto spent = frame_ - wl_target_frame_;
+        if (spent > 1500 && wl_teleported_) {
+            plog(fmt("walk skip | frame %llu | %s still unreachable after the teleport", (unsigned long long)frame_, t.name));
+            wl_teleported_ = false;
+            ++wl_target_;
+            wl_target_frame_ = 0;
+            return;
+        }
+        if (spent > 1500) {
+            wl_teleported_ = true;
+            std::string err;
+            const bool ok = model_renderer::boss_probe_place_player(goal, err);
+            plog(fmt("walk teleport | frame %llu | %s unreachable after %llu frames -> place %s %s",
+                     (unsigned long long)frame_, t.name, (unsigned long long)spent, ok ? "ok" : "ERROR", err.c_str()));
+            wl_target_frame_ = frame_;
+            if (!ok) ++wl_target_;
+            return;
+        }
+        // Fight what the route runs into, like move-kill: attack when an enemy is in reach.
+        if (frame_ % 15 == 0 && pose_.enemy_index >= 0 && pose_.enemy_in_melee_range && pose_.enemy_hp > 0)
+            model_renderer::player_attack();
+        if (march_to(pose_.player_position, goal, 60.0f) == March::no_route)
+            steer_world(goal[0] - pose_.player_position[0], goal[1] - pose_.player_position[1]);
+        if (frame_ % 300 == 0)
+            plog(fmt("walk progress | frame %llu | -> %s | Player %s | dist %.0f", (unsigned long long)frame_,
+                     t.name, vec_text(pose_.player_position).c_str(), dist));
+    }
+
+    void walk_finish() {
+        std::string summary;
+        for (const auto& [name, n] : wl_starts_) summary += fmt(" %s=%u", name.c_str(), n);
+        plog(fmt("walk-level summary | targets reached %zu/%zu | script starts:%s", wl_target_,
+                 wl_end(), summary.c_str()));
     }
 
     // ----- faery-skill ------------------------------------------------------
