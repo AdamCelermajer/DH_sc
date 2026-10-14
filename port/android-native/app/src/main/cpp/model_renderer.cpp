@@ -32172,6 +32172,10 @@ struct PlayerSpellCombatContext {
  // Character::F_ApplyResult's GameObject-attacker overload (0x3b01b8): the
  // attacker is a TimerTrap/other GameObject with no Character owners.
  std::uintptr_t go_attacker{};
+ // HandleDots passes the Character as its own killer; Character::Kill then credits
+ // every aggro entry and DistributeXP reaches the Players. The aggro Player is the
+ // port's killer for that continuation (0 = none, null-killer kill).
+ std::uintptr_t go_killer{};
  dh2::data::PropertyView attacker_properties{},defender_properties{};
  std::unordered_map<std::uintptr_t,std::unique_ptr<std::string>> apply_strings;
  CombatAggroBeforeHit aggro{};
@@ -32963,8 +32967,8 @@ int spell_apply_result_invoke(void* raw,
      explicit NullKillerScope(bool on):active(on){if(active)native_script_null_killer_kill=true;}
      ~NullKillerScope(){if(active)native_script_null_killer_kill=false;}
      bool active;
-    } null_killer(go_attack);
-    const std::uintptr_t killer=go_attack?0:request->attacker;
+    } null_killer(go_attack&&!context->go_killer);
+    const std::uintptr_t killer=go_attack?context->go_killer:request->attacker;
     context->kill={defender_actor,killer,false,{}};
     if(!source_npc_kill_ready(*defender_actor,killer)||
        player_to_npc_before_dead_v1(&context->kill,*request->result)!=0||
@@ -34430,6 +34434,13 @@ bool native_monster_dot_tick(ObjectActor& actor,std::string& error) {
   PlayerSpellCombatContext context{};
   context.go_attacker=id;context.apply_attacker=id;context.apply_defender=id;
   context.defender=&actor;
+  {
+   const auto live_end=actor.aggro.outgoing.begin()+std::min<std::size_t>(
+       actor.aggro.out_count,actor.aggro.outgoing.size());
+   if(std::any_of(actor.aggro.outgoing.begin(),live_end,
+        [&](const dh2::data::AggroEntry& e){return e.character==prince_character.identity();}))
+    context.go_killer=prince_character.identity();
+  }
   using Operation=dh2::character_apply_result::Operation;
   dh2::character_apply_result::Reply reply{};
   const dh2::character_apply_result::Request hit{Operation::hit_for,id,id,0,
