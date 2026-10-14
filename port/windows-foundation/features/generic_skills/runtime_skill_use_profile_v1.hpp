@@ -127,6 +127,12 @@ struct RuntimeSkillUseProfileV1 {
     const RuntimeSkillSelfHpCostV1* self_hp_cost = nullptr;
     // v21.8 berserker: OnSkill_ scare/stun arm (Intimidation), or nullptr. Applied to every Character of the Use list.
     const RuntimeSkillStatusArmV1* status_arm = nullptr;
+    // v21.8 w2-necromancer: OnPre TargetListSearch(RANGE) with RANGE = CharacterProperties.TempProp1 (Pestilence:
+    // RANGE = FromFixed(TempProp1)). Uses the class projection's TempProp1 like use_range_from_temp_prop1 does for Use.
+    bool pre_range_from_temp_prop1 = false;
+    // v21.8 w2-necromancer: the Lua `target:SetKnockBackState(true)` after each Character SkillCombatRoll with dmg > 0
+    // (DeathClaw). The great bank is selected (the Lua default great=true). Routed through the request's knockback sink.
+    bool knockback_great_on_character_hit = false;
 };
 
 // The volley that a Use selects. `cursor` counts the Uses already delivered for this actor and skill (it persists across

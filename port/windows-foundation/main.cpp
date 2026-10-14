@@ -53,6 +53,8 @@
 #include "features/generic_skills/runtime_skill_cast_coordinator_v1.hpp"
 #include "features/generic_skills/runtime_skill_cast_prepare_v1.hpp"
 #include "features/generic_skills/runtime_mage_skill_owner_v1.hpp"
+#include "features/generic_skills/runtime_necromancer_skill_owner_v1.hpp"
+#include "features/generic_skills/runtime_necromancer_passive_owner_v1.hpp"
 #include "features/generic_skills/combat_result_event_bus_v1.hpp"
 #include "features/generic_skills/passive_skill_owner_v1.hpp"
 #include "features/generic_skills/event_passive_owner_v1.hpp"
@@ -1501,6 +1503,9 @@ int main(int argc,char** argv) {
         // B159/B035: source Push banks (CharAnimTable KnockedBack/GreatKnockedBack roots) of the player, one per equipment stance, and the
         // actor-binding lease the Push consumer is currently bound to (a restore replaces the lease and clears the Session handler).
         std::map<std::int32_t,f::combat::SessionPushAnimationBankV1> sourcePushBanks;std::weak_ptr<const void> sourcePushBoundLease;
+        // v21.8 w2-necromancer: the same-Session Push sink, kept so skill Uses can deliver an explicit SetKnockBackState (DeathClaw).
+        f::combat::SessionPushEffectSinkV1 sourcePushSink;
+        f::generic_skills::RuntimeSkillKnockBackSinkV1 sourceKnockBackSink;
         std::map<std::string,f::combat::SessionPushAnimationBankV1> monsterPushBanks; // v21.8 faery2: per monster profile (defender's own CharAnimTable +72/+36 roots)
         if(sourcePlayerStanceEnabled) {
             const auto read=[&](const char* file){return f::read_content(assets,(std::filesystem::path(options.combat.tableRoot)/file).generic_string());};
@@ -2890,6 +2895,7 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::effects::RuntimeSessionProjectileRenderV1> playerProjectileRender; // only supplies the authored BDAE bounds
         std::unique_ptr<f::effects::RuntimeSessionProjectileContactBodiesV1> playerProjectileContacts;
         std::unique_ptr<f::generic_skills::RuntimeMageSkillOwnerV1> mageSkillOwner; // v21.8 magewire: ChainLightning/Cyclone/StoneEscape external owner
+        std::unique_ptr<f::generic_skills::RuntimeNecromancerSkillOwnerV1> necromancerSkillOwner; // v21.8 w2-necromancer: FireSkullRain/Pestilence/Rise
         // v21.8 es-runtime: the coordinator's single external_owner slot holds this registry; every owner registers here.
         f::generic_skills::RuntimeSkillExternalOwnerRegistryV1 skillOwnerRegistry;
         bool playerSkillCleanupRan=false; // RegisterSkillEx cleanup of the dead caster's skills runs once per death
@@ -5965,7 +5971,7 @@ int main(int argc,char** argv) {
             const auto lease=combatSession->actor_binding_lease();
             if(lease.expired())return;
             if(!sourcePushBoundLease.expired()&&!lease.owner_before(sourcePushBoundLease)&&!sourcePushBoundLease.owner_before(lease))return;
-            const auto sink=[&](f::CombatSession& session,const f::combat::SessionPushRequestV1& request,std::string& e)->bool{
+            sourcePushSink=[&](f::CombatSession& session,const f::combat::SessionPushRequestV1& request,std::string& e)->bool{
                 if(const auto* targetTraits=session.world()->traits(request.target);targetTraits&&!targetTraits->is_player) {
                     // v21.8 faery2: monster defender (F_ApplyResult guards the status block with IsDead, not IsPlayer; SM_SetKnockBackState is a no-op for a Boss).
                     std::string monsterProfileId;
@@ -5991,7 +5997,17 @@ int main(int argc,char** argv) {
                 return f::combat::play_session_push_animation_v1(session,request,bank->second,std::move(services),e);
             };
             std::string pushBindError;
-            if(!f::combat::bind_session_push_effect_v1(*combatSession,sink,pushBindError))throw std::runtime_error("Source Push binding: "+pushBindError);
+            sourceKnockBackSink=[&](f::CombatSession& session,const f::generic_skills::RuntimeSkillKnockBackRequestV1& knock,std::string& e)->bool{
+                // v21.8 w2-necromancer: Lua target:SetKnockBackState(true) = great bank, delivered as an explicit Push request
+                // (outcome 0x80, mask 0x100000, not direct). The pre-hit state is the admission state (original_actor_state).
+                if(!sourcePushSink){e="Source Push consumer is not bound";return false;}
+                f::combat::SessionPushRequestV1 push;
+                push.attacker=knock.attacker;push.target=knock.target;push.generation=knock.generation;push.event_index=knock.event_index;
+                push.source_id=knock.source_id;push.marker_name="do_skill";push.source_outcomes=0x80u;push.source_mask=0x00100000u;
+                push.great=true;push.direct=false;push.target_state_before_hit=knock.target_state_before_hit;
+                return sourcePushSink(session,push,e);
+            };
+            if(!f::combat::bind_session_push_effect_v1(*combatSession,sourcePushSink,pushBindError))throw std::runtime_error("Source Push binding: "+pushBindError);
             sourcePushBoundLease=lease;
             std::cout<<"[push] source Push consumer bound banks="<<sourcePushBanks.size()<<'\n';
         };
@@ -7087,6 +7103,7 @@ int main(int argc,char** argv) {
         std::unique_ptr<f::generic_skills::CombatResultEventBusV1> passiveBus;
         std::unique_ptr<f::generic_skills::RuntimePassiveSkillOwnerV1> passiveOwner;
         std::unique_ptr<f::generic_skills::RuntimeEventPassiveOwnerV1> passiveEvents;
+        std::unique_ptr<f::generic_skills::RuntimeNecromancerPassiveOwnerV1> necroPassives; // v21.8 w2-necromancer: Wrath, Putrid
         std::vector<f::generic_skills::CombatResultEventV1> passivePendingHits;
         const f::CombatSession* passiveSessionSeen=nullptr;
         bool passiveErrorShown=false;
@@ -8619,6 +8636,40 @@ int main(int argc,char** argv) {
                                 mageSkillOwner=std::make_unique<f::generic_skills::RuntimeMageSkillOwnerV1>(std::move(mageServices));
                                 skillOwnerRegistry.add(mageSkillOwner.get());
                             }
+                            // v21.8 w2-necromancer: external owner for FireSkullRain / Pestilence / Rise (same shared services as the mage owner).
+                            if(!necromancerSkillOwner) {
+                                f::generic_skills::RuntimeNecromancerSkillServicesV1 necroServices;
+                                necroServices.projectiles=[&]()->f::effects::RuntimeSessionProjectileV1* {
+                                    std::string e;
+                                    if(!ensurePlayerProjectiles(e)) {std::cout<<"Necromancer skill projectile executor unavailable: "<<e<<'\n';return nullptr;}
+                                    return playerProjectiles.get();
+                                };
+                                necroServices.projectile_tables=[&]()->std::shared_ptr<const dh2::android_ui::SourceProcessArraysV101> {
+                                    std::string e;
+                                    if(!ensurePlayerProjectiles(e)) {std::cout<<"Necromancer skill projectile tables unavailable: "<<e<<'\n';return nullptr;}
+                                    return playerProjectileTables;
+                                };
+                                necroServices.projectile_launched=[&](std::uint64_t projectileId,bool wantsContacts,std::string& e)->bool {
+                                    return !wantsContacts||registerPlayerProjectileSensor(projectileId,e);
+                                };
+                                necroServices.play_effect=[&](const std::string& name,const std::array<float,3>& at,std::string& e)->bool {
+                                    const auto fxTables=sourceEffectsTables.borrow();
+                                    if(!fxTables){e="EffectsTables are not loaded";return false;}
+                                    const auto& names=fxTables.set_names();const auto found=std::find(names.begin(),names.end(),name);
+                                    if(found==names.end()){e="EffectsTables set absent: "+name;return false;}
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    std::uintptr_t created=0;const float point[3]={at[0],at[1],at[2]};
+                                    return sourceEffectsFactory->manager().play_set(std::int32_t(found-names.begin()),point,nullptr,0,&created,e);
+                                };
+                                necroServices.play_sound=[&](const std::string& name,std::string& e)->bool {
+                                    if(!runtimeAudio){e="no audio runtime";return false;}
+                                    return runtimeAudio->play_named_plain(name.c_str(),e);
+                                };
+                                necroServices.trace=[&](const std::string& line){std::cout<<line<<'\n';};
+                                necromancerSkillOwner=std::make_unique<f::generic_skills::RuntimeNecromancerSkillOwnerV1>(std::move(necroServices));
+                                skillOwnerRegistry.add(necromancerSkillOwner.get());
+                            }
+                            request.knockback_great=&sourceKnockBackSink;
                             request.external_owner=&skillOwnerRegistry;
                             request.timed_buffs=timedBuffs.get();
                             skillCastCoordinator->begin_skill_cast_v1(request,*combatSession,receipt,castError);
@@ -8858,11 +8909,14 @@ int main(int argc,char** argv) {
                     if(passiveSessionSeen!=combatSession.get()) {
                         passiveSessionSeen=combatSession.get();
                         ensureTimedBuffOwner();
-                        passiveEvents.reset();passiveOwner.reset();passivePendingHits.clear();
+                        passiveEvents.reset();necroPassives.reset();passiveOwner.reset();passivePendingHits.clear();
                         passiveBus=std::make_unique<f::generic_skills::CombatResultEventBusV1>();
                         passiveOwner=std::make_unique<f::generic_skills::RuntimePassiveSkillOwnerV1>(*timedBuffs);
                         passiveEvents=std::make_unique<f::generic_skills::RuntimeEventPassiveOwnerV1>(
                             *timedBuffs,properties.classes,menuSkillPropertyRules,*passiveBus,combatSession->player_id());
+                        necroPassives=std::make_unique<f::generic_skills::RuntimeNecromancerPassiveOwnerV1>(
+                            *timedBuffs,properties.classes,menuSkillPropertyRules,*passiveBus,combatSession->player_id(),
+                            [&](const std::string& sound,std::string& e)->bool{if(!runtimeAudio){e="no audio runtime";return false;}return runtimeAudio->play_named_plain(sound.c_str(),e);});
                         combatSession->set_combat_result_observer([&](f::ActorId attacker,f::ActorId target,std::uint32_t outcomes,bool died){
                             if(attacker==combatSession->player_id()||target==combatSession->player_id())
                                 std::cout<<"Passive hit observed frame="<<drawn<<" attacker="<<attacker<<" target="<<target<<" outcomes="<<outcomes<<" died="<<died<<'\n';
@@ -8873,7 +8927,8 @@ int main(int argc,char** argv) {
                     const auto passiveSkillTables=menuSourceOwner.skill_owner->borrow();
                     std::string passiveError;
                     if(!f::generic_skills::sync_stat_passive_ranks_v1(*passiveOwner,*combatSession,combatSession->player_id(),state,passiveSkillTables,passiveError)||
-                       !f::generic_skills::sync_event_passive_ranks_v1(*passiveEvents,state,passiveSkillTables,passiveError))
+                       !f::generic_skills::sync_event_passive_ranks_v1(*passiveEvents,state,passiveSkillTables,passiveError)||
+                       !f::generic_skills::sync_necromancer_passive_ranks_v1(*necroPassives,state,passiveSkillTables,passiveError))
                         std::cerr<<"Passive rank sync frame="<<drawn<<": "<<passiveError<<'\n';
                     // es-passive TEST ONLY (--test-event-passive-rank killing_frenzy=N | carrion_eater=N): the event passive's
                     // rank without a saved row. The saved SkillList of the available saves (Rogue) has no such row.
@@ -8999,6 +9054,7 @@ int main(int argc,char** argv) {
                 // v21.8 es-passive: dispatch the hits queued during this Session update, then age the event passives.
                 if(passiveBus&&passiveEvents&&combatSession) {
                     passiveEvents->bind(*combatSession);
+                    necroPassives->bind(*combatSession);
                     for(const auto& hit:passivePendingHits) passiveBus->dispatch(hit);
                     passivePendingHits.clear();
                     for(const auto& heal:passiveEvents->take_carrion_heals())
@@ -9006,6 +9062,8 @@ int main(int argc,char** argv) {
                     if(!gameplayPaused) {
                         std::string frenzyError;
                         if(!passiveEvents->advance(*combatSession,gameplayDt,frenzyError)) std::cerr<<"Event passive frame="<<drawn<<": "<<frenzyError<<'\n';
+                        std::string necroError;
+                        if(!necroPassives->advance(*combatSession,gameplayDt*1000.0,necroError)) std::cerr<<"Necromancer passive frame="<<drawn<<": "<<necroError<<'\n';
                     }
                     if(!passiveEvents->last_error().empty()&&!passiveErrorShown) {
                         passiveErrorShown=true;std::cerr<<"Event passive frame="<<drawn<<": "<<passiveEvents->last_error()<<'\n';
