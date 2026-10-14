@@ -746,6 +746,19 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         error.clear();
         return true;
     }
+    if ((profile->enemy_buff && !request.timed_buffs) || (profile->enemy_stun && !request.stun_target)) {
+        output.actor = request.actor;
+        output.source_slot = request.source_slot;
+        output.saved_skill_row = saved_row;
+        output.class_skill_position = position;
+        output.skill_table_id = visual.skill_table_id;
+        output.skill_name = visual.source_skill_name;
+        output.source_script = visual.source_script;
+        output.phase = RuntimeSkillCastPhaseV1::rejected;
+        output.detail = "Skill applies per-target enemy buff/stun arms but its buff owner or stun hook is not bound to this request";
+        error.clear();
+        return true;
+    }
     const auto& skill_row = request.skills.skills()[std::size_t(visual.skill_table_id)];
     // Native _SkillCombatRoll (IDA 0x3b9fbc; audit docs/ida-fidelity-audit-2026-10-11/character3.md F2):
     // mask 0x800000 needs the equipped-hand facts before any hit is formed.
@@ -832,6 +845,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     active.category = current->facts.main_damage_class;
     active.use_profile = profile;
     active.timed_buffs = request.timed_buffs;
+    active.stun_target = request.stun_target;
     active.source_post_clears_target = profile->post_clear_target;
     active.class_token = class_token;
     active.external_owner = request.external_owner;
@@ -1409,6 +1423,68 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             }
             active.receipt.applied_results.push_back(std::move(result));
         }
+    }
+    // v21.8 w2-illusionist enemy arms, after the Use rolls (Lua per-target loops over the popped Character targets).
+    // Figments: SetStunState(GetRand(MIN, MAX), true) for each target that is neither boss nor miniboss. The stun pass
+    // runs over the whole list before the buff pass; the two touch different owners, and the Figments buff carries no
+    // property rows, so the change of order does not alter a roll.
+    active.receipt.enemy_stun_targets.clear();
+    if (profile.enemy_stun) {
+        for (const auto target : use_targets.ordered_character_targets) {
+            if (profile.enemy_stun->skip_boss_and_miniboss) {
+                const auto flags = target_buff_flags_v1(session, target);
+                if (flags.is_boss || flags.is_miniboss) continue;
+            }
+            std::uniform_int_distribution<int> draw(static_cast<int>(profile.enemy_stun->min_ms),
+                                                    static_cast<int>(profile.enemy_stun->max_ms));
+            const double duration_ms = static_cast<double>(draw(stun_rng_));
+            std::string stun_error;
+            if (!active.stun_target || !active.stun_target(session, target, duration_ms, stun_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source SetStunState failed after the committed Use rolls: " + stun_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+            active.receipt.enemy_stun_targets.push_back(target);
+        }
+    }
+    // Eclipse / TimeControl / Figments: CreateBuff(BUFF_ID, duration, false, rank, BUFF_FX) + ApplyBuff on each popped
+    // Character target that passes the skip rules (player always skipped: `not target:IsPlayer()`).
+    if (profile.enemy_buff) {
+        if (!active.timed_buffs) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Enemy buff Use lost its buff owner after the committed OnPre prefix";
+            output = active.receipt;
+            return fail(error, active.receipt.detail.c_str());
+        }
+        const auto& enemy_buff = *profile.enemy_buff;
+        const std::uint32_t rank = active.receipt.mana.skill.saved_rank;
+        double duration_ms = 0.0;
+        if (enemy_buff.duration_prop_index >= 0)
+            duration_ms = original_signed256(active.formula_sheet[std::size_t(enemy_buff.duration_prop_index)]);
+        if (!(duration_ms > 0.0) || !std::isfinite(duration_ms))
+            duration_ms = double(enemy_buff.duration_base_ms) + double(enemy_buff.duration_inc_ms) * double(rank);
+        TimedBuffSpecV1 spec;
+        spec.class_name = enemy_buff.buff_class;
+        spec.fx_set_name = enemy_buff.fx_set ? enemy_buff.fx_set : "";
+        spec.strength = rank;
+        spec.duration_ms = duration_ms;
+        spec.capacity = 1;
+        spec.source = active.receipt.skill_name;
+        TargetBuffPolicyV1 policy;
+        policy.skip_player = true;
+        policy.skip_boss = enemy_buff.skip_boss;
+        policy.skip_miniboss = enemy_buff.skip_miniboss;
+        std::string buff_error;
+        if (!active.timed_buffs->apply_timed_buff_to_targets(session, actor_id, use_targets.ordered_character_targets,
+                                                             spec, policy, active.receipt.enemy_buff_outcomes, buff_error)) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Source enemy CreateBuff/ApplyBuff loop failed after the committed OnPre prefix: " + buff_error;
+            output = active.receipt;
+            return fail(error, active.receipt.detail.c_str());
+        }
+        active.receipt.timed_buff_class = spec.class_name;
+        active.receipt.timed_buff_duration_ms = duration_ms;
     }
     active.next_event_index = event_index;
     if (volley) ++volley_cursor_[volley_key];  // the Lua skill_inc advances once the OnSkill_ volley has run

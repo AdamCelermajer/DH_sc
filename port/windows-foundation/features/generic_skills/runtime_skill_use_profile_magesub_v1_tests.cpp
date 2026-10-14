@@ -41,7 +41,8 @@ int main(int argc, char** argv) {
         const auto class_names = read_file(root + "/original-cache/data/pydata/character_classes_pyarraynames.bin");
 
         const std::size_t table_size = sizeof(kRuntimeSkillUseProfilesMageSubV1) / sizeof(kRuntimeSkillUseProfilesMageSubV1[0]);
-        check(table_size == 2, "Mage-subclass use profile admitted-row count changed");
+        // DeathClaw, Figments, Eclipse, TimeControl (v21.8 w2-illusionist adds Eclipse and TimeControl).
+        check(table_size == 4, "Mage-subclass use profile admitted-row count changed");
         for (const auto& profile : kRuntimeSkillUseProfilesMageSubV1) {
             check(contains_name(skill_names, profile.skill_name),
                   std::string("Skill name is absent from the authored SkillTable names: ") + profile.skill_name);
@@ -56,9 +57,44 @@ int main(int argc, char** argv) {
               "Figments must be admitted");
         check(find_skill_use_profile_magesub_v1("DeathClaw", "prince_illusionist_figments") == nullptr,
               "Use profile lookup must require the exact (name, script) pair");
-        // Not admitted: no complete generic Use arm yet (see the magesub report). They must stay rejected.
+        // v21.8 w2-illusionist: Eclipse and TimeControl are admitted by the per-target enemy buff arm (see below).
+        const auto* eclipse = find_skill_use_profile_magesub_v1("Eclipse", "prince_illusionist_eclipse");
+        const auto* timecontrol = find_skill_use_profile_magesub_v1("TimeControl", "prince_illusionist_timecontrol");
+        check(eclipse != nullptr && timecontrol != nullptr, "Eclipse and TimeControl must be admitted");
+        check(find_skill_use_profile_v1("Eclipse", "prince_illusionist_eclipse") == nullptr,
+              "Eclipse must be admitted by the magesub table, not the shared table");
+        if (eclipse) {
+            check(eclipse->enemy_buff && std::string(eclipse->enemy_buff->buff_class) == "Skill_Illusionist_Eclipse" &&
+                      eclipse->enemy_buff->duration_prop_index == 176 && eclipse->enemy_buff->duration_base_ms == 3000.0f &&
+                      eclipse->enemy_buff->duration_inc_ms == 1000.0f && !eclipse->enemy_buff->skip_boss,
+                  "Eclipse enemy buff: SnS_Duration with 3000+1000*L fallback, bosses NOT skipped");
+            check(!eclipse->rolls_combat && eclipse->buff == nullptr && !eclipse->sets_cooldown,
+                  "Eclipse: no roll, no caster buff, no cooldown");
+            check(eclipse->target_fx_each_name && std::string(eclipse->target_fx_each_name) == "spell_dh2_prince_mage_illusionist_eclipse" &&
+                      eclipse->target_fx_each_non_player_only,
+                  "Eclipse: PlayFX per non-player Character target");
+        }
+        if (timecontrol) {
+            check(timecontrol->enemy_buff && std::string(timecontrol->enemy_buff->buff_class) == "Buff_Illusionist_TimeControl" &&
+                      timecontrol->enemy_buff->duration_prop_index < 0 && timecontrol->enemy_buff->duration_base_ms == 4000.0f &&
+                      timecontrol->enemy_buff->duration_inc_ms == 1000.0f && timecontrol->enemy_buff->skip_boss &&
+                      timecontrol->enemy_buff->skip_miniboss,
+                  "TimeControl enemy buff: 4000+1000*L hard-coded duration, bosses and minibosses skipped");
+            check(timecontrol->sets_cooldown && !timecontrol->rolls_combat,
+                  "TimeControl: SetSkillCooldown in OnPre, no roll");
+            check(timecontrol->use_sound_name && std::string(timecontrol->use_sound_name) == "sfx_skill_mage_ilu_hold_time_hit",
+                  "TimeControl PlaySound is the _hit cue");
+        }
+        // v21.8 w2-illusionist Figments arms: stun 1500..4000 non-boss, FX buff with SnS_Dot_Duration (prop 181).
+        if (const auto* figments_row = find_skill_use_profile_magesub_v1("Figments", "prince_illusionist_figments")) {
+            check(figments_row->enemy_stun && figments_row->enemy_stun->min_ms == 1500.0f &&
+                      figments_row->enemy_stun->max_ms == 4000.0f && figments_row->enemy_stun->skip_boss_and_miniboss,
+                  "Figments stun: 1500..4000 ms, bosses and minibosses skipped");
+            check(figments_row->enemy_buff && figments_row->enemy_buff->duration_prop_index == 181 &&
+                      !figments_row->enemy_buff->skip_boss,
+                  "Figments buff: SnS_Dot_Duration (181), applied to every target");
+        }
         for (const auto& [name, script] : std::initializer_list<std::pair<const char*, const char*>>{
-                 {"Eclipse", "prince_illusionist_eclipse"}, {"TimeControl", "prince_illusionist_timecontrol"},
                  {"Terror", "prince_illusionist_terror"}, {"FireSkullRain", "prince_necromancer_fireskullrain"},
                  {"Pestilence", "prince_necromancer_pestilence"}, {"Rise", "prince_necromancer_rise"},
                  {"ColdRay", "prince_mage_coldray"}, {"Cyclone", "prince_mage_cyclone"}}) {

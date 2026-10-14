@@ -12,6 +12,10 @@ struct StatPassiveScriptV1 {
 // Verified against the original scripts (`GetPyOID("ClassTable", ...)` in each prince_*.luac, plain text).
 constexpr StatPassiveScriptV1 kStatPassives[] = {
     {"prince_archer_bowmastery", "Skill_Archer_BowMastery"},
+    // v21.8 w2-illusionist: OnSkillUpdate_ CreateBuff(CLASS, 0, false, L) + ApplyBuff on self (permanent). Mesmerize's group
+    // buff loop (TargetListSearch Player filter, skips self) is not modelled: a single-player session has no other Player.
+    {"prince_illusionist_mesmerize", "Skill_Illusionist_Mesmerize"},
+    {"prince_illusionist_mirror", "Skill_Illusionist_Mirror"},
     {"prince_assassin_assassinate", "Skill_Assassin_Assassinate"},
     {"prince_assassin_blade_deflect", "Skill_Assassin_BladeDeflect"},
     {"prince_assassin_treasure_hunter", "Skill_Assassin_TreasureHunter"},

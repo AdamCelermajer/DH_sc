@@ -1,4 +1,5 @@
 #include "runtime_timed_buff_v1.hpp"
+#include "../../../game-data/ai.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -215,6 +216,31 @@ bool RuntimeTimedBuffOwnerV1::remove_timed_buff_by_handle(CombatSession& session
     sync_selection(session, caller, buffs);
     if (buffs.instances.empty()) actors_.erase(found);
     return true;
+}
+
+TargetBuffActorFlagsV1 target_buff_flags_v1(const CombatSession& session, ActorId target) {
+    TargetBuffActorFlagsV1 flags;
+    const auto* world = session.world();
+    if (!world) return flags;
+    if (const auto* traits = world->traits(target)) flags.is_player = traits->is_player;
+    const auto* props = world->combat_properties(target);
+    const auto* tables = session.original_ai_tables();
+    if (props && tables) {
+        if (const auto* ai = dh2::data::ai_props(*tables, props->sheets.resolved[1])) {
+            flags.is_boss = (ai->flags & 4u) != 0;
+            flags.is_miniboss = (ai->flags & 2u) != 0;
+        }
+    }
+    return flags;
+}
+
+bool RuntimeTimedBuffOwnerV1::apply_timed_buff_to_targets(CombatSession& session, ActorId caster,
+                                                          const std::vector<ActorId>& targets, const TimedBuffSpecV1& spec,
+                                                          const TargetBuffPolicyV1& policy,
+                                                          std::vector<TargetBuffOutcomeV1>& outcomes, std::string& error) {
+    return apply_timed_buff_to_targets(session, caster, targets, spec, policy,
+                                       [&session](ActorId id) { return target_buff_flags_v1(session, id); },
+                                       outcomes, error);
 }
 
 bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId actor, const TimedBuffSpecV1& spec,

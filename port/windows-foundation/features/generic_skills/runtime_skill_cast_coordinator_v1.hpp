@@ -18,6 +18,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -84,6 +85,10 @@ struct RuntimeSkillCastReceiptV1 {
     // Timed-buff arm (Quickness): the buff the Use call created, empty when the skill has no buff.
     std::string timed_buff_class;
     double timed_buff_duration_ms = 0.0;
+    // v21.8 w2-illusionist enemy arms: outcomes of the per-target enemy buff loop (Eclipse/TimeControl/Figments) and the
+    // targets that received a SetStunState request (Figments). Empty when the row has no such arm.
+    std::vector<TargetBuffOutcomeV1> enemy_buff_outcomes;
+    std::vector<ActorId> enemy_stun_targets;
     // v21.8 mage: authored per-target hit FX (profile.target_hit_fx_name): the AnimatedEffectTable name and the Character
     // targets whose SkillCombatRoll returned dmg > 0. Filled when Use is applied; the host plays the FX at each target.
     std::string target_hit_fx_name;
@@ -144,6 +149,9 @@ struct RuntimeSkillCastRequestV1 {
     // v21.8 ES-API test seam: an authored variant of the admitted (name, script) row, used instead of the table row.
     // Null in play; the variant must carry the same skill_name and script or it is ignored.
     const RuntimeSkillUseProfileV1* profile_override = nullptr;
+    // v21.8 w2-illusionist: SetStunState(duration_ms, true) on a target (Figments). The host binds it to the ES-STATUS owner.
+    // Null = a row with an enemy_stun arm is rejected before any mana commit.
+    std::function<bool(CombatSession&, ActorId target, double duration_ms, std::string& error)> stun_target;
 };
 
 // P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels,
@@ -264,6 +272,7 @@ private:
         // ViciousStrike's three strike markers. These fields identify the last delivered marker so an exact duplicate
         // callback of the same marker stays suppressed.
         TimedBuffSinkV1* timed_buffs = nullptr;
+        std::function<bool(CombatSession&, ActorId, double, std::string&)> stun_target; // v21.8 w2-illusionist
         bool repeat_use = false, last_use_key_valid = false;
         std::uint32_t last_use_wall_ms = 0, last_use_slot = 0, use_volleys = 0, next_event_index = 0;
         std::int32_t last_use_lag_ms = 0;
@@ -272,6 +281,8 @@ private:
     // v21.8 es-runtime: Uses delivered per (actor, SkillTable id) for a profile volley plan. Persists across casts, as the
     // Lua file-level skill_inc does; a new coordinator (session rebuild) starts it again, like a reloaded script.
     std::map<std::pair<ActorId, int>, std::uint32_t> volley_cursor_;
+    // v21.8 w2-illusionist: Figments stun duration draws (GetRand, inclusive). Fixed seed for reproducible runs.
+    std::mt19937 stun_rng_{0x5EEDu};
     std::uint64_t timer_update_serial_ = 0;
     double elapsed_ms_ = 0.0;
     bool timer_clock_bound_ = false;

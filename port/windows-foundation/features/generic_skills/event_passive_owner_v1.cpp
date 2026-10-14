@@ -19,9 +19,23 @@ struct EventPassiveScriptV1 {
     const char* script;
     EventPassiveKindV1 kind;
 };
+constexpr const char* kDisciplesClass = "Skill_Illusionist_Disciples";
+constexpr const char* kPetrifyClass = "Skill_Illusionist_Petrify";
+constexpr const char* kMirrorClass = "Skill_Illusionist_Mirror";
+constexpr unsigned kTempProp2 = 191;          // CharacterProperties.TempProp2 (Disciples chance %, Mirror stun ms)
+constexpr unsigned kDamageMinMainHand = 79;   // CharacterProperties.Damage_Min_Main_Hand (Petrify threshold, raw x256)
+constexpr double kDisciplesDurationMs = 10000.0;          // Lua CreateBuff(CLASS_ID, 10000, false, L, FX)
+constexpr float kPetrifyBossThreshold = 30.0f;            // Lua MIN_BOSS_DAMAGE_VALUE
+constexpr float kPetrifyMonsterThreshold = 10.0f;         // Lua MIN_MONSTER_DAMAGE_VALUE
+constexpr std::uint32_t kPetrifyCapacity = 5;             // Lua AMOUNT_OF_BUFFS_PER_MONSTER
+constexpr const char* kDisciplesFx = "spell_dh2_prince_mage_illusionist_hypnotic_gaze_persist";
+
 constexpr EventPassiveScriptV1 kEventPassives[] = {
     {"prince_berseeker_killing_frenzy", EventPassiveKindV1::killing_frenzy},
     {"prince_necromancer_carrioneater", EventPassiveKindV1::carrion_eater},
+    {"prince_illusionist_disciples", EventPassiveKindV1::disciples},
+    {"prince_illusionist_petrify", EventPassiveKindV1::petrify},
+    {"prince_illusionist_mirror", EventPassiveKindV1::mirror},
 };
 } // namespace
 
@@ -57,9 +71,101 @@ void RuntimeEventPassiveOwnerV1::bind(CombatSession& session) { session_ = &sess
 
 void RuntimeEventPassiveOwnerV1::on_hit(const CombatResultEventV1& event, ActorId receiver) {
     // The Lua listener runs on every OnTargetHit and checks its own role; the bus delivers both participants.
-    if (receiver != player_ || event.attacker != player_ || !session_) return;
-    if (rank(EventPassiveKindV1::killing_frenzy) > 0) frenzy_hit();
-    if (event.target_died && rank(EventPassiveKindV1::carrion_eater) > 0) carrion_kill();
+    if (receiver != player_ || !session_) return;
+    if (event.attacker == player_) {
+        if (rank(EventPassiveKindV1::killing_frenzy) > 0) frenzy_hit();
+        if (event.target_died && rank(EventPassiveKindV1::carrion_eater) > 0) carrion_kill();
+        if (event.target != player_ && rank(EventPassiveKindV1::disciples) > 0) disciples_hit(event);
+        if (event.target != player_ && rank(EventPassiveKindV1::petrify) > 0) petrify_hit(event);
+    }
+    // Mirror: the defender is the player (OnTargetHit with defender == self, attacker = the struck-by monster).
+    if (event.target == player_ && event.attacker != player_ && rank(EventPassiveKindV1::mirror) > 0) mirror_hit(event);
+}
+
+bool RuntimeEventPassiveOwnerV1::projected_class_cell(const char* class_name, std::uint32_t level, unsigned cell, float& value) {
+    const auto found = std::find(classes_->names.begin(), classes_->names.end(), std::string(class_name));
+    if (found == classes_->names.end()) {
+        error_ = std::string(class_name) + " class absent from the ClassTables";
+        return false;
+    }
+    const auto* live = session_->world() ? session_->world()->combat_properties(player_) : nullptr;
+    if (!live) {
+        error_ = std::string(class_name) + " requires the player's live sheet";
+        return false;
+    }
+    dh2::data::PropertySheet sheet = rules_->defaults;
+    dh2::data::PropertySheet owner = live->sheets.resolved;
+    sheet[kSnsLevel] = owner[kSnsLevel] = std::int32_t(level << 8);
+    std::string error;
+    if (!dh2::data::apply_class(*classes_, std::int32_t(found - classes_->names.begin()), sheet, error, &owner)) {
+        error_ = std::string(class_name) + " class evaluation: " + error;
+        return false;
+    }
+    value = float(sheet[cell]) / 256.0f;
+    return true;
+}
+
+void RuntimeEventPassiveOwnerV1::disciples_hit(const CombatResultEventV1& event) {
+    // Lua OnTargetHit: skill_level > 0, attacker == self, defender HP > 0 and a Character. chance1 = GetRand(1, 100) is drawn
+    // for every such hit; `chance1 < attack_chance` (TempProp2 at the rank) and not boss/miniboss gives the 10 s faction flip.
+    const std::uint32_t level = rank(EventPassiveKindV1::disciples);
+    if (event.target_died) return;
+    float attack_chance = 0.0f;
+    if (!projected_class_cell(kDisciplesClass, level, kTempProp2, attack_chance)) return;
+    std::uniform_int_distribution<int> draw(1, 100);
+    const int chance = draw(rng_);
+    const auto flags = target_buff_flags_v1(*session_, event.target);
+    if (!(float(chance) < attack_chance) || flags.is_boss || flags.is_miniboss) return;
+    TimedBuffSpecV1 spec;
+    spec.class_name = kDisciplesClass;
+    spec.strength = level;
+    spec.duration_ms = kDisciplesDurationMs;
+    spec.capacity = 1;
+    spec.fx_set_name = kDisciplesFx;
+    spec.source = "disciples";
+    std::string error;
+    if (!buffs_->apply_timed_buff(*session_, event.target, spec, error)) error_ = "Disciples buff: " + error;
+}
+
+void RuntimeEventPassiveOwnerV1::petrify_hit(const CombatResultEventV1& event) {
+    // Lua OnTargetHit: skill_level > 0 and attacker == self. The struck monster's current Damage_Min_Main_Hand (x256 raw)
+    // must exceed 30 (boss/miniboss) or 10; then CreateBuff(CLASS_ID, 0, 5, L) + ApplyBuff on the target (permanent).
+    const std::uint32_t level = rank(EventPassiveKindV1::petrify);
+    const auto* world = session_->world();
+    const auto* live = world ? world->combat_properties(event.target) : nullptr;
+    if (!live) return;
+    const float damage_rating = float(live->sheets.resolved[kDamageMinMainHand]) / 256.0f;
+    const auto flags = target_buff_flags_v1(*session_, event.target);
+    const float threshold = (flags.is_boss || flags.is_miniboss) ? kPetrifyBossThreshold : kPetrifyMonsterThreshold;
+    if (!(damage_rating > threshold)) return;
+    TimedBuffSpecV1 spec;
+    spec.class_name = kPetrifyClass;
+    spec.strength = level;
+    spec.duration_ms = 0.0;
+    spec.permanent = true;
+    spec.capacity = kPetrifyCapacity;
+    spec.source = "petrify";
+    std::string error;
+    if (!buffs_->apply_timed_buff(*session_, event.target, spec, error)) error_ = "Petrify buff: " + error;
+}
+
+void RuntimeEventPassiveOwnerV1::mirror_hit(const CombatResultEventV1& event) {
+    // Lua OnTargetHit: skill_level > 0, defender == self and attacker:TargetInMeleeRange(); GetRand(0, 100) < STUN
+    // (TempProp1 at the rank) -> attacker:SetStunState(DURATION = TempProp2, true).
+    const std::uint32_t level = rank(EventPassiveKindV1::mirror);
+    const auto* world = session_->world();
+    if (!world || !world->original_melee_in_range(event.attacker, player_)) return;
+    float stun_chance = 0.0f, stun_ms = 0.0f;
+    if (!projected_class_cell(kMirrorClass, level, 190u, stun_chance) || !projected_class_cell(kMirrorClass, level, kTempProp2, stun_ms)) return;
+    std::uniform_int_distribution<int> draw(0, 100);
+    const int proc = draw(rng_);
+    if (!(float(proc) < stun_chance)) return;
+    if (!stun_target_) {
+        error_ = "Mirror stun has no ES-STATUS hook bound";
+        return;
+    }
+    std::string error;
+    if (!stun_target_(*session_, event.attacker, double(stun_ms), error)) error_ = "Mirror stun: " + error;
 }
 
 bool RuntimeEventPassiveOwnerV1::frenzy_set_buff(std::uint32_t strength) {
