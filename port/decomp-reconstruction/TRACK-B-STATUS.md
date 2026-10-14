@@ -6,7 +6,7 @@ Updated 2026-10-14 by the integrator. Rules and decisions: `TRACK-B.md`. Totals:
 
 | status | functions | share |
 |---|---:|---:|
-| reconstructed | 17,499 | 69.4% |
+| reconstructed | 17,500 | 69.4% |
 | upstream (Lua 5.1.4, Box2D 2.0.1, gameswf r1714, tinyxml, libjpeg, FreeType, Musepack) | 3,984 | 15.8% |
 | partial | 1,616 | 6.4% |
 | skipped | 2,119 | 8.4% |
@@ -76,8 +76,16 @@ At the start of Track B (`2482a90d`) the scope was 15,164 functions with 7,472 r
   marks them `extern`. `point_compare`/`dct_iv_slow` collided because stb_vorbis's file-local
   helpers lacked internal linkage and clashed with the reconstructed originals in
   `core-platform/src/vorbis_util.cpp` (0x8764f8, 0x8784f4).
-- Remaining undefined symbols in the whole tree: 179 (84 with no ledger status, 82 skipped,
-  9 partial, 3 upstream; the link stub set is 118 symbols).
+- Remaining undefined symbols in the whole tree: 179 (84 with no ledger status, 81 skipped,
+  10 partial, 3 upstream; the link stub set is 118 symbols).
+
+  **Observed, not inferred, for the CImage pixel formats** (checked by building an image over a caller's
+  buffer and reading the bytes back): format 12 writes component order a,b,c,r and 13 writes b,a,c,r and 14
+  writes c,b,a,r, where a/b/c are SColor components 0/1/2 and r is component 3; formats 5 and 8 pack a single
+  halfword and replicate it into both halves of the word; any other format writes nothing. The write loop is
+  `m_dataSize >> 5` passes of eight words plus `(m_dataSize >> 2) & 7` words (0x5ffa38 and the UBFX at
+  0x5ffa68). `CImage::fill`'s own checks are NOT registered with ctest yet, because CImage's remaining
+  constructors are still unsettled; glitch-video/tests/image_fill_test.cpp records the facts and says so.
 
   **Stale blockers cleared this pass (read these before skipping a row again).** Two large clusters are
   recorded as blocked on infrastructure that is now in the tree:
@@ -131,7 +139,8 @@ batch that failed got one Haiku fix pass. Nothing has been executed against the 
 | residue-fix | six duplicate globals resolved, first three tests fixed, crash-site map | `803c39d5`, `5a433c6f` |
 | partial-redo | `CDynamicAnimationSet::setDefaultAnimationLibrary` (both overloads, 0x62fc90 / 0x62fcf8) | `40253893` |
 | partial-redo2 | `CDynamicAnimationSet::addAnimationLibraryBindings` (0x62ee9c) | `1be2fe6e` |
-| partial-redo3 | `CImage::fill` (0x5ff9b4); PFDTable rows named the packing | next |
+| partial-redo3 | `CImage::fill` (0x5ff9b4); PFDTable rows named the packing | `6f71e24c` |
+| partial-redo4 | `CImage::initData` (0x601988) and the 5-argument constructor (0x602670) | next |
 
 ## Partial rows still undefined at link (9)
 
